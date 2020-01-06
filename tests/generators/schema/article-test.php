@@ -7,6 +7,7 @@ use Mockery;
 use stdClass;
 use Yoast\WP\Free\Helpers\Article_Helper;
 use Yoast\WP\Free\Helpers\Date_Helper;
+use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 use Yoast\WP\Free\Helpers\Schema\ID_Helper;
 use Yoast\WP\Free\Presentations\Generators\Schema\Article;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
@@ -52,6 +53,11 @@ class Article_Test extends TestCase {
 	 */
 	private $id_helper_mock;
 
+	/**
+	 * @var Mockery\MockInterface|HTML_Helper
+	 */
+	private $html_helper_mock;
+
 	public function setUp() {
 		$this->id_helper_mock                     = Mockery::mock( ID_Helper::class );
 		$this->id_helper_mock->article_hash       = '#article-hash';
@@ -59,7 +65,8 @@ class Article_Test extends TestCase {
 		$this->id_helper_mock->primary_image_hash = '#primary-image-hash';
 		$this->article_helper_mock                = Mockery::mock( Article_Helper::class );
 		$this->date_helper_mock                   = Mockery::mock( Date_Helper::class );
-		$this->instance                           = new Article( $this->article_helper_mock, $this->date_helper_mock );
+		$this->html_helper_mock                   = Mockery::mock( HTML_Helper::class );
+		$this->instance                           = new Article( $this->article_helper_mock, $this->date_helper_mock, $this->html_helper_mock );
 		$this->context_mock                       = new Meta_Tags_Context();
 		$this->context_mock->indexable            = new Indexable();
 		$this->context_mock->post                 = new stdClass();
@@ -140,7 +147,7 @@ class Article_Test extends TestCase {
 	 */
 	public function test_generate() {
 		$this->context_mock->id                      = 5;
-		$this->context_mock->title                   = 'the-title';
+		$this->context_mock->title                   = 'the-title </script><script>alert(0)</script><script>'; // Script is here to test script injection
 		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->has_image               = true;
 		$this->context_mock->post->post_author       = '3';
@@ -151,6 +158,11 @@ class Article_Test extends TestCase {
 							 ->once()
 							 ->with( '3', $this->context_mock )
 							 ->andReturn( 'https://permalink#author-id-hash' );
+
+		$this->html_helper_mock->expects( 'smart_strip_tags' )
+			->once()
+			->with( 'the-title </script><script>alert(0)</script><script>' )
+			->andReturn( 'the-title' );
 
 		Monkey\Functions\expect( 'get_comment_count' )->once()->with( 5 )->andReturn( [ 'approved' => 7 ] );
 		Monkey\Filters\expectApplied( 'wpseo_schema_article_keywords_taxonomy' )
