@@ -1,4 +1,3 @@
-import SourceCodeLocation from "../SourceCodeLocation";
 import TextContainer from "../TextContainer";
 import Node from "./Node";
 /**

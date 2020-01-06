@@ -5,7 +5,6 @@ import calculateTextIndices from "./calculateTextIndices";
  * Cleans up a node in the tree.
  *
  * @param {module:parsedPaper/structure.Node} node The node that needs to be cleaned.
- * @param {string} html                     The original html source code from which the node has been parsed.
  *
  * @returns {module:parsedPaper/structure.Node} The cleaned up node.
  *
@@ -25,7 +24,6 @@ const cleanUpNode = function( node ) {
  * by setting the start and end index of each formatting element in a leaf node's text.
  *
  * @param {module:parsedPaper/structure.Node} tree The tree structure to be cleaned.
- * @param {string} html                     The original HTML source code.
  *
  * @returns {module:parsedPaper/structure.Node} The cleaned up tree.
  *

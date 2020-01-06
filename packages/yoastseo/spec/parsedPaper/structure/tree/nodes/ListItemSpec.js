@@ -15,7 +15,7 @@ describe( "ListItem", () => {
 				startOffset: 0,
 				endOffset: 17,
 			};
-			const listItemNode = new ListItem( sourceCodeLocation);
+			const listItemNode = new ListItem( sourceCodeLocation );
 			expect( listItemNode.type ).toEqual( "ListItem" );
 			expect( listItemNode.sourceCodeLocation ).toEqual( sourceCodeLocation );
 			expect( listItemNode.children ).toEqual( [] );

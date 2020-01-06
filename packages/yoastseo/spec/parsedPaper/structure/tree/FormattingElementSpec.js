@@ -1,7 +1,6 @@
 import FormattingElement from "../../../../src/parsedPaper/structure/tree/FormattingElement";
 
 describe( "FormattingElement", () => {
-
 	describe( "constructor", () => {
 		const sourceCodeLocation = {
 			startTag: {

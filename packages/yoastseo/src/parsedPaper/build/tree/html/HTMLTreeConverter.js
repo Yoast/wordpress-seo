@@ -35,36 +35,7 @@ class HTMLTreeConverter {
 		}
 		if ( parse5Tree.childNodes ) {
 			for ( const node of parse5Tree.childNodes ) {
-				const nodeType = node.nodeName;
-
-				let child;
-
-				if ( ignoredHtmlElements.includes( nodeType ) ) {
-					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					this._addLeafNodeContent( formatting, this._addFormatting, parent, node.sourceCodeLocation );
-				} else if ( nodeType === "p" ) {
-					// Paragraph.
-					child = new Paragraph( node.sourceCodeLocation );
-				} else if ( headings.includes( nodeType ) ) {
-					// Heading.
-					child = new Heading( parseInt( nodeType[ 1 ], 10 ), node.sourceCodeLocation );
-				} else if ( nodeType === "li" ) {
-					// List item.
-					child = new ListItem( node.sourceCodeLocation );
-				} else if ( nodeType === "ol" || nodeType === "ul" ) {
-					// List node.
-					child = new List( nodeType === "ol", node.sourceCodeLocation );
-				} else if ( nodeType === "#text" ) {
-					// Text (outside of an ignored element).
-					child = this._addLeafNodeContent( node.value, this._addText, parent, node.sourceCodeLocation );
-				} else if ( formattingElements.includes( nodeType ) ) {
-					// Formatting element.
-					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					child = this._addLeafNodeContent( formatting, this._addFormatting, parent, node.sourceCodeLocation );
-				} else {
-					// Other element (`div`, `section`, `article`, etc.).
-					child = new StructuredNode( nodeType, node.sourceCodeLocation );
-				}
+				const child = this._createChild( node, parent );
 
 				if ( child ) {
 					parent.addChild( child );
@@ -74,6 +45,52 @@ class HTMLTreeConverter {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Creates a new node for in the structured tree from the given parse 5 node.
+	 * Returns `null` if no node should be added to the tree.
+	 *
+	 * @param {Object}                            parse5Node The parse5 node that should be parsed.
+	 * @param {module:parsedPaper/structure.Node} parentNode The parent node.
+	 *
+	 * @returns {module:parsedPaper/structure.Node|null} The node that should be added to the tree, or `null` if no node should be added.
+	 *
+	 * @private
+	 */
+	_createChild( parse5Node, parentNode ) {
+		let child = null;
+
+		const nodeType = parse5Node.nodeName;
+
+		if ( ignoredHtmlElements.includes( nodeType ) ) {
+			const formatting = new FormattingElement( nodeType, parse5Node.sourceCodeLocation, this._parseAttributes( parse5Node.attrs ) );
+			this._addLeafNodeContent( formatting, this._addFormatting, parentNode, parse5Node.sourceCodeLocation );
+		} else if ( nodeType === "p" ) {
+			// Paragraph.
+			child = new Paragraph( parse5Node.sourceCodeLocation );
+		} else if ( headings.includes( nodeType ) ) {
+			// Heading.
+			child = new Heading( parseInt( nodeType[ 1 ], 10 ), parse5Node.sourceCodeLocation );
+		} else if ( nodeType === "li" ) {
+			// List item.
+			child = new ListItem( parse5Node.sourceCodeLocation );
+		} else if ( nodeType === "ol" || nodeType === "ul" ) {
+			// List node.
+			child = new List( nodeType === "ol", parse5Node.sourceCodeLocation );
+		} else if ( nodeType === "#text" ) {
+			// Text (outside of an ignored element).
+			child = this._addLeafNodeContent( parse5Node.value, this._addText, parentNode, parse5Node.sourceCodeLocation );
+		} else if ( formattingElements.includes( nodeType ) ) {
+			// Formatting element.
+			const formatting = new FormattingElement( nodeType, parse5Node.sourceCodeLocation, this._parseAttributes( parse5Node.attrs ) );
+			child = this._addLeafNodeContent( formatting, this._addFormatting, parentNode, parse5Node.sourceCodeLocation );
+		} else {
+			// Other element (`div`, `section`, `article`, etc.).
+			child = new StructuredNode( nodeType, parse5Node.sourceCodeLocation );
+		}
+
+		return child;
 	}
 
 	/**
@@ -88,7 +105,7 @@ class HTMLTreeConverter {
 	 * @param {module:parsedPaper/structure.Node}                     parent       The parent to which to try to add the content.
 	 * @param {Object}                                                location     The location of the content as parsed by parse5.
 	 *
-	 * @returns {null|module:parsedPaper/structure.Paragraph} The implicit paragraph, if one needed to be created.
+	 * @returns {null|module:parsedPaper/structure.Paragraph|null} The implicit paragraph, if one was created.
 	 *
 	 * @private
 	 */

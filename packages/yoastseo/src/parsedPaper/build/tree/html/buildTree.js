@@ -20,15 +20,11 @@ const buildTree = function( html ) {
 	 */
 	const parse5Tree = parseFragment( html, { sourceCodeLocationInfo: true } );
 
-	console.log( "parse5Tree", parse5Tree );
-
 	const htmlTreeConverter =  new HTMLTreeConverter();
 	let tree = htmlTreeConverter.convert( parse5Tree );
 
-	console.log( "converted tree", tree );
-
 	// Cleanup takes < 2ms.
-	tree = cleanUpTree( tree, html );
+	tree = cleanUpTree( tree );
 	return tree;
 };
 
