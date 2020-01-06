@@ -21,7 +21,7 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param HTML_Helper $html_helper
+	 * @param HTML_Helper $html_helper The HTML helper.
 	 */
 	public function __construct( HTML_Helper $html_helper ) {
 		$this->html_helper = $html_helper;

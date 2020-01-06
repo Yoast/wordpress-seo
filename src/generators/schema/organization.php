@@ -87,11 +87,11 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve the social profiles to display in the organization schema.
 	 *
-	 * @return array $profiles An array of social profiles.
 	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
 	 *
 	 * @since 1.8
 	 *
+	 * @return array $profiles An array of social profiles.
 	 */
 	private function fetch_social_profiles() {
 		$profiles        = [];
