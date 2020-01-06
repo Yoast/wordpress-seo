@@ -393,7 +393,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return '';
 		}
 
-
 		if ( $this->title ) {
 			return $this->title;
 		}
