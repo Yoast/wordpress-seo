@@ -5,7 +5,6 @@ import ListItem from "./ListItem";
 import Paragraph from "./Paragraph";
 import Heading from "./Heading";
 import StructuredNode from "./StructuredNode";
-import Whitespace from "./Whitespace";
 
 export {
 	Node,
@@ -15,5 +14,4 @@ export {
 	Heading,
 	List,
 	ListItem,
-	Whitespace,
 };

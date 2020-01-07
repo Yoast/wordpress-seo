@@ -1,5 +1,5 @@
 import { Node, LeafNode, StructuredNode, Paragraph,
-	Heading, List, ListItem, Whitespace } from "./nodes";
+	Heading, List, ListItem } from "./nodes";
 
 import TextContainer from "./TextContainer";
 import FormattingElement from "./FormattingElement";
@@ -17,7 +17,6 @@ export {
 	Heading,
 	List,
 	ListItem,
-	Whitespace,
 	TextContainer,
 	FormattingElement,
 };

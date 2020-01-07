@@ -37,7 +37,7 @@ class List extends StructuredNode {
 	 * @param {ListItem} child The child to add.
 	 * @returns {void}
 	 */
-	appendChild( child ) {
+	addChild( child ) {
 		if ( ! ( child instanceof ListItem ) ) {
 			console.warn( "Added child is not a ListItem!" );
 		}
