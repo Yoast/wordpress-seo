@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
-Tested up to: 5.3.1
-Stable tag: 12.7.1
+Tested up to: 5.3.2
+Stable tag: 12.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -212,9 +212,11 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.8 =
 Release Date: January 7th, 2020
 
+Welcome to another year of helping you achieve your goals with your site! Today, it’s time for the first in a long line of releases planned for 2020: Yoast SEO 12.8. In this release, you’ll find a number of bug fixes and performance enhancements. Find out more about this release in [our 12.8 release post](https://yoa.st/release-12-8)!
+
 Bugfixes:
 
-* Fixed a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
+* Fixes a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
 * Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
 * Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
 * Fixes a bug where author archives for authors without post would show up in the search results, even though the "Show archives for authors without posts in search results?" option was enabled.
