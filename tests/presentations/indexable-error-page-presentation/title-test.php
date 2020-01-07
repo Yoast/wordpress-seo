@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Error_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Error_Page_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Error_Page_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Error_Page_Presentation
  *
  * @group presentations
  * @group title

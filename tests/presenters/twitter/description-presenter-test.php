@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Description_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Twitter\Description_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Description_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Description_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Description_Presenter
  *
  * @group presenters
  * @group twitter

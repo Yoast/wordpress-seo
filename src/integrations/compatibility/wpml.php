@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\Free\Integrations\Compatibility;
+namespace Yoast\WP\SEO\Integrations\Compatibility;
 
-use Yoast\WP\Free\Conditionals\WPML_Conditional;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\WPML_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class WPML
  *
- * @package Yoast\WP\Free\Integration\Compatibility
+ * @package Yoast\WP\SEO\Integration\Compatibility
  */
 class WPML implements Integration_Interface {
 

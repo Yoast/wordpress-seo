@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Creator_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Creator_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Creator_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter
  *
  * @group presenters
  * @group twitter

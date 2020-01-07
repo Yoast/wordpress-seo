@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class OG_Article_Publisher_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph

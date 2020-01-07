@@ -2,13 +2,13 @@
 /**
  * A simple logger to allow query and memory usage logging.
  *
- * @package Yoast\WP\Free\Loggers
+ * @package Yoast\WP\SEO\Loggers
  */
 
-namespace Yoast\WP\Free\Loggers;
+namespace Yoast\WP\SEO\Loggers;
 
-use Yoast\WP\Free\Conditionals\Development_Conditional;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\Development_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\ORM;
 
 /**

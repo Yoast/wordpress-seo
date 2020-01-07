@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Conditionals\Admin_Conditional;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -18,7 +18,7 @@ use YoastSEO_Vendor\ORM;
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Watchers\Indexable_Static_Home_Page_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers

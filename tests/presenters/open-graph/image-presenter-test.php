@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Open_Graph\Image_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class Image_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Image_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter
  *
  * @group presenters
  * @group opengraph

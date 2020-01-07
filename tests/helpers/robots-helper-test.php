@@ -1,19 +1,19 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Helper_Test
  *
  * @group helpers
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Robots_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Robots_Helper
  */
 class Robots_Helper_Test extends TestCase {
 

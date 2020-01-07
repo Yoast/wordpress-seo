@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
-use Yoast\WP\Free\Config\Migration_Status;
+use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
  * Class for integrations that depend on having all migration run.

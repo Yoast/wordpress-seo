@@ -5,11 +5,11 @@
  * @package WPSEO\Frontend
  */
 
-namespace Yoast\WP\Free\Integrations\Front_End;
+namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class RSS_Footer_Embed

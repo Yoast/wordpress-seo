@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Memoizers
  */
 
-namespace Yoast\WP\Free\Memoizer;
+namespace Yoast\WP\SEO\Memoizer;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -52,7 +52,7 @@ class Presentation_Memoizer {
 	 */
 	public function get( Indexable $indexable, Meta_Tags_Context $context, $page_type ) {
 		if ( ! isset( $this->cache[ $indexable->id ] ) ) {
-			$presentation = $this->container->get( "Yoast\WP\Free\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			$presentation = $this->container->get( "Yoast\WP\SEO\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 			if ( ! $presentation ) {
 				$presentation = $this->container->get( Indexable_Presentation::class );

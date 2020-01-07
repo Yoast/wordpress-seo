@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Composer
  */
 
-namespace Yoast\WP\Free\Composer;
+namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
-use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
+use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
 /**
  * Class to handle Composer actions and events.

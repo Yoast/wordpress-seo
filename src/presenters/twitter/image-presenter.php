@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Presenters\Twitter
  */
 
-namespace Yoast\WP\Free\Presenters\Twitter;
+namespace Yoast\WP\SEO\Presenters\Twitter;
 
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Image_Presenter

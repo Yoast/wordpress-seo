@@ -2,12 +2,12 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Integrations\Front_End
+ * @package Yoast\WP\SEO\Integrations\Front_End
  */
 
-namespace Yoast\WP\Free\Integrations;
+namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\Free\Conditionals\Primary_Category_Conditional;
+use Yoast\WP\SEO\Conditionals\Primary_Category_Conditional;
 
 /**
  * Adds customizations to the front end for the primary category.

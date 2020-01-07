@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Googlebot_Presenter

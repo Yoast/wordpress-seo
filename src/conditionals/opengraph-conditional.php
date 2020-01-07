@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Conditional that is only met when the OpenGraph feature is enabled.

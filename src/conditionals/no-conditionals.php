@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Trait for integrations that do not have any conditionals.

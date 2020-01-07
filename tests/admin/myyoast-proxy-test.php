@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Admin;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_MyYoast_Proxy;
-use Yoast\WP\Free\Tests\Doubles\Admin\MyYoast_Proxy_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit test class.
@@ -23,7 +23,7 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var \Yoast\WP\Free\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance */
+		/** @var \Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version' ] )

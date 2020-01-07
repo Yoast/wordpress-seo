@@ -2,12 +2,12 @@
 /**
  * A helper object for Twitter images.
  *
- * @package \Yoast\WP\Free\Helpers\Twitter
+ * @package \Yoast\WP\SEO\Helpers\Twitter
  */
 
-namespace Yoast\WP\Free\Helpers\Twitter;
+namespace Yoast\WP\SEO\Helpers\Twitter;
 
-use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 
 /**
  * Class Image_Helper

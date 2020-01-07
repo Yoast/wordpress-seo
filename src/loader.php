@@ -2,13 +2,13 @@
 /**
  * Yoast SEO Plugin File.
  *
- * @package Yoast\WP\Free
+ * @package Yoast\WP\SEO
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
-use Yoast\WP\Free\Commands\Command_Interface;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
