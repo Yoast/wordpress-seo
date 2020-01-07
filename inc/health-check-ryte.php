@@ -92,9 +92,13 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->label  = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
 		$this->status = self::STATUS_CRITICAL;
 
-		$this->description  = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it has
-			determined that your site cannot be found by search engines. If this site is live or about to become live,
-			this should be fixed.', 'wordpress-seo' );
+		$this->description  = sprintf(
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
+			esc_html__( '%1$s offers a free indexability check for %2$s users and it has determined that your site
+			cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo' ),
+			'Ryte',
+			'Yoast SEO'
+		);
 		$this->description .= '<br /><br />';
 		$this->description .= sprintf(
 			/* translators: %1$s: Opening tag of the link to the reading settings page, %2$s: Link closing tag, %3$s: Strong opening tag, %4$s: Strong closing tag. */
@@ -122,15 +126,20 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function unknown_indexability_response() {
-		$this->label  = esc_html__( 'Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo' );
+		$this->label  = sprintf(
+			/* translators: %1$s: Expands to 'Ryte'. */
+			esc_html__( '%1$s cannot determine whether your site can be found by search engines', 'wordpress-seo' ),
+			'Ryte'
+		);
 		$this->status = self::STATUS_RECOMMENDED;
 
 		$this->description .= sprintf(
-			/* translators: %1$s: Opening tag to the Yoast knowledge base, %2$s: Link closing tag. */
-			esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble
-			determining whether search engines can find your site. This could have several (legitimate) reasons, and is
-			not a problem in itself, but if this is a live site, %1$sit is recommended that you figure out why the Ryte
-			check failed.%2$s', 'wordpress-seo' ),
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO', %3$s: Opening tag to the Yoast knowledge base, %4$s: Link closing tag. */
+			esc_html__( '%1$s offers a free indexability check for %2$s users and right now it has trouble determining
+			whether search engines can find your site. This could have several (legitimate) reasons and is not a problem
+			in itself. If this is a live site, %3$sit is recommended that you figure out why the %1$s check failed.%4$s', 'wordpress-seo' ),
+			'Ryte',
+			'Yoast SEO',
 			'<a href="' . esc_url( 'https://kb.yoast.com/kb/indexability-check-doesnt-work/' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
@@ -146,12 +155,17 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	protected function is_indexable_response() {
 		$this->label       = esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
 		$this->status      = self::STATUS_GOOD;
-		$this->description = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it shows
-			that your site can be found by search engines.', 'wordpress-seo' );
+		$this->description = sprintf(
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
+			esc_html__( '%1$s offers a free indexability check for %2$s users, and it shows
+			that your site can be found by search engines.', 'wordpress-seo' ),
+			'Ryte',
+			'Yoast SEO'
+		);
 	}
 
 	/**
-	 * Adds the "Re-analyze site indexability" button and link to the Ryte site to the actions.
+	 * Adds the "Re-analyze site indexability" link styled like a button and the link to the Ryte site to the actions.
 	 *
 	 * @return void
 	 */
@@ -164,9 +178,10 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		);
 
 		$this->actions .= sprintf(
-			/* translators: %1$s: Opening tag of the link to the Yoast Ryte website, %2$s: Link closing tag. */
-			esc_html__( '%1$sGo to Ryte to analyze your entire site%2$s', 'wordpress-seo' ),
+			/* translators: %1$s: Opening tag of the link to the Yoast Ryte website, %2$s: Expands to 'Ryte', %3$s: Link closing tag. */
+			esc_html__( '%1$sGo to %2$s to analyze your entire site%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ) ) . '" target="_blank">',
+			'Ryte',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 	}
