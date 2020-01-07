@@ -607,7 +607,9 @@ body.folded {
 		color: #707070;
 	}
 
-	&__signature-icon {
-		margin-right: 0.5em;
+	&__signature-icon,
+	// needs higher specificity
+	&__inline-button.fetch-status {
+		margin-right: 8px;
 	}
 }
