@@ -117,13 +117,9 @@
 	}
 
 	&-promo-extension {
-		// This is already a flex item of the container yoast-promo-extensions.
-		// First we style it as flex item to include fixes for IE11.
-		flex: 0 1 340px;
-		max-width: 340px;
-		// Then we style it as flex container to layout its content in a vertical flexbox.
 		display: flex;
 		flex-direction: column;
+		max-width: 340px;
 		background-color: #fff;
 		margin-left: $gutter;
 

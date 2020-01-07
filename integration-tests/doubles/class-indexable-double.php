@@ -15,10 +15,10 @@ class WPSEO_Indexable_Double extends WPSEO_Indexable {
 	 *
 	 * @var array
 	 */
-	protected $updateable_fields = array(
+	protected $updateable_fields = [
 		'title',
 		'description',
-	);
+	];
 
 	/**
 	 * Converts the meta value to a boolean value.

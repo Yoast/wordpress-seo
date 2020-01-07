@@ -7,11 +7,15 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Taxonomy
  */
 class WPSEO_Taxonomy_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Make sure certain pages are marked as term edit.
+	 *
+	 * @covers ::is_term_edit
 	 */
 	public function test_is_term_edit() {
 		$this->assertTrue( WPSEO_Taxonomy::is_term_edit( 'term.php' ) );
@@ -21,6 +25,8 @@ class WPSEO_Taxonomy_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Make sure certain pages are marked as term overview.
+	 *
+	 * @covers ::is_term_overview
 	 */
 	public function test_is_term_overview() {
 		$this->assertFalse( WPSEO_Taxonomy::is_term_overview( 'term.php' ) );

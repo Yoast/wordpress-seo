@@ -55,7 +55,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		$link_columns->register_hooks();
 
 		$this->assertFalse(
-			has_action( 'admin_init', array( $link_columns, 'set_count_objects' ) )
+			has_action( 'admin_init', [ $link_columns, 'set_count_objects' ] )
 		);
 	}
 
@@ -68,8 +68,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Columns $link_columns */
 		$link_columns = $this
 			->getMockBuilder( 'WPSEO_Link_Columns' )
-			->setConstructorArgs( array( new WPSEO_Meta_Storage() ) )
-			->setMethods( array( 'set_post_type_hooks' ) )
+			->setConstructorArgs( [ new WPSEO_Meta_Storage() ] )
+			->setMethods( [ 'set_post_type_hooks' ] )
 			->getMock();
 
 		$link_columns
@@ -84,14 +84,14 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
-		$expected     = array(
+		$expected     = [
 			'wpseo-links'  => '<span class="yoast-linked-to yoast-column-header-has-tooltip" data-tooltip-text="Number of outgoing internal links in this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text">Outgoing internal links</span></span>',
 			'wpseo-linked' => '<span class="yoast-linked-from yoast-column-header-has-tooltip" data-tooltip-text="Number of internal links linking to this post. See &quot;Yoast Columns&quot; text in the help tab for more info."><span class="screen-reader-text">Received internal links</span></span>',
-		);
+		];
 
 		$this->assertEquals(
 			$expected,
-			$link_columns->add_post_columns( array() )
+			$link_columns->add_post_columns( [] )
 		);
 	}
 
@@ -135,11 +135,11 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
 
 		$this->assertEquals(
-			array(
+			[
 				'wpseo-links'  => 'wpseo-links',
 				'wpseo-linked' => 'wpseo-linked',
-			),
-			$link_columns->column_sort( array() )
+			],
+			$link_columns->column_sort( [] )
 		);
 	}
 }

@@ -385,7 +385,6 @@ td.column-wpseo-linked {
 }
 
 .yoast_help.yoast-help-button {
-	overflow: visible;
 	position: relative;
 	width: 20px;
 	height: 20px;
@@ -397,7 +396,6 @@ td.column-wpseo-linked {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	/* IE 11 */
 	cursor: pointer;
 }
 
@@ -500,15 +498,6 @@ td.column-wpseo-linked {
 		transform: translateY( 1px );
 		box-shadow: none;
 		filter: none;
-	}
-
-	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		&::after {
-			display: inline-block;
-			content: "";
-			min-height: 32px;
-		}
 	}
 
 	&#wpseo-premium-button {

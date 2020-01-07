@@ -27,7 +27,7 @@ class WPSEO_Object_Type_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = $this
 			->getMockBuilder( 'WPSEO_Object_Type' )
-			->setConstructorArgs( array( 1, 'post', 'post', 'the-permalink' ) )
+			->setConstructorArgs( [ 1, 'post', 'post', 'the-permalink' ] )
 			->getMockForAbstractClass();
 	}
 

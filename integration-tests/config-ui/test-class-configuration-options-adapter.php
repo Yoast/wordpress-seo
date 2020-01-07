@@ -36,12 +36,12 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$type       = 't';
 		$option     = 'o';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => $type,
 				'option' => $option,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_lookup( $class_name, $type, $option ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
@@ -57,15 +57,15 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$callback_set = '__return_true';
 		$callback_get = '__return_false';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_CUSTOM,
-				'option' => array(
+				'option' => [
 					$callback_set,
 					$callback_get,
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_custom_lookup( $class_name, $callback_set, $callback_get ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
@@ -104,12 +104,12 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$class_name = 'stdClass';
 		$key        = 'enable_xml_sitemap';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_YOAST,
 				'option' => $key,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_option_lookup( $class_name, $key ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
@@ -124,12 +124,12 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$class_name = 'stdClass';
 		$option     = 'blogname';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_WORDPRESS,
 				'option' => $option,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_wordpress_lookup( $class_name, $option ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
@@ -144,7 +144,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @expectedExceptionMessage WordPress option must be a string.
 	 */
 	public function test_add_wordpress_lookup_option_non_string() {
-		$this->adapter->add_wordpress_lookup( 'stdClass', array() );
+		$this->adapter->add_wordpress_lookup( 'stdClass', [] );
 	}
 
 	/**
@@ -219,7 +219,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_custom_option() {
-		$get = array( $this, 'custom_option_get' );
+		$get = [ $this, 'custom_option_get' ];
 
 		$expected = call_user_func( $get );
 
@@ -239,11 +239,17 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 */
 	public function test_get_unknown_type() {
 
+		// See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
+		}
+
 		$field_name = 'field';
 
 		$class = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( $field_name, 'component' ) )
+			->setConstructorArgs( [ $field_name, 'component' ] )
 			->getMock();
 
 		$this->adapter->add_lookup( $field_name, 'some_type', 'some_option' );
@@ -332,7 +338,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	public function test_set_custom_option() {
 		$catcher = $this
 			->getMockBuilder( 'stdClass' )
-			->setMethods( array( 'set' ) )
+			->setMethods( [ 'set' ] )
 			->getMock();
 
 		$catcher
@@ -345,7 +351,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$this->adapter->add_custom_lookup(
 			$field->get_identifier(),
 			'__return_true',
-			array( $catcher, 'set' )
+			[ $catcher, 'set' ]
 		);
 
 		$this->assertTrue( $this->adapter->set( $field, 'value' ) );

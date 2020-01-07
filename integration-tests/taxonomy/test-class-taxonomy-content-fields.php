@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Taxonomy_Content_Fields
  */
 class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 
@@ -37,7 +39,7 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the array is set properly by picking the first and the last value.
 	 *
-	 * WPSEO_Taxonomy_Content_Fields::get
+	 * @covers ::get
 	 */
 	public function test_get_fields() {
 

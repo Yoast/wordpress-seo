@@ -35,7 +35,7 @@ class WPSEO_Content_Images_Test extends WPSEO_UnitTestCase {
 		$result = $class_instance->get_images_from_content( $post_content );
 
 		// We expect only the urls of the first two img tags in the array.
-		$expected = array( $external_image, $non_attachment_image );
+		$expected = [ $external_image, $non_attachment_image ];
 		$this->assertEquals( $expected, $result );
 	}
 }

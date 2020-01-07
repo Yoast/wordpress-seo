@@ -102,7 +102,7 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'Test focus kw', $focus_kw );
-		$this->assertEquals( array( 'Test focus kw 2', 'Test focus kw 3' ), $extra_focus_kw );
+		$this->assertEquals( [ 'Test focus kw 2', 'Test focus kw 3' ], $extra_focus_kw );
 		$this->assertEquals( $this->status( 'import', true ), $result );
 	}
 
@@ -150,11 +150,11 @@ class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
 	 */
 	private function setup_post() {
 		$post_id  = $this->factory()->post->create();
-		$settings = array(
+		$settings = [
 			'meta_title'       => 'Test title',
 			'meta_description' => 'Test description',
 			'meta_rules'       => 'noindex#|#|#nofollow',
-		);
+		];
 		update_post_meta( $post_id, '_seop_settings', $settings );
 		update_post_meta( $post_id, '_seop_kw_1', 'Test focus kw' );
 		update_post_meta( $post_id, '_seop_kw_2', 'Test focus kw 2' );

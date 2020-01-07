@@ -21,7 +21,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_woocommerce_shop_page_mock( $post ) {
 		$woocommerce_shop_page = $this->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
-			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
+			->setMethods( [ 'is_shop_page', 'get_shop_page_id' ] )
 			->getMock();
 
 		$woocommerce_shop_page->expects( $this->once() )
@@ -46,7 +46,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$woocommerce_shop_page = $this->get_woocommerce_shop_page_mock( $post );
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_title' ) )
+			->setMethods( [ 'get_seo_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -70,7 +70,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$woocommerce_shop_page = $this->get_woocommerce_shop_page_mock( $post );
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_title', 'get_post_type_archive_title' ) )
+			->setMethods( [ 'get_seo_title', 'get_post_type_archive_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -96,7 +96,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -131,7 +131,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -160,7 +160,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )

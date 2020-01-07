@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { speak } from "@wordpress/a11y";
-import toString from "lodash/toString";
-import get from "lodash/get";
+import { get, toString } from "lodash-es";
 
 /* Internal dependencies */
 import HowToStep from "./HowToStep";

@@ -28,7 +28,7 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_choices_property() {
 		$field = new WPSEO_Config_Field_Choice( 'field' );
-		$this->assertEquals( array( 'choices' => array() ), $field->get_properties() );
+		$this->assertEquals( [ 'choices' => [] ], $field->get_properties() );
 	}
 
 	/**
@@ -41,14 +41,14 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 		$label              = 'Yes';
 		$screen_reader_text = 'no';
 
-		$expected = array(
-			'choices' => array(
-				$value => array(
+		$expected = [
+			'choices' => [
+				$value => [
 					'label'            => $label,
 					'screenReaderText' => $screen_reader_text,
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$field = new WPSEO_Config_Field_Choice( 'field' );
 

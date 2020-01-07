@@ -28,7 +28,7 @@ class WPSEO_Option_Permalinks {
 	 * @param string $method The method to 'call'.
 	 * @param array  $args   Possibly given arguments.
 	 */
-	public function __call( $method, array $args = array() ) {
+	public function __call( $method, array $args = [] ) {
 		_deprecated_function( $method, 'WPSEO 7.0' );
 	}
 

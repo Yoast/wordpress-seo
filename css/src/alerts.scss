@@ -46,8 +46,6 @@ $yoast-alerts-active-margin: 20px;
 }
 
 .yoast-container .yoast-alert-holder {
-	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 	position: relative;
 }
@@ -103,6 +101,12 @@ $yoast-alerts-active-margin: 20px;
 		/* Only visible in Windows High Contrast mode */
 		outline: 2px solid transparent;
 	}
+}
+
+// Get started dismiss button focus style position.
+.yoast-alerts .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+	top: 0;
+	transform: translate(-50%,6px);
 }
 
 .yoast-container .separator {
@@ -287,7 +291,7 @@ $yoast-alerts-active-margin: 20px;
 
 				.dashicons {
 					text-decoration: none;
-					margin-top: 11px;
+					margin-top: 12px;
 				}
 			}
 		}

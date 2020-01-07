@@ -22,9 +22,9 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	private $default_post_args = array(
+	private $default_post_args = [
 		'post_status' => 'publish',
-	);
+	];
 
 	/**
 	 * Set up the class which will be tested.
@@ -140,7 +140,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_post_count
 	 */
 	public function test_only_published_posts() {
-		$posts = $this->factory->post->create_many( 4, array( 'post_status' => 'draft' ) );
+		$posts = $this->factory->post->create_many( 4, [ 'post_status' => 'draft' ] );
 
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 0 ); // No-focus.
 		add_post_meta( $posts[0], '_yoast_wpseo_linkdex', 1 ); // Bad.

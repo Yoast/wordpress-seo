@@ -41,77 +41,77 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @return array The SEO filters dataprovider.
 	 */
 	public function determine_seo_filters_dataprovider() {
-		return array(
-			array(
+		return [
+			[
 				'bad',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'ok',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 41, 70 ),
+						'value'   => [ 41, 70 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'good',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 71, 100 ),
+						'value'   => [ 71, 100 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'na',
-				array(
-					array(
+				[
+					[
 						'key'     => '_yoast_wpseo_meta-robots-noindex',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
-					),
-					array(
+					],
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 						'value'   => 'needs-a-value-anyway',
 						'compare' => 'NOT EXISTS',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'noindex',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 						'value'   => '1',
 						'compare' => '=',
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 	}
 
 	/**
@@ -120,41 +120,41 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @return array The readability filters dataprovider.
 	 */
 	public function determine_readability_filters_dataprovider() {
-		return array(
-			array(
+		return [
+			[
 				'bad',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'ok',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 41, 70 ),
+						'value'   => [ 41, 70 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-			array(
+					],
+				],
+			],
+			[
 				'good',
-				array(
-					array(
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 71, 100 ),
+						'value'   => [ 71, 100 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 	}
 
 	/**
@@ -163,116 +163,116 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @return array The Readability filters dataprovider.
 	 */
 	public function build_filter_query_dataprovider() {
-		return array(
-			array(
-				array(),
-				array(
-					array(
+		return [
+			[
+				[],
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-				array(
-					'meta_query' => array(
-						array(
-							array(
+					],
+				],
+				[
+					'meta_query' => [
+						[
+							[
 								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value'   => array( 1, 40 ),
+								'value'   => [ 1, 40 ],
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							),
-						),
-					),
-				),
-			),
+							],
+						],
+					],
+				],
+			],
 
-			array(
-				array(),
-				array(
-					array(
+			[
+				[],
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-					array(
+					],
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-				array(
-					'meta_query' => array(
-						array(
+					],
+				],
+				[
+					'meta_query' => [
+						[
 							'relation' => 'AND',
-							array(
+							[
 								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value'   => array( 1, 40 ),
+								'value'   => [ 1, 40 ],
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							),
-							array(
+							],
+							[
 								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value'   => array( 1, 40 ),
+								'value'   => [ 1, 40 ],
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							),
-						),
-					),
-				),
-			),
+							],
+						],
+					],
+				],
+			],
 
-			array(
-				array(),
-				array(),
-				array(),
-			),
+			[
+				[],
+				[],
+				[],
+			],
 
-			array(
-				array(
+			[
+				[
 					'm'   => 0,
 					'cat' => 0,
-				),
-				array(
-					array(
+				],
+				[
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-					array(
+					],
+					[
 						'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-						'value'   => array( 1, 40 ),
+						'value'   => [ 1, 40 ],
 						'type'    => 'numeric',
 						'compare' => 'BETWEEN',
-					),
-				),
-				array(
+					],
+				],
+				[
 					'm'          => 0,
 					'cat'        => 0,
-					'meta_query' => array(
-						array(
+					'meta_query' => [
+						[
 							'relation' => 'AND',
-							array(
+							[
 								'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-								'value'   => array( 1, 40 ),
+								'value'   => [ 1, 40 ],
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							),
-							array(
+							],
+							[
 								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-								'value'   => array( 1, 40 ),
+								'value'   => [ 1, 40 ],
 								'type'    => 'numeric',
 								'compare' => 'BETWEEN',
-							),
-						),
-					),
-				),
-			),
-		);
+							],
+						],
+					],
+				],
+			],
+		];
 	}
 
 	/**
@@ -283,7 +283,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_column_heading_has_score() {
 		self::$class_instance->set_current_post_type( 'post' );
 
-		$columns = self::$class_instance->column_heading( array() );
+		$columns = self::$class_instance->column_heading( [] );
 		$this->assertArrayHasKey( 'wpseo-score', $columns );
 	}
 
@@ -295,7 +295,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_column_heading_has_focuskw() {
 		self::$class_instance->set_current_post_type( 'post' );
 
-		$columns = self::$class_instance->column_heading( array() );
+		$columns = self::$class_instance->column_heading( [] );
 		$this->assertArrayHasKey( 'wpseo-focuskw', $columns );
 	}
 
@@ -307,7 +307,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	public function test_column_heading_has_metadesc() {
 		self::$class_instance->set_current_post_type( 'post' );
 
-		$columns = self::$class_instance->column_heading( array() );
+		$columns = self::$class_instance->column_heading( [] );
 		$this->assertArrayHasKey( 'wpseo-metadesc', $columns );
 	}
 
@@ -325,8 +325,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			->method( 'has_prop' )
 			->will( $this->returnValue( false ) );
 
-		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
-		$received = self::$class_instance->column_hidden( array(), 'option-name', $user );
+		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
+		$received = self::$class_instance->column_hidden( [], 'option-name', $user );
 
 		$this->assertEquals( $expected, $received );
 	}
@@ -347,7 +347,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			->method( 'has_prop' )
 			->will( $this->returnValue( true ) );
 
-		$expected = array( 'wpseo-title' );
+		$expected = [ 'wpseo-title' ];
 		$received = self::$class_instance->column_hidden( $expected, 'option-name', $user );
 
 		$this->assertEquals( $expected, $received );
@@ -366,7 +366,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 			->method( 'has_prop' )
 			->will( $this->returnValue( false ) );
 
-		$expected = array( 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+		$expected = [ 'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' ];
 
 		$received = self::$class_instance->column_hidden( false, 'option-name', $user );
 		$this->assertEquals( $expected, $received );
@@ -447,7 +447,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::uses_default_indexing
 	 */
 	public function test_is_using_default_indexing() {
-		$post = $this->factory()->post->create_and_get( array() );
+		$post = $this->factory()->post->create_and_get( [] );
 
 		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
@@ -463,7 +463,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::uses_default_indexing
 	 */
 	public function test_is_not_using_default_indexing() {
-		$post = $this->factory()->post->create_and_get( array() );
+		$post = $this->factory()->post->create_and_get( [] );
 
 		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
@@ -479,7 +479,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_indexable
 	 */
 	public function test_is_indexable_when_set_on_post() {
-		$post = $this->factory()->post->create_and_get( array() );
+		$post = $this->factory()->post->create_and_get( [] );
 
 		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
@@ -495,7 +495,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_indexable
 	 */
 	public function test_is_indexable_when_using_default() {
-		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+		$post = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );
 
 		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );
@@ -512,7 +512,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Meta_Columns::is_indexable
 	 */
 	public function test_is_not_indexable_when_using_default() {
-		$post = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+		$post = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );
 
 		// Set metavalue.
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '0', $post->ID );

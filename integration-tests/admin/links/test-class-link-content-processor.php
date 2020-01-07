@@ -42,10 +42,13 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 	 * Test link storage.
 	 */
 	public function test_store_links() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )
-			->setMethods( array( 'cleanup', 'save_links' ) )
+			->setMethods( [ 'cleanup', 'save_links' ] )
 			->getMock();
 
 		$storage
@@ -58,7 +61,7 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 			->method( 'save_links' )
 			->with(
 				1,
-				array( new WPSEO_Link( 'http://example.org/post', 0, 'internal' ) )
+				[ new WPSEO_Link( 'http://example.org/post', 0, 'internal' ) ]
 			);
 
 		$processor = new WPSEO_Link_Content_Processor( $storage, new WPSEO_Meta_Storage() );

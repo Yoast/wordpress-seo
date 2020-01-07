@@ -45,10 +45,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$post_parent = $this->factory->post->create_and_get();
 		$post        = $this->factory->post->create_and_get(
-			array(
+			[
 				'post_type'   => 'revision',
 				'post_parent' => $post_parent->ID,
-			)
+			]
 		);
 
 		$processor = $this->get_processor();
@@ -68,9 +68,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_skip_trash_posts() {
 
 		$post = self::factory()->post->create(
-			array(
+			[
 				'post_type' => 'post',
-			)
+			]
 		);
 
 		wp_delete_post( $post );
@@ -95,7 +95,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_is_processable_draft() {
 
 		$post = $this->factory->post->create_and_get(
-			array( 'post_status' => 'draft' )
+			[ 'post_status' => 'draft' ]
 		);
 
 		$processor = $this->get_processor();
@@ -111,10 +111,10 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	 * Test with a none public posttype.
 	 */
 	public function test_is_processable_none_public_posttype() {
-		register_post_type( 'hidden', array( 'public' => false ) );
+		register_post_type( 'hidden', [ 'public' => false ] );
 
 		$post = $this->factory->post->create_and_get(
-			array( 'post_type' => 'hidden' )
+			[ 'post_type' => 'hidden' ]
 		);
 
 		$processor = $this->get_processor();
@@ -132,9 +132,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_is_processable_without_content() {
 
 		$post = $this->factory->post->create_and_get(
-			array(
+			[
 				'post_content' => '',
-			)
+			]
 		);
 
 		$processor = $this->get_processor();
@@ -153,9 +153,9 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_is_processable_with_content() {
 
 		$post = $this->factory->post->create_and_get(
-			array(
+			[
 				'post_content' => 'This is content',
-			)
+			]
 		);
 
 		$processor = $this->get_processor();
@@ -173,15 +173,15 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(
-			array(
+			[
 				'post_content' => 'This is content that will be deleted',
-			)
+			]
 		);
 
 		$link_to_save = new WPSEO_Link( 'http://example.com/page', 0, 'external' );
 
 		$storage = new WPSEO_Link_Storage();
-		$storage->save_links( $post->ID, array( $link_to_save ) );
+		$storage->save_links( $post->ID, [ $link_to_save ] );
 
 		$this->assertNotEmpty( $storage->get_links( $post->ID ) );
 
@@ -199,8 +199,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	protected function get_processor() {
 		return $this
 			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
-			->setMethods( array( 'process' ) )
+			->setConstructorArgs( [ new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ] )
+			->setMethods( [ 'process' ] )
 			->getMock();
 	}
 }

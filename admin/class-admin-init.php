@@ -38,7 +38,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'tagline_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
-		add_action( 'admin_init', [ $this, 'page_comments_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
@@ -47,7 +46,9 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
-		add_action( 'admin_enqueue_scripts', [ $this->asset_manager, 'register_wp_assets' ], PHP_INT_MAX );
+
+		$page_comments = new WPSEO_Health_Check_Page_Comments();
+		$page_comments->register_test();
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
@@ -156,38 +157,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Display notice to disable comment pagination.
-	 */
-	public function page_comments_notice() {
-
-		$info_message  = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
-		$info_message .= '<br/>';
-
-		$info_message .= sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
-			__( 'To fix this uncheck the box in front of the "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::WARNING,
-			'id'           => 'wpseo-dismiss-page_comments-notice',
-			'capabilities' => 'wpseo_manage_options',
-		];
-
-		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( $this->has_page_comments() ) {
-			$notification_center->add_notification( $tagline_notification );
-		}
-		else {
-			$notification_center->remove_notification( $tagline_notification );
-		}
-	}
-
-	/**
 	 * Returns whether or not the site has the default tagline.
 	 *
 	 * @return bool
@@ -233,15 +202,6 @@ class WPSEO_Admin_Init {
 		else {
 			$notification_center->remove_notification( $notification );
 		}
-	}
-
-	/**
-	 * Are page comments enabled.
-	 *
-	 * @return bool
-	 */
-	public function has_page_comments() {
-		return '1' === get_option( 'page_comments' );
 	}
 
 	/**
@@ -636,5 +596,29 @@ class WPSEO_Admin_Init {
 	 */
 	public function wordpress_upgrade_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+	}
+
+	/**
+	 * Display notice to disable comment pagination.
+	 *
+	 * @deprecated 12.8
+	 * @codeCoverageIgnore
+	 */
+	public function page_comments_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
+	}
+
+	/**
+	 * Are page comments enabled.
+	 *
+	 * @deprecated 12.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool
+	 */
+	public function has_page_comments() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
+
+		return '1' === get_option( 'page_comments' );
 	}
 }

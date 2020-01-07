@@ -38,7 +38,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_invalid_object_type() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -59,17 +59,17 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_valid_post_type_with_a_non_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$provider
 			->expects( $this->once() )
 			->method( 'get' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
-			->setMethods( array( 'get_provider' ) )
+			->setMethods( [ 'get_provider' ] )
 			->getMock();
 
 		$service
@@ -79,7 +79,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -94,7 +94,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		 */
 		$response = $service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( array(), 200 ), $response );
+		$this->assertEquals( new WP_REST_Response( [], 200 ), $response );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_indexable_for_valid_post_type_with_an_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$provider
@@ -115,7 +115,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
-			->setMethods( array( 'get_provider' ) )
+			->setMethods( [ 'get_provider' ] )
 			->getMock();
 
 		$service
@@ -125,7 +125,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request

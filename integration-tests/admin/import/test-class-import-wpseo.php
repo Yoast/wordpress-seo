@@ -218,10 +218,10 @@ class WPSEO_Import_WPSEO_Test extends WPSEO_UnitTestCase {
 	 */
 	private function create_category_metadata( $name, $desc, $robots ) {
 		$term_id = $this->factory->term->create(
-			array(
+			[
 				'name'     => $name,
 				'taxonomy' => 'category',
-			)
+			]
 		);
 		update_option( 'wpseo_category_' . $term_id, $desc );
 		update_option( 'wpseo_category_' . $term_id . '_robots', $robots );

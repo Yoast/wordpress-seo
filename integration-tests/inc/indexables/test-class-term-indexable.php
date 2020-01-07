@@ -39,10 +39,10 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'name'     => 'robot',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$instance = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
@@ -69,15 +69,15 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'name'     => 'robot',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$instance     = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
 		$new_instance = $instance->update(
-			array( 'is_robots_noindex' => true )
+			[ 'is_robots_noindex' => true ]
 		);
 
 		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $new_instance );
@@ -93,10 +93,10 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function robots_noindex_provider() {
-		return array(
-			array( 'noindex', true, 'With value set to noindex' ),
-			array( 'index', false, 'With value set to index' ),
-			array( 'default', null, 'With default value' ),
-		);
+		return [
+			[ 'noindex', true, 'With value set to noindex' ],
+			[ 'index', false, 'With value set to index' ],
+			[ 'default', null, 'With default value' ],
+		];
 	}
 }

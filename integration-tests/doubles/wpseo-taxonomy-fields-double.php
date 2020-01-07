@@ -16,6 +16,6 @@ class WPSEO_Taxonomy_Fields_Double extends WPSEO_Taxonomy_Fields {
 	 * @return array
 	 */
 	public function get() {
-		return array( '1', '2', '3' );
+		return [ '1', '2', '3' ];
 	}
 }

@@ -15,7 +15,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	 *
 	 * @var array
 	 */
-	private $available_dependencies = array( 'test-plugin/test-plugin.php' );
+	private $available_dependencies = [ 'test-plugin/test-plugin.php' ];
 
 	/**
 	 * Registers a variety of fake plugins to test against.
@@ -23,8 +23,8 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	 * @return void
 	 */
 	public function register_yoast_plugins() {
-		$this->plugins = array(
-			'test-plugin' => array(
+		$this->plugins = [
+			'test-plugin' => [
 				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
@@ -32,63 +32,63 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'installed'    => true,
 				'slug'         => 'test-plugin/test-plugin.php',
 				'version_sync' => true,
-			),
+			],
 
-			'test-plugin-dependency' => array(
+			'test-plugin-dependency' => [
 				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency',
 				'description'   => '',
 				'version'       => '3.3',
 				'installed'     => false,
-				'_dependencies' => array(
-					'test-plugin' => array(
+				'_dependencies' => [
+					'test-plugin' => [
 						'slug' => 'test-plugin/test-plugin.php',
-					),
-				),
+					],
+				],
 				'slug'          => 'test-plugin-with-dependency/test-plugin-with-dependency.php',
-			),
+			],
 
-			'test-plugin-dependency-2' => array(
+			'test-plugin-dependency-2' => [
 				'url'           => 'http://example.com/',
 				'title'         => 'Test Plugin With Dependency Part 2',
 				'description'   => '',
 				'version'       => '3.3',
 				'installed'     => false,
-				'_dependencies' => array(
-					'test-plugin' => array(
+				'_dependencies' => [
+					'test-plugin' => [
 						'slug' => 'test-plugin/test-plugin.php',
-					),
-				),
+					],
+				],
 				'slug'          => 'test-plugin-with-dependency-2/test-plugin-with-dependency-2.php',
-			),
+			],
 
-			'unavailable-test-plugin' => array(
+			'unavailable-test-plugin' => [
 				'url'         => 'http://example.com/',
 				'title'       => 'Unavailable Test Plugin',
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => false,
 				'slug'        => 'unavailable-test-plugin/unavailable-test-plugin.php',
-			),
+			],
 
-			'unavailable-test-plugin-dependency' => array(
+			'unavailable-test-plugin-dependency' => [
 				'url'         => 'http://example.com/',
 				'title'       => 'Test Plugin Without Dependency',
 				'description' => '',
 				'version'     => '3.3',
 				'installed'   => false,
 				'slug'        => 'test-plugin-without-dependency/test-plugin-without-dependency.php',
-			),
+			],
 
-			'test-plugin-no-version' => array(
+			'test-plugin-no-version' => [
 				'url'         => 'http://example.com/',
 				'title'       => 'Test Plugin With No Version',
 				'description' => '',
 				'installed'   => false,
 				'slug'        => 'test-plugin-with-no-version/test-plugin-with-no-version.php',
-			),
+			],
 
-			'test-plugin-invalid-version' => array(
+			'test-plugin-invalid-version' => [
 				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
@@ -97,9 +97,9 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'slug'         => 'test-plugin-invalid-version/test-plugin-invalid-version.php',
 				'compatible'   => false,
 				'version_sync' => true,
-			),
+			],
 
-			'test-plugin-non-version-synced' => array(
+			'test-plugin-non-version-synced' => [
 				'url'          => 'http://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
@@ -107,8 +107,8 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'installed'    => true,
 				'version_sync' => false,
 				'compatible'   => true,
-			),
-			'test-premium-plugin' => array(
+			],
+			'test-premium-plugin' => [
 				'url'          => 'https://example.com/',
 				'title'        => 'Test Plugin',
 				'description'  => '',
@@ -117,8 +117,8 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 				'version_sync' => false,
 				'compatible'   => true,
 				'premium'      => true,
-			),
-		);
+			],
+		];
 	}
 
 	/**

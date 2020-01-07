@@ -51,6 +51,7 @@ class WPSEO_Upgrade {
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
+			'12.8-RC0'  => 'upgrade_128',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -677,6 +678,17 @@ class WPSEO_Upgrade {
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
 		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
+	}
+
+	/**
+	 * Performs the 12.8 upgrade.
+	 */
+	private function upgrade_128() {
+		// Re-save wpseo to make sure bf_banner_2019_dismissed key is gone.
+		$this->cleanup_option_data( 'wpseo' );
+
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
 	}
 
 	/**

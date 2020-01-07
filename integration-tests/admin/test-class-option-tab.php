@@ -38,7 +38,7 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Option_Tab::get_opt_group
 	 */
 	public function test_get_opt_group() {
-		$option_tab = new WPSEO_Option_Tab( 'name', 'label', array( 'opt_group' => 'opt_group' ) );
+		$option_tab = new WPSEO_Option_Tab( 'name', 'label', [ 'opt_group' => 'opt_group' ] );
 
 		$this->assertEquals( 'opt_group', $option_tab->get_opt_group() );
 	}
@@ -60,7 +60,7 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Option_Tab::has_save_button
 	 */
 	public function test_has_no_save_button() {
-		$option_tab = new WPSEO_Option_Tab( 'name', 'label', array( 'save_button' => false ) );
+		$option_tab = new WPSEO_Option_Tab( 'name', 'label', [ 'save_button' => false ] );
 
 		$this->assertFalse( $option_tab->has_save_button() );
 	}

@@ -55,7 +55,7 @@ class WPSEO_GSC_Count {
 	public function get_platform_counts( $platform ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 
 	/**

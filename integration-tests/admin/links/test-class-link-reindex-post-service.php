@@ -32,7 +32,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	public function test_reindex_with_inaccessible_tables() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
-			->setMethods( array( 'is_processable' ) )
+			->setMethods( [ 'is_processable' ] )
 			->getMock();
 
 		$class_instance
@@ -62,11 +62,11 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 
 		$post = $this->factory()
 			->post
-			->create_and_get( array( 'post_content' => 'this is the content' ) );
+			->create_and_get( [ 'post_content' => 'this is the content' ] );
 
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
-			->setMethods( array( 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ) )
+			->setMethods( [ 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ] )
 			->getMock();
 
 		$class_instance
@@ -77,7 +77,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'get_unprocessed_posts' )
-			->will( $this->returnValue( array( $post ) ) );
+			->will( $this->returnValue( [ $post ] ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -103,7 +103,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
-			->setMethods( array( 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ) )
+			->setMethods( [ 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ] )
 			->getMock();
 
 		$class_instance
@@ -114,7 +114,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 		$class_instance
 			->expects( $this->once() )
 			->method( 'get_unprocessed_posts' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$class_instance
 			->expects( $this->never() )
@@ -134,8 +134,8 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	private function get_content_processor_mock() {
 		return $this
 			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
-			->setConstructorArgs( array( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ) )
-			->setMethods( array( 'process' ) )
+			->setConstructorArgs( [ new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ] )
+			->setMethods( [ 'process' ] )
 			->getMock();
 	}
 }

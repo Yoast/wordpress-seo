@@ -35,14 +35,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		self::$proxy_table_name = 'yoast_seo_test_table';
 		self::$proxy            = new WPSEO_Database_Proxy( $wpdb, self::$proxy_table_name, true );
 		self::$proxy->create_table(
-			array(
+			[
 				'id bigint(20) unsigned NOT NULL AUTO_INCREMENT',
 				'testkey varchar(255) NOT NULL',
 				'testval longtext NOT NULL',
-			),
-			array(
+			],
+			[
 				'PRIMARY KEY (id)',
-			)
+			]
 		);
 
 		$installer = new WPSEO_Link_Installer();
@@ -83,11 +83,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_insert() {
 		$result = self::$proxy->insert(
-			array(
+			[
 				'testkey' => 'key2',
 				'testval' => 'value2',
-			),
-			array( '%s', '%s' )
+			],
+			[ '%s', '%s' ]
 		);
 
 		$this->assertSame( 1, $result );
@@ -100,20 +100,20 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_insert_exists() {
 		self::$proxy->insert(
-			array(
+			[
 				'testkey' => 'key2',
 				'testval' => 'value2',
-			),
-			array( '%s', '%s' )
+			],
+			[ '%s', '%s' ]
 		);
 
 		$result = self::$proxy->insert(
-			array(
+			[
 				'id'      => 1,
 				'testkey' => 'key2',
 				'testval' => 'value2',
-			),
-			array( '%d', '%s', '%s' )
+			],
+			[ '%d', '%s', '%s' ]
 		);
 
 		$this->assertFalse( $result );
@@ -126,10 +126,10 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_insert_invalid() {
 		$result = self::$proxy->insert(
-			array(
+			[
 				'testvalue' => 'value2',
-			),
-			array( '%s' )
+			],
+			[ '%s' ]
 		);
 
 		$this->assertFalse( $result );
@@ -142,22 +142,22 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update() {
 		self::$proxy->insert(
-			array(
+			[
 				'testkey' => 'key2',
 				'testval' => 'value2',
-			),
-			array( '%s', '%s' )
+			],
+			[ '%s', '%s' ]
 		);
 
 		$result = self::$proxy->update(
-			array(
+			[
 				'testval' => 'value3',
-			),
-			array(
+			],
+			[
 				'testkey' => 'key2',
-			),
-			array( '%s' ),
-			array( '%s' )
+			],
+			[ '%s' ],
+			[ '%s' ]
 		);
 
 		$this->assertSame( 1, $result );
@@ -170,14 +170,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_not_exists() {
 		$result = self::$proxy->update(
-			array(
+			[
 				'testval' => 'value2',
-			),
-			array(
+			],
+			[
 				'testkey' => 'key2',
-			),
-			array( '%s' ),
-			array( '%s' )
+			],
+			[ '%s' ],
+			[ '%s' ]
 		);
 
 		$this->assertSame( 0, $result );
@@ -190,14 +190,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_invalid() {
 		$result = self::$proxy->update(
-			array(
+			[
 				'testvalue' => 'value2',
-			),
-			array(
+			],
+			[
 				'testkey' => 'key1',
-			),
-			array( '%s' ),
-			array( '%s' )
+			],
+			[ '%s' ],
+			[ '%s' ]
 		);
 
 		$this->assertFalse( $result );
@@ -210,15 +210,15 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_upsert_new() {
 		$result = self::$proxy->upsert(
-			array(
+			[
 				'id'      => 2,
 				'testkey' => 'key2',
 				'testval' => 'value2',
-			),
-			array(
+			],
+			[
 				'id' => 2,
-			),
-			array( '%d', '%s', '%s' )
+			],
+			[ '%d', '%s', '%s' ]
 		);
 
 		$this->assertSame( 1, $result );
@@ -231,24 +231,24 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_upsert_existing() {
 		self::$proxy->insert(
-			array(
+			[
 				'id'      => 10,
 				'testkey' => 'key10',
 				'testval' => 'value10-1',
-			),
-			array( '%d', '%s', '%s' )
+			],
+			[ '%d', '%s', '%s' ]
 		);
 
 		$result = self::$proxy->upsert(
-			array(
+			[
 				'id'      => 10,
 				'testkey' => 'key10',
 				'testval' => 'value10-2',
-			),
-			array(
+			],
+			[
 				'id' => 10,
-			),
-			array( '%d', '%s', '%s' )
+			],
+			[ '%d', '%s', '%s' ]
 		);
 
 		/*
@@ -266,11 +266,11 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$results    = self::$proxy->get_results( "SELECT * FROM $table_name WHERE testkey = 'key10'" );
 
 		$this->assertEquals(
-			(object) array(
+			(object) [
 				'id'      => 10,
 				'testkey' => 'key10',
 				'testval' => 'value10-2',
-			),
+			],
 			$results[0]
 		);
 	}
@@ -282,18 +282,18 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_delete() {
 		self::$proxy->insert(
-			array(
+			[
 				'testkey' => 'key1',
 				'testval' => 'value',
-			),
-			array( '%s', '%s' )
+			],
+			[ '%s', '%s' ]
 		);
 
 		$result = self::$proxy->delete(
-			array(
+			[
 				'testkey' => 'key1',
-			),
-			array( '%s' )
+			],
+			[ '%s' ]
 		);
 
 		$this->assertSame( 1, $result );
@@ -306,10 +306,10 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_delete_not_exists() {
 		$result = self::$proxy->delete(
-			array(
+			[
 				'testkey' => 'key2',
-			),
-			array( '%s' )
+			],
+			[ '%s' ]
 		);
 
 		$this->assertSame( 0, $result );
@@ -322,10 +322,10 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_delete_invalid() {
 		$result = self::$proxy->delete(
-			array(
+			[
 				'testvalue' => 'key1',
-			),
-			array( '%s' )
+			],
+			[ '%s' ]
 		);
 
 		$this->assertFalse( $result );
@@ -340,22 +340,22 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$table_name = self::$proxy->get_table_name();
 
 		self::$proxy->insert(
-			array(
+			[
 				'testkey' => 'key1',
 				'testval' => 'value',
-			),
-			array( '%s', '%s' )
+			],
+			[ '%s', '%s' ]
 		);
 
 		$result = self::$proxy->get_results( "SELECT * FROM $table_name WHERE testkey = 'key1'" );
 
-		$expected = array(
-			(object) array(
+		$expected = [
+			(object) [
 				'id'      => 1,
 				'testkey' => 'key1',
 				'testval' => 'value',
-			),
-		);
+			],
+		];
 
 		$this->assertEquals( $expected, $result );
 	}
@@ -372,14 +372,14 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 		$proxy            = new WPSEO_Database_Proxy( $wpdb, $proxy_table_name, true );
 
 		$result = $proxy->create_table(
-			array(
+			[
 				'id bigint(20) unsigned NOT NULL AUTO_INCREMENT',
 				'testkey varchar(255) NOT NULL',
 				'testval longtext NOT NULL',
-			),
-			array(
+			],
+			[
 				'PRIMARY KEY (id)',
-			)
+			]
 		);
 
 		$this->assertTrue( $result );

@@ -24,7 +24,7 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	 * @param array  $tabs         The metabox tabs (`WPSEO_Metabox_Tabs[]`) to be included in the section.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
+	public function __construct( $name, $link_content, array $tabs = [], array $options = [] ) {
 		_deprecated_function( __METHOD__, '11.9' );
 		parent::__construct( $name, $link_content, $tabs, $options );
 	}
@@ -42,12 +42,12 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 				<ul class="wpseo-metabox-tabs">
 					<?php
 					// @deprecated 11.9 This functionality has been replaced by the filter: `yoast_free_additional_metabox_sections`.
-					do_action_deprecated( 'wpseo_tab_header', array(), '11.9' );
+					do_action_deprecated( 'wpseo_tab_header', [], '11.9' );
 					?>
 				</ul>
 				<?php
 				// @deprecated 11.9 This functionality has been replaced by the filter: `yoast_free_additional_metabox_sections`.
-				do_action_deprecated( 'wpseo_tab_content', array(), '11.9' );
+				do_action_deprecated( 'wpseo_tab_content', [], '11.9' );
 				?>
 			</div>
 		</div>

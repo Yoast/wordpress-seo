@@ -120,7 +120,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		}
 
 		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['url'] = $this->context->title;
+			$breadcrumb['text'] = $this->context->title;
 		}
 
 		return [

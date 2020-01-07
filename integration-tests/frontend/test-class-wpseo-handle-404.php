@@ -106,7 +106,7 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 	 */
 	private function run_test_on_term_feed( $taxonomy ) {
 		$term = $this->factory->term->create_and_get(
-			array( 'taxonomy' => $taxonomy )
+			[ 'taxonomy' => $taxonomy ]
 		);
 
 		$is_taxonomy = 'is_tax';

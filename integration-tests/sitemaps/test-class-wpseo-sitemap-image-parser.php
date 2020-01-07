@@ -39,7 +39,7 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 		$content_title = 'Content image title.';
 		$content_alt   = 'Content image alt.';
 		$post_id       = $this->factory->post->create(
-			array( 'post_content' => "<img src='{$content_src}' title='{$content_title}' alt='{$content_alt}' />" )
+			[ 'post_content' => "<img src='{$content_src}' title='{$content_title}' alt='{$content_alt}' />" ]
 		);
 
 		$images = self::$class_instance->get_images( get_post( $post_id ) );
@@ -64,19 +64,19 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 		 * @var WPSEO_Sitemap_Image_Parser_Double $image_parser
 		 */
 		$image_parser = $this->getMockBuilder( 'WPSEO_Sitemap_Image_Parser_Double' )
-			->setMethods( array( 'get_content_galleries', 'get_gallery_attachments' ) )
+			->setMethods( [ 'get_content_galleries', 'get_gallery_attachments' ] )
 			->getMock();
 
 		$image_parser
 			->expects( $this->once() )
 			->method( 'get_content_galleries' )
-			->will( $this->returnValue( array( array( 'id' => 1 ) ) ) );
+			->will( $this->returnValue( [ [ 'id' => 1 ] ] ) );
 
-		$a = (object) array( 'a', 'b' );
+		$a = (object) [ 'a', 'b' ];
 		$b = (object) 1234;
 		$c = (object) 'some string';
 
-		$attachments = array( $a, $b, $c, $a, $c );
+		$attachments = [ $a, $b, $c, $a, $c ];
 
 		$image_parser
 			->expects( $this->once() )

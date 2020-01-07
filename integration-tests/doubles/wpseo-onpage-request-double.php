@@ -18,11 +18,11 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 	 *
 	 * @return array
 	 */
-	protected function get_remote( $target_url, $parameters = array() ) {
-		$remote_data = array(
+	protected function get_remote( $target_url, $parameters = [] ) {
+		$remote_data = [
 			'is_indexable'    => '0',
 			'passes_juice_to' => '',
-		);
+		];
 
 		switch ( $target_url ) {
 			case home_url():
@@ -30,10 +30,10 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 				break;
 
 			case 'http:://will-be-redirected.wp':
-				$remote_data = array(
+				$remote_data = [
 					'is_indexable'    => '0',
 					'passes_juice_to' => 'http://is-redirected.wp',
-				);
+				];
 				break;
 
 			case 'http://is-redirected.wp':

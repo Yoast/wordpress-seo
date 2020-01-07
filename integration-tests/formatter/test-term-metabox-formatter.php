@@ -41,7 +41,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_values
 	 */
 	public function test_no_taxonomy_no_term_and_no_options() {
-		$instance = new WPSEO_Term_Metabox_Formatter( null, null, array() );
+		$instance = new WPSEO_Term_Metabox_Formatter( null, null, [] );
 		$result   = $instance->get_values();
 
 		$this->assertFalse( array_key_exists( 'search_url', $result ) );
@@ -79,7 +79,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( $result['post_edit_url'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 
 		$this->assertEquals( trailingslashit( home_url( 'tag' ) ), $result['base_url'] );
-		$this->assertEquals( array( '' => array() ), $result['keyword_usage'] );
+		$this->assertEquals( [ '' => [] ], $result['keyword_usage'] );
 		$this->assertEquals( '%%title%% %%sep%% %%sitename%%', $result['title_template'] );
 		$this->assertEquals( '', $result['metadesc_template'] );
 	}
@@ -92,7 +92,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	public function test_post_edit_url_4_5_and_higher() {
 		global $wp_version;
 
-		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, array() );
+		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, [] );
 
 		$_wp_version = $wp_version;
 		$wp_version  = '4.5.0';

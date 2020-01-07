@@ -15,10 +15,10 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_contents_of_wpseo_rss() {
 		// Setup data to expect.
-		$expected = array(
+		$expected = [
 			'rssbefore' => 'a',
 			'rssafter'  => 'b',
-		);
+		];
 
 		$this->set_options( $expected );
 
@@ -30,21 +30,21 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_contents_of_wpseo_xml() {
 		// Setup data to expect.
-		$expected = array(
+		$expected = [
 			'enablexmlsitemap'       => true,
 			'disable_author_sitemap' => false,
 			'disable_author_noposts' => true,
 			'entries-per-page'       => 1000,
-			'excluded-posts'         => array(),
-		);
+			'excluded-posts'         => [],
+		];
 
-		$option_input = array(
+		$option_input = [
 			'enable_xml_sitemap'     => true, // Note: this is a different key than in $expected!
 			'disable_author_sitemap' => false,
 			'disable_author_noposts' => true,
 			'entries-per-page'       => 1000,
-			'excluded-posts'         => array(),
-		);
+			'excluded-posts'         => [],
+		];
 		$this->set_options( $option_input );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_xml' ) );
@@ -55,7 +55,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_contents_of_wpseo_permalinks() {
 		// Setup data to expect.
-		$expected = array(
+		$expected = [
 			'redirectattachment'              => true,
 			'stripcategorybase'               => false,
 
@@ -66,12 +66,12 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'cleanreplytocom'                 => false,
 			'cleanslugs'                      => false,
 			'trailingslash'                   => false,
-		);
+		];
 
-		$unexpected = array(
+		$unexpected = [
 			'disable-attachment' => true,
 			'stripcategorybase'  => false,
-		);
+		];
 		$this->set_options( $unexpected );
 
 		$this->assertEquals( $expected, get_option( 'wpseo_permalinks' ) );
@@ -84,7 +84,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_contents_of_wpseo_internallinks() {
 		// Setup data to expect.
-		$expected = array(
+		$expected = [
 			'breadcrumbs-404crumb'      => 'a',
 			'breadcrumbs-blog-remove'   => true,
 			'breadcrumbs-boldlast'      => true,
@@ -94,7 +94,7 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 			'breadcrumbs-prefix'        => 'd',
 			'breadcrumbs-searchprefix'  => 'e',
 			'breadcrumbs-sep'           => 'f',
-		);
+		];
 
 		$this->set_options( $expected );
 
@@ -129,14 +129,14 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 	 * Tests the expected fields to be present and filled in the wpseo option.
 	 */
 	public function test_added_fields_to_wpseo() {
-		$expected = array(
+		$expected = [
 			'website_name'           => 'a',
 			'alternate_website_name' => 'b',
 			'company_logo'           => 'http://c',
 			'company_name'           => 'd',
 			'company_or_person'      => 'company',
 			'person_name'            => 'f',
-		);
+		];
 
 		$this->set_options( $expected );
 

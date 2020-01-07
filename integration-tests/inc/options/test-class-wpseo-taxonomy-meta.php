@@ -28,9 +28,9 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		$GLOBALS['wp_query']->queried_object = self::factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'taxonomy' => null,
-				)
+				]
 			);
 
 		$this->assertFalse( WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
@@ -45,9 +45,9 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		$GLOBALS['wp_query']->queried_object = self::factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$this->assertEquals( '', WPSEO_Taxonomy_Meta::get_meta_without_term( 'meta_field' ) );
@@ -64,28 +64,28 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		 * so it should closely resemble what a user could type in the field.
 		 * Normally this is already provided like this through JavaScript.
 		 */
-		$input = array(
+		$input = [
 			'wpseo_noindex'         => 'index',
 			'wpseo_canonical'       => 'https://yoast.com/',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
 			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
-				array(
-					array(
+				[
+					[
 						'keyword' => '\"test\"',
 						'score'   => 'good',
-					),
-					array(
+					],
+					[
 						'keyword' => '\\',
 						'score'   => 'bad',
-					),
-				)
+					],
+				]
 			),
-			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_opengraph-title' => '&quotdouble quotes" and \backslashes\.',
-		);
+		];
 		$this->assertEquals( $input, WPSEO_Taxonomy_Meta::validate_term_meta_data( $input, WPSEO_Taxonomy_Meta::$defaults_per_term ) );
 	}
 
@@ -100,51 +100,51 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		 * so it should closely resemble what a user could type in the field.
 		 * Normally this is already provided like this through JavaScript.
 		 */
-		$expected = array(
+		$expected = [
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
 			'wpseo_canonical'       => 'https://yoast.com/test%20space',
 			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
-				array(
-					array(
+				[
+					[
 						'keyword' => '\"test\"',
 						'score'   => 'good',
-					),
-					array(
+					],
+					[
 						'keyword' => '\\',
 						'score'   => 'bad',
-					),
-				)
+					],
+				]
 			),
-			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_opengraph-title' => '&quotdouble quotes" and \backslashes\.',
-		);
+		];
 		// With added data that is expected to be removed.
-		$input = array(
+		$input = [
 			'wpseo_noindex'         => 'extra something',
 			'wpseo_canonical'       => 'https://yoast.com/test space',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
 			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
-				array(
-					array(
+				[
+					[
 						'keyword' => '\"test\"',
 						'score'   => 'good',
 						'extra'   => 'will get removed',
-					),
-					array(
+					],
+					[
 						'keyword' => '\\',
 						'score'   => 'bad',
-					),
-				)
+					],
+				]
 			),
-			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( [ '""TESTING""', '""""' ] ),
 			'wpseo_focuskw'         => '  &quotdouble quotes" `>&lt;&gt;&#96<`and \backslashes\.  ',
 			'wpseo_title'           => '&quotdouble quotes"			and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" <>and<> \backslashes\.',
 			'wpseo_opengraph-title' => '&quotdouble quotes" %aband \backslashes\.',
-		);
+		];
 		$this->assertEquals( $expected, WPSEO_Taxonomy_Meta::validate_term_meta_data( $input, WPSEO_Taxonomy_Meta::$defaults_per_term ) );
 	}
 }

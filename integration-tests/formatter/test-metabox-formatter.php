@@ -22,7 +22,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
 				$this->factory->post->create_and_get(),
-				array(),
+				[],
 				''
 			)
 		);
@@ -50,13 +50,13 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		wp_mkdir_p( plugin_dir_path( WPSEO_FILE ) . 'languages' );
 		file_put_contents(
 			$file_name,
-			WPSEO_Utils::format_json_encode( array( 'key' => 'value' ) )
+			WPSEO_Utils::format_json_encode( [ 'key' => 'value' ] )
 		);
 
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
 				$this->factory->post->create_and_get(),
-				array(),
+				[],
 				''
 			)
 		);
@@ -65,12 +65,12 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( array_key_exists( 'translations', $result ) );
 		$this->assertTrue( is_array( $result['translations'] ) );
-		$this->assertEquals( array( 'key' => 'value' ), $result['translations'] );
+		$this->assertEquals( [ 'key' => 'value' ], $result['translations'] );
 
 		unlink( $file_name );
 
 		$result = $class_instance->get_values();
 
-		$this->assertEquals( $result['translations'], array() );
+		$this->assertEquals( $result['translations'], [] );
 	}
 }

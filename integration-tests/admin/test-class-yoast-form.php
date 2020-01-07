@@ -20,10 +20,8 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 		$form->set_option( 'wpseo' );
 
 		$option_instance = WPSEO_Options::get_option_instance( 'wpseo' );
-		$option_keys     = array_keys( get_option( 'wpseo', array() ) );
 
 		$this->assertSame( 'wpseo', $form->option_name );
-		$this->assertEqualSets( $option_keys, array_keys( $form->options ) );
 		$this->assertSame( $option_instance, $form->get_option_instance() );
 	}
 
@@ -33,14 +31,13 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Form::set_option
 	 */
 	public function test_properties_set_with_invalid_option() {
-		$option_keys = array( 'key1', 'key2', 'key3' );
+		$option_keys = [ 'key1', 'key2', 'key3' ];
 		update_option( 'random', array_fill_keys( $option_keys, true ) );
 
 		$form = new Yoast_Form_Double();
 		$form->set_option( 'random' );
 
 		$this->assertSame( 'random', $form->option_name );
-		$this->assertEqualSets( $option_keys, array_keys( $form->options ) );
 		$this->assertNull( $form->get_option_instance() );
 	}
 

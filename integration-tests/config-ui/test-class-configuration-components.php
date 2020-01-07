@@ -47,7 +47,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	public function test_set_adapter() {
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'add_custom_lookup' ) )
+			->setMethods( [ 'add_custom_lookup' ] )
 			->getMock();
 
 		$adapter
@@ -56,7 +56,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array( 'get_field', 'get_identifier', 'get_data', 'set_data' ) )
+			->setMethods( [ 'get_field', 'get_identifier', 'get_data', 'set_data' ] )
 			->getMock();
 
 		$field = new WPSEO_Config_Field( 'a', 'b' );
@@ -77,9 +77,12 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Configuration_Storage' )
-			->setMethods( array( 'get_adapter' ) )
+			->setMethods( [ 'get_adapter' ] )
 			->getMock();
 
 		$adapter = $this
@@ -101,14 +104,17 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage_on_field() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array( 'get_field', 'get_identifier', 'set_data', 'get_data' ) )
+			->setMethods( [ 'get_field', 'get_identifier', 'set_data', 'get_data' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'a', 'b' ) )
+			->setConstructorArgs( [ 'a', 'b' ] )
 			->getMock();
 
 		$component
@@ -118,7 +124,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Configuration_Storage' )
-			->setMethods( array( 'get_adapter', 'add_field' ) )
+			->setMethods( [ 'get_adapter', 'add_field' ] )
 			->getMock();
 
 		$adapter = $this
@@ -137,5 +143,20 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 		$this->components->add_component( $component );
 		$this->components->set_storage( $storage );
+	}
+
+	/**
+	 * Bypass the PHP deprecation error which is thrown in PHP 7.4 for the PHPUnit mock builder
+	 * in select circumstances.
+	 *
+	 * @see WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() For full explanation.
+	 *
+	 * @return void
+	 */
+	protected function bypass_php74_mockbuilder_deprecation_warning() {
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
+		}
 	}
 }

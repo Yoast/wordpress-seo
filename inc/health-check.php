@@ -26,13 +26,6 @@ abstract class WPSEO_Health_Check {
 	const STATUS_CRITICAL = 'critical';
 
 	/**
-	 * Name of the test.
-	 *
-	 * @var string
-	 */
-	protected $name = '';
-
-	/**
 	 * The value of the section header in the Health check.
 	 *
 	 * @var string
@@ -86,8 +79,6 @@ abstract class WPSEO_Health_Check {
 
 	/**
 	 * Runs the test and returns the result.
-	 *
-	 * @return array The result.
 	 */
 	abstract public function run();
 
@@ -95,7 +86,7 @@ abstract class WPSEO_Health_Check {
 	 * Registers the test to WordPress.
 	 */
 	public function register_test() {
-		if ( $this->async ) {
+		if ( $this->is_async() ) {
 			add_filter( 'site_status_tests', [ $this, 'add_async_test' ] );
 
 			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), [ $this, 'get_async_test_result' ] );
@@ -114,9 +105,8 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_test( $tests ) {
-		$tests['direct'][ $this->name ] = [
+		$tests['direct'][ $this->get_test_name() ] = [
 			'test' => [ $this, 'get_test_result' ],
-			'name' => $this->name,
 		];
 
 		return $tests;
@@ -130,9 +120,8 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_async_test( $tests ) {
-		$tests['async'][ $this->name ] = [
+		$tests['async'][ $this->get_test_name() ] = [
 			'test' => $this->get_test_name(),
-			'name' => $this->name,
 		];
 
 		return $tests;
@@ -191,5 +180,14 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function get_test_name() {
 		return str_replace( '_', '-', $this->test );
+	}
+
+	/**
+	 * Checks if the health check is async.
+	 *
+	 * @return bool True when check is async.
+	 */
+	protected function is_async() {
+		return ! empty( $this->async );
 	}
 }

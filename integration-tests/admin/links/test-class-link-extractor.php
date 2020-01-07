@@ -16,7 +16,7 @@ class WPSEO_Link_Extractor_Test extends WPSEO_UnitTestCase {
 	public function test_extraction_no_links() {
 		$extractor = new WPSEO_Link_Extractor( 'There are no links.' );
 
-		$this->assertEquals( array(), $extractor->extract() );
+		$this->assertEquals( [], $extractor->extract() );
 	}
 
 	/**
@@ -25,6 +25,6 @@ class WPSEO_Link_Extractor_Test extends WPSEO_UnitTestCase {
 	public function test_extraction_with_links() {
 		$extractor = new WPSEO_Link_Extractor( 'There is one <a href="http://www.test.com">link</a>a> in this test.' );
 
-		$this->assertEquals( array( 'http://www.test.com' ), $extractor->extract() );
+		$this->assertEquals( [ 'http://www.test.com' ], $extractor->extract() );
 	}
 }

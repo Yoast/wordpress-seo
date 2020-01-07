@@ -81,14 +81,17 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		$this->parse_blocks();
 
 		foreach ( $pieces as $piece ) {
-			$class = str_replace( 'wpseo_schema_', '', strtolower( get_class( $piece ) ) );
+			$identifier = str_replace( 'wpseo_schema_', '', strtolower( get_class( $piece ) ) );
+			if ( property_exists( $piece, 'identifier' ) ) {
+				$identifier = $piece->identifier;
+			}
 
 			/**
-			 * Filter: 'wpseo_schema_needs_<class name>' - Allows changing which graph pieces we output.
+			 * Filter: 'wpseo_schema_needs_<identifier>' - Allows changing which graph pieces we output.
 			 *
 			 * @api bool $is_needed Whether or not to show a graph piece.
 			 */
-			$is_needed = apply_filters( 'wpseo_schema_needs_' . $class, $piece->is_needed() );
+			$is_needed = apply_filters( 'wpseo_schema_needs_' . $identifier, $piece->is_needed() );
 			if ( ! $is_needed ) {
 				continue;
 			}
@@ -96,11 +99,11 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			$graph_piece = $piece->generate();
 
 			/**
-			 * Filter: 'wpseo_schema_<class name>' - Allows changing graph piece output.
+			 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
 			 *
 			 * @api array $graph_piece The graph piece to filter.
 			 */
-			$graph_piece = apply_filters( 'wpseo_schema_' . $class, $graph_piece );
+			$graph_piece = apply_filters( 'wpseo_schema_' . $identifier, $graph_piece );
 			if ( is_array( $graph_piece ) ) {
 				$graph[] = $graph_piece;
 			}

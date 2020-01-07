@@ -46,11 +46,11 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 	 */
 	public function test_private_taxonomy_author_overlap() {
 		// Create private taxonomy "author", overlapping the "author" sitemap.
-		register_taxonomy( 'author', array( 'post' ), array( 'public' => false ) );
+		register_taxonomy( 'author', [ 'post' ], [ 'public' => false ] );
 
 		// Create a user with a post.
-		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 
 		// Fetch the global sitemap.
 		set_query_var( 'sitemap', '1' );
@@ -73,11 +73,11 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 	 */
 	public function test_private_taxonomy_author_overlap_author_in_sitemap() {
 		// Create private taxonomy "author", overlapping the "author" sitemap.
-		register_taxonomy( 'author', array( 'post' ), array( 'public' => false ) );
+		register_taxonomy( 'author', [ 'post' ], [ 'public' => false ] );
 
 		// Create a user with a post.
-		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 
 		// Fetch the global sitemap.
 		set_query_var( 'sitemap', 'author' );

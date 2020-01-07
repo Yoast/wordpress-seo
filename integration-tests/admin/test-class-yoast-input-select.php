@@ -23,10 +23,10 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select = new Yoast_Input_Select(
 			'test-id',
 			'test-field',
-			array(
+			[
 				'foo' => 'bar',
 				'baz' => 'foo',
-			),
+			],
 			false
 		);
 		$html   = $select->get_html();
@@ -46,7 +46,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_without_options() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array(), false );
+		$select = new Yoast_Input_Select( 'test-id', 'test-field', [], false );
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -66,10 +66,10 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 		$select = new Yoast_Input_Select(
 			'test-id',
 			'test-field',
-			array(
+			[
 				'foo' => 'bar',
 				'baz' => 'foo',
-			),
+			],
 			'baz'
 		);
 		$html   = $select->get_html();
@@ -89,7 +89,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_with_one_option_without_key() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( '' => 'bar' ), false );
+		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ '' => 'bar' ], false );
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -106,7 +106,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_with_one_option_without_value() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => '' ), false );
+		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ 'foo' => '' ], false );
 		$html   = $select->get_html();
 
 		$this->assertContains( '<select name="test-field" id="test-id">', $html );
@@ -122,7 +122,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::get_attributes
 	 */
 	public function test_html_printing_the_output() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array(), false );
+		$select = new Yoast_Input_Select( 'test-id', 'test-field', [], false );
 		$select->output_html();
 
 		// Because the output has empty values.
@@ -140,7 +140,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Input_Select::parse_attribute
 	 */
 	public function test_html_with_adding_attribute() {
-		$select = new Yoast_Input_Select( 'test-id', 'test-field', array( 'foo' => '' ), false );
+		$select = new Yoast_Input_Select( 'test-id', 'test-field', [ 'foo' => '' ], false );
 		$select->add_attribute( 'class', 'test' );
 		$html = $select->get_html();
 

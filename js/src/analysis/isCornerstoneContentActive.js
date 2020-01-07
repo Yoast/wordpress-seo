@@ -1,6 +1,6 @@
 var getL10nObject = require( "./getL10nObject" );
 
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 /**
  * Returns whether or not the cornerstone content is active

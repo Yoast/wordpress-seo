@@ -5,10 +5,26 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+
 /**
  * Sitemap provider for author archives.
  */
 class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
+
+	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
+	 * WPSEO_Author_Sitemap_Provider constructor.
+	 */
+	public function __construct() {
+		$this->date = new WPSEO_Date_Helper();
+	}
 
 	/**
 	 * Check if provider supports given item type.
@@ -75,7 +91,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$user    = get_user_by( 'id', $user_id );
 			$index[] = [
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
-				'lastmod' => '@' . $user->_yoast_wpseo_profile_updated, // @ for explicit timestamp format
+				'lastmod' => ( $user->_yoast_wpseo_profile_updated ) ? $this->date->format_timestamp( $user->_yoast_wpseo_profile_updated ) : null,
 			];
 
 			$page++;
@@ -96,8 +112,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		$defaults = [
-			// @todo Re-enable after plugin requirements raised to WP 4.6 with the fix.
-			// 'who'        => 'authors', Breaks meta keys, {@link https://core.trac.wordpress.org/ticket/36724#ticket} R.
+			'who'        => 'authors',
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
@@ -124,8 +139,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		];
 
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
-			// $defaults['who']                 = ''; // Otherwise it cancels out next argument.
-			$defaults['has_published_posts'] = true;
+			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			$author_archive                  = new Author_Archive_Helper();
+			$defaults['has_published_posts'] = $author_archive->get_author_archive_post_types();
 		}
 
 		return get_users( array_merge( $defaults, $arguments ) );

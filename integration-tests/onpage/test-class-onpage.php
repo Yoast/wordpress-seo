@@ -42,7 +42,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	public function test_add_weekly_schedule() {
 		$this->class_instance->register_hooks();
 
-		$schedules = $this->class_instance->add_weekly_schedule( array() );
+		$schedules = $this->class_instance->add_weekly_schedule( [] );
 
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
 		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
@@ -132,7 +132,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$class_instance =
 			$this
 				->getMockBuilder( 'WPSEO_OnPage_Double' )
-				->setMethods( array( 'notify_admins' ) )
+				->setMethods( [ 'notify_admins' ] )
 				->getMock();
 
 		$class_instance
@@ -152,7 +152,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$instance = new WPSEO_OnPage();
 		$instance->register_hooks();
 
-		$this->assertTrue( has_action( 'admin_init', array( $instance, 'show_notice' ) ) > 0 );
+		$this->assertTrue( has_action( 'admin_init', [ $instance, 'show_notice' ] ) > 0 );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		update_option( 'blog_public', 1 );
 
 		$instance = $this->getMockBuilder( 'WPSEO_OnPage_Double' )
-			->setMethods( array( 'get_option' ) )
+			->setMethods( [ 'get_option' ] )
 			->getMock();
 
 		$instance->expects( $this->atLeastOnce() )
@@ -202,7 +202,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		update_option( 'blog_public', 1 );
 
 		$instance = $this->getMockBuilder( 'WPSEO_OnPage_Double' )
-			->setMethods( array( 'get_option' ) )
+			->setMethods( [ 'get_option' ] )
 			->getMock();
 
 		$instance->expects( $this->atLeastOnce() )
@@ -214,16 +214,20 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if the notice control is hooked.
+	 *
+	 * @covers WPSEO_OnPage::register_hooks
 	 */
 	public function test_notification_hooks_should_be_hooked() {
 		$onpage = new WPSEO_OnPage();
 		$onpage->register_hooks();
 
-		$this->assertNotFalse( has_action( 'admin_init', array( $onpage, 'show_notice' ) ) );
+		$this->assertNotFalse( has_action( 'admin_init', [ $onpage, 'show_notice' ] ) );
 	}
 
 	/**
 	 * Tests if not active is based on the option.
+	 *
+	 * @covers WPSEO_OnPage::is_active
 	 */
 	public function test_is_not_active() {
 		WPSEO_Options::set( 'onpage_indexability', false );

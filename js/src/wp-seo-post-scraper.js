@@ -2,13 +2,15 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import isUndefined from "lodash/isUndefined";
-import debounce from "lodash/debounce";
+import {
+	isUndefined,
+	debounce,
+} from "lodash-es";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "yoast-components";
-import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
@@ -421,6 +423,8 @@ setWordPressSeoL10n();
 		editStore =  edit.getStore();
 		const data = edit.getData();
 
+		const blockEditorDataModule = window.wp.data.select( "core/block-editor" );
+
 		metaboxContainer = $( "#wpseo_meta" );
 
 		tinyMCEHelper.setStore( editStore );
@@ -446,7 +450,13 @@ setWordPressSeoL10n();
 		window.YoastSEO.store = editStore;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
+			edit,
+			YoastSEO.store,
+			customAnalysisData,
+			YoastSEO.app.pluggable,
+			blockEditorDataModule
+		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( YoastSEO.store )( paper, marks );
 
 		// YoastSEO.app overwrites.

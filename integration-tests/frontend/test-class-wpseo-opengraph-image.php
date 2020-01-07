@@ -85,7 +85,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	public function test_add_image_relative() {
 		$class_instance = $this->setup_class();
 
-		$class_instance->add_image( array( 'url' => '/test.png' ) );
+		$class_instance->add_image( [ 'url' => '/test.png' ] );
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
 	}
 
@@ -95,8 +95,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	public function test_add_image_twice() {
 		$class_instance = $this->setup_class();
 
-		$class_instance->add_image( array( 'url' => 'http://example.org/test.png' ) );
-		$class_instance->add_image( array( 'url' => '/test.png' ) );
+		$class_instance->add_image( [ 'url' => 'http://example.org/test.png' ] );
+		$class_instance->add_image( [ 'url' => '/test.png' ] );
 		$this->assertEquals( $this->sample_array( false ), $class_instance->get_images() );
 	}
 
@@ -156,40 +156,40 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return array The data.
 	 */
 	public function invalid_image_provider() {
-		return array(
-			array(
-				array( 'url' => 'http://example.org/test.svg' ),
+		return [
+			[
+				[ 'url' => 'http://example.org/test.svg' ],
 				'Adding an SVG as image',
-			),
-			array(
-				array( 'link' => '/test.png' ),
+			],
+			[
+				[ 'link' => '/test.png' ],
 				'With url key missing',
-			),
-			array(
-				array( 'url' => '' ),
+			],
+			[
+				[ 'url' => '' ],
 				'With an empty url given',
-			),
-			array(
-				array( 'url' => null ),
+			],
+			[
+				[ 'url' => null ],
 				'With null given as url',
-			),
-			array(
-				array(),
+			],
+			[
+				[],
 				'With empty array',
-			),
-			array(
+			],
+			[
 				null,
 				'With null given as data',
-			),
-			array(
+			],
+			[
 				false,
 				'With false given as data',
-			),
-			array(
-				(object) array( 'url' => null ),
+			],
+			[
+				(object) [ 'url' => null ],
 				'With object given as data',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -267,10 +267,10 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		copy( $source_image, $full_image_path ); // Prevent original from being deleted.
 
-		$file_array = array(
+		$file_array = [
 			'name'     => $basename,
 			'tmp_name' => $full_image_path,
-		);
+		];
 		$attach_id  = media_handle_sideload( $file_array, $post_id );
 		$filename   = basename( get_attached_file( $attach_id ) );
 
@@ -333,7 +333,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( array(), $class_instance->get_images() );
+		$this->assertEquals( [], $class_instance->get_images() );
 	}
 
 	/**
@@ -373,16 +373,16 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	public function test_set_taxonomy_image() {
 		$post_id = $this->create_post( 'post' );
 		$term_id = $this->factory()->category->create(
-			array(
+			[
 				'name' => 'Test Category 1',
 				'slug' => 'test1',
-			)
+			]
 		);
 		wp_set_object_terms( $post_id, $term_id, 'category' );
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-image', '/test.png' );
 
 		$url = add_query_arg(
-			array( 'cat' => $term_id ),
+			[ 'cat' => $term_id ],
 			'/'
 		);
 		$this->go_to( $url );
@@ -413,20 +413,20 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$featured_image = $upload_dir['path'] . '/' . $basename;
 		copy( $source_image, $featured_image ); // Prevent original from being deleted.
 
-		$file_array = array(
+		$file_array = [
 			'name'     => $basename,
 			'tmp_name' => $featured_image,
-		);
+		];
 		$attach_id  = media_handle_sideload( $file_array, $post_id );
 
 		// Get the image URL so we can add it in the post content.
 		$file           = get_attached_file( $attach_id );
 		$attached_image = $upload_dir['url'] . '/' . basename( $file );
 
-		return array(
+		return [
 			'image' => $attached_image,
 			'id'    => $attach_id,
-		);
+		];
 	}
 
 	/**
@@ -442,24 +442,24 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		<p>End of post</p>';
 
 		$post_id = self::factory()->post->create(
-			array(
+			[
 				'post_content' => $post_content,
-			)
+			]
 		);
 
 		$opengraph_image = $this
 			->getMockBuilder( 'WPSEO_Opengraph_Image_Double' )
 			->disableOriginalConstructor()
-			->setMethods( array( 'add_image' ) )
+			->setMethods( [ 'add_image' ] )
 			->getMock();
 
 		$opengraph_image
 			->expects( $this->once() )
 			->method( 'add_image' )
 			->with(
-				array(
+				[
 					'url' => $image_url,
-				)
+				]
 			);
 
 		// Run our test.
@@ -505,9 +505,9 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 */
 	private function create_post( $post_type = 'post' ) {
 		return self::factory()->post->create(
-			array(
+			[
 				'post_type' => $post_type,
-			)
+			]
 		);
 	}
 
@@ -526,21 +526,21 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		copy( $source_image, $featured_image ); // Prevent original from deletion.
 
-		$file_array = array(
+		$file_array = [
 			'name'     => $basename,
 			'tmp_name' => $featured_image,
-		);
+		];
 		$attach_id  = media_handle_sideload( $file_array, $post_id );
 		$file       = get_attached_file( $attach_id );
 		wp_generate_attachment_metadata( $attach_id, $file );
 		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
 
 
-		return array(
+		return [
 			'id'   => $attach_id,
 			'path' => $file,
 			'url'  => $upload_dir['url'] . '/' . basename( $file ),
-		);
+		];
 	}
 
 	/**
@@ -551,11 +551,11 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	private function sample_array( $relative = true ) {
-		return array(
-			'http://example.org/test.png' => array(
+		return [
+			'http://example.org/test.png' => [
 				'url' => ( ( $relative ) ? '/test.png' : 'http://example.org/test.png' ),
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -567,8 +567,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @return array An array for our default file.
 	 */
 	private function sample_full_file_array( $url, $id ) {
-		return array(
-			$url => array(
+		return [
+			$url => [
 				'url'    => $url,
 				'width'  => 500,
 				'height' => 500,
@@ -578,7 +578,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 				'size'   => 'full',
 				'id'     => $id,
 				'pixels' => 250000,
-			),
-		);
+			],
+		];
 	}
 }

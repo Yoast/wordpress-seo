@@ -46,10 +46,10 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	public static function wpSetUpBeforeClass( $factory ) {
-		self::$post_id          = $factory->post->create( array( 'post_type' => 'post' ) );
-		self::$nav_menu_item_id = $factory->post->create( array( 'post_type' => 'nav_menu_item' ) );
-		self::$category_id      = $factory->term->create( array( 'taxonomy' => 'category' ) );
-		self::$nav_menu_id      = $factory->term->create( array( 'taxonomy' => 'nav_menu' ) );
+		self::$post_id          = $factory->post->create( [ 'post_type' => 'post' ] );
+		self::$nav_menu_item_id = $factory->post->create( [ 'post_type' => 'nav_menu_item' ] );
+		self::$category_id      = $factory->term->create( [ 'taxonomy' => 'category' ] );
+		self::$nav_menu_id      = $factory->term->create( [ 'taxonomy' => 'nav_menu' ] );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_trash() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -92,15 +92,15 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_trash_no_visible_post_status() {
 
 		// Make sure we're working with a draft.
-		$post_args = array(
+		$post_args = [
 			'ID'          => self::$post_id,
 			'post_status' => 'draft',
-		);
+		];
 		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -120,7 +120,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_delete() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -140,7 +140,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_delete_menu_item() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -159,15 +159,15 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_detect_post_delete_trashed_post() {
 		// Make sure we're working with a trashed post.
-		$post_args = array(
+		$post_args = [
 			'ID'          => self::$post_id,
 			'post_status' => 'trash',
-		);
+		];
 		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -189,7 +189,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -209,15 +209,15 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_post_delete_when_not_visible() {
 
 		// Make sure we're working with a pending post.
-		$post_args = array(
+		$post_args = [
 			'ID'          => self::$post_id,
 			'post_status' => 'pending',
-		);
+		];
 		wp_update_post( $post_args );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -237,7 +237,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_term_delete() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -257,7 +257,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_term_delete_when_not_viewable() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance
@@ -277,7 +277,7 @@ class WPSEO_Slug_Change_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_detect_term_delete_when_not_exists() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Slug_Change_Watcher' )
-			->setMethods( array( 'add_notification' ) )
+			->setMethods( [ 'add_notification' ] )
 			->getMock();
 
 		$instance

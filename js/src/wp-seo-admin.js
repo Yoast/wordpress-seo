@@ -1,7 +1,7 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 
 ( function() {
 	/**

@@ -24,7 +24,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$this->class_instance = new WPSEO_Admin_Recommended_Replace_Vars();
-		add_filter( 'wpseo_recommended_replace_vars', array( $this, 'filter_recommended_replacevars' ) );
+		add_filter( 'wpseo_recommended_replace_vars', [ $this, 'filter_recommended_replacevars' ] );
 	}
 
 	/**
@@ -204,30 +204,30 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_recommended_replacevars_provider() {
 		// This is basically a copy of the $recommended_replace_vars in WPSEO_Admin_Recommended_Replace_Vars.
-		return array(
+		return [
 			// Posts.
-			array( 'page', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
-			array( 'post', array( 'sitename', 'title', 'sep', 'primary_category' ) ),
+			[ 'page', [ 'sitename', 'title', 'sep', 'primary_category' ] ],
+			[ 'post', [ 'sitename', 'title', 'sep', 'primary_category' ] ],
 			// Homepage.
-			array( 'homepage', array( 'sitename', 'sitedesc', 'sep' ) ),
+			[ 'homepage', [ 'sitename', 'sitedesc', 'sep' ] ],
 			// Custom post.
-			array( 'custom_post_type', array( 'sitename', 'title', 'sep' ) ),
+			[ 'custom_post_type', [ 'sitename', 'title', 'sep' ] ],
 
 			// Taxonomies.
-			array( 'category', array( 'sitename', 'term_title', 'sep' ) ),
-			array( 'post_tag', array( 'sitename', 'term_title', 'sep' ) ),
-			array( 'post_format', array( 'sitename', 'term_title', 'sep', 'page' ) ),
+			[ 'category', [ 'sitename', 'term_title', 'sep' ] ],
+			[ 'post_tag', [ 'sitename', 'term_title', 'sep' ] ],
+			[ 'post_format', [ 'sitename', 'term_title', 'sep', 'page' ] ],
 			// Custom taxonomy.
-			array( 'term-in-custom-taxomomy', array( 'sitename', 'term_title', 'sep' ) ),
+			[ 'term-in-custom-taxomomy', [ 'sitename', 'term_title', 'sep' ] ],
 
 			// Settings - archive pages.
-			array( 'author_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
-			array( 'date_archive', array( 'sitename', 'sep', 'date', 'page' ) ),
-			array( 'custom-post-type_archive', array( 'sitename', 'title', 'sep', 'page' ) ),
+			[ 'author_archive', [ 'sitename', 'title', 'sep', 'page' ] ],
+			[ 'date_archive', [ 'sitename', 'sep', 'date', 'page' ] ],
+			[ 'custom-post-type_archive', [ 'sitename', 'title', 'sep', 'page' ] ],
 			// Settings - special pages.
-			array( 'search', array( 'sitename', 'searchphrase', 'sep', 'page' ) ),
-			array( '404', array( 'sitename', 'sep' ) ),
-		);
+			[ 'search', [ 'sitename', 'searchphrase', 'sep', 'page' ] ],
+			[ '404', [ 'sitename', 'sep' ] ],
+		];
 	}
 
 	/**
@@ -236,7 +236,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars_non_existing() {
-		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars_for( 'non-existing-replace-var' ) );
+		$this->assertEquals( [], $this->class_instance->get_recommended_replacevars_for( 'non-existing-replace-var' ) );
 	}
 
 	/**
@@ -245,7 +245,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Recommended_Replace_Vars::get_recommended_replacevars_for
 	 */
 	public function test_get_recommended_replacevars_non_array() {
-		$this->assertEquals( array(), $this->class_instance->get_recommended_replacevars_for( 'non-array' ) );
+		$this->assertEquals( [], $this->class_instance->get_recommended_replacevars_for( 'non-array' ) );
 	}
 
 	/**
@@ -255,7 +255,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The new recommended replacement variables.
 	 */
-	public function filter_recommended_replacevars( $replacevars = array() ) {
+	public function filter_recommended_replacevars( $replacevars = [] ) {
 		$replacevars['non-array'] = 'non-array';
 
 		return $replacevars;
@@ -270,9 +270,9 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 */
 	private function create_and_get_with_post_type( $post_type = 'post' ) {
 		return self::factory()->post->create_and_get(
-			array(
+			[
 				'post_type' => $post_type,
-			)
+			]
 		);
 	}
 }

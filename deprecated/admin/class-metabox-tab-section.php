@@ -15,7 +15,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 *
 	 * @var WPSEO_Metabox_Tab[]
 	 */
-	public $tabs = array();
+	public $tabs = [];
 
 	/**
 	 * Constructor.
@@ -29,13 +29,13 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @param array  $tabs         The metabox tabs (`WPSEO_Metabox_Tabs[]`) to be included in the section.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
+	public function __construct( $name, $link_content, array $tabs = [], array $options = [] ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.3' );
 
 		parent::__construct( $name, $link_content, $options );
 
 		// Filter out invalid tab instances.
-		$valid_tabs = array_filter( $tabs, array( $this, 'is_valid_tab' ) );
+		$valid_tabs = array_filter( $tabs, [ $this, 'is_valid_tab' ] );
 
 		foreach ( $valid_tabs as $tab ) {
 			$this->add_tab( $tab );

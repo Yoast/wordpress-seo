@@ -61,6 +61,6 @@ class WPSEO_GSC_Category_Filters {
 	public function as_array() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 }

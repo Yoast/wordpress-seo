@@ -223,8 +223,6 @@
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );
 
-			$this.find( "span" ).removeClass( "dashicons-no-alt" ).addClass( "dashicons-randomize" );
-
 			$.post(
 				ajaxurl,
 				{
@@ -244,8 +242,6 @@
 
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );
-
-			$this.find( "span" ).removeClass( "dashicons-arrow-up" ).addClass( "dashicons-randomize" );
 
 			$.post(
 				ajaxurl,

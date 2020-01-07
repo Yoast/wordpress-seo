@@ -18,14 +18,14 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	public function test_register_setting() {
 		$api = new Yoast_Network_Settings_API();
 
-		$setting_args = array(
+		$setting_args = [
 			'sanitize_callback' => 'absint',
 			'default'           => 1,
-		);
+		];
 		$api->register_setting( 'yst_ms_group', 'yst_ms_option', $setting_args );
 
-		$this->assertInternalType( 'int', has_filter( 'sanitize_option_yst_ms_option', array( $api, 'filter_sanitize_option' ) ) );
-		$this->assertInternalType( 'int', has_filter( 'default_site_option_yst_ms_option', array( $api, 'filter_default_option' ) ) );
+		$this->assertInternalType( 'int', has_filter( 'sanitize_option_yst_ms_option', [ $api, 'filter_sanitize_option' ] ) );
+		$this->assertInternalType( 'int', has_filter( 'default_site_option_yst_ms_option', [ $api, 'filter_default_option' ] ) );
 	}
 
 	/**
@@ -36,16 +36,16 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	public function test_get_registered_settings() {
 		$group = 'yst_ms_group';
 		$name  = 'yst_ms_option';
-		$args  = array(
+		$args  = [
 			'sanitize_callback' => 'absint',
 			'default'           => 1,
-		);
+		];
 
 		$api = new Yoast_Network_Settings_API();
 		$api->register_setting( $group, $name, $args );
 
-		$args     = array_merge( array( 'group' => $group ), $args );
-		$expected = array( $name => $args );
+		$args     = array_merge( [ 'group' => $group ], $args );
+		$expected = [ $name => $args ];
 
 		$this->assertSame( $expected, $api->get_registered_settings() );
 	}
@@ -59,7 +59,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 		$registered_group   = 'yst_ms_group';
 		$unregistered_group = 'yst_ms_unregistered_group';
 
-		$options = array( 'my_option1', 'my_option2' );
+		$options = [ 'my_option1', 'my_option2' ];
 
 		$api = new Yoast_Network_Settings_API();
 		foreach ( $options as $option ) {
@@ -82,7 +82,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( '2', $api->filter_sanitize_option( '2', 'yst_ms_unregistered_option' ) );
 
 		// Option registered.
-		$api->register_setting( 'yst_ms_group', 'yst_ms_option', array( 'sanitize_callback' => 'absint' ) );
+		$api->register_setting( 'yst_ms_group', 'yst_ms_option', [ 'sanitize_callback' => 'absint' ] );
 		$this->assertSame( 2, $api->filter_sanitize_option( '2', 'yst_ms_option' ) );
 	}
 
@@ -98,7 +98,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 		$this->assertSame( false, $api->filter_default_option( false, 'yst_ms_unregistered_option' ) );
 
 		// Option registered.
-		$api->register_setting( 'yst_ms_group', 'yst_ms_option', array( 'default' => 2 ) );
+		$api->register_setting( 'yst_ms_group', 'yst_ms_option', [ 'default' => 2 ] );
 		$this->assertSame( 2, $api->filter_default_option( false, 'yst_ms_option' ) );
 
 		// Option registered, but specific default requested.

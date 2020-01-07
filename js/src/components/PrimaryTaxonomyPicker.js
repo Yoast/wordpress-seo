@@ -10,7 +10,7 @@ import { sprintf, __ } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
 import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
-import diff from "lodash/difference";
+import { difference } from "lodash-es";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
@@ -59,7 +59,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	componentDidUpdate( prevProps, prevState ) {
 		// Check if a term has been added and retrieve new terms if so.
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
-			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
+			const newId = difference( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
 			if ( ! this.termIsAvailable( newId ) ) {
 				this.fetchTerms();
 				return;

@@ -19,7 +19,7 @@ class WPSEO_Import_External_Detector_Test extends WPSEO_UnitTestCase {
 		$detector = new WPSEO_Import_Plugins_Detector();
 		$detector->detect();
 
-		$this->assertEquals( array(), $detector->needs_import );
+		$this->assertEquals( [], $detector->needs_import );
 	}
 
 	/**

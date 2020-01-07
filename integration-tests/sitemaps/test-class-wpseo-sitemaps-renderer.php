@@ -37,12 +37,12 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 
 		$loc     = 'http://example.com/';
 		$lastmod = date( 'c' );
-		$links   = array(
-			array(
+		$links   = [
+			[
 				'loc'     => $loc,
 				'lastmod' => $lastmod,
-			),
-		);
+			],
+		];
 
 		$index = self::$class_instance->get_index( $links );
 		$this->assertContains( "<loc>{$loc}</loc>", $index );
@@ -61,21 +61,21 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$src   = 'http://example.com/image.jpg';
 		$title = 'Image title.';
 		$alt   = 'Image alt.';
-		$links = array(
-			array(
+		$links = [
+			[
 				'loc'    => $loc,
 				'mod'    => $mod,
 				'chf'    => 'daily',
 				'pri'    => 1,
-				'images' => array(
-					array(
+				'images' => [
+					[
 						'src'   => $src,
 						'title' => $title,
 						'alt'   => $alt,
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 
 		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
 		$this->assertContains( "<loc>{$loc}</loc>", $index );
@@ -100,8 +100,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
 
-		add_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
+		add_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
 		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
-		remove_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
+		remove_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
 	}
 }

@@ -34,7 +34,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 		remove_action(
 			'rest_api_init',
-			array( $this->configuration_service, 'initialize' )
+			[ $this->configuration_service, 'initialize' ]
 		);
 	}
 
@@ -51,6 +51,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_storage
 	 */
 	public function test_set_storage() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service = new WPSEO_Configuration_Service_Mock();
 		$storage = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->getMock();
 
@@ -64,6 +67,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_endpoint
 	 */
 	public function test_set_endpoint() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service  = new WPSEO_Configuration_Service_Mock();
 		$endpoint = $this->getMockBuilder( 'WPSEO_Configuration_Endpoint' )->getMock();
 
@@ -77,6 +83,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_options_adapter
 	 */
 	public function test_set_options_adapter() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service = new WPSEO_Configuration_Service_Mock();
 		$adapter = $this->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )->getMock();
 
@@ -90,6 +99,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_components
 	 */
 	public function test_set_components() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service    = new WPSEO_Configuration_Service_Mock();
 		$components = $this->getMockBuilder( 'WPSEO_Configuration_Components' )->getMock();
 
@@ -116,19 +128,19 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::get_configuration
 	 */
 	public function test_get_configuration() {
-		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'retrieve' ) )->getMock();
-		$structure = $this->getMockBuilder( 'WPSEO_Configuration_Structure' )->setMethods( array( 'retrieve' ) )->getMock();
+		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( [ 'retrieve' ] )->getMock();
+		$structure = $this->getMockBuilder( 'WPSEO_Configuration_Structure' )->setMethods( [ 'retrieve' ] )->getMock();
 		$adapter   = new WPSEO_Configuration_Options_Adapter();
 
 		$storage
 			->expects( $this->once() )
 			->method( 'retrieve' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$structure
 			->expects( $this->once() )
 			->method( 'retrieve' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$this->configuration_service->set_storage( $storage );
 		$this->configuration_service->set_options_adapter( $adapter );
@@ -141,11 +153,11 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		$this->assertInternalType( 'array', $result );
 
 		$this->assertEquals(
-			array(
-				'fields'       => array(),
-				'steps'        => array(),
-				'translations' => array(),
-			),
+			[
+				'fields'       => [],
+				'steps'        => [],
+				'translations' => [],
+			],
 			$result
 		);
 	}
@@ -164,9 +176,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		}
 
 
-		$expected = array( 'some_data' );
+		$expected = [ 'some_data' ];
 
-		$storage = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'store' ) )->getMock();
+		$storage = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( [ 'store' ] )->getMock();
 
 		$data = new WP_REST_Request();
 		$data->set_header( 'content-type', 'application/json' );
@@ -194,16 +206,31 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		$configuration_service = new WPSEO_Configuration_Service_Mock();
 		$configuration_service->set_default_providers();
 
-		$properties = array(
+		$properties = [
 			'storage',
 			'adapter',
 			'structure',
 			'endpoint',
 			'components',
-		);
+		];
 
 		foreach ( $properties as $property ) {
 			$this->assertNotNull( $configuration_service->get( $property ) );
+		}
+	}
+
+	/**
+	 * Bypass the PHP deprecation error which is thrown in PHP 7.4 for the PHPUnit mock builder
+	 * in select circumstances.
+	 *
+	 * @see WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() For full explanation.
+	 *
+	 * @return void
+	 */
+	protected function bypass_php74_mockbuilder_deprecation_warning() {
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
 		}
 	}
 }
