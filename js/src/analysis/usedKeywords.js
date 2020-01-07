@@ -1,9 +1,10 @@
 /* global jQuery, ajaxurl */
-
-import has from "lodash/has";
-import debounce from "lodash/debounce";
-import isArray from "lodash/isArray";
-import isEqual from "lodash/isEqual";
+import {
+	has,
+	debounce,
+	isArray,
+	isEqual,
+} from "lodash-es";
 
 var $ = jQuery;
 

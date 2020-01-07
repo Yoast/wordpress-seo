@@ -3,7 +3,7 @@
 /* External dependencies */
 import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
-import { isUndefined, debounce } from "lodash";
+import { isUndefined, debounce } from "lodash-es";
 
 /* Internal dependencies */
 import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";

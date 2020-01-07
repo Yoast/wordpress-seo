@@ -160,6 +160,9 @@ abstract class WPSEO_Option {
 			add_action( 'add_option', [ $this, 'add_default_filters' ] ); // Adding back after INSERT.
 
 			add_action( 'update_option', [ $this, 'add_default_filters' ] );
+
+			// Refills the cache when the option has been updated.
+			add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Options', 'fill_cache' ], 10 );
 		}
 		elseif ( is_multisite() ) {
 			/*
@@ -173,6 +176,8 @@ abstract class WPSEO_Option {
 			add_action( 'add_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
 			add_action( 'update_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
 
+			// Refills the cache when the option has been updated.
+			add_action( 'update_site_option_' . $this->option_name, [ 'WPSEO_Options', 'fill_cache' ], 1, 0 );
 		}
 
 
@@ -311,7 +316,7 @@ abstract class WPSEO_Option {
 							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 							/* translators: 1: Verification string from user input; 2: Service name. */
 							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+							'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 						);
 					}
 
@@ -343,13 +348,14 @@ abstract class WPSEO_Option {
 						$this->group_name,
 						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 						$key,
+						// The error message.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
 							'<strong>' . esc_html( $submitted_url ) . '</strong>'
 						),
-						// CSS class for the WP notice.
-						'notice-error'
+						// Message type.
+						'error'
 					);
 				}
 
@@ -426,7 +432,7 @@ abstract class WPSEO_Option {
 						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
 						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
 					), // The error message.
-					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 				);
 			}
 

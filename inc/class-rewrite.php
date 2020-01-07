@@ -232,7 +232,6 @@ class WPSEO_Rewrite {
 	protected function redirect( $category_redirect ) {
 		$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
 
-		header( 'X-Redirect-By: Yoast SEO' );
 		wp_redirect( $catlink, 301, 'Yoast SEO' );
 		exit;
 	}

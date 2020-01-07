@@ -286,35 +286,6 @@ td.column-wpseo-linked {
 	word-wrap: normal;
 }
 
-// Temporary adjustments for form controls styling changed in WordPress 5.3.
-.yoast {
-	// Reset 1px margin inherited from WordPress.
-	input {
-		margin: 0;
-	}
-
-	// Make inputs same height as buttons and selects.
-	input[type="text"],
-	input[type="password"],
-	input[type="date"],
-	input[type="datetime"],
-	input[type="datetime-local"],
-	input[type="email"],
-	input[type="month"],
-	input[type="number"],
-	input[type="search"],
-	input[type="tel"],
-	input[type="time"],
-	input[type="url"],
-	input[type="week"] {
-		padding: 0 8px;
-		vertical-align: top;
-		/* inherits font size 14px */
-		line-height: 1.85714285; /* 26px vs. 28px from core */
-		min-height: 28px; /* 28px vs. 30px from core */
-	}
-}
-
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
@@ -345,30 +316,6 @@ td.column-wpseo-linked {
 	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
 	.yoast-settings__group--radio .yoast-settings__radio + label {
 		padding-top: 4px;
-	}
-
-	// Temporary adjustments for form controls styling changed in WordPress 5.3.
-	.yoast {
-		// Make inputs same height as buttons and selects.
-		input[type="text"],
-		input[type="password"],
-		input[type="date"],
-		input[type="datetime"],
-		input[type="datetime-local"],
-		input[type="email"],
-		input[type="month"],
-		input[type="number"],
-		input[type="search"],
-		input[type="tel"],
-		input[type="time"],
-		input[type="url"],
-		input[type="week"] {
-			padding: 0 10px;
-			vertical-align: top;
-			/* inherits font size 16px */
-			line-height: 1.875; /* 30px */
-			min-height: 32px;
-		}
 	}
 
 	.yoast-settings input[type="text"],
