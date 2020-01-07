@@ -57,6 +57,16 @@ describe( "Test for getting the right verb suffixes depending on the stem ending
 			"hamerend",
 		] );
 	} );
+	it( "Creates a second stem without doubling the last consonant and adds the right suffixes to each stem " +
+		"Input: word ends in one of the words in the exception list (verb)", () => {
+		expect( addVerbSuffixes( "adem", morphologyDataNL.addSuffixes, morphologyDataNL.verbs  ) ).toEqual( [
+			"ademt",
+			"ademde",
+			"ademden",
+			"ademen",
+			"ademend",
+		] );
+	} );
 	it( "adds all verb suffixes for a stem that needs the final consonant voiced before adding the -en and -end suffixes", () => {
 		expect( addVerbSuffixes( "grief", morphologyDataNL.addSuffixes, morphologyDataNL.verbs ) ).toEqual( [
 			"grieft",

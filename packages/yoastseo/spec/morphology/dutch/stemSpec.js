@@ -106,7 +106,10 @@ const wordsToStem = [
 	// An adjective with the comparative partitive suffix -ers.
 	[ "ronders", "rond" ],
 	// An adjective with stem ending in -rd.
-	[ "absurder", "absurd" ] ];
+	[ "absurder", "absurd" ],
+	// A word that does not need to undergo vowel doubling after suffix -en deletion.
+	[ "dommeriken", "dommerik" ],
+];
 
 // These words should not be stemmed (same form should be returned).
 

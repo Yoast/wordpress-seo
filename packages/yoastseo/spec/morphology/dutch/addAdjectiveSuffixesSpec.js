@@ -202,4 +202,17 @@ describe( "Adds adjective suffixes", () => {
 			"nobels",
 		] );
 	} );
+	it( "Adds all adjective suffixes to a given Dutch stem that normally requires stem modifications but doesn't " +
+		"Input: word ends in one of the words in the exception list (verb)", () => {
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "memorabel" ) ).toEqual( [
+			"memorabeler",
+			"memorabelers",
+			"memorabelere",
+			"memorabeleres",
+			"memorabelst",
+			"memorabelste",
+			"memorabele",
+			"memorabels",
+		] );
+	} );
 } );

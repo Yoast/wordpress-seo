@@ -1,5 +1,4 @@
 import { modifyStem } from "../morphoHelpers/suffixHelpers";
-import { checkNoVowelOrConsonantDoubling } from "./suffixHelpers";
 
 /**
  * Returns the inflected suffix depending on the ending of the stem.
@@ -76,7 +75,8 @@ export function findAndApplyModifications( stemmedWord, typeSuffix, morphologyDa
 	}
 
 	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataStemModifications.doublingConsonant );
-	if ( ! checkNoVowelOrConsonantDoubling( morphologyDataStemModifications.exception.noVowelOrConsonantDoubling.adjective, stemmedWord ) ) {
+	const noVowelOrConsonantDoublingAdjective = morphologyDataStemModifications.exception.noVowelOrConsonantDoubling.adjective;
+	if ( ! noVowelOrConsonantDoublingAdjective.includes( stemmedWord ) ) {
 		if ( triedToDoubleConsonant ) {
 			return triedToDoubleConsonant;
 		}
