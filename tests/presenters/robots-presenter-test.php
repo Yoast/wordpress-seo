@@ -48,7 +48,7 @@ class Robots_Presenter_Test extends TestCase {
 		];
 
 		$actual   = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="robots" content="index,nofollow"/>';
+		$expected = '<meta name="robots" content="index,nofollow" />';
 
 		$this->assertEquals( $actual, $expected );
 	}
@@ -72,7 +72,7 @@ class Robots_Presenter_Test extends TestCase {
 			->andReturn( 'noindex' );
 
 		$actual   = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="robots" content="noindex"/>';
+		$expected = '<meta name="robots" content="noindex" />';
 
 		$this->assertEquals( $actual, $expected );
 	}
@@ -106,7 +106,7 @@ class Robots_Presenter_Test extends TestCase {
 		];
 
 		$actual   = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="robots" content="noimageindex"/>';
+		$expected = '<meta name="robots" content="noimageindex" />';
 
 		$this->assertEquals( $actual, $expected );
 	}

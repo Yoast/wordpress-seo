@@ -28,7 +28,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		$robots = $this->filter( $robots, $presentation );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
-			return \sprintf( '<meta name="robots" content="%s"/>', \esc_attr( $robots ) );
+			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
 		}
 
 		return '';

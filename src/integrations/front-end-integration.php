@@ -166,10 +166,6 @@ class Front_End_Integration implements Integration_Interface {
 		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
-			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
-				echo '<!-- ' . get_class( $presenter ) . ' -->';
-			}
-
 			$output = $presenter->present( $context->presentation );
 			if ( ! empty( $output ) ) {
 				echo "\t" . $output . PHP_EOL;

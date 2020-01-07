@@ -26,7 +26,7 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 		$og_type = $this->filter( $presentation->og_type, $presentation );
 
 		if ( \is_string( $og_type ) && $og_type !== '' ) {
-			return '<meta property="og:type" content="' . \esc_attr( $og_type ) . '"/>';
+			return '<meta property="og:type" content="' . \esc_attr( $og_type ) . '" />';
 		}
 
 		return '';

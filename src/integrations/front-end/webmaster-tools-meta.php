@@ -114,7 +114,7 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	 */
 	private function render_meta_tag( array $webmaster_tool ) {
 		printf(
-			'<meta name="%1$s" content="%2$s" />' . PHP_EOL,
+			"\t" . '<meta name="%1$s" content="%2$s" />' . PHP_EOL,
 			esc_attr( $webmaster_tool['tag_name'] ),
 			esc_attr( $webmaster_tool['tag_value'] )
 		);
