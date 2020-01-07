@@ -86,13 +86,13 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->label 	= esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
 		$this->status 	= self::STATUS_CRITICAL;
 
-		$this->description  = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it has 
-			determined that your site cannot be found by search engines. If this site is live or about to become live, 
+		$this->description  = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it has
+			determined that your site cannot be found by search engines. If this site is live or about to become live,
 			this should be fixed.', 'wordpress-seo' );
 		$this->description .= sprintf(
 		/* translators: %1$s: opening tag of the link to the reading setting page, %2$s:closing tag of the link, %3$s: opening bold tag, %4$s: closing bold tag, %5$s: two line breaks */
-			esc_html__( '%5$s As a first step, %1$s go to your site\'s Reading Settings %2$s and make sure the 
-			option to discourage search engine visibility is %3$snot enabled%4$s, then re-analyze your site indexability. 
+			esc_html__( '%5$s As a first step, %1$s go to your site\'s Reading Settings %2$s and make sure the
+			option to discourage search engine visibility is %3$snot enabled%4$s, then re-analyze your site indexability.
 			%5$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( '/wp-admin/options-reading.php' ) . '">',
 			'</a>',
@@ -101,7 +101,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'<br /><br />');
 		$this->description .= sprintf(
 		/* translators: %1$s: opening tag of the link to the Yoast knowledge base troubleshooting page, %2$s: closing tag of the link */
-			esc_html__( 'If that did not help, %1$s read more about troubleshooting search engine visibility. 
+			esc_html__( 'If that did not help, %1$s read more about troubleshooting search engine visibility.
 			%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( 'https://kb.yoast.com/kb/your-site-isnt-indexable/' ) . ' "target="_blank">',
 			'</a><br />');
@@ -119,9 +119,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		$this->description .= sprintf(
 		/* translators: %1$s: opening tag to the Yoast knowledge base indexability check doesn't work page , %2$s: closing tag */
-			esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble 
-			determining whether search engines can find your site. This could have several (legitimate) reasons, and is 
-			not a problem in itself, but if this is a live site, %1$s it is recommended that you figure out why the Ryte 
+			esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble
+			determining whether search engines can find your site. This could have several (legitimate) reasons, and is
+			not a problem in itself, but if this is a live site, %1$s it is recommended that you figure out why the Ryte
 			check failed. %2$s', 'wordpress-seo' ),
 			'<a href= "' . esc_url( 'https://kb.yoast.com/kb/indexability-check-doesnt-work/' ) . ' "target="_blank">',
 			'</a>' );
@@ -135,7 +135,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	protected function is_indexable_response() {
 		$this->label 		= esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
 		$this->status 		= self::STATUS_GOOD;
-		$this->description 	= esc_html( 'Ryte offers a free indexability check for Yoast SEO users, and it shows 
+		$this->description 	= esc_html( 'Ryte offers a free indexability check for Yoast SEO users, and it shows
 			that your site can be found by search engines.' );
 	}
 

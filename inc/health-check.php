@@ -196,11 +196,11 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function add_yoast_signature() {
 		$this->actions .= sprintf(
-		/* translators: %1$s: start of the paragraph, beginning with the Yoast icon, %2$s: opening tag of the small italic text, %3$s: closing tag of the small italic text and the paragraph.  */
-			esc_html__( '%1$s %2$s This issue was reported by the Yoast SEO plugin %3$s', 'wordpress-seo' ),
-			'<p><br /><img src="http://one.wordpress.test/wp-content/plugins/wordpress-seo/images/Yoast_Icon_RGB.png" height="20" width="20" align="left"> &nbsp',
-			'<small><i>',
-			'</i></small></p>'
+			/* translators: %1$s: Start of a paragraph beginning with the Yoast icon, %2$s: Expands to 'Yoast SEO', %3$s: Paragraph closing tag. */
+			esc_html__( '%1$sThis issue was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
+			'<p class="yoast-site-health__signature"><img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Yoast_SEO_Icon.svg' ) . '" height="20" width="20" class="yoast-site-health__signature-icon">',
+			'Yoast SEO',
+			'</p>'
 		);
 	}
 }
