@@ -44,7 +44,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is disabled.
 	 *
-	 * @covers ::run
+	 * @covers WPSEO_Health_Check_Ryte::run
 	 */
 	public function test_run_with_option_disabled() {
 		$this->ryte_option
@@ -61,7 +61,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when the site is not public.
 	 *
-	 * @covers ::run
+	 * @covers WPSEO_Health_Check_Ryte::run
 	 */
 	public function test_run_with_blog_not_public() {
 		Monkey\Functions\expect( 'get_option' )
@@ -83,7 +83,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when the development mode is on, but Yoast development mode is not on.
 	 *
-	 * @covers ::run
+	 * @covers WPSEO_Health_Check_Ryte::run
 	 */
 	public function test_run_with_development_mode() {
 		Monkey\Functions\expect( 'get_option' )
@@ -110,8 +110,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and the site cannot be indexed.
 	 *
-	 * @covers ::run
-	 * @covers ::is_not_indexable_response
+	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers WPSEO_Health_Check_Ryte::is_not_indexable_response
 	 */
 	public function test_run_site_cannot_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
@@ -120,6 +120,9 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
+
+		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
 
@@ -130,8 +133,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte Option cannot be fetched.
 	 *
-	 * @covers ::run
-	 * @covers ::unknown_indexability_response
+	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers WPSEO_Health_Check_Ryte::unknown_indexability_response
 	 */
 	public function test_run_cannot_fetch() {
 		$this->ryte_enabled_and_blog_public();
@@ -141,6 +144,9 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
 
+		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
@@ -149,8 +155,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and the Ryte Option is not fetched.
 	 *
-	 * @covers ::run
-	 * @covers ::unknown_indexability_response
+	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers WPSEO_Health_Check_Ryte::unknown_indexability_response
 	 */
 	public function test_run_not_fetched() {
 		$this->ryte_enabled_and_blog_public();
@@ -160,6 +166,9 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::NOT_FETCHED );
 
+		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
@@ -168,8 +177,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and the site can be indexed.
 	 *
-	 * @covers ::run
-	 * @covers ::is_indexable_response
+	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers WPSEO_Health_Check_Ryte::is_indexable_response
 	 */
 	public function test_run_site_can_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
@@ -178,6 +187,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_INDEXABLE );
+
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
