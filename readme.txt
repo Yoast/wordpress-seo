@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
-Tested up to: 5.3.1
+Tested up to: 5.3.2
 Stable tag: 12.7.1
 Requires PHP: 5.6.20
 
@@ -216,7 +216,7 @@ Welcome to another year of helping you achieve your goals with your site! Today,
 
 Bugfixes:
 
-* Fixed a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
+* Fixes a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
 * Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
 * Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
 * Fixes a bug where author archives for authors without post would show up in the search results, even though the "Show archives for authors without posts in search results?" option was enabled.
