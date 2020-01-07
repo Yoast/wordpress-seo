@@ -117,7 +117,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$this->add_analyze_site_button();
+		$this->add_analyze_site_links();
 	}
 
 	/**
@@ -144,7 +144,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$this->add_analyze_site_button();
+		$this->add_analyze_site_links();
 	}
 
 	/**
@@ -169,7 +169,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 *
 	 * @return void
 	 */
-	protected function add_analyze_site_button() {
+	protected function add_analyze_site_links() {
 		$this->actions .= sprintf(
 			/* translators: %1$s: Opening link tag to fetch current Ryte indexability status, %2$s: Link closing tag. */
 			esc_html__( '%1$sRe-analyze site indexability%2$s', 'wordpress-seo' ),
