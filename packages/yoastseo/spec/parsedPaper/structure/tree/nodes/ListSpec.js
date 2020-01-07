@@ -27,7 +27,7 @@ describe( "List", () => {
 		} );
 	} );
 
-	describe( "appendChild", () => {
+	describe( "addChild", () => {
 		beforeEach( () => {
 			console.warn = jest.fn();
 		} );
@@ -38,10 +38,10 @@ describe( "List", () => {
 
 			expect( list.children ).toEqual( [] );
 
-			list.appendChild( listItem );
+			list.addChild( listItem );
 			expect( console.warn ).not.toBeCalled();
 
-			list.appendChild( paragraph );
+			list.addChild( paragraph );
 			expect( console.warn ).toBeCalled();
 		} );
 	} );
