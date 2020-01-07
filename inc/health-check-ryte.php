@@ -86,7 +86,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds the content for the "Cannot be indexed" response.
 	 *
-	 * @return string The HTML content for the response.
+	 * @return void
 	 */
 	protected function is_not_indexable_response() {
 		$this->label  = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
@@ -119,7 +119,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds the content for the "Cannot tell if it can be indexed" response.
 	 *
-	 * @return string The HTML content for the response.
+	 * @return void
 	 */
 	protected function unknown_indexability_response() {
 		$this->label  = esc_html__( 'Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo' );
@@ -141,7 +141,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds the content for the "Can be indexed" response.
 	 *
-	 * @return string The HTML content for the response.
+	 * @return void
 	 */
 	protected function is_indexable_response() {
 		$this->label       = esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
@@ -153,7 +153,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds the "Re-analyze site indexability" button and link to the Ryte site to the actions.
 	 *
-	 * @return string The HTML for the button.
+	 * @return void
 	 */
 	protected function add_analyze_site_button() {
 		$this->actions .= sprintf(
