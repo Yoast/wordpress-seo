@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Initializers;
+namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\Free\Config\Ruckusing_Framework;
-use Yoast\WP\Free\Config\Migration_Status;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\Config\Ruckusing_Framework;
+use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Triggers database migrations and handles results.

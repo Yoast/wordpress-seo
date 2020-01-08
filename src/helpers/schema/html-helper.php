@@ -2,15 +2,15 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 
-namespace Yoast\WP\Free\Helpers\Schema;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 /**
  * Class HTML_Helper
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 class HTML_Helper {
 

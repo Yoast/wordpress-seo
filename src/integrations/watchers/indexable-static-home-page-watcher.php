@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Integrations\Watchers;
+namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\Free\Conditionals\Admin_Conditional;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Watches the static homepage option and updates the permalinks accordingly.
@@ -25,14 +25,14 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
 	 * @codeCoverageIgnore
 	 */
 	public function __construct( Indexable_Repository $repository ) {

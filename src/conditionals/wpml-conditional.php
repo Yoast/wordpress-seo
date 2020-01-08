@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Class WPML_Conditional
  *
- * @package Yoast\WP\Free\Conditionals
+ * @package Yoast\WP\SEO\Conditionals
  */
 class WPML_Conditional implements Conditional {
 

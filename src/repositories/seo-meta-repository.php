@@ -5,21 +5,21 @@
  * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Repositories;
+namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class SEO_Meta_Repository
  *
- * @package Yoast\WP\Free\ORM\Repositories
+ * @package Yoast\WP\SEO\ORM\Repositories
  */
 class SEO_Meta_Repository {
 
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\Free\ORM\ORMWrapper
+	 * @return \Yoast\WP\SEO\ORM\ORMWrapper
 	 */
 	public function query() {
 		return Yoast_Model::of_type( 'SEO_Meta' );
@@ -30,7 +30,7 @@ class SEO_Meta_Repository {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return \Yoast\WP\Free\Models\SEO_Meta The SEO meta.
+	 * @return \Yoast\WP\SEO\Models\SEO_Meta The SEO meta.
 	 */
 	public function find_by_post_id( $post_id ) {
 		return $this->query()

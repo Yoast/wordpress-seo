@@ -1,19 +1,19 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Current_Page_Helper_Test
  *
  * @group helpers
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Current_Page_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Current_Page_Helper
  */
 class Current_Page_Helper_Test extends TestCase {
 

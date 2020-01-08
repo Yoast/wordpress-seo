@@ -1,14 +1,14 @@
 <?php
-namespace Yoast\WP\Free\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Mocks;
 
 use WP_Block_Parser_Block;
 use WP_Post;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Meta_Tags_Context
  */
-class Meta_Tags_Context extends \Yoast\WP\Free\Context\Meta_Tags_Context {
+class Meta_Tags_Context extends \Yoast\WP\SEO\Context\Meta_Tags_Context {
 
 	/**
 	 * @var Indexable

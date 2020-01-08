@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Open_Graph\Type_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Type_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Type_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter
  *
  * @group presenters
  * @group type-presenter
@@ -45,7 +45,7 @@ class Type_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->indexable_presentation->og_type = 'article';
 
-		$expected = '<meta property="og:type" content="article"/>';
+		$expected = '<meta property="og:type" content="article" />';
 		$actual = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
@@ -79,7 +79,7 @@ class Type_Presenter_Test extends TestCase {
 			->with( 'website', $this->indexable_presentation )
 			->andReturn( 'article' );
 
-		$expected = '<meta property="og:type" content="article"/>';
+		$expected = '<meta property="og:type" content="article" />';
 		$actual = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );

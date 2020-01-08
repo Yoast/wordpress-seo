@@ -2,24 +2,24 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Integrations\Front_End
+ * @package Yoast\WP\SEO\Tests\Integrations\Front_End
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Meta_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Redirect_Helper;
-use Yoast\WP\Free\Integrations\Front_End\Redirects;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Integrations\Front_End\Redirects;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Redirects
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Redirects
  * @covers ::<!public>
  *
  * @group integrations

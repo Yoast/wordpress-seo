@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Post_Test.
@@ -17,7 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Post_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
@@ -133,9 +133,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 1 );
 
-		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
+		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
 
-		$twitter_image = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
+		$twitter_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );
 		$twitter_image
 			->expects( 'get_by_id' )
 			->once()

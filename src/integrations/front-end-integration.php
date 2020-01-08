@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\Free\Integrations;
+namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Options;
-use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -166,10 +166,6 @@ class Front_End_Integration implements Integration_Interface {
 		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
-			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
-				echo '<!-- ' . get_class( $presenter ) . ' -->';
-			}
-
 			$output = $presenter->present( $context->presentation );
 			if ( ! empty( $output ) ) {
 				echo "\t" . $output . PHP_EOL;
@@ -195,7 +191,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		return array_filter(
 			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
-				return $this->container->get( "Yoast\WP\Free\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
+				return $this->container->get( "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
 			}, $needed_presenters )
 		);
 	}

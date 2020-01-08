@@ -5,12 +5,12 @@
  * @package Yoast\Tests\Doubles\Oauth
  */
 
-namespace Yoast\WP\Free\Tests\Doubles\Oauth;
+namespace Yoast\WP\SEO\Tests\Doubles\Oauth;
 
 /**
  * Test Helper Class.
  */
-class Client extends \Yoast\WP\Free\Oauth\Client {
+class Client extends \Yoast\WP\SEO\Oauth\Client {
 
 	/**
 	 * Exposes the parent method which is protected.
