@@ -54,6 +54,8 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'The excerpt as description' );
 
+		$this->instance->og_description = '';
+
 		$this->assertEquals( 'The excerpt as description', $this->instance->generate_twitter_description() );
 	}
 
@@ -67,6 +69,8 @@ class Twitter_Description_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
+
+		$this->instance->og_description = '';
 
 		$this->post_type_helper
 			->expects( 'get_the_excerpt' )

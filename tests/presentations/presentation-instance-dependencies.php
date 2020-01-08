@@ -18,6 +18,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 
 trait Presentation_Instance_Dependencies {
 

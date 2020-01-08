@@ -76,7 +76,8 @@ class Twitter_Title_Test extends TestCase {
 	 * @covers ::generate_twitter_title
 	 */
 	public function test_generate_twitter_title_with_set_seo_title() {
-		$this->indexable->title = 'SEO title';
+		$this->indexable->title   = 'SEO title';
+		$this->instance->og_title = '';
 
 		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
 	}
