@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.9 =
+Release Date: January 21st, 2020
+
+Other:
+
+* Renames the 'Snippet preview' to 'Google preview'.
+* Replaces the Google preview mode switcher toggle with radio buttons.
+
 = 12.8 =
 Release Date: January 7th, 2020
 
@@ -233,28 +241,6 @@ Other:
 * Fixes the documentation in the Schema HowTo file. Props to [timvaniersel](https://github.com/timvaniersel).
 * Fixes the documentation in the Breadcrumbs file. Props to [alfiosalanitri](https://github.com/alfiosalanitri).
 * Moves the paginated comments notice from the dashboard to WordPress' Site Health screen.
-
-= 12.7.1 =
-Release Date: December 12th, 2019
-
-Bugfixes:
-
-* Fixes a bug where the metabox would be broken when a relative URL was configured as `WP_CONTENT_URL`. Props to [FPCSJames](https://github.com/FPCSJames).
-
-= 12.7.0 =
-Release Date: December 10th, 2019
-
-Yoast SEO 12.7 is out today — signalling the last release of 2019. This release is all about cleaning up and fixing bugs. Since we have a two-week release schedule, we can quickly respond to any bug we might find. Find out more about this release in [our 12.7 release post](https://yoa.st/release-12-7)!
-
-Bugfixes:
-
-* Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
-* Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the notification center 'dismiss' and 'restore' buttons had no focus style.
-
-Other:
-
-* Improves security by adding output escaping.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
