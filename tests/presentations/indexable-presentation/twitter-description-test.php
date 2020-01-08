@@ -59,13 +59,13 @@ class Twitter_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter description is set, the OG description isn't     set, and OG is enabled.
+	 * Tests the situation where no Twitter description is set, the OG description isn't set, and OG is enabled.
 	 *
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_generate_twitter_description_with_no_set_og_description_and_og_enabled() {
 		$this->context->open_graph_enabled = true;
-		$this->indexable->og_description   = '';
+		$this->instance->og_description    = '';
 		$this->indexable->description      = 'SEO description';
 
 		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );

@@ -42,16 +42,62 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description() {
+	public function test_with_term_description_with_og_enabled() {
 		$this->indexable->twitter_description = '';
-		$this->indexable->og_description      = '';
 		$this->instance->meta_description     = '';
-		$this->context->open_graph_enabled    = false;
+		$this->context->open_graph_enabled    = true;
+
+		$this->instance
+			->expects( 'generate_og_description' )
+			->once()
+			->andReturn( '' );
 
 		$this->taxonomy_helper
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
-			->twice()
+			->once()
+			->andReturn( 'Term description' );
+
+		$this->assertEquals( 'Term description', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_with_term_description_with_og_enabled_and_have_og_description() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = true;
+
+		$this->instance
+			->expects( 'generate_og_description' )
+			->once()
+			->andReturn( 'OG Description' );
+
+		$this->assertEquals( '', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_with_term_description_with_og_disabled() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = false;
+
+		$this->instance
+			->expects( 'generate_og_description' )
+			->once()
+			->andReturn( 'OG Description' );
+
+		$this->taxonomy_helper
+			->expects( 'get_term_description' )
+			->with( $this->indexable->object_id )
+			->once()
 			->andReturn( 'Term description' );
 
 		$this->assertEquals( 'Term description', $this->instance->generate_twitter_description() );

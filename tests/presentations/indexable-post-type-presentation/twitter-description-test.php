@@ -64,6 +64,48 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
+	public function test_with_term_description_with_og_enabled_and_have_og_description() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = true;
+
+		$this->instance
+			->expects( 'generate_og_description' )
+			->once()
+			->andReturn( 'OG Description' );
+
+		$this->assertEquals( '', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_with_term_description_with_og_disbled_and_have_og_description() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = false;
+
+		$this->instance
+			->expects( 'generate_og_description' )
+			->once()
+			->andReturn( 'OG Description' );
+
+		$this->post_type_helper
+			->expects( 'get_the_excerpt' )
+			->with( $this->indexable->object_id )
+			->once()
+			->andReturn( 'The excerpt' );
+
+		$this->assertEquals( 'The excerpt', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
 	public function test_with_no_term_description() {
 		$this->options_helper
 			->expects( 'get' )

@@ -65,6 +65,7 @@ class Twitter_Title_Test extends TestCase {
 	 */
 	public function test_generate_twitter_title_with_set_og_title_and_og_disabled() {
 		$this->context->open_graph_enabled = false;
+		$this->instance->og_title         = 'OG title';
 		$this->indexable->title            = 'SEO title';
 
 		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
@@ -77,7 +78,7 @@ class Twitter_Title_Test extends TestCase {
 	 */
 	public function test_generate_twitter_title_with_no_set_og_title_and_og_enabled() {
 		$this->context->open_graph_enabled = true;
-		$this->indexable->og_title         = 'OG title';
+		$this->instance->og_title          = null;
 		$this->indexable->title            = 'SEO title';
 
 		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
