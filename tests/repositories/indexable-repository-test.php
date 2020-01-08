@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Repositories;
+namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\TestCase;
 use YoastSEO_Vendor\ORM;
 
 /**
