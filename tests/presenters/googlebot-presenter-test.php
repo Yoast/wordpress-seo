@@ -1,21 +1,21 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Googlebot_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Googlebot_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Googlebot_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Googlebot_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
  *
  * @group presenters
  *
- * @package Yoast\WP\Free\Tests\Presenters
+ * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Googlebot_Presenter_Test extends TestCase {
 

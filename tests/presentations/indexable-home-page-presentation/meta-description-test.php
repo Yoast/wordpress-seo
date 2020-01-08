@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Home_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Home_Page_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Meta_Description_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Home_Page_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Home_Page_Presentation
  *
  * @group presentations
  * @group meta-description

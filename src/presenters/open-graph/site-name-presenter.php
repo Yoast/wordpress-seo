@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
 
-namespace Yoast\WP\Free\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Site_Name_Presenter

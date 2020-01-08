@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\Commands;
+namespace Yoast\WP\SEO\Commands;
 
 /**
  * An interface for registering integrations with WordPress

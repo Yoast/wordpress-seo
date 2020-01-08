@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Roles;
+namespace Yoast\WP\SEO\Tests\Admin\Roles;
 
 use WPSEO_Role_Manager_Factory;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.

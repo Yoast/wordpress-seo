@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Initializers;
+namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\Free\Conditionals\No_Conditionals;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -28,7 +28,7 @@ class Database_Setup implements Initializer_Interface {
 	/**
 	 * Database_Setup constructor.
 	 *
-	 * @param \Yoast\WP\Free\Loggers\Logger $logger The logger.
+	 * @param \Yoast\WP\SEO\Loggers\Logger $logger The logger.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;
@@ -42,7 +42,7 @@ class Database_Setup implements Initializer_Interface {
 		ORM::configure( 'username', \DB_USER );
 		ORM::configure( 'password', \DB_PASSWORD );
 
-		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
+		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\SEO\\Models\\';
 		Yoast_Model::$logger             = $this->logger;
 	}
 }

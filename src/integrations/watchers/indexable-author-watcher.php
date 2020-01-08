@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Integrations\Watchers;
+namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\Free\Conditionals\Migrations_Conditional;
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Watches an Author to save the meta information when updated.
@@ -25,12 +25,12 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Builder
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
 	 */
 	protected $builder;
 

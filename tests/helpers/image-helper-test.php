@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Image_Helper_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Image_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Image_Helper
  *
  * @group helpers
  */

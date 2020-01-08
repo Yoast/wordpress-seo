@@ -2,25 +2,25 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Integrations\Third_Party
+ * @package Yoast\WP\SEO\Tests\Integrations\Third_Party
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
 
 use Mockery;
 use Brain\Monkey;
 use WPSEO_Replace_Vars;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Integrations\Third_Party\WooCommerce;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Third_Party\WooCommerce
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WooCommerce
  *
  * @group integrations
  * @group front-end

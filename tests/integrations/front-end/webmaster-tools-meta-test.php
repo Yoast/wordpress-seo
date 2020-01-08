@@ -2,21 +2,21 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Integrations\Front_End
+ * @package Yoast\WP\SEO\Tests\Integrations\Front_End
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Integrations\Front_End\Webmaster_Tools_Meta;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Front_End\Webmaster_Tools_Meta;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Webmaster_Tools_Meta
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Webmaster_Tools_Meta
  * @covers ::<!public>
  *
  * @group integrations

@@ -2,13 +2,13 @@
 /**
  * A helper object for pagination.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\SEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
-use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 
 /**
  * Class Pagination_Helper.

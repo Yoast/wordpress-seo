@@ -5,22 +5,22 @@
  * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Repositories;
+namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Free\Models\Primary_Term;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\Models\Primary_Term;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class Primary_Term_Repository
  *
- * @package Yoast\WP\Free\ORM\Repositories
+ * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Primary_Term_Repository {
 
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\Free\ORM\ORMWrapper
+	 * @return \Yoast\WP\SEO\ORM\ORMWrapper
 	 */
 	public function query() {
 		return Yoast_Model::of_type( 'Primary_Term' );
@@ -36,7 +36,7 @@ class Primary_Term_Repository {
 	 * @return Primary_Term|null Instance of a primary term.
 	 */
 	public function find_by_post_id_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
+		/** @var \Yoast\WP\SEO\Models\Primary_Term $primary_term */
 		$primary_term = $this->query()
 							 ->where( 'post_id', $post_id )
 							 ->where( 'taxonomy', $taxonomy )

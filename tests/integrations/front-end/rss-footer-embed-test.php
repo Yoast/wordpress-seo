@@ -3,18 +3,18 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Integrations\Front_End\RSS_Footer_Embed;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\RSS_Footer_Embed
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed
  * @covers ::<!public>
  *
  * @group integrations

@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Presenters\Debug
  */
 
-namespace Yoast\WP\Free\Presenters\Debug;
+namespace Yoast\WP\SEO\Presenters\Debug;
 
-use Yoast\WP\Free\Helpers\Product_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Debug_Marker_Close_Presenter

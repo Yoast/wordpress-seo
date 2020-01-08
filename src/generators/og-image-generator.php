@@ -5,16 +5,16 @@
  * @package Yoast\YoastSEO\Generators
  */
 
-namespace Yoast\WP\Free\Generators;
+namespace Yoast\WP\SEO\Generators;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Generators\Generator_Interface;
-use Yoast\WP\Free\Values\Open_Graph\Images;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Generators\Generator_Interface;
+use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
  * Represents the generator class for the Open Graph images.
@@ -76,7 +76,7 @@ class OG_Image_Generator implements Generator_Interface {
 		/**
 		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
 		 *
-		 * @api Yoast\WP\Free\Values\Open_Graph\Images The current object.
+		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 		 */
 		do_action( 'wpseo_add_opengraph_images', $image_container );
 
@@ -85,7 +85,7 @@ class OG_Image_Generator implements Generator_Interface {
 		/**
 		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
 		 *
-		 * @api Yoast\WP\Free\Values\Open_Graph\Images The current object.
+		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 		 */
 		do_action( 'wpseo_add_opengraph_additional_images', $image_container );
 

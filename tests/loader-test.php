@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\Free\Tests;
+namespace Yoast\WP\SEO\Tests;
 
 use Mockery;
-use Yoast\WP\Free\Conditionals\Conditional;
-use Yoast\WP\Free\Initializers\Initializer_Interface;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Loader;
+use Yoast\WP\SEO\Conditionals\Conditional;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Loader;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -14,10 +14,10 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group loader
  *
- * @coversDefaultClass \Yoast\WP\Free\Loader
+ * @coversDefaultClass \Yoast\WP\SEO\Loader
  * @covers ::<!public>
  *
- * @package Yoast\WP\Free\Tests
+ * @package Yoast\WP\SEO\Tests
  */
 class Loader_Test extends TestCase {
 

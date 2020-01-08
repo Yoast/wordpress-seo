@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Commands
  */
 
-namespace Yoast\WP\Free\Commands;
+namespace Yoast\WP\SEO\Commands;
 
 use wpdb;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Watcher;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Term_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 
 /**
  * Formats the term meta to indexable format.
