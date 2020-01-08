@@ -3,7 +3,7 @@
 import Select from "react-select/lib/Async";
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 import { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "yoast-components";

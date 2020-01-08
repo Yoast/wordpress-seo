@@ -10,6 +10,6 @@ about: Suggest an idea for this project
 
 ## Describe the solution you'd like
 
-## why you think the feature request is something we should consider for the Yoast SEO plugins?
+## Why do you think this feature is something we should consider for the Yoast SEO plugins?
 
 ## Additional context

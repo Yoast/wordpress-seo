@@ -1,4 +1,6 @@
-import forEach from "lodash/forEach";
+import {
+	forEach,
+} from "lodash-es";
 
 const DIVI_EDITOR_WRAPPER_ID = "et_pb_main_editor_wrap";
 const DIVI_CLASSIC_EDITOR_HIDDEN_CLASS = "et_pb_hidden";

@@ -1,10 +1,43 @@
-import cloneDeep from "lodash/cloneDeep";
-import merge from "lodash/merge";
+import {
+	cloneDeep,
+	merge,
+} from "lodash-es";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
 
 import { Paper } from "yoastseo";
+
+/**
+ * Filters the WordPress block editor block data to use for the analysis.
+ *
+ * @param {Object} block The block from which we need to get the relevant data.
+ *
+ * @returns {Object} The block, with irrelevant data removed.
+ */
+function filterBlockData( block ) {
+	const filteredBlock = {};
+
+	// Main data of the block (content, but also heading level etc.)
+	filteredBlock.attributes = {};
+
+	// Heading level, HTML-content and image alt text.
+	const attributeNames = [ "level", "content", "alt" ];
+	attributeNames.forEach( name => {
+		if ( block.attributes[ name ] ) {
+			filteredBlock.attributes[ name ] = block.attributes[ name ];
+		}
+	} );
+
+	// Type of block, e.g. "core/paragraph"
+	filteredBlock.name = block.name;
+	filteredBlock.clientId = block.clientId;
+
+	// Recurse on inner blocks.
+	filteredBlock.innerBlocks = block.innerBlocks.map( innerBlock => filterBlockData( innerBlock ) );
+
+	return filteredBlock;
+}
 
 /**
  * Retrieves the data needed for the analyses.
@@ -13,18 +46,27 @@ import { Paper } from "yoastseo";
  * 1. Redux Store.
  * 2. Custom data callbacks.
  * 3. Pluggable modifications.
+ * 4. The WordPress block-editor Redux store.
  *
- * @param {Edit}               edit               The edit instance.
- * @param {Object}             store              The redux store.
- * @param {CustomAnalysisData} customAnalysisData The custom analysis data.
- * @param {Pluggable}          pluggable          The Pluggable.
+ * @param {Edit}               edit                   The edit instance.
+ * @param {Object}             store                  The redux store.
+ * @param {CustomAnalysisData} customAnalysisData     The custom analysis data.
+ * @param {Pluggable}          pluggable              The Pluggable.
+ * @param {Object}            [blockEditorDataModule] The WordPress block editor data module. E.g. `window.wp.data.select("core/block-editor")`
  *
  * @returns {Paper} The paper data used for the analyses.
  */
-export default function collectAnalysisData( edit, store, customAnalysisData, pluggable ) {
+export default function collectAnalysisData( edit, store, customAnalysisData, pluggable, blockEditorDataModule ) {
 	const storeData = cloneDeep( store.getState() );
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
+
+	// Retrieve the block editor blocks from WordPress and filter on useful information.
+	let blocks = null;
+	if ( blockEditorDataModule ) {
+		blocks = blockEditorDataModule.getBlocks();
+		blocks = blocks.map( block => filterBlockData( block ) );
+	}
 
 	// Make a data structure for the paper data.
 	const data = {
@@ -40,6 +82,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		title: storeData.analysisData.snippet.title || storeData.snippetEditor.data.title,
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
+		wpBlocks: blocks,
 	};
 
 	// Modify the data through pluggable.
@@ -48,6 +91,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		data.title = pluggable._applyModifications( "title", data.title );
 		data.description = pluggable._applyModifications( "data_meta_desc", data.description );
 		data.text = pluggable._applyModifications( "content", data.text );
+		data.wpBlocks = pluggable._applyModifications( "wpBlocks", data.wpBlocks );
 	}
 
 	data.titleWidth = measureTextWidth( data.title );

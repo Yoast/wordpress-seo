@@ -1,7 +1,7 @@
 import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
 
-import _forEach from "lodash/forEach";
+import { forEach } from "lodash-es";
 
 var MARK_TAG = "yoastmark";
 
@@ -38,7 +38,7 @@ function markTinyMCE( editor, paper, marks ) {
 	html = removeMarks( html );
 
 	// Generate marked HTML.
-	_forEach( marks, function( mark ) {
+	forEach( marks, function( mark ) {
 		html = mark.applyWithReplace( html );
 	} );
 
@@ -52,7 +52,7 @@ function markTinyMCE( editor, paper, marks ) {
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
 	 */
-	_forEach( markElements, function( markElement ) {
+	forEach( markElements, function( markElement ) {
 		markElement.setAttribute( "data-mce-bogus", "1" );
 	} );
 }

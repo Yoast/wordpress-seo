@@ -1,11 +1,13 @@
-const forEach = require( "lodash/forEach" );
-const isArray = require( "lodash/isArray" );
-const isFunction = require( "lodash/isFunction" );
-const isNumber = require( "lodash/isNumber" );
-const isObject = require( "lodash/isObject" );
-const isString = require( "lodash/isString" );
-const isUndefined = require( "lodash/isUndefined" );
-const reduce = require( "lodash/reduce" );
+import {
+	forEach,
+	isArray,
+	isFunction,
+	isNumber,
+	isObject,
+	isString,
+	isUndefined,
+	reduce,
+} from "lodash-es";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
