@@ -179,7 +179,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		$this->actions .= sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast Ryte website, %2$s: Expands to 'Ryte', %3$s: Link closing tag. */
-			esc_html__( '%1$sGo to %2$s to analyze your entire site%2$s', 'wordpress-seo' ),
+			esc_html__( '%1$sGo to %2$s to analyze your entire site%3$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ) ) . '" target="_blank">',
 			'Ryte',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
