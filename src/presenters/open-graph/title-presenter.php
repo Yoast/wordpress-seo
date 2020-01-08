@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
 
-namespace Yoast\WP\Free\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Helpers\String_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Title_Presenter
@@ -42,7 +42,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 
 		if ( \is_string( $title ) && $title !== '' ) {
-			return '<meta property="og:title" content="' . \esc_attr( $title ) . '"/>';
+			return '<meta property="og:title" content="' . \esc_attr( $title ) . '" />';
 		}
 
 		return '';

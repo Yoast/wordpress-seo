@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats system pages ( search and error ) meta to indexable format.

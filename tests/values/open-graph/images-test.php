@@ -1,18 +1,18 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Values\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Values\Open_Graph;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Values\Open_Graph\Images;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
  * Class OG_Image_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Values\Open_Graph\Images
+ * @coversDefaultClass \Yoast\WP\SEO\Values\Open_Graph\Images
  *
  * @group values
  * @group opengraph

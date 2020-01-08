@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-use Yoast\WP\Free\Main;
+use Yoast\WP\SEO\Main;
 
 /**
  * Retrieves the main instance.

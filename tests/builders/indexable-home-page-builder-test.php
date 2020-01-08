@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Author_Test.
@@ -17,7 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Builders

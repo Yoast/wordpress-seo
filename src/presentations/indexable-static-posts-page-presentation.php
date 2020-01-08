@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
  * Class Indexable_Static_Posts_Page_Presentation

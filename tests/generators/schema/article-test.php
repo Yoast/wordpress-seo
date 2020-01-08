@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Generators\Schema;
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use stdClass;
-use Yoast\WP\Free\Helpers\Article_Helper;
-use Yoast\WP\Free\Helpers\Date_Helper;
-use Yoast\WP\Free\Helpers\Schema\ID_Helper;
-use Yoast\WP\Free\Presentations\Generators\Schema\Article;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Article_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Article_Test
@@ -19,10 +19,10 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Generators\Schema\Article
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Article
  * @covers ::<!public>
  *
- * @package Yoast\WP\Free\Tests\Generators\Schema
+ * @package Yoast\WP\SEO\Tests\Generators\Schema
  */
 class Article_Test extends TestCase {
 

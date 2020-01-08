@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
 
-namespace Yoast\WP\Free\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Image_Presenter
@@ -50,11 +50,11 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		foreach ( $images as $image_index => $image_meta ) {
 			$image_url = $image_meta['url'];
 
-			$return .= '<meta property="og:image" value="' . \esc_url( $image_url ) . '"/>';
+			$return .= '<meta property="og:image" content="' . \esc_url( $image_url ) . '" />';
 
 			// Adds secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
 			if ( \strpos( $image_url, 'https://' ) === 0 ) {
-				$return .= PHP_EOL . '<meta property="og:image:secure_url" value="' . \esc_url( $image_url ) . '"/>';
+				$return .= PHP_EOL . "\t" . '<meta property="og:image:secure_url" content="' . \esc_url( $image_url ) . '" />';
 			}
 
 			foreach ( static::$image_tags as $key => $value ) {
@@ -62,7 +62,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 					continue;
 				}
 
-				$return .= PHP_EOL . '<meta property="og:image:' . \esc_attr( $key ) . '" value="' . $image_meta[ $key ] . '"/>';
+				$return .= PHP_EOL . "\t" . '<meta property="og:image:' . \esc_attr( $key ) . '" content="' . $image_meta[ $key ] . '" />';
 			}
 		}
 

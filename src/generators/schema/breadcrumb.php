@@ -2,13 +2,13 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
  * Returns schema Breadcrumb data.

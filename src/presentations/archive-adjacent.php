@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
  * Class Archive_Adjacent
  *
- * @property \Yoast\WP\Free\Models\Indexable          $model      The indexable.
- * @property \Yoast\WP\Free\Helpers\Pagination_Helper $pagination The pagination helper. Should be defined in the parent
+ * @property \Yoast\WP\SEO\Models\Indexable          $model      The indexable.
+ * @property \Yoast\WP\SEO\Helpers\Pagination_Helper $pagination The pagination helper. Should be defined in the parent
  *                                                                class because of trait issues in PHP 5.6.
  */
 trait Archive_Adjacent {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations;
+namespace Yoast\WP\SEO\Tests\Presentations;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Canonical_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Archive_Adjacent
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Archive_Adjacent
  *
  * @group presentations
  * @group adjacent

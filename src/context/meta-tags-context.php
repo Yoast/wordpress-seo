@@ -5,20 +5,20 @@
  * @package Yoast\YoastSEO\Context
  */
 
-namespace Yoast\WP\Free\Context;
+namespace Yoast\WP\SEO\Context;
 
 use WP_Block_Parser_Block;
 use WP_Post;
 use WPSEO_Replace_Vars;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Schema\ID_Helper;
-use Yoast\WP\Free\Helpers\Site_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Abstract_Presentation;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Helpers\Site_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Abstract_Presentation;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Meta_Tags_Context

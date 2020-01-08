@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Represents the trait used in builders for handling social images.

@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
 /**
  * An interface for registering integrations with WordPress

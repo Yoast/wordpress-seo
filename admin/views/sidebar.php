@@ -135,10 +135,12 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				?>
 			</p>
 			<p>
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3t6' ); ?>" target="_blank"><?php
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3t6' ); ?>" target="_blank">
+					<?php
 					/* translators: %1$s expands to Yoast SEO academy */
 					printf( esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
-					?></a>
+					?>
+				</a>
 			</p>
 		</div>
 		<div class="yoast-sidebar__section">

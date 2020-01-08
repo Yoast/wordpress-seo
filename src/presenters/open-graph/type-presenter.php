@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
 
-namespace Yoast\WP\Free\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Type_Presenter
@@ -26,7 +26,7 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 		$og_type = $this->filter( $presentation->og_type, $presentation );
 
 		if ( \is_string( $og_type ) && $og_type !== '' ) {
-			return '<meta property="og:type" value="' . \esc_attr( $og_type ) . '"/>';
+			return '<meta property="og:type" content="' . \esc_attr( $og_type ) . '" />';
 		}
 
 		return '';

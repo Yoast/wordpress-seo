@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Models
  */
 
-namespace Yoast\WP\Free\Models;
+namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Abstract class for indexable extensions.
@@ -15,14 +15,14 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 abstract class Indexable_Extension extends Yoast_Model {
 
 	/**
-	 * @var \Yoast\WP\Free\Models\Indexable
+	 * @var \Yoast\WP\SEO\Models\Indexable
 	 */
 	protected $indexable = null;
 
 	/**
 	 * Returns the indexable this extension belongs to.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The indexable.
 	 */
 	public function indexable() {
 		if ( $this->indexable === null ) {

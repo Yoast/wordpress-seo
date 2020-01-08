@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Wrappers
  */
 
-namespace Yoast\WP\Free\Wrappers;
+namespace Yoast\WP\SEO\Wrappers;
 
 use WP_Rewrite;
 

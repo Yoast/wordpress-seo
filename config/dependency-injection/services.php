@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Dependency_Injection
  */
 
-namespace Yoast\WP\Free\Dependency_Injection;
+namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Breadcrumbs;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
-use Yoast\WP\Free\WordPress\Wrapper;
+use Yoast\WP\SEO\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
@@ -51,8 +51,8 @@ $base_definition
 	->setAutoconfigured( true )
 	->setPublic( true );
 
-/* @var $loader \Yoast\WP\Free\Dependency_Injection\Custom_Loader */
-$loader->registerClasses( $base_definition, 'Yoast\\WP\\Free\\', 'src/*', 'src/{' . $excluded . '}' );
+/* @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader */
+$loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
 
 if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {
 	include __DIR__ . '/../../premium/config/dependency-injection/services.php';

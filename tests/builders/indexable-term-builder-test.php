@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Term_Test.
@@ -16,7 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Term_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Builders
@@ -115,8 +115,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
 		$image_helper     = Mockery::mock( Image_Helper::class );
-		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
-		$twitter_image    = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
+		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
+		$twitter_image    = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );
 
 		$image_helper
 			->expects( 'get_term_content_image' )

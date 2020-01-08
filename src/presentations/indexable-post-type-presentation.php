@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
 
 /**
  * Class Indexable_Post_Type_Presentation

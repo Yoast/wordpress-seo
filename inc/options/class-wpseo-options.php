@@ -70,6 +70,8 @@ class WPSEO_Options {
 		foreach ( self::$options as $option_name => $option_class ) {
 			self::register_option( call_user_func( [ $option_class, 'get_instance' ] ) );
 		}
+
+		self::fill_cache();
 	}
 
 	/**
@@ -99,7 +101,8 @@ class WPSEO_Options {
 			return;
 		}
 
-		if ( ! array_key_exists( $option_name, self::$options ) ) {
+		$is_already_registered = array_key_exists( $option_name, self::$options );
+		if ( ! $is_already_registered ) {
 			self::$options[ $option_name ] = get_class( $option_instance );
 		}
 
@@ -109,7 +112,9 @@ class WPSEO_Options {
 
 		self::$option_instances[ $option_name ] = $option_instance;
 
-		self::fill_cache();
+		if ( ! $is_already_registered ) {
+			self::fill_cache();
+		}
 	}
 
 	/**

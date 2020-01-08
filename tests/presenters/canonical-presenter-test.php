@@ -3,17 +3,17 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Canonical_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Canonical_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Canonical_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Canonical_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Canonical_Presenter
  *
  * @group presenters
  * @group canonical

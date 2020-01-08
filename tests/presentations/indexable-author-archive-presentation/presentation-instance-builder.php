@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Author_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Author_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Author_Archive_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Trait Presentation_Instance_Builder

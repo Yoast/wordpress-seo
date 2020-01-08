@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Utils;
 

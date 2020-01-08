@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Open_Graph\Image_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class Image_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Image_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter
  *
  * @group presenters
  * @group opengraph
@@ -65,7 +65,7 @@ class Image_Presenter_Test extends TestCase {
 		$this->presentation->og_images = [ $image ];
 
 		$this->assertEquals(
-			'<meta property="og:image" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:secure_url" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:width" value="100"/>' . PHP_EOL . '<meta property="og:image:height" value="100"/>',
+			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:secure_url" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
 			$this->instance->present( $this->presentation )
 		);
 	}

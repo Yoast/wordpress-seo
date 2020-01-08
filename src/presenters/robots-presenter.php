@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Robots_Presenter
@@ -28,7 +28,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		$robots = $this->filter( $robots, $presentation );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
-			return \sprintf( '<meta name="robots" content="%s"/>', \esc_attr( $robots ) );
+			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
 		}
 
 		return '';

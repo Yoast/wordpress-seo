@@ -2,13 +2,13 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 
-namespace Yoast\WP\Free\Helpers\Schema;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 use Exception;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * Schema utility functions.
