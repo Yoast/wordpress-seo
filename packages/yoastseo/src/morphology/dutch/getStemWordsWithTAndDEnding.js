@@ -52,7 +52,7 @@ const modifyStem = function( stemmedWord, doubleVowelModification ) {
 const createStemWordsWithNonVerbPastEndings = function( morphologyDataNL, nonVerbPastEndings, word ) {
 	if ( word.search( new RegExp( nonVerbPastEndings[ 0 ] ) ) !== -1 ) {
 		const stemmedWord = word.replace( new RegExp( nonVerbPastEndings[ 0 ] ), nonVerbPastEndings[ 1 ] );
-		return modifyStem( stemmedWord, morphologyDataNL.stemming.stemModifications.doubleVowel);
+		return modifyStem( stemmedWord, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 };
 /**
