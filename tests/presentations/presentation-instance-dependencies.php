@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 
 trait Presentation_Instance_Dependencies {
 

@@ -305,6 +305,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
 		return $this->post_type->get_the_excerpt( $this->model->object_id );
 	}
 

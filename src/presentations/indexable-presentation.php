@@ -389,8 +389,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_title;
+		if ( $this->og_title && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->title ) {
@@ -410,8 +410,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_description;
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->meta_description ) {
