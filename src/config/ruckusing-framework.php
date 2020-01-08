@@ -36,16 +36,16 @@ class Ruckusing_Framework {
 	/**
 	 * The migration logger object.
 	 *
-	 * @var \Yoast\WP\SEO\Loggers\Migration_Logger
+	 * @var Migration_Logger
 	 */
 	protected $migration_logger;
 
 	/**
 	 * Ruckusing_Framework constructor.
 	 *
-	 * @param \wpdb                                       $wpdb                  The wpdb instance.
-	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management The dependency management checker.
-	 * @param \Yoast\WP\SEO\Loggers\Migration_Logger     $migration_logger      The migration logger, extends the
+	 * @param \wpdb                                      $wpdb                   The wpdb instance.
+	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management  The dependency management checker.
+	 * @param Migration_Logger                           $migration_logger       The migration logger, extends the
 	 *                                                                           Ruckusing logger.
 	 */
 	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
