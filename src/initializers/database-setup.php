@@ -42,7 +42,7 @@ class Database_Setup implements Initializer_Interface {
 		ORM::configure( 'username', \DB_USER );
 		ORM::configure( 'password', \DB_PASSWORD );
 
-		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
+		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\SEO\\Models\\';
 		Yoast_Model::$logger             = $this->logger;
 	}
 }
