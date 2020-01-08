@@ -46,11 +46,12 @@ class Twitter_Description_Test extends TestCase {
 		$this->indexable->twitter_description = '';
 		$this->indexable->og_description      = '';
 		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = false;
 
 		$this->taxonomy_helper
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
-			->once()
+			->twice()
 			->andReturn( 'Term description' );
 
 		$this->assertEquals( 'Term description', $this->instance->generate_twitter_description() );

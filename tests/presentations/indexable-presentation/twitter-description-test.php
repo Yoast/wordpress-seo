@@ -89,7 +89,8 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_meta_description() {
-		$this->indexable->description = 'Meta description';
+		$this->indexable->description   = 'Meta description';
+		$this->instance->og_description = '';
 
 		$this->assertEquals( 'Meta description', $this->instance->generate_twitter_description() );
 	}
