@@ -111,6 +111,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
 		return $this->taxonomy->get_term_description( $this->model->object_id );
 	}
 
