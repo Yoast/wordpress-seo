@@ -55,7 +55,7 @@ class WPSEO_Link_Query {
 		global $wpdb;
 
 		$post_ids = array_filter( $post_ids );
-		if ( empty( $post_ids ) || [] === $post_ids ) {
+		if ( empty( $post_ids ) || $post_ids === [] ) {
 			return $post_ids;
 		}
 

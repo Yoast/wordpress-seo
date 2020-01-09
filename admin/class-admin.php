@@ -151,7 +151,7 @@ class WPSEO_Admin {
 	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		if ( 'wpseo_licenses' === filter_input( INPUT_GET, 'page' ) ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
@@ -206,7 +206,7 @@ class WPSEO_Admin {
 	 * @return int
 	 */
 	public function save_bulk_edit_options( $status, $option, $value ) {
-		if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) {
+		if ( $option && ( $value > 0 && $value < 1000 ) === 'wpseo_posts_per_page' ) {
 			return $value;
 		}
 
@@ -353,7 +353,7 @@ class WPSEO_Admin {
 	 * @returns bool
 	 */
 	protected function on_dashboard_page() {
-		return 'index.php' === $GLOBALS['pagenow'];
+		return $GLOBALS['pagenow'] === 'index.php';
 	}
 
 	/**
