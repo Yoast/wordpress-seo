@@ -323,7 +323,7 @@ class WPSEO_Options {
 	 */
 	public static function get_autoloaded_option( $option, $default = false ) {
 		$value = wp_cache_get( $option, 'options' );
-		if ( false === $value ) {
+		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
 
 			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
