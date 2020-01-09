@@ -156,6 +156,13 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		$schedules = wp_get_schedules();
+
+		if ( ! isset( $schedules['weekly'] ) ) {
+			// Make sure our custom weekly schedule exists before adding the weekly cron job.
+			add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
+		}
+
 		wp_schedule_event( time(), 'weekly', 'wpseo_ryte_fetch' );
 	}
 
