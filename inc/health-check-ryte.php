@@ -42,7 +42,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 				break;
 		}
 
-		$this->badge['color'] = 'red';
 		$this->add_yoast_signature();
 	}
 
@@ -89,8 +88,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function is_not_indexable_response() {
-		$this->label  = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
-		$this->status = self::STATUS_CRITICAL;
+		$this->label          = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
+		$this->status         = self::STATUS_CRITICAL;
+		$this->badge['color'] = 'red';
 
 		$this->description  = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
@@ -126,14 +126,15 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function unknown_indexability_response() {
-		$this->label  = sprintf(
+		$this->label          = sprintf(
 			/* translators: %1$s: Expands to 'Ryte'. */
 			esc_html__( '%1$s cannot determine whether your site can be found by search engines', 'wordpress-seo' ),
 			'Ryte'
 		);
-		$this->status = self::STATUS_RECOMMENDED;
+		$this->status         = self::STATUS_RECOMMENDED;
+		$this->badge['color'] = 'red';
 
-		$this->description .= sprintf(
+		$this->description = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO', %3$s: Opening tag to the Yoast knowledge base, %4$s: Link closing tag. */
 			esc_html__( '%1$s offers a free indexability check for %2$s users and right now it has trouble determining
 			whether search engines can find your site. This could have several (legitimate) reasons and is not a problem
@@ -153,8 +154,10 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function is_indexable_response() {
-		$this->label       = esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
-		$this->status      = self::STATUS_GOOD;
+		$this->label          = esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
+		$this->status         = self::STATUS_GOOD;
+		$this->badge['color'] = 'blue';
+
 		$this->description = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
 			esc_html__( '%1$s offers a free indexability check for %2$s users, and it shows
