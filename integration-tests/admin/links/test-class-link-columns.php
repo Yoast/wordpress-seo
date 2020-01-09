@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Link_Columns
  */
 class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
@@ -49,6 +51,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the registering of the hooks.
+	 *
+	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
@@ -61,6 +65,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the registering of the hooks of post columns.
+	 *
+	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_on_upload_page() {
 		$GLOBALS['pagenow'] = 'upload.php';
@@ -81,6 +87,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the addition of post columns.
+	 *
+	 * @covers ::add_post_columns
 	 */
 	public function test_add_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
@@ -97,6 +105,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the addition of post columns with a non-array value.
+	 *
+	 * @covers ::add_post_columns
 	 */
 	public function test_add_faulty_post_columns() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
@@ -106,6 +116,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test set_count_objects to set the object correctly.
+	 *
+	 * @covers ::set_count_objects
 	 */
 	public function test_set_count_objects() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
@@ -116,6 +128,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test the getting of the column content.
+	 *
+	 * @covers ::column_content
 	 */
 	public function test_column_content() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
@@ -130,6 +144,8 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests column_sort.
+	 *
+	 * @covers ::column_sort
 	 */
 	public function test_column_sort() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );

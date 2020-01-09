@@ -2,7 +2,7 @@
 
 /* External dependencies */
 import { render, createPortal, Fragment } from "@wordpress/element";
-import forEach from "lodash/forEach";
+import { forEach } from "lodash-es";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 

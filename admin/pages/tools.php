@@ -16,7 +16,7 @@ $tool_page = (string) filter_input( INPUT_GET, 'tool' );
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
 
-if ( '' === $tool_page ) {
+if ( $tool_page === '' ) {
 
 	$tools = [];
 

@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.7.1' );
+define( 'WPSEO_VERSION', '12.9-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -93,7 +93,7 @@ if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
  * Only use minified assets when we are in a production environment.
  */
 if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
-	define( 'WPSEO_CSSJS_SUFFIX', ( 'development' !== YOAST_ENVIRONMENT ) ? '.min' : '' );
+	define( 'WPSEO_CSSJS_SUFFIX', ( YOAST_ENVIRONMENT !== 'development' ) ? '.min' : '' );
 }
 
 /* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
@@ -268,7 +268,7 @@ function wpseo_load_textdomain() {
 	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
 	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
 
-	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
 		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
 	}
 	else {

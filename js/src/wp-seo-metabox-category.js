@@ -2,8 +2,10 @@
 /* External dependencies */
 import { dispatch } from "@wordpress/data";
 import { Component } from "@wordpress/element";
-import get from "lodash/get";
-import noop from "lodash/noop";
+import {
+	get,
+	noop,
+} from "lodash-es";
 
 /* Internal dependencies */
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";

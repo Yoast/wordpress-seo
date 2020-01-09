@@ -7,11 +7,16 @@
 
 /**
  * Test the backfilling of options after 7.0.
+ *
+ * @coversDefaultClass WPSEO_Options_Backfill
  */
 class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected values of the wpseo_rss option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_contents_of_wpseo_rss() {
 		// Setup data to expect.
@@ -27,6 +32,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected values of the wpseo_xml option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_contents_of_wpseo_xml() {
 		// Setup data to expect.
@@ -52,6 +60,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected values of the wpseo_permalinks option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_contents_of_wpseo_permalinks() {
 		// Setup data to expect.
@@ -81,6 +92,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected values of the wpseo_internallinks option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_contents_of_wpseo_internallinks() {
 		// Setup data to expect.
@@ -103,6 +117,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected value of the wpseo_excludeauthorsitemap user-option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_get_user_meta_wpseo_excludeauthorsitemap() {
 		$user_id = $this->factory->user->create();
@@ -116,6 +133,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected fields to be present in the wpseo_titles option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_added_fields_to_wpseo_titles() {
 		$result = get_option( 'wpseo_titles' );
@@ -127,6 +147,9 @@ class WPSEO_Options_Backfill_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the expected fields to be present and filled in the wpseo option.
+	 *
+	 * @covers ::remove_hooks
+	 * @covers ::register_hooks
 	 */
 	public function test_added_fields_to_wpseo() {
 		$expected = [

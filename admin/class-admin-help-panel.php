@@ -88,7 +88,7 @@ class WPSEO_Admin_Help_Panel {
 		$wrapper_start = '';
 		$wrapper_end   = '';
 
-		if ( 'has-wrapper' === $this->wrapper ) {
+		if ( $this->wrapper === 'has-wrapper' ) {
 			$wrapper_start = '<div class="yoast-seo-help-container">';
 			$wrapper_end   = '</div>';
 		}

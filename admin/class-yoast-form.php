@@ -265,6 +265,35 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Creates a Checkbox input field list.
+	 *
+	 * @since 12.8
+	 *
+	 * @param string $variable The variables within the option to create the checkbox list for.
+	 * @param string $labels   The labels to show for the variable.
+	 */
+	public function checkbox_list( $variable, $labels ) {
+		$values = WPSEO_Options::get( $variable, [] );
+
+		foreach ( $labels as $name => $label ) {
+			printf(
+				'<input class="checkbox double" id="%1$s" type="checkbox" name="%2$s" %3$s value="%4$s"/>',
+				esc_attr( $variable . '-' . $name ),
+				esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . '][' . $name . ']',
+				checked( ! empty( $values[ $name ] ), true, false ),
+				esc_attr( $name )
+			);
+
+			printf(
+				'<label class="checkbox" for="%1$s">%2$s</label>',
+				esc_attr( $variable . '-' . $name ), // #1
+				esc_html( $label )
+			);
+			echo '<br class="clear">';
+		}
+	}
+
+	/**
 	 * Create a light switch input field using a single checkbox.
 	 *
 	 * @since 3.1

@@ -95,7 +95,7 @@ class WPSEO_Admin_Pages {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
-		if ( 'wpseo_tools' === $page ) {
+		if ( $page === 'wpseo_tools' ) {
 			$this->enqueue_tools_scripts();
 		}
 	}
@@ -175,7 +175,7 @@ class WPSEO_Admin_Pages {
 			$this->asset_manager->enqueue_script( 'yoast-seo' );
 		}
 
-		if ( 'bulk-editor' === $tool ) {
+		if ( $tool === 'bulk-editor' ) {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
 		}
 	}
