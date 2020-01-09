@@ -334,7 +334,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 
-					if ( 'wpseo_focuskw' === $key ) {
+					if ( $key === 'wpseo_focuskw' ) {
 						$search = [
 							'&lt;',
 							'&gt;',

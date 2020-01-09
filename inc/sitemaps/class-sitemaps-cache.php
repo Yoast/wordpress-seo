@@ -99,7 +99,7 @@ class WPSEO_Sitemaps_Cache {
 	public function get_sitemap( $type, $page ) {
 
 		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
-		if ( false === $transient_key ) {
+		if ( $transient_key === false ) {
 			return false;
 		}
 
@@ -123,7 +123,7 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		// Unserialize Cache Data object (is_serialized doesn't recognize classes).
-		if ( is_string( $sitemap ) && 0 === strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) ) {
+		if ( is_string( $sitemap ) && strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) === 0 ) {
 
 			$sitemap = unserialize( $sitemap );
 		}
@@ -152,7 +152,7 @@ class WPSEO_Sitemaps_Cache {
 
 		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
 
-		if ( false === $transient_key ) {
+		if ( $transient_key === false ) {
 			return false;
 		}
 
@@ -217,7 +217,7 @@ class WPSEO_Sitemaps_Cache {
 			return false;
 		}
 
-		if ( 'user_register' === current_action() ) {
+		if ( current_action() === 'user_register' ) {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 

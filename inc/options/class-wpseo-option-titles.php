@@ -243,7 +243,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	public function enrich_defaults() {
 		$enriched_defaults = $this->enriched_defaults;
-		if ( null !== $enriched_defaults ) {
+		if ( $enriched_defaults !== null ) {
 			$this->defaults += $enriched_defaults;
 			return;
 		}
