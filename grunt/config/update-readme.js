@@ -92,7 +92,7 @@ module.exports = function( grunt ) {
 					done();
 				} );
 			} else {
-				const changelogVersionNumber = newVersion.major + "." + newVersion.minor + "." + newVersion.patch;
+				const changelogVersionNumber = versionNumber.major + "." + versionNumber.minor + "." + versionNumber.patch;
 
 				// Present the user with only the version number.
 				getUserInput( { initialContent: `= ${changelogVersionNumber} =` } ).then( newChangelog => {
