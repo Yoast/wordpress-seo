@@ -45,13 +45,6 @@ class WPSEO_Link_Compatibility_Notifier {
 				'5.0',
 				'<strong>',
 				'</strong>'
-			) . ' ' .
-			sprintf(
-				/* translators: %1$s: Yoast SEO. %2$s: PHP version %3$s: The current PHP version. */
-				esc_html__( 'For this feature to work %1$s requires at least PHP version %2$s. We have detected PHP version %3$s on this website.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'5.3',
-				phpversion()
 			) . '<br>' .
 			sprintf(
 				/* translators: %1$s: link to knowledge base article about solving PHP issue. %2$s: is anchor closing. */
