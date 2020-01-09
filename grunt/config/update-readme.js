@@ -26,8 +26,19 @@ module.exports = function( grunt ) {
 				element => parseVersion( element.slice( 2, element.length - 2 ) )
 			);
 
+			// Check if the current version already exists in the changelog.
+			const containsCurrentVersion = ! _isEmpty(
+				changelogVersions.filter( version => {
+					return (
+						versionNumber.major === version.major &&
+						versionNumber.minor === version.minor &&
+						versionNumber.patch === version.patch
+					);
+				} )
+			);
+
 			// Only if the version is not a patch we remove old changelog entries.
-			if ( versionNumber.patch === 0 ) {
+			if ( ! containsCurrentVersion && versionNumber.patch === 0 ) {
 				let cleanedChangelog = changelog;
 
 				// Remove the current version from the list; this should not be removed.
@@ -70,16 +81,6 @@ module.exports = function( grunt ) {
 				}
 			}
 
-			// Check if the current version already exists in the changelog.
-			const containsCurrentVersion = ! _isEmpty(
-				changelogVersions.filter( version => {
-					return (
-						versionNumber.major === version.major &&
-						versionNumber.minor === version.minor &&
-						versionNumber.patch === version.patch
-					);
-				} )
-			);
 
 			if ( containsCurrentVersion ) {
 				// Present the user with the entire changelog file.
