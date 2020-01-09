@@ -157,7 +157,10 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		return $graph;
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		];
 	}
 
 	/**
