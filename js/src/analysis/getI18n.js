@@ -1,5 +1,5 @@
 import Jed from "jed";
-import isEmpty from "lodash/isEmpty";
+import { isEmpty } from "lodash-es";
 import getTranslations from "./getTranslations";
 
 /**
