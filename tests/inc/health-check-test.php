@@ -114,6 +114,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 				],
 				'description' => '',
 				'actions'     => '',
+				'test'        => '',
 			],
 			$this->instance->get_test_result()
 		);

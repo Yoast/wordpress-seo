@@ -11,8 +11,10 @@
 class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 
 	/**
-	 * @var array $anonymous_settings contains all of the option_names which need to be
-	 * anonimized before they can be sent elsewhere.
+	 * The options that need to be anonymized before they can be sent elsewhere.
+	 *
+	 * @var array $anonymous_settings All of the option_names which need to be
+	 * anonymized before they can be sent elsewhere.
 	 */
 	private $anonymous_settings = [
 		'baiduverify',
@@ -47,7 +49,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	];
 
 	/**
-	 * @var array $include_list contains the option_names for the options we want to track.
+	 * The options we want to track.
+	 *
+	 * @var array $include_list The option_names for the options we want to track.
 	 */
 	private $include_list = [
 		'ms_defaults_set',

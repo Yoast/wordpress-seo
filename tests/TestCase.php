@@ -85,9 +85,6 @@ abstract class TestCase extends BaseTestCase {
 			]
 		);
 
-		// This is required to ensure backfill and other statics are set.
-		WPSEO_Options::get_instance();
-
 		Monkey\Functions\expect( 'get_option' )
 			->zeroOrMoreTimes()
 			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
@@ -97,6 +94,9 @@ abstract class TestCase extends BaseTestCase {
 			->zeroOrMoreTimes()
 			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
+
+		// This is required to ensure backfill and other statics are set.
+		WPSEO_Options::get_instance();
 	}
 
 	/**
