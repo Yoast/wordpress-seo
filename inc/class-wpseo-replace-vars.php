@@ -70,8 +70,6 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Constructor.
-	 *
-	 * @return \WPSEO_Replace_Vars
 	 */
 	public function __construct() {
 		$this->date = new WPSEO_Date_Helper();
