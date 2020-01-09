@@ -390,13 +390,6 @@ class WPSEO_Admin {
 
 		$integrations[] = new WPSEO_Link_Cleanup_Transient();
 
-		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
-		if ( version_compare( phpversion(), '5.3', '<' ) ) {
-			$link_table_compatibility_notifier->add_notification();
-
-			return $integrations;
-		}
-
 		$link_table_compatibility_notifier->remove_notification();
 
 		// When the table doesn't exists, just add the notification and return early.

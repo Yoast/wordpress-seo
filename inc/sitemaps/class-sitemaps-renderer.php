@@ -307,7 +307,6 @@ class WPSEO_Sitemaps_Renderer {
 
 			$encoded_path = array_map( 'rawurlencode', $encoded_path );
 			$encoded_path = implode( '/', $encoded_path );
-			$encoded_path = str_replace( '%7E', '~', $encoded_path ); // PHP < 5.3.
 
 			$url = str_replace( $path, $encoded_path, $url );
 		}
@@ -318,14 +317,7 @@ class WPSEO_Sitemaps_Renderer {
 
 			parse_str( $query, $parsed_query );
 
-			if ( defined( 'PHP_QUERY_RFC3986' ) ) { // PHP 5.4+.
-				$parsed_query = http_build_query( $parsed_query, null, '&amp;', PHP_QUERY_RFC3986 );
-			}
-			else {
-				$parsed_query = http_build_query( $parsed_query, null, '&amp;' );
-				$parsed_query = str_replace( '+', '%20', $parsed_query );
-				$parsed_query = str_replace( '%7E', '~', $parsed_query );
-			}
+			$parsed_query = http_build_query( $parsed_query, null, '&amp;', PHP_QUERY_RFC3986 );
 
 			$url = str_replace( $query, $parsed_query, $url );
 		}
