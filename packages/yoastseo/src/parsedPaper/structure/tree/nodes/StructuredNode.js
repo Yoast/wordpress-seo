@@ -18,12 +18,13 @@ class StructuredNode extends Node {
 	 * Talking about HTML, this would encompass thing like `<div>`, `<section>`, `<aside>`, `<fieldset>`
 	 * and other HTML block elements.
 	 *
-	 * @param {string} tag The tag used in the node.
+	 * @param {string} tag                The tag used in the node.
+	 * @param {?Object} sourceCodeLocation The parse5 formatted location of the element inside of the source code.
 	 *
 	 * @returns {void}
 	 */
-	constructor( tag ) {
-		super( "StructuredNode" );
+	constructor( tag, sourceCodeLocation ) {
+		super( "StructuredNode", sourceCodeLocation );
 		/**
 		 * Type of structured node (e.g. "div", "section" etc.).
 		 * @type {string}
@@ -31,9 +32,21 @@ class StructuredNode extends Node {
 		this.tag = tag;
 		/**
 		 * This node's child nodes.
-		 * @type {Node[]}
+		 * @type {module:parsedPaper/structure.Node[]}
 		 */
 		this.children = [];
+	}
+
+	/**
+	 * Adds a child and sets its parent to this node.
+	 *
+	 * @param {module:parsedPaper/structure.Node} child The child to add.
+	 *
+	 * @returns {void}
+	 */
+	addChild( child ) {
+		child.parent = this;
+		this.children.push( child );
 	}
 }
 export default StructuredNode;

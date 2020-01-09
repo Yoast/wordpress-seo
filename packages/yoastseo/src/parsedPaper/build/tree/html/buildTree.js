@@ -1,7 +1,8 @@
 import { parseFragment } from "parse5";
 
-import TreeAdapter from "./TreeAdapter";
+import HTMLTreeConverter from "./HTMLTreeConverter";
 import cleanUpTree from "../cleanup/postParsing";
+
 
 /**
  * Parses the given html-string to a tree, to be used in further analysis.
@@ -13,14 +14,17 @@ import cleanUpTree from "../cleanup/postParsing";
  * @memberOf module:parsedPaper/builder
  */
 const buildTree = function( html ) {
-	const treeAdapter = new TreeAdapter();
 	/*
 	  Parsing of a HTML article takes on average 19ms
 	  (based on the fullTexts in the specs (n=24), measured using `console.time`).
 	 */
-	let tree = parseFragment( html, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+	const parse5Tree = parseFragment( html, { sourceCodeLocationInfo: true } );
+
+	const htmlTreeConverter =  new HTMLTreeConverter();
+	let tree = htmlTreeConverter.convert( parse5Tree );
+
 	// Cleanup takes < 2ms.
-	tree = cleanUpTree( tree, html );
+	tree = cleanUpTree( tree );
 	return tree;
 };
 
