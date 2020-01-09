@@ -37,7 +37,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		// Adds weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 
-		// Sets the action for the Ryte fetch.
+		// Sets the action for the Ryte fetch cron job.
 		add_action( 'wpseo_ryte_fetch', [ $this, 'fetch_from_ryte' ] );
 	}
 
