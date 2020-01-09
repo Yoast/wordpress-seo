@@ -336,7 +336,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_site_notice_dismissed( $notice_name ) {
-		return '1' === get_option( $notice_name, true );
+		return get_option( $notice_name, true ) === '1';
 	}
 
 	/**
@@ -490,7 +490,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_blog_public() {
-		return '1' === (string) get_option( 'blog_public' );
+		return (string) get_option( 'blog_public' ) === '1';
 	}
 
 	/**
@@ -536,7 +536,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+		return ( strpos( get_option( 'permalink_structure' ), '%postname%' ) !== false );
 	}
 
 	/**
@@ -545,7 +545,7 @@ class WPSEO_Admin_Init {
 	public function permalink_settings_notice() {
 		global $pagenow;
 
-		if ( $pagenow === 'options-permalink.php' ) {
+		if ( 'options-permalink.php' === $pagenow ) {
 			printf(
 				'<div class="notice notice-warning"><p><strong>%1$s</strong><br>%2$s<br><a href="%3$s" target="_blank">%4$s</a></p></div>',
 				esc_html__( 'WARNING:', 'wordpress-seo' ),
@@ -619,6 +619,6 @@ class WPSEO_Admin_Init {
 	public function has_page_comments() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
 
-		return '1' === get_option( 'page_comments' );
+		return get_option( 'page_comments' ) === '1';
 	}
 }
