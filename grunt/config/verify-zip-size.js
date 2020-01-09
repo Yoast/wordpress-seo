@@ -1,9 +1,7 @@
 const fs = require( "fs" );
 const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
-const fetch = require( "node-fetch" );
 const parseVersion = require( "./tools/parse-version" );
-
-const API_BASE = "https://api.github.com/repos/" + process.env.GITHUB_REPOSITORY;
+const githubApi = require( "./tools/github-api" );
 
 /**
  * Gets a milestone from the wordpress-seo repo.
@@ -15,12 +13,7 @@ const API_BASE = "https://api.github.com/repos/" + process.env.GITHUB_REPOSITORY
 async function getMilestone( title ) {
 	title = title.toLowerCase();
 
-	const milestonesResponse = await fetch( `${ API_BASE }/milestones?state=open`, {
-		headers: {
-			Authorization: `token ${ process.env.GITHUB_ACCESS_TOKEN }`,
-		},
-	} );
-
+	const milestonesResponse = await githubApi( "milestones?state=open" );
 	if ( ! milestonesResponse.ok ) {
 		return null;
 	}
@@ -28,26 +21,6 @@ async function getMilestone( title ) {
 	const milestones = await milestonesResponse.json();
 
 	return milestones.find( milestone => milestone.title.toLowerCase() === title ) || null;
-}
-
-/**
- * Creates an issue on GitHub.
- *
- * @param {Object} issueData Data to create the issue with.
- *
- * @returns {Promise<object|null>} GitHub response.
- */
-async function createIssue( issueData ) {
-	// Create the issue on GitHub.
-	const issueResponse = await fetch( `${ API_BASE }/issues`, {
-		method: "POST",
-		headers: {
-			Authorization: `token ${ process.env.GITHUB_ACCESS_TOKEN }`,
-		},
-		body: JSON.stringify( issueData ),
-	} );
-
-	return issueResponse;
 }
 
 /**
@@ -66,6 +39,8 @@ module.exports = function( grunt ) {
 
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
 			const maximumSize = 5242880;
+
+			// Exit early if the filesize is within limits.
 			if ( stats.size <= maximumSize ) {
 				done();
 			}
@@ -92,42 +67,37 @@ module.exports = function( grunt ) {
 				issueData.milestone = milestone.number;
 			}
 
-			const issueResponse = await createIssue( issueData );
+			const issueResponse = await githubApi( "issues", issueData, "POST" );
 			const issueResponseData = await issueResponse.json();
 
 			// Send a message to the slack plugin channel.
 			const slackWebhook = new IncomingWebhook( process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN );
+			const slackMessageIssueLink = issueResponseData.html_url || "_GitHub issue creation failed. Please check your .env config._";
 			await slackWebhook.send( {
-				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ issueResponseData.html_url }`,
+				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ slackMessageIssueLink }`,
 			} );
 
 			const finalMessage = "The RC process is being stopped.";
 
+			grunt.log.warn( `Zip size is too big (${ sizeInMB }MB).\n` );
+
 			if ( ! issueResponse.ok ) {
 				grunt.fail.fatal(
-					`Zip size is too big (${ sizeInMB }MB).\n` +
 					`An issue could not be created: ${ issueResponseData.message }\n\n` +
 					finalMessage
 				);
 			}
 
-			if ( ! issueResponseData.milestone ) {
-				grunt.log.warn(
-					`Zip size is too big (${ sizeInMB }MB).\n` +
-					`An issue has been created: ${ issueResponseData.html_url }.\n`
-				);
+			grunt.log.ok( `An issue has been created: ${ issueResponseData.html_url }.\n` );
 
+			if ( ! issueResponseData.milestone ) {
 				grunt.fail.fatal(
 					`The milestone could not be attached! (${ milestoneTitle })\n\n` +
 					finalMessage
 				);
 			}
 
-			grunt.fail.warn(
-				`Zip size is too big (${ sizeInMB }MB). The release process is stopped.\n` +
-				`An issue has been created: ${ issueResponseData.html_url }.\n\n` +
-				finalMessage
-			);
+			grunt.fail.fatal( finalMessage );
 		}
 	);
 };

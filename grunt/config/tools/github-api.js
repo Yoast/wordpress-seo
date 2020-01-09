@@ -15,14 +15,19 @@ async function githubApi( path, body, method = "GET" ) {
 	const repository = process.env.GITHUB_REPOSITORY;
 	const apiUrl = `${ apiRoot }/repos/${ repository }/${ path }`;
 
-	return await fetch( apiUrl, {
+	const config = {
 		method: method,
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `token ${ accessToken }`,
 		},
-		body: JSON.stringify( body ),
-	} );
+	};
+
+	if ( method !== "GET" && method !== "HEAD" ) {
+		config.body = JSON.stringify( body );
+	}
+
+	return await fetch( apiUrl, config );
 }
 
 module.exports = githubApi;
