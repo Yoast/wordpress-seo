@@ -783,7 +783,7 @@ export default class AnalysisWebWorker {
 			try {
 				this._tree = this._treeBuilder.build( text );
 			} catch ( exception ) {
-				logger.debug( "Yoast SEO and readability analysis: " +
+				console.error( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
