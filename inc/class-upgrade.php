@@ -697,6 +697,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_xxx() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
 	}
 
 	/**

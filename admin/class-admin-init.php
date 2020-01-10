@@ -36,7 +36,6 @@ class WPSEO_Admin_Init {
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
-		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
@@ -51,6 +50,9 @@ class WPSEO_Admin_Init {
 
 		$default_tagline = new WPSEO_Health_Check_Default_Tagline();
 		$default_tagline->register_test();
+
+		$postname_in_permalink = new WPSEO_Health_Check_Postname_Permalink();
+		$postname_in_permalink->register_test();
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
@@ -123,38 +125,6 @@ class WPSEO_Admin_Init {
 
 		$notification_center = Yoast_Notification_Center::get();
 		if ( ! $this->is_blog_public() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Show alert when the permalink doesn't contain %postname%.
-	 */
-	public function permalink_notice() {
-
-		$info_message  = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
-		$info_message .= '<br/>';
-		$info_message .= sprintf(
-			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
-			__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
-			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::WARNING,
-			'id'           => 'wpseo-dismiss-permalink-notice',
-			'capabilities' => 'wpseo_manage_options',
-			'priority'     => 0.8,
-		];
-
-		$notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( ! $this->has_postname_in_permalink() ) {
 			$notification_center->add_notification( $notification );
 		}
 		else {
@@ -501,15 +471,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Check if the permalink uses %postname%.
-	 *
-	 * @return bool
-	 */
-	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
-	}
-
-	/**
 	 * Shows a notice on the permalink settings page.
 	 */
 	public function permalink_settings_notice() {
@@ -609,5 +570,15 @@ class WPSEO_Admin_Init {
 		$translated_blog_description = __( 'Just another WordPress site', 'default' );
 
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
+	}
+
+	/**
+	 * Shows an alert when the permalink doesn't contain %postname%.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 */
+	public function permalink_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 }
