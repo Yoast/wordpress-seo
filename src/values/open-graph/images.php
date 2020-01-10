@@ -2,13 +2,13 @@
 /**
  * Value object for the OpenGraph Images.
  *
- * @package Yoast\WP\Free\Values
+ * @package Yoast\WP\SEO\Values
  */
 
-namespace Yoast\WP\Free\Values\Open_Graph;
+namespace Yoast\WP\SEO\Values\Open_Graph;
 
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Values\Images as Base_Images;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Values\Images as Base_Images;
 
 /**
  * Class WPSEO_OpenGraph_Image.

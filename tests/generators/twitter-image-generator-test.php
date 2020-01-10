@@ -1,21 +1,21 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Generators;
+namespace Yoast\WP\SEO\Tests\Generators;
 
 use Mockery;
-use Yoast\WP\Free\Generators\Twitter_Image_Generator;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Values\Images;
+use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\Images;
 
 /**
  * Class Twitter_Image_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Generators\Twitter_Image_Generator
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Twitter_Image_Generator
  *
  * @group generators
  * @group twitter

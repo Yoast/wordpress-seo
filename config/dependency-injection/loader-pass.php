@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Dependency_Injection
  */
 
-namespace Yoast\WP\Free\Dependency_Injection;
+namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Yoast\WP\Free\Commands\Command_Interface;
-use Yoast\WP\Free\Initializers\Initializer_Interface;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Loader;
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Loader;
 
 /**
  * A pass is a step in the compilation process of the container.

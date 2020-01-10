@@ -2,10 +2,10 @@
 /**
  * A helper object for images.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\SEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
 

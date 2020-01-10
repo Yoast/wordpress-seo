@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Formats the author meta to indexable format.

@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Generators
  */
 
-namespace Yoast\WP\Free\Generators;
+namespace Yoast\WP\SEO\Generators;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Generators\Generator_Interface;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Generators\Generator_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Represents the generator class for the Open Graph images.

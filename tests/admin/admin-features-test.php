@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Admin;
 
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Tests\Doubles\Shortlinker;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Shortlinker;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Admin_Features.

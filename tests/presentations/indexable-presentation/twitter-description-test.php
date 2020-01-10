@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Twitter_Description_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group twitter
@@ -55,7 +55,20 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled = true;
 		$this->indexable->og_description   = 'OG description';
 
-		$this->assertEquals( 'OG description', $this->instance->generate_twitter_description() );
+		$this->assertEquals( '', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter description is set, the OG description isn't set, and OG is enabled.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_no_set_og_description_and_og_enabled() {
+		$this->context->open_graph_enabled = true;
+		$this->instance->og_description    = '';
+		$this->indexable->description      = 'SEO description';
+
+		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
 	}
 
 	/**
@@ -76,7 +89,8 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_meta_description() {
-		$this->indexable->description = 'Meta description';
+		$this->indexable->description   = 'Meta description';
+		$this->instance->og_description = '';
 
 		$this->assertEquals( 'Meta description', $this->instance->generate_twitter_description() );
 	}

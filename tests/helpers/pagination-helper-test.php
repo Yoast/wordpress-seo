@@ -1,20 +1,20 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
-use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 
 /**
  * Class Pagination_Helper_Test.
  *
  * @group helpers
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Pagination_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\Pagination_Helper
  */
 class Pagination_Helper_Test extends TestCase {
 

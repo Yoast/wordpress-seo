@@ -1,23 +1,24 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations;
+namespace Yoast\WP\SEO\Tests\Presentations;
 
 use Mockery;
-use Yoast\WP\Free\Generators\Breadcrumbs_Generator;
-use Yoast\WP\Free\Generators\OG_Image_Generator;
-use Yoast\WP\Free\Generators\Twitter_Image_Generator;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
-use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
+use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Presentations\Generators\OG_Locale_Generator;
+use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 
 trait Presentation_Instance_Dependencies {
 

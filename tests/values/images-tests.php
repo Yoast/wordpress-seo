@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Values;
+namespace Yoast\WP\SEO\Tests\Values;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Values\Images;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\Images;
 
 /**
  * Class Images_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Values\Images
+ * @coversDefaultClass \Yoast\WP\SEO\Values\Images
  *
  * @group values
  */

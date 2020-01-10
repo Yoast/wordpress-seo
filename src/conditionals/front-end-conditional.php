@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Conditional that is only met when in the admin.

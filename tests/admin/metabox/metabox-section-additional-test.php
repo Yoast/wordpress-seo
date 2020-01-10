@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use WPSEO_Metabox_Section_Additional;
 
 /**

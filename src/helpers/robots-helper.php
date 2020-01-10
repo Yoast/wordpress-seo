@@ -2,13 +2,13 @@
 /**
  * A helper object for the robots meta tag.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\SEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Robots_Helper

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Admin;
+namespace Yoast\WP\SEO\Tests\Doubles\Admin;
 
 use WPSEO_MyYoast_Proxy;
 

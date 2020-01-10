@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Taxonomy_Helper;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
@@ -109,6 +109,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		$twitter_description = parent::generate_twitter_description();
 		if ( $twitter_description ) {
 			return $twitter_description;
+		}
+
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		return $this->taxonomy->get_term_description( $this->model->object_id );

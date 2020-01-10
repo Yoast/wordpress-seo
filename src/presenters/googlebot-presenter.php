@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Googlebot_Presenter
@@ -26,7 +26,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 		$googlebot = $this->filter( $googlebot, $presentation );
 
 		if ( \is_string( $googlebot ) && $googlebot !== '' ) {
-			return \sprintf( '<meta name="googlebot" content="%s"/>', \esc_attr( $googlebot ) );
+			return \sprintf( '<meta name="googlebot" content="%s" />', \esc_attr( $googlebot ) );
 		}
 
 		return '';

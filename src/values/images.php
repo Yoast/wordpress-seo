@@ -2,18 +2,18 @@
 /**
  * Value object for the Images.
  *
- * @package Yoast\WP\Free\Values
+ * @package Yoast\WP\SEO\Values
  */
 
-namespace Yoast\WP\Free\Values;
+namespace Yoast\WP\SEO\Values;
 
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
  * Class Images
  *
- * @package Yoast\WP\Free\Values
+ * @package Yoast\WP\SEO\Values
  */
 class Images {
 
