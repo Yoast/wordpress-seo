@@ -14,6 +14,11 @@ use Yoast\WP\Free\Tests\TestCase;
 class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 
 	/**
+	 * @var Mockery\Mock|\WPSEO_Health_Check_Curl_Version
+	 */
+	private $instance;
+
+	/**
 	 * Set up the class which will be tested.
 	 */
 	public function setUp() {
@@ -28,12 +33,12 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 * Tests the run method returns early when cURL is not installed.
 	 *
 	 * @covers WPSEO_Health_Check_Curl_Version::run
-	 * @covers WPSEO_Health_Check_Curl_Version::get_curl_version
 	 */
 	public function test_run_with_no_curl() {
 		$this->instance
-			->shouldReceive( 'get_curl_version' )
-			->andReturn( false );
+			->expects( 'get_curl_version' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->run();
 
@@ -45,12 +50,17 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 * Tests the run method returns early when no premium plugins are installed.
 	 *
 	 * @covers WPSEO_Health_Check_Curl_Version::run
-	 * @covers WPSEO_Health_Check_Curl_Version::has_premium_plugins_installed
 	 */
 	public function test_run_with_no_premium_plugins() {
 		$this->instance
-			->shouldReceive( 'has_premium_plugins_installed' )
-			->andReturn( false );
+			->expects( 'get_curl_version' )
+			->once()
+			->andReturn( '' );
+
+		$this->instance
+			->expects( 'has_premium_plugins_installed' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->run();
 
@@ -62,16 +72,22 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 * Tests the run method returns early when the MyYoast API is reachable.
 	 *
 	 * @covers WPSEO_Health_Check_Curl_Version::run
-	 * @covers WPSEO_Health_Check_Curl_Version::is_my_yoast_api_reachable
 	 */
 	public function test_run_with_myyoast_api_reachable() {
 		$this->instance
-			->shouldReceive( 'has_premium_plugins_installed' )
-			->andReturn( true );
+			->expects( 'get_curl_version' )
+			->once()
+			->andReturn( '' );
 
 		$this->instance
-			->shouldReceive( 'is_my_yoast_api_reachable' )
-			->andReturn( true );
+			->expects( 'has_premium_plugins_installed')
+			->once()
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'is_my_yoast_api_reachable' )
+			->once()
+			->andReturnTrue();
 
 		$this->instance->run();
 
@@ -83,23 +99,24 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 * Tests the run method when the cURL version is up-to-date.
 	 *
 	 * @covers WPSEO_Health_Check_Curl_Version::run
-	 * @covers WPSEO_Health_Check_Curl_Version::has_premium_plugins_installed
-	 * @covers WPSEO_Health_Check_Curl_Version::is_my_yoast_api_reachable
 	 * @covers WPSEO_Health_Check_Curl_Version::is_recent_curl_version
 	 */
 	public function test_run_with_updated_curl_version() {
+		// Note: as of January 2020, the most recent cURL version is 7.67.0.
 		$this->instance
-			->shouldReceive( 'has_premium_plugins_installed' )
-			->andReturn( true );
+			->expects( 'get_curl_version' )
+			->twice()
+			->andReturn( '7.60.0' ); // > 7.20.0
 
 		$this->instance
-			->shouldReceive( 'is_my_yoast_api_reachable' )
-			->andReturn( false );
-
-		$this->instance
-			->shouldReceive( 'is_recent_curl_version' )
+			->expects( 'has_premium_plugins_installed' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'is_my_yoast_api_reachable' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->run();
 
@@ -111,27 +128,29 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 * Tests the run method when the cURL version is outdated.
 	 *
 	 * @covers WPSEO_Health_Check_Curl_Version::run
-	 * @covers WPSEO_Health_Check_Curl_Version::has_premium_plugins_installed
-	 * @covers WPSEO_Health_Check_Curl_Version::is_my_yoast_api_reachable
 	 * @covers WPSEO_Health_Check_Curl_Version::is_recent_curl_version
 	 */
 	public function test_run_with_outdated_curl_version() {
+		// Note: as of January 2020, the most recent cURL version is 7.67.0.
 		$this->instance
-			->shouldReceive( 'has_premium_plugins_installed' )
-			->andReturn( true );
+			->expects( 'get_curl_version' )
+			->twice()
+			->andReturn( '7.10.0' ); // < 7.20.0
 
 		$this->instance
-			->shouldReceive( 'is_my_yoast_api_reachable' )
-			->andReturn( false );
-
-		$this->instance
-			->shouldReceive( 'is_recent_curl_version' )
+			->expects( 'has_premium_plugins_installed' )
 			->once()
-			->andReturn( false );
+			->andReturnTrue();
+
+		$this->instance
+			->expects( 'is_my_yoast_api_reachable' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
 		$this->assertAttributeEquals( 'Your cURL PHP module is outdated', 'label', $this->instance );
 	}
+
 }
