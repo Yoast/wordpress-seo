@@ -93,8 +93,11 @@ class ID_Helper {
 	 */
 	public function get_user_schema_id( $user_id, $context ) {
 		$user = get_userdata( $user_id );
+		if ( is_a( $user, 'WP_User' ) ) {
+			return $context->site_url . $this->person_hash . wp_hash( $user->user_login . $user_id );
+		}
 
-		return $context->site_url . $this->person_hash . wp_hash( $user->user_login . $user_id );
+		return '';
 	}
 
 	/**

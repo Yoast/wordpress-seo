@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema Article data.
@@ -27,14 +28,21 @@ class Article extends Abstract_Schema_Piece {
 	private $date_helper;
 
 	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article_helper The article helper.
 	 * @param Date_Helper    $date_helper    The date helper.
+	 * @param HTML_Helper    $html_helper    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper ) {
+	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper, HTML_Helper $html_helper ) {
 		$this->article_helper = $article_helper;
 		$this->date_helper    = $date_helper;
+		$this->html_helper    = $html_helper;
 	}
 
 	/**
@@ -55,6 +63,7 @@ class Article extends Abstract_Schema_Piece {
 
 		if ( $this->article_helper->is_article_post_type( $context->indexable->object_sub_type ) ) {
 			$context->main_schema_id = $context->canonical . $this->id_helper->article_hash;
+
 			return true;
 		}
 
@@ -75,7 +84,7 @@ class Article extends Abstract_Schema_Piece {
 			'@id'              => $context->canonical . $this->id_helper->article_hash,
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
-			'headline'         => $context->title,
+			'headline'         => $this->html_helper->smart_strip_tags( $context->title ),
 			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
 			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],

@@ -48,8 +48,8 @@ class WebPage extends Abstract_Schema_Piece {
 		Date_Helper $date_helper
 	) {
 		$this->current_page = $current_page_helper;
-		$this->html_helper  = $html_helper;
 		$this->date_helper  = $date_helper;
+		$this->html_helper  = $html_helper;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
 			'url'        => $context->canonical,
 			'inLanguage' => \get_bloginfo( 'language' ),
-			'name'       => $context->title,
+			'name'       => $this->html_helper->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id_helper->website_hash,
 			],
@@ -100,7 +100,7 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		if ( ! empty( $context->description ) ) {
-			$data['description'] = $this->html_helper->sanitize( $context->description );
+			$data['description'] = $this->html_helper->smart_strip_tags( $context->description );
 		}
 
 		if ( $this->add_breadcrumbs( $context ) ) {
