@@ -25,7 +25,8 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			$this->label          = esc_html__( 'Paging comments is properly disabled', 'wordpress-seo' );
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
-			$this->description  = esc_html__( 'Paging comments is disabled. As this is not needed in 999 out of 1000 cases, we recommend to keep it disabled.', 'wordpress-seo' );
+			$this->description    = esc_html__( 'Paging comments is disabled. As this is not needed in 999 out of 1000 cases, we recommend to keep it disabled.', 'wordpress-seo' );
+			$this->add_yoast_signature();
 
 			return;
 		}
@@ -43,6 +44,7 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
 		);
+		$this->add_yoast_signature();
 	}
 
 	/**
