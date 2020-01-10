@@ -99,7 +99,7 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  # - 'ensure-clean-branch'
+#  - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
@@ -121,7 +121,7 @@ clean:build-assets:
   - 'shell:unlink-monorepo'
   - 'shell:install-monorepo'
   - 'shell:get-monorepo-versions'
-  - 'prompt-monorepo-versions'
+  - 'prompt:monorepoVersions'
   - 'shell:composer-install'
   - 'shell:composer-update-yoast-dependencies'
 
