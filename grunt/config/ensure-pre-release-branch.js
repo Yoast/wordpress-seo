@@ -41,12 +41,12 @@ module.exports = function( grunt ) {
 
 			const exists = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
 
-			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
 			if ( exists ) {
 				// Verify whether this branch already exists on the remote.
 				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
 
-				// If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
+				/* If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
+				This is needed because you cannot pull (as we will do below) on a branch that doesn't exist remotely. */
 				if ( ! existsRemotely ) {
 					grunt.fail.fatal( "The release branch does not exist on the remote (origin). " +
 						"Please push your local branch, and run this script again." );
