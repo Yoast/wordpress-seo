@@ -30,74 +30,39 @@ use Yoast\WP\SEO\Presentations\Generators\Schema\HowTo;
 class Schema_Generator_Test extends TestCase {
 
 	/**
-	 * @var Schema_Generator|Mockery\MockInterface
+	 * The instance to test.
+	 *
+	 * @var Schema_Generator|Mockery\MockInterface|Schema_Generator
 	 */
 	protected $instance;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context
 	 */
 	protected $context;
 
 	/**
-	 * @var ID_Helper|Mockery\MockInterface
+	 * The schema id helper.
+	 *
+	 * @var ID_Helper|Mockery\MockInterface|ID_Helper
 	 */
 	protected $id_helper;
 
 	/**
-	 * @var Current_Page_Helper|Mockery\MockInterface
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper|Mockery\MockInterface|Current_Page_Helper
 	 */
 	protected $current_page_helper;
 
 	/**
-	 * @var Organization|Mockery\MockInterface
+	 * The organisation scheme generator.
+	 *
+	 * @var Organization|Mockery\MockInterface|Organization
 	 */
 	protected $organization_generator;
-
-	/**
-	 * @var Person|Mockery\MockInterface
-	 */
-	protected $person_generator;
-
-	/**
-	 * @var Website|Mockery\MockInterface
-	 */
-	protected $website_generator;
-
-	/**
-	 * @var Main_Image|Mockery\MockInterface
-	 */
-	protected $main_image_generator;
-
-	/**
-	 * @var WebPage|Mockery\MockInterface
-	 */
-	protected $web_page_generator;
-
-	/**
-	 * @var Breadcrumb|Mockery\MockInterface
-	 */
-	protected $breadcrumb_generator;
-
-	/**
-	 * @var Article|Mockery\MockInterface
-	 */
-	protected $article_generator;
-
-	/**
-	 * @var Author|Mockery\MockInterface
-	 */
-	protected $author_generator;
-
-	/**
-	 * @var FAQ|Mockery\MockInterface
-	 */
-	protected $faq_generator;
-
-	/**
-	 * @var HowTo|Mockery\MockInterface
-	 */
-	protected $how_to_generator;
 
 	/**
 	 * Setup the test.
@@ -105,19 +70,9 @@ class Schema_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->id_helper = Mockery::mock( ID_Helper::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-
+		$this->id_helper              = Mockery::mock( ID_Helper::class );
+		$this->current_page_helper    = Mockery::mock( Current_Page_Helper::class );
 		$this->organization_generator = Mockery::mock( Organization::class );
-		$this->person_generator = Mockery::mock( Person::class );
-		$this->website_generator = Mockery::mock( Website::class );
-		$this->main_image_generator = Mockery::mock( Main_Image::class );
-		$this->web_page_generator = Mockery::mock( WebPage::class );
-		$this->breadcrumb_generator = Mockery::mock( Breadcrumb::class );
-		$this->article_generator = Mockery::mock( Article::class );
-		$this->author_generator = Mockery::mock( Author::class );
-		$this->faq_generator = Mockery::mock( FAQ::class );
-		$this->how_to_generator = Mockery::mock( HowTo::class );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
@@ -125,15 +80,15 @@ class Schema_Generator_Test extends TestCase {
 				$this->id_helper,
 				$this->current_page_helper,
 				$this->organization_generator,
-				$this->person_generator,
-				$this->website_generator,
-				$this->main_image_generator,
-				$this->web_page_generator,
-				$this->breadcrumb_generator,
-				$this->article_generator,
-				$this->author_generator,
-				$this->faq_generator,
-				$this->how_to_generator,
+				Mockery::mock( Person::class ),
+				Mockery::mock( Website::class ),
+				Mockery::mock( Main_Image::class ),
+				Mockery::mock( WebPage::class ),
+				Mockery::mock( Breadcrumb::class ),
+				Mockery::mock( Article::class ),
+				Mockery::mock( Author::class ),
+				Mockery::mock( FAQ::class ),
+				Mockery::mock( HowTo::class ),
 			]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
