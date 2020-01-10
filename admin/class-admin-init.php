@@ -133,22 +133,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
-	}
-
-	/**
 	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
 	 * on the google search console page.
 	 *
