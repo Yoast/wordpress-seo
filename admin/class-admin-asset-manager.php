@@ -397,8 +397,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name'    => 'select2',
-				'src'     => 'select2/select2.full',
-				'suffix'  => '.min',
+				'src'     => 'select2/select2.full.min',
 				'deps'    => [
 					'jquery',
 				],
@@ -412,7 +411,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',
@@ -606,8 +604,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name'    => 'select2',
-				'src'     => 'select2/select2',
-				'suffix'  => '.min',
+				'src'     => 'select2/select2.min',
 				'version' => '4.0.1',
 				'rtl'     => false,
 			],
