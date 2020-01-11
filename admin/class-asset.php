@@ -129,13 +129,6 @@ class WPSEO_Admin_Asset {
 	protected $rtl;
 
 	/**
-	 * File suffix.
-	 *
-	 * @var string
-	 */
-	protected $suffix;
-
-	/**
 	 * Default asset arguments.
 	 *
 	 * @var array
@@ -173,7 +166,6 @@ class WPSEO_Admin_Asset {
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
-		$this->suffix    = isset( $args['suffix'] ) ? $args['suffix'] : '';
 	}
 
 	/**
@@ -242,10 +234,14 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns the file suffix.
 	 *
+	 * @deprecated 12.9
+	 * @codeCoverageIgnore
+	 *
 	 * @return string
 	 */
 	public function get_suffix() {
-		return $this->suffix;
+		_deprecated_function( __CLASS__ . '::get_suffix', '12.9', false );
+		return '';
 	}
 
 	/**
