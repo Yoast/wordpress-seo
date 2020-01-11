@@ -89,13 +89,6 @@ if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
 	define( 'YOAST_ENVIRONMENT', 'production' );
 }
 
-/**
- * Only use minified assets when we are in a production environment.
- */
-if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
-	define( 'WPSEO_CSSJS_SUFFIX', ( YOAST_ENVIRONMENT !== 'development' ) ? '.min' : '' );
-}
-
 /* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
 
 /**
