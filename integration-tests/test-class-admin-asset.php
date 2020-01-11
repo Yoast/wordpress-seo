@@ -81,7 +81,6 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 			'version'   => 'version',
 			'media'     => 'screen',
 			'in_footer' => false,
-			'suffix'    => '.suffix',
 			'rtl'       => false,
 		];
 		$asset      = new WPSEO_Admin_Asset( $asset_args );
@@ -90,7 +89,6 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'version', $asset->get_version() );
 		$this->assertEquals( 'screen', $asset->get_media() );
 		$this->assertEquals( false, $asset->is_in_footer() );
-		$this->assertEquals( '.suffix', $asset->get_suffix() );
 		$this->assertEquals( false, $asset->has_rtl() );
 	}
 
