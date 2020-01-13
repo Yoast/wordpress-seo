@@ -1,3 +1,4 @@
+import { LeafNode } from "../../structure/tree";
 import Research from "./Research";
 
 /**
@@ -12,12 +13,14 @@ class LinkStatistics extends Research {
 	/**
 	 * Calculates link statistics for the given node.
 	 *
-	 * @param {module:parsedPaper/structure.Node} node The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.LeafNode} node The node to calculate the research for.
 	 *
 	 * @returns {Promise<Object[]>} The research results.
 	 */
 	calculateFor( node ) {
-		return undefined;
+		// Collect link elements.
+		const links = node.textContainer.formatting.filter( element => element.type === "a" );
+		console.log( links );
 	}
 
 	/**
@@ -28,7 +31,7 @@ class LinkStatistics extends Research {
 	 * @returns {boolean} Whether the given node is considered a leaf node for this research.
 	 */
 	isLeafNode( node ) {
-		return false;
+		return node instanceof LeafNode;
 	}
 
 	/**
