@@ -36,9 +36,12 @@ module.exports = function( grunt ) {
 			// Declare the new plugin version variable.
 			let newPluginVersion = pluginVersionArgument;
 
-			// If the argument version matches the version in package.json, increment the RC version.
+			/*
+			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
+			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
+			*/
 			if ( pluginVersionArgument === strippedVersion ) {
-				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
+				const currentRCVersion = parsedVersion[ 1 ] || "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
 				newPluginVersion += "-RC" + bumpedRCVersion;
 			} else {
