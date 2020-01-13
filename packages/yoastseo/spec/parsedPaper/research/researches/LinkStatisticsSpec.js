@@ -20,6 +20,8 @@ Structured:
               text: This is a text with a link.
               formatting:
                 - a:
+                    attributes:
+                      href: "https://yoast.com/a-link"
                     sourceCodeLocation:
                       startTag:
                       endTag:
@@ -51,6 +53,7 @@ Structured:
 		researcher.addResearch( "linkStatistics", linkStatistics );
 		researcher.doResearch( "linkStatistics", tree ).then(
 			results => {
+				console.log( results );
 				done();
 			}
 		);
