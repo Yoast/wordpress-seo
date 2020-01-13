@@ -18,19 +18,26 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	protected $test = 'yoast-health-check-ryte';
 
 	/**
+	 * The Ryte option.
+	 *
+	 * @var WPSEO_Ryte_Option $ryte_option The Ryte Option.
+	 */
+	protected $ryte_option;
+
+	/**
 	 * Runs the test.
 	 *
 	 * @return void
 	 */
 	public function run() {
-		$ryte_option = $this->get_ryte_option();
+		$this->ryte_option = $this->get_ryte_option();
 
 		// If Ryte is disabled or the blog is not public or development mode is on, don't run code.
-		if ( ! $this->should_run( $ryte_option ) ) {
+		if ( ! $this->should_run() ) {
 			return;
 		}
 
-		switch ( $ryte_option->get_status() ) {
+		switch ( $this->ryte_option->get_status() ) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
 				$this->is_not_indexable_response();
 				break;
@@ -48,12 +55,10 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Checks whether Ryte is enabled, the blog is public, and it is not development mode.
 	 *
-	 * @param WPSEO_Ryte_Option $ryte_option The Ryte Option.
-	 *
 	 * @return bool True when Ryte is enabled, the blog is public and development mode is not on.
 	 */
-	protected function should_run( $ryte_option ) {
-		if ( ! $ryte_option->is_enabled() ) {
+	protected function should_run() {
+		if ( ! $this->ryte_option->is_enabled() ) {
 			return false;
 		}
 
@@ -173,12 +178,14 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function add_analyze_site_links() {
-		$this->actions .= sprintf(
-			/* translators: %1$s: Opening link tag to fetch current Ryte indexability status, %2$s: Link closing tag. */
-			esc_html__( '%1$sRe-analyze site indexability%2$s', 'wordpress-seo' ),
-			'<a class="fetch-status button yoast-site-health__inline-button" href="' . esc_url( add_query_arg( 'wpseo-redo-ryte', '1', admin_url( 'site-health.php' ) ) ) . '">',
-			'</a>'
-		);
+		if ( $this->ryte_option->should_be_fetched() ) {
+			$this->actions .= sprintf(
+				/* translators: %1$s: Opening link tag to fetch current Ryte indexability status, %2$s: Link closing tag. */
+				esc_html__( '%1$sRe-analyze site indexability%2$s', 'wordpress-seo' ),
+				'<a class="fetch-status button yoast-site-health__inline-button" href="' . esc_url( add_query_arg( 'wpseo-redo-ryte', '1', admin_url( 'site-health.php' ) ) ) . '">',
+				'</a>'
+			);
+		}
 
 		$this->actions .= sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast Ryte website, %2$s: Expands to 'Ryte', %3$s: Link closing tag. */
