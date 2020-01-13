@@ -157,7 +157,10 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		return $graph;
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		];
 	}
 
 	/**
@@ -167,7 +170,7 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
-	private function get_graph_pieces( $context ) {
+	protected function get_graph_pieces( $context ) {
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
 		 *
