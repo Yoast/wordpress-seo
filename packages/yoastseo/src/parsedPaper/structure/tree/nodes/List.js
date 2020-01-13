@@ -1,5 +1,6 @@
+import StructuredNode from "./StructuredNode";
 import ListItem from "./ListItem";
-import Node from "./Node";
+
 /**
  * Represents a list of items.
  *
@@ -7,16 +8,17 @@ import Node from "./Node";
  *
  * @memberOf module:parsedPaper/structure
  */
-class List extends Node {
+class List extends StructuredNode {
 	/**
 	 * Represents a list of items.
 	 *
-	 * @param {boolean} ordered Whether the list is ordered or not.
+	 * @param {boolean} ordered            Whether the list is ordered or not.
+	 * @param {Object}  sourceCodeLocation The parse5 formatted location of the element inside of the source code.
 	 *
 	 * @returns {void}
 	 */
-	constructor( ordered ) {
-		super( "List" );
+	constructor( ordered, sourceCodeLocation ) {
+		super( "List", sourceCodeLocation );
 		/**
 		 * If this list is ordered.
 		 * @type {boolean}
@@ -35,7 +37,7 @@ class List extends Node {
 	 * @param {ListItem} child The child to add.
 	 * @returns {void}
 	 */
-	appendChild( child ) {
+	addChild( child ) {
 		if ( ! ( child instanceof ListItem ) ) {
 			console.warn( "Added child is not a ListItem!" );
 		}
