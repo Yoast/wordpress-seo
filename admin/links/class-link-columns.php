@@ -205,7 +205,7 @@ class WPSEO_Link_Columns {
 	 * @param string $target Extra table navigation location which is triggered.
 	 */
 	public function count_objects( $target ) {
-		if ( 'top' === $target ) {
+		if ( $target === 'top' ) {
 			$this->set_count_objects();
 		}
 	}
