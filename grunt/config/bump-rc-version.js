@@ -14,7 +14,7 @@ module.exports = function( grunt ) {
 			const pluginVersionArgument = grunt.option( "plugin-version" );
 			const releaseTypeArgument = grunt.option( "type" );
 
-			// Check if flags were passed.
+			// Check if arguments were passed.
 			if ( ! pluginVersionArgument ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
@@ -36,7 +36,7 @@ module.exports = function( grunt ) {
 			// Declare the new plugin version variable.
 			let newPluginVersion = pluginVersionArgument;
 
-			// If the flagged version matches the version in package.json, increment the RC version.
+			// If the argument version matches the version in package.json, increment the RC version.
 			if ( pluginVersionArgument === strippedVersion ) {
 				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
