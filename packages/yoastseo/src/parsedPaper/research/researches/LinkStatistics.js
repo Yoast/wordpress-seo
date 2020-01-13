@@ -17,14 +17,24 @@ class LinkStatistics extends Research {
 	/**
 	 * Checks whether the given link is marked for search engines to not follow.
 	 *
-	 * @param {module:parsedPaper/structure.FormattingElement} link The link to check.
+	 * @param {module:parsedPaper/structure.FormattingElement} linkElement The link to check.
 	 *
 	 * @returns {boolean} `true` if the link is marked as 'no-follow'.
 	 *
 	 * @private
 	 */
-	_isNoFollow( link ) {
-		return true;
+	_isNoFollow( linkElement ) {
+		/**
+		 * Rel attribute.
+		 * @var {string}
+		 */
+		const rel = linkElement.attributes ? linkElement.attributes.rel : false;
+
+		if ( ! rel ) {
+			return false;
+		}
+
+		return rel.split( /\s/ ).includes( "nofollow" );
 	}
 
 	_isHttp( protocol ) {

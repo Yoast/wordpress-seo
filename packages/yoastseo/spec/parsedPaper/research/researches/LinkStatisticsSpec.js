@@ -31,6 +31,8 @@ Structured:
               text: This is a text with one link and another one.
               formatting:
                 - a:
+                    attributes:
+                      rel: "noopener nofollow"
                     sourceCodeLocation:
                       startTag:
                       endTag:
