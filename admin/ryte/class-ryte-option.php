@@ -112,7 +112,7 @@ class WPSEO_Ryte_Option {
 	}
 
 	/**
-	 * Check if the last fetch is within the time of 60 minutes.
+	 * Check if the last fetch is within the time of 15 seconds.
 	 *
 	 * @return bool
 	 */

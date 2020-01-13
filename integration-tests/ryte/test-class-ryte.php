@@ -110,7 +110,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is the method can only be called once because of the fetch limit of 60 minutes.
+	 * Test if the method can only be called once because of the fetch limit of 15 seconds.
 	 *
 	 * @covers WPSEO_Ryte::fetch_from_ryte
 	 */
