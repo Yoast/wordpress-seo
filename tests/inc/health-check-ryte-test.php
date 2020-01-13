@@ -121,6 +121,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
 
+		$this->ryte_option
+			->expects( 'should_be_fetched' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
@@ -144,6 +149,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
 
+		$this->ryte_option
+			->expects( 'should_be_fetched' )
+			->once()
+			->andReturnTrue();
+
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
@@ -165,6 +175,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::NOT_FETCHED );
+
+		$this->ryte_option
+			->expects( 'should_be_fetched' )
+			->once()
+			->andReturnTrue();
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
