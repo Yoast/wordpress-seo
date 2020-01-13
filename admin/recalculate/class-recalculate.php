@@ -95,7 +95,7 @@ abstract class WPSEO_Recalculate {
 	 */
 	protected function default_from_options( $field, $suffix ) {
 		$target_option_field = $field . '-' . $suffix;
-		if ( '' !== WPSEO_Options::get( $target_option_field, '' ) ) {
+		if ( WPSEO_Options::get( $target_option_field, '' ) !== '' ) {
 			return WPSEO_Options::get( $target_option_field );
 		}
 

@@ -11,15 +11,15 @@ module.exports = function( grunt ) {
 		"Bumps the versions to the next RC",
 		function() {
 			// Parse the command line options.
-			const pluginVersionFlag = grunt.option( "plugin-version" );
-			const releaseTypeFlag = grunt.option( "type" );
+			const pluginVersionArgument = grunt.option( "plugin-version" );
+			const releaseTypeArgument = grunt.option( "type" );
 
-			// Check if flags were passed.
-			if ( ! pluginVersionFlag ) {
+			// Check if arguments were passed.
+			if ( ! pluginVersionArgument ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
 
-			if ( ! releaseTypeFlag ) {
+			if ( ! releaseTypeArgument ) {
 				grunt.fail.fatal( "Missing --type argument" );
 			}
 
@@ -34,11 +34,14 @@ module.exports = function( grunt ) {
 			const strippedVersion = parsedVersion[ 0 ];
 
 			// Declare the new plugin version variable.
-			let newPluginVersion = pluginVersionFlag;
+			let newPluginVersion = pluginVersionArgument;
 
-			// If the flagged version matches the version in package.json, increment the RC version.
-			if ( pluginVersionFlag === strippedVersion ) {
-				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
+			/*
+			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
+			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
+			*/
+			if ( pluginVersionArgument === strippedVersion ) {
+				const currentRCVersion = parsedVersion[ 1 ] || "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
 				newPluginVersion += "-RC" + bumpedRCVersion;
 			} else {
@@ -58,9 +61,8 @@ module.exports = function( grunt ) {
 			// Which is taken from package.json BEFORE package.json is updated by our above code.
 			grunt.config.data.pluginVersion = newPluginVersion;
 
-			// Set a grunt releaseBranch variable.
-			const branchForRC = releaseTypeFlag + "/" + pluginVersionFlag;
-			grunt.config.data.branchForRC = branchForRC;
+			// Set a grunt branchForRC variable.
+			grunt.config.data.branchForRC = releaseTypeArgument + "/" + pluginVersionArgument;
 
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );

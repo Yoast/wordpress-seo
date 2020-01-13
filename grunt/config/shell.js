@@ -196,7 +196,7 @@ module.exports = function( grunt ) {
 		},
 
 		"get-monorepo-versions": {
-			command: "yarn list --pattern 'yoastseo|yoast-components'",
+			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
 		"restore-plugin-name": {

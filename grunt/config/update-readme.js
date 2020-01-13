@@ -37,32 +37,22 @@ module.exports = function( grunt ) {
 				} )
 			);
 
-			// Only if the version is not a patch we remove old changelog entries.
+			// Only if the current version is not in the changelog yet, and is not a patch, we remove old changelog entries.
 			if ( ! containsCurrentVersion && versionNumber.patch === 0 ) {
 				let cleanedChangelog = changelog;
-
-				// Remove the current version from the list; this should not be removed.
-				const relevantChangelogVersions = changelogVersions.filter( version => {
-					return ! (
-						versionNumber.major === version.major &&
-						versionNumber.minor === version.minor &&
-						versionNumber.patch === version.patch
-					);
-				} );
-
-				const highestMajor = Math.max( ...relevantChangelogVersions.map( version => version.major ) );
-				const lowestMajor = Math.min( ...relevantChangelogVersions.map( version => version.major ) );
+				const highestMajor = Math.max( ...changelogVersions.map( version => version.major ) );
+				const lowestMajor = Math.min( ...changelogVersions.map( version => version.major ) );
 
 				if ( highestMajor === lowestMajor ) {
 					// If there are only multiple minor versions of the same major version, remove all entries from the oldest minor version.
-					const lowestMinor = Math.min( ...relevantChangelogVersions.map( version => version.minor ) );
+					const lowestMinor = Math.min( ...changelogVersions.map( version => version.minor ) );
 					const lowestVersion = `${lowestMajor}.${lowestMinor}`;
 					cleanedChangelog = changelog.replace(
 						new RegExp( "= " + lowestVersion + "(.|\\n)*= Earlier versions =" ),
 						"= Earlier versions ="
 					);
 				} else {
-					// If there are multiple major versions in the current changelog, remove all entries from the oldest major version.
+					// If there are multiple major versions in the changelog, remove all entries from the oldest major version.
 					cleanedChangelog = changelog.replace(
 						new RegExp( "= " + lowestMajor + "(.|\\n)*= Earlier versions =" ),
 						"= Earlier versions ="
@@ -81,7 +71,7 @@ module.exports = function( grunt ) {
 				}
 			}
 
-
+			// If the current version is already in the changelog, retrieve the full readme and let the user edit it.
 			if ( containsCurrentVersion ) {
 				// Present the user with the entire changelog file.
 				getUserInput( { initialContent: changelog } ).then( newChangelog => {
@@ -93,6 +83,7 @@ module.exports = function( grunt ) {
 					done();
 				} );
 			} else {
+				// If the current version is not in the changelog, allow the user to enter new changelog items.
 				const changelogVersionNumber = versionNumber.major + "." + versionNumber.minor + "." + versionNumber.patch;
 
 				// Present the user with only the version number.
@@ -100,7 +91,7 @@ module.exports = function( grunt ) {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
-					// Add the user input to the changelog.
+					// Add the user input to the changelog, behind the == Changelog == header.
 					changelog = changelog.replace( /[=]= Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 
 					// Write changes to the file.

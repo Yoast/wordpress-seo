@@ -14,13 +14,17 @@ module.exports = function( grunt ) {
 			// Fetch all existing branches.
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
-
 			const version = grunt.option( "plugin-version" );
-			let type = grunt.option( "type" );
+			const type = grunt.option( "type" );
 
-			// If no type is specified, default to release.
-			if ( type !== "hotfix" ) {
-				type = "release";
+			// If no version is specified, abort the task.
+			if ( ! version ) {
+				grunt.fail.fatal( "Missing --plugin-version argument (i.e. x.x.x)" );
+			}
+
+			// If no type is specified, abort the task.
+			if ( ! type ) {
+				grunt.fail.fatal( "Missing --type argument (release or hotfix)" );
 			}
 
 			const basebranch = type === "hotfix" ? "master" : "trunk";
