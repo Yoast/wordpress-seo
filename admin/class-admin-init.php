@@ -49,14 +49,12 @@ class WPSEO_Admin_Init {
 			new WPSEO_Health_Check_Page_Comments(),
 			new WPSEO_Health_Check_Ryte(),
 			new WPSEO_Health_Check_Default_Tagline(),
+			new WPSEO_Health_Check_Postname_Permalink(),
 		];
 
 		foreach ( $health_checks as $health_check ) {
 			$health_check->register_test();
 		}
-
-		$postname_in_permalink = new WPSEO_Health_Check_Postname_Permalink();
-		$postname_in_permalink->register_test();
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
