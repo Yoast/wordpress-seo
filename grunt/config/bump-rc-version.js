@@ -11,15 +11,15 @@ module.exports = function( grunt ) {
 		"Bumps the versions to the next RC",
 		function() {
 			// Parse the command line options.
-			const pluginVersionFlag = grunt.option( "plugin-version" );
-			const releaseTypeFlag = grunt.option( "type" );
+			const pluginVersionArgument = grunt.option( "plugin-version" );
+			const releaseTypeArgument = grunt.option( "type" );
 
 			// Check if flags were passed.
-			if ( ! pluginVersionFlag ) {
+			if ( ! pluginVersionArgument ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
 
-			if ( ! releaseTypeFlag ) {
+			if ( ! releaseTypeArgument ) {
 				grunt.fail.fatal( "Missing --type argument" );
 			}
 
@@ -34,10 +34,10 @@ module.exports = function( grunt ) {
 			const strippedVersion = parsedVersion[ 0 ];
 
 			// Declare the new plugin version variable.
-			let newPluginVersion = pluginVersionFlag;
+			let newPluginVersion = pluginVersionArgument;
 
 			// If the flagged version matches the version in package.json, increment the RC version.
-			if ( pluginVersionFlag === strippedVersion ) {
+			if ( pluginVersionArgument === strippedVersion ) {
 				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
 				newPluginVersion += "-RC" + bumpedRCVersion;
@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 			grunt.config.data.pluginVersion = newPluginVersion;
 
 			// Set a grunt releaseBranch variable.
-			const branchForRC = releaseTypeFlag + "/" + pluginVersionFlag;
+			const branchForRC = releaseTypeArgument + "/" + pluginVersionArgument;
 			grunt.config.data.branchForRC = branchForRC;
 
 			// Set the plugin version to the bumped version in the plugin files.
