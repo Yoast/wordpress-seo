@@ -48,16 +48,17 @@ Structured:
 		tree = buildTreeFromYaml( yaml );
 	} );
 
-	it( "can calculate link statistics", done => {
+	it( "can identify whether a link is `follow` or `nofollow`.", done => {
 		const researcher = new TreeResearcher();
 		const linkStatistics = new LinkStatistics();
 
 		researcher.addResearch( "linkStatistics", linkStatistics );
 		researcher.doResearch( "linkStatistics", tree ).then(
 			results => {
-				console.log( results );
+				const noFollowResults = results.filter( result => result.noFollow === true );
+				expect( noFollowResults ).toHaveLength( 1 );
 				done();
 			}
 		);
-	});
+	} );
 } );
