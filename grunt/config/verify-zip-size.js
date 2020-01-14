@@ -37,8 +37,8 @@ module.exports = function( grunt ) {
 			const stats = fs.statSync( "artifact.zip" );
 
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
-			// const maximumSize = 5242880;
-			const maximumSize = 1242880;
+			const maximumSize = 5242880;
+			// const maximumSize = 1242880;
 
 			// Exit early if the filesize is within limits.
 			if ( stats.size <= maximumSize ) {
@@ -85,6 +85,7 @@ module.exports = function( grunt ) {
 					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
 			grunt.log.ok( `An issue has been created: ${ issueResponseData.html_url }.\n` );
@@ -94,9 +95,11 @@ module.exports = function( grunt ) {
 					`The milestone could not be attached! (${ versionString })\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
 			grunt.log.warn( finalMessage );
+			return done();
 		}
 	);
 };
