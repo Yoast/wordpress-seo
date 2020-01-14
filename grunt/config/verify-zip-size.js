@@ -83,7 +83,7 @@ module.exports = function( grunt ) {
 			if ( ! issueResponse.ok ) {
 				console.log( issueResponseData );
 				grunt.fail.fatal(
-					`An issue could not be created: ${ issueResponseData.message }\n\n` +
+					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
 					finalMessage
 				);
 			}
