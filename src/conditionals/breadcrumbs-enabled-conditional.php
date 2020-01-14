@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Conditionals;
 
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -26,6 +25,8 @@ class Breadcrumbs_Enabled_Conditional implements Conditional {
 	 * Breadcrumbs_Enabled_Conditional constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( Options_Helper $options ) {
 		$this->options = $options;
