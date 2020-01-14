@@ -21,11 +21,11 @@ async function logError( response, grunt ) {
 		} );
 	}
 
-	grunt.fail.fatal( "Failed to create a pre release on github." );
+	grunt.fail.fatal( "Failed to create a pre-release on GitHub." );
 }
 
 /**
- * ...
+ * Creates and pushes a GitHub pre-release and uploads the artifact to GitHub, using the GitHub API.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -33,7 +33,7 @@ async function logError( response, grunt ) {
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"github-pre-release",
-		"Creates and pushes a github pre-release and uploads the artifact to GitHub",
+		"Creates and pushes a GitHub pre-release and uploads the artifact to GitHub",
 		async function() {
 			const done = this.async();
 
@@ -43,9 +43,9 @@ module.exports = function( grunt ) {
 
 			/* eslint-disable camelcase */
 			const releaseData = {
-				tag_name: "v" + pluginVersion,
-				target_commitish: "master",
-				name: "v" + pluginVersion,
+				tag_name: pluginVersion,
+				target_commitish: grunt.config.data.branchForRC,
+				name: pluginVersion,
 				body: changelog,
 				draft: false,
 				prerelease: true,
@@ -63,8 +63,8 @@ module.exports = function( grunt ) {
 			}
 
 			// Slack notifier logic.
-			const constructedZipUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/archive/${ releaseData.tag_name }.zip`;
-			grunt.config.set( "rc.github.url", constructedZipUrl );
+			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
+			grunt.config.set( "rc.github.url", tagUrl );
 			done();
 		}
 	);

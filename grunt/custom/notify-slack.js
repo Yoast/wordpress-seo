@@ -11,7 +11,6 @@ module.exports = function( grunt ) {
 			}
 			const webhook = new IncomingWebhook( this.data.slackToken );
 
-			// We can assume that the previous task has correctly set this URL.
 			const preReleaseURL = grunt.config( "rc.github.url" );
 
 			const done = this.async();
@@ -19,7 +18,7 @@ module.exports = function( grunt ) {
 				try {
 					await webhook.send( { text: `${ this.data.message }${ preReleaseURL }` } );
 				} catch ( error ) {
-					grunt.task.run( "prompt:slackEnvMissing" );
+					grunt.task.run( "prompt:slackMessageError" );
 				}
 				done();
 			} )();
