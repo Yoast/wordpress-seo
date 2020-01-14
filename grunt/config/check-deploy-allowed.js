@@ -12,7 +12,9 @@ module.exports = function( grunt ) {
 		function() {
 			const contents = grunt.file.read( "readme.txt" );
 			const regex = new RegExp( "Stable tag: .*-RC.*" );
-			const isRCVersion = contents.search( regex ) !== -1;
+			const match = contents.search( regex );
+			console.log( match );
+			const isRCVersion = match !== -1;
 			if ( isRCVersion ) {
 				grunt.fail.fatal(
 					"The Stable tag specified in the readme.txt file contains RC tag. You cannot deploy an RC version. " +
