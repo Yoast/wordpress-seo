@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 					await logError( response, grunt );
 				}
 				const responseData = await response.json();
-				console.log( responseData );
+				console.log( responseData.upload_url );
 			} catch ( error ) {
 				grunt.log.error( error );
 				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
