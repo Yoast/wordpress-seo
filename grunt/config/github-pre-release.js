@@ -40,12 +40,13 @@ module.exports = function( grunt ) {
 			// Open a text editor to get the changelog.
 			const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
+			console.log( pluginVersion );
 
 			/* eslint-disable camelcase */
 			const releaseData = {
-				tag_name: "v" + pluginVersion,
-				target_commitish: "master",
-				name: "v" + pluginVersion,
+				tag_name: pluginVersion,
+				target_commitish: grunt.config.data.branchForRC,
+				name: pluginVersion,
 				body: changelog,
 				draft: false,
 				prerelease: true,
