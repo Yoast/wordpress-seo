@@ -34,4 +34,18 @@ module.exports = {
 			],
 		},
 	},
+	slackMessageError: {
+		options: {
+			questions: [
+				{
+					config: "config.slackMessageError.promptInput",
+					type: "input",
+					message: colors.bgWhite( colors.inverse( colors.red(
+						"There was an error trying to send a notification to the Yoast Slack. " +
+						`${ colors.green( " For now, notify the appropriate channel yourself." ) } Press enter to continue...`
+					) ) ),
+				},
+			],
+		},
+	},
 };
