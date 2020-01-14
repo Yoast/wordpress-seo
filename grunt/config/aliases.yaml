@@ -107,7 +107,7 @@ clean:build-assets:
   - 'change-plugin-name-to-rc'
 #  - 'artifact'
   - 'shell:restore-plugin-name'
-#  - 'github-pre-release'
+  - 'github-pre-release'
   - 'notify-slack:rc'
 #  - 'check-deploy-allowed'
 #  - 'deploy:trunk'
