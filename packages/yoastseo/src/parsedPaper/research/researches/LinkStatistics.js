@@ -1,4 +1,3 @@
-import { flatten } from "lodash-es";
 import urlMethods from "url";
 
 /* Internal dependencies */
@@ -83,6 +82,15 @@ class LinkStatistics extends Research {
 		return "external";
 	}
 
+	/**
+	 * Returns the permalink from the metadata.
+	 *
+	 * @param {module:parsedPaper/structure.Node} metadata The metadata to retrieve the permalink from.
+	 *
+	 * @returns {string} The permalink.
+	 *
+	 * @private
+	 */
 	_getPermalink( metadata ) {
 		const permalinkElement = metadata.children.find( child => child.tag === "permalink" );
 		const paragraph = permalinkElement.children[ 0 ];
