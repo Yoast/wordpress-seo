@@ -23,19 +23,25 @@ class LinkStatistics extends Research {
 	 * @private
 	 */
 	_isNoFollow( linkElement ) {
-		/**
-		 * Rel attribute.
-		 * @var {string}
-		 */
-		const rel = linkElement.attributes ? linkElement.attributes.rel : false;
+		const rel = linkElement.getAttribute( "rel" );
 
 		if ( ! rel ) {
 			return false;
 		}
 
+		// Check if the `rel` attribute includes "nofollow".
 		return rel.split( /\s/ ).includes( "nofollow" );
 	}
 
+	/**
+	 * Checks whether the given protocol string is either HTTP or HTTPS.
+	 *
+	 * @param {String} protocol The protocol string to check.
+	 *
+	 * @returns {boolean} Whether the protocol is either HTTP or HTTPS.
+	 *
+	 * @private
+	 */
 	_isHttp( protocol ) {
 		if ( ! protocol ) {
 			return false;
@@ -58,7 +64,7 @@ class LinkStatistics extends Research {
 	 * @private
 	 */
 	_whichTarget( linkElement, domain ) {
-		const link = linkElement.attributes ? linkElement.attributes.href : false;
+		const link = linkElement.getAttribute( "href" );
 
 		if ( ! link ) {
 			return "other";
