@@ -1,3 +1,7 @@
+const zeroPadding = ( number ) => {
+	return `0${ number }`.slice( -2 );
+};
+
 /**
  * Modifies the plugin name to include version number and the current date and time.
  *
@@ -13,12 +17,8 @@ module.exports = function( grunt ) {
 			const config = grunt.config();
 
 			const date = new Date();
-			const formattedDateTime = `
-				${ date.getFullYear() }-
-				${ `0${ date.getMonth() + 1 }`.slice( -2 ) }-
-				${ `0${ date.getDate() }`.slice( -2 ) } 
-				${ `0${ date.getHours() }`.slice( -2 ) }:
-				${ `0${ date.getMinutes() }`.slice( -2 ) }`;
+			// const formattedDateTime = `${ date.getFullYear() }-${ zeroPadding( date.getMonth() + 1 ) }-${ zeroPadding( date.getDate() ) } ${ zeroPadding( date.getHours() ) }:${ zeroPadding( date.getMinutes() ) }`;
+			const formattedDateTime = `${ zeroPadding( date.getDate() ) }-${ zeroPadding( date.getMonth() + 1 ) }-${ date.getFullYear() } ${ zeroPadding( date.getHours() ) }:${ zeroPadding( date.getMinutes() ) }`;
 
 			const searchTerm = "Plugin Name: ";
 			// The plugin name is taken as what appears after words "Plugin Name" and until the end of the line.
@@ -27,7 +27,6 @@ module.exports = function( grunt ) {
 			const pluginName = `$& (beta) | ${ config.branchForRC } | ${ formattedDateTime }`;
 			console.log( pluginName );
 			const contents = grunt.file.read( config.pluginMainFile ).replace( pluginNameRegex, pluginName );
-			console.log( contents );
 			grunt.file.write( config.pluginMainFile, contents );
 		}
 	);
