@@ -13,15 +13,16 @@ module.exports = function( grunt ) {
 			const config = grunt.config();
 
 			const date = new Date();
-			const formattedDateTime = `${ date.getFullYear() }-${ date.getMonth() }-${ date.getDay() } ${ date.getHours() }:${ date.getMinutes() }`;
+			const formattedDateTime = `${ date.getFullYear() }-${ date.getMonth() + 1 }-${ date.getDay() } ${ date.getHours() }:${ date.getMinutes() }`;
 
 			const searchTerm = "Plugin Name: ";
 			// The plugin name is taken as what appears after words "Plugin Name" and until the end of the line.
 			const pluginNameRegex = new RegExp( `${ searchTerm }(.*)` );
 			// Determine the extension for the new plugin name - its version and the date the RC is created.
-			const pluginName = `$& | ${ config.pluginVersion } | ${ formattedDateTime }`;
+			const pluginName = `$& (beta) | ${ config.branchForRC } | ${ formattedDateTime }`;
 			console.log( pluginName );
 			const contents = grunt.file.read( config.pluginMainFile ).replace( pluginNameRegex, pluginName );
+			console.log( contents );
 			grunt.file.write( config.pluginMainFile, contents );
 		}
 	);
