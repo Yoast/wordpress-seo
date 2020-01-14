@@ -99,7 +99,7 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-#  - 'ensure-clean-branch'
+  - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
@@ -125,13 +125,13 @@ clean:build-assets:
 
 'bump-the-rc-version':
   - 'bump-rc-version'
-#  - 'shell:git-add-version-bump-files'
-#  - 'shell:git-commit-version-bump-files'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-trunk'
-#  - 'shell:git-merge-into-trunk'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-release-branch'
+  - 'shell:git-add-version-bump-files'
+  - 'shell:git-commit-version-bump-files'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-trunk'
+  - 'shell:git-merge-into-trunk'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
