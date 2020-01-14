@@ -146,7 +146,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->description .= sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
 			esc_html__( 'If that did not help, %1$sread more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
-			'<a href="' . esc_url( 'https://kb.yoast.com/kb/your-site-isnt-indexable/' ) . '" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
@@ -174,7 +174,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			in itself. If this is a live site, %3$sit is recommended that you figure out why the %1$s check failed.%4$s', 'wordpress-seo' ),
 			'Ryte',
 			'Yoast SEO',
-			'<a href="' . esc_url( 'https://kb.yoast.com/kb/indexability-check-doesnt-work/' ) . '" target="_blank">',
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
