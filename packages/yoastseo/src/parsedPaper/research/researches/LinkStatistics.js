@@ -1,8 +1,8 @@
-import { LeafNode } from "../../structure/tree";
-import Research from "./Research";
-
 import { flatten } from "lodash-es";
 import urlMethods from "url";
+
+/* Internal dependencies */
+import Research from "./Research";
 
 /**
  * Calculates link statistics.
