@@ -1,3 +1,6 @@
+import { flatten } from "lodash-es";
+import { LeafNode } from "../../structure/tree";
+
 /**
  * A research that can be applied to the tree.
  *
@@ -5,8 +8,6 @@
  *
  * @abstract
  */
-import { LeafNode } from "../../structure/tree";
-
 class Research {
 	/**
 	 * Checks if the given node is a leaf node for this research.
@@ -40,11 +41,9 @@ class Research {
 	 * @param {Array<*>} results The results of this research to merge.
 	 *
 	 * @returns {*} The merged results.
-	 *
-	 * @abstract
 	 */
 	mergeChildrenResults( results ) { // eslint-disable-line no-unused-vars
-		console.warn( "mergeChildrenResults should be implemented by a child class of Researcher." );
+		return flatten( results );
 	}
 }
 

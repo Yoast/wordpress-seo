@@ -34,11 +34,32 @@ describe( "Research", () => {
 	describe( "mergeResults", () => {
 		it( "warns when it has not been implemented", () => {
 			const research = new Research();
-			const node = new Node( "div" );
 
-			research.mergeChildrenResults( node );
+			const results = [
+				[
+					{ hello: "world", number: 20 },
+					{ hello: "universe", number: 13 },
+				],
+				[
+					{ hello: "moon", number: 2023 },
+					{ hello: "universe", number: 13 },
+				],
+				[
+					{ hello: "you", number: 234 },
+				],
+			];
 
-			expect( console.warn ).toHaveBeenCalledTimes( 1 );
+			const expected = [
+				{ hello: "world", number: 20 },
+				{ hello: "universe", number: 13 },
+				{ hello: "moon", number: 2023 },
+				{ hello: "universe", number: 13 },
+				{ hello: "you", number: 234 },
+			];
+
+			const mergedResults = research.mergeChildrenResults( results );
+
+			expect( mergedResults ).toEqual( expected );
 		} );
 	} );
 } );

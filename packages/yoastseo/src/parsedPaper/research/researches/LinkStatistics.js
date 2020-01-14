@@ -115,17 +115,6 @@ class LinkStatistics extends Research {
 
 		return Promise.resolve( results );
 	}
-
-	/**
-	 * Merges the given research results.
-	 *
-	 * @param {Object[]} results The results to merge
-	 *
-	 * @returns {Object[]} The merged results.
-	 */
-	mergeChildrenResults( results ) {
-		return flatten( results );
-	}
 }
 
 export default LinkStatistics;

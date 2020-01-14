@@ -1,6 +1,3 @@
-import { flatten } from "lodash-es";
-
-/* Internal dependencies */
 import { Heading } from "../../structure/tree";
 import Research from "./Research";
 
@@ -17,17 +14,6 @@ class Headings extends Research {
 	 */
 	calculateFor( node ) {
 		return node instanceof Heading ? Promise.resolve( [ node ] ) : Promise.resolve( [] );
-	}
-
-	/**
-	 * Merges results of this research according to a predefined strategy.
-	 *
-	 * @param {Array<module:parsedPaper/structure.Heading[]>} results The results of this research to merge.
-	 *
-	 * @returns {module:parsedPaper/structure.Heading[]} The merged results.
-	 */
-	mergeChildrenResults( results ) {
-		return flatten( results );
 	}
 }
 
