@@ -10,29 +10,28 @@ use Yoast\WP\Free\Tests\TestCase;
 /**
  * Unit Test Class.
  *
+ * @coversDefaultClass \WPSEO_Options
+ *
  * @group options
  */
 class Options_Test extends TestCase {
 	/**
 	 * Tests clearing the cache.
 	 *
-	 * @covers WPSEO_Options::clear_cache
+	 * @covers ::clear_cache
 	 */
 	public function test_clear_cache() {
 		Options_Double::$option_values = '123';
 
 		Options_Double::clear_cache();
 
-		$this->assertEquals(
-			null,
-			Options_Double::$option_values
-		);
+		$this->assertNull( Options_Double::$option_values );
 	}
 
 	/**
 	 * Test getting settings values.
 	 *
-	 * @covers WPSEO_Options::get
+	 * @covers ::get
 	 */
 	public function test_get() {
 		$test = Options_Double::get( 'test' );
@@ -45,7 +44,7 @@ class Options_Test extends TestCase {
 	/**
 	 * Test setting settings values.
 	 *
-	 * @covers WPSEO_Options::set
+	 * @covers ::set
 	 */
 	public function test_set() {
 		$this->assertEquals( '', Options_Double::get( 'website_name' ) );
