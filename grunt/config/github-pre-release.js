@@ -63,8 +63,8 @@ module.exports = function( grunt ) {
 			}
 
 			// Slack notifier logic.
-			const constructedZipUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/archive/${ releaseData.tag_name }.zip`;
-			grunt.config.set( "rc.github.url", constructedZipUrl );
+			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
+			grunt.config.set( "rc.github.url", tagUrl );
 			done();
 		}
 	);
