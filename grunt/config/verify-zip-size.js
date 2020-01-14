@@ -81,7 +81,6 @@ module.exports = function( grunt ) {
 			grunt.log.warn( `Zip size is too big (${ sizeInMB }MB).\n` );
 
 			if ( ! issueResponse.ok ) {
-				console.log( issueResponseData );
 				grunt.fail.fatal(
 					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
 					finalMessage
