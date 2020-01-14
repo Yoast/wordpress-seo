@@ -63,7 +63,7 @@ class WPSEO_Capability_Utils {
 
 			// Add role if it has the capability.
 			if ( array_key_exists( $capability, $role->capabilities ) && $role->capabilities[ $capability ] === true ) {
-				$applicable_roles[] = $role->name;
+				$applicable_roles[] = $role_name;
 			}
 		}
 
