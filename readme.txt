@@ -213,9 +213,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 Release Date: January 15th, 2020
 
 Bugfixes:
-
-* Fixes a bug introduced in 12.8 where caching of our options would lead to the meta box not showing on new custom post types and taxonomies.
-* Fixes a bug where memory got exhausted on sites with a lot of users when the plugin is activated.
+* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the options of our plugin were never saved before.
 
 = 12.8 =
 Release Date: January 7th, 2020
