@@ -74,27 +74,30 @@ module.exports = function( grunt ) {
 				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ slackMessageIssueLink }`,
 			} );
 
-			const finalMessage = "The RC process is being stopped.";
+			const finalMessage = "You can now celebrate, but there is work to be done!";
 
 			grunt.log.warn( `Zip size is too big (${ sizeInMB }MB).\n` );
 
 			if ( ! issueResponse.ok ) {
-				grunt.fail.fatal(
+				grunt.log.warn(
 					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
 			grunt.log.ok( `An issue has been created: ${ issueResponseData.html_url }.\n` );
 
 			if ( ! issueResponseData.milestone ) {
-				grunt.fail.fatal(
+				grunt.log.warn(
 					`The milestone could not be attached! (${ versionString })\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
-			grunt.fail.fatal( finalMessage );
+			grunt.log.warn( finalMessage );
+			return done();
 		}
 	);
 };
