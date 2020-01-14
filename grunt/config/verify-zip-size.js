@@ -1,6 +1,5 @@
 const fs = require( "fs" );
 const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
-const parseVersion = require( "./tools/parse-version" );
 const githubApi = require( "./tools/github-api" );
 
 /**
@@ -50,7 +49,6 @@ module.exports = function( grunt ) {
 			const sizeInMB = ( stats.size / 1024 / 1024 ).toFixed( 2 );
 
 			const versionString = grunt.option( "plugin-version" );
-			const version = parseVersion( versionString );
 
 			const issueData = {
 				title: `RC ${ versionString } exceeds maximum size (${ sizeInMB }MB > ${ maximumSizeInMB }MB)`,
@@ -62,7 +60,7 @@ module.exports = function( grunt ) {
 				],
 			};
 
-			const milestoneTitle = ( version.patch > 0 ) ? `hotfix/${ versionString }` : `release/${ versionString }`;
+			const milestoneTitle = versionString;
 			const milestone = await getMilestone( milestoneTitle );
 			if ( milestone ) {
 				issueData.milestone = milestone.number;
