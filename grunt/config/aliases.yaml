@@ -105,7 +105,7 @@ clean:build-assets:
 #  - 'update-readme'
   - 'bump-the-rc-version'
   - 'change-plugin-name-to-rc'
-  - 'artifact'
+#  - 'artifact'
   - 'shell:restore-plugin-name'
   - 'github-pre-release'
 #  - 'notify-slack:rc'

@@ -61,9 +61,6 @@ module.exports = function( grunt ) {
 			// Which is taken from package.json BEFORE package.json is updated by our above code.
 			grunt.config.data.pluginVersion = newPluginVersion;
 
-			// Set a grunt branchForRC variable.
-			grunt.config.data.branchForRC = releaseTypeArgument + "/" + pluginVersionArgument;
-
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
 		}

@@ -58,10 +58,14 @@ module.exports = function( grunt ) {
 				if ( ! response.ok ) {
 					await logError( response, grunt );
 				}
+				console.log( response.upload_url );
 			} catch ( error ) {
 				grunt.log.error( error );
 				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
 			}
+
+			// Upload the zip to GitHub.
+
 
 			// Slack notifier logic.
 			const constructedZipUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/archive/${ releaseData.tag_name }.zip`;
