@@ -13,7 +13,12 @@ module.exports = function( grunt ) {
 			const config = grunt.config();
 
 			const date = new Date();
-			const formattedDateTime = `${ date.getFullYear() }-${ `0${ date.getMonth() + 1 }`.slice( -2 ) }-${ date.getDay() } ${ date.getHours() }:${ date.getMinutes() }`;
+			const formattedDateTime = `
+				${ date.getFullYear() }-
+				${ `0${ date.getMonth() + 1 }`.slice( -2 ) }-
+				${ `0${ date.getDate() }`.slice( -2 ) } 
+				${ `0${ date.getHours() }`.slice( -2 ) }:
+				${ `0${ date.getMinutes() }`.slice( -2 ) }`;
 
 			const searchTerm = "Plugin Name: ";
 			// The plugin name is taken as what appears after words "Plugin Name" and until the end of the line.
