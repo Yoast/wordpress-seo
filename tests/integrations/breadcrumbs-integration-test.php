@@ -28,7 +28,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * The breadcrumbs presenter;
+	 * The breadcrumbs presenter.
 	 *
 	 * @var Breadcrumbs_Presenter
 	 */
