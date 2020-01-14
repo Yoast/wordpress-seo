@@ -53,20 +53,9 @@ class WPSEO_Options {
 	protected static $instance;
 
 	/**
-	 * Backfill instance.
-	 *
-	 * @var WPSEO_Options_Backfill
-	 */
-	protected static $backfill;
-
-	/**
 	 * Instantiate all the WPSEO option management classes.
 	 */
 	protected function __construct() {
-		// Backfill option values after transferring them to another base.
-		static::$backfill = new WPSEO_Options_Backfill();
-		static::$backfill->register_hooks();
-
 		$this->register_hooks();
 
 		foreach ( static::$options as $option_name => $option_class ) {
@@ -297,13 +286,10 @@ class WPSEO_Options {
 	 * Primes our cache.
 	 */
 	private static function prime_cache() {
-		static::$backfill->remove_hooks();
-
 		static::$option_values = static::get_all();
 		static::$option_values = static::add_ms_option( static::$option_values );
-
-		static::$backfill->register_hooks();
 	}
+
 	/**
 	 * Retrieve a single field from an option for the SEO plugin.
 	 *
@@ -565,7 +551,6 @@ class WPSEO_Options {
 	private static function get_lookup_table() {
 		$lookup_table = [];
 
-		static::$backfill->remove_hooks();
 
 		foreach ( array_keys( static::$options ) as $option_name ) {
 			$full_option = static::get_option( $option_name );
@@ -573,8 +558,6 @@ class WPSEO_Options {
 				$lookup_table[ $key ] = $option_name;
 			}
 		}
-
-		static::$backfill->register_hooks();
 
 		return $lookup_table;
 	}
