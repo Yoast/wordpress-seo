@@ -20,7 +20,7 @@ module.exports = function( grunt ) {
 			const pluginNameRegex = new RegExp( `${ searchTerm }(.*)` );
 			// Determine the extension for the new plugin name - its version and the date the RC is created.
 			const pluginName = `$& | ${ config.pluginVersion } | ${ formattedDateTime }`;
-
+			console.log( pluginName );
 			const contents = grunt.file.read( config.pluginMainFile ).replace( pluginNameRegex, pluginName );
 			grunt.file.write( config.pluginMainFile, contents );
 		}
