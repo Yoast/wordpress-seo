@@ -13,7 +13,6 @@ import urlMethods from "url";
  *  @memberOf module:parsedPaper/research
  */
 class LinkStatistics extends Research {
-
 	/**
 	 * Checks whether the given link is marked for search engines to not follow.
 	 *
@@ -98,17 +97,6 @@ class LinkStatistics extends Research {
 		} );
 
 		return Promise.resolve( results );
-	}
-
-	/**
-	 * Whether the given node is considered a leaf node for this research.
-	 *
-	 * @param {module:parsedPaper/structure.Node} node The node to test.
-	 *
-	 * @returns {boolean} Whether the given node is considered a leaf node for this research.
-	 */
-	isLeafNode( node ) {
-		return node instanceof LeafNode;
 	}
 
 	/**

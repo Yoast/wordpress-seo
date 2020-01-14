@@ -5,6 +5,8 @@
  *
  * @abstract
  */
+import { LeafNode } from "../../structure/tree";
+
 class Research {
 	/**
 	 * Checks if the given node is a leaf node for this research.
@@ -13,10 +15,9 @@ class Research {
 	 *
 	 * @returns {boolean} If the given node is considered a leaf node for this research.
 	 *
-	 * @abstract
 	 */
 	isLeafNode( node ) { // eslint-disable-line no-unused-vars
-		console.warn( "isLeafNode should be implemented by a child class of Researcher." );
+		return node instanceof LeafNode;
 	}
 
 	/**
