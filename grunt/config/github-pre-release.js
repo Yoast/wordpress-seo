@@ -58,7 +58,8 @@ module.exports = function( grunt ) {
 				if ( ! response.ok ) {
 					await logError( response, grunt );
 				}
-				console.log( response );
+				console.log( typeof response );
+				console.log( JSON.parse( response ) );
 				console.log( response[ 'upload_url' ] );
 			} catch ( error ) {
 				grunt.log.error( error );
