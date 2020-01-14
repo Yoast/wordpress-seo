@@ -1,5 +1,6 @@
 const getUserInput = require( "./tools/get-user-input" );
 const githubApi = require( "./tools/github-api" );
+const uploadToGitHub = require( "./tools/upload-to-github" );
 
 /**
  * Throws an error.
@@ -53,20 +54,22 @@ module.exports = function( grunt ) {
 			};
 			/* eslint-enable camelcase */
 
+			let responseData;
 			try {
 				const response = await githubApi( "releases", releaseData, "POST" );
 				if ( ! response.ok ) {
 					await logError( response, grunt );
 				}
-				const responseData = await response.json();
-				console.log( responseData.upload_url );
+				responseData = await response.json();
 			} catch ( error ) {
 				grunt.log.error( error );
 				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
 			}
 
 			// Upload the zip to GitHub.
-
+			const uploadResponse = await uploadToGitHub( responseData.upload_url );
+			const uploadResponseData = await uploadResponse.json();
+			console.log( uploadResponseData );
 
 			// Slack notifier logic.
 			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
