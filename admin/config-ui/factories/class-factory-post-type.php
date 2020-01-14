@@ -55,7 +55,7 @@ class WPSEO_Config_Factory_Post_Type {
 	 * @param WPSEO_Config_Field $field     Field that corresponds to the post type.
 	 */
 	private function add_custom_properties( $post_type, $field ) {
-		if ( 'attachment' === $post_type ) {
+		if ( $post_type === 'attachment' ) {
 			$field->set_property( 'explanation', __( 'WordPress automatically generates an URL for each media item in the library. Enabling this will allow for google to index the generated URL.', 'wordpress-seo' ) );
 		}
 	}

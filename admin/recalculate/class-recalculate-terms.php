@@ -116,12 +116,12 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 */
 	private function get_title( $term ) {
 		$title = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'title' );
-		if ( '' !== $title ) {
+		if ( $title !== '' ) {
 			return $title;
 		}
 
 		$default_from_options = $this->default_from_options( 'title-tax', $term->taxonomy );
-		if ( false !== $default_from_options ) {
+		if ( $default_from_options !== false ) {
 			return $default_from_options;
 		}
 
@@ -137,12 +137,12 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 */
 	private function get_meta_description( $term ) {
 		$meta_description = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'desc' );
-		if ( '' !== $meta_description ) {
+		if ( $meta_description !== '' ) {
 			return $meta_description;
 		}
 
 		$default_from_options = $this->default_from_options( 'metadesc-tax', $term->taxonomy );
-		if ( false !== $default_from_options ) {
+		if ( $default_from_options !== false ) {
 			return $default_from_options;
 		}
 

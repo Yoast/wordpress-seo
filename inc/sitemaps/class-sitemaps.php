@@ -150,7 +150,7 @@ class WPSEO_Sitemaps {
 		}
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$extension   = substr( $request_uri, -4 );
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
+		if ( stripos( $request_uri, 'sitemap' ) !== false && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -287,7 +287,7 @@ class WPSEO_Sitemaps {
 
 		$this->transient = false;
 
-		if ( true !== $this->cache->is_enabled() ) {
+		if ( $this->cache->is_enabled() !== true ) {
 			return false;
 		}
 
@@ -549,7 +549,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( '0' === get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+		if ( get_option( 'blog_public' ) === '0' ) { // Don't ping if blog is not public.
 			return;
 		}
 

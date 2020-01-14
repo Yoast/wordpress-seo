@@ -97,7 +97,7 @@ class WPSEO_Customizer {
 	 * @return bool
 	 */
 	public function breadcrumbs_active_callback() {
-		return true === ( current_theme_supports( 'yoast-seo-breadcrumbs' ) || WPSEO_Options::get( 'breadcrumbs-enable' ) );
+		return ( current_theme_supports( 'yoast-seo-breadcrumbs' ) || WPSEO_Options::get( 'breadcrumbs-enable' ) ) === true;
 	}
 
 	/**
@@ -120,7 +120,7 @@ class WPSEO_Customizer {
 	 * @return bool
 	 */
 	public function breadcrumbs_blog_show_active_cb() {
-		return 'page' === get_option( 'show_on_front' );
+		return get_option( 'show_on_front' ) === 'page';
 	}
 
 	/**

@@ -316,6 +316,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Unit test to make sure this is fixed: https://github.com/Yoast/wordpress-seo/issues/12560
 	 *
+	 * @covers WPSEO_MyYoast_Api_Request::do_request
+	 *
 	 * @expectedException        WPSEO_MyYoast_Bad_Request_Exception
 	 * @expectedExceptionMessage Error
 	 */

@@ -444,13 +444,13 @@ class Yoast_Model {
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );
-			if ( 0 === \strpos( $base_model_name, static::$auto_prefix_models ) ) {
+			if ( \strpos( $base_model_name, static::$auto_prefix_models ) === 0 ) {
 				$base_model_name = \substr( $base_model_name, \strlen( static::$auto_prefix_models ), \strlen( $base_model_name ) );
 			}
 			// Paris wasn't checking the name settings for the associated class.
 			$associated_model      = \explode( '\\', $associated_class_name );
 			$associated_model_name = \end( $associated_model );
-			if ( 0 === \strpos( $associated_model_name, static::$auto_prefix_models ) ) {
+			if ( \strpos( $associated_model_name, static::$auto_prefix_models ) === 0 ) {
 				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
 			$class_names = [ $base_model_name, $associated_model_name ];
