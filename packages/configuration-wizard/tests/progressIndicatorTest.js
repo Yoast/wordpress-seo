@@ -14,7 +14,7 @@ describe( "a processIndicator component", () => {
 	};
 
 	it( "shows a paragraph with the progress", () => {
-		const processIndicator = new ProgressIndicator( inputProps );
+		const processIndicator = renderer.render( <ProgressIndicator { ...inputProps } /> );
 		const children = processIndicator.props.children;
 
 		expect( processIndicator.type ).toEqual( "p" );
@@ -26,12 +26,7 @@ describe( "a processIndicator component", () => {
 	} );
 
 	it( "shows unknown progress with currentStepNumber 0", () => {
-		const processIndicator = new ProgressIndicator(
-			{
-				currentStepNumber: 0,
-				totalSteps: 1,
-			}
-		);
+		const processIndicator = renderer.render( <ProgressIndicator currentStepNumber={ 0 } totalSteps={ 1 } /> );
 
 		expect( processIndicator.type ).toEqual( "p" );
 		expect( processIndicator.props.children ).toEqual( "Unknown step progress" );
@@ -39,13 +34,7 @@ describe( "a processIndicator component", () => {
 
 	it( "shows unknown progress with total steps lower than the current step", () => {
 		const currentStepNumber = 2;
-
-		const processIndicator = new ProgressIndicator(
-			{
-				currentStepNumber,
-				totalSteps: 1,
-			}
-		);
+		const processIndicator = renderer.render( <ProgressIndicator currentStepNumber={ currentStepNumber } totalSteps={ 1 } /> );
 
 		const children = processIndicator.props.children;
 

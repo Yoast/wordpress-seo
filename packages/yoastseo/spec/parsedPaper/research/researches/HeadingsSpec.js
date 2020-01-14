@@ -9,33 +9,66 @@ describe( "Headings", () => {
 		tree = buildTreeFromYaml`
 Structured:
   tag: root
-  sourceStartIndex: 23
-  sourceEndIndex: 50
   children:
     - Heading:
         level: 1
-        sourceStartIndex: 25
-        sourceEndIndex: 30
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 4
+          endTag:
+            startOffset: 30
+            endOffset: 34
+          startOffset: 0
+          endOffset: 34
         text: This is a heading level 1.
     - Paragraph:
         tag: p
-        sourceStartIndex: 23
-        sourceEndIndex: 50
+        sourceCodeLocation:
+          startTag:
+            startOffset: 34
+            endOffset: 37
+          endTag:
+            startOffset: 57
+            endOffset: 60
+          startOffset: 34
+          endOffset: 57
         text: This is a paragraph.
     - Structured:
         tag: section
-        sourceStartIndex: 23
-        sourceEndIndex: 50
+        sourceCodeLocation:
+          startTag:
+            startOffset: 57
+            endOffset: 64
+          endTag:
+            startOffset: 30
+            endOffset: 34
+          startOffset: 0
+          endOffset: 34
         children:
           - Heading:
               level: 2
-              sourceStartIndex: 23
-              sourceEndIndex: 50
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 64
+                  endOffset: 68
+                endTag:
+                  startOffset: 95
+                  endOffset: 99
+                startOffset: 64
+                endOffset: 99
               text: This is a heading level 2.
           - Paragraph:
               tag: p
-              sourceStartIndex: 23
-              sourceEndIndex: 50
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 99
+                  endOffset: 102
+                endTag:
+                  startOffset: 128
+                  endOffset: 131
+                startOffset: 99
+                endOffset: 131
               text: This is another paragraph.
 `;
 	} );
@@ -44,16 +77,26 @@ Structured:
 		const researcher = new TreeResearcher();
 		const headings = new Headings();
 
-		const heading1 = new Heading( 1 );
+		const sourceCodeLocationHeading1 = {
+			startTag: { startOffset: 0, endOffset: 4 },
+			endTag: { startOffset: 30, endOffset: 34 },
+			startOffset: 0,
+			endOffset: 34,
+		};
+
+		const heading1 = new Heading( 1, sourceCodeLocationHeading1 );
 		heading1.text = "This is a heading level 1.";
-		heading1.sourceStartIndex = 25;
-		heading1.sourceEndIndex = 30;
 		heading1.setResearchResult( "headings", [ heading1 ] );
 
-		const heading2 = new Heading( 2 );
+		const sourceCodeLocationHeading2 = {
+			startTag: { startOffset: 64, endOffset: 68 },
+			endTag: { startOffset: 95, endOffset: 99 },
+			startOffset: 64,
+			endOffset: 99,
+		};
+
+		const heading2 = new Heading( 2, sourceCodeLocationHeading2 );
 		heading2.text = "This is a heading level 2.";
-		heading2.sourceStartIndex = 23;
-		heading2.sourceEndIndex = 50;
 		heading2.setResearchResult( "headings", [ heading2 ] );
 
 		const expected = [ heading1, heading2 ];

@@ -1,4 +1,5 @@
 import { has, get } from "lodash-es";
+import SourceCodeLocation from "../SourceCodeLocation";
 
 /**
  * Abstract class representing a node in the structured tree.
@@ -10,26 +11,32 @@ class Node {
 	/**
 	 * Makes a new Node.
 	 *
-	 * @param {string} type The type of Node (should be unique for each child class of Node).
+	 * @param {string} type               The type of Node (should be unique for each child class of Node).
+	 * @param {?Object} sourceCodeLocation The parse5 formatted location of the element inside of the source code.
 	 *
 	 * @abstract
 	 */
-	constructor( type ) {
+	constructor( type, sourceCodeLocation ) {
 		/**
 		 * Type of node (unique for each child class of Node).
 		 * @type {string}
 		 */
 		this.type = type;
+
+		if ( sourceCodeLocation ) {
+			/**
+			 * Location inside of the source code.
+			 * @type {SourceCodeLocation}
+			 */
+			this.sourceCodeLocation = new SourceCodeLocation( sourceCodeLocation );
+		}
+
 		/**
-		 * Start of this element (including tags) within the source text.
-		 * @type {?number}
+		 * The parent node of this node.
+		 * @type {module:parsedPaper/structure.Node|null}
 		 */
-		this.sourceStartIndex = 0;
-		/**
-		 * End of this element (including tags) within the source text.
-		 * @type {?number}
-		 */
-		this.sourceEndIndex = 0;
+		this.parent = null;
+
 		/**
 		 * Cache for the research results.
 		 * @type {Object}

@@ -31,6 +31,6 @@ export function wrapInTopLevelComponents( Component, { store, ...props } = {} ) 
 export function renderReactApp( targetElement, component, props = {} ) {
 	ReactDOM.render(
 		wrapInTopLevelComponents( component, props ),
-		targetElement
+		targetElement,
 	);
 }
