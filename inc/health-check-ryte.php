@@ -38,13 +38,16 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		}
 
 		switch ( $this->ryte_option->get_status() ) {
+			case WPSEO_Ryte_Option::NOT_FETCHED:
+				$this->is_not_fetched_yet();
+				break;
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
 				$this->is_not_indexable_response();
 				break;
 			case WPSEO_Ryte_Option::IS_INDEXABLE:
 				$this->is_indexable_response();
 				break;
-			default: // WPSEO_Ryte_Option::CANNOT_FETCH or WPSEO_Ryte_Option::NOT_FETCHED.
+			default: // WPSEO_Ryte_Option::CANNOT_FETCH.
 				$this->unknown_indexability_response();
 				break;
 		}
@@ -85,6 +88,31 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 */
 	protected function get_ryte_option() {
 		return new WPSEO_Ryte_Option();
+	}
+
+	/**
+	 * Adds the content for the "Not fetched yet" case.
+	 *
+	 * @return void
+	 */
+	protected function is_not_fetched_yet() {
+		$this->label          = sprintf(
+			/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
+			esc_html__( '%1$s has not checked your site indexability status yet from %2$s', 'wordpress-seo' ),
+			'Yoast SEO',
+			'Ryte'
+		);
+		$this->status         = self::STATUS_RECOMMENDED;
+		$this->badge['color'] = 'red';
+
+		$this->description = sprintf(
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
+			esc_html__( '%1$s offers a free indexability check for %2$s users. If this site is live or about to become live, it is recommended that you check the indexability status now.', 'wordpress-seo' ),
+			'Ryte',
+			'Yoast SEO'
+		);
+
+		$this->add_check_current_status_link();
 	}
 
 	/**
@@ -193,6 +221,20 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ) ) . '" target="_blank">',
 			'Ryte',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+		);
+	}
+
+	/**
+	 * Adds the "Check indexability status" link styled like a button.
+	 *
+	 * @return void
+	 */
+	protected function add_check_current_status_link() {
+		$this->actions .= sprintf(
+			/* translators: %1$s: Opening link tag to fetch Ryte indexability status, %2$s: Link closing tag. */
+			esc_html__( '%1$sCheck the indexability status%2$s', 'wordpress-seo' ),
+			'<a class="fetch-status button yoast-site-health__inline-button" href="' . esc_url( add_query_arg( 'wpseo-redo-ryte', '1', admin_url( 'site-health.php' ) ) ) . '">',
+			'</a>'
 		);
 	}
 }

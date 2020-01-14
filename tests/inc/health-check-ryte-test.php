@@ -176,16 +176,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::NOT_FETCHED );
 
-		$this->ryte_option
-			->expects( 'should_be_fetched' )
-			->once()
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
-		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'Yoast SEO has not checked your site indexability status yet from Ryte', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
 	}
 
