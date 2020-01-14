@@ -101,7 +101,7 @@ const checkInseparablePrefix = function( morphologyDataVerbs, stemmedWord, prefi
 export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 	const inseparableExceptionParticiple = generateInseparableExceptionParticipleForm(
 		stemmedWord,
-		morphologyDataVerbs.inseparableVerbs
+		morphologyDataVerbs.inseparableVerbStems
 	);
 
 	if ( inseparableExceptionParticiple ) {
