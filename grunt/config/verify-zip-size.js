@@ -38,7 +38,8 @@ module.exports = function( grunt ) {
 			const stats = fs.statSync( "artifact.zip" );
 
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
-			const maximumSize = 5242880;
+			// const maximumSize = 5242880;
+			const maximumSize = 1880;
 
 			// Exit early if the filesize is within limits.
 			if ( stats.size <= maximumSize ) {
