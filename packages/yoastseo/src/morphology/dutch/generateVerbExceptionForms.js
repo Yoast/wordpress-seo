@@ -3,6 +3,7 @@ import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 import { flatten } from "lodash-es";
 import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
 import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
+
 /**
  * Creates the present forms of irregular strong verbs.
  *
@@ -26,6 +27,7 @@ const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, m
 	forms.push( verb.present.concat( "t" ) );
 	return forms;
 };
+
 /**
  * Creates the past forms of irregular strong verbs.
  *
@@ -68,6 +70,7 @@ const createIrregularStrongVerbsParticiple = function( stem, suffix, morphologyD
 	}
 	return stem.concat( suffix );
 };
+
 /**
  * Checks whether the stemmed word is listed in the strong verbs exception list.
  *
@@ -80,6 +83,7 @@ const checkStems = function( verb, stemmedWord ) {
 		return true;
 	}
 };
+
 /**
  * Creates the verb forms of strong verbs which have regular past form including the ones which have two past participle forms.
  *
@@ -177,6 +181,7 @@ const generateIrregularStrongVerbs = function( morphologyDataVerbs, morphologyDa
 	}
 	return [];
 };
+
 /**
  * Creates the present and past forms of strong verbs whose both regular and irregular past forms.
  *
@@ -239,6 +244,7 @@ const generateBothRegularAndIrregularStrongVerbs = function( morphologyDataVerbs
 	}
 	return [];
 };
+
 /**
  * Checks whether a given stem falls into any of the verb exception categories and creates the
  * correct forms if that is the case.
