@@ -1,3 +1,11 @@
+/**
+ * Pads a number with a leading zero.
+ * We slice off the last two digits, because if the number is 10 or higher, we don't need the padding.
+ *
+ * @param {number} number The number to pad.
+ *
+ * @return {string} A string with a number, padded with zero if the number is 9 or lower.
+ */
 const zeroPadding = ( number ) => {
 	return `0${ number }`.slice( -2 );
 };
@@ -17,8 +25,11 @@ module.exports = function( grunt ) {
 			const config = grunt.config();
 
 			const date = new Date();
-			// const formattedDateTime = `${ date.getFullYear() }-${ zeroPadding( date.getMonth() + 1 ) }-${ zeroPadding( date.getDate() ) } ${ zeroPadding( date.getHours() ) }:${ zeroPadding( date.getMinutes() ) }`;
-			const formattedDateTime = `${ zeroPadding( date.getDate() ) }-${ zeroPadding( date.getMonth() + 1 ) }-${ date.getFullYear() } ${ zeroPadding( date.getHours() ) }:${ zeroPadding( date.getMinutes() ) }`;
+			const formattedDateTime = `${ zeroPadding( date.getDate() ) }-` +
+				`${ zeroPadding( date.getMonth() + 1 ) }-` +
+				`${ date.getFullYear() } ` +
+				`${ zeroPadding( date.getHours() ) }:` +
+				`${ zeroPadding( date.getMinutes() ) }`;
 
 			const searchTerm = "Plugin Name: ";
 			// The plugin name is taken as what appears after words "Plugin Name" and until the end of the line.
