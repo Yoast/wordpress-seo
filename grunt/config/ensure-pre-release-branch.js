@@ -29,7 +29,10 @@ module.exports = function( grunt ) {
 
 			const basebranch = type === "hotfix" ? "master" : "trunk";
 
-			const branchname = type + "/" + version;
+			const branchForRC = type + "/" + version;
+
+			// Set a grunt branchForRC variable.
+			grunt.config.data.branchForRC = branchForRC;
 
 			// First switch to either trunk or master to make sure we branch from the correct base branch.
 			grunt.config( "gitcheckout.baseBranch.options", {
@@ -43,11 +46,11 @@ module.exports = function( grunt ) {
 			} );
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
-			const exists = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
+			const exists = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
 
 			if ( exists ) {
 				// Verify whether this branch already exists on the remote.
-				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
+				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchForRC, { encoding: "utf-8" } );
 
 				/* If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
 				This is needed because you cannot pull (as we will do below) on a branch that doesn't exist remotely. */
@@ -58,24 +61,24 @@ module.exports = function( grunt ) {
 
 				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.existingBranch.options", {
-					branch: branchname,
+					branch: branchForRC,
 				} );
 				grunt.task.run( "gitcheckout:existingBranch" );
 
 				// Pull the release or hotfix branch to make sure you have the latest commits.
 				grunt.config( "gitpull.pullReleaseBranch.options", {
-					branch: branchname,
+					branch: branchForRC,
 				} );
 				grunt.task.run( "gitpull:pullReleaseBranch" );
 			} else {
 				// If the release or hotfix branch doesn't exist yet, we need to create the branch.
 				grunt.config( "gitcheckout.newBranch.options", {
-					branch: branchname,
+					branch: branchForRC,
 					create: true,
 				} );
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
-			grunt.log.ok( "Switched to the " + branchname + " branch" );
+			grunt.log.ok( "Switched to the " + branchForRC + " branch" );
 		}
 	);
 };

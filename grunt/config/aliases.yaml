@@ -99,19 +99,17 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-#  - 'ensure-clean-branch'
+  - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
 #  - 'ensure-rc-dependencies'
 #  - 'update-readme'
   - 'bump-the-rc-version'
-  - 'change-plugin-name-to-rc'
-#  - 'artifact'
-#  - 'shell:restore-plugin-name'
-#  - 'github-pre-release'
-#  - 'notify-slack:rc'
-#  - 'check-deploy-allowed'
-#  - 'deploy:trunk'
-#  - 'verify-zip-size'
+  - 'artifact'
+  - 'github-pre-release'
+  - 'notify-slack:rc'
+  - 'check-deploy-allowed'
+#  - 'wp_deploy:trunk'
+  - 'verify-zip-size'
   - 'celebrate'
 
 'ensure-clean-branch':
@@ -127,13 +125,13 @@ clean:build-assets:
 
 'bump-the-rc-version':
   - 'bump-rc-version'
-#  - 'shell:git-add-version-bump-files'
-#  - 'shell:git-commit-version-bump-files'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-trunk'
-#  - 'shell:git-merge-into-trunk'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-release-branch'
+  - 'shell:git-add-version-bump-files'
+  - 'shell:git-commit-version-bump-files'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-trunk'
+  - 'shell:git-merge-into-trunk'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
@@ -145,11 +143,6 @@ release:
 'release:js':
   - 'copy:js-dependencies'
   - 'webpack:buildProd'
-
-'deploy:trunk':
-  - 'update-version-trunk'
-  - 'artifact'
-  - 'wp_deploy:trunk'
 
 'deploy:master':
   - 'update-version'
