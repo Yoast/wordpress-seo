@@ -35,7 +35,7 @@ module.exports = function( grunt ) {
 			// The plugin name is taken as what appears after words "Plugin Name" and until the end of the line.
 			const pluginNameRegex = new RegExp( `${ searchTerm }(.*)` );
 			// Determine the extension for the new plugin name - its version and the date the RC is created.
-			const pluginName = `$& (beta) | ${ config.branchForRC } | ${ formattedDateTime }`;
+			const pluginName = `$& (RC) | ${ config.branchForRC } | ${ formattedDateTime }`;
 
 			const contents = grunt.file.read( config.pluginMainFile ).replace( pluginNameRegex, pluginName );
 			grunt.file.write( config.pluginMainFile, contents );
