@@ -54,10 +54,10 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 
 		$this->description = sprintf(
 			/* translators: %1$s expands to the cURL version, %2$s expands to 'Yoast', %3$s is a link start tag to the Yoast knowledge base, %4$s is the link closing tag. */
-			__( 'Your server has an outdated version of the PHP module cURL (Version: %1$s). Running an outdated cURL version may cause %2$s plugins license activation errors. Please ask your hosting company to update cURL to a more recent version. You can %3$sread more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
+			esc_html__( 'Your server has an outdated version of the PHP module cURL (Version: %1$s). Running an outdated cURL version may cause %2$s plugins license activation errors. Please ask your hosting company to update cURL to a more recent version. You can %3$sread more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
 			$curl_version,
 			'Yoast',
-			'<a href="http://kb.yoast.com/article/90-is-my-curl-up-to-date" target="_blank">',
+			'<a href="' . esc_url( 'https://kb.yoast.com/article/90-is-my-curl-up-to-date' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 	}
