@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 					await logError( response, grunt );
 				}
 				console.log( typeof response );
-				console.log( JSON.parse( response ) );
+				console.log( JSON.parse( response.toString() ) );
 				console.log( response[ 'upload_url' ] );
 			} catch ( error ) {
 				grunt.log.error( error );
