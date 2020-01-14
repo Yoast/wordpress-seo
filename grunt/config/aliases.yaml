@@ -104,7 +104,7 @@ clean:build-assets:
 #  - 'ensure-rc-dependencies'
 #  - 'update-readme'
   - 'bump-the-rc-version'
-# - 'change-plugin-name-to-rc'
+ - 'change-plugin-name-to-rc'
 #  - 'artifact'
 #  - 'shell:restore-plugin-name'
 #  - 'github-pre-release'
@@ -127,13 +127,13 @@ clean:build-assets:
 
 'bump-the-rc-version':
   - 'bump-rc-version'
-#  - 'shell:git-add-version-bump-files'
-#  - 'shell:git-commit-version-bump-files'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-trunk'
-#  - 'shell:git-merge-into-trunk'
-#  - 'shell:git-push-origin-head'
-#  - 'shell:git-checkout-release-branch'
+  - 'shell:git-add-version-bump-files'
+  - 'shell:git-commit-version-bump-files'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-trunk'
+  - 'shell:git-merge-into-trunk'
+  - 'shell:git-push-origin-head'
+  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
