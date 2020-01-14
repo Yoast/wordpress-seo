@@ -21,11 +21,11 @@ async function logError( response, grunt ) {
 		} );
 	}
 
-	grunt.fail.fatal( "Failed to create a pre release on github." );
+	grunt.fail.fatal( "Failed to create a pre-release on GitHub." );
 }
 
 /**
- * ...
+ * Creates and pushes a GitHub pre-release and uploads the artifact to GitHub, using the GitHub API.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -33,7 +33,7 @@ async function logError( response, grunt ) {
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"github-pre-release",
-		"Creates and pushes a github pre-release and uploads the artifact to GitHub",
+		"Creates and pushes a GitHub pre-release and uploads the artifact to GitHub",
 		async function() {
 			const done = this.async();
 

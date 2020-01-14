@@ -199,10 +199,6 @@ module.exports = function( grunt ) {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
-		"restore-plugin-name": {
-			command: "git checkout <%= pluginMainFile %>",
-		},
-
 		"git-add-version-bump-files": {
 			command: "git add package.json wp-seo-main.php wp-seo.php",
 		},
