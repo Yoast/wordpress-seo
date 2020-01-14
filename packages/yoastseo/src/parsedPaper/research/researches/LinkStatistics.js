@@ -83,21 +83,32 @@ class LinkStatistics extends Research {
 		return "external";
 	}
 
+	_getPermalink( metadata ) {
+		const permalinkElement = metadata.children.find( child => child.tag === "permalink" );
+		const paragraph = permalinkElement.children[ 0 ];
+		return paragraph.textContainer.text;
+	}
+
 	/**
 	 * Calculates link statistics for the given node.
 	 *
-	 * @param {module:parsedPaper/structure.LeafNode} node The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.Node} node     The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.Node} metadata The document's metadata.
 	 *
 	 * @returns {Promise<Object[]>} The research results.
 	 */
-	calculateFor( node ) {
+	calculateFor( node, metadata  ) {
 		// Collect link elements.
 		const links = node.textContainer.formatting.filter( element => element.type === "a" );
+
+		// URL of the current page.
+		const permalink = this._getPermalink( metadata );
+		const url = urlMethods.parse( permalink );
 
 		// Collect statistics about the links.
 		const results = links.map( link => {
 			const noFollow = this._isNoFollow( link );
-			const target = this._whichTarget( link, "yoast.com" );
+			const target = this._whichTarget( link, url.hostname );
 
 			return { link, noFollow, target };
 		} );

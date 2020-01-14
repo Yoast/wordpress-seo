@@ -24,12 +24,13 @@ class Research {
 	 * Calculates the result of the research for the given Node.
 	 *
 	 * @param {module:parsedPaper/structure.Node} node The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.Node} metadata The document's metadata.
 	 *
 	 * @returns {Promise<*>} The result of the research.
 	 *
 	 * @abstract
 	 */
-	calculateFor( node ) { // eslint-disable-line no-unused-vars
+	calculateFor( node, metadata ) { // eslint-disable-line no-unused-vars
 		console.warn( "calculateFor should be implemented by a child class of Researcher." );
 	}
 

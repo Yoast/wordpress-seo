@@ -1,62 +1,55 @@
-import { TreeResearcher } from "../../../../src/parsedPaper/research";
 import LinkStatistics from "../../../../src/parsedPaper/research/researches/LinkStatistics";
 import buildTreeFromYaml from "../../../specHelpers/buildTreeFromYaml";
 
 
 describe( "LinkStatistics research", () => {
-	let tree;
+	let paragraph;
+	let metadata;
 
 	beforeEach( () => {
-		const yaml = `
+		const paragraphYaml = `
+Paragraph:
+  formatting:
+    - a:
+        attributes:
+          rel: "noopener nofollow"
+        sourceCodeLocation:
+          startTag:
+          endTag:
+        textStartIndex: 20
+        textEndIndex: 28
+    - a:
+        attributes:
+          href: "https://yoast.com/how-to-yoast-your-post"
+        sourceCodeLocation:
+          startTag:
+          endTag:
+        textStartIndex: 33
+        textEndIndex: 44
+		`;
+		paragraph = buildTreeFromYaml( paragraphYaml );
+
+		const metadataYaml = `
 Structured:
-  tag: root
   children:
-    - Heading:
-        text: This is a heading with level 1.
     - Structured:
-        tag: section
+        tag: permalink
         children:
           - Paragraph:
-              text: This is a text with a link.
-              formatting:
-                - a:
-                    attributes:
-                      href: "https://yoast.com/a-link"
-                    sourceCodeLocation:
-                      startTag:
-                      endTag:
-                    textStartIndex: 20
-                    textEndIndex: 26
-          - Paragraph:
-              text: This is a text with one link and another one.
-              formatting:
-                - a:
-                    attributes:
-                      rel: "noopener nofollow"
-                    sourceCodeLocation:
-                      startTag:
-                      endTag:
-                    textStartIndex: 20
-                    textEndIndex: 28
-                - a:
-                    sourceCodeLocation:
-                      startTag:
-                      endTag:
-                    textStartIndex: 33
-                    textEndIndex: 44
+              text: "https://yoast.com/how-to-write-an-awesome-metadescription"
+              isImplicit: true
 		`;
-		tree = buildTreeFromYaml( yaml );
+
+		metadata = buildTreeFromYaml( metadataYaml );
 	} );
 
 	it( "can identify whether a link is `follow` or `nofollow`.", done => {
-		const researcher = new TreeResearcher();
 		const linkStatistics = new LinkStatistics();
 
-		researcher.addResearch( "linkStatistics", linkStatistics );
-		researcher.doResearch( "linkStatistics", tree ).then(
-			results => {
-				const noFollowResults = results.filter( result => result.noFollow === true );
-				expect( noFollowResults ).toHaveLength( 1 );
+		linkStatistics.calculateFor( paragraph, metadata ).then(
+			result => {
+				const noFollowLinks = result.filter( link => link.noFollow );
+				expect( noFollowLinks ).toHaveLength( 1 );
 				done();
 			}
 		);
