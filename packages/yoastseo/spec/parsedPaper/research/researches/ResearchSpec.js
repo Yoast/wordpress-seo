@@ -1,5 +1,5 @@
 import Research from "../../../../src/parsedPaper/research/researches/Research";
-import { Node } from "../../../../src/parsedPaper/structure/tree";
+import { Heading, Node, Paragraph, StructuredNode } from "../../../../src/parsedPaper/structure/tree";
 
 describe( "Research", () => {
 	beforeEach( () => {
@@ -9,11 +9,14 @@ describe( "Research", () => {
 	describe( "isLeafNode", () => {
 		it( "warns when it has not been implemented", () => {
 			const research = new Research();
-			const node = new Node( "div" );
 
-			research.isLeafNode( node );
+			const structuredNode = new StructuredNode( "div", {} );
+			const heading = new Heading( 2, {} );
+			const paragraph = new Paragraph( {} );
 
-			expect( console.warn ).toHaveBeenCalledTimes( 1 );
+			expect( research.isLeafNode( structuredNode ) ).toEqual( false );
+			expect( research.isLeafNode( heading ) ).toEqual( true );
+			expect( research.isLeafNode( paragraph ) ).toEqual( true );
 		} );
 	} );
 
