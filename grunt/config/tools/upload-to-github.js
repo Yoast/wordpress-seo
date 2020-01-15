@@ -4,9 +4,10 @@ const fs = require( "fs" );
 /**
  * Calls the GitHub API
  *
- * @param {string} path The path to call.
- * @param {Object} body The body data to send.
- * @param {string} [method] Optional. The request method, "POST", "GET", "PATCH".
+ * @param {string}  uploadUrl The path to call. The Upload URL is returned by the GitHub API when you create a release.
+ *                            The URL returned has a placeholder {?name,label}, which needs to be replaced.
+ * @param {string} [fileName] Optional. The name of the zip file. Default: artifact.zip.
+ * @param {string} [label] Optional. The request method, "POST", "GET", "PATCH".
  *
  * @returns {Promise<Object>} Response object.
  */
