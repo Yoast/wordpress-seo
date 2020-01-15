@@ -733,6 +733,47 @@ Structured:
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
+	it( "ignores any whitespace instead of creating an implicit paragraph", () => {
+		const input = "<article><!-- There is actually a \\n here. -->\n" +
+			"<h1>The Stranger in the Night</h1><!-- There is actually a \\n here. -->\n" +
+			"</article>";
+
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Structured:
+        tag: article
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 9
+          endTag:
+            startOffset: 119
+            endOffset: 129
+          startOffset: 0
+          endOffset: 129
+        children:
+          - Heading:
+              level: 1
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 47
+                  endOffset: 51
+                endTag:
+                  startOffset: 76
+                  endOffset: 81
+                startOffset: 47
+                endOffset: 81
+              text: The Stranger in the Night
+		`;
+
+		const expected = buildTreeFromYaml( expectedYaml );
+		const tree = buildTree( input );
+
+		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
 	it.skip( "parses a paragraph within a heading", () => {
 		// We need to decide whether we want to support invalid HTML or let it crash and burn.
 		const input = "<h2>This is a <p>paragraph within a</p> heading.</h2>";
