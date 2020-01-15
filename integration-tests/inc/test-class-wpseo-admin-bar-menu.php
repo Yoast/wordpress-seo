@@ -231,14 +231,14 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		add_filter( 'option_wpseo', [ $this, 'filter_enable_admin_bar_menu_false' ], 9999 );
 		add_filter( 'default_option_wpseo', [ $this, 'filter_enable_admin_bar_menu_false' ], 9999 );
-		WPSEO_Options::fill_cache();
+		WPSEO_Options::clear_cache();
 
 		$first_result = $admin_bar_menu->meets_requirements();
 		$this->assertFalse( $first_result );
 
 		add_filter( 'option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10000 );
 		add_filter( 'default_option_wpseo', [ $this, 'filter_enable_admin_bar_menu_true' ], 10000 );
-		WPSEO_Options::fill_cache();
+		WPSEO_Options::clear_cache();
 
 		$second_result = $admin_bar_menu->meets_requirements();
 		$this->assertTrue( $second_result );
