@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 class Breadcrumbs_Integration implements Integration_Interface {
 
 	/**
+	 * The breadcrumbs presenter.
+	 *
 	 * @var Breadcrumbs_Presenter
 	 */
 	private $presenter;
