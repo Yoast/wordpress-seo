@@ -152,6 +152,6 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_og_type() {
-		return 'website';
+		return 'profile';
 	}
 }
