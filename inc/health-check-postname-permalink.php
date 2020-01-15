@@ -26,6 +26,7 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
 			$this->description    = esc_html__( 'You do have your postname in the URL of your posts and pages.', 'wordpress-seo' );
+			$this->add_yoast_signature();
 
 			return;
 		}
@@ -46,6 +47,8 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
 			'</a>'
 		);
+
+		$this->add_yoast_signature();
 	}
 
 	/**
