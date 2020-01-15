@@ -574,7 +574,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$status_where  = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_statuses ) . "')";
 
 		// Based on WP_Query->get_posts(). R.
-		if ( $post_type === 'attachment' ) {
+		if ( 'attachment' === $post_type ) {
 			$join            = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
 			$parent_statuses = array_diff( $post_statuses, [ 'inherit' ] );
 			$status_where    = "p2.post_status IN ('" . implode( "','", $parent_statuses ) . "') AND p2.post_password = ''";

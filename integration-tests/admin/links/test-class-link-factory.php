@@ -7,16 +7,11 @@
 
 /**
  * Unit Test Class.
- *
- * @coversDefaultClass WPSEO_Link_Factory
  */
 class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the processing of an external link.
-	 *
-	 * @covers ::build
-	 * @covers ::build_link
 	 */
 	public function test_process_external_link() {
 		$populator = $this
@@ -45,9 +40,6 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	 * @param WPSEO_Link_Filter          $filter     The link filter.
 	 * @param string                     $link_url   The link url to test.
 	 * @param mixed                      $expected   The expected result.
-	 *
-	 * @covers ::build
-	 * @covers ::build_link
 	 */
 	public function test_process_internal_link( $classifier, $lookup, $filter, $link_url, $expected ) {
 		$processor = new WPSEO_Link_Factory( $classifier, $lookup, $filter );
@@ -62,6 +54,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function link_provider() {
+
 		return [
 			[
 				$this->getClassifierMock( 'internal' ),

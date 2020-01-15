@@ -68,7 +68,7 @@ class Custom_Loader extends PhpFileLoader {
 	 * @return void
 	 */
 	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
-		if ( \substr( $namespace, -1 ) !== '\\' ) {
+		if ( '\\' !== \substr( $namespace, -1 ) ) {
 			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
 		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
@@ -87,7 +87,7 @@ class Custom_Loader extends PhpFileLoader {
 			}
 			else {
 				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
-				if ( $error_message !== null ) {
+				if ( null !== $error_message ) {
 					$definition->addError( $error_message );
 
 					continue;
@@ -149,7 +149,7 @@ class Custom_Loader extends PhpFileLoader {
 		if ( $exclude ) {
 			$exclude = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $exclude ) );
 			foreach ( $this->glob( $exclude, true, $resource ) as $path => $info ) {
-				if ( $exclude_prefix === null ) {
+				if ( null === $exclude_prefix ) {
 					$exclude_prefix = $resource->getPrefix();
 				}
 
@@ -163,10 +163,10 @@ class Custom_Loader extends PhpFileLoader {
 		$ext_regexp = \defined( 'HHVM_VERSION' ) ? '/\\.(?:php|hh)$/' : '/\\.php$/';
 		$prefix_len = null;
 		foreach ( $this->glob( $pattern, true, $resource ) as $path => $info ) {
-			if ( $prefix_len === null ) {
+			if ( null === $prefix_len ) {
 				$prefix_len = \strlen( $resource->getPrefix() );
 
-				if ( $exclude_prefix && \strpos( $exclude_prefix, $resource->getPrefix() ) !== 0 ) {
+				if ( $exclude_prefix && 0 !== \strpos( $exclude_prefix, $resource->getPrefix() ) ) {
 					throw new InvalidArgumentException( \sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $exclude, $pattern ) );
 				}
 			}

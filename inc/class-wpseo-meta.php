@@ -249,7 +249,7 @@ class WPSEO_Meta {
 	public static function init() {
 
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( WPSEO_Options::get( $option, false ) === true ) {
+			if ( true === WPSEO_Options::get( $option, false ) ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
@@ -455,7 +455,7 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( $field_def['type'] === 'multiselect' ):
+			case ( 'multiselect' === $field_def['type'] ):
 				$clean = $meta_value;
 				break;
 

@@ -131,7 +131,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		}
 
 		$new_status = $this->request_indexability();
-		if ( $new_status === false ) {
+		if ( false === $new_status ) {
 			return false;
 		}
 
@@ -216,7 +216,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		}
 
 		// If development mode is on or the blog is not public, just don't show this notice.
-		if ( WPSEO_Utils::is_development_mode() || ( get_option( 'blog_public' ) === '0' ) ) {
+		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 			return false;
 		}
 

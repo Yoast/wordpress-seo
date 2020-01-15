@@ -33,7 +33,7 @@ class WPSEO_Link_Table_Accessible {
 		$value = get_transient( self::transient_name() );
 
 		// If the value is not set, check the table.
-		if ( $value === false ) {
+		if ( false === $value ) {
 			return self::check_table();
 		}
 

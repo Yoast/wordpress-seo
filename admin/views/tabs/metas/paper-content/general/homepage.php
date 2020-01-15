@@ -10,7 +10,7 @@
 ?>
 <div class="tab-block">
 	<?php
-	if ( get_option( 'show_on_front' ) === 'posts' ) {
+	if ( 'posts' === get_option( 'show_on_front' ) ) {
 		$homepage_help = new WPSEO_Admin_Help_Panel(
 			'search-appearance-homepage',
 			__( 'Learn more about the homepage setting', 'wordpress-seo' ),
