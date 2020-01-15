@@ -110,6 +110,7 @@ clean:build-assets:
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
   - 'verify-zip-size'
+  - 'shell:git-checkout-trunk'
   - 'celebrate'
 
 'ensure-clean-branch':
