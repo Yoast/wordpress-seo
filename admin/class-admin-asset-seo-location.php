@@ -58,7 +58,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 
 		switch ( $type ) {
 			case WPSEO_Admin_Asset::TYPE_JS:
-				$relative_path = 'js/dist/' . $asset->get_src() . '.js';
+				$relative_path = 'js/dist/' . $asset->get_src() . $asset->get_suffix() . '.js';
 				break;
 
 			case WPSEO_Admin_Asset::TYPE_CSS:
@@ -66,7 +66,7 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 				if ( function_exists( 'is_rtl' ) && is_rtl() && $asset->has_rtl() ) {
 					$rtl_suffix = '-rtl';
 				}
-				$relative_path = 'css/dist/' . $asset->get_src() . $rtl_suffix . '.css';
+				$relative_path = 'css/dist/' . $asset->get_src() . $rtl_suffix . $asset->get_suffix() . '.css';
 				break;
 		}
 
