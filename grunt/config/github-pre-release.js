@@ -41,6 +41,7 @@ module.exports = function( grunt ) {
 			// Open a text editor to get the changelog.
 			const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
+			console.log( pluginVersion );
 
 			/* eslint-disable camelcase */
 			const releaseData = {
@@ -73,7 +74,7 @@ module.exports = function( grunt ) {
 				}
 			} catch ( error ) {
 				grunt.log.error( error );
-				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
+				grunt.fail.fatal( "An error occurred uploading the zip to the GitHub pre-release." );
 			}
 
 			// Slack notifier logic.
