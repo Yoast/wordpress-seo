@@ -1,5 +1,6 @@
 const getUserInput = require( "./tools/get-user-input" );
 const githubApi = require( "./tools/github-api" );
+const uploadToGitHub = require( "./tools/upload-to-github" );
 
 /**
  * Throws an error.
@@ -21,11 +22,11 @@ async function logError( response, grunt ) {
 		} );
 	}
 
-	grunt.fail.fatal( "Failed to create a pre release on github." );
+	grunt.fail.fatal( "Failed to create a pre-release on GitHub." );
 }
 
 /**
- * ...
+ * Creates and pushes a GitHub pre-release and uploads the artifact to GitHub, using the GitHub API.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -33,38 +34,46 @@ async function logError( response, grunt ) {
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"github-pre-release",
-		"Creates and pushes a github pre-release and uploads the artifact to GitHub",
+		"Creates and pushes a GitHub pre-release and uploads the artifact to GitHub",
 		async function() {
 			const done = this.async();
 
 			// Open a text editor to get the changelog.
 			const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
+			console.log( pluginVersion );
 
 			/* eslint-disable camelcase */
 			const releaseData = {
-				tag_name: "v" + pluginVersion,
-				target_commitish: "master",
-				name: "v" + pluginVersion,
+				tag_name: pluginVersion,
+				target_commitish: grunt.config.data.branchForRC,
+				name: pluginVersion,
 				body: changelog,
 				draft: false,
 				prerelease: true,
 			};
 			/* eslint-enable camelcase */
 
+			let responseData;
 			try {
 				const response = await githubApi( "releases", releaseData, "POST" );
 				if ( ! response.ok ) {
 					await logError( response, grunt );
 				}
+				responseData = await response.json();
 			} catch ( error ) {
 				grunt.log.error( error );
 				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
 			}
 
+			// Upload the zip to GitHub.
+			const uploadResponse = await uploadToGitHub( responseData.upload_url );
+			const uploadResponseData = await uploadResponse.json();
+			console.log( uploadResponseData );
+
 			// Slack notifier logic.
-			const constructedZipUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/archive/${ releaseData.tag_name }.zip`;
-			grunt.config.set( "rc.github.url", constructedZipUrl );
+			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
+			grunt.config.set( "rc.github.url", tagUrl );
 			done();
 		}
 	);

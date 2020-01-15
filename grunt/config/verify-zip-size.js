@@ -1,6 +1,5 @@
 const fs = require( "fs" );
 const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
-const parseVersion = require( "./tools/parse-version" );
 const githubApi = require( "./tools/github-api" );
 
 /**
@@ -39,6 +38,7 @@ module.exports = function( grunt ) {
 
 			// Max filesize has been determined to be 5 MB (5242880 bytes).
 			const maximumSize = 5242880;
+			// const maximumSize = 1242880;
 
 			// Exit early if the filesize is within limits.
 			if ( stats.size <= maximumSize ) {
@@ -49,7 +49,6 @@ module.exports = function( grunt ) {
 			const sizeInMB = ( stats.size / 1024 / 1024 ).toFixed( 2 );
 
 			const versionString = grunt.option( "plugin-version" );
-			const version = parseVersion( versionString );
 
 			const issueData = {
 				title: `RC ${ versionString } exceeds maximum size (${ sizeInMB }MB > ${ maximumSizeInMB }MB)`,
@@ -61,7 +60,7 @@ module.exports = function( grunt ) {
 				],
 			};
 
-			const milestoneTitle = ( version.patch > 0 ) ? `hotfix/${ versionString }` : `release/${ versionString }`;
+			const milestoneTitle = versionString;
 			const milestone = await getMilestone( milestoneTitle );
 			if ( milestone ) {
 				issueData.milestone = milestone.number;
@@ -77,27 +76,30 @@ module.exports = function( grunt ) {
 				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ slackMessageIssueLink }`,
 			} );
 
-			const finalMessage = "The RC process is being stopped.";
+			const finalMessage = "You can now celebrate, but there is work to be done!";
 
 			grunt.log.warn( `Zip size is too big (${ sizeInMB }MB).\n` );
 
 			if ( ! issueResponse.ok ) {
-				grunt.fail.fatal(
-					`An issue could not be created: ${ issueResponseData.message }\n\n` +
+				grunt.log.warn(
+					`An issue could not be created. The GitHub API returned: ${ issueResponseData.message }\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
 			grunt.log.ok( `An issue has been created: ${ issueResponseData.html_url }.\n` );
 
 			if ( ! issueResponseData.milestone ) {
-				grunt.fail.fatal(
-					`The milestone could not be attached! (${ milestoneTitle })\n\n` +
+				grunt.log.warn(
+					`The milestone could not be attached! (${ versionString })\n\n` +
 					finalMessage
 				);
+				return done();
 			}
 
-			grunt.fail.fatal( finalMessage );
+			grunt.log.warn( finalMessage );
+			return done();
 		}
 	);
 };
