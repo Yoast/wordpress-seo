@@ -147,4 +147,11 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 
 		return $robots;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_type() {
+		return 'profile';
+	}
 }
