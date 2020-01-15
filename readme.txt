@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.8.1 =
+Release Date: January 15th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the settings of our plugin were never saved before.
+* Fixes a bug where the default titles for custom post types and taxonomies were not shown in the Search Appearance settings when the settings of our plugin were never saved before.
+
 = 12.8 =
 Release Date: January 7th, 2020
 
