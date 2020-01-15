@@ -67,9 +67,15 @@ module.exports = function( grunt ) {
 			}
 
 			// Upload the zip to GitHub.
-			const uploadResponse = await uploadToGitHub( responseData.upload_url );
-			const uploadResponseData = await uploadResponse.json();
-			console.log( uploadResponseData );
+			try {
+				const uploadResponse = await uploadToGitHub( responseData.upload_url, "artifact.zip", "wordpress-seo.zip" );
+				if ( ! uploadResponse.ok ) {
+					await logError( uploadResponse, grunt );
+				}
+			} catch ( error ) {
+				grunt.log.error( error );
+				grunt.fail.fatal( "An error occurred uploading the zip to the GitHub pre-release." );
+			}
 
 			// Slack notifier logic.
 			const tagUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/releases/tag/${ releaseData.tag_name }`;
