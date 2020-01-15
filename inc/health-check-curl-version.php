@@ -44,7 +44,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 					esc_html__( 'Your server has a recent version of the cURL PHP module. Running a recent cURL version allows the %1$s plugins license activation to work correctly.', 'wordpress-seo' ),
 					'Yoast'
 				);
-
+			$this->add_yoast_signature();
 			return;
 		}
 
@@ -60,6 +60,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 			'<a href="' . esc_url( 'https://kb.yoast.com/article/90-is-my-curl-up-to-date' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		$this->add_yoast_signature();
 	}
 
 	/**
