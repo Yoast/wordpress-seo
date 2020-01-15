@@ -226,11 +226,11 @@ class WPSEO_Taxonomy {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( $key === 'wpseo_linkdex' && ! $this->analysis_seo->is_enabled() ) {
+		if ( 'wpseo_linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
 			return true;
 		}
 
-		if ( $key === 'wpseo_content_score' && ! $this->analysis_readability->is_enabled() ) {
+		if ( 'wpseo_content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
 			return true;
 		}
 
@@ -321,7 +321,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_overview( $page ) {
-		return $page === 'edit-tags.php';
+		return 'edit-tags.php' === $page;
 	}
 
 	/**
@@ -332,7 +332,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_edit( $page ) {
-		return $page === 'term.php';
+		return 'term.php' === $page;
 	}
 
 	/**

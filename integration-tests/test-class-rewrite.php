@@ -74,7 +74,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		 * Remove initial slash, if there is one (we remove the trailing slash in
 		 * the regex replacement and don't want to end up short a slash).
 		 */
-		if ( substr( $category_base, 0, 1 ) === '/' ) {
+		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -147,7 +147,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$categories          = get_categories( [ 'hide_empty' => false ] );
 		$permalink_structure = get_option( 'permalink_structure' );
 
-		if ( ! ( is_multisite() && strpos( $permalink_structure, '/blog/' ) === 0 ) ) {
+		if ( ! ( is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
 			$expected = [
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',

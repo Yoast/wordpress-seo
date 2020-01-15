@@ -7,15 +7,11 @@
 
 /**
  * Tests for the reindex dashboard.
- *
- * @coversDefaultClass WPSEO_Link_Reindex_Dashboard
  */
 class WPSEO_Link_Reindex_Dashboard_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests if unprocessed works as expected.
-	 *
-	 * @covers ::has_unprocessed
 	 */
 	public function test_unprocessed() {
 		$instance = new WPSEO_Link_Reindex_Dashboard_Double();
@@ -30,8 +26,6 @@ class WPSEO_Link_Reindex_Dashboard_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests if the unprocessed count is presented as expected.
-	 *
-	 * @covers ::get_unprocessed_count
 	 */
 	public function test_get_unprocessed_count() {
 		$instance = new WPSEO_Link_Reindex_Dashboard_Double();

@@ -35,10 +35,6 @@ class WPSEO_Capability_Utils {
 	public static function get_applicable_users( $capability ) {
 		$applicable_roles = self::get_applicable_roles( $capability );
 
-		if ( $applicable_roles === [] ) {
-			return [];
-		}
-
 		return get_users( [ 'role__in' => $applicable_roles ] );
 	}
 
@@ -50,20 +46,14 @@ class WPSEO_Capability_Utils {
 	 * @return array The names of the roles that have the capability.
 	 */
 	public static function get_applicable_roles( $capability ) {
-		$roles      = wp_roles();
-		$role_names = $roles->get_names();
+		$roles = wp_roles();
 
 		$applicable_roles = [];
-		foreach ( array_keys( $role_names ) as $role_name ) {
+		foreach ( $roles->get_names() as $role_name ) {
 			$role = $roles->get_role( $role_name );
-
-			if ( ! $role ) {
-				continue;
-			}
-
 			// Add role if it has the capability.
-			if ( array_key_exists( $capability, $role->capabilities ) && $role->capabilities[ $capability ] === true ) {
-				$applicable_roles[] = $role_name;
+			if ( $role && in_array( $capability, $role['capabilities'], true ) ) {
+				$applicable_roles[] = $role['name'];
 			}
 		}
 

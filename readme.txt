@@ -217,14 +217,6 @@ Other:
 * Renames the 'Snippet preview' to 'Google preview'.
 * Replaces the Google preview mode switcher toggle with radio buttons.
 
-= 12.8.1 =
-Release Date: January 15th, 2020
-
-Bugfixes:
-
-* Fixes a bug introduced in 12.8 where caching of our options would lead to the meta box not showing on new custom post types and taxonomies.
-* Fixes a bug where memory got exhausted on sites with a lot of users when the plugin is activated.
-
 = 12.8 =
 Release Date: January 7th, 2020
 

@@ -94,6 +94,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @todo [JRF => testers] Check if the extra actions below would run into problems if an option
 	 * is updated early on and if so, change the call to schedule these for a later action on add/update
 	 * instead of running them straight away.
+	 *
+	 * @return \WPSEO_Taxonomy_Meta
 	 */
 	protected function __construct() {
 		parent::__construct();
@@ -332,7 +334,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( $meta_data[ $key ] );
 					}
 
-					if ( $key === 'wpseo_focuskw' ) {
+					if ( 'wpseo_focuskw' === $key ) {
 						$search = [
 							'&lt;',
 							'&gt;',
