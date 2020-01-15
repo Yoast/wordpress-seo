@@ -29,12 +29,13 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			$this->add_yoast_signature();
 			return;
 		}
+
 		$this->label          = esc_html__( 'Paging comments is enabled', 'wordpress-seo' );
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
-		$this->description  = esc_html__( 'Paging comments is enabled. As this is not needed in 999 out of 1000 cases, we recommend you disable it.
-								To fix this, uncheck the comment settings box in front of "Break comments into pages..." on the Discussion Settings page.', 'wordpress-seo' );
-		$this->actions = sprintf(
+		$this->description    = esc_html__( 'Paging comments is enabled. As this is not needed in 999 out of 1000 cases, we recommend you disable it.
+								To fix this, uncheck the box in front of "Break comments into pages..." on the Discussion Settings page.', 'wordpress-seo' );
+		$this->actions        = sprintf(
 			/* translators: 1: Opening tag of the link to the discussion settings page, 2: Link closing tag. */
 			esc_html__( '%1$sGo to the Discussion Settings page%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
