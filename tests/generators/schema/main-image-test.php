@@ -21,26 +21,36 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Main_Image_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var Main_Image
 	 */
 	private $instance;
 
 	/**
+	 * The schema image helper.
+	 *
 	 * @var Schema\Image_Helper
 	 */
 	private $schema_image;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The schema id helper.
+	 *
 	 * @var Schema\ID_Helper
 	 */
-	private $id;
+	private $schema_id;
 
 	/**
+	 * The schema context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $meta_tags_context;
@@ -53,14 +63,14 @@ class Main_Image_Test extends TestCase {
 
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->image        = Mockery::mock( Image_Helper::class );
-		$this->id           = new Schema\ID_Helper();
+		$this->schema_id    = new Schema\ID_Helper();
 
 		$this->instance = new Main_Image(
 			$this->image,
 			$this->schema_image
 		);
 
-		$this->instance->set_id_helper( $this->id );
+		$this->instance->set_id_helper( $this->schema_id );
 
 		$this->meta_tags_context = new Meta_Tags_Context();
 	}
