@@ -217,6 +217,13 @@ Other:
 * Renames the 'Snippet preview' to 'Google preview'.
 * Replaces the Google preview mode switcher toggle with radio buttons.
 
+= 12.8.1 =
+Release Date: January 15th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the options of our plugin were never saved before.
+
 = 12.8 =
 Release Date: January 7th, 2020
 
