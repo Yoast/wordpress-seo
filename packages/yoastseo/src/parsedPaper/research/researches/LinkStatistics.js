@@ -29,7 +29,7 @@ class LinkStatistics extends Research {
 		}
 
 		// Check if the `rel` attribute includes "nofollow".
-		return rel.split( /\s/ ).includes( "nofollow" );
+		return rel.split( /\s*/ ).includes( "nofollow" );
 	}
 
 	/**
