@@ -40,6 +40,16 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that the network admin class implements the required interfaces.
+	 */
+	public function test_implements_interfaces() {
+		$admin = new Yoast_Network_Admin();
+
+		$this->assertInstanceOf( 'WPSEO_WordPress_Integration', $admin );
+		$this->assertInstanceOf( 'WPSEO_WordPress_AJAX_Integration', $admin );
+	}
+
+	/**
 	 * Tests getting site choices.
 	 *
 	 * @group ms-required

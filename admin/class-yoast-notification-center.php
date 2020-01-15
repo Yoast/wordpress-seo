@@ -81,7 +81,7 @@ class Yoast_Notification_Center {
 	 */
 	public static function get() {
 
-		if ( self::$instance === null ) {
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
@@ -101,7 +101,7 @@ class Yoast_Notification_Center {
 		}
 
 		$notification = $notification_center->get_notification_by_id( $notification_id );
-		if ( ( $notification instanceof Yoast_Notification ) === false ) {
+		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
 			$options      = [
@@ -174,7 +174,7 @@ class Yoast_Notification_Center {
 
 		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
 		if ( ! $is_dismissing ) {
-			$is_dismissing = ( self::get_user_input( $dismissal_key ) === '1' );
+			$is_dismissing = ( '1' === self::get_user_input( $dismissal_key ) );
 		}
 
 		if ( ! $is_dismissing ) {
@@ -182,7 +182,7 @@ class Yoast_Notification_Center {
 		}
 
 		$user_nonce = self::get_user_input( 'nonce' );
-		if ( wp_verify_nonce( $user_nonce, $notification_id ) === false ) {
+		if ( false === wp_verify_nonce( $user_nonce, $notification_id ) ) {
 			return false;
 		}
 
@@ -419,7 +419,7 @@ class Yoast_Notification_Center {
 			$index = array_search( $notification, $notifications, true );
 		}
 
-		if ( $index === false ) {
+		if ( false === $index ) {
 			return;
 		}
 
@@ -652,7 +652,7 @@ class Yoast_Notification_Center {
 
 		$filter_input_type = INPUT_GET;
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'POST' ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) {
 			$filter_input_type = INPUT_POST;
 		}
 
@@ -707,11 +707,11 @@ class Yoast_Notification_Center {
 			return WPSEO_Utils::calc( $b->get_priority(), 'compare', $a->get_priority() );
 		}
 
-		if ( $a_type === 'error' ) {
+		if ( 'error' === $a_type ) {
 			return -1;
 		}
 
-		if ( $b_type === 'error' ) {
+		if ( 'error' === $b_type ) {
 			return 1;
 		}
 

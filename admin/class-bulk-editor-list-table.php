@@ -197,7 +197,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-			<?php if ( $which === 'top' ) { ?>
+			<?php if ( 'top' === $which ) { ?>
 			<form id="posts-filter" action="" method="get">
 				<input type="hidden" name="nonce" value="<?php echo esc_attr( $this->nonce ); ?>"/>
 				<input type="hidden" name="page" value="wpseo_tools"/>
@@ -220,7 +220,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				?>
 
 				<br class="clear"/>
-				<?php if ( $which === 'top' ) { ?>
+				<?php if ( 'top' === $which ) { ?>
 			</form>
 		<?php } ?>
 		</div>
@@ -330,7 +330,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 		$current_link_attributes = '';
-		if ( $post_status === 'trash' ) {
+		if ( 'trash' === $post_status ) {
 			$current_link_attributes = 'class="current" aria-current="page"';
 		}
 
@@ -352,7 +352,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	public function extra_tablenav( $which ) {
 
-		if ( $which === 'top' ) {
+		if ( 'top' === $which ) {
 			$post_types = get_post_types(
 				[
 					'public'              => true,
@@ -797,7 +797,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$actions = [];
 
-		if ( $can_edit_post && $rec->post_status !== 'trash' ) {
+		if ( $can_edit_post && 'trash' !== $rec->post_status ) {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				esc_url( get_edit_post_link( $rec->ID, true ) ),
@@ -819,7 +819,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					);
 				}
 			}
-			elseif ( $rec->post_status !== 'trash' ) {
+			elseif ( 'trash' !== $rec->post_status ) {
 				$actions['view'] = sprintf(
 					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 					esc_url( get_permalink( $rec->ID ) ),

@@ -28,7 +28,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 
 $yform->textinput( 'fbadminapp', __( 'Facebook App ID', 'wordpress-seo' ) );
 
-if ( get_option( 'show_on_front' ) === 'posts' ) {
+if ( 'posts' === get_option( 'show_on_front' ) ) {
 	$social_facebook_frontpage_help = new WPSEO_Admin_Help_Panel(
 		'social-facebook-frontpage',
 		esc_html__( 'Learn more about the title separator setting', 'wordpress-seo' ),

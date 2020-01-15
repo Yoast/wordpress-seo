@@ -7,8 +7,6 @@
 
 /**
  * Unit Test Class.
- *
- * @coversDefaultClass WPSEO_Link_Column_Count
  */
 class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
@@ -42,8 +40,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test set with an empty array.
-	 *
-	 * @covers ::set
 	 */
 	public function test_set_without_post_ids() {
 		/** @var WPSEO_Link_Column_Count $column_count */
@@ -61,8 +57,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test set with array containing one value.
-	 *
-	 * @covers ::set
 	 */
 	public function test_set_with_post_ids() {
 		/** @var WPSEO_Link_Column_Count $column_count */
@@ -90,8 +84,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test get with existing post id given.
-	 *
-	 * @covers ::get
 	 */
 	public function test_get_existing_post_id() {
 		/** @var WPSEO_Link_Column_Count $column_count */
@@ -121,8 +113,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test get with non existing post id given.
-	 *
-	 * @covers ::get
 	 */
 	public function test_get_non_existing_post_id() {
 		/** @var WPSEO_Link_Column_Count $column_count */
@@ -152,8 +142,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test get_results.
-	 *
-	 * @covers ::get_results
 	 */
 	public function test_get_results() {
 		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
@@ -168,8 +156,6 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test get_results.
-	 *
-	 * @covers ::get_results
 	 */
 	public function test_get_results_unfound_posts() {
 		$column_count = new WPSEO_Link_Column_Count();
