@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 
 /**
- * Adds customizations to the front end for the primary category.
+ * Adds customizations to the front end for breadcrumbs.
  */
 class Breadcrumbs_Integration implements Integration_Interface {
 
@@ -34,8 +34,6 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the conditionals.
-	 *
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -43,8 +41,6 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Registers the required hooks.
-	 *
 	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
