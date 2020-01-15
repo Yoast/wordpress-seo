@@ -68,7 +68,9 @@ class WPSEO_Options {
 	 */
 	public function register_hooks() {
 		add_action( 'registered_taxonomy', [ $this, 'clear_cache' ] );
+		add_action( 'unregistered_taxonomy', [ $this, 'clear_cache' ] );
 		add_action( 'registered_post_type', [ $this, 'clear_cache' ] );
+		add_action( 'unregistered_post_type', [ $this, 'clear_cache' ] );
 	}
 
 	/**
