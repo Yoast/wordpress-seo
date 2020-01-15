@@ -11,7 +11,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group health-check
  */
 class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
-
 	/**
 	 * Tests the run method when page_comments are disabled.
 	 *
@@ -24,13 +23,14 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 			->with( 'page_comments' )
 			->andReturn( '0' );
 
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$health_check = new \WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
 
-		// We just want to verify that the label attributes hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $health_check );
+		// We just want to verify that the label attribute is the "passed" message.
+		$this->assertAttributeEquals( 'Paging comments is properly disabled', 'label', $health_check );
 	}
-
 	/**
 	 * Tests the run method when page_comments are enabled.
 	 *
@@ -45,11 +45,12 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$health_check = new \WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
 
-		// We just want to verify that the label attributes has been set.
-		$this->assertAttributeEquals( 'Paging comments enabled', 'label', $health_check );
+		// We just want to verify that the label attribute is the "not passed" message.
+		$this->assertAttributeEquals( 'Paging comments is enabled', 'label', $health_check );
 	}
 }
