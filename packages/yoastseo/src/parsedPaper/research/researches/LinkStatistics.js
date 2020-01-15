@@ -105,7 +105,7 @@ class LinkStatistics extends Research {
 	 *
 	 * @returns {Promise<Object[]>} The research results.
 	 */
-	calculateFor( node, metadata  ) {
+	calculateFor( node, metadata ) {
 		// Collect link elements.
 		const links = node.textContainer.formatting.filter( element => element.type === "a" );
 
