@@ -13,6 +13,7 @@ module.exports = function( grunt ) {
 
 	// Used to switch between development and release builds.
 	const developmentBuild = ! [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
+	console.log( process.argv );
 
 	// Define project configuration.
 	const project = {
