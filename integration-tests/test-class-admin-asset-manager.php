@@ -168,28 +168,6 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether the registers_script function applies the suffix correctly.
-	 *
-	 * @covers WPSEO_Admin_Asset_Manager::register_script
-	 */
-	public function test_register_script_suffix() {
-		$asset_args = [
-			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
-			'src'    => 'src',
-			'suffix' => '.suffix',
-		];
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
-
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
-		// Use the WordPress internals to assert instead.
-		global $wp_scripts;
-
-		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
-
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js', $result->src );
-	}
-
-	/**
 	 * Tests whether the register_style registers the included style.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
@@ -239,28 +217,6 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		global $wp_scripts;
 
 		$this->assertTrue( isset( $wp_scripts->registered[ $prefix . 'handle' ] ) );
-	}
-
-	/**
-	 * Tests whether the register_style applies the suffix correctly.
-	 *
-	 * @covers WPSEO_Admin_Asset_Manager::register_script
-	 */
-	public function test_register_style_suffix() {
-		$asset_args = [
-			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
-			'src'    => 'src',
-			'suffix' => '.suffix',
-		];
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
-
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
-		// Use the WordPress internals to assert instead.
-		global $wp_styles;
-
-		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
-
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css', $result->src );
 	}
 
 	/**
