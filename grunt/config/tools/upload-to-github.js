@@ -22,8 +22,9 @@ async function uploadToGitHub( uploadUrl, fileName = "artifact.zip", label = "wo
 		},
 		body: body,
 	};
-
-	return await fetch( uploadUrl.replace( "{?name, label}", `?name=${ label }` ), config );
+	const urlWithQueryParams = uploadUrl.replace( "{?name, label}", `?name={basename ${ label }}` );
+	console.log( urlWithQueryParams );
+	return await fetch( urlWithQueryParams, config );
 }
 
 module.exports = uploadToGitHub;
