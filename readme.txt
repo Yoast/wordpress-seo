@@ -213,6 +213,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 Release Date: January 15th, 2020
 
 Bugfixes:
+
 * Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the options of our plugin were never saved before.
 
 = 12.8 =
