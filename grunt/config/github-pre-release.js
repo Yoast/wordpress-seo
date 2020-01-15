@@ -1,5 +1,6 @@
 const getUserInput = require( "./tools/get-user-input" );
 const githubApi = require( "./tools/github-api" );
+const uploadToGitHub = require( "./tools/upload-to-github" );
 
 /**
  * Throws an error.
@@ -52,10 +53,23 @@ module.exports = function( grunt ) {
 			};
 			/* eslint-enable camelcase */
 
+			let responseData;
 			try {
 				const response = await githubApi( "releases", releaseData, "POST" );
 				if ( ! response.ok ) {
 					await logError( response, grunt );
+				}
+				responseData = await response.json();
+			} catch ( error ) {
+				grunt.log.error( error );
+				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
+			}
+
+			// Upload the zip to GitHub.
+			try {
+				const uploadResponse = await uploadToGitHub( responseData.upload_url, "artifact.zip", "wordpress-seo.zip" );
+				if ( ! uploadResponse.ok ) {
+					await logError( uploadResponse, grunt );
 				}
 			} catch ( error ) {
 				grunt.log.error( error );
