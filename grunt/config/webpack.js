@@ -1,7 +1,7 @@
 /* global require */
 const webpackConfig = require( "../../webpack/webpack.config" );
 
-module.exports = {
-	buildDev: () => webpackConfig( { environment: "development" } ),
-	buildProd: () => webpackConfig(),
+module.exports = ( grunt ) => {
+	buildDev: () => webpackConfig( grunt, { environment: "development" } ),
+	buildProd: () => webpackConfig( grunt ),
 };
