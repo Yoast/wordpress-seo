@@ -596,6 +596,23 @@ body.folded {
 		color: #674E00;
 		background: #FFF3CD;
 	}
+
+}
+
+.yoast-site-health {
+	&__signature {
+		display: flex;
+		font-size: 12px;
+		line-height: 20px; // same as the icon height
+		margin-top: 2em;
+		color: #707070;
+	}
+
+	&__signature-icon,
+	// needs higher specificity
+	&__inline-button.fetch-status {
+		margin-right: 8px;
+	}
 }
 
 .yoast-site-health {
