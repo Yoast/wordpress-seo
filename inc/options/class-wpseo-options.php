@@ -71,7 +71,14 @@ class WPSEO_Options {
 			self::register_option( call_user_func( [ $option_class, 'get_instance' ] ) );
 		}
 
-		self::fill_cache();
+	/**
+	 * Register our hooks.
+	 */
+	public function register_hooks() {
+		add_action( 'registered_taxonomy', [ $this, 'clear_cache' ] );
+		add_action( 'unregistered_taxonomy', [ $this, 'clear_cache' ] );
+		add_action( 'registered_post_type', [ $this, 'clear_cache' ] );
+		add_action( 'unregistered_post_type', [ $this, 'clear_cache' ] );
 	}
 
 	/**
