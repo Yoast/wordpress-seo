@@ -12,7 +12,7 @@ module.exports = function( grunt ) {
 	const pluginVersion = pkg.yoast.pluginVersion;
 
 	// Used to switch between development and release builds.
-	const developmentBuild = ! [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
+	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
 
 	// Define project configuration.
 	const project = {
