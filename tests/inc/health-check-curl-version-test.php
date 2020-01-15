@@ -118,6 +118,8 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$this->instance->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
@@ -146,6 +148,8 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->expects( 'is_my_yoast_api_reachable' )
 			->once()
 			->andReturnFalse();
+
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->instance->run();
 
