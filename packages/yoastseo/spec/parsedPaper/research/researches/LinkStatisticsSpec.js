@@ -3,10 +3,7 @@ import buildTreeFromYaml from "../../../specHelpers/buildTreeFromYaml";
 
 
 describe( "LinkStatistics research", () => {
-	let metadata;
-
-	beforeEach( () => {
-		const metadataYaml = `
+	const metadataYaml = `
 Structured:
   children:
     - Structured:
@@ -17,8 +14,9 @@ Structured:
               isImplicit: true
 		`;
 
-		metadata = buildTreeFromYaml( metadataYaml );
-	} );
+	const metadata = buildTreeFromYaml( metadataYaml );
+
+	const linkStatistics = new LinkStatistics();
 
 	describe( "follow vs nofollow", () => {
 		it( "identifies links that have no 'rel' attribute as being allowed to follow.", done => {
@@ -34,8 +32,6 @@ Paragraph:
         textStartIndex: 20
         textEndIndex: 28
 		`;
-
-			const linkStatistics = new LinkStatistics();
 
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
@@ -59,8 +55,6 @@ Paragraph:
         textStartIndex: 20
         textEndIndex: 28
 		`;
-
-			const linkStatistics = new LinkStatistics();
 
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
@@ -87,8 +81,6 @@ Paragraph:
         textEndIndex: 28
 		`;
 
-			const linkStatistics = new LinkStatistics();
-
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
 					expect( result[ 0 ].target ).toEqual( "internal" );
@@ -111,8 +103,6 @@ Paragraph:
         textStartIndex: 20
         textEndIndex: 28
 		`;
-
-			const linkStatistics = new LinkStatistics();
 
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
@@ -137,8 +127,6 @@ Paragraph:
         textEndIndex: 28
 		`;
 
-			const linkStatistics = new LinkStatistics();
-
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
 					expect( result[ 0 ].target ).toEqual( "other" );
@@ -161,8 +149,6 @@ Paragraph:
         textStartIndex: 20
         textEndIndex: 28
 		`;
-
-			const linkStatistics = new LinkStatistics();
 
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
@@ -187,8 +173,6 @@ Paragraph:
         textEndIndex: 28
 		`;
 
-			const linkStatistics = new LinkStatistics();
-
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
 					expect( result[ 0 ].target ).toEqual( "other" );
@@ -209,8 +193,6 @@ Paragraph:
         textStartIndex: 20
         textEndIndex: 28
 		`;
-
-			const linkStatistics = new LinkStatistics();
 
 			linkStatistics.calculateFor( buildTreeFromYaml( yaml ), metadata ).then(
 				result => {
