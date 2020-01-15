@@ -7,7 +7,7 @@ describe( "Research", () => {
 	} );
 
 	describe( "isLeafNode", () => {
-		it( "warns when it has not been implemented", () => {
+		it( "returns `true` when it gets an instance of a `LeafNode` class, `false` if not.", () => {
 			const research = new Research();
 
 			const structuredNode = new StructuredNode( "div", {} );
@@ -32,7 +32,7 @@ describe( "Research", () => {
 	} );
 
 	describe( "mergeResults", () => {
-		it( "warns when it has not been implemented", () => {
+		it( "flattens the results of its children", () => {
 			const research = new Research();
 
 			const results = [
