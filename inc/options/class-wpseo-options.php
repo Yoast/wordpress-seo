@@ -61,6 +61,7 @@ class WPSEO_Options {
 		foreach ( static::$options as $option_name => $option_class ) {
 			static::register_option( call_user_func( [ $option_class, 'get_instance' ] ) );
 		}
+	}
 
 	/**
 	 * Register our hooks.
@@ -70,14 +71,6 @@ class WPSEO_Options {
 		add_action( 'unregistered_taxonomy', [ $this, 'clear_cache' ] );
 		add_action( 'registered_post_type', [ $this, 'clear_cache' ] );
 		add_action( 'unregistered_post_type', [ $this, 'clear_cache' ] );
-	}
-
-	/**
-	 * Register our hooks.
-	 */
-	public function register_hooks() {
-		add_action( 'registered_taxonomy', [ $this, 'clear_cache' ] );
-		add_action( 'registered_post_type', [ $this, 'clear_cache' ] );
 	}
 
 	/**
