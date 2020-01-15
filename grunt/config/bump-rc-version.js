@@ -1,3 +1,5 @@
+const { flattenVersionForFile } = require( "./webpack/paths" );
+
 /**
  * Grunt task to bump the RC version.
  *
@@ -60,6 +62,7 @@ module.exports = function( grunt ) {
 			// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js.
 			// Which is taken from package.json BEFORE package.json is updated by our above code.
 			grunt.config.data.pluginVersion = newPluginVersion;
+			grunt.config.data.pluginVersionSlug = flattenVersionForFile( newPluginVersion );
 
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
