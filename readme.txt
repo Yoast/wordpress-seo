@@ -209,9 +209,6 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.10.0 =
-Test stuff
-
 = 12.9 =
 Release Date: January 21st, 2020
 
@@ -219,6 +216,31 @@ Other:
 
 * Renames the 'Snippet preview' to 'Google preview'.
 * Replaces the Google preview mode switcher toggle with radio buttons.
+
+= 12.8 =
+Release Date: January 7th, 2020
+
+Welcome to another year of helping you achieve your goals with your site! Today, it’s time for the first in a long line of releases planned for 2020: Yoast SEO 12.8. In this release, you’ll find a number of bug fixes and performance enhancements. Find out more about this release in [our 12.8 release post](https://yoa.st/release-12-8)!
+
+Bugfixes:
+
+* Fixes a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
+* Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
+* Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
+* Fixes a bug where author archives for authors without post would show up in the search results, even though the "Show archives for authors without posts in search results?" option was enabled.
+* Fixes a bug where the styling was missing from admin error notices in WordPress 5.3.
+* Fixes a bug where the results of the images alt attribute SEO assessment in the Classic Editor were incorrect when the image did not have an alt attribute but did have a title attribute.
+
+Enhancements:
+
+* Optimizes the options retrieval processes. Props to [Alex Bouma](https://alex.bouma.dev/) for his testing and suggestions.
+* Adds the possibility to declare an identifier when integrating with the Schema output.
+
+Other:
+
+* Fixes the documentation in the Schema HowTo file. Props to [timvaniersel](https://github.com/timvaniersel).
+* Fixes the documentation in the Breadcrumbs file. Props to [alfiosalanitri](https://github.com/alfiosalanitri).
+* Moves the paginated comments notice from the dashboard to WordPress' Site Health screen.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

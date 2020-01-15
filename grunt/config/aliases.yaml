@@ -101,8 +101,8 @@ clean:build-assets:
 'create-rc':
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
-#  - 'ensure-rc-dependencies'
-#  - 'update-readme'
+  - 'ensure-rc-dependencies'
+  - 'update-readme'
   - 'bump-the-rc-version'
   - 'artifact'
   - 'github-pre-release'
