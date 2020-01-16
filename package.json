@@ -136,6 +136,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "12.9-RC2"
+    "pluginVersion": "12.9-RC3"
   }
 }
