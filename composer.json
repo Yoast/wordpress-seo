@@ -46,6 +46,9 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {
+		"files": [
+			"src/functions.php"
+		],
 		"classmap": [
 			"admin/",
 			"frontend/",
