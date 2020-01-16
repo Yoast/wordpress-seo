@@ -2,10 +2,16 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
-
+All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.39.0 January 6th, 2019
+### Other
+* Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
+
+## 4.38.0 November 26th, 2019
+### Other
+* Removed the components related to the Help Center and the AlgoliaSearcher package
 
 ## 4.36.0 November 11th, 2019
 ### Enhancements

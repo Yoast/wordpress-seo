@@ -60,6 +60,7 @@ class Input extends React.Component {
 				defaultValue={ this.props.value }
 				onChange={ this.props.onChange }
 				autoComplete={ this.props.autoComplete }
+				className={ this.props.className }
 				{ ...this.props.optionalAttributes }
 			/>
 		);
@@ -79,6 +80,7 @@ Input.propTypes = {
 	optionalAttributes: PropTypes.object,
 	hasFocus: PropTypes.bool,
 	autoComplete: PropTypes.string,
+	className: PropTypes.string,
 };
 
 /**
@@ -91,6 +93,7 @@ Input.defaultProps = {
 	type: "text",
 	value: "",
 	hasFocus: false,
+	className: "",
 };
 
 export default Input;
