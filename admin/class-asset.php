@@ -146,7 +146,6 @@ class WPSEO_Admin_Asset {
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
-		'suffix'    => WPSEO_CSSJS_SUFFIX,
 	];
 
 	/**
@@ -174,7 +173,7 @@ class WPSEO_Admin_Asset {
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
-		$this->suffix    = $args['suffix'];
+		$this->suffix    = isset( $args['suffix'] ) ? $args['suffix'] : '';
 	}
 
 	/**

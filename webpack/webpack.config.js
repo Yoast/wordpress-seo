@@ -129,10 +129,7 @@ module.exports = function( env = { environment: "production" } ) {
 	// Prepend the default allowed hosts.
 	allowedHosts = defaultAllowedHosts.concat( allowedHosts );
 
-	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
-	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
-
-	const outputFilename = mode === "development" ? outputFilenameUnminified : outputFilenameMinified;
+	const outputFilename = "[name]-" + pluginVersionSlug + ".js";
 
 	const plugins = [
 		new CaseSensitivePathsPlugin(),
@@ -231,7 +228,7 @@ module.exports = function( env = { environment: "production" } ) {
 			...base,
 			output: {
 				path: paths.jsDist,
-				filename: outputFilenameMinified,
+				filename: "[name]-" + pluginVersionSlug + ".js",
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
