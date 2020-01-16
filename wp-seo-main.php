@@ -332,13 +332,10 @@ function wpseo_init() {
 	$wpseo_onpage = new WPSEO_OnPage();
 	$wpseo_onpage->register_hooks();
 
-	// When namespaces are not available, stop further execution.
-	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
-		// Initializes the Yoast indexables for the first time.
-		yoastseo();
+	// Initializes the Yoast indexables for the first time.
+	yoastseo();
 
-		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
-	}
+	// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
 }
 
 /**
