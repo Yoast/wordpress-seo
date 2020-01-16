@@ -42,13 +42,6 @@ class Website_Test extends TestCase {
 	private $html;
 
 	/**
-	 * The ID helper.
-	 *
-	 * @var ID_Helper|Mockery\MockInterface
-	 */
-	private $id;
-
-	/**
 	 * The meta tags context object.
 	 *
 	 * @var Meta_Tags_Context
@@ -63,14 +56,13 @@ class Website_Test extends TestCase {
 
 		$this->options = Mockery::mock( Options_Helper::class );
 		$this->html    = Mockery::mock( HTML_Helper::class );
-		$this->id      = new ID_Helper();
 
 		$this->instance = new Website(
 			$this->options,
 			$this->html
 		);
 
-		$this->instance->set_id_helper( $this->id );
+		$this->instance->set_id_helper( new ID_Helper() );
 
 		$this->meta_tags_context = new Meta_Tags_Context();
 	}
