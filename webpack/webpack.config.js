@@ -4,10 +4,7 @@ const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
-const pkg = require( "../package.json" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
-
-const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 
 const root = path.join( __dirname, "../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -119,8 +116,10 @@ function addBundleAnalyzer( plugins ) {
 	return plugins;
 }
 
-module.exports = function( env = { environment: "production" } ) {
+module.exports = function( grunt, env = { environment: "production" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
+
+	const pluginVersionSlug = paths.flattenVersionForFile( grunt.config.data.pluginVersion );
 
 	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
 	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // https://github.com/markoheijnen/grunt-glotpress
 module.exports = {
 	plugin: {
@@ -27,3 +28,4 @@ module.exports = {
 		},
 	},
 };
+/* eslint-enable camelcase */
