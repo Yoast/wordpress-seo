@@ -140,6 +140,7 @@ module.exports = function( grunt ) {
 			staticMappings: {
 				addtextdomain: "grunt-wp-i18n",
 				makepot: "grunt-wp-i18n",
+				/* eslint-disable-next-line camelcase */
 				glotpress_download: "grunt-glotpress",
 				gittag: "grunt-git",
 				gitfetch: "grunt-git",

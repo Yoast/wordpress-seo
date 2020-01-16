@@ -2,6 +2,16 @@ const path = require( "path" );
 
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
+	/**
+	 * Will throw an error if there are uncommitted changes.
+	 *
+	 * @param {*}        error     A potential error in calling in the git status --porcelain command.
+	 * @param {*}        stdout    The response if no errors.
+	 * @param {*}        stderr    A stderr.
+	 * @param {Function} callback  The callback function.
+	 *
+	 * @returns {void}
+	 */
 	function throwUncommittedChangesError( error, stdout, stderr, callback ) {
 		if ( stdout ) {
 			throw "You have uncommitted changes. Commit, stash or reset the above files.";
@@ -11,6 +21,8 @@ module.exports = function( grunt ) {
 		callback();
 	}
 
+	// Temporarily disable require-jsdoc due to the structure of the code below.
+	/* eslint-disable require-jsdoc */
 	return {
 		"combine-pot-files": {
 			fromFiles: [
@@ -231,4 +243,5 @@ module.exports = function( grunt ) {
 			},
 		},
 	};
+	/* eslint-enable require-jsdoc */
 };
