@@ -1,6 +1,9 @@
 const colors = require( "colors/safe" );
 
 // See https://github.com/dylang/grunt-prompt
+/**
+ * Provides the settings for prompts within a Grunt task.
+ */
 module.exports = {
 	monorepoVersions: {
 		options: {
@@ -11,6 +14,12 @@ module.exports = {
 					message: "Are the above versions correct?",
 				},
 			],
+			/**
+			 * Handles the answer to the prompt. If false, will throw an error.
+			 * @param {Object} results The result of the prompt.
+			 *
+			 * @returns {void}
+			 */
 			then: function( results ) {
 				if ( results[ "config.monorepoVersions" ] === false ) {
 					throw "The script has been aborted because the monorepo versions are incorrect. Ask team Lingo to release the monorepo packages.";
