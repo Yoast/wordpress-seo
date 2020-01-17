@@ -107,7 +107,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	private function get_first_content_image( $post_id, $image_id ) {
 		$image_url = $this->image_helper->get_post_content_image( $post_id );
 
-		if ( $image_url === null ) {
+		if ( $image_url === '' ) {
 			return null;
 		}
 
