@@ -127,7 +127,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @return array The taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-		if ( null === $post_id ) {
+		if ( $post_id === null ) {
 			$post_id = \get_the_ID();
 		}
 

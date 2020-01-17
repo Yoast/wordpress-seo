@@ -92,7 +92,7 @@ if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
  * Only use minified assets when we are in a production environment.
  */
 if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
-	define( 'WPSEO_CSSJS_SUFFIX', ( 'development' !== YOAST_ENVIRONMENT ) ? '.min' : '' );
+	define( 'WPSEO_CSSJS_SUFFIX', ( YOAST_ENVIRONMENT !== 'development' ) ? '.min' : '' );
 }
 
 /* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
@@ -267,7 +267,7 @@ function wpseo_load_textdomain() {
 	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
 	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
 
-	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
 		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
 	}
 	else {

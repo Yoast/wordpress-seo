@@ -101,6 +101,8 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the situation where a post type will be filtered by using the 'wpseo_accessible_post_types filter'.
+	 *
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_filter_hook() {
 		$this->assertContains( 'attachment', WPSEO_Post_Type::get_accessible_post_types() );
@@ -112,6 +114,8 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the situation where a post type will be filtered by using the 'wpseo_accessible_post_types filter'.
+	 *
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_filter_hook_that_returns_wrong_type() {
 		add_filter( 'wpseo_accessible_post_types', '__return_true' );
