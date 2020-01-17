@@ -140,7 +140,7 @@ class Indexable_Post_Builder {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param int                             $post_id   The post ID to use.
+	 * @param int       $post_id   The post ID to use.
 	 * @param Indexable $indexable The indexable to extend.
 	 *
 	 * @return Indexable The extended indexable.
