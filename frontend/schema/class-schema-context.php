@@ -159,7 +159,7 @@ class WPSEO_Schema_Context {
 	 * @return string
 	 */
 	private function set_site_name() {
-		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
+		if ( WPSEO_Options::get( 'website_name', '' ) !== '' ) {
 			return WPSEO_Options::get( 'website_name' );
 		}
 

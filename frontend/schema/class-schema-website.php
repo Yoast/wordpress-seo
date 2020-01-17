@@ -76,7 +76,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 * @return array $data
 	 */
 	private function add_alternate_name( $data ) {
-		if ( '' !== WPSEO_Options::get( 'alternate_website_name', '' ) ) {
+		if ( WPSEO_Options::get( 'alternate_website_name', '' ) !== '' ) {
 			$data['alternateName'] = WPSEO_Options::get( 'alternate_website_name' );
 		}
 

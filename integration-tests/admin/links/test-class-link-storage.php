@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Link_Storage
  */
 class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
@@ -40,6 +42,8 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the saving of a link.
+	 *
+	 * @covers ::save_links
 	 */
 	public function test_save_link() {
 
@@ -70,6 +74,8 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the cleanup for a given post id.
+	 *
+	 * @covers ::cleanup
 	 */
 	public function test_cleanup() {
 		$storage = new WPSEO_Link_Storage();
