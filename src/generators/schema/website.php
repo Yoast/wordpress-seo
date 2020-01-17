@@ -62,10 +62,11 @@ class Website extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
-			'@type' => 'WebSite',
-			'@id'   => $context->site_url . $this->id_helper->website_hash,
-			'url'   => $context->site_url,
-			'name'  => $this->html_helper->smart_strip_tags( $context->site_name ),
+			'@type'       => 'WebSite',
+			'@id'         => $context->site_url . $this->id_helper->website_hash,
+			'url'         => $context->site_url,
+			'name'        => $this->html_helper->smart_strip_tags( $context->site_name ),
+			'description' => \get_bloginfo( 'description' ),
 		];
 
 		if ( $context->site_represents_reference ) {
