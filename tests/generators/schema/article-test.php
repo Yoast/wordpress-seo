@@ -22,11 +22,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Article
  * @covers ::<!public>
- *
- * @package Yoast\WP\SEO\Tests\Generators\Schema
  */
 class Article_Test extends TestCase {
-
 
 	/**
 	 * @var Mockery\MockInterface|Article_Helper
@@ -58,6 +55,9 @@ class Article_Test extends TestCase {
 	 */
 	private $html_helper_mock;
 
+	/**
+	 * Setup the test.
+	 */
 	public function setUp() {
 		$this->id_helper_mock                     = Mockery::mock( ID_Helper::class );
 		$this->id_helper_mock->article_hash       = '#article-hash';
