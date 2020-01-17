@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Inc\Options;
 use Brain\Monkey;
 use WPSEO_Options;
 use Yoast\WP\Free\Tests\Doubles\Inc\Options\Options_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
