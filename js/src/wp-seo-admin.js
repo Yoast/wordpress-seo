@@ -372,12 +372,12 @@ import { debounce } from "lodash-es";
 		} );
 
 		const opengraphToggle = jQuery( "#opengraph" );
-		const facebookSettingsContainer = jQuery( "#wpseo-facebook-settings" );
+		const facebookSettingsContainer = jQuery( "#wpseo-opengraph-settings" );
 		if ( opengraphToggle.length && facebookSettingsContainer.length ) {
 			facebookSettingsContainer.toggle( opengraphToggle[ 0 ].checked );
 
 			opengraphToggle.change( ( event ) => {
-				jQuery( "#wpseo-facebook-settings" ).toggle( event.target.checked );
+				facebookSettingsContainer.toggle( event.target.checked );
 			} );
 		}
 

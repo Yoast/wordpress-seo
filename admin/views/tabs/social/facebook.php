@@ -24,7 +24,7 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 		?>
 	</p>
 
-<div id="wpseo-facebook-settings" style="display: none;">
+<div id="wpseo-opengraph-settings" style="display: none;">
 <?php
 
 $yform->textinput( 'fbadminapp', __( 'Facebook App ID', 'wordpress-seo' ) );
