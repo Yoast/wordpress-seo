@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Capabilities;
+namespace Yoast\WP\SEO\Tests\Admin\Capabilities;
 
 use Brain\Monkey;
 use Mockery;

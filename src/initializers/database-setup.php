@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Configures the ORM with the database credentials.
@@ -21,14 +22,14 @@ class Database_Setup implements Initializer_Interface {
 	/**
 	 * The logger object.
 	 *
-	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
 	/**
 	 * Database_Setup constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Loggers\Logger $logger The logger.
+	 * @param Logger $logger The logger.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;

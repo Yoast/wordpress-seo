@@ -55,7 +55,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * The context class.
 	 *
-	 * @var \Yoast\WP\Free\Context\Meta_Tags_Context
+	 * @var \Yoast\WP\SEO\Context\Meta_Tags_Context
 	 */
 	protected $context;
 
