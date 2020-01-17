@@ -2,10 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -32,7 +30,7 @@ class Robots_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests setting the robots to no index when having robots value already.
+	 * Tests setting 'index' to 'noindex' when 'index' is already set to 'noindex'.
 	 *
 	 * @covers ::set_robots_no_index
 	 */
@@ -47,13 +45,28 @@ class Robots_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests setting the robots to no index.
+	 * Tests setting 'index' to 'noindex' when 'index' is set to 'index'.
 	 *
 	 * @covers ::set_robots_no_index
 	 */
-	public function test_set_robots_no_index_with() {
+	public function test_set_robots_no_index_when_already_set() {
 		$presentation         = new Indexable_Presentation();
 		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow' ];
+
+		$this->assertEquals(
+			'noindex,follow',
+			$this->instance->set_robots_no_index( 'index,follow', $presentation )
+		);
+	}
+
+	/**
+	 * Tests setting 'index' to 'noindex' when the array contains empty values.
+	 *
+	 * @covers ::set_robots_no_index
+	 */
+	public function test_set_robots_no_index_with_empty_value() {
+		$presentation         = new Indexable_Presentation();
+		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow', '' => '', '' => '' ];
 
 		$this->assertEquals(
 			'noindex,follow',
