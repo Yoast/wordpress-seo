@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
 use Mockery;
 use WPSEO_Schema_Context;
-use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class WPSEO_Schema_FAQ_Questions_Test.

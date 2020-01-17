@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Metabox_Editor;
 use Brain\Monkey;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.

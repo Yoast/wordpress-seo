@@ -2,12 +2,12 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Helpers
+ * @package Yoast\WP\SEO\Tests\Helpers
  */
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**

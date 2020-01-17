@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Inc;
 
-use Yoast\WP\Free\Tests\Doubles\Inc\Image_Utils_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Inc\Image_Utils_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
@@ -18,7 +18,7 @@ class Image_Utils_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\Free\Tests\Doubles\Inc\Image_Utils_Double
+	 * @var \Yoast\WP\SEO\Tests\Doubles\Inc\Image_Utils_Double
 	 */
 	private $instance;
 

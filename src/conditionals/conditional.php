@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Conditionals
  */
 
-namespace Yoast\WP\Free\Conditionals;
+namespace Yoast\WP\SEO\Conditionals;
 
 /**
  * Conditional interface, used to prevent integrations from loading.
  *
- * @package Yoast\WP\Free\Conditionals
+ * @package Yoast\WP\SEO\Conditionals
  */
 interface Conditional {
 
