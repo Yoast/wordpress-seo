@@ -528,6 +528,9 @@ Page 3/3
 		// Enables the output buffering.
 		$frontend->force_rewrite_output_buffer();
 
+		// Output title
+		echo '<head><title>Test</title></head>'
+
 		// Run function.
 		$result = $frontend->flush_cache();
 
@@ -598,6 +601,9 @@ Page 3/3
 
 		// Enables the output buffering.
 		$frontend->force_rewrite_output_buffer();
+
+		// Output title
+		echo '<head><title>Test</title></head>'
 
 		// Run function.
 		$result = $frontend->flush_cache();
