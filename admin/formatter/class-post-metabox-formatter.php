@@ -118,12 +118,12 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// The default base is the home_url.
 		$base_url = home_url( '/', null );
 
-		if ( 'post-new.php' === $pagenow ) {
+		if ( $pagenow === 'post-new.php' ) {
 			return $base_url;
 		}
 
 		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( 1 === preg_match( '#%postname%/?$#', $this->permalink ) ) {
+		if ( preg_match( '#%postname%/?$#', $this->permalink ) === 1 ) {
 			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
 		}
 

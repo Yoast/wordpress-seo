@@ -59,7 +59,7 @@ class WPSEO_Post_Type {
 			return false;
 		}
 
-		return ( false === WPSEO_Options::get( 'noindex-' . $post_type_name, false ) );
+		return ( WPSEO_Options::get( 'noindex-' . $post_type_name, false ) === false );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class WPSEO_Post_Type {
 	public static function is_rest_enabled( $post_type ) {
 		$post_type_object = get_post_type_object( $post_type );
 
-		if ( null === $post_type_object ) {
+		if ( $post_type_object === null ) {
 			return false;
 		}
 

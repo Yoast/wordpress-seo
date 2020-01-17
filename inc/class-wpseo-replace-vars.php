@@ -70,8 +70,6 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Constructor.
-	 *
-	 * @return \WPSEO_Replace_Vars
 	 */
 	public function __construct() {
 		$this->date = new WPSEO_Date_Helper();
@@ -394,7 +392,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
-			if ( isset( $GLOBALS['post']->post_parent ) && 0 !== $GLOBALS['post']->post_parent ) {
+			if ( isset( $GLOBALS['post']->post_parent ) && $GLOBALS['post']->post_parent !== 0 ) {
 				$replacement = get_the_title( $GLOBALS['post']->post_parent );
 			}
 		}
