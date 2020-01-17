@@ -5,7 +5,7 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
 /**
  * Sitemap provider for author archives.

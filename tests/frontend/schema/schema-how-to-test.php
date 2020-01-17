@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Context;
 use WPSEO_Schema_IDs;
-use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class WPSEO_Schema_HowTo_Test.
@@ -21,7 +21,7 @@ class Schema_HowTo_Test extends TestCase {
 	/**
 	 * The instance to test.
 	 *
-	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double
+	 * @var \Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double
 	 */
 	private $instance;
 

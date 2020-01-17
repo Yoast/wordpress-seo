@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Doubles\Admin\Metabox;
 
 use WPSEO_Metabox;
 

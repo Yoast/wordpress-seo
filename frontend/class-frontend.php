@@ -5,7 +5,7 @@
  * @package WPSEO\Frontend
  */
 
-use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
 /**
  * Main frontend class for Yoast SEO, responsible for the SEO output as well as removing

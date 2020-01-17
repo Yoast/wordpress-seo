@@ -5,7 +5,9 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
+
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
@@ -15,10 +17,10 @@ class Indexable_Author_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $user_id   The user to retrieve the indexable for.
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
+	 * @param int       $user_id   The user to retrieve the indexable for.
+	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 */
 	public function build( $user_id, $indexable ) {
 		$meta_data = $this->get_meta_data( $user_id );

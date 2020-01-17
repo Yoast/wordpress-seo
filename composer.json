@@ -87,10 +87,10 @@
 			"@check-cs -n"
 		],
 		"check-staged-cs": [
-			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
 		],
 		"check-branch-cs": [
-			"Yoast\\WP\\Free\\Composer\\Actions::check_branch_cs"
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
 		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
@@ -138,10 +138,10 @@
 			"rm -f ./src/generated/container.php",
 			"rm -f ./src/generated/container.php.meta",
 			"composer du",
-			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
 		"post-install-cmd": [
-			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies"
 		]
 	}
 }

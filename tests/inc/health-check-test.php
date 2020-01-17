@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
 * Unit Test Class.
