@@ -3,10 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
-use Mockery;
-use WPSEO_Language_Utils;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Shortlinker;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
