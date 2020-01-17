@@ -371,6 +371,16 @@ import { debounce } from "lodash-es";
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
+		const opengraphToggle = jQuery( "#opengraph" );
+		const facebookSettingsContainer = jQuery( "#wpseo-facebook-settings" );
+		if ( opengraphToggle.length && facebookSettingsContainer.length ) {
+			facebookSettingsContainer.toggle( opengraphToggle[ 0 ].checked );
+
+			opengraphToggle.change( ( event ) => {
+				jQuery( "#wpseo-facebook-settings" ).toggle( event.target.checked );
+			} );
+		}
+
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
