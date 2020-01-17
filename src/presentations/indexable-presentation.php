@@ -428,15 +428,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_image() {
 		$images = $this->twitter_image_generator->generate( $this->context );
-		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
-			$images = $this->og_images;
+		$image  = \reset( $images );
+
+		// When there is an image set by the user.
+		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $image['url'];
 		}
 
-		if ( empty( $images ) ) {
+		// When there isn't a set image or there is a OpenGraph image set.
+		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->og_images ) ) {
 			return '';
 		}
-
-		$image = \reset( $images );
 
 		return $image['url'];
 	}
