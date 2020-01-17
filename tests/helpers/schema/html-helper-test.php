@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers\Schema;
 
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Unit Test Class.
  *
  * @group helpers
+ * @group schema
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Schema\HTML_Helper
  */
