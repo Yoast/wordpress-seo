@@ -17,14 +17,14 @@ use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 class Indexable_Post_Builder {
 
 	/**
-	 * @var SEO_Meta_Repository
+	 * @var \Yoast\WP\SEO\Repositories\SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
+	 * @param \Yoast\WP\SEO\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
 	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
@@ -33,12 +33,12 @@ class Indexable_Post_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int       $post_id   The post ID to use.
-	 * @param Indexable $indexable The indexable to format.
+	 * @param int                            $post_id   The post ID to use.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
 	 */
-	public function build( $post_id, $indexable ) {
+	public function build( $post_id, Indexable $indexable ) {
 		$indexable->permalink       = \get_permalink( $post_id );
 		$indexable->object_sub_type = \get_post_type( $post_id );
 
@@ -140,12 +140,12 @@ class Indexable_Post_Builder {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param int       $post_id   The post ID to use.
-	 * @param Indexable $indexable The indexable to extend.
+	 * @param int                            $post_id   The post ID to use.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to extend.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
 	 */
-	protected function set_link_count( $post_id, $indexable ) {
+	protected function set_link_count( $post_id, Indexable $indexable ) {
 		try {
 			$seo_meta = $this->seo_meta_repository->find_by_post_id( $post_id );
 
