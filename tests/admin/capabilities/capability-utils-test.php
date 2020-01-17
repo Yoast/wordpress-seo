@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Admin\Capabilities;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Capability_Utils;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Tests WPSEO_Admin_Asset.
