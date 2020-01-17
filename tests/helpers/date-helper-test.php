@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\SEO\Tests\Helpers
- */
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
@@ -125,7 +120,6 @@ class Date_Helper_Test extends TestCase {
 		$this->assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );
 	}
 
-
 	/**
 	 * Provides data to the test_format.
 	 *
@@ -170,7 +164,6 @@ class Date_Helper_Test extends TestCase {
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
 	}
-
 
 	/**
 	 * Test the datetime with a valid date string.

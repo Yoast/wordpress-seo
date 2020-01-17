@@ -735,7 +735,7 @@ class WPSEO_Frontend {
 				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 					$robots['index'] = 'noindex';
 				}
-				$curauth = $wp_query->get_queried_object();
+				$curauth        = $wp_query->get_queried_object();
 				$author_archive = new Author_Archive_Helper();
 				$user_has_posts = ( (int) count_user_posts( $curauth->ID, $author_archive->get_author_archive_post_types(), true ) ) > 0;
 				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $user_has_posts ) {

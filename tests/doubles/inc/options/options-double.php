@@ -17,5 +17,4 @@ class Options_Double extends WPSEO_Options {
 	public function __construct() {
 		parent::__construct();
 	}
-
 }

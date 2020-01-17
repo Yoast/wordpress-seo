@@ -249,11 +249,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_image_HAS_front_page_image() {
 		$prev_value = WPSEO_Options::get( 'og_frontpage_image' );
-		$stub =
-			$this
-				->getMockBuilder( 'WPSEO_OpenGraph' )
-				->setMethods( [ 'og_tag' ] )
-				->getMock();
+
+		$stub = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( [ 'og_tag' ] )
+			->getMock();
 
 		WPSEO_Options::set( 'og_frontpage_image', get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg' );
 

@@ -46,9 +46,8 @@ final class WPSEO_Admin_Asset_SEO_Location implements WPSEO_Admin_Asset_Location
 	/**
 	 * Determines the path relative to the plugin folder of an asset.
 	 *
-	 * @param WPSEO_Admin_Asset $asset        The asset to determine the path
-	 *                                        for.
-	 * @param string            $type         The type of asset.
+	 * @param WPSEO_Admin_Asset $asset The asset to determine the path for.
+	 * @param string            $type  The type of asset.
 	 *
 	 * @return string The path to the asset file.
 	 */

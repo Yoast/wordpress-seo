@@ -19,10 +19,17 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Author_Archive_Helper_Test extends TestCase {
 
 	/**
-	 * @var Author_Archive_Helper
+	 * Class instance to use for the test.
+	 *
+	 * @var \Yoast\WP\Free\Helpers\Author_Archive_Helper
 	 */
 	private $instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 
