@@ -79,8 +79,8 @@ abstract class WPSEO_Abstract_Metabox_Tab_With_Sections implements WPSEO_Metabox
 				'<li role="presentation"><a role="tab" href="#wpseo-meta-section-%1$s" id="wpseo-meta-tab-%1$s" aria-controls="wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
 				esc_attr( $this->name ),
 				esc_attr( $this->link_class ),
-				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
-				( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
+				( $this->link_title !== '' ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+				( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 				$this->link_content
 			);
 		}

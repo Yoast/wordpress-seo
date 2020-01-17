@@ -111,7 +111,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
 		}
 
-		if ( 'attachment' === $post->post_type && wp_attachment_is_image( $post ) ) {
+		if ( $post->post_type === 'attachment' && wp_attachment_is_image( $post ) ) {
 
 			$src = $this->get_absolute_url( $this->image_url( $post->ID ) );
 			$alt = WPSEO_Image_Utils::get_alt_tag( $post->ID );
@@ -201,7 +201,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 			if ( // This detects WP-inserted images, which we need to upsize. R.
 				! empty( $class )
-				&& false === strpos( $class, 'size-full' )
+				&& ( false === strpos( $class, 'size-full' ) )
 				&& preg_match( '|wp-image-(?P<id>\d+)|', $class, $matches )
 				&& get_post_status( $matches['id'] )
 			) {
@@ -283,7 +283,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 			$attributes = shortcode_parse_atts( $shortcode[3] );
 
-			if ( '' === $attributes ) { // Valid shortcode without any attributes. R.
+			if ( $attributes === '' ) { // Valid shortcode without any attributes. R.
 				$attributes = [];
 			}
 
@@ -354,7 +354,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$uploads = wp_upload_dir();
 		}
 
-		if ( false !== $uploads['error'] ) {
+		if ( $uploads['error'] !== false ) {
 			return '';
 		}
 
@@ -365,10 +365,10 @@ class WPSEO_Sitemap_Image_Parser {
 		}
 
 		// Check that the upload base exists in the file location.
-		if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
+		if ( strpos( $file, $uploads['basedir'] ) === 0 ) {
 			$src = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 		}
-		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+		elseif ( strpos( $file, 'wp-content/uploads' ) !== false ) {
 			$src = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
 		}
 		else {

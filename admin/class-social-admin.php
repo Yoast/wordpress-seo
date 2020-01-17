@@ -53,7 +53,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		];
 
 		foreach ( $social_networks as $network => $label ) {
-			if ( true === WPSEO_Options::get( $network, false ) ) {
+			if ( WPSEO_Options::get( $network, false ) === true ) {
 				/* translators: %s expands to the name of a social network. */
 				WPSEO_Meta::$meta_fields['social'][ $network . '-title' ]['title']       = sprintf( __( '%s Title', 'wordpress-seo' ), $label );
 				WPSEO_Meta::$meta_fields['social'][ $network . '-title' ]['description'] = sprintf( $title_text, $label );
@@ -170,7 +170,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		$network_name = __( 'Facebook', 'wordpress-seo' );
 
-		if ( 'twitter' === $network ) {
+		if ( $network === 'twitter' ) {
 			$network_name = __( 'Twitter', 'wordpress-seo' );
 		}
 

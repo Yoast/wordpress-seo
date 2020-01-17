@@ -56,7 +56,7 @@ class WPSEO_Sitemaps_Renderer {
 		$this->date           = new WPSEO_Date_Helper();
 
 		if (
-			'UTF-8' !== $this->charset
+			$this->charset !== 'UTF-8'
 			&& function_exists( 'mb_list_encodings' )
 			&& in_array( $this->charset, mb_list_encodings(), true )
 		) {
@@ -299,7 +299,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		$path = wp_parse_url( $url, PHP_URL_PATH );
 
-		if ( ! empty( $path ) && '/' !== $path ) {
+		if ( ! empty( $path ) && $path !== '/' ) {
 			$encoded_path = explode( '/', $path );
 
 			// First decode the path, to prevent double encoding.
