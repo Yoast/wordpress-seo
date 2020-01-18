@@ -403,7 +403,7 @@ class Yoast_Notification_Center {
 		$index = false;
 
 		// ID of the user to show the notification for, defaults to current user id.
-		$user_id                = $notification->get_user_id();
+		$user_id       = $notification->get_user_id();
 		$notifications = $this->get_notifications_for_user( $user_id );
 
 		// Match persistent Notifications by ID, non persistent by item in the array.
@@ -589,7 +589,7 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		array_walk( $notifications , [ $this, 'store_notifications_for_user' ] );
+		array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
 	}
 
 	/**

@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group options
  */
 class Options_Test extends TestCase {
+
 	/**
 	 * Tests clearing the cache.
 	 *

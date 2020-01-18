@@ -56,11 +56,13 @@ final class Capabilities_Utils_Test extends TestCase {
 			->expects( 'get_role' )
 			->once()
 			->with( 'administrator' )
-			->andReturn( (object) [
-				'capabilities' => [
-					'wpseo_manage_options' => true,
-				],
-			] );
+			->andReturn(
+				(object) [
+					'capabilities' => [
+						'wpseo_manage_options' => true,
+					],
+				]
+			);
 
 		Monkey\Functions\expect( 'get_users' )
 			->once()
@@ -113,6 +115,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	}
 
 	/**
+	 * Test data provider.
 	 *
 	 * @return array
 	 */
