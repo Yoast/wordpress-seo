@@ -18,15 +18,6 @@ use Yoast\WP\SEO\WordPress\Initializer;
 class Migration_Runner implements Initializer {
 
 	/**
-	 * Retrieves the conditionals for the migrations.
-	 *
-	 * @return array The conditionals.
-	 */
-	public static function get_conditionals() {
-		return [ Indexables_Feature_Flag_Conditional::class ];
-	}
-
-	/**
 	 * The value for a migration success state.
 	 *
 	 * @var int
@@ -60,6 +51,15 @@ class Migration_Runner implements Initializer {
 	 * @var \Yoast\WP\SEO\Loggers\Logger
 	 */
 	protected $logger;
+
+	/**
+	 * Retrieves the conditionals for the migrations.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
 
 	/**
 	 * Migrations constructor.

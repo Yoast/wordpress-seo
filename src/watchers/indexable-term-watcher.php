@@ -18,13 +18,6 @@ use Yoast\WP\SEO\WordPress\Integration;
 class Indexable_Term_Watcher implements Integration {
 
 	/**
-	 * @inheritdoc
-	 */
-	public static function get_conditionals() {
-		return [ Indexables_Feature_Flag_Conditional::class ];
-	}
-
-	/**
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
@@ -33,6 +26,13 @@ class Indexable_Term_Watcher implements Integration {
 	 * @var \Yoast\WP\SEO\Builders\Indexable_Term_Builder
 	 */
 	protected $builder;
+
+	/**
+	 * @inheritdoc
+	 */
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Term_Watcher constructor.
