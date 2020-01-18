@@ -62,7 +62,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	/**
 	 * Does it contain a single tab.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $single;
 

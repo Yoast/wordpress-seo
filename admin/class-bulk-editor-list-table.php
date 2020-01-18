@@ -49,7 +49,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	/**
 	 * The current page (depending on $_GET['paged']) if current tab is for current page_type, else it will be 1.
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $current_page;
 
