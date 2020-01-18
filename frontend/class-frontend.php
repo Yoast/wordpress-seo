@@ -23,7 +23,7 @@ class WPSEO_Frontend {
 	/**
 	 * Toggle indicating whether output buffering has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $ob_started = false;
 
