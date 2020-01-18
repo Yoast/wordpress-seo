@@ -55,7 +55,7 @@ class Client {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return Client Instance of this class.
+	 * @return \Yoast\WP\SEO\Oauth\Client Instance of this class.
 	 */
 	public static function get_instance() {
 		if ( static::$instance === null ) {
