@@ -23,7 +23,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		return parent::setUp();
+		parent::setUp();
 	}
 
 	/**
