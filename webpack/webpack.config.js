@@ -116,10 +116,15 @@ function addBundleAnalyzer( plugins ) {
 	return plugins;
 }
 
-module.exports = function( grunt, env = { environment: "production" } ) {
+module.exports = function( env ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
 
-	const pluginVersionSlug = paths.flattenVersionForFile( grunt.config.data.pluginVersion );
+	if ( ! env.pluginVersion ) {
+		// eslint-disable-next-line global-require
+		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
+	}
+
+	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );
 
 	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
 	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );
