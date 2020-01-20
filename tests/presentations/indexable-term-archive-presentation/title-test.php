@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presentations
  * @group title
+ * @group test
  */
 class Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -36,7 +37,32 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the title is not set and we fall back to the options title.
+	 * Tests the situation where the SEO title is not set for the specific category,
+	 * but the SEO title for categories in general is set.
+	 *
+	 * @covers ::generate_title
+	 */
+	public function test_with_general_category_seo_title() {
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'title-tax-category' )
+			->andReturn( 'This is the SEO title for categories in general' );
+
+		$this->assertEquals( 'This is the SEO title for categories in general', $this->instance->generate_title() );
+	}
+
+	/**
+	 * Tests the situation where the title is not set for the specific category,
+	 * and neither the SEO title for categories in general is set,
+	 * therefore we fall back to the default options title.
 	 *
 	 * @covers ::generate_title
 	 */
@@ -49,12 +75,18 @@ class Title_Test extends TestCase {
 			] );
 
 		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'title-tax-category' )
+			->andReturn( '' );
+
+		$this->options_helper
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-tax-category' )
-			->andReturn( 'This is the title' );
+			->andReturn( 'This is the default options title' );
 
-		$this->assertEquals( 'This is the title', $this->instance->generate_title() );
+		$this->assertEquals( 'This is the default options title', $this->instance->generate_title() );
 	}
 
 }
