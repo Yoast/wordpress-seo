@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \WPSEO_Capability_Utils
  *
  * @group capabilities
- * @group test
  */
 final class Capabilities_Utils_Test extends TestCase {
 
