@@ -161,26 +161,26 @@ class Current_Page_Helper {
 	 * @return string The permalink of the currently opened date archive.
 	 */
 	public function get_date_archive_permalink() {
-		static $return;
+		static $date_archive_permalink;
 
-		if ( isset( $return ) ) {
-			return $return;
+		if ( isset( $date_archive_permalink ) ) {
+			return $date_archive_permalink;
 		}
 
-		$return   = '';
+		$date_archive_permalink   = '';
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		if ( $wp_query->is_day() ) {
-			$return = \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
+			$date_archive_permalink = \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
 		}
 		if ( $wp_query->is_month() ) {
-			$return = \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
+			$date_archive_permalink = \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
 		}
 		if ( $wp_query->is_year() ) {
-			$return = \get_year_link( $wp_query->get( 'year' ) );
+			$date_archive_permalink = \get_year_link( $wp_query->get( 'year' ) );
 		}
 
-		return $return;
+		return $date_archive_permalink;
 	}
 
 	/**
