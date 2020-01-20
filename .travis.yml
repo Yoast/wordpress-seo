@@ -123,9 +123,7 @@ install:
       # So we temporarily switch PHP versions, do a full install and then remove the package.
       # Then switch back to the PHP version we want to test and delete the vendor directory.
       phpenv local 7.1
-      composer install --no-interaction --no-scripts --ignore-platform-reqs
-      composer prefix-dependencies
-      composer compile-di
+      composer install --no-interaction --ignore-platform-reqs
       composer remove humbug/php-scoper --dev --ignore-platform-reqs
       composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
       phpenv local --unset
@@ -140,7 +138,7 @@ install:
     if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
-      composer install --no-scripts --no-interaction
+      composer install --no-interaction
       composer du
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       composer update
