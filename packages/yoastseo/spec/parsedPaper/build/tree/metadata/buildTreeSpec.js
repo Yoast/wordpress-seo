@@ -18,44 +18,44 @@ describe( "build metadata tree", () => {
 		const paper = new Paper( "", {} );
 		const tree = buildTree( paper );
 		const expected = {
-			"type": "StructuredNode",
-			"tag": "metadata",
-			"children": [
+			type: "StructuredNode",
+			tag: "metadata",
+			children: [
 				{
-					"type": "title",
-					"textContainer": {
-						"text": "",
+					type: "title",
+					textContainer: {
+						text: "",
 					},
 				},
 				{
-					"type": "description",
-					"textContainer": {
-						"text": "",
+					type: "description",
+					textContainer: {
+						text: "",
 					},
 				},
 				{
-					"type": "keyphrase",
-					"_data": "",
+					type: "keyphrase",
+					_data: "",
 				},
 				{
-					"type": "synonyms",
-					"_data": [],
+					type: "synonyms",
+					_data: [],
 				},
 				{
-					"type": "slug",
-					"_data": "",
+					type: "slug",
+					_data: "",
 				},
 				{
-					"type": "titleWidth",
-					"_data": 0,
+					type: "titleWidth",
+					_data: 0,
 				},
 				{
-					"type": "permalink",
-					"_data": "",
+					type: "permalink",
+					_data: "",
 				},
 				{
-					"type": "locale",
-					"_data": "en_US",
+					type: "locale",
+					_data: "en_US",
 				},
 			],
 		};
@@ -81,7 +81,9 @@ describe( "build metadata tree", () => {
 					expect( child._data ).toBe( 0 );
 					break;
 				case "title":
-					// Same as description. Notice the missing break statement.
+					expect( child.textContainer ).toBeDefined();
+					expect( child.textContainer.text ).toBe( "" );
+					break;
 				case "description":
 					expect( child.textContainer ).toBeDefined();
 					expect( child.textContainer.text ).toBe( "" );

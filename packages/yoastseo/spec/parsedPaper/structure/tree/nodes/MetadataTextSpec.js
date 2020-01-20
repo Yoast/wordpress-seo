@@ -1,4 +1,3 @@
-import MetadataMiscellaneous from "../../../../../src/parsedPaper/structure/tree/nodes/MetadataMiscellaneous";
 import MetadataText from "../../../../../src/parsedPaper/structure/tree/nodes/MetadataText";
 
 describe( "MetadataText tree node", () => {
