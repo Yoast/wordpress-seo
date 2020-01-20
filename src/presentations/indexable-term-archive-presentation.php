@@ -159,6 +159,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
+		// Get the SEO title as entered in Search Appearance.
+		$title = $this->options_helper->get( 'title-tax-' . $this->replace_vars_object->taxonomy );
+		if ( $title ) {
+			return $title;
+		}
+
+		// Get the installation default title.
 		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
 
 		return $title;
