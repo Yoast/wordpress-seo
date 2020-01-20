@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Doubles\Inc\Options;
 
 use WPSEO_Options;
 
@@ -17,5 +17,4 @@ class Options_Double extends WPSEO_Options {
 	public function __construct() {
 		parent::__construct();
 	}
-
 }

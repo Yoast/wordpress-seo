@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Capabilities;
+namespace Yoast\WP\SEO\Tests\Admin\Capabilities;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Capability_Utils;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Tests WPSEO_Admin_Asset.
@@ -20,7 +20,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	/**
 	 * The roles object.
 	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface
+	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface
 	 */
 	protected $roles;
 
@@ -56,11 +56,13 @@ final class Capabilities_Utils_Test extends TestCase {
 			->expects( 'get_role' )
 			->once()
 			->with( 'administrator' )
-			->andReturn( (object) [
-				'capabilities' => [
-					'wpseo_manage_options' => true,
-				],
-			] );
+			->andReturn(
+				(object) [
+					'capabilities' => [
+						'wpseo_manage_options' => true,
+					],
+				]
+			);
 
 		Monkey\Functions\expect( 'get_users' )
 			->once()
@@ -113,6 +115,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	}
 
 	/**
+	 * Test data provider.
 	 *
 	 * @return array
 	 */

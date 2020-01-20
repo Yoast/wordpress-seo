@@ -18,16 +18,16 @@ use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 class Primary_Term_Watcher implements Integration_Interface {
 
 	/**
+	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
+	 */
+	protected $repository;
+
+	/**
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
-
-	/**
-	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
-	 */
-	protected $repository;
 
 	/**
 	 * Primary_Term_Watcher constructor.
@@ -127,7 +127,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @return array The taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-		if ( null === $post_id ) {
+		if ( $post_id === null ) {
 			$post_id = \get_the_ID();
 		}
 

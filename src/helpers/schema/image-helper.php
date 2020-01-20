@@ -59,7 +59,7 @@ class Image_Helper {
 
 		$data['url'] = \wp_get_attachment_image_url( $attachment_id, 'full' );
 		$data        = $this->add_image_size( $data, $attachment_id );
-		$data        = $this->add_caption( $data, $caption );
+		$data        = $this->add_caption( $data, $attachment_id, $caption );
 
 		return $data;
 	}
@@ -95,7 +95,7 @@ class Image_Helper {
 	 * @return array An imageObject with width and height set if available.
 	 */
 	private function add_caption( $data, $attachment_id, $caption = '' ) {
-		if ( ! empty( $caption ) ) {
+		if ( $caption !== '' ) {
 			$data['caption'] = $caption;
 
 			return $data;

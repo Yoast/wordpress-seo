@@ -50,7 +50,7 @@ class Twitter_Image_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->indexable->twitter_image = 'twitter_image.jpg';
+		$this->indexable->twitter_image_source = 'set-by-user';
 
 		$this->twitter_image_generator
 			->expects( 'generate' )

@@ -7,23 +7,30 @@ use Mockery;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
-* Unit Test Class.
-*
-* @group health-check
-*/
+ * Unit Test Class.
+ *
+ * @group health-check
+ */
 class WPSEO_Health_Check_Test extends TestCase {
 
 	/**
+	 * Class instance to use for the test.
+	 *
 	 * @var \Mockery\MockInterface
 	 */
 	protected $instance;
 
+	/**
+	 * Set up the class which will be tested.
+	 *
+	 * @return void
+	 */
 	public function setUp() {
-		$this->instance = Mockery::mock(\WPSEO_Health_Check::class )
+		$this->instance = Mockery::mock( \WPSEO_Health_Check::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		return parent::setUp();
+		parent::setUp();
 	}
 
 	/**
@@ -71,8 +78,8 @@ class WPSEO_Health_Check_Test extends TestCase {
 				'direct' => [
 					'' => [
 						'test' => [ $this->instance, 'get_test_result' ],
-					]
-				]
+					],
+				],
 			],
 			$this->instance->add_test( [] )
 		);
@@ -89,8 +96,8 @@ class WPSEO_Health_Check_Test extends TestCase {
 				'async' => [
 					'' => [
 						'test' => '',
-					]
-				]
+					],
+				],
 			],
 			$this->instance->add_async_test( [] )
 		);
@@ -110,7 +117,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 				'status'      => '',
 				'badge'       => [
 					'label' => 'SEO',
-					'color' => 'green'
+					'color' => 'green',
 				],
 				'description' => '',
 				'actions'     => '',
@@ -136,7 +143,10 @@ class WPSEO_Health_Check_Test extends TestCase {
 				[
 					'label'       => '',
 					'status'      => '',
-					'badge'       => array( 'label' => 'SEO', 'color' => 'green' ),
+					'badge'       => [
+						'label' => 'SEO',
+						'color' => 'green',
+					],
 					'description' => '',
 					'actions'     => '',
 				]

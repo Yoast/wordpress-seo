@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group health-check
  */
 class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
+
 	/**
 	 * Tests the run method when page_comments are disabled.
 	 *
@@ -31,6 +32,7 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 		// We just want to verify that the label attribute is the "passed" message.
 		$this->assertAttributeEquals( 'Paging comments is properly disabled', 'label', $health_check );
 	}
+
 	/**
 	 * Tests the run method when page_comments are enabled.
 	 *

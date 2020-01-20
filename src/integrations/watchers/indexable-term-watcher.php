@@ -26,6 +26,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 	/**
 	 * @var Indexable_Repository
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 

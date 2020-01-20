@@ -30,6 +30,7 @@ class Robots_Helper {
 
 		$new_robots          = $presentation->robots;
 		$new_robots['index'] = 'noindex';
+		$new_robots          = \array_filter( $new_robots );
 
 		return implode( ',', $new_robots );
 	}

@@ -100,12 +100,12 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	 */
 	private function get_title( $post_id, $post_type ) {
 		$title = WPSEO_Meta::get_value( 'title', $post_id );
-		if ( '' !== $title ) {
+		if ( $title !== '' ) {
 			return $title;
 		}
 
 		$default_from_options = $this->default_from_options( 'title-tax', $post_type );
-		if ( false !== $default_from_options ) {
+		if ( $default_from_options !== false ) {
 			return str_replace( ' %%page%% ', ' ', $default_from_options );
 		}
 
@@ -122,12 +122,12 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	 */
 	private function get_meta_description( $post_id, $post_type ) {
 		$meta_description = WPSEO_Meta::get_value( 'metadesc', $post_id );
-		if ( '' !== $meta_description ) {
+		if ( $meta_description !== '' ) {
 			return $meta_description;
 		}
 
 		$default_from_options = $this->default_from_options( 'metadesc', $post_type );
-		if ( false !== $default_from_options ) {
+		if ( $default_from_options !== false ) {
 			return $default_from_options;
 		}
 
