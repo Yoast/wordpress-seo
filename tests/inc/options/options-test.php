@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Inc\Options;
 
-use Brain\Monkey;
-use WPSEO_Options;
 use Yoast\WP\SEO\Tests\Doubles\Inc\Options\Options_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -15,6 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group options
  */
 class Options_Test extends TestCase {
+
 	/**
 	 * Tests clearing the cache.
 	 *

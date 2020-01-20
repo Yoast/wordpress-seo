@@ -1,9 +1,12 @@
 /* global require */
 const webpackConfig = require( "../../webpack/webpack.config" );
+const get = require( "lodash" ).get;
 
 module.exports = ( grunt ) => {
+	const pluginVersion = get( grunt, "config.data.pluginVersion", null );
+
 	return {
-		buildDev: () => webpackConfig( grunt, { environment: "development" } ),
-		buildProd: () => webpackConfig( grunt ),
+		buildDev: () => webpackConfig( { environment: "development", pluginVersion } ),
+		buildProd: () => webpackConfig( { environment: "production", pluginVersion } ),
 	};
 };

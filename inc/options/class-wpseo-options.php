@@ -11,6 +11,7 @@
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
 class WPSEO_Options {
+
 	/**
 	 * The option values.
 	 *
@@ -587,6 +588,7 @@ class WPSEO_Options {
 	 * Fills our option cache.
 	 *
 	 * @deprecated  12.8.1
+	 * @codeCoverageIgnore
 	 */
 	public static function fill_cache() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8.1', '::clear_cache' );

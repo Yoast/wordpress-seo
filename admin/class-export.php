@@ -29,7 +29,7 @@ class WPSEO_Export {
 	/**
 	 * Holds whether the export was a success.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $success;
 

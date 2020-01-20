@@ -20,7 +20,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Is the request started by pressing the fetch button.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $is_manual_request = false;
 
