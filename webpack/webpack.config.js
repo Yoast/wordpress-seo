@@ -121,7 +121,7 @@ module.exports = function( env ) {
 
 	if ( ! env.pluginVersion ) {
 		// eslint-disable-next-line global-require
-		env.pluginVersion = require( "../package" ).yoast.pluginVersion;
+		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
 	}
 
 	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );
