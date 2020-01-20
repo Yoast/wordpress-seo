@@ -2,7 +2,12 @@ import ParsedPaper from "../ParsedPaper";
 import { forEach } from "lodash-es";
 
 /**
- * A class responsible for pre-processing the Paper, returning a ParsedPaper;
+ * A class responsible for pre-processing the Paper, returning a ParsedPaper.
+ *
+ * @module parsedPaper
+ *
+ * @see module:parsedPaper/builder
+ * @see module:parsedPaper/structure
  */
 class PaperParser {
 	/**
@@ -10,7 +15,7 @@ class PaperParser {
 	 *
 	 * @param {Function} treeBuilder A function that receives text and returns a tree.
 	 *
-	 * @returns {void}
+	 * @constructor
 	 */
 	constructor( treeBuilder ) {
 		this._parsedPaper = new ParsedPaper();

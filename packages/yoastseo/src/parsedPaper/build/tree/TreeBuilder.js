@@ -6,7 +6,7 @@ import buildTree from "./html/buildTree";
  * Currently supported languages:
  *  - HTML (`"html"`)
  *
- * @memberOf module:parsedPaper/builder;
+ * @memberOf module:parsedPaper/builder
  */
 class TreeBuilder {
 	/**

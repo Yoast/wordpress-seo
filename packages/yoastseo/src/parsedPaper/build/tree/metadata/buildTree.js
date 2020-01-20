@@ -18,7 +18,7 @@ const buildTree = function buildTree( paper ) {
 	metadata.addChild( new MetadataText( "description", paper.getDescription() ) );
 
 	// Add miscellaneous types.
-	metadata.addChild( new MetadataMiscellaneous( "keyphrase", paper.getKeyword()) );
+	metadata.addChild( new MetadataMiscellaneous( "keyphrase", paper.getKeyword() ) );
 	metadata.addChild( new MetadataMiscellaneous( "synonyms", parseSynonyms( paper.getSynonyms() ) ) );
 	metadata.addChild( new MetadataMiscellaneous( "slug", paper.getUrl() ) );
 	metadata.addChild( new MetadataMiscellaneous( "titleWidth", paper.getTitleWidth() ) );
