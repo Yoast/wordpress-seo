@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presentations
  * @group title
- * @group test
  */
 class Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
