@@ -10,15 +10,25 @@ const NO_OUTPUT = { stdio: [ null, null, null ] };
  * @returns {string[]} The packages.
  */
 function getPackages() {
+	let list;
+
+	console.info( "Collecting the packages" );
+	console.group();
+
 	try {
-		return execSync( "yarn lerna list --json | grep name -A 0", NO_OUTPUT )
+		list = execSync( "yarn lerna list --json | grep name -A 0", NO_OUTPUT )
 			.toString()
 			.split( "\n" )
 			.filter( line => line !== "" )
 			.map( line => line.replace( /\s+"name": "|",?/g, "" ) );
 	} catch ( e ) {
-		return [];
+		list = [];
 	}
+
+	console.info( "Found", list.length, "packages" );
+	console.groupEnd();
+
+	return list;
 }
 
 /**
@@ -47,13 +57,25 @@ function whyPackage( name, ignoreApps = true ) {
 /**
  * Creates a list of dependencies.
  *
+ * @param {string[]} packages The list of packages.
+ *
  * @returns {{name: string, dependencies: string[]}[]} The list of dependencies.
  */
-function createDependencyList() {
-	return getPackages().map( name => ( {
-		name,
-		dependencies: whyPackage( name )
-	} ) );
+function createDependencyList( packages ) {
+	const padAmount = packages.length % 10;
+
+	console.info( "Fetching package dependencies:" );
+	console.group();
+	const list = packages.map( ( name, index ) => {
+		console.info( `${ ( index + 1 ).toString().padStart( padAmount, "0" ) }/${ packages.length }: ${ name }` );
+		return {
+			name,
+			dependencies: whyPackage( name ),
+		};
+	} );
+	console.groupEnd();
+
+	return list;
 }
 
 /**
@@ -82,22 +104,25 @@ function convertToMarkDown( data ) {
 function writeFile( filename, data ) {
 	try {
 		writeFileSync( filename, data );
-		console.log( `Created file: ${ filename }` );
+		console.info( `Created file: ${ filename }` );
 	} catch ( e ) {
 		console.error( `Something went wrong trying to write the file: ${ filename }` );
 	}
 }
 
 const params = process.argv.splice( 2 );
-
+const packages = getPackages();
 let filename = "dependencies.";
-let data = createDependencyList();
+let data = createDependencyList( packages );
 
 if ( params.includes( "--markdown" ) ) {
 	filename += "md";
+	console.info( "Converting to markdown data" );
 	data = convertToMarkDown( data );
-} else {
+}
+else {
 	filename += "json";
+	console.info( "Converting to plain text" );
 	data = JSON.stringify( data, null, 2 );
 }
 
