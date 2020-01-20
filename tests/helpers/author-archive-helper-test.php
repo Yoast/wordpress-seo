@@ -18,7 +18,7 @@ class Author_Archive_Helper_Test extends TestCase {
 	/**
 	 * Class instance to use for the test.
 	 *
-	 * @var \Yoast\WP\Free\Helpers\Author_Archive_Helper
+	 * @var Author_Archive_Helper
 	 */
 	private $instance;
 
