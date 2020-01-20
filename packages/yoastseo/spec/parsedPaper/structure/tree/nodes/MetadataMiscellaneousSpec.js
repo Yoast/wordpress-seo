@@ -10,9 +10,9 @@ describe( "MetadataMiscellaneous tree node", () => {
 		} );
 
 		it( "creates a new MetadataMiscellaneous tree node with initialization data", () => {
-			const metadataText = new MetadataMiscellaneous( "my data" );
+			const metadataText = new MetadataMiscellaneous( "DATA", "my data" );
 
-			expect( metadataText.type ).toEqual( "MetadataMiscellaneous" );
+			expect( metadataText.type ).toEqual( "DATA" );
 			expect( metadataText._data ).toEqual( "my data" );
 		} );
 	} );

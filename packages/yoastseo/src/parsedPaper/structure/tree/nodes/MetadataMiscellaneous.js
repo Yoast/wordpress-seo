@@ -11,12 +11,13 @@ class MetadataMiscellaneous extends Node {
 	/**
 	 * Creates a new MetadataMiscellaneous node.
 	 *
+	 * @param {string} type The type of this node.
 	 * @param {*} [data=null] The data.
 	 *
 	 * @constructor
 	 */
-	constructor( data = null ) {
-		super( "MetadataMiscellaneous", null );
+	constructor( type = "MetadataMiscellaneous", data = null ) {
+		super( type, null );
 
 		this._data = data;
 	}

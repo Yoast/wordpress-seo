@@ -1,3 +1,4 @@
+import MetadataMiscellaneous from "../../../../../src/parsedPaper/structure/tree/nodes/MetadataMiscellaneous";
 import MetadataText from "../../../../../src/parsedPaper/structure/tree/nodes/MetadataText";
 
 describe( "MetadataText tree node", () => {
@@ -8,6 +9,13 @@ describe( "MetadataText tree node", () => {
 			expect( metadataText.type ).toEqual( "MetadataText" );
 			expect( metadataText.textContainer ).not.toEqual( null );
 			expect( metadataText.textContainer.text ).toEqual( "" );
+		} );
+
+		it( "creates a new MetadataText tree node with initialization data", () => {
+			const metadataText = new MetadataText( "TEXT", "my text" );
+
+			expect( metadataText.type ).toEqual( "TEXT" );
+			expect( metadataText.textContainer.text ).toEqual( "my text" );
 		} );
 	} );
 
