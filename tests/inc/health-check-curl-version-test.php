@@ -150,6 +150,7 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->andReturnFalse();
 
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$this->instance->run();
 
