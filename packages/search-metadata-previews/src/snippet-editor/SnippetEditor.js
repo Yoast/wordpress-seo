@@ -528,6 +528,8 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
+					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
+
 					<SnippetPreview
 						keyword={ keyword }
 						wordsToHighlight={ wordsToHighlight }
@@ -543,8 +545,6 @@ class SnippetEditor extends React.Component {
 						mobileImageSrc={ mobileImageSrc }
 						{ ...mappedData }
 					/>
-
-					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
 
 					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }

@@ -1,5 +1,5 @@
 import { Node, LeafNode, StructuredNode, Paragraph,
-	Heading, List, ListItem, Ignored, Whitespace } from "./nodes";
+	Heading, List, ListItem } from "./nodes";
 
 import TextContainer from "./TextContainer";
 import FormattingElement from "./FormattingElement";
@@ -7,7 +7,7 @@ import FormattingElement from "./FormattingElement";
 /**
  * The collection of elements used in constructing the tree structure.
  *
- * @module tree/structure
+ * @module parsedPaper/structure
  */
 export {
 	Node,
@@ -17,8 +17,6 @@ export {
 	Heading,
 	List,
 	ListItem,
-	Ignored,
-	Whitespace,
 	TextContainer,
 	FormattingElement,
 };

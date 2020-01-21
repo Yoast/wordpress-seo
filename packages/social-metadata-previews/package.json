@@ -1,6 +1,6 @@
 {
   "name": "@yoast/social-metadata-previews",
-  "version": "0.5.0-rc.0",
+  "version": "0.6.1",
   "main": "src/index.js",
   "private": false,
   "scripts": {
@@ -17,7 +17,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.1.0-rc.0",
+    "@yoast/browserslist-config": "^1.2.1",
     "browserslist": "^4.7.3"
   }
 }

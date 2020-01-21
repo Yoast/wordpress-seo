@@ -3,7 +3,13 @@
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
+
 We follow [Semantic Versioning](http://semver.org/).
+
+## 0.13.0 January 20th, 2020
+### Added
+* Adds `className` attribute to the Input component.
+* Adds `className` and `optionalAttributes` attributes to the Label component.
 
 ## 0.12.0 January 6th, 2020
 ### Other
