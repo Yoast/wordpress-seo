@@ -103,12 +103,12 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^0.13.0-rc.0",
-    "@yoast/components": "^0.13.0-rc.0",
-    "@yoast/configuration-wizard": "^1.12.0-rc.0",
-    "@yoast/helpers": "^0.11.0-rc.0",
-    "@yoast/search-metadata-previews": "^1.17.0-rc.0",
-    "@yoast/style-guide": "^0.11.0-rc.0",
+    "@yoast/analysis-report": "^0.13.1",
+    "@yoast/components": "^0.13.1",
+    "@yoast/configuration-wizard": "^1.12.1",
+    "@yoast/helpers": "^0.11.1",
+    "@yoast/search-metadata-previews": "^1.16.1",
+    "@yoast/style-guide": "^0.11.1",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -136,6 +136,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "12.9-RC3"
+    "pluginVersion": "12.9"
   }
 }
