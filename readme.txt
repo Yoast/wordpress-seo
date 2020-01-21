@@ -209,6 +209,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.9.1 =
+Release Date: January 21st, 2020
+
+Bugfixes:
+
+* Fixes a bug where a notification would be shown that Gutenberg was outdated when the latest version of Gutenberg was already installed.
+
 = 12.9 =
 Release Date: January 21st, 2020
 
