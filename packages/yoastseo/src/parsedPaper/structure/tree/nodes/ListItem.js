@@ -1,4 +1,4 @@
-import Node from "./Node";
+import LeafNode from "./LeafNode";
 /**
  * Represents an item within a list.
  *
@@ -6,14 +6,16 @@ import Node from "./Node";
  *
  * @memberOf module:parsedPaper/structure
  */
-class ListItem extends Node {
+class ListItem extends LeafNode {
 	/**
 	 * Represents an item within a list.
 	 *
+	 * @param {Object} sourceCodeLocation The parse5 formatted location of the element inside of the source code.
+	 *
 	 * @returns {void}
 	 */
-	constructor() {
-		super( "ListItem" );
+	constructor( sourceCodeLocation ) {
+		super( "ListItem", sourceCodeLocation );
 		/**
 		 * This ListItem's child nodes.
 		 * @type {Node[]}
