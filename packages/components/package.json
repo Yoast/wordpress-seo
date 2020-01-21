@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "0.13.1",
+  "version": "0.13.2-internal-linking.0",
   "description": "Yoast Components",
   "main": "src/index.js",
   "private": false,
