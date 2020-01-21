@@ -205,18 +205,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 *
-	 * @deprecated 12.5
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function ga_compatibility_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
 	 * Determines whether a suggested plugins notification needs to be displayed.
 	 *
 	 * @return void
@@ -595,6 +583,18 @@ class WPSEO_Admin_Init {
 	 * @return void
 	 */
 	public function wordpress_upgrade_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+	}
+
+	/**
+	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
+	 * on the google search console page.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function ga_compatibility_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 

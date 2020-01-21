@@ -23,7 +23,7 @@ $yform->index_switch(
 
 $yform->show_hide_switch(
 	'showdate-' . $wpseo_post_type->name,
-	__( 'Date in Snippet Preview', 'wordpress-seo' )
+	__( 'Date in Google Preview', 'wordpress-seo' )
 );
 
 $yform->show_hide_switch(

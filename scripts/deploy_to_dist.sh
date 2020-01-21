@@ -29,27 +29,31 @@ lastTag=$1
 branch="master"
 mainDir=$(pwd)
 
-if [[ $lastTag =~ ^feature/* ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
   branch=$lastTag
 fi
 
 # Clone the dist repo.
 rm -rf ./dist-repo
 git clone ${REPO_URL} dist-repo
+cd dist-repo
+git checkout $branch 2>/dev/null || git checkout -b $branch
+cd ..
 
 # Copy the git folder with the entire history.
 cp -r ./dist-repo/.git ./artifact-composer
 
 # Navigate to the to be committed folder.
 cd ./artifact-composer
-git checkout $branch 2>/dev/null || git checkout -b $branch
 
 # Commit the files.
 git add -A
-git commit -m "Release ${lastTag}"
 
 # If it's a feature branch.
-if [[ ! $lastTag =~ ^feature/* && $lastTag != "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
+  git commit -m "${TRAVIS_COMMIT_MESSAGE}"
+else
+  git commit -m "Release ${lastTag}"
    # Tag the commit.
   git tag ${lastTag}
 fi
