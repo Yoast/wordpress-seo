@@ -15,12 +15,12 @@ import cleanUpTree from "../cleanup/postParsing";
  */
 const buildTree = function( html ) {
 	/*
-	  Parsing of a HTML article takes on average 19ms
-	  (based on the fullTexts in the specs (n=24), measured using `console.time`).
+	 * Parsing of a HTML article takes on average 19ms
+	 * (based on the fullTexts in the specs (n=24), measured using `console.time`).
 	 */
 	const parse5Tree = parseFragment( html, { sourceCodeLocationInfo: true } );
 
-	const htmlTreeConverter =  new HTMLTreeConverter();
+	const htmlTreeConverter = new HTMLTreeConverter();
 	let tree = htmlTreeConverter.convert( parse5Tree );
 
 	// Cleanup takes < 2ms.
