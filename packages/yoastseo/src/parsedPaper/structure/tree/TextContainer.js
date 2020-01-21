@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash-es";
+import { parseTextIntoSentences } from "../../build/linguisticParsing/parseText";
 
 /**
  * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
@@ -72,11 +73,11 @@ class TextContainer {
 	 * @returns {Object} The tree representation of the text.
 	 */
 	getTree() {
-		if ( isEmpty( this._tree ) ) {
+		if ( ! isEmpty( this._tree ) ) {
 			return this._tree;
 		}
-		// todo: create helper function that parses text into sentence and word objects
-		// this._tree = parseText( this.text );
+
+		this._tree = parseTextIntoSentences( this.text );
 		return this._tree;
 	}
 }
