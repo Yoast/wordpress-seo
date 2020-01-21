@@ -126,6 +126,11 @@ class HTMLTreeConverter {
 			return null;
 		}
 
+		// Don't create an implicit paragraph when the content is whitespace only.
+		if ( /^\s*$/.exec( contentToAdd ) ) {
+			return null;
+		}
+
 		const child = new Paragraph( location, true );
 		add( child, contentToAdd );
 		return child;

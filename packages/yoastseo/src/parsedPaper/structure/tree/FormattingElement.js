@@ -45,6 +45,23 @@ class FormattingElement {
 		 */
 		this.parent = null;
 	}
+
+	/**
+	 * Returns the attribute with the given name if it exists.
+	 *
+	 * @param {string} name The name of the attribute.
+	 *
+	 * @returns {false|*} The attribute or `false` if the attribute does not exist.
+	 */
+	getAttribute( name ) {
+		if ( ! this.attributes ) {
+			return false;
+		}
+		if ( name in this.attributes ) {
+			return this.attributes[ name ];
+		}
+		return false;
+	}
 }
 
 export default FormattingElement;
