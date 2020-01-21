@@ -62,10 +62,7 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import TreeBuilder from "../parsedPaper/build/tree";
-import { constructReadabilityAssessor, constructSEOAssessor } from "../parsedPaper/assess/assessorFactories";
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
-import { TreeResearcher } from "../parsedPaper/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -193,7 +190,11 @@ export default class AnalysisWebWorker {
 	 */
 	setupTreeAnalysis() {
 		// Researcher
-		this._treeResearcher = new TreeResearcher();
+		/*
+		 * Disabled code:
+		 * this._treeResearcher = new TreeResearcher();
+		 */
+		this._treeResearcher = null;
 
 		// Assessors
 		this._contentTreeAssessor = null;
@@ -211,7 +212,7 @@ export default class AnalysisWebWorker {
 		this._tree = null;
 
 		// Tree builder.
-		this._treeBuilder = new TreeBuilder();
+		this._treeBuilder = null;
 	}
 
 	/**
@@ -449,9 +450,12 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
-	createSEOTreeAssessor( assessorConfig ) {
-		return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
-	}
+	/*
+	 * Disabled code:
+	 * createSEOTreeAssessor( assessorConfig ) {
+	 * 	 return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
+	 * }
+	 */
 
 	/**
 	 * Sends a message.
@@ -548,19 +552,26 @@ export default class AnalysisWebWorker {
 
 		if ( update.readability ) {
 			this._contentAssessor = this.createContentAssessor();
-			this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
+			/*
+			 * Disabled code:
+			 * this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
+			 */
+			this._contentTreeAssessor = null;
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 			// Tree assessors
-			const { useCornerstone, useTaxonomy } = this._configuration;
-			this._seoTreeAssessor = useTaxonomy
-				? this.createSEOTreeAssessor( { taxonomy: true } )
-				: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
-			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
-				cornerstone: useCornerstone, relatedKeyphrase: true,
-			} );
+			/*
+			 * Disabled code:
+			 * const { useCornerstone, useTaxonomy } = this._configuration;
+			 * this._seoTreeAssessor = useTaxonomy
+			 * 	? this.createSEOTreeAssessor( { taxonomy: true } )
+			 * 	: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
+			 * this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
+			 * 	cornerstone: useCornerstone, relatedKeyphrase: true,
+			 * } );
+			 */
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -766,8 +777,6 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
-		// Raw HTML text, to be parsed by the tree builder.
-		const text = paper._text;
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
@@ -781,12 +790,17 @@ export default class AnalysisWebWorker {
 
 			// Try to build the tree, for analysis using the tree assessors.
 			try {
-				this._tree = this._treeBuilder.build( text );
+				/*
+				 * Disabled tree.
+				 * Please not that text here should be the `paper._text` before processing (e.g. autop and more).
+				 * this._tree = this._treeBuilder.build( text );
+				 */
 			} catch ( exception ) {
 				logger.debug( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
+
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
@@ -856,7 +870,8 @@ export default class AnalysisWebWorker {
 	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
 	async assess( paper, tree, analysisCombination ) {
-		const { oldAssessor, treeAssessor, scoreAggregator } = analysisCombination;
+		// Disabled code: The variable `treeAssessor` is removed from here.
+		const { oldAssessor, scoreAggregator } = analysisCombination;
 		/*
 		 * Assess the paper and the tree
 		 * using the original assessor and the tree assessor.
@@ -864,17 +879,20 @@ export default class AnalysisWebWorker {
 		oldAssessor.assess( paper );
 		const oldAssessmentResults = oldAssessor.results;
 
-		let treeAssessmentResults = [];
+		const treeAssessmentResults = [];
 
-		// Only assess tree if it has been built.
-		if ( tree ) {
-			const treeAssessorResult = await treeAssessor.assess( paper, tree );
-			treeAssessmentResults = treeAssessorResult.results;
-		} else {
-			// Cannot assess the tree, generate errors on the assessments that use the tree assessor.
-			const treeAssessments = treeAssessor.getAssessments();
-			treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
-		}
+		/*
+		 * Disable code:
+		 * // Only assess tree if it has been built.
+		 * if ( tree ) {
+		 * const treeAssessorResult = await treeAssessor.assess( paper, tree );
+		 * treeAssessmentResults = treeAssessorResult.results;
+		 * } else {
+		 * // Cannot assess the tree, generate errors on the assessments that use the tree assessor.
+		 * const treeAssessments = treeAssessor.getAssessments();
+		 * treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
+		 * }
+		 */
 
 		// Combine the results of the tree assessor and old assessor.
 		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
