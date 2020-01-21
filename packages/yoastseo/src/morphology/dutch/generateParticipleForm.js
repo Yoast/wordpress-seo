@@ -4,11 +4,11 @@
  *  the -t suffix or no suffix are the same as another form (1st or 3rd person singular) created elsewhere.
  *
  * @param {string} stemmedWord The stem to check.
- * @param {string[]} inseparableExceptions	The list of exception stems.
+ * @param {string[]} inseparableCompoundVerbsStems	The list of exception stems.
  * @returns {string|null} The created participle form or null if the stem was not found on the exception list.
  */
-const generateInseparableExceptionParticipleForm = function( stemmedWord, inseparableExceptions ) {
-	if ( inseparableExceptions.includes( stemmedWord ) ) {
+const generateInseparableExceptionParticipleForm = function( stemmedWord, inseparableCompoundVerbsStems ) {
+	if ( inseparableCompoundVerbsStems.includes( stemmedWord ) ) {
 		return stemmedWord + "d";
 	}
 };
@@ -101,7 +101,7 @@ const checkInseparablePrefix = function( morphologyDataVerbs, stemmedWord, prefi
 export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 	const inseparableExceptionParticiple = generateInseparableExceptionParticipleForm(
 		stemmedWord,
-		morphologyDataVerbs.inseparableVerbs
+		morphologyDataVerbs.inseparableCompoundVerbsStems
 	);
 
 	if ( inseparableExceptionParticiple ) {
