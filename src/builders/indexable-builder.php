@@ -204,7 +204,7 @@ class Indexable_Builder {
 	 *
 	 * @param Indexable|false $indexable The indexable.
 	 *
-	 * @return Indexable The indexable;
+	 * @return Indexable The indexable.
 	 */
 	private function ensure_indexable( $indexable ) {
 		if ( ! $indexable ) {
@@ -216,7 +216,8 @@ class Indexable_Builder {
 	/**
 	 * Saves and returns an indexable.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable      $indexable        The indexable.
+	 * @param Indexable|null $indexable_before The indexable before possible changes.
 	 *
 	 * @return Indexable The indexable.
 	 */

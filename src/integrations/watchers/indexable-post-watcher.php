@@ -172,7 +172,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = get_the_terms( $post->ID, $taxonomy );
-			foreach( $terms as $term ) {
+			foreach ( $terms as $term ) {
 				$related_indexables[] = $this->repository->find_by_id_and_type( $term->term_id, 'term', false );
 			}
 		}
