@@ -65,7 +65,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
-		\add_action( 'transition_post_status', [ $this, 'status_transition' ], \PHP_INT_MAX, 3 );
+		\add_action( 'wpseo_save_indexable', [ $this, 'updated_indexable' ], \PHP_INT_MAX, 2 );
 
 		\add_action( 'edit_attachment',[ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'add_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -113,12 +113,24 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 		$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
+		$indexable->save();
+	}
 
-		if ( $indexable->is_public ) {
-			$this->update_relations( get_post( $post_id ) );
+	/**
+	 * Updates the relations when the post indexable is build.
+	 *
+	 * @param Indexable $updated_indexable The updated indexable.
+	 * @param Indexable $old_indexable     The old indexable.
+	 */
+	public function updated_indexable( $updated_indexable, $old_indexable ) {
+		if ( $updated_indexable->object_type !== 'post' ) {
+			return;
 		}
 
-		$indexable->save();
+		// When the indexable is public or has a change in its public state.
+		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
+			$this->update_relations( get_post( $updated_indexable->object_id ) );
+		}
 	}
 
 	/**
@@ -138,26 +150,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Checks if the relations should be updated on status transition.
-	 *
-	 * @param string   $new_status The new status.
-	 * @param string   $old_status The old status.
-	 * @param \WP_Post $post       The post object.
-	 */
-	public function status_transition( $new_status, $old_status, $post ) {
-		/**
-		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
-		 *
-		 * @apo array $post_statuses Post status list, defaults to array( 'publish' ).
-		 */
-		$public_statuses = \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
-
-		if ( in_array( $new_status, $public_statuses, true ) || in_array( $old_status, $public_statuses, true ) ) {
-			$this->update_relations( $post );
-		}
 	}
 
 	/**
