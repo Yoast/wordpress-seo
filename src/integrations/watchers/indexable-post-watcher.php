@@ -189,6 +189,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		$updated_at = \gmdate( 'Y-m-d H:i:s' );
 		foreach ( $related_indexables as $indexable ) {
+			if ( ! $indexable->is_public ) {
+				continue;
+			}
+
 			$indexable->updated_at = $updated_at;
 			$indexable->save();
 		}
