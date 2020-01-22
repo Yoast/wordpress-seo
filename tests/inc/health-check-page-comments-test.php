@@ -30,7 +30,7 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
-		$this->assertAttributeEquals( 'Paging comments is properly disabled', 'label', $health_check );
+		$this->assertAttributeEquals( 'Comments are displayed on a single page', 'label', $health_check );
 	}
 
 	/**
@@ -53,6 +53,6 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
-		$this->assertAttributeEquals( 'Paging comments is enabled', 'label', $health_check );
+		$this->assertAttributeEquals( 'Comments break into multiple pages', 'label', $health_check );
 	}
 }
