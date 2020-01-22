@@ -4,23 +4,35 @@ import Paragraph from "../../../../../src/parsedPaper/structure/tree/nodes/Parag
 import StructuredNode from "../../../../../src/parsedPaper/structure/tree/nodes/StructuredNode";
 
 describe( "Node", () => {
+	const sourceCodeLocation = {
+		startTag: {
+			startOffset: 0,
+			endOffset: 4,
+		},
+		endTag: {
+			startOffset: 12,
+			endOffset: 17,
+		},
+		startOffset: 0,
+		endOffset: 17,
+	};
+
 	beforeEach( () => {
 		console.warn = jest.fn();
 	} );
 
 	describe( "constructor", () => {
 		it( "creates a new Node", () => {
-			const node = new Node( "someNode" );
+			const node = new Node( "someNode", sourceCodeLocation );
 
 			expect( node.type ).toEqual( "someNode" );
-			expect( node.sourceStartIndex ).toEqual( 0 );
-			expect( node.sourceEndIndex ).toEqual( 0 );
+			expect( node.sourceCodeLocation ).toEqual( sourceCodeLocation );
 		} );
 	} );
 
 	describe( "map function", () => {
 		it( "maps over a tree with one node.", () => {
-			const tree = new Node( "node" );
+			const tree = new Node( "node", sourceCodeLocation );
 			tree.map( node => {
 				node.sourceEndIndex = 20;
 				return node;
@@ -34,17 +46,17 @@ describe( "Node", () => {
 			paragraph.sourceEndIndex = 20;
 			paragraph.text = "Hello world!!!";
 
-			const heading = new Heading( 1 );
+			const heading = new Heading( 1, sourceCodeLocation );
 			heading.sourceStartIndex = 3;
 			heading.sourceEndIndex = 12;
 			heading.text = "A Message to the Globe";
 
-			const div = new StructuredNode( "div" );
+			const div = new StructuredNode( "div", sourceCodeLocation );
 			div.sourceStartIndex = 13;
 			div.sourceEndIndex = 20;
 			div.children = [ paragraph ];
 
-			const tree = new StructuredNode( "root" );
+			const tree = new StructuredNode( "root", sourceCodeLocation );
 			tree.sourceStartIndex = 0;
 			tree.sourceEndIndex = 20;
 			tree.children = [ heading, div ];
@@ -61,12 +73,12 @@ describe( "Node", () => {
 		} );
 
 		it( "recursively calls itself", () => {
-			const heading = new Heading( 1 );
+			const heading = new Heading( 1, sourceCodeLocation );
 			heading.sourceStartIndex = 3;
 			heading.sourceEndIndex = 12;
 			heading.text = "A Message to the Globe";
 
-			const tree = new StructuredNode( "root" );
+			const tree = new StructuredNode( "root", sourceCodeLocation );
 			tree.sourceStartIndex = 0;
 			tree.sourceEndIndex = 20;
 			tree.children = [ heading ];
@@ -84,12 +96,12 @@ describe( "Node", () => {
 
 	describe( "forEach function", () => {
 		it( "recursively calls the forEach function on each node of the tree", () => {
-			const heading = new Heading( 1 );
+			const heading = new Heading( 1, sourceCodeLocation );
 			heading.sourceStartIndex = 3;
 			heading.sourceEndIndex = 12;
 			heading.text = "A Message to the Globe";
 
-			const tree = new StructuredNode( "root" );
+			const tree = new StructuredNode( "root", sourceCodeLocation );
 			tree.sourceStartIndex = 0;
 			tree.sourceEndIndex = 20;
 			tree.children = [ heading ];
@@ -104,7 +116,7 @@ describe( "Node", () => {
 		} );
 
 		it( "does not recursively call the forEach function when a node has no children", () => {
-			const tree = new StructuredNode( "root" );
+			const tree = new StructuredNode( "root", sourceCodeLocation );
 			tree.sourceStartIndex = 0;
 			tree.sourceEndIndex = 20;
 			tree.children = [ ];
