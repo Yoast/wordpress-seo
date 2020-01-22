@@ -6,7 +6,7 @@ import TreeBuilder from "./TreeBuilder";
  *
  * This tree structure in turn can be used for further textual analysis.
  *
- * @module tree/builder
+ * @module parsedPaper/builder
  *
  * @see module:parsedPaper/structure
  */
