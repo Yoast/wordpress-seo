@@ -78,7 +78,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 		$data = [
 			'@type'            => 'HowTo',
 			'@id'              => $this->context->canonical . '#howto-' . $this->counter,
-			'name'             => $this->context->title,
+			'name'             => $this->get_post_title(),
 			'mainEntityOfPage' => [ '@id' => $this->get_main_schema_id() ],
 			'description'      => '',
 		];
@@ -239,5 +239,19 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 		$image = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . md5( $url ) );
 
 		return $image->generate_from_url( $url );
+	}
+
+	/**
+	 * Gets the post title.
+	 *
+	 * @return string $post_title The post title.
+	 */
+	protected function get_post_title() {
+		$post_title = wp_strip_all_tags( trim( get_the_title() ) );
+		if ( empty( $post_title ) ) {
+			$post_title = __( 'No title', 'wordpress-seo' );
+		}
+
+		return $post_title;
 	}
 }

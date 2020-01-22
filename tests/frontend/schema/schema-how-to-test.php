@@ -48,15 +48,15 @@ class Schema_HowTo_Test extends TestCase {
 
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
-		$this->context->title     = 'title';
 		$this->context->canonical = 'example.com/';
 
 		$this->instance = $this->getMockBuilder( Schema_HowTo_Double::class )
-			->setMethods( [ 'get_image_schema' ] )
+			->setMethods( [ 'get_image_schema', 'get_post_title' ] )
 			->setConstructorArgs( [ $this->context ] )
 			->getMock();
 
 		$this->instance->method( 'get_image_schema' )->willReturn( 'https://example.com/image.png' );
+		$this->instance->method( 'get_post_title' )->willReturn( 'title' );
 	}
 
 	/**
