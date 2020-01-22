@@ -1,4 +1,5 @@
 #!/usr/local/bin/node
+/* eslint-disable no-console */
 const writeFileSync = require( "fs" ).writeFileSync;
 const execSync = require( "child_process" ).execSync;
 
@@ -59,7 +60,7 @@ function whyPackage( name, ignoreApps = true ) {
  *
  * @param {string[]} packages The list of packages.
  *
- * @returns {{name: string, dependencies: string[]}[]} The list of dependencies.
+ * @returns {{name: string, dependencyOf: string[]}[]} The list of dependencies.
  */
 function createDependencyList( packages ) {
 	const padAmount = packages.length % 10;
@@ -70,7 +71,7 @@ function createDependencyList( packages ) {
 		console.info( `${ ( index + 1 ).toString().padStart( padAmount, "0" ) }/${ packages.length }: ${ name }` );
 		return {
 			name,
-			dependencies: whyPackage( name ),
+			dependencyOf: whyPackage( name ),
 		};
 	} );
 	console.groupEnd();
@@ -88,8 +89,8 @@ function createDependencyList( packages ) {
 function convertToMarkDown( data ) {
 	return "| This package: | Is a dependency of: |\n|---|---|\n" +
 		data
-			.map( ( { name, dependencies } ) => {
-				const deps = dependencies.length === 0 ? "-" : dependencies.join( "<br>" );
+			.map( ( { name, dependencyOf } ) => {
+				const deps = dependencyOf.length === 0 ? "-" : dependencyOf.join( "<br>" );
 				return `| ${ name } | ${ deps } |`;
 			} )
 			.join( "\n" );
@@ -100,6 +101,8 @@ function convertToMarkDown( data ) {
  *
  * @param {string} filename The filename of the file.
  * @param {string} data     The data to write.
+ *
+ * @returns {void}
  */
 function writeFile( filename, data ) {
 	try {
@@ -111,19 +114,17 @@ function writeFile( filename, data ) {
 }
 
 const params = process.argv.splice( 2 );
-const packages = getPackages();
-let filename = "dependencies.";
-let data = createDependencyList( packages );
+let outputFilename = "dependencies.";
+let outputData = createDependencyList( getPackages() );
 
 if ( params.includes( "--markdown" ) ) {
-	filename += "md";
+	outputFilename += "md";
 	console.info( "Converting to markdown data" );
-	data = convertToMarkDown( data );
-}
-else {
-	filename += "json";
+	outputData = convertToMarkDown( outputData );
+} else {
+	outputFilename += "json";
 	console.info( "Converting to plain text" );
-	data = JSON.stringify( data, null, 2 );
+	outputData = JSON.stringify( outputData, null, 2 );
 }
 
-writeFile( filename, data );
+writeFile( outputFilename, outputData );
