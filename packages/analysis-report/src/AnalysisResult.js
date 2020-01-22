@@ -40,7 +40,7 @@ const areButtonsHidden = function( props ) {
  */
 export const AnalysisResult = ( props ) => {
 	return (
-		<AnalysisResultBase { ...props }>
+		<AnalysisResultBase>
 			<ScoreIcon
 				icon="circle"
 				color={ props.bulletColor }

@@ -1,6 +1,7 @@
 extends: [ "yoast" ]
 
-parser: babel-eslint
+parserOptions:
+  ecmaVersion: 2018
 
 settings:
   react:

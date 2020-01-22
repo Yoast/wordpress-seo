@@ -30,6 +30,7 @@ var defaultAttributes = {
  * @param {Object} [attributes.url]         The slug.
  * @param {Object} [attributes.permalink]   The base url + slug.
  * @param {Object} [attributes.locale]      The locale.
+ * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
  *
  * @constructor
  */

@@ -8,6 +8,18 @@
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
+
+/**
+ * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
+ *
+ * @param {string} word The word to check.
+ * @param {string[]} wordsNotToStem The exception list of words that should not be stemmed.
+ * @returns {boolean} Whether or not the word should be stemmed.
+ */
+const shouldNotBeStemmed = function( word, wordsNotToStem ) {
+	return ( wordsNotToStem.includes( word ) );
+};
+
 /**
  * Determines the start index of the R1 region.
  * R1 is the region after the first non-vowel following a vowel. It should include at least 3 letters.
@@ -78,18 +90,69 @@ const modifyStem = function( word, modificationGroup ) {
 };
 
 /**
- * Checks whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
- * modification should be performed. If these characters are the same, no doubling should be performed.
- * For example, in the word 'luttel' third and fourth to last characters are both 't', so the vowel doubling would *not* be
- * performed (it would not become 'lutteel').
+ * Checks whether the stem is on an exception of words that should have the vowel doubled. These words are exceptions
+ * to another exception check (isVowelPrecededByDoubleConsonant), according to which they should NOT have the vowel doubled.
  *
- * @param {string} word The stemmed word that the check should be executed on.
- * @returns {boolean} Whether the third and fourth to last characters are different.
+ * @param {string} word The stemmed word to check.
+ * @param {string[]} wordsWithVowelDoubling The exception list of words that should have the vowel doubled.
+ * @returns {boolean} Whether the stem is on the exception list.
  */
-const isVowelDoublingAllowed = function( word ) {
+const isWordOnVowelDoublingList = function( word, wordsWithVowelDoubling ) {
+	return ( wordsWithVowelDoubling.includes( word ) );
+};
+
+/**
+ * Checks whether the stem is on the list of words that should NOT have the vowel doubled.
+ *
+ * @param {string} word The stemmed word to search for on the exception list.
+ * @param {Object} wordsWithoutVowelDoubling The exception list of words that should not have the vowel doubled.
+ * @returns {boolean} Whether the stem is on the exception list.
+ */
+const isWordOnNoVowelDoublingList = function( word, wordsWithoutVowelDoubling ) {
+	return ( wordsWithoutVowelDoubling.includes( word ) );
+};
+
+/**
+ * Checks whether the third to last and fourth to last characters of the stem are the same. This, in principle, checks
+ * whether the last vowel of the stem is preceded by a double consonant (as only consonants can precede the vowel).
+ * If the third and fourth to last characters are the same, it means that vowel doubling is allowed. For example, in the
+ * word 'luttel', the third and fourth to last characters are both t's so it should not become 'lutteel'.
+ *
+ * @param {string} word The stemmed word to check.
+ * @returns {boolean} Whether the vowel should be doubled or not.
+ */
+const isVowelPrecededByDoubleConsonant = function( word ) {
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
 	return fourthToLastLetter !== thirdToLastLetter;
+};
+
+/**
+ * Checks whether the second to last syllable contains a diphthong. If it does, the vowel in the last syllable should
+ * not be doubled.
+ *
+ * @param {string} word The stemmed word to check.
+ * @param {string} noVowelDoublingRegex The regex to match a word with.
+ * @returns {boolean} Whether the vowel should be doubled or not.
+ */
+const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingRegex ) {
+	return ( word.search( new RegExp( noVowelDoublingRegex ) ) ) === -1;
+};
+
+/**
+ * Checks whether the final vowel of the stem should be doubled by going through four checks.
+ *
+ * @param {string} word The stemmed word that the check should be executed on.
+ * @param {Object} morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
+ * @returns {boolean} Whether the vowel should be doubled or not.
+ */
+const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
+	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
+	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+
+	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };
 
 /**
@@ -111,12 +174,11 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word ) ) {
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 	return word;
 };
-
 
 /**
  * Finds and deletes the suffix found in a particular step, and modifies the stem.
@@ -158,6 +220,25 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
 };
 
 /**
+ * Check whether the word is a comparative adjective with a stem ending in -rd. If yes, stem it (the regular stemmer
+ * would incorrectly stem the d).
+ * @param {string} word The word to check.
+ * @param {Object} adjectivesEndingInRd The exception list of adjectives with stem ending in -rd.
+ * @returns {string} The stemmed word or the original word if it was not matched with the exception list.
+ */
+const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
+	for ( const adjective of adjectivesEndingInRd ) {
+		const regex = new RegExp( adjective + "er[se]?$" );
+		if ( word.search( regex ) !== -1 ) {
+			if ( word.endsWith( "er" ) ) {
+				return word.slice( 0, -2 );
+			}
+			return word.slice( 0, -3 );
+		}
+	} return word;
+};
+
+/**
  * Stems Dutch words.
  *
  * @param {string} word  The word to stem.
@@ -166,6 +247,18 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
+	// Return the word if it should not be stemmed.
+	if ( shouldNotBeStemmed( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
+		return word;
+	}
+	/**
+	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
+	 * return the word here, instead of going through the regular stemmer.
+ 	 */
+	const wordAfterRdExceptionCheck = stemAdjectiveEndingInRd( word, morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD );
+	if ( wordAfterRdExceptionCheck !== word ) {
+		return wordAfterRdExceptionCheck;
+	}
 	/**
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
