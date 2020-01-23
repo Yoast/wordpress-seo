@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Checkbox, Toggle } from "@yoast/components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -14,6 +14,8 @@ const Container = styled.div`
 const Separator = styled.hr`
 	margin: 1em 0;
 `;
+
+const CornerstoneLink = makeOutboundLink();
 
 /**
  * Renders the yoast-component UI Controls.
@@ -31,11 +33,9 @@ export default class UIControlsList extends React.Component {
 
 		this.state = {
 			simpleToggleChecked: false,
-			cornerstoneToggleChecked: false,
 		};
 
 		this.toggleSimpleToggle = this.toggleSimpleToggle.bind( this );
-		this.toggleCornerstoneToggle = this.toggleCornerstoneToggle.bind( this );
 	}
 
 	/**
@@ -46,17 +46,6 @@ export default class UIControlsList extends React.Component {
 	toggleSimpleToggle() {
 		this.setState( {
 			simpleToggleChecked: ! this.state.simpleToggleChecked,
-		} );
-	}
-
-	/**
-	 * Toggles the Cornerstone toggle state.
-	 *
-	 * @returns {void}
-	 */
-	toggleCornerstoneToggle() {
-		this.setState( {
-			cornerstoneToggleChecked: ! this.state.cornerstoneToggleChecked,
 		} );
 	}
 
@@ -73,12 +62,7 @@ export default class UIControlsList extends React.Component {
 					id="example-checkbox"
 					label={ [
 						"This is a label that also accepts arrays, so you can pass links such as ",
-						<a
-							key="1"
-							href="https://yoa.st/metabox-help-cornerstone?utm_content=7.0.3"
-							target="_blank"
-							rel="noopener noreferrer"
-						>cornerstone content</a>,
+						<CornerstoneLink key="1" href="https://yoa.st/metabox-help-cornerstone">cornerstone content</CornerstoneLink>,
 						", for example.",
 					] }
 					// eslint-disable-next-line no-console
@@ -102,12 +86,6 @@ export default class UIControlsList extends React.Component {
 					// eslint-disable-next-line no-console
 					onToggleDisabled={ () => console.log( "onToggleDisabled callback" ) }
 					disable={ true }
-				/>
-				<Separator />
-				<h2>Cornerstone toggle</h2>
-				<CornerstoneToggle
-					isEnabled={ this.state.cornerstoneToggleChecked }
-					onToggle={ this.toggleCornerstoneToggle }
 				/>
 			</Container>
 		);

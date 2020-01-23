@@ -1,6 +1,6 @@
 import { sum } from "lodash-es";
-import Research from "../../../src/tree/research/researches/Research";
-import { LeafNode } from "../../../src/tree/structure";
+import Research from "../../../src/parsedPaper/research/researches/Research";
+import { LeafNode } from "../../../src/parsedPaper/structure/tree";
 
 /**
  * A researcher used for testing.
@@ -10,7 +10,7 @@ class TestResearch extends Research {
 	 * Counts the number of tokens
 	 * (text is split on whitespace).
 	 *
-	 * @param {module:tree/structure.Node} node The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.Node} node The node to calculate the research for.
 	 *
 	 * @returns {Promise<number>} The result of the research.
 	 */
@@ -22,7 +22,7 @@ class TestResearch extends Research {
 	/**
 	 * Checks if the given node is a leaf node for this research.
 	 *
-	 * @param {module:tree/structure.Node} node The node to check.
+	 * @param {module:parsedPaper/structure.Node} node The node to check.
 	 *
 	 * @returns {boolean} If the given node is considered a leaf node for this research.
 	 */

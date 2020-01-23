@@ -7,14 +7,14 @@ import { __ } from "@wordpress/i18n";
 
 const FixedWidth = styled.div`
 	overflow: auto;
-	width: ${ ( props ) => props.width }px;
-	padding: 0 ${ ( props ) => props.padding }px;
+	width: ${ ( props ) => props.widthValue }px;
+	padding: 0 ${ ( props ) => props.paddingValue }px;
 	max-width: 100%;
 	box-sizing: border-box;
 `;
 
 const Inner = styled.div`
-	width: ${ ( props ) => props.width }px;
+	width: ${ ( props ) => props.widthValue }px;
 `;
 
 const ScrollHintContainer = styled.div`
@@ -109,13 +109,21 @@ export default class FixedWidthContainer extends Component {
 	 * @returns {React.Element} The rendered element.
 	 */
 	render() {
-		const { width, padding, children, className } = this.props;
+		const { width, padding, children, className, id } = this.props;
 
 		const innerWidth = width - 2 * padding;
 
 		return <React.Fragment>
-			<FixedWidth className={ className } width={ width } padding={ padding } innerRef={ this.setContainerRef }>
-				<Inner width={ innerWidth } padding={ padding }>
+			<FixedWidth
+				id={ id }
+				className={ className }
+				widthValue={ width }
+				paddingValue={ padding }
+				ref={ this.setContainerRef }
+			>
+				<Inner
+					widthValue={ innerWidth }
+				>
 					{ children }
 				</Inner>
 			</FixedWidth>
@@ -131,8 +139,15 @@ export default class FixedWidthContainer extends Component {
 }
 
 FixedWidthContainer.propTypes = {
-	width: PropTypes.number,
+	id: PropTypes.string,
+	width: PropTypes.number.isRequired,
 	padding: PropTypes.number,
-	children: PropTypes.node,
+	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+};
+
+FixedWidthContainer.defaultProps = {
+	id: "",
+	padding: 0,
+	className: "",
 };

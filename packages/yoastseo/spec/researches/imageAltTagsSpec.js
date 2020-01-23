@@ -1,7 +1,10 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../src/researches/imageAltTags";
 import Paper from "../../src/values/Paper";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "Counts images in a text", function() {
 	it( "returns an empty object with all alt-counts as zero", function() {

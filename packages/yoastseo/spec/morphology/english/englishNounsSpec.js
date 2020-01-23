@@ -1,11 +1,13 @@
-import morphologyData from "../../../premium-configuration/data/morphologyData.json";
-const nounData = morphologyData.en.nouns;
-const irregularNounsToTest = nounData.irregularNouns;
-const regexNoun = nounData.regexNoun;
-
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { getNounFormsWithPossessives, getNounForms, checkPossessive } from "../../../src/morphology/english/getNounForms";
 import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" );
+const nounData = morphologyData.en.nouns;
+const irregularNounsToTest = nounData.irregularNouns;
+const regexNoun = nounData.regexNoun;
 
 const regularNounsToTest = [
 	[ "word", "words" ],

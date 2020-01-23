@@ -1,7 +1,51 @@
+/* External dependencies */
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import isArray from "lodash/isArray";
+
+/* Yoast dependencies */
+import { createSvgIconComponent } from "@yoast/helpers";
+
+/**
+ * Custom styled SVG Component for the spinner.
+ *
+ * Note this component receives props from `<ComponentToUse>` in `createSvgIconComponent()`.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {React.Element} StyledSvg component.
+ */
+const StyledSvgSpinner = styled.svg`
+	width: ${ props => props.size };
+	height: ${ props => props.size };
+	flex: none;
+
+	animation: loadingSpinnerRotator 1.4s linear infinite;
+
+	& .path {
+		stroke: ${ props => props.fill };
+		stroke-dasharray: 187;
+		stroke-dashoffset: 0;
+		transform-origin: center;
+		animation: loadingSpinnerDash 1.4s ease-in-out infinite;
+	}
+
+	@keyframes loadingSpinnerRotator {
+		0% { transform: rotate( 0deg ); }
+		100% { transform: rotate( 270deg ); }
+	}
+
+	@keyframes loadingSpinnerDash {
+		0% { stroke-dashoffset: 187; }
+		50% {
+			stroke-dashoffset: 47;
+			transform:rotate( 135deg );
+		}
+		100% {
+			stroke-dashoffset: 187;
+			transform: rotate( 450deg );
+		}
+	}
+`;
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
@@ -14,6 +58,8 @@ export const icons = {
 		<g key="1"><path fill="none" d="M0,0h24v24H0V0z" /></g>,
 		<g key="2"><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z" /></g>,
 	] },
+	"clipboard": { viewbox: DEFAULT_VIEWBOX, path: "M768 1664h896v-640h-416q-40 0-68-28t-28-68v-416h-384v1152zm256-1440v-64q0-13-9.5-22.5t-22.5-9.5h-704q-13 0-22.5 9.5t-9.5 22.5v64q0 13 9.5 22.5t22.5 9.5h704q13 0 22.5-9.5t9.5-22.5zm256 672h299l-299-299v299zm512 128v672q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-160h-544q-40 0-68-28t-28-68v-1344q0-40 28-68t68-28h1088q40 0 68 28t28 68v328q21 13 36 28l408 408q28 28 48 76t20 88z" },
+	"check": { viewbox: DEFAULT_VIEWBOX, path: "M249.2,431.2c-23,0-45.6,9.4-61.8,25.6L25.6,618.6C9.4,634.8,0,657.4,0,680.4c0,23,9.4,45.6,25.6,61.8 l593.1,593.1c16.2,16.2,38.8,25.6,61.8,25.6c23,0,45.6-9.4,61.8-25.6L1766.4,311c16.2-16.2,25.6-38.8,25.6-61.8 s-9.4-45.6-25.6-61.8L1604.5,25.6C1588.3,9.4,1565.8,0,1542.8,0c-23,0-45.6,9.4-61.8,25.6L680.4,827L311,456.3 C294.8,440.5,272.3,431.2,249.2,431.2z" },
 	"angle-down": { viewbox: DEFAULT_VIEWBOX, path: "M1395 736q0 13-10 23l-466 466q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l393 393 393-393q10-10 23-10t23 10l50 50q10 10 10 23z" },
 	"angle-left": { viewbox: DEFAULT_VIEWBOX, path: "M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z" },
 	"angle-right": { viewbox: DEFAULT_VIEWBOX, path: "M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z" },
@@ -32,10 +78,13 @@ export const icons = {
 	"gear": { viewbox: DEFAULT_VIEWBOX, path: "M1800 800h-218q-26 -107 -81 -193l154 -154l-210 -210l-154 154q-88 -55 -191 -79v-218h-300v218q-103 24 -191 79l-154 -154l-212 212l154 154q-55 88 -79 191h-218v297h217q23 101 80 194l-154 154l210 210l154 -154q85 54 193 81v218h300v-218q103 -24 191 -79 l154 154l212 -212l-154 -154q57 -93 80 -194h217v-297zM950 650q124 0 212 88t88 212t-88 212t-212 88t-212 -88t-88 -212t88 -212t212 -88z" },
 	"key": { viewbox: DEFAULT_VIEWBOX, path: "M832 512q0-80-56-136t-136-56-136 56-56 136q0 42 19 83-41-19-83-19-80 0-136 56t-56 136 56 136 136 56 136-56 56-136q0-42-19-83 41 19 83 19 80 0 136-56t56-136zm851 704q0 17-49 66t-66 49q-9 0-28.5-16t-36.5-33-38.5-40-24.5-26l-96 96 220 220q28 28 28 68 0 42-39 81t-81 39q-40 0-68-28l-671-671q-176 131-365 131-163 0-265.5-102.5t-102.5-265.5q0-160 95-313t248-248 313-95q163 0 265.5 102.5t102.5 265.5q0 189-131 365l355 355 96-96q-3-3-26-24.5t-40-38.5-33-36.5-16-28.5q0-17 49-66t66-49q13 0 23 10 6 6 46 44.5t82 79.5 86.5 86 73 78 28.5 41z" },
 	"list": { viewbox: DEFAULT_VIEWBOX, path: "M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z" },
-	"loading-spinner": { viewbox: "0 0 66 66", path: [ <circle
-		key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33"
-		cy="33" r="30"
-	/> ] },
+	"loading-spinner": {
+		viewbox: "0 0 66 66",
+		CustomComponent: StyledSvgSpinner,
+		path: [ <circle
+			key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33"
+			cy="33" r="30"
+		/> ] },
 	"mobile": { viewbox: DEFAULT_VIEWBOX, path: "M976 1408q0-33-23.5-56.5t-56.5-23.5-56.5 23.5-23.5 56.5 23.5 56.5 56.5 23.5 56.5-23.5 23.5-56.5zm208-160v-704q0-13-9.5-22.5t-22.5-9.5h-512q-13 0-22.5 9.5t-9.5 22.5v704q0 13 9.5 22.5t22.5 9.5h512q13 0 22.5-9.5t9.5-22.5zm-192-848q0-16-16-16h-160q-16 0-16 16t16 16h160q16 0 16-16zm288-16v1024q0 52-38 90t-90 38h-512q-52 0-90-38t-38-90v-1024q0-52 38-90t90-38h512q52 0 90 38t38 90z" },
 	"pencil-square": { viewbox: DEFAULT_VIEWBOX, path: "M888 1184l116-116-152-152-116 116v56h96v96h56zm440-720q-16-16-33 1l-350 350q-17 17-1 33t33-1l350-350q17-17 1-33zm80 594v190q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q63 0 117 25 15 7 18 23 3 17-9 29l-49 49q-14 14-32 8-23-6-45-6h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113v-126q0-13 9-22l64-64q15-15 35-7t20 29zm-96-738l288 288-672 672h-288v-288zm444 132l-92 92-288-288 92-92q28-28 68-28t68 28l152 152q28 28 28 68t-28 68z" },
 	"plus": { viewbox: DEFAULT_VIEWBOX, path: "M1600 736v192q0 40-28 68t-68 28h-416v416q0 40-28 68t-68 28h-192q-40 0-68-28t-28-68v-416h-416q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h416v-416q0-40 28-68t68-28h192q40 0 68 28t28 68v416h416q40 0 68 28t28 68z" },
@@ -53,67 +102,11 @@ export const icons = {
 	] },
 	"times": { viewbox: DEFAULT_VIEWBOX, path: "M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" },
 	"times-circle": { viewbox: "0 0 20 20", path: "M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm5 11l-3-3 3-3-2-2-3 3-3-3-2 2 3 3-3 3 2 2 3-3 3 3z" },
+	"alert-info": { viewbox: "0 0 512 512", path: "M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" },
+	"alert-error": { viewbox: "0 0 512 512", path: "M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z" },
+	"alert-success": { viewbox: "0 0 512 512", path: "M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" },
+	"alert-warning": { viewbox: "0 0 576 512", path: "M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z" },
 };
 /* eslint-enable */
 
-/**
- * Returns the SvgIcon component.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} SvgIcon component.
- */
-export default class SvgIcon extends React.Component {
-	/**
-	 * Renders an SVG icon.
-	 *
-	 * @returns {ReactElement|null} The rendered SVG icon.
-	 */
-	render() {
-		const { icon, className, color, size } = this.props;
-		const iconName = icons[ icon ];
-
-		if ( ! iconName ) {
-			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
-			return null;
-		}
-
-		const path = iconName.path;
-		const viewbox = iconName.viewbox;
-
-		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
-
-		const StyledSvg = styled.svg`
-			width: ${ props => props.size };
-			height: ${ props => props.size };
-			flex: none;
-		`;
-
-		return (
-			<StyledSvg
-				aria-hidden={ true }
-				role="img"
-				focusable="false"
-				size={ size }
-				className={ iconClass }
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox={ viewbox }
-				fill={ color }
-			>
-				{ isArray( path ) ? path : <path d={ path } /> }
-			</StyledSvg>
-		);
-	}
-}
-
-SvgIcon.propTypes = {
-	icon: PropTypes.string.isRequired,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	className: PropTypes.string,
-};
-
-SvgIcon.defaultProps = {
-	size: "16px",
-	color: "currentColor",
-};
+export default createSvgIconComponent( icons );

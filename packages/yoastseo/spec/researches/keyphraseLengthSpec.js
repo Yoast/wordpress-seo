@@ -1,7 +1,10 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
 import keyphraseLength from "../../src/researches/keyphraseLength.js";
 import Paper from "../../src/values/Paper.js";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "the keyphrase length research", function() {
 	it( "should count the words in the input", function() {

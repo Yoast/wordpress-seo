@@ -9,7 +9,9 @@
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
+  "private": false,
   "scripts": {
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -26,5 +28,12 @@
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@yoast/browserslist-config": "^1.2.1",
+    "browserslist": "^4.7.3"
   }
 }

@@ -400,6 +400,27 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: Mikor
+		mockPaper = new Paper( "Mikor kezdődik a film?", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+	it( "returns 1 when a two-part transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: ahogy, akkor
+		mockPaper = new Paper( "Csak később, ahogy felnőttem, akkor kezdődött a sok baj.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+	it( "returns 0 when no transition words are present in a sentence (Hungarian)", function() {
+		mockPaper = new Paper( "Nem beszélek magyarul.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );

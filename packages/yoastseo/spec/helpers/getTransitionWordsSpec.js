@@ -52,6 +52,11 @@ describe( "gets transition words, based on language", function() {
 		expect( Object.keys( transitionWords ) ).toEqual( properties );
 	} );
 
+	it( "checks if all properties are set for Hungarian", function() {
+		const transitionWords = getTransitionWords( "hu_HU" );
+		expect( Object.keys( transitionWords ) ).toEqual( properties );
+	} );
+
 	it( "checks if all properties are set if no locale is given", function() {
 		const transitionWords = getTransitionWords( "" );
 		expect( Object.keys( transitionWords ) ).toEqual( properties );

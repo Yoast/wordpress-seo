@@ -1,11 +1,8 @@
 language: node_js
 
 node_js:
-- lts/*
+- "10.16"
 - node
-matrix:
-  allow_failures:
-    - node_js: node
 stages:
   - test
   - name: 🚀 rc-deployment
@@ -13,9 +10,11 @@ stages:
   - name: 🚀 deployment
     if: branch = master
 jobs:
+  allow_failures:
+    - node_js: node
   include:
     - stage: 🚀 rc-deployment
-      node_js: lts/*
+      node_js: "10.16"
       name: "Deploy to the npm rc channel"
       script: skip
       deploy:
@@ -26,7 +25,7 @@ jobs:
           # Branch condition is in the stages configuration
           all_branches: true
     - stage: 🚀 deployment
-      node_js: lts/*
+      node_js: "10.16"
       name: "Deploy to the npm latest channel"
       script: skip
       deploy:
@@ -43,7 +42,6 @@ cache:
   - node_modules
   - apps/content-analysis/node_modules
   - apps/components/node_modules
-  - packages/algolia-search/node_modules
   - packages/components/node_modules
   - packages/configuration-wizard/node_modules
   - packages/eslint/node_modules

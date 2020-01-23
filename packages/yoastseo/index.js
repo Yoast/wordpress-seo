@@ -17,7 +17,11 @@ import Researcher from "./src/researcher";
 import SnippetPreview from "./src/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
+import Assessment from "./src/assessment";
 
+/*
+ * Everything exported here is put on the `yoast.analysis` global in the plugin.
+ */
 export {
 	App,
 	Assessor,
@@ -30,6 +34,7 @@ export {
 
 	Paper,
 	AssessmentResult,
+	Assessment,
 
 	AnalysisWebWorker,
 	AnalysisWorkerWrapper,

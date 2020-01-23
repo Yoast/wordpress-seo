@@ -1,6 +1,9 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+/* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
 
 /**
@@ -72,7 +75,6 @@ const ArticleListItem = ( props ) => {
 			<ArticleListLink
 				className={ `${ props.className }-link` }
 				href={ props.link }
-				rel={ null }
 			>
 				{ props.title }
 			</ArticleListLink>
@@ -132,7 +134,6 @@ const ArticleList = ( props ) => {
 				<ArticleListLink
 					className={ `${ props.className }__footer-link` }
 					href={ props.feedLink ? props.feedLink : props.feed.link }
-					rel={ null }
 				>
 					{ props.footerLinkText }
 				</ArticleListLink>

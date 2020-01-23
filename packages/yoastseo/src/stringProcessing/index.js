@@ -7,6 +7,7 @@ import relevantWords from "./relevantWords";
 import removeHtmlBlocks from "./htmlParser";
 import createWordRegex from "./createWordRegex";
 import wordBoundaries from "../config/wordBoundaries";
+import createRegexFromArray from "./createRegexFromArray";
 
 export {
 	stripHTMLTags,
@@ -17,6 +18,7 @@ export {
 	relevantWords,
 	removeHtmlBlocks,
 	wordBoundaries,
+	createRegexFromArray,
 
 	// We don't want to expose this, but yoast-components needs it.
 	createWordRegex as __createWordRegex,

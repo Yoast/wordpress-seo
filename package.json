@@ -6,6 +6,7 @@
     "eslint-config-yoast": "^5.0.6",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "json": "^9.0.6",
     "lerna": "^3.13.1"
   },
   "workspaces": {
@@ -26,9 +27,11 @@
     "link-all": "lerna exec yarn link",
     "unlink-all": "lerna exec yarn unlink",
     "transfer-branch": "./transfer-branch.sh",
+    "clean-publish": "lerna exec 'rm -rf dist'",
+    "clean-node-modules": "lerna exec 'rm -rf node_modules' && rm -rf node_modules",
     "lerna-version": "lerna version",
     "lerna-version-rc": "lerna version --preid rc",
-    "lerna-publish": "lerna publish --contents dist",
-    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc"
+    "lerna-publish": "lerna publish --contents dist --yes from-git",
+    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git"
   }
 }

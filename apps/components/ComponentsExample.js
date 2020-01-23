@@ -1,10 +1,9 @@
-import React from "react";
-import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import { CourseDetails, FullHeightCard, YoastWarning } from "@yoast/components";
-import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { Alert, CourseDetails, FullHeightCard, Warning } from "@yoast/components";
+import { getCourseFeed, getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -46,6 +45,12 @@ const CourseListItem = styled.li`
 	}
 `;
 
+const CornerstoneLink    = makeOutboundLink();
+const NonYoastLink       = makeOutboundLink();
+const YoastLink          = makeOutboundLink();
+const YoastShortLink     = makeOutboundLink();
+const YoastLinkCustomRel = makeOutboundLink();
+
 /**
  * Renders the yoast-component Components Examples.
  *
@@ -60,9 +65,13 @@ export default class ComponentsExample extends React.Component {
 
 		this.state = {
 			courses: null,
+			isAlertDismissed: false,
 		};
 
 		this.getFeed( "free" );
+		this.onAlertDismissed = () => {
+			this.setState( { isAlertDismissed: true } );
+		};
 	}
 
 	/**
@@ -116,9 +125,23 @@ export default class ComponentsExample extends React.Component {
 	}
 
 	/**
+	 * Renders a Yoast Alert.
+	 *
+	 * @returns {React.Element} The rendered alert.
+	 */
+	renderAlert( type ) {
+		return <Alert key={ type } type={ type }>
+			{ `This is an Alert of type: "${ type }".` }
+			<br />
+			You can add some content.
+			Including a link <YoastShortLink href="https://yoa.st/why-permalinks/">yoa.st/why-permalinks</YoastShortLink>
+		</Alert>;
+	}
+
+	/**
 	 * Renders all the Component examples.
 	 *
-	 * @returns {ReactElement} The rendered list of the Component examples.
+	 * @returns {React.Element} The rendered list of the Component examples.
 	 */
 	render() {
 		const courses = this.state.courses;
@@ -127,19 +150,44 @@ export default class ComponentsExample extends React.Component {
 		return (
 			<React.Fragment>
 				<Container>
+					<h2>Yoast alerts</h2>
+					{ [ "error", "info", "success", "warning" ].map( this.renderAlert ) }
+					{ ! this.state.isAlertDismissed && <Alert type="info" onDismissed={ this.onAlertDismissed }>
+						This is the dismissable variant.
+						<br />
+						You will have to wrap it in order to do actually dismiss it.
+						<br />
+						Which is currently done through the state of this example.
+					</Alert> }
 					<h2>Yoast warning</h2>
-					<YoastWarning
+					<Warning
 						message={ [
 							"This is a warning message that also accepts arrays, so you can pass links such as ",
-							<a
+							<CornerstoneLink
 								key="1"
 								href="https://yoa.st/metabox-help-cornerstone"
-								target="_blank"
-							>cornerstone content</a>,
+							>cornerstone content</CornerstoneLink>,
 							", for example.",
 							<p key="2">This spans to multiple lines.</p>,
 						] }
 					/>
+					<h2>Outbound links</h2>
+					<p>
+						<NonYoastLink href="http://www.example.org">example.org</NonYoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;noopener&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLink href="https://yoast.com">yoast.com</YoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastShortLink href="https://yoa.st/why-permalinks/">yoa.st/why-permalinks</YoastShortLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLinkCustomRel href="https://yoast.com/" rel="bookmark nofollow">yoast.com (custom rel attribute)</YoastLinkCustomRel>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;bookmark nofollow&quot; and visually hidden message</small>
+					</p>
 				</Container>
 				<h2>Courses overview cards</h2>
 				<p>Full width example to test the cards wrapping.</p>
@@ -158,6 +206,7 @@ export default class ComponentsExample extends React.Component {
 										courseUrl={ course.link }
 										readMoreLinkText={ course.readMoreLinkText }
 										ctaButtonData={ this.getButtonData( course ) }
+										isBundle={ course.isBundle }
 									/>
 								</FullHeightCard>
 							</CourseListItem>

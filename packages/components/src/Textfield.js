@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Label from "./Label";
-import Input from "./Input";
+import Input from "./input/Input";
 import Textarea from "./Textarea";
 
 /**

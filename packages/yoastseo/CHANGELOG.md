@@ -2,10 +2,82 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.50.0 March 25th, 2019
+## 1.66.0 January 6th, 2019
+### Other
+* Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
+* Adds a way to register a custom parser for parsing a paper to a structured tree representation, ready for further analysis.
+* Adds a new attribute to the `Paper`: `wpBlocks`, to be used to send WordPress block editor data to the analysis.
+
+## 1.65.1 December 11th, 2019
+* Fixes a bug where the metabox would be broken when a relative URL was configured as `WP_CONTENT_URL`. Props to [FPCSJames](https://github.com/FPCSJames).
+
+## 1.63.0 November 13th, 2019
+### Fixed
+ * Fixes a bug where the verb form `landscape` was not recognized in the text when the keyphrase contained the verb `landscaping`.
+
+## 1.62.0 October 29th, 2019
+### Enhancements:
+ * Adds a new Readability Score of 0 and "Not Available". Changes Readability for empty content from "Needs Improvement" to "Not Available". Props to [emilyatmobtown](https://github.com/emilyatmobtown)
+
+## 1.61.0 October 14th, 2019
+### Added
+* Adds the transition word assessment for Hungarian, props to [9abor](https://github.com/9abor)
+
+## 1.60.0 September 30th, 2019
+No user-facing changes.
+
+## 1.59.0 September 16th, 2019
+No user-facing changes.
+
+## 1.58.0 September 3rd, 2019
+### Enhancements:
+* Implements the assessment that checks whether multiple sentences begin with the same word for Portuguese, props to [amesdigital](https://github.com/amesdigital).
+* Increases the recommended sentence length limit for Portuguese, props to [amesdigital](https://github.com/amesdigital).
+
+## 1.57.0 July 22nd, 2019
+### Changed
+* No user-facing changes.
+
+## 1.56.0 July 8th, 2019
+### Changed
+* Changes the following improved internal linking functionality (which is disabled by a feature flag by default):
+  * Bumps the minimum number of required word occurrences from 2 to 4 (when extracting prominent words for internal linking).
+
+## 1.55.0 June 24th, 2019
+### Changed
+* Updated the CSS autoprefixer configuration to drop support for old Internet Explorer versions.
+
+## 1.54.0 June 11th, 2019
+### Added
+* Adds an improved internal linking functionality behind a feature flag. For now, this new functionality is disabled by default. Specifically, the new internal linking functionality has the following improvements:
+  * Changes the way prominent words are extracted for the Internal linking suggestions and Insights features. No multiple-word combinations are considered anymore, but single words only. For languages with morphological support (currently English and German) different morphological forms of words (e.g., `link`, `linking`, `links`, `linked`) are recognized and collapsed together, which improves the performance of the said features.
+  * Changes the Insights functionality in the following way: no words that occurred less than 5 times in the text of the post are displayed. For languages with morphological support (for now, English and German) different word forms of the same word are collapsed based on their stem/base form (e.g., the stem of words `link`, `linking`, `links`, and `linked` is `link`). If the stem coincides with an actual word used in the text, it is displayed to the user in the list of Insights. If the stem does not coincide with any words used in the text, the first word form of the stem that occurred in the text will be used for display.
+  * Changes the Internal linking suggestions functionality in the following way: not only the text of the post but also different meta data fields are used for analysis, i.e., title, keyphrase, synonyms, meta description, subheadings (H2 and H3 levels). One occurrence of a word in the said meta data fields is deemed more important than one occurrence of this word inside the text. Stems are further saved in the database and used for matching of prominent words between posts and the internal linking functionality.
+
+## 1.52.0 May 14th, 2019
+### Added
+* Adds a dependency to `@yoast/feature-flag`.
+* Adds createRegexFromArray export to yoastseo index.js.
+
+### Fixed
+* Improves keyphrase recognition for additional irregular verbs in German (e.g., `brennen`, `senden`, `kennen`).
+
+## 1.51.0 April 29th, 2019
+### Added
+* Adds functionality to specify a custom premium-configuration branch to use for tests, locally and on Travis.
+
+### Fixed
+* Adds error handling to the YoastSEO development tool, when building the tree for visualization purposes.
+* Fixes the parsing of paragraphs within headings when using the tree parser. Previously, it crashed the building of the tree.
+
+### Changed
+* Improves the recognition of German keyphrases that include words with an `i` or `e` in between vowels (e.g., `schrieen`, `schreien`, `speie`).
+* Rewrites the SEO and readability analysis such that it uses both the original assessors as well the new tree assessors. The results of both are combined and their scores aggregated.
+
+## 1.50.0 April 1st, 2019
 ### Added
 * Adds word form recognition for German.
 * Adds more transition words for Swedish.
@@ -14,6 +86,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Changed
 * Increases the recommended sentence length limit for Spanish and Catalan, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
 * Improves list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+
+### Fixed
+* Fixes a bug that impeded recognition of word forms for keyphrases on taxonomy pages.
 
 ## 1.49.0 March 11th, 2019
 ### Added
@@ -72,7 +147,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Fixed
 * Fixes a bug where keyphrases weren't recognized in the URL when the words in the URL were separated by underscore characters instead of hyphens.
 * Fixes a bug that caused numbers to be stripped when marking a keyphrase containing a number, e.g. `Yoast SEO 9.3`.
-  
+
 ### Added
 * Adds relevant words from the browserified example to the dev tool.
 * Adds the option to use local morphology data in the dev tool.
@@ -112,7 +187,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Added
 * Introduces two new principles for keyword recognition:
   * Makes keyphrase recognition flexible with regards to word order. This means that the keyphrase `SEO WordPress plugin` will be found in the sentence `This is the most popular SEO plugin for WordPress.` In order to use exact matches, the keyphrase can be enclosed in quotation marks.
-  * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish. 
+  * When matching keyphrases for the various assessments, the analysis only targets content words and ignores function words (e.g., `the` or `and`). This functionality is available in English, German, Dutch, French, Spanish, Italian, Portuguese, Russian and Polish.
 * Implements support for word form recognition for keyphrases in English (requires Premium configuration).
 * Improves the feedback texts for all SEO and readability assessments.
 * Adds functionality to append a query string to the assessment links through the analysis worker.
@@ -138,7 +213,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
   * Keyphrase distribution
 * Deprecates the assessment that checks if stopwords are used within the keyphrase.
 * The analysis for related keyphrases only shows assessments relevant for the specific keyphrase. It omits assessments that are non-keyphrase-related and assessments that should only be applied to the focus keyphrase.
-  
+
 ### Fixed
 * Fixes a bug where the keyword would not be found in the slug when containing punctuation, for example the keyphrase `apples & pears` in the slug `apples-pears`.
 
@@ -146,7 +221,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ### Bugs:
 
-* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa. 
+* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa.
 
 ### Enhancements:
 
@@ -315,7 +390,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.30.0 March 5th, 2018
 ### Added
-* Adds a setter for titleWidth to the snippet preview. 
+* Adds a setter for titleWidth to the snippet preview.
 * Adds a researcher to calculate the reading time for a given paper.
 * Adds a filter to mark Spanish sentences as non-passive when certain exception words occur between the auxiliary and the participle. The list of exception words includes all forms of the copula 'estar'.
 * Adds transition words assessment for Portuguese, props [amesdigital](https://github.com/amesdigital).
@@ -324,7 +399,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Changed
 * The snippet preview now shows the mobile preview by default.
 * Fixes a bug where division by zero errors in the passive voice assessment would cause `NaN%` to show up in the feedback.
-* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection. 
+* Fixes a bug where multiple `rel` arguments prevented correct `nofollow` detection.
 * Slightly increased the height of the meta description box so it matches the maximum amount of characters without needing a scrollbar.
 * Improves the list of Portuguese function words.
 
@@ -342,7 +417,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ## 1.28.0 December 18th, 2017
 ### Changed
-* Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice. 
+* Includes the link to the post about using your focus keyword multiple times also to the feedback text that is shown when using a focus keyword twice.
 * Changes the anchor text of the link to the post about using your focus keyword multiple times to a more accessible one.
 
 ## 1.27.0 December 15th, 2017
@@ -505,7 +580,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ### Changed
 
-* Removes unused assessments; sentence length variation, subheading length, 
+* Removes unused assessments; sentence length variation, subheading length,
     subheading presence, subheading distribution too short, paragraph too short
 * Makes the stop words check language dependant.
 
@@ -513,13 +588,13 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 
 ### Added
 
-* Adds passive voice for German. 
+* Adds passive voice for German.
 * Adds more transition words for French.
 
 ### Changed
 
 * Creates value objects for sentence parts and participles.
-* Improves feedback strings for the meta description length assessment. 
+* Improves feedback strings for the meta description length assessment.
 * Improves matching of the keyword in the first paragraph.
 * Improves the snippet preview to match the styling of Google's snippet.
 
@@ -617,12 +692,12 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ## 1.3.3: June 21st, 2016
 
 ### Changed
-* Change the calculation of the aggregate content score to be more lenient for non-English languages. 
+* Change the calculation of the aggregate content score to be more lenient for non-English languages.
 
 ## 1.3.2: June 15th, 2016
 
 ### Fixed
-* Fix a bug where the transition words and passive voice assessments would display on non-English languages. 
+* Fix a bug where the transition words and passive voice assessments would display on non-English languages.
 
 ## 1.3.1: June 14th, 2016
 
@@ -791,7 +866,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 	* `setFocus`
 	* `hideEditIcon`
 	* `showEditIcon`
-	* `textFeedback` 
+	* `textFeedback`
 	* `disableEnter`
 * Removed `App` methods:
 	* `bindSnippetEvents`

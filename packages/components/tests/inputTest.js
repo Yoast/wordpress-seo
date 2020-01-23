@@ -1,6 +1,6 @@
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import Input from "../src/Input";
+import Input from "../src/input/Input";
 
 describe( "Input", () => {
 	const renderer = new ReactShallowRenderer();

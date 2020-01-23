@@ -1,7 +1,10 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../src/researches/findKeywordInPageTitle.js";
 import Paper from "../../src/values/Paper.js";
+
+
+const morphologyData = getMorphologyData( "en" );
 let result;
 
 describe( "Matches keywords in string", function() {

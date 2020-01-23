@@ -31,4 +31,3 @@ describe( "gets English word combinations", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
-

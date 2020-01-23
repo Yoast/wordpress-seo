@@ -96,20 +96,18 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Japanese   	|                  	| ❌<sup>3</sup>       	| ❌<sup>3</sup> 	| ❌<sup>3</sup>       	|                             	|                            	|
-| Portuguese 	| ✅                	|                     	|               	|                     	|                             	| ✅                          	|
+| Portuguese 	| ✅                	|                     	|               	| ✅                   	| ✅                           	| ✅                          	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
-| Polish     	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Swedish    	| ✅                	| ❌<sup>4</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Hungarian    	| ✅                	|                     	|               	|                     	|                             	|                            	|
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
 <sup>2</sup> These are used for internal linking, insights and keyphrase-related analyses.
 
-<sup>3</sup> This means that this feature doesn't make sense for the specific language.
-
-<sup>4</sup> There is no existing Flesch reading ease formula for these languages.
+<sup>3</sup> There is no existing Flesch reading ease formula for these languages.
 
 
 The following readability assessments are available for all languages: 

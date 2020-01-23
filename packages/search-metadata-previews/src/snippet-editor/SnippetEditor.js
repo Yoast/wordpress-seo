@@ -1,4 +1,5 @@
 // External dependencies.
+import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -20,24 +21,24 @@ import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape, replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
-const SnippetEditorButton = Button.extend`
+const SnippetEditorButton = styled( Button )`
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	box-shadow: none;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
-const EditSnippetButton = SnippetEditorButton.extend`
-	margin: ${ getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" ) };
-	fill: ${ colors.$color_grey_dark };
+const EditSnippetButton = styled( SnippetEditorButton )`
+	margin: ${getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" )};
+	fill: ${colors.$color_grey_dark};
 	padding-left: 8px;
 
 	& svg {
-		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
+		${getDirectionalStyle( "margin-right", "margin-left" )}: 7px;
 	}
 `;
 
-const CloseEditorButton = SnippetEditorButton.extend`
+const CloseEditorButton = styled( SnippetEditorButton )`
 	margin-top: 24px;
 `;
 
@@ -506,6 +507,8 @@ class SnippetEditor extends React.Component {
 			keyword,
 			wordsToHighlight,
 			showCloseButton,
+			faviconSrc,
+			mobileImageSrc,
 		} = this.props;
 
 		const {
@@ -525,6 +528,8 @@ class SnippetEditor extends React.Component {
 		return (
 			<ErrorBoundary>
 				<div>
+					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
+
 					<SnippetPreview
 						keyword={ keyword }
 						wordsToHighlight={ wordsToHighlight }
@@ -536,15 +541,15 @@ class SnippetEditor extends React.Component {
 						onMouseLeave={ this.onMouseLeave }
 						onMouseUp={ this.onMouseUp }
 						locale={ locale }
+						faviconSrc={ faviconSrc }
+						mobileImageSrc={ mobileImageSrc }
 						{ ...mappedData }
 					/>
-
-					<ModeSwitcher onChange={ ( newMode ) => onChange( "mode", newMode ) } active={ mode } />
 
 					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
-						innerRef={ this.setEditButtonRef }
+						ref={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
 						{ __( "Edit snippet", "yoast-components" ) }
@@ -580,6 +585,8 @@ SnippetEditor.propTypes = {
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	showCloseButton: PropTypes.bool,
+	faviconSrc: PropTypes.string,
+	mobileImageSrc: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -604,6 +611,8 @@ SnippetEditor.defaultProps = {
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,
+	faviconSrc: "",
+	mobileImageSrc: "",
 };
 
 export default SnippetEditor;

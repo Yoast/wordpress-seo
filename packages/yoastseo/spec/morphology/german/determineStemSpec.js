@@ -32,6 +32,14 @@ const wordsToStem = [
 	// Participles
 	[ "heraufgeholt", "heraufhol" ],
 	[ "gefürchtet", "fürcht" ],
+	// Irregular verbs
+	[ "brennst", "brenn" ],
+	[ "brachten", "bring" ],
+	[ "brenne", "brenn" ],
+	[ "brenntest", "brenn" ],
+	[ "standen", "stand" ],
+	[ "stehest", "steh" ],
+	[ "wissen", "wiss" ],
 	// Some more tests
 	[ "häuser", "haus" ],
 	[ "personen", "person" ],

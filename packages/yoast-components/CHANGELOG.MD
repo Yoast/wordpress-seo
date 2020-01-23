@@ -5,7 +5,62 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.23.0 March 25th, 2019
+## 4.39.0 January 6th, 2019
+### Other
+* Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
+
+## 4.38.0 November 26th, 2019
+### Other
+* Removed the components related to the Help Center and the AlgoliaSearcher package
+
+## 4.36.0 November 11th, 2019
+### Enhancements
+* Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
+
+## 4.34.0 October 14th, 2019
+### Fixed
+* Fixes a bug where internal linking suggestions were not aligned correctly, but were indented instead.
+
+## 4.30.0 July 22nd, 2019
+### Added
+* In the internal linking suggestions component, adds a check for the presence of the prominent words to determine which of the feedback strings should be rendered. If no prominent words are determined for a text (and hence no suggestions), the old message "Once you add a bit more copy..." is rendered. If prominent words are determined, but still no suggestions could be found, a new message is rendered: "We could not find any relevant articles on your website that you could link your post to.".
+
+### Other
+* Replaced babel-preset-es2015 with babel-preset-env, as babel-preset-es2015 is deprecated.
+
+## 4.28.0 June 24th, 2019
+### Changed
+* Updates the CSS autoprefixer configuration to drop support for old Internet Explorer versions.
+
+## 4.27.0 June 11th, 2019
+### Changed
+* Removes the margin from the `KeywordInput` component.
+
+## 4.26.0 May 27th, 2019
+### Changed
+* Changes `KeywordInput`'s `id` prop to be required
+
+## 4.25.0 May 14th, 2019
+### Fixed
+* Improved handling of the `rel` attribute for links that open in a new browser's tab.
+
+## 4.24.0 April 29th, 2019
+* The following packages have been split out from `@yoast/yoast-components`. Please use these packages in the future:
+  * `@yoast/algolia-search-box`
+  * `@yoast/components`
+  * `@yoast/configuration-wizard`
+  * `@yoast/eslint`
+  * `@yoast/helpers`
+  * `@yoast/search-metadata-previews`
+  * `@yoast/social-metadata-previews`
+  * `@yoast/style-guide`
+  * `@yoast/social-previews`
+
+## 4.23.1 April 15th, 2019
+### Other
+* Updated the `styled-components` package to v4+.
+
+## 4.23.0 April 1st, 2019
 ### Added
 * Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.
 
@@ -169,7 +224,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 4.6.2 July 2nd, 2018
 ### Fixes
-* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`. 
+* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`.
 
 ## 4.6.0 July 2nd, 2018
 ### Added
@@ -374,7 +429,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Refactored `StyledSection` to use `styled-components`.
 * Removed `.svg` files. Use `SvgIcon` instead.
 * Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
- 
+
 ## 2.11.7 December 15th, 2017
 
 ### Added
@@ -481,7 +536,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * `HelpCenterButton` component. #318
 
 #### Other
-* Added translatable label to `SearchBar` component. #243 
+* Added translatable label to `SearchBar` component. #243
 * Added `makeOutboundLink` util function. #308
 * Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
 * Added a search button and placeholder text to the `SearchBar` component. #323
@@ -495,7 +550,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 2.9.3: September 26th, 2017
 
 ### Other
-* Fixed the loading of AMP articles in the Algolia article iFrame. 
+* Fixed the loading of AMP articles in the Algolia article iFrame.
 
 
 ## 2.9.2: September 25th, 2017
@@ -516,29 +571,29 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 
 #### Components
-* `Icon` component (using `svg-react-loader`, see `README.md`). #218 
+* `Icon` component (using `svg-react-loader`, see `README.md`). #218
 * `Button`(#173), `IconButton`(##232), `LinkButton`(#262), `YoastButton`(#257) components.
-* `InputField` component (using `DraftJS` ). #204 
-* `ListTable`, `Row` and `Cell` component. #219 
-* `ProgressBar`component. #172 
-* `IFrame` and `ArticleContent` components. #242 
+* `InputField` component (using `DraftJS` ). #204
+* `ListTable`, `Row` and `Cell` component. #219
+* `ProgressBar`component. #172
+* `IFrame` and `ArticleContent` components. #242
 * `StackedProgressBar` component. #270
 * `SeoScoreAssessment(s)` components. #272
-* `WordpressFeed` component. #273 
-* `SeoAssessment` component. #281 
+* `WordpressFeed` component. #273
+* `SeoAssessment` component. #281
 
 ##### Other
-* Added `getFeed` RSS reader utility function. #267 
+* Added `getFeed` RSS reader utility function. #267
 * Added `ContentAnalysis` reducer and actions. #224
-* Added `striptags` utility library. #276 
-* Added various documentation. #239 
+* Added `striptags` utility library. #276
+* Added various documentation. #239
 
 ### Other
 * Improved development environment. (#238, #174 )
 
 #### Onboarding wizard
 * Added max width for content in Onboarding wizard (#250), and `fullWidth` property for full screen support (#269).
-* Changed Onboarding wizard header. #256  
+* Changed Onboarding wizard header. #256
 * Added paragraph for additional information to Onboard wizard `Choice component`. #254
 
 ## 2.8.0: August 8th, 2017
@@ -549,7 +604,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Removes console errors caused by using React.PropTypes and React.createClass. 
+* Removes console errors caused by using React.PropTypes and React.createClass.
 
 ## 2.7.1: July 25th, 2017
 
@@ -570,7 +625,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 * Changes the color blue from #0075b3 to #0066cd.
 
-## 2.5.0: 
+## 2.5.0:
 
 ### Added
 
@@ -596,7 +651,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Removes width from StyledSection.
 
 ## 2.2.0: December 13th, 2016
- 
+
 ### Added
 
 * [Loader] Adds Loader component to be used when something is occurring in the background.

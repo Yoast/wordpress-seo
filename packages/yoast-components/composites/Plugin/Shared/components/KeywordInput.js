@@ -2,12 +2,11 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 /* Yoast dependencies */
-import { addFocusStyle, SvgIcon, YoastInputField } from "@yoast/components";
+import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
@@ -17,7 +16,6 @@ const greyColor = colors.$color_grey_text_light;
 const KeywordInputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: 0 0 1em;
 `;
 
 const KeywordFieldLabel = styled.label`
@@ -30,7 +28,7 @@ const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled( YoastInputField )`
+const KeywordField = styled( InputField )`
 	flex: 1 !important;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -231,7 +229,7 @@ class KeywordInput extends React.Component {
 }
 
 KeywordInput.propTypes = {
-	id: PropTypes.string,
+	id: PropTypes.string.isRequired,
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
@@ -243,7 +241,6 @@ KeywordInput.propTypes = {
 };
 
 KeywordInput.defaultProps = {
-	id: uniqueId( "yoast-keyword-input-" ),
 	showLabel: true,
 	keyword: "",
 	onRemoveKeyword: noop,

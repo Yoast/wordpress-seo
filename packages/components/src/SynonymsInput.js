@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 
-import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
+import { InputContainer } from "./input/InputContainer";
+import { InputField } from "./input/InputField";
+import { InputLabel } from "./input/InputLabel";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const SynonymsFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
-const StyledYoastInputLabel = styled( YoastInputLabel )`
+const StyledYoastInputLabel = styled( InputLabel )`
 	display: inline-block;
 	margin-bottom: 0;
 	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
@@ -33,31 +34,30 @@ const SynonymsInput = ( props ) => {
 	} = props;
 
 	return (
-		<YoastInputContainer>
+		<InputContainer>
 			<SynonymsFieldLabelContainer>
 				<StyledYoastInputLabel htmlFor={ inputProps.id }>
 					{ label }
 				</StyledYoastInputLabel>
 				{ helpLink }
 			</SynonymsFieldLabelContainer>
-			<YoastInputField
+			<InputField
 				{ ...inputProps }
 				autoComplete="off"
 			/>
-		</YoastInputContainer>
+		</InputContainer>
 	);
 };
 
 SynonymsInput.propTypes = {
 	type: PropTypes.string,
-	id: PropTypes.string,
+	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	helpLink: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
 	type: "text",
-	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	helpLink: null,
 };

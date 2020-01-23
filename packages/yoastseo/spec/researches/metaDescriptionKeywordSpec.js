@@ -1,8 +1,10 @@
 import metaDescriptionKeyword from "../../src/researches/metaDescriptionKeyword.js";
 import Paper from "../../src/values/Paper.js";
-
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {

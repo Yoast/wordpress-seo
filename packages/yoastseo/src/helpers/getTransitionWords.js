@@ -40,7 +40,13 @@ import twoPartTransitionWordsPolish from "../researches/polish/twoPartTransition
 import transitionWordsSwedishFactory from "../researches/swedish/transitionWords.js";
 const transitionWordsSwedish = transitionWordsSwedishFactory().allWords;
 import twoPartTransitionWordsSwedish from "../researches/swedish/twoPartTransitionWords.js";
+
+import transitionWordsHungarianFactory from "../researches/hungarian/transitionWords.js";
+const transitionWordsHungarian = transitionWordsHungarianFactory().allWords;
+import twoPartTransitionWordsHungarian from "../researches/hungarian/twoPartTransitionWords.js";
+
 import getLanguage from "./getLanguage.js";
+
 
 /**
  * Returns transition words for a specific locale.
@@ -100,6 +106,11 @@ export default function( locale ) {
 			return {
 				transitionWords: transitionWordsSwedish,
 				twoPartTransitionWords: twoPartTransitionWordsSwedish,
+			};
+		case "hu":
+			return {
+				transitionWords: transitionWordsHungarian,
+				twoPartTransitionWords: twoPartTransitionWordsHungarian,
 			};
 		default:
 		case "en":

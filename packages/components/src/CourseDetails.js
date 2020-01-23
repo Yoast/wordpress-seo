@@ -1,3 +1,4 @@
+/* External dependencies */
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -112,7 +113,7 @@ class CourseDetails extends React.Component {
 	 * Returns the correct Action Block based on whether an item is a bundle or a single course.
 	 *
 	 * @param {string} buttonType The type of the button. Either regular or sale.
-	 * @param {boolean} isBundle True when the it's a bundle.
+	 * @param {string} isBundle   Whether the item is a bundle. Default: empty string.
 	 *
 	 * @returns {ReactElement} The ActionBlock component.
 	 */
@@ -122,16 +123,16 @@ class CourseDetails extends React.Component {
 		// Bundles don't have an OutboundInfoLink and use a different property from the feed for the OutboundLinkButton.
 		if ( isBundle === "true" ) {
 			return <ActionBlock>
-				<OutboundLinkButton href={ this.props.courseUrl } rel={ null }>
+				<OutboundLinkButton href={ this.props.courseUrl }>
 					{ this.props.ctaButtonData.ctaButtonCopy }
 				</OutboundLinkButton>
 			</ActionBlock>;
 		}
 		return <ActionBlock>
-			<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl } rel={ null }>
+			<OutboundLinkButton href={ this.props.ctaButtonData.ctaButtonUrl }>
 				{ this.props.ctaButtonData.ctaButtonCopy }
 			</OutboundLinkButton>
-			<OutboundInfoLink href={ this.props.courseUrl } rel={ null }>
+			<OutboundInfoLink href={ this.props.courseUrl }>
 				{ this.props.readMoreLinkText }
 			</OutboundInfoLink>
 		</ActionBlock>;
@@ -165,7 +166,7 @@ CourseDetails.propTypes = {
 	courseUrl: PropTypes.string,
 	ctaButtonData: PropTypes.object,
 	readMoreLinkText: PropTypes.string,
-	isBundle: PropTypes.bool,
+	isBundle: PropTypes.string,
 };
 
 CourseDetails.defaultProps = {
@@ -173,5 +174,5 @@ CourseDetails.defaultProps = {
 	courseUrl: "",
 	ctaButtonData: {},
 	readMoreLinkText: "",
-	isBundle: false,
+	isBundle: "",
 };

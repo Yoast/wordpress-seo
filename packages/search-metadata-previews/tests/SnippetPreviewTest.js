@@ -1,7 +1,7 @@
 import SnippetPreview from "../src/snippet-preview/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 
 const defaultArgs = {
@@ -21,7 +21,7 @@ const defaultArgs = {
  */
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = createComponentWithIntl( <SnippetPreview { ...args } /> )
+	const tree = renderer.create( <SnippetPreview { ...args } /> )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();

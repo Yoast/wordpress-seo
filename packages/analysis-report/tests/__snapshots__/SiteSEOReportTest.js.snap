@@ -6,12 +6,9 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
   font-size: 14px;
 }
 
-.c8 {
+.c7 {
   display: table-cell;
   padding: 2px;
-}
-
-.c7 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -21,7 +18,9 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
   background-color: blue;
 }
 
-.c11 {
+.c10 {
+  display: table-cell;
+  padding: 2px;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -31,7 +30,9 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
   background-color: red;
 }
 
-.c12 {
+.c11 {
+  display: table-cell;
+  padding: 2px;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -41,12 +42,16 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
   background-color: yellow;
 }
 
-.c9 {
+.c8 {
+  display: table-cell;
+  padding: 2px;
   padding-left: 8px;
   width: 100%;
 }
 
-.c10 {
+.c9 {
+  display: table-cell;
+  padding: 2px;
   font-weight: 600;
   text-align: right;
   padding-left: 16px;
@@ -125,10 +130,10 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
       className="assessments__item c6"
     >
       <span
-        className="assessments__item-bullet c7 c8"
+        className="assessments__item-bullet c7"
       />
       <span
-        className="assessments__item-text c9 c8"
+        className="assessments__item-text c8"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -136,7 +141,7 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="assessments__item-score c10 c8"
+        className="assessments__item-score c9"
       >
         10
       </span>
@@ -145,10 +150,10 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
       className="assessments__item c6"
     >
       <span
-        className="assessments__item-bullet c11 c8"
+        className="assessments__item-bullet c10"
       />
       <span
-        className="assessments__item-text c9 c8"
+        className="assessments__item-text c8"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -156,7 +161,7 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="assessments__item-score c10 c8"
+        className="assessments__item-score c9"
       >
         15
       </span>
@@ -165,10 +170,10 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
       className="assessments__item c6"
     >
       <span
-        className="assessments__item-bullet c12 c8"
+        className="assessments__item-bullet c11"
       />
       <span
-        className="assessments__item-text c9 c8"
+        className="assessments__item-text c8"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div></div>",
@@ -176,7 +181,7 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
         }
       />
       <span
-        className="assessments__item-score c10 c8"
+        className="assessments__item-score c9"
       >
         20
       </span>

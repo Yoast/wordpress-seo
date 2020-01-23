@@ -3,6 +3,7 @@ module.exports = {
 	publish: {
 		files: [ {
 			src: [
+				".babelrc",
 				"**/*",
 				"!dist/**/*",
 				"!node_modules/**/*",

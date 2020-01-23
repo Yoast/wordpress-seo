@@ -1,9 +1,9 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import AnalysisResult from "../src/AnalysisResult.js";
 
 test( "the AnalysisResult component matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<AnalysisResult
 			ariaLabel="SEOResult"
 			bulletColor="blue"
@@ -21,7 +21,7 @@ test( "the AnalysisResult component matches the snapshot", () => {
 } );
 
 test( "the AnalysisResult component with html in the text matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<AnalysisResult
 			ariaLabel="SEOResult"
 			bulletColor="blue"
@@ -39,7 +39,7 @@ test( "the AnalysisResult component with html in the text matches the snapshot",
 } );
 
 test( "the AnalysisResult component with disabled buttons matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<AnalysisResult
 			ariaLabel="SEOResult"
 			bulletColor="blue"
@@ -58,7 +58,7 @@ test( "the AnalysisResult component with disabled buttons matches the snapshot",
 } );
 
 test( "the AnalysisResult component with hidden buttons matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<AnalysisResult
 			ariaLabel="SEOResult"
 			bulletColor="blue"

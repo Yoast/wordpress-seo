@@ -1,7 +1,10 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
 import linkCount from "../../src/researches/getLinkStatistics.js";
 import Paper from "../../src/values/Paper.js";
+
+
+const morphologyData = getMorphologyData( "en" );
 var foundLinks;
 
 describe( "Tests a string for anchors and its attributes", function() {

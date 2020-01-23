@@ -2,101 +2,121 @@
 import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { Component } from "react";
 import PropTypes from "prop-types";
+import { uniqueId } from "lodash";
 
-// Yoast dependencies.
-import { SvgIcon, Button, ScreenReaderText } from "@yoast/components";
+// Yoast dependencies
+import { Input, Label } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
 // Internal dependencies.
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../snippet-preview/constants";
 
-/**
- * Renders a switcher button.
- *
- * @param {Object}  props The props for this component.
- * @param {boolean} props.isActive Whether or not this button is currently active.
- *
- * @returns {ReactComponent} The rendered component.
- */
-const SwitcherButton = styled( Button )`
-	border: none;
-	border-bottom: 4px solid transparent;
+const Switcher = styled.fieldset`
+	border: 0;
+	padding: 0;
+	margin: 0 0 16px;
+`;
 
-	width: 31px;
-	height: 31px;
+const SwitcherTitle = styled.legend`
+	margin: 8px 0;
+	padding: 0;
+	color: ${ colors.$color_headings };
+	font-size: 14px;
+	font-weight: 600;
+`;
 
-	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
-	color: ${ colors.$color_snippet_active };
+const ModeLabel = styled( Label )`
+	${ getDirectionalStyle( "margin-right: 16px", "margin-left: 16px" ) };
+	color: inherit;
+	font-size: 14px;
+	line-height: 1.71428571;
+	cursor: pointer;
+	/* Helps RTL in Chrome */
+	display: inline-block;
+`;
 
-	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
-	transition-property: border-color;
-
-	&:hover, &:focus {
-		background-color: ${ colors.$color_white };
-		border: none;
-		border-bottom: 4px solid transparent;
-		border-color: ${ colors.$color_snippet_focus };
-		color: ${ colors.$color_snippet_focus };
-		box-shadow: none;
+const ModeRadio = styled( Input )`
+	&& {
+		${ getDirectionalStyle( "margin: 0 8px 0 0", "margin: 0 0 0 8px" ) };
+		cursor: pointer;
 	}
 `;
 
-const MobileButton = SwitcherButton.extend`
-	border-radius: 3px 0 0 3px;
-`;
-
-const DesktopButton = SwitcherButton.extend`
-	border-radius: 0 3px 3px 0;
-`;
-
-const Switcher = styled.div`
-	display: inline-block;
-	margin-top: 10px;
-	border: 1px solid #dbdbdb;
-	border-radius: 4px;
-	background-color: #f7f7f7;
-	vertical-align: top;
-`;
-
 /**
- * Renders a mode switcher between mobile and desktop.
- *
- * @param {Object} props The props for this component.
- * @param {Function} props.onChange Callback that is called when the mode switches.
- * @param {boolean}  props.active   Which mode is currently active.
- *
- * @returns {ReactElement} The rendered element.
+ * The mode switcher component for the google preview.
  */
-const ModeSwitcher = ( { onChange, active } ) => {
-	return <Switcher>
-		<MobileButton
-			onClick={ () => onChange( MODE_MOBILE ) }
-			isActive={ active === MODE_MOBILE }
-			aria-pressed={ active === MODE_MOBILE }
-		>
-			<SvgIcon icon="mobile" size="22px" color="currentColor" />
-			<ScreenReaderText>
-				{ __( "Mobile preview", "yoast-components" ) }
-			</ScreenReaderText>
-		</MobileButton>
+class ModeSwitcher extends Component {
+	/**
+	 * ModeSwitcher constructor.
+	 *
+	 * @param {Object} props Component props.
+	 */
+	constructor( props ) {
+		super( props );
 
-		<DesktopButton
-			onClick={ () => onChange( MODE_DESKTOP ) }
-			isActive={ active === MODE_DESKTOP }
-			aria-pressed={ active === MODE_DESKTOP }
-		>
-			<SvgIcon icon="desktop" size="18px" color="currentColor" />
-			<ScreenReaderText>
-				{ __( "Desktop preview", "yoast-components" ) }
-			</ScreenReaderText>
-		</DesktopButton>
-	</Switcher>;
-};
+		// Used to assure unique ids.
+		this.uniqueId = uniqueId();
+
+		this.switchToMobile = this.props.onChange.bind( this, "mobile" );
+		this.switchToDesktop = this.props.onChange.bind( this, "desktop" );
+	}
+
+	/**
+	 * Render the ModeSwitcher component.
+	 *
+	 * @returns {React.element} The rendered component.
+	 */
+	render() {
+		const {
+			active,
+		} = this.props;
+
+		return ( <Switcher>
+			<SwitcherTitle>{ __( "Preview as:", "yoast-components" ) }</SwitcherTitle>
+			<ModeRadio
+				onChange={ this.switchToMobile }
+				type="radio"
+				name="screen"
+				value="mobile"
+				optionalAttributes={ {
+					id: `yoast-google-preview-mode-mobile-${ this.uniqueId }`,
+					checked: active === MODE_MOBILE,
+				} }
+			/>
+			<ModeLabel
+				for={ `yoast-google-preview-mode-mobile-${ this.uniqueId }` }
+			>
+				{ __( "Mobile result", "yoast-components" ) }
+			</ModeLabel>
+			<ModeRadio
+				onChange={ this.switchToDesktop }
+				type="radio"
+				name="screen"
+				value="desktop"
+				optionalAttributes={ {
+					id: `yoast-google-preview-mode-desktop-${ this.uniqueId }`,
+					checked: active === MODE_DESKTOP,
+				} }
+			/>
+			<ModeLabel
+				for={ `yoast-google-preview-mode-desktop-${ this.uniqueId }` }
+			>
+				{ __( "Desktop result", "yoast-components" ) }
+			</ModeLabel>
+		</Switcher> );
+	}
+}
 
 ModeSwitcher.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	active: PropTypes.oneOf( MODES ),
+};
+
+ModeSwitcher.defaultProps = {
+	active: MODE_MOBILE,
 };
 
 export default ModeSwitcher;

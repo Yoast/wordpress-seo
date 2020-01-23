@@ -1,7 +1,8 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
+import { enableFeatures } from "@yoast/feature-flag";
 import Jed from "jed";
-import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
@@ -61,10 +62,7 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import buildTree from "../tree/builder";
-import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../tree/assess/scoreAggregators";
-import { TreeResearcher } from "../tree/research";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -136,6 +134,7 @@ export default class AnalysisWebWorker {
 		};
 		this._registeredAssessments = [];
 		this._registeredMessageHandlers = {};
+		this._registeredParsers = [];
 
 		// Set up everything for the analysis on the tree.
 		this.setupTreeAnalysis();
@@ -191,7 +190,11 @@ export default class AnalysisWebWorker {
 	 */
 	setupTreeAnalysis() {
 		// Researcher
-		this._treeResearcher = new TreeResearcher();
+		/*
+		 * Disabled code:
+		 * this._treeResearcher = new TreeResearcher();
+		 */
+		this._treeResearcher = null;
 
 		// Assessors
 		this._contentTreeAssessor = null;
@@ -207,6 +210,9 @@ export default class AnalysisWebWorker {
 
 		// Tree representation of text to analyze
 		this._tree = null;
+
+		// Tree builder.
+		this._treeBuilder = null;
 	}
 
 	/**
@@ -218,6 +224,7 @@ export default class AnalysisWebWorker {
 		this._scope.onmessage = this.handleMessage;
 		this._scope.analysisWorker = {
 			registerAssessment: this.registerAssessment,
+			registerParser: this.registerParser,
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
@@ -441,19 +448,14 @@ export default class AnalysisWebWorker {
 	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
 	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
 	 *
-	 * @returns {module:tree/assess.TreeAssessor} The created tree assessor.
+	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
-	createSEOTreeAssessor( assessorConfig ) {
-		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
-
-		this._registeredAssessments.forEach( ( { name, assessment } ) => {
-			if ( ! assessor.getAssessment( name ) ) {
-				assessor.registerAssessment( name, assessment );
-			}
-		} );
-
-		return assessor;
-	}
+	/*
+	 * Disabled code:
+	 * createSEOTreeAssessor( assessorConfig ) {
+	 * 	 return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
+	 * }
+	 */
 
 	/**
 	 * Sends a message.
@@ -499,18 +501,19 @@ export default class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number}  id                                     The request id.
-	 * @param {Object}  configuration                          The configuration object.
-	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
-	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
-	 * @param {boolean} [configuration.useCornerstone]         Whether the paper is cornerstone or not.
-	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean} [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
-	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
-	 * @param {Object}  [configuration.translations]           The translation strings.
-	 * @param {Object}  [configuration.researchData]           Extra research data.
-	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
-	 * @param {string}  [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {number}   id                                     The request id.
+	 * @param {Object}   configuration                          The configuration object.
+	 * @param {boolean}  [configuration.contentAnalysisActive]  Whether the content analysis is active.
+	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
+	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
+	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
+	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
+	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
+	 * @param {Object}   [configuration.translations]           The translation strings.
+	 * @param {Object}   [configuration.researchData]           Extra research data.
+	 * @param {Object}   [configuration.defaultQueryParams]     The default query params for the Shortlinker.
+	 * @param {string}   [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {string[]} [configuration.enabledFeatures]        A list of feature name flags of the experimental features to enable.
 	 *
 	 * @returns {void}
 	 */
@@ -539,23 +542,36 @@ export default class AnalysisWebWorker {
 			delete configuration.logLevel;
 		}
 
+		if ( has( configuration, "enabledFeatures" ) ) {
+			// Make feature flags available inside of the web worker.
+			enableFeatures( configuration.enabledFeatures );
+			delete  configuration.enabledFeatures;
+		}
+
 		this._configuration = merge( this._configuration, configuration );
 
 		if ( update.readability ) {
 			this._contentAssessor = this.createContentAssessor();
-			this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
+			/*
+			 * Disabled code:
+			 * this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
+			 */
+			this._contentTreeAssessor = null;
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 			// Tree assessors
-			const { useCornerstone, useTaxonomy } = this._configuration;
-			this._seoTreeAssessor = useTaxonomy
-				? this.createSEOTreeAssessor( { taxonomy: true } )
-				: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
-			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
-				cornerstone: useCornerstone, relatedKeyphrase: true,
-			} );
+			/*
+			 * Disabled code:
+			 * const { useCornerstone, useTaxonomy } = this._configuration;
+			 * this._seoTreeAssessor = useTaxonomy
+			 * 	? this.createSEOTreeAssessor( { taxonomy: true } )
+			 * 	: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
+			 * this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
+			 * 	cornerstone: useCornerstone, relatedKeyphrase: true,
+			 * } );
+			 */
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -656,6 +672,27 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Register a parser that parses a formatted text
+	 * to a structured tree representation that can be further analyzed.
+	 *
+	 * @param {Object}   parser                              The parser to register.
+	 * @param {function(Paper): boolean} parser.isApplicable A method that checks whether this parser is applicable for a paper.
+	 * @param {function(Paper): module:parsedPaper/structure.Node } parser.parse A method that parses a paper to a structured tree representation.
+	 *
+	 * @returns {void}
+	 */
+	registerParser( parser ) {
+		if ( typeof parser.isApplicable !== "function" ) {
+			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'isApplicable'." );
+		}
+		if ( typeof parser.parse !== "function" ) {
+			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'parse'." );
+		}
+
+		this._registeredParsers.push( parser );
+	}
+
+	/**
 	 * Clears the worker cache to force a new analysis.
 	 *
 	 * @returns {void}
@@ -740,31 +777,36 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
-		// Raw HTML text, to be parsed by the tree builder.
-		const text = paper._text;
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
+		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
 			// Try to build the tree, for analysis using the tree assessors.
 			try {
-				this._tree = buildTree( text );
+				/*
+				 * Disabled tree.
+				 * Please not that text here should be the `paper._text` before processing (e.g. autop and more).
+				 * this._tree = this._treeBuilder.build( text );
+				 */
 			} catch ( exception ) {
-				console.error( "Yoast SEO and readability analysis: " +
+				logger.debug( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
+
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			// Only assess the focus keyphrase if the paper has any changes.
 			if ( paperHasChanges ) {
 				// Assess the SEO of the content regarding the main keyphrase.
 				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
@@ -772,7 +814,10 @@ export default class AnalysisWebWorker {
 					treeAssessor: this._seoTreeAssessor,
 					scoreAggregator: this._seoScoreAggregator,
 				} );
+			}
 
+			// Only assess the related keyphrases when they have been given.
+			if ( ! isEmpty( relatedKeywords ) ) {
 				// Get the related keyphrase keys (one for each keyphrase).
 				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
@@ -787,7 +832,7 @@ export default class AnalysisWebWorker {
 				// Clear the unrequested results, but only if there are requested related keywords.
 				if ( requestedRelatedKeywordKeys.length > 1 ) {
 					this._results.seo = pickBy( this._results.seo,
-						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
+						( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key )
 					);
 				}
 			}
@@ -799,6 +844,8 @@ export default class AnalysisWebWorker {
 				treeAssessor: this._contentTreeAssessor,
 				scoreAggregator: this._contentScoreAggregator,
 			};
+			// Set the locale (we are more lenient for languages that have full analysis support).
+			analysisCombination.scoreAggregator.setLocale( this._configuration.locale );
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
@@ -813,17 +860,18 @@ export default class AnalysisWebWorker {
 	 * The results of both analyses are combined using the given score aggregator.
 	 *
 	 * @param {Paper}                      paper The paper to analyze.
-	 * @param {module:tree/structure.Node} tree  The tree to analyze.
+	 * @param {module:parsedPaper/structure.Node} tree  The tree to analyze.
 	 *
 	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
 	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
-	 * @param {module:tree/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
-	 * @param {module:tree/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
+	 * @param {module:parsedPaper/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
+	 * @param {module:parsedPaper/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
 	 *
 	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
 	async assess( paper, tree, analysisCombination ) {
-		const { oldAssessor, treeAssessor, scoreAggregator } = analysisCombination;
+		// Disabled code: The variable `treeAssessor` is removed from here.
+		const { oldAssessor, scoreAggregator } = analysisCombination;
 		/*
 		 * Assess the paper and the tree
 		 * using the original assessor and the tree assessor.
@@ -831,17 +879,20 @@ export default class AnalysisWebWorker {
 		oldAssessor.assess( paper );
 		const oldAssessmentResults = oldAssessor.results;
 
-		let treeAssessmentResults = [];
+		const treeAssessmentResults = [];
 
-		// Only assess tree if it has been built.
-		if ( tree ) {
-			const treeAssessorResult = await treeAssessor.assess( paper, tree );
-			treeAssessmentResults = treeAssessorResult.results;
-		} else {
-			// Cannot assess the tree, generate errors on the assessments that use the tree assessor.
-			const treeAssessments = treeAssessor.getAssessments();
-			treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
-		}
+		/*
+		 * Disable code:
+		 * // Only assess tree if it has been built.
+		 * if ( tree ) {
+		 * const treeAssessorResult = await treeAssessor.assess( paper, tree );
+		 * treeAssessmentResults = treeAssessorResult.results;
+		 * } else {
+		 * // Cannot assess the tree, generate errors on the assessments that use the tree assessor.
+		 * const treeAssessments = treeAssessor.getAssessments();
+		 * treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
+		 * }
+		 */
 
 		// Combine the results of the tree assessor and old assessor.
 		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
@@ -858,7 +909,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Generates an error message ("grey bullet") for the given assessment.
 	 *
-	 * @param {module:tree/assess.Assessment} assessment The assessment to generate an error message for.
+	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to generate an error message for.
 	 *
 	 * @returns {AssessmentResult} The generated assessment result.
 	 */
@@ -881,7 +932,7 @@ export default class AnalysisWebWorker {
 	 * The old assessor as well as the new tree assessor are used and their results are combined.
 	 *
 	 * @param {Paper}                 paper           The paper to analyze.
-	 * @param {module:tree/structure} tree            The tree to analyze.
+	 * @param {module:parsedPaper/structure} tree            The tree to analyze.
 	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
 	 *
 	 * @returns {Promise<[{results: {score: number, results: AssessmentResult[]}, key: string}]>} The results, one for each keyphrase.

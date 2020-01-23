@@ -64,7 +64,7 @@ SiteSEOReport.defaultProps = {
 	className: "seo-assessment",
 	seoAssessmentText: "SEO Assessment",
 	seoAssessmentItems: null,
-	barHeight: null,
+	barHeight: "24px",
 };
 
 export default SiteSEOReport;

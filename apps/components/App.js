@@ -1,5 +1,4 @@
 import React from "react";
-import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
 import { setLocaleData } from "@wordpress/i18n";
 
@@ -7,7 +6,6 @@ import ButtonsWrapper from "./ButtonsWrapper";
 import ComponentsExample from "./ComponentsExample";
 import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
-import HelpCenterWrapper from "./HelpCenterWrapper";
 import KeywordExample from "./KeywordExample";
 import WordListWrapper from "./WordListWrapper";
 import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
@@ -18,6 +16,9 @@ import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 import TwitterPreviewExample from "./TwitterPreviewExample";
+import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
+import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
+import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -49,11 +50,6 @@ const components = [
 		component: <DashboardWidget />,
 	},
 	{
-		id: "help-center",
-		name: "Help center",
-		component: <HelpCenterWrapper />,
-	},
-	{
 		id: "ui-controls",
 		name: "UI Controls",
 		component: <UIControlsWrapper />,
@@ -72,6 +68,11 @@ const components = [
 		id: "wordlist",
 		name: "WordList",
 		component: <WordListWrapper />,
+	},
+	{
+		id: "linkSuggestions",
+		name: "LinkSuggestions",
+		component: <LinkSuggestionsWrapper />,
 	},
 	{
 		id: "buttons",
@@ -97,6 +98,16 @@ const components = [
 		id: "twitterpreview-example",
 		name: "TwitterPreview",
 		component: <TwitterPreviewExample />,
+	},
+	{
+		id: "wordoccurrences-example",
+		name: "WordOccurrences",
+		component: <WordOccurrencesWrapper />,
+	},
+	{
+		id: "multi-step-progress",
+		name: "Multi step progress",
+		component: <MultiStepProgressWrapper />,
 	},
 ];
 
@@ -240,17 +251,15 @@ class App extends React.Component {
 	 */
 	render() {
 		return (
-			<IntlProvider locale="en">
-				<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
-					<div>
-						{ this.getMenu() }
-						<LanguageDirectionContainer>
-							{ this.renderLanguageDirectionButton() }
-						</LanguageDirectionContainer>
-						{ this.getContent() }
-					</div>
-				</ThemeProvider>
-			</IntlProvider>
+			<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
+				<div>
+					{ this.getMenu() }
+					<LanguageDirectionContainer>
+						{ this.renderLanguageDirectionButton() }
+					</LanguageDirectionContainer>
+					{ this.getContent() }
+				</div>
+			</ThemeProvider>
 		);
 	}
 }
