@@ -18,6 +18,8 @@ class Indexable_Post_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * Yoast extension of the Model class.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;

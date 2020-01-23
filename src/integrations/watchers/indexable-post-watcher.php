@@ -19,23 +19,29 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Post_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
+	 * The indexable hierarchy repository.
+	 *
 	 * @var Indexable_Hierarchy_Repository
 	 */
 	private $hierarchy_repository;

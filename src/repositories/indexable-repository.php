@@ -22,16 +22,22 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 class Indexable_Repository {
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	private $builder;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
+	 * The logger object.
+	 *
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
