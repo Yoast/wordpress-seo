@@ -11,14 +11,14 @@
 class WPSEO_Dismissible_Notification_Double extends WPSEO_Dismissible_Notification {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function dismiss() {
 		parent::dismiss();
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_applicable() {
 		return parent::is_applicable();

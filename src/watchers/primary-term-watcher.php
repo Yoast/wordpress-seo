@@ -23,7 +23,7 @@ class Primary_Term_Watcher implements Integration {
 	protected $repository;
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
@@ -39,7 +39,7 @@ class Primary_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'save_post', [ $this, 'save_primary_terms' ] );
