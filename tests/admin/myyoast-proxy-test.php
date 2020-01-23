@@ -23,7 +23,11 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var \Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var \Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance
+		 */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version' ] )
@@ -52,7 +56,11 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var \WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'set_header' ] )
@@ -79,7 +87,11 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var \WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
@@ -136,7 +148,11 @@ class MyYoast_Proxy_Test extends TestCase {
 			->with( 'response' )
 			->andReturn( 404 );
 
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var \WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
@@ -213,7 +229,11 @@ class MyYoast_Proxy_Test extends TestCase {
 			->with( 'response' )
 			->andReturn( 'success' );
 
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var \WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )

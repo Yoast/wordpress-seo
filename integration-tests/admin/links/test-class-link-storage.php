@@ -49,7 +49,11 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$this->bypass_php74_mockbuilder_deprecation_warning();
 
-		/** @var WPSEO_Link_Storage $storage */
+		/**
+		 * The link storage object.
+		 *
+		 * @var WPSEO_Link_Storage $storage
+		 */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )
 			->setMethods( [ 'save_link' ] )

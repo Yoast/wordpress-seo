@@ -103,7 +103,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 */
 		$post_types = apply_filters( 'wpseo_schema_article_post_types', [ 'post' ] );
 
-		return in_array( $post_type, $post_types );
+		return in_array( $post_type, $post_types, true );
 	}
 
 	/**
