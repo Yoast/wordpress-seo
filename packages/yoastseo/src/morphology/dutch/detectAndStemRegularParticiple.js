@@ -139,7 +139,6 @@ const checkIfParticipleIsSameAsStem = function( dataParticiplesSameAsStem, word 
  * @returns {string|null} The participle stem or null if no regular participle was matched.
  */
 export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
-
 	// Check whether the word is not a participle. If it is not, return empty string.
 	if ( word.endsWith( "heid" ) || word.endsWith( "teit" ) || word.endsWith( "tijd" ) || nonParticiples().includes( word ) ) {
 		return "";
