@@ -566,6 +566,8 @@ class Yoast_Notification_Center {
 		$notifications = $this->notifications;
 
 		/**
+		 * One array of Yoast_Notifications, merged from multiple arrays.
+		 *
 		 * @var Yoast_Notification[] $merged_notifications
 		 */
 		$merged_notifications = [];
