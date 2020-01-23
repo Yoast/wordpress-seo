@@ -35,6 +35,8 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	}
 
 	/**
+	 * Sets the WooCommerce shop page.
+	 *
 	 * @param WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page Shop page object.
 	 */
 	public function set_woocommerce_shop_page( WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page ) {
@@ -52,21 +54,28 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Intentionally left empty to remove actual redirection code to be able to test it.
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
 		// Intentionally left empty to remove actual redirection code to be able to test it.
 	}
 
 	/**
-	 * @inheritDoc
+	 * Test double. Retrieves the queried post type.
+	 *
+	 * @return string The queried post type.
 	 */
 	public function get_queried_post_type() {
 		return parent::get_queried_post_type();
 	}
 
 	/**
-	 * @inheritDoc
+	 * Test double. Builds the title for a post type archive.
+	 *
+	 * @param string $separator          The title separator.
+	 * @param string $separator_location The location of the title separator.
+	 *
+	 * @return string The title to use on a post type archive.
 	 */
 	public function get_post_type_archive_title( $separator, $separator_location ) {
 		return parent::get_post_type_archive_title( $separator, $separator_location );
