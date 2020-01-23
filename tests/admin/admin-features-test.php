@@ -39,7 +39,7 @@ class Admin_Features_Test extends TestCase {
 
 		// Mock the current user for notifications.
 		Monkey\Functions\expect( 'wp_get_current_user' )
-			->times( 2 )
+			->times( 1 )
 			->andReturn( Mockery::mock( \WP_User::class ) );
 
 		return new WPSEO_Admin();
