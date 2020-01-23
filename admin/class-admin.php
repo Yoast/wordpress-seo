@@ -379,18 +379,13 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		$integrations = [];
 
-		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
 
 		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
-			$link_table_compatibility_notifier->remove_notification();
-
 			return $integrations;
 		}
 
 		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
-		$link_table_compatibility_notifier->remove_notification();
 
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
