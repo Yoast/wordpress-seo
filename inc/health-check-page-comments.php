@@ -53,6 +53,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 	 * @return bool True when page comments are enabled.
 	 */
 	protected function has_page_comments() {
-		return '1' === get_option( 'page_comments' );
+		return get_option( 'page_comments' ) === '1';
 	}
 }

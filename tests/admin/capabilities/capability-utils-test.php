@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \WPSEO_Capability_Utils
  *
  * @group capabilities
- * @group test
  */
 final class Capabilities_Utils_Test extends TestCase {
 
@@ -101,6 +100,8 @@ final class Capabilities_Utils_Test extends TestCase {
 	 * @param string      $message  The message to show when test fails.
 	 *
 	 * @dataProvider get_applicable_roles_provider
+	 *
+	 * @covers ::get_applicable_roles
 	 */
 	public function test_get_applicable_roles( $role, $expected, $message ) {
 		$this->roles

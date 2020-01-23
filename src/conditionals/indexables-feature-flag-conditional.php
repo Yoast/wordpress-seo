@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Conditionals;
 class Indexables_Feature_Flag_Conditional extends Feature_Flag_Conditional {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	protected function get_feature_flag() {
 		return 'indexables';

@@ -133,11 +133,11 @@ class WPSEO_Rewrite {
 		if ( is_array( $categories ) && $categories !== [] ) {
 			foreach ( $categories as $category ) {
 				$category_nicename = $category->slug;
-				if ( $category->parent == $category->cat_ID ) {
+				if ( $category->parent === $category->cat_ID ) {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] !== false && $category->parent !== 0 ) {
 						$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;

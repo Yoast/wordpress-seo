@@ -512,6 +512,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Creates a featured image.
+	 *
 	 * @param string  $image   Path.
 	 * @param integer $post_id Post ID.
 	 *
@@ -534,7 +536,6 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$file       = get_attached_file( $attach_id );
 		wp_generate_attachment_metadata( $attach_id, $file );
 		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
-
 
 		return [
 			'id'   => $attach_id,

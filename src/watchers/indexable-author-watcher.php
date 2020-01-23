@@ -28,7 +28,7 @@ class Indexable_Author_Watcher implements Integration {
 	protected $builder;
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
@@ -46,7 +46,7 @@ class Indexable_Author_Watcher implements Integration {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );

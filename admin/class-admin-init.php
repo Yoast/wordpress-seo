@@ -345,7 +345,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return 'admin.php' === $this->pagenow && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
 	}
 
 	/**
@@ -545,7 +545,7 @@ class WPSEO_Admin_Init {
 	public function permalink_settings_notice() {
 		global $pagenow;
 
-		if ( 'options-permalink.php' === $pagenow ) {
+		if ( $pagenow === 'options-permalink.php' ) {
 			printf(
 				'<div class="notice notice-warning"><p><strong>%1$s</strong><br>%2$s<br><a href="%3$s" target="_blank">%4$s</a></p></div>',
 				esc_html__( 'WARNING:', 'wordpress-seo' ),
