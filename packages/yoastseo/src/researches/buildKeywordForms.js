@@ -1,49 +1,19 @@
 import getFormsForLanguageFactory from "../helpers/getFormsForLanguage.js";
 const getFormsForLanguage = getFormsForLanguageFactory();
 import getWords from "../stringProcessing/getWords.js";
+import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray.js";
 import getLanguage from "../helpers/getLanguage.js";
-import getFunctionWordsFactory from "../helpers/getFunctionWords.js";
-const getFunctionWords = getFunctionWordsFactory();
 import parseSynonyms from "../stringProcessing/parseSynonyms";
 import { getVariationsApostrophe } from "../stringProcessing/getVariationsApostrophe";
 import { getVariationsApostropheInArray } from "../stringProcessing/getVariationsApostrophe";
 
 import { includes } from "lodash-es";
-import { filter } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { escapeRegExp } from "lodash-es";
 import { uniq as unique } from "lodash-es";
 import { flatten } from "lodash-es";
 import { get } from "lodash-es";
 import { memoize } from "lodash-es";
-
-/**
- * Filters function words from an array of words based on the language.
- *
- * @param {Array} array The words to check.
- * @param {string} language The language to take function words for.
- *
- * @returns {Array} The original array with the function words filtered out.
- */
-const filterFunctionWords = function( array, language ) {
-	if ( isUndefined( language ) || language === "" ) {
-		language = "en";
-	}
-
-	const functionWords = get( getFunctionWords, [ language ], [] );
-
-	if ( array.length > 1 ) {
-		const arrayFiltered = filter( array, function( word ) {
-			return ( ! includes( functionWords.all, word.trim().toLocaleLowerCase() ) );
-		} );
-
-		if ( arrayFiltered.length > 0 ) {
-			return arrayFiltered;
-		}
-	}
-
-	return array;
-};
 
 /**
  * Analyzes the focus keyword string. Checks if morphology is requested or if the user wants to match exact string.
@@ -72,7 +42,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 		return [ unique( [].concat( escapeRegExp( keyphrase ), getVariationsApostrophe( keyphrase ) ) ) ];
 	}
 
-	const words = filterFunctionWords( getWords( keyphrase ), language );
+	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
 
 	const forms = [];
 
@@ -177,7 +147,6 @@ function research( paper, researcher ) {
 }
 
 export {
-	filterFunctionWords,
 	buildForms,
 	collectForms,
 	research,
