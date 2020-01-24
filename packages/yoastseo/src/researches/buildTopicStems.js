@@ -18,7 +18,7 @@ const getStemForLanguage = getStemForLanguageFactory();
  * If morphology is required the module finds a stem for all words (if no function words list available) or
  * for all content words (i.e., excluding prepositions, articles, conjunctions, if the function words list is available).
  *
- * @param {string} keyphrase The keyphrase of the paper (or a synonym phrase) to get stemd for.
+ * @param {string} keyphrase The keyphrase of the paper (or a synonym phrase) to get stem for.
  * @param {string} language The language to use for morphological analyzer and for function words.
  * @param {Object} morphologyData The available morphology data per language (false if unavailable).
  *
@@ -39,7 +39,7 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
 	const getStem = getStemForLanguage[ language ];
 
-	// Simply returns lowCased words from the keyphrase if morphological forms cannot be built.
+	// Simply returns lowCased words from the keyphrase if stems cannot be built.
 	if ( morphologyData === false || isUndefined( getStem ) ) {
 		return words.map( word => normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ) );
 	}
