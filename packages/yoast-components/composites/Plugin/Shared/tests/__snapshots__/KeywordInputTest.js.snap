@@ -118,7 +118,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     </label>
   </span>
   <div
-    className="has-remove-keyword-button c3"
+    className="c3 has-remove-keyword-button"
   >
     <input
       aria-label={null}
