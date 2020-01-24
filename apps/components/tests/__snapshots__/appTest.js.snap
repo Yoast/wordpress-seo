@@ -491,7 +491,7 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 with-max-width Button-sc-32rbq-0 glyHEG"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 glyHEG with-max-width"
         type="button"
       >
         <svg
@@ -524,7 +524,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 test-large-button YoastButton-gx5w7q-0 dnvPfT"
+        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
         onClick={undefined}
         type="button"
       >
@@ -573,7 +573,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="YoastButton-gx5w7q-1 test-large-button YoastButton-gx5w7q-0 dnvPfT"
+        className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
         onClick={undefined}
         type="button"
       >
@@ -604,7 +604,7 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 with-max-width Button-sc-32rbq-0 glyHEG"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 glyHEG with-max-width"
         type="button"
       >
         <svg
@@ -642,7 +642,7 @@ exports[`App renders without problems 1`] = `
       </a>
        
       <a
-        className="YoastLinkButton-dntyts-0 test-large-button YoastButton-gx5w7q-0 exJvQq"
+        className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 exJvQq test-large-button"
         href="#somewhere3"
       >
         Min width
