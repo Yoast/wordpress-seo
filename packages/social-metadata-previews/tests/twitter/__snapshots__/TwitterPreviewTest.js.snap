@@ -2,7 +2,7 @@
 
 exports[`TwitterPreview matches the snapshot 1`] = `
 Array [
-  .c1 {
+  .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -23,9 +23,6 @@ Array [
   padding: 1em;
   text-align: center;
   font-size: 1rem;
-}
-
-.c0 {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   border-style: dashed;
@@ -35,7 +32,7 @@ Array [
 }
 
 <div
-    className="c0 c1"
+    className="c0"
   >
     Select image
   </div>,
