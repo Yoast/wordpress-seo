@@ -1,44 +1,11 @@
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 
-import { filterFunctionWords, buildForms, collectForms } from "../../src/researches/buildKeywordForms.js";
+import { buildForms, collectForms } from "../../src/researches/buildKeywordForms.js";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-
 
 const morphologyDataEN = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" );
-
-describe( "A test for filtering out function words from an array of words for a given language", function() {
-	it( "returns the array of content words for absent locale", function() {
-		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ] );
-		expect( filteredArray ).toEqual( [].concat( "walk" ) );
-	} );
-
-	it( "returns the array of content words for an empty language as if it was English", function() {
-		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "" );
-		expect( filteredArray ).toEqual( [].concat( "walk" ) );
-	} );
-
-	it( "returns the original array of words for a non-existing language", function() {
-		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "yep" );
-		expect( filteredArray ).toEqual( [ "I", "am", "going", "for", "a", "walk" ] );
-	} );
-
-	it( "returns the array of content words for English", function() {
-		const filteredArray = filterFunctionWords( [ "I", "am", "going", "for", "a", "walk" ], "en" );
-		expect( filteredArray ).toEqual( [].concat( "walk" ) );
-	} );
-
-	it( "returns the array of content words for French", function() {
-		const filteredArray = filterFunctionWords( [ "Je", "ne", "vais", "pas", "rire" ], "fr" );
-		expect( filteredArray ).toEqual( [].concat( "rire" ) );
-	} );
-
-	it( "returns the array of content words for Spanish", function() {
-		const filteredArray = filterFunctionWords( [ "Como", "hacer", "guacamole", "como", "los", "mexicanos" ], "es" );
-		expect( filteredArray ).toEqual( [].concat( "guacamole", "mexicanos" ) );
-	} );
-} );
 
 const movieForms = [ "movie", "movies", "movie's", "movies's", "movies'", "moviing", "movied", "moviely",
 	"movier", "moviest", "movie‘s", "movie’s", "movie‛s", "movie`s", "movies‘s", "movies’s", "movies‛s",
