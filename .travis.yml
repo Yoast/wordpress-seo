@@ -3,9 +3,6 @@ language: node_js
 node_js:
 - "10.16"
 - node
-matrix:
-  allow_failures:
-    - node_js: node
 stages:
   - test
   - name: 🚀 rc-deployment
@@ -13,6 +10,8 @@ stages:
   - name: 🚀 deployment
     if: branch = master
 jobs:
+  allow_failures:
+    - node_js: node
   include:
     - stage: 🚀 rc-deployment
       node_js: "10.16"

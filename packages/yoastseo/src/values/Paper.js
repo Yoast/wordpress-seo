@@ -22,14 +22,14 @@ var defaultAttributes = {
  *
  * @param {string} text                     The text to use in the analysis.
  * @param {object} [attributes]             The object containing all attributes.
- * @param {Object} [attributes.keyword]     The main keyword.
- * @param {Object} [attributes.synonyms]    The main keyword's synonyms.
- * @param {Object} [attributes.title]       The SEO title.
- * @param {Object} [attributes.description] The SEO description.
- * @param {Object} [attributes.titleWidth]  The width of the title in pixels.
- * @param {Object} [attributes.url]         The slug.
- * @param {Object} [attributes.permalink]   The base url + slug.
- * @param {Object} [attributes.locale]      The locale.
+ * @param {string} [attributes.keyword]     The main keyword.
+ * @param {string} [attributes.synonyms]    The main keyword's synonyms.
+ * @param {string} [attributes.title]       The SEO title.
+ * @param {string} [attributes.description] The SEO description.
+ * @param {number} [attributes.titleWidth]  The width of the title in pixels.
+ * @param {string} [attributes.url]         The slug.
+ * @param {string} [attributes.permalink]   The base url + slug.
+ * @param {string} [attributes.locale]      The locale.
  * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
  *
  * @constructor

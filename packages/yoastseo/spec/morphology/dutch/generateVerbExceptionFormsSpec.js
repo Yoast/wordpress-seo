@@ -46,6 +46,18 @@ describe( "Test for generating verb exceptions in Dutch", () => {
 		);
 	} );
 	it( "creates the verb forms of strong verbs which have irregular past form and receive suffix -en in participle form", () => {
+		expect( generateVerbExceptionForms( morphologyDataNL.verbs, morphologyDataNL.addSuffixes, "berg" ) ).toEqual( [
+			"berg",
+			"bergen",
+			"bergend",
+			"bergt",
+			"borg",
+			"borgen",
+			"geborgen",
+		]
+		);
+	} );
+	it( "creates the verb forms of strong verbs which have irregular past form and receive suffix -en in participle form", () => {
 		expect( generateVerbExceptionForms( morphologyDataNL.verbs, morphologyDataNL.addSuffixes, "geholp" ) ).toEqual( [
 			"help",
 			"helpen",
