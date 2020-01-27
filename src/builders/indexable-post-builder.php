@@ -18,6 +18,8 @@ class Indexable_Post_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * Yoast extension of the Model class.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
@@ -83,6 +85,8 @@ class Indexable_Post_Builder {
 
 		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
 		$indexable->is_public       = ( \in_array( $post->post_status, $this->is_public_post_status(), true ) && $post->post_password === '' );
+		$indexable->post_status     = $post->post_status;
+		$indexable->is_protected    = $post->post_password !== '';
 
 		return $indexable;
 	}

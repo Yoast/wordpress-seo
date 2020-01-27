@@ -23,6 +23,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
+	 * Tests the formatting of the indexable data.
+	 *
 	 * @covers ::build
 	 */
 	public function test_build() {
@@ -75,6 +77,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the formatting of the indexable data with undefined author meta data.
+	 *
 	 * @covers ::build
 	 */
 	public function test_build_with_undefined() {

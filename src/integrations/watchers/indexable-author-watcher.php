@@ -18,18 +18,22 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Author_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
 	 */
 	protected $builder;
@@ -46,7 +50,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
