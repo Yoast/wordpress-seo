@@ -25,7 +25,7 @@ describe( "Test for getting the right plural suffixes", () => {
 		] );
 	} );
 	it( "returns the default plural suffix if no suffix could be predicted based on stem ending", () => {
-		expect( getSuffixes( "bal", morphologyDataNL.nouns.suffixes.pluralSuffixes ) ).toEqual( [
+		expect( getSuffixes( "groent", morphologyDataNL.nouns.suffixes.pluralSuffixes ) ).toEqual( [
 			"en",
 		] );
 	} );

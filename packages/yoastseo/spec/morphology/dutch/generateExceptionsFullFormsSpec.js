@@ -6,16 +6,34 @@ const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
 describe( "Test for checking exceptions with full forms in Dutch", () => {
 	it( "creates forms for a singular word with a stem", () => {
-		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.exceptionsAllPartsOfSpeech.exceptionStemsWithFullForms, "stad", morphologyDataNL.exceptionsAllPartsOfSpeech.indeclinable ) ).toEqual( [
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "stad" ) ).toEqual( [
 			"stad",
 			"steden",
 			"stadje",
 			"stadjes",
 		] );
 	} );
-
+	it( "creates forms for a singular word with a stem", () => {
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "blasé" ) ).toEqual( [
+			"blasé",
+			"blasés",
+			"blaséë",
+			"blaséër",
+			"blaséërs",
+			"blaséëre",
+			"blasést",
+			"blaséste",
+		] );
+	} );
+	it( "creates forms for a singular word with a stem", () => {
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "visa" ) ).toEqual( [
+			"visums",
+			"visa",
+			"visum",
+		] );
+	} );
 	it( "creates forms for a compound word a stem", () => {
-		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.exceptionsAllPartsOfSpeech.exceptionStemsWithFullForms, "domstad", morphologyDataNL.exceptionsAllPartsOfSpeech.indeclinable ) ).toEqual( [
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "domstad" ) ).toEqual( [
 			"domstad",
 			"domsteden",
 			"domstadje",
@@ -23,16 +41,17 @@ describe( "Test for checking exceptions with full forms in Dutch", () => {
 		] );
 	} );
 	it( "does not create forms if the stem is a word from the exception list preceded by only one letter.", () => {
-		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.exceptionsAllPartsOfSpeech.exceptionStemsWithFullForms, "blok", morphologyDataNL.exceptionsAllPartsOfSpeech.indeclinable ) ).toEqual( []
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "blok" ) ).toEqual( []
 		 );
 	} );
+	it( "does not create forms if the stem is a word from the exception list preceded by only one letter.", () => {
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "huis" ) ).toEqual( []
+		);
+	} );
+	it( "returns initial stem of indeclinable word", () => {
+		expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.nouns, "acajou" ) ).toEqual(
+			"acajou",
+		);
+	} );
 } );
-it( "does not create forms if the stem is a word from the exception list preceded by only one letter.", () => {
-	expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.exceptionsAllPartsOfSpeech.exceptionStemsWithFullForms, "huis", morphologyDataNL.exceptionsAllPartsOfSpeech.indeclinable ) ).toEqual( []
-	);
-} );
-it( "returns initial stem of indeclinable word", () => {
-	expect( generateExceptionsAllPartsOfSpeech( morphologyDataNL.exceptionsAllPartsOfSpeech.exceptionStemsWithFullForms, "acajou", morphologyDataNL.exceptionsAllPartsOfSpeech.indeclinable ) ).toEqual(
-		"acajou",
-	);
-} );
+
