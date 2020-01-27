@@ -66,7 +66,7 @@ class HowTo extends Abstract_Schema_Piece {
 		foreach ( $context->blocks['yoast/how-to-block'] as $index => $block ) {
 			$data = [
 				'@type'            => 'HowTo',
-				'@id'              => $context->canonical . '#howto-' . $index,
+				'@id'              => $context->canonical . '#howto-' . ( $index + 1 ),
 				'name'             => $this->html_helper->smart_strip_tags( $context->title ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
