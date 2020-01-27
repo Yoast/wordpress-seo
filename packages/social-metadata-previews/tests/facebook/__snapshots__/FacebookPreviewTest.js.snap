@@ -1,22 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c3 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -24,7 +9,7 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c2 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -34,17 +19,13 @@ Array [
   white-space: nowrap;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
+.c1 {
+  width: 500px;
+  height: 261px;
+  background-color: #ddd;
+}
+
+.c4 {
   display: block;
   color: #1d2129;
   font-weight: 600;
@@ -62,12 +43,7 @@ Array [
   cursor: pointer;
 }
 
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
+.c5 {
   color: #606770;
   font-size: 14px;
   line-height: 20px;
@@ -80,31 +56,56 @@ Array [
   width: 100%;
 }
 
-<p
-    className="c0"
+.c0 {
+  background-color: #f2f3f5;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  border: 1px solid #dddfe2;
+  border-radius: 0;
+  zoom: 1;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  />
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>
+  <p
+    aria-hidden="true"
+    className="c2"
+  >
+    <span
+      className="c3"
+    >
+      yoast.com
+    </span>
+  </p>
+  <span
+    className="c4"
+  >
+    YoastCon Workshops
+  </span>
+  <p
+    className="c5"
   >
     Description to go along with a faulty image.
-  </p>,
-]
+  </p>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c3 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -112,7 +113,7 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c2 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -122,17 +123,13 @@ Array [
   white-space: nowrap;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
+.c1 {
+  width: 500px;
+  height: 261px;
+  background-color: #ddd;
+}
+
+.c4 {
   display: block;
   color: #1d2129;
   font-weight: 600;
@@ -150,12 +147,7 @@ Array [
   cursor: pointer;
 }
 
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
+.c5 {
   color: #606770;
   font-size: 14px;
   line-height: 20px;
@@ -168,31 +160,56 @@ Array [
   width: 100%;
 }
 
-<p
-    className="c0"
+.c0 {
+  background-color: #f2f3f5;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  border: 1px solid #dddfe2;
+  border-radius: 0;
+  zoom: 1;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  />
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>
+  <p
+    aria-hidden="true"
+    className="c2"
+  >
+    <span
+      className="c3"
+    >
+      yoast.com
+    </span>
+  </p>
+  <span
+    className="c4"
+  >
+    YoastCon Workshops
+  </span>
+  <p
+    className="c5"
   >
     Description to go along with a landscape image.
-  </p>,
-]
+  </p>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c3 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -200,7 +217,7 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c2 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -210,17 +227,13 @@ Array [
   white-space: nowrap;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
+.c1 {
+  width: 500px;
+  height: 261px;
+  background-color: #ddd;
+}
+
+.c4 {
   display: block;
   color: #1d2129;
   font-weight: 600;
@@ -238,12 +251,7 @@ Array [
   cursor: pointer;
 }
 
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
+.c5 {
   color: #606770;
   font-size: 14px;
   line-height: 20px;
@@ -256,31 +264,56 @@ Array [
   width: 100%;
 }
 
-<p
-    className="c0"
+.c0 {
+  background-color: #f2f3f5;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  border: 1px solid #dddfe2;
+  border-radius: 0;
+  zoom: 1;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  />
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>
+  <p
+    aria-hidden="true"
+    className="c2"
+  >
+    <span
+      className="c3"
+    >
+      yoast.com
+    </span>
+  </p>
+  <span
+    className="c4"
+  >
+    YoastCon Workshops
+  </span>
+  <p
+    className="c5"
   >
     Description to go along with a portrait image.
-  </p>,
-]
+  </p>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c3 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -288,7 +321,7 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c2 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -298,17 +331,13 @@ Array [
   white-space: nowrap;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
+.c1 {
+  width: 500px;
+  height: 261px;
+  background-color: #ddd;
+}
+
+.c4 {
   display: block;
   color: #1d2129;
   font-weight: 600;
@@ -326,12 +355,7 @@ Array [
   cursor: pointer;
 }
 
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
+.c5 {
   color: #606770;
   font-size: 14px;
   line-height: 20px;
@@ -344,31 +368,56 @@ Array [
   width: 100%;
 }
 
-<p
-    className="c0"
+.c0 {
+  background-color: #f2f3f5;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  border: 1px solid #dddfe2;
+  border-radius: 0;
+  zoom: 1;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  />
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>
+  <p
+    aria-hidden="true"
+    className="c2"
+  >
+    <span
+      className="c3"
+    >
+      yoast.com
+    </span>
+  </p>
+  <span
+    className="c4"
+  >
+    YoastCon Workshops
+  </span>
+  <p
+    className="c5"
   >
     Description to go along with a square image.
-  </p>,
-]
+  </p>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c3 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -376,7 +425,7 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c2 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -386,17 +435,13 @@ Array [
   white-space: nowrap;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
+.c1 {
+  width: 500px;
+  height: 261px;
+  background-color: #ddd;
+}
+
+.c4 {
   display: block;
   color: #1d2129;
   font-weight: 600;
@@ -414,12 +459,7 @@ Array [
   cursor: pointer;
 }
 
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
+.c5 {
   color: #606770;
   font-size: 14px;
   line-height: 20px;
@@ -432,10 +472,50 @@ Array [
   width: 100%;
 }
 
-<p
-    className="c0"
+.c0 {
+  background-color: #f2f3f5;
+  max-width: none;
+  border: none;
+  box-shadow: none;
+  border: 1px solid #dddfe2;
+  border-radius: 0;
+  zoom: 1;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+  />
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>
+  <p
+    aria-hidden="true"
+    className="c2"
+  >
+    <span
+      className="c3"
+    >
+      yoast.com
+    </span>
+  </p>
+  <span
+    className="c4"
+  >
+    YoastCon Workshops
+  </span>
+  <p
+    className="c5"
   >
     Description to go along with too small an image.
-  </p>,
-]
+  </p>
+</div>
 `;
