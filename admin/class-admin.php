@@ -76,6 +76,7 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			add_filter( 'admin_body_class', [ $this, 'set_yoast_body_class' ] );
 		}
 
 		if ( WPSEO_Utils::is_api_available() ) {
@@ -124,6 +125,17 @@ class WPSEO_Admin {
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
+	}
+
+	/**
+	 * Adds `yoast` to the admin page body class.
+	 *
+	 * @param string $body_class Space-separated list of CSS classes.
+	 *
+	 * @return string Space-separated list of CSS classes with `yoast` added.
+	 */
+	public function set_yoast_body_class( $body_class ) {
+		return $body_class . ' yoast';
 	}
 
 	/**
