@@ -1,12 +1,27 @@
 /* External dependencies */
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
 import FacebookImage from "./FacebookImage";
 import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
+
+const FacebookPreviewWrapper = styled.div`
+background-color: #f2f3f5;
+max-width: none;
+border: none;
+box-shadow: none;
+border: 1px solid #dddfe2;
+border-radius: 0;
+zoom: 1;
+float: left;
+overflow: hidden;
+position: relative;
+z-index: 0;
+`;
 
 /**
  * Renders a FacebookPreview component.
@@ -17,14 +32,14 @@ import FacebookDescription from "./FacebookDescription";
  */
 const FacebookPreview = ( props ) => {
 	return (
-		<Fragment>
-			<FacebookImage src={ props.src } alt={ props.alt } />
+		<FacebookPreviewWrapper>
+			<FacebookImage src={ props.image } alt={ props.alt } />
 			<FacebookSiteAndAuthorNames siteName={ props.siteName } authorName={ props.authorName } />
 			<FacebookTitle title={ props.title } />
 			<FacebookDescription>
 				{ props.description }
 			</FacebookDescription>
-		</Fragment>
+		</FacebookPreviewWrapper>
 	);
 };
 
@@ -33,7 +48,7 @@ FacebookPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	authorName: PropTypes.string,
 	description: PropTypes.string,
-	src: PropTypes.string.isRequired,
+	image: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 
