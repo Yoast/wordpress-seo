@@ -9,14 +9,19 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
  * Handles updates to the permalink_structure for the Indexables table.
  */
 class Indexable_Permalink_Watcher implements Integration_Interface {
-
+	/**
+	 * @var Post_Type_Helper
+	 */
+	private $post_type;
 
 	/**
 	 * @inheritdoc
@@ -25,46 +30,90 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		return [ Migrations_Conditional::class ];
 	}
 
+	/**
+	 * Indexable_Permalink_Watcher constructor.
+	 *
+	 * @param Post_Type_Helper $post_type The post type helper.
+	 */
+	public function __construct( Post_Type_Helper $post_type ) {
+		$this->post_type = $post_type;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function register_hooks() {
-		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ], 10, 3 );
+		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
 		\add_action( 'update_option_category_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
 		\add_action( 'update_option_tag_base', [ $this, 'reset_permalinks_term' ], 10, 3 );
-
-		//todo I have yet to find which actions are done for custom categories
-//		\add_action( 'update_option_woocommerce_product_category_slug', [ $this, 'reset_permalinks_term' ], 10, 3 );
 	}
 
-	public function reset_permalinks( $old, $new, $type ) {
-		echo $type;
-		exit;
-		$this->reset_permalink_indexables( 'post', 'post' );
-		$this->reset_permalink_indexables( 'post', 'page' );
-	}
+	/**
+	 * Resets the permalinks for everything that is related to the permalink structure.
+	 */
+	public function reset_permalinks() {
+		/**
+		 * Filters the post types.
+		 *
+		 * @param array  $post_types The post type names.
+		 * @param string $context    The context where it happens.
+		 *
+		 * @return array The post types.
+		 */
+		$post_types = \apply_filters( 'wpseo_post_types', $this->post_type->get_public_post_types(), 'update_permalink' );
 
-	public function reset_permalinks_term( $old, $new, $type ) {
-		echo $type;
-		exit;
-		$subtype = $type;
-		if ( strstr( $subtype, '_base') ) {
-			$subtype = substr( $type, 0, -5 ); // 'strips _base' from the field.
+		foreach ( $post_types as $post_type ) {
+			$this->reset_permalink_indexables( 'post', $post_type );
+			$this->reset_permalink_indexables( 'post-type-archive', $post_type );
 		}
 
-		//todo actually do the request
-//		$this->reset_permalink_indexables( 'term', $subtype );
+		$taxonomies = get_taxonomies();
+		foreach ( $taxonomies as $taxonomy ) {
+			$this->reset_permalink_indexables( 'term', $taxonomy->name );
+		}
 
+		$this->reset_permalink_indexables( 'author' );
+		$this->reset_permalink_indexables( 'date-archive' );
+		$this->reset_permalink_indexables( 'system-page' );
 	}
 
-	private function reset_permalink_indexables( $type, $subtype ) {
+	/**
+	 * Resets the term indexables when the base has been changed.
+	 *
+	 * @param string $old  Unused. The old option value.
+	 * @param string $new  Unused. The new option value.
+	 * @param string $type The option name.
+	 */
+	public function reset_permalinks_term( $old, $new, $type ) {
+		$subtype = $type;
+
+		// When the subtype contains _base, just strip it.
+		if ( strstr( $subtype, '_base') ) {
+			$subtype = substr( $type, 0, -5 );
+		}
+
+		$this->reset_permalink_indexables( 'term', $subtype );
+	}
+
+	/**
+	 * Resets the permalinks of the indexables.
+	 *
+	 * @param string      $type    The type of the indexable.
+	 * @param null|string $subtype The subtype. Can be null.
+	 */
+	private function reset_permalink_indexables( $type, $subtype = null ) {
+		$where = [ 'object_type' => $type ];
+
+		if ( $subtype ) {
+			$where['object_subtype'] = $subtype;
+		}
+
 		Wrapper::get_wpdb()->update(
 			Yoast_Model::get_table_name( 'Indexable' ),
 			[
 				'permalink' => null,
 			],
-			[
-				'object_type'    => $type,
-				'object_subtype' => $subtype,
-			]
-
+			$where
 		);
 	}
 }
