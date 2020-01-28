@@ -23,8 +23,8 @@ $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb'
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] );
 
 // Backwards-compatibility classes in the global namespace.
-$container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true );
-$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true );
+$container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
+$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
