@@ -19,6 +19,15 @@ const TwitterPreviewExample = () => {
 				siteName="yoast.com"
 				isLarge={ true }
 			/>
+			<h2>Large landscape with a long title and text</h2>
+			<TwitterPreview
+				// Dimensions: 1200x628 (width x height)
+				image="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
+				title="Wow this title is so long that it must be truncated! Jokey that is not even close to the required length for truncation."
+				description={"We are also providing a long description. This ensures that the text will also be truncated. For a large summary like this, that only happens after 234 characters. Are we there yet? No, apparently that are a lot of characters. Who is reading such a long description anyway?"}
+				siteName="yoast.com"
+				isLarge={ true }
+			/>
 			<h2>Upload a small landscape image</h2>
 			<TwitterPreview
 				// Dimensions: 250x131 (width x height)

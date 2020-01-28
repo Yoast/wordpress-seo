@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { truncateText } from "../helpers/truncation";
 
 const TwitterTitleWrapper = styled.p`
 	font-weight: 400;
@@ -23,20 +24,11 @@ const TwitterTitleWrapper = styled.p`
  *
  * @returns {React.Element} The rendered element.
  */
-const TwitterTitle = ( props ) => {
-	let title = props.title;
-
-	// Only allow a certain amount of characters.
-	if ( props.maximumTitleLength && title.length > props.maximumTitleLength ) {
-		title = title.substr( 0, props.maximumTitleLength );
-	}
-
-	return (
-		<TwitterTitleWrapper>
-			{ title }
-		</TwitterTitleWrapper>
-	);
-};
+const TwitterTitle = ( props ) =>
+	<TwitterTitleWrapper>
+		{ truncateText( props.title, props.maximumTitleLength ) }
+	</TwitterTitleWrapper>
+;
 
 TwitterTitle.propTypes = {
 	title: PropTypes.string.isRequired,

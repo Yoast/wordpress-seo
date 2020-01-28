@@ -40,9 +40,7 @@ const TwitterPreview = ( props ) => {
 			<TwitterImage src={ props.image } alt={ props.alt } />
 			<TwitterTextWrapper>
 				<TwitterTitle title={ props.title } />
-				<TwitterDescription isLarge={ props.isLarge }>
-					{ props.description }
-				</TwitterDescription>
+				<TwitterDescription isLarge={ props.isLarge } description={ props.description } />
 				<TwitterSiteName siteName={ props.siteName } />
 			</TwitterTextWrapper>
 		</TwitterPreviewWrapper>

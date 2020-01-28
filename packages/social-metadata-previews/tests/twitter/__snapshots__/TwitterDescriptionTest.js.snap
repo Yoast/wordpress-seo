@@ -3,7 +3,7 @@
 exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 .c0 {
   font-size: 14px;
-  max-height: 55px;
+  max-height: 36px;
   line-height: 18px;
   overflow: hidden;
   margin: 0;
@@ -14,13 +14,15 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 
 <p
   className="c0"
-/>
+>
+  A very long description. A very long description. A very long description. A very long description. A very long description. A very long descript...
+</p>
 `;
 
 exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
 .c0 {
   font-size: 14px;
-  max-height: 36px;
+  max-height: 55px;
   line-height: 18px;
   overflow: hidden;
   margin: 0;
@@ -31,5 +33,7 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
 
 <p
   className="c0"
-/>
+>
+  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long descrip...
+</p>
 `;

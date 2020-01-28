@@ -24,7 +24,7 @@ describe( "TwitterTitle", () => {
 
 		const tree = component.toJSON();
 		expect( tree.children.length ).toEqual( 1 );
-		expect( tree.children[ 0 ] ).toEqual( "0123456789".repeat( 7 ) );
+		expect( tree.children[ 0 ] ).toEqual( "0123456789".repeat( 7 ).slice( 0, -3 ) + "..." );
 	} );
 
 	it( "truncates the title to a given maximum length", () => {
