@@ -83,10 +83,15 @@ export default class FacebookImage extends React.Component {
 	 */
 	componentDidMount() {
 		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
+			console.log('imageprops', imageProperties)
+			this.props.getImageMode(imageProperties.mode)
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
 			} );
+
+		
+
 		} ).catch( () => {
 			this.setState( {
 				imageProperties: null,
