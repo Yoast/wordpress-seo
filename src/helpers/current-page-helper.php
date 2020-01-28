@@ -157,6 +157,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Returns the permalink of the currently opened date archive.
+	 * If the permalink was cached, it returns this permalink.
+	 * If not, we call another function to get the permalink through wp_query.
 	 *
 	 * @return string The permalink of the currently opened date archive.
 	 */
@@ -167,18 +169,7 @@ class Current_Page_Helper {
 			return $date_archive_permalink;
 		}
 
-		$date_archive_permalink   = '';
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
-		if ( $wp_query->is_day() ) {
-			$date_archive_permalink = \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
-		}
-		if ( $wp_query->is_month() ) {
-			$date_archive_permalink = \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
-		}
-		if ( $wp_query->is_year() ) {
-			$date_archive_permalink = \get_year_link( $wp_query->get( 'year' ) );
-		}
+		$date_archive_permalink = $this->get_non_cached_date_archive_permalink();
 
 		return $date_archive_permalink;
 	}
@@ -371,5 +362,27 @@ class Current_Page_Helper {
 		global $pagenow;
 
 		return $pagenow;
+	}
+
+	/**
+	 * Returns the permalink of the currently opened date archive.
+	 *
+	 * @return string The permalink of the currently opened date archive.
+	 */
+	protected function get_non_cached_date_archive_permalink() {
+		$date_archive_permalink = '';
+		$wp_query               = $this->wp_query_wrapper->get_main_query();
+
+		if ( $wp_query->is_day() ) {
+			$date_archive_permalink = \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
+		}
+		if ( $wp_query->is_month() ) {
+			$date_archive_permalink = \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
+		}
+		if ( $wp_query->is_year() ) {
+			$date_archive_permalink = \get_year_link( $wp_query->get( 'year' ) );
+		}
+
+		return $date_archive_permalink;
 	}
 }
