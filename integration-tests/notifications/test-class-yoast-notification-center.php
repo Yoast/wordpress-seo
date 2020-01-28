@@ -470,6 +470,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if the persistent notification is seen as new.
+	 *
+	 * @covers Yoast_Notification_Center::get_new_notifications
 	 */
 	public function test_notification_is_new() {
 		$id = 'my_id';
@@ -797,6 +799,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * A notification can be added twice, if it is added for different users.
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
 	 */
 	public function test_add_notifications_for_multiple_users() {
 
@@ -836,6 +840,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * A notification with the same ID should only be added once for a single user.
+	 *
+	 * @covers Yoast_Notification_Center::add_notification
 	 */
 	public function test_add_notifications_only_once_for_user() {
 
