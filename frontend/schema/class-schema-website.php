@@ -48,12 +48,13 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		$data = [
-			'@type'      => 'WebSite',
-			'@id'        => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
-			'url'        => $this->context->site_url,
-			'inLanguage' => WPSEO_Schema_Utils::get_schema_piece_language(),
-			'name'       => $this->context->site_name,
+			'@type' => 'WebSite',
+			'@id'   => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
+			'url'   => $this->context->site_url,
+			'name'  => $this->context->site_name,
 		];
+
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		if ( $this->context->site_description ) {
 			$data['description'] = $this->context->site_description;

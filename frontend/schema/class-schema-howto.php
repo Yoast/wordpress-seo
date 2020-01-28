@@ -79,7 +79,6 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 			'@type'            => 'HowTo',
 			'@id'              => $this->context->canonical . '#howto-' . $this->counter,
 			'name'             => $this->context->title,
-			'inLanguage'       => WPSEO_Schema_Utils::get_schema_piece_language(),
 			'mainEntityOfPage' => [ '@id' => $this->get_main_schema_id() ],
 			'description'      => '',
 		];
@@ -92,6 +91,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 
 		$this->add_duration( $data, $block['attrs'] );
 		$this->add_steps( $data, $block['attrs']['steps'] );
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		$graph[] = $data;
 
