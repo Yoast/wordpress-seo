@@ -59,7 +59,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			'@type'      => $this->determine_page_type(),
 			'@id'        => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 			'url'        => $this->context->canonical,
-			'inLanguage' => get_bloginfo( 'language' ),
+			'inLanguage' => WPSEO_Schema_Utils::get_schema_piece_language(),
 			'name'       => $this->context->title,
 			'isPartOf'   => [
 				'@id' => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,

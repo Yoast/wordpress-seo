@@ -64,6 +64,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data          = [
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
+			'inLanguage'       => WPSEO_Schema_Utils::get_schema_piece_language(),
 			'isPartOf'         => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
 			'author'           => [ '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ],
 			'headline'         => get_the_title(),

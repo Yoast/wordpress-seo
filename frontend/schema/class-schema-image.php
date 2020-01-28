@@ -133,8 +133,9 @@ class WPSEO_Schema_Image {
 	 */
 	private function generate_object() {
 		$this->data = [
-			'@type' => 'ImageObject',
-			'@id'   => $this->schema_id,
+			'@type'      => 'ImageObject',
+			'@id'        => $this->schema_id,
+			'inLanguage' => WPSEO_Schema_Utils::get_schema_piece_language(),
 		];
 	}
 
