@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Hierarchy_Builder;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Primary_Term;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Author_Test.
@@ -19,7 +19,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Hierarchy_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
  * @covers ::<!public>
  * @covers ::__construct
  * @covers ::set_indexable_repository

@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Initializers\Initializer_Interface;
-use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\Free\Presenters\Breadcrumbs_Presenter;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 
 /**
  * Class WPSEO_Breadcrumbs

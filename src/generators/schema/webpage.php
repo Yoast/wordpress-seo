@@ -2,16 +2,16 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
 use WP_Post;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Date_Helper;
-use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema WebPage data.
@@ -48,8 +48,8 @@ class WebPage extends Abstract_Schema_Piece {
 		Date_Helper $date_helper
 	) {
 		$this->current_page = $current_page_helper;
-		$this->html_helper  = $html_helper;
 		$this->date_helper  = $date_helper;
+		$this->html_helper  = $html_helper;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
 			'url'        => $context->canonical,
 			'inLanguage' => \get_bloginfo( 'language' ),
-			'name'       => $context->title,
+			'name'       => $this->html_helper->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id_helper->website_hash,
 			],
@@ -100,7 +100,7 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		if ( ! empty( $context->description ) ) {
-			$data['description'] = $this->html_helper->sanitize( $context->description );
+			$data['description'] = $this->html_helper->smart_strip_tags( $context->description );
 		}
 
 		if ( $this->add_breadcrumbs( $context ) ) {

@@ -2,13 +2,13 @@
 /**
  * Yoast SEO Plugin File.
  *
- * @package Yoast\WP\Free
+ * @package Yoast\WP\SEO
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
-use Yoast\WP\Free\Commands\Command_Interface;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -147,7 +147,7 @@ class Loader {
 	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param Integration_Interface $class The class name of the integration.
+	 * @param Loadable_Interface $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */

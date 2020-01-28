@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Admin;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use WPSEO_Paper_Presenter;
 use Brain\Monkey;
 
 /**
  * Class WPSEO_Paper_Presenter_Test
  *
- * @package Yoast\WP\Free\Tests\Admin
+ * @package Yoast\WP\SEO\Tests\Admin
  */
 class WPSEO_Paper_Presenter_Test extends TestCase {
 

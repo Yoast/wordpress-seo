@@ -3,18 +3,18 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Integrations\Front_End\Indexing_Controls;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Indexing_Controls
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls
  * @covers ::<!public>
  *
  * @group integrations

@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Test.

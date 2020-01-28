@@ -2,14 +2,15 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema Organization data.
@@ -22,23 +23,32 @@ class Organization extends Abstract_Schema_Piece {
 	 * @var Image_Helper
 	 */
 	private $image_helper;
+
 	/**
 	 * @var Options_Helper
 	 */
 	private $options_helper;
 
 	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
 	 * Organization constructor.
 	 *
 	 * @param Image_Helper   $image_helper   The image helper.
 	 * @param Options_Helper $options_helper The options helper.
+	 * @param HTML_Helper    $html_helper    The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		HTML_Helper $html_helper
 	) {
 		$this->image_helper   = $image_helper;
 		$this->options_helper = $options_helper;
+		$this->html_helper    = $html_helper;
 	}
 
 	/**
@@ -64,7 +74,7 @@ class Organization extends Abstract_Schema_Piece {
 		$data      = [
 			'@type'  => 'Organization',
 			'@id'    => $context->site_url . $this->id_helper->organization_hash,
-			'name'   => $context->company_name,
+			'name'   => $this->html_helper->smart_strip_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
 			'logo'   => $this->image_helper->generate_from_attachment_id( $schema_id, $context->company_logo_id, $context->company_name ),
@@ -77,9 +87,9 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve the social profiles to display in the organization schema.
 	 *
-	 * @since 1.8
-	 *
 	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 *
+	 * @since 1.8
 	 *
 	 * @return array $profiles An array of social profiles.
 	 */

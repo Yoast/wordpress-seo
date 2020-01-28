@@ -5,7 +5,7 @@
  * @package WPSEO\Frontend
  */
 
-use Yoast\WP\Free\Values\Open_Graph\Images;
+use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 _deprecated_file( basename( __FILE__ ), 'WPSEO xx.x' );
 

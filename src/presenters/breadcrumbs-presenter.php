@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Breadcrumbs_Presenter

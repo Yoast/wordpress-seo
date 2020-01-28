@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Generators\OG_Image_Generator;
-use Yoast\WP\Free\Generators\Twitter_Image_Generator;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
+use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
  * Trait Presentation_Instance_Builder

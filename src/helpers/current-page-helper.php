@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Current_Post_Helper

@@ -7,13 +7,15 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Suggested_Plugins
  */
 class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Plugin_Availability
+	 * @var WPSEO_Suggested_Plugins_Double
 	 */
 	protected $class_instance;
 
@@ -46,7 +48,9 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the adding of a notification when a viable plugin is availble to suggest.
+	 * Tests the adding of a notification when a viable plugin is available to suggest.
+	 *
+	 * @covers ::add_notifications
 	 */
 	public function test_add_notification_for_suggested_plugin() {
 		$this->notification_center->expects( $this->once() )->method( 'add_notification' );
@@ -55,7 +59,9 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the removal of a notification when no viable plugin is availble to suggest.
+	 * Tests the removal of a notification when no viable plugin is available to suggest.
+	 *
+	 * @covers ::add_notifications
 	 */
 	public function test_remove_notification_for_suggested_plugin() {
 		$this->notification_center->expects( $this->once() )->method( 'remove_notification' );

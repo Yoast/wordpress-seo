@@ -54,7 +54,7 @@ final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_L
 		$flat_version        = $asset_manager->flatten_version( WPSEO_VERSION );
 		$version_less_source = str_replace( '-' . $flat_version, '', $asset->get_src() );
 
-		if ( false !== strpos( $version_less_source, 'select2' ) ) {
+		if ( strpos( $version_less_source, 'select2' ) !== false ) {
 			return $this->get_default_url( $asset, $type );
 		}
 

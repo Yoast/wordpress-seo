@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
-use Yoast\WP\Free\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -66,8 +66,8 @@ class HowTo extends Abstract_Schema_Piece {
 		foreach ( $context->blocks['yoast/how-to-block'] as $index => $block ) {
 			$data = [
 				'@type'            => 'HowTo',
-				'@id'              => $context->canonical . '#howto-' . $index,
-				'name'             => $context->title,
+				'@id'              => $context->canonical . '#howto-' . ( $index + 1 ),
+				'name'             => $this->html_helper->smart_strip_tags( $context->title ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
@@ -125,7 +125,7 @@ class HowTo extends Abstract_Schema_Piece {
 			}
 
 			if ( isset( $step['jsonName'] ) ) {
-				$json_name = \strip_tags( $step['jsonName'] );
+				$json_name = $this->html_helper->smart_strip_tags( $step['jsonName'] );
 			}
 
 			if ( empty( $json_name ) ) {

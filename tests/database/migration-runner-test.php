@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Database;
+namespace Yoast\WP\SEO\Tests\Database;
 
 use Mockery;
-use Yoast\WP\Free\Config\Migration_Status;
-use Yoast\WP\Free\Config\Ruckusing_Framework;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Initializers\Migration_Runner;
-use Yoast\WP\Free\ORM\Yoast_Model;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Config\Ruckusing_Framework;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\Initializers\Migration_Runner;
+use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\SEO\Tests\TestCase;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
@@ -19,7 +19,7 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @group db-migrations
  *
- * @coversDefaultClass \Yoast\WP\Free\Initializers\Migration_Runner
+ * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
  * @covers ::<!public>
  *
  * @package Yoast\Tests

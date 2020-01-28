@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\Free\Initializers\Initializer_Interface;
-use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\Free\Presenters\Canonical_Presenter;
-use Yoast\WP\Free\Presenters\Meta_Description_Presenter;
-use Yoast\WP\Free\Presenters\Rel_Next_Presenter;
-use Yoast\WP\Free\Presenters\Rel_Prev_Presenter;
-use Yoast\WP\Free\Presenters\Robots_Presenter;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Presenters\Canonical_Presenter;
+use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
+use Yoast\WP\SEO\Presenters\Robots_Presenter;
 
 /**
  * Class WPSEO_Frontend

@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Models
  */
 
-namespace Yoast\WP\Free\Models;
+namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Indexable table definition.
@@ -63,6 +63,8 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property int     $prominent_words_version
  *
  * @property boolean $is_public
+ * @property boolean $is_protected
+ * @property string  $post_status
  */
 class Indexable extends Yoast_Model {
 
@@ -83,7 +85,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var \Yoast\WP\Free\Models\Indexable_Extension[]
+	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -92,7 +94,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable_Extension|bool The extension.
+	 * @return \Yoast\WP\SEO\Models\Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $class_name ) {
 		if ( ! $this->loaded_extensions[ $class_name ] ) {

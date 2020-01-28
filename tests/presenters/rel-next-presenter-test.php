@@ -3,18 +3,18 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Rel_Next_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Rel_Next_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Rel_Next_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Rel_Next_Presenter
  *
  * @group presentations
  * @group rel-next

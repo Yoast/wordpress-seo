@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Integrations\Watchers;
+namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\Free\Conditionals\Migrations_Conditional;
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Fills the Indexable according to Post data.
@@ -19,23 +19,29 @@ use Yoast\WP\Free\Repositories\Indexable_Repository;
 class Indexable_Post_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
+	 * The indexable hierarchy repository.
+	 *
 	 * @var Indexable_Hierarchy_Repository
 	 */
 	private $hierarchy_repository;

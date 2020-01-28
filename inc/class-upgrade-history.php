@@ -53,7 +53,7 @@ class WPSEO_Upgrade_History {
 	 */
 	public function add( $old_version, $new_version, array $option_names ) {
 		$option_data = [];
-		if ( [] !== $option_names ) {
+		if ( $option_names !== [] ) {
 			$option_data = $this->get_options_data( $option_names );
 		}
 

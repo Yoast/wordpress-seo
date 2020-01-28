@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Author_Archive_Presentation
@@ -146,5 +146,12 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		return $robots;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_type() {
+		return 'profile';
 	}
 }

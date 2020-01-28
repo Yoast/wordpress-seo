@@ -5,8 +5,8 @@
  * @package Yoast\YoastSEO\Loaders
  */
 
-use Yoast\WP\Free\Config\Dependency_Management;
-use Yoast\WP\Free\Oauth\Client;
+use Yoast\WP\SEO\Config\Dependency_Management;
+use Yoast\WP\SEO\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {

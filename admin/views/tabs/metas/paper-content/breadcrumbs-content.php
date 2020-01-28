@@ -105,7 +105,7 @@ unset( $taxonomies, $post_types );
 	printf(
 		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
 		esc_html__( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ),
-		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/breadcrumbs' ) ) . '" target="_blank">',
 		'</a>'
 	);
 	?>

@@ -5,20 +5,20 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Generators\Breadcrumbs_Generator;
-use Yoast\WP\Free\Generators\OG_Image_Generator;
-use Yoast\WP\Free\Generators\Twitter_Image_Generator;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
-use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
+use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Generators\OG_Locale_Generator;
+use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
 
 /**
  * Class Indexable_Presentation
@@ -389,8 +389,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_title;
+		if ( $this->og_title && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->title ) {
@@ -410,8 +410,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_description;
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->meta_description ) {
@@ -428,15 +428,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_image() {
 		$images = $this->twitter_image_generator->generate( $this->context );
-		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
-			$images = $this->og_images;
+		$image  = \reset( $images );
+
+		// When there is an image set by the user.
+		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $image['url'];
 		}
 
-		if ( empty( $images ) ) {
+		// When there isn't a set image or there is a OpenGraph image set.
+		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->og_images ) ) {
 			return '';
 		}
-
-		$image = \reset( $images );
 
 		return $image['url'];
 	}

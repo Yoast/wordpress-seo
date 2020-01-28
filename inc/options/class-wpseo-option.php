@@ -162,7 +162,7 @@ abstract class WPSEO_Option {
 			add_action( 'update_option', [ $this, 'add_default_filters' ] );
 
 			// Refills the cache when the option has been updated.
-			add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Options', 'fill_cache' ], 10 );
+			add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Options', 'clear_cache' ], 10 );
 		}
 		elseif ( is_multisite() ) {
 			/*
@@ -177,7 +177,7 @@ abstract class WPSEO_Option {
 			add_action( 'update_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
 
 			// Refills the cache when the option has been updated.
-			add_action( 'update_site_option_' . $this->option_name, [ 'WPSEO_Options', 'fill_cache' ], 1, 0 );
+			add_action( 'update_site_option_' . $this->option_name, [ 'WPSEO_Options', 'clear_cache' ], 1, 0 );
 		}
 
 

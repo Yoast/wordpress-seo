@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Article_Helper;
-use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Article_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -116,7 +116,7 @@ class FAQ extends Abstract_Schema_Piece {
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
-			'name'           => \strip_tags( $question['jsonQuestion'] ),
+			'name'           => $this->html_helper->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [
 				'@type' => 'Answer',

@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Memoizers
  */
 
-namespace Yoast\WP\Free\Memoizer;
+namespace Yoast\WP\SEO\Memoizer;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Blocks_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Blocks_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Meta_Tags_Context_Memoizer

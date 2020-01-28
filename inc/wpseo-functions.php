@@ -186,13 +186,16 @@ add_filter( 'icl_wpml_config_array', 'wpseo_wpml_config' );
  * Yoast SEO breadcrumb shortcode.
  * [wpseo_breadcrumb]
  *
+ * @deprecated xx.x
+ * @codeCoverageIgnore
+ *
  * @return string
  */
 function wpseo_shortcode_yoast_breadcrumb() {
-	return yoast_breadcrumb( '', '', false );
-}
+	_deprecated_function( __FUNCTION__, 'WPSEO xx.x' );
 
-add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
+	return '';
+}
 
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 	/**

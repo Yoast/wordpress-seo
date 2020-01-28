@@ -2,17 +2,30 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 
-namespace Yoast\WP\Free\Helpers\Schema;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 /**
  * Class Image_Helper
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 class Image_Helper {
+	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
+	 * Image_Helper constructor.
+	 *
+	 * @param HTML_Helper $html_helper The HTML helper.
+	 */
+	public function __construct( HTML_Helper $html_helper ) {
+		$this->html_helper = $html_helper;
+	}
 
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
@@ -46,7 +59,7 @@ class Image_Helper {
 
 		$data['url'] = \wp_get_attachment_image_url( $attachment_id, 'full' );
 		$data        = $this->add_image_size( $data, $attachment_id );
-		$data        = $this->add_caption( $data, $caption );
+		$data        = $this->add_caption( $data, $attachment_id, $caption );
 
 		return $data;
 	}
@@ -66,7 +79,7 @@ class Image_Helper {
 		$data['url'] = $url;
 
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 		}
 
 		return $data;
@@ -82,7 +95,7 @@ class Image_Helper {
 	 * @return array An imageObject with width and height set if available.
 	 */
 	private function add_caption( $data, $attachment_id, $caption = '' ) {
-		if ( ! empty( $caption ) ) {
+		if ( $caption !== '' ) {
 			$data['caption'] = $caption;
 
 			return $data;
@@ -90,14 +103,14 @@ class Image_Helper {
 
 		$caption = \wp_get_attachment_caption( $attachment_id );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 
 			return $data;
 		}
 
 		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 		}
 
 		return $data;

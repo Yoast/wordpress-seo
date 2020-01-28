@@ -2,13 +2,13 @@
 /**
  * A helper object for OpenGraph images.
  *
- * @package \Yoast\WP\Free\Helpers\Open_Graph
+ * @package \Yoast\WP\SEO\Helpers\Open_Graph
  */
 
-namespace Yoast\WP\Free\Helpers\Open_Graph;
+namespace Yoast\WP\SEO\Helpers\Open_Graph;
 
-use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 
 /**
  * Class Image_Helper
