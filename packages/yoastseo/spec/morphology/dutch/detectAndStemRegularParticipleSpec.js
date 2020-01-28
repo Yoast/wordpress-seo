@@ -11,6 +11,9 @@ describe( "Detects and stems participles", () => {
 	it( "does not stem a word if it ends with one of the non-participle endings", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "geaardheid" ) ).toEqual( "" );
 	} );
+	it( "does not stem a word that does not match any of the participle stemming regexes", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "afgeladen" ) ).toEqual( null );
+	} );
 	it( "correctly stems a regular participle without prefixes", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "geaaid" ) ).toEqual( "aai" );
 	} );
@@ -25,5 +28,15 @@ describe( "Detects and stems participles", () => {
 	} );
 	it( "returns the participle if it is the same as the stem", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "misleid" ) ).toEqual( "misleid" );
+	} );
+	it( "if the stem of the participle begins in ge-, the ge- does not get stemmed", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "gebruikt" ) ).toEqual( "gebruik" );
+	} );
+	it( "if the ge- following a separable prefix is part of the stem, it should not be stemmed", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "opgebruikt" ) ).toEqual( "opgebruik" );
+	} );
+	it( "correctly stems a participle with a separable prefix beginning in her- (herop- in this case), even though the her- " +
+		"prefix on its own is inseparable", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "heropgebouwd" ) ).toEqual( "heropbouw" );
 	} );
 } );
