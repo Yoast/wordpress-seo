@@ -14,8 +14,10 @@ const TwitterDescription = styled.p`
 	max-height: ${ props => props.isLarge ? "36px" : "55px" };
 	line-height: 18px;
 	overflow: hidden;
-	margin-bottom: 5px;
+	margin: 0;
+	margin-bottom: 2px;
 	width: ${ props => props.isLarge ? "476px" : "357px" };
+	color: rgb(101, 119, 134);
 `;
 
 TwitterDescription.propTypes = {

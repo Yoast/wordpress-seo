@@ -1,15 +1,34 @@
 /* External dependencies */
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-
+import styled from "styled-components";
 /* Internal dependencies */
 import TwitterTitle from "./TwitterTitle";
 import TwitterDescription from "./TwitterDescription";
 import TwitterSiteName from "./TwitterSiteName";
 import TwitterImage from "../twitter/TwitterImage";
+import TwitterTextWrapper from "./TwitterTextWrapper";
+
+const TwitterPreviewWrapper = styled.div`
+	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    width: 506px;
+    min-height: 125px;
+    border-radius: 12px;
+    border: 1px solid #E1E8ED;
+    box-sizing: border-box;
+    color: #292F33;
+    background: #FFFFFF;
+    &:hover {
+        background: #f5f8fa;
+        border: 1px solid rgba(136,153,166,.5);
+    }
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+`;
 
 /**
- * Renders a TwitterPreview component.
+ * Renders TwitterPreview component.
  *
  * @param {object} props The props.
  *
@@ -17,14 +36,16 @@ import TwitterImage from "../twitter/TwitterImage";
  */
 const TwitterPreview = ( props ) => {
 	return (
-		<Fragment>
-			<TwitterImage src={ props.src } alt={ props.alt } />
-			<TwitterTitle title={ props.title } />
-			<TwitterDescription isLarge={ props.isLarge }>
-				{ props.description }
-			</TwitterDescription>
-			<TwitterSiteName siteName={ props.siteName } />
-		</Fragment>
+		<TwitterPreviewWrapper>
+			<TwitterImage src={ props.image } alt={ props.alt } />
+			<TwitterTextWrapper>
+				<TwitterTitle title={ props.title } />
+				<TwitterDescription isLarge={ props.isLarge }>
+					{ props.description }
+				</TwitterDescription>
+				<TwitterSiteName siteName={ props.siteName } />
+			</TwitterTextWrapper>
+		</TwitterPreviewWrapper>
 	);
 };
 
@@ -33,7 +54,7 @@ TwitterPreview.propTypes = {
 	description: PropTypes.string,
 	isLarge: PropTypes.bool.isRequired,
 	siteName: PropTypes.string.isRequired,
-	src: PropTypes.string.isRequired,
+	image: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 

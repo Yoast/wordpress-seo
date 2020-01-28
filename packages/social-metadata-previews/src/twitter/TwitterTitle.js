@@ -4,14 +4,16 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const TwitterTitleWrapper = styled.p`
-	font-weight: bold;
+	font-weight: 400;
 	font-size: 14px;
 	max-height: 18px;
 	line-height: 18px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	margin-top: 0;
 	margin-bottom: 2px;
+	color: rgb(20, 23, 26);
 `;
 
 /**
