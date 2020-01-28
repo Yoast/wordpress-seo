@@ -24,4 +24,18 @@ describe( "TextContainer", () => {
 			expect( textContainer.text ).toEqual( "Some text. And more text." );
 		} );
 	} );
+
+	describe( "getTree", () => {
+		it( "creates a linguistic tree", () => {
+			const textContainer = new TextContainer();
+			const text = "A sentence. Another sentence.";
+			textContainer.appendText( text );
+			expect( textContainer.getTree() ).toEqual(
+				[
+					{ endIndex: 10, startIndex: 0, text: "A sentence.", words: [] },
+					{ endIndex: 28, startIndex: 12, text: "Another sentence.", words: [] },
+				]
+			);
+		} );
+	} );
 } );
