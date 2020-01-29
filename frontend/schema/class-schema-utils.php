@@ -28,4 +28,16 @@ class WPSEO_Schema_Utils {
 		}
 		return $context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 	}
+
+	/**
+	 * Retrieves the post title with fallback to `No title`.
+	 *
+	 * @return string The post title with fallback to `No title`.
+	 */
+	public static function get_post_title_with_fallback() {
+		$post_title = get_the_title();
+		$title      = ( $post_title ) ? $post_title : __( 'No title', 'wordpress-seo' );
+
+		return $title;
+	}
 }

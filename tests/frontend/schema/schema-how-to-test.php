@@ -43,12 +43,12 @@ class Schema_HowTo_Test extends TestCase {
 				'get_post_type' => function() {
 					return 'post';
 				},
+				'get_the_title' => 'title',
 			]
 		);
 
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
-		$this->context->title     = 'title';
 		$this->context->canonical = 'example.com/';
 
 		$this->instance = $this->getMockBuilder( Schema_HowTo_Double::class )
@@ -978,6 +978,71 @@ class Schema_HowTo_Test extends TestCase {
 
 		$this->assertEquals( $expected, $actual );
 	}
+
+	/**
+	 * Tests the HowTo schema output with no name and with steps.
+	 *
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_no_name_and_with_steps() {
+		Monkey\Functions\stubs(
+			[
+				'get_the_title' => '',
+			]
+		);
+
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => '',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => 'How to step 1 description',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'No title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
 
 	/**
 	 * Tests the is_needed function.
