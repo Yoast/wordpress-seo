@@ -52,7 +52,7 @@ class Robots_Test extends TestCase {
 		$this->setup_wp_query_wrapper();
 
 		// Should never get that far in the code.
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-noposts-wpseo', false )
 			->never();
@@ -134,7 +134,7 @@ class Robots_Test extends TestCase {
 	 * @param mixed $return_value Optional. What `get` should return.
 	 */
 	private function mock_global_author_option( $return_value = false ) {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-wpseo', false )
 			->once()
@@ -172,7 +172,7 @@ class Robots_Test extends TestCase {
 	 * @param mixed $user_count_posts_return_value Optional. What `count_posts` should return.
 	 */
 	private function mock_global_author_posts_count_option( $options_get_return_value = false, $user_count_posts_return_value = 0 ) {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-noposts-wpseo', false )
 			->once()

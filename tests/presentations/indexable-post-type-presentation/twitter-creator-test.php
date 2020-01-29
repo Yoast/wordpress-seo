@@ -43,7 +43,7 @@ class Twitter_Creator_Test extends TestCase {
 			->with( 'TwitterHandle' )
 			->once();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->never();
 
@@ -69,7 +69,7 @@ class Twitter_Creator_Test extends TestCase {
 			->with( '' )
 			->once();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'twitter_site', '' )
@@ -96,7 +96,7 @@ class Twitter_Creator_Test extends TestCase {
 			->with( '' )
 			->once();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'twitter_site', '' )
@@ -124,7 +124,7 @@ class Twitter_Creator_Test extends TestCase {
 			->once()
 			->andReturn( 'yoast' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->never();
 

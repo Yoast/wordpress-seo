@@ -43,7 +43,7 @@ class Meta_Description_Test extends TestCase {
 	 */
 	public function test_without_meta_description() {
 		$this->indexable->description = null;
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-home-wpseo' )

@@ -80,7 +80,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options_helper->get( 'metadesc-tax-' . $this->model->object_sub_type );
+		return $this->options->get( 'metadesc-tax-' . $this->model->object_sub_type );
 	}
 
 	/**
@@ -160,13 +160,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		// Get the SEO title as entered in Search Appearance.
-		$title = $this->options_helper->get( 'title-tax-' . $this->replace_vars_object->taxonomy );
+		$title = $this->options->get( 'title-tax-' . $this->replace_vars_object->taxonomy );
 		if ( $title ) {
 			return $title;
 		}
 
 		// Get the installation default title.
-		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
+		$title = $this->options->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
 
 		return $title;
 	}

@@ -30,11 +30,11 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$options_helper_mock = Mockery::mock( Options_Helper::class );
-		$options_helper_mock->expects( 'get' )->with( 'title-ptarchive-my-post-type' )->andReturn( 'my_post_type_title' );
-		$options_helper_mock->expects( 'get' )->with( 'metadesc-ptarchive-my-post-type' )->andReturn( 'my_post_type_meta_description' );
-		$options_helper_mock->expects( 'get' )->with( 'bctitle-ptarchive-my-post-type' )->andReturn( 'my_post_type_breadcrumb_title' );
-		$options_helper_mock->expects( 'get' )->with( 'noindex-ptarchive-my-post-type' )->andReturn( false );
+		$options_mock = Mockery::mock( Options_Helper::class );
+		$options_mock->expects( 'get' )->with( 'title-ptarchive-my-post-type' )->andReturn( 'my_post_type_title' );
+		$options_mock->expects( 'get' )->with( 'metadesc-ptarchive-my-post-type' )->andReturn( 'my_post_type_meta_description' );
+		$options_mock->expects( 'get' )->with( 'bctitle-ptarchive-my-post-type' )->andReturn( 'my_post_type_breadcrumb_title' );
+		$options_mock->expects( 'get' )->with( 'noindex-ptarchive-my-post-type' )->andReturn( false );
 		Monkey\Functions\expect( 'get_post_type_archive_link' )->with( 'my-post-type' )->andReturn( 'https://permalink' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -47,7 +47,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'my_post_type_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 
-		$builder = new Indexable_Post_Type_Archive_Builder( $options_helper_mock );
+		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock );
 		$builder->build( 'my-post-type', $indexable_mock );
 	}
 }

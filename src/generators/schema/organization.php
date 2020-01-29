@@ -27,7 +27,7 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * @var HTML_Helper
@@ -38,16 +38,16 @@ class Organization extends Abstract_Schema_Piece {
 	 * Organization constructor.
 	 *
 	 * @param Image_Helper   $image_helper   The image helper.
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
 	 * @param HTML_Helper    $html_helper    The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,
-		Options_Helper $options_helper,
+		Options_Helper $options,
 		HTML_Helper $html_helper
 	) {
 		$this->image_helper   = $image_helper;
-		$this->options_helper = $options_helper;
+		$this->options = $options;
 		$this->html_helper    = $html_helper;
 	}
 
@@ -105,12 +105,12 @@ class Organization extends Abstract_Schema_Piece {
 			'wikipedia_url',
 		];
 		foreach ( $social_profiles as $profile ) {
-			if ( $this->options_helper->get( $profile, '' ) !== '' ) {
-				$profiles[] = $this->options_helper->get( $profile );
+			if ( $this->options->get( $profile, '' ) !== '' ) {
+				$profiles[] = $this->options->get( $profile );
 			}
 		}
 
-		$twitter = $this->options_helper->get( 'twitter_site', '' );
+		$twitter = $this->options->get( 'twitter_site', '' );
 		if ( $twitter !== '' ) {
 			$profiles[] = 'https://twitter.com/' . $twitter;
 		}

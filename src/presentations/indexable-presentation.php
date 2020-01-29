@@ -102,7 +102,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @var Options_Helper
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
 	 * @var Url_Helper
@@ -145,20 +145,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Used by dependency injection container to inject the helpers.
 	 *
 	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Options_Helper      $options_helper      The options helper.
+	 * @param Options_Helper      $options      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 * @param Url_Helper          $url_helper          The URL helper.
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image_helper,
-		Options_Helper $options_helper,
+		Options_Helper $options,
 		Current_Page_Helper $current_page_helper,
 		Url_Helper $url_helper,
 		User_Helper $user
 	) {
 		$this->image_helper   = $image_helper;
-		$this->options_helper = $options_helper;
+		$this->options = $options;
 		$this->current_page   = $current_page_helper;
 		$this->url            = $url_helper;
 		$this->user           = $user;
@@ -358,7 +358,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph Facebook app ID.
 	 */
 	public function generate_og_fb_app_id() {
-		return $this->options_helper->get( 'fbadminapp', '' );
+		return $this->options->get( 'fbadminapp', '' );
 	}
 
 	/**
@@ -462,12 +462,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 			case 'person' :
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
-					$twitter = $this->options_helper->get( 'twitter_site' );
+					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
 			case 'company' :
 			default:
-				$twitter = $this->options_helper->get( 'twitter_site' );
+				$twitter = $this->options->get( 'twitter_site' );
 				break;
 		}
 

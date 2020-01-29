@@ -28,11 +28,11 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$options_helper_mock = Mockery::mock( Options_Helper::class );
-		$options_helper_mock->expects( 'get' )->with( 'title-archive-wpseo' )->andReturn( 'date_archive_title' );
-		$options_helper_mock->expects( 'get' )->with( 'breadcrumbs-archiveprefix' )->andReturn( 'date_archive_breadcrumb_prefix' );
-		$options_helper_mock->expects( 'get' )->with( 'metadesc-archive-wpseo' )->andReturn( 'date_archive_meta_description' );
-		$options_helper_mock->expects( 'get' )->with( 'noindex-archive-wpseo' )->andReturn( false );
+		$options_mock = Mockery::mock( Options_Helper::class );
+		$options_mock->expects( 'get' )->with( 'title-archive-wpseo' )->andReturn( 'date_archive_title' );
+		$options_mock->expects( 'get' )->with( 'breadcrumbs-archiveprefix' )->andReturn( 'date_archive_breadcrumb_prefix' );
+		$options_mock->expects( 'get' )->with( 'metadesc-archive-wpseo' )->andReturn( 'date_archive_meta_description' );
+		$options_mock->expects( 'get' )->with( 'noindex-archive-wpseo' )->andReturn( false );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
@@ -42,7 +42,7 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'date_archive_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 
-		$builder = new Indexable_Date_Archive_Builder( $options_helper_mock );
+		$builder = new Indexable_Date_Archive_Builder( $options_mock );
 		$builder->build( $indexable_mock );
 	}
 }

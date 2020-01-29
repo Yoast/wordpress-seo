@@ -75,12 +75,12 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		$option_titles_key = 'title-author-wpseo';
-		$title             = $this->options_helper->get( $option_titles_key );
+		$title             = $this->options->get( $option_titles_key );
 		if ( $title ) {
 			return $title;
 		}
 
-		return $this->options_helper->get_title_default( $option_titles_key );
+		return $this->options->get_title_default( $option_titles_key );
 	}
 
 	/**
@@ -99,12 +99,12 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		$option_titles_key = 'metadesc-author-wpseo';
-		$description       = $this->options_helper->get( $option_titles_key );
+		$description       = $this->options->get( $option_titles_key );
 		if ( $description ) {
 			return $description;
 		}
 
-		return $this->options_helper->get_title_default( $option_titles_key );
+		return $this->options->get_title_default( $option_titles_key );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		$robots = parent::generate_robots();
 
 		// Global option: "Show author archives in search results".
-		if ( $this->options_helper->get( 'noindex-author-wpseo', false ) ) {
+		if ( $this->options->get( 'noindex-author-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
 
 			return $robots;
@@ -132,7 +132,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
 
 		// Global option: "Show archives for authors without posts in search results".
-		if ( $this->options_helper->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
+		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
 			$robots['index'] = 'noindex';
 
 			return $robots;

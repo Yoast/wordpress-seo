@@ -33,7 +33,7 @@ class Robots_Test extends TestCase {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( true );
@@ -56,7 +56,7 @@ class Robots_Test extends TestCase {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( false );

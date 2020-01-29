@@ -25,7 +25,7 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
 	 * @var Image_Helper|Mockery\MockInterface
@@ -80,7 +80,7 @@ trait Presentation_Instance_Dependencies {
 	 * @param Indexable_Presentation $presentation_instance The indexable presentation instance.
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
+		$this->options      = Mockery::mock( Options_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
@@ -90,7 +90,7 @@ trait Presentation_Instance_Dependencies {
 
 		$presentation_instance->set_helpers(
 			$this->image_helper,
-			$this->options_helper,
+			$this->options,
 			$this->current_page_helper,
 			$this->url_helper,
 			$this->user_helper
@@ -101,7 +101,7 @@ trait Presentation_Instance_Dependencies {
 			[
 				$this->og_image_helper,
 				$this->image_helper,
-				$this->options_helper,
+				$this->options,
 				$this->url_helper,
 			]
 		);

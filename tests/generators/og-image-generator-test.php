@@ -37,7 +37,7 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
 	 * @var OG_Image_Generator|Mockery\MockInterface
@@ -72,7 +72,7 @@ class OG_Image_Generator_Test extends TestCase {
 
 		$this->image_helper            = Mockery::mock( Image_Helper::class );
 		$this->url_helper              = Mockery::mock( Url_Helper::class );
-		$this->options_helper          = Mockery::mock( Options_Helper::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->open_graph_image_helper = Mockery::mock(
 			Open_Graph_Image_Helper::class,
 			[ $this->url_helper, $this->image_helper ]
@@ -81,7 +81,7 @@ class OG_Image_Generator_Test extends TestCase {
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
-			[ $this->open_graph_image_helper, $this->image_helper, $this->options_helper, $this->url_helper ]
+			[ $this->open_graph_image_helper, $this->image_helper, $this->options, $this->url_helper ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance
@@ -175,7 +175,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image_id', '' )
@@ -203,13 +203,13 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image_id', '' )
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image', '' )

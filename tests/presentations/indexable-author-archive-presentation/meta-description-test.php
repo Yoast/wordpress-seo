@@ -43,7 +43,7 @@ class Meta_Description_Test extends TestCase {
 	 * @covers ::generate_meta_description
 	 */
 	public function test_meta_description_without_indexable() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-author-wpseo' )
@@ -58,13 +58,13 @@ class Meta_Description_Test extends TestCase {
 	 * @covers ::generate_meta_description
 	 */
 	public function test_meta_description_without_options_meta_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-author-wpseo' )
 			->andReturn( '' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'metadesc-author-wpseo' )

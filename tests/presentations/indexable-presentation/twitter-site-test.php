@@ -32,7 +32,7 @@ class Twitter_Site_Test extends TestCase {
 	public function test_generate_twitter_site_for_a_company() {
 		$this->context->site_represents = 'company';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()
@@ -74,7 +74,7 @@ class Twitter_Site_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()
@@ -89,7 +89,7 @@ class Twitter_Site_Test extends TestCase {
 	 * @covers ::generate_twitter_site
 	 */
 	public function test_generate_twitter_site_the_default_scenario() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()
