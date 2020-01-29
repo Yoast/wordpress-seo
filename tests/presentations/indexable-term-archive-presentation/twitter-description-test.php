@@ -52,7 +52,7 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
 			->once()
@@ -94,7 +94,7 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'OG Description' );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
 			->once()
