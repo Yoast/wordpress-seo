@@ -1,5 +1,5 @@
 /* External dependencies */
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -8,12 +8,58 @@ import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
 import FacebookImage from "./FacebookImage";
 import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
-import { determineImageProperties } from "../helpers/determineImageProperties"
+import { determineImageProperties } from "../helpers/determineImageProperties";
+
+/**
+ * Checks de height depending on the mode.
+ *
+ * @param {string} mode The mode. landscape, square, portrait.
+ *
+ * @returns {string} The height pixels.
+ */
+const checkHeight = ( mode ) => {
+	switch ( mode ) {
+		case "landscape":
+			return "57px";
+
+		case "square":
+			return "136px";
+
+		case "portrait":
+			return "215px";
+
+		default:
+			return "57px";
+	}
+};
+
+/**
+ * Checks de width depending on the mode.
+ *
+ * @param {string} mode The mode. landscape, square, portrait.
+ *
+ * @returns {string} The width pixels.
+ */
+const checkWidth = ( mode ) => {
+	switch ( mode ) {
+		case "landscape":
+			return "474px";
+
+		case "square":
+			return "318px";
+
+		case "portrait":
+			return "318px";
+
+		default:
+			return "474px";
+	}
+};
 
 const FacebookPreviewWrapper = styled.div`
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: ${ props => props.mode === 'landscape' ? 'column': 'row'};
+	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
 	max-width: none;
 	border: none;
@@ -32,17 +78,17 @@ const OuterTextWrapper = styled.div`
     margin: 0;
     padding: 10px 12px;
 	position: relative;
-	border-bottom: ${ props => props.mode === 'landscape' ? '' : '1px solid #dddfe2'  }
-	border-top ${ props => props.mode === 'landscape' ? '' : '1px solid #dddfe2'  };
-	border ${ props => props.mode === 'landscape' ? '1px solid #dddfe2' : ''  };
-	width: ${ props => checkWidth(props.mode) };
-	height: ${ props => checkHeight(props.mode) };
+	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
+	border-top ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
+	border ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : ""  };
+	width: ${ props => checkWidth( props.mode ) };
+	height: ${ props => checkHeight( props.mode ) };
 	display: flex;
 	flex-direction: column;
 	justify-content:center;
 `;
 
-let InnerTextWrapper = styled.div`
+const InnerTextWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -50,58 +96,12 @@ let InnerTextWrapper = styled.div`
 	font-size: 12px;
 	margin: 0;
 	max-height: 190px;
-`; 
+`;
 
 const TitleAndDescriptionWrapper = styled.div`
 	max-height: 46px;
 	overflow: hidden;
 `;
-
-/**
- * Checks de height depending on the mode.
- *
- * @param {string} mode The mode. landscape, square, portrait.
- *
- * @returns {string} The height pixels.
- */
-const checkHeight = (mode) => {
-	switch (mode) {
-		case 'landscape':
-			return '57px';
-
-		case 'square':
-			return '136px';
-
-		case 'portrait':
-			return '215px';
-
-		default:
-			return '57px';
-	}
-}
-
-/**
- * Checks de width depending on the mode.
- *
- * @param {string} mode The mode. landscape, square, portrait.
- *
- * @returns {string} The width pixels.
- */
-const checkWidth = (mode) => {
-	switch (mode) {
-		case 'landscape':
-			return '474px';
-
-		case 'square':
-			return '318px';
-
-		case 'portrait':
-			return '318px';
-
-		default:
-			return '474px';
-	}
-}
 
 /**
  * Renders FacebookPreview component.
@@ -122,60 +122,69 @@ class FacebookPreview extends Component {
 			imageProperties: {
 				mode: null,
 				height: null,
-				width:null,
+				width: null,
 			},
 			status: "loading",
 		};
 	}
 
+	/**
+	 * After the component has mounted, determine the properties of the FacebookImage.
+	 *
+	 * @returns {Promise} Resolves when there are image properties.
+	 */
 	componentDidMount() {
 		return determineImageProperties( this.props.image, "Facebook" ).then( ( imageProperties ) => {
-			console.log('imageprops',imageProperties)
-			this.setState({
+			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
-			});
+			} );
 		} ).catch( () => {
 			this.setState( {
 				imageProperties: {
 					mode: null,
 					height: null,
-					width:null,
+					width: null,
 				},
 				status: "errored",
-			})
-		});
+			} );
+		} );
 	}
-
+	/**
+	 * Renders the FacebookPreview.
+	 *
+	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
+	 * the TwitterImageContainer.
+	 */
 	render() {
-		const { imageProperties} = this.state
+		const { imageProperties } = this.state;
 		return (
-			<FacebookPreviewWrapper mode={ imageProperties.mode } >
-				<FacebookImage 
-					src={ this.props.image } 
-					alt={ this.props.alt } 
-					imageProperties={ imageProperties } 
-					status={this.state.status} 
+			<FacebookPreviewWrapper mode={ imageProperties.mode }>
+				<FacebookImage
+					src={ this.props.image }
+					alt={ this.props.alt }
+					imageProperties={ imageProperties }
+					status={ this.state.status }
 				/>
-					<OuterTextWrapper mode={ imageProperties.mode }>
-						<InnerTextWrapper >
-							<FacebookSiteAndAuthorNames 
-								siteName={ this.props.siteName } 
-								authorName={ this.props.authorName } 
-								mode={ imageProperties.mode } 
-							/>
-								<TitleAndDescriptionWrapper>
-									<FacebookTitle title={ this.props.title } />
-									<FacebookDescription>
-										{ this.props.description }
-									</FacebookDescription>
-								</TitleAndDescriptionWrapper>
-						</InnerTextWrapper>
-					</OuterTextWrapper>
+				<OuterTextWrapper mode={ imageProperties.mode }>
+					<InnerTextWrapper>
+						<FacebookSiteAndAuthorNames
+							siteName={ this.props.siteName }
+							authorName={ this.props.authorName }
+							mode={ imageProperties.mode }
+						/>
+						<TitleAndDescriptionWrapper>
+							<FacebookTitle title={ this.props.title } />
+							<FacebookDescription>
+								{ this.props.description }
+							</FacebookDescription>
+						</TitleAndDescriptionWrapper>
+					</InnerTextWrapper>
+				</OuterTextWrapper>
 			</FacebookPreviewWrapper>
 		);
-	};
-};
+	}
+}
 
 FacebookPreview.propTypes = {
 	siteName: PropTypes.string.isRequired,

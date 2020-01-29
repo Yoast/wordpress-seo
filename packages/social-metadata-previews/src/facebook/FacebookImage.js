@@ -64,12 +64,11 @@ const PlaceholderImage = styled.div`
 /**
  * Renders the FacebookImage component.
  *
- * @param {string} src The image source.
+ * @param {string} props The image source.
  *
  * @returns {ReactComponent} The FacebookImage component.
  */
-const FacebookImage = (props) => {
-
+const FacebookImage = ( props ) => {
 	/**
 	 * Retrieves the dimensions for the Facebook image container.
 	 *
@@ -95,7 +94,7 @@ const FacebookImage = (props) => {
 					width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
 				};
 		}
-	}
+	};
 
 	const { imageProperties, status, src, alt } = props;
 
@@ -127,13 +126,13 @@ const FacebookImage = (props) => {
 			imageProperties={ imageProperties }
 		/>
 	</FacebookImageContainer>;
-	
-}
+};
 
 FacebookImage.propTypes = {
 	src: PropTypes.string,
 	alt: PropTypes.string,
-	mode: PropTypes.string,
+	imageProperties: PropTypes.object.isRequired,
+	status: PropTypes.string.isRequired,
 };
 
 FacebookImage.defaultProps = {
@@ -141,4 +140,4 @@ FacebookImage.defaultProps = {
 	src: "",
 };
 
-export default FacebookImage
+export default FacebookImage;
