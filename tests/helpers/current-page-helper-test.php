@@ -39,7 +39,8 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 
-		$this->instance = new Current_Page_Helper_Double( $this->wp_query_wrapper );
+		$this->instance = Mockery::mock( Current_Page_Helper_Double::class, [ $this->wp_query_wrapper ] )
+								 ->makePartial();
 	}
 
 	/**
@@ -207,5 +208,34 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturn( '1' );
 
 		$this->assertFalse( $this->instance->is_static_posts_page() );
+	}
+
+	/**
+	 * Tests that get_date_archive_permalink calls the expected methods when the static variable is not set.
+	 *
+	 * @covers ::get_date_archive_permalink
+	 */
+	public function test_get_date_archive_permalink_static_not_set() {
+		$this->instance
+			->expects( 'get_non_cached_date_archive_permalink' )
+			->once()
+			->andReturn( 'A date archive permalink' );
+
+		$this->assertEquals( "A date archive permalink", $this->instance->get_date_archive_permalink() );
+	}
+
+	/**
+	 * Tests that get_date_archive_permalink calls the expected methods when the static variable is set.
+	 * Notice that this test is connected to the above test ('test_get_date_archive_permalink_static_not_set'),
+	 * because that test will set the static variable.
+	 *
+	 * @covers ::get_date_archive_permalink
+	 */
+	public function test_get_date_archive_permalink_static_set() {
+		$this->instance
+			->expects( 'get_non_cached_date_archive_permalink' )
+			->never();
+
+		$this->assertEquals( "A date archive permalink", $this->instance->get_date_archive_permalink() );
 	}
 }
