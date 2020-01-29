@@ -46,7 +46,7 @@ class Organization extends Abstract_Schema_Piece {
 		Options_Helper $options,
 		HTML_Helper $html_helper
 	) {
-		$this->image_helper   = $image_helper;
+		$this->image   = $image_helper;
 		$this->options = $options;
 		$this->html_helper    = $html_helper;
 	}
@@ -77,7 +77,7 @@ class Organization extends Abstract_Schema_Piece {
 			'name'   => $this->html_helper->smart_strip_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
-			'logo'   => $this->image_helper->generate_from_attachment_id( $schema_id, $context->company_logo_id, $context->company_name ),
+			'logo'   => $this->image->generate_from_attachment_id( $schema_id, $context->company_logo_id, $context->company_name ),
 			'image'  => [ '@id' => $schema_id ],
 		];
 

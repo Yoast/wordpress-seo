@@ -46,7 +46,7 @@ trait Indexable_Social_Image_Trait {
 		Open_Graph_Image_Helper $open_graph_image,
 		Twitter_Image_Helper $twitter_image
 	) {
-		$this->image_helper     = $image_helper;
+		$this->image     = $image_helper;
 		$this->open_graph_image = $open_graph_image;
 		$this->twitter_image    = $twitter_image;
 	}

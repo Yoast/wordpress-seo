@@ -127,7 +127,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	) {
 		$this->options      = $options;
 		$this->url_helper          = $url_helper;
-		$this->image_helper        = $image_helper;
+		$this->image        = $image_helper;
 		$this->id_helper           = $id_helper;
 		$this->replace_vars_helper = $replace_vars_helper;
 		$this->site_helper         = $site_helper;
@@ -222,7 +222,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|bool The company logo id.
 	 */
 	public function generate_company_logo_id() {
-		$company_logo_id = $this->image_helper->get_attachment_id_from_settings( 'company_logo' );
+		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		/**
 		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id

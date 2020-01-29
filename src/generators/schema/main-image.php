@@ -38,7 +38,7 @@ class Main_Image extends Abstract_Schema_Piece {
 		Image_Helper $image_helper,
 		Schema\Image_Helper $schema_image_helper
 	) {
-		$this->image_helper        = $image_helper;
+		$this->image        = $image_helper;
 		$this->schema_image_helper = $schema_image_helper;
 	}
 
@@ -105,7 +105,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = $this->image_helper->get_post_content_image( $post_id );
+		$image_url = $this->image->get_post_content_image( $post_id );
 
 		if ( $image_url === '' ) {
 			return null;

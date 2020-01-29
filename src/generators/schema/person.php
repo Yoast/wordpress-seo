@@ -70,7 +70,7 @@ class Person extends Abstract_Schema_Piece {
 		Schema\Image_Helper $schema_image_helper,
 		HTML_Helper $html_helper
 	) {
-		$this->image_helper        = $image_helper;
+		$this->image        = $image_helper;
 		$this->schema_image_helper = $schema_image_helper;
 		$this->html_helper         = $html_helper;
 	}
@@ -213,7 +213,7 @@ class Person extends Abstract_Schema_Piece {
 		if ( $context->site_represents !== 'person' ) {
 			return $data;
 		}
-		$person_logo_id = $this->image_helper->get_attachment_id_from_settings( 'person_logo' );
+		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
 			$data['image'] = $this->schema_image_helper->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );

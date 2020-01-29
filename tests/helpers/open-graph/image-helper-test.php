@@ -40,13 +40,13 @@ class Image_Helper_Test extends TestCase {
 		parent::setUp();
 
 		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->image_helper = Mockery::mock( Base_Image_Helper::class )->makePartial();
+		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Image_Helper::class,
 			[
 				$this->url_helper,
-				$this->image_helper,
+				$this->image,
 			]
 		)->makePartial();
 	}
@@ -72,7 +72,7 @@ class Image_Helper_Test extends TestCase {
 			->with( 'image.jpg' )
 			->andReturn( 'jpg' );
 
-		$this->image_helper
+		$this->image
 			->expects( 'is_extension_valid' )
 			->once()
 			->with( 'jpg' )
@@ -107,7 +107,7 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_image_url_by_id
 	 */
 	public function test_get_image_url_by_id_for_invalid_attachment() {
-		$this->image_helper
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
@@ -122,13 +122,13 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_image_url_by_id
 	 */
 	public function test_get_image_url_by_id_for_overridden_image_size() {
-		$this->image_helper
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnTrue();
 
-		$this->image_helper
+		$this->image
 			->expects( 'get_image' )
 			->with( 1337, 'full' )
 			->once()
@@ -154,13 +154,13 @@ class Image_Helper_Test extends TestCase {
 			'max_height' => 2000,
 		];
 
-		$this->image_helper
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnTrue();
 
-		$this->image_helper
+		$this->image
 			->expects( 'get_best_attachment_variation' )
 			->with( 1337, $image_params )
 			->once()

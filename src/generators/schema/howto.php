@@ -39,7 +39,7 @@ class HowTo extends Abstract_Schema_Piece {
 		Image_Helper $image_helper
 	) {
 		$this->html_helper  = $html_helper;
-		$this->image_helper = $image_helper;
+		$this->image = $image_helper;
 	}
 
 	/**
@@ -210,6 +210,6 @@ class HowTo extends Abstract_Schema_Piece {
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
 
-		return $this->image_helper->generate_from_url( $schema_id, $url );
+		return $this->image->generate_from_url( $schema_id, $url );
 	}
 }
