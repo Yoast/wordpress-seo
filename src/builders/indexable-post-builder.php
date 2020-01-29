@@ -20,14 +20,14 @@ class Indexable_Post_Builder {
 	/**
 	 * Yoast extension of the Model class.
 	 *
-	 * @var \Yoast\WP\SEO\Repositories\SEO_Meta_Repository
+	 * @var SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
+	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
 	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
@@ -36,10 +36,10 @@ class Indexable_Post_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                            $post_id   The post ID to use.
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
+	 * @param int       $post_id   The post ID to use.
+	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
 		$post = \get_post( $post_id );
@@ -84,11 +84,38 @@ class Indexable_Post_Builder {
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
 		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
-		$indexable->is_public       = ( \in_array( $post->post_status, $this->is_public_post_status(), true ) && $post->post_password === '' );
 		$indexable->post_status     = $post->post_status;
 		$indexable->is_protected    = $post->post_password !== '';
+		$indexable->is_public       = $this->is_public( $indexable );
 
 		return $indexable;
+	}
+
+	/**
+	 * Determines the value of is_public.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool
+	 */
+	protected function is_public( $indexable ) {
+		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+			return false;
+		}
+
+		if ( (int) $indexable->is_robots_noindex === 1 ) {
+			return false;
+		}
+
+		if ( $indexable->is_robots_noindex === null && ! \WPSEO_Post_Type::is_post_type_indexable( $indexable->object_sub_type ) ) {
+			return false;
+		}
+
+		if ( $indexable->is_protected ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -176,10 +203,10 @@ class Indexable_Post_Builder {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param int                            $post_id   The post ID to use.
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to extend.
+	 * @param int       $post_id   The post ID to use.
+	 * @param Indexable $indexable The indexable to extend.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 */
 	protected function set_link_count( $post_id, Indexable $indexable ) {
 		try {
