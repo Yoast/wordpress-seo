@@ -8,15 +8,15 @@ import styled from "styled-components";
  */
 const FacebookDescription = styled.p`
 	color: #606770;
-	font-size: 14px;
-	line-height: 20px;
-	word-break: break-word;
-	max-height: 80px;
+	flex-shrink: 0;
+	font-size: 12px;
+	line-height: 16px;
 	overflow: hidden;
+	padding: 0;
 	text-overflow: ellipsis;
+	text-transform: uppercase;
 	white-space: nowrap;
-	margin-top: 3px;
-	width: 100%;
+	margin: 3px 0 0 0;
 `;
 
 export default FacebookDescription;

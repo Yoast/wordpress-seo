@@ -12,7 +12,7 @@ import { FacebookPreview } from "@yoast/social-metadata-previews";
  */
 const FacebookPreviewExample = () => {
 	return (
-		<ExamplesContainer backgroundColor="transparent" style={{display:'flex', flexDirection:'column'}}>			
+		<ExamplesContainer backgroundColor="transparent" style={{display:'flex', flexDirection:'column', marginLeft: '50px'}}>			
 			<h2>FacebookPreview Landscape</h2>
 			<FacebookPreview
 				siteName="SiteName.com"
@@ -84,7 +84,14 @@ const FacebookPreviewExample = () => {
 				description="Some description with words. In two whole sentences."
 				image="thisisnoimage"
 			/>
+			<h2>FacebookPreview no image</h2>
+			<FacebookPreview
+				siteName="SiteName.com"
+				title="YoastCon Workshops"
+				description="Some description with words. In two whole sentences."
+			/>
 		</ExamplesContainer>
+		
 	);
 };
 
