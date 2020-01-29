@@ -52,7 +52,6 @@
 			"inc/",
 			"deprecated/",
 			"cli/",
-			"deprecated/",
 			"vendor_prefixed/",
 			"src/"
 		]
