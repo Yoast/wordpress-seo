@@ -88,7 +88,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	protected function is_recent_curl_version() {
 		$curl_version = $this->get_curl_version();
 
-		if ( $curl_version && version_compare( $curl_version, '7.20.0', '>=' ) ) {
+		if ( $curl_version && version_compare( $curl_version, '7.40.0', '>=' ) ) {
 			return true;
 		}
 
