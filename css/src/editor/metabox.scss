@@ -1,7 +1,7 @@
-@import "yoastseo";
-@import "../../node_modules/draft-js-mention-plugin/lib/plugin";
+@import "../yoastseo";
+@import "../../../node_modules/draft-js-mention-plugin/lib/plugin.css";
 /*!rtl:begin:ignore*/
-@import "../../node_modules/draft-js/dist/Draft";
+@import "../../../node_modules/draft-js/dist/Draft.css";
 /*!rtl:end:ignore*/
 
 @function svg-icon-list($color) {
