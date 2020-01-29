@@ -62,6 +62,33 @@ const PlaceholderImage = styled.div`
 `;
 
 /**
+ * Retrieves the dimensions for the Facebook image container.
+ *
+ * @param {string} imageMode The Facebook image mode: landscape, portrait or square.
+ *
+ * @returns {Object} The width and height for the container.
+ */
+export const retrieveContainerDimensions = ( imageMode ) => {
+	switch ( imageMode ) {
+		case "square":
+			return {
+				height: FACEBOOK_IMAGE_SIZES.squareHeight + "px",
+				width: FACEBOOK_IMAGE_SIZES.squareWidth + "px",
+			};
+		case "portrait":
+			return {
+				height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px",
+				width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px",
+			};
+		case "landscape":
+			return {
+				height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px",
+				width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
+			};
+	}
+};
+
+/**
  * Renders the FacebookImage component.
  *
  * @param {string} props The image source.
@@ -69,33 +96,6 @@ const PlaceholderImage = styled.div`
  * @returns {ReactComponent} The FacebookImage component.
  */
 const FacebookImage = ( props ) => {
-	/**
-	 * Retrieves the dimensions for the Facebook image container.
-	 *
-	 * @param {string} imageMode The Facebook image mode: landscape, portrait or square.
-	 *
-	 * @returns {Object} The width and height for the container.
-	 */
-	const retrieveContainerDimensions = ( imageMode ) => {
-		switch ( imageMode ) {
-			case "square":
-				return {
-					height: FACEBOOK_IMAGE_SIZES.squareHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.squareWidth + "px",
-				};
-			case "portrait":
-				return {
-					height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px",
-				};
-			case "landscape":
-				return {
-					height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
-				};
-		}
-	};
-
 	const { imageProperties, status, src, alt } = props;
 
 	if ( status === "loading" || src === "" ) {
@@ -131,13 +131,15 @@ const FacebookImage = ( props ) => {
 FacebookImage.propTypes = {
 	src: PropTypes.string,
 	alt: PropTypes.string,
-	imageProperties: PropTypes.object.isRequired,
-	status: PropTypes.string.isRequired,
+	imageProperties: PropTypes.object,
+	status: PropTypes.string,
 };
 
 FacebookImage.defaultProps = {
 	alt: "",
 	src: "",
+	imageProperties: { },
+	status: "loading",
 };
 
 export default FacebookImage;

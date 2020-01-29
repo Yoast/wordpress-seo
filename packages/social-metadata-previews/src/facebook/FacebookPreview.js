@@ -79,13 +79,13 @@ const OuterTextWrapper = styled.div`
     padding: 10px 12px;
 	position: relative;
 	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
-	border-top ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
-	border ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : ""  };
+	border-top: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
+	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : ""  };
 	width: ${ props => checkWidth( props.mode ) };
 	height: ${ props => checkHeight( props.mode ) };
 	display: flex;
 	flex-direction: column;
-	justify-content:center;
+	justify-content: center;
 `;
 
 const InnerTextWrapper = styled.div`
@@ -191,7 +191,7 @@ FacebookPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	authorName: PropTypes.string,
 	description: PropTypes.string,
-	image: PropTypes.string.isRequired,
+	image: PropTypes.string,
 	alt: PropTypes.string,
 };
 
@@ -199,6 +199,7 @@ FacebookPreview.defaultProps = {
 	authorName: "",
 	description: "",
 	alt: "",
+	image: "",
 };
 
 export default FacebookPreview;
