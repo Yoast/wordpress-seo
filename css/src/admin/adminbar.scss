@@ -1,4 +1,4 @@
-@import 'score_icon';
+@import '../score_icon';
 
 .adminbar-seo-score {
 	margin: 10px 0 0 4px !important;
@@ -27,11 +27,12 @@
 		padding: 1px 7px 1px 6px !important;
 		border-radius: 50%;
 		color: white;
+		margin-left: 6px;
 	}
 
 	.yoast-logo.svg {
 		float: left;
-		width: 26px;
+		width: 20px;
 		height: 30px;
 		background-repeat: no-repeat;
 		background-position: 0 6px;
