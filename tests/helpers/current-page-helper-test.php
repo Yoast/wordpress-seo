@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Tests\Doubles\Helpers\Current_Page_Helper_Double;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
@@ -27,7 +27,7 @@ class Current_Page_Helper_Test extends TestCase {
 	/**
 	 * Current page helper instance.
 	 *
-	 * @var Current_Page_Helper_Double
+	 * @var Current_Page_Helper
 	 */
 	private $instance;
 
@@ -39,8 +39,9 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 
-		$this->instance = Mockery::mock( Current_Page_Helper_Double::class, [ $this->wp_query_wrapper ] )
-								 ->makePartial();
+		$this->instance = Mockery::mock( Current_Page_Helper::class, [ $this->wp_query_wrapper ] )
+								 ->makePartial()
+								 ->shouldAllowMockingProtectedMethods();
 	}
 
 	/**
