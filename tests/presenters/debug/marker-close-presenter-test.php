@@ -28,10 +28,10 @@ class Marker_Close_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
+		$product_mock = Mockery::mock( Product_Helper::class );
+		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance     = new Marker_Close_Presenter( $product_helper_mock );
+		$instance     = new Marker_Close_Presenter( $product_mock );
 		$presentation = new Indexable_Presentation();
 
 		$this->assertEquals(
