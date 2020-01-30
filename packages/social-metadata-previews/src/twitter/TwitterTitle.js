@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { truncateText } from "../helpers/truncation";
+import { buildTruncatedText } from "../helpers/truncation";
 
 const TwitterTitleWrapper = styled.p`
 	font-weight: 400;
@@ -26,7 +26,7 @@ const TwitterTitleWrapper = styled.p`
  */
 const TwitterTitle = ( props ) =>
 	<TwitterTitleWrapper>
-		{ truncateText( props.title, props.maximumTitleLength ) }
+		{ buildTruncatedText( props.title, props.maximumTitleLength, 1 ) }
 	</TwitterTitleWrapper>
 ;
 

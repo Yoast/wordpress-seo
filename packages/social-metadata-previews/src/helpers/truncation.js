@@ -1,41 +1,74 @@
-// Which symbol should be used for indicating that data was truncated.
-const TRUNCATION_SYMBOL = "...";
-
-// How many characters fit on one line.
-// This is an approximation because actually calculating the width of an (rendered) element is a lot of work.
-const MAX_CHARS = 148;
-const MAX_CHARS_ONE_LINE = MAX_CHARS / 2;
+/**
+ * Function to check whether this is the last word in the array.
+ *
+ * This function will error if you provide an empty array.
+ *
+ * @param {string} word The current word.
+ * @param {string[]} words An array of words.
+ *
+ * @returns {boolean} true if this is the last word in the array, false otherwise.
+ */
+const isLastWord = ( word, words ) => {
+	return word === words[ words.length - 1 ];
+};
 
 /**
- * Truncates a piece of text to a predefined. It also adds a truncation symbol to indicate that truncation happened.
+ * Function to check whether this is the last line.
  *
- * The length of truncation is based on two variables:
- *  - type If the type is title, we always truncate the text to one line.
- *  - large If the type is not "title", we check whether it is a large description that has one additional line.
+ * Created to make the if-statements more readable.
  *
- * @param {string} text The text that is truncated.
- * @param {number|null} maximum Optional: a specified maximum length.
- * @param {string} type Optional: The type of text.
- * @param {boolean} large Optional: indication whether the text should be large.
+ * @param {number} lineNr The current lineNr.
+ * @param {number} nrOfLines The maximum number of lines.
  *
- * @returns {string} An truncated string if the input was too long, otherwise the string is returned unmodified.
+ * @returns {boolean} true if it is the last line, false otherwise.
  */
-export const truncateText = ( text, maximum = null, type = "title", large = false ) => {
-	let max = maximum || MAX_CHARS_ONE_LINE;
+const isLastLine = ( lineNr, nrOfLines ) => {
+	return lineNr === nrOfLines;
+};
 
-	// Only overwrite if it is not type title and the maximum has not been set.
-	if ( type !== "title" && ! maximum ) {
-		max = large ? MAX_CHARS + MAX_CHARS_ONE_LINE : MAX_CHARS;
+/**
+ * Builds a text that fits in the provided maxWidth and numberOfLines.
+ * If the text would have been too long, a truncation symbol is added.
+ *
+ * @param {string} text The text that we want to fit in the provided space.
+ * @param {number} maxWidth The maximum number of characters on one line.
+ * @param {number} numberOfLines The maximum number of lines that we want.
+ *
+ * @returns {string} A string that fits the provided specification, possibly with a truncation symbol.
+ */
+export const buildTruncatedText = ( text, maxWidth = 74, numberOfLines = 3 ) => {
+	// Create an array of words in the description.
+	const words = text.split( " " );
+
+	let output = "";
+	let currentWidth = 0;
+	let currentLine = 1;
+
+	for ( const word of words ) {
+		// Increment the width of the current line with the length of the word and a space.
+		currentWidth += word.length + 1;
+
+		// Case: we need to move to the next line.
+		if ( currentWidth >= maxWidth && ! isLastLine( currentLine, numberOfLines ) ) {
+			currentWidth = word.length + 1;
+			currentLine += 1;
+		}
+
+		// Case: the last word fits and we are done.
+		if ( isLastWord( word, words ) && currentWidth <= maxWidth + 1 ) {
+			output += word;
+			break;
+		}
+
+		// Case: the current word does not fit on the last line. Add the truncation mark and quit.
+		if ( currentWidth + 4 >= maxWidth && isLastLine( currentLine, numberOfLines ) ) {
+			output += " ...";
+			break;
+		}
+
+		// Case: all is well, we can add the word (and a space).
+		output += `${ word } `;
 	}
 
-	// Make sure we always adhere to the max size...
-	if ( max - TRUNCATION_SYMBOL.length <= 0 ){
-		return text.slice( 0, max );
-	}
-
-	if ( text.length > max ) {
-		return text.slice( 0, max - TRUNCATION_SYMBOL.length ) + TRUNCATION_SYMBOL;
-	}
-
-	return text;
+	return output;
 };

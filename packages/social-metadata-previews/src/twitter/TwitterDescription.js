@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { truncateText } from "../helpers/truncation";
+import { buildTruncatedText } from "../helpers/truncation";
 
 /**
  * Renders a TwitterDescription component.
@@ -35,7 +35,7 @@ TwitterDescriptionText.propTypes = {
  */
 const TwitterDescription = ( props ) =>
 	<TwitterDescriptionText isLarge={ props.isLarge }>
-		{ truncateText( props.description, null, "description", props.isLarge ) }
+		{ buildTruncatedText( props.description ) }
 	</TwitterDescriptionText>
 ;
 

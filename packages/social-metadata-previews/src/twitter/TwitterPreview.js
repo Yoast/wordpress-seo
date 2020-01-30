@@ -11,7 +11,7 @@ import TwitterTextWrapper from "./TwitterTextWrapper";
 
 const TwitterPreviewWrapper = styled.div`
 	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    width: 506px;
+    width: 507px;
     min-height: 125px;
     border-radius: 12px;
     border: 1px solid #E1E8ED;
