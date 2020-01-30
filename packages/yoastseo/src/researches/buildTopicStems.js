@@ -12,6 +12,16 @@ import { memoize } from "lodash-es";
 
 const getStemForLanguage = getStemForLanguageFactory();
 
+function TopicPhrase( stemOriginalPairs = [], exactMatch = false ) {
+	this.stemOriginalPairs = stemOriginalPairs;
+	this.exactMatch = exactMatch;
+}
+
+function StemOriginalPair( stem, original ) {
+	this.stem = stem;
+	this.original = original;
+}
+
 /**
  * Analyzes the focus keyword string or one synonym phrase.
  * Checks if morphology is requested or if the user wants to match exact string.
@@ -33,7 +43,10 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
-		return [ escapeRegExp( keyphrase ) ];
+		return new TopicPhrase(
+			[ new StemOriginalPair( escapeRegExp( keyphrase ), keyphrase ) ],
+			true
+		);
 	}
 
 	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
@@ -41,13 +54,25 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 
 	// Simply returns lowCased words from the keyphrase if stems cannot be built.
 	if ( morphologyData === false || isUndefined( getStem ) ) {
-		return words.map( word => normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ) );
+		const lowerCasedOriginalPairs = words.map(
+			word => new StemOriginalPair(
+				normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ),
+				word
+			),
+		);
+
+		return new TopicPhrase( lowerCasedOriginalPairs );
 	}
 
-	return words.map( word => {
+	const stemOriginalPairs = words.map( word => {
 		const lowCaseWord = escapeRegExp( word.toLocaleLowerCase( language ) );
-		return getStem( normalizeSingle( lowCaseWord ), morphologyData );
+		return new StemOriginalPair(
+			getStem( normalizeSingle( lowCaseWord ), morphologyData ),
+			word,
+		);
 	} );
+
+	return new TopicPhrase( stemOriginalPairs );
 };
 
 /**
@@ -114,4 +139,6 @@ function collectStems( keyphrase, synonyms, language = "en", morphologyData ) {
 export {
 	buildStems,
 	collectStems,
+	TopicPhrase,
+	StemOriginalPair,
 };
