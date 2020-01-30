@@ -1,74 +1,60 @@
 /**
- * Function to check whether this is the last word in the array.
+ * Depending on the number of characters per line, will truncate the sentence on the last line.
  *
- * This function will error if you provide an empty array.
+ * @param {string} fullText      The text string that needs to be truncated.
+ * @param {number} maxWidth      The approximate number of characters per line.
+ * @param {number} numberOfLines The number of lines before truncation.
  *
- * @param {string} word The current word.
- * @param {string[]} words An array of words.
- *
- * @returns {boolean} true if this is the last word in the array, false otherwise.
+ * @returns {string} The text that would approximately fit on the number of lines with the specified width.
  */
-const isLastWord = ( word, words ) => {
-	return word === words[ words.length - 1 ];
-};
+export const buildTruncatedText = ( fullText, maxWidth = 74, numberOfLines = 3 ) => {
+	const words = fullText.split( " " );
 
-/**
- * Function to check whether this is the last line.
- *
- * Created to make the if-statements more readable.
- *
- * @param {number} lineNr The current lineNr.
- * @param {number} nrOfLines The maximum number of lines.
- *
- * @returns {boolean} true if it is the last line, false otherwise.
- */
-const isLastLine = ( lineNr, nrOfLines ) => {
-	return lineNr === nrOfLines;
-};
+	/**
+	 *
+	 * @param {array}    text           The text, split on spaces into an array.
+	 * @param {number}   widthRemaining The remaining number of characters on this line.
+	 * @param {number}   linesRemaining The remaining number of lines.
+	 * @param {string}   output         The truncated string.
+	 *
+	 * @returns {string} Returns the completed output when done, or calls itself again when not done.
+	 */
+	const truncateTextRecursively = ( text, widthRemaining = maxWidth, linesRemaining = numberOfLines, output = ""  ) => {
+		let toAdd = "";
+		// Base cases:
 
-/**
- * Builds a text that fits in the provided maxWidth and numberOfLines.
- * If the text would have been too long, a truncation symbol is added.
- *
- * @param {string} text The text that we want to fit in the provided space.
- * @param {number} maxWidth The maximum number of characters on one line.
- * @param {number} numberOfLines The maximum number of lines that we want.
- *
- * @returns {string} A string that fits the provided specification, possibly with a truncation symbol.
- */
-export const buildTruncatedText = ( text, maxWidth = 74, numberOfLines = 3 ) => {
-	// Create an array of words in the description.
-	const words = text.split( " " );
-
-	let output = "";
-	let currentWidth = 0;
-	let currentLine = 1;
-
-	for ( const word of words ) {
-		// Increment the width of the current line with the length of the word and a space.
-		currentWidth += word.length + 1;
-
-		// Case: we need to move to the next line.
-		if ( currentWidth >= maxWidth && ! isLastLine( currentLine, numberOfLines ) ) {
-			currentWidth = word.length + 1;
-			currentLine += 1;
+		// If there are no more words to add, return the output we have.
+		if ( text.length === 0 ) {
+			return output;
 		}
 
-		// Case: the last word fits and we are done.
-		if ( isLastWord( word, words ) && currentWidth <= maxWidth + 1 ) {
-			output += word;
-			break;
+		// If there is no more width remaining on this line, go to the next line.
+		if ( widthRemaining <= 0 ) {
+			return truncateTextRecursively( text, maxWidth, linesRemaining - 1, output + " " );
 		}
 
-		// Case: the current word does not fit on the last line. Add the truncation mark and quit.
-		if ( currentWidth + 4 >= maxWidth && isLastLine( currentLine, numberOfLines ) ) {
-			output += " ...";
-			break;
+		// If this is NOT the first word on this line, add a space.
+		if ( widthRemaining !== maxWidth ) {
+			toAdd +=  " ";
 		}
 
-		// Case: all is well, we can add the word (and a space).
-		output += `${ word } `;
-	}
+		// Take the word from the array, and add it to the part we are trying to add.
+		toAdd += text.splice( 0, 1 );
 
-	return output;
+		/*
+		* A pragmatic decision was taken here to not check for sentence endings.
+		*
+		* We terminate and truncate the text if:
+		* 	-Adding this word plus ellipsis would exceed the maximumWidth for this line.
+		* 	AND
+		* 	-We cannot go to the next line.
+		*/
+		if ( toAdd.length + 4 >= widthRemaining && linesRemaining === 1 ) {
+			return output + " ...";
+		}
+
+		// If none of the early returns are triggered: add the word, decrease the width remaining, and stay on this line.
+		return truncateTextRecursively( text, widthRemaining - toAdd.length, linesRemaining, output + toAdd );
+	};
+	return truncateTextRecursively( words );
 };

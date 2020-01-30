@@ -20,7 +20,9 @@ const TwitterTitleWrapper = styled.p`
 /**
  * Renders a TwitterTitle component.
  *
- * @param {object} props The props.
+ * @param {object} props                    The props.
+ * @param {string} props.title              The title.
+ * @param {string} props.maximumTitleLength [Optional] The maximum length of the title. Should not be lower than 4.
  *
  * @returns {React.Element} The rendered element.
  */
