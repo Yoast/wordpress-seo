@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WordPress Permalink structure watcher.
  *
@@ -66,12 +65,12 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$this->reset_permalink_indexables( 'post', $post_type );
 			$this->reset_permalink_indexables( 'post-type-archive', $post_type );
 
-			$taxonomies[] = get_object_taxonomies( 'post', 'names');
+			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
 		}
 
 		$taxonomies = array_merge( [], ...$taxonomies );
 		foreach ( $taxonomies as $taxonomy ) {
-			$this->reset_permalink_indexables( 'term', $taxonomy->name );
+			$this->reset_permalink_indexables( 'term', $taxonomy );
 		}
 
 		$this->reset_permalink_indexables( 'author' );
@@ -90,7 +89,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$subtype = $type;
 
 		// When the subtype contains _base, just strip it.
-		if ( strstr( $subtype, '_base') ) {
+		if ( strstr( $subtype, '_base' ) ) {
 			$subtype = substr( $type, 0, -5 );
 		}
 
