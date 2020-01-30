@@ -61,13 +61,15 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		 * @return array The post types.
 		 */
 		$post_types = \apply_filters( 'wpseo_post_types', $this->post_type->get_public_post_types(), 'update_permalink' );
-
+		$taxonomies = [];
 		foreach ( $post_types as $post_type ) {
 			$this->reset_permalink_indexables( 'post', $post_type );
 			$this->reset_permalink_indexables( 'post-type-archive', $post_type );
+
+			$taxonomies[] = get_object_taxonomies( 'post', 'names');
 		}
 
-		$taxonomies = get_taxonomies();
+		$taxonomies = array_merge( [], ...$taxonomies );
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->reset_permalink_indexables( 'term', $taxonomy->name );
 		}
