@@ -1,0 +1,299 @@
+@import "../../../node_modules/@yoast/style-guide/src/colors";
+@import "../../../node_modules/yoast-components/css/all";
+@import "../../../node_modules/sassdash/index";
+@import "../../../node_modules/yoastseo/css/icons";
+
+$breakpoint_mobile: '768px';
+$yoast-alerts-button-icon-width: 20px;
+$yoast-alerts-button-width: 52px;
+$yoast-alerts-active-margin: 20px;
+
+.yoast-alert {
+	padding: 0 12px;
+	border-left: 4px solid #fff;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.yoast-container {
+	position: relative;
+	max-width: 1280px;
+	margin: 20px 0 1px;
+	padding: 20px 20px 0;
+	border: 1px solid #e5e5e5;
+	background-color: #fdfdfd;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+}
+
+.yoast-alerts > h2:first-child {
+	margin: 0;
+	padding: 9px 0 4px 0;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 29px;
+}
+
+.yoast-alerts .yoast-container h3 {
+	margin: -20px -20px 0;
+	padding: 1em;
+	border-bottom: 1px solid #ccc;
+	background-color: #fdfdfd;
+	font-size: 1.4em;
+}
+
+.yoast-container .container {
+	max-width: 980px;
+}
+
+.yoast-container .yoast-alert-holder {
+	display: flex;
+	position: relative;
+}
+
+.restore .dashicons,
+.dismiss .dashicons {
+	font-size: $yoast-alerts-button-icon-width;
+	width: $yoast-alerts-button-icon-width;
+	height: $yoast-alerts-button-icon-width;
+}
+
+.yoast-bottom-spacing {
+	margin-bottom: 20px;
+}
+
+/* These selectors need a higher specificity than .wp-core-ui .button */
+.yoast-alerts .button.restore,
+.yoast-alerts .button.dismiss {
+	position: absolute;
+	right: 0;
+	width: $yoast-alerts-button-width;
+	height: 100%;
+	line-height: inherit;
+	padding: 0;
+	outline: none;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	border-radius: 0;
+}
+
+.yoast-alerts .button.restore:hover,
+.yoast-alerts .button.dismiss:hover {
+	background: transparent;
+}
+
+.yoast-alerts .button.restore:focus,
+.yoast-alerts .button.dismiss:focus {
+	background: transparent;
+
+	&::before {
+		content: "";
+		display: block;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 0 0 0 1px #007cba;
+		/* Only visible in Windows High Contrast mode */
+		outline: 2px solid transparent;
+	}
+}
+
+// Get started dismiss button focus style position.
+.yoast-alerts .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+	top: 0;
+	transform: translate(-50%,6px);
+}
+
+.yoast-container .separator {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-top: 1px solid #ddd;
+}
+
+.yoast-container .dashicons-yes {
+	color: $color_green;
+}
+
+.yoast-container-disabled {
+	display: table-cell;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 4px;
+	background-color: rgba(232, 232, 232, 0.7);
+}
+
+.yoast-no-issues {
+	padding: 1em 1em 1em 16px;
+	color: #666;
+}
+
+.yoast-muted-title {
+	overflow: hidden;
+	font-weight: 600;
+	font-style: italic;
+
+	&:after {
+		content: "";
+		display: inline-block;
+		height: 0.5em;
+		vertical-align: bottom;
+		width: 100%;
+		margin-right: -100%;
+		margin-left: 10px;
+		border-top: 1px solid #ddd;
+	}
+}
+
+/* Shared style for the problems and notifications. */
+.yoast-alerts-header {
+}
+
+.yoast-alerts-active, .yoast-alerts-dismissed {
+	.yoast-alert {
+		padding-right: $yoast-alerts-button-width;
+		flex: 1;
+	}
+}
+
+.yoast-alerts-active {
+	.yoast-alert-holder {
+		margin-bottom: $yoast-alerts-active-margin;
+	}
+}
+
+.yoast-alerts-dismissed {
+	&.paper.tab-block {
+		margin: $yoast-alerts-active-margin 0 $yoast-alerts-active-margin 0;
+
+		.paper-container.toggleable-container {
+			padding: 0;
+
+			.yoast-alert-holder:nth-child(odd) {
+				background-color: $color_background_light;
+
+				.yoast-alert {
+					background-color: transparent;
+				}
+			}
+		}
+
+	}
+
+	.yoast-svg-icon-eye {
+		background: transparent url(svg-icon-eye($color_button_text)) no-repeat 0 0;
+		background-size: $yoast-alerts-button-icon-width;
+	}
+}
+
+/* Style only for errors / problems. */
+#yoast-errors-header {
+	.dashicons {
+		color: $color_red;
+	}
+}
+
+#yoast-errors-active {
+	.yoast-alert {
+		border-left-color: $color_red;
+	}
+}
+
+#yoast-errors-dismissed {
+	.yoast-alert {
+		border-left-color: #d93f69;
+	}
+}
+
+/* Style only for warnings / notifications. */
+#yoast-warnings-header {
+	.dashicons {
+		color: $color_purple;
+	}
+}
+
+#yoast-warnings-active {
+	.yoast-alert {
+		border-left-color: $color_purple;
+	}
+}
+
+#yoast-warnings-dismissed {
+	.yoast-alert {
+		border-left-color: #0075b3;
+	}
+}
+
+.yoast-alerts {
+
+	.yoast-container {
+		&__configuration-wizard {
+			display: flex;
+			align-items: center;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+			background-color: $color_white;
+			min-height: 0;
+			padding-bottom: 20px;
+			margin-bottom: 15px;
+
+			img {
+				@media screen and (max-width: $breakpoint_mobile) {
+					display: none;
+				}
+			}
+
+			&--content {
+				flex: 1 1 auto;
+				margin: 12px;
+				padding: 0;
+
+				h3 {
+					border-bottom: 0;
+					font-size: 1.4em;
+					line-height: 1;
+					margin: 0 0 4px 0;
+					padding: 0;
+					background: transparent;
+				}
+
+				p {
+					margin: 1em 0 0;
+
+					&:last-child {
+						margin: 0;
+					}
+				}
+
+				@media screen and (max-width: $breakpoint_mobile) {
+					display: block;
+					position: relative;
+					padding: 16px;
+				}
+			}
+
+			&--dismiss {
+				text-align: center;
+
+				@media screen and (max-width: $breakpoint_mobile) {
+					width: 40px;
+					position: absolute;
+					top: 5px;
+					right: 5px;
+					margin: 0;
+				}
+
+				.dashicons {
+					text-decoration: none;
+					margin-top: 12px;
+				}
+			}
+		}
+	}
+}
