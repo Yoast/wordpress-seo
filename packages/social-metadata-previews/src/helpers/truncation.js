@@ -38,6 +38,7 @@ export const buildTruncatedText = ( fullText, maxWidth = 74, numberOfLines = 3 )
 			toAdd +=  " ";
 		}
 
+		// If the word we are trying to add exceeds the linewidth anyways, just add it to the output and return.
 		if ( text[ 0 ].length > maxWidth ) {
 			return output + text[ 0 ];
 		}
