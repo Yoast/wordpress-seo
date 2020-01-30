@@ -31,12 +31,12 @@ describe( "TwitterTitle", () => {
 		const component = renderer.create(
 			<TwitterTitle
 				title="My Twitter Title"
-				maximumTitleLength={ 2 }
+				maximumTitleLength={ 7 }
 			/>
 		);
 
 		const tree = component.toJSON();
 		expect( tree.children.length ).toEqual( 1 );
-		expect( tree.children[ 0 ] ).toEqual( "My" );
+		expect( tree.children[ 0 ] ).toEqual( "My ..." );
 	} );
 } );

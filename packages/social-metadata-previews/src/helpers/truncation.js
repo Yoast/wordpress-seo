@@ -38,6 +38,10 @@ export const buildTruncatedText = ( fullText, maxWidth = 74, numberOfLines = 3 )
 			toAdd +=  " ";
 		}
 
+		if ( text[ 0 ].length > maxWidth ) {
+			return output + text[ 0 ];
+		}
+
 		// Take the word from the array, and add it to the part we are trying to add.
 		toAdd += text.splice( 0, 1 );
 

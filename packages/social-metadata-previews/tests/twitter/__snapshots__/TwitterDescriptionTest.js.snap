@@ -15,7 +15,7 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 <p
   className="c0"
 >
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long descript...
+  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long ...
 </p>
 `;
 
@@ -34,6 +34,6 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
 <p
   className="c0"
 >
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long descrip...
+  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long ...
 </p>
 `;
