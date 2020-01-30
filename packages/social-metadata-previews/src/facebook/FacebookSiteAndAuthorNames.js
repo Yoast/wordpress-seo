@@ -19,7 +19,7 @@ const FacebookSiteAndAuthorNamesWrapper = styled.p`
 	text-transform: uppercase;
 	white-space: nowrap;
 	margin: 0;
-	position: ${ props => props.mode === 'landscape' ? 'relative' : 'static' };
+	position: ${ props => props.mode === "landscape" ? "relative" : "static" };
 `;
 
 const FacebookSiteAndAuthorNamesSeparator = styled.span`

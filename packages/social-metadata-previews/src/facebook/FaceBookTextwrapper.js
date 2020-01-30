@@ -24,10 +24,9 @@ const InnerWrapper = styled.div`
  * @returns {React.Element} An element that wraps all text elements.
  */
 const FacebookTextWrapper = ( props ) => {
-
-	return(	<OuterWrapper>
-				<InnerWrapper>{ props.children }</InnerWrapper>
-			</OuterWrapper>)
+	return ( <OuterWrapper>
+		<InnerWrapper>{ props.children }</InnerWrapper>
+	</OuterWrapper> );
 };
 
 FacebookTextWrapper.propTypes = {
