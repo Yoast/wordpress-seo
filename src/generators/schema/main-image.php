@@ -21,7 +21,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var Schema\Image_Helper
@@ -31,14 +31,14 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Image_Helper        $image        The image helper.
 	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 */
 	public function __construct(
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		Schema\Image_Helper $schema_image_helper
 	) {
-		$this->image_helper        = $image_helper;
+		$this->image        = $image;
 		$this->schema_image_helper = $schema_image_helper;
 	}
 
@@ -105,7 +105,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = $this->image_helper->get_post_content_image( $post_id );
+		$image_url = $this->image->get_post_content_image( $post_id );
 
 		if ( $image_url === '' ) {
 			return null;

@@ -26,20 +26,20 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * HowTo constructor.
 	 *
 	 * @param HTML_Helper  $html_helper  The HTML helper.
-	 * @param Image_Helper $image_helper The schema image helper.
+	 * @param Image_Helper $image The schema image helper.
 	 */
 	public function __construct(
 		HTML_Helper $html_helper,
-		Image_Helper $image_helper
+		Image_Helper $image
 	) {
 		$this->html_helper  = $html_helper;
-		$this->image_helper = $image_helper;
+		$this->image        = $image;
 	}
 
 	/**
@@ -210,6 +210,6 @@ class HowTo extends Abstract_Schema_Piece {
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
 
-		return $this->image_helper->generate_from_url( $schema_id, $url );
+		return $this->image->generate_from_url( $schema_id, $url );
 	}
 }

@@ -34,17 +34,17 @@ class Author extends Person {
 	 * Author constructor.
 	 *
 	 * @param Article_Helper      $article_helper      The article helper.
-	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Image_Helper        $image        The image helper.
 	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 * @param Schema\HTML_Helper  $html_helper         The HTML helper.
 	 */
 	public function __construct(
 		Article_Helper $article_helper,
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		Schema\Image_Helper $schema_image_helper,
 		Schema\HTML_Helper $html_helper
 	) {
-		parent::__construct( $image_helper, $schema_image_helper, $html_helper );
+		parent::__construct( $image, $schema_image_helper, $html_helper );
 		$this->article_helper = $article_helper;
 	}
 

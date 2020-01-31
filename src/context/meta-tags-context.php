@@ -83,7 +83,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var ID_Helper
@@ -110,7 +110,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 *
 	 * @param Options_Helper     $options      The options helper.
 	 * @param Url_Helper         $url_helper          The url helper.
-	 * @param Image_Helper       $image_helper        The image helper.
+	 * @param Image_Helper       $image        The image helper.
 	 * @param ID_Helper          $id_helper           The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 * @param Site_Helper        $site_helper         The site helper.
@@ -119,7 +119,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function __construct(
 		Options_Helper $options,
 		Url_Helper $url_helper,
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site_helper,
@@ -127,7 +127,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	) {
 		$this->options             = $options;
 		$this->url_helper          = $url_helper;
-		$this->image_helper        = $image_helper;
+		$this->image               = $image;
 		$this->id_helper           = $id_helper;
 		$this->replace_vars        = $replace_vars;
 		$this->site_helper         = $site_helper;
@@ -222,7 +222,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|bool The company logo id.
 	 */
 	public function generate_company_logo_id() {
-		$company_logo_id = $this->image_helper->get_attachment_id_from_settings( 'company_logo' );
+		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		/**
 		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id

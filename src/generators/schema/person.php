@@ -46,7 +46,7 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var Schema\Image_Helper
@@ -61,16 +61,16 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Image_Helper        $image        The image helper.
 	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 * @param HTML_Helper         $html_helper         The HTML helper.
 	 */
 	public function __construct(
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		Schema\Image_Helper $schema_image_helper,
 		HTML_Helper $html_helper
 	) {
-		$this->image_helper        = $image_helper;
+		$this->image        = $image;
 		$this->schema_image_helper = $schema_image_helper;
 		$this->html_helper         = $html_helper;
 	}
@@ -213,7 +213,7 @@ class Person extends Abstract_Schema_Piece {
 		if ( $context->site_represents !== 'person' ) {
 			return $data;
 		}
-		$person_logo_id = $this->image_helper->get_attachment_id_from_settings( 'person_logo' );
+		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
 			$data['image'] = $this->schema_image_helper->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
