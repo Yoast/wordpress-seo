@@ -56,7 +56,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 */
 	public function reset_permalinks() {
 		$post_types = $this->get_post_types();
-		foreach( $post_types as $post_type ) {
+		foreach ( $post_types as $post_type ) {
 			$this->reset_permalinks_post_type( $post_type );
 		}
 
