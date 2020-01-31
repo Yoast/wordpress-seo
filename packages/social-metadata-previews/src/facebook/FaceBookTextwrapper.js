@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 
 const OuterWrapper = styled.div`
 	background-color: #f2f3f5;
-    border-bottom: 1px solid #dddfe2;
-    margin: 0;
-    padding: 10px 12px;
+	border-bottom: 1px solid #dddfe2;
+	margin: 0;
+	padding: 10px 12px;
 	position: relative;
-	
+
 	width: 500px;
 	height: 57px;
 `;

@@ -1,9 +1,16 @@
 /* External dependencies */
 import React from "react";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import ExamplesContainer from "./ExamplesContainer";
 import { FacebookPreview } from "@yoast/social-metadata-previews";
+
+const FacebookPreviewExampleContainer = styled( ExamplesContainer )`
+	display: flex;
+	flex-direction: column;
+	margin-left: 50px;
+`;
 
 /**
  * Returns the FacebookPreview examples.
@@ -12,7 +19,7 @@ import { FacebookPreview } from "@yoast/social-metadata-previews";
  */
 const FacebookPreviewExample = () => {
 	return (
-		<ExamplesContainer backgroundColor="transparent" style={ { display: "flex", flexDirection: "column", marginLeft: "50px" } }>
+		<FacebookPreviewExampleContainer backgroundColor="transparent">
 			<h2>FacebookPreview Landscape</h2>
 			<FacebookPreview
 				siteName="SiteName.com"
@@ -90,7 +97,7 @@ const FacebookPreviewExample = () => {
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 			/>
-		</ExamplesContainer>
+		</FacebookPreviewExampleContainer>
 	);
 };
 
