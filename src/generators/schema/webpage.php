@@ -33,22 +33,22 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * @var Date_Helper
 	 */
-	private $date_helper;
+	private $date;
 
 	/**
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param HTML_Helper         $html  The HTML helper.
-	 * @param Date_Helper         $date_helper  The date helper.
+	 * @param Date_Helper         $date  The date helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page,
 		HTML_Helper $html,
-		Date_Helper $date_helper
+		Date_Helper $date
 	) {
 		$this->current_page = $current_page;
-		$this->date_helper  = $date_helper;
+		$this->date  = $date;
 		$this->html  = $html;
 	}
 
@@ -91,8 +91,8 @@ class WebPage extends Abstract_Schema_Piece {
 		if ( $context->indexable->object_type === 'post' ) {
 			$this->add_image( $data, $context );
 
-			$data['datePublished'] = $this->date_helper->format( $context->post->post_date_gmt );
-			$data['dateModified']  = $this->date_helper->format( $context->post->post_modified_gmt );
+			$data['datePublished'] = $this->date->format( $context->post->post_date_gmt );
+			$data['dateModified']  = $this->date->format( $context->post->post_modified_gmt );
 
 			if ( $context->indexable->object_sub_type === 'post' ) {
 				$data = $this->add_author( $data, $context->post, $context );

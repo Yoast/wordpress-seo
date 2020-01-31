@@ -25,7 +25,7 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * @var Date_Helper
 	 */
-	private $date_helper;
+	private $date;
 
 	/**
 	 * @var HTML_Helper
@@ -36,12 +36,12 @@ class Article extends Abstract_Schema_Piece {
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article The article helper.
-	 * @param Date_Helper    $date_helper    The date helper.
+	 * @param Date_Helper    $date    The date helper.
 	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article, Date_Helper $date_helper, HTML_Helper $html ) {
+	public function __construct( Article_Helper $article, Date_Helper $date, HTML_Helper $html ) {
 		$this->article = $article;
-		$this->date_helper    = $date_helper;
+		$this->date    = $date;
 		$this->html    = $html;
 	}
 
@@ -85,8 +85,8 @@ class Article extends Abstract_Schema_Piece {
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id->webpage_hash ],
 			'author'           => [ '@id' => $this->id->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $this->html->smart_strip_tags( $context->title ),
-			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
-			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
+			'datePublished'    => $this->date->format( $context->post->post_date_gmt ),
+			'dateModified'     => $this->date->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id->webpage_hash ],
 		];
