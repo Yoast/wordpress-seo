@@ -67,6 +67,7 @@ const TwitterPreviewExample = () => {
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 				isLarge={ false }
+				description={ "We are also providing a long description. This ensures that the description will be truncated. For a large summary like this, that only happens after 234 characters. Are we there yet? No, apparently that are a lot of characters. Who is reading such a long description anyway?." }
 			/>
 			<h2>Upload no image</h2>
 			<TwitterPreview

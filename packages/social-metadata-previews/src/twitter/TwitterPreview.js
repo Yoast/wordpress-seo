@@ -10,7 +10,9 @@ import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
 
 const TwitterPreviewWrapper = styled.div`
-	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
     width: 507px;
     min-height: 125px;
     border-radius: 12px;

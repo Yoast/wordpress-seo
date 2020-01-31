@@ -15,8 +15,7 @@ const TwitterSiteNameWrapper = styled.p`
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	margin-top: auto;
-	margin-bottom: 0;
+	margin: 0;
 	display: flex;
 	fill: currentcolor;
 `;
