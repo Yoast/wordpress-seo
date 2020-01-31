@@ -63,7 +63,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_pt_archive_option' ], 10, 2 );
+		add_action( 'update_option_wpseo_titles', [ $this, 'check_ptarchive_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_post_type_option' ], 10, 2 );
 	}
 
@@ -75,7 +75,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function check_pt_archive_option( $old_value, $new_value ) {
+	public function check_ptarchive_option( $old_value, $new_value ) {
 		$relevant_keys = [ 'title-ptarchive-', 'metadesc-ptarchive-', 'bctitle-ptarchive-', 'noindex-ptarchive-' ];
 
 		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
@@ -102,7 +102,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 
 			// If the option value has changed.
 			if ( ! in_array( $post_type, $post_types_rebuild, true ) && $this->has_option_value_changed( $old_value, $new_value, $key ) ) {
-				$this->build_pt_archive_indexable( $post_type );
+				$this->build_ptarchive_indexable( $post_type );
 				$post_types_rebuild[] = $post_type;
 			}
 		}
@@ -157,7 +157,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function build_pt_archive_indexable( $post_type ) {
+	public function build_ptarchive_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
 		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
 		$indexable->save();
