@@ -6,8 +6,10 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 10px;
-	align-items: stretch;
+	justify-content: center;
 	margin: 0;
+	box-sizing: border-box;
+	flex-shrink: 1 1 auto;
 `;
 
 /**

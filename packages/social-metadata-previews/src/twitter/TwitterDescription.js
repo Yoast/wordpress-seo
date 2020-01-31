@@ -2,28 +2,28 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { buildTruncatedText } from "../helpers/truncation";
 
 /**
  * Renders a TwitterDescription component.
+ * NOTE: the "-webkit-line-clamp: 3" limits the number of lines to 3.
  *
  * @param {object} props The props.
  *
  * @returns {React.Component} The rendered element.
  */
 const TwitterDescriptionText = styled.p`
-	max-height: ${ props => props.isLarge ? "55px" : "36px" };
+	max-height: 55px;
 	line-height: 18px;
 	overflow: hidden;
+	text-overflow: ellipsis;
 	margin: 0;
 	margin-bottom: 2px;
-	width: ${ props => props.isLarge ? "476px" : "357px" };
 	color: rgb(101, 119, 134);
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
 `;
-
-TwitterDescriptionText.propTypes = {
-	isLarge: PropTypes.bool.isRequired,
-};
 
 /**
  * Component that contains the twitter description text.
@@ -33,14 +33,13 @@ TwitterDescriptionText.propTypes = {
  * @returns {React.Element} The TwitterDescription component.
  */
 const TwitterDescription = ( props ) =>
-	<TwitterDescriptionText isLarge={ props.isLarge }>
-		{ buildTruncatedText( props.description ) }
+	<TwitterDescriptionText>
+		{ props.description }
 	</TwitterDescriptionText>
 ;
 
 TwitterDescription.propTypes = {
 	description: PropTypes.string.isRequired,
-	isLarge: PropTypes.bool.isRequired,
 };
 
 export default TwitterDescription;

@@ -26,7 +26,20 @@ const TwitterPreviewWrapper = styled.div`
     }
     overflow: hidden;
     display: flex;
-    flex-wrap: wrap;
+    max-height: ${ props => props.isLarge ? "370px" : "125px" };
+    flex-direction: ${ props => props.isLarge ? "column" : "row" };
+`;
+
+const ImgWrapper = styled.div`
+	${ props => {
+		if ( ! props.isLarge ) {
+			return `width: 125px; 
+			height: 125px;`;
+		}
+	}
+}
+	flex-shrink: 0;
+	overflow: hidden;
 `;
 
 /**
@@ -38,11 +51,13 @@ const TwitterPreviewWrapper = styled.div`
  */
 const TwitterPreview = ( props ) => {
 	return (
-		<TwitterPreviewWrapper>
-			<TwitterImage src={ props.image } alt={ props.alt } />
+		<TwitterPreviewWrapper isLarge={ props.isLarge }>
+			<ImgWrapper isLarge={ props.isLarge }>
+				<TwitterImage src={ props.image } alt={ props.alt } />
+			</ImgWrapper>
 			<TwitterTextWrapper>
 				<TwitterTitle title={ props.title } />
-				<TwitterDescription isLarge={ props.isLarge } description={ props.description } />
+				<TwitterDescription description={ props.description } />
 				<TwitterSiteName siteName={ props.siteName } />
 			</TwitterTextWrapper>
 		</TwitterPreviewWrapper>

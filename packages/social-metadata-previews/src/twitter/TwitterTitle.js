@@ -2,10 +2,8 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { buildTruncatedText } from "../helpers/truncation";
 
 const TwitterTitleWrapper = styled.p`
-	max-height: 18px;
 	line-height: 18px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -20,23 +18,17 @@ const TwitterTitleWrapper = styled.p`
  *
  * @param {object} props                    The props.
  * @param {string} props.title              The title.
- * @param {string} props.maximumTitleLength [Optional] The maximum length of the title. Should not be lower than 4.
  *
  * @returns {React.Element} The rendered element.
  */
 const TwitterTitle = ( props ) =>
 	<TwitterTitleWrapper>
-		{ buildTruncatedText( props.title, props.maximumTitleLength, 1 ) }
+		{ props.title }
 	</TwitterTitleWrapper>
 ;
 
 TwitterTitle.propTypes = {
 	title: PropTypes.string.isRequired,
-	maximumTitleLength: PropTypes.number,
-};
-
-TwitterTitle.defaultProps = {
-	maximumTitleLength: 70,
 };
 
 export default TwitterTitle;
