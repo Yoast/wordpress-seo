@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
@@ -31,14 +32,14 @@ class Indexable_Repository {
 	/**
 	 * The current page helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Current_Page_Helper
+	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
 	 * The logger object.
 	 *
-	 * @var \Psr\Log\LoggerInterface
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
@@ -146,13 +147,13 @@ class Indexable_Repository {
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
+	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_for_date_archive( $auto_create = true ) {
 		/**
 		 * Indexable instance.
 		 *
-		 * @var \Yoast\WP\SEO\Models\Indexable $indexable
+		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 

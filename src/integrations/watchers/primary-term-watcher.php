@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 class Primary_Term_Watcher implements Integration_Interface {
 
 	/**
-	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
+	 * @var Primary_Term_Repository
 	 */
 	protected $repository;
 
@@ -32,7 +32,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Repositories\Primary_Term_Repository $repository The primary term repository.
+	 * @param Primary_Term_Repository $repository The primary term repository.
 	 */
 	public function __construct( Primary_Term_Repository $repository ) {
 		$this->repository = $repository;
