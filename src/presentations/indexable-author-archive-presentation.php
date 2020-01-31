@@ -28,22 +28,22 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 *
 	 * @var Post_Type_Helper
 	 */
-	protected $post_type_helper;
+	protected $post_type;
 
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper $post_type The post type helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
-		Post_Type_Helper $post_type_helper
+		Post_Type_Helper $post_type
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->post_type_helper = $post_type_helper;
+		$this->post_type = $post_type;
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $robots;
 		}
 
-		$public_post_types = $this->post_type_helper->get_public_post_types();
+		$public_post_types = $this->post_type->get_public_post_types();
 
 		// Global option: "Show archives for authors without posts in search results".
 		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
