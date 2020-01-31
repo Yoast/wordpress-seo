@@ -122,7 +122,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Updates the relations when the post indexable is build.
+	 * Updates the relations when the post indexable is built.
 	 *
 	 * @param Indexable $updated_indexable The updated indexable.
 	 * @param Indexable $old_indexable     The old indexable.
