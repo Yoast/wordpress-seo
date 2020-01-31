@@ -1,6 +1,6 @@
 <?php
 /**
- * Post type archive watcher to save the meta data to an Indexable.
+ * Watcher for the wpseo_titles option to save the meta data to the indexables table.
  *
  * @package Yoast\YoastSEO\Watchers
  */
@@ -13,9 +13,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Watches the home page options to save the meta information when updated.
+ * Watches the wpseo_titles option to save the meta data to the indexables table.
  */
-class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
+class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc
@@ -35,7 +35,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	protected $builder;
 
 	/**
-	 * Indexable_Author_Watcher constructor.
+	 * WPSEO_Titles_Option_Watcher constructor.
 	 *
 	 * @param Indexable_Repository $repository The repository to use.
 	 * @param Indexable_Builder    $builder    The post builder to use.
@@ -49,18 +49,18 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
+		add_action( 'update_option_wpseo_titles', [ $this, 'check_pt_archive_option' ], 10, 2 );
 	}
 
 	/**
-	 * Checks if the home page indexable needs to be rebuild based on option values.
+	 * Checks if the indexable needs to be rebuilt based on the wpseo_titles option values.
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
 	 *
 	 * @return void
 	 */
-	public function check_option( $old_value, $new_value ) {
+	public function check_pt_archive_option( $old_value, $new_value ) {
 		$relevant_keys = [ 'title-ptarchive-', 'metadesc-ptarchive-', 'bctitle-ptarchive-', 'noindex-ptarchive-' ];
 
 		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
@@ -94,20 +94,20 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 					$old_value[ $key ] !== $new_value[ $key ]
 				)
 			) {
-				$this->build_indexable( $post_type );
+				$this->build_pt_archive_indexable( $post_type );
 				$post_types_rebuild[] = $post_type;
 			}
 		}
 	}
 
 	/**
-	 * Saves the post type archive.
+	 * Saves the post type archive indexable.
 	 *
 	 * @param string $post_type The post type.
 	 *
 	 * @return void
 	 */
-	public function build_indexable( $post_type ) {
+	public function build_pt_archive_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
 		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
 		$indexable->save();
