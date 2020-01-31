@@ -158,7 +158,7 @@ class Person extends Abstract_Schema_Piece {
 		$user_data = \get_userdata( $user_id );
 		$data      = [
 			'@type' => $this->type,
-			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
+			'@id'   => $this->id->get_user_schema_id( $user_id, $context ),
 			'name'  => $this->html->smart_strip_tags( $user_data->display_name ),
 		];
 
@@ -186,7 +186,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data, Meta_Tags_Context $context ) {
-		$schema_id = $context->site_url . $this->id_helper->person_logo_hash;
+		$schema_id = $context->site_url . $this->id->person_logo_hash;
 
 		$data = $this->set_image_from_options( $data, $schema_id, $context );
 		if ( ! isset( $data['image'] ) ) {

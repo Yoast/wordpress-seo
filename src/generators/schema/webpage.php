@@ -73,12 +73,12 @@ class WebPage extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
 			'@type'      => $context->schema_page_type,
-			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
+			'@id'        => $context->canonical . $this->id->webpage_hash,
 			'url'        => $context->canonical,
 			'inLanguage' => \get_bloginfo( 'language' ),
 			'name'       => $this->html->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
-				'@id' => $context->site_url . $this->id_helper->website_hash,
+				'@id' => $context->site_url . $this->id->website_hash,
 			],
 		];
 
@@ -105,7 +105,7 @@ class WebPage extends Abstract_Schema_Piece {
 
 		if ( $this->add_breadcrumbs( $context ) ) {
 			$data['breadcrumb'] = [
-				'@id' => $context->canonical . $this->id_helper->breadcrumb_hash,
+				'@id' => $context->canonical . $this->id->breadcrumb_hash,
 			];
 		}
 
@@ -123,7 +123,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_author( $data, $post, Meta_Tags_Context $context ) {
 		if ( $context->site_represents === false ) {
-			$data['author'] = [ '@id' => $this->id_helper->get_user_schema_id( $post->post_author, $context ) ];
+			$data['author'] = [ '@id' => $this->id->get_user_schema_id( $post->post_author, $context ) ];
 		}
 
 		return $data;
@@ -137,7 +137,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_image( &$data, Meta_Tags_Context $context ) {
 		if ( $context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $context->canonical . $this->id_helper->primary_image_hash ];
+			$data['primaryImageOfPage'] = [ '@id' => $context->canonical . $this->id->primary_image_hash ];
 		}
 	}
 

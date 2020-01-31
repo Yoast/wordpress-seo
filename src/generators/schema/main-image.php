@@ -63,7 +63,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$image_id = $context->canonical . $this->id_helper->primary_image_hash;
+		$image_id = $context->canonical . $this->id->primary_image_hash;
 
 		$image_schema = $this->get_featured_image( $context->id, $image_id );
 

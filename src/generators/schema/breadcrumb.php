@@ -91,7 +91,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
+			'@id'             => $context->canonical . $this->id->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		];
 	}

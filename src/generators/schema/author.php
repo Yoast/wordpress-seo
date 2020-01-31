@@ -89,7 +89,7 @@ class Author extends Person {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $context->indexable->object_type === 'author' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $context->canonical . $this->id_helper->webpage_hash,
+				'@id' => $context->canonical . $this->id->webpage_hash,
 			];
 		}
 

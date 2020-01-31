@@ -70,10 +70,10 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$schema_id = $context->site_url . $this->id_helper->organization_logo_hash;
+		$schema_id = $context->site_url . $this->id->organization_logo_hash;
 		$data      = [
 			'@type'  => 'Organization',
-			'@id'    => $context->site_url . $this->id_helper->organization_hash,
+			'@id'    => $context->site_url . $this->id->organization_hash,
 			'name'   => $this->html->smart_strip_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),

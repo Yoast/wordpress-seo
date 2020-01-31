@@ -88,7 +88,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var ID_Helper
 	 */
-	private $id_helper;
+	private $id;
 
 	/**
 	 * @var WPSEO_Replace_Vars
@@ -111,7 +111,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Options_Helper     $options      The options helper.
 	 * @param Url_Helper         $url          The url helper.
 	 * @param Image_Helper       $image        The image helper.
-	 * @param ID_Helper          $id_helper    The schema id helper.
+	 * @param ID_Helper          $id    The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 * @param Site_Helper        $site  The site helper.
 	 * @param User_Helper        $user         The user helper.
@@ -120,7 +120,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		Options_Helper $options,
 		Url_Helper $url,
 		Image_Helper $image,
-		ID_Helper $id_helper,
+		ID_Helper $id,
 		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site,
 		User_Helper $user
@@ -128,7 +128,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->options      = $options;
 		$this->url          = $url;
 		$this->image        = $image;
-		$this->id_helper    = $id_helper;
+		$this->id    = $id;
 		$this->replace_vars = $replace_vars;
 		$this->site  = $site;
 		$this->user         = $user;
@@ -282,10 +282,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_site_represents_reference() {
 		if ( $this->site_represents === 'person' ) {
-			return [ '@id' => $this->id_helper->get_user_schema_id( $this->site_user_id, $this ) ];
+			return [ '@id' => $this->id->get_user_schema_id( $this->site_user_id, $this ) ];
 		}
 		if ( $this->site_represents === 'company' ) {
-			return [ '@id' => $this->site_url . $this->id_helper->organization_hash ];
+			return [ '@id' => $this->site_url . $this->id->organization_hash ];
 		}
 
 		return false;
@@ -376,7 +376,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * The main schema id.
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . $this->id_helper->webpage_hash;
+		return $this->canonical . $this->id->webpage_hash;
 	}
 }
 

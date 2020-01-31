@@ -63,7 +63,7 @@ class Website extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
 			'@type'       => 'WebSite',
-			'@id'         => $context->site_url . $this->id_helper->website_hash,
+			'@id'         => $context->site_url . $this->id->website_hash,
 			'url'         => $context->site_url,
 			'name'        => $this->html->smart_strip_tags( $context->site_name ),
 			'description' => \get_bloginfo( 'description' ),
