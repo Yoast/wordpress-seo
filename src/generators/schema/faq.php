@@ -21,7 +21,7 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * @var Article_Helper
 	 */
-	private $article_helper;
+	private $article;
 
 	/**
 	 * @var HTML_Helper
@@ -31,14 +31,14 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article_helper The article helper.
+	 * @param Article_Helper $article The article helper.
 	 * @param HTML_Helper    $html    The HTML helper.
 	 */
 	public function __construct(
-		Article_Helper $article_helper,
+		Article_Helper $article,
 		HTML_Helper $html
 	) {
-		$this->article_helper = $article_helper;
+		$this->article = $article;
 		$this->html    = $html;
 	}
 

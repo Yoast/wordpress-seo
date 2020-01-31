@@ -20,7 +20,7 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * @var Article_Helper
 	 */
-	private $article_helper;
+	private $article;
 
 	/**
 	 * @var Date_Helper
@@ -35,12 +35,12 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article_helper The article helper.
+	 * @param Article_Helper $article The article helper.
 	 * @param Date_Helper    $date_helper    The date helper.
 	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper, HTML_Helper $html ) {
-		$this->article_helper = $article_helper;
+	public function __construct( Article_Helper $article, Date_Helper $date_helper, HTML_Helper $html ) {
+		$this->article = $article;
 		$this->date_helper    = $date_helper;
 		$this->html    = $html;
 	}
@@ -61,7 +61,7 @@ class Article extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $this->article_helper->is_article_post_type( $context->indexable->object_sub_type ) ) {
+		if ( $this->article->is_article_post_type( $context->indexable->object_sub_type ) ) {
 			$context->main_schema_id = $context->canonical . $this->id->article_hash;
 
 			return true;
