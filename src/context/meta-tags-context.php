@@ -93,7 +93,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var WPSEO_Replace_Vars
 	 */
-	private $replace_vars_helper;
+	private $replace_vars;
 
 	/**
 	 * @var Site_Helper
@@ -112,7 +112,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Url_Helper         $url_helper          The url helper.
 	 * @param Image_Helper       $image_helper        The image helper.
 	 * @param ID_Helper          $id_helper           The schema id helper.
-	 * @param WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
+	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 * @param Site_Helper        $site_helper         The site helper.
 	 * @param User_Helper        $user                The user helper.
 	 */
@@ -121,15 +121,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		Url_Helper $url_helper,
 		Image_Helper $image_helper,
 		ID_Helper $id_helper,
-		WPSEO_Replace_Vars $replace_vars_helper,
+		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site_helper,
 		User_Helper $user
 	) {
-		$this->options      = $options;
+		$this->options             = $options;
 		$this->url_helper          = $url_helper;
 		$this->image_helper        = $image_helper;
 		$this->id_helper           = $id_helper;
-		$this->replace_vars_helper = $replace_vars_helper;
+		$this->replace_vars        = $replace_vars;
 		$this->site_helper         = $site_helper;
 		$this->user                = $user;
 	}
@@ -140,7 +140,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the title
 	 */
 	public function generate_title() {
-		return $this->replace_vars_helper->replace( $this->presentation->title, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->title, $this->presentation->replace_vars_object );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the description
 	 */
 	public function generate_description() {
-		return $this->replace_vars_helper->replace( $this->presentation->meta_description, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->meta_description, $this->presentation->replace_vars_object );
 	}
 
 	/**
