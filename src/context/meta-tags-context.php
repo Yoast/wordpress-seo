@@ -98,7 +98,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var Site_Helper
 	 */
-	private $site_helper;
+	private $site;
 
 	/**
 	 * @var User_Helper
@@ -113,7 +113,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Image_Helper       $image        The image helper.
 	 * @param ID_Helper          $id_helper    The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
-	 * @param Site_Helper        $site_helper  The site helper.
+	 * @param Site_Helper        $site  The site helper.
 	 * @param User_Helper        $user         The user helper.
 	 */
 	public function __construct(
@@ -122,7 +122,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		Image_Helper $image,
 		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars,
-		Site_Helper $site_helper,
+		Site_Helper $site,
 		User_Helper $user
 	) {
 		$this->options      = $options;
@@ -130,7 +130,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->image        = $image;
 		$this->id_helper    = $id_helper;
 		$this->replace_vars = $replace_vars;
-		$this->site_helper  = $site_helper;
+		$this->site  = $site;
 		$this->user         = $user;
 	}
 
@@ -190,7 +190,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site name from the WordPress options.
 	 */
 	public function generate_wordpress_site_name() {
-		return $this->site_helper->get_site_name();
+		return $this->site->get_site_name();
 	}
 
 	/**
