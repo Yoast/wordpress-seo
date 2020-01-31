@@ -146,7 +146,7 @@ class Meta_Tags_Context_Memoizer {
 	/**
 	 * Retrieves the permalink for an indexable.
 	 *
-	 * @param Indexable $indexable The indexable
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return string|null The permalink.
 	 */
