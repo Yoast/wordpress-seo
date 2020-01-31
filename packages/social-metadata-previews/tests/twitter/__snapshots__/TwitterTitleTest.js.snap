@@ -2,9 +2,6 @@
 
 exports[`TwitterTitle matches the snapshot by default 1`] = `
 .c0 {
-  font-weight: 400;
-  font-size: 14px;
-  max-height: 18px;
   line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
