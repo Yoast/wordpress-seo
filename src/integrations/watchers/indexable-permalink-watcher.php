@@ -55,31 +55,29 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 * Resets the permalinks for everything that is related to the permalink structure.
 	 */
 	public function reset_permalinks() {
-		/**
-		 * Filters the post types.
-		 *
-		 * @param array  $post_types The post type names.
-		 * @param string $context    The context where it happens.
-		 *
-		 * @return array The post types.
-		 */
-		$post_types = \apply_filters( 'wpseo_post_types', $this->post_type->get_public_post_types(), 'update_permalink' );
-		$taxonomies = [];
-		foreach ( $post_types as $post_type ) {
-			$this->reset_permalink_indexables( 'post', $post_type );
-			$this->reset_permalink_indexables( 'post-type-archive', $post_type );
-
-			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
+		$post_types = $this->get_post_types();
+		foreach( $post_types as $post_type ) {
+			$this->reset_permalinks_post_type( $post_type );
 		}
 
-		$taxonomies = array_unique( array_merge( [], ...$taxonomies ) );
+		$taxonomies = $this->get_taxonomies_for_post_types( $post_types );
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->reset_permalink_indexables( 'term', $taxonomy );
 		}
 
-		$this->reset_permalink_indexables( 'author' );
+		$this->reset_permalink_indexables( 'user' );
 		$this->reset_permalink_indexables( 'date-archive' );
 		$this->reset_permalink_indexables( 'system-page' );
+	}
+
+	/**
+	 * Resets the permalink for the given post type.
+	 *
+	 * @param string $post_type The post type to reset.
+	 */
+	public function reset_permalinks_post_type( $post_type ) {
+		$this->reset_permalink_indexables( 'post', $post_type );
+		$this->reset_permalink_indexables( 'post-type-archive', $post_type );
 	}
 
 	/**
@@ -101,6 +99,48 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Retrieves a list with the public post types.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The post types.
+	 */
+	protected function get_post_types() {
+		/**
+		 * Filters the post types.
+		 *
+		 * @param array  $post_types The post type names.
+		 * @param string $context    The context where it happens.
+		 *
+		 * @return array The post types.
+		 */
+		$post_types = \apply_filters( 'wpseo_post_types', $this->post_type->get_public_post_types(), 'update_permalink' );
+
+		return $post_types;
+	}
+
+	/**
+	 * Retrieves the taxonomies that belongs to the public post types.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param array $post_types The post types to get taxonomies for.
+	 *
+	 * @return array The retrieved taxonomies.
+	 */
+	protected function get_taxonomies_for_post_types( $post_types ) {
+		$taxonomies = [];
+		foreach ( $post_types as $post_type ) {
+			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
+		}
+
+		$taxonomies = array_merge( [], ...$taxonomies );
+		$taxonomies = array_unique( $taxonomies );
+
+		return $taxonomies;
+	}
+
+	/**
 	 * Resets the permalinks of the indexables.
 	 *
 	 * @codeCoverageIgnore
@@ -112,7 +152,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$where = [ 'object_type' => $type ];
 
 		if ( $subtype ) {
-			$where['object_subtype'] = $subtype;
+			$where['object_sub_type'] = $subtype;
 		}
 
 		Wrapper::get_wpdb()->update(

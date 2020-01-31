@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group indexables
  * @group watchers
+ * @group test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
  * @covers ::<!public>
@@ -49,28 +50,29 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks
 	 */
 	public function test_reset_permalinks() {
-		$this->post_type
-			->expects( 'get_public_post_types' )
-			->once()
-			->andReturn( [ 'post' ] );
-
-		Monkey\Filters\expectApplied( 'wpseo_post_types' )
-			->once()
-			->with( [ 'post' ], 'update_permalink' );
-
-		Monkey\Functions\expect( 'get_object_taxonomies' )
-			->with( 'post', 'names' )
-			->once()
-			->andReturn( [ 'category' ] );
+		$this->instance->expects( 'get_post_types' )->once()->andReturn( [ 'post' ] );
+		$this->instance->expects( 'get_taxonomies_for_post_types' )->once()->with( [ 'post' ] )->andReturn( [ 'category' ] );
 
 		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
 		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
 		$this->instance->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
-		$this->instance->expects( 'reset_permalink_indexables' )->with( 'author' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'user' )->once();
 		$this->instance->expects( 'reset_permalink_indexables' )->with( 'date-archive' )->once();
 		$this->instance->expects( 'reset_permalink_indexables' )->with( 'system-page' )->once();
 
 		$this->instance->reset_permalinks();
+	}
+
+	/**
+	 * Test resettings the permalinks for a post type.
+	 *
+	 * @covers ::reset_permalinks_post_type
+	 */
+	public function test_reset_permalinks_post_type() {
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post', 'post' )->once();
+		$this->instance->expects( 'reset_permalink_indexables' )->with( 'post-type-archive', 'post' )->once();
+
+		$this->instance->reset_permalinks_post_type( 'post' );
 	}
 
 	/**
