@@ -5,8 +5,6 @@ import PropTypes from "prop-types";
 import { buildTruncatedText } from "../helpers/truncation";
 
 const TwitterTitleWrapper = styled.p`
-	font-weight: 400;
-	font-size: 14px;
 	max-height: 18px;
 	line-height: 18px;
 	white-space: nowrap;

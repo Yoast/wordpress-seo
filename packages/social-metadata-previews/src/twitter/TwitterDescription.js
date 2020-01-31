@@ -12,7 +12,6 @@ import { buildTruncatedText } from "../helpers/truncation";
  * @returns {React.Component} The rendered element.
  */
 const TwitterDescriptionText = styled.p`
-	font-size: 14px;
 	max-height: ${ props => props.isLarge ? "55px" : "36px" };
 	line-height: 18px;
 	overflow: hidden;
