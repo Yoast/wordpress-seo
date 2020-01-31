@@ -28,7 +28,7 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * @var Date_Helper
@@ -39,17 +39,17 @@ class WebPage extends Abstract_Schema_Piece {
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param HTML_Helper         $html_helper  The HTML helper.
+	 * @param HTML_Helper         $html  The HTML helper.
 	 * @param Date_Helper         $date_helper  The date helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page,
-		HTML_Helper $html_helper,
+		HTML_Helper $html,
 		Date_Helper $date_helper
 	) {
 		$this->current_page = $current_page;
 		$this->date_helper  = $date_helper;
-		$this->html_helper  = $html_helper;
+		$this->html  = $html;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
 			'url'        => $context->canonical,
 			'inLanguage' => \get_bloginfo( 'language' ),
-			'name'       => $this->html_helper->smart_strip_tags( $context->title ),
+			'name'       => $this->html->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id_helper->website_hash,
 			],
@@ -100,7 +100,7 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		if ( ! empty( $context->description ) ) {
-			$data['description'] = $this->html_helper->smart_strip_tags( $context->description );
+			$data['description'] = $this->html->smart_strip_tags( $context->description );
 		}
 
 		if ( $this->add_breadcrumbs( $context ) ) {

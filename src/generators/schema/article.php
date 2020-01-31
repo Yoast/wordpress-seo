@@ -30,19 +30,19 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article_helper The article helper.
 	 * @param Date_Helper    $date_helper    The date helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper, HTML_Helper $html_helper ) {
+	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper, HTML_Helper $html ) {
 		$this->article_helper = $article_helper;
 		$this->date_helper    = $date_helper;
-		$this->html_helper    = $html_helper;
+		$this->html    = $html;
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Article extends Abstract_Schema_Piece {
 			'@id'              => $context->canonical . $this->id_helper->article_hash,
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
-			'headline'         => $this->html_helper->smart_strip_tags( $context->title ),
+			'headline'         => $this->html->smart_strip_tags( $context->title ),
 			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
 			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],

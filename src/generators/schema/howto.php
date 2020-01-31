@@ -21,7 +21,7 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * @var Image_Helper
@@ -31,14 +31,14 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * HowTo constructor.
 	 *
-	 * @param HTML_Helper  $html_helper  The HTML helper.
+	 * @param HTML_Helper  $html  The HTML helper.
 	 * @param Image_Helper $image The schema image helper.
 	 */
 	public function __construct(
-		HTML_Helper $html_helper,
+		HTML_Helper $html,
 		Image_Helper $image
 	) {
-		$this->html_helper  = $html_helper;
+		$this->html  = $html;
 		$this->image        = $image;
 	}
 
@@ -67,13 +67,13 @@ class HowTo extends Abstract_Schema_Piece {
 			$data = [
 				'@type'            => 'HowTo',
 				'@id'              => $context->canonical . '#howto-' . ( $index + 1 ),
-				'name'             => $this->html_helper->smart_strip_tags( $context->title ),
+				'name'             => $this->html->smart_strip_tags( $context->title ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
 
 			if ( isset( $block['attrs']['jsonDescription'] ) ) {
-				$data['description'] = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
+				$data['description'] = $this->html->sanitize( $block['attrs']['jsonDescription'] );
 			}
 
 			$this->add_duration( $data, $block['attrs'] );
@@ -121,11 +121,11 @@ class HowTo extends Abstract_Schema_Piece {
 			];
 
 			if ( isset( $step['jsonText'] ) ) {
-				$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+				$json_text = $this->html->sanitize( $step['jsonText'] );
 			}
 
 			if ( isset( $step['jsonName'] ) ) {
-				$json_name = $this->html_helper->smart_strip_tags( $step['jsonName'] );
+				$json_name = $this->html->smart_strip_tags( $step['jsonName'] );
 			}
 
 			if ( empty( $json_name ) ) {
@@ -168,7 +168,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+		$json_text = $this->html->sanitize( $step['jsonText'] );
 
 		if ( empty( $json_text ) ) {
 			return;

@@ -56,23 +56,23 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Main_Image constructor.
 	 *
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
-	 * @param HTML_Helper         $html_helper         The HTML helper.
+	 * @param HTML_Helper         $html         The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image,
 		Schema\Image_Helper $schema_image_helper,
-		HTML_Helper $html_helper
+		HTML_Helper $html
 	) {
 		$this->image        = $image;
 		$this->schema_image_helper = $schema_image_helper;
-		$this->html_helper         = $html_helper;
+		$this->html         = $html;
 	}
 
 	/**
@@ -159,13 +159,13 @@ class Person extends Abstract_Schema_Piece {
 		$data      = [
 			'@type' => $this->type,
 			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
-			'name'  => $this->html_helper->smart_strip_tags( $user_data->display_name ),
+			'name'  => $this->html->smart_strip_tags( $user_data->display_name ),
 		];
 
 		$data = $this->add_image( $data, $user_data, $context );
 
 		if ( ! empty( $user_data->description ) ) {
-			$data['description'] = $this->html_helper->smart_strip_tags( $user_data->description );
+			$data['description'] = $this->html->smart_strip_tags( $user_data->description );
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );

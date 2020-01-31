@@ -32,23 +32,23 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Organization constructor.
 	 *
 	 * @param Image_Helper   $image   The image helper.
 	 * @param Options_Helper $options The options helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image,
 		Options_Helper $options,
-		HTML_Helper $html_helper
+		HTML_Helper $html
 	) {
 		$this->image   = $image;
 		$this->options = $options;
-		$this->html_helper    = $html_helper;
+		$this->html    = $html;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Organization extends Abstract_Schema_Piece {
 		$data      = [
 			'@type'  => 'Organization',
 			'@id'    => $context->site_url . $this->id_helper->organization_hash,
-			'name'   => $this->html_helper->smart_strip_tags( $context->company_name ),
+			'name'   => $this->html->smart_strip_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
 			'logo'   => $this->image->generate_from_attachment_id( $schema_id, $context->company_logo_id, $context->company_name ),

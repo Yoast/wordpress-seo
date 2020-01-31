@@ -26,20 +26,20 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article_helper The article helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
 	public function __construct(
 		Article_Helper $article_helper,
-		HTML_Helper $html_helper
+		HTML_Helper $html
 	) {
 		$this->article_helper = $article_helper;
-		$this->html_helper    = $html_helper;
+		$this->html    = $html;
 	}
 
 	/**
@@ -116,11 +116,11 @@ class FAQ extends Abstract_Schema_Piece {
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
-			'name'           => $this->html_helper->smart_strip_tags( $question['jsonQuestion'] ),
+			'name'           => $this->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [
 				'@type' => 'Answer',
-				'text'  => $this->html_helper->sanitize( $question['jsonAnswer'] ),
+				'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
 			],
 		];
 	}
