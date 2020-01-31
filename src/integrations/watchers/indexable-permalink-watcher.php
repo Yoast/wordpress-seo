@@ -24,6 +24,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -31,6 +32,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 	/**
 	 * Indexable_Permalink_Watcher constructor.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 */
@@ -40,6 +43,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
@@ -68,7 +72,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
 		}
 
-		$taxonomies = array_merge( [], ...$taxonomies );
+		$taxonomies = array_unique( array_merge( [], ...$taxonomies ) );
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->reset_permalink_indexables( 'term', $taxonomy );
 		}
@@ -99,10 +103,12 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Resets the permalinks of the indexables.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string      $type    The type of the indexable.
 	 * @param null|string $subtype The subtype. Can be null.
 	 */
-	private function reset_permalink_indexables( $type, $subtype = null ) {
+	protected function reset_permalink_indexables( $type, $subtype = null ) {
 		$where = [ 'object_type' => $type ];
 
 		if ( $subtype ) {
