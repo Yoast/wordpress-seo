@@ -7,13 +7,11 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
-use YoastSEO_Vendor\ORM;
 
 /**
- * Class Indexable_Author_Test.
+ * Class Indexable_Static_Home_Page_Watcher_Test.
  *
  * @group indexables
  * @group watchers
