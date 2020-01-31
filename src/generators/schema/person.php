@@ -51,7 +51,7 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * @var Schema\Image_Helper
 	 */
-	private $schema_image_helper;
+	private $schema_image;
 
 	/**
 	 * @var HTML_Helper
@@ -62,16 +62,16 @@ class Person extends Abstract_Schema_Piece {
 	 * Main_Image constructor.
 	 *
 	 * @param Image_Helper        $image        The image helper.
-	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
+	 * @param Schema\Image_Helper $schema_image The schema image helper.
 	 * @param HTML_Helper         $html         The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image,
-		Schema\Image_Helper $schema_image_helper,
+		Schema\Image_Helper $schema_image,
 		HTML_Helper $html
 	) {
 		$this->image        = $image;
-		$this->schema_image_helper = $schema_image_helper;
+		$this->schema_image = $schema_image;
 		$this->html         = $html;
 	}
 
@@ -216,7 +216,7 @@ class Person extends Abstract_Schema_Piece {
 		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
-			$data['image'] = $this->schema_image_helper->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
+			$data['image'] = $this->schema_image->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
 		}
 
 		return $data;
@@ -243,7 +243,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = $this->schema_image_helper->simple_image_object( $schema_id, $url, $user_data->display_name );
+		$data['image'] = $this->schema_image->simple_image_object( $schema_id, $url, $user_data->display_name );
 
 		return $data;
 	}
