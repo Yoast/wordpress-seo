@@ -23,20 +23,20 @@ class Indexable_Home_Page_Builder {
 	/**
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * Indexable_Home_Page_Builder constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
-	 * @param Url_Helper     $url_helper     The url helper.
+	 * @param Url_Helper     $url     The url helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Url_Helper $url_helper
+		Url_Helper $url
 	) {
 		$this->options = $options;
-		$this->url_helper     = $url_helper;
+		$this->url     = $url;
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Indexable_Home_Page_Builder {
 		$indexable->object_type      = 'home-page';
 		$indexable->title            = $this->options->get( 'title-home-wpseo' );
 		$indexable->breadcrumb_title = $this->options->get( 'breadcrumbs-home' );
-		$indexable->permalink        = $this->url_helper->home();
+		$indexable->permalink        = $this->url->home();
 		$indexable->description      = $this->options->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );

@@ -147,20 +147,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Options_Helper      $options      The options helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param Url_Helper          $url_helper          The URL helper.
+	 * @param Url_Helper          $url          The URL helper.
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
 		Options_Helper $options,
 		Current_Page_Helper $current_page,
-		Url_Helper $url_helper,
+		Url_Helper $url,
 		User_Helper $user
 	) {
 		$this->image   = $image;
 		$this->options = $options;
 		$this->current_page   = $current_page;
-		$this->url            = $url_helper;
+		$this->url            = $url;
 		$this->user           = $user;
 	}
 

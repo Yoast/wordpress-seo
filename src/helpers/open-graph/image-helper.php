@@ -18,7 +18,7 @@ class Image_Helper {
 	/**
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Base_Image_Helper
@@ -42,11 +42,11 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Url_Helper        $url_helper   The url helper.
+	 * @param Url_Helper        $url   The url helper.
 	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Url_Helper $url_helper, Base_Image_Helper $image ) {
-		$this->url_helper   = $url_helper;
+	public function __construct( Url_Helper $url, Base_Image_Helper $image ) {
+		$this->url   = $url;
 		$this->image        = $image;
 	}
 
@@ -62,7 +62,7 @@ class Image_Helper {
 			return false;
 		}
 
-		$image_extension = $this->url_helper->get_extension_from_url( $image['url'] );
+		$image_extension = $this->url->get_extension_from_url( $image['url'] );
 		$is_valid        = $this->image->is_extension_valid( $image_extension );
 
 		/**

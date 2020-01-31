@@ -78,7 +78,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Image_Helper
@@ -109,29 +109,29 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * Meta_Tags_Context constructor.
 	 *
 	 * @param Options_Helper     $options      The options helper.
-	 * @param Url_Helper         $url_helper          The url helper.
+	 * @param Url_Helper         $url          The url helper.
 	 * @param Image_Helper       $image        The image helper.
-	 * @param ID_Helper          $id_helper           The schema id helper.
+	 * @param ID_Helper          $id_helper    The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
-	 * @param Site_Helper        $site_helper         The site helper.
-	 * @param User_Helper        $user                The user helper.
+	 * @param Site_Helper        $site_helper  The site helper.
+	 * @param User_Helper        $user         The user helper.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Url_Helper $url_helper,
+		Url_Helper $url,
 		Image_Helper $image,
 		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site_helper,
 		User_Helper $user
 	) {
-		$this->options             = $options;
-		$this->url_helper          = $url_helper;
-		$this->image               = $image;
-		$this->id_helper           = $id_helper;
-		$this->replace_vars        = $replace_vars;
-		$this->site_helper         = $site_helper;
-		$this->user                = $user;
+		$this->options      = $options;
+		$this->url          = $url;
+		$this->image        = $image;
+		$this->id_helper    = $id_helper;
+		$this->replace_vars = $replace_vars;
+		$this->site_helper  = $site_helper;
+		$this->user         = $user;
 	}
 
 	/**
@@ -199,7 +199,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site url.
 	 */
 	public function generate_site_url() {
-		return \trailingslashit( $this->url_helper->home() );
+		return \trailingslashit( $this->url->home() );
 	}
 
 	/**
