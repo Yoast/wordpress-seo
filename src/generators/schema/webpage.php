@@ -38,16 +38,16 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * WebPage constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param HTML_Helper         $html_helper         The HTML helper.
-	 * @param Date_Helper         $date_helper         The date helper.
+	 * @param Current_Page_Helper $current_page The current page helper.
+	 * @param HTML_Helper         $html_helper  The HTML helper.
+	 * @param Date_Helper         $date_helper  The date helper.
 	 */
 	public function __construct(
-		Current_Page_Helper $current_page_helper,
+		Current_Page_Helper $current_page,
 		HTML_Helper $html_helper,
 		Date_Helper $date_helper
 	) {
-		$this->current_page = $current_page_helper;
+		$this->current_page = $current_page;
 		$this->date_helper  = $date_helper;
 		$this->html_helper  = $html_helper;
 	}
