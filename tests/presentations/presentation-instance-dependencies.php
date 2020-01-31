@@ -81,7 +81,7 @@ trait Presentation_Instance_Dependencies {
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
 		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->image_helper        = Mockery::mock( Image_Helper::class );
+		$this->image        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
 		$this->user_helper         = Mockery::mock( User_Helper::class );
@@ -89,7 +89,7 @@ trait Presentation_Instance_Dependencies {
 		$this->twitter_helper      = Mockery::mock( Twitter_Image_Helper::class );
 
 		$presentation_instance->set_helpers(
-			$this->image_helper,
+			$this->image,
 			$this->options,
 			$this->current_page_helper,
 			$this->url_helper,
@@ -100,7 +100,7 @@ trait Presentation_Instance_Dependencies {
 			OG_Image_Generator::class,
 			[
 				$this->og_image_helper,
-				$this->image_helper,
+				$this->image,
 				$this->options,
 				$this->url_helper,
 			]
@@ -109,7 +109,7 @@ trait Presentation_Instance_Dependencies {
 		$this->twitter_image_generator = Mockery::mock(
 			Twitter_Image_Generator::class,
 			[
-				$this->image_helper,
+				$this->image,
 				$this->url_helper,
 				$this->twitter_helper,
 			]

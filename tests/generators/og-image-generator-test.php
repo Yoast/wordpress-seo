@@ -70,18 +70,18 @@ class OG_Image_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image_helper            = Mockery::mock( Image_Helper::class );
+		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->url_helper              = Mockery::mock( Url_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->open_graph_image_helper = Mockery::mock(
 			Open_Graph_Image_Helper::class,
-			[ $this->url_helper, $this->image_helper ]
+			[ $this->url_helper, $this->image ]
 		);
-		$this->image_container        = Mockery::mock( Images::class, [ $this->image_helper, $this->url_helper ] )->makePartial();
+		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url_helper ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
-			[ $this->open_graph_image_helper, $this->image_helper, $this->options, $this->url_helper ]
+			[ $this->open_graph_image_helper, $this->image, $this->options, $this->url_helper ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance

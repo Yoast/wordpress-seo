@@ -108,7 +108,7 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( false );
@@ -143,7 +143,7 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( true );
@@ -170,7 +170,7 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->never();
 
