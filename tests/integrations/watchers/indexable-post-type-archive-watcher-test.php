@@ -5,23 +5,23 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\WPSEO_Titles_Option_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Indexable_Post_Type_Archive_Watcher_Test.
+ * Class WPSEO_Titles_Option_Watcher.
  *
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\WPSEO_Titles_Option_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
+class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 
 	/**
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -34,14 +34,14 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	private $builder_mock;
 
 	/**
-	 * @var Indexable_Post_Type_Archive_Watcher
+	 * @var WPSEO_Titles_Option_Watcher
 	 */
 	private $instance;
 
 	public function setUp() {
 		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
 		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
-		$this->instance        = new Indexable_Post_Type_Archive_Watcher( $this->repository_mock, $this->builder_mock );
+		$this->instance        = new WPSEO_Titles_Option_Watcher( $this->repository_mock, $this->builder_mock );
 
 		return parent::setUp();
 	}
@@ -54,7 +54,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Migrations_Conditional::class ],
-			Indexable_Post_Type_Archive_Watcher::get_conditionals()
+			WPSEO_Titles_Option_Watcher::get_conditionals()
 		);
 	}
 
@@ -66,15 +66,15 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_pt_archive_option' ] ) );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::check_option
-	 * @covers ::build_indexable
+	 * @covers ::check_pt_archive_option
+	 * @covers ::build_pt_archive_indexable
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -83,15 +83,15 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->instance->check_pt_archive_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::check_option
-	 * @covers ::build_indexable
+	 * @covers ::check_pt_archive_option
+	 * @covers ::build_pt_archive_indexable
 	 */
 	public function test_update_wpseo_titles_value_new() {
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -100,15 +100,15 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->instance->check_pt_archive_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::check_option
-	 * @covers ::build_indexable
+	 * @covers ::check_pt_archive_option
+	 * @covers ::build_pt_archive_indexable
 	 */
 	public function test_update_wpseo_titles_value_switched() {
 		$indexable_mock = Mockery::mock( Indexable::class );
@@ -123,46 +123,46 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
 
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
+		$this->instance->check_pt_archive_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::check_option
-	 * @covers ::build_indexable
+	 * @covers ::check_pt_archive_option
+	 * @covers ::build_pt_archive_indexable
 	 */
 	public function test_update_wpseo_titles_value_same_value() {
 		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
+		$this->instance->check_pt_archive_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::check_option
-	 * @covers ::build_indexable
+	 * @covers ::check_pt_archive_option
+	 * @covers ::build_pt_archive_indexable
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
 		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
+		$this->instance->check_pt_archive_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
 	}
 
 	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
-	 * @covers ::build_indexable
+	 * @covers ::build_pt_archive_indexable
 	 */
-	public function test_build_indexable_without_indexable() {
+	public function test_build_pt_archive_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
 
-		$this->instance->build_indexable( 'my-post-type' );
+		$this->instance->build_pt_archive_indexable( 'my-post-type' );
 	}
 }
