@@ -17,6 +17,14 @@ function TopicPhrase( stemOriginalPairs = [], exactMatch = false ) {
 	this.exactMatch = exactMatch;
 }
 
+TopicPhrase.prototype.getStems = function() {
+	if ( this.exactMatch ) {
+		return [];
+	}
+
+	return this.stemOriginalPairs.map( stemOriginalPair => stemOriginalPair.stem );
+};
+
 function StemOriginalPair( stem, original ) {
 	this.stem = stem;
 	this.original = original;
