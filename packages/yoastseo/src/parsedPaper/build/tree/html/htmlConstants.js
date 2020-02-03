@@ -7,9 +7,9 @@
  *
  * @memberOf module:parsedPaper/builder
  */
-const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "canvas", "cite", "code", "command",
+const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "button", "canvas", "cite", "command",
 	"data", "datalist", "dfn", "del", "em", "embed", "i", "iframe", "img", "input", "kbd", "keygen", "label", "mark",
-	"math", "meter", "noscript", "object", "output", "progress", "q", "ruby", "samp", "script", "select", "small",
+	"math", "meter", "noscript", "object", "output", "progress", "q", "ruby", "samp", "select", "small",
 	"span", "strong", "sub", "sup", "svg", "textarea", "time", "var", "video", "wbr" ];
 
 /**
@@ -19,7 +19,7 @@ const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "
  *
  * @memberOf module:parsedPaper/builder
  */
-const ignoredHtmlElements = [ "script", "style", "pre" ];
+const ignoredHtmlElements = [ "script", "style", "pre", "#comment", "code", "br" ];
 
 /**
  * All HTML heading element tags, from `h1` to `h6`.

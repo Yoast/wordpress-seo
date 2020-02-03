@@ -38,7 +38,7 @@ class TextContainer {
 		this.text = "";
 		/**
 		 * This text's formatting (e.g. bold text, links, etc.).
-		 * @type {Array<module:parsedPaper/structure.FormattingElement||module:parsedPaper/structure.Ignored>}
+		 * @type {Array<module:parsedPaper/structure.FormattingElement>}
 		 */
 		this.formatting = [];
 	}

@@ -3,10 +3,21 @@ import ListItem from "../../../../../src/parsedPaper/structure/tree/nodes/ListIt
 describe( "ListItem", () => {
 	describe( "constructor", () => {
 		it( "creates a ListItem node", () => {
-			const listItemNode = new ListItem();
+			const sourceCodeLocation = {
+				startTag: {
+					startOffset: 0,
+					endOffset: 4,
+				},
+				endTag: {
+					startOffset: 12,
+					endOffset: 17,
+				},
+				startOffset: 0,
+				endOffset: 17,
+			};
+			const listItemNode = new ListItem( sourceCodeLocation );
 			expect( listItemNode.type ).toEqual( "ListItem" );
-			expect( listItemNode.sourceStartIndex ).toEqual( 0 );
-			expect( listItemNode.sourceEndIndex ).toEqual( 0 );
+			expect( listItemNode.sourceCodeLocation ).toEqual( sourceCodeLocation );
 			expect( listItemNode.children ).toEqual( [] );
 		} );
 	} );

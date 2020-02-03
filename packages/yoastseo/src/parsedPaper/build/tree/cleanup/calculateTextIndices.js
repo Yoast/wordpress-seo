@@ -1,7 +1,6 @@
 import { pullAll } from "lodash-es";
 
 import { ignoredHtmlElements } from "../html/htmlConstants";
-import getElementContent from "./getElementContent";
 
 /**
  * Gathers all elements that can be closed given the position of the current element in the source code.
@@ -22,8 +21,8 @@ import getElementContent from "./getElementContent";
  */
 const elementsThatCanBeClosed = function( currentElement, openElements ) {
 	return openElements.filter( el => {
-		const endTag = el.location.endTag;
-		return endTag.endOffset <= currentElement.location.startOffset;
+		const endTag = el.sourceCodeLocation.endTag;
+		return endTag.endOffset <= currentElement.sourceCodeLocation.startOffset;
 	} );
 };
 
@@ -44,10 +43,10 @@ const elementsThatCanBeClosed = function( currentElement, openElements ) {
  */
 const closeElements = function( elementsToClose, currentOffset ) {
 	// Sort, so we close all elements in the right order.
-	elementsToClose.sort( ( a, b ) => a.location.endTag.endOffset - b.location.endTag.endOffset );
+	elementsToClose.sort( ( a, b ) => a.sourceCodeLocation.endTag.endOffset - b.sourceCodeLocation.endTag.endOffset );
 
 	elementsToClose.forEach( elementToClose => {
-		const endTag = elementToClose.location.endTag;
+		const endTag = elementToClose.sourceCodeLocation.endTag;
 		// Set the end position as seen in the text.
 		elementToClose.textEndIndex = endTag.startOffset - currentOffset;
 		/*
@@ -65,21 +64,19 @@ const closeElements = function( elementsToClose, currentOffset ) {
  * and adds the content to the element as a parameter.
  *
  * @param {module:parsedPaper/structure.FormattingElement} element The element of which to add the content length.
- * @param {string} html                                     The original html source code.
  * @param {number} currentOffset                            The current offset to which to add the length to.
  *
  * @returns {number} The updated current offset
  */
-const handleIgnoredContent = function( element, html, currentOffset ) {
+const handleIgnoredContent = function( element, currentOffset ) {
 	// Has 0 length in text, so end = start.
 	element.textEndIndex = element.textStartIndex;
 
-	// Set content.
-	const content = getElementContent( element, html );
-	element.content = content;
-
 	// Update current offset.
-	currentOffset += content.length;
+	const end = element.sourceCodeLocation.endTag ? element.sourceCodeLocation.endTag.startOffset : element.sourceCodeLocation.endOffset;
+	const start = element.sourceCodeLocation.startTag ? element.sourceCodeLocation.startTag.endOffset : element.sourceCodeLocation.startOffset;
+
+	currentOffset += end - start;
 
 	return currentOffset;
 };
@@ -92,13 +89,15 @@ const handleIgnoredContent = function( element, html, currentOffset ) {
  * @param {int}												currentOffset	A sum of all characters in the source code that don't get rendered
  * 																			(e.g., tags, comments).
  *
- * @returns {void}
+ * @returns {number} The length of the comment.
  *
  * @private
  */
 const computeCommentStartEndTextIndices = function( element, currentOffset ) {
-	element.textStartIndex = element.location.startOffset - currentOffset;
+	element.textStartIndex = element.sourceCodeLocation.startOffset - currentOffset;
 	element.textEndIndex = element.textStartIndex;
+
+	return element.sourceCodeLocation.endOffset - element.sourceCodeLocation.startOffset;
 };
 
 /**
@@ -113,7 +112,7 @@ const computeCommentStartEndTextIndices = function( element, currentOffset ) {
  * @private
  */
 const computeElementStartTextIndex = function( element, currentOffset ) {
-	const startTag = element.location.startTag;
+	const startTag = element.sourceCodeLocation.startTag;
 
 	// For example: "<strong>".length
 	const startTagLength = startTag.endOffset - startTag.startOffset;
@@ -127,7 +126,7 @@ const computeElementStartTextIndex = function( element, currentOffset ) {
 	  Elements that have no end tags (e.g., void element like <img/> or self-closing elements) can be closed immediately.
 	  The text length of those elements will be automatically 0.
 	 */
-	if ( ! element.location.endTag ) {
+	if ( ! element.sourceCodeLocation.endTag ) {
 		element.textEndIndex = element.textStartIndex;
 	}
 
@@ -138,13 +137,12 @@ const computeElementStartTextIndex = function( element, currentOffset ) {
  * Sets the start and end position of the text in formatting elements of the given node.
  *
  * @param {module:parsedPaper/structure.LeafNode} node The node containing a TextContainer
- * @param {string} html                         The source code
  *
  * @returns {void}
  *
  * @private
  */
-const calculateTextIndices = function( node, html ) {
+const calculateTextIndices = function( node ) {
 	if ( ! node.textContainer.formatting || node.textContainer.formatting.length === 0 ) {
 		return;
 	}
@@ -155,7 +153,7 @@ const calculateTextIndices = function( node, html ) {
 	  Keeps track of the current total size of the start and end tags (and the ignored content)
 	  These should not be counted towards the start and end position of the elements in the text.
 	 */
-	let currentOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
+	let currentOffset = node.sourceCodeLocation.startTag ? node.sourceCodeLocation.startTag.endOffset : node.sourceCodeLocation.startOffset;
 
 	node.textContainer.formatting.forEach( element => {
 		// Close elements that can be closed and remove them from the list of open elements.
@@ -164,15 +162,15 @@ const calculateTextIndices = function( node, html ) {
 		pullAll( openElements, elementsToClose );
 
 		// Comments are self-closing formatting elements that are completely ignored in rendering.
-		if ( element.tag === "comment" ) {
-			computeCommentStartEndTextIndices( element, currentOffset );
+		if ( element.type === "#comment" ) {
+			currentOffset += computeCommentStartEndTextIndices( element, currentOffset );
 			return;
 		}
 
 		currentOffset = computeElementStartTextIndex( element, currentOffset );
 
 		// If there is an endTag, the element should be closed in one of the next iterations of the loop.
-		if (  element.location.endTag ) {
+		if (  element.sourceCodeLocation.endTag ) {
 			openElements.push( element );
 		}
 
@@ -181,8 +179,8 @@ const calculateTextIndices = function( node, html ) {
 		  so its content should be added to the respective formatting element instead,
 		  and the current offset should be updated.
 		 */
-		if ( ignoredHtmlElements.includes( element.tag ) ) {
-			currentOffset = handleIgnoredContent( element, html, currentOffset );
+		if ( ignoredHtmlElements.includes( element.type ) ) {
+			currentOffset = handleIgnoredContent( element, currentOffset );
 		}
 	} );
 	// Close all remaining elements.
