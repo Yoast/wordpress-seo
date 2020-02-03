@@ -12,12 +12,26 @@ import { memoize } from "lodash-es";
 
 const getStemForLanguage = getStemForLanguageFactory();
 
+/**
+ * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
+ *
+ * @param {TopicPhrase[]}   stemOriginalPairs   The stem-original pairs for the words in the topic phrase.
+ * @param {boolean}         exactMatch          Whether the topic phrase is an exact match.
+ *
+ * @constructor
+ */
 function TopicPhrase( stemOriginalPairs = [], exactMatch = false ) {
 	this.stemOriginalPairs = stemOriginalPairs;
 	this.exactMatch = exactMatch;
 }
 
+/**
+ * Returns all stems in the topic phrase.
+ *
+ * @returns {string[]|[]} The stems in the topic phrase or empty array if the topic phrase is exact match.
+ */
 TopicPhrase.prototype.getStems = function() {
+	// An exact match keyphrase doesn't have stems.
 	if ( this.exactMatch ) {
 		return [];
 	}
@@ -25,6 +39,14 @@ TopicPhrase.prototype.getStems = function() {
 	return this.stemOriginalPairs.map( stemOriginalPair => stemOriginalPair.stem );
 };
 
+/**
+ * A stem-original pair ƒor a word in a topic phrase.
+ *
+ * @param {string}  stem        The stem of the topic phrase word.
+ * @param {string}  original    The original word form the topic phrase (unsanitized)
+ *
+ * @constructor
+ */
 function StemOriginalPair( stem, original ) {
 	this.stem = stem;
 	this.original = original;

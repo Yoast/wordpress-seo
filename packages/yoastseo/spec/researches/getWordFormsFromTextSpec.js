@@ -7,10 +7,10 @@ const morphologyDataDE = getMorphologyData( "de" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
 
-describe( "A test from getting word forms from the text, based on the stems of a keyphrase", function() {
+describe( "A test from getting word forms from the text, based on the stems of a keyphrase", () => {
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
-		"English stemmer", function() {
-		const text = "A cat's dog and a dog's cat. The feline purrs. The canine is friendly."
+		"English stemmer", () => {
+		const text = "A cat's dog and a dog's cat. The feline purrs. The canine is friendly.";
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "purring felines, friendly canines",
@@ -28,8 +28,8 @@ describe( "A test from getting word forms from the text, based on the stems of a
 	} );
 
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
-		"German stemmer", function() {
-		const text = "Eine Orange und eine Heidelbeere. Die Apfelsinen sind sauer. Die Blaubeeren sind süß."
+		"German stemmer", () => {
+		const text = "Eine Orange und eine Heidelbeere. Die Apfelsinen sind sauer. Die Blaubeeren sind süß.";
 		const attributes = {
 			keyword: "Orangen und Heidelbeeren",
 			synonyms: "saure Apfelsine, süße Blaubeere",
@@ -41,13 +41,22 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "orangen" ], [ "heidelbeeren" ] ],
-				synonymsForms: [ [ [ "saure", "sauer" ], [ "apfelsine" ] ], [ [ "süße", "süß" ], [ "blaubeere" ] ] ],
+				keyphraseForms: [ [ "orangen", "orange" ], [ "heidelbeeren", "heidelbeere" ] ],
+				synonymsForms: [
+					[
+						[ "saure", "sauer" ],
+						[ "apfelsine", "apfelsinen" ],
+					],
+					[
+						[ "süße", "süß" ],
+						[ "blaubeere", "blaubeeren" ],
+					],
+				],
 			}
 		);
 	} );
 
-	it( "returns empty structure if no keyword or synonyms are supplied", function() {
+	it( "returns empty structure if no keyword or synonyms are supplied", () => {
 		const attributes = {
 			keyword: "",
 			synonyms: "",
@@ -63,7 +72,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns an empty keyphrase field if only synonyms are supplied", function() {
+	it( "returns an empty keyphrase field if only synonyms are supplied", () => {
 		const attributes = {
 			keyword: "",
 			synonyms: "cats and dogs",
@@ -79,7 +88,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns keyphrase forms found in the paper", function() {
+	it( "returns keyphrase forms found in the paper", () => {
 		const attributes = {
 			keyword: "cats and dogs",
 		};
@@ -95,7 +104,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns forms for a keyphrase and multiple synonyms", function() {
+	it( "returns forms for a keyphrase and multiple synonyms", () => {
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "felines, canines",
@@ -112,7 +121,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns the (sanitized) original form of a word if no forms were found in the paper", function() {
+	it( "returns the (sanitized) original form of a word if no forms were found in the paper", () => {
 		const attributes = {
 			keyword: "Cats and dogs",
 		};
@@ -129,7 +138,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns multiple forms of a stem found in the text of the paper", function() {
+	it( "returns multiple forms of a stem found in the text of the paper", () => {
 		const testTextWalkMultipleForms = "The cat walked quickly." +
 			"More cats are walking up there." +
 			"They just walk and walk.";
@@ -148,7 +157,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns multiple forms of a stem found in the text, slug, title and meta description of the paper", function() {
+	it( "returns multiple forms of a stem found in the text, slug, title and meta description of the paper", () => {
 		const attributes = {
 			keyword: "walk",
 			description: "walking",
@@ -168,7 +177,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns the exact match if the keyphrase is embedded in quotation marks", function() {
+	it( "returns the exact match if the keyphrase is embedded in quotation marks", () => {
 		const attributes = {
 			keyword: "\"cats and dogs\"",
 			synonyms: "felines, canines",
@@ -185,7 +194,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns the exact match if a synonym is embedded in quotation marks", function() {
+	it( "returns the exact match if a synonym is embedded in quotation marks", () => {
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "\"some purring felines\", canines",
@@ -203,7 +212,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 	} );
 
 	it( "returns the keyphrase and synonyms unaltered for a language when there for which we have a stemmer," +
-		"and function word support, but no morphology data is available", function() {
+		"and function word support, but no morphology data is available (e.g., English in Free)", () => {
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "felines, canines",
@@ -220,7 +229,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 	} );
 
 	it( "returns unaltered topic words for a language which has neither a stemmer nor morphology data," +
-		"but which has function word support", function() {
+		"but which has function word support", () => {
 		const attributes = {
 			keyword: "cane e gatto",
 			locale: "it_IT",
@@ -237,7 +246,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 	} );
 
 	it( "returns the keyphrase and synonyms with function words filtered for a language without morphology" +
-		"or function word support", function() {
+		"or function word support", () => {
 		const attributes = {
 			keyword: "katte en honde",
 			locale: "af_ZA",

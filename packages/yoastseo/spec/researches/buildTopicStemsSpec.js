@@ -109,7 +109,7 @@ describe( "A test for building stems for an array of words", function() {
 	it( "returns stems of all content words for German if Premium", function() {
 		const forms = buildStems( "Schnell und einfach Altbauwohnungen finden.", "de", morphologyDataDE.de );
 		expect( forms ).toEqual(
-			new TopicPhrase( [ new StemOriginalPair( "altbauwohnung", "Altbauwohnungen" ) ], false)
+			new TopicPhrase( [ new StemOriginalPair( "altbauwohnung", "Altbauwohnungen" ) ], false )
 		);
 	} );
 } );
@@ -123,7 +123,7 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		const expectedResult = {
 			keyphraseStems: new TopicPhrase(
 				[
-					new StemOriginalPair("I am going for a walk", "I am going for a walk" ),
+					new StemOriginalPair( "I am going for a walk", "I am going for a walk" ),
 				],
 				true
 			),
@@ -142,7 +142,7 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 				),
 				new TopicPhrase(
 					[
-						new StemOriginalPair("work", "work" ),
+						new StemOriginalPair( "work", "work" ),
 						new StemOriginalPair( "diligent", "diligently" ),
 					],
 					false
