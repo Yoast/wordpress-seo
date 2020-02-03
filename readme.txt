@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 13.0 =
 Release Date: February 4th, 2020
 
+Today, we’re releasing Yoast SEO 13.0. This release is one in a series of releases focusing on improving our code and fixing issues — most of them behind the scenes. Read more about those changes in [our 13.0 release post](https://yoa.st/release-13-0)!
+
 Enhancements:
 
 * Hides the Facebook settings when Open Graph is disabled.
