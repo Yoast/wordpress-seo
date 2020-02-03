@@ -76,6 +76,13 @@ const TwitterPreviewExample = () => {
 				siteName="yoast.com"
 				isLarge={ true }
 			/>
+			<h2>Upload no image (small card)</h2>
+			<TwitterPreview
+				image=""
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+				isLarge={ false }
+			/>
 			<h2>Upload a too small image</h2>
 			<TwitterPreview
 				image="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"

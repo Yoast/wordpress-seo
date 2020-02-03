@@ -64,15 +64,14 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   -ms-flex-align: center;
   align-items: center;
   box-sizing: border-box;
-  width: 506px;
-  height: 254px;
   max-width: 100%;
   margin: 0;
   padding: 1em;
   text-align: center;
   font-size: 1rem;
+  width: 125px;
   border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
+  border-bottom-left-radius: 14px;
   border-style: dashed;
   border-width: 2px;
   color: #073cba;
