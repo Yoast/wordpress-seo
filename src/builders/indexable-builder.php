@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Formats the author meta to indexable format.
+ * Creates all the indexables.
  */
 class Indexable_Builder {
 
