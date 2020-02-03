@@ -1053,6 +1053,7 @@ class Schema_HowTo_Test extends TestCase {
 						],
 					],
 				],
+				'inLanguage' => 'language',
 			],
 		];
 
