@@ -150,6 +150,11 @@ release:
   - 'artifact'
   - 'wp_deploy:master'
 
+'deploy:trunk':
+  - 'update-version-trunk'
+  - 'artifact'
+  - 'wp_deploy:trunk'
+
 # Default task
 default:
   - 'build'
