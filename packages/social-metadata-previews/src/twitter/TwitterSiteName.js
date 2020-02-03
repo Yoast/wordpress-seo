@@ -17,9 +17,6 @@ const TwitterSiteNameWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
-	p {
-		margin: 0;
-	}
 `;
 
 /**
@@ -64,7 +61,7 @@ const TwitterSiteName = ( props ) => {
 	return (
 		<TwitterSiteNameWrapper>
 			<LinkIcon />
-			<p>{ props.siteName }</p>
+			<span>{ props.siteName }</span>
 		</TwitterSiteNameWrapper>
 	);
 };
