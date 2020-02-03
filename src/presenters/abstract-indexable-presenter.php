@@ -49,6 +49,6 @@ abstract class Abstract_Indexable_Presenter {
 	 * @return string The meta description with replacement variables replaced.
 	 */
 	protected function replace_vars( $meta_description, Indexable_Presentation $presentation ) {
-		return $this->replace_vars_helper->replace( $meta_description, $presentation->replace_vars_object );
+		return $this->replace_vars_helper->replace( $meta_description, $presentation->source );
 	}
 }

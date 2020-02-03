@@ -49,7 +49,7 @@ use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
  * @property string twitter_image
  * @property string twitter_creator
  * @property string twitter_site
- * @property array  replace_vars_object
+ * @property array  source
  * @property array  breadcrumbs
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -475,11 +475,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the replace vars object.
+	 * Generates the source.
 	 *
-	 * @return array The replace vars object.
+	 * @return array The source.
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return [];
 	}
 
