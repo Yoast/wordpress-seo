@@ -1,4 +1,5 @@
 import { flatten } from "lodash-es";
+import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 /**
  * @file Dutch stemming algorithm. Adapted from:
  * @author:
@@ -9,9 +10,6 @@ import { flatten } from "lodash-es";
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
-
-import { flatten } from "lodash-es";
-import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 
 /**
  * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
