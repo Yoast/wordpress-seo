@@ -2,8 +2,7 @@ import { escapeRegExp, get, includes, uniq } from "lodash-es";
 import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
 import getLanguage from "../helpers/getLanguage";
-import getStemForLanguageFactory from "../helpers/getStemForLanguage";
-const stemFunctions = getStemForLanguageFactory();
+import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getWords from "../stringProcessing/getWords";
 import { normalizeSingle } from "../stringProcessing/quotes";
@@ -19,16 +18,7 @@ function Result( keyphraseStems = [], synonymsStems = [] ) {
 	this.synonymsForms = synonymsStems;
 }
 
-/**
- * Retrieves a stemmer function from the factory. Returns the identity function if the language does not have a stemmer.
- *
- * @param {string} language The language to retrieve a stemmer function for.
- *
- * @returns {Function} A stemmer function for the language.
- */
-function retrieveStemmer( language ) {
-	return get( stemFunctions, language, word => word );
-}
+
 
 function getAllWordsFromPaper( paper ) {
 	const wordsText = getWords( paper.getText() );

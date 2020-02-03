@@ -1,15 +1,14 @@
 import { get } from "lodash-es";
 import { memoize } from "lodash-es";
 import { uniq } from "lodash-es";
+import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getWords from "../stringProcessing/getWords";
 import { normalizeSingle } from "../stringProcessing/quotes";
 import ProminentWord from "../values/ProminentWord";
 import functionWordListsFactory from "../helpers/getFunctionWords";
-import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 
 const functionWordLists = functionWordListsFactory();
-const stemFunctions = getStemForLanguageFactory();
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
@@ -114,17 +113,6 @@ function collapseProminentWordsOnStem( prominentWords ) {
  */
 function retrieveFunctionWords( language ) {
 	return get( functionWordLists, language.concat( ".all" ), [] );
-}
-
-/**
- * Retrieves a stemmer function from the factory. Returns the identity function if the language does not have a stemmer.
- *
- * @param {string} language The language to retrieve a stemmer function for.
- *
- * @returns {Function} A stemmer function for the language.
- */
-function retrieveStemmer( language ) {
-	return get( stemFunctions, language, word => word );
 }
 
 /**
