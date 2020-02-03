@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Term_Test.
@@ -15,7 +15,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group formatters
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Term_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Builders

@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Config;
+namespace Yoast\WP\SEO\Config;
 
 /**
  * Makes sure the dependencies are loaded and the environment is prepared to use them.

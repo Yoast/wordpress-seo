@@ -66,7 +66,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
 			'author'           => [ '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ],
-			'headline'         => get_the_title(),
+			'headline'         => WPSEO_Schema_Utils::get_post_title_with_fallback( $this->context->id ),
 			'datePublished'    => $this->date->format( $post->post_date_gmt ),
 			'dateModified'     => $this->date->format( $post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
@@ -80,6 +80,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data = $this->add_image( $data );
 		$data = $this->add_keywords( $data );
 		$data = $this->add_sections( $data );
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		return $data;
 	}
@@ -103,7 +104,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 */
 		$post_types = apply_filters( 'wpseo_schema_article_post_types', [ 'post' ] );
 
-		return in_array( $post_type, $post_types );
+		return in_array( $post_type, $post_types, true );
 	}
 
 	/**

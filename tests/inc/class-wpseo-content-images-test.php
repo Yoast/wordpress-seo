@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Inc;
 
 use WPSEO_Content_Images;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**

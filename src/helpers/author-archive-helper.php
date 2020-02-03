@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
 /**
  * Class Author_Archive_Helper

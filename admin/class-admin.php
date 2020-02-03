@@ -151,7 +151,7 @@ class WPSEO_Admin {
 	 * Register assets needed on admin pages.
 	 */
 	public function enqueue_assets() {
-		if ( 'wpseo_licenses' === filter_input( INPUT_GET, 'page' ) ) {
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 			$asset_manager->enqueue_style( 'extensions' );
 		}
@@ -206,7 +206,7 @@ class WPSEO_Admin {
 	 * @return int
 	 */
 	public function save_bulk_edit_options( $status, $option, $value ) {
-		if ( 'wpseo_posts_per_page' === $option && ( $value > 0 && $value < 1000 ) ) {
+		if ( $option && ( $value > 0 && $value < 1000 ) === 'wpseo_posts_per_page' ) {
 			return $value;
 		}
 
@@ -353,7 +353,7 @@ class WPSEO_Admin {
 	 * @returns bool
 	 */
 	protected function on_dashboard_page() {
-		return 'index.php' === $GLOBALS['pagenow'];
+		return $GLOBALS['pagenow'] === 'index.php';
 	}
 
 	/**
@@ -379,25 +379,13 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		$integrations = [];
 
-		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
 
 		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
-			$link_table_compatibility_notifier->remove_notification();
-
 			return $integrations;
 		}
 
 		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
-		// Only use the link module for PHP 5.3 and higher and show a notice when version is wrong.
-		if ( version_compare( phpversion(), '5.3', '<' ) ) {
-			$link_table_compatibility_notifier->add_notification();
-
-			return $integrations;
-		}
-
-		$link_table_compatibility_notifier->remove_notification();
 
 		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {

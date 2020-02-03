@@ -5,22 +5,22 @@
  * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Repositories;
+namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class Primary_Term_Repository
  *
- * @package Yoast\WP\Free\ORM\Repositories
+ * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Primary_Term_Repository extends ORMWrapper {
 
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @return \Yoast\WP\Free\Repositories\Primary_Term_Repository
+	 * @return \Yoast\WP\SEO\Repositories\Primary_Term_Repository
 	 */
 	public static function get_instance() {
 		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Primary_Term' ) ] = self::class;
@@ -35,10 +35,10 @@ class Primary_Term_Repository extends ORMWrapper {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
 	 */
 	public function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
+		/** @var \Yoast\WP\SEO\Models\Primary_Term $primary_term */
 		$primary_term = $this->where( 'post_id', $post_id )
 			->where( 'taxonomy', $taxonomy )
 			->find_one();

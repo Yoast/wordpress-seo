@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 use WPSEO_Schema_Image;
 use Mockery;
@@ -73,10 +73,11 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_url( 'https://www.example.com/media/image-200x200.jpg' );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'image caption',
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'image caption',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -105,12 +106,13 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_url( 'https://www.example.com/media/image-200x200.jpg' );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'image caption',
-			'height'  => 120,
-			'width'   => 100,
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'image caption',
+			'height'     => 120,
+			'width'      => 100,
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -135,9 +137,10 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_url( 'https://www.external.com/media/image-200x200.png' );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.external.com/media/image-200x200.png',
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.external.com/media/image-200x200.png',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -160,10 +163,11 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_attachment_id( 123 );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'image caption',
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'image caption',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -194,10 +198,11 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_attachment_id( 123 );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'Image alt caption',
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'Image alt caption',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -226,12 +231,13 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_attachment_id( 123, 'Different caption' );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'Different caption',
-			'height'  => 120,
-			'width'   => 100,
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'Different caption',
+			'height'     => 120,
+			'width'      => 100,
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -260,12 +266,13 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->generate_from_attachment_id( 123 );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'image caption',
-			'height'  => 120,
-			'width'   => 100,
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'image caption',
+			'height'     => 120,
+			'width'      => 100,
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );
@@ -282,10 +289,11 @@ class Schema_Image_Test extends TestCase {
 		$image_schema = $this->instance->simple_image_object( 'https://www.example.com/media/image.png', 'Different caption' );
 
 		$expected = [
-			'@id'     => self::IMAGE_ID,
-			'@type'   => 'ImageObject',
-			'url'     => 'https://www.example.com/media/image.png',
-			'caption' => 'Different caption',
+			'@id'        => self::IMAGE_ID,
+			'@type'      => 'ImageObject',
+			'url'        => 'https://www.example.com/media/image.png',
+			'caption'    => 'Different caption',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $image_schema );

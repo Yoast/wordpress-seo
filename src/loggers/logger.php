@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Loggers
  */
 
-namespace Yoast\WP\Free\Loggers;
+namespace Yoast\WP\SEO\Loggers;
 
 use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerTrait;

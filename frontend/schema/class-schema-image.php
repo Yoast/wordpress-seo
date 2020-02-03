@@ -136,6 +136,8 @@ class WPSEO_Schema_Image {
 			'@type' => 'ImageObject',
 			'@id'   => $this->schema_id,
 		];
+
+		$this->data = WPSEO_Schema_Utils::add_piece_language( $this->data );
 	}
 
 	/**

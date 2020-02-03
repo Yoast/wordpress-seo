@@ -48,7 +48,7 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 		$options['access'] = $access;
 		update_site_option( 'wpseo_ms', $options );
 
-		WPSEO_Options::fill_cache();
+		WPSEO_Options::clear_cache();
 
 		$register = new WPSEO_Register_Capabilities();
 		$register->register();

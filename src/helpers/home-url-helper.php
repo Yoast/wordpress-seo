@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
 /**
  * Class Home_Url_Helper
@@ -33,7 +33,7 @@ class Home_Url_Helper {
 	 */
 	public function get() {
 		if ( static::$home_url === null ) {
-			static::$home_url = home_url();
+			static::$home_url = \home_url();
 		}
 
 		return static::$home_url;
@@ -46,7 +46,7 @@ class Home_Url_Helper {
 	 */
 	public function get_parsed() {
 		if ( static::$parsed_home_url === null ) {
-			static::$parsed_home_url = wp_parse_url( $this->get() );
+			static::$parsed_home_url = \wp_parse_url( $this->get() );
 		}
 
 		return static::$parsed_home_url;

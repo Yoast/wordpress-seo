@@ -11,14 +11,18 @@
 class WPSEO_Dismissible_Notification_Double extends WPSEO_Dismissible_Notification {
 
 	/**
-	 * @inheritdoc
+	 * Test double. Listens to an argument in the request URL and triggers an action.
+	 *
+	 * @return void
 	 */
 	public function dismiss() {
 		parent::dismiss();
 	}
 
 	/**
-	 * @inheritdoc
+	 * Test double. Checks if a notice is applicable.
+	 *
+	 * @return bool Whether a notice should be shown or not.
 	 */
 	public function is_applicable() {
 		return parent::is_applicable();

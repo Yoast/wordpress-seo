@@ -227,7 +227,7 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
-		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
 		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
@@ -435,7 +435,7 @@ class Yoast_Form {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
 
-		if ( '' === $id ) {
+		if ( $id === '' ) {
 			$id = 'hidden_' . $var;
 		}
 
@@ -605,7 +605,7 @@ class Yoast_Form {
 
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
 
-		if ( is_string( $legend ) && '' !== $legend ) {
+		if ( is_string( $legend ) && $legend !== '' ) {
 
 			$defaults = [
 				'id'    => '',

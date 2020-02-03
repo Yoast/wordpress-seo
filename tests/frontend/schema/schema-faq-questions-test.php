@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
 use Mockery;
 use WPSEO_Schema_Context;
-use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class WPSEO_Schema_FAQ_Questions_Test.
@@ -50,9 +50,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => 'This is an answer',
+				'@type'      => 'Answer',
+				'text'       => 'This is an answer',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -80,9 +82,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => 'This is an answer',
+				'@type'      => 'Answer',
+				'text'       => 'This is an answer',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -110,9 +114,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => '',
+				'@type'      => 'Answer',
+				'text'       => '',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -140,9 +146,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => '',
+				'@type'      => 'Answer',
+				'text'       => '',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -172,9 +180,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => '<h1>This is an answer<h1>',
+				'@type'      => 'Answer',
+				'text'       => '<h1>This is an answer<h1>',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -204,9 +214,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => 'This is an answer',
+				'@type'      => 'Answer',
+				'text'       => 'This is an answer',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -236,9 +248,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => '<h1>This is an answer</h1>',
+				'@type'      => 'Answer',
+				'text'       => '<h1>This is an answer</h1>',
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -268,9 +282,11 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
+			'inLanguage'       => 'language',
 			'acceptedAnswer'   => [
-				'@type' => 'Answer',
-				'text'  => 'This is an answer',
+				'@type'      => 'Answer',
+				'text'       => 'This is an answer',
+				'inLanguage' => 'language',
 			],
 		];
 

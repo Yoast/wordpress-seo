@@ -5,7 +5,9 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
+
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
@@ -15,12 +17,12 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $term_id   ID of the term to save data for.
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
+	 * @param int                            $term_id   ID of the term to save data for.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
 	 */
-	public function build( $term_id, $indexable ) {
+	public function build( $term_id, Indexable $indexable ) {
 		$term      = \get_term( $term_id );
 		$taxonomy  = $term->taxonomy;
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );

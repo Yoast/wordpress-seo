@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Admin;
 
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Tests\Doubles\Shortlinker;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Shortlinker;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Admin_Features.
@@ -28,7 +28,7 @@ class Admin_Features_Test extends TestCase {
 		$shortlinker = new Shortlinker();
 
 		Monkey\Functions\expect( 'add_query_arg' )
-			->times( 4 )
+			->times( 3 )
 			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
 			->andReturn( 'https://example.org' );
 
@@ -39,7 +39,7 @@ class Admin_Features_Test extends TestCase {
 
 		// Mock the current user for notifications.
 		Monkey\Functions\expect( 'wp_get_current_user' )
-			->times( 2 )
+			->times( 1 )
 			->andReturn( Mockery::mock( \WP_User::class ) );
 
 		return new WPSEO_Admin();
