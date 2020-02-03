@@ -23,7 +23,8 @@ class Twitter_Creator_Test extends TestCase {
 	public function setUp() {
 		$this->set_instance();
 
-		$this->context->post = (object) [ 'post_author' => 1337 ];
+		$source = (object) [ 'post_author' => 1337 ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
 		parent::setUp();
 	}

@@ -30,10 +30,12 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	 * @covers ::generate_og_article_modified_time
 	 */
 	public function test_generate_og_article_modified_time_same_as_published_time() {
-		$this->context->post = (object) [
+		$source = (object) [
 			'post_date_gmt'     => '2019-10-08T12:26:31+00:00',
 			'post_modified_gmt' => '2019-10-08T12:26:31+00:00',
 		];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
+
 		$actual = $this->instance->generate_og_article_modified_time();
 		$this->assertEmpty( $actual );
 	}
@@ -44,10 +46,12 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	 * @covers ::generate_og_article_modified_time
 	 */
 	public function test_generate_og_article_modified_time_differs_from_published_time() {
-		$this->context->post              = (object) [
+		$source = (object) [
 			'post_date_gmt'     => '2019-10-08T12:26:31+00:00',
 			'post_modified_gmt' => '2019-11-09T12:34:56+00:00',
 		];
+
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
 		$this->date_helper
 			->expects( 'format' )
