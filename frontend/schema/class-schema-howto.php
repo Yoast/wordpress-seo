@@ -78,7 +78,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 		$data = [
 			'@type'            => 'HowTo',
 			'@id'              => $this->context->canonical . '#howto-' . $this->counter,
-			'name'             => $this->context->title,
+			'name'             => WPSEO_Schema_Utils::get_post_title_with_fallback( $this->context->id ),
 			'mainEntityOfPage' => [ '@id' => $this->get_main_schema_id() ],
 			'description'      => '',
 		];
