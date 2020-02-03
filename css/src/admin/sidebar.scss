@@ -1,0 +1,71 @@
+/* Banners sidebar. */
+.yoast-sidebar {
+
+  &__title {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px 0;
+    color: #a4286a;
+    text-align: left;
+    box-sizing: border-box;
+    line-height: 19px;
+    border-bottom: 1px solid #a4286a;
+  }
+
+  &__section {
+    box-shadow: 0 1px 6px 0 rgba(0,0,0,.3);
+    border: 1px solid #dcdcdc;
+    background-color: #fff;
+    padding: 16px;
+    margin: 10px 0 20px 0;
+
+    h2 {
+      margin-top: 0;
+      color: #a4286a;
+    }
+
+    a {
+      color: #0085ba;
+    }
+
+    ul {
+      position: relative;
+    }
+
+    li {
+      list-style: none;
+      margin-left: 20px;
+
+      &::before {
+        content: '+';
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+    }
+
+    div {
+      position: relative;
+      margin: 10px 0 20px 0;
+
+      img {
+        float: right;
+        width: 70px;
+        height: 70px;
+        margin: 0 0 0 10px;
+
+        &.alignleft {
+          margin: 0 10px 0 0;
+          float: left;
+        }
+      }
+
+      p {
+        float: left;
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+  }
+}

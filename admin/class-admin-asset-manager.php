@@ -645,6 +645,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'tabs',
 				'src'  => 'tabs-' . $flat_version,
 			],
+			[
+				'name' => 'sidebar',
+				'src'  => 'sidebar-' . $flat_version,
+			],
 		];
 	}
 
