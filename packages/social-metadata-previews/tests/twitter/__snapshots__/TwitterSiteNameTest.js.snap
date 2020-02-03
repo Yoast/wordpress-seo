@@ -9,14 +9,30 @@ exports[`TwitterSiteName matches the snapshot by default 1`] = `
   text-overflow: ellipsis;
   margin: 0;
   fill: currentcolor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.c0 p {
+  margin: 0;
 }
 
 .c1 {
-  height: 1em;
+  height: 1.25em;
   max-width: 100%;
+  margin-right: 2px;
 }
 
-<p
+<div
   className="c0"
 >
   <svg
@@ -32,6 +48,8 @@ exports[`TwitterSiteName matches the snapshot by default 1`] = `
       />
     </g>
   </svg>
-  sitename.com
-</p>
+  <p>
+    sitename.com
+  </p>
+</div>
 `;

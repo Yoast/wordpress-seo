@@ -31,11 +31,27 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   text-overflow: ellipsis;
   margin: 0;
   fill: currentcolor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.c6 p {
+  margin: 0;
 }
 
 .c7 {
-  height: 1em;
+  height: 1.25em;
   max-width: 100%;
+  margin-right: 2px;
 }
 
 .c2 {
@@ -148,7 +164,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
     >
       
     </p>
-    <p
+    <div
       className="c6"
     >
       <svg
@@ -164,8 +180,10 @@ exports[`TwitterPreview matches the snapshot 1`] = `
           />
         </g>
       </svg>
-      yoast.com
-    </p>
+      <p>
+        yoast.com
+      </p>
+    </div>
   </div>
 </div>
 `;

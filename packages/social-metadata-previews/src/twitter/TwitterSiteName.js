@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 /**
  * Paragraph that contains the TwitterSiteName and the icon.
  */
-const TwitterSiteNameWrapper = styled.p`
+const TwitterSiteNameWrapper = styled.div`
 	text-transform: lowercase;
 	color: #8899a6;
 	white-space: nowrap;
@@ -14,14 +14,21 @@ const TwitterSiteNameWrapper = styled.p`
 	text-overflow: ellipsis;
 	margin: 0;
 	fill: currentcolor;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	p {
+		margin: 0;
+	}
 `;
 
 /**
  * Styled svg for usage as an icon.
  */
 const SvgIcon = styled.svg`
-	height: 1em;
+	height: 1.25em;
 	max-width: 100%;
+	margin-right: 2px;
 `;
 
 /* eslint-disable max-len */
@@ -57,7 +64,7 @@ const TwitterSiteName = ( props ) => {
 	return (
 		<TwitterSiteNameWrapper>
 			<LinkIcon />
-			{ props.siteName }
+			<p>{ props.siteName }</p>
 		</TwitterSiteNameWrapper>
 	);
 };
