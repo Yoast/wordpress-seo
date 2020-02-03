@@ -93,18 +93,4 @@ describe( "TwitterImage Component", () => {
 		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
-
-	it( "matches the snapshot for a too small image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValue( Promise.resolve( {
-			mode: "square",
-			height: 100,
-			width: 100,
-		} ) );
-		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png" isLarge={ true } />
-		);
-
-		// Wait for the determineImageProperties promise to resolve.
-		return delayComponentSnapshot( component );
-	} );
 } );
