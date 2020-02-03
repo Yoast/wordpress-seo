@@ -108,23 +108,3 @@ describe( "TwitterImage Component", () => {
 		return delayComponentSnapshot( component );
 	} );
 } );
-
-describe( "retrieveContainerDimensions", () => {
-	it( "retrieves the container dimensions for a landscape image", () => {
-		const TwitterImageComponent = new TwitterImage();
-
-		const actual = TwitterImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: 254 + "px", width: 506 + "px" };
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "retrieves the container dimensions for a square image", () => {
-		const TwitterImageComponent = new TwitterImage();
-
-		const actual = TwitterImageComponent.retrieveContainerDimensions( "square" );
-		const expected = { height: 125 + "px", width: 125 + "px" };
-
-		expect( actual ).toEqual( expected );
-	} );
-} );
