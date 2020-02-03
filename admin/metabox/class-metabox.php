@@ -123,6 +123,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		echo '</span>';
 		echo '<div style="float: left">';
 		printf(
+			/* translators: 1: link to Firefox website; 2: link to Chrome website; 3: link to Edge website; 4: link close tag. */
 			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
 			'<a href="https://www.mozilla.org/firefox/new/">',
 			'<a href="https://www.google.com/intl/nl/chrome/">',
@@ -145,7 +146,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		/* translators: %s expands to the post type name. */
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
-		if ( '0' === (string) get_option( 'blog_public' ) ) {
+		if ( (string) get_option( 'blog_public' ) === '0' ) {
 			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<span class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 		}
 		/* translators: %1$s expands to Yes or No,  %2$s expands to the post type name.*/
@@ -570,7 +571,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$selected_arr = $meta_value;
 
 					// If the multiselect field is 'meta-robots-adv' we should explode on ,.
-					if ( 'meta-robots-adv' === $key ) {
+					if ( $key === 'meta-robots-adv' ) {
 						$selected_arr = explode( ',', $meta_value );
 					}
 
@@ -659,12 +660,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			// If it's a set of radio buttons, output proper fieldset and legend.
-			if ( 'radio' === $meta_field_def['type'] ) {
+			if ( $meta_field_def['type'] === 'radio' ) {
 				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
 			}
 
 			// If it's a single checkbox, ignore the title.
-			if ( 'checkbox' === $meta_field_def['type'] ) {
+			if ( $meta_field_def['type'] === 'checkbox' ) {
 				$label = '';
 			}
 
@@ -739,7 +740,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( 'checkbox' === $meta_box['type'] ) {
+			if ( $meta_box['type'] === 'checkbox' ) {
 				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
 			}
 			else {
@@ -778,11 +779,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( 'linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+		if ( $key === 'linkdex' && ! $this->analysis_seo->is_enabled() ) {
 			return true;
 		}
 
-		if ( 'content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+		if ( $key === 'content_score' && ! $this->analysis_readability->is_enabled() ) {
 			return true;
 		}
 
@@ -1053,7 +1054,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether or not the given page is the post overview page.
 	 */
 	public static function is_post_overview( $page ) {
-		return 'edit.php' === $page;
+		return $page === 'edit.php';
 	}
 
 	/**
@@ -1064,8 +1065,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether or not the given page is the post edit page.
 	 */
 	public static function is_post_edit( $page ) {
-		return 'post.php' === $page
-			|| 'post-new.php' === $page;
+		return $page === 'post.php'
+			|| $page === 'post-new.php';
 	}
 
 	/**

@@ -24,11 +24,12 @@ $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-se
 		?>
 	</p>
 
+<div id="wpseo-opengraph-settings" style="display: none;">
 <?php
 
 $yform->textinput( 'fbadminapp', __( 'Facebook App ID', 'wordpress-seo' ) );
 
-if ( 'posts' === get_option( 'show_on_front' ) ) {
+if ( get_option( 'show_on_front' ) === 'posts' ) {
 	$social_facebook_frontpage_help = new WPSEO_Admin_Help_Panel(
 		'social-facebook-frontpage',
 		esc_html__( 'Learn more about the title separator setting', 'wordpress-seo' ),
@@ -76,7 +77,7 @@ $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 	<p class="desc label">
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
-
+</div>
 <?php
 
 do_action( 'wpseo_admin_opengraph_section' );

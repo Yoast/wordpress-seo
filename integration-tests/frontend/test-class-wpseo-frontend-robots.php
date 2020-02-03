@@ -196,7 +196,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_author_archive() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// Test author archive with no special options.
@@ -210,7 +210,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_author_archive_noindex() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// Test author archive with 'noindex-author-wpseo'.
@@ -230,7 +230,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_individual_archive_noindex() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
@@ -239,7 +239,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test that when this is _not_ set, we also do NOT have a noindex.
 		$user_id = $this->factory->user->create();
-		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
 		$this->go_to( get_author_posts_url( $user_id ) );
 		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1'; // The default "index,follow" is automatically set to empty string.
 		$this->assertEquals( $expected, self::$class_instance->robots() );

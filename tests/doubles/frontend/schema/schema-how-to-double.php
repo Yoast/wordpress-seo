@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Doubles\Frontend\Schema;
 
 use WPSEO_Schema_HowTo;
 

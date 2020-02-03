@@ -5,7 +5,7 @@
  * @package WPSEO\Frontend
  */
 
-use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
 /**
  * Main frontend class for Yoast SEO, responsible for the SEO output as well as removing
@@ -23,7 +23,7 @@ class WPSEO_Frontend {
 	/**
 	 * Toggle indicating whether output buffering has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $ob_started = false;
 
@@ -735,7 +735,7 @@ class WPSEO_Frontend {
 				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
 					$robots['index'] = 'noindex';
 				}
-				$curauth = $wp_query->get_queried_object();
+				$curauth        = $wp_query->get_queried_object();
 				$author_archive = new Author_Archive_Helper();
 				$user_has_posts = ( (int) count_user_posts( $curauth->ID, $author_archive->get_author_archive_post_types(), true ) ) > 0;
 				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $user_has_posts ) {
@@ -1572,23 +1572,26 @@ class WPSEO_Frontend {
 			return false;
 		}
 
-		$content = ob_get_clean();
+		$content  = ob_get_clean();
+		$head_end = stripos( $content, '/head>' );
 
 		$old_wp_query = $wp_query;
 
 		wp_reset_query();
 
 		// Only replace the debug marker when it is hooked.
-		if ( $this->show_debug_marker() ) {
+		if ( $head_end && $this->show_debug_marker() ) {
 			$title      = $this->title( '' );
 			$debug_mark = $this->get_debug_mark();
 
 			/*
-			 * Find all titles, strip them out and add the new one in within the debug marker,
+			 * Find all titles in the head, strip them out and add the new one in within the debug marker,
 			 * so it's easily identified whether a site uses force rewrite.
 			 */
-			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
+			$head = preg_replace( '/<title.*?\/title>/si', '', substr( $content, 0, $head_end ) );
+			$head = str_replace( $debug_mark, $debug_mark . PHP_EOL . '<title>' . esc_html( $title ) . '</title>', $head );
+
+			$content = $head . substr( $content, $head_end );
 		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;

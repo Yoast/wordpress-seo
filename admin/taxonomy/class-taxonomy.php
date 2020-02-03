@@ -99,6 +99,7 @@ class WPSEO_Taxonomy {
 		echo '</span>';
 		echo '<div style="float: left">';
 		printf(
+			/* translators: 1: link to Firefox website; 2: link to Chrome website; 3: link to Edge website; 4: link close tag. */
 			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
 			'<a href="https://www.mozilla.org/firefox/new/">',
 			'<a href="https://www.google.com/intl/nl/chrome/">',
@@ -226,11 +227,11 @@ class WPSEO_Taxonomy {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( 'wpseo_linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+		if ( $key === 'wpseo_linkdex' && ! $this->analysis_seo->is_enabled() ) {
 			return true;
 		}
 
-		if ( 'wpseo_content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+		if ( $key === 'wpseo_content_score' && ! $this->analysis_readability->is_enabled() ) {
 			return true;
 		}
 
@@ -321,7 +322,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_overview( $page ) {
-		return 'edit-tags.php' === $page;
+		return $page === 'edit-tags.php';
 	}
 
 	/**
@@ -332,7 +333,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	public static function is_term_edit( $page ) {
-		return 'term.php' === $page;
+		return $page === 'term.php';
 	}
 
 	/**

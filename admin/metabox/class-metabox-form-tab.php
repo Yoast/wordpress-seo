@@ -62,7 +62,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	/**
 	 * Does it contain a single tab.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $single;
 
@@ -111,10 +111,10 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 		return sprintf(
 			$html,
 			esc_attr( $this->name ),
-			( '' !== $this->tab_class ) ? ' ' . esc_attr( $this->tab_class ) : '',
-			( '' !== $this->link_class ) ? ' ' . esc_attr( $this->link_class ) : '',
-			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
-			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
+			( $this->tab_class !== '' ) ? ' ' . esc_attr( $this->tab_class ) : '',
+			( $this->link_class !== '' ) ? ' ' . esc_attr( $this->link_class ) : '',
+			( $this->link_title !== '' ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+			( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 			$this->link_content
 		);
 	}

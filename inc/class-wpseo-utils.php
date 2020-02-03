@@ -833,7 +833,7 @@ class WPSEO_Utils {
 		if ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
 		}
-		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
 			$development_mode = true;
 		}
 
@@ -867,7 +867,7 @@ class WPSEO_Utils {
 
 		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
 
-		if ( '/' === $home_path ) { // Home at site root, already slashed.
+		if ( $home_path === '/' ) { // Home at site root, already slashed.
 			return $home_url;
 		}
 

@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Loaders
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
-use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
-use Yoast\WP\Free\Generated\Cached_Container;
+use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
+use Yoast\WP\SEO\Generated\Cached_Container;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -17,7 +17,7 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 }
 
 $development = \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
-if ( $development && \class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+if ( $development && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
 	// Exception here is unhandled as it will only occur in development.
 	Container_Compiler::compile( $development );
 }

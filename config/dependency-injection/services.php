@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO\Dependency_Injection
  */
 
-namespace Yoast\WP\Free\Dependency_Injection;
+namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\Repositories\SEO_Links_Repository;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
-use Yoast\WP\Free\WordPress\Wrapper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
+use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\WordPress\Wrapper;
 
 /* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
 
@@ -47,8 +47,8 @@ $base_definition
 	->setAutoconfigured( true )
 	->setPublic( false );
 
-/* @var $loader \Yoast\WP\Free\Dependency_Injection\Custom_Loader */
-$loader->registerClasses( $base_definition, 'Yoast\\WP\\Free\\', 'src/*', 'src/{' . $excluded . '}' );
+/* @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader */
+$loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
 
 if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {
 	include __DIR__ . '/../../premium/config/dependency-injection/services.php';

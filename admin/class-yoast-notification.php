@@ -397,7 +397,7 @@ class Yoast_Notification {
 		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
 
 		// Set default capabilities when not supplied.
-		if ( empty( $options['capabilities'] ) || [] === $options['capabilities'] ) {
+		if ( empty( $options['capabilities'] ) || $options['capabilities'] === [] ) {
 			$options['capabilities'] = [ 'wpseo_manage_options' ];
 		}
 

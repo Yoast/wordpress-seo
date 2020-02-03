@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Database;
+namespace Yoast\WP\SEO\Database;
 
 use wpdb;
-use Yoast\WP\Free\Config\Dependency_Management;
-use Yoast\WP\Free\Loggers\Migration_Logger;
+use Yoast\WP\SEO\Config\Dependency_Management;
+use Yoast\WP\SEO\Loggers\Migration_Logger;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use YoastSEO_Vendor\Ruckusing_Task_Manager;
 use YoastSEO_Vendor\Task_Db_Migrate;
@@ -29,24 +29,24 @@ class Ruckusing_Framework {
 	/**
 	 * The dependency management checker.
 	 *
-	 * @var \Yoast\WP\Free\Config\Dependency_Management
+	 * @var \Yoast\WP\SEO\Config\Dependency_Management
 	 */
 	protected $dependency_management;
 
 	/**
 	 * The migration logger object.
 	 *
-	 * @var \Yoast\WP\Free\Loggers\Migration_Logger
+	 * @var \Yoast\WP\SEO\Loggers\Migration_Logger
 	 */
 	protected $migration_logger;
 
 	/**
 	 * Ruckusing_Framework constructor.
 	 *
-	 * @param \wpdb                                       $wpdb                  The wpdb instance.
-	 * @param \Yoast\WP\Free\Config\Dependency_Management $dependency_management The dependency management checker.
-	 * @param \Yoast\WP\Free\Loggers\Migration_Logger     $migration_logger      The migration logger, extends the
-	 *                                                                           Ruckusing logger.
+	 * @param \wpdb                                      $wpdb                  The wpdb instance.
+	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management The dependency management checker.
+	 * @param \Yoast\WP\SEO\Loggers\Migration_Logger     $migration_logger      The migration logger, extends the
+	 *                                                                          Ruckusing logger.
 	 */
 	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
 		$this->wpdb                  = $wpdb;

@@ -53,7 +53,7 @@ class WPSEO_Sitemaps_Admin {
 		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 		// Not something we're interested in.
-		if ( 'nav_menu_item' === $post_type ) {
+		if ( $post_type === 'nav_menu_item' ) {
 			return;
 		}
 
@@ -112,7 +112,7 @@ class WPSEO_Sitemaps_Admin {
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 			// Just have the cache deleted for nav_menu_item.
-			if ( 'nav_menu_item' === $post_type ) {
+			if ( $post_type === 'nav_menu_item' ) {
 				continue;
 			}
 
@@ -122,7 +122,7 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		// Nothing to do.
-		if ( false === $ping_search_engines ) {
+		if ( $ping_search_engines === false ) {
 			return;
 		}
 

@@ -182,7 +182,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
 		}
 
-		if ( is_array( $this->type ) && in_array( 'Organization', $this->type ) ) {
+		if ( is_array( $this->type ) && in_array( 'Organization', $this->type, true ) ) {
 			$data['logo'] = [ '@id' => $schema_id ];
 		}
 

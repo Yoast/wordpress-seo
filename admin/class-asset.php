@@ -117,14 +117,14 @@ class WPSEO_Admin_Asset {
 	/**
 	 * For JS Assets. Whether or not the script should be loaded in the footer.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $in_footer;
 
 	/**
 	 * For CSS Assets. Whether this stylesheet is a right-to-left stylesheet.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $rtl;
 
@@ -146,7 +146,6 @@ class WPSEO_Admin_Asset {
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
-		'suffix'    => WPSEO_CSSJS_SUFFIX,
 	];
 
 	/**
@@ -174,7 +173,7 @@ class WPSEO_Admin_Asset {
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
-		$this->suffix    = $args['suffix'];
+		$this->suffix    = isset( $args['suffix'] ) ? $args['suffix'] : '';
 	}
 
 	/**
