@@ -8,16 +8,15 @@ import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
 import FacebookImage from "./FacebookImage";
 import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
-import { determineImageProperties } from "../helpers/determineImageProperties";
 
 /**
- * Checks de height depending on the mode.
+ * Determines the height depending on the mode.
  *
  * @param {string} mode The mode. landscape, square, portrait.
  *
  * @returns {string} The height pixels.
  */
-const checkHeight = ( mode ) => {
+const determineTextContainerHeight = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
 			return "57px";
@@ -34,13 +33,13 @@ const checkHeight = ( mode ) => {
 };
 
 /**
- * Checks de width depending on the mode.
+ * Determines the width depending on the mode.
  *
  * @param {string} mode The mode. landscape, square, portrait.
  *
  * @returns {string} The width pixels.
  */
-const checkWidth = ( mode ) => {
+const determineTextContainerWidth = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
 			return "474px";
@@ -75,14 +74,14 @@ const FacebookPreviewWrapper = styled.div`
 
 const OuterTextWrapper = styled.div`
 	background-color: #f2f3f5;
-    margin: 0;
-    padding: 10px 12px;
+	margin: 0;
+	padding: 10px 12px;
 	position: relative;
-	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
-	border-top: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2"  };
-	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : ""  };
-	width: ${ props => checkWidth( props.mode ) };
-	height: ${ props => checkHeight( props.mode ) };
+	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
+	border-top: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
+	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : "" };
+	width: ${ props => determineTextContainerWidth( props.mode ) };
+	height: ${ props => determineTextContainerHeight( props.mode ) };
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -119,37 +118,22 @@ class FacebookPreview extends Component {
 	constructor( props ) {
 		super( props );
 		this.state = {
-			imageProperties: {
-				mode: null,
-				height: null,
-				width: null,
-			},
-			status: "loading",
+			imageMode: null,
 		};
+		this.onImageLoaded = this.onImageLoaded.bind( this );
 	}
 
 	/**
-	 * After the component has mounted, determine the properties of the FacebookImage.
+	 * Retrieves the imageMode from the Facebook image container.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @param {string} mode The Facebook image mode: landscape, portrait or square.
+	 *
+	 * @returns {void} Void.
 	 */
-	componentDidMount() {
-		return determineImageProperties( this.props.image, "Facebook" ).then( ( imageProperties ) => {
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
-			} );
-		} ).catch( () => {
-			this.setState( {
-				imageProperties: {
-					mode: null,
-					height: null,
-					width: null,
-				},
-				status: "errored",
-			} );
-		} );
+	onImageLoaded( mode ) {
+		this.setState( { imageMode: mode } );
 	}
+
 	/**
 	 * Renders the FacebookPreview.
 	 *
@@ -157,21 +141,20 @@ class FacebookPreview extends Component {
 	 * the TwitterImageContainer.
 	 */
 	render() {
-		const { imageProperties } = this.state;
+		const { imageMode } = this.state;
 		return (
-			<FacebookPreviewWrapper mode={ imageProperties.mode }>
+			<FacebookPreviewWrapper mode={ imageMode }>
 				<FacebookImage
 					src={ this.props.image }
 					alt={ this.props.alt }
-					imageProperties={ imageProperties }
-					status={ this.state.status }
+					onImageLoaded={ this.onImageLoaded }
 				/>
-				<OuterTextWrapper mode={ imageProperties.mode }>
+				<OuterTextWrapper mode={ imageMode }>
 					<InnerTextWrapper>
 						<FacebookSiteAndAuthorNames
 							siteName={ this.props.siteName }
 							authorName={ this.props.authorName }
-							mode={ imageProperties.mode }
+							mode={ imageMode }
 						/>
 						<TitleAndDescriptionWrapper>
 							<FacebookTitle title={ this.props.title } />

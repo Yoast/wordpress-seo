@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -8,7 +8,10 @@ import { __ } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import { FACEBOOK_IMAGE_SIZES } from "../helpers/determineImageProperties";
+import {
+	determineImageProperties,
+	FACEBOOK_IMAGE_SIZES,
+} from "../helpers/determineImageProperties";
 
 const MIN_IMAGE_WIDTH = FACEBOOK_IMAGE_SIZES.squareWidth;
 const MIN_IMAGE_HEIGHT = FACEBOOK_IMAGE_SIZES.squareHeight;
@@ -62,84 +65,124 @@ const PlaceholderImage = styled.div`
 `;
 
 /**
- * Retrieves the dimensions for the Facebook image container.
- *
- * @param {string} imageMode The Facebook image mode: landscape, portrait or square.
- *
- * @returns {Object} The width and height for the container.
- */
-export const retrieveContainerDimensions = ( imageMode ) => {
-	switch ( imageMode ) {
-		case "square":
-			return {
-				height: FACEBOOK_IMAGE_SIZES.squareHeight + "px",
-				width: FACEBOOK_IMAGE_SIZES.squareWidth + "px",
-			};
-		case "portrait":
-			return {
-				height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px",
-				width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px",
-			};
-		case "landscape":
-			return {
-				height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px",
-				width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
-			};
-	}
-};
-
-/**
  * Renders the FacebookImage component.
  *
- * @param {string} props The image source.
+ * @param {string} src The image source.
  *
  * @returns {ReactComponent} The FacebookImage component.
  */
-const FacebookImage = ( props ) => {
-	const { imageProperties, status, src, alt } = props;
-
-	if ( status === "loading" || src === "" ) {
-		return <PlaceholderImage>
-			{ __( "Select image", "yoast-components" ) }
-		</PlaceholderImage>;
+class FacebookImage extends Component {
+	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
+	constructor( props ) {
+		super( props );
+		this.state = {
+			imageProperties: null,
+			status: "loading",
+		};
 	}
 
-	if ( status === "errored" ) {
-		return <ErrorImage>
-			{ __( "The given image url cannot be loaded", "yoast-components" ) }
-		</ErrorImage>;
+	/**
+	 * After the component has mounted, determine the properties of the FacebookImage.
+	 *
+	 * @returns {Promise} Resolves when there are image properties.
+	 */
+	componentDidMount() {
+		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
+			if ( this.props.onImageLoaded ) {
+				this.props.onImageLoaded( imageProperties.mode );
+			}
+
+			this.setState( {
+				imageProperties: imageProperties,
+				status: "loaded",
+			} );
+		} ).catch( () => {
+			this.setState( {
+				imageProperties: null,
+				status: "errored",
+			} );
+		} );
 	}
 
-	if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
-		return <ErrorImage>
-			{ __( "The image you selected is too small for Facebook", "yoast-components" ) }
-		</ErrorImage>;
+	/**
+	 * Retrieves the dimensions for the Facebook image container.
+	 *
+	 * @param {string} imageMode The Facebook image mode: landscape, portrait or square.
+	 *
+	 * @returns {Object} The width and height for the container.
+	 */
+	retrieveContainerDimensions( imageMode ) {
+		switch ( imageMode ) {
+			case "square":
+				return {
+					height: FACEBOOK_IMAGE_SIZES.squareHeight + "px",
+					width: FACEBOOK_IMAGE_SIZES.squareWidth + "px",
+				};
+			case "portrait":
+				return {
+					height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px",
+					width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px",
+				};
+			case "landscape":
+				return {
+					height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px",
+					width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
+				};
+		}
 	}
 
-	const containerDimensions = retrieveContainerDimensions( imageProperties.mode );
-	return <FacebookImageContainer
-		dimensions={ containerDimensions }
-	>
-		<StyledImage
-			src={ src }
-			alt={ alt }
-			imageProperties={ imageProperties }
-		/>
-	</FacebookImageContainer>;
-};
+	/**
+	 * Renders the FacebookImage.
+	 *
+	 * @returns {ReactComponent} Either the ErrorImage component or the FacebookImageContainer.
+	 */
+	render() {
+		const { imageProperties, status } = this.state;
+
+		if ( status === "loading" || this.props.src === "" ) {
+			return <PlaceholderImage>
+				{ __( "Select image", "yoast-components" ) }
+			</PlaceholderImage>;
+		}
+
+		if ( status === "errored" ) {
+			return <ErrorImage>
+				{ __( "The given image url cannot be loaded", "yoast-components" ) }
+			</ErrorImage>;
+		}
+
+		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
+			return <ErrorImage>
+				{ __( "The image you selected is too small for Facebook", "yoast-components" ) }
+			</ErrorImage>;
+		}
+
+		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
+		return <FacebookImageContainer
+			dimensions={ containerDimensions }
+		>
+			<StyledImage
+				src={ this.props.src }
+				alt={ this.props.alt }
+				imageProperties={ imageProperties }
+			/>
+		</FacebookImageContainer>;
+	}
+}
 
 FacebookImage.propTypes = {
-	src: PropTypes.string,
+	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
-	imageProperties: PropTypes.object,
-	status: PropTypes.string,
+	onImageLoaded: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
 	alt: "",
-	src: "",
-	imageProperties: { },
-	status: "loading",
+	onImageLoaded: () => {},
 };
 
 export default FacebookImage;

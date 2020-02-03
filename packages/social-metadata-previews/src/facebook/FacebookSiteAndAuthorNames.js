@@ -23,8 +23,8 @@ const FacebookSiteAndAuthorNamesWrapper = styled.p`
 `;
 
 const FacebookSiteAndAuthorNamesSeparator = styled.span`
-    padding-left: 5px;
-    padding-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 `;
 
 /**
