@@ -5,6 +5,7 @@ import getLanguage from "../helpers/getLanguage";
 import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getWords from "../stringProcessing/getWords";
+import parseSlug from "../stringProcessing/parseSlug";
 import { normalizeSingle } from "../stringProcessing/quotes";
 import { collectStems } from "./buildTopicStems";
 
@@ -23,7 +24,7 @@ function Result( keyphraseStems = [], synonymsStems = [] ) {
 function getAllWordsFromPaper( paper ) {
 	const wordsText = getWords( paper.getText() );
 	const wordsTitle = getWords( paper.getTitle() );
-	const wordsSlug = getWords( paper.getUrl().replace( /[-_]/ig, " " ) );
+	const wordsSlug = getWords( parseSlug( paper.getUrl() ) );
 	const wordsMetaDescription = getWords( paper.getDescription() );
 
 	return [ ...wordsText, ...wordsTitle, ...wordsSlug, ...wordsMetaDescription ];
