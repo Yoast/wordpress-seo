@@ -16,10 +16,8 @@ const TwitterDescriptionText = styled.p`
 	line-height: 18px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	margin: 0;
-	margin-bottom: 2px;
+	margin: 0 0 2px;
 	color: rgb(101, 119, 134);
-	overflow: hidden;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
