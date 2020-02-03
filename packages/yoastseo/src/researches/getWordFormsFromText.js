@@ -41,10 +41,12 @@ function getAllWordsFromPaper( paper ) {
 
 function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, language ) {
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
+	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original.toLocaleLowerCase( language ) ) );
 
+	// Return original and found forms or only original if no matching forms were found in the text.
 	return matchingStemFormPair
-		? matchingStemFormPair.forms
-		: [ normalizeSingle( escapeRegExp( stemOriginalPair.original.toLocaleLowerCase( language ) ) ) ];
+		? uniq( [ originalSanitized, ...matchingStemFormPair.forms ] )
+		: [ originalSanitized ];
 }
 
 function extractStems( keyphraseStems, synonymsStems ) {

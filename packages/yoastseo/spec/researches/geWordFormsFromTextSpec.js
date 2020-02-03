@@ -21,8 +21,8 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cat's", "cat" ], [ "dog", "dog's" ] ],
-				synonymsForms: [ [ [ "purrs" ], [ "feline" ] ], [ [ "friendly" ], [ "canine" ] ] ],
+				keyphraseForms: [ [ "cats", "cat's", "cat" ], [ "dogs", "dog", "dog's" ] ],
+				synonymsForms: [ [ [ "purring", "purrs" ], [ "felines", "feline" ] ], [ [ "friendly" ], [ "canines", "canine" ] ] ],
 			}
 		);
 	} );
@@ -42,7 +42,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "orangen" ], [ "heidelbeeren" ] ],
-				synonymsForms: [ [ [ "sauer" ], [ "apfelsine" ] ], [ [ "süß" ], [ "blaubeere" ] ] ],
+				synonymsForms: [ [ [ "saure", "sauer" ], [ "apfelsine" ] ], [ [ "süße", "süß" ], [ "blaubeere" ] ] ],
 			}
 		);
 	} );
@@ -89,7 +89,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cat" ], [ "dog" ] ],
+				keyphraseForms: [ [ "cats", "cat" ], [ "dogs", "dog" ] ],
 				synonymsForms: [],
 			}
 		);
@@ -106,15 +106,11 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cat" ], [ "dog" ] ],
-				synonymsForms: [ [ [ "feline" ] ], [ [ "canine" ] ] ],
+				keyphraseForms: [ [  "cats", "cat" ], [ "dogs", "dog" ] ],
+				synonymsForms: [ [ [ "felines", "feline" ] ], [ [ "canines", "canine" ] ] ],
 			}
 		);
 	} );
-
-	// keyphrase undefined -> return empty
-
-
 
 	it( "returns the (sanitized) original form of a word if no forms were found in the paper", function() {
 		const attributes = {
@@ -146,7 +142,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cat", "cats" ], [ "walked", "walking", "walk"  ] ],
+				keyphraseForms: [ [ "cat", "cats" ], [ "walks", "walked", "walking", "walk"  ] ],
 				synonymsForms: [],
 			}
 		);
@@ -166,7 +162,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "walk's", "walks", "walked", "walking" ] ],
+				keyphraseForms: [ [ "walk", "walk's", "walks", "walked", "walking" ] ],
 				synonymsForms: [],
 			}
 		);
@@ -184,7 +180,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats and dogs" ] ],
-				synonymsForms: [ [ [ "feline"  ] ], [ [ "canine" ] ] ],
+				synonymsForms: [ [ [ "felines", "feline"  ] ], [ [ "canines", "canine" ] ] ],
 			}
 		);
 	} );
@@ -200,7 +196,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cat" ], [ "dog" ] ],
+				keyphraseForms: [ [ "cats", "cat" ], [ "dogs", "dog" ] ],
 				synonymsForms: [ [ [ "some purring felines"  ] ], [ [ "canines" ] ] ],
 			}
 		);
