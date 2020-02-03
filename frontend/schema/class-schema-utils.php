@@ -43,7 +43,7 @@ class WPSEO_Schema_Utils {
 		return $title;
 	}
 
-	/*
+	/**
 	 * Adds the `inLanguage` property to a Schema piece.
 	 *
 	 * Must use one of the language codes from the IETF BCP 47 standard. The
