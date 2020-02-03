@@ -108,7 +108,7 @@ module.exports = function( grunt ) {
 			grunt: "Gruntfile.js",
 		},
 		sassFiles: {
-			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.scss" ],
+			"css/dist/post-overview-global-<%= pluginVersionSlug %>.css": [ "css/src/editor/post-overview-global.scss" ],
 			"css/dist/adminbar-<%= pluginVersionSlug %>.css": [ "css/src/admin/adminbar.scss" ],
 			"css/dist/alerts-<%= pluginVersionSlug %>.css": [ "css/src/alerts.scss" ],
 			"css/dist/dashboard-<%= pluginVersionSlug %>.css": [ "css/src/admin/dashboard.scss" ],
