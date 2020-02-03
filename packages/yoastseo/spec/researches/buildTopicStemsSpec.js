@@ -330,3 +330,50 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		expect( collectStems( keyword, "", language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 } );
+
+describe( "A test for topic phrase objects", function() {
+	const testTopicPhrase = new TopicPhrase(
+		[
+			new StemOriginalPair( "movie", "movies" ),
+			new StemOriginalPair( "work", "work" ),
+		],
+		false,
+	);
+
+	it( "constructs a topic phrase", () => {
+		expect( testTopicPhrase ).toEqual(
+			{
+				exactMatch: false,
+				stemOriginalPairs: [
+					{ original: "movies", stem: "movie" },
+					{ original: "work", stem: "work" },
+				],
+			} );
+	} );
+
+	it( "constructs an empty topic phrase", () => {
+		const emptyTopicPhrase = new TopicPhrase();
+
+		expect( emptyTopicPhrase ).toEqual(
+			{
+				exactMatch: false,
+				stemOriginalPairs: [],
+			} );
+	} );
+
+	it( "gets stems from a topic phrase", () => {
+		expect( testTopicPhrase.getStems() ).toEqual( [ "movie", "work" ] );
+	} );
+} );
+
+describe( "A test for stem original pair objects", function() {
+	const testStemOriginalPair = new StemOriginalPair( "movie", "movies" );
+
+	it( "constructs a topic phrase", () => {
+		expect( testStemOriginalPair ).toEqual(
+			{
+				stem: "movie",
+				original: "movies",
+			} );
+	} );
+} );
