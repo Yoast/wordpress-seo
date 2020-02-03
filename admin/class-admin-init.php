@@ -459,8 +459,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
 	 * Check if the permalink uses %postname%.
 	 *
 	 * @return bool
@@ -470,7 +468,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
->>>>>>> trunk
 	 * Shows a notice on the permalink settings page.
 	 */
 	public function permalink_settings_notice() {
