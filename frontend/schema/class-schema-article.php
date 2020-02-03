@@ -80,6 +80,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data = $this->add_image( $data );
 		$data = $this->add_keywords( $data );
 		$data = $this->add_sections( $data );
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		return $data;
 	}
