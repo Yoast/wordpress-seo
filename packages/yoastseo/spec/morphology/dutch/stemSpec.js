@@ -131,6 +131,7 @@ const wordsToStem = [
 	[ "zoos", "zoo" ],
 	// A word that does not need to undergo vowel doubling after suffix -en deletion.
 	[ "dommeriken", "dommerik" ],
+	[ "vaten", "vat" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
