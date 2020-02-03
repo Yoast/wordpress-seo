@@ -15,8 +15,8 @@ import {
 
 const TwitterImageContainer = styled.div`
 	position: relative;
-	height: ${ props => props.dimensions.height };
-	width: ${ props => props.dimensions.width };
+	height: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeHeight : TWITTER_IMAGE_SIZES.squareHeight }px;
+	width: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeWidth : TWITTER_IMAGE_SIZES.squareWidth }px;
 	overflow: hidden;
 	background-color: #e1e8ed;
 `;
@@ -101,28 +101,6 @@ export default class TwitterImage extends React.Component {
 	}
 
 	/**
-	 * Retrieves the dimensions for the Twitter image container.
-	 *
-	 * @param {string} imageMode The Twitter image mode: landscape or square.
-	 *
-	 * @returns {Object} The width and height for the container.
-	 */
-	retrieveContainerDimensions( imageMode ) {
-		switch ( imageMode ) {
-			case "square":
-				return {
-					height: TWITTER_IMAGE_SIZES.squareHeight + "px",
-					width: TWITTER_IMAGE_SIZES.squareWidth + "px",
-				};
-			case "landscape":
-				return {
-					height: TWITTER_IMAGE_SIZES.landscapeHeight + "px",
-					width: TWITTER_IMAGE_SIZES.landscapeWidth + "px",
-				};
-		}
-	}
-
-	/**
 	 * Renders the TwitterImage.
 	 *
 	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
@@ -143,9 +121,8 @@ export default class TwitterImage extends React.Component {
 			</ErrorImage>;
 		}
 
-		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <TwitterImageContainer
-			dimensions={ containerDimensions }
+			isLarge={ this.props.isLarge }
 		>
 			<StyledImage
 				src={ this.props.src }
@@ -158,6 +135,7 @@ export default class TwitterImage extends React.Component {
 
 TwitterImage.propTypes = {
 	src: PropTypes.string.isRequired,
+	isLarge: PropTypes.bool.isRequired,
 	alt: PropTypes.string,
 };
 

@@ -2,12 +2,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
 /* Internal dependencies */
 import TwitterTitle from "./TwitterTitle";
 import TwitterDescription from "./TwitterDescription";
 import TwitterSiteName from "./TwitterSiteName";
 import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
+import { TWITTER_IMAGE_SIZES } from "../helpers/determineImageProperties";
 
 const TwitterPreviewWrapper = styled.div`
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
@@ -53,7 +55,7 @@ const TwitterPreview = ( props ) => {
 	return (
 		<TwitterPreviewWrapper isLarge={ props.isLarge }>
 			<ImgWrapper isLarge={ props.isLarge }>
-				<TwitterImage src={ props.image } alt={ props.alt } />
+				<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />
 			</ImgWrapper>
 			<TwitterTextWrapper>
 				<TwitterTitle title={ props.title } />
