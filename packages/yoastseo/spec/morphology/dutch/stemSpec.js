@@ -107,6 +107,28 @@ const wordsToStem = [
 	[ "ronders", "rond" ],
 	// An adjective with stem ending in -rd.
 	[ "absurder", "absurd" ],
+	// A noun with diminutive suffix -je.
+	[ "plaatje", "plaat" ],
+	// A noun with diminutive suffix -je.
+	[ "momentje", "moment" ],
+	// A noun with diminutive suffix -tje.
+	[ "citroentje", "citroen" ],
+	// A noun with diminutive suffix -tje.
+	[ "actietje", "actie" ],
+	// A noun with diminutive suffix -je. Input: exception list.
+	[ "patiëntje", "patiënt" ],
+	// A noun with diminutive suffix -tje. Input: exception list.
+	[ "aspergetje", "asperge" ],
+	// A noun with diminutive suffix -etje. Input: exception list.
+	[ "taxietje", "taxi" ],
+	// A noun with diminutive suffix -tje in which undergoes vowel doubling before adding the suffix -tje. Input: exception list.
+	[ "dynamootje", "dynamo" ],
+	// A noun with plural suffix -en. Input: exception list.
+	[ "residuen", "residu" ],
+	// A noun with plural suffix -eren. Input: exception list.
+	[ "volkeren", "volk" ],
+	// A noun with plural suffix -s. Input: exception list.
+	[ "zoos", "zoo" ],
 	// A word that does not need to undergo vowel doubling after suffix -en deletion.
 	[ "dommeriken", "dommerik" ],
 ];
