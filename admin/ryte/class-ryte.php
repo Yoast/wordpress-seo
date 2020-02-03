@@ -21,6 +21,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * Constructs the object.
 	 */
 	public function __construct() {
+		$this->maybe_add_weekly_schedule();
 		$this->catch_redo_listener();
 	}
 
@@ -33,9 +34,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		if ( ! self::is_active() ) {
 			return;
 		}
-
-		// Adds weekly schedule to the cron job schedules.
-		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 
 		// Sets the action for the Ryte fetch cron job.
 		add_action( 'wpseo_ryte_fetch', [ $this, 'fetch_from_ryte' ] );
@@ -72,11 +70,32 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds a weekly cron schedule.
+	 * Determines whether to add a custom cron weekly schedule.
 	 *
-	 * @param array $schedules Currently scheduled items.
+	 * @return void
+	 */
+	public function maybe_add_weekly_schedule() {
+		$schedules = wp_get_schedules();
+
+		/*
+		 * Starting with version 5.4, WordPress does have a default weekly cron
+		 * schedule. See https://core.trac.wordpress.org/changeset/47062.
+		 * We need to add a custom one only if the default one doesn't exist.
+		 */
+		if ( isset( $schedules['weekly'] ) ) {
+			return;
+		}
+
+		// If there's no default cron weekly schedule, add a custom one.
+		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
+	}
+
+	/**
+	 * Adds a custom weekly cron schedule.
 	 *
-	 * @return array Enriched list of schedules.
+	 * @param array $schedules The existing custom cron schedules.
+	 *
+	 * @return array Enriched list of custom cron schedules.
 	 */
 	public function add_weekly_schedule( $schedules ) {
 		if ( ! is_array( $schedules ) ) {
@@ -147,7 +166,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Schedules the cronjob to get the new indexibility status.
+	 * Schedules the cronjob to get the new indexability status.
 	 *
 	 * @return void
 	 */
@@ -156,18 +175,11 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$schedules = wp_get_schedules();
-
-		if ( ! isset( $schedules['weekly'] ) ) {
-			// Make sure our custom weekly schedule exists before adding the weekly cron job.
-			add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
-		}
-
 		wp_schedule_event( time(), 'weekly', 'wpseo_ryte_fetch' );
 	}
 
 	/**
-	 * Unschedules the cronjob to get the new indexibility status.
+	 * Unschedules the cronjob to get the new indexability status.
 	 *
 	 * @return void
 	 */

@@ -35,19 +35,13 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the weekly schedule is added to wp_get_schedules.
+	 * Test if the weekly schedule exists.
 	 *
+	 * @covers WPSEO_Ryte::maybe_add_weekly_schedule
 	 * @covers WPSEO_Ryte::add_weekly_schedule
 	 */
 	public function test_add_weekly_schedule() {
-		$this->class_instance->register_hooks();
-
-		$schedules = $this->class_instance->add_weekly_schedule( [] );
-
-		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
-		$this->assertEquals( $schedules['weekly']['interval'], WEEK_IN_SECONDS );
-		$this->assertEquals( $schedules['weekly']['display'], __( 'Once Weekly', 'wordpress-seo' ) );
-
+		// The method `maybe_add_weekly_schedule()` is called on class instantiation.
 		$schedules = wp_get_schedules();
 
 		$this->assertTrue( array_key_exists( 'weekly', $schedules ) );
@@ -56,7 +50,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the weekly schedule is added to wp_get_schedules.
+	 * Test if the weekly schedule is added to wp_get_schedules when the filter is passed a non-array value.
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9450
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9475
@@ -64,8 +58,10 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Ryte::add_weekly_schedule
 	 */
 	public function test_add_weekly_schedule_with_invalid_filter_input() {
-		$this->class_instance->register_hooks();
+		// Runs with default priority 10.
+		add_filter( 'cron_schedules', [ $this->class_instance, 'add_weekly_schedule' ] );
 
+		// Runs earlier, with priority 1.
 		add_filter( 'cron_schedules', '__return_false', 1 );
 
 		$schedules = wp_get_schedules();
