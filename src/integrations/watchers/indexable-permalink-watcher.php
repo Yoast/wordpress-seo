@@ -107,14 +107,13 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	 */
 	protected function get_post_types() {
 		/**
-		 * Filters the post types.
+		 * Filter: Gives the possibility to filter out post types.
 		 *
-		 * @param array  $post_types The post type names.
-		 * @param string $context    The context where it happens.
+		 * @param array $post_types The post type names.
 		 *
 		 * @return array The post types.
 		 */
-		$post_types = \apply_filters( 'wpseo_post_types', $this->post_type->get_public_post_types(), 'update_permalink' );
+		$post_types = \apply_filters( 'wpseo_post_types_reset_permalinks', $this->post_type->get_public_post_types() );
 
 		return $post_types;
 	}
