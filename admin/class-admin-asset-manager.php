@@ -613,8 +613,8 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			],
 			[
-				'name' => 'admin-global',
-				'src'  => 'admin-global-' . $flat_version,
+				'name' => 'post-overview-global',
+				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
 				'name' => 'yoast-components',
