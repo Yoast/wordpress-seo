@@ -22,10 +22,6 @@ exports[`TwitterSiteName matches the snapshot by default 1`] = `
   align-items: flex-end;
 }
 
-.c0 p {
-  margin: 0;
-}
-
 .c1 {
   height: 1.25em;
   max-width: 100%;
@@ -48,8 +44,8 @@ exports[`TwitterSiteName matches the snapshot by default 1`] = `
       />
     </g>
   </svg>
-  <p>
+  <span>
     sitename.com
-  </p>
+  </span>
 </div>
 `;

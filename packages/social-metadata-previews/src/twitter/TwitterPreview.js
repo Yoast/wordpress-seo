@@ -9,7 +9,6 @@ import TwitterDescription from "./TwitterDescription";
 import TwitterSiteName from "./TwitterSiteName";
 import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
-import { TWITTER_IMAGE_SIZES } from "../helpers/determineImageProperties";
 
 const TwitterPreviewWrapper = styled.div`
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
@@ -17,7 +16,7 @@ const TwitterPreviewWrapper = styled.div`
     font-weight: 400;
     width: 507px;
     min-height: 125px;
-    border-radius: 12px;
+    border-radius: 14px;
     border: 1px solid #E1E8ED;
     box-sizing: border-box;
     color: #292F33;
@@ -32,18 +31,6 @@ const TwitterPreviewWrapper = styled.div`
     flex-direction: ${ props => props.isLarge ? "column" : "row" };
 `;
 
-const ImgWrapper = styled.div`
-	${ props => {
-		if ( ! props.isLarge ) {
-			return `width: 125px; 
-			height: 125px;`;
-		}
-	}
-}
-	flex-shrink: 0;
-	overflow: hidden;
-`;
-
 /**
  * Renders TwitterPreview component.
  *
@@ -54,9 +41,7 @@ const ImgWrapper = styled.div`
 const TwitterPreview = ( props ) => {
 	return (
 		<TwitterPreviewWrapper isLarge={ props.isLarge }>
-			<ImgWrapper isLarge={ props.isLarge }>
-				<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />
-			</ImgWrapper>
+			<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />
 			<TwitterTextWrapper>
 				<TwitterTitle title={ props.title } />
 				<TwitterDescription description={ props.description } />

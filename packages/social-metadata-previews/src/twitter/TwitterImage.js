@@ -15,10 +15,12 @@ import {
 
 const TwitterImageContainer = styled.div`
 	position: relative;
-	height: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeHeight : TWITTER_IMAGE_SIZES.squareHeight }px;
-	width: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeWidth : TWITTER_IMAGE_SIZES.squareWidth }px;
 	overflow: hidden;
 	background-color: #e1e8ed;
+	flex-shrink: 0;
+	height: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeHeight : TWITTER_IMAGE_SIZES.squareHeight }px;
+	width: ${ props => props.isLarge ? TWITTER_IMAGE_SIZES.landscapeWidth : TWITTER_IMAGE_SIZES.squareWidth }px;
+	${ props => props.isLarge ? "border-bottom" : "border-right" }: 1px solid #E1E8ED;
 `;
 
 const StyledImage = styled.img`
@@ -50,8 +52,8 @@ const ErrorImage = styled( BaseImage )`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
-	border-top-left-radius: 12px;
-	border-top-right-radius: 12px;
+	border-top-left-radius: 14px;
+	border-top-right-radius: 14px;
 	border-style: dashed;
 	border-width: 2px;
 	// We're not using standard colors to increase contrast for accessibility.

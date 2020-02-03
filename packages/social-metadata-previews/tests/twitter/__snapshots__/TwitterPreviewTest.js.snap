@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterPreview matches the snapshot 1`] = `
-.c4 {
+.c3 {
   line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
@@ -11,7 +11,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   color: rgb(20,23,26);
 }
 
-.c5 {
+.c4 {
   max-height: 55px;
   line-height: 18px;
   overflow: hidden;
@@ -23,7 +23,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   -webkit-box-orient: vertical;
 }
 
-.c6 {
+.c5 {
   text-transform: lowercase;
   color: #8899a6;
   white-space: nowrap;
@@ -44,17 +44,13 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   align-items: flex-end;
 }
 
-.c6 p {
-  margin: 0;
-}
-
-.c7 {
+.c6 {
   height: 1.25em;
   max-width: 100%;
   margin-right: 2px;
 }
 
-.c2 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -75,15 +71,15 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   padding: 1em;
   text-align: center;
   font-size: 1rem;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
   border-style: dashed;
   border-width: 2px;
   color: #073cba;
   background-color: #f1f1f1;
 }
 
-.c3 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -109,7 +105,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   font-weight: 400;
   width: 507px;
   min-height: 125px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid #E1E8ED;
   box-sizing: border-box;
   color: #292F33;
@@ -130,45 +126,32 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   border: 1px solid rgba(136,153,166,.5);
 }
 
-.c1 {
-  width: 125px;
-  height: 125px;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
 <div
   className="c0"
 >
   <div
     className="c1"
   >
-    <div
-      className="c2"
-    >
-      Select image
-    </div>
+    Select image
   </div>
   <div
-    className="c3"
+    className="c2"
   >
     <p
-      className="c4"
+      className="c3"
     >
       YoastCon Workshops • Yoast
     </p>
     <p
-      className="c5"
+      className="c4"
     >
       
     </p>
     <div
-      className="c6"
+      className="c5"
     >
       <svg
-        className="c7"
+        className="c6"
         viewBox="0 0 24 24"
       >
         <g>
@@ -180,9 +163,9 @@ exports[`TwitterPreview matches the snapshot 1`] = `
           />
         </g>
       </svg>
-      <p>
+      <span>
         yoast.com
-      </p>
+      </span>
     </div>
   </div>
 </div>
