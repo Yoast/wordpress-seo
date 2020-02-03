@@ -91,6 +91,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 
 		$this->add_duration( $data, $block['attrs'] );
 		$this->add_steps( $data, $block['attrs']['steps'] );
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		$graph[] = $data;
 

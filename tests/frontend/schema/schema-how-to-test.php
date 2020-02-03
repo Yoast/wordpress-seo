@@ -98,6 +98,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
@@ -143,6 +144,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
@@ -188,6 +190,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -259,6 +262,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -319,6 +323,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -376,6 +381,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -440,6 +446,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -492,6 +499,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
@@ -544,6 +552,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'totalTime'        => 'P1DT12H30M',
@@ -604,6 +613,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -663,6 +673,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -722,6 +733,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -781,6 +793,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -840,6 +853,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => '<h1>description</h1>',
 				'step'             => [
@@ -899,6 +913,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
@@ -958,6 +973,7 @@ class Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
+				'inLanguage'       => 'language',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => '<h1>description</h1>',
 				'step'             => [
