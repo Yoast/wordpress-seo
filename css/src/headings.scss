@@ -1,0 +1,40 @@
+
+/** CSS selectors instead of SASS. */
+:root {
+	--color-default: 		#404040;
+	--color-primary: 		#a4286a;
+	--color-secondary: 		#f7f7f7;
+
+	--font-size-default: 		14px;
+}
+
+/** Make sure the content within admin pages is exactly 32px from the sides & give it the default line-height. */
+.wrap.yoast {
+	margin: 32px 32px 0 12px;
+	font-size: var(--font-size-default);
+	color: var(--color-default);
+	line-height: 1.5;
+}
+
+/** On admin pages, the <body> Has the class "yoast", this way we can target only our own pages. */
+.yoast {
+	h1, h2, h3 {
+		font-weight: 400;
+		color: var(--color-primary);
+		padding: 0;
+		margin-bottom: 1em;
+		line-height: 1.2;
+	}
+
+	h1 {
+		font-size: 24px;
+	}
+
+	h2 {
+		font-size: 20px;
+	}
+
+	h3 {
+		font-size: 16px;
+	}
+}
