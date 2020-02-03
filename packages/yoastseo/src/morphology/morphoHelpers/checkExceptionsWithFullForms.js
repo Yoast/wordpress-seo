@@ -7,7 +7,9 @@
  *
  * @returns {string[]} The created word forms.
  */
-export default function( exceptionStems, stemmedWordToCheck ) {
+import flatten from "lodash-es/flatten";
+
+export checkExceptionsWithFullForms = function( exceptionStems, stemmedWordToCheck ) {
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const currentStemDataSet = exceptionStems[ i ];
 		const stemPairToCheck = currentStemDataSet[ 0 ];
@@ -43,3 +45,21 @@ export default function( exceptionStems, stemmedWordToCheck ) {
 
 	return [];
 }
+
+const determineStemFromFullFormsList = function( fullFormsExceptionLists, word ) {
+	for ( let i = 0; i < fullFormsExceptionLists.length; i++ ) {
+		const fullFormsExceptionList = flatten( fullFormsExceptionLists[ i ] );
+		for ( let j = 0; j < fullFormsExceptionList.length; j++ ) {
+			if ( word.endsWith( fullFormsExceptionList[ j ] ) ) {
+				const precedingLexicalMaterial = word.slice( 0, -fullFormsExceptionList[ j ].length );
+				if ( precedingLexicalMaterial.length === 1 ) {
+					return [];
+				}
+				if ( precedingLexicalMaterial.length > 1 ) {
+					return precedingLexicalMaterial.concat( fullFormsExceptionList[ 0 ] );
+				}
+				return fullFormsExceptionList[ 0 ];
+			}
+		}
+	}
+};

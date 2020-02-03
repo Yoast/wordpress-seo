@@ -129,6 +129,7 @@ const wordsToStem = [
 	[ "volkeren", "volk" ],
 	// A noun with plural suffix -s. Input: exception list.
 	[ "zoos", "zoo" ],
+	[ "daten", "" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
