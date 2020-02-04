@@ -53,7 +53,7 @@ class Meta_Tags_Context extends \Yoast\WP\SEO\Context\Meta_Tags_Context {
 	/**
 	 * @var string
 	 */
-	public $id;
+	public $id_helper;
 
 	/**
 	 * @var string

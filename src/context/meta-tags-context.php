@@ -88,7 +88,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var ID_Helper
 	 */
-	private $id;
+	private $id_helper;
 
 	/**
 	 * @var WPSEO_Replace_Vars
@@ -111,7 +111,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Options_Helper     $options      The options helper.
 	 * @param Url_Helper         $url          The url helper.
 	 * @param Image_Helper       $image        The image helper.
-	 * @param ID_Helper          $id    The schema id helper.
+	 * @param ID_Helper          $id_helper    The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 * @param Site_Helper        $site  The site helper.
 	 * @param User_Helper        $user         The user helper.
@@ -120,7 +120,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		Options_Helper $options,
 		Url_Helper $url,
 		Image_Helper $image,
-		ID_Helper $id,
+		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars,
 		Site_Helper $site,
 		User_Helper $user
@@ -128,9 +128,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->options      = $options;
 		$this->url          = $url;
 		$this->image        = $image;
-		$this->id    = $id;
+		$this->id_helper    = $id_helper;
 		$this->replace_vars = $replace_vars;
-		$this->site  = $site;
+		$this->site         = $site;
 		$this->user         = $user;
 	}
 

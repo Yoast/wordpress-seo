@@ -84,7 +84,7 @@ class Main_Image_Test extends TestCase {
 	 */
 	public function test_generate_no_image() {
 		$this->meta_tags_context->canonical = 'https://example.com/canonical';
-		$this->meta_tags_context->id        = 1337;
+		$this->meta_tags_context->id_helper = 1337;
 
 		Monkey\Functions\expect( 'has_post_thumbnail' )
 			->once()
