@@ -75,19 +75,19 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, langu
 /**
  * Extracts the stems from all keyphrase and synonym stems.
  *
- * @param {TopicPhrase|[]}   keyphraseStems  A topic phrase or an empty array.
- * @param {TopicPhrase[]}    synonymsStems   An array of topic phrases.
+ * @param {TopicPhrase}   keyphrase  A topic phrase.
+ * @param {TopicPhrase[]} synonyms   An array of topic phrases.
  *
  * @returns {string[]} All word stems of they keyphrase and synonyms.
  */
-function extractStems( keyphraseStems, synonymsStems ) {
-	const keyphraseStemsOnly = keyphraseStems.length === 0
+function extractStems( keyphrase, synonyms ) {
+	const keyphraseStemsOnly = keyphrase.length === 0
 		? []
-		: keyphraseStems.getStems();
+		: keyphrase.getStems();
 
-	const synonymsStemsOnly = synonymsStems.length === 0
+	const synonymsStemsOnly = synonyms.length === 0
 		? []
-		: synonymsStems.map( topicPhrase => topicPhrase.getStems() );
+		: synonyms.map( topicPhrase => topicPhrase.getStems() );
 
 	return ( [ ...keyphraseStemsOnly, ...flattenDeep( synonymsStemsOnly ) ] );
 }
@@ -129,17 +129,17 @@ function getWordFormsFromText( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
 	const determineStem = retrieveStemmer( language );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
-	const topicStems = collectStems( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
-	const keyphraseStems = topicStems.keyphraseStems;
-	const synonymsStems = topicStems.synonymsStems;
+	const topicPhrases = collectStems( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
+	const keyphrase = topicPhrases.keyphraseStems;
+	const synonyms = topicPhrases.synonymsStems;
 
 	// Return an empty result when no keyphrase and synonyms have been set.
-	if ( keyphraseStems.length === 0 && synonymsStems.length === 0 ) {
+	if ( keyphrase.length === 0 && synonyms.length === 0 ) {
 		return new Result();
 	}
 
 	// Get all stems from the keyphrase and synonyms.
-	const keyphraseStemsFlat = uniq( extractStems( keyphraseStems, synonymsStems ) );
+	const topicStemsFlat = uniq( extractStems( keyphrase, synonyms ) );
 
 	// Get all words from the paper text, title, meta description and slug.
 	let paperWords = getAllWordsFromPaper( paper, language );
@@ -150,7 +150,7 @@ function getWordFormsFromText( paper, researcher ) {
 	// Add stems to words from the paper and filter out all forms that aren't in the keyphrase or synonyms.
 	const paperWordsWithStems = paperWords
 		.map( word => [ word, determineStem( word, morphologyData ) ] )
-		.filter( wordStemPair => keyphraseStemsFlat.includes( wordStemPair[ 1 ] ) );
+		.filter( wordStemPair => topicStemsFlat.includes( wordStemPair[ 1 ] ) );
 
 	// Group word-stem pairs from the paper by stems.
 	const paperWordsGroupedByStems = paperWordsWithStems.reduce( function( accumulator, wordStemPair ) {
@@ -170,8 +170,8 @@ function getWordFormsFromText( paper, researcher ) {
 	}, [] );
 
 	return new Result(
-		constructTopicPhraseResult( keyphraseStems, paperWordsGroupedByStems, language ),
-		synonymsStems.map( synonymsStem => constructTopicPhraseResult( synonymsStem, paperWordsGroupedByStems, language ) ) );
+		constructTopicPhraseResult( keyphrase, paperWordsGroupedByStems, language ),
+		synonyms.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, language ) ) );
 }
 
 export default getWordFormsFromText;

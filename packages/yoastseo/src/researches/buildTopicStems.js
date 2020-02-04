@@ -15,8 +15,8 @@ const getStemForLanguage = getStemForLanguageFactory();
 /**
  * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
  *
- * @param {TopicPhrase[]}   stemOriginalPairs   The stem-original pairs for the words in the topic phrase.
- * @param {boolean}         exactMatch          Whether the topic phrase is an exact match.
+ * @param {StemOriginalPair[]} stemOriginalPairs   The stem-original pairs for the words in the topic phrase.
+ * @param {boolean}            exactMatch          Whether the topic phrase is an exact match.
  *
  * @constructor
  */
@@ -62,11 +62,12 @@ function StemOriginalPair( stem, original ) {
  * @param {string} language The language to use for morphological analyzer and for function words.
  * @param {Object} morphologyData The available morphology data per language (false if unavailable).
  *
- * @returns {Array} Array of stems of all (content) words in the keyphrase or synonym phrase.
+ * @returns {TopicPhrase} Object with an array of StemOriginalPairs of all (content) words in the keyphrase or synonym
+ * phrase and information about whether the keyphrase/synonym should be matched exactly.
  */
 const buildStems = function( keyphrase, language, morphologyData ) {
 	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
-		return [];
+		return new TopicPhrase();
 	}
 
 	// If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
