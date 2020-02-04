@@ -366,6 +366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
 			$content_sections[] = $this->social_admin->get_meta_section();
+			$content_sections[] = new WPSEO_Metabox_Section_Social();
 		}
 
 		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
@@ -830,6 +831,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
+		$asset_manager->enqueue_script( 'edit-social' );
 
 		$asset_manager->enqueue_script( 'post-scraper' );
 		$asset_manager->enqueue_script( 'replacevar-plugin' );
