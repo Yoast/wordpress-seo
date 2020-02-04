@@ -20,6 +20,15 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
+import styled from "styled-components";
+
+export const FormSection = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	margin: 24px 0 0 0;
+`;
 
 /**
  * The replacement variable editor.
@@ -93,7 +102,7 @@ class ReplacementVariableEditor extends React.Component {
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
-			<React.Fragment>
+			<FormSection>
 				<SimulatedLabel
 					id={ this.uniqueId }
 					onClick={ onFocus }
@@ -122,7 +131,7 @@ class ReplacementVariableEditor extends React.Component {
 						ariaLabelledBy={ this.uniqueId }
 					/>
 				</InputContainer>
-			</React.Fragment>
+			</FormSection>
 		);
 	}
 }
@@ -146,6 +155,7 @@ ReplacementVariableEditor.propTypes = {
 
 ReplacementVariableEditor.defaultProps = {
 	replacementVariables: [],
+	editorRef: () => {},
 };
 
 export default ReplacementVariableEditor;
