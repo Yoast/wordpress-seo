@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
  */
 class Indexable_Author_Builder {
 	use Indexable_Social_Image_Trait;
+	use Indexable_Is_Public_Trait;
 
 	/**
 	 * Formats the data.
@@ -37,6 +38,7 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
+		$indexable->is_public              = $this->is_public( $indexable );
 
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );

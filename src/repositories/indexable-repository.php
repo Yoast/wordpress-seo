@@ -121,6 +121,24 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Retrieves all the indexable instances of a certain object type.
+	 *
+	 * @param string $object_type The object type.
+	 *
+	 * @return array The array with all the indexable instances of a certain object type.
+	 */
+	public function find_by_object_type( $object_type ) {
+		/**
+		 * The array with all the indexable instances of a certain object type.
+		 *
+		 * @var array $indexables
+		 */
+		$indexables = $this->query()->where( 'object_type', $object_type )->find_many();
+
+		return $indexables;
+	}
+
+	/**
 	 * Retrieves all the indexable instances of a certain object subtype.
 	 *
 	 * @param string $object_sub_type The object subtype.
@@ -137,7 +155,6 @@ class Indexable_Repository {
 
 		return $indexables;
 	}
-
 
 	/**
 	 * Retrieves the homepage indexable.
