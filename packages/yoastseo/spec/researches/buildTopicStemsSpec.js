@@ -8,7 +8,7 @@ describe( "A test for building stems for an array of words", function() {
 	it( "returns an empty array if the input keyphrase is undefined", function() {
 		let keyphrase;
 		const forms = buildStems( keyphrase, "en", morphologyDataEN.en );
-		expect( forms ).toEqual( [] );
+		expect( forms ).toEqual( { exactMatch: false, stemOriginalPairs: [] } );
 	} );
 
 	it( "returns the exact match if the input string is embedded in quotation marks (the language and morphAnalyzer do not matter)", function() {
@@ -278,7 +278,7 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 
 	it( "returns empty structure if no keyword or synonyms are supplied", function() {
 		const expectedResult = {
-			keyphraseStems: [],
+			keyphraseStems: { exactMatch: false, stemOriginalPairs: [] },
 			synonymsStems: [],
 		};
 		expect( collectStems( "", "", "en_EN", morphologyDataEN.en ) ).toEqual( expectedResult );
@@ -289,7 +289,7 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		const language = "en";
 
 		const expectedResult = {
-			keyphraseStems: [],
+			keyphraseStems: { exactMatch: false, stemOriginalPairs: [] },
 			synonymsStems: [
 				new TopicPhrase(
 					[

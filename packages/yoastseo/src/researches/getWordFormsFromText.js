@@ -81,7 +81,7 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, langu
  * @returns {string[]} All word stems of they keyphrase and synonyms.
  */
 function extractStems( keyphrase, synonyms ) {
-	const keyphraseStemsOnly = keyphrase.length === 0
+	const keyphraseStemsOnly = keyphrase.stemOriginalPairs.length === 0
 		? []
 		: keyphrase.getStems();
 
@@ -134,7 +134,7 @@ function getWordFormsFromText( paper, researcher ) {
 	const synonyms = topicPhrases.synonymsStems;
 
 	// Return an empty result when no keyphrase and synonyms have been set.
-	if ( keyphrase.length === 0 && synonyms.length === 0 ) {
+	if ( keyphrase.stemOriginalPairs.length === 0 && synonyms.length === 0 ) {
 		return new Result();
 	}
 
