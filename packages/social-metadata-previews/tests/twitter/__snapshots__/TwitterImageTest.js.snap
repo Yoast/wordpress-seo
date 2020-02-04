@@ -44,7 +44,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  height: 254px;
+  height: 265px;
   width: 506px;
   border-bottom: 1px solid #E1E8ED;
 }
@@ -115,7 +115,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  height: 254px;
+  height: 265px;
   width: 506px;
   border-bottom: 1px solid #E1E8ED;
 }
@@ -162,7 +162,7 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
   padding: 1em;
   text-align: center;
   font-size: 1rem;
-  height: 254px;
+  height: 265px;
   width: 506px;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;

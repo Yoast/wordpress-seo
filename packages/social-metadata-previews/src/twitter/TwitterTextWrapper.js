@@ -9,7 +9,8 @@ const Wrapper = styled.div`
 	justify-content: center;
 	margin: 0;
 	box-sizing: border-box;
-	flex-shrink: 1 1 auto;
+	flex: auto;
+	min-width: 0px;
 `;
 
 /**

@@ -13,7 +13,6 @@ import PropTypes from "prop-types";
  */
 const TwitterDescriptionText = styled.p`
 	max-height: 55px;
-	line-height: 18px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0 0 2px;

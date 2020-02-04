@@ -3,7 +3,6 @@
 exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 .c0 {
   max-height: 55px;
-  line-height: 18px;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 0 2px;
@@ -23,7 +22,6 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
 .c0 {
   max-height: 55px;
-  line-height: 18px;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 0 2px;

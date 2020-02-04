@@ -11,24 +11,26 @@ import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
 
 const TwitterPreviewWrapper = styled.div`
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    width: 507px;
-    min-height: 125px;
-    border-radius: 14px;
-    border: 1px solid #E1E8ED;
-    box-sizing: border-box;
-    color: #292F33;
-    background: #FFFFFF;
-    &:hover {
-        background: #f5f8fa;
-        border: 1px solid rgba(136,153,166,.5);
-    }
-    overflow: hidden;
-    display: flex;
-    max-height: ${ props => props.isLarge ? "370px" : "125px" };
-    flex-direction: ${ props => props.isLarge ? "column" : "row" };
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 20px;
+	width: 507px;
+	min-height: 125px;
+	border-radius: 14px;
+	border: 1px solid #E1E8ED;
+	box-sizing: border-box;
+	color: #292F33;
+	background: #FFFFFF;
+	&:hover {
+		background: #f5f8fa;
+		border: 1px solid rgba(136,153,166,.5);
+	}
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: flex;
+	max-height: ${ props => props.isLarge ? "370px" : "125px" };
+	flex-direction: ${ props => props.isLarge ? "column" : "row" };
 `;
 
 /**
