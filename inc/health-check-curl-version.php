@@ -23,44 +23,62 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	public function run() {
-		$curl_version = $this->get_curl_version();
-
-		if ( $curl_version === false ) {
+		if ( ! $this->has_premium_plugins_installed() ) {
 			return;
 		}
 
-		// Run the test only when either Yoast SEO Premium or premium add-ons are installed and we can't reach MyYoast.
-		if ( ! $this->has_premium_plugins_installed() || $this->is_my_yoast_api_reachable() ) {
-			return;
-		}
-
-		// Note: as of January 2020, the most recent cURL version is 7.67.0.
-		if ( $this->is_recent_curl_version() ) {
-			$this->label          = esc_html__( 'Your cURL PHP module is up-to-date', 'wordpress-seo' );
-			$this->status         = self::STATUS_GOOD;
-			$this->badge['color'] = 'blue';
+		if ( ! $this->is_my_yoast_api_reachable() && $this->is_recent_curl_version() ) {
+			$this->label          = sprintf(
+				/* translators: %1$s expands to 'my.yoast.com'. */
+				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
+				'my.yoast.com'
+			);
+			$this->status         = self::STATUS_RECOMMENDED;
+			$this->badge['color'] = 'red';
 			$this->description    = sprintf(
-					/* translators: %1$s expands to 'Yoast'. */
-					esc_html__( 'Your server has a recent version of the cURL PHP module. Running a recent cURL version allows the %1$s plugins license activation to work correctly.', 'wordpress-seo' ),
-					'Yoast'
-				);
+				/* translators: %1$s Emphasis open tag, %2$s: Emphasis close tag, %3$s Link start tag to the Yoast knowledge base, %4$s Link closing tag. */
+				esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. %3$sRead more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
+				'<em>',
+				'</em>',
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
+				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+			);
 			$this->add_yoast_signature();
 			return;
 		}
 
-		$this->label          = esc_html__( 'Your cURL PHP module is outdated', 'wordpress-seo' );
-		$this->status         = self::STATUS_RECOMMENDED;
-		$this->badge['color'] = 'red';
+		// Note: as of January 2020, the most recent cURL version is 7.67.0.
+		if ( ! $this->is_my_yoast_api_reachable() && ! $this->is_recent_curl_version() ) {
+			$this->label          = sprintf(
+				/* translators: %1$s expands to 'my.yoast.com'. */
+				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
+				'my.yoast.com'
+			);
+			$this->status         = self::STATUS_CRITICAL;
+			$this->badge['color'] = 'red';
+			$this->description    = sprintf(
+				/* translators: %1$s Emphasis open tag, %2$s: Emphasis close tag, %3$s Link start tag to the Yoast knowledge base, %4$s Link closing tag. */
+				esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates. The cause for this error is probably that the cURL software on your server is too old. Please contact your host and ask them to update it to at least version 7.34. %3$sRead more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
+				'<em>',
+				'</em>',
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
+				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+			);
+			$this->add_yoast_signature();
+			return;
+		}
 
-		$this->description = sprintf(
-			/* translators: %1$s expands to the cURL version, %2$s expands to 'Yoast', %3$s is a link start tag to the Yoast knowledge base, %4$s is the link closing tag. */
-			esc_html__( 'Your server has an outdated version of the PHP module cURL (Version: %1$s). Running an outdated cURL version may cause %2$s plugins license activation errors. Please ask your hosting company to update cURL to a more recent version. You can %3$sread more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
-			$curl_version,
-			'Yoast',
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
-			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+		$this->label          = sprintf(
+			/* translators: %1$s expands to 'my.yoast.com'. */
+			esc_html__( 'Your site can connect to %1$s', 'wordpress-seo' ),
+			'my.yoast.com'
 		);
+		$this->status         = self::STATUS_GOOD;
+		$this->badge['color'] = 'blue';
+		$this->description    = esc_html__( 'Great! You can activate your premium plugin(s) and receive updates.', 'wordpress-seo' );
 		$this->add_yoast_signature();
+		return;
+
 	}
 
 	/**
