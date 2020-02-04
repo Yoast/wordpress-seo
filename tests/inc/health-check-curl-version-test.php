@@ -77,7 +77,7 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 		// We want to verify that the label attribute is the "passed" message.
 		$this->assertAttributeEquals( 'Your site can not connect to my.yoast.com', 'label', $this->instance );
 		// We want to verify that the status attribute is "recommended".
-		$this->assertAttributeEquals( $this->instance::STATUS_RECOMMENDED, 'status', $this->instance );
+		$this->assertAttributeEquals( 'recommended', 'status', $this->instance );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 		// We want to verify that the label attribute is the "not passed" message.
 		$this->assertAttributeEquals( 'Your site can not connect to my.yoast.com', 'label', $this->instance );
 		// We want to verify that the status attribute is "critical".
-		$this->assertAttributeEquals( $this->instance::STATUS_CRITICAL, 'status', $this->instance );
+		$this->assertAttributeEquals( 'critical', 'status', $this->instance );
 	}
 
 	/**
