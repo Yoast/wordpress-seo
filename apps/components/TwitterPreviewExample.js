@@ -64,7 +64,7 @@ const TwitterPreviewExample = () => {
 			<TwitterPreview
 				// Dimensions: 250x250 (width x height)
 				image="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-				title="YoastCon Workshops YoastCon Workshops YoastCon Workshops YoastCon Workshops YoastCon Workshops YoastCon WorkshopsYoastCon WorkshopsYoastCon WorkshopsYoastCon Workshops&bull; Yoast"
+				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 				isLarge={ false }
 				description={ "We are also providing a long description. This ensures that the description will be truncated. For a large summary like this, that only happens after 234 characters. Are we there yet? No, apparently that are a lot of characters. Who is reading such a long description anyway?." }
