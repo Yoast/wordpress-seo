@@ -104,7 +104,6 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   font-weight: 400;
   line-height: 20px;
   width: 507px;
-  min-height: 125px;
   border-radius: 14px;
   border: 1px solid #E1E8ED;
   box-sizing: border-box;
@@ -116,10 +115,10 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  max-height: 125px;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  height: 125px;
 }
 
 .c0:hover {
