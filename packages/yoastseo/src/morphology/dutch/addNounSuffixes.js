@@ -99,8 +99,9 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 
 	/* If any other suffixes that require stem modifications were found, run through the modification checks and modify the stem if needed.
 	   Then attach the given suffixes to the modified stem and add the resulting forms to the noun forms. */
+	const dataNoVowelOrConsonantDoublingNoun = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.noun;
 	if ( suffixesForModifiedStem ) {
-		const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes );
+		const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, dataNoVowelOrConsonantDoublingNoun, morphologyDataAddSuffixes );
 		const formsWithModifiedStem = applySuffixesToStem( secondStem, suffixesForModifiedStem );
 		return nounForms.concat( formsWithModifiedStem );
 	}

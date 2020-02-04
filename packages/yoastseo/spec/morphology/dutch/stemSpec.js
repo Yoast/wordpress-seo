@@ -129,6 +129,9 @@ const wordsToStem = [
 	[ "volkeren", "volk" ],
 	// A noun with plural suffix -s. Input: exception list.
 	[ "zoos", "zoo" ],
+	// A word that does not need to undergo vowel doubling after suffix -en deletion.
+	[ "dommeriken", "dommerik" ],
+	[ "vaten", "vat" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
