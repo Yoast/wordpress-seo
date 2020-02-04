@@ -45,17 +45,17 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
-		$page_comments = new WPSEO_Health_Check_Page_Comments();
-		$page_comments->register_test();
+		$health_checks = [
+			new WPSEO_Health_Check_Page_Comments(),
+			new WPSEO_Health_Check_Ryte(),
+			new WPSEO_Health_Check_Default_Tagline(),
+			new WPSEO_Health_Check_Postname_Permalink(),
+			new WPSEO_Health_Check_Curl_Version(),
+		];
 
-		$default_tagline = new WPSEO_Health_Check_Default_Tagline();
-		$default_tagline->register_test();
-
-		$curl_version = new WPSEO_Health_Check_Curl_Version();
-		$curl_version->register_test();
-
-		$postname_in_permalink = new WPSEO_Health_Check_Postname_Permalink();
-		$postname_in_permalink->register_test();
+		foreach ( $health_checks as $health_check ) {
+			$health_check->register_test();
+		}
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();

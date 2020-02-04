@@ -698,6 +698,27 @@ class WPSEO_Upgrade {
 	private function upgrade_xxx() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-onpageorg' );
+
+		// Transfers the onpage option value to the ryte option.
+		$ryte_option   = get_option( 'wpseo_ryte' );
+		$onpage_option = get_option( 'wpseo_onpage' );
+		if ( ! $ryte_option && $onpage_option ) {
+			update_option( 'wpseo_ryte', $onpage_option );
+			delete_option( 'wpseo_onpage' );
+		}
+
+		// Changes onpage_indexability to ryte_indexability.
+		$wpseo_option = get_option( 'wpseo' );
+		if ( isset( $wpseo_option['onpage_indexability'] ) && ! isset( $wpseo_option['ryte_indexability'] ) ) {
+			$wpseo_option['ryte_indexability'] = $wpseo_option['onpage_indexability'];
+			unset( $wpseo_option['onpage_indexability'] );
+			update_option( 'wpseo', $wpseo_option );
+		}
+
+		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
+			wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
+		}
 
 		/*
 		 * Re-register capabilities to add the new `view_site_health_checks`

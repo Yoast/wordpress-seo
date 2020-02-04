@@ -331,8 +331,6 @@ wpseo_register_ajax_integrations();
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax();
 
-new Yoast_OnPage_Ajax();
-
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();

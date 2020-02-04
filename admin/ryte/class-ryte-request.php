@@ -10,14 +10,14 @@
  * notify the site admin by email and remove the current meta value to hide the
  * notice for all admin users.
  */
-class WPSEO_OnPage_Request {
+class WPSEO_Ryte_Request {
 
 	/**
 	 * The endpoint where the request will be send to.
 	 *
 	 * @var string
 	 */
-	private $onpage_endpoint = 'https://indexability.yoast.onpage.org/';
+	private $ryte_endpoint = 'https://indexability.yoast.onpage.org/';
 
 	/**
 	 * Doing the remote get and returns the body.
@@ -36,7 +36,7 @@ class WPSEO_OnPage_Request {
 		];
 		$parameters = array_merge( $defaults, $parameters );
 
-		$url = add_query_arg( $parameters, $this->onpage_endpoint );
+		$url = add_query_arg( $parameters, $this->ryte_endpoint );
 
 		$response      = wp_remote_get( $url );
 		$response_code = wp_remote_retrieve_response_code( $response );
