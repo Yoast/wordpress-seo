@@ -50,6 +50,7 @@ class WPSEO_Admin_Init {
 			new WPSEO_Health_Check_Ryte(),
 			new WPSEO_Health_Check_Default_Tagline(),
 			new WPSEO_Health_Check_Postname_Permalink(),
+			new WPSEO_Health_Check_Curl_Version(),
 		];
 
 		foreach ( $health_checks as $health_check ) {

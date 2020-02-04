@@ -294,7 +294,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return array The installed plugins.
 	 */
-	protected function get_installed_addons() {
+	public function get_installed_addons() {
 		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
 	}
 
