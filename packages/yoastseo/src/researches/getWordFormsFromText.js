@@ -43,12 +43,14 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
  * @returns {string[]} All words found.
  */
 function getAllWordsFromPaper( paper, language ) {
-	const wordsText = getWords( paper.getText() );
-	const wordsTitle = getWords( paper.getTitle() );
-	const wordsSlug = getWords( parseSlug( paper.getUrl() ) );
-	const wordsMetaDescription = getWords( paper.getDescription() );
+	const paperContent = [
+		paper.getText(),
+		paper.getTitle(),
+		parseSlug( paper.getUrl() ),
+		paper.getDescription(),
+	].join( " " );
 
-	return [ ...wordsText, ...wordsTitle, ...wordsSlug, ...wordsMetaDescription ].map(
+	return getWords( paperContent ).map(
 		word => normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ) );
 }
 
