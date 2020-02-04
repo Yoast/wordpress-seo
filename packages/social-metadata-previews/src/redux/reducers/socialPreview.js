@@ -28,11 +28,11 @@ function socialPreview( state = initialState, action ) {
 		case SET_TITLE :
 			return { ...state, title: action.title };
 		case SET_DESCRIPTION :
-			return { ...state, title: action.description };
+			return { ...state, description: action.description };
 		case SET_IMAGE_URL :
-			return { ...state, title: action.imageUrl };
+			return { ...state, imageUrl: action.imageUrl };
 		case SET_IMAGE_TYPE :
-			return { ...state, title: action.imageType };
+			return { ...state, imageType: action.imageType };
 	  default:
 			return state;
 	}
@@ -57,8 +57,8 @@ function createNamedWrapperReducer( reducerFunction, platformName ) {
 }
 
 const socialPreviewsReducer = combineReducers( {
-	socialPreviewFacebook: createNamedWrapperReducer( socialPreview, "facebook" ),
-	socialPreviewTwitter: createNamedWrapperReducer( socialPreview, "twitter" ),
+	facebook: createNamedWrapperReducer( socialPreview, "facebook" ),
+	twitter: createNamedWrapperReducer( socialPreview, "twitter" ),
 } );
 
 export default socialPreviewsReducer;
