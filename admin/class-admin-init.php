@@ -51,6 +51,9 @@ class WPSEO_Admin_Init {
 		$default_tagline = new WPSEO_Health_Check_Default_Tagline();
 		$default_tagline->register_test();
 
+		$curl_version = new WPSEO_Health_Check_Curl_Version();
+		$curl_version->register_test();
+
 		$postname_in_permalink = new WPSEO_Health_Check_Postname_Permalink();
 		$postname_in_permalink->register_test();
 
