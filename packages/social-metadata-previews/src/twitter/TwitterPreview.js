@@ -16,21 +16,35 @@ const TwitterPreviewWrapper = styled.div`
 	font-weight: 400;
 	line-height: 20px;
 	width: 507px;
-	min-height: 125px;
 	border-radius: 14px;
 	border: 1px solid #E1E8ED;
 	box-sizing: border-box;
 	color: #292F33;
 	background: #FFFFFF;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: flex;
+
 	&:hover {
 		background: #f5f8fa;
 		border: 1px solid rgba(136,153,166,.5);
 	}
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: flex;
-	max-height: ${ props => props.isLarge ? "370px" : "125px" };
-	flex-direction: ${ props => props.isLarge ? "column" : "row" };
+`;
+
+/**
+ * The wrapper for the summary_large_image twitter card.
+ */
+const LargeTwitterPreviewWrapper = styled( TwitterPreviewWrapper )`
+	flex-direction: column;
+	max-height: 370px;
+`;
+
+/**
+ * The wrapper for the summary twitter card.
+ */
+const SmallTwitterPreviewWrapper = styled( TwitterPreviewWrapper )`
+	flex-direction: row;
+	height: 125px;
 `;
 
 /**
@@ -41,15 +55,17 @@ const TwitterPreviewWrapper = styled.div`
  * @returns {React.Element} The rendered element.
  */
 const TwitterPreview = ( props ) => {
+	const Wrapper = props.isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
+
 	return (
-		<TwitterPreviewWrapper isLarge={ props.isLarge }>
+		<Wrapper isLarge={ props.isLarge }>
 			<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />
 			<TwitterTextWrapper>
 				<TwitterTitle title={ props.title } />
 				<TwitterDescription description={ props.description } />
 				<TwitterSiteName siteName={ props.siteName } />
 			</TwitterTextWrapper>
-		</TwitterPreviewWrapper>
+		</Wrapper>
 	);
 };
 
