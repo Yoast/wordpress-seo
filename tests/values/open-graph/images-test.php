@@ -28,7 +28,7 @@ class Images_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Images

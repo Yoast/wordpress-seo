@@ -31,7 +31,7 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * @var Base_Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * Setup.

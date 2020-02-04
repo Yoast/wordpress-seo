@@ -30,7 +30,7 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Url_Helper|Mockery\MockInterface

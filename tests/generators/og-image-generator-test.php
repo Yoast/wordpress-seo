@@ -32,7 +32,7 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
