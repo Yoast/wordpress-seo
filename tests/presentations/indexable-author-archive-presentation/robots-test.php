@@ -158,7 +158,7 @@ class Robots_Test extends TestCase {
 	 * @param mixed $return_value Optional. What `get` should return.
 	 */
 	private function mock_author_no_index_option( $return_value = 'off' ) {
-		$this->user_helper
+		$this->user
 			->expects( 'get_meta' )
 			->with( 1, 'wpseo_noindex_author', true )
 			->once()
@@ -178,7 +178,7 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( $options_get_return_value );
 
-		$this->user_helper
+		$this->user
 			->expects( 'count_posts' )
 			->with( 1, [ 'post' ] )
 			->times( ( $options_get_return_value ) ? 1 : 0 )

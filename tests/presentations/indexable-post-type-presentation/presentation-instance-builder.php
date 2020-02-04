@@ -40,7 +40,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * @var Date_Helper
 	 */
-	protected $date_helper;
+	protected $date;
 
 	/**
 	 * Holds the Pagination_Helper instance.
@@ -57,14 +57,14 @@ trait Presentation_Instance_Builder {
 
 		$this->post_type   = Mockery::mock( Post_Type_Helper::class );
 		$this->context     = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->date_helper = Mockery::mock( Date_Helper::class );
+		$this->date        = Mockery::mock( Date_Helper::class );
 		$this->pagination  = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
 				$this->post_type,
-				$this->date_helper,
+				$this->date,
 				$this->pagination,
 			]
 		)

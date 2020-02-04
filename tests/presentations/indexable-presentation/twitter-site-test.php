@@ -50,7 +50,7 @@ class Twitter_Site_Test extends TestCase {
 		$this->context->site_represents = 'person';
 		$this->context->site_user_id    = 1337;
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'twitter', 1337 )
 			->once()
@@ -68,7 +68,7 @@ class Twitter_Site_Test extends TestCase {
 		$this->context->site_represents = 'person';
 		$this->context->site_user_id    = 1337;
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'twitter', 1337 )
 			->once()

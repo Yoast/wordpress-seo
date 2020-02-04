@@ -49,7 +49,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 			'post_modified_gmt' => '2019-11-09T12:34:56+00:00',
 		];
 
-		$this->date_helper
+		$this->date
 			->expects( 'format' )
 			->with( '2019-11-09T12:34:56+00:00' )
 			->once()

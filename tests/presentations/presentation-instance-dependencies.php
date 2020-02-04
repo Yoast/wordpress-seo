@@ -45,17 +45,17 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * @var User_Helper|Mockery\MockInterface
 	 */
-	protected $user_helper;
+	protected $user;
 
 	/**
 	 * @var OG_Image_Helper|Mockery\MockInterface
 	 */
-	protected $og_image_helper;
+	protected $og_image;
 
 	/**
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
-	protected $twitter_helper;
+	protected $twitter;
 
 	/**
 	 * Holds the Pagination_Helper instance.
@@ -80,26 +80,26 @@ trait Presentation_Instance_Dependencies {
 	 * @param Indexable_Presentation $presentation_instance The indexable presentation instance.
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
-		$this->options         = Mockery::mock( Options_Helper::class );
-		$this->image           = Mockery::mock( Image_Helper::class );
-		$this->current_page    = Mockery::mock( Current_Page_Helper::class );
-		$this->url             = Mockery::mock( Url_Helper::class );
-		$this->user_helper     = Mockery::mock( User_Helper::class );
-		$this->og_image_helper = Mockery::mock( OG_Image_Helper::class );
-		$this->twitter_helper  = Mockery::mock( Twitter_Image_Helper::class );
+		$this->options      = Mockery::mock( Options_Helper::class );
+		$this->image        = Mockery::mock( Image_Helper::class );
+		$this->current_page = Mockery::mock( Current_Page_Helper::class );
+		$this->url          = Mockery::mock( Url_Helper::class );
+		$this->user         = Mockery::mock( User_Helper::class );
+		$this->og_image     = Mockery::mock( OG_Image_Helper::class );
+		$this->twitter      = Mockery::mock( Twitter_Image_Helper::class );
 
 		$presentation_instance->set_helpers(
 			$this->image,
 			$this->options,
 			$this->current_page,
 			$this->url,
-			$this->user_helper
+			$this->user
 		);
 
 		$this->og_image_generator = Mockery::mock(
 			OG_Image_Generator::class,
 			[
-				$this->og_image_helper,
+				$this->og_image,
 				$this->image,
 				$this->options,
 				$this->url,
@@ -111,7 +111,7 @@ trait Presentation_Instance_Dependencies {
 			[
 				$this->image,
 				$this->url,
-				$this->twitter_helper,
+				$this->twitter,
 			]
 		);
 

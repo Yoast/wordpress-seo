@@ -27,7 +27,7 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
-	protected $open_graph_image_helper;
+	protected $open_graph_image;
 
 	/**
 	 * @var Image_Helper|Mockery\MockInterface
@@ -73,7 +73,7 @@ class OG_Image_Generator_Test extends TestCase {
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->url              = Mockery::mock( Url_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->open_graph_image_helper = Mockery::mock(
+		$this->open_graph_image = Mockery::mock(
 			Open_Graph_Image_Helper::class,
 			[ $this->url, $this->image ]
 		);
@@ -81,7 +81,7 @@ class OG_Image_Generator_Test extends TestCase {
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
-			[ $this->open_graph_image_helper, $this->image, $this->options, $this->url ]
+			[ $this->open_graph_image, $this->image, $this->options, $this->url ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance
