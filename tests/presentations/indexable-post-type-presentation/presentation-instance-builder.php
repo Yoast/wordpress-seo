@@ -30,7 +30,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
-	protected $post_type_helper;
+	protected $post_type;
 
 	/**
 	 * @var Meta_Tags_Context|Mockery\MockInterface
@@ -55,15 +55,15 @@ trait Presentation_Instance_Builder {
 	protected function set_instance() {
 		$this->indexable = new Indexable();
 
-		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->context          = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->date_helper      = Mockery::mock( Date_Helper::class );
-		$this->pagination       = Mockery::mock( Pagination_Helper::class );
+		$this->post_type   = Mockery::mock( Post_Type_Helper::class );
+		$this->context     = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->date_helper = Mockery::mock( Date_Helper::class );
+		$this->pagination  = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
-				$this->post_type_helper,
+				$this->post_type,
 				$this->date_helper,
 				$this->pagination,
 			]

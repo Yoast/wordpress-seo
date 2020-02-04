@@ -145,7 +145,7 @@ class Robots_Test extends TestCase {
 	 * Mocks Post_Type_Helper's `get_public_post_types`.
 	 */
 	private function mock_get_public_post_types() {
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'get_public_post_types' )
 			->withAnyArgs()
 			->once()
