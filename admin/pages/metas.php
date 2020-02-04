@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( true, 'wpseo_titles' );
+$yform->admin_header( true, 'search-appearance' );
 
 $tabs = new WPSEO_Option_Tabs( 'metas' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ) ) );
