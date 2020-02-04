@@ -7,7 +7,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         3.0.2
+ * Version:         3.1.0
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -21,6 +21,12 @@ use WPGraphQL\Data\DataSource;
 add_action('graphql_register_types', function () {
   $post_types = \WPGraphQL::get_allowed_post_types();
   $taxonomies = \WPGraphQL::get_allowed_taxonomies();
+
+  // If WooCommerce installed then add these post types and taxonomies
+    if ( class_exists( '\WooCommerce' ) ) {
+      array_push($post_types, 'product');
+      array_push($taxonomies, 'productCategory');
+    }
 
   register_graphql_object_type('SEO', [
     'fields' => [
@@ -38,6 +44,7 @@ add_action('graphql_register_types', function () {
       'twitterImage' => ['type' => 'MediaItem']
     ]
   ]);
+
 
   if (!empty($post_types) && is_array($post_types)) {
     foreach ($post_types as $post_type) {
