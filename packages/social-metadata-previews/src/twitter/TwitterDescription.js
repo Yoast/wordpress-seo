@@ -1,25 +1,42 @@
 /* External dependencies */
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
 /**
  * Renders a TwitterDescription component.
+ * NOTE: the "-webkit-line-clamp: 3" limits the number of lines to 3.
  *
  * @param {object} props The props.
  *
  * @returns {React.Component} The rendered element.
  */
-const TwitterDescription = styled.p`
-	font-size: 14px;
-	max-height: ${ props => props.isLarge ? "36px" : "55px" };
-	line-height: 18px;
+const TwitterDescriptionText = styled.p`
+	max-height: 55px;
 	overflow: hidden;
-	margin-bottom: 5px;
-	width: ${ props => props.isLarge ? "476px" : "357px" };
+	text-overflow: ellipsis;
+	margin: 0 0 2px;
+	color: rgb(101, 119, 134);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 `;
 
+/**
+ * Component that contains the twitter description text.
+ *
+ * @param {object} props The properties passed to the component.
+ *
+ * @returns {React.Element} The TwitterDescription component.
+ */
+const TwitterDescription = ( props ) =>
+	<TwitterDescriptionText>
+		{ props.description }
+	</TwitterDescriptionText>
+;
+
 TwitterDescription.propTypes = {
-	isLarge: PropTypes.bool.isRequired,
+	description: PropTypes.string.isRequired,
 };
 
 export default TwitterDescription;
