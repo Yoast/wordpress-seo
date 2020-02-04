@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Inc;
 
 use Mockery;
 use WPSEO_Utils;
-use Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Inc\Addon_Manager_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -33,7 +33,7 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Mockery\Mock|\Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double
+	 * @var \Mockery\Mock|\Yoast\WP\SEO\Tests\Doubles\Inc\Addon_Manager_Double
 	 */
 	protected $instance;
 

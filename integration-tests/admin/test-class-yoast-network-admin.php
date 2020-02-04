@@ -40,16 +40,6 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that the network admin class implements the required interfaces.
-	 */
-	public function test_implements_interfaces() {
-		$admin = new Yoast_Network_Admin();
-
-		$this->assertInstanceOf( 'WPSEO_WordPress_Integration', $admin );
-		$this->assertInstanceOf( 'WPSEO_WordPress_AJAX_Integration', $admin );
-	}
-
-	/**
 	 * Tests getting site choices.
 	 *
 	 * @group ms-required
@@ -293,6 +283,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		try {
 			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
+			// WP_die has been called in the verify request function.
 		}
 
 		$this->assertNull( $e );
@@ -352,6 +343,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		try {
 			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
+			// WP_die has been called in the verify request function.
 		}
 
 		$this->assertNull( $e );

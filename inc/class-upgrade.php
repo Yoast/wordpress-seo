@@ -206,7 +206,7 @@ class WPSEO_Upgrade {
 			}
 
 			foreach ( $wp_query->posts as $post ) {
-				if ( ! in_array( $post->ID, $excluded_posts ) ) {
+				if ( ! in_array( (string) $post->ID, $excluded_posts, true ) ) {
 					$excluded_posts[] = $post->ID;
 				}
 			}
@@ -698,6 +698,13 @@ class WPSEO_Upgrade {
 	private function upgrade_xxx() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
+
+		/*
+		 * Re-register capabilities to add the new `view_site_health_checks`
+		 * capability to the SEO Manager role.
+		 */
+		do_action( 'wpseo_register_capabilities' );
+		WPSEO_Capability_Manager_Factory::get()->add();
 	}
 
 	/**

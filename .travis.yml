@@ -33,7 +33,7 @@ jobs:
       dist: trusty
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
-    - php: "7.4snapshot"
+    - php: 7.4
       env: WP_VERSION=latest PHPUNIT=1
     - php: "nightly"
       env: PHPLINT=1
@@ -123,9 +123,7 @@ install:
       # So we temporarily switch PHP versions, do a full install and then remove the package.
       # Then switch back to the PHP version we want to test and delete the vendor directory.
       phpenv local 7.1
-      composer install --no-interaction --no-scripts --ignore-platform-reqs
-      composer prefix-dependencies
-      composer compile-di
+      composer install --no-interaction --ignore-platform-reqs
       composer remove humbug/php-scoper --dev --ignore-platform-reqs
       composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
       phpenv local --unset
@@ -140,7 +138,7 @@ install:
     if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
-      composer install --no-scripts --no-interaction
+      composer install --no-interaction
       composer du
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
       composer update
@@ -276,7 +274,7 @@ script:
     fi
   # Validate the composer.json file.
   # @link https://getcomposer.org/doc/03-cli.md#validate
-  - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.3" ]]; then composer validate --no-check-all; fi
+  - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
 
   # Check for known security vulnerabilities in the currently locked-in dependencies.
   - if [[ "$SECURITY" == "1" ]]; then php $SECURITYCHECK_DIR/security-checker.phar -n security:check $(pwd)/composer.lock;fi

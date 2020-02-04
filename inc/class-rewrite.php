@@ -72,7 +72,7 @@ class WPSEO_Rewrite {
 		 * Remove initial slash, if there is one (we remove the trailing slash
 		 * in the regex replacement and don't want to end up short a slash).
 		 */
-		if ( '/' === substr( $category_base, 0, 1 ) ) {
+		if ( substr( $category_base, 0, 1 ) === '/' ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -125,7 +125,7 @@ class WPSEO_Rewrite {
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
-		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpos( $permalink_structure, '/blog/' ) ) {
+		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && strpos( $permalink_structure, '/blog/' ) === 0 ) {
 			$blog_prefix = 'blog/';
 		}
 
@@ -133,11 +133,11 @@ class WPSEO_Rewrite {
 		if ( is_array( $categories ) && $categories !== [] ) {
 			foreach ( $categories as $category ) {
 				$category_nicename = $category->slug;
-				if ( $category->parent == $category->cat_ID ) {
+				if ( $category->parent === $category->cat_ID ) {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] !== false && $category->parent !== 0 ) {
 						$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;

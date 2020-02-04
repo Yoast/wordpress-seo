@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\PHP_CodeShift
  */
 
-namespace Yoast\WP\Free\PHP_CodeShift;
+namespace Yoast\WP\SEO\PHP_CodeShift;
 
 use Codeshift\AbstractCodemod;
 
@@ -31,4 +31,4 @@ class Remove_Vendor_Prefixing_Codemod extends AbstractCodemod {
 	}
 }
 
-return 'Yoast\WP\Free\PHP_CodeShift\Remove_Vendor_Prefixing_Codemod';
+return 'Yoast\WP\SEO\PHP_CodeShift\Remove_Vendor_Prefixing_Codemod';

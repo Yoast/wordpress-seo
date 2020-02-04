@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Watchers;
+namespace Yoast\WP\SEO\Watchers;
 
 use WPSEO_Meta;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\SEO\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
+use Yoast\WP\SEO\WordPress\Integration;
 
 /**
  * Watches Posts to save the primary term when set.
@@ -18,28 +18,28 @@ use Yoast\WP\Free\WordPress\Integration;
 class Primary_Term_Watcher implements Integration {
 
 	/**
-	 * @inheritdoc
+	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Primary_Term_Repository
-	 */
-	protected $repository;
-
-	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Primary_Term_Repository $repository The primary term repository.
+	 * @param \Yoast\WP\SEO\Repositories\Primary_Term_Repository $repository The primary term repository.
 	 */
 	public function __construct( Primary_Term_Repository $repository ) {
 		$this->repository = $repository;
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'save_post', [ $this, 'save_primary_terms' ] );
@@ -122,7 +122,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return array The taxonomies.
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
-		if ( null === $post_id ) {
+		if ( $post_id === null ) {
 			$post_id = \get_the_ID();
 		}
 

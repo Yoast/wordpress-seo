@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\WordPress;
+namespace Yoast\WP\SEO\WordPress;
 
 /**
  * Wrapper class for WordPress globals.

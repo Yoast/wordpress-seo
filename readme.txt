@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3.2
-Stable tag: 12.8
+Stable tag: 12.9.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,8 +209,25 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.0 =
+Release Date: February 4th, 2020
+
+Enhancements:
+
+* Hides the Facebook settings when Open Graph is disabled.
+* Adds a success state to the paginated comments Health Check. This means the paginated comments check will also be shown when the paginated comments are set up correctly.
+
+= 12.9.1 =
+Release Date: January 21st, 2020
+
+Bugfixes:
+
+* Fixes a bug where a notification would be shown that Gutenberg was outdated when the latest version of Gutenberg was already installed.
+
 = 12.9 =
 Release Date: January 21st, 2020
+
+Today, we’re releasing Yoast SEO 12.9. In this release, you’ll find a number of bug fixes and enhancements. Among other things, you’ll find a renamed snippet preview with clearer settings. Find out what else is new in [our 12.9 release post](https://yoa.st/release-12-9)!
 
 Other:
 
@@ -222,7 +239,8 @@ Release Date: January 15th, 2020
 
 Bugfixes:
 
-* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the options of our plugin were never saved before.
+* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the settings of our plugin were never saved before.
+* Fixes a bug where the default titles for custom post types and taxonomies were not shown in the Search Appearance settings when the settings of our plugin were never saved before.
 
 = 12.8 =
 Release Date: January 7th, 2020

@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Context;
-use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -23,7 +23,7 @@ class MainImage_Test extends TestCase {
 	/**
 	 * Test instance that is test
 	 *
-	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double
+	 * @var \Yoast\WP\SEO\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double
 	 */
 	private $instance;
 

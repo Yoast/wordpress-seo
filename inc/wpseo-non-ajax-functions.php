@@ -77,7 +77,7 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	if ( WPSEO_Options::get( 'enable_admin_bar_menu',true ) ) {
+	if ( WPSEO_Options::get( 'enable_admin_bar_menu', true ) ) {
 		return;
 	}
 

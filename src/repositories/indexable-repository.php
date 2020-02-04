@@ -5,34 +5,34 @@
  * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Repositories;
+namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Free\Builders\Indexable_Author_Builder;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class Indexable_Repository
  *
- * @package Yoast\WP\Free\ORM\Repositories
+ * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Repository extends ORMWrapper {
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Author_Builder
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Author_Builder
 	 */
 	protected $author_builder;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Builder
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder
 	 */
 	protected $post_builder;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Term_Builder
 	 */
 	protected $term_builder;
 
@@ -44,12 +44,12 @@ class Indexable_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder   The post builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Post_Builder   $post_builder   The post builder for creating missing indexables.
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
+	 * @param \Yoast\WP\SEO\Loggers\Logger                    $logger         The logger.
 	 *
-	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @return \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	public static function get_instance(
 		Indexable_Author_Builder $author_builder,
@@ -93,7 +93,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->where( 'object_id', $object_id )
@@ -114,7 +114,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable[] An array of indexables.
+	 * @return \Yoast\WP\SEO\Models\Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
 		$indexables = $this
@@ -143,13 +143,13 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param int    $object_id   The indexable object ID.
 	 * @param string $object_type The indexable object type.
 	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
 	 */
 	public function create_for_id_and_type( $object_id, $object_type ) {
 		/**
 		 * Indexable instance.
 		 *
-		 * @var \Yoast\WP\Free\Models\Indexable $indexable
+		 * @var \Yoast\WP\SEO\Models\Indexable $indexable
 		 */
 		$indexable              = $this->create();
 		$indexable->object_id   = $object_id;
