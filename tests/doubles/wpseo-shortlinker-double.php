@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles;
+namespace Yoast\WP\SEO\Tests\Doubles;
 
 /**
  * Class Shortlinker.

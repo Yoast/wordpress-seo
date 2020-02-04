@@ -20,7 +20,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Is the request started by pressing the fetch button.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $is_manual_request = false;
 
@@ -131,7 +131,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		}
 
 		$new_status = $this->request_indexability();
-		if ( false === $new_status ) {
+		if ( $new_status === false ) {
 			return false;
 		}
 
@@ -216,7 +216,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		}
 
 		// If development mode is on or the blog is not public, just don't show this notice.
-		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
+		if ( WPSEO_Utils::is_development_mode() || ( get_option( 'blog_public' ) === '0' ) ) {
 			return false;
 		}
 

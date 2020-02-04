@@ -1,11 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Inc\Options;
 
-use Brain\Monkey;
-use WPSEO_Options;
-use Yoast\WP\Free\Tests\Doubles\Inc\Options\Options_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Inc\Options\Options_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -15,6 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group options
  */
 class Options_Test extends TestCase {
+
 	/**
 	 * Tests clearing the cache.
 	 *

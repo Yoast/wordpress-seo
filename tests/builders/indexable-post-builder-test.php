@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Post_Test.
@@ -16,7 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group formatters
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Post_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers

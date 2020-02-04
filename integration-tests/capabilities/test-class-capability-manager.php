@@ -86,6 +86,10 @@ class Capability_Manager_Tests extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Helper function used to filter the roles.
+	 *
+	 * @param string[] $roles Original roles.
+	 *
+	 * @return string[]
 	 */
 	public function do_filter_roles( $roles ) {
 		return [ 'elor' ];

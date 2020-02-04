@@ -5,17 +5,27 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Watchers;
+namespace Yoast\WP\SEO\Watchers;
 
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\SEO\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\WordPress\Integration;
 
 /**
  * Watcher for terms to fill the related Indexable.
  */
 class Indexable_Term_Watcher implements Integration {
+
+	/**
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Term_Builder
+	 */
+	protected $builder;
 
 	/**
 	 * @inheritdoc
@@ -25,20 +35,10 @@ class Indexable_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
-	 */
-	protected $builder;
-
-	/**
 	 * Indexable_Term_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $builder    The post builder to use.
+	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Term_Builder   $builder    The post builder to use.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Term_Builder $builder ) {
 		$this->repository = $repository;

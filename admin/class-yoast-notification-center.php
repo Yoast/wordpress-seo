@@ -81,7 +81,7 @@ class Yoast_Notification_Center {
 	 */
 	public static function get() {
 
-		if ( null === self::$instance ) {
+		if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
 
@@ -101,7 +101,7 @@ class Yoast_Notification_Center {
 		}
 
 		$notification = $notification_center->get_notification_by_id( $notification_id );
-		if ( false === ( $notification instanceof Yoast_Notification ) ) {
+		if ( ( $notification instanceof Yoast_Notification ) === false ) {
 
 			// Permit legacy.
 			$options      = [
@@ -174,7 +174,7 @@ class Yoast_Notification_Center {
 
 		// Fallback to ?dismissal_key=1&nonce=bla when JavaScript fails.
 		if ( ! $is_dismissing ) {
-			$is_dismissing = ( '1' === self::get_user_input( $dismissal_key ) );
+			$is_dismissing = ( self::get_user_input( $dismissal_key ) === '1' );
 		}
 
 		if ( ! $is_dismissing ) {
@@ -182,7 +182,7 @@ class Yoast_Notification_Center {
 		}
 
 		$user_nonce = self::get_user_input( 'nonce' );
-		if ( false === wp_verify_nonce( $user_nonce, $notification_id ) ) {
+		if ( wp_verify_nonce( $user_nonce, $notification_id ) === false ) {
 			return false;
 		}
 
@@ -403,7 +403,7 @@ class Yoast_Notification_Center {
 		$index = false;
 
 		// ID of the user to show the notification for, defaults to current user id.
-		$user_id                = $notification->get_user_id();
+		$user_id       = $notification->get_user_id();
 		$notifications = $this->get_notifications_for_user( $user_id );
 
 		// Match persistent Notifications by ID, non persistent by item in the array.
@@ -419,7 +419,7 @@ class Yoast_Notification_Center {
 			$index = array_search( $notification, $notifications, true );
 		}
 
-		if ( false === $index ) {
+		if ( $index === false ) {
 			return;
 		}
 
@@ -589,7 +589,7 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		array_walk( $notifications , [ $this, 'store_notifications_for_user' ] );
+		array_walk( $notifications, [ $this, 'store_notifications_for_user' ] );
 	}
 
 	/**
@@ -652,7 +652,7 @@ class Yoast_Notification_Center {
 
 		$filter_input_type = INPUT_GET;
 
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) {
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'POST' ) {
 			$filter_input_type = INPUT_POST;
 		}
 
@@ -707,11 +707,11 @@ class Yoast_Notification_Center {
 			return WPSEO_Utils::calc( $b->get_priority(), 'compare', $a->get_priority() );
 		}
 
-		if ( 'error' === $a_type ) {
+		if ( $a_type === 'error' ) {
 			return -1;
 		}
 
-		if ( 'error' === $b_type ) {
+		if ( $b_type === 'error' ) {
 			return 1;
 		}
 

@@ -5,17 +5,27 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Watchers;
+namespace Yoast\WP\SEO\Watchers;
 
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\SEO\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\WordPress\Integration;
 
 /**
  * Fills the Indexable according to Post data.
  */
 class Indexable_Post_Watcher implements Integration {
+
+	/**
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder
+	 */
+	protected $builder;
 
 	/**
 	 * @inheritdoc
@@ -25,20 +35,10 @@ class Indexable_Post_Watcher implements Integration {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Builder
-	 */
-	protected $builder;
-
-	/**
 	 * Indexable_Post_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $builder    The post builder to use.
+	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\SEO\Builders\Indexable_Post_Builder   $builder    The post builder to use.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Post_Builder $builder ) {
 		$this->repository = $repository;

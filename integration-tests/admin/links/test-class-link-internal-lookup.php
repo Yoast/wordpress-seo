@@ -7,11 +7,15 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Link_Internal_Lookup
  */
 class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with an internal link.
+	 *
+	 * @covers ::lookup
 	 */
 	public function test_lookup_internal() {
 		$post   = $this->factory->post->create_and_get();
@@ -25,6 +29,8 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with a relative internal link.
+	 *
+	 * @covers ::lookup
 	 */
 	public function test_lookup_internal_relative() {
 		$post   = $this->factory->post->create_and_get();
@@ -38,6 +44,8 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with an external link set a as internal.
+	 *
+	 * @covers ::lookup
 	 */
 	public function test_lookup_external_used_as_internal() {
 		$lookup = new WPSEO_Link_Internal_Lookup();
@@ -50,6 +58,8 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with an external link.
+	 *
+	 * @covers ::lookup
 	 */
 	public function test_lookup_external() {
 		$lookup = new WPSEO_Link_Internal_Lookup();

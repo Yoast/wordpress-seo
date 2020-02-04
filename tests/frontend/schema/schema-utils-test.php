@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Frontend\Schema;
+namespace Yoast\WP\SEO\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Utils;
 use WPSEO_Schema_Context;
 use WPSEO_Schema_IDs;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.

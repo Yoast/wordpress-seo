@@ -3,6 +3,7 @@ var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./webpack/paths" );
+require( "dotenv" ).config();
 
 module.exports = function( grunt ) {
 	timeGrunt( grunt );
@@ -10,8 +11,9 @@ module.exports = function( grunt ) {
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
 
-	// Used to switch between development and release builds.
-	const developmentBuild = ! [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
+	/* Used to switch between development and release builds.
+	Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
+	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
 
 	// Define project configuration.
 	const project = {
@@ -137,9 +139,18 @@ module.exports = function( grunt ) {
 			staticMappings: {
 				addtextdomain: "grunt-wp-i18n",
 				makepot: "grunt-wp-i18n",
+				/* eslint-disable-next-line camelcase */
 				glotpress_download: "grunt-glotpress",
+				gittag: "grunt-git",
+				gitfetch: "grunt-git",
+				gitadd: "grunt-git",
+				gitcommit: "grunt-git",
+				gitcheckout: "grunt-git",
+				gitpull: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
+				"register-prompt": "grunt-prompt",
+				"notify-slack": "notify-slack",
 			},
 			customTasksDir: "grunt/custom",
 		},
