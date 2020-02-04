@@ -55,7 +55,7 @@ class Schema_Generator_Test extends TestCase {
 	 *
 	 * @var Current_Page_Helper|Mockery\MockInterface|Current_Page_Helper
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * The organisation scheme generator.
@@ -71,14 +71,14 @@ class Schema_Generator_Test extends TestCase {
 		parent::setUp();
 
 		$this->id_helper              = Mockery::mock( ID_Helper::class );
-		$this->current_page_helper    = Mockery::mock( Current_Page_Helper::class );
+		$this->current_page           = Mockery::mock( Current_Page_Helper::class );
 		$this->organization_generator = Mockery::mock( Organization::class );
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
 			[
 				$this->id_helper,
-				$this->current_page_helper,
+				$this->current_page,
 				$this->organization_generator,
 				Mockery::mock( Person::class ),
 				Mockery::mock( Website::class ),

@@ -30,7 +30,7 @@ class OG_URL_Test extends TestCase {
 	 * @covers ::generate_og_url
 	 */
 	public function test_generate_og_url() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://example.com/2019/11' );

@@ -38,7 +38,7 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
@@ -70,7 +70,7 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
@@ -103,7 +103,7 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
@@ -138,7 +138,7 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
@@ -165,7 +165,7 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_multi_terms_page() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( true );

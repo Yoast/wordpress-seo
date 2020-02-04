@@ -40,7 +40,7 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * @var Current_Page_Helper|Mockery\MockInterface
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * @var User_Helper|Mockery\MockInterface
@@ -80,18 +80,18 @@ trait Presentation_Instance_Dependencies {
 	 * @param Indexable_Presentation $presentation_instance The indexable presentation instance.
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
-		$this->options             = Mockery::mock( Options_Helper::class );
-		$this->image               = Mockery::mock( Image_Helper::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->url                 = Mockery::mock( Url_Helper::class );
-		$this->user_helper         = Mockery::mock( User_Helper::class );
-		$this->og_image_helper     = Mockery::mock( OG_Image_Helper::class );
-		$this->twitter_helper      = Mockery::mock( Twitter_Image_Helper::class );
+		$this->options         = Mockery::mock( Options_Helper::class );
+		$this->image           = Mockery::mock( Image_Helper::class );
+		$this->current_page    = Mockery::mock( Current_Page_Helper::class );
+		$this->url             = Mockery::mock( Url_Helper::class );
+		$this->user_helper     = Mockery::mock( User_Helper::class );
+		$this->og_image_helper = Mockery::mock( OG_Image_Helper::class );
+		$this->twitter_helper  = Mockery::mock( Twitter_Image_Helper::class );
 
 		$presentation_instance->set_helpers(
 			$this->image,
 			$this->options,
-			$this->current_page_helper,
+			$this->current_page,
 			$this->url,
 			$this->user_helper
 		);
