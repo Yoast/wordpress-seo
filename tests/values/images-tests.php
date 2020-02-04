@@ -30,7 +30,7 @@ class Images_Test extends TestCase {
 	/**
 	 * @var Url_Helper|Mockery\Mock
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * Setup the tests.
@@ -39,8 +39,8 @@ class Images_Test extends TestCase {
 		parent::setUp();
 
 		$this->image = Mockery::mock( Image_Helper::class )->makePartial();
-		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance     = Mockery::mock( Images::class, [ $this->image, $this->url_helper ] );
+		$this->url   = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance     = Mockery::mock( Images::class, [ $this->image, $this->url ] );
 	}
 
 	/**

@@ -62,7 +62,7 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|Url_Helper
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * Setup the test.
@@ -71,17 +71,17 @@ class OG_Image_Generator_Test extends TestCase {
 		parent::setUp();
 
 		$this->image            = Mockery::mock( Image_Helper::class );
-		$this->url_helper              = Mockery::mock( Url_Helper::class );
+		$this->url              = Mockery::mock( Url_Helper::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
 		$this->open_graph_image_helper = Mockery::mock(
 			Open_Graph_Image_Helper::class,
-			[ $this->url_helper, $this->image ]
+			[ $this->url, $this->image ]
 		);
-		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url_helper ] )->makePartial();
+		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
-			[ $this->open_graph_image_helper, $this->image, $this->options, $this->url_helper ]
+			[ $this->open_graph_image_helper, $this->image, $this->options, $this->url ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance

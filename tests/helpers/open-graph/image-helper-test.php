@@ -26,7 +26,7 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * @var Url_Helper
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * @var Base_Image_Helper
@@ -39,13 +39,13 @@ class Image_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->url   = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Image_Helper::class,
 			[
-				$this->url_helper,
+				$this->url,
 				$this->image,
 			]
 		)->makePartial();
@@ -66,7 +66,7 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::is_image_url_valid
 	 */
 	public function test_is_image_url_valid() {
-		$this->url_helper
+		$this->url
 			->expects( 'get_extension_from_url' )
 			->once()
 			->with( 'image.jpg' )
