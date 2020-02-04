@@ -85,6 +85,27 @@ describe( "Adds noun suffixes", () => {
 			"balletje",
 		].sort() );
 	} );
+	it( "Creates a second stem without doubling the last consonant and adds the right suffixes to each stem", () => {
+		expect( addNounSuffixes( "havik", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ).sort() ).toEqual( [
+			"haviken",
+			"havikers",
+			"havikertje",
+			"havikes",
+			"haviketje",
+			"havikje",
+		].sort() );
+	} );
+	it( "Creates a second stem without doubling the last consonant and adds the right suffixes to each stem" +
+		"Input: word ends in one of the words in the exception list (noun)", () => {
+		expect( addNounSuffixes( "bedrag", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ).sort() ).toEqual( [
+			"bedragen",
+			"bedragers",
+			"bedragertje",
+			"bedrages",
+			"bedragetje",
+			"bedragje",
+		].sort() );
+	} );
 	it( "Creates a second stem with voiced consonant and adds the right suffixes to each stem", () => {
 		expect( addNounSuffixes( "huis", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ).sort() ).toEqual( [
 			"huisje",

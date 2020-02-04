@@ -1543,7 +1543,7 @@ describe( "AnalysisWebWorker", () => {
 			worker = new AnalysisWebWorker( scope );
 		} );
 
-		it( "creates an SEO assessor", () => {
+		it.skip( "creates an SEO assessor", () => {
 			const assessor = worker.createSEOTreeAssessor( {} );
 
 			expect( assessor.getAssessments() ).toEqual( [] );
@@ -1576,7 +1576,7 @@ describe( "AnalysisWebWorker", () => {
 			researcher.addResearch( "test research", testResearch );
 		} );
 
-		it( "still runs the assessments that use the old assessor when building the tree fails", done => {
+		it.skip( "still runs the assessments that use the old assessor when building the tree fails", done => {
 			const paper = new Paper( "This is some content." );
 
 			// Add tree assessment.

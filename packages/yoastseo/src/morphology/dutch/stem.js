@@ -1,3 +1,5 @@
+import { flatten } from "lodash-es";
+import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 /**
  * @file Dutch stemming algorithm. Adapted from:
  * @author:
@@ -8,9 +10,6 @@
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
-
-import { flatten } from "lodash-es";
-import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 
 /**
  * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
@@ -150,10 +149,11 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
+	const wordsWithoutVowelDoubling = flatten( Object.values( morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling ) );
 	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const secondCheck = isWordOnNoVowelDoublingList( word, wordsWithoutVowelDoubling );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
-	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
 
 	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };

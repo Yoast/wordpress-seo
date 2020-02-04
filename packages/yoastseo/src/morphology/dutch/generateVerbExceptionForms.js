@@ -16,7 +16,8 @@ import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
  */
 const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
 	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
-	const modifiedPresentStem = findAndApplyModificationsVerbsNouns( verb.present, morphologyDataAddSuffixes );
+	const wordsWithoutConsonantDoubling = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.verb;
+	const modifiedPresentStem = findAndApplyModificationsVerbsNouns( verb.present, wordsWithoutConsonantDoubling, morphologyDataAddSuffixes );
 	const forms = [
 		verb.present,
 		...applySuffixesToStem( modifiedPresentStem,  enAndEndSuffixes ),
@@ -38,7 +39,8 @@ const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, m
  * @returns {string[]} The verb forms created.
  */
 const createIrregularStrongVerbsPast = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes ) {
-	const modifiedPastStem = findAndApplyModificationsVerbsNouns( verb.past, morphologyDataAddSuffixes );
+	const wordsWithoutConsonantDoubling = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.verb;
+	const modifiedPastStem = findAndApplyModificationsVerbsNouns( verb.past, wordsWithoutConsonantDoubling, morphologyDataAddSuffixes );
 	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
 	return [
 		verb.past,
@@ -58,7 +60,8 @@ const createIrregularStrongVerbsPast = function( verb, morphologyDataVerbs, morp
 const createIrregularStrongVerbsParticiple = function( stem, suffix, morphologyDataVerbs, morphologyDataAddSuffixes ) {
 	// Create the past participle form which gets suffix -en. Requires stem modification beforehand.
 	if ( suffix === morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn ) {
-		return findAndApplyModificationsVerbsNouns( stem, morphologyDataAddSuffixes ).concat( suffix );
+		const wordsWithoutConsonantDoubling = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.verb;
+		return findAndApplyModificationsVerbsNouns( stem, wordsWithoutConsonantDoubling, morphologyDataAddSuffixes ).concat( suffix );
 	}
 	/*
 	 * Create the past participle form which gets suffix -t or -d.
@@ -193,11 +196,12 @@ const generateIrregularStrongVerbs = function( morphologyDataVerbs, morphologyDa
  */
 const createFormsBothRegularAndIrregularStrongVerbs = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes ) {
 	const suffixEn = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn;
+	const wordsWithoutConsonantDoubling = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.verb;
 	return [
 		verb.regularStem,
 		...addVerbSuffixes( verb.regularStem, morphologyDataAddSuffixes, morphologyDataVerbs ),
 		verb.irregularStem,
-		findAndApplyModificationsVerbsNouns( verb.irregularStem, morphologyDataAddSuffixes ).concat( suffixEn ),
+		findAndApplyModificationsVerbsNouns( verb.irregularStem, wordsWithoutConsonantDoubling, morphologyDataAddSuffixes ).concat( suffixEn ),
 	];
 };
 

@@ -1,10 +1,10 @@
 import { flatten } from "lodash-es";
 /**
  *
- * Checks whether a stemmed word is on the exception list for which we have full forms.
+ * Checks whether a word is on the exception list for which we have full forms.
  *
- * @param {Array} fullFormsExceptionLists        The exception stems to check against.
- * @param {string} word   The word to check.
+ * @param {Array} fullFormsExceptionLists The exception list with full forms to check against.
+ * @param {string} word The word to check.
  *
  * @returns {string/null} The created word forms.
  */
