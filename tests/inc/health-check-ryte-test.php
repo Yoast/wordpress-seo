@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\TestCase;
+use WPSEO_Utils;
 
 /**
  * Unit Test Class.
@@ -34,11 +35,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->health_check = Mockery::mock( \WPSEO_Health_Check_Ryte::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
-
-		$this->health_check
-			->expects( 'get_ryte_option' )
-			->once()
-			->andReturn( $this->ryte_option );
 	}
 
 	/**
@@ -47,6 +43,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	 * @covers WPSEO_Health_Check_Ryte::run
 	 */
 	public function test_run_with_option_disabled() {
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->once()
+			->andReturn( $this->ryte_option );
+
 		$this->ryte_option
 			->expects( 'is_enabled' )
 			->once()
@@ -69,6 +70,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->with( 'blog_public' )
 			->andReturn( '0' );
 
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->once()
+			->andReturn( $this->ryte_option );
+
 		$this->ryte_option
 			->expects( 'is_enabled' )
 			->once()
@@ -90,6 +96,11 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->with( 'blog_public' )
 			->andReturn( '1' );
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->once()
+			->andReturn( $this->ryte_option );
 
 		$this->ryte_option
 			->expects( 'is_enabled' )
@@ -116,23 +127,37 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	public function test_run_site_cannot_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
 
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'wp_remote_retrieve_response_code' => function () {
+					return 200;
+				},
+				'wp_remote_retrieve_body'          => function () {
+					return WPSEO_Utils::format_json_encode( [] );
+				},
+			]
+		);
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->twice()
+			->andReturn( $this->ryte_option );
+
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
 
-		$this->ryte_option
-			->expects( 'should_be_fetched' )
-			->once()
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
 
 		$this->assertAttributeEquals( 'Your site cannot be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'critical', 'status', $this->health_check  );
+		$this->assertAttributeEquals( 'critical', 'status', $this->health_check );
 	}
 
 	/**
@@ -144,44 +169,35 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	public function test_run_cannot_fetch() {
 		$this->ryte_enabled_and_blog_public();
 
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'wp_remote_retrieve_response_code' => function () {
+					return 500;
+				},
+				'wp_remote_retrieve_body'          => function () {
+					return null;
+				},
+			]
+		);
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->twice()
+			->andReturn( $this->ryte_option );
+
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
 
-		$this->ryte_option
-			->expects( 'should_be_fetched' )
-			->once()
-			->andReturnTrue();
-
-		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
-	}
-
-	/**
-	 * Tests the run method when Ryte integration is enabled, the blog is public and the Ryte Option is not fetched.
-	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
-	 * @covers WPSEO_Health_Check_Ryte::unknown_indexability_response
-	 */
-	public function test_run_not_fetched() {
-		$this->ryte_enabled_and_blog_public();
-
-		$this->ryte_option
-			->expects( 'get_status' )
-			->once()
-			->andReturn( \WPSEO_Ryte_Option::NOT_FETCHED );
-
-		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
-
-		$this->health_check->run();
-		$this->assertAttributeEquals( 'Yoast SEO has not checked your site indexability status yet from Ryte', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
+		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check );
 	}
 
 	/**
@@ -193,16 +209,35 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	public function test_run_site_can_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
 
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'wp_remote_retrieve_response_code' => function () {
+					return 200;
+				},
+				'wp_remote_retrieve_body'          => function () {
+					return WPSEO_Utils::format_json_encode( [] );
+				},
+			]
+		);
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->twice()
+			->andReturn( $this->ryte_option );
+
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_INDEXABLE );
 
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
-		$this->assertAttributeEquals( 'good', 'status', $this->health_check  );
+		$this->assertAttributeEquals( 'good', 'status', $this->health_check );
 
 	}
 

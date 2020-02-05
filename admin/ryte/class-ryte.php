@@ -22,7 +22,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 */
 	public function __construct() {
 		$this->maybe_add_weekly_schedule();
-		$this->catch_redo_listener();
 	}
 
 	/**
@@ -189,23 +188,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		}
 
 		wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
-	}
-
-	/**
-	 * Redo the fetch request for Ryte.
-	 *
-	 * @return void
-	 */
-	private function catch_redo_listener() {
-		if ( ! self::is_active() ) {
-			return;
-		}
-
-		if ( filter_input( INPUT_GET, 'wpseo-redo-ryte' ) === '1' ) {
-			$this->is_manual_request = true;
-
-			add_action( 'admin_init', [ $this, 'fetch_from_ryte' ] );
-		}
 	}
 
 	/**
