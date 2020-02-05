@@ -4,53 +4,50 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
 describe( "Creates stem from words with ambiguous endings", () => {
-	it( "Creates the stem of words whose stem ends in -te, -e should be stemmed even though it is a valid stem ending " +
-		"After -e deletion, the stem should undergo stem modification when required", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "compote" ) ).toEqual(
+	it( "Creates the stem of a word which matches a regex for a word that ends in -te and that should have only the -e stemmed." +
+		"It also modifies the stem by doubling the final vowel after removing the -e.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "compote" ) ).toEqual(
 			"compoot" );
 	} );
-	it( "Creates the stem of words ending in non-verb past suffix -ten " +
-		"In this case, only -en should be deleted and modify the stem when required after suffix deletion.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "taarten" ) ).toEqual(
+	it( "Creates the stem of a word which matches a regex for a word that ends in -ten and that should have only the -en stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "taarten" ) ).toEqual(
 			"taart" );
 	} );
-	it( "Creates the stem of words ending in non-verb past suffix -ten " +
-		"In this case, only -en should be deleted and modify the stem when required after suffix deletion.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "castraten" ) ).toEqual(
+	it( "Creates the stem of a word which matches a regex for a word that ends in -ten and that should have only the -en stemmed." +
+		"It also modifies the stem by doubling the final vowel after removing the -en.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "castraten" ) ).toEqual(
 			"castraat" );
 	} );
-	it( "creates the stem of words that are listed in words not to be stemmed list.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "helft" ) ).toEqual(
+	it( "Creates the stem of words that are listed in words not to be stemmed list.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "helft" ) ).toEqual(
 			"helft" );
 	} );
-	it( "Creates the stem of words whose stems ends in non-verb present singular suffix -t " +
-		"The ending -t should not be stemmed.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "effect" ) ).toEqual(
+	it( "Creates the stem of a word which matches a regex for when -t should not be stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "effect" ) ).toEqual(
 			"effect" );
 	} );
-	it( "Creates the stem of words whose stems ends in non-verb present singular suffix -t " +
-		"The ending -t should not be stemmed.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "baat" ) ).toEqual(
-			"baat" );
-	} );
-	it(  "Creates the stem of words ending in non-verb past suffix -de, -e should be stemmed even though it is a valid stem ending " +
-		"After -e deletion, the stem should undergo stem modification", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "periode" ) ).toEqual(
+	it(  "Creates the stem of a word which matches a regex for a word that ends in -de and that should have only the -e stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "periode" ) ).toEqual(
 			"period" );
 	} );
-	it(  "Creates the stem of words ending in non-verb past suffix -de, -e should be stemmed even though it is a valid stem ending " +
-		"After -e deletion, the stem should undergo stem modification", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "poularde" ) ).toEqual(
-			"poulard" );
-	} );
-	it( "Creates the stem of words whose ends in non-verb past suffix -den " +
-		"In this case, only -en should be deleted and modify the stem when required after suffix deletion.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "branden" ) ).toEqual(
+	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "branden" ) ).toEqual(
 			"brand" );
 	} );
-	it( "Creates the stem of words whose ends in non-verb past suffix -den " +
-		"Only -en should be deleted and modify the stem when required after suffix deletion.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "ontbieden" ) ).toEqual(
+	it( "Creates the stem of a word which is a compound word with an ending from the exception list of words ending in -en" +
+		"which should only have -en stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "ontbieden" ) ).toEqual(
 			"ontbied" );
+	} );
+	it( "Only stems -ten if the word ends in -tten", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "blaatten" ) ).toEqual(
+			"blaat" );
+	} );
+	it( "Stems -t if the word is on the list of verbs that should have the -t stemmed", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "roeit" ) ).toEqual(
+			"roei" );
+	} );
+	it( "Returns undefined if a word is not matched in any of the checks", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toEqual();
 	} );
 } );

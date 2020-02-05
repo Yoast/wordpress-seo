@@ -240,9 +240,12 @@ export default function stem( word, morphologyDataNL ) {
 	/** Return the word if it should not be stemmed.
 		And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
 	 */
-	if ( generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) ) {
-		return generateCorrectStemWithTAndDEnding( morphologyDataNL, word );
+	const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
+
+	if ( tAndDStemmingCheck ) {
+		return tAndDStemmingCheck;
 	}
+
 	/**
 	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
 	 * return the word here, instead of going through the regular stemmer.
