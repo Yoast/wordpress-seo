@@ -34,6 +34,7 @@ const externals = {
 
 const wordpressExternals = {
 	"@wordpress/element": "window.wp.element",
+	"@wordpress/plugins": "window.wp.plugins",
 	"@wordpress/data": "window.wp.data",
 	"@wordpress/components": "window.wp.components",
 	"@wordpress/i18n": "window.wp.i18n",

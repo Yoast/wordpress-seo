@@ -1,6 +1,7 @@
-import { render, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
-import { Slot } from "@wordpress/components"
+import { Slot } from "@wordpress/components";
+import { registerPlugin } from "@wordpress/plugins";
 
 const props = {
 	siteName: "My awesome site",
@@ -12,13 +13,17 @@ const Social = () => {
 	return (
 		<Fragment>
 			<Collapsible hasSeparator={ true } title="Facebook">
-				<Slot name="wpseo-facebook-preview" />
+				<Slot name="YoastFacebookPreview" />
 			</Collapsible>
 			<Collapsible hasSeparator={ true } title="Twitter">
-				<Slot name="wpseo-twitter-preview" />
+				<Slot name="YoastTwitterPreview" />
 			</Collapsible>
 		</Fragment>
 	);
 };
 
-render( <Social />, document.getElementById( "wpseo-section-social" ) );
+registerPlugin( 'yoast-seo-social-previews', {
+	render: () => {
+		return Social;
+	}
+} );
