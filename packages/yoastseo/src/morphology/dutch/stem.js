@@ -1,3 +1,5 @@
+import { flatten } from "lodash-es";
+import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 /**
  * @file Dutch stemming algorithm. Adapted from:
  * @author:
@@ -8,8 +10,6 @@
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
-
-import { flatten } from "lodash-es";
 
 /**
  * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
@@ -149,10 +149,11 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
+	const wordsWithoutVowelDoubling = flatten( Object.values( morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling ) );
 	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const secondCheck = isWordOnNoVowelDoublingList( word, wordsWithoutVowelDoubling );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
-	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
 
 	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };
@@ -241,62 +242,20 @@ const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
 };
 
 /**
- * Checks whether the word is in the exception list of nouns with specific diminutive or plural suffix that needs to be stemmed.
- * e.g. agentje -> agent, kinderen -> kind. If it is, stem it.
- *
- * @param {Object} exceptionList The exception list.
- * @param {string} suffixToDelete The suffix that needs to be deleted.
- * @param {string} word The word to check.
- *
- * @returns {string} The stemmed word,
- */
-const checkExceptionPluralAndDiminutive = function( exceptionList, suffixToDelete, word ) {
-	for ( let i = 0; i < exceptionList.length; i++ ) {
-		if ( word.endsWith( exceptionList[ i ] ) ) {
-			return word.slice( 0, -suffixToDelete.length );
-		}
-	}
-};
-
-/**
  * Get the stem from noun diminutives and plurals exceptions.
  *
- * @param {Object} morphologyDataNLStemmingExceptions The data for stemming exception.
- * @param {string} word The word to check.
+ * @param {Object[]}    exceptionsRemoveSuffixFromFullForms The data for stemming exception.
+ * @param {string}      word                                The word to check.
+ *
  * @returns {string} The stemmed word.
  */
-const getStemExceptionPluralAndDiminutive = function( morphologyDataNLStemmingExceptions, word ) {
-	const diminutiveSuffixes = morphologyDataNLStemmingExceptions.diminutiveSuffixes;
-	const pluralSuffixes = morphologyDataNLStemmingExceptions.pluralSuffixesEndAndS;
-	const diminutiveExceptionLists = [ morphologyDataNLStemmingExceptions.diminutiveExceptions.diminutiveStemEtje,
-		morphologyDataNLStemmingExceptions.diminutiveExceptions.stemSuffixTje,
-		morphologyDataNLStemmingExceptions.diminutiveExceptions.diminutiveOnlyStemJe ];
-	// Check if the word is in the exception lists of diminutives that receive suffix -etje, -tje, or -je. If it is, and stem it accordingly.
-	for ( let i = 0; i < diminutiveExceptionLists.length; i++ ) {
-		const checkDiminutiveException = checkExceptionPluralAndDiminutive( diminutiveExceptionLists[ i ], diminutiveSuffixes[ i ], word );
-		if ( checkDiminutiveException ) {
-			return checkDiminutiveException;
+const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms, word ) {
+	for ( const exceptionClass of exceptionsRemoveSuffixFromFullForms ) {
+		const stemmedWord = removeSuffixFromFullForm( exceptionClass.forms, exceptionClass.suffix, word );
+
+		if ( stemmedWord ) {
+			return stemmedWord;
 		}
-	}
-	// Check if the word is in the exception lists of plurals that receive suffix -eren, -en, or -s. If it is, stem it accordingly.
-	const pluralExceptionLists = [ morphologyDataNLStemmingExceptions.nounStemExceptions.stemEren,
-		morphologyDataNLStemmingExceptions.nounStemExceptions.stemSuffixEn,
-		morphologyDataNLStemmingExceptions.nounStemExceptions.stemSuffixS ];
-	for ( let i = 0; i < pluralExceptionLists.length; i++ ) {
-		const checkPluralException = checkExceptionPluralAndDiminutive( pluralExceptionLists[ i ], pluralSuffixes[ i ], word );
-		if ( checkPluralException ) {
-			return checkPluralException;
-		}
-	}
-	/*
-	 * Check if the word is in the list of diminutives that receive -tje and undergo vowel doubling before attaching the suffix.
-	 * If it is, stem it accordingly.
-	 */
-	if ( checkExceptionPluralAndDiminutive(
-		morphologyDataNLStemmingExceptions.diminutiveExceptions.stemTjeAndOnePrecedingVowel,  diminutiveSuffixes[ 1 ], word ) ) {
-		const correctNounStem = checkExceptionPluralAndDiminutive(
-			morphologyDataNLStemmingExceptions.diminutiveExceptions.stemTjeAndOnePrecedingVowel,  diminutiveSuffixes[ 1 ], word ).slice( 0, -1 );
-		return correctNounStem;
 	}
 };
 
@@ -324,9 +283,25 @@ export default function stem( word, morphologyDataNL ) {
 	/* Checks whether the word is in the exception list of nouns with specific diminutive or plural suffixes that needs to be stemmed.
 	 * If it is return the stem here.
 	 */
-	if ( getStemExceptionPluralAndDiminutive( morphologyDataNL.stemming.stemExceptions, word ) ) {
-		return getStemExceptionPluralAndDiminutive( morphologyDataNL.stemming.stemExceptions, word );
+	const stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL.stemming.stemExceptions.removeSuffixFromFullForms, word );
+	if ( stemFromFullForm ) {
+		return stemFromFullForm;
 	}
+
+	/*
+	 * Checks whether the word is in the exception list of diminutives that need to be stemmed and that additionally need
+	 * to have the final vowel removed. If it is return the stem here.
+	 */
+	const stemFromFullFormAndDeleteFinalVowel = removeSuffixFromFullForm(
+		morphologyDataNL.stemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms,
+		morphologyDataNL.stemming.stemExceptions.stemTjeAndOnePrecedingVowel.suffix,
+		word
+	);
+
+	if ( stemFromFullFormAndDeleteFinalVowel ) {
+		return stemFromFullFormAndDeleteFinalVowel.slice( 0, -1 );
+	}
+
 	/*
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
