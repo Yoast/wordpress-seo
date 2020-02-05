@@ -3,38 +3,39 @@ import ImageSelect from "./ImageUpload";
 import PropTypes from "prop-types";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/search-metadata-previews";
 
-const SocialMetadataPreviewForm = ( props ) => {
-	return (
-		<Fragment>
-			<ImageSelect
-				title={ `${ props.socialMediumName } image` }
-				onClick={ props.selectFileClick }
-				warnings={ props.imageWarnings }
-			/>
-			<ReplacementVariableEditor
-				onChange={ props.onTitleChange }
-				content={ props.title }
-				replacementVariables={ props.replacementVariables }
-				recommendedReplacementVariables={ props.recommendedReplacementVariables }
-				type="title"
-				label={ `${ props.socialMediumName } title` }
-				buttonName="Insert variable"
-				showPlusButton={ false }
-			/>
-			<ReplacementVariableEditor
-				onChange={ props.onDescriptionChange }
-				content={ props.description }
-				placeholder={ `Modify your ${ props.socialMediumName } description by editing it right here...` }
-				replacementVariables={ props.replacementVariables }
-				recommendedReplacementVariables={ props.recommendedReplacementVariables }
-				type="description"
-				label={ `${ props.socialMediumName } description` }
-				buttonName="Insert variable"
-				showPlusButton={ false }
-			/>
-		</Fragment>
-	);
-};
+/**
+ * A form with an image selection button, a title input field and a description field.
+ *
+ * @param {object} props The props for this component.
+ *
+ * @returns {React.Component} Returns a Fragment that contains all input fields.
+ */
+const SocialMetadataPreviewForm = ( props ) =>
+	<Fragment>
+		<ImageSelect
+			title={ `${ props.socialMediumName } image` }
+			onClick={ props.selectFileClick }
+			warnings={ props.imageWarnings }
+		/>
+		<ReplacementVariableEditor
+			onChange={ props.onTitleChange }
+			content={ props.title }
+			replacementVariables={ props.replacementVariables }
+			recommendedReplacementVariables={ props.recommendedReplacementVariables }
+			type="title"
+			label={ `${ props.socialMediumName } title` }
+		/>
+		<ReplacementVariableEditor
+			onChange={ props.onDescriptionChange }
+			content={ props.description }
+			placeholder={ `Modify your ${ props.socialMediumName } description by editing it right here...` }
+			replacementVariables={ props.replacementVariables }
+			recommendedReplacementVariables={ props.recommendedReplacementVariables }
+			type="description"
+			label={ `${ props.socialMediumName } description` }
+		/>
+	</Fragment>
+;
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,

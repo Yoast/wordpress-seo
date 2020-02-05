@@ -7,30 +7,31 @@ import { Alert, Button } from "@yoast/components";
  *
  * Displays an warning message when the selected image cannot be used.
  *
+ * @param {object} props The properties passed to this component.
  * @param {string} props.title The title that is displayed above the selection button.
- * @param {function} props.verifyImage Function that verifies if the selected image adheres to criteria.
  * @param {string[]} props.warnings An array of warnings that detail why the image cannot be used.
+ * @param {function} props.onClick Function that specifies what happens when the button is clicked.
+ *
+ * @returns {React.Component} A fragment with a title, optional warnings and an image selection button.
  */
-const ImageSelect = ( props ) => {
-	return (
-		<Fragment>
-			<p>
-				{ props.title }
-			</p>
-			{
-				props.warnings.length > 0 &&
-				<Alert type="warning">
-					{ props.warnings.join( "\n" ) }
-				</Alert>
-			}
-			<Button
-				onClick={ props.onClick }
-			>
-				Select image
-			</Button>
-		</Fragment>
-	);
-};
+const ImageSelect = ( { title, warnings, onClick } ) =>
+	<Fragment>
+		<p>
+			{ title }
+		</p>
+		{
+			warnings.length > 0 &&
+			<Alert type="warning">
+				{ warnings.join( "\n" ) }
+			</Alert>
+		}
+		<Button
+			onClick={ onClick }
+		>
+			Select image
+		</Button>
+	</Fragment>
+;
 
 ImageSelect.propTypes = {
 	title: PropTypes.string.isRequired,
