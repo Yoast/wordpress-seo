@@ -612,8 +612,8 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			],
 			[
-				'name' => 'admin-global',
-				'src'  => 'admin-global-' . $flat_version,
+				'name' => 'post-overview-global',
+				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
 				'name' => 'yoast-components',
@@ -635,6 +635,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'tabs',
+				'src'  => 'tabs-' . $flat_version,
 			],
 		];
 	}
