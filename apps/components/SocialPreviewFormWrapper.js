@@ -5,19 +5,19 @@ import ExamplesContainer from "./ExamplesContainer";
 const replacementVariables = [
 	{
 		name: "title",
-		label: "Title",
+		label: "title",
 		value: "Title",
 		description: "This is the title of your post",
 	},
 	{
 		name: "post_type",
-		label: "Post type",
+		label: "post type",
 		value: "Gallery",
 		description: "This is the post type of your post",
 	},
 	{
 		name: "sep",
-		label: "Separator",
+		label: "sep",
 		value: " - ",
 		description: "A separator that clarifies your search result snippet",
 	},
@@ -34,12 +34,21 @@ const recommendedReplacementVariables = [
 	"post_type",
 ];
 
+const selectFileClick = () => {
+	alert( "YOU CLICKED MY BUTTON!" );
+};
+
 const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<SocialMetadataPreviewForm
 		  socialMediumName="Facebook"
 		  replacementVariables={ replacementVariables }
 		  recommendedReplacementVariables={ recommendedReplacementVariables }
+		  description=""
+		  title="%%title%%%%page%%%%sep%%%%sitename%%"
+		  selectFileClick={ selectFileClick }
+		  onDescriptionChange={  () => {} }
+		  onTitleChange={ () => {} }
 		/>
 	</ExamplesContainer>
 ;
