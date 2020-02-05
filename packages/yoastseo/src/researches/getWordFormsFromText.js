@@ -1,4 +1,4 @@
-import { escapeRegExp, get, uniq } from "lodash-es";
+import { escapeRegExp, get, groupBy, uniq } from "lodash-es";
 import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
 import getLanguage from "../helpers/getLanguage";
@@ -7,7 +7,7 @@ import retrieveStemmer from "../helpers/retrieveStemmer";
 import getWords from "../stringProcessing/getWords";
 import parseSlug from "../stringProcessing/parseSlug";
 import { normalizeSingle } from "../stringProcessing/quotes";
-import { collectStems } from "./buildTopicStems";
+import { collectStems, StemOriginalPair } from "./buildTopicStems";
 
 /**
  * A stem with accompanying forms.
@@ -149,23 +149,20 @@ function getWordFormsFromText( paper, researcher ) {
 	// Filter doubles and function words.
 	paperWords = filterFunctionWordsFromArray( uniq( paperWords ), language );
 
-	// Add stems to words from the paper and filter out all forms that aren't in the keyphrase or synonyms.
+	// Add stems to words from the paper, filter out all forms that aren't in the keyphrase or synonyms and order alphabetically.
 	const paperWordsWithStems = paperWords
-		.map( word => [ word, determineStem( word, morphologyData ) ] )
-		.filter( wordStemPair => topicStemsFlat.includes( wordStemPair[ 1 ] ) );
+		.map( word => new StemOriginalPair( determineStem( word, morphologyData ), word ) )
+		.filter( stemOriginalPair => topicStemsFlat.includes( stemOriginalPair.stem ) )
+		.sort( ( a, b ) => a.stem.localeCompare( b.stem ) );
 
 	// Group word-stem pairs from the paper by stems.
-	const paperWordsGroupedByStems = paperWordsWithStems.reduce( function( accumulator, wordStemPair ) {
-		const stem = wordStemPair[ 1 ];
-		const form = wordStemPair[ 0 ];
+	const paperWordsGroupedByStems = paperWordsWithStems.reduce( function( accumulator, stemOriginalPair ) {
+		const lastItem = accumulator[ accumulator.length - 1 ];
 
-		const matchingStemFormPair = accumulator.find( element => element.stem === stem );
-		const matchingStemFormPairIndex = accumulator.findIndex( element => element.stem === stem );
-
-		if ( matchingStemFormPair ) {
-			accumulator[ matchingStemFormPairIndex ].forms.push( form );
+		if ( accumulator.length === 0 || lastItem.stem !== stemOriginalPair.stem ) {
+			accumulator.push( new StemWithForms( stemOriginalPair.stem, [ stemOriginalPair.original ] ) );
 		} else {
-			accumulator.push( new StemWithForms( stem, [ form ] ) );
+			lastItem.forms.push( stemOriginalPair.original );
 		}
 
 		return accumulator;
