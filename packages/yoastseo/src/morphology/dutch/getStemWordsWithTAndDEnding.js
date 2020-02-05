@@ -19,7 +19,6 @@ const stemWordsWithEOrEnSuffix = function( morphologyDataNLStemming, eOrEnSuffix
 		const stemmedWord = word.replace( new RegExp( eOrEnSuffixPrecededByTOrD[ 0 ] ), eOrEnSuffixPrecededByTOrD[ 1 ] );
 		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNLStemming.stemExceptions ) ) {
 			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
-			//console.log("replacement", replacement);
 			return replacement ? replacement : stemmedWord;
 		}
 		return stemmedWord;

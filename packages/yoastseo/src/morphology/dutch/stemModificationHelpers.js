@@ -1,4 +1,4 @@
-import {flatten} from "lodash-es";
+import { flatten } from "lodash-es";
 
 /**
  * Checks whether the stem is on an exception of words that should have the vowel doubled. These words are exceptions
