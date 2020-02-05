@@ -25,7 +25,8 @@ export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	}
 
 	// Create a second stem (this is possibly the same as the original stem).
-	const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes );
+	const dataNoVowelOrConsonantDoublingVerb = morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling.verb;
+	const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, dataNoVowelOrConsonantDoublingVerb, morphologyDataAddSuffixes );
 
 	// Add -t or -d suffixes to the first stem.
 	const tAndDForms = applySuffixesToStem( stemmedWord, suffixesWithoutStemModification );
