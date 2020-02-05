@@ -24,9 +24,9 @@ const checkStemsFromExceptionList = function( exceptionStems, stemmedWordToCheck
 			 	 * If the word is a compound, removing the final stem will result in some lexical material to
 			 	 * be left over at the beginning of the word. For example, removing "stadt" from "Hauptstadt"
 			 	 * leaves "Haupt". This lexical material is the base for the word forms that need to be created
-			 	 * (e.g., "Hauptstädte"). The preceding lexical material must include at least 2 characters in order to be a valid compound element.
+			 	 * (e.g., "Hauptstädte").
 			 	 */
-				if ( precedingLexicalMaterial.length > 1 ) {
+				if ( precedingLexicalMaterial.length > 0 ) {
 					const stemsToReturn = currentStemDataSet[ 1 ];
 					return stemsToReturn.map( currentStem => precedingLexicalMaterial.concat( currentStem ) );
 				}
