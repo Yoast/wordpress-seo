@@ -125,7 +125,6 @@ module.exports = function( grunt ) {
 			"css/dist/filter-explanation-<%= pluginVersionSlug %>.css": [ "css/src/filter-explanation.scss" ],
 			"css/dist/structured-data-blocks-<%= pluginVersionSlug %>.css": [ "css/src/editor/structured-data-blocks.scss" ],
 			"css/dist/tabs-<%= pluginVersionSlug %>.css": [ "css/src/admin/tabs.scss" ],
-			"css/dist/sidebar-<%= pluginVersionSlug %>.css": [ "css/src/admin/sidebar.scss" ],
 		},
 		pkg,
 	};
