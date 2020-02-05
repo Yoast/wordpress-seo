@@ -1,3 +1,5 @@
+import { flatten } from "lodash-es";
+import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 /**
  * @file Dutch stemming algorithm. Adapted from:
  * @author:
@@ -13,10 +15,11 @@
  * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
  *
  * @param {string} word The word to check.
- * @param {string[]} wordsNotToStem The exception list of words that should not be stemmed.
+ * @param {Object} dataWordsNotToStem The exception list of words that should not be stemmed.
  * @returns {boolean} Whether or not the word should be stemmed.
  */
-const shouldNotBeStemmed = function( word, wordsNotToStem ) {
+const shouldNotBeStemmed = function( word, dataWordsNotToStem ) {
+	const wordsNotToStem = flatten( Object.values( dataWordsNotToStem ) );
 	return ( wordsNotToStem.includes( word ) );
 };
 
@@ -42,7 +45,6 @@ const determineR1 = function( word ) {
 
 	return r1Index;
 };
-
 
 /**
  * Searches for suffixes in a word.
@@ -147,10 +149,11 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
+	const wordsWithoutVowelDoubling = flatten( Object.values( morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling ) );
 	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const secondCheck = isWordOnNoVowelDoublingList( word, wordsWithoutVowelDoubling );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
-	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
 
 	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };
@@ -239,6 +242,24 @@ const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
 };
 
 /**
+ * Get the stem from noun diminutives and plurals exceptions.
+ *
+ * @param {Object[]}    exceptionsRemoveSuffixFromFullForms The data for stemming exception.
+ * @param {string}      word                                The word to check.
+ *
+ * @returns {string} The stemmed word.
+ */
+const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms, word ) {
+	for ( const exceptionClass of exceptionsRemoveSuffixFromFullForms ) {
+		const stemmedWord = removeSuffixFromFullForm( exceptionClass.forms, exceptionClass.suffix, word );
+
+		if ( stemmedWord ) {
+			return stemmedWord;
+		}
+	}
+};
+
+/**
  * Stems Dutch words.
  *
  * @param {string} word  The word to stem.
@@ -251,7 +272,7 @@ export default function stem( word, morphologyDataNL ) {
 	if ( shouldNotBeStemmed( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
 		return word;
 	}
-	/**
+	/*
 	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
 	 * return the word here, instead of going through the regular stemmer.
  	 */
@@ -259,7 +280,29 @@ export default function stem( word, morphologyDataNL ) {
 	if ( wordAfterRdExceptionCheck !== word ) {
 		return wordAfterRdExceptionCheck;
 	}
-	/**
+	/* Checks whether the word is in the exception list of nouns with specific diminutive or plural suffixes that needs to be stemmed.
+	 * If it is return the stem here.
+	 */
+	const stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL.stemming.stemExceptions.removeSuffixFromFullForms, word );
+	if ( stemFromFullForm ) {
+		return stemFromFullForm;
+	}
+
+	/*
+	 * Checks whether the word is in the exception list of diminutives that need to be stemmed and that additionally need
+	 * to have the final vowel removed. If it is return the stem here.
+	 */
+	const stemFromFullFormAndDeleteFinalVowel = removeSuffixFromFullForm(
+		morphologyDataNL.stemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms,
+		morphologyDataNL.stemming.stemExceptions.stemTjeAndOnePrecedingVowel.suffix,
+		word
+	);
+
+	if ( stemFromFullFormAndDeleteFinalVowel ) {
+		return stemFromFullFormAndDeleteFinalVowel.slice( 0, -1 );
+	}
+
+	/*
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
 	 */
