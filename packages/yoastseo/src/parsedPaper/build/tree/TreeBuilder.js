@@ -6,7 +6,7 @@ import buildTree from "./html/buildTree";
  * Currently supported languages:
  *  - HTML (`"html"`)
  *
- * @memberOf module:parsedPaper/builder;
+ * @memberOf module:parsedPaper/builder
  */
 class TreeBuilder {
 	/**
@@ -23,6 +23,9 @@ class TreeBuilder {
 		this._buildFunctions = {
 			html: buildTree,
 		};
+
+		this.build = this.build.bind( this );
+		this.register = this.register.bind( this );
 	}
 
 	/**
@@ -31,7 +34,7 @@ class TreeBuilder {
 	 * Chooses the right parser depending on the given formatting language in which the text has been written (defaults to HTML).
 	 *
 	 * @param {string} sourceText                The source text that needs to be parsed to a tree representation.
-	 * @param {Object} [options]			     Parse options.
+	 * @param {Object} [options]                 Parse options.
 	 * @param {string} [options.language="html"] The formatting language in which the source text has been written, e.g. `"html"` for HTML.
 	 *
 	 * @returns {module:parsedPaper/structure.Node} The tree representation as parsed from the source text.

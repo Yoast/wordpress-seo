@@ -58,7 +58,6 @@ export function getSuffixesSuperlative( morphologyDataAdjectives, stemmedWord ) 
 
 	return morphologyDataAdjectives.superlativeSuffixesSt;
 }
-
 /**
  * Creates the second stem of words that have two possible stems (this includes stem ending in -ieel or -iël;
  * stem with double or single vowel; ending in double or single consonant; ending in s/f or z/v). The inflected and comparative
@@ -66,7 +65,7 @@ export function getSuffixesSuperlative( morphologyDataAdjectives, stemmedWord ) 
  *
  * @param {string} stemmedWord 					   The stem
  * @param {string[]} typeSuffix 				   The type of suffix that should be added to the inputted stem.
- * @param {object} morphologyDataStemModifications The Dutch stem modifications data.
+ * @param {object} morphologyDataStemModifications 		The Dutch stem modifications data.
  * @returns {string} The modified stem, or the original stem if no modifications were made.
  */
 export function findAndApplyModifications( stemmedWord, typeSuffix, morphologyDataStemModifications ) {
@@ -76,8 +75,11 @@ export function findAndApplyModifications( stemmedWord, typeSuffix, morphologyDa
 	}
 
 	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataStemModifications.doublingConsonant );
-	if ( triedToDoubleConsonant ) {
-		return triedToDoubleConsonant;
+	const noVowelOrConsonantDoublingAdjective = morphologyDataStemModifications.exception.noVowelOrConsonantDoubling.adjective;
+	if ( ! noVowelOrConsonantDoublingAdjective.includes( stemmedWord ) ) {
+		if ( triedToDoubleConsonant ) {
+			return triedToDoubleConsonant;
+		}
 	}
 
 	const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataStemModifications.consonantVoicingAdjectives );

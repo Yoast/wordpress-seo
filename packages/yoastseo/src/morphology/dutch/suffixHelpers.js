@@ -17,14 +17,17 @@ export function shouldConsonantBeVoiced( stemmedWord, notVoicedStemEndings ) {
  * stem with double or single vowel; ending in double or single consonant; ending in s/f or z/v). The -en and -end
  * suffixes are then added to the modified stem.
  *
- * @param {string} stemmedWord The stem
+ * @param {string} stemmedWord						The stem
+ * @param {string[]} dataNoVowelOrConsonantDoubling The no vowel or consonant doubling exception list.
  * @param {object} morphologyDataAddSuffixes The Dutch morphology data file
  * @returns {string} The modified stem, or the original stem if no modifications were made.
  */
-export function findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes ) {
+export function findAndApplyModificationsVerbsNouns( stemmedWord, dataNoVowelOrConsonantDoubling, morphologyDataAddSuffixes ) {
 	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.doublingConsonant );
-	if ( triedToDoubleConsonant ) {
-		return triedToDoubleConsonant;
+	if ( ! dataNoVowelOrConsonantDoubling.includes( stemmedWord ) ) {
+		if ( triedToDoubleConsonant ) {
+			return triedToDoubleConsonant;
+		}
 	}
 	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
 		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );

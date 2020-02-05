@@ -78,6 +78,5 @@ export function getForms( word, morphologyData ) {
 	if ( formsBasedOnStemmed3rdSgVerbs ) {
 		forms.push( ...formsBasedOnStemmed3rdSgVerbs );
 	}
-
 	return unique( forms );
 }
