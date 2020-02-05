@@ -127,28 +127,18 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		$this->description  = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
-			esc_html__( '%1$s offers a free indexability check for %2$s users and it has determined that your site
-			cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo' ),
+			esc_html__( '%1$s offers a free indexability check for %2$s users and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo' ),
 			'Ryte',
 			'Yoast SEO'
 		);
-		$this->description .= '<br /><br />';
-		$this->description .= sprintf(
-			/* translators: %1$s: Opening tag of the link to the reading settings page, %2$s: Link closing tag, %3$s: Strong opening tag, %4$s: Strong closing tag. */
-			esc_html__( 'As a first step, %1$sgo to your site\'s Reading Settings%2$s and make sure the option to
-				discourage search engine visibility is %3$snot enabled%4$s, then re-analyze your site indexability.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
-			'</a>',
-			'<strong>',
-			'</strong>'
-		);
-		$this->description .= '<br /><br />';
-		$this->description .= sprintf(
+
+		$this->actions  = sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
-			esc_html__( 'If that did not help, %1$sread more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
+			esc_html__( '%1$sRead more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		$this->actions .= '<br /><br />';
 
 		$this->add_analyze_site_links();
 	}
