@@ -616,8 +616,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-' . $flat_version,
 			],
 			[
 				'name' => 'extensions',

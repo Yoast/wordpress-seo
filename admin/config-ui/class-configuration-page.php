@@ -86,7 +86,7 @@ class WPSEO_Configuration_Page {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
 		$asset_manager->enqueue_script( 'configuration-wizard' );
-		$asset_manager->enqueue_style( 'yoast-components' );
+		$asset_manager->enqueue_style( 'configuration-wizard' );
 
 		$config = $this->get_config();
 
