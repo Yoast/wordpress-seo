@@ -10,7 +10,6 @@ const props = {
 };
 
 const Social = () => {
-	console.log( "test" );
 	return createPortal(
 		<Fragment>
 			<Collapsible hasSeparator={ true } title="Facebook">
