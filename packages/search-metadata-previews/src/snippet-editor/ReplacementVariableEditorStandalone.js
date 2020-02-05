@@ -556,7 +556,7 @@ ReplacementVariableEditorStandalone.defaultProps = {
 	onBlur: () => {},
 	className: "",
 	placeholder: "",
-	theme: { isRtl: false }
+	theme: { isRtl: false },
 };
 
 export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };

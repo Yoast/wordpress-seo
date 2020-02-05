@@ -10,7 +10,6 @@ import {
 	recommendedReplacementVariablesShape,
 } from "./constants";
 import {
-	FormSection,
 	StyledEditor,
 } from "../shared";
 
