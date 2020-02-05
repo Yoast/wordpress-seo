@@ -637,8 +637,8 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ 'wp-edit-blocks' ],
 			],
 			[
-				'name' => 'tabs',
-				'src'  => 'tabs-' . $flat_version,
+				'name' => 'admin-all',
+				'src'  => 'admin-all-' . $flat_version,
 			],
 		];
 	}
