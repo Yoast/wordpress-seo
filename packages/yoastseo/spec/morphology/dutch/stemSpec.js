@@ -147,8 +147,12 @@ const wordsToStem = [
 	[ "volkeren", "volk" ],
 	// A noun with plural suffix -s. Input: exception list.
 	[ "zoos", "zoo" ],
-	// A word that does not need to undergo vowel doubling after suffix -en deletion.
+	// A word that is on an exception list of no vowel doubling, does not get the last vowel (a) doubled after removing the suffix (-en).
 	[ "dommeriken", "dommerik" ],
+	/*
+	 * A word that is on an exception list of no vowel doubling, and which is matched in the -t/-d stemming check, does not
+	 * get the last vowel doubled after removing the suffix.
+	 */
 	[ "vaten", "vat" ],
 ];
 

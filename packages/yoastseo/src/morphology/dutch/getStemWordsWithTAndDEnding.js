@@ -2,6 +2,7 @@ import { flatten } from "lodash-es";
 import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { doesWordMatchRegex } from "../morphoHelpers/regexHelpers";
 import { searchAndReplaceWithRegex } from "../morphoHelpers/regexHelpers";
+import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 
 /**
  * Checks whether the word ends in suffixes -e or -en which are preceded by -t or -d, and the -t/-d is part of the stem.
@@ -16,8 +17,12 @@ import { searchAndReplaceWithRegex } from "../morphoHelpers/regexHelpers";
 const stemWordsWithEOrEnSuffix = function( morphologyDataNLStemming, eOrEnSuffixPrecededByTOrD, word ) {
 	if ( doesWordMatchRegex( word, eOrEnSuffixPrecededByTOrD[ 0 ] ) ) {
 		const stemmedWord = word.replace( new RegExp( eOrEnSuffixPrecededByTOrD[ 0 ] ), eOrEnSuffixPrecededByTOrD[ 1 ] );
-		const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
-		return replacement ? replacement : stemmedWord;
+		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNLStemming.stemExceptions ) ) {
+			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
+			//console.log("replacement", replacement);
+			return replacement ? replacement : stemmedWord;
+		}
+		return stemmedWord;
 	}
 };
 

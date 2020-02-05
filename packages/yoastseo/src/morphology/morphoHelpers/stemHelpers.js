@@ -18,3 +18,4 @@ const removeSuffixFromFullForm = function( exceptions, suffix, word ) {
 export {
 	removeSuffixFromFullForm,
 };
+
