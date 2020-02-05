@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $tool_page = (string) filter_input( INPUT_GET, 'tool' );
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( false );
+$yform->admin_header( false, 'tools' );
 
 if ( $tool_page === '' ) {
 

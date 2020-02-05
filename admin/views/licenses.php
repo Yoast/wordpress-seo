@@ -113,7 +113,7 @@ $new_tab_message         = sprintf(
 
 ?>
 
-<div class="wrap yoast wpseo_table_page">
+<div class="wrap yoast-premium">
 
 	<h1 id="wpseo-title" class="yoast-h1"><?php echo esc_html( $wpseo_extensions_header ); ?></h1>
 
