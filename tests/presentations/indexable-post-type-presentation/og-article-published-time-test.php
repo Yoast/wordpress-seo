@@ -32,7 +32,9 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 */
 	public function test_generate_og_article_published_time_post() {
 		$this->indexable->object_sub_type = 'post';
-		$this->context->post = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+
+		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
 		$this->date_helper
 			->expects( 'format' )
@@ -54,6 +56,8 @@ class OG_Article_Published_Time_Test extends TestCase {
 	public function test_generate_og_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
 
+		$this->instance->expects( 'generate_source' )->andReturn( (object) [] );
+
 		$this->post_type_helper
 			->expects( 'get_post_type' )
 			->once()
@@ -69,8 +73,10 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 * @covers ::generate_og_article_published_time
 	 */
 	public function test_generate_og_article_published_time_page_enabled() {
-		$this->context->post = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 		$this->indexable->object_sub_type = 'page';
+
+		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
 		$this->date_helper
 			->expects( 'format' )

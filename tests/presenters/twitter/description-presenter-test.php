@@ -47,8 +47,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$presentation                      = new Indexable_Presentation();
+		$presentation->source              = [];
 		$presentation->twitter_description = 'This is the twitter description';
 
 		$this->replace_vars
@@ -68,8 +68,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_description() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$presentation                      = new Indexable_Presentation();
+		$presentation->source              = [];
 		$presentation->twitter_description = '';
 
 		$this->replace_vars

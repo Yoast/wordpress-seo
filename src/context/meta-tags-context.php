@@ -140,7 +140,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the title
 	 */
 	public function generate_title() {
-		return $this->replace_vars_helper->replace( $this->presentation->title, $this->presentation->replace_vars_object );
+		return $this->replace_vars_helper->replace( $this->presentation->title, $this->presentation->source );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the description
 	 */
 	public function generate_description() {
-		return $this->replace_vars_helper->replace( $this->presentation->meta_description, $this->presentation->replace_vars_object );
+		return $this->replace_vars_helper->replace( $this->presentation->meta_description, $this->presentation->source );
 	}
 
 	/**

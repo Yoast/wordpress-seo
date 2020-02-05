@@ -32,7 +32,7 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
@@ -64,7 +64,7 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_not_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
@@ -97,7 +97,7 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_not_indexable_term_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
@@ -132,7 +132,7 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_indexable_term_not_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',

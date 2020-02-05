@@ -6,13 +6,13 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class Replace_Vars_Object_Test
+ * Class Generate_Source_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
  */
-class Replace_Vars_Object_Test extends TestCase {
+class Generate_Source_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,15 +29,15 @@ class Replace_Vars_Object_Test extends TestCase {
 	/**
 	 * Tests whether the term is returned.
 	 *
-	 * @covers ::generate_replace_vars_object
+	 * @covers ::generate_source
 	 */
-	public function test_generate_replace_vars_object() {
+	public function test_generate_source() {
 		Monkey\Functions\expect( 'get_term' )
 			->with( 11, 'Object subtype' )
 			->once()
 			->andReturn( 'Example term' );
 
-		$this->assertEquals( 'Example term', $this->instance->generate_replace_vars_object() );
+		$this->assertEquals( 'Example term', $this->instance->generate_source() );
 	}
 }
 

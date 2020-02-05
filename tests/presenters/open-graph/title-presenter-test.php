@@ -50,8 +50,8 @@ class Title_Presenter_Test extends TestCase {
 		$this->instance = new Title_Presenter( $this->string );
 		$this->instance->set_replace_vars_helper( $this->replace_vars );
 
-		$this->indexable_presentation                      = new Indexable_Presentation();
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->indexable_presentation         = new Indexable_Presentation();
+		$this->indexable_presentation->source = [];
 
 		$this->string
 			->expects( 'strip_all_tags' )
