@@ -8,7 +8,6 @@ import { flatten } from "lodash-es";
  *
  * @returns {string/null} The created word forms.
  */
-
 export default function( fullFormsExceptionLists, word ) {
 	for ( let i = 0; i < fullFormsExceptionLists.length; i++ ) {
 		const fullFormsExceptionList = flatten( fullFormsExceptionLists[ i ] );
@@ -17,7 +16,6 @@ export default function( fullFormsExceptionLists, word ) {
 				/*
 				 * Check if the word checked is actually a compound word. e.g. familielid
 				 * The character/s preceding the words in the exception should be at least 2 characters in order to be a valid compound element.
-				 *
 				 */
 				const precedingLexicalMaterial = word.slice( 0, -fullFormsExceptionList[ j ].length );
 				if ( precedingLexicalMaterial.length === 1 ||
