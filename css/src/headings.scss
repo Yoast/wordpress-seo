@@ -28,8 +28,12 @@ body.yoast {
 	background-color: white;
 	font-size: 1em; // translates to 16px;
 
+	#wpcontent {
+		padding-left: 0;
+	}
+
 	.wrap {
-		margin: 32px 32px 0 12px; //margin: 32px 32px 0 12px;
+		margin: em(32px) em(32px) 0 em(32px); //margin: 32px 32px 0 12px;
 		font-size: var(--font-size-default);
 		color: var(--color-default);
 		line-height: 1.5;
