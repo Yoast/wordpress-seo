@@ -95,6 +95,10 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 			$subtype = substr( $type, 0, -5 );
 		}
 
+		if ( $subtype === 'tag' ) {
+			$subtype = 'post_tag';
+		}
+
 		$this->reset_permalink_indexables( 'term', $subtype );
 	}
 
