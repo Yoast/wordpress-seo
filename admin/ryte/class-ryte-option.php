@@ -117,6 +117,10 @@ class WPSEO_Ryte_Option {
 	 * @return bool
 	 */
 	public function should_be_fetched() {
+		if ( ! isset( $this->ryte_option[ self::LAST_FETCH ] ) ) {
+			return true;
+		}
+
 		return ( ( time() - $this->ryte_option[ self::LAST_FETCH ] ) > self::FETCH_LIMIT );
 	}
 
