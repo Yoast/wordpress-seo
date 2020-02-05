@@ -211,6 +211,24 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
+	it( "returns exact match es for all topic phrases if all topic phrases are exact matches", () => {
+		const attributes = {
+			keyword: "\"cats and dogs\"",
+			synonyms: "\"some purring felines\", \"these friendly canines\"",
+		};
+		const testPaper = new Paper( "A cat and a dog are walking.", attributes );
+		const researcher = new Researcher( testPaper );
+		researcher.addResearchData( "morphology", morphologyDataEN );
+
+		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [ [ "cats and dogs" ] ],
+				synonymsForms: [ [ [ "some purring felines"  ] ], [ [ "these friendly canines" ] ] ],
+			}
+		);
+	} );
+
+
 	it( "returns the keyphrase and synonyms unaltered for a language when there for which we have a stemmer," +
 		"and function word support, but no morphology data is available (e.g., English in Free)", () => {
 		const attributes = {

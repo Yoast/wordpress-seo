@@ -1,4 +1,4 @@
-import { escapeRegExp, get, groupBy, uniq } from "lodash-es";
+import { escapeRegExp, get, uniq } from "lodash-es";
 import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
 import getLanguage from "../helpers/getLanguage";
@@ -140,6 +140,17 @@ function getWordFormsFromText( paper, researcher ) {
 		return new Result();
 	}
 
+	// Return exact match if all topic phrases contain exact match. Forms don't need to be built in that case.
+	const allTopicPhrases = [ keyphrase, ...synonyms ];
+
+	if ( allTopicPhrases.every( topicPhrase => topicPhrase.exactMatch === true ) ) {
+		return new Result(
+			[ [ keyphrase.stemOriginalPairs[ 0 ].stem ] ],
+			synonyms.map( synonym => [ [ synonym.stemOriginalPairs[ 0 ].stem ] ]
+			)
+		);
+	}
+
 	// Get all stems from the keyphrase and synonyms.
 	const topicStemsFlat = uniq( extractStems( keyphrase, synonyms ) );
 
@@ -170,7 +181,8 @@ function getWordFormsFromText( paper, researcher ) {
 
 	return new Result(
 		constructTopicPhraseResult( keyphrase, paperWordsGroupedByStems, language ),
-		synonyms.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, language ) ) );
+		synonyms.map( synonym => constructTopicPhraseResult( synonym, paperWordsGroupedByStems, language ) )
+	);
 }
 
 export default getWordFormsFromText;
