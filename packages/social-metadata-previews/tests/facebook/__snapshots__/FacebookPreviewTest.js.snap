@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
-.c5 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -9,7 +9,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   overflow: hidden;
 }
 
-.c4 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -26,8 +26,9 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 }
 
 .c1 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
   border-style: dashed;
   border-width: 2px;
@@ -47,47 +48,47 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   align-items: center;
 }
 
-.c7 {
-  display: block;
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
-  cursor: pointer;
-}
-
-.c8 {
-  color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c6 {
+  color: #606770;
   font-size: 12px;
   line-height: 16px;
-  overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
   margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -95,24 +96,20 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   max-width: none;
   border: none;
   box-shadow: none;
-  border: 1px solid #dddfe2;
   border-radius: 0;
-  zoom: 1;
   overflow: hidden;
-  position: relative;
-  z-index: 0;
-  width: 500px;
+  width: 527px;
+  height: 57px;
 }
 
 .c2 {
+  box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
   padding: 10px 12px;
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
-  width: 474px;
-  height: 57px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -124,29 +121,8 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 136px;
+  width: 476px;
   font-size: 12px;
-  margin: 0;
-  max-height: 190px;
-}
-
-.c6 {
-  max-height: 46px;
-  overflow: hidden;
 }
 
 <div
@@ -162,45 +138,38 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
     className="c2"
     mode={null}
   >
-    <div
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
       className="c3"
     >
       <span
-        className="screen-reader-text"
+        className="c4"
       >
         yoast.com
       </span>
-      <p
-        aria-hidden="true"
-        className="c4"
-      >
-        <span
-          className="c5"
-        >
-          yoast.com
-        </span>
-      </p>
-      <div
-        className="c6"
-      >
-        <span
-          className="c7"
-        >
-          YoastCon Workshops
-        </span>
-        <p
-          className="c8"
-        >
-          Description to go along with a faulty image.
-        </p>
-      </div>
-    </div>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a faulty image.
+    </p>
   </div>
 </div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
-.c5 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -208,7 +177,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   overflow: hidden;
 }
 
-.c4 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -225,8 +194,9 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 }
 
 .c1 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
   border-style: dashed;
   border-width: 2px;
@@ -246,47 +216,47 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   align-items: center;
 }
 
-.c7 {
-  display: block;
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
-  cursor: pointer;
-}
-
-.c8 {
-  color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c6 {
+  color: #606770;
   font-size: 12px;
   line-height: 16px;
-  overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
   margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -294,24 +264,20 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   max-width: none;
   border: none;
   box-shadow: none;
-  border: 1px solid #dddfe2;
   border-radius: 0;
-  zoom: 1;
   overflow: hidden;
-  position: relative;
-  z-index: 0;
-  width: 500px;
+  width: 527px;
+  height: 57px;
 }
 
 .c2 {
+  box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
   padding: 10px 12px;
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
-  width: 474px;
-  height: 57px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -323,29 +289,8 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 136px;
+  width: 476px;
   font-size: 12px;
-  margin: 0;
-  max-height: 190px;
-}
-
-.c6 {
-  max-height: 46px;
-  overflow: hidden;
 }
 
 <div
@@ -361,45 +306,38 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
     className="c2"
     mode={null}
   >
-    <div
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
       className="c3"
     >
       <span
-        className="screen-reader-text"
+        className="c4"
       >
         yoast.com
       </span>
-      <p
-        aria-hidden="true"
-        className="c4"
-      >
-        <span
-          className="c5"
-        >
-          yoast.com
-        </span>
-      </p>
-      <div
-        className="c6"
-      >
-        <span
-          className="c7"
-        >
-          YoastCon Workshops
-        </span>
-        <p
-          className="c8"
-        >
-          Description to go along with a landscape image.
-        </p>
-      </div>
-    </div>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a landscape image.
+    </p>
   </div>
 </div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
-.c5 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -407,7 +345,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   overflow: hidden;
 }
 
-.c4 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -424,8 +362,9 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 }
 
 .c1 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
   border-style: dashed;
   border-width: 2px;
@@ -445,47 +384,47 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   align-items: center;
 }
 
-.c7 {
-  display: block;
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
-  cursor: pointer;
-}
-
-.c8 {
-  color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c6 {
+  color: #606770;
   font-size: 12px;
   line-height: 16px;
-  overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
   margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -493,24 +432,20 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   max-width: none;
   border: none;
   box-shadow: none;
-  border: 1px solid #dddfe2;
   border-radius: 0;
-  zoom: 1;
   overflow: hidden;
-  position: relative;
-  z-index: 0;
-  width: 500px;
+  width: 527px;
+  height: 57px;
 }
 
 .c2 {
+  box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
   padding: 10px 12px;
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
-  width: 474px;
-  height: 57px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -522,29 +457,8 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 136px;
+  width: 476px;
   font-size: 12px;
-  margin: 0;
-  max-height: 190px;
-}
-
-.c6 {
-  max-height: 46px;
-  overflow: hidden;
 }
 
 <div
@@ -560,45 +474,38 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
     className="c2"
     mode={null}
   >
-    <div
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
       className="c3"
     >
       <span
-        className="screen-reader-text"
+        className="c4"
       >
         yoast.com
       </span>
-      <p
-        aria-hidden="true"
-        className="c4"
-      >
-        <span
-          className="c5"
-        >
-          yoast.com
-        </span>
-      </p>
-      <div
-        className="c6"
-      >
-        <span
-          className="c7"
-        >
-          YoastCon Workshops
-        </span>
-        <p
-          className="c8"
-        >
-          Description to go along with a portrait image.
-        </p>
-      </div>
-    </div>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a portrait image.
+    </p>
   </div>
 </div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
-.c5 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -606,7 +513,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   overflow: hidden;
 }
 
-.c4 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -623,8 +530,9 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 }
 
 .c1 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
   border-style: dashed;
   border-width: 2px;
@@ -644,47 +552,47 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   align-items: center;
 }
 
-.c7 {
-  display: block;
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
-  cursor: pointer;
-}
-
-.c8 {
-  color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c6 {
+  color: #606770;
   font-size: 12px;
   line-height: 16px;
-  overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
   margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -692,24 +600,20 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   max-width: none;
   border: none;
   box-shadow: none;
-  border: 1px solid #dddfe2;
   border-radius: 0;
-  zoom: 1;
   overflow: hidden;
-  position: relative;
-  z-index: 0;
-  width: 500px;
+  width: 527px;
+  height: 57px;
 }
 
 .c2 {
+  box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
   padding: 10px 12px;
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
-  width: 474px;
-  height: 57px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -721,29 +625,8 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 136px;
+  width: 476px;
   font-size: 12px;
-  margin: 0;
-  max-height: 190px;
-}
-
-.c6 {
-  max-height: 46px;
-  overflow: hidden;
 }
 
 <div
@@ -759,45 +642,38 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
     className="c2"
     mode={null}
   >
-    <div
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
       className="c3"
     >
       <span
-        className="screen-reader-text"
+        className="c4"
       >
         yoast.com
       </span>
-      <p
-        aria-hidden="true"
-        className="c4"
-      >
-        <span
-          className="c5"
-        >
-          yoast.com
-        </span>
-      </p>
-      <div
-        className="c6"
-      >
-        <span
-          className="c7"
-        >
-          YoastCon Workshops
-        </span>
-        <p
-          className="c8"
-        >
-          Description to go along with a square image.
-        </p>
-      </div>
-    </div>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a square image.
+    </p>
   </div>
 </div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
-.c5 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -805,7 +681,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   overflow: hidden;
 }
 
-.c4 {
+.c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
@@ -822,8 +698,9 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
 }
 
 .c1 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
   border-style: dashed;
   border-width: 2px;
@@ -843,47 +720,47 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   align-items: center;
 }
 
-.c7 {
-  display: block;
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
-  cursor: pointer;
-}
-
-.c8 {
-  color: #606770;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c6 {
+  color: #606770;
   font-size: 12px;
   line-height: 16px;
-  overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
-  text-transform: uppercase;
-  white-space: nowrap;
   margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -891,24 +768,20 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   max-width: none;
   border: none;
   box-shadow: none;
-  border: 1px solid #dddfe2;
   border-radius: 0;
-  zoom: 1;
   overflow: hidden;
-  position: relative;
-  z-index: 0;
-  width: 500px;
+  width: 527px;
+  height: 57px;
 }
 
 .c2 {
+  box-sizing: border-box;
   background-color: #f2f3f5;
   margin: 0;
   padding: 10px 12px;
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
-  width: 474px;
-  height: 57px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -920,29 +793,8 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-}
-
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 136px;
+  width: 476px;
   font-size: 12px;
-  margin: 0;
-  max-height: 190px;
-}
-
-.c6 {
-  max-height: 46px;
-  overflow: hidden;
 }
 
 <div
@@ -958,39 +810,32 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
     className="c2"
     mode={null}
   >
-    <div
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
       className="c3"
     >
       <span
-        className="screen-reader-text"
+        className="c4"
       >
         yoast.com
       </span>
-      <p
-        aria-hidden="true"
-        className="c4"
-      >
-        <span
-          className="c5"
-        >
-          yoast.com
-        </span>
-      </p>
-      <div
-        className="c6"
-      >
-        <span
-          className="c7"
-        >
-          YoastCon Workshops
-        </span>
-        <p
-          className="c8"
-        >
-          Description to go along with too small an image.
-        </p>
-      </div>
-    </div>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with too small an image.
+    </p>
   </div>
 </div>
 `;

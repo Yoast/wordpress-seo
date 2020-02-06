@@ -76,8 +76,8 @@ describe( "retrieveExpectedDimensions", () => {
 		const expected = {
 			squareWidth: 158,
 			squareHeight: 158,
-			landscapeWidth: 500,
-			landscapeHeight: 261,
+			landscapeWidth: 527,
+			landscapeHeight: 273,
 			portraitWidth: 158,
 			portraitHeight: 236,
 		};
@@ -106,7 +106,7 @@ describe( "calculateImageRatios", () => {
 			determineImageProperties.FACEBOOK_IMAGE_SIZES,
 			{ width: 600, height: 522 },
 			"landscape" );
-		const expected = { widthRatio: 1.2, heightRatio: 2 };
+		const expected = { widthRatio: 1.1385199240986716, heightRatio: 1.9120879120879122 };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -320,7 +320,7 @@ describe( "determineImageProperties", () => {
 			"Facebook"
 		);
 
-		const expected = { mode: "landscape", width: 500, height: 262 };
+		const expected = { mode: "landscape", width: 527, height: 276 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 
