@@ -47,6 +47,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 */
 	private function add_columns( $indexable_table ) {
 		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
 
 		$this->add_object_columns( $indexable_table );
 
