@@ -38,7 +38,7 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Generator constructor.
 	 *
-	 * @param ID_Helper           $id              A helper to retrieve Schema ID's.
+	 * @param ID_Helper           $id                     A helper to retrieve Schema ID's.
 	 * @param Current_Page_Helper $current_page           A helper to determine current page.
 	 * @param Schema\Organization $organization_generator The organization generator.
 	 * @param Schema\Person       $person_generator       The person generator.
@@ -65,7 +65,7 @@ class Schema_Generator implements Generator_Interface {
 		Schema\FAQ $faq_generator,
 		Schema\HowTo $how_to_generator
 	) {
-		$this->id    = $id;
+		$this->id           = $id;
 		$this->current_page = $current_page;
 
 		$this->generators = [
