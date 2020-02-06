@@ -48,9 +48,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	private function add_columns( $indexable_table ) {
 		$indexable_table->column( 'permalink', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
-		$indexable_table->column( 'object_type', 'string', [ 'limit' => 16 ] );
-		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 100 ] );
+		$this->add_object_columns( $indexable_table );
 
 		$indexable_table->column(
 			'number_of_pages',
@@ -69,11 +67,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
 		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		$indexable_table->column( 'is_robots_noindex', 'boolean', [ 'null' => true, 'default' => false ] );
-		$indexable_table->column( 'is_robots_nofollow', 'boolean', [ 'null' => true, 'default' => false ] );
-		$indexable_table->column( 'is_robots_noarchive', 'boolean', [ 'null' => true, 'default' => false ] );
-		$indexable_table->column( 'is_robots_noimageindex', 'boolean', [ 'null' => true, 'default' => false ] );
-		$indexable_table->column( 'is_robots_nosnippet', 'boolean', [ 'null' => true, 'default' => false ] );
+		$this->add_robots_columns( $indexable_table );
 
 		$indexable_table->column( 'primary_focus_keyword', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'primary_focus_keyword_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
@@ -162,6 +156,30 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 				'name' => 'robots_noindex',
 			]
 		);
+	}
+
+	/**
+	 * Creates the robots columns in the indexable table.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_robots_columns( $indexable_table ) {
+		$indexable_table->column( 'is_robots_noindex', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_nofollow', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_noarchive', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_noimageindex', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_nosnippet', 'boolean', [ 'null' => true, 'default' => false ] );
+	}
+
+	/**
+	 * Creates the object columns in the indexable table.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_object_columns( $indexable_table ) {
+		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column( 'object_type', 'string', [ 'limit' => 16 ] );
+		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 100 ] );
 	}
 
 	/**
