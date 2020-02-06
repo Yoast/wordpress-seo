@@ -52,7 +52,7 @@ class Images_Test extends TestCase {
 			Open_Graph_Image_Helper::class, [ new Url_Helper(), $this->image ]
 		)->makePartial();
 		$this->instance = new Images( $this->image, $this->url );
-		$this->instance->sets( $this->open_graph_image );
+		$this->instance->set_helpers( $this->open_graph_image );
 	}
 
 	/**
