@@ -1,73 +1,145 @@
-import { get } from "lodash";
+import { getFacebookFallback, getFacebookTitleFallback } from "./fallbacks";
 
 /**
- * A selector for the title.
+ * Gets the socialPreview data from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.socialPreview data.
  */
-export const titleSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.title`, false );
-};
+const getSocialPreview = state => state.socialPreview;
+
+/** FACEBOOK */
 
 /**
- * A selector for the description.
+ * Gets the facebook data from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.Facebook data.
  */
-export const descriptionSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.description`, false );
-};
+const getFacebookData = state => getSocialPreview( state ).facebook;
+
 
 /**
- * A selector for the imageUrl.
+ * Gets the facebook title from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.Facebook title.
  */
-export const imageUrlSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.imageUrl`, false );
-};
+export const getFacebookTitle = state => getFacebookData( state ).title || getFacebookTitleFallback( state ) || "ULTIMATE_FAILURE";
 
 /**
- * A selector for the imageType.
+ * Gets the facebook description from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.Facebook description.
  */
-export const imageTypeSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.imageType`, false );
-};
+export const getFacebookDescription = state => getFacebookData( state ).description || getFacebookFallback( state, "description" );
 
 /**
- * A selector for the author.
+ * Gets the facebook image URL from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.Facebook image URL.
  */
-export const authorSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.author`, false );
-};
+export const getFacebookImageUrl = state => getFacebookData( state ).ImageUrl;
 
 /**
- * A selector for the siteName.
+ * Gets the facebook image type from the state.
  *
- * @param {Object} state The redux state.
- * @param {String} platform The platform ( Facebook | Twitter ).
+ * @param {Object} state The state.
  *
- * @returns {Object} The action object.
+ * @returns {String}.Facebook image type.
  */
-export const siteNameSelector = ( state, platform ) => {
-	return get( state, `socialPreview.${ platform }.siteName`, false );
-};
+export const getFacebookImageType = state => getFacebookData( state ).ImageType;
+
+
+/**
+ * Gets the facebook author from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Facebook author.
+ */
+export const getFacebookAuthor = state => state.LOCAL.Author;
+
+/**
+ * Gets the facebook site name from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Facebook sitename.
+ */
+export const getFacebookSiteName = state => state.LOCAL.siteName;
+
+
+/** TWITTER */
+
+/**
+ * Gets the twitter data from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter data.
+ */
+const getTwitterData = state => getSocialPreview( state ).twitter;
+
+
+/**
+ * Gets the twitter title from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter title.
+ */
+export const getTwitterTitle = state => getTwitterData( state ).title;
+
+/**
+ * Gets the twitter description from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter description.
+ */
+export const getTwitterDescription = state => getTwitterData( state ).description;
+
+/**
+ * Gets the twitter image URL from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter image URL.
+ */
+export const getTwitterImageUrl = state => getTwitterData( state ).ImageUrl;
+
+/**
+ * Gets the twitter image type from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter image type.
+ */
+export const getTwitterImageType = state => getTwitterData( state ).ImageType;
+
+
+/**
+ * Gets the twitter author from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter author.
+ */
+export const getTwitterAuthor = state => state.LOCAL.Author;
+
+/**
+ * Gets the twitter sitename from the state.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {String}.Twitter sitename.
+ */
+export const getTwitterSiteName = state => state.LOCAL.siteName;
