@@ -105,7 +105,7 @@ function extractStems( keyphrase, synonyms ) {
  */
 function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, language ) {
 	// Empty result for an empty topic phrase.
-	if ( topicPhrase.length === 0 ) {
+	if ( topicPhrase.stemOriginalPairs.length === 0 ) {
 		return [];
 	}
 
