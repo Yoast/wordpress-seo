@@ -46,7 +46,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
 	 */
 	private function add_columns( $indexable_table ) {
-		$indexable_table->column( 'permalink', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
 
 		$this->add_object_columns( $indexable_table );
 
@@ -61,7 +61,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			]
 		);
 
-		$indexable_table->column( 'canonical', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'canonical', 'mediumtext', [ 'null' => true ] );
 
 		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
