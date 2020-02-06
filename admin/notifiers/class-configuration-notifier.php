@@ -107,14 +107,14 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function re_run_notification() {
 		$content = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
-			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sreopen the configuration wizard%3$s.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
-			'</a>'
+		/* translators: %1$s expands to Yoast SEO */
+			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always reopen the configuration wizard.', 'wordpress-seo' ),
+			'Yoast SEO'
 		);
-
-		return $this->notification( __( 'SEO settings configured', 'wordpress-seo' ), $content );
+		$button = sprintf(
+			esc_html__( 'Reopen configuration wizard' )
+		);
+		return $this->notification( __( 'SEO settings configured', 'wordpress-seo' ), $content, $button );
 	}
 
 	/**
@@ -124,14 +124,15 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function first_time_notification() {
 		$content = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
-			esc_html__( 'Get started quickly with the %1$s %2$sconfiguration wizard%3$s!', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
-			'</a>'
+		/* translators: %1$s expands to Yoast SEO */
+			esc_html__( 'Get started quickly with the %1$s configuration wizard!', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		$button = sprintf(
+			esc_html__( 'Start configuration wizard' )
 		);
 
-		return $this->notification( __( 'First-time SEO configuration', 'wordpress-seo' ), $content, true );
+		return $this->notification( __( 'First-time SEO configuration', 'wordpress-seo' ), $content, $button, true );
 	}
 
 	/**
@@ -143,7 +144,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 *
 	 * @return string The styled notification.
 	 */
-	private function notification( $title, $content, $show_dismissal = false ) {
+	private function notification( $title, $content, $button, $show_dismissal = false ) {
 		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
 			'<img src="%1$s" height="%2$s" width="%3$d" alt="" />',
@@ -160,6 +161,10 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= '<p>';
 		$notification .= $content;
 		$notification .= '</p>';
+
+		$notification .= '<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '" class="yoast-button">';
+		$notification .= $button;
+		$notification .= '</a>';
 
 		$notification .= '</div>';
 		if ( $show_dismissal ) {
