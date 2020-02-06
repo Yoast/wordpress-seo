@@ -57,7 +57,7 @@ class Indexable_Post_Type_Archive_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool
+	 * @return bool The value of is_public.
 	 */
 	protected function is_public( $indexable ) {
 		if ( (int) $indexable->is_robots_noindex === 1 ) {

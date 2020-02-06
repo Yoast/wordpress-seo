@@ -135,7 +135,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if post type indexables need to be rebuilt based on the wpseo_titles option values.
+	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values.
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
