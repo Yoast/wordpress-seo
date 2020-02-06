@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Exception;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -190,11 +191,15 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function build_post_type_indexables( $post_type ) {
-		$indexables = $this->repository->find_by_object_sub_type( $post_type );
+		try {
+			$indexables = $this->repository->find_by_object_sub_type( $post_type );
 
-		foreach ( $indexables as $indexable ) {
-			$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'post', $indexable );
-			$indexable->save();
+			foreach ( $indexables as $indexable ) {
+				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'post', $indexable );
+				$indexable->save();
+			}
+		} catch ( Exception $exception ) {
+			// Do nothing.
 		}
 	}
 
@@ -204,11 +209,15 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function build_author_archive_indexable() {
-		$indexables = $this->repository->find_by_object_type( 'user' );
+		try {
+			$indexables = $this->repository->find_by_object_type( 'user' );
 
-		foreach ( $indexables as $indexable ) {
-			$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
-			$indexable->save();
+			foreach ( $indexables as $indexable ) {
+				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
+				$indexable->save();
+			}
+		} catch ( Exception $exception ) {
+			// Do nothing.
 		}
 	}
 }
