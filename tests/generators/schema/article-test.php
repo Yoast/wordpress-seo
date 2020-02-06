@@ -146,7 +146,7 @@ class Article_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_generate() {
-		$this->context_mock->id_helper               = 5;
+		$this->context_mock->id                      = 5;
 		$this->context_mock->title                   = 'the-title </script><script>alert(0)</script><script>'; // Script is here to test script injection
 		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->has_image               = true;
