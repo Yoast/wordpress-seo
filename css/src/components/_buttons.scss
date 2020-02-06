@@ -1,4 +1,21 @@
 .yoast-button {
-  color: white;
-  background: purple;
+  position: relative;
+  color: $color-white;
+  background-color: $color-primary;
+  padding: em(10px) em(16px) em(12px) em(16px);
+  text-decoration: none;
+  border-radius: em(4px);
+  @include shadow-button(0.3);
+
+  &:hover {
+    color: $color-white;
+    background-color: darken($color-primary, 10%);
+  }
+
+  &:active { /* 'Pressed' button state */
+    color: $color-white;
+    box-shadow: none;
+    padding-bottom: 12px;
+    top: 2px;
+  }
 }
