@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Formats the post type archive meta to indexable format.
  */
 class Indexable_Post_Type_Archive_Builder {
+	use Indexable_Is_Public_Trait;
 
 	/**
 	 * @var Options_Helper
@@ -50,21 +51,6 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->is_public         = $this->is_public( $indexable );
 
 		return $indexable;
-	}
-
-	/**
-	 * Determines the value of is_public.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool
-	 */
-	protected function is_public( $indexable ) {
-		if ( (int) $indexable->is_robots_noindex === 1 ) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
