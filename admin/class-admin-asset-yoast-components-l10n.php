@@ -36,7 +36,7 @@ final class WPSEO_Admin_Asset_Yoast_Components_L10n {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/' . $component . '-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
-			$file = file_get_contents( $file );
+			$file = wp_remote_get( $file );
 			if ( is_string( $file ) && $file !== '' ) {
 				return json_decode( $file, true );
 			}
