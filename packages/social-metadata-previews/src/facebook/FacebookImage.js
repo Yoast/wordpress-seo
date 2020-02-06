@@ -18,38 +18,25 @@ const MIN_IMAGE_HEIGHT = FACEBOOK_IMAGE_SIZES.squareHeight;
 
 const FacebookImageContainer = styled.div`
 	position: relative;
+	display:flex;
 	height: ${ props => props.dimensions.height };
 	width: ${ props => props.dimensions.width };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
+	flex-shrink: 0;
 `;
 
 const StyledImage = styled.img`
-	width: ${ props => props.imageProperties.width }px;
-	height: ${ props => props.imageProperties.height }px;
+	width: 100%;
+	height: 100%;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 `;
 
-const ErrorImage = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
-	max-width: 100%;
-	margin: 0;
-	padding: 1em;
-	text-align: center;
-	font-size: 1rem;
-	color: ${ colors.$color_white };
-	background-color: ${ colors.$color_red };
-`;
-
 const PlaceholderImage = styled.div`
+	box-sizing: border-box;
 	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
 	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
 	background-color: ${ colors.$color_grey };
@@ -62,6 +49,16 @@ const PlaceholderImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`;
+
+const ErrorImage = styled( PlaceholderImage )`
+	margin: 0;
+	padding: 1em;
+	text-align: center;
+	font-size: 1rem;
+	color: ${ colors.$color_white };
+	background-color: ${ colors.$color_red };
+	border: none;
 `;
 
 /**
@@ -92,15 +89,14 @@ class FacebookImage extends Component {
 	 */
 	componentDidMount() {
 		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
-			if ( this.props.onImageLoaded ) {
-				this.props.onImageLoaded( imageProperties.mode );
-			}
+			this.props.onImageLoaded( imageProperties.mode );
 
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
 			} );
 		} ).catch( () => {
+			this.props.onImageLoaded( "landscape" );
 			this.setState( {
 				imageProperties: null,
 				status: "errored",

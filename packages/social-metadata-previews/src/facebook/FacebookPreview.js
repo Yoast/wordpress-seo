@@ -19,10 +19,10 @@ import FacebookDescription from "./FacebookDescription";
 const determineTextContainerHeight = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
-			return "57px";
+			return "352px";
 
 		case "square":
-			return "136px";
+			return "158px";
 
 		case "portrait":
 			return "215px";
@@ -42,37 +42,35 @@ const determineTextContainerHeight = ( mode ) => {
 const determineTextContainerWidth = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
-			return "474px";
+			return "527x";
 
 		case "square":
-			return "318px";
+			return "369px";
 
 		case "portrait":
-			return "318px";
+			return "369px";
 
 		default:
-			return "474px";
+			return "476px";
 	}
 };
 
 const FacebookPreviewWrapper = styled.div`
-	display: flex;
-	flex-wrap: wrap;
+	box-sizing: border-box;
+	display: flex;	
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
 	max-width: none;
 	border: none;
 	box-shadow: none;
-	border: 1px solid #dddfe2;
 	border-radius: 0;
-	zoom: 1;
 	overflow: hidden;
-	position: relative;
-	z-index: 0;
-	width: 500px;
+	width: 527px;
+	height: ${ props => determineTextContainerHeight( props.mode ) };
 `;
 
 const OuterTextWrapper = styled.div`
+	box-sizing: border-box;
 	background-color: #f2f3f5;
 	margin: 0;
 	padding: 10px 12px;
@@ -80,26 +78,12 @@ const OuterTextWrapper = styled.div`
 	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
 	border-top: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
 	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : "" };
+	display: flex;
+	flex-direction: column;
+	justify-content: ${ props => props.mode === "landscape" ? "flex-start" : "center" };
 	width: ${ props => determineTextContainerWidth( props.mode ) };
-	height: ${ props => determineTextContainerHeight( props.mode ) };
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-`;
-
-const InnerTextWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	height: 136px;
+	${ props => props.mode === "landscape"  ? "height: 78px;" : "" }
 	font-size: 12px;
-	margin: 0;
-	max-height: 190px;
-`;
-
-const TitleAndDescriptionWrapper = styled.div`
-	max-height: 46px;
-	overflow: hidden;
 `;
 
 /**
@@ -150,19 +134,15 @@ class FacebookPreview extends Component {
 					onImageLoaded={ this.onImageLoaded }
 				/>
 				<OuterTextWrapper mode={ imageMode }>
-					<InnerTextWrapper>
-						<FacebookSiteAndAuthorNames
-							siteName={ this.props.siteName }
-							authorName={ this.props.authorName }
-							mode={ imageMode }
-						/>
-						<TitleAndDescriptionWrapper>
-							<FacebookTitle title={ this.props.title } />
-							<FacebookDescription>
-								{ this.props.description }
-							</FacebookDescription>
-						</TitleAndDescriptionWrapper>
-					</InnerTextWrapper>
+					<FacebookSiteAndAuthorNames
+						siteName={ this.props.siteName }
+						authorName={ this.props.authorName }
+						mode={ imageMode }
+					/>
+					<FacebookTitle title={ this.props.title } />
+					<FacebookDescription mode={ imageMode }>
+						{ this.props.description }
+					</FacebookDescription>
 				</OuterTextWrapper>
 			</FacebookPreviewWrapper>
 		);

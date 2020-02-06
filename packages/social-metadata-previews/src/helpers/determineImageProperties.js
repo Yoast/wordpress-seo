@@ -8,8 +8,8 @@ export const TWITTER_IMAGE_SIZES = {
 export const FACEBOOK_IMAGE_SIZES = {
 	squareWidth: 158,
 	squareHeight: 158,
-	landscapeWidth: 500,
-	landscapeHeight: 261,
+	landscapeWidth: 527,
+	landscapeHeight: 273,
 	portraitWidth: 158,
 	portraitHeight: 236,
 };
