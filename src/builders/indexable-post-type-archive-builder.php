@@ -47,24 +47,9 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
 		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-ptarchive-' . $post_type );
-		$indexable->is_public         = $this->is_public( $indexable );
+		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 
 		return $indexable;
-	}
-
-	/**
-	 * Determines the value of is_public.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool The value of is_public.
-	 */
-	protected function is_public( $indexable ) {
-		if ( (int) $indexable->is_robots_noindex === 1 ) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
