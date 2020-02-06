@@ -114,6 +114,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		global $wpdb;
 		$post_metas = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'rank_math_robots'" );
 		foreach ( $post_metas as $post_meta ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions -- Reason: We can't control the form in which Rankmath sends the data.
 			$robots_values = unserialize( $post_meta->meta_value );
 			foreach ( [ 'noindex', 'nofollow' ] as $directive ) {
 				$directive_key = array_search( $directive, $robots_values, true );
