@@ -15,12 +15,37 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 	/**
 	 * Migration up.
+	 *
+	 * @return void
 	 */
-	public function up() {
+	public function up()
+	{
 		$table_name = $this->get_table_name();
 
 		$indexable_table = $this->create_table( $table_name );
 
+		$this->add_columns( $indexable_table );
+		$this->add_indexes( $table_name );
+
+		$this->add_timestamps( $table_name );
+	}
+
+	/**
+	 * Migration down.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		$this->drop_table( $this->get_table_name() );
+	}
+
+	/**
+	 * Creates the columns in the indexable table.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_columns( $indexable_table ) {
 		$indexable_table->column( 'permalink', 'string', [ 'null' => true, 'limit' => 191 ] );
 
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
@@ -59,10 +84,14 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+	}
 
-		// Exexcute the SQL to create the table.
-		$indexable_table->finish();
-
+	/**
+	 * Adds indexes to the indexable table.
+	 *
+	 * @param string $table_name The name of the indexable table.
+	 */
+	private function add_indexes( $table_name ) {
 		$this->add_index(
 			$table_name,
 			[
@@ -133,15 +162,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 				'name' => 'robots_noindex',
 			]
 		);
-
-		$this->add_timestamps( $table_name );
-	}
-
-	/**
-	 * Migration down.
-	 */
-	public function down() {
-		$this->drop_table( $this->get_table_name() );
 	}
 
 	/**
