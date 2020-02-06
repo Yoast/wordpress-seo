@@ -53,6 +53,15 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 
 		add_action( 'admin_menu', [ $this, 'register_route' ] );
 		add_action( 'admin_init', [ $this, 'handle_route' ] );
+
+		// Since we are moving to wp_safe_redirect() we need to add my.yoast.com to the list of allowed hosts.
+		add_filter(
+			'allowed_redirect_hosts',
+			function( $list ) {
+				$list[] = 'my.yoast.com';
+				return $list;
+			}
+		);
 	}
 
 	/**
@@ -266,7 +275,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 			$url .= '?' . http_build_query( $query_args );
 		}
 
-		wp_redirect( $url );
+		wp_safe_redirect( $url );
 		exit;
 	}
 
