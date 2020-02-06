@@ -76,8 +76,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
 
-		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
-		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+		$this->add_link_count_columns( $indexable_table );
 	}
 
 	/**
@@ -180,6 +179,16 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'object_type', 'string', [ 'limit' => 16 ] );
 		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 100 ] );
+	}
+
+	/**
+	 * Creates the link columns in the indexable table.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_link_count_columns( $indexable_table ) {
+		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 	}
 
 	/**
