@@ -44,6 +44,7 @@ class Indexable_Date_Archive_Builder {
 		$indexable->breadcrumb_title  = $this->options_helper->get( 'breadcrumbs-archiveprefix' );
 		$indexable->description       = $this->options_helper->get( 'metadesc-archive-wpseo' );
 		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-archive-wpseo' );
+		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 
 		return $indexable;
 	}

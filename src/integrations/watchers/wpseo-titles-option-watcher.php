@@ -67,6 +67,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_ptarchive_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_post_type_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_author_archive_option' ], 10, 2 );
+		add_action( 'update_option_wpseo_titles', [ $this, 'check_date_archive_option' ], 10, 2 );
 	}
 
 	/**
@@ -153,6 +154,24 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * Checks if date archive indexables need to be rebuilt based on the wpseo_titles option values.
+	 *
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
+	 *
+	 * @return void
+	 */
+	public function check_date_archive_option( $old_value, $new_value ) {
+		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+			return;
+		}
+
+		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-archive-wpseo' ) ) {
+			$this->build_date_archive_indexable();
+		}
+	}
+
+	/**
 	 * Checks if the option value was set but now isn't, is set but wasn't, or has changed.
 	 *
 	 * @param array  $old_value The old value of the option.
@@ -214,6 +233,24 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 
 			foreach ( $indexables as $indexable ) {
 				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
+				$indexable->save();
+			}
+		} catch ( Exception $exception ) {
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Builds the date archive indexables.
+	 *
+	 * @return void
+	 */
+	public function build_date_archive_indexable() {
+		try {
+			$indexables = $this->repository->find_by_object_type( 'date-archive' );
+
+			foreach ( $indexables as $indexable ) {
+				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'date-archive', $indexable );
 				$indexable->save();
 			}
 		} catch ( Exception $exception ) {
