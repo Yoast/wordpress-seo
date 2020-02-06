@@ -76,6 +76,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
 
+		$this->add_open_graph_columns( $indexable_table );
+		$this->add_twitter_columns( $indexable_table );
 		$this->add_link_count_columns( $indexable_table );
 	}
 
@@ -189,6 +191,28 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	private function add_link_count_columns( $indexable_table ) {
 		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+	}
+
+	/**
+	 * Adds open graph columns.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_open_graph_columns( $indexable_table ) {
+		$indexable_table->column( 'og_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'og_image', 'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'og_description', 'mediumtext', [ 'null' => true ] );
+	}
+
+	/**
+	 * Adds twitter columns.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
+	 */
+	private function add_twitter_columns( $indexable_table ) {
+		$indexable_table->column( 'twitter_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'twitter_image', 'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'twitter_description', 'mediumtext', [ 'null' => true ] );
 	}
 
 	/**
