@@ -517,7 +517,11 @@ class WPSEO_Admin_Init {
 				'version'     => 'xx.x',
 				'alternative' => null,
 			],
-			'wpseo_twitter_taxonomy_image'         => [
+			'wpseo_twitter_taxonomy_image'          => [
+				'version'     => 'xx.x',
+				'alternative' => null,
+			],
+			'wpseo_twitter_metatag_key'             => [
 				'version'     => 'xx.x',
 				'alternative' => null,
 			],

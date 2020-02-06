@@ -40,7 +40,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->indexable_presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->instance->set_replace_vars( $this->replace_vars );
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->indexable_presentation->source= [];
 
 		return parent::setUp();
 	}

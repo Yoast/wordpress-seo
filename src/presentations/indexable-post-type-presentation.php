@@ -200,7 +200,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article author.
 	 */
 	public function generate_og_article_author() {
-		$post = $this->replace_vars_object;
+		$post = $this->source;
 
 		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
 
@@ -240,12 +240,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 *
 			 * @api bool Whether or not to show publish date.
 			 */
-			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->source ) ) ) {
 				return '';
 			}
 		}
 
-		return $this->date->format( $this->context->post->post_date_gmt );
+		return $this->date->format( $this->source->post_date_gmt );
 	}
 
 	/**
@@ -254,8 +254,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article modified time.
 	 */
 	public function generate_og_article_modified_time() {
-		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return $this->date->format( $this->context->post->post_modified_gmt );
+		if ( $this->source->post_modified_gmt !== $this->source->post_date_gmt ) {
+			return $this->date->format( $this->source->post_modified_gmt );
 		}
 
 		return '';
@@ -264,7 +264,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return \get_post( $this->model->object_id );
 	}
 
@@ -327,7 +327,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_twitter_creator() {
-		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
+		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->source->post_author ) ), '@' );
 
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.

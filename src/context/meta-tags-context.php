@@ -140,7 +140,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the title
 	 */
 	public function generate_title() {
-		return $this->replace_vars->replace( $this->presentation->title, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->title, $this->presentation->source );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the description
 	 */
 	public function generate_description() {
-		return $this->replace_vars->replace( $this->presentation->meta_description, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->meta_description, $this->presentation->source );
 	}
 
 	/**
@@ -282,10 +282,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_site_represents_reference() {
 		if ( $this->site_represents === 'person' ) {
-			return [ '@id' => $this->id->get_user_schema_id( $this->site_user_id, $this ) ];
+			return [ '@id' => $this->id_helper->get_user_schema_id( $this->site_user_id, $this ) ];
 		}
 		if ( $this->site_represents === 'company' ) {
-			return [ '@id' => $this->site_url . $this->id->organization_hash ];
+			return [ '@id' => $this->site_url . $this->id_helper->organization_hash ];
 		}
 
 		return false;
@@ -376,7 +376,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * The main schema id.
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . $this->id->webpage_hash;
+		return $this->canonical . $this->id_helper->webpage_hash;
 	}
 }
 

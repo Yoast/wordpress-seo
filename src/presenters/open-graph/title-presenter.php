@@ -49,7 +49,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the title content through the `wpseo_title` filter.
+	 * Run the title content through the `wpseo_opengraph_title` filter.
 	 *
 	 * @param string                 $title        The title to filter.
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
@@ -58,12 +58,12 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	private function filter( $title, Indexable_Presentation $presentation ) {
 		/**
-		 * Filter: 'wpseo_og_title' - Allow changing the Yoast SEO generated title.
+		 * Filter: 'wpseo_opengraph_title' - Allow changing the Yoast SEO generated title.
 		 *
 		 * @api string $title The title.
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_og_title', $title, $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $presentation ) );
 	}
 }

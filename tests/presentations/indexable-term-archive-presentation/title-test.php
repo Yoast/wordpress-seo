@@ -43,7 +43,7 @@ class Title_Test extends TestCase {
 	 */
 	public function test_with_general_category_seo_title() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
@@ -67,7 +67,7 @@ class Title_Test extends TestCase {
 	 */
 	public function test_with_default_fallback() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',

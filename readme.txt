@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.0 =
+Release Date: February 4th, 2020
+
+Enhancements:
+
+* Hides the Facebook settings when Open Graph is disabled.
+* Adds a success state to the paginated comments Health Check. This means the paginated comments check will also be shown when the paginated comments are set up correctly.
+
 = 12.9.1 =
 Release Date: January 21st, 2020
 

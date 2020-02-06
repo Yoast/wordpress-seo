@@ -174,7 +174,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 		$context = $this->context_memoizer->for_current_page();
 		$title   = $context->presentation->title;
 
-		return $this->replace_vars->replace( $title, $context->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $title, $context->presentation->source );
 	}
 
 	/**

@@ -128,6 +128,10 @@ class Schema_Generator implements Generator_Interface {
 				$graph_pieces = [ $graph_pieces ];
 			}
 
+			if ( ! is_array( $graph_pieces ) ) {
+				continue;
+			}
+
 			foreach ( $graph_pieces as $graph_piece ) {
 				/**
 				 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
