@@ -1,3 +1,4 @@
+import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
@@ -191,8 +192,14 @@ const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms,
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
-	/** Return the word if it should not be stemmed.
-		And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
+	// Check whether the word is on an exception list of words that shouldn't be stemmed. If it is, return the word.
+	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
+		return word;
+	}
+
+	/*
+	 * Return the word if it should not be stemmed.
+	 * And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
 	 */
 	const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
 

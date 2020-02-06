@@ -4,8 +4,9 @@ import { flatten } from "lodash-es";
  * Checks whether the stem is on an exception of words that should have the vowel doubled. These words are exceptions
  * to another exception check (isVowelPrecededByDoubleConsonant), according to which they should NOT have the vowel doubled.
  *
- * @param {string} word The stemmed word to check.
+ * @param {string}   word                   The stemmed word to check.
  * @param {string[]} wordsWithVowelDoubling The exception list of words that should have the vowel doubled.
+ *
  * @returns {boolean} Whether the stem is on the exception list.
  */
 const isWordOnVowelDoublingList = function( word, wordsWithVowelDoubling ) {
@@ -15,8 +16,9 @@ const isWordOnVowelDoublingList = function( word, wordsWithVowelDoubling ) {
 /**
  * Checks whether the stem is on the list of words that should NOT have the vowel doubled.
  *
- * @param {string} word The stemmed word to search for on the exception list.
- * @param {Object} wordsWithoutVowelDoubling The exception list of words that should not have the vowel doubled.
+ * @param {string} word                         The stemmed word to search for on the exception list.
+ * @param {Object} wordsWithoutVowelDoubling    The exception list of words that should not have the vowel doubled.
+ *
  * @returns {boolean} Whether the stem is on the exception list.
  */
 const isWordOnNoVowelDoublingList = function( word, wordsWithoutVowelDoubling ) {
@@ -30,6 +32,7 @@ const isWordOnNoVowelDoublingList = function( word, wordsWithoutVowelDoubling ) 
  * word 'luttel', the third and fourth to last characters are both t's so it should not become 'lutteel'.
  *
  * @param {string} word The stemmed word to check.
+ *
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelPrecededByDoubleConsonant = function( word ) {
@@ -42,8 +45,9 @@ const isVowelPrecededByDoubleConsonant = function( word ) {
  * Checks whether the second to last syllable contains a diphthong. If it does, the vowel in the last syllable should
  * not be doubled.
  *
- * @param {string} word The stemmed word to check.
+ * @param {string} word                 The stemmed word to check.
  * @param {string} noVowelDoublingRegex The regex to match a word with.
+ *
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingRegex ) {
@@ -53,8 +57,9 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
 /**
  * Checks whether the final vowel of the stem should be doubled by going through four checks.
  *
- * @param {string} word The stemmed word that the check should be executed on.
- * @param {Object} morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
+ * @param {string}  word                               The stemmed word that the check should be executed on.
+ * @param {Object}  morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
+ *
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions ) {

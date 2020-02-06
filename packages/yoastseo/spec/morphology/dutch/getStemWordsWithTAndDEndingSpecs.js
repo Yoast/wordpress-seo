@@ -18,17 +18,12 @@ describe( "Creates stem from words with ambiguous endings", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "castraten" ) ).toEqual(
 			"castraat" );
 	} );
-	it( "Creates the stem of words that are listed in words not to be stemmed list.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "helft" ) ).toEqual(
-			"helft" );
-	} );
 	it( "Creates the stem of a word which matches a regex for when -t should not be stemmed.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "effect" ) ).toEqual(
 			"effect" );
 	} );
 	it(  "Creates the stem of a word which matches a regex for a word that ends in -de and that should have only the -e stemmed.", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "periode" ) ).toEqual(
-			"period" );
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "beenharde" ) ).toEqual( "beenhard" );
 	} );
 	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "branden" ) ).toEqual(
@@ -48,6 +43,6 @@ describe( "Creates stem from words with ambiguous endings", () => {
 			"roei" );
 	} );
 	it( "Returns undefined if a word is not matched in any of the checks", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toEqual();
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toEqual( null );
 	} );
 } );

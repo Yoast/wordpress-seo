@@ -1,3 +1,4 @@
+import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
 
@@ -11,11 +12,13 @@ import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEndin
  * @param {Object}  morphologyDataNL	The Dutch morphology data.
  * @param {string}	stemmedWord			The stemmed word.
  * @param {string}	word				The unstemmed word.
- * @returns {null|string}				The stemmed word or null if the -t/-d should not .
+ *
+ * @returns {?string}				    The stemmed word or null if the -t/-d should not be stemmed.
  */
 export function createSecondStemWithoutAmbiguousEnding( morphologyDataNL, stemmedWord, word ) {
 	if ( detectAndStemRegularParticiple( morphologyDataNL.verbs, word ) ||
-		generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word ) ) {
+		generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word ||
+		checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) ) {
 		return null;
 	}
 

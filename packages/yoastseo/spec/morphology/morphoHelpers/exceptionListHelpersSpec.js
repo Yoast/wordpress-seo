@@ -10,6 +10,6 @@ describe( "Returns true if a word has the same ending as one of the entries in a
 		);
 	} );
 	it( "Returns false if a word does not end with an entry from the array", () => {
-		expect( checkIfWordEndingIsOnExceptionList( "huisarts", [ "huis", "keuken" ] ) ).toEqual();
+		expect( checkIfWordEndingIsOnExceptionList( "huisarts", [ "huis", "keuken" ] ) ).toEqual( false );
 	} );
 } );
