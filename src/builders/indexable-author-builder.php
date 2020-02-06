@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -14,7 +15,22 @@ use Yoast\WP\SEO\Models\Indexable;
  */
 class Indexable_Author_Builder {
 	use Indexable_Social_Image_Trait;
-	use Indexable_Is_Public_Trait;
+
+	/**
+	 * @var Options_Helper
+	 */
+	private $options;
+
+	/**
+	 * Indexable_Author_Builder constructor.
+	 *
+	 * @param Options_Helper $options The options helper.
+	 */
+	public function __construct(
+		Options_Helper $options
+	) {
+		$this->options = $options;
+	}
 
 	/**
 	 * Formats the data.
@@ -44,6 +60,28 @@ class Indexable_Author_Builder {
 		$this->handle_social_images( $indexable );
 
 		return $indexable;
+	}
+
+	/**
+	 * Determines the value of is_public.
+	 *
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable.
+	 *
+	 * @return bool
+	 */
+	protected function is_public( $indexable ) {
+		// Check at site-wide level.
+		$is_robots_noindex = $this->options->get( 'noindex-author-wpseo', false );
+		if ( $is_robots_noindex === true ) {
+			return false;
+		}
+
+		// Check at user level.
+		if ( (int) $indexable->is_robots_noindex === 1 ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
