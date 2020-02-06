@@ -227,7 +227,6 @@ Enhancements:
 Other:
 
 * Removes the Search Console item from the admin menu and the toolbar menu.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic)
 
 = 13.0 =
 Release Date: February 4th, 2020
