@@ -612,12 +612,12 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			],
 			[
-				'name' => 'admin-global',
-				'src'  => 'admin-global-' . $flat_version,
+				'name' => 'post-overview-global',
+				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-' . $flat_version,
 			],
 			[
 				'name' => 'extensions',
@@ -635,6 +635,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'admin-all',
+				'src'  => 'admin-all-' . $flat_version,
 			],
 		];
 	}

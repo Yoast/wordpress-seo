@@ -3,7 +3,7 @@ const fs = require( "fs" );
 const execSync = require( "child_process" ).execSync;
 
 // Non-@yoast packages.
-const legacyYoastPackages = [ "yoast-components", "yoastseo", "eslint-config-yoast" ];
+const legacyYoastPackages = [ "configuration-wizard.scss", "yoastseo", "eslint-config-yoast" ];
 
 // Console colors.
 const CONSOLE_STYLE_BRIGHT = "\x1b[1m";
