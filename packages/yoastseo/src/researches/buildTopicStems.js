@@ -13,6 +13,46 @@ import { memoize } from "lodash-es";
 const getStemForLanguage = getStemForLanguageFactory();
 
 /**
+ * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
+ *
+ * @param {StemOriginalPair[]} stemOriginalPairs   The stem-original pairs for the words in the topic phrase.
+ * @param {boolean}            exactMatch          Whether the topic phrase is an exact match.
+ *
+ * @constructor
+ */
+function TopicPhrase( stemOriginalPairs = [], exactMatch = false ) {
+	this.stemOriginalPairs = stemOriginalPairs;
+	this.exactMatch = exactMatch;
+}
+
+/**
+ * Returns all stems in the topic phrase.
+ *
+ * @returns {string[]|[]} The stems in the topic phrase or empty array if the topic phrase is exact match.
+ */
+TopicPhrase.prototype.getStems = function() {
+	// An exact match keyphrase doesn't have stems.
+	if ( this.exactMatch ) {
+		return [];
+	}
+
+	return this.stemOriginalPairs.map( stemOriginalPair => stemOriginalPair.stem );
+};
+
+/**
+ * A stem-original pair ƒor a word in a topic phrase.
+ *
+ * @param {string}  stem        The stem of the topic phrase word.
+ * @param {string}  original    The original word form the topic phrase (unsanitized)
+ *
+ * @constructor
+ */
+function StemOriginalPair( stem, original ) {
+	this.stem = stem;
+	this.original = original;
+}
+
+/**
  * Analyzes the focus keyword string or one synonym phrase.
  * Checks if morphology is requested or if the user wants to match exact string.
  * If morphology is required the module finds a stem for all words (if no function words list available) or
@@ -22,18 +62,22 @@ const getStemForLanguage = getStemForLanguageFactory();
  * @param {string} language The language to use for morphological analyzer and for function words.
  * @param {Object} morphologyData The available morphology data per language (false if unavailable).
  *
- * @returns {Array} Array of stems of all (content) words in the keyphrase or synonym phrase.
+ * @returns {TopicPhrase} Object with an array of StemOriginalPairs of all (content) words in the keyphrase or synonym
+ * phrase and information about whether the keyphrase/synonym should be matched exactly.
  */
 const buildStems = function( keyphrase, language, morphologyData ) {
 	if ( isUndefined( keyphrase ) || keyphrase === "" ) {
-		return [];
+		return new TopicPhrase();
 	}
 
 	// If the keyphrase is embedded in double quotation marks, return keyword itself, without outer-most quotation marks.
 	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
 		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
-		return [ escapeRegExp( keyphrase ) ];
+		return new TopicPhrase(
+			[ new StemOriginalPair( escapeRegExp( keyphrase ), keyphrase ) ],
+			true
+		);
 	}
 
 	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
@@ -41,13 +85,25 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 
 	// Simply returns lowCased words from the keyphrase if stems cannot be built.
 	if ( morphologyData === false || isUndefined( getStem ) ) {
-		return words.map( word => normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ) );
+		const lowerCasedOriginalPairs = words.map(
+			word => new StemOriginalPair(
+				normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ),
+				word
+			),
+		);
+
+		return new TopicPhrase( lowerCasedOriginalPairs );
 	}
 
-	return words.map( word => {
+	const stemOriginalPairs = words.map( word => {
 		const lowCaseWord = escapeRegExp( word.toLocaleLowerCase( language ) );
-		return getStem( normalizeSingle( lowCaseWord ), morphologyData );
+		return new StemOriginalPair(
+			getStem( normalizeSingle( lowCaseWord ), morphologyData ),
+			word,
+		);
 	} );
+
+	return new TopicPhrase( stemOriginalPairs );
 };
 
 /**
@@ -114,4 +170,6 @@ function collectStems( keyphrase, synonyms, language = "en", morphologyData ) {
 export {
 	buildStems,
 	collectStems,
+	TopicPhrase,
+	StemOriginalPair,
 };

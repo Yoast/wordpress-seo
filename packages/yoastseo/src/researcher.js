@@ -47,6 +47,7 @@ import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import h1s from "./researches/h1s";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
+import getWordFormsFromText from "./researches/getWordFormsFromText";
 
 /**
  * This contains all possible, default researches.
@@ -97,6 +98,7 @@ var Researcher = function( paper ) {
 		h1s: h1s,
 		prominentWordsForInsights: getProminentWordsForInsights,
 		prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
+		getWordFormsFromText: getWordFormsFromText,
 	};
 
 	this._data = {};
