@@ -12,6 +12,9 @@ body.yoast {
 		font-size: $font-size-default;
 		color: $color-default;
 		line-height: 1.5;
+		* {
+			box-sizing: border-box;
+		}
 	}
 }
 

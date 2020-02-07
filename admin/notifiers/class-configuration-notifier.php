@@ -144,8 +144,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 *
 	 * @return string The styled notification.
 	 */
-	private function notification( $title, $content, $button, $show_dismissal = false ) {
-		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
+	private function notification( $title, $content,$button, $show_dismissal = false ) {
+		$notification  = '<div class="yoast-paper">';
 		$notification .= sprintf(
 			'<img src="%1$s" height="%2$s" width="%3$d" alt="" />',
 			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' ),
