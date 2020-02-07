@@ -134,7 +134,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$this->add_analyze_site_links();
+		$this->add_ryte_link());
 	}
 
 	/**
@@ -162,7 +162,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$this->add_analyze_site_links();
+		$this->add_ryte_link();
 	}
 
 	/**
@@ -185,11 +185,11 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	}
 
 	/**
-	 * Adds the "Re-analyze site indexability" link styled like a button and the link to the Ryte site to the actions.
+	 * Adds the link to the Ryte site to the actions.
 	 *
 	 * @return void
 	 */
-	protected function add_analyze_site_links() {
+	protected function add_ryte_link() {
 		$this->actions .= sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast Ryte website, %2$s: Expands to 'Ryte', %3$s: Link closing tag. */
 			esc_html__( '%1$sGo to %2$s to analyze your entire site%3$s', 'wordpress-seo' ),

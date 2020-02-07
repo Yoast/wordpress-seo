@@ -112,9 +112,13 @@ class WPSEO_Ryte_Option {
 	}
 
 	/**
-	 * Check if the last fetch is within the time of 15 seconds.
+	 * Determines whether the indexability status should be fetched.
 	 *
-	 * @return bool
+	 * If LAST_FETCH isn't set, we assume the indexability status hasn't been fetched
+	 * yet and return true. Then, we check whether the last fetch is within the
+	 * FETCH_LIMIT time interval (15 seconds) to avoid too many consecutive API calls.
+	 *
+	 * @return bool Whether the indexability status should be fetched.
 	 */
 	public function should_be_fetched() {
 		if ( ! isset( $this->ryte_option[ self::LAST_FETCH ] ) ) {
