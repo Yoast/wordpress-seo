@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 
@@ -38,22 +39,32 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $pagination;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper  $post_type  The post type helper.
 	 * @param Date_Helper       $date       The date helper.
 	 * @param Pagination_Helper $pagination The pagination helper.
+	 * @param Post_Helper       $post       The post helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
 		Date_Helper $date,
-		Pagination_Helper $pagination
+		Pagination_Helper $pagination,
+	    Post_Helper $post
 	) {
 		$this->post_type  = $post_type;
 		$this->date       = $date;
 		$this->pagination = $pagination;
+		$this->post       = $post;
 	}
 
 	/**
@@ -168,10 +179,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		if ( empty( $og_description ) ) {
-			$og_description = $this->post_type->get_the_excerpt( $this->model->object_id );
+			$og_description = $this->post->get_the_excerpt( $this->model->object_id );
 		}
 
-		return $this->post_type->strip_shortcodes( $og_description );
+		return $this->post->strip_shortcodes( $og_description );
 	}
 
 	/**
@@ -240,7 +251,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 *
 			 * @api bool Whether or not to show publish date.
 			 */
-			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->source ) ) ) {
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post->get_post_type( $this->source ) ) ) {
 				return '';
 			}
 		}
@@ -309,7 +320,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->post_type->get_the_excerpt( $this->model->object_id );
+		return $this->post->get_the_excerpt( $this->model->object_id );
 	}
 
 	/**
