@@ -53,6 +53,10 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ]);
 		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ]  );
 
+		$indexable_table->column( 'is_public', 'boolean', [ 'default' => true ] );
+		$indexable_table->column( 'post_status', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'is_protected', 'boolean', [ 'default' => false ] );
+
 		$indexable_table->column(
 			'number_of_pages',
 			'integer',
