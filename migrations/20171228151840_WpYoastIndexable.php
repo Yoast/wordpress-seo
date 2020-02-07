@@ -20,14 +20,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 */
 	public function up()
 	{
-		$table_name = $this->get_table_name();
-
-		$indexable_table = $this->create_table( $table_name );
-
-		$this->add_columns( $indexable_table );
-		$this->add_indexes( $table_name );
-
-		$this->add_timestamps( $table_name );
+		$this->add_indexable_table();
 	}
 
 	/**
@@ -37,7 +30,18 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 */
 	public function down()
 	{
-		$this->drop_table( $this->get_table_name() );
+		$this->drop_table( $this->get_indexable_table_name() );
+	}
+
+	private function add_indexable_table() {
+		$table_name = $this->get_indexable_table_name();
+
+		$indexable_table = $this->create_table( $table_name );
+
+		$this->add_indexable_columns( $indexable_table );
+		$this->add_indexable_indexes( $table_name );
+
+		$this->add_timestamps( $table_name );
 	}
 
 	/**
@@ -45,7 +49,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 *
 	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
 	 */
-	private function add_columns( $indexable_table ) {
+	private function add_indexable_columns( $indexable_table ) {
 		// Permalink.
 		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
@@ -124,7 +128,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 *
 	 * @param string $table_name The name of the indexable table.
 	 */
-	private function add_indexes( $table_name ) {
+	private function add_indexable_indexes( $table_name ) {
 		$this->add_index(
 			$table_name,
 			[
@@ -207,12 +211,18 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 	}
 
+
+
 	/**
-	 * Retrieves the table name to use.
+	 * Retrieves the table name to use for storing indexables.
 	 *
 	 * @return string The table name to use.
 	 */
-	protected function get_table_name() {
+	protected function get_indexable_table_name() {
 		return Yoast_Model::get_table_name( 'Indexable' );
+	}
+
+	protected function get_indexable_hierarchy_table_name() {
+		return Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
 	}
 }
