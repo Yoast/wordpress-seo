@@ -12,7 +12,6 @@ import { colors } from "@yoast/style-guide";
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
 	InputContainer,
-	FormSection,
 	SimulatedLabel,
 	StyledEditor,
 	withCaretStyles,
@@ -176,8 +175,7 @@ class SnippetEditorFields extends React.Component {
 			<StyledEditor
 				padding={ containerPadding }
 			>
-				<FormSection>
-					<ReplacementVariableEditor
+				<ReplacementVariableEditor
 						withCaret={ true }
 						label={ __( "SEO title", "yoast-components" ) }
 						onFocus={ () => onFocus( "title" ) }
@@ -190,59 +188,54 @@ class SnippetEditorFields extends React.Component {
 						content={ title }
 						onChange={ content => onChange( "title", content ) }
 						fieldId="snippet-editor-field-title"
-					/>
-					<ProgressBar
-						max={ titleLengthProgress.max }
-						value={ titleLengthProgress.actual }
-						progressColor={ this.getProgressColor( titleLengthProgress.score ) }
-					/>
-				</FormSection>
-				<FormSection>
-					<SimulatedLabel
-						id={ slugLabelId }
-						onClick={ () => onFocus( "slug" ) }
-					>
-						{ __( "Slug", "yoast-components" ) }
-					</SimulatedLabel>
-					<InputContainerWithCaretStyles
-						onClick={ () => this.elements.slug.focus() }
-						isActive={ activeField === "slug" }
-						isHovered={ hoveredField === "slug" }
-					>
-						<SlugInput
-							value={ slug }
-							onChange={ event => onChange( "slug", event.target.value ) }
-							onFocus={ () => onFocus( "slug" ) }
-							onBlur={ () => onBlur() }
-							ref={ ref => this.setRef( "slug", ref ) }
-							aria-labelledby={ this.uniqueId + "-slug" }
-							id="snippet-editor-field-slug"
-						/>
-					</InputContainerWithCaretStyles>
-				</FormSection>
-				<FormSection>
-					<ReplacementVariableEditor
-						withCaret={ true }
-						type="description"
-						placeholder={ descriptionEditorFieldPlaceholder }
-						label={ __( "Meta description", "yoast-components" ) }
-						onFocus={ () => onFocus( "description" ) }
+				/>
+				<ProgressBar
+					max={ titleLengthProgress.max }
+					value={ titleLengthProgress.actual }
+					progressColor={ this.getProgressColor( titleLengthProgress.score ) }
+				/>
+				<SimulatedLabel
+					id={ slugLabelId }
+					onClick={ () => onFocus( "slug" ) }
+				>
+					{ __( "Slug", "yoast-components" ) }
+				</SimulatedLabel>
+				<InputContainerWithCaretStyles
+					onClick={ () => this.elements.slug.focus() }
+					isActive={ activeField === "slug" }
+					isHovered={ hoveredField === "slug" }
+				>
+					<SlugInput
+						value={ slug }
+						onChange={ event => onChange( "slug", event.target.value ) }
+						onFocus={ () => onFocus( "slug" ) }
 						onBlur={ () => onBlur() }
-						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }
-						editorRef={ ref => this.setRef( "description", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ description }
-						onChange={ content => onChange( "description", content ) }
-						fieldId="snippet-editor-field-description"
+						ref={ ref => this.setRef( "slug", ref ) }
+						aria-labelledby={ this.uniqueId + "-slug" }
+						id="snippet-editor-field-slug"
 					/>
-					<ProgressBar
-						max={ descriptionLengthProgress.max }
-						value={ descriptionLengthProgress.actual }
-						progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
-					/>
-				</FormSection>
+				</InputContainerWithCaretStyles>
+				<ReplacementVariableEditor
+					withCaret={ true }
+					type="description"
+					placeholder={ descriptionEditorFieldPlaceholder }
+					label={ __( "Meta description", "yoast-components" ) }
+					onFocus={ () => onFocus( "description" ) }
+					onBlur={ () => onBlur() }
+					isActive={ activeField === "description" }
+					isHovered={ hoveredField === "description" }
+					editorRef={ ref => this.setRef( "description", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ description }
+					onChange={ content => onChange( "description", content ) }
+					fieldId="snippet-editor-field-description"
+				/>
+				<ProgressBar
+					max={ descriptionLengthProgress.max }
+					value={ descriptionLengthProgress.actual }
+					progressColor={ this.getProgressColor( descriptionLengthProgress.score ) }
+				/>
 			</StyledEditor>
 		);
 	}
