@@ -58,7 +58,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 
 		$this->instance->expects( 'generate_source' )->andReturn( (object) [] );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_post_type' )
 			->once()
 			->andReturn( 'page' );
@@ -84,7 +84,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_post_type' )
 			->once()
 			->andReturn( 'page' );
