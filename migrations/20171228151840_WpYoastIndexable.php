@@ -50,8 +50,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
 
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
-		$indexable_table->column( 'object_type', 'string', [ 'limit' => 16 ] );
-		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 100 ] );
+		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ]);
+		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ]  );
 
 		$indexable_table->column(
 			'number_of_pages',
