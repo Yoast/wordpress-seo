@@ -16,12 +16,12 @@ use WPSEO_Utils;
 class WPSEO_Health_Check_Ryte_Test extends TestCase {
 
 	/**
-	 * @var \Mockery\Mock WPSEO_Ryte_Option
+	 * @var \Mockery\Mock|\WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
-	 * @var \Mockery\Mock WPSEO_Health_Check_Ryte
+	 * @var \Mockery\Mock|\WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
 
@@ -130,12 +130,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_remote_get'                    => null,
-				'wp_remote_retrieve_response_code' => function () {
-					return 200;
-				},
-				'wp_remote_retrieve_body'          => function () {
-					return WPSEO_Utils::format_json_encode( [] );
-				},
+				'wp_remote_retrieve_response_code' => 200,
+				'wp_remote_retrieve_body'          => WPSEO_Utils::format_json_encode( [] ),
 			]
 		);
 
@@ -172,12 +168,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_remote_get'                    => null,
-				'wp_remote_retrieve_response_code' => function () {
-					return 500;
-				},
-				'wp_remote_retrieve_body'          => function () {
-					return null;
-				},
+				'wp_remote_retrieve_response_code' => 500,
+				'wp_remote_retrieve_body'          => null,
 			]
 		);
 
@@ -212,12 +204,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_remote_get'                    => null,
-				'wp_remote_retrieve_response_code' => function () {
-					return 200;
-				},
-				'wp_remote_retrieve_body'          => function () {
-					return WPSEO_Utils::format_json_encode( [] );
-				},
+				'wp_remote_retrieve_response_code' => 200,
+				'wp_remote_retrieve_body'          => WPSEO_Utils::format_json_encode( [] ),
 			]
 		);
 
