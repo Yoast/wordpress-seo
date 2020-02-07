@@ -157,19 +157,27 @@ export const SimulatedLabel = styled.div`
 	flex: 1 1 200px;
 	min-width: 200px;
 	cursor: pointer;
-	font-size: 16px;
-	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	font-size: 14px;
+	font-family: SF Pro Text;
 	margin: 4px 0;
+	color: #303030;
+	font-weight: 500;
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
-	box-shadow: none;
-	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	padding-left: 8px;
-	height: 33px;
+	color: #303030;
+	box-sizing: border-box;
+	border-radius: 5px;
+	box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
+	font-family: SF Pro Text;
+	padding: 4px;
+	width: 103px;
+	height: 28px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
-
+	font-weight: 400;
+	line-height: 1.5;
+	margin-bottom: 5px;
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
