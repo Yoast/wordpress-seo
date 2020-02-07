@@ -176,18 +176,18 @@ class SnippetEditorFields extends React.Component {
 				padding={ containerPadding }
 			>
 				<ReplacementVariableEditor
-						withCaret={ true }
-						label={ __( "SEO title", "yoast-components" ) }
-						onFocus={ () => onFocus( "title" ) }
-						onBlur={ () => onBlur() }
-						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }
-						editorRef={ ref => this.setRef( "title", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ title }
-						onChange={ content => onChange( "title", content ) }
-						fieldId="snippet-editor-field-title"
+					withCaret={ true }
+					label={ __( "SEO title", "yoast-components" ) }
+					onFocus={ () => onFocus( "title" ) }
+					onBlur={ () => onBlur() }
+					isActive={ activeField === "title" }
+					isHovered={ hoveredField === "title" }
+					editorRef={ ref => this.setRef( "title", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ title }
+					onChange={ content => onChange( "title", content ) }
+					fieldId="snippet-editor-field-title"
 				/>
 				<ProgressBar
 					max={ titleLengthProgress.max }

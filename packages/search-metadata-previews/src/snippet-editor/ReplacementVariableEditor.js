@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 // Yoast dependencies.
-import { SvgIcon } from "@yoast/components";
 // Internal dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
@@ -31,7 +30,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		this.uniqueId = uniqueId();
 
-		switch( props.type ) {
+		switch ( props.type ) {
 			case "description":
 				this.InputContainer = DescriptionInputContainer;
 				break;
@@ -142,7 +141,9 @@ ReplacementVariableEditor.propTypes = {
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
-	editorRef: () => { return { id: "" } },
+	editorRef: () => {
+		return { id: "" };
+	},
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	fieldId: "",
