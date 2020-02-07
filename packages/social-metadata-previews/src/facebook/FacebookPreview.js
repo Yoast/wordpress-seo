@@ -73,6 +73,7 @@ const OuterTextWrapper = styled.div`
 	position: relative;
 	border-bottom: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
 	border-top: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
+	border-right: ${ props => props.mode === "landscape" ? "" : "1px solid #dddfe2" };
 	border: ${ props => props.mode === "landscape" ? "1px solid #dddfe2" : "" };
 	display: flex;
 	flex-direction: column;

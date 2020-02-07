@@ -106,6 +106,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -270,6 +271,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -434,6 +436,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -598,6 +601,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -762,6 +766,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   position: relative;
   border-bottom: 1px solid #dddfe2;
   border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
