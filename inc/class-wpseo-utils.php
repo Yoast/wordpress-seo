@@ -328,7 +328,7 @@ class WPSEO_Utils {
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 		$stripped_value = preg_replace( '/[:\/@?#\[\]&\+=]/', '', $value );
 
-		if ( rawurlencode( wp_check_invalid_utf8( rawurldecode( $stripped_value ) ) ) === $stripped_value ) {
+		if ( rawurlencode( sanitize_text_field( rawurldecode( $stripped_value ) ) ) === $stripped_value ) {
 			return esc_url_raw( $value, $allowed_protocols );
 		}
 
