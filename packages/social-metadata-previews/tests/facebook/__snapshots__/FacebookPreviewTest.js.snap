@@ -93,10 +93,6 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  max-width: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   overflow: hidden;
   width: 527px;
   height: 57px;
@@ -261,10 +257,6 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  max-width: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   overflow: hidden;
   width: 527px;
   height: 57px;
@@ -429,10 +421,6 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  max-width: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   overflow: hidden;
   width: 527px;
   height: 57px;
@@ -597,10 +585,6 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  max-width: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   overflow: hidden;
   width: 527px;
   height: 57px;
@@ -765,10 +749,6 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  max-width: none;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
   overflow: hidden;
   width: 527px;
   height: 57px;

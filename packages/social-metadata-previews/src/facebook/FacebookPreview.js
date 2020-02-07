@@ -16,7 +16,7 @@ import FacebookDescription from "./FacebookDescription";
  *
  * @returns {string} The height pixels.
  */
-const determineTextContainerHeight = ( mode ) => {
+const determineWrapperHeight = ( mode ) => {
 	switch ( mode ) {
 		case "landscape":
 			return "352px";
@@ -57,16 +57,12 @@ const determineTextContainerWidth = ( mode ) => {
 
 const FacebookPreviewWrapper = styled.div`
 	box-sizing: border-box;
-	display: flex;	
+	display: flex;
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
-	max-width: none;
-	border: none;
-	box-shadow: none;
-	border-radius: 0;
 	overflow: hidden;
 	width: 527px;
-	height: ${ props => determineTextContainerHeight( props.mode ) };
+	height: ${ props => determineWrapperHeight( props.mode ) };
 `;
 
 const OuterTextWrapper = styled.div`
