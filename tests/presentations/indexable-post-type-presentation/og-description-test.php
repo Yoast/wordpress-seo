@@ -24,7 +24,7 @@ class Open_Graph_Description_Test extends TestCase {
 		$this->set_instance();
 		$this->indexable->object_id = 1;
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'strip_shortcodes' )
 			->withAnyArgs()
 			->once()
@@ -58,7 +58,7 @@ class Open_Graph_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()

@@ -48,7 +48,7 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
@@ -92,7 +92,7 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'OG Description' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
@@ -114,7 +114,7 @@ class Twitter_Description_Test extends TestCase {
 
 		$this->instance->og_description = '';
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
