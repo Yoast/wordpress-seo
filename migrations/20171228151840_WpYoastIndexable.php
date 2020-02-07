@@ -21,6 +21,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	public function up()
 	{
 		$this->add_indexable_table();
+		$this->add_indexable_hierarchy_table();
 	}
 
 	/**
@@ -31,17 +32,37 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	public function down()
 	{
 		$this->drop_table( $this->get_indexable_table_name() );
+		$this->drop_table( $this->get_indexable_hierarchy_table_name() );
 	}
 
+	/**
+	 * Creates the indexable table.
+	 */
 	private function add_indexable_table() {
 		$table_name = $this->get_indexable_table_name();
 
 		$indexable_table = $this->create_table( $table_name );
 
 		$this->add_indexable_columns( $indexable_table );
+		$indexable_table->finish();
+
 		$this->add_indexable_indexes( $table_name );
 
 		$this->add_timestamps( $table_name );
+	}
+
+	/**
+	 * Creates the indexable hierarchy table.
+	 */
+	private function add_indexable_hierarchy_table() {
+		$table_name = $this->get_indexable_hierarchy_table_name();
+
+		$indexable_hierarchy_table = $this->create_table( $table_name );
+
+		$this->add_indexable_hierarchy_columns( $indexable_hierarchy_table );
+		$indexable_hierarchy_table->finish();
+
+		$this->add_indexable_hierarchy_indexes( $table_name );
 	}
 
 	/**
@@ -126,11 +147,11 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	/**
 	 * Adds indexes to the indexable table.
 	 *
-	 * @param string $table_name The name of the indexable table.
+	 * @param string $indexable_table_name The name of the indexable table.
 	 */
-	private function add_indexable_indexes( $table_name ) {
+	private function add_indexable_indexes( $indexable_table_name ) {
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'permalink',
 			],
@@ -140,10 +161,10 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			]
 		);
 
-		$this->add_index( $table_name, 'permalink_hash' );
+		$this->add_index( $indexable_table_name, 'permalink_hash' );
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'object_type',
 				'object_sub_type',
@@ -154,7 +175,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'primary_focus_keyword_score',
 				'object_type',
@@ -166,7 +187,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'is_cornerstone',
 				'object_type',
@@ -178,7 +199,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'incoming_link_count',
 				'object_type',
@@ -190,7 +211,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			[
 				'is_robots_noindex',
 				'object_id',
@@ -203,7 +224,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 
 		$this->add_index(
-			$table_name,
+			$indexable_table_name,
 			'prominent_words_version',
 			[
 				'name' => 'prominent_words_version',
@@ -211,7 +232,43 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		);
 	}
 
+	/**
+	 * Adds the columns to the indexable hierarchy table.
+	 *
+	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_hierarchy_table The indexable hierarchy table.
+	 */
+	private function add_indexable_hierarchy_columns( $indexable_hierarchy_table ) {
+		$indexable_hierarchy_table->column( 'indexable_id', 'integer', [
+			'primary_key' => true,
+			'unsigned'    => true,
+			'null'        => true,
+			'limit'       => 11,
+		] );
 
+		$indexable_hierarchy_table->column( 'ancestor_id', 'integer', [
+			'primary_key' => true,
+			'unsigned'    => true,
+			'null'        => true,
+			'limit'       => 11,
+		] );
+
+		$indexable_hierarchy_table->column( 'depth', 'integer', [
+			'unsigned' => true,
+			'null' => true,
+			'limit' => 11
+		] );
+	}
+
+	/**
+	 * Adds indexes to the indexable hierarchy table.
+	 *
+	 * @param string $indexable_hierarchy_table_name The name of the indexable hierarchy table.
+	 */
+	private function add_indexable_hierarchy_indexes( $indexable_hierarchy_table_name ) {
+		$this->add_index( $indexable_hierarchy_table_name, 'indexable_id', [ 'name' => 'indexable_id' ] );
+		$this->add_index( $indexable_hierarchy_table_name, 'ancestor_id', [ 'name' => 'ancestor_id' ] );
+		$this->add_index( $indexable_hierarchy_table_name, 'depth', [ 'name' => 'depth' ] );
+	}
 
 	/**
 	 * Retrieves the table name to use for storing indexables.
