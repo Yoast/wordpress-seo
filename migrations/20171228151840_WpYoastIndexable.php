@@ -106,9 +106,17 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'og_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'og_image_meta', 'text', [ 'null' => true ] );
 
-		// Link count
+		// Link count.
 		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+
+		// Prominent words.
+		$indexable_table->column( 'prominent_words_version', 'integer', [
+			'null'     => true,
+			'limit'    => 11,
+			'unsigned' => true,
+			'default'  => null,
+		] );
 	}
 
 	/**
@@ -185,6 +193,14 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			],
 			[
 				'name' => 'robots_noindex',
+			]
+		);
+
+		$this->add_index(
+			$table_name,
+			'prominent_words_version',
+			[
+				'name' => 'prominent_words_version',
 			]
 		);
 	}
