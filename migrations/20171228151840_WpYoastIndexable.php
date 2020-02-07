@@ -136,6 +136,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			]
 		);
 
+		$this->add_index( $table_name, 'permalink_hash' );
+
 		$this->add_index(
 			$table_name,
 			[
