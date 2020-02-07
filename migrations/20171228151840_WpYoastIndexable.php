@@ -46,15 +46,23 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
 	 */
 	private function add_columns( $indexable_table ) {
+		// Permalink.
 		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
 
+		// Object type and ID.
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ]);
 		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ]  );
 
-		$indexable_table->column( 'is_public', 'boolean', [ 'default' => true ] );
+		// Title and description.
+		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
+		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+
+		// Post metadata (status, public, protected).
 		$indexable_table->column( 'post_status', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'is_public', 'boolean', [ 'default' => true ] );
 		$indexable_table->column( 'is_protected', 'boolean', [ 'default' => false ] );
 
 		$indexable_table->column(
@@ -70,29 +78,27 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table->column( 'canonical', 'mediumtext', [ 'null' => true ] );
 
-		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
-		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		// SEO and readability analysis.
+		$indexable_table->column( 'primary_focus_keyword', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'primary_focus_keyword_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
+		$indexable_table->column( 'readability_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
+		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
 
+		// Robots.
 		$indexable_table->column( 'is_robots_noindex', 'boolean', [ 'null' => true, 'default' => false ] );
 		$indexable_table->column( 'is_robots_nofollow', 'boolean', [ 'null' => true, 'default' => false ] );
 		$indexable_table->column( 'is_robots_noarchive', 'boolean', [ 'null' => true, 'default' => false ] );
 		$indexable_table->column( 'is_robots_noimageindex', 'boolean', [ 'null' => true, 'default' => false ] );
 		$indexable_table->column( 'is_robots_nosnippet', 'boolean', [ 'null' => true, 'default' => false ] );
 
-		$indexable_table->column( 'primary_focus_keyword', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'primary_focus_keyword_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
-
-		$indexable_table->column( 'readability_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
-
-		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
-
+		// Twitter.
 		$indexable_table->column( 'twitter_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'twitter_image', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'twitter_description', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'twitter_image_id', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'twitter_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
 
+		// Open-Graph.
 		$indexable_table->column( 'og_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'og_description', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'og_image',  'mediumtext', [ 'null' => true ] );
@@ -100,6 +106,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'og_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'og_image_meta', 'text', [ 'null' => true ] );
 
+		// Link count
 		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 	}
