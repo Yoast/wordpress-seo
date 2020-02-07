@@ -134,7 +134,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$this->add_ryte_link());
+		$this->add_ryte_link();
 	}
 
 	/**
