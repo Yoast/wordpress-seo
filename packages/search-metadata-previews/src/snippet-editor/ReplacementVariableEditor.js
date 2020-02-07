@@ -3,23 +3,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
-
 // Yoast dependencies.
 import { SvgIcon } from "@yoast/components";
-
 // Internal dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
+	DescriptionInputContainer,
+	FormSection,
 	SimulatedLabel,
 	TitleInputContainer,
-	DescriptionInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
 } from "../shared";
-import {
-	replacementVariablesShape,
-	recommendedReplacementVariablesShape,
-} from "./constants";
+import { recommendedReplacementVariablesShape, replacementVariablesShape } from "./constants";
 
 /**
  * The replacement variable editor.
@@ -35,7 +31,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		this.uniqueId = uniqueId();
 
-		switch ( props.type ) {
+		switch( props.type ) {
 			case "description":
 				this.InputContainer = DescriptionInputContainer;
 				break;
@@ -88,12 +84,11 @@ class ReplacementVariableEditor extends React.Component {
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ () => this.triggerReplacementVariableSuggestions() }
 		>
-			<SvgIcon icon="plus-circle" />
-			{ __( "Insert snippet variable", "yoast-components" ) }
+			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
-			<React.Fragment>
+			<FormSection>
 				<SimulatedLabel
 					id={ this.uniqueId }
 					onClick={ onFocus }
@@ -122,7 +117,7 @@ class ReplacementVariableEditor extends React.Component {
 						ariaLabelledBy={ this.uniqueId }
 					/>
 				</InputContainer>
-			</React.Fragment>
+			</FormSection>
 		);
 	}
 }
@@ -140,12 +135,22 @@ ReplacementVariableEditor.propTypes = {
 	onFocus: PropTypes.func,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
-	type: PropTypes.oneOf( [ "title", "description" ] ),
+	type: PropTypes.oneOf( [ "title", "description" ] ).isRequired,
 	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
+	onFocus: () => {},
+	onBlur: () => {},
+	editorRef: () => { return { id: "" } },
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
+	fieldId: "",
+	placeholder: "",
+	label: "",
+	withCaret: false,
+	isHovered: false,
+	isActive: false,
 };
 
 export default ReplacementVariableEditor;
