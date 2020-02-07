@@ -67,6 +67,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_ptarchive_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_post_type_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_author_archive_option' ], 10, 2 );
+		add_action( 'update_option_wpseo_titles', [ $this, 'check_authors_without_posts_option' ], 10, 2 );
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_date_archive_option' ], 10, 2 );
 	}
 
@@ -149,6 +150,24 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 		}
 
 		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-author-wpseo' ) ) {
+			$this->build_author_archive_indexable();
+		}
+	}
+
+	/**
+	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values for authors without posts.
+	 *
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
+	 *
+	 * @return void
+	 */
+	public function check_authors_without_posts_option( $old_value, $new_value ) {
+		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+			return;
+		}
+
+		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-author-noposts-wpseo' ) ) {
 			$this->build_author_archive_indexable();
 		}
 	}

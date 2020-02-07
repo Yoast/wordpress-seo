@@ -65,18 +65,29 @@ class Indexable_Author_Builder {
 	/**
 	 * Determines the value of is_public.
 	 *
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable.
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return bool
 	 */
 	protected function is_public( $indexable ) {
-		// Check at site-wide level.
+		// Check the robots noindex setting site-wide.
 		$is_robots_noindex = $this->options->get( 'noindex-author-wpseo', false );
 		if ( $is_robots_noindex === true ) {
 			return false;
 		}
 
-		// Check at user level.
+		// Check whether the author archive should be public for authors without posts.
+		$is_author_without_posts_noindex = $this->options->get( 'noindex-author-noposts-wpseo', false );
+
+		// If so, check whether an author has posts.
+		if ( $is_author_without_posts_noindex === true ) {
+			$public_post_count = (int) count_user_posts( $indexable->object_id, 'post', true );
+			if ( $public_post_count === 0 ) {
+				return false;
+			}
+		}
+
+		// Check the robots noindex setting at user level.
 		if ( (int) $indexable->is_robots_noindex === 1 ) {
 			return false;
 		}
