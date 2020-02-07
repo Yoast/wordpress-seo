@@ -81,7 +81,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data = $this->add_keywords( $data );
 		$data = $this->add_sections( $data );
 		$data = WPSEO_Schema_Utils::add_piece_language( $data );
-		if ( $comment_count['approved'] > 0 ) {
+
+		if ( post_type_supports( $post->post_type, 'comments' ) && $post->comment_status === 'open' ) {
 			$data = $this->add_potential_action( $data );
 		}
 
