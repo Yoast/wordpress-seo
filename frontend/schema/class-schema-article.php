@@ -203,7 +203,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 *
 		 * @api array $targets The URLs for the Article potentialAction target.
 		 */
-		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#comments' ] );
+		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#respond' ] );
 
 		$data['potentialAction'][] = [
 			'@type'  => 'CommentAction',
