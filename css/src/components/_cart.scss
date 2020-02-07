@@ -1,0 +1,10 @@
+.yoast-cart {
+	position: relative;
+	background: white;
+	margin-bottom: em(32px);
+	width: 300px;
+	@include shadow-paper;
+	+.yoast-cart {
+		margin-left: em(24px);
+	}
+}
