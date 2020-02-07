@@ -10,7 +10,7 @@ const testText = "I walked my dog. The cat walks along. The canine and the felin
 describe( "A test from getting word forms from the text, based on the stems of a keyphrase", () => {
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
 		"English stemmer", () => {
-		const text = "A cat's dog and a dog's cat. The feline purrs. The canine is friendly.";
+		const text = "A cat's dog and a dog's cat. The feline purrs. The <a href='http://example.com/doggies'>canine</a> is friendly.";
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "purring felines, friendly canines",
