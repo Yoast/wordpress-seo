@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\WPSEO_Titles_Option_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -38,6 +39,13 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	private $builder_mock;
 
 	/**
+	 * Post type helper mock.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	private $post_type_helper_mock;
+
+	/**
 	 * The class instance.
 	 *
 	 * @var WPSEO_Titles_Option_Watcher
@@ -48,9 +56,10 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
-		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
-		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
-		$this->instance        = new WPSEO_Titles_Option_Watcher( $this->repository_mock, $this->builder_mock );
+		$this->repository_mock       = Mockery::mock( Indexable_Repository::class );
+		$this->builder_mock          = Mockery::mock( Indexable_Builder::class );
+		$this->post_type_helper_mock = Mockery::mock( Post_Type_Helper::class );
+		$this->instance              = new WPSEO_Titles_Option_Watcher( $this->repository_mock, $this->builder_mock, $this->post_type_helper_mock );
 
 		return parent::setUp();
 	}
