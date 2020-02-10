@@ -4,7 +4,9 @@ import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArra
 import getLanguage from "../helpers/getLanguage";
 import retrieveStemmer from "../helpers/retrieveStemmer";
 
+import getAlttagContent from "../stringProcessing/getAlttagContent";
 import getWords from "../stringProcessing/getWords";
+import imageInText from "../stringProcessing/imageInText";
 import parseSlug from "../stringProcessing/parseSlug";
 import { normalizeSingle } from "../stringProcessing/quotes";
 import { collectStems, StemOriginalPair } from "./buildTopicStems";
@@ -43,11 +45,15 @@ function Result( keyphraseForms = [], synonymsForms = [] ) {
  * @returns {string[]} All words found.
  */
 function getAllWordsFromPaper( paper, language ) {
+	const paperText = paper.getText();
+	const altTagsInText = imageInText( paperText ).map( image => getAlttagContent( image ) );
+
 	const paperContent = [
-		paper.getText(),
+		paperText,
 		paper.getTitle(),
 		parseSlug( paper.getUrl() ),
 		paper.getDescription(),
+		altTagsInText.join( " " ),
 	].join( " " );
 
 	return getWords( paperContent ).map(
