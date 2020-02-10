@@ -24,20 +24,29 @@ use Yoast\WP\SEO\Tests\TestCase;
 class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 
 	/**
+	 * Indexable repository mock.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $repository_mock;
 
 	/**
+	 * Indexable builder mock.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
 	 */
 	private $builder_mock;
 
 	/**
+	 * The class instance.
+	 *
 	 * @var WPSEO_Titles_Option_Watcher
 	 */
 	private $instance;
 
+	/**
+	 * Sets an instance for test purposes.
+	 */
 	public function setUp() {
 		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
 		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
