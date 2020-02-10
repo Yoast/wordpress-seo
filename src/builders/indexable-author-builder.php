@@ -70,6 +70,11 @@ class Indexable_Author_Builder {
 	 * @return bool
 	 */
 	protected function is_public( $indexable ) {
+		// Check the robots noindex setting at user level.
+		if ( (int) $indexable->is_robots_noindex === 1 ) {
+			return false;
+		}
+
 		// Check the robots noindex setting site-wide.
 		$is_robots_noindex = $this->options->get( 'noindex-author-wpseo', false );
 		if ( $is_robots_noindex === true ) {
@@ -78,21 +83,13 @@ class Indexable_Author_Builder {
 
 		// Check whether the author archive should be public for authors without posts.
 		$is_author_without_posts_noindex = $this->options->get( 'noindex-author-noposts-wpseo', false );
+		if ( $is_author_without_posts_noindex === false ) {
+			return true;
+		}
 
 		// If so, check whether an author has posts.
-		if ( $is_author_without_posts_noindex === true ) {
-			$public_post_count = (int) count_user_posts( $indexable->object_id, 'post', true );
-			if ( $public_post_count === 0 ) {
-				return false;
-			}
-		}
-
-		// Check the robots noindex setting at user level.
-		if ( (int) $indexable->is_robots_noindex === 1 ) {
-			return false;
-		}
-
-		return true;
+		$public_post_count = (int) \count_user_posts( $indexable->object_id, 'post', true );
+		return $public_post_count > 0;
 	}
 
 	/**
