@@ -129,13 +129,7 @@ class Indexable_Post_Builder {
 	 * @return bool Whether or not the post type is public.
 	 */
 	protected function is_public( $indexable ) {
-
-		// Attachments behave differently than the other post types, since they inherit from their parent.
-		if ( $indexable->object_sub_type === 'attachment' ) {
-			return $this->is_public_attachment( $indexable );
-		}
-
-		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+		if ( $indexable->is_protected ) {
 			return false;
 		}
 
@@ -143,12 +137,17 @@ class Indexable_Post_Builder {
 			return false;
 		}
 
+		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
+			return false;
+		}
+
 		if ( $indexable->is_robots_noindex === null && ! \WPSEO_Post_Type::is_post_type_indexable( $indexable->object_sub_type ) ) {
 			return false;
 		}
 
-		if ( $indexable->is_protected ) {
-			return false;
+		// Attachments behave differently than the other post types, since they inherit from their parent.
+		if ( $indexable->object_sub_type === 'attachment' ) {
+			return $this->is_public_attachment( $indexable );
 		}
 
 		return true;
@@ -169,7 +168,7 @@ class Indexable_Post_Builder {
 		}
 
 		// Else, follow the behaviour of the attachment's parent.
-		$parent_id = (int) get_post( $indexable->object_id )->post_parent;
+		$parent_id = (int) \get_post( $indexable->object_id )->post_parent;
 
 		// If the attachment has no parent, it should not be public.
 		if ( $parent_id === 0 ) {
