@@ -18,17 +18,15 @@ const MIN_IMAGE_HEIGHT = FACEBOOK_IMAGE_SIZES.squareHeight;
 
 const FacebookImageContainer = styled.div`
 	position: relative;
-	display:flex;
 	height: ${ props => props.dimensions.height };
 	width: ${ props => props.dimensions.width };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
-	flex-shrink: 0;
 `;
 
 const StyledImage = styled.img`
-	width: 100%;
-	height: 100%;
+	width: ${ props => props.imageProperties.width }px;
+	height: ${ props => props.imageProperties.height }px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
