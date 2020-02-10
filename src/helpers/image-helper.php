@@ -104,6 +104,23 @@ class Image_Helper {
 	}
 
 	/**
+	 * Gets the image url from the content.
+	 *
+	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	public function get_post_content_image( $post_id ) {
+		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
+
+		if ( $image_url === null ) {
+			return '';
+		}
+
+		return $image_url;
+	}
+
+	/**
 	 * Find the right version of an image based on size.*
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
@@ -168,5 +185,18 @@ class Image_Helper {
 	 */
 	public function get_attachment_id_from_settings( $setting ) {
 		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
+	}
+
+	/**
+	 * Retrieves the first usable content image for a post.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @return string|null
+	 */
+	protected function get_first_usable_content_image_for_post( $post_id ) {
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 }
