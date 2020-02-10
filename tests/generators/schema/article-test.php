@@ -59,17 +59,17 @@ class Article_Test extends TestCase {
 	 * Setup the test.
 	 */
 	public function setUp() {
-		$this->id                     = Mockery::mock( ID_Helper::class );
-		$this->id->article_hash       = '#article-hash';
-		$this->id->webpage_hash       = '#webpage-hash';
-		$this->id->primary_image_hash = '#primary-image-hash';
-		$this->article                = Mockery::mock( Article_Helper::class );
-		$this->date                   = Mockery::mock( Date_Helper::class );
-		$this->html                   = Mockery::mock( HTML_Helper::class );
-		$this->instance               = new Article( $this->article, $this->date, $this->html );
-		$this->context_mock                       = new Meta_Tags_Context();
-		$this->context_mock->indexable            = new Indexable();
-		$this->context_mock->post                 = new stdClass();
+		$this->id                      = Mockery::mock( ID_Helper::class );
+		$this->id->article_hash        = '#article-hash';
+		$this->id->webpage_hash        = '#webpage-hash';
+		$this->id->primary_image_hash  = '#primary-image-hash';
+		$this->article                 = Mockery::mock( Article_Helper::class );
+		$this->date                    = Mockery::mock( Date_Helper::class );
+		$this->html                    = Mockery::mock( HTML_Helper::class );
+		$this->instance                = new Article( $this->article, $this->date, $this->html );
+		$this->context_mock            = new Meta_Tags_Context();
+		$this->context_mock->indexable = new Indexable();
+		$this->context_mock->post      = new stdClass();
 		$this->instance->set_id_helper( $this->id );
 		return parent::setUp();
 	}

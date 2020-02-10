@@ -157,11 +157,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Url_Helper $url,
 		User_Helper $user
 	) {
-		$this->image   = $image;
-		$this->options = $options;
-		$this->current_page   = $current_page;
-		$this->url            = $url;
-		$this->user           = $user;
+		$this->image        = $image;
+		$this->options      = $options;
+		$this->current_page = $current_page;
+		$this->url          = $url;
+		$this->user         = $user;
 	}
 
 	/**

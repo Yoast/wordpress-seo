@@ -48,8 +48,8 @@ class WebPage extends Abstract_Schema_Piece {
 		Date_Helper $date
 	) {
 		$this->current_page = $current_page;
-		$this->date  = $date;
-		$this->html  = $html;
+		$this->date         = $date;
+		$this->html         = $html;
 	}
 
 	/**

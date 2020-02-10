@@ -39,7 +39,7 @@ class HowTo extends Abstract_Schema_Piece {
 		Image_Helper $image
 	) {
 		$this->html  = $html;
-		$this->image        = $image;
+		$this->image = $image;
 	}
 
 	/**

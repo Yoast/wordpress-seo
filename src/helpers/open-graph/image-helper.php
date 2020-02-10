@@ -47,7 +47,7 @@ class Image_Helper {
 	 */
 	public function __construct( Url_Helper $url, Base_Image_Helper $image ) {
 		$this->url   = $url;
-		$this->image        = $image;
+		$this->image = $image;
 	}
 
 	/**

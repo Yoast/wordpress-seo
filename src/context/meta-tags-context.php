@@ -113,7 +113,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Image_Helper       $image        The image helper.
 	 * @param ID_Helper          $id_helper    The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
-	 * @param Site_Helper        $site  The site helper.
+	 * @param Site_Helper        $site         The site helper.
 	 * @param User_Helper        $user         The user helper.
 	 */
 	public function __construct(

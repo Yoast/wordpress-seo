@@ -43,7 +43,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		Post_Type_Helper $post_type
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->post_type = $post_type;
+		$this->post_type        = $post_type;
 	}
 
 	/**

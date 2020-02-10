@@ -53,7 +53,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 		Redirect_Helper $redirect, Robots_Helper $robots
 	) {
 		$this->redirect = $redirect;
-		$this->robots          = $robots;
+		$this->robots   = $robots;
 	}
 
 	/**
