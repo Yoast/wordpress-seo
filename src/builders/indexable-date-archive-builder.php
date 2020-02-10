@@ -17,17 +17,17 @@ class Indexable_Date_Archive_Builder {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * Indexable_Date_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper
+		Options_Helper $options
 	) {
-		$this->options_helper = $options_helper;
+		$this->options = $options;
 	}
 
 	/**
@@ -39,10 +39,10 @@ class Indexable_Date_Archive_Builder {
 	 */
 	public function build( $indexable ) {
 		$indexable->object_type       = 'date-archive';
-		$indexable->title             = $this->options_helper->get( 'title-archive-wpseo' );
-		$indexable->breadcrumb_title  = $this->options_helper->get( 'breadcrumbs-archiveprefix' );
-		$indexable->description       = $this->options_helper->get( 'metadesc-archive-wpseo' );
-		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-archive-wpseo' );
+		$indexable->title             = $this->options->get( 'title-archive-wpseo' );
+		$indexable->breadcrumb_title  = $this->options->get( 'breadcrumbs-archiveprefix' );
+		$indexable->description       = $this->options->get( 'metadesc-archive-wpseo' );
+		$indexable->is_robots_noindex = $this->options->get( 'noindex-archive-wpseo' );
 
 		return $indexable;
 	}

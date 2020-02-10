@@ -42,7 +42,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper->expects( 'is_indexable' )
+		$this->post_type->expects( 'is_indexable' )
 							   ->once()
 							   ->with( 'post' )
 							   ->andReturn( true );
@@ -73,7 +73,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'private' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )
@@ -105,7 +105,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )

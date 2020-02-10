@@ -36,7 +36,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
-		$this->date_helper
+		$this->date
 			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()
@@ -78,7 +78,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
-		$this->date_helper
+		$this->date
 			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()

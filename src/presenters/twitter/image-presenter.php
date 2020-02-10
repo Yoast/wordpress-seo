@@ -21,15 +21,15 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * Sets the url helper as dependency.
 	 *
-	 * @param Url_Helper $url_helper The url helper.
+	 * @param Url_Helper $url The url helper.
 	 */
-	public function __construct( Url_Helper $url_helper ) {
-		$this->url_helper = $url_helper;
+	public function __construct( Url_Helper $url ) {
+		$this->url = $url;
 	}
 
 	/**

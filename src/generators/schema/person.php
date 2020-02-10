@@ -46,33 +46,33 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var Schema\Image_Helper
 	 */
-	private $schema_image_helper;
+	private $schema_image;
 
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
-	 * @param HTML_Helper         $html_helper         The HTML helper.
+	 * @param Image_Helper        $image        The image helper.
+	 * @param Schema\Image_Helper $schema_image The schema image helper.
+	 * @param HTML_Helper         $html         The HTML helper.
 	 */
 	public function __construct(
-		Image_Helper $image_helper,
-		Schema\Image_Helper $schema_image_helper,
-		HTML_Helper $html_helper
+		Image_Helper $image,
+		Schema\Image_Helper $schema_image,
+		HTML_Helper $html
 	) {
-		$this->image_helper        = $image_helper;
-		$this->schema_image_helper = $schema_image_helper;
-		$this->html_helper         = $html_helper;
+		$this->image        = $image;
+		$this->schema_image = $schema_image;
+		$this->html         = $html;
 	}
 
 	/**
@@ -158,14 +158,14 @@ class Person extends Abstract_Schema_Piece {
 		$user_data = \get_userdata( $user_id );
 		$data      = [
 			'@type' => $this->type,
-			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
-			'name'  => $this->html_helper->smart_strip_tags( $user_data->display_name ),
+			'@id'   => $this->id->get_user_schema_id( $user_id, $context ),
+			'name'  => $this->html->smart_strip_tags( $user_data->display_name ),
 		];
 
 		$data = $this->add_image( $data, $user_data, $context );
 
 		if ( ! empty( $user_data->description ) ) {
-			$data['description'] = $this->html_helper->smart_strip_tags( $user_data->description );
+			$data['description'] = $this->html->smart_strip_tags( $user_data->description );
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
@@ -186,7 +186,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data, Meta_Tags_Context $context ) {
-		$schema_id = $context->site_url . $this->id_helper->person_logo_hash;
+		$schema_id = $context->site_url . $this->id->person_logo_hash;
 
 		$data = $this->set_image_from_options( $data, $schema_id, $context );
 		if ( ! isset( $data['image'] ) ) {
@@ -213,10 +213,10 @@ class Person extends Abstract_Schema_Piece {
 		if ( $context->site_represents !== 'person' ) {
 			return $data;
 		}
-		$person_logo_id = $this->image_helper->get_attachment_id_from_settings( 'person_logo' );
+		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
-			$data['image'] = $this->schema_image_helper->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
+			$data['image'] = $this->schema_image->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
 		}
 
 		return $data;
@@ -243,7 +243,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = $this->schema_image_helper->simple_image_object( $schema_id, $url, $user_data->display_name );
+		$data['image'] = $this->schema_image->simple_image_object( $schema_id, $url, $user_data->display_name );
 
 		return $data;
 	}

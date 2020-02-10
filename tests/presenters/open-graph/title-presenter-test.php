@@ -48,7 +48,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance->set_replace_vars( $this->replace_vars );
 
 		$this->indexable_presentation         = new Indexable_Presentation();
 		$this->indexable_presentation->source = [];

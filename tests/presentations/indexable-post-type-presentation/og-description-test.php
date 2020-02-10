@@ -52,7 +52,7 @@ class Open_Graph_Description_Test extends TestCase {
 	public function test_with_excerpt_fallback() {
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'metadesc-post' )
 			->once()

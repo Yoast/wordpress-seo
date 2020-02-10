@@ -49,7 +49,7 @@ class Title_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'title-tax-category' )
@@ -73,13 +73,13 @@ class Title_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'title-tax-category' )
 			->andReturn( '' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-tax-category' )

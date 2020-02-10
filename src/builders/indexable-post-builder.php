@@ -191,7 +191,7 @@ class Indexable_Post_Builder {
 			}
 			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		} catch ( Exception $exception ) {
-			// Do nothing...
+			// Do nothing here...
 		}
 
 		return $indexable;
@@ -224,7 +224,7 @@ class Indexable_Post_Builder {
 	protected function find_alternative_image( Indexable $indexable ) {
 		if (
 			$indexable->object_sub_type === 'attachment' &&
-			$this->image_helper->is_valid_attachment( $indexable->object_id )
+			$this->image->is_valid_attachment( $indexable->object_id )
 		) {
 			return [
 				'image_id' => $indexable->object_id,
@@ -232,11 +232,27 @@ class Indexable_Post_Builder {
 			];
 		}
 
-		$featured_image_id = $this->image_helper->get_featured_image_id( $indexable->object_id );
+		$featured_image_id = $this->image->get_featured_image_id( $indexable->object_id );
 		if ( $featured_image_id ) {
 			return [
 				'image_id' => $featured_image_id,
 				'source'   => 'featured-image',
+			];
+		}
+
+		$gallery_image = $this->image->get_gallery_image( $indexable->object_id );
+		if ( $gallery_image ) {
+			return [
+				'image'  => $gallery_image,
+				'source' => 'gallery-image',
+			];
+		}
+
+		$content_image = $this->image->get_post_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
 			];
 		}
 

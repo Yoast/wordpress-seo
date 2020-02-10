@@ -24,10 +24,10 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Base_Image_Helper $image_helper The image helper.
+	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Base_Image_Helper $image_helper ) {
-		$this->image = $image_helper;
+	public function __construct( Base_Image_Helper $image ) {
+		$this->image = $image;
 	}
 
 	/**

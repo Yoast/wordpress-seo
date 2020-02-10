@@ -36,7 +36,7 @@ class OG_Article_Author_Test extends TestCase {
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()
@@ -56,7 +56,7 @@ class OG_Article_Author_Test extends TestCase {
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()

@@ -21,25 +21,25 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var Schema\Image_Helper
 	 */
-	private $schema_image_helper;
+	private $schema_image;
 
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
+	 * @param Image_Helper        $image        The image helper.
+	 * @param Schema\Image_Helper $schema_image The schema image helper.
 	 */
 	public function __construct(
-		Image_Helper $image_helper,
-		Schema\Image_Helper $schema_image_helper
+		Image_Helper $image,
+		Schema\Image_Helper $schema_image
 	) {
-		$this->image_helper        = $image_helper;
-		$this->schema_image_helper = $schema_image_helper;
+		$this->image        = $image;
+		$this->schema_image = $schema_image;
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$image_id = $context->canonical . $this->id_helper->primary_image_hash;
+		$image_id = $context->canonical . $this->id->primary_image_hash;
 
 		$image_schema = $this->get_featured_image( $context->id, $image_id );
 
@@ -93,7 +93,7 @@ class Main_Image extends Abstract_Schema_Piece {
 			return null;
 		}
 
-		return $this->schema_image_helper->generate_from_attachment_id( $image_id, \get_post_thumbnail_id( $post_id ) );
+		return $this->schema_image->generate_from_attachment_id( $image_id, \get_post_thumbnail_id( $post_id ) );
 	}
 
 	/**
@@ -105,12 +105,12 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = $this->image_helper->get_post_content_image( $post_id );
+		$image_url = $this->image->get_post_content_image( $post_id );
 
 		if ( $image_url === '' ) {
 			return null;
 		}
 
-		return $this->schema_image_helper->generate_from_url( $image_id, $image_url );
+		return $this->schema_image->generate_from_url( $image_id, $image_url );
 	}
 }

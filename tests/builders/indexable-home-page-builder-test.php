@@ -30,17 +30,17 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$options_helper_mock = Mockery::mock( Options_Helper::class );
-		$options_helper_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
-		$options_helper_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
-		$options_helper_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
+		$options_mock = Mockery::mock( Options_Helper::class );
+		$options_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
+		$options_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
+		$options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
 
-		$url_helper_mock = Mockery::mock( Url_Helper::class );
-		$url_helper_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
+		$url_mock = Mockery::mock( Url_Helper::class );
+		$url_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'blog_public' )->andReturn( '1' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -58,7 +58,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
 
-		$builder = new Indexable_Home_Page_Builder( $options_helper_mock, $url_helper_mock );
+		$builder = new Indexable_Home_Page_Builder( $options_mock, $url_mock );
 		$builder->build( $indexable_mock );
 	}
 
@@ -68,17 +68,17 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_with_fallback_description() {
-		$options_helper_mock = Mockery::mock( Options_Helper::class );
-		$options_helper_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
-		$options_helper_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
-		$options_helper_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
-		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
+		$options_mock = Mockery::mock( Options_Helper::class );
+		$options_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
+		$options_mock->expects( 'get' )->with( 'breadcrumbs-home' )->andReturn( 'home_breadcrumb_title' );
+		$options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
+		$options_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
 
-		$url_helper_mock = Mockery::mock( Url_Helper::class );
-		$url_helper_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
+		$url_mock = Mockery::mock( Url_Helper::class );
+		$url_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'blog_public' )->andReturn( '1' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
@@ -96,7 +96,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
 
-		$builder = new Indexable_Home_Page_Builder( $options_helper_mock, $url_helper_mock );
+		$builder = new Indexable_Home_Page_Builder( $options_mock, $url_mock );
 		$builder->build( $indexable_mock );
 	}
 }

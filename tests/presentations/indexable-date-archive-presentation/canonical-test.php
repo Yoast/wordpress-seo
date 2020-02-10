@@ -30,7 +30,7 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://permalink' );
@@ -49,7 +49,7 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical_paginated() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://permalink' );

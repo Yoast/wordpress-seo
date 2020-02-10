@@ -30,7 +30,7 @@ class OG_FB_App_ID_Test extends TestCase {
 	 * @covers ::generate_og_fb_app_id
 	 */
 	public function test_generate_og_fb_app_id() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'fbadminapp', '' )
 			->once()
@@ -45,7 +45,7 @@ class OG_FB_App_ID_Test extends TestCase {
 	 * @covers ::generate_og_fb_app_id
 	 */
 	public function test_generate_og_fb_app_id_with_empty_return_value() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'fbadminapp', '' )
 			->once()

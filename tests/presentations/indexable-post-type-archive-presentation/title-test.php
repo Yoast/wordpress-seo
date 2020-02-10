@@ -43,7 +43,7 @@ class Title_Test extends TestCase {
 	public function test_with_default_fallback() {
 		$this->indexable->object_sub_type = 'posttype';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-ptarchive-posttype' )

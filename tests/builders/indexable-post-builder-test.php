@@ -129,8 +129,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 			]
 		);
 
-		$image_helper = Mockery::mock( Image_Helper::class );
-		$image_helper
+		$image = Mockery::mock( Image_Helper::class );
+		$image
 			->expects( 'get_featured_image_id' )
 			->once()
 			->andReturn( 1 );
@@ -148,7 +148,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 
 		$builder->set_social_image_helpers(
-			$image_helper,
+			$image,
 			$open_graph_image,
 			$twitter_image
 		);
