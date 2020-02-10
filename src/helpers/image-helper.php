@@ -104,23 +104,6 @@ class Image_Helper {
 	}
 
 	/**
-	 * Gets the image url from the term content.
-	 *
-	 * @param int $term_id The term id to extract the images from.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_term_content_image( $term_id ) {
-		$image_url = $this->get_first_content_image_for_term( $term_id );
-
-		if ( $image_url === null ) {
-			return '';
-		}
-
-		return $image_url;
-	}
-
-	/**
 	 * Find the right version of an image based on size.*
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
@@ -185,18 +168,5 @@ class Image_Helper {
 	 */
 	public function get_attachment_id_from_settings( $setting ) {
 		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
-	}
-
-	/**
-	 * Gets the term's first usable content image. Null if none is available.
-	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
-	 * @param int $term_id The term id.
-	 *
-	 * @return string|null The image URL.
-	 */
-	protected function get_first_content_image_for_term( $term_id ) {
-		return WPSEO_Image_Utils::get_first_content_image_for_term( $term_id );
 	}
 }
