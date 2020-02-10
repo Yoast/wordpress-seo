@@ -14,6 +14,10 @@ describe( "Test for getting the correct stem from full forms exception lists", (
 		expect( checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, "fitnesscentra" ) ).toEqual(
 			"fitnesscentrum" );
 	} );
+	it( "returns null if the word ends in a word from the exception list ('eis'), but the preceding lexical material is shorter" +
+		" than 2 characters", () => {
+		expect( checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, "reis" ) ).toEqual( null );
+	} );
 	it( "returns null if the word checked is not in the exception list", () => {
 		expect( checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, "plant" ) ).toEqual( null );
 	} );
