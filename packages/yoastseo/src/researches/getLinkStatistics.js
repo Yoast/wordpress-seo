@@ -1,16 +1,17 @@
 /** @module analyses/getLinkStatistics */
 
-import getAnchors from "../stringProcessing/getAnchorsFromText.js";
-import findKeywordInUrl from "../stringProcessing/findKeywordInUrl.js";
-import getLinkType from "../stringProcessing/getLinkType.js";
-import checkNofollow from "../stringProcessing/checkNofollow.js";
-import urlHelper from "../stringProcessing/url.js";
-import parseSynonyms from "../stringProcessing/parseSynonyms";
-import { buildForms } from "./buildKeywordForms";
+import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
 import getLanguage from "../helpers/getLanguage";
+import checkNofollow from "../stringProcessing/checkNofollow.js";
+import getWords from "../stringProcessing/getWords";
+import findKeywordInUrl from "../stringProcessing/findKeywordInUrl.js";
+import getAnchors from "../stringProcessing/getAnchorsFromText.js";
+import getLinkType from "../stringProcessing/getLinkType.js";
+import matchTextWithArray from "../stringProcessing/matchTextWithArray";
+import urlHelper from "../stringProcessing/url.js";
 
 import { flatten } from "lodash-es";
-import { findWordFormsInString } from "./findKeywordFormsInString";
+import { uniq } from "lodash-es";
 
 
 /**
@@ -66,23 +67,33 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale ) {
 
 /**
  * Filters anchors that are contained within keyphrase or synonyms.
- * @param {Array} anchors An array with all anchors from the paper.
- * @param {Array} keyphraseAndSynonyms An array with keyphrase and its synonyms.
- * @param {string} locale The locale of the paper.
- * @param {Object} morphologyData The morphology data (regexes and exception lists) available for the language.
+ * @param {Array}  anchors    An array with all anchors from the paper.
+ * @param {Object} topicForms An object containing word forms of words included in the keyphrase or a synonym.
+ * @param {string} locale     The locale of the paper.
  *
- * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
+ * @returns {Array} The array of all anchors contained in the keyphrase or synonyms.
  */
-const filterAnchorsContainedInTopic = function( anchors, keyphraseAndSynonyms, locale, morphologyData ) {
+const filterAnchorsContainedInTopic = function( anchors, topicForms, locale ) {
+	// Prepare keyphrase and synonym forms for comparison with anchors.
+	const keyphraseAndSynonymsWords = [ flatten( topicForms.keyphraseForms ) ];
+	const synonymsForms = topicForms.synonymsForms;
+	for ( let i = 0; i < synonymsForms.length; i++ ) {
+		keyphraseAndSynonymsWords.push( flatten( synonymsForms[ i ] ) );
+	}
+
+	const language = getLanguage( locale );
 	const anchorsContainedInTopic = [];
 
 	anchors.forEach( function( currentAnchor ) {
-		// Generate the forms of the content words from within the anchor.
-		const linkTextForms = buildForms( currentAnchor, getLanguage( locale ), morphologyData );
+		// Get single words from the anchor.
+		let anchorWords = uniq( getWords( currentAnchor ) );
 
-		for ( let j = 0; j < keyphraseAndSynonyms.length; j++ ) {
-			const topic = keyphraseAndSynonyms[ j ];
-			if ( findWordFormsInString( linkTextForms, topic, locale ).percentWordMatches === 100 ) {
+		// Filter function words out of the anchor text.
+		anchorWords = filterFunctionWordsFromArray( anchorWords, language );
+
+		// Check if anchorWords are contained in the topic phrase words
+		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
+			if ( anchorWords.every( anchorWord => matchTextWithArray( anchorWord, keyphraseAndSynonymsWords[ i ], locale ).count > 0 ) ) {
 				anchorsContainedInTopic.push( true );
 				break;
 			}
@@ -132,12 +143,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	}
 
 	// Check if content words from the anchors are all within the keyphrase or the synonyms.
-	const synonyms = paper.getSynonyms();
-	const keyphraseAndSynonyms = flatten( [].concat( keyword, parseSynonyms( synonyms ) ) );
-
-	const morphologyData = researcher.getData( "morphology" )[ getLanguage( locale ) ] || false;
-
-	anchors = filterAnchorsContainedInTopic( anchors, keyphraseAndSynonyms, locale, morphologyData );
+	anchors = filterAnchorsContainedInTopic( anchors, topicForms, locale );
 	result.totalKeyword = anchors.length;
 	result.matchedAnchors = anchors;
 
