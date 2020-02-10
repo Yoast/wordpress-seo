@@ -117,6 +117,7 @@ class Indexable_Post_Builder {
 		$indexable->post_status     = $post->post_status;
 		$indexable->is_protected    = $post->post_password !== '';
 		$indexable->is_public       = $this->is_public( $indexable );
+		$indexable->author_id       = $post->post_author;
 
 		return $indexable;
 	}

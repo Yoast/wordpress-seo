@@ -142,8 +142,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		// Get the author's public post count.
-		$public_post_count = (int) \count_user_posts( $post->post_author, 'post', true );
-		$has_public_posts  = $public_post_count > 0;
+		$has_public_posts = $this->repository->author_has_public_posts( $post->post_author );
 
 		try {
 			// Get (or create) the indexable for the post's author.

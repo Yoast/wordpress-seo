@@ -12,10 +12,11 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 /**
  * Indexable table definition.
  *
- * @property int     $id
- * @property int     $object_id
- * @property string  $object_type
- * @property string  $object_sub_type
+ * @property int    $id
+ * @property int    $object_id
+ * @property string $object_type
+ * @property string $object_sub_type
+ * @property int    $author_id
  *
  * @property string  $created_at
  * @property string  $updated_at

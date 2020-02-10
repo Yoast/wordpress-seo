@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Formats the author meta to indexable format.
@@ -22,6 +23,13 @@ class Indexable_Author_Builder {
 	private $options;
 
 	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
@@ -30,6 +38,17 @@ class Indexable_Author_Builder {
 		Options_Helper $options
 	) {
 		$this->options = $options;
+	}
+
+	/**
+	 * @required
+	 *
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -87,9 +106,8 @@ class Indexable_Author_Builder {
 			return true;
 		}
 
-		// If so, check whether an author has posts.
-		$public_post_count = (int) \count_user_posts( $indexable->object_id, 'post', true );
-		return $public_post_count > 0;
+		// If so, check whether an author has public posts.
+		return $this->indexable_repository->author_has_public_posts( $indexable->object_id );
 	}
 
 	/**

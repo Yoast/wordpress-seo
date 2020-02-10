@@ -338,4 +338,22 @@ class Indexable_Repository {
 
 		return array_merge( ...$ancestor_queries );
 	}
+
+	/**
+	 * Returns whether the author has a public post.
+	 *
+	 * @param int $author_id The author ID.
+	 *
+	 * @return bool Whether the author has a public post.
+	 */
+	public function author_has_public_posts( $author_id ) {
+		$first_public_post_indexable = $this->query()
+											->where( 'object_type', 'post' )
+											->where( 'object_sub_type', 'post' )
+											->where( 'author_id', $author_id )
+											->where( 'is_public', 1 )
+											->find_one();
+
+		return $first_public_post_indexable !== false;
+	}
 }
