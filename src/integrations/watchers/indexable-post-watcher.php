@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Exception;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -72,6 +73,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
 		\add_action( 'wpseo_save_indexable', [ $this, 'updated_indexable' ], \PHP_INT_MAX, 2 );
 
+		// To check whether the is_public column for authors without posts should be updated.
+		\add_action( 'wp_insert_post', [ $this, 'build_indexable_for_author_without_posts' ], \PHP_INT_MAX, 2 );
+		\add_action( 'delete_post', [ $this, 'build_indexable_for_author_without_posts' ], \PHP_INT_MAX );
+
 		\add_action( 'edit_attachment',[ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'add_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_attachment', [ $this, 'delete_indexable' ] );
@@ -119,6 +124,39 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 		$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 		$indexable->save();
+	}
+
+	/**
+	 * Builds the author indexable.
+	 *
+	 * Looks at the public post count for this author to determine whether the indexable should be rebuilt.
+	 *
+	 * @param int      $post_id The post ID.
+	 * @param \WP_Post $post    Optional. The post instance.
+	 *
+	 * @return void
+	 */
+	public function build_indexable_for_author_without_posts( $post_id, $post = null ) {
+		if ( $post === null ) {
+			$post = \get_post( $post_id );
+		}
+
+		// Get the author's public post count.
+		$public_post_count = (int) \count_user_posts( $post->post_author, 'post', true );
+		$has_public_posts  = $public_post_count > 0;
+
+		try {
+			// Get (or create) the indexable for the post's author.
+			$indexable = $this->repository->find_by_id_and_type( $post->post_author, 'user', true );
+
+			// This check is not perfect. The author builder will do additional checks.
+			if ( $indexable->is_public !== $has_public_posts ) {
+				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
+				$indexable->save();
+			}
+		} catch ( Exception $exception ) {
+			// Do nothing.
+		}
 	}
 
 	/**
