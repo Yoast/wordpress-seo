@@ -1,5 +1,3 @@
-import { getFacebookFallback, getFacebookTitleFallback } from "./fallbacks";
-
 /**
  * Gets the socialPreview data from the state.
  *
@@ -28,7 +26,7 @@ const getFacebookData = state => getSocialPreview( state ).facebook;
  *
  * @returns {String}.Facebook title.
  */
-export const getFacebookTitle = state => getFacebookData( state ).title || getFacebookTitleFallback( state ) || "ULTIMATE_FAILURE";
+export const getFacebookTitle = state => getFacebookData( state ).title;
 
 /**
  * Gets the facebook description from the state.
@@ -37,7 +35,7 @@ export const getFacebookTitle = state => getFacebookData( state ).title || getFa
  *
  * @returns {String}.Facebook description.
  */
-export const getFacebookDescription = state => getFacebookData( state ).description || getFacebookFallback( state, "description" );
+export const getFacebookDescription = state => getFacebookData( state ).description;
 
 /**
  * Gets the facebook image URL from the state.
