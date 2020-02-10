@@ -124,17 +124,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 * @param string $indexable_table_name The name of the indexable table.
 	 */
 	private function add_indexes( $indexable_table_name ) {
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'permalink',
-			],
-			[
-				'name'   => 'unique_permalink',
-				'unique' => true,
-			]
-		);
-
 		$this->add_index( $indexable_table_name, 'permalink_hash' );
 
 		$this->add_index(
