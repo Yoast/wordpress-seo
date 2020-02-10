@@ -240,22 +240,6 @@ class Indexable_Post_Builder {
 			];
 		}
 
-		$gallery_image = $this->image_helper->get_gallery_image( $indexable->object_id );
-		if ( $gallery_image ) {
-			return [
-				'image'  => $gallery_image,
-				'source' => 'gallery-image',
-			];
-		}
-
-		$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
-		if ( $content_image ) {
-			return [
-				'image'  => $content_image,
-				'source' => 'first-content-image',
-			];
-		}
-
 		return false;
 	}
 
