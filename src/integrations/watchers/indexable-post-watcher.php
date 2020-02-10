@@ -108,7 +108,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
-		if ( is_multisite() && ms_is_switched() ) {
+		if ( \is_multisite() && \ms_is_switched() ) {
 			return;
 		}
 
@@ -134,7 +134,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		// When the indexable is public or has a change in its public state.
 		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
-			$this->update_relations( get_post( $updated_indexable->object_id ) );
+			$this->update_relations( \get_post( $updated_indexable->object_id ) );
 		}
 	}
 
@@ -173,10 +173,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$related_indexables[] = $this->repository->find_for_post_type_archive( $post->post_type, false );
 		$related_indexables[] = $this->repository->find_for_home_page( false );
 
-		$taxonomies = get_post_taxonomies( $post->ID );
-		$taxonomies = array_filter( $taxonomies, 'is_taxonomy_viewable' );
+		$taxonomies = \get_post_taxonomies( $post->ID );
+		$taxonomies = \array_filter( $taxonomies, 'is_taxonomy_viewable' );
 		foreach ( $taxonomies as $taxonomy ) {
-			$terms = get_the_terms( $post->ID, $taxonomy );
+			$terms = \get_the_terms( $post->ID, $taxonomy );
 
 			if ( empty( $terms ) ) {
 				continue;
