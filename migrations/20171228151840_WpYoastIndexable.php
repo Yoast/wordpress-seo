@@ -43,10 +43,11 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		// Object type and ID.
+		// Object information.
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ] );
 		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'author_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 
 		// Title and description.
 		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
