@@ -10,7 +10,9 @@ const testText = "I walked my dog. The cat walks along. The canine and the felin
 describe( "A test from getting word forms from the text, based on the stems of a keyphrase", () => {
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
 		"English stemmer", () => {
-		const text = "A cat's dog and a dog's cat. The feline purrs. The <a href='http://example.com/doggies'>canine</a> is friendly.";
+		const text = "A cat's dog and a dog's cat. The feline purrs. The <a href='http://example.com/doggies'>canine</a> is friendly. " +
+			"Here's a picture of a cute cat <img src='http://plaatje' alt='The cutest cattest cat' /> " +
+			"and a naughty dog <img src='http://plaatje' alt='The naughty dogly dog' />";
 		const attributes = {
 			keyword: "cats and dogs",
 			synonyms: "purring felines, friendly canines",
@@ -21,7 +23,7 @@ describe( "A test from getting word forms from the text, based on the stems of a
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "cats", "cat's", "cat" ], [ "dogs", "dog", "dog's" ] ],
+				keyphraseForms: [ [ "cats", "cat's", "cat", "cattest" ], [ "dogs", "dog", "dog's", "dogly" ] ],
 				synonymsForms: [ [ [ "purring", "purrs" ], [ "felines", "feline" ] ], [ [ "friendly" ], [ "canines", "canine" ] ] ],
 			}
 		);
@@ -138,10 +140,11 @@ describe( "A test from getting word forms from the text, based on the stems of a
 		);
 	} );
 
-	it( "returns multiple forms of a stem found in the text of the paper", () => {
+	it( "returns multiple forms of a stem found in the text of the paper and does not break from an empty alt-tag", () => {
 		const testTextWalkMultipleForms = "The cat walked quickly." +
 			"More cats are walking up there." +
-			"They just walk and walk.";
+			"They just walk and walk." +
+			"<img src='http://plaatje' alt='' /> <img src='http://plaatje2' />";
 		const attributes = {
 			keyword: "the cat walks",
 		};
@@ -165,13 +168,13 @@ describe( "A test from getting word forms from the text, based on the stems of a
 			url: "walked",
 		};
 
-		const testPaper = new Paper( "walk's", attributes );
+		const testPaper = new Paper( "walk's <img src='http://plaatje' alt='Different types of walkings' />", attributes );
 		const researcher = new Researcher( testPaper );
 		researcher.addResearchData( "morphology", morphologyDataEN );
 
 		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
 			{
-				keyphraseForms: [ [ "walk", "walk's", "walks", "walked", "walking" ] ],
+				keyphraseForms: [ [ "walk", "walk's", "walks", "walked", "walking", "walkings" ] ],
 				synonymsForms: [],
 			}
 		);
