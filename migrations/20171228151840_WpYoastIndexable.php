@@ -39,20 +39,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name );
 
-		$this->add_columns( $indexable_table );
-		$indexable_table->finish();
-
-		$this->add_indexes( $table_name );
-
-		$this->add_timestamps( $table_name );
-	}
-
-	/**
-	 * Creates the columns in the indexable table.
-	 *
-	 * @param YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition $indexable_table The indexable table.
-	 */
-	private function add_columns( $indexable_table ) {
 		// Permalink.
 		$indexable_table->column( 'permalink', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'permalink_hash', 'string', [ 'null' => true, 'limit' => 191 ] );
@@ -124,6 +110,12 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 			'unsigned' => true,
 			'default'  => null,
 		] );
+
+		$indexable_table->finish();
+
+		$this->add_indexes( $table_name );
+
+		$this->add_timestamps( $table_name );
 	}
 
 	/**
