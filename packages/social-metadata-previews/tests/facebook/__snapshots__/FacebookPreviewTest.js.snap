@@ -1,22 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -24,87 +9,164 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c3 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
-  display: block;
+.c1 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   cursor: pointer;
-}
-
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
-  color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
 }
 
-<p
-    className="c0"
+.c6 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  overflow: hidden;
+  width: 527px;
+  height: 57px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 476px;
+  font-size: 12px;
+}
+
+<div
+  className="c0"
+  mode={null}
+>
+  <div
+    className="c1"
   >
-    Description to go along with a faulty image.
-  </p>,
-]
+    Select image
+  </div>
+  <div
+    className="c2"
+    mode={null}
+  >
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
+      className="c3"
+    >
+      <span
+        className="c4"
+      >
+        yoast.com
+      </span>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a faulty image.
+    </p>
+  </div>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -112,87 +174,164 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c3 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
-  display: block;
+.c1 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   cursor: pointer;
-}
-
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
-  color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
 }
 
-<p
-    className="c0"
+.c6 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  overflow: hidden;
+  width: 527px;
+  height: 57px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 476px;
+  font-size: 12px;
+}
+
+<div
+  className="c0"
+  mode={null}
+>
+  <div
+    className="c1"
   >
-    Description to go along with a landscape image.
-  </p>,
-]
+    Select image
+  </div>
+  <div
+    className="c2"
+    mode={null}
+  >
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
+      className="c3"
+    >
+      <span
+        className="c4"
+      >
+        yoast.com
+      </span>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a landscape image.
+    </p>
+  </div>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -200,87 +339,164 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c3 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
-  display: block;
+.c1 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   cursor: pointer;
-}
-
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
-  color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
 }
 
-<p
-    className="c0"
+.c6 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  overflow: hidden;
+  width: 527px;
+  height: 57px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 476px;
+  font-size: 12px;
+}
+
+<div
+  className="c0"
+  mode={null}
+>
+  <div
+    className="c1"
   >
-    Description to go along with a portrait image.
-  </p>,
-]
+    Select image
+  </div>
+  <div
+    className="c2"
+    mode={null}
+  >
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
+      className="c3"
+    >
+      <span
+        className="c4"
+      >
+        yoast.com
+      </span>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a portrait image.
+    </p>
+  </div>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -288,87 +504,164 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c3 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
-  display: block;
+.c1 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   cursor: pointer;
-}
-
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
-  color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
 }
 
-<p
-    className="c0"
+.c6 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  overflow: hidden;
+  width: 527px;
+  height: 57px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 476px;
+  font-size: 12px;
+}
+
+<div
+  className="c0"
+  mode={null}
+>
+  <div
+    className="c1"
   >
-    Description to go along with a square image.
-  </p>,
-]
+    Select image
+  </div>
+  <div
+    className="c2"
+    mode={null}
+  >
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
+      className="c3"
+    >
+      <span
+        className="c4"
+      >
+        yoast.com
+      </span>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with a square image.
+    </p>
+  </div>
+</div>
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
-Array [
-  .c0 {
-  width: 500px;
-  height: 261px;
-  background-color: #ddd;
-}
-
-<div
-    className="c0"
-  />,
-  <span
-    className="screen-reader-text"
-  >
-    yoast.com
-  </span>,
-  .c1 {
+.c4 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -376,66 +669,158 @@ Array [
   overflow: hidden;
 }
 
-.c0 {
+.c3 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
-<p
-    aria-hidden="true"
-    className="c0"
-  >
-    <span
-      className="c1"
-    >
-      yoast.com
-    </span>
-  </p>,
-  .c0 {
-  display: block;
+.c1 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
-  max-height: 100px;
-  word-wrap: break-word;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
   white-space: normal;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   cursor: pointer;
-}
-
-<span
-    className="c0"
-  >
-    YoastCon Workshops
-  </span>,
-  .c0 {
-  color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
 }
 
-<p
-    className="c0"
+.c6 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  text-overflow: ellipsis;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.c0 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  background-color: #f2f3f5;
+  overflow: hidden;
+  width: 527px;
+  height: 57px;
+}
+
+.c2 {
+  box-sizing: border-box;
+  background-color: #f2f3f5;
+  margin: 0;
+  padding: 10px 12px;
+  position: relative;
+  border-bottom: 1px solid #dddfe2;
+  border-top: 1px solid #dddfe2;
+  border-right: 1px solid #dddfe2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 476px;
+  font-size: 12px;
+}
+
+<div
+  className="c0"
+  mode={null}
+>
+  <div
+    className="c1"
   >
-    Description to go along with too small an image.
-  </p>,
-]
+    Select image
+  </div>
+  <div
+    className="c2"
+    mode={null}
+  >
+    <span
+      className="screen-reader-text"
+    >
+      yoast.com
+    </span>
+    <p
+      aria-hidden="true"
+      className="c3"
+    >
+      <span
+        className="c4"
+      >
+        yoast.com
+      </span>
+    </p>
+    <span
+      className="c5"
+    >
+      YoastCon Workshops
+    </span>
+    <p
+      className="c6"
+      mode={null}
+    >
+      Description to go along with too small an image.
+    </p>
+  </div>
+</div>
 `;

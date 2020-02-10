@@ -10,17 +10,21 @@ import FacebookAuthorName from "./FacebookAuthorName";
 
 const FacebookSiteAndAuthorNamesWrapper = styled.p`
 	color: #606770;
+	flex-shrink: 0;
 	font-size: 12px;
-	line-height: 11px;
+	line-height: 16px;
 	overflow: hidden;
+	padding: 0;
 	text-overflow: ellipsis;
 	text-transform: uppercase;
 	white-space: nowrap;
+	margin: 0;
+	position: ${ props => props.mode === "landscape" ? "relative" : "static" };
 `;
 
 const FacebookSiteAndAuthorNamesSeparator = styled.span`
-    padding-left: 5px;
-    padding-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 `;
 
 /**

@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -33,26 +33,30 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-const ErrorImage = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
+const PlaceholderImage = styled.div`
 	box-sizing: border-box;
 	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
 	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
-	max-width: 100%;
+	background-color: ${ colors.$color_grey };
+	border-style: dashed;
+	border-width: 2px;
+	// We're not using standard colors to increase contrast for accessibility.
+	color: #073cba;
+	// We're not using standard colors to increase contrast for accessibility.
+	background-color: #f1f1f1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const ErrorImage = styled( PlaceholderImage )`
 	margin: 0;
 	padding: 1em;
 	text-align: center;
 	font-size: 1rem;
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
-`;
-
-const PlaceholderImage = styled.div`
-	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
-	background-color: ${ colors.$color_grey };
+	border: none;
 `;
 
 /**
@@ -62,7 +66,7 @@ const PlaceholderImage = styled.div`
  *
  * @returns {ReactComponent} The FacebookImage component.
  */
-export default class FacebookImage extends React.Component {
+class FacebookImage extends Component {
 	/**
 	 * The constructor.
 	 *
@@ -83,11 +87,14 @@ export default class FacebookImage extends React.Component {
 	 */
 	componentDidMount() {
 		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
+			this.props.onImageLoaded( imageProperties.mode );
+
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
 			} );
 		} ).catch( () => {
+			this.props.onImageLoaded( "landscape" );
 			this.setState( {
 				imageProperties: null,
 				status: "errored",
@@ -130,8 +137,10 @@ export default class FacebookImage extends React.Component {
 	render() {
 		const { imageProperties, status } = this.state;
 
-		if ( status === "loading" ) {
-			return <PlaceholderImage />;
+		if ( status === "loading" || this.props.src === "" ) {
+			return <PlaceholderImage>
+				{ __( "Select image", "yoast-components" ) }
+			</PlaceholderImage>;
 		}
 
 		if ( status === "errored" ) {
@@ -162,8 +171,12 @@ export default class FacebookImage extends React.Component {
 FacebookImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
+	onImageLoaded: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
 	alt: "",
+	onImageLoaded: () => {},
 };
+
+export default FacebookImage;
