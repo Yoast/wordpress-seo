@@ -7,7 +7,7 @@ exports[`FacebookTitle matches the snapshot by default 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;

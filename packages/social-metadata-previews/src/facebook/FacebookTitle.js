@@ -9,7 +9,7 @@ const FacebookTitleWrapper = styled.span`
 	overflow: hidden;
 	font-size: 16px;
 	line-height: 20px;
-	margin: 5px 0 0;
+	margin: 0;
 	letter-spacing: normal;
 	white-space: normal;
 	flex-shrink: 0;

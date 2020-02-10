@@ -54,7 +54,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
@@ -219,7 +219,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
@@ -384,7 +384,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
@@ -549,7 +549,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
@@ -714,7 +714,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
-  margin: 5px 0 0;
+  margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
