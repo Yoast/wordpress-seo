@@ -13,12 +13,39 @@ import {
 	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
+/**
+ * Will set height, width, and border properties on the image container as required by the summary/summary_large_image cards.
+ *
+ * @param {boolean} isLarge Whether this is the summary_large_image or regular summary card.
+ * @param {boolean} border  Whether this image should have appropriate border styles, or no border;
+ *
+ * @returns {string} A string containing relevant css settings.
+ */
+const injectCardDependentStyles = ( isLarge, border = true ) => {
+	if ( isLarge ) {
+		return (
+			`
+			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
+			width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
+			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
+			`
+		);
+	}
+	return (
+		`
+		width: ${ TWITTER_IMAGE_SIZES.squareWidth }px;
+		${ border ? "border-right: 1px solid #E1E8ED;" : "" }
+		`
+	);
+};
+
 const TwitterImageContainer = styled.div`
 	position: relative;
-	height: ${ props => props.dimensions.height };
-	width: ${ props => props.dimensions.width };
+	box-sizing: content-box;
 	overflow: hidden;
 	background-color: #e1e8ed;
+	flex-shrink: 0;
+	${ props => injectCardDependentStyles( props.isLarge ) }
 `;
 
 const StyledImage = styled.img`
@@ -35,13 +62,12 @@ const BaseImage = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
 	text-align: center;
 	font-size: 1rem;
+	${ props => injectCardDependentStyles( props.isLarge, false ) }
 `;
 
 const ErrorImage = styled( BaseImage )`
@@ -50,8 +76,8 @@ const ErrorImage = styled( BaseImage )`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
-	border-top-left-radius: 12px;
-	border-top-right-radius: 12px;
+	border-top-left-radius: 14px;
+	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
 	border-width: 2px;
 	// We're not using standard colors to increase contrast for accessibility.
@@ -101,28 +127,6 @@ export default class TwitterImage extends React.Component {
 	}
 
 	/**
-	 * Retrieves the dimensions for the Twitter image container.
-	 *
-	 * @param {string} imageMode The Twitter image mode: landscape or square.
-	 *
-	 * @returns {Object} The width and height for the container.
-	 */
-	retrieveContainerDimensions( imageMode ) {
-		switch ( imageMode ) {
-			case "square":
-				return {
-					height: TWITTER_IMAGE_SIZES.squareHeight + "px",
-					width: TWITTER_IMAGE_SIZES.squareWidth + "px",
-				};
-			case "landscape":
-				return {
-					height: TWITTER_IMAGE_SIZES.landscapeHeight + "px",
-					width: TWITTER_IMAGE_SIZES.landscapeWidth + "px",
-				};
-		}
-	}
-
-	/**
 	 * Renders the TwitterImage.
 	 *
 	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
@@ -132,7 +136,7 @@ export default class TwitterImage extends React.Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" ) {
-			return <PlaceholderImage>
+			return <PlaceholderImage isLarge={ this.props.isLarge }>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
 		}
@@ -143,9 +147,8 @@ export default class TwitterImage extends React.Component {
 			</ErrorImage>;
 		}
 
-		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <TwitterImageContainer
-			dimensions={ containerDimensions }
+			isLarge={ this.props.isLarge }
 		>
 			<StyledImage
 				src={ this.props.src }
@@ -158,6 +161,7 @@ export default class TwitterImage extends React.Component {
 
 TwitterImage.propTypes = {
 	src: PropTypes.string.isRequired,
+	isLarge: PropTypes.bool.isRequired,
 	alt: PropTypes.string,
 };
 

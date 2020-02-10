@@ -20,7 +20,7 @@ describe( "TwitterImage Component", () => {
 		} ) );
 
 		renderer.create(
-			<TwitterImage src={ imageUrl } />
+			<TwitterImage src={ imageUrl } isLarge={ true } />
 		);
 
 		expect( determineImageProperties.determineImageProperties ).toBeCalledWith( imageUrl, "Twitter" );
@@ -32,7 +32,7 @@ describe( "TwitterImage Component", () => {
 			new Promise( () => {} )
 		);
 		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" />
+			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" isLarge={ true } />
 		);
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
@@ -45,7 +45,7 @@ describe( "TwitterImage Component", () => {
 			width: 600,
 		} ) );
 		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg" />
+			<TwitterImage src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg" isLarge={ false } />
 		);
 
 		// Wait for the determineImageProperties promise to resolve.
@@ -59,7 +59,7 @@ describe( "TwitterImage Component", () => {
 			width: 600,
 		} ) );
 		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg" />
+			<TwitterImage src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg" isLarge={ true } />
 		);
 
 		// Wait for the determineImageProperties promise to resolve.
@@ -73,7 +73,7 @@ describe( "TwitterImage Component", () => {
 			width: 300,
 		} ) );
 		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png" />
+			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png" isLarge={ false } />
 		);
 
 		// Wait for the determineImageProperties promise to resolve.
@@ -87,44 +87,10 @@ describe( "TwitterImage Component", () => {
 			width: 300,
 		} ) );
 		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png" />
+			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png" isLarge={ true } />
 		);
 
 		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
-	} );
-
-	it( "matches the snapshot for a too small image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValue( Promise.resolve( {
-			mode: "square",
-			height: 100,
-			width: 100,
-		} ) );
-		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png" />
-		);
-
-		// Wait for the determineImageProperties promise to resolve.
-		return delayComponentSnapshot( component );
-	} );
-} );
-
-describe( "retrieveContainerDimensions", () => {
-	it( "retrieves the container dimensions for a landscape image", () => {
-		const TwitterImageComponent = new TwitterImage();
-
-		const actual = TwitterImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: 254 + "px", width: 506 + "px" };
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "retrieves the container dimensions for a square image", () => {
-		const TwitterImageComponent = new TwitterImage();
-
-		const actual = TwitterImageComponent.retrieveContainerDimensions( "square" );
-		const expected = { height: 125 + "px", width: 125 + "px" };
-
-		expect( actual ).toEqual( expected );
 	} );
 } );

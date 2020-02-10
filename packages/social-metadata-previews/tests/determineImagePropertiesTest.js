@@ -65,7 +65,7 @@ describe( "retrieveExpectedDimensions", () => {
 			squareWidth: 125,
 			squareHeight: 125,
 			landscapeWidth: 506,
-			landscapeHeight: 254,
+			landscapeHeight: 265,
 		};
 
 		expect( actual ).toEqual( expected );

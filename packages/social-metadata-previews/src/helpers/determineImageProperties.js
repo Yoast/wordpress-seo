@@ -2,7 +2,7 @@ export const TWITTER_IMAGE_SIZES = {
 	squareWidth: 125,
 	squareHeight: 125,
 	landscapeWidth: 506,
-	landscapeHeight: 254,
+	landscapeHeight: 265,
 };
 
 export const FACEBOOK_IMAGE_SIZES = {
