@@ -45,7 +45,7 @@ class Meta_Description_Test extends TestCase {
 		$this->indexable->description = null;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-tax-post' )

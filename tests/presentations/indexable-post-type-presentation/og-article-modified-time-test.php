@@ -53,7 +53,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
-		$this->date_helper
+		$this->date
 			->expects( 'format' )
 			->with( '2019-11-09T12:34:56+00:00' )
 			->once()

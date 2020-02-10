@@ -20,29 +20,29 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * @var Article_Helper
 	 */
-	private $article_helper;
+	private $article;
 
 	/**
 	 * @var Date_Helper
 	 */
-	private $date_helper;
+	private $date;
 
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article_helper The article helper.
-	 * @param Date_Helper    $date_helper    The date helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param Article_Helper $article The article helper.
+	 * @param Date_Helper    $date    The date helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper, HTML_Helper $html_helper ) {
-		$this->article_helper = $article_helper;
-		$this->date_helper    = $date_helper;
-		$this->html_helper    = $html_helper;
+	public function __construct( Article_Helper $article, Date_Helper $date, HTML_Helper $html ) {
+		$this->article = $article;
+		$this->date    = $date;
+		$this->html    = $html;
 	}
 
 	/**
@@ -61,8 +61,8 @@ class Article extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $this->article_helper->is_article_post_type( $context->indexable->object_sub_type ) ) {
-			$context->main_schema_id = $context->canonical . $this->id_helper->article_hash;
+		if ( $this->article->is_article_post_type( $context->indexable->object_sub_type ) ) {
+			$context->main_schema_id = $context->canonical . $this->id->article_hash;
 
 			return true;
 		}
@@ -81,14 +81,14 @@ class Article extends Abstract_Schema_Piece {
 		$comment_count = \get_comment_count( $context->id );
 		$data          = [
 			'@type'            => 'Article',
-			'@id'              => $context->canonical . $this->id_helper->article_hash,
-			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
-			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
-			'headline'         => $this->html_helper->smart_strip_tags( $context->title ),
-			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
-			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
+			'@id'              => $context->canonical . $this->id->article_hash,
+			'isPartOf'         => [ '@id' => $context->canonical . $this->id->webpage_hash ],
+			'author'           => [ '@id' => $this->id->get_user_schema_id( $context->post->post_author, $context ) ],
+			'headline'         => $this->html->smart_strip_tags( $context->title ),
+			'datePublished'    => $this->date->format( $context->post->post_date_gmt ),
+			'dateModified'     => $this->date->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
+			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id->webpage_hash ],
 		];
 
 		if ( $context->site_represents_reference ) {
@@ -183,7 +183,7 @@ class Article extends Abstract_Schema_Piece {
 	private function add_image( $data, Meta_Tags_Context $context ) {
 		if ( $context->has_image ) {
 			$data['image'] = [
-				'@id' => $context->canonical . $this->id_helper->primary_image_hash,
+				'@id' => $context->canonical . $this->id->primary_image_hash,
 			];
 		}
 

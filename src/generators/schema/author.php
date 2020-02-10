@@ -28,24 +28,24 @@ class Author extends Person {
 	/**
 	 * @var Article_Helper
 	 */
-	private $article_helper;
+	private $article;
 
 	/**
 	 * Author constructor.
 	 *
-	 * @param Article_Helper      $article_helper      The article helper.
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
-	 * @param Schema\HTML_Helper  $html_helper         The HTML helper.
+	 * @param Article_Helper      $article      The article helper.
+	 * @param Image_Helper        $image        The image helper.
+	 * @param Schema\Image_Helper $schema_image The schema image helper.
+	 * @param Schema\HTML_Helper  $html         The HTML helper.
 	 */
 	public function __construct(
-		Article_Helper $article_helper,
-		Image_Helper $image_helper,
-		Schema\Image_Helper $schema_image_helper,
-		Schema\HTML_Helper $html_helper
+		Article_Helper $article,
+		Image_Helper $image,
+		Schema\Image_Helper $schema_image,
+		Schema\HTML_Helper $html
 	) {
-		parent::__construct( $image_helper, $schema_image_helper, $html_helper );
-		$this->article_helper = $article_helper;
+		parent::__construct( $image, $schema_image, $html );
+		$this->article = $article;
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Author extends Person {
 
 		if (
 			$context->indexable->object_type === 'post' &&
-			$this->article_helper->is_article_post_type( $context->indexable->object_sub_type )
+			$this->article->is_article_post_type( $context->indexable->object_sub_type )
 		) {
 			// If the author is the user the site represents, no need for an extra author block.
 			return (int) $context->post->post_author !== $context->site_user_id;
@@ -89,7 +89,7 @@ class Author extends Person {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $context->indexable->object_type === 'author' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $context->canonical . $this->id_helper->webpage_hash,
+				'@id' => $context->canonical . $this->id->webpage_hash,
 			];
 		}
 

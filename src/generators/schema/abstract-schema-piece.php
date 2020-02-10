@@ -21,17 +21,17 @@ abstract class Abstract_Schema_Piece implements Generator_Interface {
 	/**
 	 * @var ID_Helper
 	 */
-	protected $id_helper;
+	protected $id;
 
 	/**
 	 * @required
 	 *
 	 * Sets the ID helper.
 	 *
-	 * @param ID_Helper $id_helper A helper to retrieve Schema ID's.
+	 * @param ID_Helper $id A helper to retrieve Schema ID's.
 	 */
-	public function set_id_helper( ID_Helper $id_helper ) {
-		$this->id_helper = $id_helper;
+	public function set_id_helper( ID_Helper $id ) {
+		$this->id = $id;
 	}
 
 	/**

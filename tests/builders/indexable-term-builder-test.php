@@ -114,11 +114,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
-		$image_helper     = Mockery::mock( Image_Helper::class );
+		$image            = Mockery::mock( Image_Helper::class );
 		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
 		$twitter_image    = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );
 
-		$image_helper
+		$image
 			->expects( 'get_term_content_image' )
 			->once()
 			->andReturn( 'image.jpg' );
@@ -126,7 +126,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$builder = new Indexable_Term_Builder();
 
 		$builder->set_social_image_helpers(
-			$image_helper,
+			$image,
 			$open_graph_image,
 			$twitter_image
 		);

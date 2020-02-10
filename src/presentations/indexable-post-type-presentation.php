@@ -146,13 +146,13 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 		// Get SEO title as entered in Search appearance.
 		$post_type = $this->model->object_sub_type;
-		$title     = $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		$title     = $this->options->get( 'title-' . $this->model->object_sub_type );
 		if ( $title ) {
 			return $title;
 		}
 
 		// Get installation default title.
-		return $this->options_helper->get_title_default( 'title-' . $post_type );
+		return $this->options->get_title_default( 'title-' . $post_type );
 	}
 
 	/**
@@ -163,7 +163,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options_helper->get( 'metadesc-' . $this->model->object_sub_type );
+		return $this->options->get( 'metadesc-' . $this->model->object_sub_type );
 	}
 
 	/**
@@ -351,7 +351,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '@' . $twitter_creator;
 		}
 
-		$site_twitter = $this->options_helper->get( 'twitter_site', '' );
+		$site_twitter = $this->options->get( 'twitter_site', '' );
 		if ( \is_string( $site_twitter ) && $site_twitter !== '' ) {
 			return '@' . $site_twitter;
 		}

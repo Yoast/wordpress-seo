@@ -44,7 +44,7 @@ class Title_Test extends TestCase {
 	public function test_with_general_post_seo_title() {
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'title-post' )
@@ -63,13 +63,13 @@ class Title_Test extends TestCase {
 	public function test_with_post_installation_default_title() {
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'title-post' )
 			->andReturn( '' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-post' )

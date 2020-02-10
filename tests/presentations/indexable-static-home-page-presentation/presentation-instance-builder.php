@@ -39,7 +39,7 @@ trait Presentation_Instance_Builder {
 	 *
 	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
-	protected $post_type_helper;
+	protected $post_type;
 
 	/**
 	 * Represents the meta tags context.
@@ -53,7 +53,7 @@ trait Presentation_Instance_Builder {
 	 *
 	 * @var Date_Helper
 	 */
-	protected $date_helper;
+	protected $date;
 
 	/**
 	 * Holds the Pagination_Helper instance.
@@ -75,17 +75,17 @@ trait Presentation_Instance_Builder {
 	protected function set_instance() {
 		$this->indexable = new Indexable();
 
-		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->post             = Mockery::mock( Post_Helper::class );
-		$this->context          = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->date_helper      = Mockery::mock( Date_Helper::class );
-		$this->pagination       = Mockery::mock( Pagination_Helper::class );
+		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
+		$this->post       = Mockery::mock( Post_Helper::class );
+		$this->context    = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->date       = Mockery::mock( Date_Helper::class );
+		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Static_Home_Page_Presentation::class,
 			[
-				$this->post_type_helper,
-				$this->date_helper,
+				$this->post_type,
+				$this->date,
 				$this->pagination,
 				$this->post
 			]

@@ -30,7 +30,7 @@ class OG_URL_Test extends TestCase {
 	 * @covers ::generate_og_url
 	 */
 	public function test_generate_og_url() {
-		$this->url_helper
+		$this->url
 			->expects( 'home' )
 			->withNoArgs()
 			->once()

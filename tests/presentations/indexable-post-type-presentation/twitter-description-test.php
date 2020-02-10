@@ -43,7 +43,7 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
@@ -107,7 +107,7 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_no_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );

@@ -50,7 +50,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		$this->url_helper
+		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function ( $val ) {
@@ -80,7 +80,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/permalink/2/' );
 
-		$this->url_helper
+		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function ( $val ) {

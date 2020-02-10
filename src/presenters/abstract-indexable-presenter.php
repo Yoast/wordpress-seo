@@ -18,17 +18,17 @@ abstract class Abstract_Indexable_Presenter {
 	/**
 	 * @var WPSEO_Replace_Vars
 	 */
-	protected $replace_vars_helper;
+	protected $replace_vars;
 
 	/**
 	 * @required
 	 *
 	 * Sets the replace vars helper, used by DI.
 	 *
-	 * @param \WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
+	 * @param \WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 */
-	public function set_replace_vars_helper( WPSEO_Replace_Vars $replace_vars_helper ) {
-		$this->replace_vars_helper = $replace_vars_helper;
+	public function set_replace_vars( WPSEO_Replace_Vars $replace_vars ) {
+		$this->replace_vars = $replace_vars;
 	}
 
 	/**
@@ -49,6 +49,6 @@ abstract class Abstract_Indexable_Presenter {
 	 * @return string The meta description with replacement variables replaced.
 	 */
 	protected function replace_vars( $meta_description, Indexable_Presentation $presentation ) {
-		return $this->replace_vars_helper->replace( $meta_description, $presentation->source );
+		return $this->replace_vars->replace( $meta_description, $presentation->source );
 	}
 }

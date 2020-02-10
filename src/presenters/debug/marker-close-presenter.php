@@ -19,17 +19,17 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * @var Product_Helper
 	 */
-	private $product_helper;
+	private $product;
 
 	/**
 	 * Debug_Marker_Close_Presenter constructor.
 	 *
-	 * @param Product_Helper $product_helper The product helper.
+	 * @param Product_Helper $product The product helper.
 	 */
 	public function __construct(
-		Product_Helper $product_helper
+		Product_Helper $product
 	) {
-		$this->product_helper = $product_helper;
+		$this->product = $product;
 	}
 
 	/**
@@ -42,7 +42,7 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		return \sprintf(
 			'<!-- / %s. -->' . PHP_EOL . PHP_EOL,
-			\esc_html( $this->product_helper->get_name() )
+			\esc_html( $this->product->get_name() )
 		);
 	}
 }
