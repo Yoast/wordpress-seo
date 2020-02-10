@@ -14,7 +14,7 @@ export const SET_IMAGE_TYPE = "SET_IMAGE_TYPE";
  *
  * @returns {Object} The action object.
  */
-export const SetSocialPreviewTitle = ( title, platform ) => {
+export const setSocialPreviewTitle = ( title, platform ) => {
 	return { type: SET_TITLE, platform, title };
 };
 
@@ -26,7 +26,7 @@ export const SetSocialPreviewTitle = ( title, platform ) => {
  *
  * @returns {Object} The action object.
  */
-export const SetSocialPreviewDescription = ( description, platform ) => {
+export const setSocialPreviewDescription = ( description, platform ) => {
 	return { type: SET_DESCRIPTION, platform, description };
 };
 
@@ -38,7 +38,7 @@ export const SetSocialPreviewDescription = ( description, platform ) => {
  *
  * @returns {Object} The action object.
  */
-export const SetSocialPreviewImage = ( imageUrl, platform ) => {
+export const setSocialPreviewImageUrl = ( imageUrl, platform ) => {
 	return { type: SET_IMAGE_URL, platform, imageUrl };
 };
 
@@ -50,6 +50,6 @@ export const SetSocialPreviewImage = ( imageUrl, platform ) => {
  *
  * @returns {Object} The action object.
  */
-export const SetSocialPreviewType = ( imageType, platform ) => {
+export const setSocialPreviewImageType = ( imageType, platform ) => {
 	return { type: SET_IMAGE_TYPE, platform, imageType };
 };

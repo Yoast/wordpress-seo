@@ -8,12 +8,12 @@ import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../ac
 const initialState = {
 	title: "",
 	description: "",
-	imageUrl: "",
-	imageId: "",
 	author: "",
 	siteName: "",
 	errors: [],
-	type: "",
+	imageUrl: "",
+	imageId: "",
+	imageType: "",
 };
 
 /**
@@ -48,8 +48,12 @@ function socialPreview( state = initialState, action ) {
 function createNamedWrapperReducer( reducerFunction, platformName ) {
 	return ( state, action ) => {
 		const { platform } = action;
-		const isInitializationCall = ! ! state;
-		if ( platform !== platformName && ! isInitializationCall ) {
+		// eslint-disable-next-line no-undefined
+		const isInitializationCall = state === undefined;
+		if ( isInitializationCall ) {
+			return initialState;
+		}
+		if ( platform !== platformName ) {
 			 return state;
 		}
 		return reducerFunction( state, action );
