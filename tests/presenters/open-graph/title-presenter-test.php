@@ -68,7 +68,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->indexable_presentation->og_title = 'example_title';
+		$this->indexable_presentation->open_graph_title = 'example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -88,7 +88,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_title_is_empty() {
-		$this->indexable_presentation->og_title = '';
+		$this->indexable_presentation->open_graph_title = '';
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -108,7 +108,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->indexable_presentation->og_title = 'example_title';
+		$this->indexable_presentation->open_graph_title = 'example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )

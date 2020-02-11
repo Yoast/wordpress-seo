@@ -27,9 +27,9 @@ class OG_Article_Published_Time_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * @covers ::generate_og_article_published_time
+	 * @covers ::generate_open_graph_article_published_time
 	 */
 	public function test_generate_og_article_published_time_and_return_empty() {
-		$this->assertEmpty( $this->instance->generate_og_article_published_time() );
+		$this->assertEmpty( $this->instance->generate_open_graph_article_published_time() );
 	}
 }

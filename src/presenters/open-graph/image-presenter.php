@@ -36,8 +36,8 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$images = [];
 
-		foreach ( $presentation->og_images as $og_image ) {
-			$images[] = $this->filter( $og_image, $presentation );
+		foreach ( $presentation->open_graph_images as $open_graph_image ) {
+			$images[] = $this->filter( $open_graph_image, $presentation );
 		}
 
 		$images = \array_filter( $images );

@@ -27,7 +27,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	/**
 	 * Tests that no modified time is returned if it is the same as the published time
 	 *
-	 * @covers ::generate_og_article_modified_time
+	 * @covers ::generate_open_graph_article_modified_time
 	 */
 	public function test_generate_og_article_modified_time_same_as_published_time() {
 		$source = (object) [
@@ -36,14 +36,14 @@ class OG_Article_Modified_Time_Test extends TestCase {
 		];
 		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
 
-		$actual = $this->instance->generate_og_article_modified_time();
+		$actual = $this->instance->generate_open_graph_article_modified_time();
 		$this->assertEmpty( $actual );
 	}
 
 	/**
 	 * Tests that the modified time is returned if it differs from the published time.
 	 *
-	 * @covers ::generate_og_article_modified_time
+	 * @covers ::generate_open_graph_article_modified_time
 	 */
 	public function test_generate_og_article_modified_time_differs_from_published_time() {
 		$source = (object) [
@@ -59,7 +59,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 			->once()
 			->andReturn( '2019-11-09T12:34:56+00:00' );
 
-		$actual              = $this->instance->generate_og_article_modified_time();
+		$actual              = $this->instance->generate_open_graph_article_modified_time();
 		$expected            = '2019-11-09T12:34:56+00:00';
 		$this->assertEquals( $expected, $actual );
 	}

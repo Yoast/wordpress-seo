@@ -23,7 +23,7 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The OpenGraph description's meta tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$description = $this->filter( $this->replace_vars( $presentation->og_description, $presentation ), $presentation );
+		$description = $this->filter( $this->replace_vars( $presentation->open_graph_description, $presentation ), $presentation );
 
 		if ( \is_string( $description ) && $description !== '' ) {
 			return \sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );

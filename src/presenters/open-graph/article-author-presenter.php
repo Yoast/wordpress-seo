@@ -23,7 +23,7 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The article author tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$article_author = $this->filter( $presentation->og_article_author, $presentation );
+		$article_author = $this->filter( $presentation->open_graph_article_author, $presentation );
 
 		if ( \is_string( $article_author ) && $article_author !== '' ) {
 			return \sprintf( '<meta property="article:author" content="%s" />', \esc_attr( $article_author ) );

@@ -48,7 +48,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled    = true;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
 			->andReturn( '' );
 
@@ -72,7 +72,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled    = true;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
 			->andReturn( 'OG Description' );
 
@@ -90,7 +90,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->context->open_graph_enabled    = false;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
 			->andReturn( 'OG Description' );
 

@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Generators;
 
 use Mockery;
-use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
 /**
  * Class OG_Image_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Generators\OG_Image_Generator
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Open_Graph_Image_Generator
  *
  * @group generators
  * @group opengraph
@@ -40,7 +40,7 @@ class OG_Image_Generator_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * @var OG_Image_Generator|Mockery\MockInterface
+	 * @var Open_Graph_Image_Generator|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -80,7 +80,7 @@ class OG_Image_Generator_Test extends TestCase {
 		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
-			OG_Image_Generator::class,
+			Open_Graph_Image_Generator::class,
 			[ $this->open_graph_image, $this->image, $this->options, $this->url ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 

@@ -42,7 +42,7 @@ class FB_App_ID_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_fb_app_id = '12345';
+		$this->presentation->open_graph_fb_app_id = '12345';
 
 		$expected = '<meta property="fb:app_id" content="12345" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -56,7 +56,7 @@ class FB_App_ID_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_fb_app_id() {
-		$this->presentation->og_fb_app_id = '';
+		$this->presentation->open_graph_fb_app_id = '';
 
 		$actual = $this->instance->present( $this->presentation );
 

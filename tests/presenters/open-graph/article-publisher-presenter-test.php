@@ -43,7 +43,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_publisher = 'https://example.com';
+		$this->presentation->open_graph_article_publisher = 'https://example.com';
 
 		$expected = '<meta property="article:publisher" content="https://example.com" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -57,7 +57,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_article_publisher() {
-		$this->presentation->og_article_publisher = '';
+		$this->presentation->open_graph_article_publisher = '';
 
 		$expected = '';
 		$actual   = $this->instance->present( $this->presentation );
@@ -72,7 +72,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_article_publisher = 'https://example.com';
+		$this->presentation->open_graph_article_publisher = 'https://example.com';
 
 		Monkey\Filters\expectApplied( 'wpseo_og_article_publisher' )
 			->once()

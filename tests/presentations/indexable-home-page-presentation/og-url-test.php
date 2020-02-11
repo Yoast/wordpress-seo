@@ -27,7 +27,7 @@ class OG_URL_Test extends TestCase {
 	/**
 	 * Tests whether generate_og_url calls the `home` method of the url helper.
 	 *
-	 * @covers ::generate_og_url
+	 * @covers ::generate_open_graph_url
 	 */
 	public function test_generate_og_url() {
 		$this->url
@@ -36,6 +36,6 @@ class OG_URL_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/' );
 
-		$this->assertEquals( 'https://example.com/', $this->instance->generate_og_url() );
+		$this->assertEquals( 'https://example.com/', $this->instance->generate_open_graph_url() );
 	}
 }

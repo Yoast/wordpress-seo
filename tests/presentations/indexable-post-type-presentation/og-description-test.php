@@ -36,18 +36,18 @@ class Open_Graph_Description_Test extends TestCase {
 	/**
 	 * Tests the situation where the og_description is retrieved.
 	 *
-	 * @covers ::generate_og_description
+	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_og_description() {
 		$this->indexable->og_description = 'OpenGraph description';
 
-		$this->assertEquals( 'OpenGraph description', $this->instance->generate_og_description() );
+		$this->assertEquals( 'OpenGraph description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
 	 * Tests the situation where the fall back to the excerpt is used.
 	 *
-	 * @covers ::generate_og_description
+	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_excerpt_fallback() {
 		$this->indexable->object_sub_type = 'post';
@@ -64,6 +64,6 @@ class Open_Graph_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'Excerpt description' );
 
-		$this->assertEquals( 'Excerpt description', $this->instance->generate_og_description() );
+		$this->assertEquals( 'Excerpt description', $this->instance->generate_open_graph_description() );
 	}
 }

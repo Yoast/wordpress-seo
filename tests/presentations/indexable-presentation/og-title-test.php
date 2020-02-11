@@ -28,21 +28,21 @@ class OG_Title_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG title is set.
 	 *
-	 * @covers ::generate_og_title
+	 * @covers ::generate_open_graph_title
 	 */
 	public function test_generate_og_title_when_og_title_is_set() {
 		$this->indexable->og_title = 'Example of OG title';
 
-		$this->assertEquals( 'Example of OG title', $this->instance->generate_og_title() );
+		$this->assertEquals( 'Example of OG title', $this->instance->generate_open_graph_title() );
 	}
 
 	/**
 	 * Tests the situation where the OG title is not set, and the SEO title is returned.
 	 *
-	 * @covers ::generate_og_title
+	 * @covers ::generate_open_graph_title
 	 */
 	public function test_generate_og_title_with_seo_title() {
 		$this->indexable->title = 'Example of SEO title';
-		$this->assertEquals( 'Example of SEO title', $this->instance->generate_og_title() );
+		$this->assertEquals( 'Example of SEO title', $this->instance->generate_open_graph_title() );
 	}
 }

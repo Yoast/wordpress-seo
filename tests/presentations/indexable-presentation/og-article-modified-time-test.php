@@ -26,9 +26,9 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * @covers ::generate_og_article_modified_time
+	 * @covers ::generate_open_graph_article_modified_time
 	 */
 	public function test_generate_og_article_modified_time_and_return_empty() {
-		$this->assertEmpty( $this->instance->generate_og_article_modified_time() );
+		$this->assertEmpty( $this->instance->generate_open_graph_article_modified_time() );
 	}
 }

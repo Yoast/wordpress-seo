@@ -28,18 +28,18 @@ class OG_Images_Test extends TestCase {
 	/**
 	 * Tests the situation where the featured image id is set.
 	 *
-	 * @covers ::generate_og_images
+	 * @covers ::generate_open_graph_images
 	 */
 	public function test_with_opengraph_disabled() {
 		$this->context->open_graph_enabled = false;
 
-		$this->assertEmpty( $this->instance->generate_og_images() );
+		$this->assertEmpty( $this->instance->generate_open_graph_images() );
 	}
 
 	/**
 	 * Tests the situation where the og_image_id isn't set but the og_image is.
 	 *
-	 * @covers ::generate_og_images
+	 * @covers ::generate_open_graph_images
 	 */
 	public function test_with_generator_result() {
 		$this->indexable->og_image = 'facebook_image.jpg';
@@ -50,7 +50,7 @@ class OG_Images_Test extends TestCase {
 			->with( $this->context )
 			->andReturn( [ 'facebook_image.jpg' ] );
 
-		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
+		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_open_graph_images() );
 	}
 
 }

@@ -60,7 +60,7 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_description = 'My description';
+		$this->presentation->open_graph_description = 'My description';
 
 		$expected = '<meta property="og:description" content="My description" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -74,7 +74,7 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_description() {
-		$this->presentation->og_description = '';
+		$this->presentation->open_graph_description = '';
 
 		$expected = '';
 		$actual   = $this->instance->present( $this->presentation );
@@ -89,7 +89,7 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_description = 'My description';
+		$this->presentation->open_graph_description = 'My description';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_desc' )
 			->once()

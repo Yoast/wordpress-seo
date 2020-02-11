@@ -272,7 +272,7 @@ class Indexable_Post_Builder {
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
 
-				$this->set_og_image_meta_data( $indexable );
+				$this->set_open_graph_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -317,7 +317,7 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 */
-	protected function set_og_image_meta_data( Indexable $indexable ) {
+	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
 		if ( ! $indexable->og_image_id ) {
 			return;
 		}

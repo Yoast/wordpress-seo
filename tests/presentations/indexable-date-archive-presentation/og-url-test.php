@@ -27,7 +27,7 @@ class OG_URL_Test extends TestCase {
 	/**
 	 * Tests whether generate_og_url calls the `get_date_archive_permalink` method of the current page helper.
 	 *
-	 * @covers ::generate_og_url
+	 * @covers ::generate_open_graph_url
 	 */
 	public function test_generate_og_url() {
 		$this->current_page
@@ -35,6 +35,6 @@ class OG_URL_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/2019/11' );
 
-		$this->assertEquals( 'https://example.com/2019/11', $this->instance->generate_og_url() );
+		$this->assertEquals( 'https://example.com/2019/11', $this->instance->generate_open_graph_url() );
 	}
 }

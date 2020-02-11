@@ -23,10 +23,10 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The open graph type tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$og_type = $this->filter( $presentation->og_type, $presentation );
+		$open_graph_type = $this->filter( $presentation->open_graph_type, $presentation );
 
-		if ( \is_string( $og_type ) && $og_type !== '' ) {
-			return '<meta property="og:type" content="' . \esc_attr( $og_type ) . '" />';
+		if ( \is_string( $open_graph_type ) && $open_graph_type !== '' ) {
+			return '<meta property="og:type" content="' . \esc_attr( $open_graph_type ) . '" />';
 		}
 
 		return '';

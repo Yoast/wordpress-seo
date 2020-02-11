@@ -63,7 +63,7 @@ trait Indexable_Social_Image_Trait {
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
 
-				$this->set_og_image_meta_data( $indexable );
+				$this->set_open_graph_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -87,11 +87,11 @@ trait Indexable_Social_Image_Trait {
 	}
 
 	/**
-	 * Sets the OG image meta data for an og image
+	 * Sets the Open Graph image meta data for an og image
 	 *
 	 * @param Indexable $indexable The indexable.
 	 */
-	protected function set_og_image_meta_data( Indexable $indexable ) {
+	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
 		if ( ! $indexable->og_image_id ) {
 			return;
 		}
@@ -114,7 +114,7 @@ trait Indexable_Social_Image_Trait {
 		if ( $indexable->og_image || $indexable->og_image_id ) {
 			$indexable->og_image_source = 'set-by-user';
 
-			$this->set_og_image_meta_data( $indexable );
+			$this->set_open_graph_image_meta_data( $indexable );
 		}
 
 		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {

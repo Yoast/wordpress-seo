@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Presentations\Generators;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
- * Class OG_Locale_Generator
+ * Class Open_Graph_Locale_Generator
  */
-class OG_Locale_Generator implements Generator_Interface {
+class Open_Graph_Locale_Generator implements Generator_Interface {
 
 	/**
 	 * Generates the OG Locale.

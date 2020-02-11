@@ -26,9 +26,9 @@ class OG_Article_Author_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * @covers ::generate_og_article_author
+	 * @covers ::generate_open_graph_article_author
 	 */
 	public function test_generate_og_article_author_and_return_empty() {
-		$this->assertEmpty( $this->instance->generate_og_article_author() );
+		$this->assertEmpty( $this->instance->generate_open_graph_article_author() );
 	}
 }

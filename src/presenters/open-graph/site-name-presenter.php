@@ -23,7 +23,7 @@ class Site_Name_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$site_name = $this->filter( $presentation->og_site_name, $presentation );
+		$site_name = $this->filter( $presentation->open_graph_site_name, $presentation );
 
 		if ( \is_string( $site_name ) && $site_name !== '' ) {
 			return \sprintf( '<meta property="og:site_name" content="%s" />', \esc_attr( $site_name ) );

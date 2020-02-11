@@ -28,7 +28,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	/**
 	 * Tests that the published time is returned for a post.
 	 *
-	 * @covers ::generate_og_article_published_time
+	 * @covers ::generate_open_graph_article_published_time
 	 */
 	public function test_generate_og_article_published_time_post() {
 		$this->indexable->object_sub_type = 'post';
@@ -42,7 +42,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );
 
-		$actual = $this->instance->generate_og_article_published_time();
+		$actual = $this->instance->generate_open_graph_article_published_time();
 		$expected = '2019-10-08T12:26:31+00:00';
 
 		$this->assertEquals( $expected, $actual );
@@ -51,7 +51,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	/**
 	 * Tests that no published time is returned for a page.
 	 *
-	 * @covers ::generate_og_article_published_time
+	 * @covers ::generate_open_graph_article_published_time
 	 */
 	public function test_generate_og_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
@@ -63,14 +63,14 @@ class OG_Article_Published_Time_Test extends TestCase {
 			->once()
 			->andReturn( 'page' );
 
-		$actual = $this->instance->generate_og_article_published_time();
+		$actual = $this->instance->generate_open_graph_article_published_time();
 		$this->assertEmpty( $actual );
 	}
 
 	/**
 	 * Tests that a published time is returned for a page when the publish date is enabled with the wpseo_opengraph_show_publish_date filter.
 	 *
-	 * @covers ::generate_og_article_published_time
+	 * @covers ::generate_open_graph_article_published_time
 	 */
 	public function test_generate_og_article_published_time_page_enabled() {
 		$this->indexable->object_sub_type = 'page';
@@ -94,7 +94,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 			->andReturn( true );
 
 
-		$actual = $this->instance->generate_og_article_published_time();
+		$actual = $this->instance->generate_open_graph_article_published_time();
 		$expected = '2019-10-08T12:26:31+00:00';
 		$this->assertEquals( $expected, $actual );
 	}

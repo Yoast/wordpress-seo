@@ -64,9 +64,9 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_generate_twitter_description_with_no_set_og_description_and_og_enabled() {
-		$this->context->open_graph_enabled = true;
-		$this->instance->og_description    = '';
-		$this->indexable->description      = 'SEO description';
+		$this->context->open_graph_enabled      = true;
+		$this->instance->open_graph_description = '';
+		$this->indexable->description           = 'SEO description';
 
 		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
 	}
@@ -89,8 +89,8 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_meta_description() {
-		$this->indexable->description   = 'Meta description';
-		$this->instance->og_description = '';
+		$this->indexable->description           = 'Meta description';
+		$this->instance->open_graph_description = '';
 
 		$this->assertEquals( 'Meta description', $this->instance->generate_twitter_description() );
 	}

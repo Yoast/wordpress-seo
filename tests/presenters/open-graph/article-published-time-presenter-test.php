@@ -43,7 +43,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_published_time = '2019-10-08T12:26:31+00:00';
+		$this->presentation->open_graph_article_published_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -57,7 +57,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_published_time() {
-		$this->presentation->og_article_published_time = '';
+		$this->presentation->open_graph_article_published_time = '';
 
 		$actual   = $this->instance->present( $this->presentation );
 

@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
 /**
  * Represents the generator class for the Open Graph images.
  */
-class OG_Image_Generator implements Generator_Interface {
+class Open_Graph_Image_Generator implements Generator_Interface {
 
 	/**
 	 * @var Open_Graph_Image_Helper

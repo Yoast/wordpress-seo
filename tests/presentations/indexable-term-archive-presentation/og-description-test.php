@@ -34,7 +34,7 @@ class Open_Graph_Description_Test extends TestCase {
 	public function test_with_set_og_description() {
 		$this->indexable->og_description = 'OpenGraph description';
 
-		$this->assertEquals( 'OpenGraph description', $this->instance->generate_og_description() );
+		$this->assertEquals( 'OpenGraph description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
@@ -52,6 +52,6 @@ class Open_Graph_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'Term description' );
 
-		$this->assertEquals( 'Term description', $this->instance->generate_og_description() );
+		$this->assertEquals( 'Term description', $this->instance->generate_open_graph_description() );
 	}
 }

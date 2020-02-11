@@ -27,7 +27,7 @@ class OG_URL_Test extends TestCase {
 	/**
 	 * Tests the situation where the search link is returned.
 	 *
-	 * @covers ::generate_og_url
+	 * @covers ::generate_open_graph_url
 	 */
 	public function test_generate_og_url() {
 		Monkey\Functions\expect( 'get_search_query' )
@@ -38,19 +38,19 @@ class OG_URL_Test extends TestCase {
 			->once()
 			->andReturn( 'http://example.com/search/searchquery' );
 
-		$this->assertEquals( 'http://example.com/search/searchquery', $this->instance->generate_og_url() );
+		$this->assertEquals( 'http://example.com/search/searchquery', $this->instance->generate_open_graph_url() );
 	}
 
 	/**
 	 * Tests the situation where the canonical is returned.
 	 *
-	 * @covers ::generate_og_url
+	 * @covers ::generate_open_graph_url
 	 */
 	public function test_generate_og_url_invalid_query() {
 		Monkey\Functions\expect( 'get_search_query' )
 			->once()
 			->andReturn( 'page/2' );
 
-		$this->assertEmpty( $this->instance->generate_og_url() );
+		$this->assertEmpty( $this->instance->generate_open_graph_url() );
 	}
 }

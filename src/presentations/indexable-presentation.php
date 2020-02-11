@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
-use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presentations\Generators\OG_Locale_Generator;
+use Yoast\WP\SEO\Presentations\Generators\Open_Graph_Locale_Generator;
 use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
 
 /**
@@ -30,18 +30,18 @@ use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
  * @property string canonical
  * @property string rel_next
  * @property string rel_prev
- * @property string og_type
- * @property string og_title
- * @property string og_description
- * @property array  og_images
- * @property string og_url
- * @property string og_site_name
- * @property string og_article_publisher
- * @property string og_article_author
- * @property string og_article_published_time
- * @property string og_article_modified_time
- * @property string og_locale
- * @property string og_fb_app_id
+ * @property string open_graph_type
+ * @property string open_graph_title
+ * @property string open_graph_description
+ * @property array  open_graph_images
+ * @property string open_graph_url
+ * @property string open_graph_site_name
+ * @property string open_graph_article_publisher
+ * @property string open_graph_article_author
+ * @property string open_graph_article_published_time
+ * @property string open_graph_article_modified_time
+ * @property string open_graph_locale
+ * @property string open_graph_fb_app_id
  * @property array  schema
  * @property string twitter_card
  * @property string twitter_title
@@ -70,9 +70,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $schema_generator;
 
 	/**
-	 * @var OG_Image_Generator
+	 * @var Open_Graph_Image_Generator
 	 */
-	protected $og_image_generator;
+	protected $open_graph_image_generator;
 
 	/**
 	 * @var Twitter_Image_Generator
@@ -80,9 +80,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $twitter_image_generator;
 
 	/**
-	 * @var OG_Locale_Generator
+	 * @var Open_Graph_Locale_Generator
 	 */
-	private $og_locale_generator;
+	private $open_graph_locale_generator;
 
 	/**
 	 * @var Breadcrumbs_Generator
@@ -119,24 +119,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Sets the generator dependencies.
 	 *
-	 * @param Schema_Generator        $schema_generator        The schema generator.
-	 * @param OG_Locale_Generator     $og_locale_generator     The OG locale generator.
-	 * @param OG_Image_Generator      $og_image_generator      The OG image generator.
-	 * @param Twitter_Image_Generator $twitter_image_generator The Twitter image generator.
-	 * @param Breadcrumbs_Generator   $breadcrumbs_generator   The breadcrumbs generator.
+	 * @param Schema_Generator            $schema_generator            The schema generator.
+	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The OpenGraph locale generator.
+	 * @param Open_Graph_Image_Generator  $open_graph_image_generator  The OpenGraph image generator.
+	 * @param Twitter_Image_Generator     $twitter_image_generator     The Twitter image generator.
+	 * @param Breadcrumbs_Generator       $breadcrumbs_generator       The breadcrumbs generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
-		OG_Locale_Generator $og_locale_generator,
-		OG_Image_Generator $og_image_generator,
+		Open_Graph_Locale_Generator $open_graph_locale_generator,
+		Open_Graph_Image_Generator $open_graph_image_generator,
 		Twitter_Image_Generator $twitter_image_generator,
 		Breadcrumbs_Generator $breadcrumbs_generator
 	) {
-		$this->schema_generator        = $schema_generator;
-		$this->og_locale_generator     = $og_locale_generator;
-		$this->og_image_generator      = $og_image_generator;
-		$this->twitter_image_generator = $twitter_image_generator;
-		$this->breadcrumbs_generator   = $breadcrumbs_generator;
+		$this->schema_generator            = $schema_generator;
+		$this->open_graph_locale_generator = $open_graph_locale_generator;
+		$this->open_graph_image_generator  = $open_graph_image_generator;
+		$this->twitter_image_generator     = $twitter_image_generator;
+		$this->breadcrumbs_generator       = $breadcrumbs_generator;
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Options_Helper      $options      The options helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Url_Helper          $url          The URL helper.
-	 * @param User_Helper         $user                The user helper.
+	 * @param User_Helper         $user         The user helper.
 	 */
 	public function set_helpers(
 		Image_Helper $image,
@@ -251,7 +251,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The og type.
 	 */
-	public function generate_og_type() {
+	public function generate_open_graph_type() {
 		return 'website';
 	}
 
@@ -260,7 +260,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph title.
 	 */
-	public function generate_og_title() {
+	public function generate_open_graph_title() {
 		if ( $this->model->og_title ) {
 			return $this->model->og_title;
 		}
@@ -273,7 +273,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph description.
 	 */
-	public function generate_og_description() {
+	public function generate_open_graph_description() {
 		if ( $this->model->og_description ) {
 			return $this->model->og_description;
 		}
@@ -286,12 +286,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return array The open graph images.
 	 */
-	public function generate_og_images() {
+	public function generate_open_graph_images() {
 		if ( $this->context->open_graph_enabled === false ) {
 			return [];
 		}
 
-		return $this->og_image_generator->generate( $this->context );
+		return $this->open_graph_image_generator->generate( $this->context );
 	}
 
 	/**
@@ -299,7 +299,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
@@ -312,7 +312,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article publisher.
 	 */
-	public function generate_og_article_publisher() {
+	public function generate_open_graph_article_publisher() {
 		return '';
 	}
 
@@ -321,7 +321,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article author.
 	 */
-	public function generate_og_article_author() {
+	public function generate_open_graph_article_author() {
 		return '';
 	}
 
@@ -330,7 +330,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article published time.
 	 */
-	public function generate_og_article_published_time() {
+	public function generate_open_graph_article_published_time() {
 		return '';
 	}
 
@@ -339,7 +339,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article modified time.
 	 */
-	public function generate_og_article_modified_time() {
+	public function generate_open_graph_article_modified_time() {
 		return '';
 	}
 
@@ -348,8 +348,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph locale.
 	 */
-	public function generate_og_locale() {
-		return $this->og_locale_generator->generate( $this->context );
+	public function generate_open_graph_locale() {
+		return $this->open_graph_locale_generator->generate( $this->context );
 	}
 
 	/**
@@ -357,7 +357,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph Facebook app ID.
 	 */
-	public function generate_og_fb_app_id() {
+	public function generate_open_graph_fb_app_id() {
 		return $this->options->get( 'fbadminapp', '' );
 	}
 
@@ -366,7 +366,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph site name.
 	 */
-	public function generate_og_site_name() {
+	public function generate_open_graph_site_name() {
 		return $this->context->wordpress_site_name;
 	}
 
@@ -389,7 +389,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->og_title && $this->context->open_graph_enabled === true ) {
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
 			return '';
 		}
 
@@ -410,7 +410,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
 			return '';
 		}
 
@@ -436,7 +436,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		// When there isn't a set image or there is a OpenGraph image set.
-		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->og_images ) ) {
+		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->open_graph_images ) ) {
 			return '';
 		}
 

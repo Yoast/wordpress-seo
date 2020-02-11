@@ -26,9 +26,9 @@ class OG_Type_Test extends TestCase {
 	/**
 	 * Tests whether the og type is article.
 	 *
-	 * @covers ::generate_og_type
+	 * @covers ::generate_open_graph_type
 	 */
 	public function test_og_type() {
-		$this->assertEquals( 'website', $this->instance->generate_og_type() );
+		$this->assertEquals( 'website', $this->instance->generate_open_graph_type() );
 	}
 }

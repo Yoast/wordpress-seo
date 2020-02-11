@@ -43,7 +43,7 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_site_name = 'My Site';
+		$this->presentation->open_graph_site_name = 'My Site';
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -57,7 +57,7 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_site_name() {
-		$this->presentation->og_site_name = '';
+		$this->presentation->open_graph_site_name = '';
 
 		$expected = '';
 		$actual   = $this->instance->present( $this->presentation );
@@ -72,7 +72,7 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_site_name = 'My Site';
+		$this->presentation->open_graph_site_name = 'My Site';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_site_name' )
 			->once()

@@ -23,10 +23,10 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The open graph URL tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$og_url = $this->filter( $presentation->og_url, $presentation );
+		$open_graph_url = $this->filter( $presentation->open_graph_url, $presentation );
 
-		if ( \is_string( $og_url ) && $og_url !== '' ) {
-			return '<meta property="og:url" content="' . \esc_url( $og_url ) . '" />';
+		if ( \is_string( $open_graph_url ) && $open_graph_url !== '' ) {
+			return '<meta property="og:url" content="' . \esc_url( $open_graph_url ) . '" />';
 		}
 
 		return '';
@@ -35,12 +35,12 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the title content through the `wpseo_opengraph_url` filter.
 	 *
-	 * @param string                 $og_url       The open graph URL to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string                 $open_graph_url The open graph URL to filter.
+	 * @param Indexable_Presentation $presentation   The presentation of an indexable.
 	 *
 	 * @return string $title The filtered title.
 	 */
-	private function filter( $og_url, Indexable_Presentation $presentation ) {
+	private function filter( $open_graph_url, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_opengraph_url' - Allow changing the Yoast SEO generated open graph URL.
 		 *
@@ -48,6 +48,6 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_opengraph_url', $og_url, $presentation );
+		return (string) \apply_filters( 'wpseo_opengraph_url', $open_graph_url, $presentation );
 	}
 }
