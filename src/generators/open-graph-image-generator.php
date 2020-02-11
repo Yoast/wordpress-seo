@@ -101,17 +101,17 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * @param Images    $image_container The image container.
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
-		if ( $indexable->og_image ) {
+		if ( $indexable->open_graph_image ) {
 			$meta_data = [];
-			if ( $indexable->og_image_meta && is_string( $indexable->og_image_meta ) ) {
-				$meta_data = json_decode( $indexable->og_image_meta, true );
+			if ( $indexable->open_graph_image_meta && is_string( $indexable->open_graph_image_meta ) ) {
+				$meta_data = json_decode( $indexable->open_graph_image_meta, true );
 			}
 
 			$image_container->add_image(
 				\array_merge(
 					(array) $meta_data,
 					[
-						'url' => $indexable->og_image,
+						'url' => $indexable->open_graph_image,
 					]
 				)
 			);
@@ -119,8 +119,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			return;
 		}
 
-		if ( $indexable->og_image_id ) {
-			$image_container->add_image_by_id( $indexable->og_image_id );
+		if ( $indexable->open_graph_image_id ) {
+			$image_container->add_image_by_id( $indexable->open_graph_image_id );
 		}
 	}
 

@@ -170,8 +170,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_open_graph_description() {
-		if ( $this->model->og_description ) {
-			$open_graph_description = $this->model->og_description;
+		if ( $this->model->open_graph_description ) {
+			$open_graph_description = $this->model->open_graph_description;
 		}
 
 		if ( empty( $open_graph_description ) ) {

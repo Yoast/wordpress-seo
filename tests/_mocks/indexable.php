@@ -32,12 +32,12 @@ class Indexable extends \Yoast\WP\SEO\Models\Indexable {
 	public $readability_score;
 	public $link_count;
 	public $incoming_link_count;
-	public $og_title;
-	public $og_description;
-	public $og_image;
-	public $og_image_id;
-	public $og_image_meta;
-	public $og_image_source;
+	public $open_graph_title;
+	public $open_graph_description;
+	public $open_graph_image;
+	public $open_graph_image_id;
+	public $open_graph_image_meta;
+	public $open_graph_image_source;
 	public $twitter_title;
 	public $twitter_description;
 	public $twitter_image;

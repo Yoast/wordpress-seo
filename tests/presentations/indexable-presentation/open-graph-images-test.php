@@ -37,12 +37,12 @@ class Open_Graph_Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the og_image_id isn't set but the og_image is.
+	 * Tests the situation where the open_graph_image_id isn't set but the open_graph_image is.
 	 *
 	 * @covers ::generate_open_graph_images
 	 */
 	public function test_with_generator_result() {
-		$this->indexable->og_image = 'facebook_image.jpg';
+		$this->indexable->open_graph_image = 'facebook_image.jpg';
 
 		$this->open_graph_image_generator
 			->expects( 'generate' )

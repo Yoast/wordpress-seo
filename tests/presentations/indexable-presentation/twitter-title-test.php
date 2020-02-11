@@ -53,7 +53,7 @@ class Twitter_Title_Test extends TestCase {
 	 */
 	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
-		$this->indexable->og_title         = 'Open Graph title';
+		$this->indexable->open_graph_title = 'Open Graph title';
 
 		$this->assertEquals( '', $this->instance->generate_twitter_title() );
 	}

@@ -31,7 +31,7 @@ class Open_Graph_Title_Test extends TestCase {
 	 * @covers ::generate_open_graph_title
 	 */
 	public function test_generate_open_graph_title_when_open_graph_title_is_set() {
-		$this->indexable->og_title = 'Example of Open Graph title';
+		$this->indexable->open_graph_title = 'Example of Open Graph title';
 
 		$this->assertEquals( 'Example of Open Graph title', $this->instance->generate_open_graph_title() );
 	}

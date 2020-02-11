@@ -49,8 +49,8 @@ class Open_Graph_Images_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->indexable->og_image    = 'facebook_image.jpg';
-		$this->indexable->og_image_id = null;
+		$this->indexable->open_graph_image    = 'facebook_image.jpg';
+		$this->indexable->open_graph_image_id = null;
 
 		$this->open_graph_image_generator
 			->expects( 'generate' )

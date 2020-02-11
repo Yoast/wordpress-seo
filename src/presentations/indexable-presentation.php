@@ -261,8 +261,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph title.
 	 */
 	public function generate_open_graph_title() {
-		if ( $this->model->og_title ) {
-			return $this->model->og_title;
+		if ( $this->model->open_graph_title ) {
+			return $this->model->open_graph_title;
 		}
 
 		return $this->title;
@@ -274,8 +274,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph description.
 	 */
 	public function generate_open_graph_description() {
-		if ( $this->model->og_description ) {
-			return $this->model->og_description;
+		if ( $this->model->open_graph_description ) {
+			return $this->model->open_graph_description;
 		}
 
 		return $this->meta_description;

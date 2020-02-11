@@ -30,7 +30,7 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_generate_open_graph_description_when_open_graph_description_is_given() {
-		$this->indexable->og_description = 'Example of Open Graph description';
+		$this->indexable->open_graph_description = 'Example of Open Graph description';
 
 		$this->assertEquals( 'Example of Open Graph description', $this->instance->generate_open_graph_description() );
 	}

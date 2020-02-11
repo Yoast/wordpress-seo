@@ -32,7 +32,7 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_set_open_graph_description() {
-		$this->indexable->og_description = 'Open Graph description';
+		$this->indexable->open_graph_description = 'Open Graph description';
 
 		$this->assertEquals( 'Open Graph description', $this->instance->generate_open_graph_description() );
 	}
@@ -43,7 +43,7 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_term_description() {
-		$this->indexable->og_description  = '';
+		$this->indexable->open_graph_description  = '';
 		$this->instance->meta_description = '';
 
 		$this->taxonomy

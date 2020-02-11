@@ -59,9 +59,9 @@ trait Indexable_Social_Image_Trait {
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
 		if ( ! empty( $alternative_image['image_id'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image_id     = $alternative_image['image_id'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image_id     = $alternative_image['image_id'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 
 				$this->set_open_graph_image_meta_data( $indexable );
 			}
@@ -74,9 +74,9 @@ trait Indexable_Social_Image_Trait {
 		}
 
 		if ( ! empty( $alternative_image['image'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image        = $alternative_image['image'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image        = $alternative_image['image'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -92,15 +92,15 @@ trait Indexable_Social_Image_Trait {
 	 * @param Indexable $indexable The indexable.
 	 */
 	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
-		if ( ! $indexable->og_image_id ) {
+		if ( ! $indexable->open_graph_image_id ) {
 			return;
 		}
 
-		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+		$image = $this->open_graph_image->get_image_url_by_id( $indexable->open_graph_image_id );
 
 		if ( ! empty( $image ) ) {
-			$indexable->og_image      = $image['url'];
-			$indexable->og_image_meta = wp_json_encode( $image );
+			$indexable->open_graph_image      = $image['url'];
+			$indexable->open_graph_image_meta = wp_json_encode( $image );
 		}
 	}
 
@@ -111,8 +111,8 @@ trait Indexable_Social_Image_Trait {
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
 		// When the image or image id is set.
-		if ( $indexable->og_image || $indexable->og_image_id ) {
-			$indexable->og_image_source = 'set-by-user';
+		if ( $indexable->open_graph_image || $indexable->open_graph_image_id ) {
+			$indexable->open_graph_image_source = 'set-by-user';
 
 			$this->set_open_graph_image_meta_data( $indexable );
 		}
@@ -126,7 +126,7 @@ trait Indexable_Social_Image_Trait {
 		}
 
 		// When image sources are set already.
-		if ( $indexable->og_image_source && $indexable->twitter_image_source ) {
+		if ( $indexable->open_graph_image_source && $indexable->twitter_image_source ) {
 			return;
 		}
 
@@ -142,10 +142,10 @@ trait Indexable_Social_Image_Trait {
 	 * @param Indexable $indexable The indexable to set images for.
 	 */
 	protected function reset_social_images( Indexable $indexable ) {
-		$indexable->og_image        = null;
-		$indexable->og_image_id     = null;
-		$indexable->og_image_source = null;
-		$indexable->og_image_meta   = null;
+		$indexable->open_graph_image        = null;
+		$indexable->open_graph_image_id     = null;
+		$indexable->open_graph_image_source = null;
+		$indexable->open_graph_image_meta   = null;
 
 		$indexable->twitter_image        = null;
 		$indexable->twitter_image_id     = null;

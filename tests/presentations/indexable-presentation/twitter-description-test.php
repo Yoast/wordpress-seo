@@ -52,8 +52,8 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_generate_twitter_description_with_set_open_graph_description_and_open_graph_enabled() {
-		$this->context->open_graph_enabled = true;
-		$this->indexable->og_description   = 'Open Graph description';
+		$this->context->open_graph_enabled       = true;
+		$this->indexable->open_graph_description = 'Open Graph description';
 
 		$this->assertEquals( '', $this->instance->generate_twitter_description() );
 	}
