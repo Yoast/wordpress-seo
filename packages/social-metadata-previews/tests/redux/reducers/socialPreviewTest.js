@@ -6,8 +6,6 @@ const initialState = {
 	facebook: {
 		title: "",
 		description: "",
-		author: "",
-		siteName: "",
 		errors: [],
 		imageUrl: "",
 		imageId: "",
@@ -16,8 +14,6 @@ const initialState = {
 	twitter: {
 		title: "",
 		description: "",
-		author: "",
-		siteName: "",
 		errors: [],
 		imageUrl: "",
 		imageId: "",

@@ -8,8 +8,6 @@ import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../ac
 const initialState = {
 	title: "",
 	description: "",
-	author: "",
-	siteName: "",
 	errors: [],
 	imageUrl: "",
 	imageId: "",
