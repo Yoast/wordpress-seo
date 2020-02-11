@@ -82,7 +82,7 @@ class WebPage extends Abstract_Schema_Piece {
 			],
 		];
 
-		if ( \is_front_page() ) {
+		if ( $this->current_page->is_front_page() ) {
 			if ( $context->site_represents_reference ) {
 				$data['about'] = $context->site_represents_reference;
 			}
