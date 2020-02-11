@@ -21,9 +21,9 @@ const ImageSelect = ( { title, warnings, onClick } ) =>
 		</p>
 		{
 			warnings.length > 0 &&
-			<Alert type="warning">
-				{ warnings.join( "\n" ) }
-			</Alert>
+			warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
+				{ warning }
+			</Alert> )
 		}
 		<Button
 			onClick={ onClick }
