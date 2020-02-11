@@ -3,15 +3,15 @@
 exports[`FacebookDescription matches the snapshot by default 1`] = `
 .c0 {
   color: #606770;
-  font-size: 14px;
-  line-height: 20px;
-  word-break: break-word;
-  max-height: 80px;
-  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 3px;
-  width: 100%;
+  margin: 3px 0 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 <p

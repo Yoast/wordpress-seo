@@ -2,6 +2,14 @@
 
 exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 .c0 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -14,16 +22,13 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  box-sizing: border-box;
-  width: 500px;
-  height: 261px;
-  max-width: 100%;
   margin: 0;
   padding: 1em;
   text-align: center;
   font-size: 1rem;
   color: #fff;
   background-color: #dc3232;
+  border: none;
 }
 
 <div
@@ -36,8 +41,8 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
 .c0 {
   position: relative;
-  height: 261px;
-  width: 500px;
+  height: 273px;
+  width: 527px;
   overflow: hidden;
   background-color: #fff;
 }
@@ -128,6 +133,14 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 
 exports[`FacebookImage Component matches the snapshot for a too small image 1`] = `
 .c0 {
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
+  background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -140,16 +153,13 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  box-sizing: border-box;
-  width: 500px;
-  height: 261px;
-  max-width: 100%;
   margin: 0;
   padding: 1em;
   text-align: center;
   font-size: 1rem;
   color: #fff;
   background-color: #dc3232;
+  border: none;
 }
 
 <div
@@ -161,12 +171,31 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 
 exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
 .c0 {
-  width: 500px;
-  height: 261px;
+  box-sizing: border-box;
+  width: 527px;
+  height: 273px;
   background-color: #ddd;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 <div
   className="c0"
-/>
+>
+  Select image
+</div>
 `;
