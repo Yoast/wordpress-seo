@@ -643,7 +643,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'admin-all',
-				'src'  => 'admin-all-' . $flat_version,
+				'src'  => plugins_url( 'css/src/admin/all.css', WPSEO_BASENAME ), // @todo fix this.
 			],
 		];
 	}
