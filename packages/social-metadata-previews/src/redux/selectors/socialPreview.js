@@ -3,11 +3,11 @@ import { get } from "lodash";
 /** FACEBOOK */
 
 /**
-	 * Gets the facebook data from the state.
+	 * Provides a path to the state for selectors. Also bundles all selectors in an object.
 	 *
-	 * @param {Object} path The state.
+	 * @param {String} path The path to the state.
 	 *
-	 * @returns {String}.Facebook data.
+	 * @returns {Object} The Selectors objects.
 	 */
 const socialMetadataSelectorsFactory = ( path ) => {
 	const selectors = {};
@@ -19,9 +19,8 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String}.Facebook data.
 	 */
-	selectors.getFacebookData = state => {
-		return get( state, `${ path }.facebook`, {} );
-	};
+	selectors.getFacebookData = state => get( state, `${ path }.facebook`, {} );
+
 
 	/**
 	 * Gets the facebook title from the state.
@@ -69,9 +68,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String}.Twitter data.
 	 */
-	selectors.getTwitterData = state => {
-		return get( state, `${ path }.twitter`, {} );
-	};
+	selectors.getTwitterData = state => get( state, `${ path }.twitter`, {} );
 
 
 	/**
