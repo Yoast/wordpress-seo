@@ -41,14 +41,14 @@ const selectFileClick = () => {
 const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<SocialMetadataPreviewForm
-		  socialMediumName="Facebook"
-		  replacementVariables={ replacementVariables }
-		  recommendedReplacementVariables={ recommendedReplacementVariables }
-		  description=""
-		  title="%%title%%%%page%%%%sep%%%%sitename%%"
-		  selectFileClick={ selectFileClick }
-		  onDescriptionChange={  () => {} }
-		  onTitleChange={ () => {} }
+			socialMediumName="Facebook"
+			replacementVariables={ replacementVariables }
+			recommendedReplacementVariables={ recommendedReplacementVariables }
+			description=""
+			title="%%title%%%%page%%%%sep%%%%sitename%%"
+			selectFileClick={ selectFileClick }
+			onDescriptionChange={  () => {} }
+			onTitleChange={ () => {} }
 		/>
 	</ExamplesContainer>
 ;
