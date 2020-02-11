@@ -164,6 +164,10 @@ class Person extends Abstract_Schema_Piece {
 
 		$data = $this->add_image( $data, $user_data, $context );
 
+		$data['mainEntityOfPage'] = [
+			'@id' => $context->canonical . $this->id->webpage_hash,
+		];
+
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $this->html->smart_strip_tags( $user_data->description );
 		}
