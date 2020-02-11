@@ -99,7 +99,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				}
 			}
 
-			// If it's not a relevant key or both values aren't set they haven't changed.
+			// If it's not a relevant key or both values aren't set.
 			if ( $post_type === false || ( ! isset( $old_value[ $key ] ) && ! isset( $new_value[ $key ] ) ) ) {
 				continue;
 			}
