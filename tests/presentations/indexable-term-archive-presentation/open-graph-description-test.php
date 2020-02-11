@@ -10,8 +10,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
- * @group opengraph
- * @group opengraph-description
+ * @group open-graph
+ * @group open-graph-description
  */
 class Open_Graph_Description_Test extends TestCase {
 	use Presentation_Instance_Builder;

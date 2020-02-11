@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
- * @group opengraph
+ * @group open-graph
  */
 class Open_Graph_Site_Name_Test extends TestCase {
 	use Presentation_Instance_Builder;

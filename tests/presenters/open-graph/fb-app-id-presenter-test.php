@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class FB_App_ID_Presenter_Test extends TestCase {
 

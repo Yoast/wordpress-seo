@@ -80,7 +80,7 @@ class Twitter_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Provides data to the image provider, with OpenGraph disabled.
+	 * Provides data to the image provider, with Open Graph disabled.
 	 *
 	 * @return array The data to provide.
 	 */
@@ -112,7 +112,7 @@ class Twitter_Image_Test extends TestCase {
 		];
 	}
 	/**
-	 * Provides data to the image provider, with OpenGraph enabled.
+	 * Provides data to the image provider, with Open Graph enabled.
 	 *
 	 * @return array The data to provide.
 	 */

@@ -14,8 +14,8 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter
  *
  * @group presenters
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Image_Presenter_Test extends TestCase {
 

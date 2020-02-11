@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Open_Graph_URL_Test.
  *
  * @group presentations
+ * @group open-graph
  * @group open-graph-url
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation

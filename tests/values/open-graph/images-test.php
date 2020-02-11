@@ -15,8 +15,8 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
  * @coversDefaultClass \Yoast\WP\SEO\Values\Open_Graph\Images
  *
  * @group values
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Images_Test extends TestCase {
 

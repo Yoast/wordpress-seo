@@ -11,8 +11,8 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Open_Graph_Images_Test extends TestCase {
 	use Presentation_Instance_Builder;

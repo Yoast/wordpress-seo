@@ -14,15 +14,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
- * Class OG_Image_Generator_Test
+ * Class Open_Graph_Image_Generator_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Open_Graph_Image_Generator
  *
  * @group generators
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
-class OG_Image_Generator_Test extends TestCase {
+class Open_Graph_Image_Generator_Test extends TestCase {
 
 	/**
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface

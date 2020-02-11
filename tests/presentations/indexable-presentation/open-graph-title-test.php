@@ -10,8 +10,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
- * @group opengraph
- * @group opengraph-title
+ * @group open-graph
+ * @group open-graph-title
  */
 class Open_Graph_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;

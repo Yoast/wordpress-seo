@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Site_Name_Presenter_Test extends TestCase {
 
