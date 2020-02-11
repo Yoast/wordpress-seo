@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\WPSEO_Titles_Option_Watcher
+ * @coversDefaultClass WPSEO_Titles_Option_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
@@ -46,18 +46,18 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	private $post_type_helper_mock;
 
 	/**
-	 * The class instance.
-	 *
-	 * @var WPSEO_Titles_Option_Watcher
-	 */
-	private $instance;
-
-	/**
 	 * Indexable mock.
 	 *
 	 * @var Mockery\MockInterface|Indexable
 	 */
 	private $indexable_mock;
+
+	/**
+	 * The class instance.
+	 *
+	 * @var WPSEO_Titles_Option_Watcher
+	 */
+	private $instance;
 
 	/**
 	 * Sets an instance for test purposes.
@@ -66,8 +66,8 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 		$this->repository_mock       = Mockery::mock( Indexable_Repository::class );
 		$this->builder_mock          = Mockery::mock( Indexable_Builder::class );
 		$this->post_type_helper_mock = Mockery::mock( Post_Type_Helper::class );
-		$this->instance              = new WPSEO_Titles_Option_Watcher( $this->repository_mock, $this->builder_mock, $this->post_type_helper_mock );
 		$this->indexable_mock        = Mockery::mock( Indexable::class );
+		$this->instance              = Mockery::mock( WPSEO_Titles_Option_Watcher::class )->makePartial();
 
 		return parent::setUp();
 	}
@@ -93,6 +93,10 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_ptarchive_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_post_type_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_author_archive_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_authors_without_posts_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_date_archive_option' ] ) );
 	}
 
 	/**
@@ -103,11 +107,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_update_ptarchive_indexable() {
-		$this->indexable_mock->expects( 'save' )->once();
-
-		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
-		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
-
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
 		$this->instance->check_ptarchive_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
@@ -119,11 +119,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_update_wpseo_titles_value_new() {
-		$this->indexable_mock->expects( 'save' )->once();
-
-		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
-		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
-
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
 		$this->instance->check_ptarchive_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
@@ -135,18 +131,32 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_update_wpseo_titles_value_switched() {
-		$this->indexable_mock->expects( 'save' )->once();
+//		$this->indexable_mock->expects( 'save' )->once();
 
 		$other_indexable_mock = Mockery::mock( Indexable::class );
 		$other_indexable_mock->expects( 'save' )->once();
+//
+//		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
+//		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'other-post-type', false )->andReturn( $other_indexable_mock );
+//
+//		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
+//		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
 
-		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
-		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'other-post-type', false )->andReturn( $other_indexable_mock );
-
-		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
-		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
+//		$other_indexable_mock->expects( 'build_ptarchive_indexable' )->once()->with( 'other-post-type' );
 
 		$this->instance->check_ptarchive_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
+	}
+
+	/**
+	 * Tests building the ptarchive indexable.
+	 */
+	public function test_build_ptarchive_indexable() {
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
+		$this->indexable_mock->expects( 'save' )->once();
+
+		$this->instance->build_ptarchive_indexable( 'my-post-type' );
 	}
 
 	/**
@@ -180,11 +190,29 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_build_pt_archive_indexable_without_indexable() {
-		$this->indexable_mock->expects( 'save' )->once();
-
-		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
-		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
-
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
 		$this->instance->build_ptarchive_indexable( 'my-post-type' );
+	}
+
+	/**
+	 * Tests if updating post type indexables works as expected when the option value has changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 * @covers ::build_post_type_indexable
+	 */
+	public function _test_update_post_type_indexable() {
+		$this->instance->check_post_type_option( [ 'title-post-type-option' => 'bar' ], [ 'title-post-type-option' => 'baz' ] );
+	}
+
+	/**
+	 * Tests if updating author archive indexables works as expected when one option value has changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_author_archive_option
+	 * @covers ::build_author_archive_indexable
+	 */
+	public function _test_update_author_archive_indexable() {
+		$this->instance->check_author_archive_option( [ 'title-author-archive-option' => 'bar' ], [ 'title-author-archive-option' => 'baz' ] );
 	}
 }
