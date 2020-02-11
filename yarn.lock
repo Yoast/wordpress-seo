@@ -669,6 +669,11 @@
     styled-components "^4.2.0"
     yoastseo "^1.69.0-rc.0"
 
+"@yoast/social-metadata-previews@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-previews/-/social-metadata-previews-0.6.1.tgz#561473417662c9dd3d4c46cb6528b25678e329fc"
+  integrity sha512-nBheD3gvtMtlYEneREYOzgFbnpWjdyIDeccrzpBvva+YxFG8cXPSN2Wl0QtadlKaR1E7EGDFhayTLUAJH5DbvQ==
+
 "@yoast/style-guide@^0.11.1":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.11.1.tgz#48a7eb9ad4da836113ea62d50e1282057ae9ffac"

@@ -5,5 +5,6 @@ window.yoast.helpers = require( "@yoast/helpers" );
 window.yoast.componentsNew = require( "@yoast/components" );
 window.yoast.configurationWizard = require( "@yoast/configuration-wizard" );
 window.yoast.searchMetadataPreviews = require( "@yoast/search-metadata-previews" );
+window.yoast.socialMetadataPreviews = require( "@yoast/social-metadata-previews" );
 window.yoast.analysisReport = require( "@yoast/analysis-report" );
 window.yoast.components = require( "yoast-components/index.js" );
