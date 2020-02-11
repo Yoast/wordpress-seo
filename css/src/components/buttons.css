@@ -1,0 +1,23 @@
+.yoast-button {
+  position: relative;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  padding: 0.7em 1.1em 0.9em;
+  text-decoration: none;
+  border-radius: 0.3em;
+  border: 1px solid rgba(0,0,0, 0.2);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  transition: background-color 150ms ease-out 0s;
+}
+
+.yoast-button:hover {
+  color: var(--color-white);
+  background-color: var(--color-primary-darker);
+}
+
+.yoast-button:active { /* 'Pressed' button state */
+  color: var(--color-white);
+  box-shadow: none;
+  padding-bottom: 12px;
+  top: 2px;
+}

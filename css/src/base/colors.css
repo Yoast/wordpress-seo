@@ -1,0 +1,18 @@
+$color-black:					#000;
+$color-button-upsell:			#FEC228;
+$color-button-upsell-hover:  	#F2AE01;
+$color_green_medium:			#008a00;
+
+/** CSS selectors instead of SASS. */
+:root {
+  --color-default: #404040;
+  --color-primary: #a4286a;
+  --color-secondary: #f7f7f7;
+  --color-white: #ffffff;
+  --color-primary-darker: #7b1e50;
+
+  --font-size-default: .875em; // Translates to 14px
+
+  --margin-32px: 2.285em;
+
+}
