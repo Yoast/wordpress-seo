@@ -56,15 +56,16 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		$data = [
-			'@type'      => $this->determine_page_type(),
-			'@id'        => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
-			'url'        => $this->context->canonical,
-			'inLanguage' => get_bloginfo( 'language' ),
-			'name'       => $this->context->title,
-			'isPartOf'   => [
+			'@type'    => $this->determine_page_type(),
+			'@id'      => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
+			'url'      => $this->context->canonical,
+			'name'     => $this->context->title,
+			'isPartOf' => [
 				'@id' => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
 			],
 		];
+
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		if ( is_front_page() ) {
 			if ( $this->context->site_represents_reference ) {
