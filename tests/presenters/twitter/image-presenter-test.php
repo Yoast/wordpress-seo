@@ -23,7 +23,7 @@ class Image_Presenter_Test extends TestCase {
 	/**
 	 * @var Url_Helper|Mockery\MockInterface
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Image_Presenter
@@ -34,8 +34,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Sets an instance with the mocked url helper.
 	 */
 	public function setUp() {
-		$this->url_helper = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance   = new Image_Presenter( $this->url_helper );
+		$this->url = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance   = new Image_Presenter( $this->url );
 
 		parent::setUp();
 

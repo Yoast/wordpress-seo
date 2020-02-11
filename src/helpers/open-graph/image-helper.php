@@ -18,12 +18,12 @@ class Image_Helper {
 	/**
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Base_Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * The parameters we have for Facebook images.
@@ -42,12 +42,12 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Url_Helper        $url_helper   The url helper.
-	 * @param Base_Image_Helper $image_helper The image helper.
+	 * @param Url_Helper        $url   The url helper.
+	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Url_Helper $url_helper, Base_Image_Helper $image_helper ) {
-		$this->url_helper   = $url_helper;
-		$this->image_helper = $image_helper;
+	public function __construct( Url_Helper $url, Base_Image_Helper $image ) {
+		$this->url   = $url;
+		$this->image = $image;
 	}
 
 	/**
@@ -62,8 +62,8 @@ class Image_Helper {
 			return false;
 		}
 
-		$image_extension = $this->url_helper->get_extension_from_url( $image['url'] );
-		$is_valid        = $this->image_helper->is_extension_valid( $image_extension );
+		$image_extension = $this->url->get_extension_from_url( $image['url'] );
+		$is_valid        = $this->image->is_extension_valid( $image_extension );
 
 		/**
 		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
@@ -106,15 +106,15 @@ class Image_Helper {
 	 * @return string|false The url when found, false when not.
 	 */
 	public function get_image_url_by_id( $attachment_id ) {
-		if ( ! $this->image_helper->is_valid_attachment( $attachment_id ) ) {
+		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {
 			return false;
 		}
 
 		$override_image_size = $this->get_override_image_size();
 		if ( $override_image_size ) {
-			return $this->image_helper->get_image( $attachment_id, $override_image_size );
+			return $this->image->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_best_attachment_variation( $attachment_id, $this->image_params );
+		return $this->image->get_best_attachment_variation( $attachment_id, $this->image_params );
 	}
 }

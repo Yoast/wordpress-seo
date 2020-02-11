@@ -25,10 +25,10 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Breadcrumb constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Current_Page_Helper $current_page The current page helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper ) {
-		$this->current_page = $current_page_helper;
+	public function __construct( Current_Page_Helper $current_page ) {
+		$this->current_page = $current_page;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
+			'@id'             => $context->canonical . $this->id->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		];
 	}

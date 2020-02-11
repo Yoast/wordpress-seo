@@ -24,7 +24,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 *
 	 * @var Redirect_Helper
 	 */
-	protected $redirect_helper;
+	protected $redirect;
 
 	/**
 	 * The robots helper.
@@ -46,14 +46,14 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Redirect_Helper $redirect_helper The redirect helper.
+	 * @param Redirect_Helper $redirect The redirect helper.
 	 * @param Robots_Helper   $robots The robots helper.
 	 */
 	public function __construct(
-		Redirect_Helper $redirect_helper, Robots_Helper $robots
+		Redirect_Helper $redirect, Robots_Helper $robots
 	) {
-		$this->redirect_helper = $redirect_helper;
-		$this->robots          = $robots;
+		$this->redirect = $redirect;
+		$this->robots   = $robots;
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 			}
 			$url .= '#comment-' . $hash;
 
-			$this->redirect_helper->do_safe_redirect( $url, 301 );
+			$this->redirect->do_safe_redirect( $url, 301 );
 
 			return true;
 		}

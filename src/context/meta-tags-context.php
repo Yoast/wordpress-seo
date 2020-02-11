@@ -73,17 +73,17 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * @var ID_Helper
@@ -93,12 +93,12 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * @var WPSEO_Replace_Vars
 	 */
-	private $replace_vars_helper;
+	private $replace_vars;
 
 	/**
 	 * @var Site_Helper
 	 */
-	private $site_helper;
+	private $site;
 
 	/**
 	 * @var User_Helper
@@ -108,30 +108,30 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Meta_Tags_Context constructor.
 	 *
-	 * @param Options_Helper     $options_helper      The options helper.
-	 * @param Url_Helper         $url_helper          The url helper.
-	 * @param Image_Helper       $image_helper        The image helper.
-	 * @param ID_Helper          $id_helper           The schema id helper.
-	 * @param WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
-	 * @param Site_Helper        $site_helper         The site helper.
-	 * @param User_Helper        $user                The user helper.
+	 * @param Options_Helper     $options      The options helper.
+	 * @param Url_Helper         $url          The url helper.
+	 * @param Image_Helper       $image        The image helper.
+	 * @param ID_Helper          $id_helper    The schema id helper.
+	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
+	 * @param Site_Helper        $site         The site helper.
+	 * @param User_Helper        $user         The user helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Url_Helper $url_helper,
-		Image_Helper $image_helper,
+		Options_Helper $options,
+		Url_Helper $url,
+		Image_Helper $image,
 		ID_Helper $id_helper,
-		WPSEO_Replace_Vars $replace_vars_helper,
-		Site_Helper $site_helper,
+		WPSEO_Replace_Vars $replace_vars,
+		Site_Helper $site,
 		User_Helper $user
 	) {
-		$this->options_helper      = $options_helper;
-		$this->url_helper          = $url_helper;
-		$this->image_helper        = $image_helper;
-		$this->id_helper           = $id_helper;
-		$this->replace_vars_helper = $replace_vars_helper;
-		$this->site_helper         = $site_helper;
-		$this->user                = $user;
+		$this->options      = $options;
+		$this->url          = $url;
+		$this->image        = $image;
+		$this->id_helper    = $id_helper;
+		$this->replace_vars = $replace_vars;
+		$this->site         = $site;
+		$this->user         = $user;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the title
 	 */
 	public function generate_title() {
-		return $this->replace_vars_helper->replace( $this->presentation->title, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->title, $this->presentation->source );
 	}
 
 	/**
@@ -149,7 +149,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the description
 	 */
 	public function generate_description() {
-		return $this->replace_vars_helper->replace( $this->presentation->meta_description, $this->presentation->replace_vars_object );
+		return $this->replace_vars->replace( $this->presentation->meta_description, $this->presentation->source );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site name.
 	 */
 	public function generate_site_name() {
-		$site_name = $this->options_helper->get( 'website_name', '' );
+		$site_name = $this->options->get( 'website_name', '' );
 		if ( $site_name !== '' ) {
 			return $site_name;
 		}
@@ -190,7 +190,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site name from the WordPress options.
 	 */
 	public function generate_wordpress_site_name() {
-		return $this->site_helper->get_site_name();
+		return $this->site->get_site_name();
 	}
 
 	/**
@@ -199,7 +199,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The site url.
 	 */
 	public function generate_site_url() {
-		return \trailingslashit( $this->url_helper->home() );
+		return \trailingslashit( $this->url->home() );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		 *
 		 * @api string $company_name.
 		 */
-		return \apply_filters( 'wpseo_schema_company_name', $this->options_helper->get( 'company_name' ) );
+		return \apply_filters( 'wpseo_schema_company_name', $this->options->get( 'company_name' ) );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int|bool The company logo id.
 	 */
 	public function generate_company_logo_id() {
-		$company_logo_id = $this->image_helper->get_attachment_id_from_settings( 'company_logo' );
+		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		/**
 		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id
@@ -238,7 +238,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return int The site user id.
 	 */
 	public function generate_site_user_id() {
-		return (int) $this->options_helper->get( 'company_or_person_user_id', false );
+		return (int) $this->options->get( 'company_or_person_user_id', false );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string|false Person or company. False if invalid value.
 	 */
 	public function generate_site_represents() {
-		switch ( $this->options_helper->get( 'company_or_person', false ) ) {
+		switch ( $this->options->get( 'company_or_person', false ) ) {
 			case 'company':
 				// Do not use a non-named company.
 				if ( empty( $this->company_name ) ) {
@@ -299,7 +299,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_breadcrumbs_enabled() {
 		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = $this->options_helper->get( 'breadcrumbs-enable', false );
+			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
 		}
 
 		return $breadcrumbs_enabled;
@@ -311,7 +311,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return bool Whether or not open graph is enabled.
 	 */
 	public function generate_open_graph_enabled() {
-		return $this->options_helper->get( 'opengraph' ) === true;
+		return $this->options->get( 'opengraph' ) === true;
 	}
 
 	/**
@@ -321,13 +321,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_open_graph_publisher() {
 		if ( $this->site_represents === 'company' ) {
-			return $this->options_helper->get( 'facebook_site', '' );
+			return $this->options->get( 'facebook_site', '' );
 		}
 		if ( $this->site_represents === 'person' ) {
 			return $this->user->get_the_author_meta( 'facebook', $this->site_user_id );
 		}
 
-		return $this->options_helper->get( 'facebook_site', '' );
+		return $this->options->get( 'facebook_site', '' );
 	}
 
 	/**
@@ -336,7 +336,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The twitter card type.
 	 */
 	public function generate_twitter_card() {
-		return $this->options_helper->get( 'twitter_card_type' );
+		return $this->options->get( 'twitter_card_type' );
 	}
 
 	/**

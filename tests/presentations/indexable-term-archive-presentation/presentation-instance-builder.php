@@ -43,7 +43,7 @@ trait Presentation_Instance_Builder {
 	 *
 	 * @var Taxonomy_Helper|Mockery\MockInterface
 	 */
-	protected $taxonomy_helper;
+	protected $taxonomy;
 
 	/**
 	 * Holds the Pagination_Helper instance.
@@ -66,7 +66,7 @@ trait Presentation_Instance_Builder {
 		$this->indexable = new Indexable();
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
-		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+		$this->taxonomy         = Mockery::mock( Taxonomy_Helper::class );
 		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 		$this->context          = Mockery::mock( Meta_Tags_Context::class );
 
@@ -74,7 +74,7 @@ trait Presentation_Instance_Builder {
 			Indexable_Term_Archive_Presentation::class,
 			[
 				$this->wp_query_wrapper,
-				$this->taxonomy_helper,
+				$this->taxonomy,
 			]
 		)
 			->makePartial()

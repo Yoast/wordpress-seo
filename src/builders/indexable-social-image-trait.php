@@ -20,7 +20,7 @@ trait Indexable_Social_Image_Trait {
 	/**
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Open_Graph_Image_Helper
@@ -37,16 +37,16 @@ trait Indexable_Social_Image_Trait {
 	 *
 	 * @required
 	 *
-	 * @param Image_Helper            $image_helper     The image helper.
+	 * @param Image_Helper            $image     The image helper.
 	 * @param Open_Graph_Image_Helper $open_graph_image The Open Graph image helper.
 	 * @param Twitter_Image_Helper    $twitter_image    The Twitter image helper.
 	 */
 	public function set_social_image_helpers(
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		Open_Graph_Image_Helper $open_graph_image,
 		Twitter_Image_Helper $twitter_image
 	) {
-		$this->image_helper     = $image_helper;
+		$this->image            = $image;
 		$this->open_graph_image = $open_graph_image;
 		$this->twitter_image    = $twitter_image;
 	}

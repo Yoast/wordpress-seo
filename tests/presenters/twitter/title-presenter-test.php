@@ -36,11 +36,12 @@ class Title_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance = new Title_Presenter();
+		$this->instance               = new Title_Presenter();
 		$this->indexable_presentation = new Indexable_Presentation();
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
+
+		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->indexable_presentation->source = [];
 
 		return parent::setUp();
 	}

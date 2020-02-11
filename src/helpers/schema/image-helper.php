@@ -16,15 +16,15 @@ class Image_Helper {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param HTML_Helper $html_helper The HTML helper.
+	 * @param HTML_Helper $html The HTML helper.
 	 */
-	public function __construct( HTML_Helper $html_helper ) {
-		$this->html_helper = $html_helper;
+	public function __construct( HTML_Helper $html ) {
+		$this->html = $html;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Image_Helper {
 		$data['url'] = $url;
 
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
+			$data['caption'] = $this->html->smart_strip_tags( $caption );
 		}
 
 		return $data;
@@ -103,14 +103,14 @@ class Image_Helper {
 
 		$caption = \wp_get_attachment_caption( $attachment_id );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
+			$data['caption'] = $this->html->smart_strip_tags( $caption );
 
 			return $data;
 		}
 
 		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
+			$data['caption'] = $this->html->smart_strip_tags( $caption );
 		}
 
 		return $data;

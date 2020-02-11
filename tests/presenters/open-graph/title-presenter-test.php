@@ -48,10 +48,10 @@ class Title_Presenter_Test extends TestCase {
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance->set_replace_vars( $this->replace_vars );
 
-		$this->indexable_presentation                      = new Indexable_Presentation();
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->indexable_presentation         = new Indexable_Presentation();
+		$this->indexable_presentation->source = [];
 
 		$this->string
 			->expects( 'strip_all_tags' )
@@ -102,7 +102,7 @@ class Title_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct title, when the `wpseo_title` filter is applied.
+	 * Tests whether the presenter returns the correct title, when the `wpseo_opengraph_title` filter is applied.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
@@ -116,7 +116,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		Monkey\Filters\expectApplied( 'wpseo_og_title' )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_title' )
 			->once()
 			->with( 'example_title', $this->indexable_presentation )
 			->andReturn( 'exampletitle' );

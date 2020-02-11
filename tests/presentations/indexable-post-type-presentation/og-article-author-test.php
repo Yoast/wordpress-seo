@@ -32,11 +32,11 @@ class OG_Article_Author_Test extends TestCase {
 	 */
 	public function test_generate_og_article_author() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()
@@ -52,11 +52,11 @@ class OG_Article_Author_Test extends TestCase {
 	 */
 	public function test_generate_og_article_author_no_author() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()

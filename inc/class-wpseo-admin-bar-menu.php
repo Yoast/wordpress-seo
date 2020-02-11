@@ -400,6 +400,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				continue;
 			}
 
+			// Don't add the Google Search Console menu item.
+			if ( $submenu_page[4] === 'wpseo_search_console' ) {
+				continue;
+			}
+
 			$id = 'wpseo-' . str_replace( '_', '-', str_replace( 'wpseo_', '', $submenu_page[4] ) );
 			if ( $id === 'wpseo-dashboard' ) {
 				$id = 'wpseo-general';

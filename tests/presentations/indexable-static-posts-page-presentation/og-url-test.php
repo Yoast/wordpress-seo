@@ -29,7 +29,7 @@ class OG_URL_Test extends TestCase {
 	 * @covers ::generate_og_url
 	 */
 	public function test_generate_og_url_and_return_home_url() {
-		$this->url_helper->expects( 'home' )
+		$this->url->expects( 'home' )
 			->once()
 			->andReturn( 'https://example.com/' );
 

@@ -43,8 +43,8 @@ class Description_Presenter_Test extends TestCase {
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
-		$this->presentation->replace_vars_object = [];
+		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->presentation->source = [];
 
 		$this->replace_vars
 			->expects( 'replace' )

@@ -21,22 +21,22 @@ class Website extends Abstract_Schema_Piece {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Website constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param Options_Helper $options The options helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Options_Helper $options_helper, HTML_Helper $html_helper ) {
-		$this->html_helper    = $html_helper;
-		$this->options_helper = $options_helper;
+	public function __construct( Options_Helper $options, HTML_Helper $html ) {
+		$this->html    = $html;
+		$this->options = $options;
 	}
 
 	/**
@@ -63,9 +63,9 @@ class Website extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
 			'@type'       => 'WebSite',
-			'@id'         => $context->site_url . $this->id_helper->website_hash,
+			'@id'         => $context->site_url . $this->id->website_hash,
 			'url'         => $context->site_url,
-			'name'        => $this->html_helper->smart_strip_tags( $context->site_name ),
+			'name'        => $this->html->smart_strip_tags( $context->site_name ),
 			'description' => \get_bloginfo( 'description' ),
 		];
 
@@ -87,9 +87,9 @@ class Website extends Abstract_Schema_Piece {
 	 * @return array $data
 	 */
 	private function add_alternate_name( $data ) {
-		$alternate_name = $this->options_helper->get( 'alternate_website_name', '' );
+		$alternate_name = $this->options->get( 'alternate_website_name', '' );
 		if ( $alternate_name !== '' ) {
-			$data['alternateName'] = $this->html_helper->smart_strip_tags( $alternate_name );
+			$data['alternateName'] = $this->html->smart_strip_tags( $alternate_name );
 		}
 
 		return $data;

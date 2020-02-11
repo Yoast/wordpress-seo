@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 
@@ -38,22 +39,32 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $pagination;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper  $post_type  The post type helper.
 	 * @param Date_Helper       $date       The date helper.
 	 * @param Pagination_Helper $pagination The pagination helper.
+	 * @param Post_Helper       $post       The post helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
 		Date_Helper $date,
-		Pagination_Helper $pagination
+		Pagination_Helper $pagination,
+	    Post_Helper $post
 	) {
 		$this->post_type  = $post_type;
 		$this->date       = $date;
 		$this->pagination = $pagination;
+		$this->post       = $post;
 	}
 
 	/**
@@ -135,13 +146,13 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 		// Get SEO title as entered in Search appearance.
 		$post_type = $this->model->object_sub_type;
-		$title     = $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		$title     = $this->options->get( 'title-' . $this->model->object_sub_type );
 		if ( $title ) {
 			return $title;
 		}
 
 		// Get installation default title.
-		return $this->options_helper->get_title_default( 'title-' . $post_type );
+		return $this->options->get_title_default( 'title-' . $post_type );
 	}
 
 	/**
@@ -152,7 +163,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options_helper->get( 'metadesc-' . $this->model->object_sub_type );
+		return $this->options->get( 'metadesc-' . $this->model->object_sub_type );
 	}
 
 	/**
@@ -168,10 +179,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		if ( empty( $og_description ) ) {
-			$og_description = $this->post_type->get_the_excerpt( $this->model->object_id );
+			$og_description = $this->post->get_the_excerpt( $this->model->object_id );
 		}
 
-		return $this->post_type->strip_shortcodes( $og_description );
+		return $this->post->strip_shortcodes( $og_description );
 	}
 
 	/**
@@ -200,7 +211,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article author.
 	 */
 	public function generate_og_article_author() {
-		$post = $this->replace_vars_object;
+		$post = $this->source;
 
 		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
 
@@ -240,12 +251,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 *
 			 * @api bool Whether or not to show publish date.
 			 */
-			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post->get_post_type( $this->source ) ) ) {
 				return '';
 			}
 		}
 
-		return $this->date->format( $this->context->post->post_date_gmt );
+		return $this->date->format( $this->source->post_date_gmt );
 	}
 
 	/**
@@ -254,8 +265,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article modified time.
 	 */
 	public function generate_og_article_modified_time() {
-		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return $this->date->format( $this->context->post->post_modified_gmt );
+		if ( $this->source->post_modified_gmt !== $this->source->post_date_gmt ) {
+			return $this->date->format( $this->source->post_modified_gmt );
 		}
 
 		return '';
@@ -264,7 +275,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return \get_post( $this->model->object_id );
 	}
 
@@ -309,7 +320,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->post_type->get_the_excerpt( $this->model->object_id );
+		return $this->post->get_the_excerpt( $this->model->object_id );
 	}
 
 	/**
@@ -327,7 +338,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_twitter_creator() {
-		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
+		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->source->post_author ) ), '@' );
 
 		/**
 		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
@@ -340,7 +351,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '@' . $twitter_creator;
 		}
 
-		$site_twitter = $this->options_helper->get( 'twitter_site', '' );
+		$site_twitter = $this->options->get( 'twitter_site', '' );
 		if ( \is_string( $site_twitter ) && $site_twitter !== '' ) {
 			return '@' . $site_twitter;
 		}

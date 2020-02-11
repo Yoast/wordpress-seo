@@ -43,12 +43,12 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
@@ -92,7 +92,7 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'OG Description' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
@@ -107,14 +107,14 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_no_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
 
 		$this->instance->og_description = '';
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()

@@ -24,7 +24,7 @@ class Twitter_Description_Test extends TestCase {
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $option_helper;
+	protected $option;
 
 	/**
 	 * Does the setup for testing.
