@@ -19,6 +19,7 @@ import TwitterPreviewExample from "./TwitterPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
+import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -109,6 +110,11 @@ const components = [
 		name: "Multi step progress",
 		component: <MultiStepProgressWrapper />,
 	},
+	{
+		id: "social-preview-data-form",
+		name: "Social Preview data form",
+		component: <SocialPreviewFormWrapper />,
+	}
 ];
 
 const LanguageDirectionContainer = styled.div`
