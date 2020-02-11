@@ -1,7 +1,7 @@
 import { flatten } from "lodash-es";
 /**
  *
- * Checks whether a word is on the exception list for which we have full forms.
+ * Checks whether a word is on the exception list for which we have full forms. If it is, returns the indicated stem of the word.
  *
  * @param {Array} fullFormsExceptionLists The exception list with full forms to check against.
  * @param {string} word The word to check.
