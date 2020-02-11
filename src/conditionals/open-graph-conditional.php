@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Conditional that is only met when the OpenGraph feature is enabled.
+ * Conditional that is only met when the Open Graph feature is enabled.
  */
-class OpenGraph_Conditional implements Conditional {
+class Open_Graph_Conditional implements Conditional {
 
 	/**
 	 * The options helper.

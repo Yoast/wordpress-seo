@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Images_Test
+ * Class Open_Graph_Images_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
@@ -30,7 +30,7 @@ class Open_Graph_Images_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_images
 	 */
-	public function test_with_opengraph_disabled() {
+	public function test_with_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
 
 		$this->assertEmpty( $this->instance->generate_open_graph_images() );

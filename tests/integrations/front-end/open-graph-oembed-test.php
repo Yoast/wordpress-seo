@@ -11,18 +11,18 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Integrations\Front_End\OpenGraph_OEmbed;
+use Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\OpenGraph_OEmbed
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed
  *
  * @group integrations
  * @group front-end
  */
-class OpenGraph_OEmbed_Test extends TestCase {
+class Open_Graph_OEmbed_Test extends TestCase {
 
 	/**
 	 * The meta helper.
@@ -41,7 +41,7 @@ class OpenGraph_OEmbed_Test extends TestCase {
 	/**
 	 * The instance to test against.
 	 *
-	 * @var Mockery\MockInterface|OpenGraph_OEmbed
+	 * @var Mockery\MockInterface|Open_Graph_OEmbed
 	 */
 	protected $instance;
 
@@ -55,18 +55,18 @@ class OpenGraph_OEmbed_Test extends TestCase {
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->image    = Mockery::mock( Image_Helper::class );
-		$this->instance = Mockery::mock( OpenGraph_OEmbed::class, [ $this->meta, $this->image ] )
+		$this->instance = Mockery::mock( Open_Graph_OEmbed::class, [ $this->meta, $this->image ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 	}
 
 	/**
-	 * Tests the addition of the data with no opengraph title set.
+	 * Tests the addition of the data with no Open Graph title set.
 	 *
 	 * @covers ::set_oembed_data
 	 * @covers ::set_title
 	 */
-	public function test_set_oembed_data_with_no_opengraph_title_set() {
+	public function test_set_oembed_data_with_no_open_graph_title_set() {
 		$post = (object) [ 'ID' => 1337 ];
 
 		$this->meta
@@ -87,12 +87,12 @@ class OpenGraph_OEmbed_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the addition of the data with no opengraph title set.
+	 * Tests the addition of the data with no Open Graph title set.
 	 *
 	 * @covers ::set_oembed_data
 	 * @covers ::set_title
 	 */
-	public function test_set_oembed_data_with_opengraph_title_set() {
+	public function test_set_oembed_data_with_open_graph_title_set() {
 		$post = (object) [ 'ID' => 1337 ];
 
 		$this->meta
@@ -113,13 +113,13 @@ class OpenGraph_OEmbed_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the addition of the data with the opengraph image set.
+	 * Tests the addition of the data with the Open Graph image set.
 	 *
 	 * @covers ::set_oembed_data
 	 * @covers ::set_image
 	 * @covers ::get_image
 	 */
-	public function test_set_oembed_data_with_no_opengraph_image_set() {
+	public function test_set_oembed_data_with_no_open_graph_image_set() {
 		$post = (object) [ 'ID' => 1337 ];
 
 		$this->instance
@@ -144,13 +144,13 @@ class OpenGraph_OEmbed_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the addition of the data with the opengraph image set.
+	 * Tests the addition of the data with the Open Graph image set.
 	 *
 	 * @covers ::set_oembed_data
 	 * @covers ::set_image
 	 * @covers ::get_image
 	 */
-	public function test_set_oembed_data_with_opengraph_image_set() {
+	public function test_set_oembed_data_with_open_graph_image_set() {
 		$post = (object) [ 'ID' => 1337 ];
 
 		$this->instance
@@ -181,14 +181,14 @@ class OpenGraph_OEmbed_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the addition of the data with the opengraph image id set.
+	 * Tests the addition of the data with the Open Graph image id set.
 	 *
 	 * @covers ::set_oembed_data
 	 * @covers ::set_image
 	 * @covers ::get_image
 	 * @covers ::set_image_meta_data
 	 */
-	public function test_set_oembed_data_with_opengraph_image_id_set() {
+	public function test_set_oembed_data_with_open_graph_image_id_set() {
 		$post = (object) [ 'ID' => 1337 ];
 
 		$this->instance

@@ -8,15 +8,15 @@
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\OpenGraph_Conditional;
+use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class OpenGraph_OEmbed.
+ * Class Open_Graph_OEmbed.
  */
-class OpenGraph_OEmbed implements Integration_Interface {
+class Open_Graph_OEmbed implements Integration_Interface {
 
 	/**
 	 * The meta helper.
@@ -37,7 +37,7 @@ class OpenGraph_OEmbed implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, OpenGraph_Conditional::class ];
+		return [ Front_End_Conditional::class, Open_Graph_Conditional::class ];
 	}
 
 	/**

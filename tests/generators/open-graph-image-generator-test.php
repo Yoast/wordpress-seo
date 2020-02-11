@@ -138,7 +138,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
 	 */
-	public function test_generate_with_image_url_from_indexable_with_og_image_meta() {
+	public function test_generate_with_image_url_from_indexable_with_open_graph_image_meta() {
 		$this->indexable->og_image      = 'image.jpg';
 		$this->indexable->og_image_meta = json_encode( [
 			'height' => 1024,
@@ -162,7 +162,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the default og image id is given.
+	 * Tests the situation where the default Open Graph image id is given.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_default
@@ -190,7 +190,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the default og image is given.
+	 * Tests the situation where the default Open Graph image is given.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_default

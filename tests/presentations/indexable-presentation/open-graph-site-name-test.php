@@ -25,7 +25,7 @@ class Open_Graph_Site_Name_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OpenGraph site name is given.
+	 * Tests the situation where the Open Graph site name is given.
 	 *
 	 * @covers ::generate_open_graph_site_name
 	 */

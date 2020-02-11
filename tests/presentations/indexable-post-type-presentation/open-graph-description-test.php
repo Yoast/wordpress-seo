@@ -39,9 +39,9 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_open_graph_description
 	 */
 	public function test_with_open_graph_description() {
-		$this->indexable->og_description = 'OpenGraph description';
+		$this->indexable->og_description = 'Open Graph description';
 
-		$this->assertEquals( 'OpenGraph description', $this->instance->generate_open_graph_description() );
+		$this->assertEquals( 'Open Graph description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
