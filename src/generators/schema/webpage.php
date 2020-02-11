@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Site_Helper;
 
 /**
  * Returns schema WebPage data.
@@ -36,20 +37,28 @@ class WebPage extends Abstract_Schema_Piece {
 	private $date;
 
 	/**
+	 * @var Site_Helper
+	 */
+	private $site;
+
+	/**
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param HTML_Helper         $html  The HTML helper.
-	 * @param Date_Helper         $date  The date helper.
+	 * @param HTML_Helper         $html         The HTML helper.
+	 * @param Date_Helper         $date         The date helper.
+	 * @param Site_Helper         $site         The site helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page,
-		HTML_Helper $html,
-		Date_Helper $date
+		HTML_Helper         $html,
+		Date_Helper         $date,
+	    Site_Helper         $site
 	) {
 		$this->current_page = $current_page;
 		$this->date         = $date;
 		$this->html         = $html;
+		$this->site         = $site;
 	}
 
 	/**
@@ -75,7 +84,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@type'      => $context->schema_page_type,
 			'@id'        => $context->canonical . $this->id->webpage_hash,
 			'url'        => $context->canonical,
-			'inLanguage' => \get_bloginfo( 'language' ),
+			'inLanguage' => $this->site->get_language(),
 			'name'       => $this->html->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id->website_hash,
