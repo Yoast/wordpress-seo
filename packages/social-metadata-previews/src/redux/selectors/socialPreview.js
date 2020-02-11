@@ -1,23 +1,36 @@
 import { get } from "lodash";
 
-/** FACEBOOK */
-
 /**
-	 * Provides a path to the state for selectors. Also bundles all selectors in an object.
+	 * The factory function creates the selectors for the store related to the social previews.
+	 * You should provide, as a string, the path within your store to the social previews.
 	 *
-	 * @param {String} path The path to the state.
+	 * E.g.: if your store looks as follows:
+	 * state = {
+	 *    stuff: {},
+	 *    previews: {
+	 *         socialPreviews: {
+	 *             facebook: {},
+	 *             twitter{},
+	 *         },
+	 *     },
+	 * };
+	 * you should provide "previews.socialPreviews".
 	 *
-	 * @returns {Object} The Selectors objects.
+	 * @param {String} path The path to the social preview slice of the store.
+	 *
+	 * @returns {Object} An object containing all selector functions.
 	 */
 const socialMetadataSelectorsFactory = ( path ) => {
 	const selectors = {};
+
+	// FACEBOOK
 
 	/**
 	 * Gets the facebook data from the state.
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Facebook data.
+	 * @returns {String} Facebook data.
 	 */
 	selectors.getFacebookData = state => get( state, `${ path }.facebook`, {} );
 
@@ -27,7 +40,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Facebook title.
+	 * @returns {String} Facebook title.
 	 */
 	selectors.getFacebookTitle = state => selectors.getFacebookData( state ).title;
 
@@ -36,7 +49,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Facebook description.
+	 * @returns {String} Facebook description.
 	 */
 	selectors.getFacebookDescription = state => selectors.getFacebookData( state ).description;
 
@@ -45,7 +58,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Facebook image URL.
+	 * @returns {String} Facebook image URL.
 	 */
 	selectors.getFacebookImageUrl = state => selectors.getFacebookData( state ).imageUrl;
 
@@ -54,19 +67,19 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Facebook image type.
+	 * @returns {String} Facebook image type.
 	 */
 	selectors.getFacebookImageType = state => selectors.getFacebookData( state ).imageType;
 
 
-	/** TWITTER */
+	// TWITTER
 
 	/**
 	 * Gets the twitter data from the state.
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Twitter data.
+	 * @returns {String} Twitter data.
 	 */
 	selectors.getTwitterData = state => get( state, `${ path }.twitter`, {} );
 
@@ -76,7 +89,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Twitter title.
+	 * @returns {String} Twitter title.
 	 */
 	selectors.getTwitterTitle = state => selectors.getTwitterData( state ).title;
 
@@ -85,7 +98,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Twitter description.
+	 * @returns {String} Twitter description.
 	 */
 	selectors.getTwitterDescription = state => selectors.getTwitterData( state ).description;
 
@@ -94,7 +107,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Twitter image URL.
+	 * @returns {String} Twitter image URL.
 	 */
 	selectors.getTwitterImageUrl = state => selectors.getTwitterData( state ).imageUrl;
 
@@ -103,7 +116,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @param {Object} state The state.
 	 *
-	 * @returns {String}.Twitter image type.
+	 * @returns {String} Twitter image type.
 	 */
 	selectors.getTwitterImageType = state => selectors.getTwitterData( state ).imageType;
 

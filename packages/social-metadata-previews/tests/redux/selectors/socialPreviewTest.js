@@ -1,5 +1,32 @@
 import selectorsFactory from "../../../src/redux/selectors/socialPreview";
 
+// Test the selector factory
+describe( selectorsFactory, () => {
+	it( "generates working selectors based on a path", () => {
+		const testSelectors = selectorsFactory( "just.another.path" );
+		const facebookData = { title: "facebooktitle" };
+		const twitterData = { title: "twittertitle" };
+		const testState = {
+			just: {
+				another: {
+					path: {
+						facebook: facebookData,
+						twitter: twitterData,
+					},
+				},
+			},
+		};
+		const expectedFacebook = testSelectors.getFacebookData( testState );
+		const expectedTwitter = testSelectors.getTwitterData( testState );
+		const expectedTitle = testSelectors.getTwitterTitle( testState );
+
+		expect( expectedFacebook ).toEqual( facebookData );
+		expect( expectedTwitter ).toEqual( twitterData );
+		expect( expectedTitle ).toEqual( "twittertitle" );
+	} );
+} );
+
+// Create the selectors.
 const selectors = selectorsFactory( "socialPreviews" );
 
 const state = {
@@ -23,7 +50,7 @@ const state = {
 	},
 };
 
-/** FACEBOOK */
+// FACEBOOK
 describe( selectors.getFacebookTitle, () => {
 	it( "selects the facebook title from the state", () => {
 		const actual = selectors.getFacebookTitle( state );
@@ -65,8 +92,7 @@ describe( selectors.getFacebookImageType, () => {
 } );
 
 
-/** TWITTER */
-
+// TWITTER
 describe( selectors.getTwitterTitle, () => {
 	it( "selects the twitter title from the state", () => {
 		const actual = selectors.getTwitterTitle( state );
