@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_URL_Test.
+ * Class Open_Graph_URL_Test.
  *
  * @group presentations
- * @group og-url
+ * @group open-graph-url
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
-class OG_URL_Test extends TestCase {
+class Open_Graph_URL_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -25,11 +25,11 @@ class OG_URL_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether generate_og_url calls the `get_date_archive_permalink` method of the current page helper.
+	 * Tests whether generate_open_graph_url calls the `get_date_archive_permalink` method of the current page helper.
 	 *
 	 * @covers ::generate_open_graph_url
 	 */
-	public function test_generate_og_url() {
+	public function test_generate_open_graph_url() {
 		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()

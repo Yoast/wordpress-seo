@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Title_Test
+ * Class Open_Graph_Title_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group opengraph
  * @group opengraph-title
  */
-class OG_Title_Test extends TestCase {
+class Open_Graph_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -26,22 +26,22 @@ class OG_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OG title is set.
+	 * Tests the situation where the Open Graph title is set.
 	 *
 	 * @covers ::generate_open_graph_title
 	 */
-	public function test_generate_og_title_when_og_title_is_set() {
-		$this->indexable->og_title = 'Example of OG title';
+	public function test_generate_open_graph_title_when_open_graph_title_is_set() {
+		$this->indexable->og_title = 'Example of Open Graph title';
 
-		$this->assertEquals( 'Example of OG title', $this->instance->generate_open_graph_title() );
+		$this->assertEquals( 'Example of Open Graph title', $this->instance->generate_open_graph_title() );
 	}
 
 	/**
-	 * Tests the situation where the OG title is not set, and the SEO title is returned.
+	 * Tests the situation where the Open Graph title is not set, and the SEO title is returned.
 	 *
 	 * @covers ::generate_open_graph_title
 	 */
-	public function test_generate_og_title_with_seo_title() {
+	public function test_generate_open_graph_title_with_seo_title() {
 		$this->indexable->title = 'Example of SEO title';
 		$this->assertEquals( 'Example of SEO title', $this->instance->generate_open_graph_title() );
 	}

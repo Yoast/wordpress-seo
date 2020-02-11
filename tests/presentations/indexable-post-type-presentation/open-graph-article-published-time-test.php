@@ -6,14 +6,14 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class OG_Article_Published_Time_Test
+ * Class Open_Graph_Article_Published_Time_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
  */
-class OG_Article_Published_Time_Test extends TestCase {
+class Open_Graph_Article_Published_Time_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -30,7 +30,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_published_time
 	 */
-	public function test_generate_og_article_published_time_post() {
+	public function test_generate_open_graph_article_published_time_post() {
 		$this->indexable->object_sub_type = 'post';
 
 		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
@@ -53,7 +53,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_published_time
 	 */
-	public function test_generate_og_article_published_time_page() {
+	public function test_generate_open_graph_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
 
 		$this->instance->expects( 'generate_source' )->andReturn( (object) [] );
@@ -72,7 +72,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_published_time
 	 */
-	public function test_generate_og_article_published_time_page_enabled() {
+	public function test_generate_open_graph_article_published_time_page_enabled() {
 		$this->indexable->object_sub_type = 'page';
 
 		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];

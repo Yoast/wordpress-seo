@@ -6,7 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
-use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
@@ -48,9 +48,9 @@ trait Presentation_Instance_Dependencies {
 	protected $user;
 
 	/**
-	 * @var OG_Image_Helper|Mockery\MockInterface
+	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
-	protected $og_image;
+	protected $open_graph_image;
 
 	/**
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
@@ -67,7 +67,7 @@ trait Presentation_Instance_Dependencies {
 	/**
 	 * @var Open_Graph_Image_Generator|Mockery\MockInterface
 	 */
-	protected $og_image_generator;
+	protected $open_graph_image_generator;
 
 	/**
 	 * @var Twitter_Image_Generator|Mockery\MockInterface
@@ -80,13 +80,13 @@ trait Presentation_Instance_Dependencies {
 	 * @param Indexable_Presentation $presentation_instance The indexable presentation instance.
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
-		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->image        = Mockery::mock( Image_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-		$this->url          = Mockery::mock( Url_Helper::class );
-		$this->user         = Mockery::mock( User_Helper::class );
-		$this->og_image     = Mockery::mock( OG_Image_Helper::class );
-		$this->twitter      = Mockery::mock( Twitter_Image_Helper::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->image            = Mockery::mock( Image_Helper::class );
+		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
+		$this->url              = Mockery::mock( Url_Helper::class );
+		$this->user             = Mockery::mock( User_Helper::class );
+		$this->open_graph_image = Mockery::mock( Open_Graph_Image_Helper::class );
+		$this->twitter          = Mockery::mock( Twitter_Image_Helper::class );
 
 		$presentation_instance->set_helpers(
 			$this->image,
@@ -96,10 +96,10 @@ trait Presentation_Instance_Dependencies {
 			$this->user
 		);
 
-		$this->og_image_generator = Mockery::mock(
+		$this->open_graph_image_generator = Mockery::mock(
 			Open_Graph_Image_Generator::class,
 			[
-				$this->og_image,
+				$this->open_graph_image,
 				$this->image,
 				$this->options,
 				$this->url,
@@ -118,7 +118,7 @@ trait Presentation_Instance_Dependencies {
 		$presentation_instance->set_generators(
 			Mockery::mock( Schema_Generator::class ),
 			new Open_Graph_Locale_Generator(),
-			$this->og_image_generator,
+			$this->open_graph_image_generator,
 			$this->twitter_image_generator,
 			Mockery::mock( Breadcrumbs_Generator::class )
 		);

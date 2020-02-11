@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group opengraph
  * @group opengraph-image
  */
-class OG_Images_Test extends TestCase {
+class Open_Graph_Images_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -44,7 +44,7 @@ class OG_Images_Test extends TestCase {
 	public function test_with_generator_result() {
 		$this->indexable->og_image = 'facebook_image.jpg';
 
-		$this->og_image_generator
+		$this->open_graph_image_generator
 			->expects( 'generate' )
 			->once()
 			->with( $this->context )

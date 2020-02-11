@@ -64,7 +64,7 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_og_enabled_and_have_og_description() {
+	public function test_with_term_description_with_open_graph_enabled_and_have_open_graph_description() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = true;
@@ -72,7 +72,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_open_graph_description' )
 			->once()
-			->andReturn( 'OG Description' );
+			->andReturn( 'Open Graph Description' );
 
 		$this->assertEquals( '', $this->instance->generate_twitter_description() );
 	}
@@ -82,7 +82,7 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_og_disbled_and_have_og_description() {
+	public function test_with_term_description_with_open_graph_disbled_and_have_open_graph_description() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = false;
@@ -90,7 +90,7 @@ class Twitter_Description_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_open_graph_description' )
 			->once()
-			->andReturn( 'OG Description' );
+			->andReturn( 'Open Graph Description' );
 
 		$this->post
 			->expects( 'get_the_excerpt' )

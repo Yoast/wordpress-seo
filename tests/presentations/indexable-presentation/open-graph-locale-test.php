@@ -6,13 +6,13 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class OG_Locale_Test
+ * Class Open_Graph_Locale_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  */
-class OG_Locale_Test extends TestCase {
+class Open_Graph_Locale_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,7 +29,7 @@ class OG_Locale_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_locale
 	 */
-	public function test_generate_og_locale() {
+	public function test_generate_open_graph_locale() {
 		Monkey\Functions\expect( 'get_locale' )
 			->andReturn( 'en_US' );
 
@@ -41,7 +41,7 @@ class OG_Locale_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_locale
 	 */
-	public function test_generate_og_locale_with_filter() {
+	public function test_generate_open_graph_locale_with_filter() {
 		Monkey\Functions\expect( 'get_locale' )
 			->once()
 			->andReturn( 'en_US' );
@@ -58,7 +58,7 @@ class OG_Locale_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_locale
 	 */
-	public function test_generate_og_locale_when_fix_locales_is_set() {
+	public function test_generate_open_graph_locale_when_fix_locales_is_set() {
 		Monkey\Functions\expect( 'get_locale' )
 			->andReturn( 'uk' );
 
@@ -70,7 +70,7 @@ class OG_Locale_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_locale
 	 */
-	public function test_generate_og_locale_when_converting() {
+	public function test_generate_open_graph_locale_when_converting() {
 		Monkey\Functions\expect( 'get_locale' )
 			->andReturn( 'es' );
 
@@ -82,7 +82,7 @@ class OG_Locale_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_locale
 	 */
-	public function test_generate_og_locale_with_fallback() {
+	public function test_generate_open_graph_locale_with_fallback() {
 		Monkey\Functions\expect( 'get_locale' )
 			->andReturn( 'xx' );
 

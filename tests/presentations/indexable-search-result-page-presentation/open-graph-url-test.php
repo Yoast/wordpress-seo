@@ -6,13 +6,13 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_URL_Test
+ * Class Open_Graph_URL_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Search_Result_Page_Presentation
  *
  * @group presentations
  */
-class OG_URL_Test extends TestCase {
+class Open_Graph_URL_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,7 +29,7 @@ class OG_URL_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_url
 	 */
-	public function test_generate_og_url() {
+	public function test_generate_open_graph_url() {
 		Monkey\Functions\expect( 'get_search_query' )
 			->once()
 			->andReturn( 'searchquery' );
@@ -46,7 +46,7 @@ class OG_URL_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_url
 	 */
-	public function test_generate_og_url_invalid_query() {
+	public function test_generate_open_graph_url_invalid_query() {
 		Monkey\Functions\expect( 'get_search_query' )
 			->once()
 			->andReturn( 'page/2' );

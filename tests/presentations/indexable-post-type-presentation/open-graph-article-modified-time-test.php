@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Article_Modified_Time_Test
+ * Class Open_Graph_Article_Modified_Time_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
  */
-class OG_Article_Modified_Time_Test extends TestCase {
+class Open_Graph_Article_Modified_Time_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,7 +29,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_modified_time
 	 */
-	public function test_generate_og_article_modified_time_same_as_published_time() {
+	public function test_generate_open_graph_article_modified_time_same_as_published_time() {
 		$source = (object) [
 			'post_date_gmt'     => '2019-10-08T12:26:31+00:00',
 			'post_modified_gmt' => '2019-10-08T12:26:31+00:00',
@@ -45,7 +45,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_modified_time
 	 */
-	public function test_generate_og_article_modified_time_differs_from_published_time() {
+	public function test_generate_open_graph_article_modified_time_differs_from_published_time() {
 		$source = (object) [
 			'post_date_gmt'     => '2019-10-08T12:26:31+00:00',
 			'post_modified_gmt' => '2019-11-09T12:34:56+00:00',

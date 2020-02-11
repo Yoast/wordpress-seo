@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Description_Test
+ * Class Open_Graph_Description_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  */
-class OG_Description_Test extends TestCase {
+class Open_Graph_Description_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -24,22 +24,22 @@ class OG_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OG description is given.
+	 * Tests the situation where the Open Graph description is given.
 	 *
 	 * @covers ::generate_open_graph_description
 	 */
-	public function test_generate_og_description_when_og_description_is_given() {
-		$this->indexable->og_description = 'Example of OG description';
+	public function test_generate_open_graph_description_when_open_graph_description_is_given() {
+		$this->indexable->og_description = 'Example of Open Graph description';
 
-		$this->assertEquals( 'Example of OG description', $this->instance->generate_open_graph_description() );
+		$this->assertEquals( 'Example of Open Graph description', $this->instance->generate_open_graph_description() );
 	}
 
 	/**
-	 * Tests the situation where the OG description is not given, and the meta description is returned.
+	 * Tests the situation where the Open Graph description is not given, and the meta description is returned.
 	 *
 	 * @covers ::generate_open_graph_description
 	 */
-	public function test_generate_og_description_with_meta_description() {
+	public function test_generate_open_graph_description_with_meta_description() {
 		$this->indexable->description = 'Example of meta description';
 		$this->assertEquals( 'Example of meta description', $this->instance->generate_open_graph_description() );
 	}

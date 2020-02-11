@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Article_Publisher_Test
+ * Class Open_Graph_Article_Publisher_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
  */
-class OG_Article_Publisher_Test extends TestCase {
+class Open_Graph_Article_Publisher_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,7 +29,7 @@ class OG_Article_Publisher_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_publisher
 	 */
-	public function test_generate_og_article_publisher() {
+	public function test_generate_open_graph_article_publisher() {
 
 		$this->context->open_graph_publisher = 'http://facebook.com/publisher';
 
@@ -41,7 +41,7 @@ class OG_Article_Publisher_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_author
 	 */
-	public function test_generate_og_article_publisher_no_publisher() {
+	public function test_generate_open_graph_article_publisher_no_publisher() {
 		$this->context->open_graph_publisher = '';
 
 		$this->assertEmpty( $this->instance->generate_open_graph_article_publisher() );

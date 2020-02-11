@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Author_Archive_Presentation
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Type_Test.
+ * Class Open_Graph_Type_test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation
  *
  * @group presentations
  */
-class OG_Type_Test extends TestCase {
+class Open_Graph_Type_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -24,11 +24,11 @@ class OG_Type_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the og type is article.
+	 * Tests whether the Open Graph type is article.
 	 *
 	 * @covers ::generate_open_graph_type
 	 */
-	public function test_og_type() {
+	public function test_open_graph_type() {
 		$this->assertEquals( 'profile', $this->instance->generate_open_graph_type() );
 	}
 }

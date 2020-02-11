@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Static_Posts_Page_Presentat
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_URL_Test
+ * Class Open_Graph_URL_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Static_Posts_Page_Presentation
  *
  * @group presentations
  */
-class OG_URL_Test extends TestCase {
+class Open_Graph_URL_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -28,7 +28,7 @@ class OG_URL_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_url
 	 */
-	public function test_generate_og_url_and_return_home_url() {
+	public function test_generate_open_graph_url_and_return_home_url() {
 		$this->url->expects( 'home' )
 			->once()
 			->andReturn( 'https://example.com/' );

@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class WordPress_Site_Name_Test
+ * Class Open_Graph_Site_Name_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group opengraph
  */
-class WordPress_Site_Name_Test extends TestCase {
+class Open_Graph_Site_Name_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,7 +29,7 @@ class WordPress_Site_Name_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_site_name
 	 */
-	public function test_generate_og_site_name() {
+	public function test_generate_open_graph_site_name() {
 		$this->context->wordpress_site_name = 'My Site';
 
 		$this->assertEquals( 'My Site', $this->instance->generate_open_graph_site_name() );

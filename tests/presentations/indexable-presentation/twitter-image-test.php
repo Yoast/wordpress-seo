@@ -54,14 +54,14 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_image
 	 *
-	 * @dataProvider twitter_image_og_fallback_provider
+	 * @dataProvider twitter_image_open_graph_fallback_provider
 	 *
-	 * @param string $image_source   Twitter image source.
-	 * @param array  $image_generate Return value of twitter image generator.
-	 * @param string $og_image       Return value of OG image generator.
-	 * @param string $expected       Expected value.
+	 * @param string $image_source     Twitter image source.
+	 * @param array  $image_generate   Return value of twitter image generator.
+	 * @param string $open_graph_image Return value of Open Graph image generator.
+	 * @param string $expected         Expected value.
 	 */
-	public function test_generate_twitter_image_with_og_fallback( $image_source, $image_generate, $og_image, $expected ) {
+	public function test_generate_twitter_image_with_open_graph_fallback( $image_source, $image_generate, $open_graph_image, $expected ) {
 		$this->indexable->twitter_image_source = $image_source;
 		$this->context->open_graph_enabled     = true;
 
@@ -74,7 +74,7 @@ class Twitter_Image_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_open_graph_images' )
 			->once()
-			->andReturn( $og_image );
+			->andReturn( $open_graph_image );
 
 		$this->assertEquals( $expected, $this->instance->generate_twitter_image() );
 	}
@@ -116,33 +116,33 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @return array The data to provide.
 	 */
-	public function twitter_image_og_fallback_provider() {
+	public function twitter_image_open_graph_fallback_provider() {
 		return [
 			[
-				'image_source'      => 'featured-image',
-				'generated_image'   => [
+				'image_source'              => 'featured-image',
+				'generated_image'           => [
 					'twitter_image.jpg' => [
 						'url' => 'twitter_image.jpg',
 					],
 				],
-				'og_generate_image' => 'og_image.jpg',
-				'expected'          => '',
+				'open_graph_generate_image' => 'open_graph_image.jpg',
+				'expected'                  => '',
 			],
 			[
-				'image_source'      => 'featured-image',
-				'generated_image'   => [
+				'image_source'              => 'featured-image',
+				'generated_image'           => [
 					'twitter_image.jpg' => [
 						'url' => 'twitter_image.jpg',
 					],
 				],
-				'og_generate_image' => '',
-				'expected'          => 'twitter_image.jpg',
+				'open_graph_generate_image' => '',
+				'expected'                  => 'twitter_image.jpg',
 			],
 			[
-				'image_source'      => 'featured-image',
-				'generated_image'   => [],
-				'og_generate_image' => '',
-				'expected'          => '',
+				'image_source'              => 'featured-image',
+				'generated_image'           => [],
+				'open_graph_generate_image' => '',
+				'expected'                  => '',
 			],
 		];
 	}

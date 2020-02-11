@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Article_Author_Test
+ * Class Open_Graph_Article_Author_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
  */
-class OG_Article_Author_Test extends TestCase {
+class Open_Graph_Article_Author_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -30,7 +30,7 @@ class OG_Article_Author_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_author
 	 */
-	public function test_generate_og_article_author() {
+	public function test_generate_open_graph_article_author() {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
@@ -50,7 +50,7 @@ class OG_Article_Author_Test extends TestCase {
 	 *
 	 * @covers ::generate_open_graph_article_author
 	 */
-	public function test_generate_og_article_author_no_author() {
+	public function test_generate_open_graph_article_author_no_author() {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()

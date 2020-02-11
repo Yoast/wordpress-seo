@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
- * Class OG_Image_Generator_Test
+ * Class Images_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Values\Open_Graph\Images
  *

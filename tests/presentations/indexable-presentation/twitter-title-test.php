@@ -47,36 +47,36 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is set, the OG title is set, and OG is enabled.
+	 * Tests the situation where no Twitter title is set, the Open Graph title is set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_generate_twitter_title_with_set_og_title_and_og_enabled() {
+	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
-		$this->indexable->og_title         = 'OG title';
+		$this->indexable->og_title         = 'Open Graph title';
 
 		$this->assertEquals( '', $this->instance->generate_twitter_title() );
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is set, the OG title is set, and OG is disabled.
+	 * Tests the situation where no Twitter title is set, the Open Graph title is set, and Open Graph is disabled.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_generate_twitter_title_with_set_og_title_and_og_disabled() {
+	public function test_generate_twitter_title_with_set_open_graph_title_and_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
-		$this->instance->open_graph_title  = 'OG title';
+		$this->instance->open_graph_title  = 'Open Graph title';
 		$this->indexable->title            = 'SEO title';
 
 		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is set, the OG title isn't set, and OG is enabled.
+	 * Tests the situation where no Twitter title is set, the Open Graph title isn't set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_generate_twitter_title_with_no_set_og_title_and_og_enabled() {
+	public function test_generate_twitter_title_with_no_set_open_graph_title_and_open_graph_enabled() {
 		$this->context->open_graph_enabled = true;
 		$this->instance->open_graph_title  = null;
 		$this->indexable->title            = 'SEO title';
@@ -85,7 +85,7 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter and OG titles are set, but the SEO title is set.
+	 * Tests the situation where no Twitter and Open Graph titles are set, but the SEO title is set.
 	 *
 	 * @covers ::generate_twitter_title
 	 */

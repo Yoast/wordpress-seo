@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class OG_Type_Test
+ * Class Open_Graph_Type_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  */
-class OG_Type_Test extends TestCase {
+class Open_Graph_Type_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -24,11 +24,11 @@ class OG_Type_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OG type is given.
+	 * Tests the situation where the Open Graph type is given.
 	 *
 	 * @covers ::generate_open_graph_type
 	 */
-	public function test_generate_og_type() {
+	public function test_generate_open_graph_type() {
 		$this->assertEquals( 'article', $this->instance->generate_open_graph_type() );
 	}
 }

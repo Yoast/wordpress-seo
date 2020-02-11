@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class OG_Images_Test
+ * Class Open_Graph_Images_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
@@ -14,7 +14,7 @@ use Brain\Monkey;
  * @group opengraph
  * @group opengraph-image
  */
-class OG_Images_Test extends TestCase {
+class Open_Graph_Images_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -52,7 +52,7 @@ class OG_Images_Test extends TestCase {
 		$this->indexable->og_image    = 'facebook_image.jpg';
 		$this->indexable->og_image_id = null;
 
-		$this->og_image_generator
+		$this->open_graph_image_generator
 			->expects( 'generate' )
 			->once()
 			->with( $this->context )
