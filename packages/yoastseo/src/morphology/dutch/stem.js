@@ -2,6 +2,7 @@ import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionLi
 import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
+import { flatten } from "lodash-es";
 
 /**
  * @file Dutch stemming algorithm. Adapted from:
@@ -193,7 +194,8 @@ const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms,
  */
 export default function stem( word, morphologyDataNL ) {
 	// Check whether the word is on an exception list of words that shouldn't be stemmed. If it is, return the word.
-	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
+	const wordsThatShouldNotBeStemmed = flatten( Object.values( morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) );
+	if ( checkIfWordEndingIsOnExceptionList( word, wordsThatShouldNotBeStemmed ) ) {
 		return word;
 	}
 
