@@ -80,7 +80,7 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
 
 	/**
-	 * Extract a stemming function (it available, and if there is morphologyData available for this language).
+	 * Extract a stemming function (if available, and if there is morphologyData available for this language).
 	 * Otherwise, take an identity function.
 	 */
 	const getStem = retrieveStemmer( language, morphologyData );
