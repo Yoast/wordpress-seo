@@ -120,6 +120,23 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if checking post type archive indexables results in only one build request when multiple option values for
+	 * one post type have changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_ptarchive_option
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_check_ptarchive_option_update_multiple() {
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
+
+		$this->instance->check_ptarchive_option(
+			[ 'title-ptarchive-my-post-type' => 'bar', 'metadesc-ptarchive-my-post-type' => 'baz' ],
+			[ 'title-ptarchive-my-post-type' => 'baz', 'metadesc-ptarchive-my-post-type' => 'bar' ]
+		);
+	}
+
+	/**
 	 * Tests if checking post type archive indexables results in a build request when the option value has been set.
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
@@ -218,7 +235,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::build_ptarchive_indexable
 	 */
-	public function test_build_pt_archive_indexable_without_indexable() {
+	public function test_build_ptarchive_indexable_without_indexable() {
 		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
 		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
 		$this->indexable_mock->expects( 'save' )->once();
