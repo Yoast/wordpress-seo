@@ -326,6 +326,66 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests change is detected when the value has changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_has_option_value_changed_with_change() {
+		$actual = $this->instance->has_option_value_changed( [ 'key' => 1 ], [ 'key' => 2 ], 'key' );
+
+		$this->assertEquals( true, $actual );
+	}
+
+	/**
+	 * Tests no change is detected when the value has not changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_has_option_value_changed_without_change() {
+		$actual = $this->instance->has_option_value_changed( [ 'key' => 1 ], [ 'key' => 1 ], 'key' );
+
+		$this->assertEquals( false, $actual );
+	}
+
+	/**
+	 * Tests change is detected when the value did not exist.
+	 *
+	 * @covers ::__construct
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_has_option_value_changed_new() {
+		$actual = $this->instance->has_option_value_changed( [], [ 'key' => 1 ], 'key' );
+
+		$this->assertEquals( true, $actual );
+	}
+
+	/**
+	 * Tests change is detected when the value no longer exists.
+	 *
+	 * @covers ::__construct
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_has_option_value_changed_removed() {
+		$actual = $this->instance->has_option_value_changed( [ 'key' => 1 ], [], 'key' );
+
+		$this->assertEquals( true, $actual );
+	}
+
+	/**
+	 * Tests no change is detected when the value is not there.
+	 *
+	 * @covers ::__construct
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_has_option_value_changed_none() {
+		$actual = $this->instance->has_option_value_changed( [], [], 'key' );
+
+		$this->assertEquals( false, $actual );
+	}
+
+	/**
 	 * Returns the option prefix that represents a post type archive option.
 	 *
 	 * Test data provider.
