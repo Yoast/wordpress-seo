@@ -3,7 +3,6 @@
 use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
-use Yoast\WP\SEO\Helpers\User_Helper;
 
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
