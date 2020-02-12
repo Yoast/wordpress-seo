@@ -546,9 +546,10 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'wp-plugins-backport',
-				'src'  => 'wp-seo-wp-plugins-backport-' . $flat_version,
-				'deps' => [
+				'name'      => 'wp-plugins-backport',
+				'src'       => 'wp-seo-wp-plugins-backport-' . $flat_version,
+				'in_footer' => true,
+				'deps'      => [
 					'wp-plugins',
 					'wp-element',
 					'wp-components',
