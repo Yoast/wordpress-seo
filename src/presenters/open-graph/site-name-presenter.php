@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph site name.
+ * Presenter class for the Open Graph site name.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
@@ -42,7 +42,7 @@ class Site_Name_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	private function filter( $site_name, Indexable_Presentation $presentation ) {
 		/**
-		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the Yoast SEO generated OpenGraph site name.
+		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the Yoast SEO generated Open Graph site name.
 		 *
 		 * @api string $site_name The site_name.
 		 *

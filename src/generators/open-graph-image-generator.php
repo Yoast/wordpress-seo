@@ -46,7 +46,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for OpenGraph.
+	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for Open Graph.
 	 * @param Image_Helper            $image            The image helper.
 	 * @param Options_Helper          $options          The options helper.
 	 * @param Url_Helper              $url              The url helper.
@@ -74,7 +74,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 		$image_container = $this->get_image_container();
 
 		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the Open Graph tags.
 		 *
 		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 		 */
@@ -83,7 +83,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 		$this->add_from_indexable( $context->indexable, $image_container );
 
 		/**
-		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
+		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the Open Graph tags.
 		 *
 		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 		 */
@@ -125,7 +125,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	}
 
 	/**
-	 * Retrieves the default OpenGraph image.
+	 * Retrieves the default Open Graph image.
 	 *
 	 * @param Images $image_container The image container.
 	 */

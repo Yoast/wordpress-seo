@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for OpenGraph images.
+ * A helper object for Open Graph images.
  *
  * @package \Yoast\WP\SEO\Helpers\Open_Graph
  */
@@ -83,7 +83,7 @@ class Image_Helper {
 	public function get_override_image_size() {
 		/**
 		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
-		 * for OpenGraph sharing. If this filter is used, the defined size will always be
+		 * for Open Graph sharing. If this filter is used, the defined size will always be
 		 * used for the og:image. The image will still be rejected if it is too small.
 		 *
 		 * Only use this filter if you manually want to determine the best image size

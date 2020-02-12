@@ -120,8 +120,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Sets the generator dependencies.
 	 *
 	 * @param Schema_Generator            $schema_generator            The schema generator.
-	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The OpenGraph locale generator.
-	 * @param Open_Graph_Image_Generator  $open_graph_image_generator  The OpenGraph image generator.
+	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The Open Graph locale generator.
+	 * @param Open_Graph_Image_Generator  $open_graph_image_generator  The Open Graph image generator.
 	 * @param Twitter_Image_Generator     $twitter_image_generator     The Twitter image generator.
 	 * @param Breadcrumbs_Generator       $breadcrumbs_generator       The breadcrumbs generator.
 	 */
@@ -247,9 +247,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the og type.
+	 * Generates the Open Graph type.
 	 *
-	 * @return string The og type.
+	 * @return string The Open Graph type.
 	 */
 	public function generate_open_graph_type() {
 		return 'website';
@@ -435,7 +435,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $image['url'];
 		}
 
-		// When there isn't a set image or there is a OpenGraph image set.
+		// When there isn't a set image or there is a Open Graph image set.
 		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->open_graph_images ) ) {
 			return '';
 		}

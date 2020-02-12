@@ -22,7 +22,7 @@ class Open_Graph_Conditional implements Conditional {
 	private $options;
 
 	/**
-	 * OpenGraph_Conditional constructor.
+	 * Open_Graph_Conditional constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */

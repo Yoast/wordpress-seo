@@ -15,14 +15,14 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
-	 * Image types that are supported by OpenGraph.
+	 * Image types that are supported by Open Graph.
 	 *
 	 * @var array
 	 */
 	protected static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png' ];
 
 	/**
-	 * Image extensions that are supported by OpenGraph.
+	 * Image extensions that are supported by Open Graph.
 	 *
 	 * @var array
 	 */

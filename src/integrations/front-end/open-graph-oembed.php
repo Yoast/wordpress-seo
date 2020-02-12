@@ -49,7 +49,7 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	}
 
 	/**
-	 * OpenGraph_OEmbed constructor.
+	 * Open_Graph_OEmbed constructor.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -64,7 +64,7 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	/**
 	 * Callback function to pass to the oEmbed's response data that will enable
 	 * support for using the image and title set by the WordPress SEO plugin's fields. This
-	 * address the concern where some social channels/subscribed use oEmebed data over OpenGraph data
+	 * address the concern where some social channels/subscribed use oEmebed data over Open Graph data
 	 * if both are present.
 	 *
 	 * @param array    $data The oEmbed data.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph FB app ID.
+ * Presenter class for the Open Graph FB app ID.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */

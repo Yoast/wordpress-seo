@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph article publisher.
+ * Presenter class for the Open Graph article publisher.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
