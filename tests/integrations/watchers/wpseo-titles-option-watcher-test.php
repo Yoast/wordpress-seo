@@ -244,6 +244,88 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if checking post type indexables results in a build request when the option value has changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_check_post_type_option_update() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->once()->andReturn( [ 'my-post-type' ] );
+		$this->instance->expects( 'build_post_type_indexables' )->once()->with( 'my-post-type' );
+
+		$this->instance->check_post_type_option( [ 'noindex-my-post-type' => true ], [ 'noindex-my-post-type' => false ] );
+	}
+
+	/**
+	 * Tests if checking post type indexables results in a build request when the option value is new.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_check_post_type_option_new() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->once()->andReturn( [ 'my-post-type' ] );
+		$this->instance->expects( 'build_post_type_indexables' )->once()->with( 'my-post-type' );
+
+		$this->instance->check_post_type_option( [], [ 'noindex-my-post-type' => false ] );
+	}
+
+	/**
+	 * Tests if checking post type indexables results in a build request when the option value is no longer set.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_check_post_type_option_not_set() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->once()->andReturn( [ 'my-post-type' ] );
+		$this->instance->expects( 'build_post_type_indexables' )->once()->with( 'my-post-type' );
+
+		$this->instance->check_post_type_option( [ 'noindex-my-post-type' => false ], [] );
+	}
+
+	/**
+	 * Tests if checking post type indexables does not result in a build request when the option value has not changed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 * @covers ::has_option_value_changed
+	 */
+	public function test_check_post_type_option_without_change() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->once()->andReturn( [ 'my-post-type' ] );
+		$this->instance->expects( 'build_post_type_indexables' )->never();
+
+		$this->instance->check_post_type_option( [ 'noindex-my-post-type' => true ], [ 'noindex-my-post-type' => true ] );
+	}
+
+	/**
+	 * Tests if checking post type indexables does not result in a build request when the post type is not public.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 */
+	public function test_check_post_type_option_not_public() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->once()->andReturn( [ 'post' ] );
+		$this->instance->expects( 'build_post_type_indexables' )->never();
+
+		$this->instance->check_post_type_option( [ 'noindex-my-post-type' => false ], [ 'noindex-my-post-type' => true ] );
+	}
+
+	/**
+	 * Tests if checking post type indexables does not result in a build request when one value is not an array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_post_type_option
+	 */
+	public function test_check_post_type_option_non_array() {
+		$this->post_type_helper_mock->expects( 'get_public_post_types' )->never();
+		$this->instance->expects( 'build_post_type_indexables' )->never();
+
+		$this->instance->check_post_type_option( [ 'noindex-my-post-type' => false ], 'not an array' );
+	}
+
+	/**
 	 * Returns the option prefix that represents a post type archive option.
 	 *
 	 * Test data provider.
