@@ -10,7 +10,6 @@ import {
 	recommendedReplacementVariablesShape,
 } from "./constants";
 import {
-	FormSection,
 	StyledEditor,
 } from "../shared";
 
@@ -130,38 +129,34 @@ class SettingsSnippetEditorFields extends React.Component {
 			<StyledEditor
 				padding={ containerPadding }
 			>
-				<FormSection>
-					<ReplacementVariableEditor
-						label={ __( "SEO title", "yoast-components" ) }
-						onFocus={ () => onFocus( "title" ) }
-						onBlur={ onBlur }
-						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }
-						editorRef={ ref => this.setRef( "title", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ title }
-						onChange={ content => onChange( "title", content ) }
-						fieldId={ fieldIds.title }
-					/>
-				</FormSection>
-				<FormSection>
-					<ReplacementVariableEditor
-						type="description"
-						placeholder={ descriptionEditorFieldPlaceholder }
-						label={ __( "Meta description", "yoast-components" ) }
-						onFocus={ () => onFocus( "description" ) }
-						onBlur={ onBlur }
-						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }
-						editorRef={ ref => this.setRef( "description", ref ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
-						content={ description }
-						onChange={ content => onChange( "description", content ) }
-						fieldId={ fieldIds.description }
-					/>
-				</FormSection>
+				<ReplacementVariableEditor
+					label={ __( "SEO title", "yoast-components" ) }
+					onFocus={ () => onFocus( "title" ) }
+					onBlur={ onBlur }
+					isActive={ activeField === "title" }
+					isHovered={ hoveredField === "title" }
+					editorRef={ ref => this.setRef( "title", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ title }
+					onChange={ content => onChange( "title", content ) }
+					fieldId={ fieldIds.title }
+				/>
+				<ReplacementVariableEditor
+					type="description"
+					placeholder={ descriptionEditorFieldPlaceholder }
+					label={ __( "Meta description", "yoast-components" ) }
+					onFocus={ () => onFocus( "description" ) }
+					onBlur={ onBlur }
+					isActive={ activeField === "description" }
+					isHovered={ hoveredField === "description" }
+					editorRef={ ref => this.setRef( "description", ref ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					content={ description }
+					onChange={ content => onChange( "description", content ) }
+					fieldId={ fieldIds.description }
+				/>
 			</StyledEditor>
 		);
 	}

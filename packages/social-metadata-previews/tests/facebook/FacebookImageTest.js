@@ -111,7 +111,7 @@ describe( "retrieveContainerDimensions", () => {
 		const FacebookImageComponent = new FacebookImage();
 
 		const actual = FacebookImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: 261 + "px", width: 500 + "px" };
+		const expected = { height: 273 + "px", width: 527 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );

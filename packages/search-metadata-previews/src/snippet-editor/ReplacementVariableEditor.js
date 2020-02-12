@@ -3,8 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import styled from "styled-components";
+
 // Yoast dependencies.
-// Internal dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
 	DescriptionInputContainer,
@@ -14,7 +15,10 @@ import {
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
 } from "../shared";
-import { recommendedReplacementVariablesShape, replacementVariablesShape } from "./constants";
+import {
+	replacementVariablesShape,
+	recommendedReplacementVariablesShape,
+} from "./constants";
 
 /**
  * The replacement variable editor.
@@ -141,9 +145,6 @@ ReplacementVariableEditor.propTypes = {
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
-	editorRef: () => {
-		return { id: "" };
-	},
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	fieldId: "",
@@ -152,6 +153,7 @@ ReplacementVariableEditor.defaultProps = {
 	withCaret: false,
 	isHovered: false,
 	isActive: false,
+	editorRef: () => {},
 };
 
 export default ReplacementVariableEditor;

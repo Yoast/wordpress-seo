@@ -23,12 +23,18 @@ Array [
 
 .c0 {
   color: #606770;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   font-size: 12px;
-  line-height: 11px;
+  line-height: 16px;
   overflow: hidden;
+  padding: 0;
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 0;
+  position: static;
 }
 
 .c2 {
