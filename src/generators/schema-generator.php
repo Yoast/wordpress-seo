@@ -105,8 +105,8 @@ class Schema_Generator implements Generator_Interface {
 			\do_action( 'wpseo_pre_schema_block_type_' . $block_type, $context->blocks[ $block_type ], $context );
 		}
 
+		$pieces_to_generate = [];
 		foreach ( $pieces as $piece ) {
-
 			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
 			if ( property_exists( $piece, 'identifier' ) ) {
 				$identifier = $piece->identifier;
@@ -122,6 +122,10 @@ class Schema_Generator implements Generator_Interface {
 				continue;
 			}
 
+			$pieces_to_generate[ $identifier ] = $piece;
+		}
+
+		foreach ( $pieces_to_generate as $identifier => $piece ) {
 			$graph_pieces = $piece->generate( $context );
 			// If only a single graph piece was returned.
 			if ( isset( $graph_pieces['@type'] ) ) {
@@ -149,7 +153,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
-				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block.
+				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block. 
 				 *
 				 * @param WP_Block_Parser_Block $block   The block.
 				 * @param Meta_Tags_Context     $context A value object with context variables.
