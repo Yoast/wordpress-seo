@@ -83,7 +83,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		return $context->site_represents === 'person' || $context->indexable->object_type === 'author';
+		return $context->site_represents === 'person' || $context->indexable->object_type === 'user';
 	}
 
 	/**
@@ -163,10 +163,6 @@ class Person extends Abstract_Schema_Piece {
 		];
 
 		$data = $this->add_image( $data, $user_data, $context );
-
-		$data['mainEntityOfPage'] = [
-			'@id' => $context->canonical . $this->id->webpage_hash,
-		];
 
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $this->html->smart_strip_tags( $user_data->description );
