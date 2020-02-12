@@ -51,9 +51,9 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page,
-		HTML_Helper         $html,
-		Date_Helper         $date,
-	    Site_Helper         $site
+		HTML_Helper $html,
+		Date_Helper $date,
+	    Site_Helper $site
 	) {
 		$this->current_page = $current_page;
 		$this->date         = $date;
