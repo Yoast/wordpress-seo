@@ -201,12 +201,30 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 * @return bool Whether or not the relevant option value has changed.
 	 */
 	public function has_option_value_changed( $old_value, $new_value, $key ) {
-		/** @var bool $option_value_changed Whether or not the relevant option value has changed. */
-		$option_value_changed = ! isset( $old_value[ $key ] ) ||
-								! isset( $new_value[ $key ] ) ||
-								$old_value[ $key ] !== $new_value[ $key ];
+		$old_value_exists = isset( $old_value[ $key ] );
+		$new_value_exists = isset( $new_value[ $key ] );
 
-		return $option_value_changed;
+		// When a value was AND is not there. This makes the logic below work.
+		if ( ! $old_value_exists && ! $new_value_exists ) {
+			return false;
+		}
+
+		// When a value was not there.
+		if ( ! $old_value_exists ) {
+			return true;
+		}
+
+		// When a value is not there.
+		if ( ! $new_value_exists ) {
+			return true;
+		}
+
+		// When the value is changed.
+		if ( $old_value[ $key ] !== $new_value[ $key ] ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
