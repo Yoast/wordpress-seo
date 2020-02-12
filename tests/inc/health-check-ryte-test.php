@@ -168,7 +168,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_remote_get'                    => null,
-				'wp_remote_retrieve_response_code' => 500,
+				'wp_remote_retrieve_response_code' => 200,
 				'wp_remote_retrieve_body'          => null,
 			]
 		);
@@ -186,6 +186,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
+		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
@@ -227,6 +228,38 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'good', 'status', $this->health_check );
 
+	}
+
+	/**
+	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte response failed with errors.
+	 *
+	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers WPSEO_Health_Check_Ryte::response_error
+	 */
+	public function test_run_with_response_failure() {
+		$this->ryte_enabled_and_blog_public();
+
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                       => null,
+				'wp_remote_retrieve_response_code'    => 500,
+				'wp_remote_retrieve_body'             => null,
+				'wp_remote_retrieve_response_message' => '',
+			]
+		);
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->once()
+			->andReturn( $this->ryte_option );
+
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
+
+		$this->health_check->run();
+		$this->assertAttributeEquals( 'An error occured while checking whether your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check );
 	}
 
 	/**

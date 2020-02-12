@@ -18,6 +18,13 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	private $is_manual_request = false;
 
 	/**
+	 * Holds the Ryte API response.
+	 *
+	 * @var array
+	 */
+	private $ryte_response = null;
+
+	/**
 	 * Constructs the object.
 	 */
 	public function __construct() {
@@ -112,7 +119,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	/**
 	 * Fetches the data from Ryte.
 	 *
-	 * @return bool True if this has been run.
+	 * @return bool Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
 		$ryte_option = $this->get_option();
@@ -121,9 +128,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		}
 
 		$new_status = $this->request_indexability();
-		if ( false === $new_status ) {
-			return false;
-		}
 
 		// Updates the timestamp in the option.
 		$ryte_option->set_last_fetch( time() );
@@ -144,9 +148,9 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Sends a request to Ryte to get the indexability.
+	 * Sends a request to Ryte to get the indexability status.
 	 *
-	 * @return int|bool The indexability value.
+	 * @return int The indexability status value.
 	 */
 	protected function request_indexability() {
 		$parameters = [];
@@ -157,10 +161,15 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		$request  = new WPSEO_Ryte_Request();
 		$response = $request->do_request( get_option( 'home' ), $parameters );
 
+		// Populate the ryte_response property.
+		$this->ryte_response = $response;
+
+		// It's a valid Ryte response because the array contains an `is_indexable` element.
 		if ( isset( $response['is_indexable'] ) ) {
 			return (int) $response['is_indexable'];
 		}
 
+		// It's not a valid Ryte response.
 		return WPSEO_Ryte_Option::CANNOT_FETCH;
 	}
 
@@ -205,5 +214,14 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		}
 
 		return (bool) wfConfig::get( 'blockFakeBots' );
+	}
+
+	/**
+	 * Retrieves the Ryte API response property.
+	 *
+	 * @return array|WP_Error The response or WP_Error on failure.
+	 */
+	public function get_response() {
+		return $this->ryte_response;
 	}
 }
