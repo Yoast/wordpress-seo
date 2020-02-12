@@ -10,6 +10,9 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 
+/**
+ * Class Meta_Tags_Context_Test
+ */
 class Meta_Tags_Context_Test extends TestCase {
 
 	/**
@@ -52,6 +55,9 @@ class Meta_Tags_Context_Test extends TestCase {
 	 */
 	private $instance;
 
+	/**
+	 * Set up the test.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -74,7 +80,12 @@ class Meta_Tags_Context_Test extends TestCase {
 		);
 	}
 
-	public function test_generate_schema_page_type() {
+	/**
+	 * Tests whether the page type for author archives is correctly typed as a 'ProfilePage' and a 'WebPage'.
+	 *
+	 * @covers Meta_Tags_Context::generate_schema_page_type
+	 */
+	public function test_generate_schema_page_type_author_archive() {
 		$this->instance->indexable = (Object) [
 			'object_type' => 'user',
 		];
