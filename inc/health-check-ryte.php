@@ -117,7 +117,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function response_error( $response ) {
-		$this->label          = esc_html__( 'An error occured while checking whether your site can be found by search engines', 'wordpress-seo' );
+		$this->label          = esc_html__( 'An error occurred while checking whether your site can be found by search engines', 'wordpress-seo' );
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
 

@@ -258,7 +258,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->health_check->run();
-		$this->assertAttributeEquals( 'An error occured while checking whether your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'An error occurred while checking whether your site can be found by search engines', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check );
 	}
 
