@@ -153,7 +153,7 @@ class Schema_Generator implements Generator_Interface {
 		foreach ( $context->blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
-				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block. 
+				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block.
 				 *
 				 * @param WP_Block_Parser_Block $block   The block.
 				 * @param Meta_Tags_Context     $context A value object with context variables.
