@@ -1,6 +1,6 @@
 /* Internal dependencies */
-import * as determineImageProperties from "../src/helpers/determineImageProperties";
-import { createSuccessfulImage } from "./testHelpers/mockImage";
+import * as determineImageProperties from "../../src/helpers/determineImageProperties";
+import { createSuccessfulImage } from "../testHelpers/mockImage";
 
 describe( "determineImageMode", () => {
 	it( "Facebook preview returns square when the width and height are the same", () => {
