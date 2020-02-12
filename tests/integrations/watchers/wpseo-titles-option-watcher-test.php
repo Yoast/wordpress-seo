@@ -107,7 +107,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
 	 *
-	 * @dataProvider get_option_prefix
+	 * @dataProvider get_post_type_archive_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
@@ -124,7 +124,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
 	 *
-	 * @dataProvider get_option_prefix
+	 * @dataProvider get_post_type_archive_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
@@ -141,7 +141,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
 	 *
-	 * @dataProvider get_option_prefix
+	 * @dataProvider get_post_type_archive_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
@@ -159,7 +159,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
 	 *
-	 * @dataProvider get_option_prefix
+	 * @dataProvider get_post_type_archive_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
@@ -187,7 +187,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @param string $option_prefix The prefix for the archive option.
 	 *
-	 * @dataProvider get_option_prefix
+	 * @dataProvider get_post_type_archive_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
@@ -233,7 +233,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 *
 	 * @return array The key prefix.
 	 */
-	public function get_option_prefix() {
+	public function get_post_type_archive_option_prefix() {
 		return [
 			[ 'option_prefix' => 'title-ptarchive-' ],
 			[ 'option_prefix' => 'metadesc-ptarchive-' ],
