@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass WPSEO_Titles_Option_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\WPSEO_Titles_Option_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
@@ -67,7 +67,10 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 		$this->builder_mock          = Mockery::mock( Indexable_Builder::class );
 		$this->post_type_helper_mock = Mockery::mock( Post_Type_Helper::class );
 		$this->indexable_mock        = Mockery::mock( Indexable::class );
-		$this->instance              = Mockery::mock( WPSEO_Titles_Option_Watcher::class )->makePartial();
+		$this->instance              = Mockery::mock(
+			WPSEO_Titles_Option_Watcher::class,
+			[ $this->repository_mock, $this->builder_mock, $this->post_type_helper_mock ]
+		)->makePartial();
 
 		return parent::setUp();
 	}
@@ -100,56 +103,106 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if updating post type archive indexables works as expected when the option value has changed.
+	 * Tests if checking post type archive indexables results in a build request when the option value has changed.
+	 *
+	 * @param string $option_prefix The prefix for the archive option.
+	 *
+	 * @dataProvider get_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
-	 * @covers ::build_ptarchive_indexable
+	 * @covers ::has_option_value_changed
 	 */
-	public function test_update_ptarchive_indexable() {
+	public function test_check_ptarchive_option_update( $option_prefix ) {
 		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
-		$this->instance->check_ptarchive_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+
+		$this->instance->check_ptarchive_option( [ $option_prefix . 'my-post-type' => 'bar' ], [ $option_prefix . 'my-post-type' => 'baz' ] );
 	}
 
 	/**
-	 * Tests if updating post type archive indexables works as expected when the option value has been set.
+	 * Tests if checking post type archive indexables results in a build request when the option value has been set.
+	 *
+	 * @param string $option_prefix The prefix for the archive option.
+	 *
+	 * @dataProvider get_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
-	 * @covers ::build_ptarchive_indexable
+	 * @covers ::has_option_value_changed
 	 */
-	public function test_update_wpseo_titles_value_new() {
+	public function test_check_ptarchive_option_new( $option_prefix ) {
 		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
-		$this->instance->check_ptarchive_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+
+		$this->instance->check_ptarchive_option( [], [ $option_prefix . 'my-post-type' => 'baz' ] );
 	}
 
 	/**
-	 * Tests if updating post type archive indexables works as expected when the title option keys have been switched.
+	 * Tests if checking post type archive indexables results in two build requests when the title option keys have been switched.
+	 *
+	 * @param string $option_prefix The prefix for the archive option.
+	 *
+	 * @dataProvider get_option_prefix
 	 *
 	 * @covers ::__construct
 	 * @covers ::check_ptarchive_option
-	 * @covers ::build_ptarchive_indexable
+	 * @covers ::has_option_value_changed
 	 */
-	public function test_update_wpseo_titles_value_switched() {
-//		$this->indexable_mock->expects( 'save' )->once();
-
-		$other_indexable_mock = Mockery::mock( Indexable::class );
-		$other_indexable_mock->expects( 'save' )->once();
-//
-//		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
-//		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'other-post-type', false )->andReturn( $other_indexable_mock );
-//
-//		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $this->indexable_mock )->andReturn( $this->indexable_mock );
-//		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
-
+	public function test_check_ptarchive_option_switched( $option_prefix ) {
 		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
-//		$other_indexable_mock->expects( 'build_ptarchive_indexable' )->once()->with( 'other-post-type' );
+		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'other-post-type' );
 
-		$this->instance->check_ptarchive_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
+		$this->instance->check_ptarchive_option( [ $option_prefix . 'my-post-type' => 'baz' ], [ $option_prefix . 'other-post-type' => 'baz' ] );
 	}
 
 	/**
-	 * Tests building the ptarchive indexable.
+	 * Tests if checking post type archive indexables is being ignored when no option value has changed.
+	 *
+	 * @param string $option_prefix The prefix for the archive option.
+	 *
+	 * @dataProvider get_option_prefix
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_ptarchive_option
+	 */
+	public function test_check_ptarchive_option_same_value( $option_prefix ) {
+		$this->instance->expects( 'build_ptarchive_indexable' )->never();
+
+		$this->instance->check_ptarchive_option( [ $option_prefix . 'my-post-type' => 'bar' ], [ $option_prefix . 'my-post-type' => 'bar' ] );
+	}
+
+	/**
+	 * Tests if checking post type archive indexables is being ignored when a non-relevant key changes value.
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_ptarchive_option
+	 */
+	public function test_check_ptarchive_option_without_change() {
+		$this->instance->expects( 'build_ptarchive_indexable' )->never();
+
+		$this->instance->check_ptarchive_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
+	}
+
+	/**
+	 * Tests if checking post type archive indexables results in no build requests when one value is not an array.
+	 *
+	 * @param string $option_prefix The prefix for the archive option.
+	 *
+	 * @dataProvider get_option_prefix
+	 *
+	 * @covers ::__construct
+	 * @covers ::check_ptarchive_option
+	 */
+	public function test_check_ptarchive_option_non_array( $option_prefix ) {
+		$this->instance->expects( 'build_ptarchive_indexable' )->never();
+
+		$this->instance->check_ptarchive_option( [ $option_prefix . 'my-post-type' => 'baz' ], 'not an array' );
+	}
+
+	/**
+	 * Tests building the post type archive indexable.
+	 *
+	 * @covers ::__construct
+	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_build_ptarchive_indexable() {
 		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
@@ -160,59 +213,32 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if updating post type archive indexables works as expected when no option value has changed.
-	 *
-	 * @covers ::__construct
-	 * @covers ::check_ptarchive_option
-	 * @covers ::build_ptarchive_indexable
-	 */
-	public function test_update_wpseo_titles_value_same_value() {
-		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_ptarchive_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
-	}
-
-	/**
-	 * Tests if updating post type archive indexables works as expected when a non-relevant key changes value.
-	 *
-	 * @covers ::__construct
-	 * @covers ::check_ptarchive_option
-	 * @covers ::build_ptarchive_indexable
-	 */
-	public function test_update_wpseo_titles_value_without_change() {
-		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_ptarchive_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
-	}
-
-	/**
 	 * Tests if updating post type archive indexables works as expected when no indexable exists yet.
 	 *
 	 * @covers ::__construct
 	 * @covers ::build_ptarchive_indexable
 	 */
 	public function test_build_pt_archive_indexable_without_indexable() {
-		$this->instance->expects( 'build_ptarchive_indexable' )->once()->with( 'my-post-type' );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $this->indexable_mock );
+		$this->indexable_mock->expects( 'save' )->once();
+
 		$this->instance->build_ptarchive_indexable( 'my-post-type' );
 	}
 
 	/**
-	 * Tests if updating post type indexables works as expected when the option value has changed.
+	 * Returns the option prefix that represents a post type archive option.
 	 *
-	 * @covers ::__construct
-	 * @covers ::check_post_type_option
-	 * @covers ::build_post_type_indexable
-	 */
-	public function _test_update_post_type_indexable() {
-		$this->instance->check_post_type_option( [ 'title-post-type-option' => 'bar' ], [ 'title-post-type-option' => 'baz' ] );
-	}
-
-	/**
-	 * Tests if updating author archive indexables works as expected when one option value has changed.
+	 * Test data provider.
 	 *
-	 * @covers ::__construct
-	 * @covers ::check_author_archive_option
-	 * @covers ::build_author_archive_indexable
+	 * @return array The key prefix.
 	 */
-	public function _test_update_author_archive_indexable() {
-		$this->instance->check_author_archive_option( [ 'title-author-archive-option' => 'bar' ], [ 'title-author-archive-option' => 'baz' ] );
+	public function get_option_prefix() {
+		return [
+			[ 'option_prefix' => 'title-ptarchive-' ],
+			[ 'option_prefix' => 'metadesc-ptarchive-' ],
+			[ 'option_prefix' => 'bctitle-ptarchive-' ],
+			[ 'option_prefix' => 'noindex-ptarchive-' ],
+		];
 	}
 }
