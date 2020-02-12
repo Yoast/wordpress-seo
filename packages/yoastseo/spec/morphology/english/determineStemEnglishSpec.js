@@ -303,12 +303,4 @@ describe( "determineStem", function() {
 		expect( determineStem( "best", morphologyDataEN ) ).toEqual( "good" );
 		expect( determineStem( "goods", morphologyDataEN ) ).toEqual( "good" );
 	} );
-
-	it( "returns the word itself if no morphologyData is available", function() {
-		expect( determineStem( "good", false ) ).toEqual( "good" );
-		expect( determineStem( "well", false ) ).toEqual( "well" );
-		expect( determineStem( "better", false ) ).toEqual( "better" );
-		expect( determineStem( "best", false ) ).toEqual( "best" );
-		expect( determineStem( "goods", false ) ).toEqual( "goods" );
-	} );
 } );

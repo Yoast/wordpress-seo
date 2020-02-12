@@ -1,6 +1,5 @@
-import getStemForLanguageFactory from "../helpers/getStemForLanguage.js";
-
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray.js";
+import retrieveStemmer from "../helpers/retrieveStemmer.js";
 import getWords from "../stringProcessing/getWords.js";
 import parseSynonyms from "../stringProcessing/parseSynonyms";
 import { normalizeSingle } from "../stringProcessing/quotes";
@@ -9,8 +8,6 @@ import { includes } from "lodash-es";
 import { isUndefined } from "lodash-es";
 import { escapeRegExp } from "lodash-es";
 import { memoize } from "lodash-es";
-
-const getStemForLanguage = getStemForLanguageFactory();
 
 /**
  * A topic phrase (i.e., a keyphrase or synonym) with stem-original pairs for the words in the topic phrase.
@@ -81,19 +78,12 @@ const buildStems = function( keyphrase, language, morphologyData ) {
 	}
 
 	const words = filterFunctionWordsFromArray( getWords( keyphrase ), language );
-	const getStem = getStemForLanguage[ language ];
 
-	// Simply returns lowCased words from the keyphrase if stems cannot be built.
-	if ( morphologyData === false || isUndefined( getStem ) ) {
-		const lowerCasedOriginalPairs = words.map(
-			word => new StemOriginalPair(
-				normalizeSingle( escapeRegExp( word.toLocaleLowerCase( language ) ) ),
-				word
-			),
-		);
-
-		return new TopicPhrase( lowerCasedOriginalPairs );
-	}
+	/**
+	 * Extract a stemming function (if available, and if there is morphologyData available for this language).
+	 * Otherwise, take an identity function.
+	 */
+	const getStem = retrieveStemmer( language, morphologyData );
 
 	const stemOriginalPairs = words.map( word => {
 		const lowCaseWord = escapeRegExp( word.toLocaleLowerCase( language ) );
