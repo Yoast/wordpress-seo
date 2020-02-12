@@ -60,7 +60,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String} Facebook image URL.
 	 */
-	selectors.getFacebookImageUrl = state => selectors.getFacebookData( state ).imageUrl;
+	selectors.getFacebookImageUrl = state => selectors.getFacebookData( state ).image.url;
 
 	/**
 	 * Gets the facebook image type from the state.
@@ -69,7 +69,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String} Facebook image type.
 	 */
-	selectors.getFacebookImageType = state => selectors.getFacebookData( state ).imageType;
+	selectors.getFacebookImageType = state => selectors.getFacebookData( state ).image.type;
 
 
 	// TWITTER
@@ -109,7 +109,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String} Twitter image URL.
 	 */
-	selectors.getTwitterImageUrl = state => selectors.getTwitterData( state ).imageUrl;
+	selectors.getTwitterImageUrl = state => selectors.getTwitterData( state ).image.url;
 
 	/**
 	 * Gets the twitter image type from the state.
@@ -118,7 +118,7 @@ const socialMetadataSelectorsFactory = ( path ) => {
 	 *
 	 * @returns {String} Twitter image type.
 	 */
-	selectors.getTwitterImageType = state => selectors.getTwitterData( state ).imageType;
+	selectors.getTwitterImageType = state => selectors.getTwitterData( state ).image.type;
 
 	return selectors;
 };
