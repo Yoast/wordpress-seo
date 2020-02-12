@@ -192,7 +192,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for empty locale", function() {
@@ -212,7 +212,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and word forms if not; for English", function() {
@@ -232,7 +232,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for French (no morphology yet)", function() {
@@ -252,7 +252,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ [ "travailler" ], [ "dur" ] ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns the exact matches if the input strings are embedded in quotation marks and single-word arrays if not; for an unexisting locale (no morphology and function words)", function() {
@@ -271,7 +271,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ [ "and" ], [ "he" ], [ "is" ], [ "going" ], [ "to" ], [ "work" ], [ "diligently" ] ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns empty structure if no keyword or synonyms are supplied", function() {
@@ -287,7 +287,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 			keyphraseForms: [],
 			synonymsForms: [],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no keyword was supplied ", function() {
@@ -307,7 +307,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 				[ workForms, diligentlyForms ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 
 	it( "returns an empty field if no synonyms were supplied ", function() {
@@ -323,7 +323,7 @@ describe( "A test for building keyword and synonyms forms for a paper (called fr
 			keyphraseForms: [ [ "I am going for a walk" ] ],
 			synonymsForms: [],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -365,6 +365,6 @@ describe( "A test for building keyword and synonyms forms for languages with mor
 				[ filmeForms ],
 			],
 		};
-		expect( researcher.getResearch( "morphology" ) ).toEqual( expectedResult );
+		expect( researcher.getResearch( "morphologyLegacy" ) ).toEqual( expectedResult );
 	} );
 } );
