@@ -149,7 +149,7 @@ function retrieveAbbreviations( text ) {
  */
 function computeProminentWords( words, abbreviations, language, morphologyData ) {
 	const functionWords = retrieveFunctionWords( language );
-	const determineStem = retrieveStemmer( language );
+	const determineStem = retrieveStemmer( language, morphologyData );
 
 	if ( words.length === 0 ) {
 		return [];

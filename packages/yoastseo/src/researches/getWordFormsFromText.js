@@ -135,8 +135,8 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, lang
  */
 function getWordFormsFromText( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
-	const determineStem = retrieveStemmer( language );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
+	const determineStem = retrieveStemmer( language, morphologyData );
 	const topicPhrases = collectStems( paper.getKeyword(), paper.getSynonyms(), language, morphologyData );
 	const keyphrase = topicPhrases.keyphraseStems;
 	const synonyms = topicPhrases.synonymsStems;

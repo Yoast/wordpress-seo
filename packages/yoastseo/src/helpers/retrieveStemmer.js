@@ -1,15 +1,24 @@
-import { get } from "lodash-es";
 import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 const stemFunctions = getStemForLanguageFactory();
 
 
 /**
- * Retrieves a stemmer function from the factory. Returns the identity function if the language does not have a stemmer.
+ * Retrieves a stemmer function from the factory.
+ * Returns the identity function if the language does not have a stemmer or if morphology data isn't available.
  *
- * @param {string} language The language to retrieve a stemmer function for.
+ * @param {string} language         The language to retrieve a stemmer function for.
+ * @param {Object} morphologyData   The morphology data.
  *
  * @returns {Function} A stemmer function for the language.
  */
-export default function( language ) {
-	return get( stemFunctions, language, word => word );
+export default function( language, morphologyData ) {
+	const stemFunction = stemFunctions[ language ];
+
+	// Return the stem function if there is one for the given language and if morphology data is available.
+	if ( morphologyData && stemFunction ) {
+		return stemFunction;
+	}
+
+	// Return an identity function if the stem function and/or morphology data aren't available.
+	return word => word;
 }
