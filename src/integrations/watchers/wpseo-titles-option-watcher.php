@@ -99,13 +99,18 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				}
 			}
 
-			// If it's not a relevant key or both values aren't set.
-			if ( $post_type === false || ( ! isset( $old_value[ $key ] ) && ! isset( $new_value[ $key ] ) ) ) {
+			// Ignore this post type if it's not a relevant key.
+			if ( $post_type === false ) {
 				continue;
 			}
 
-			// If the option value has changed.
-			if ( ! in_array( $post_type, $post_types_rebuild, true ) && $this->has_option_value_changed( $old_value, $new_value, $key ) ) {
+			// Ignore this post type if it already built.
+			if ( in_array( $post_type, $post_types_rebuild, true ) ) {
+				continue;
+			}
+
+			// Rebuild if the option value has changed.
+			if ( $this->has_option_value_changed( $old_value, $new_value, $key ) ) {
 				$this->build_ptarchive_indexable( $post_type );
 				$post_types_rebuild[] = $post_type;
 			}
