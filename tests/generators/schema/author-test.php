@@ -44,11 +44,6 @@ class Author_Test extends TestCase {
 	private $html;
 
 	/**
-	 * @var User_Helper
-	 */
-	private $user;
-
-	/**
 	 * @var Meta_Tags_Context
 	 */
 	private $meta_tags_context;
@@ -136,4 +131,84 @@ class Author_Test extends TestCase {
 		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/#webpage' ], $actual['mainEntityOfPage'] );
 	}
 
+	/**
+	 * Tests that the author Schema piece is output when the page is a author archive page.
+	 *
+	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 */
+	public function test_is_shown_when_on_author_page() {
+		$user_id = 123;
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type' => 'user',
+			'object_id'   => $user_id,
+		];
+
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the author Schema piece is not output on a post
+	 * authored by the person the website represents.
+	 *
+	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 */
+	public function test_is_not_shown_when_on_post_and_site_represents_author() {
+		$user_id         = 123;
+		$object_sub_type = 'recipe';
+
+		$this->article
+			->expects( 'is_article_post_type' )
+			->with( $object_sub_type )
+			->andReturn( true );
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'post',
+			'object_sub_type' => $object_sub_type,
+		];
+
+		$this->meta_tags_context->site_user_id = $user_id;
+
+		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the author Schema piece is output on a post
+	 * not authored by the person the website represents.
+	 *
+	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 */
+	public function test_is_shown_when_on_post_and_site_does_not_represent_author() {
+		$user_id         = 123;
+		$other_user_id   = 404;
+		$object_sub_type = 'recipe';
+
+		$this->article
+			->expects( 'is_article_post_type' )
+			->with( $object_sub_type )
+			->andReturn( true );
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'post',
+			'object_sub_type' => $object_sub_type,
+		];
+
+		$this->meta_tags_context->site_user_id = $other_user_id;
+
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
 }
