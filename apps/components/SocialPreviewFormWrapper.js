@@ -34,10 +34,17 @@ const recommendedReplacementVariables = [
 	"post_type",
 ];
 
+/**
+ * @returns {Void} renders a react Component.
+ */
 const selectFileClick = () => {
+	// eslint-disable-next-line no-alert
 	alert( "YOU CLICKED MY BUTTON!" );
 };
 
+/**
+ * @returns {React.Component} renders a react Component.
+ */
 const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<h1>Regular Facebook</h1>
@@ -48,7 +55,7 @@ const SocialPreviewFormWrapper = () =>
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
 			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
+			onDescriptionChange={ () => {} }
 			onTitleChange={ () => {} }
 			imageWarnings={ [] }
 		/>
@@ -60,7 +67,7 @@ const SocialPreviewFormWrapper = () =>
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
 			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
+			onDescriptionChange={ () => {} }
 			onTitleChange={ () => {} }
 			imageWarnings={ [] }
 		/>
@@ -72,7 +79,7 @@ const SocialPreviewFormWrapper = () =>
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
 			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
+			onDescriptionChange={ () => {} }
 			onTitleChange={ () => {} }
 			imageWarnings={ [
 				"You destroyed the world!",
