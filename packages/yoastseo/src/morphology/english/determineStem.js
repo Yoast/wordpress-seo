@@ -131,10 +131,6 @@ export function determineRegularStem( word, morphologyData ) {
  * @returns {string} Stemmed (or base) form of the word.
  */
 export function determineStem( word, morphologyData ) {
-	if ( ! morphologyData ) {
-		return word;
-	}
-
 	const nounMorphology = morphologyData.nouns;
 
 	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromMorphologyData( nounMorphology.regexNoun.possessiveToBase ) );
