@@ -42,7 +42,7 @@ import getTopicDensity from "./researches/getTopicDensity";
 import topicCount from "./researches/topicCount";
 import { keyphraseDistributionResearcher } from "./researches/keyphraseDistribution";
 const keyphraseDistribution = keyphraseDistributionResearcher;
-import { research as morphology } from "./researches/buildKeywordForms";
+import { research as morphologyLegacy } from "./researches/buildKeywordForms";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import h1s from "./researches/h1s";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
@@ -93,12 +93,12 @@ var Researcher = function( paper ) {
 		topicCount: topicCount,
 		sentences,
 		keyphraseDistribution: keyphraseDistribution,
-		morphology: morphology,
+		morphology: getWordFormsFromText,
+		morphologyLegacy: morphologyLegacy,
 		functionWordsInKeyphrase: functionWordsInKeyphrase,
 		h1s: h1s,
 		prominentWordsForInsights: getProminentWordsForInsights,
 		prominentWordsForInternalLinking: getProminentWordsForInternalLinking,
-		getWordFormsFromText: getWordFormsFromText,
 	};
 
 	this._data = {};
