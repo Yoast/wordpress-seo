@@ -8,8 +8,8 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Exception;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -153,7 +153,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
 				$indexable->save();
 			}
-		} catch ( Exception $exception ) {
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
 	}

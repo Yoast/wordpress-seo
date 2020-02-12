@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Exception;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 
 /**
  * Watches the wpseo_titles option to save the meta data to the indexables table.
@@ -155,7 +155,8 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values for authors without posts.
+	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values for authors
+	 * without posts.
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
@@ -202,8 +203,8 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	public function has_option_value_changed( $old_value, $new_value, $key ) {
 		/** @var bool $option_value_changed Whether or not the relevant option value has changed. */
 		$option_value_changed = ! isset( $old_value[ $key ] ) ||
-							  ! isset( $new_value[ $key ] ) ||
-							  $old_value[ $key ] !== $new_value[ $key ];
+								! isset( $new_value[ $key ] ) ||
+								$old_value[ $key ] !== $new_value[ $key ];
 
 		return $option_value_changed;
 	}
@@ -236,7 +237,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'post', $indexable );
 				$indexable->save();
 			}
-		} catch ( Exception $exception ) {
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
 	}
@@ -254,7 +255,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
 				$indexable->save();
 			}
-		} catch ( Exception $exception ) {
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
 	}
@@ -272,7 +273,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'date-archive', $indexable );
 				$indexable->save();
 			}
-		} catch ( Exception $exception ) {
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
 	}

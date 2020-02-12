@@ -279,9 +279,8 @@ class Indexable_Post_Builder {
 				$indexable->link_count          = $seo_meta->internal_link_count;
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
-			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-		} catch ( Exception $exception ) {
-			// Do nothing here...
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// Do nothing here.
 		}
 
 		return $indexable;
