@@ -61,175 +61,118 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_ptarchive_option' ], 10, 2 );
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_post_type_option' ], 10, 2 );
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_author_archive_option' ], 10, 2 );
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_authors_without_posts_option' ], 10, 2 );
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_date_archive_option' ], 10, 2 );
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_wpseo_titles' ], 10, 2 );
 	}
 
 	/**
-	 * Checks if post type archive indexables need to be rebuilt based on the wpseo_titles option values.
+	 * Checks the WPSEO title option values to see if we should rebuild any indexables.
 	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
+	 * @param array $old_options The old options.
+	 * @param array $new_options The new options.
 	 *
 	 * @return void
 	 */
-	public function check_ptarchive_option( $old_value, $new_value ) {
-		$relevant_keys = [ 'title-ptarchive-', 'metadesc-ptarchive-', 'bctitle-ptarchive-', 'noindex-ptarchive-' ];
-
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+	public function check_wpseo_titles( $old_options, $new_options ) {
+		if ( ! \is_array( $old_options ) || ! \is_array( $new_options ) ) {
 			return;
 		}
 
-		$keys               = array_unique( array_merge( array_keys( $old_value ), array_keys( $new_value ) ) );
-		$post_types_rebuild = [];
+		$changed_values = \array_diff_assoc( $old_options, $new_options );
+		$this->check_and_build_author_archive( $changed_values );
+		$this->check_and_build_date_archive( $changed_values );
 
-		foreach ( $keys as $key ) {
-			$post_type = false;
-			// Check if it's a key relevant to post type archives.
-			foreach ( $relevant_keys as $relevant_key ) {
-				if ( strpos( $key, $relevant_key ) === 0 ) {
-					$post_type = substr( $key, strlen( $relevant_key ) );
+		$public_post_types          = $this->post_type_helper->get_public_post_types();
+		$term_archive_prefix        = 'noindex-tax-';
+		$post_type_prefix           = 'noindex-';
+		$post_type_archive_prefixes = [
+			'title-ptarchive-',
+			'metadesc-ptarchive-',
+			'bctitle-ptarchive-',
+			'noindex-ptarchive-',
+		];
+
+		// Match the changes with what they represent.
+		$post_type_archives_rebuild = [];
+		foreach ( $changed_values as $option_key => $value ) {
+			/*
+			 * Is this change a term archive?
+			 * Check if the option_key starts with the term archive prefix.
+			 */
+			if ( \strpos( $option_key, $term_archive_prefix ) === 0 ) {
+				// The remainder of the option_key is the term archive's object_sub_type.
+				$object_sub_type = \substr( $option_key, \strlen( $term_archive_prefix ) );
+				$this->build_indexables_for_object_type_and_object_sub_type( 'term', $object_sub_type );
+				continue;
+			}
+
+			// Is this change a post type archive?
+			$object_sub_type = false;
+			foreach ( $post_type_archive_prefixes as $post_type_archive_prefix ) {
+				if ( \strpos( $option_key, $post_type_archive_prefix ) === 0 ) {
+					$object_sub_type = \substr( $option_key, \strlen( $post_type_archive_prefix ) );
 					break;
 				}
 			}
 
-			// Ignore this post type if it's not a relevant key.
-			if ( $post_type === false ) {
+			/*
+			 * Post type archives only need to be rebuilt once, even if multiple post type archive options were changed.
+			 * If the option_key is a post type archive and it is not already built.
+			 */
+			if ( $object_sub_type !== false && ! \in_array( $object_sub_type, $post_type_archives_rebuild, true ) ) {
+				$this->build_post_type_archive_indexable( $object_sub_type );
+				$post_type_archives_rebuild[] = $object_sub_type;
 				continue;
 			}
 
-			// Ignore this post type if it already built.
-			if ( in_array( $post_type, $post_types_rebuild, true ) ) {
+			// Is this change for a post type? This should be the last to be checked since the prefix is the least specific.
+			$object_sub_type = false;
+			foreach ( $public_post_types as $public_post_type ) {
+				if ( ( $post_type_prefix . $public_post_type ) === $option_key ) {
+					$object_sub_type = $public_post_type;
+					break;
+				}
+			}
+			if ( $object_sub_type !== false ) {
+				$this->build_indexables_for_object_type_and_object_sub_type( 'post', $object_sub_type );
 				continue;
 			}
-
-			// Rebuild if the option value has changed.
-			if ( $this->has_option_value_changed( $old_value, $new_value, $key ) ) {
-				$this->build_ptarchive_indexable( $post_type );
-				$post_types_rebuild[] = $post_type;
-			}
 		}
 	}
 
 	/**
-	 * Checks if post type indexables need to be rebuilt based on the wpseo_titles option values.
+	 * Builds the author archive indexable when changes are detected.
 	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
+	 * @param array $changed_values The WPSEO title option changes.
 	 *
 	 * @return void
 	 */
-	public function check_post_type_option( $old_value, $new_value ) {
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+	protected function check_and_build_author_archive( array $changed_values ) {
+		if (
+			! \array_key_exists( 'noindex-author-wpseo', $changed_values ) &&
+			! \array_key_exists( 'noindex-author-noposts-wpseo', $changed_values )
+		) {
 			return;
 		}
 
-		$post_types = $this->post_type_helper->get_public_post_types();
-
-		foreach ( $post_types as $post_type ) {
-			$key = 'noindex-' . $post_type;
-
-			if ( $this->has_option_value_changed( $old_value, $new_value, $key ) ) {
-				$this->build_post_type_indexables( $post_type );
-			}
-		}
+		$this->build_indexables_for_object_type( 'user' );
 	}
 
 	/**
-	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values.
+	 * Builds the date archive indexable when changes are detected.
 	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
+	 * @param array $changed_values The WPSEO title option changes.
 	 *
 	 * @return void
 	 */
-	public function check_author_archive_option( $old_value, $new_value ) {
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+	protected function check_and_build_date_archive( array $changed_values ) {
+		if ( ! \array_key_exists( 'noindex-archive-wpseo', $changed_values ) ) {
 			return;
 		}
 
-		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-author-wpseo' ) ) {
-			$this->build_author_archive_indexable();
-		}
-	}
-
-	/**
-	 * Checks if author archive indexables need to be rebuilt based on the wpseo_titles option values for authors
-	 * without posts.
-	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
-	 *
-	 * @return void
-	 */
-	public function check_authors_without_posts_option( $old_value, $new_value ) {
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
-			return;
-		}
-
-		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-author-noposts-wpseo' ) ) {
-			$this->build_author_archive_indexable();
-		}
-	}
-
-	/**
-	 * Checks if date archive indexables need to be rebuilt based on the wpseo_titles option values.
-	 *
-	 * @param array $old_value The old value of the option.
-	 * @param array $new_value The new value of the option.
-	 *
-	 * @return void
-	 */
-	public function check_date_archive_option( $old_value, $new_value ) {
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
-			return;
-		}
-
-		if ( $this->has_option_value_changed( $old_value, $new_value, 'noindex-archive-wpseo' ) ) {
-			$this->build_date_archive_indexable();
-		}
-	}
-
-	/**
-	 * Checks if the option value was set but now isn't, is set but wasn't, or has changed.
-	 *
-	 * @param array  $old_value The old value of the option.
-	 * @param array  $new_value The new value of the option.
-	 * @param string $key       The option value key.
-	 *
-	 * @return bool Whether or not the relevant option value has changed.
-	 */
-	public function has_option_value_changed( $old_value, $new_value, $key ) {
-		$old_value_exists = isset( $old_value[ $key ] );
-		$new_value_exists = isset( $new_value[ $key ] );
-
-		// When a value was AND is not there. This makes the logic below work.
-		if ( ! $old_value_exists && ! $new_value_exists ) {
-			return false;
-		}
-
-		// When a value was not there.
-		if ( ! $old_value_exists ) {
-			return true;
-		}
-
-		// When a value is not there.
-		if ( ! $new_value_exists ) {
-			return true;
-		}
-
-		// When the value is changed.
-		if ( $old_value[ $key ] !== $new_value[ $key ] ) {
-			return true;
-		}
-
-		return false;
+		$this->build_indexables_for_object_type( 'date-archive' );
 	}
 
 	/**
@@ -239,26 +182,27 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function build_ptarchive_indexable( $post_type ) {
-		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
-		$indexable->save();
+	protected function build_post_type_archive_indexable( $post_type ) {
+		try {
+			$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
+			$this->builder->build_for_post_type_archive( $post_type, $indexable );
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// Do nothing.
+		}
 	}
 
 	/**
-	 * Builds the post type indexables.
+	 * Builds the indexables for an object type.
 	 *
-	 * @param string $post_type The post type.
+	 * @param string $object_type The object type.
 	 *
 	 * @return void
 	 */
-	public function build_post_type_indexables( $post_type ) {
+	protected function build_indexables_for_object_type( $object_type ) {
 		try {
-			$indexables = $this->repository->find_by_object_sub_type( $post_type );
-
+			$indexables = $this->repository->find_by_object_type( $object_type );
 			foreach ( $indexables as $indexable ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'post', $indexable );
-				$indexable->save();
+				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
 			}
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
@@ -266,35 +210,18 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Builds the author archive indexables.
+	 * Builds the indexables that have the given object sub type.
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object sub type.
 	 *
 	 * @return void
 	 */
-	public function build_author_archive_indexable() {
+	protected function build_indexables_for_object_type_and_object_sub_type( $object_type, $object_sub_type ) {
 		try {
-			$indexables = $this->repository->find_by_object_type( 'user' );
-
+			$indexables = $this->repository->find_by_object_type_and_object_sub_type( $object_type, $object_sub_type );
 			foreach ( $indexables as $indexable ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
-				$indexable->save();
-			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
-		}
-	}
-
-	/**
-	 * Builds the date archive indexables.
-	 *
-	 * @return void
-	 */
-	public function build_date_archive_indexable() {
-		try {
-			$indexables = $this->repository->find_by_object_type( 'date-archive' );
-
-			foreach ( $indexables as $indexable ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'date-archive', $indexable );
-				$indexable->save();
+				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
 			}
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.

@@ -95,11 +95,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_ptarchive_option' ] ) );
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_post_type_option' ] ) );
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_author_archive_option' ] ) );
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_authors_without_posts_option' ] ) );
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_date_archive_option' ] ) );
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_wpseo_titles' ] ) );
 	}
 
 	/**
