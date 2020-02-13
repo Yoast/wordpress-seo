@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Alert, Button } from "@yoast/components";
 
@@ -15,7 +15,7 @@ import { Alert, Button } from "@yoast/components";
  * @returns {React.Component} A fragment with a title, optional warnings and an image selection button.
  */
 const ImageSelect = ( { title, warnings, onClick } ) =>
-	<div>
+	<Fragment>
 		<p>
 			{ title }
 		</p>
@@ -30,7 +30,7 @@ const ImageSelect = ( { title, warnings, onClick } ) =>
 		>
 			Select image
 		</Button>
-	</div>
+	</Fragment>
 ;
 
 ImageSelect.propTypes = {
