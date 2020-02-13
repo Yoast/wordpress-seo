@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import ImageSelect from "./ImageUpload";
+import ImageSelect from "./ImageSelect";
 import PropTypes from "prop-types";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/search-metadata-previews";
 

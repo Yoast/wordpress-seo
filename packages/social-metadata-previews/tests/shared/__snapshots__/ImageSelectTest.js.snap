@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ImageUpload /> displays warnings 1`] = `
+exports[`<ImageSelect /> displays warnings 1`] = `
 Array [
   <p>
     Facebook image
@@ -201,7 +201,7 @@ Array [
 ]
 `;
 
-exports[`<ImageUpload /> renders 1`] = `
+exports[`<ImageSelect /> renders 1`] = `
 Array [
   <p>
     Facebook image
