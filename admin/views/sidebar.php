@@ -39,14 +39,14 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
 
-			<a id="wpseo-premium-button" class="yoast-button-upsell"
+			<a id="wpseo-premium-button" class="yoast-button yoast-button--buy"
 				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
 				/* translators: %s expands to Yoast SEO Premium */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 				echo $new_tab_message;
-				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+				echo '<span aria-hidden="true" class="yoast-button--buy__caret"></span>';
 				?>
 			</a><br>
 		</div>

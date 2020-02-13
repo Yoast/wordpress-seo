@@ -34,5 +34,5 @@ $wpseo_export_phrase = sprintf(
 	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
 	<?php wp_nonce_field( WPSEO_Export::NONCE_ACTION ); ?>
 	<input type="hidden" name="do_export" value="1" />
-	<button type="submit" class="button button-primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
+	<button type="submit" class="yoast-button yoast-button--primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
 </form>

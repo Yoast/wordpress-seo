@@ -162,7 +162,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= $content;
 		$notification .= '</p>';
 
-		$notification .= '<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '" class="yoast-button">';
+		$notification .= '<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '" class="yoast-button yoast-button--primary">';
 		$notification .= $button;
 		$notification .= '</a>';
 
