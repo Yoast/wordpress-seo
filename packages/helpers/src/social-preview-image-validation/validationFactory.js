@@ -1,11 +1,12 @@
 /**
  *
- * @param {Object} platformRequirements A.
+ * @param {Array} platformRequirements A.
  * @returns {String[]} A.
  */
 const createImageValidator = ( platformRequirements  ) => {
 	return ( image ) => {
 		const warnings = [];
+
 		platformRequirements.forEach( test => {
 			const result = test( image );
 
