@@ -16,7 +16,7 @@ import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEndin
  * @returns {?string}				    The stemmed word or null if the -t/-d should not be stemmed.
  */
 export function createSecondStemWithoutAmbiguousEnding( morphologyDataNL, stemmedWord, word ) {
-	if ( detectAndStemRegularParticiple( morphologyDataNL.verbs, word ) ||
+	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
 		generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word ||
 		checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) ) {
 		return null;
