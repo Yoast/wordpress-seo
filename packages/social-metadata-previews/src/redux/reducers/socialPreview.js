@@ -11,10 +11,10 @@ const initialState = {
 	errors: [],
 	image: {
 		bytes: null,
-		type: "",
+		type: null,
 		height: null,
 		width: null,
-		url: "",
+		url: null,
 		id: null,
 	},
 };
