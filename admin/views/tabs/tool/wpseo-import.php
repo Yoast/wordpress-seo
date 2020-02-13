@@ -42,5 +42,5 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 		?>
 	</label><br />
 	<textarea id="settings-import" rows="10" cols="140" name="settings_import" aria-describedby="settings-import-desc"></textarea><br/>
-	<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Import settings', 'wordpress-seo' ); ?>"/>
+	<input type="submit" class="yoast-button yoast-button--primary" value="<?php esc_attr_e( 'Import settings', 'wordpress-seo' ); ?>"/>
 </form>

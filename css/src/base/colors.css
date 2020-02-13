@@ -1,18 +1,16 @@
-$color-black:					#000;
-$color-button-upsell:			#FEC228;
-$color-button-upsell-hover:  	#F2AE01;
-$color_green_medium:			#008a00;
-
 /** CSS selectors instead of SASS. */
 :root {
-  --color-default: #404040;
-  --color-primary: #a4286a;
-  --color-secondary: #f7f7f7;
-  --color-white: #ffffff;
-  --color-primary-darker: #7b1e50;
+	--color-default: #404040;
+	--color-primary: #a4286a;
+	--color-secondary: #f7f7f7;
+	--color-white: #ffffff;
+	--color-primary-darker: #7b1e50;
+	--color-secondary-darker: #d9d9d9;
+	--color-dark: #303030;
+	--color-sale: #fec228;
+	--color-sale-darker: #feb601;
 
-  --font-size-default: .875em; // Translates to 14px
+	--font-size-default: .875em;
 
-  --margin-32px: 2.285em;
-
+	--margin-32px: 2.285em;
 }
