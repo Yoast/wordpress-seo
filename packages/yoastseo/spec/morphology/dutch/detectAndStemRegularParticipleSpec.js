@@ -36,31 +36,35 @@ describe( "Detects and stems participles", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "opgebruikt" ) ).toEqual( "opgebruik" );
 	} );
 	it( "correctly stems a participle with a separable prefix beginning in her- (herop- in this case), even though the her- " +
-		"prefix on its own is inseparable", () => {
+		"prefix on its own is inseparable. Condition: compoundVerbsPrefixes.separable + participle", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "heropgebouwd" ) ).toEqual( "heropbouw" );
 	} );
-	it( "correctly stems a participle that is found on the list of verbs for which -t should be stemmed (exception to a rule)", () => {
+	it( "correctly stems a participle that is found on the list of verbs for which -t should be stemmed (exception to a rule)" +
+		"Condition: matched by verbsTShouldBeStemmed exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "gestretcht" ) ).toEqual( "stretch" );
 	} );
-	it( "correctly stems a participle that matches the regex for when -t should not be stemmed.", () => {
+	it( "correctly stems a participle that matches the regex for when -t should not be stemmed." +
+		"Condition: matched by tOrDArePartOfStem.tEnding regex", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "gegroet" ) ).toEqual( "groet" );
 	} );
-	it( "correctly stems a participle that is found on the list of verbs for which -t should not be stemmed.", () => {
+	it( "correctly stems a participle that is found on the list of verbs for which -t should not be stemmed." +
+		"Condition: word on wordsNotToBeStemmedExceptions.verbStemEndingInT exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "getest" ) ).toEqual( "test" );
 	} );
-	it( "correctly stems a compound participle that is matches the regex for when -t should not be stemmed.", () => {
+	it( "correctly stems a compound participle that is matched by the regex for when -t should not be stemmed." +
+		"Condition: compound participle matched by tOrDArePartOfStem.tEnding regex", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "verzoet" ) ).toEqual( "verzoet" );
 	} );
-	it( "correctly stems a compound participle that is found on the list of verbs for which -t should not be stemmed.", () => {
+	it( "correctly stems a compound participle that is found on the list of verbs for which -t should not be stemmed." +
+		"Condition: compound matched by wordsNotToBeStemmedExceptions.verbStemEndingInT exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "aangevat" ) ).toEqual( "aanvat" );
 	} );
-	it( "correctly stems a participle that is found on the list of verbs for which -d should not be stemmed.", () => {
+	it( "correctly stems a participle that is found on the list of verbs for which -d should not be stemmed." +
+		"Condition: word is on doNotStemD exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "geleid" ) ).toEqual( "leid" );
 	} );
-	it( "correctly stems a participle of a compound verb that is found on the list of verbs for which -d should not be stemmed.", () => {
+	it( "correctly stems a participle of a compound verb that is found on the list of verbs for which -d should not be stemmed." +
+		"Condition: compound matched by doNotStemD exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "aangemeld" ) ).toEqual( "aanmeld" );
-	} );
-	it( "correctly stems a participle of a compound verb that is found on the list of verbs for which -t should not be stemmed.", () => {
-		expect( detectAndStemRegularParticiple( morphologyDataNL, "afgemest" ) ).toEqual( "afmest" );
 	} );
 } );
