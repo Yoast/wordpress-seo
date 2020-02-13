@@ -1,5 +1,5 @@
 import React from "react";
-import { SocialMetadataPreviewForm } from "@yoast/social-metadata-previews";
+import { SocialMetadataPreviewForm } from "@yoast/components";
 import ExamplesContainer from "./ExamplesContainer";
 
 const replacementVariables = [

@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
-import ImageSelect from "./ImageUpload";
+import ImageSelect from "./ImageSelect";
 import PropTypes from "prop-types";
+import { __, sprintf } from "@wordpress/i18n";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/search-metadata-previews";
 
 /**
@@ -13,7 +14,7 @@ import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/sea
 const SocialMetadataPreviewForm = ( props ) =>
 	<Fragment>
 		<ImageSelect
-			title={ `${ props.socialMediumName } image` }
+			title={ __( sprintf( "%s image", props.socialMediumName ), "yoast-components" ) }
 			onClick={ props.selectFileClick }
 			warnings={ props.imageWarnings }
 		/>
@@ -23,16 +24,16 @@ const SocialMetadataPreviewForm = ( props ) =>
 			replacementVariables={ props.replacementVariables }
 			recommendedReplacementVariables={ props.recommendedReplacementVariables }
 			type="title"
-			label={ `${ props.socialMediumName } title` }
+			label={ __( sprintf( "%s title", props.socialMediumName ), "yoast-components" ) }
 		/>
 		<ReplacementVariableEditor
 			onChange={ props.onDescriptionChange }
 			content={ props.description }
-			placeholder={ `Modify your ${ props.socialMediumName } description by editing it right here...` }
+			placeholder={ __( sprintf( "Modify your %s description by editing it right here...", props.socialMediumName ), "yoast-components" ) }
 			replacementVariables={ props.replacementVariables }
 			recommendedReplacementVariables={ props.recommendedReplacementVariables }
 			type="description"
-			label={ `${ props.socialMediumName } description` }
+			label={ __( sprintf( "%s description", props.socialMediumName ), "yoast-components" ) }
 		/>
 	</Fragment>
 ;

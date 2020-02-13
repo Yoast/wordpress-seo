@@ -2,7 +2,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 /* Internal dependencies */
-import ImageUpload from "../../src/shared/ImageUpload";
+import ImageUpload from "@yoast/components/src/ImageSelect";
 
 describe( "<ImageUpload />", () => {
 	it( "renders", () => {
