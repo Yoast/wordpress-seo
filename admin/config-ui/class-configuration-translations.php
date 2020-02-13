@@ -27,7 +27,7 @@ class WPSEO_Configuration_Translations {
 	/**
 	 * Sets the translations based on the file.
 	 *
-	 * @param string $locale The locale to retreive the translations for.
+	 * @param string $locale The locale to retrieve the translations for.
 	 */
 	public function __construct( $locale ) {
 		$this->locale       = $locale;
