@@ -54,7 +54,6 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions -- Reason: the suggested alternative function doesn't seem to do what is needed here.
 		$curl = curl_version();
 
 		$ssl_support = true;
