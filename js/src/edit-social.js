@@ -5,6 +5,8 @@ import { registerPlugin } from "@wordpress/plugins";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-previews";
 import { registerStore, AsyncModeProvider } from "@wordpress/data";
 import { noop } from "lodash";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import { registerReactComponent } from "./helpers/classicEditor";
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -56,6 +58,15 @@ registerStore( "yoast/social-metadata", {
 	reducer: state => state,
 } );
 
-registerPlugin( "yoast-seo-social-metadata", {
-	render: Social,
-} );
+if ( isGutenbergDataAvailable() ) {
+	registerPlugin( "yoast-seo-social-metadata", {
+		render: Social,
+	} );
+} else {
+	registerReactComponent(
+		"yoast-seo-social-metadata",
+		Social
+	);
+}
+
+

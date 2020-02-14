@@ -542,14 +542,6 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'edit-social',
 				'src'  => 'wp-seo-edit-social-' . $flat_version,
 				'deps' => [
-					self::PREFIX . 'wp-plugins-backport',
-				],
-			],
-			[
-				'name'      => 'wp-plugins-backport',
-				'src'       => 'wp-seo-wp-plugins-backport-' . $flat_version,
-				'in_footer' => true,
-				'deps'      => [
 					'wp-plugins',
 					'wp-element',
 					'wp-components',
