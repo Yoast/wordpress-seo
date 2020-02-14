@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Test
@@ -11,7 +11,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  * @group robots
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -42,7 +42,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper->expects( 'is_indexable' )
+		$this->post_type->expects( 'is_indexable' )
 							   ->once()
 							   ->with( 'post' )
 							   ->andReturn( true );
@@ -73,7 +73,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'private' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )
@@ -105,7 +105,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )

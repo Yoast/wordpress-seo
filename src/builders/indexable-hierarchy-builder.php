@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
 use WP_Post;
 use WP_Term;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
  * Builds the indexable hierarchy for indexables.

@@ -2,13 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema Website data.
@@ -20,15 +21,22 @@ class Website extends Abstract_Schema_Piece {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
+
+	/**
+	 * @var HTML_Helper
+	 */
+	private $html;
 
 	/**
 	 * Website constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Options_Helper $options, HTML_Helper $html ) {
+		$this->html    = $html;
+		$this->options = $options;
 	}
 
 	/**
@@ -54,10 +62,11 @@ class Website extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
-			'@type'     => 'WebSite',
-			'@id'       => $context->site_url . $this->id_helper->website_hash,
-			'url'       => $context->site_url,
-			'name'      => $context->site_name,
+			'@type'       => 'WebSite',
+			'@id'         => $context->site_url . $this->id->website_hash,
+			'url'         => $context->site_url,
+			'name'        => $this->html->smart_strip_tags( $context->site_name ),
+			'description' => \get_bloginfo( 'description' ),
 		];
 
 		if ( $context->site_represents_reference ) {
@@ -78,9 +87,9 @@ class Website extends Abstract_Schema_Piece {
 	 * @return array $data
 	 */
 	private function add_alternate_name( $data ) {
-		$alternate_name = $this->options_helper->get( 'alternate_website_name', '' );
+		$alternate_name = $this->options->get( 'alternate_website_name', '' );
 		if ( $alternate_name !== '' ) {
-			$data['alternateName'] = $alternate_name;
+			$data['alternateName'] = $this->html->smart_strip_tags( $alternate_name );
 		}
 
 		return $data;

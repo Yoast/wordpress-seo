@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the post type archive meta to indexable format.
@@ -18,17 +18,17 @@ class Indexable_Post_Type_Archive_Builder {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper
+		Options_Helper $options
 	) {
-		$this->options_helper = $options_helper;
+		$this->options = $options;
 	}
 
 	/**
@@ -42,11 +42,11 @@ class Indexable_Post_Type_Archive_Builder {
 	public function build( $post_type, Indexable $indexable ) {
 		$indexable->object_type       = 'post-type-archive';
 		$indexable->object_sub_type   = $post_type;
-		$indexable->title             = $this->options_helper->get( 'title-ptarchive-' . $post_type );
-		$indexable->description       = $this->options_helper->get( 'metadesc-ptarchive-' . $post_type );
+		$indexable->title             = $this->options->get( 'title-ptarchive-' . $post_type );
+		$indexable->description       = $this->options->get( 'metadesc-ptarchive-' . $post_type );
 		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
-		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-ptarchive-' . $post_type );
+		$indexable->is_robots_noindex = $this->options->get( 'noindex-ptarchive-' . $post_type );
 
 		return $indexable;
 	}
@@ -59,7 +59,7 @@ class Indexable_Post_Type_Archive_Builder {
 	 * @return string
 	 */
 	private function get_breadcrumb_title( $post_type ) {
-		$options_breadcrumb_title = $this->options_helper->get( 'bctitle-ptarchive-' . $post_type );
+		$options_breadcrumb_title = $this->options->get( 'bctitle-ptarchive-' . $post_type );
 
 		if ( $options_breadcrumb_title !== '' ) {
 			return $options_breadcrumb_title;

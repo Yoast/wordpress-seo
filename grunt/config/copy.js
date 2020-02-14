@@ -97,7 +97,7 @@ module.exports = {
 					"inc/**",
 					"cli/**",
 					"js/vendor/**/*.js",
-					"js/dist/**/*.min.js",
+					"js/dist/**/*.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",

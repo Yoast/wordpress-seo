@@ -227,7 +227,7 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
-		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
 		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
@@ -262,6 +262,35 @@ class Yoast_Form {
 		}
 
 		echo '<br class="clear" />';
+	}
+
+	/**
+	 * Creates a Checkbox input field list.
+	 *
+	 * @since 12.8
+	 *
+	 * @param string $variable The variables within the option to create the checkbox list for.
+	 * @param string $labels   The labels to show for the variable.
+	 */
+	public function checkbox_list( $variable, $labels ) {
+		$values = WPSEO_Options::get( $variable, [] );
+
+		foreach ( $labels as $name => $label ) {
+			printf(
+				'<input class="checkbox double" id="%1$s" type="checkbox" name="%2$s" %3$s value="%4$s"/>',
+				esc_attr( $variable . '-' . $name ),
+				esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . '][' . $name . ']',
+				checked( ! empty( $values[ $name ] ), true, false ),
+				esc_attr( $name )
+			);
+
+			printf(
+				'<label class="checkbox" for="%1$s">%2$s</label>',
+				esc_attr( $variable . '-' . $name ), // #1
+				esc_html( $label )
+			);
+			echo '<br class="clear">';
+		}
 	}
 
 	/**
@@ -406,7 +435,7 @@ class Yoast_Form {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
 
-		if ( '' === $id ) {
+		if ( $id === '' ) {
 			$id = 'hidden_' . $var;
 		}
 
@@ -576,7 +605,7 @@ class Yoast_Form {
 
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
 
-		if ( is_string( $legend ) && '' !== $legend ) {
+		if ( is_string( $legend ) && $legend !== '' ) {
 
 			$defaults = [
 				'id'    => '',

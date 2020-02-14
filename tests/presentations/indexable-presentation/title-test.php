@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group title
@@ -22,7 +22,7 @@ class Title_Test extends TestCase {
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $option_helper;
+	protected $option;
 
 	/**
 	 * @var Indexable

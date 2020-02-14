@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
 /**
  * Class Indexable_Post_Type_Archive_Presentation
@@ -35,7 +35,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	public function generate_robots() {
 		$robots = parent::generate_robots();
 
-		if ( $this->options_helper->get( 'noindex-ptarchive-' . $this->model->object_sub_type, false ) ) {
+		if ( $this->options->get( 'noindex-ptarchive-' . $this->model->object_sub_type, false ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -51,7 +51,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		$post_type = $this->model->object_sub_type;
-		$title     = $this->options_helper->get_title_default( 'title-ptarchive-' . $post_type );
+		$title     = $this->options->get_title_default( 'title-ptarchive-' . $post_type );
 
 		return $title;
 	}

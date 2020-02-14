@@ -116,7 +116,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		foreach ( $post_metas as $post_meta ) {
 			$robots_values = unserialize( $post_meta->meta_value );
 			foreach ( [ 'noindex', 'nofollow' ] as $directive ) {
-				$directive_key = array_search( $directive, $robots_values );
+				$directive_key = array_search( $directive, $robots_values, true );
 				if ( $directive_key !== false ) {
 					update_post_meta( $post_meta->post_id, '_yoast_wpseo_meta-robots-' . $directive, 1 );
 					unset( $robots_values[ $directive_key ] );

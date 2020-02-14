@@ -1,18 +1,18 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Image_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Twitter\Image_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class Image_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Image_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Image_Presenter
  *
  * @group presentations
  * @group twitter
@@ -23,7 +23,7 @@ class Image_Presenter_Test extends TestCase {
 	/**
 	 * @var Url_Helper|Mockery\MockInterface
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * @var Image_Presenter
@@ -34,8 +34,8 @@ class Image_Presenter_Test extends TestCase {
 	 * Sets an instance with the mocked url helper.
 	 */
 	public function setUp() {
-		$this->url_helper = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance   = new Image_Presenter( $this->url_helper );
+		$this->url = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance   = new Image_Presenter( $this->url );
 
 		parent::setUp();
 

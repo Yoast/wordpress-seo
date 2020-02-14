@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Twitter\Presenters;
+namespace Yoast\WP\SEO\Tests\Twitter\Presenters;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Title_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Twitter\Title_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Title_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Title_Presenter
  *
  * @group presenters
  * @group twitter-title
@@ -36,11 +36,12 @@ class Title_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance = new Title_Presenter();
+		$this->instance               = new Title_Presenter();
 		$this->indexable_presentation = new Indexable_Presentation();
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
+
+		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->indexable_presentation->source = [];
 
 		return parent::setUp();
 	}

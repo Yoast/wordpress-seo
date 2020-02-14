@@ -88,7 +88,7 @@ class Yoast_View_Utils {
 
 		$this->form->show_hide_switch(
 			'showdate-' . $post_type->name,
-			__( 'Date in Snippet Preview', 'wordpress-seo' )
+			__( 'Date in Google Preview', 'wordpress-seo' )
 		);
 
 		$this->form->show_hide_switch(

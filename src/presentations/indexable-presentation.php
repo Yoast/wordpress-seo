@@ -5,20 +5,20 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Generators\Breadcrumbs_Generator;
-use Yoast\WP\Free\Generators\OG_Image_Generator;
-use Yoast\WP\Free\Generators\Twitter_Image_Generator;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
-use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
+use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Presentations\Generators\OG_Locale_Generator;
+use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
 
 /**
  * Class Indexable_Presentation
@@ -49,7 +49,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_image
  * @property string twitter_creator
  * @property string twitter_site
- * @property array  replace_vars_object
+ * @property array  source
  * @property array  breadcrumbs
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -97,12 +97,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Options_Helper
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
 	 * @var Url_Helper
@@ -144,24 +144,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Used by dependency injection container to inject the helpers.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Options_Helper      $options_helper      The options helper.
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Url_Helper          $url_helper          The URL helper.
+	 * @param Image_Helper        $image        The image helper.
+	 * @param Options_Helper      $options      The options helper.
+	 * @param Current_Page_Helper $current_page The current page helper.
+	 * @param Url_Helper          $url          The URL helper.
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
-		Image_Helper $image_helper,
-		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper,
-		Url_Helper $url_helper,
+		Image_Helper $image,
+		Options_Helper $options,
+		Current_Page_Helper $current_page,
+		Url_Helper $url,
 		User_Helper $user
 	) {
-		$this->image_helper   = $image_helper;
-		$this->options_helper = $options_helper;
-		$this->current_page   = $current_page_helper;
-		$this->url            = $url_helper;
-		$this->user           = $user;
+		$this->image        = $image;
+		$this->options      = $options;
+		$this->current_page = $current_page;
+		$this->url          = $url;
+		$this->user         = $user;
 	}
 
 	/**
@@ -358,7 +358,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph Facebook app ID.
 	 */
 	public function generate_og_fb_app_id() {
-		return $this->options_helper->get( 'fbadminapp', '' );
+		return $this->options->get( 'fbadminapp', '' );
 	}
 
 	/**
@@ -389,8 +389,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_title;
+		if ( $this->og_title && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->title ) {
@@ -410,8 +410,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_description;
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->meta_description ) {
@@ -428,15 +428,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_image() {
 		$images = $this->twitter_image_generator->generate( $this->context );
-		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
-			$images = $this->og_images;
+		$image  = \reset( $images );
+
+		// When there is an image set by the user.
+		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $image['url'];
 		}
 
-		if ( empty( $images ) ) {
+		// When there isn't a set image or there is a OpenGraph image set.
+		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->og_images ) ) {
 			return '';
 		}
-
-		$image = \reset( $images );
 
 		return $image['url'];
 	}
@@ -460,12 +462,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 			case 'person' :
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
-					$twitter = $this->options_helper->get( 'twitter_site' );
+					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
 			case 'company' :
 			default:
-				$twitter = $this->options_helper->get( 'twitter_site' );
+				$twitter = $this->options->get( 'twitter_site' );
 				break;
 		}
 
@@ -473,11 +475,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the replace vars object.
+	 * Generates the source.
 	 *
-	 * @return array The replace vars object.
+	 * @return array The source.
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return [];
 	}
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Static_Posts_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Static_Posts_Page_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class OG_URL_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Static_Posts_Page_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Static_Posts_Page_Presentation
  *
  * @group presentations
  */
@@ -29,7 +29,7 @@ class OG_URL_Test extends TestCase {
 	 * @covers ::generate_og_url
 	 */
 	public function test_generate_og_url_and_return_home_url() {
-		$this->url_helper->expects( 'home' )
+		$this->url->expects( 'home' )
 			->once()
 			->andReturn( 'https://example.com/' );
 

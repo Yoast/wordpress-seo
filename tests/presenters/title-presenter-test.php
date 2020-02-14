@@ -1,18 +1,18 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Helpers\String_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Title_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\String_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Title_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Title_Presenter
  *
  * @group presenters
  * @group title-presenter
@@ -48,10 +48,10 @@ class Title_Presenter_Test extends TestCase {
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance->set_replace_vars( $this->replace_vars );
 
-		$this->indexable_presentation                      = new Indexable_Presentation();
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->indexable_presentation         = new Indexable_Presentation();
+		$this->indexable_presentation->source = [];
 
 		$this->string
 			->expects( 'strip_all_tags' )

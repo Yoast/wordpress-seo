@@ -11,16 +11,22 @@
 abstract class WPSEO_Health_Check {
 
 	/**
+	 * The health check section in which 'good' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_GOOD = 'good';
 
 	/**
+	 * The health check section in which 'recommended' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_RECOMMENDED = 'recommended';
 
 	/**
+	 * The health check section in which 'critical' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_CRITICAL = 'critical';
@@ -141,6 +147,7 @@ abstract class WPSEO_Health_Check {
 			'badge'       => $this->get_badge(),
 			'description' => $this->description,
 			'actions'     => $this->actions,
+			'test'        => $this->test,
 		];
 	}
 
@@ -189,5 +196,18 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function is_async() {
 		return ! empty( $this->async );
+	}
+
+	/**
+	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
+	 */
+	protected function add_yoast_signature() {
+		$this->actions .= sprintf(
+			/* translators: 1: Start of a paragraph beginning with the Yoast icon, 2: Expands to 'Yoast SEO', 3: Paragraph closing tag. */
+			esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
+			'<p class="yoast-site-health__signature"><img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
+			'Yoast SEO',
+			'</p>'
+		);
 	}
 }

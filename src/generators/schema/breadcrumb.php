@@ -2,13 +2,13 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
  * Returns schema Breadcrumb data.
@@ -25,10 +25,10 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Breadcrumb constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Current_Page_Helper $current_page The current page helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper ) {
-		$this->current_page = $current_page_helper;
+	public function __construct( Current_Page_Helper $current_page ) {
+		$this->current_page = $current_page;
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
+			'@id'             => $context->canonical . $this->id->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		];
 	}

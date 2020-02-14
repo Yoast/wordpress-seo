@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Loaders
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
 use Exception;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
@@ -103,7 +103,7 @@ class Main {
 	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	private function get_container() {
-		if ( $this->is_development() && \class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
 			// Exception here is unhandled as it will only occur in development.
 			Container_Compiler::compile( $this->is_development() );
 		}

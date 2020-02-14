@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Mockery;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Description_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Twitter\Description_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Description_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Description_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Description_Presenter
  *
  * @group presenters
  * @group twitter
@@ -35,7 +35,7 @@ class Description_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
 		$this->instance = new Description_Presenter();
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance->set_replace_vars( $this->replace_vars );
 
 		return parent::setUp();
 	}
@@ -47,8 +47,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$presentation                      = new Indexable_Presentation();
+		$presentation->source              = [];
 		$presentation->twitter_description = 'This is the twitter description';
 
 		$this->replace_vars
@@ -68,8 +68,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_description() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$presentation                      = new Indexable_Presentation();
+		$presentation->source              = [];
 		$presentation->twitter_description = '';
 
 		$this->replace_vars

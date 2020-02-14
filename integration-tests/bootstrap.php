@@ -6,12 +6,12 @@
  */
 
 // Determine the WP_TEST_DIR.
-if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+if ( getenv( 'WP_TESTS_DIR' ) !== false ) {
 	$_tests_dir = getenv( 'WP_TESTS_DIR' );
 }
 
 // Fall back on the WP_DEVELOP_DIR environment variable.
-if ( empty( $_tests_dir ) && false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+if ( empty( $_tests_dir ) && getenv( 'WP_DEVELOP_DIR' ) !== false ) {
 	$_tests_dir = rtrim( getenv( 'WP_DEVELOP_DIR' ), '/' ) . '/tests/phpunit';
 }
 

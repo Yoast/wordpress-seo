@@ -205,18 +205,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 *
-	 * @deprecated 12.5
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function ga_compatibility_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
-	}
-
-	/**
 	 * Determines whether a suggested plugins notification needs to be displayed.
 	 *
 	 * @return void
@@ -348,7 +336,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_site_notice_dismissed( $notice_name ) {
-		return '1' === get_option( $notice_name, true );
+		return get_option( $notice_name, true ) === '1';
 	}
 
 	/**
@@ -357,7 +345,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return 'admin.php' === $this->pagenow && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
 	}
 
 	/**
@@ -502,7 +490,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_blog_public() {
-		return '1' === (string) get_option( 'blog_public' );
+		return (string) get_option( 'blog_public' ) === '1';
 	}
 
 	/**
@@ -529,7 +517,11 @@ class WPSEO_Admin_Init {
 				'version'     => 'xx.x',
 				'alternative' => null,
 			],
-			'wpseo_twitter_taxonomy_image'         => [
+			'wpseo_twitter_taxonomy_image'          => [
+				'version'     => 'xx.x',
+				'alternative' => null,
+			],
+			'wpseo_twitter_metatag_key'             => [
 				'version'     => 'xx.x',
 				'alternative' => null,
 			],
@@ -560,7 +552,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+		return ( strpos( get_option( 'permalink_structure' ), '%postname%' ) !== false );
 	}
 
 	/**
@@ -611,6 +603,18 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
+	 * on the google search console page.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function ga_compatibility_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+	}
+
+	/**
 	 * Display notice to disable comment pagination.
 	 *
 	 * @deprecated 12.8
@@ -631,6 +635,6 @@ class WPSEO_Admin_Init {
 	public function has_page_comments() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
 
-		return '1' === get_option( 'page_comments' );
+		return get_option( 'page_comments' ) === '1';
 	}
 }

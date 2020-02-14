@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Database;
+namespace Yoast\WP\SEO\Tests\Database;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Config\Migration_Status;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Migration_Runner_Test.
  *
  * @group db-migrations
  *
- * @coversDefaultClass \Yoast\WP\Free\Config\Migration_Status
+ * @coversDefaultClass \Yoast\WP\SEO\Config\Migration_Status
  * @covers ::<!public>
  *
  * @package Yoast\Tests

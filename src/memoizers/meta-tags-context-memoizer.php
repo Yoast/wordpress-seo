@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Memoizers
  */
 
-namespace Yoast\WP\Free\Memoizer;
+namespace Yoast\WP\SEO\Memoizer;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Blocks_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Blocks_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Meta_Tags_Context_Memoizer
@@ -82,6 +82,11 @@ class Meta_Tags_Context_Memoizer {
 			$indexable = $this->repository->for_current_page();
 			$page_type = $this->current_page->get_page_type();
 
+			if ( $indexable->permalink === null ) {
+				$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
+				$indexable->save();
+			}
+
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 		}
 
@@ -136,5 +141,33 @@ class Meta_Tags_Context_Memoizer {
 			return;
 		}
 		$this->cache = [];
+	}
+
+	/**
+	 * Retrieves the permalink for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string|null The permalink.
+	 */
+	protected function get_permalink_for_indexable( Indexable $indexable ) {
+		switch ( true ) {
+			case $this->current_page->is_simple_page():
+			case $this->current_page->is_home_static_page():
+			case $this->current_page->is_home_posts_page():
+				return get_permalink( $indexable->object_id );
+			case $this->current_page->is_term_archive():
+				$term = get_term( $indexable->object_id );
+
+				return get_term_link( $term, $term->taxonomy );
+			case $this->current_page->is_search_result():
+				return get_search_link();
+			case $this->current_page->is_post_type_archive():
+				return get_post_type_archive_link( $indexable->object_sub_type );
+			case $this->current_page->is_author_archive():
+				return get_author_posts_url( $indexable->object_id );
+		}
+
+		return null;
 	}
 }

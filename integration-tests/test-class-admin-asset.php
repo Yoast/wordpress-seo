@@ -60,7 +60,6 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_VERSION, $asset->get_version() );
 		$this->assertEquals( 'all', $asset->get_media() );
 		$this->assertEquals( true, $asset->is_in_footer() );
-		$this->assertEquals( WPSEO_CSSJS_SUFFIX, $asset->get_suffix() );
 		$this->assertEquals( true, $asset->has_rtl() );
 	}
 

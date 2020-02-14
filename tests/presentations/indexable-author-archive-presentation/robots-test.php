@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Author_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Author_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Test.
@@ -11,7 +11,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  * @group robots
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Author_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -52,7 +52,7 @@ class Robots_Test extends TestCase {
 		$this->setup_wp_query_wrapper();
 
 		// Should never get that far in the code.
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-noposts-wpseo', false )
 			->never();
@@ -134,7 +134,7 @@ class Robots_Test extends TestCase {
 	 * @param mixed $return_value Optional. What `get` should return.
 	 */
 	private function mock_global_author_option( $return_value = false ) {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-wpseo', false )
 			->once()
@@ -145,7 +145,7 @@ class Robots_Test extends TestCase {
 	 * Mocks Post_Type_Helper's `get_public_post_types`.
 	 */
 	private function mock_get_public_post_types() {
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'get_public_post_types' )
 			->withAnyArgs()
 			->once()
@@ -158,7 +158,7 @@ class Robots_Test extends TestCase {
 	 * @param mixed $return_value Optional. What `get` should return.
 	 */
 	private function mock_author_no_index_option( $return_value = 'off' ) {
-		$this->user_helper
+		$this->user
 			->expects( 'get_meta' )
 			->with( 1, 'wpseo_noindex_author', true )
 			->once()
@@ -172,13 +172,13 @@ class Robots_Test extends TestCase {
 	 * @param mixed $user_count_posts_return_value Optional. What `count_posts` should return.
 	 */
 	private function mock_global_author_posts_count_option( $options_get_return_value = false, $user_count_posts_return_value = 0 ) {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-author-noposts-wpseo', false )
 			->once()
 			->andReturn( $options_get_return_value );
 
-		$this->user_helper
+		$this->user
 			->expects( 'count_posts' )
 			->with( 1, [ 'post' ] )
 			->times( ( $options_get_return_value ) ? 1 : 0 )

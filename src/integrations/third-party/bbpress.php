@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Integrations\Third_Party
+ * @package Yoast\WP\SEO\Integrations\Third_Party
  */
 
-namespace Yoast\WP\Free\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class BbPress

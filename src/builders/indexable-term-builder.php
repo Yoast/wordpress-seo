@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
@@ -18,10 +18,10 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $term_id   ID of the term to save data for.
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
+	 * @param int                            $term_id   ID of the term to save data for.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 *
 	 * @throws \Exception If the term could not be found.
 	 */
@@ -162,14 +162,6 @@ class Indexable_Term_Builder {
 	 * @return array|bool False when not found, array with data when found.
 	 */
 	protected function find_alternative_image( Indexable $indexable ) {
-		$content_image = $this->image_helper->get_term_content_image( $indexable->object_id );
-		if ( $content_image ) {
-			return [
-				'image'  => $content_image,
-				'source' => 'first-content-image',
-			];
-		}
-
 		return false;
 	}
 }

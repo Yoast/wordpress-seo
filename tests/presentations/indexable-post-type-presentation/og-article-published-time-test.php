@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class OG_Article_Published_Time_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
@@ -32,9 +32,11 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 */
 	public function test_generate_og_article_published_time_post() {
 		$this->indexable->object_sub_type = 'post';
-		$this->context->post = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 
-		$this->date_helper
+		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
+
+		$this->date
 			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()
@@ -54,7 +56,9 @@ class OG_Article_Published_Time_Test extends TestCase {
 	public function test_generate_og_article_published_time_page() {
 		$this->indexable->object_sub_type = 'page';
 
-		$this->post_type_helper
+		$this->instance->expects( 'generate_source' )->andReturn( (object) [] );
+
+		$this->post
 			->expects( 'get_post_type' )
 			->once()
 			->andReturn( 'page' );
@@ -69,16 +73,18 @@ class OG_Article_Published_Time_Test extends TestCase {
 	 * @covers ::generate_og_article_published_time
 	 */
 	public function test_generate_og_article_published_time_page_enabled() {
-		$this->context->post = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 		$this->indexable->object_sub_type = 'page';
 
-		$this->date_helper
+		$source = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
+		$this->instance->expects( 'generate_source' )->once()->andReturn( $source );
+
+		$this->date
 			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_post_type' )
 			->once()
 			->andReturn( 'page' );

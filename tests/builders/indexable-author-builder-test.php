@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Author_Builder;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Author_Test.
@@ -15,7 +15,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Builders
@@ -23,6 +23,8 @@ use Yoast\WP\Free\Tests\TestCase;
 class Indexable_Author_Builder_Test extends TestCase {
 
 	/**
+	 * Tests the formatting of the indexable data.
+	 *
 	 * @covers ::build
 	 */
 	public function test_build() {
@@ -75,6 +77,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the formatting of the indexable data with undefined author meta data.
+	 *
 	 * @covers ::build
 	 */
 	public function test_build_with_undefined() {

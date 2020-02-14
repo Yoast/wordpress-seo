@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Taxonomy_Helper;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
  *
- * @property \WP_Term $replace_vars_object
+ * @property \WP_Term $source
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
@@ -80,13 +80,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options_helper->get( 'metadesc-tax-' . $this->model->object_sub_type );
+		return $this->options->get( 'metadesc-tax-' . $this->model->object_sub_type );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return \get_term( $this->model->object_id, $this->model->object_sub_type );
 	}
 
@@ -111,6 +111,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
+		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
 		return $this->taxonomy->get_term_description( $this->model->object_id );
 	}
 
@@ -133,7 +137,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
 		 * this specific term.
 		 */
-		if ( ! $this->taxonomy->is_indexable( $this->replace_vars_object->taxonomy ) ) {
+		if ( ! $this->taxonomy->is_indexable( $this->source->taxonomy ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -155,7 +159,14 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
+		// Get the SEO title as entered in Search Appearance.
+		$title = $this->options->get( 'title-tax-' . $this->source->taxonomy );
+		if ( $title ) {
+			return $title;
+		}
+
+		// Get the installation default title.
+		$title = $this->options->get_title_default( 'title-tax-' . $this->source->taxonomy );
 
 		return $title;
 	}
@@ -168,10 +179,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	protected function is_multiple_terms_query() {
 		$queried_terms = $this->wp_query_wrapper->get_query()->tax_query->queried_terms;
 
-		if ( empty( $queried_terms[ $this->replace_vars_object->taxonomy ]['terms'] ) ) {
+		if ( empty( $queried_terms[ $this->source->taxonomy ]['terms'] ) ) {
 			return false;
 		}
 
-		return \count( $queried_terms[ $this->replace_vars_object->taxonomy ]['terms'] ) > 1;
+		return \count( $queried_terms[ $this->source->taxonomy ]['terms'] ) > 1;
 	}
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey\Functions;
-use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\User_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class User_Helper_Test
  *
  * @group helpers
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\User_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Helpers\User_Helper
  */
 class User_Helper_Test extends TestCase {
 

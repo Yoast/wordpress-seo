@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Conditionals\Migrations_Conditional;
-use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Watcher;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Post_Test.
@@ -18,7 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Watcher
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
@@ -49,7 +49,16 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository_mock           = Mockery::mock( Indexable_Repository::class );
 		$this->builder_mock              = Mockery::mock( Indexable_Builder::class );
 		$this->hierarchy_repository_mock = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->instance                  = new Indexable_Post_Watcher( $this->repository_mock, $this->builder_mock, $this->hierarchy_repository_mock );
+		$this->instance                  = Mockery::mock(
+			Indexable_Post_Watcher::class,
+			[
+				$this->repository_mock,
+				$this->builder_mock,
+				$this->hierarchy_repository_mock
+			]
+		)
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 		return parent::setUp();
 	}
@@ -85,14 +94,27 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$id = 1;
+		$id   = 1;
+		$post = (object) [
+			'post_author' => 0,
+			'post_type'   => 'post',
+			'ID'          => 0
+		];
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock = Mockery::mock();
 		$indexable_mock->id = 1;
+		$indexable_mock->is_public = true;
 		$indexable_mock->expects( 'delete' )->once();
 
 		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
 		$this->hierarchy_repository_mock->expects( 'clear_ancestors' )->once()->with( $id )->andReturn( true );
+
+		Monkey\Functions\expect( 'get_post' )->once()->with( $id )->andReturn( $post );
+
+		$this->instance
+			->expects( 'update_relations' )
+			->with( $post )
+			->once();
 
 		$this->instance->delete_indexable( $id );
 	}
@@ -114,6 +136,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
+	 * @covers ::is_post_indexable
 	 */
 	public function test_build_indexable() {
 		$id = 1;
@@ -176,5 +199,68 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable( $id );
+	}
+
+	/**
+	 * Tests the updated where the indexable isn't for a post.
+	 *
+	 * @covers ::updated_indexable
+	 */
+	public function test_updated_indexable_non_post( ) {
+		$this->instance
+			->expects( 'update_relations' )
+			->never();
+
+		$old_indexable     = Mockery::mock();
+		$updated_indexable = Mockery::mock();
+		$updated_indexable->object_type = 'term';
+
+		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
+	}
+
+	/**
+	 * Tests the updated indexable method with no transition in status.
+	 *
+	 * @covers ::updated_indexable
+	 */
+	public function test_updated_indexable_not_public_and_no_transition() {
+		$this->instance
+			->expects( 'update_relations' )
+			->never();
+
+		$old_indexable            = Mockery::mock();
+		$old_indexable->is_public = false;
+
+		$updated_indexable              = Mockery::mock();
+		$updated_indexable->object_type = 'post';
+		$updated_indexable->is_public   = false;
+
+		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
+	}
+
+	/**
+	 * Tests the updated indexable method with a transition in status.
+	 *
+	 * @covers ::updated_indexable
+	 */
+	public function test_updated_indexable_public_transition() {
+		$this->instance
+			->expects( 'update_relations' )
+			->with( [] )
+			->once();
+
+		$old_indexable            = Mockery::mock();
+		$old_indexable->is_public = true;
+
+		$updated_indexable              = Mockery::mock();
+		$updated_indexable->object_type = 'post';
+		$updated_indexable->is_public   = false;
+		$updated_indexable->object_id   = 1;
+
+		Monkey\Functions\expect( 'get_post' )
+			->once()
+			->with( 1 )->andReturn( [] );
+
+		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
 	}
 }

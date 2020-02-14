@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Canonical_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
  * @group canonical
@@ -113,7 +113,7 @@ class Canonical_Test extends TestCase {
 	 * @param bool $is_multiple Optional. Determines if the WP query contains multiple terms or not.
 	 */
 	private function setup_multiple_terms_query( $is_multiple = false ) {
-		$this->instance->replace_vars_object = (object) [ 'taxonomy' => 'my-taxonomy' ];
+		$this->instance->source = (object) [ 'taxonomy' => 'my-taxonomy' ];
 
 		$terms = [];
 		if ( $is_multiple ) {

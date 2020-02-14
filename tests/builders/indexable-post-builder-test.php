@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Post_Test.
@@ -17,7 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Post_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
@@ -107,6 +107,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
 		$indexable_mock->orm->expects( 'set' )->with( 'number_of_pages', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'post_status', 'publish' );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_protected', false );
 
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'og_image_id' );
@@ -127,15 +129,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 			]
 		);
 
-		$image_helper = Mockery::mock( Image_Helper::class );
-		$image_helper
+		$image = Mockery::mock( Image_Helper::class );
+		$image
 			->expects( 'get_featured_image_id' )
 			->once()
 			->andReturn( 1 );
 
-		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
+		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
 
-		$twitter_image = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
+		$twitter_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );
 		$twitter_image
 			->expects( 'get_by_id' )
 			->once()
@@ -146,7 +148,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		);
 
 		$builder->set_social_image_helpers(
-			$image_helper,
+			$image,
 			$open_graph_image,
 			$twitter_image
 		);

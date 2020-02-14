@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
-use Yoast\WP\Free\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -21,25 +21,25 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	private $image;
 
 	/**
 	 * HowTo constructor.
 	 *
-	 * @param HTML_Helper  $html_helper  The HTML helper.
-	 * @param Image_Helper $image_helper The schema image helper.
+	 * @param HTML_Helper  $html  The HTML helper.
+	 * @param Image_Helper $image The schema image helper.
 	 */
 	public function __construct(
-		HTML_Helper $html_helper,
-		Image_Helper $image_helper
+		HTML_Helper $html,
+		Image_Helper $image
 	) {
-		$this->html_helper  = $html_helper;
-		$this->image_helper = $image_helper;
+		$this->html  = $html;
+		$this->image = $image;
 	}
 
 	/**
@@ -66,14 +66,14 @@ class HowTo extends Abstract_Schema_Piece {
 		foreach ( $context->blocks['yoast/how-to-block'] as $index => $block ) {
 			$data = [
 				'@type'            => 'HowTo',
-				'@id'              => $context->canonical . '#howto-' . $index,
-				'name'             => $context->title,
+				'@id'              => $context->canonical . '#howto-' . ( $index + 1 ),
+				'name'             => $this->html->smart_strip_tags( $context->title ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
 
 			if ( isset( $block['attrs']['jsonDescription'] ) ) {
-				$data['description'] = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
+				$data['description'] = $this->html->sanitize( $block['attrs']['jsonDescription'] );
 			}
 
 			$this->add_duration( $data, $block['attrs'] );
@@ -121,11 +121,11 @@ class HowTo extends Abstract_Schema_Piece {
 			];
 
 			if ( isset( $step['jsonText'] ) ) {
-				$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+				$json_text = $this->html->sanitize( $step['jsonText'] );
 			}
 
 			if ( isset( $step['jsonName'] ) ) {
-				$json_name = \strip_tags( $step['jsonName'] );
+				$json_name = $this->html->smart_strip_tags( $step['jsonName'] );
 			}
 
 			if ( empty( $json_name ) ) {
@@ -168,7 +168,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+		$json_text = $this->html->sanitize( $step['jsonText'] );
 
 		if ( empty( $json_text ) ) {
 			return;
@@ -210,6 +210,6 @@ class HowTo extends Abstract_Schema_Piece {
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
 
-		return $this->image_helper->generate_from_url( $schema_id, $url );
+		return $this->image->generate_from_url( $schema_id, $url );
 	}
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Archive_Presentation
  *
  * @group presentations
  * @group title
@@ -43,7 +43,7 @@ class Title_Test extends TestCase {
 	public function test_with_default_fallback() {
 		$this->indexable->object_sub_type = 'posttype';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-ptarchive-posttype' )

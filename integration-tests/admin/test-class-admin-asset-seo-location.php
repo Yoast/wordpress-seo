@@ -23,13 +23,12 @@ final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCa
 			'version'   => 'version',
 			'media'     => 'screen',
 			'in_footer' => false,
-			'suffix'    => '.suffix',
 			'rtl'       => false,
 		];
 		$asset      = new WPSEO_Admin_Asset( $asset_args );
 
-		$expected_js    = home_url() . '/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js';
-		$expected_css   = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css';
+		$expected_js    = home_url() . '/wp-content/plugins/wordpress-seo/js/dist/src.js';
+		$expected_css   = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/src.css';
 		$expected_empty = '';
 
 		$location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );

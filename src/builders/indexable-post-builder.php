@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
 use Exception;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
 /**
  * Formats the post meta to indexable format.
@@ -18,14 +18,16 @@ class Indexable_Post_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
-	 * @var SEO_Meta_Repository
+	 * Yoast extension of the Model class.
+	 *
+	 * @var \Yoast\WP\SEO\Repositories\SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
+	 * @param \Yoast\WP\SEO\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
 	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
@@ -34,10 +36,10 @@ class Indexable_Post_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $post_id   The post ID to use.
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
+	 * @param int                            $post_id   The post ID to use.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
 		$post = \get_post( $post_id );
@@ -83,6 +85,8 @@ class Indexable_Post_Builder {
 
 		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
 		$indexable->is_public       = ( \in_array( $post->post_status, $this->is_public_post_status(), true ) && $post->post_password === '' );
+		$indexable->post_status     = $post->post_status;
+		$indexable->is_protected    = $post->post_password !== '';
 
 		return $indexable;
 	}
@@ -172,12 +176,12 @@ class Indexable_Post_Builder {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param int                             $post_id   The post ID to use.
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to extend.
+	 * @param int                            $post_id   The post ID to use.
+	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to extend.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
 	 */
-	protected function set_link_count( $post_id, $indexable ) {
+	protected function set_link_count( $post_id, Indexable $indexable ) {
 		try {
 			$seo_meta = $this->seo_meta_repository->find_by_post_id( $post_id );
 
@@ -187,7 +191,7 @@ class Indexable_Post_Builder {
 			}
 			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		} catch ( Exception $exception ) {
-			// Do nothing...
+			// Do nothing here...
 		}
 
 		return $indexable;
@@ -220,7 +224,7 @@ class Indexable_Post_Builder {
 	protected function find_alternative_image( Indexable $indexable ) {
 		if (
 			$indexable->object_sub_type === 'attachment' &&
-			$this->image_helper->is_valid_attachment( $indexable->object_id )
+			$this->image->is_valid_attachment( $indexable->object_id )
 		) {
 			return [
 				'image_id' => $indexable->object_id,
@@ -228,27 +232,11 @@ class Indexable_Post_Builder {
 			];
 		}
 
-		$featured_image_id = $this->image_helper->get_featured_image_id( $indexable->object_id );
+		$featured_image_id = $this->image->get_featured_image_id( $indexable->object_id );
 		if ( $featured_image_id ) {
 			return [
 				'image_id' => $featured_image_id,
 				'source'   => 'featured-image',
-			];
-		}
-
-		$gallery_image = $this->image_helper->get_gallery_image( $indexable->object_id );
-		if ( $gallery_image ) {
-			return [
-				'image'  => $gallery_image,
-				'source' => 'gallery-image',
-			];
-		}
-
-		$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
-		if ( $content_image ) {
-			return [
-				'image'  => $content_image,
-				'source' => 'first-content-image',
 			];
 		}
 

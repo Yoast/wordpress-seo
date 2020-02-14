@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Title_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Date_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  *
  * @group presentations
  * @group title
@@ -43,7 +43,7 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_title_without_set_title() {
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-archive-wpseo' )

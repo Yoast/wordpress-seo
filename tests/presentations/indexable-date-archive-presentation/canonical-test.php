@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Canonical_Test.
@@ -10,7 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  * @group canonical
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Date_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation
  */
 class Canonical_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -30,7 +30,7 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://permalink' );
@@ -49,7 +49,7 @@ class Canonical_Test extends TestCase {
 	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical_paginated() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://permalink' );
