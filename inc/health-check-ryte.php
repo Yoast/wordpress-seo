@@ -38,14 +38,24 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		}
 
 		/*
-		 * Fetch the indexability status, set last fetch time, and update the
-		 * Ryte option status. Will run a new fetch only if the last fetch is not
-		 * within the `WPSEO_Ryte_Option::FETCH_LIMIT` time interval.
+		 * Run the request to fetch the indexability status. Set last fetch time.
+		 * Update the Ryte option status. Will run a new request only if the last
+		 * one is not within the `WPSEO_Ryte_Option::FETCH_LIMIT` time interval.
 		 */
 		$wpseo_ryte = new WPSEO_Ryte();
 		$wpseo_ryte->fetch_from_ryte();
 
-		// Get the updated Ryte option.
+		// Get the Ryte API response to properly handle errors.
+		$response = $wpseo_ryte->get_response();
+
+		if ( is_array( $response ) && isset( $response['is_error'] ) ) {
+			$this->response_error( $response );
+			$this->add_yoast_signature();
+
+			return;
+		}
+
+		// The request was successful: get the updated Ryte option.
 		$this->ryte_option = $this->get_ryte_option();
 
 		switch ( $this->ryte_option->get_status() ) {
@@ -97,6 +107,46 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 */
 	protected function get_ryte_option() {
 		return new WPSEO_Ryte_Option();
+	}
+
+	/**
+	 * Adds the content for a failed Ryte API request.
+	 *
+	 * @param array $response The error details.
+	 *
+	 * @return void
+	 */
+	protected function response_error( $response ) {
+		$this->label          = esc_html__( 'An error occurred while checking whether your site can be found by search engines', 'wordpress-seo' );
+		$this->status         = self::STATUS_RECOMMENDED;
+		$this->badge['color'] = 'red';
+
+		$this->description = sprintf(
+			'%s<br><br>%s',
+			sprintf(
+				/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
+				esc_html( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
+				'Ryte',
+				'Yoast SEO'
+			),
+			sprintf(
+				/* translators: 1: The Ryte response raw error code, if any. 2: The error message. 3: The WordPress error code, if any. */
+				__( 'Error details: %1$s %2$s %3$s', 'wordpress-seo' ),
+				$response['raw_error_code'],
+				$response['message'],
+				$response['wp_error_code']
+			)
+		);
+
+		$this->actions = sprintf(
+			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
+			esc_html__( 'If this is a live site, %1$sit is recommended that you figure out why the check failed.%2$s', 'wordpress-seo' ),
+			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+		);
+		$this->actions .= '<br /><br />';
+
+		$this->add_ryte_link();
 	}
 
 	/**

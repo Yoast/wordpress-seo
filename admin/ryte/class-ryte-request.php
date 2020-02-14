@@ -20,40 +20,32 @@ class WPSEO_Ryte_Request {
 	private $ryte_endpoint = 'https://indexability.yoast.onpage.org/';
 
 	/**
-	 * Doing the remote get and returns the body.
+	 * Gets the response from the Ryte API and returns the body.
 	 *
-	 * @param string $target_url The home url.
-	 * @param array  $parameters Array of extra parameters to send to Ryte.
+	 * @param string $target_url The URL to check indexability for.
+	 * @param array  $parameters Array of extra parameters to send to the Ryte API.
 	 *
-	 * @return array
-	 * @throws Exception The error message that can be used to show to the user.
+	 * @return array The successful response or the error details.
 	 */
 	protected function get_remote( $target_url, $parameters = [] ) {
-		$defaults   = [
+		$defaults = [
 			'url'          => $target_url,
 			'wp_version'   => $GLOBALS['wp_version'],
 			'yseo_version' => WPSEO_VERSION,
 		];
+
 		$parameters = array_merge( $defaults, $parameters );
+		$url        = add_query_arg( $parameters, $this->ryte_endpoint );
+		$response   = wp_remote_get( $url );
 
-		$url = add_query_arg( $parameters, $this->ryte_endpoint );
-
-		$response      = wp_remote_get( $url );
-		$response_code = wp_remote_retrieve_response_code( $response );
-
-		// When the request is successful, the response code will be 200.
-		if ( $response_code === 200 ) {
-			$response_body = wp_remote_retrieve_body( $response );
-
-			return json_decode( $response_body, true );
-		}
+		return $this->process_response( $response );
 	}
 
 	/**
-	 * Sending a request to Ryte to check if the $home_url is indexable.
+	 * Sends a request to the Ryte API to check whether a URL is indexable.
 	 *
-	 * @param string $target_url The URL that will be send to the API.
-	 * @param array  $parameters Array of extra parameters to send to Ryte.
+	 * @param string $target_url The URL to check indexability for.
+	 * @param array  $parameters Array of extra parameters to send to the Ryte API.
 	 *
 	 * @return array
 	 */
@@ -66,5 +58,47 @@ class WPSEO_Ryte_Request {
 		}
 
 		return $json_body;
+	}
+
+	/**
+	 * Processes the given Ryte response.
+	 *
+	 * @param array|WP_Error $response The response or WP_Error to process.
+	 *
+	 * @return array The response body or the error detaiils on failure.
+	 */
+	protected function process_response( $response ) {
+		// Most of the potential errors are WP_Error(s).
+		if ( is_wp_error( $response ) ) {
+			return [
+				'is_error'       => true,
+				'raw_error_code' => '',
+				// WP_Error codes aren't that helpful for users, let's display them in a less prominent way.
+				'wp_error_code'  => '(' . $response->get_error_code() . ')',
+				'message'        => $response->get_error_message(),
+			];
+		}
+
+		/*
+		 * As of February 2020 the Ryte API returns an error 500 for non-reachable
+		 * sites. There's also the need to handle any potential raw HTTP error.
+		 */
+		if ( wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			// Not all HTTP errors may have a response message. Let's provide a default one.
+			$response_message = wp_remote_retrieve_response_message( $response );
+			$message          = ( $response_message ) ? $response_message : __( 'The request to Ryte returned an error.', 'wordpress-seo' );
+
+			return [
+				'is_error'       => true,
+				'raw_error_code' => wp_remote_retrieve_response_code( $response ),
+				'wp_error_code'  => '',
+				'message'        => $message,
+			];
+		}
+
+		// When the request is successful, the response code will be 200.
+		$response_body = wp_remote_retrieve_body( $response );
+
+		return json_decode( $response_body, true );
 	}
 }
