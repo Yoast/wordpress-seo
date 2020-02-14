@@ -1,6 +1,9 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Alert, Button } from "@yoast/components";
+import { Alert } from "@yoast/components";
+import {
+	SimulatedLabel, StandardButton,
+} from "@yoast/search-metadata-previews/src/shared";
 
 /**
  * Component for displaying an image selection button with a title.
@@ -16,20 +19,20 @@ import { Alert, Button } from "@yoast/components";
  */
 const ImageSelect = ( { title, warnings, onClick } ) =>
 	<Fragment>
-		<p>
+		<SimulatedLabel>
 			{ title }
-		</p>
+		</SimulatedLabel>
 		{
 			warnings.length > 0 &&
 			warnings.map( ( warning, index ) => <Alert key={ `warning${ index }` } type="warning">
 				{ warning }
 			</Alert> )
 		}
-		<Button
+		<StandardButton
 			onClick={ onClick }
 		>
 			Select image
-		</Button>
+		</StandardButton>
 	</Fragment>
 ;
 
