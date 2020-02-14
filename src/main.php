@@ -77,9 +77,9 @@ class Main {
 	 * @throws Exception When the property doesn't exist.
 	 */
 	public function __get( $property ) {
-		if ( isset( $this->{ $property} ) ) {
-			$this->{$property} = $this->container->get( $this->surfaces[ $property ] );
-			return $this->{$property};
+		if ( isset( $this->{ $property } ) ) {
+			$this->{ $property } = $this->container->get( $this->surfaces[ $property ] );
+			return $this->{ $property };
 		}
 		throw new Exception( "Property $property does not exist." );
 	}
