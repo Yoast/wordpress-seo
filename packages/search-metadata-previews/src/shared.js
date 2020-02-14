@@ -73,7 +73,7 @@ export const InputContainer = styled.div.attrs( {
 	outline: 0;
 	transition: 50ms border-color ease-in-out;
 	position: relative;
-	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 14px;
 	cursor: text;
 `;
@@ -158,26 +158,32 @@ export const SimulatedLabel = styled.div`
 	min-width: 200px;
 	cursor: pointer;
 	font-size: 14px;
-	font-family: SF Pro Text;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	margin: 4px 0;
 	color: #303030;
 	font-weight: 500;
 `;
 
-export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
+export const StandardButton = styled( Button )`
 	color: #303030;
 	box-sizing: border-box;
-	border-radius: 5px;
+	border-radius: 4px;
 	box-shadow: inset 0 -2px 0 0 rgba(0,0,0,0.1);
-	font-family: SF Pro Text;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	padding: 4px;
-	width: 103px;
-	height: 28px;
 	border: 1px solid #dbdbdb;
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.5;
 	margin-bottom: 5px;
+	width: 112px;
+	height: 40px;
+`;
+
+export const TriggerReplacementVariableSuggestionsButton = styled( StandardButton )`
+	font-size: 13px;
+	width: 103px;
+	height: 28px;
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
