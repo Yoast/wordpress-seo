@@ -2,21 +2,21 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators
+ * @package Yoast\WP\SEO\Presentations\Generators
  */
 
-namespace Yoast\WP\Free\Presentations\Generators;
+namespace Yoast\WP\SEO\Presentations\Generators;
 
 use WP_Block_Parser_Block;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Schema\ID_Helper;
-use Yoast\WP\Free\Presentations\Generators\Schema\Abstract_Schema_Piece;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Presentations\Generators\Schema\Abstract_Schema_Piece;
 
 /**
  * Class Schema_Generator
  *
- * @package Yoast\WP\Free\Presentations\Generators
+ * @package Yoast\WP\SEO\Presentations\Generators
  */
 class Schema_Generator implements Generator_Interface {
 
@@ -28,7 +28,7 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * @var ID_Helper
 	 */
-	private $id_helper;
+	private $id;
 
 	/**
 	 * @var Generator_Interface[]
@@ -38,8 +38,8 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Generator constructor.
 	 *
-	 * @param ID_Helper           $id_helper              A helper to retrieve Schema ID's.
-	 * @param Current_Page_Helper $current_page_helper    A helper to determine current page.
+	 * @param ID_Helper           $id                     A helper to retrieve Schema ID's.
+	 * @param Current_Page_Helper $current_page           A helper to determine current page.
 	 * @param Schema\Organization $organization_generator The organization generator.
 	 * @param Schema\Person       $person_generator       The person generator.
 	 * @param Schema\Website      $website_generator      The website generator.
@@ -52,8 +52,8 @@ class Schema_Generator implements Generator_Interface {
 	 * @param Schema\HowTo        $how_to_generator       The how to generator.
 	 */
 	public function __construct(
-		ID_Helper $id_helper,
-		Current_Page_Helper $current_page_helper,
+		ID_Helper $id,
+		Current_Page_Helper $current_page,
 		Schema\Organization $organization_generator,
 		Schema\Person $person_generator,
 		Schema\Website $website_generator,
@@ -65,8 +65,8 @@ class Schema_Generator implements Generator_Interface {
 		Schema\FAQ $faq_generator,
 		Schema\HowTo $how_to_generator
 	) {
-		$this->id_helper    = $id_helper;
-		$this->current_page = $current_page_helper;
+		$this->id           = $id;
+		$this->current_page = $current_page;
 
 		$this->generators = [
 			$organization_generator,
@@ -105,9 +105,9 @@ class Schema_Generator implements Generator_Interface {
 			\do_action( 'wpseo_pre_schema_block_type_' . $block_type, $context->blocks[ $block_type ], $context );
 		}
 
+		$pieces_to_generate = [];
 		foreach ( $pieces as $piece ) {
-
-			$identifier = \strtolower( \str_replace( 'Yoast\WP\Free\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
+			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
 			if ( property_exists( $piece, 'identifier' ) ) {
 				$identifier = $piece->identifier;
 			}
@@ -122,10 +122,18 @@ class Schema_Generator implements Generator_Interface {
 				continue;
 			}
 
+			$pieces_to_generate[ $identifier ] = $piece;
+		}
+
+		foreach ( $pieces_to_generate as $identifier => $piece ) {
 			$graph_pieces = $piece->generate( $context );
 			// If only a single graph piece was returned.
 			if ( isset( $graph_pieces['@type'] ) ) {
 				$graph_pieces = [ $graph_pieces ];
+			}
+
+			if ( ! is_array( $graph_pieces ) ) {
+				continue;
 			}
 
 			foreach ( $graph_pieces as $graph_piece ) {
@@ -157,7 +165,10 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
-		return $graph;
+		return [
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		];
 	}
 
 	/**
@@ -167,7 +178,7 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
-	private function get_graph_pieces( $context ) {
+	protected function get_graph_pieces( $context ) {
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
 		 *

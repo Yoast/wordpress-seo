@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Integrations\Watchers;
+namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Conditionals\Migrations_Conditional;
-use Yoast\WP\Free\Integrations\Integration_Interface;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Watches the home page options to save the meta information when updated.
@@ -49,8 +49,8 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 3 );
-		add_action( 'update_option_wpseo_social', [ $this, 'check_option' ], 10, 3 );
+		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 15, 3 );
+		add_action( 'update_option_wpseo_social', [ $this, 'check_option' ], 15, 3 );
 		add_action( 'update_option_blog_public', [ $this, 'build_indexable' ] );
 		add_action( 'update_option_blogdescription', [ $this, 'build_indexable' ] );
 		add_action( 'update_option_home', [ $this, 'build_indexable' ] );

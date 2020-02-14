@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
 /**
  * Class Indexable_Static_Home_Page_Presentation
@@ -22,5 +22,12 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	 */
 	protected function get_paginated_url( $url, $page ) {
 		return $this->pagination->get_paginated_url( $url, $page );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_type() {
+		return 'website';
 	}
 }

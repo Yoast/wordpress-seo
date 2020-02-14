@@ -1,17 +1,18 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Generators\Schema;
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use stdClass;
-use Yoast\WP\Free\Helpers\Article_Helper;
-use Yoast\WP\Free\Helpers\Date_Helper;
-use Yoast\WP\Free\Helpers\Schema\ID_Helper;
-use Yoast\WP\Free\Presentations\Generators\Schema\Article;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Helpers\Article_Helper;
+use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Article_Test
@@ -19,23 +20,20 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Generators\Schema\Article
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Article
  * @covers ::<!public>
- *
- * @package Yoast\WP\Free\Tests\Generators\Schema
  */
 class Article_Test extends TestCase {
-
 
 	/**
 	 * @var Mockery\MockInterface|Article_Helper
 	 */
-	private $article_helper_mock;
+	private $article;
 
 	/**
 	 * @var Mockery\MockInterface|Date_Helper
 	 */
-	private $date_helper_mock;
+	private $date;
 
 	/**
 	 * @var Article
@@ -50,20 +48,29 @@ class Article_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|ID_Helper
 	 */
-	private $id_helper_mock;
+	private $id;
 
+	/**
+	 * @var Mockery\MockInterface|HTML_Helper
+	 */
+	private $html;
+
+	/**
+	 * Setup the test.
+	 */
 	public function setUp() {
-		$this->id_helper_mock                     = Mockery::mock( ID_Helper::class );
-		$this->id_helper_mock->article_hash       = '#article-hash';
-		$this->id_helper_mock->webpage_hash       = '#webpage-hash';
-		$this->id_helper_mock->primary_image_hash = '#primary-image-hash';
-		$this->article_helper_mock                = Mockery::mock( Article_Helper::class );
-		$this->date_helper_mock                   = Mockery::mock( Date_Helper::class );
-		$this->instance                           = new Article( $this->article_helper_mock, $this->date_helper_mock );
-		$this->context_mock                       = new Meta_Tags_Context();
-		$this->context_mock->indexable            = new Indexable();
-		$this->context_mock->post                 = new stdClass();
-		$this->instance->set_id_helper( $this->id_helper_mock );
+		$this->id                      = Mockery::mock( ID_Helper::class );
+		$this->id->article_hash        = '#article-hash';
+		$this->id->webpage_hash        = '#webpage-hash';
+		$this->id->primary_image_hash  = '#primary-image-hash';
+		$this->article                 = Mockery::mock( Article_Helper::class );
+		$this->date                    = Mockery::mock( Date_Helper::class );
+		$this->html                    = Mockery::mock( HTML_Helper::class );
+		$this->instance                = new Article( $this->article, $this->date, $this->html );
+		$this->context_mock            = new Meta_Tags_Context();
+		$this->context_mock->indexable = new Indexable();
+		$this->context_mock->post      = new stdClass();
+		$this->instance->set_id_helper( $this->id );
 		return parent::setUp();
 	}
 
@@ -79,7 +86,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents            = 'person';
 		$this->context_mock->canonical                  = 'https://permalink';
 
-		$this->article_helper_mock->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
+		$this->article->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->is_needed( $this->context_mock ) );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article-hash' );
@@ -111,7 +118,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents            = 'person';
 		$this->context_mock->main_schema_id             = 'https://permalink#should-not-change';
 
-		$this->article_helper_mock->expects( 'is_article_post_type' )->with( 'not-article' )->andReturn( false );
+		$this->article->expects( 'is_article_post_type' )->with( 'not-article' )->andReturn( false );
 
 		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
@@ -140,17 +147,22 @@ class Article_Test extends TestCase {
 	 */
 	public function test_generate() {
 		$this->context_mock->id                      = 5;
-		$this->context_mock->title                   = 'the-title';
+		$this->context_mock->title                   = 'the-title </script><script>alert(0)</script><script>'; // Script is here to test script injection
 		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->has_image               = true;
 		$this->context_mock->post->post_author       = '3';
 		$this->context_mock->post->post_date_gmt     = '2345-12-12 12:12:12';
 		$this->context_mock->post->post_modified_gmt = '2345-12-12 23:23:23';
 
-		$this->id_helper_mock->expects( 'get_user_schema_id' )
+		$this->id->expects( 'get_user_schema_id' )
 							 ->once()
 							 ->with( '3', $this->context_mock )
 							 ->andReturn( 'https://permalink#author-id-hash' );
+
+		$this->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( 'the-title </script><script>alert(0)</script><script>' )
+			->andReturn( 'the-title' );
 
 		Monkey\Functions\expect( 'get_comment_count' )->once()->with( 5 )->andReturn( [ 'approved' => 7 ] );
 		Monkey\Filters\expectApplied( 'wpseo_schema_article_keywords_taxonomy' )
@@ -175,13 +187,13 @@ class Article_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_terms' )->with( 5, 'category' )->andReturn( $categories );
 		Monkey\Functions\expect( 'wp_list_pluck' )->once()->with( $categories, 'name' )->andReturn( [ 'Category1' ] );
 
-		$this->date_helper_mock
+		$this->date
 			->expects( 'format' )
 			->once()
 			->with( '2345-12-12 12:12:12' )
 			->andReturn( '2345-12-12 12:12:12' );
 
-		$this->date_helper_mock
+		$this->date
 			->expects( 'format' )
 			->once()
 			->with( '2345-12-12 23:23:23' )

@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Config;
+namespace Yoast\WP\SEO\Config;
 
 /**
  * Migration_Status class. Used to validate whether or not migrations have been run and whether or not they should be run again.

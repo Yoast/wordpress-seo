@@ -1,17 +1,17 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Hierarchy_Builder;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Primary_Term;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexable_Author_Test.
@@ -19,7 +19,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Hierarchy_Builder
+ * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder
  * @covers ::<!public>
  * @covers ::__construct
  * @covers ::set_indexable_repository
@@ -41,7 +41,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -56,13 +56,13 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function setUp() {
 		$this->indexable_hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->primary_term_repository        = Mockery::mock( Primary_Term_Repository::class );
-		$this->options_helper                 = Mockery::mock( Options_Helper::class );
+		$this->options                 = Mockery::mock( Options_Helper::class );
 		$this->indexable_repository           = Mockery::mock( Indexable_Repository::class );
 
 		$this->instance = new Indexable_Hierarchy_Builder(
 			$this->indexable_hierarchy_repository,
 			$this->primary_term_repository,
-			$this->options_helper
+			$this->options
 		);
 		$this->instance->set_indexable_repository( $this->indexable_repository );
 
@@ -83,7 +83,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 
 		$this->instance->build( $indexable );
 	}
@@ -110,7 +110,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'post' )->andReturn( $parent_indexable );
 
@@ -144,7 +144,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( $primary_term );
 
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
@@ -185,7 +185,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( $primary_term );
 
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $grand_parent_indexable );
@@ -218,7 +218,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( false );
 
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
@@ -260,7 +260,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( false );
 
-		$this->options_helper->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 4, 'term' )->andReturn( $grand_parent_indexable );

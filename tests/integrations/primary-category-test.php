@@ -2,20 +2,20 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Integrations
+ * @package Yoast\WP\SEO\Tests\Integrations
  */
 
-namespace Yoast\WP\Free\Tests\Integrations;
+namespace Yoast\WP\SEO\Tests\Integrations;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Integrations\Primary_Category;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Integrations\Primary_Category;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Primary_Category
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Primary_Category
  *
  * @group integrations
  */

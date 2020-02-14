@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Static_Home_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Static_Home_Page_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Canonical_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Static_Home_Page_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Static_Home_Page_Presentation
  *
  * @group presentations
  * @group canonical
@@ -49,7 +49,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		$this->url_helper
+		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function ( $val ) {
@@ -80,7 +80,7 @@ class Canonical_Test extends TestCase {
 			->with( 'https://example.com/permalink/', 2 )
 			->andReturn( 'https://example.com/permalink/2/' );
 
-		$this->url_helper
+		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function ( $val ) {

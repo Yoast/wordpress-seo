@@ -5,11 +5,11 @@
  * @package Yoast\YoastSEO\Presenters\Twitter
  */
 
-namespace Yoast\WP\Free\Presenters\Twitter;
+namespace Yoast\WP\SEO\Presenters\Twitter;
 
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Image_Presenter
@@ -21,15 +21,15 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * Sets the url helper as dependency.
 	 *
-	 * @param Url_Helper $url_helper The url helper.
+	 * @param Url_Helper $url The url helper.
 	 */
-	public function __construct( Url_Helper $url_helper ) {
-		$this->url_helper = $url_helper;
+	public function __construct( Url_Helper $url ) {
+		$this->url = $url;
 	}
 
 	/**

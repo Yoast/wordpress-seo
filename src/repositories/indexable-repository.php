@@ -5,33 +5,39 @@
  * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Repositories;
+namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Free\Builders\Indexable_Builder;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class Indexable_Repository
  *
- * @package Yoast\WP\Free\ORM\Repositories
+ * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Repository {
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	private $builder;
 
 	/**
-	 * @var \Yoast\WP\Free\Helpers\Current_Page_Helper
+	 * The current page helper.
+	 *
+	 * @var \Yoast\WP\SEO\Helpers\Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
+	 * The logger object.
+	 *
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
@@ -39,17 +45,17 @@ class Indexable_Repository {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Builder   $builder             The indexable builder.
-	 * @param Current_Page_Helper $current_page_helper The current post helper.
-	 * @param Logger              $logger              The logger.
+	 * @param Indexable_Builder   $builder      The indexable builder.
+	 * @param Current_Page_Helper $current_page The current post helper.
+	 * @param Logger              $logger       The logger.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
-		Current_Page_Helper $current_page_helper,
+		Current_Page_Helper $current_page,
 		Logger $logger
 	) {
 		$this->builder      = $builder;
-		$this->current_page = $current_page_helper;
+		$this->current_page = $current_page;
 		$this->logger       = $logger;
 
 	}
@@ -140,13 +146,13 @@ class Indexable_Repository {
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
 	 */
 	public function find_for_date_archive( $auto_create = true ) {
 		/**
 		 * Indexable instance.
 		 *
-		 * @var \Yoast\WP\Free\Models\Indexable $indexable
+		 * @var \Yoast\WP\SEO\Models\Indexable $indexable
 		 */
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 

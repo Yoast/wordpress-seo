@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class OG_Article_Author_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
@@ -32,11 +32,11 @@ class OG_Article_Author_Test extends TestCase {
 	 */
 	public function test_generate_og_article_author() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()
@@ -52,11 +52,11 @@ class OG_Article_Author_Test extends TestCase {
 	 */
 	public function test_generate_og_article_author_no_author() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'facebook', 2 )
 			->once()

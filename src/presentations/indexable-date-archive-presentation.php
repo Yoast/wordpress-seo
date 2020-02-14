@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 
 /**
  * Class Indexable_Date_Archive_Presentation
@@ -50,7 +50,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	public function generate_robots() {
 		$robots = parent::generate_robots();
 
-		if ( $this->options_helper->get( 'noindex-archive-wpseo', false ) ) {
+		if ( $this->options->get( 'noindex-archive-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -65,7 +65,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-archive-wpseo' );
+		return $this->options->get_title_default( 'title-archive-wpseo' );
 	}
 
 	/**

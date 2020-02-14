@@ -120,7 +120,7 @@ class WPSEO_Meta_Columns {
 				$metadesc_val = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), $post );
 				$metadesc_val = apply_filters( 'wpseo_metadesc', $metadesc_val );
 
-				if ( '' === $metadesc_val ) {
+				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
 						esc_html__( 'Meta description not set.', 'wordpress-seo' ),
 						'</span>';
@@ -133,7 +133,7 @@ class WPSEO_Meta_Columns {
 			case 'wpseo-focuskw':
 				$focuskw_val = WPSEO_Meta::get_value( 'focuskw', $post_id );
 
-				if ( '' === $focuskw_val ) {
+				if ( $focuskw_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
 						esc_html__( 'Focus keyphrase not set.', 'wordpress-seo' ),
 						'</span>';
@@ -753,7 +753,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		$screen = get_current_screen();
-		if ( null === $screen ) {
+		if ( $screen === null ) {
 			return false;
 		}
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Test.
@@ -10,7 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  * @group robots
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Archive_Presentation
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -33,7 +33,7 @@ class Robots_Test extends TestCase {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( true );
@@ -56,7 +56,7 @@ class Robots_Test extends TestCase {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( false );

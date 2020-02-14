@@ -2,10 +2,10 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\WP\Free\Oauth
+ * @package Yoast\WP\SEO\Oauth
  */
 
-namespace Yoast\WP\Free\Oauth;
+namespace Yoast\WP\SEO\Oauth;
 
 use WPSEO_Options;
 use WPSEO_Utils;
@@ -55,7 +55,7 @@ class Client {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return \Yoast\WP\Free\Oauth\Client Instance of this class.
+	 * @return \Yoast\WP\SEO\Oauth\Client Instance of this class.
 	 */
 	public static function get_instance() {
 		if ( static::$instance === null ) {

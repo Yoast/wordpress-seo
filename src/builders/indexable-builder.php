@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Builders;
+namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Formats the author meta to indexable format.
@@ -106,16 +106,17 @@ class Indexable_Builder {
 	/**
 	 * Creates an indexable by its ID and type.
 	 *
-	 * @param int       $object_id   The indexable object ID.
-	 * @param string    $object_type The indexable object type.
-	 * @param Indexable $indexable   Optional. An existing indexable to overwrite.
+	 * @param int            $object_id   The indexable object ID.
+	 * @param string         $object_type The indexable object type.
+	 * @param Indexable|bool $indexable   Optional. An existing indexable to overwrite.
 	 *
 	 * @return bool|Indexable Instance of indexable.
 	 *
 	 * @throws \Exception If the object_id could not be found.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
-		$indexable = $this->ensure_indexable( $indexable );
+		$indexable        = $this->ensure_indexable( $indexable );
+		$indexable_before = $indexable;
 
 		switch ( $object_type ) {
 			case 'post':
@@ -131,7 +132,7 @@ class Indexable_Builder {
 				return $indexable;
 		}
 
-		$indexable->save();
+		$this->save_indexable( $indexable, $indexable_before );
 
 		if ( in_array( $object_type, [ 'post', 'term' ], true ) ) {
 			$this->hierarchy_builder->build( $indexable );
@@ -143,21 +144,21 @@ class Indexable_Builder {
 	/**
 	 * Creates an indexable for the homepage.
 	 *
-	 * @param Indexable $indexable Optional. An existing indexable to overwrite.
+	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The home page indexable.
 	 */
 	public function build_for_home_page( $indexable = false ) {
-		$indexable = $this->ensure_indexable( $indexable );
-		$indexable = $this->home_page_builder->build( $indexable );
+		$indexable_before = $this->ensure_indexable( $indexable );
+		$indexable        = $this->home_page_builder->build( $indexable_before );
 
-		return $this->save_indexable( $indexable );
+		return $this->save_indexable( $indexable, $indexable_before );
 	}
 
 	/**
 	 * Creates an indexable for the date archive.
 	 *
-	 * @param Indexable $indexable Optional. An existing indexable to overwrite.
+	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The date archive indexable.
 	 */
@@ -171,31 +172,31 @@ class Indexable_Builder {
 	/**
 	 * Creates an indexable for a post type archive.
 	 *
-	 * @param string    $post_type The post type.
-	 * @param Indexable $indexable Optional. An existing indexable to overwrite.
+	 * @param string         $post_type The post type.
+	 * @param Indexable|bool $indexable Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The post type archive indexable.
 	 */
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
-		$indexable = $this->ensure_indexable( $indexable );
-		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
+		$indexable_before = $this->ensure_indexable( $indexable );
+		$indexable        = $this->post_type_archive_builder->build( $post_type, $indexable_before );
 
-		return $this->save_indexable( $indexable );
+		return $this->save_indexable( $indexable, $indexable_before );
 	}
 
 	/**
 	 * Creates an indexable for a system page.
 	 *
-	 * @param string    $object_sub_type The type of system page.
-	 * @param Indexable $indexable       Optional. An existing indexable to overwrite.
+	 * @param string         $object_sub_type The type of system page.
+	 * @param Indexable|bool $indexable       Optional. An existing indexable to overwrite.
 	 *
 	 * @return Indexable The search result indexable.
 	 */
 	public function build_for_system_page( $object_sub_type, $indexable = false ) {
-		$indexable = $this->ensure_indexable( $indexable );
-		$indexable = $this->system_page_builder->build( $object_sub_type, $indexable );
+		$indexable_before = $this->ensure_indexable( $indexable );
+		$indexable        = $this->system_page_builder->build( $object_sub_type, $indexable_before );
 
-		return $this->save_indexable( $indexable );
+		return $this->save_indexable( $indexable, $indexable_before );
 	}
 
 	/**
@@ -203,7 +204,7 @@ class Indexable_Builder {
 	 *
 	 * @param Indexable|false $indexable The indexable.
 	 *
-	 * @return Indexable The indexable;
+	 * @return Indexable The indexable.
 	 */
 	private function ensure_indexable( $indexable ) {
 		if ( ! $indexable ) {
@@ -215,12 +216,25 @@ class Indexable_Builder {
 	/**
 	 * Saves and returns an indexable.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable      $indexable        The indexable.
+	 * @param Indexable|null $indexable_before The indexable before possible changes.
 	 *
 	 * @return Indexable The indexable.
 	 */
-	private function save_indexable( $indexable ) {
+	private function save_indexable( $indexable, $indexable_before = null ) {
+		if ( $indexable_before ) {
+			/**
+			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
+			 * when the indexable is udated.
+			 *
+			 * @api   Indexable The saved indexable.
+			 * @param Indexable The indexable before saving.
+			 */
+			do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
+		}
+
 		$indexable->save();
+
 		return $indexable;
 	}
 }

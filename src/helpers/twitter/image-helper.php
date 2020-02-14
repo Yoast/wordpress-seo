@@ -2,12 +2,12 @@
 /**
  * A helper object for Twitter images.
  *
- * @package \Yoast\WP\Free\Helpers\Twitter
+ * @package \Yoast\WP\SEO\Helpers\Twitter
  */
 
-namespace Yoast\WP\Free\Helpers\Twitter;
+namespace Yoast\WP\SEO\Helpers\Twitter;
 
-use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 
 /**
  * Class Image_Helper
@@ -24,10 +24,10 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Base_Image_Helper $image_helper The image helper.
+	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Base_Image_Helper $image_helper ) {
-		$this->image = $image_helper;
+	public function __construct( Base_Image_Helper $image ) {
+		$this->image = $image;
 	}
 
 	/**

@@ -2,12 +2,12 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators
+ * @package Yoast\WP\SEO\Presentations\Generators
  */
 
-namespace Yoast\WP\Free\Presentations\Generators;
+namespace Yoast\WP\SEO\Presentations\Generators;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * Class OG_Locale_Generator

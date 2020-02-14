@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Open_Graph_Description_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
  * @group opengraph
@@ -46,7 +46,7 @@ class Open_Graph_Description_Test extends TestCase {
 		$this->indexable->og_description  = '';
 		$this->instance->meta_description = '';
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'get_term_description' )
 			->with( $this->indexable->object_id )
 			->once()

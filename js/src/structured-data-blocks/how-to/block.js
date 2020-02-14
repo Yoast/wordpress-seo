@@ -81,6 +81,7 @@ export default () => {
 			return <HowTo { ...{ attributes, setAttributes, className } } />;
 		},
 
+		/* eslint-disable react/display-name */
 		/**
 		 * The save function defines the way in which the different attributes should be combined
 		 * into the final markup, which is then serialized by Gutenberg into post_content.
@@ -90,10 +91,10 @@ export default () => {
 		 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 		 * @returns {Component} The display component.
 		 */
-		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
 			return <HowTo.Content { ...attributes } />;
 		},
+		/* eslint-enable react/display-name */
 
 		deprecated: [
 			{

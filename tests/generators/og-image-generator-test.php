@@ -1,22 +1,22 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Generators;
+namespace Yoast\WP\SEO\Tests\Generators;
 
 use Mockery;
-use Yoast\WP\Free\Generators\OG_Image_Generator;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Values\Open_Graph\Images;
+use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
  * Class OG_Image_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Generators\OG_Image_Generator
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\OG_Image_Generator
  *
  * @group generators
  * @group opengraph
@@ -27,17 +27,17 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Open_Graph_Image_Helper|Mockery\MockInterface
 	 */
-	protected $open_graph_image_helper;
+	protected $open_graph_image;
 
 	/**
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
 	 * @var OG_Image_Generator|Mockery\MockInterface
@@ -62,7 +62,7 @@ class OG_Image_Generator_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|Url_Helper
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * Setup the test.
@@ -70,18 +70,18 @@ class OG_Image_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image_helper            = Mockery::mock( Image_Helper::class );
-		$this->url_helper              = Mockery::mock( Url_Helper::class );
-		$this->options_helper          = Mockery::mock( Options_Helper::class );
-		$this->open_graph_image_helper = Mockery::mock(
+		$this->image            = Mockery::mock( Image_Helper::class );
+		$this->url              = Mockery::mock( Url_Helper::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->open_graph_image = Mockery::mock(
 			Open_Graph_Image_Helper::class,
-			[ $this->url_helper, $this->image_helper ]
+			[ $this->url, $this->image ]
 		);
-		$this->image_container        = Mockery::mock( Images::class, [ $this->image_helper, $this->url_helper ] )->makePartial();
+		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
-			[ $this->open_graph_image_helper, $this->image_helper, $this->options_helper, $this->url_helper ]
+			[ $this->open_graph_image, $this->image, $this->options, $this->url ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance
@@ -175,7 +175,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image_id', '' )
@@ -203,13 +203,13 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image_id', '' )
 			->andReturnFalse();
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'og_default_image', '' )

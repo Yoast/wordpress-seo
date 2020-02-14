@@ -2,10 +2,10 @@
 /**
  * A helper object for site options.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\SEO\Helpers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Utils;
 

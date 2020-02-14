@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Presentations
  */
 
-namespace Yoast\WP\Free\Presentations;
+namespace Yoast\WP\SEO\Presentations;
 
 /**
  * Class Indexable_Error_Page_Presentation
@@ -31,6 +31,6 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-404-wpseo' );
+		return $this->options->get_title_default( 'title-404-wpseo' );
 	}
 }

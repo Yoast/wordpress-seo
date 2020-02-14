@@ -2,19 +2,19 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\Free\Tests\Integrations\Front_End
+ * @package Yoast\WP\SEO\Tests\Integrations\Front_End
  */
 
-namespace Yoast\WP\Free\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Integrations\Front_End\Category_Description;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Integrations\Front_End\Category_Description;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Category_Description
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Category_Description
  * @covers ::<!public>
  *
  * @group integrations

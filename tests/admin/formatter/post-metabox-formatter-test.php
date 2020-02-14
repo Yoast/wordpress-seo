@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Formatter;
+namespace Yoast\WP\SEO\Tests\Admin\Formatter;
 
-use Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 use Mockery;
 
@@ -19,7 +19,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double
+	 * @var \Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double
 	 */
 	private $instance;
 

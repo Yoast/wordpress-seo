@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class Twitter_Image_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group twitter
@@ -50,7 +50,7 @@ class Twitter_Image_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->indexable->twitter_image = 'twitter_image.jpg';
+		$this->indexable->twitter_image_source = 'set-by-user';
 
 		$this->twitter_image_generator
 			->expects( 'generate' )

@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
 
-namespace Yoast\WP\Free\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Article_Helper;
-use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Article_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -21,25 +21,25 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * @var Article_Helper
 	 */
-	private $article_helper;
+	private $article;
 
 	/**
 	 * @var HTML_Helper
 	 */
-	private $html_helper;
+	private $html;
 
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article_helper The article helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
+	 * @param Article_Helper $article The article helper.
+	 * @param HTML_Helper    $html    The HTML helper.
 	 */
 	public function __construct(
-		Article_Helper $article_helper,
-		HTML_Helper $html_helper
+		Article_Helper $article,
+		HTML_Helper $html
 	) {
-		$this->article_helper = $article_helper;
-		$this->html_helper    = $html_helper;
+		$this->article = $article;
+		$this->html    = $html;
 	}
 
 	/**
@@ -116,11 +116,11 @@ class FAQ extends Abstract_Schema_Piece {
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
-			'name'           => \strip_tags( $question['jsonQuestion'] ),
+			'name'           => $this->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [
 				'@type' => 'Answer',
-				'text'  => $this->html_helper->sanitize( $question['jsonAnswer'] ),
+				'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
 			],
 		];
 	}

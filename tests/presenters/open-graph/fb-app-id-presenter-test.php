@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters;
 
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Open_Graph\FB_App_ID_Presenter;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class FB_App_ID_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\FB_App_ID_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter
  *
  * @group presenters
  * @group opengraph

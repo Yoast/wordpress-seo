@@ -2,13 +2,13 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\SEO\Helpers\Schema
  */
 
-namespace Yoast\WP\Free\Helpers\Schema;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 use Exception;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * Schema utility functions.
@@ -93,8 +93,11 @@ class ID_Helper {
 	 */
 	public function get_user_schema_id( $user_id, $context ) {
 		$user = get_userdata( $user_id );
+		if ( is_a( $user, 'WP_User' ) ) {
+			return $context->site_url . $this->person_hash . wp_hash( $user->user_login . $user_id );
+		}
 
-		return $context->site_url . $this->person_hash . wp_hash( $user->user_login . $user_id );
+		return '';
 	}
 
 	/**

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class OG_FB_App_ID_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group opengraph
@@ -30,7 +30,7 @@ class OG_FB_App_ID_Test extends TestCase {
 	 * @covers ::generate_og_fb_app_id
 	 */
 	public function test_generate_og_fb_app_id() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'fbadminapp', '' )
 			->once()
@@ -45,7 +45,7 @@ class OG_FB_App_ID_Test extends TestCase {
 	 * @covers ::generate_og_fb_app_id
 	 */
 	public function test_generate_og_fb_app_id_with_empty_return_value() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'fbadminapp', '' )
 			->once()

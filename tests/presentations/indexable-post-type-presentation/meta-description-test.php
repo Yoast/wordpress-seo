@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Meta_Description_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group meta-description
@@ -45,7 +45,7 @@ class Meta_Description_Test extends TestCase {
 		$this->indexable->description = null;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-post' )

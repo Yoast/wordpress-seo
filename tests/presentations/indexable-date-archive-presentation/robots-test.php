@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Robots_Test.
@@ -28,7 +28,7 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 */
 	public function test_generate_robots() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'noindex-archive-wpseo', false )
@@ -47,7 +47,7 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots return noindex if archive indexation has been disabled.
 	 */
 	public function test_generate_robots_date_archive_noindex() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'noindex-archive-wpseo', false )

@@ -5,13 +5,13 @@
  * @package Yoast\YoastSEO\Loaders
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\SEO;
 
 use Exception;
-use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
-use Yoast\WP\Free\Generated\Cached_Container;
-use Yoast\WP\Free\Surfaces\Classes_Surface;
-use Yoast\WP\Free\Surfaces\Current_Page_Surface;
+use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
+use Yoast\WP\SEO\Generated\Cached_Container;
+use Yoast\WP\SEO\Surfaces\Classes_Surface;
+use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -106,7 +106,7 @@ class Main {
 	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	private function get_container() {
-		if ( $this->is_development() && \class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
 			// Exception here is unhandled as it will only occur in development.
 			Container_Compiler::compile( $this->is_development() );
 		}
