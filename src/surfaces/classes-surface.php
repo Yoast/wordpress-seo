@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Surfaces
  */
 
-namespace Yoast\WP\Free\Surfaces;
+namespace Yoast\WP\SEO\Surfaces;
 
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 

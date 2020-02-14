@@ -5,9 +5,9 @@
  * @package Yoast\YoastSEO\Surfaces
  */
 
-namespace Yoast\WP\Free\Surfaces;
+namespace Yoast\WP\SEO\Surfaces;
 
-use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Class Current_Page_Surface
