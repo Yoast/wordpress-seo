@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -29,17 +30,25 @@ class FAQ extends Abstract_Schema_Piece {
 	private $html;
 
 	/**
+	 * @var Language_Helper
+	 */
+	private $language;
+
+	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article The article helper.
-	 * @param HTML_Helper    $html    The HTML helper.
+	 * @param Article_Helper  $article  The article helper.
+	 * @param HTML_Helper     $html     The HTML helper.
+	 * @param Language_Helper $language The language helper.
 	 */
 	public function __construct(
 		Article_Helper $article,
-		HTML_Helper $html
+		HTML_Helper $html,
+		Language_Helper $language
 	) {
-		$this->article = $article;
-		$this->html    = $html;
+		$this->article  = $article;
+		$this->html     = $html;
+		$this->language = $language;
 	}
 
 	/**
@@ -111,7 +120,7 @@ class FAQ extends Abstract_Schema_Piece {
 	protected function generate_question_block( $question, $position, Meta_Tags_Context $context ) {
 		$url = $context->canonical . '#' . esc_attr( $question['id'] );
 
-		return [
+		$data = [
 			'@type'          => 'Question',
 			'@id'            => $url,
 			'position'       => $position,
@@ -122,6 +131,29 @@ class FAQ extends Abstract_Schema_Piece {
 				'@type' => 'Answer',
 				'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
 			],
+			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
+
+		$data = $this->language->add_piece_language( $data );
+
+		return $data;
+	}
+
+	/**
+	 * Adds the Questions `acceptedAnswer` property.
+	 *
+	 * @param array $question The question to add the acceptedAnswer to.
+	 *
+	 * @return array Schema.org Question piece.
+	 */
+	protected function add_accepted_answer_property( $question ) {
+		$data = [
+			'@type' => 'Answer',
+			'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
+		];
+
+		$data = $this->language->add_piece_language( $data );
+
+		return $data;
 	}
 }
