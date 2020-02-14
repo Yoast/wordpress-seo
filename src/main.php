@@ -21,6 +21,9 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 
 /**
  * Class Main
+ *
+ * @property Current_Page_Surface current_page
+ * @property Classes_Surface      classes
  */
 class Main {
 
