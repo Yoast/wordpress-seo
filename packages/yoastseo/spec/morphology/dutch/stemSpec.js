@@ -65,8 +65,6 @@ const wordsToStem = [
 	[ "tevreeër", "tevree" ],
 	// Suffix -st preceded by a valid -st ending.
 	[ "warmst", "warm" ],
-	// Suffix -st preceded by a vowel and e.
-	[ "tevreest", "tevree" ],
 	// Suffix -est.
 	[ "mooiest", "mooi" ],
 	// Suffix -er preceded by a vowel and i.
