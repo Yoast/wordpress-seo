@@ -1,4 +1,5 @@
 import nonParticiples from "../../researches/dutch/passiveVoice/nonParticiples.js";
+import { doesWordMatchRegex } from "../morphoHelpers/regexHelpers";
 
 /**
  * Checks whether the word is on an exception list of participles that do not have a ge- prefix. If it is found on the list,
@@ -17,27 +18,75 @@ const checkAndStemIfExceptionWithoutGePrefix = function( dataExceptionListToChec
 };
 
 /**
- * Detects whether a word is a participle of a regular verb without prefixes other than ge-. If it is, it stems the
- * participle by removing the prefix ge- (unless ge- is part of the stem) and the suffix -t or -d.
+ * Checks whether a word that was detected as a participle should not have the suffix (-t or -d) removed because it is part
+ * of the stem. For example, in the participle 'geantwoord', the -d belongs to the stem so it should not be removed.
+ * The checks are conducted on the word without the prefix, so 'antwoord' in the case of 'geantwoord'.
  *
- * @param {Object}  morphologyDataVerbs The Dutch morphology data for verbs.
+ * For words ending in -t, there are three checks:
+ * 1) An exception list (exceptions to a rule) containing words where -t SHOULD be stemmed,
+ * 2) The rule, defined using a regex with word endings where -t is part of the stem,
+ * 3) A list of verbs with stem ending in -t, to cover cases that were not possible to find using a regex.
+ *
+ * For words ending in -d, we check a list of verbs with stem ending in -d.
+ *
+ * @param {string}	wordWithoutPrefix	The word without prefix(es).
+ * @param {Object}	morphologyDataNL	The Dutch morphology data.
+ * @returns {boolean}					Whether the suffix should be stemmed.
+ */
+const shouldSuffixBeStemmed = function( wordWithoutPrefix, morphologyDataNL ) {
+	if ( wordWithoutPrefix.endsWith( "t" ) ) {
+		// Return true (suffix should be stemmed) if word was found on the exception list of verbs which should have the final -t stemmed.
+		const exceptionsTShouldBeStemmed = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.verbsTShouldBeStemmed;
+		if ( exceptionsTShouldBeStemmed.includes( wordWithoutPrefix ) ) {
+			return true;
+		}
+		// Return false (suffix should not be stemmed) if word matches the regex for stems ending in -t.
+		if ( doesWordMatchRegex( wordWithoutPrefix, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.tEnding ) ) {
+			return false;
+		}
+		/*
+		 * Return false (suffix should not be stemmed) if the word was found on the list of verbs with stem ending in -t.
+		 * Otherwise, return true (if no checks are matched, the default condition is for -t to be stemmed).
+		 */
+		const exceptionsTShouldNotBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions.verbStemEndingInT;
+		return ! exceptionsTShouldNotBeStemmed.includes( wordWithoutPrefix );
+	}
+	if ( wordWithoutPrefix.endsWith( "d" ) ) {
+		const exceptionsDShouldNotBeStemmed = morphologyDataNL.verbs.doNotStemD;
+		return ! exceptionsDShouldNotBeStemmed.includes( wordWithoutPrefix );
+	}
+};
+
+/**
+ * Detects whether a word is a participle of a regular verb without prefixes other than ge-. If it is, checks whether
+ * the word is an exception that should not have the prefix or the suffix stemmed. Then stems the word accordingly
+ * (remove prefix, suffix, or both).
+ *
+ * @param {Object}  morphologyDataNL	The Dutch morphology data.
  * @param {string}  word                The word (not stemmed) to check.
  *
  * @returns {string|null} The stem or null if no participle was matched.
  */
-const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, word ) {
-	const geStemTParticipleRegex = new RegExp( "^" + morphologyDataVerbs.participleStemmingClasses[ 0 ].regex );
+const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataNL, word ) {
+	const geStemTParticipleRegex = new RegExp( "^" + morphologyDataNL.verbs.participleStemmingClasses[ 0 ].regex );
 
-	// Check if it's a ge + stem + t participle.
+	// Check if it's a ge + stem + t/d participle.
 	if ( geStemTParticipleRegex.test( word ) ) {
 		// Check if the ge- is actually part of the stem. If yes, stem only the suffix.
-		const exception = ( checkAndStemIfExceptionWithoutGePrefix( morphologyDataVerbs.doNotStemGe, word ) );
+		const exception = ( checkAndStemIfExceptionWithoutGePrefix( morphologyDataNL.verbs.doNotStemGe, word ) );
 		if ( exception ) {
 			return exception;
 		}
 
-		// Remove the two-letter prefix and the one-letter suffix.
-		return ( word.slice( 2, word.length - 1 ) );
+		// Remove the prefix.
+		const wordWithoutPrefix = word.slice( 2 );
+
+		// Check whether the suffix should be stemmed. If yes, remove it and return the stem.
+		if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
+			return ( wordWithoutPrefix.slice( 0, -1 ) );
+		}
+
+		return wordWithoutPrefix;
 	}
 
 	return null;
@@ -47,36 +96,36 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, w
  * Determines whether a given participle pattern combined with prefixes from a given class (separable or inseparable)
  * applies to a given word and if so, returns the stem.
  *
- * @param {Object}      morphologyDataVerbs        The Dutch morphology data for verbs.
- * @param {string}      word        The word (not stemmed) to check.
- * @param {boolean}     separable   Whether the prefix is separable or not.
- * @param {string[]}    prefixes    The prefixes of a certain prefix class.
- * @param {string}      regexPart   The regex part for a given class (completed to a full regex within the function).
- * @param {number}      startStem   Where to start cutting off the de-prefixed word.
+ * @param {Object}      morphologyDataNL 	The Dutch morphology data.
+ * @param {string}      word        		The word (not stemmed) to check.
+ * @param {boolean}     separable  			Whether the prefix is separable or not.
+ * @param {string[]}    prefixes    		The prefixes of a certain prefix class.
+ * @param {string}      regexPart   		The regex part for a given class (completed to a full regex within the function).
  *
  * @returns {string|null} The stem or null if no prefixed participle was matched.
  */
-const detectAndStemParticiplePerPrefixClass = function( morphologyDataVerbs, word, separable, prefixes, regexPart, startStem ) {
+const detectAndStemParticiplePerPrefixClass = function( morphologyDataNL, word, separable, prefixes, regexPart ) {
 	for ( const currentPrefix of prefixes ) {
 		const participleRegex = new RegExp( "^" + currentPrefix + regexPart );
 
 		if ( participleRegex.test( word ) ) {
-			const wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
-			/**
+			let wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
+			/*
 			 * After removing a separable prefix, check whether the ge- belongs to the stem (e.g. the -ge- in opgebruikt).
 			 * If it does, stem only the suffix.
 			 */
 			if ( separable ) {
-				const exception = ( checkAndStemIfExceptionWithoutGePrefix( morphologyDataVerbs.doNotStemGe, wordWithoutPrefix ) );
+				const exception = ( checkAndStemIfExceptionWithoutGePrefix( morphologyDataNL.verbs.doNotStemGe, wordWithoutPrefix ) );
 				if ( exception ) {
 					return  ( currentPrefix + exception );
 				}
+				wordWithoutPrefix = wordWithoutPrefix.slice( 2 );
 			}
-			// Remove the suffix -t or -d (the last letter of the word).
-			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( startStem, wordWithoutPrefix.length - 1 );
 
-			// Attached the separable or inseparable prefix back and return the stem
-			return ( currentPrefix + wordWithoutParticipleAffixes );
+			if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
+				return ( currentPrefix + ( wordWithoutPrefix.slice( 0, -1 ) ) );
+			}
+			return ( currentPrefix + wordWithoutPrefix );
 		}
 	}
 
@@ -88,27 +137,25 @@ const detectAndStemParticiplePerPrefixClass = function( morphologyDataVerbs, wor
  * For example, afgemaakt has the separable prefix af-, and beantwoord has the inseparable prefix be-. If a participle
  * of a compound verb is detected, it is stemmed by removing the ge- (in case of a verb with a separable prefix) and the suffix -t or -d.
  *
- * @param {Object}  morphologyDataVerbs The Dutch morphology data for verbs.
+ * @param {Object}  morphologyDataNL 	The Dutch morphology data.
  * @param {string}  word                The word (not stemmed) to check.
  *
  * @returns {string|null} The stem or null if no participle with prefix was matched.
  */
-const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word ) {
+const detectAndStemParticiplesWithPrefixes = function( morphologyDataNL, word ) {
 	/*
 	 * It's important to preserve order here, since the ge + stem ending in -t regex is more specific than
 	 * the stem + t regex, and therefore must be checked first.
 	 */
-	for ( const participleClass of morphologyDataVerbs.participleStemmingClasses ) {
+	for ( const participleClass of morphologyDataNL.verbs.participleStemmingClasses ) {
 		const regex = participleClass.regex;
-		const startStem = participleClass.startStem;
-		const endStem = participleClass.endStem;
 		const separable = participleClass.separable;
 
 		const prefixes = separable
-			? morphologyDataVerbs.compoundVerbsPrefixes.separable
-			: morphologyDataVerbs.compoundVerbsPrefixes.inseparable;
+			? morphologyDataNL.verbs.compoundVerbsPrefixes.separable
+			: morphologyDataNL.verbs.compoundVerbsPrefixes.inseparable;
 
-		const stem = detectAndStemParticiplePerPrefixClass( morphologyDataVerbs, word, separable, prefixes, regex, startStem, endStem );
+		const stem = detectAndStemParticiplePerPrefixClass( morphologyDataNL, word, separable, prefixes, regex );
 
 		if ( stem ) {
 			return stem;
@@ -123,7 +170,7 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
  *  is the same as the stem.
  *
  * @param {string[]} dataParticiplesSameAsStem	The list of exceptions whose stem is the same as the participle.
- * @param {string} word		The word to check.
+ * @param {string} 	 word						The word to check.
  * @returns {boolean} Whether the word is found on the exception list.
  */
 const checkIfParticipleIsSameAsStem = function( dataParticiplesSameAsStem, word ) {
@@ -133,12 +180,12 @@ const checkIfParticipleIsSameAsStem = function( dataParticiplesSameAsStem, word 
 /**
  * Detects whether a word is a regular participle and if so, returns the stem.
  *
- * @param {Object}  morphologyDataVerbs The Dutch morphology data for verbs.
+ * @param {Object}  morphologyDataNL 	The Dutch morphology data.
  * @param {string}  word                The word (not stemmed) to check.
  *
  * @returns {string|null} The participle stem or null if no regular participle was matched.
  */
-export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
+export function detectAndStemRegularParticiple( morphologyDataNL, word ) {
 	// Check whether the word is not a participle. If it is not, return empty string.
 	if ( word.endsWith( "heid" ) || word.endsWith( "teit" ) || word.endsWith( "tijd" ) || nonParticiples().includes( word ) ) {
 		return "";
@@ -148,11 +195,12 @@ export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 	 * Check whether the word is on an exception list of verbs whose participle is the same as the stem. If the word is found
 	 * on the list, return the stem.
 	 */
-	if ( checkIfParticipleIsSameAsStem( morphologyDataVerbs.inseparableCompoundVerbsNotToBeStemmed, word ) ) {
+	if ( checkIfParticipleIsSameAsStem( morphologyDataNL.verbs.inseparableCompoundVerbsNotToBeStemmed, word ) ) {
 		return word;
 	}
 
-	let stem = detectAndStemParticiplesWithoutPrefixes( morphologyDataVerbs, word );
+	// Check and stem if the word is a participle without any separable or inseparable prefix
+	let stem = detectAndStemParticiplesWithoutPrefixes( morphologyDataNL, word );
 
 	if ( stem ) {
 		return stem;
@@ -162,13 +210,14 @@ export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 	 * Check whether the word is on an exception list of inseparable compound verbs with a prefix that is usually separable.
 	 * If it is, remove just the suffix and return the stem.
 	 */
-	stem = checkAndStemIfExceptionWithoutGePrefix( morphologyDataVerbs.inseparableCompoundVerbs, word );
+	stem = checkAndStemIfExceptionWithoutGePrefix( morphologyDataNL.verbs.inseparableCompoundVerbs, word );
 
 	if ( stem ) {
 		return stem;
 	}
 
-	stem = detectAndStemParticiplesWithPrefixes( morphologyDataVerbs, word );
+	// Check and stem if the word is a participle with a separable or inseparable prefix
+	stem = detectAndStemParticiplesWithPrefixes( morphologyDataNL, word );
 
 	if ( stem ) {
 		return stem;
