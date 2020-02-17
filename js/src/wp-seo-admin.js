@@ -209,45 +209,6 @@ import { debounce } from "lodash-es";
 		}
 	}
 
-	/**
-	 * Add a resize and scroll listener and determine whether the fixed submit button should be shown.
-	 *
-	 * @returns {void}
-	 */
-	function setFixedSubmitButtonVisibility() {
-		const floatContainer = jQuery( "#wpseo-submit-container-float" );
-		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
-
-		if ( ! floatContainer.length || ! fixedContainer.length ) {
-			return;
-		}
-
-		/**
-		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
-		 *
-		 * @returns {void}
-		 */
-		function onViewportChange() {
-			if ( floatContainer._wpseoIsInViewport() ) {
-				fixedContainer.hide();
-			} else {
-				fixedContainer.show();
-			}
-		}
-
-		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
-		jQuery( window ).on( "yoast-seo-tab-change", onViewportChange );
-
-		const messages = jQuery( ".wpseo-message" );
-		if ( messages.length ) {
-			window.setTimeout( () => {
-				messages.fadeOut();
-			}, 5000 );
-		}
-
-		onViewportChange();
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -384,7 +345,5 @@ import { debounce } from "lodash-es";
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
-		// Should be called after the initial active tab has been set.
-		setFixedSubmitButtonVisibility();
 	} );
 }() );
