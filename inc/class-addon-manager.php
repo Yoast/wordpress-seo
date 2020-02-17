@@ -220,6 +220,15 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves the installed Yoast addons.
+	 *
+	 * @return array The installed plugins.
+	 */
+	public function get_installed_addons() {
+		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.
@@ -287,15 +296,6 @@ class WPSEO_Addon_Manager {
 		}
 
 		return '';
-	}
-
-	/**
-	 * Retrieves the installed Yoast addons.
-	 *
-	 * @return array The installed plugins.
-	 */
-	public function get_installed_addons() {
-		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
 	}
 
 	/**
