@@ -5,9 +5,10 @@ import { __, sprintf } from "@wordpress/i18n";
 import validationFactory from "./validationFactory";
 
 
-/**
- * @param {Object} image A.
- * @returns {String | Boolean} Image.
+/** Checks if the image dimensions are allowed. If not correct returns a warning.
+ *
+ * @param {Object} image The image type.
+ * @returns {String | Boolean} A warning string | true.
  */
 const validateSize = ( image ) => {
 	const { width, height } = image;
