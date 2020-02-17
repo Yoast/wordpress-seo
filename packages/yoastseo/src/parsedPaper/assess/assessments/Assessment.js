@@ -51,28 +51,26 @@ class Assessment {
 	/**
 	 * Checks whether this assessment is applicable to the given paper and tree combination.
 	 *
-	 * @param {Paper} paper                     The paper to check.
-	 * @param {module:parsedPaper/structure.Node} node The root node of the tree to check.
+	 * @param {ParsedPaper} parsedPaper The parsedPaper to check.
 	 *
 	 * @returns {Promise<boolean>} Whether this assessment is applicable to the given paper and tree combination (wrapped in a promise).
 	 *
 	 * @abstract
 	 */
-	async isApplicable( paper, node ) { // eslint-disable-line no-unused-vars
+	async isApplicable( parsedPaper ) { // eslint-disable-line no-unused-vars
 		console.warn( "`isApplicable` should be implemented by a child class of `Assessment`." );
 	}
 
 	/**
-	 * Applies this assessment to the given combination of paper and tree.
+	 * Applies this assessment to the given combination of parsedPaper and tree.
 	 *
-	 * @param {Paper} paper                                    The paper to check.
-	 * @param {module:parsedPaper/structure.Node} node                The root node of the tree to check.
+	 * @param {ParsedPaper} parsedPaper The parsedPaper to check.
 	 *
 	 * @returns {Promise<AssessmentResult>} The result of this assessment (wrapped in a promise).
 	 *
 	 * @abstract
 	 */
-	async apply( paper, node ) { // eslint-disable-line no-unused-vars
+	async apply( parsedPaper ) { // eslint-disable-line no-unused-vars
 		console.warn( "`apply` should be implemented by a child class of `Assessment`." );
 	}
 }
