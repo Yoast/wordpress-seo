@@ -6,12 +6,12 @@
  */
 
 // Mark this file as deprecated.
-_deprecated_file( __FILE__, 'WPSEO xx.x' );
+_deprecated_file( __FILE__, 'WPSEO 13.2' );
 
 /**
  * Handles the request for getting the Ryte status.
  *
- * @deprecated xx.x
+ * @deprecated 13.2
  * @codeCoverageIgnore
  */
 class WPSEO_OnPage extends WPSEO_Ryte implements WPSEO_WordPress_Integration {
@@ -19,11 +19,11 @@ class WPSEO_OnPage extends WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	/**
 	 * Constructs the object.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', WPSEO_Ryte::class );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2', WPSEO_Ryte::class );
 	}
 
 
@@ -32,10 +32,10 @@ class WPSEO_OnPage extends WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function show_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 }

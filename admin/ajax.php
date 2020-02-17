@@ -386,7 +386,7 @@ function wpseo_ajax_replace_vars() {
 /**
  * Hides the default tagline notice for a specific user.
  *
- * @deprecated xx.x
+ * @deprecated 13.2
  * @codeCoverageIgnore
  */
 function wpseo_dismiss_tagline_notice() {
@@ -394,6 +394,6 @@ function wpseo_dismiss_tagline_notice() {
 		die( '-1' );
 	}
 
-	_deprecated_function( __FUNCTION__, 'WPSEO xx.x', 'This method is deprecated.' );
+	_deprecated_function( __FUNCTION__, 'WPSEO 13.2', 'This method is deprecated.' );
 	wpseo_ajax_json_echo_die( '' );
 }

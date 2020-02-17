@@ -556,23 +556,23 @@ class WPSEO_Admin_Init {
 	/**
 	 * Notify about the default tagline if the user hasn't changed it.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function tagline_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 
 	/**
 	 * Returns whether or not the site has the default tagline.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 
 		$blog_description         = get_bloginfo( 'description' );
 		$default_blog_description = 'Just another WordPress site';
@@ -587,10 +587,10 @@ class WPSEO_Admin_Init {
 	/**
 	 * Shows an alert when the permalink doesn't contain %postname%.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function permalink_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 }

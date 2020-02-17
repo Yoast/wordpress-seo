@@ -8,7 +8,7 @@
 /**
  * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  *
- * @deprecated xx.x
+ * @deprecated 13.2
  * @codeCoverageIgnore
  */
 class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
@@ -37,30 +37,30 @@ class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 	/**
 	 * Constructs the WPSEO_Endpoint_Ryte class and sets the service to use.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 
 	/**
 	 * Registers the REST routes that are available on the endpoint.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function register() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 
 	/**
 	 * Determines whether or not data can be retrieved for the registered endpoints.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 13.2
 	 * @codeCoverageIgnore
 	 */
 	public function can_retrieve_data() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 }

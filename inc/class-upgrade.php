@@ -52,7 +52,7 @@ class WPSEO_Upgrade {
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
-			'xx.x-RC0'  => 'upgrade_xxx',
+			'13.2-RC0'  => 'upgrade_132',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -693,9 +693,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the xx.x upgrade.
+	 * Performs the 13.2 upgrade.
 	 */
-	private function upgrade_xxx() {
+	private function upgrade_132() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-tagline-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-onpageorg' );
