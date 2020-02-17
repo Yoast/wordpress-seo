@@ -18,13 +18,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	protected $test = 'yoast-health-check-ryte';
 
 	/**
-	 * The Ryte option.
-	 *
-	 * @var WPSEO_Ryte_Option $ryte_option The Ryte Option.
-	 */
-	protected $ryte_option;
-
-	/**
 	 * Runs the test.
 	 *
 	 * @return void
@@ -53,9 +46,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		}
 
 		// The request was successful: get the updated Ryte option.
-		$this->ryte_option = $this->get_ryte_option();
+		$ryte_option = $this->get_ryte_option();
 
-		switch ( $this->ryte_option->get_status() ) {
+		switch ( $ryte_option->get_status() ) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
 				$this->is_not_indexable_response();
 				break;
