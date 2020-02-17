@@ -145,8 +145,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
 
-		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
@@ -183,7 +181,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
@@ -220,7 +217,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( \WPSEO_Ryte_Option::IS_INDEXABLE );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
@@ -253,7 +249,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->once()
 			->andReturn( $this->ryte_option );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 

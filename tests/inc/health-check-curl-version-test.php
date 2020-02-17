@@ -69,7 +69,6 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->once()
 			->andReturn( '7.60.0' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$this->instance->run();
@@ -103,7 +102,6 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->twice()
 			->andReturn( '7.10.0' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$this->instance->run();
@@ -129,8 +127,6 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 			->expects( 'is_my_yoast_api_reachable' )
 			->twice()
 			->andReturnTrue();
-
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->instance->run();
 

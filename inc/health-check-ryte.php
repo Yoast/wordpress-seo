@@ -50,7 +50,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		if ( is_array( $response ) && isset( $response['is_error'] ) ) {
 			$this->response_error( $response );
-			$this->add_yoast_signature();
 
 			return;
 		}
@@ -70,8 +69,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 				$this->unknown_indexability_response();
 				break;
 		}
-
-		$this->add_yoast_signature();
 	}
 
 	/**

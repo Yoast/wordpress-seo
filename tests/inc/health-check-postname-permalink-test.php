@@ -24,8 +24,6 @@ class WPSEO_Health_Check_Postname_Permalink_Test extends TestCase {
 			->with( 'permalink_structure' )
 			->andReturn( '/%postname%/' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
-
 		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();
 
@@ -44,8 +42,6 @@ class WPSEO_Health_Check_Postname_Permalink_Test extends TestCase {
 			->once()
 			->with( 'permalink_structure' )
 			->andReturn( '/%category%/%postname%/' );
-
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();
@@ -67,7 +63,6 @@ class WPSEO_Health_Check_Postname_Permalink_Test extends TestCase {
 			->andReturn( '' );
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();

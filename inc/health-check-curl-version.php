@@ -43,7 +43,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
 				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 			);
-			$this->add_yoast_signature();
+
 			return;
 		}
 
@@ -64,7 +64,6 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
 				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 			);
-			$this->add_yoast_signature();
 			return;
 		}
 
@@ -76,9 +75,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_GOOD;
 		$this->badge['color'] = 'blue';
 		$this->description    = esc_html__( 'Great! You can activate your premium plugin(s) and receive updates.', 'wordpress-seo' );
-		$this->add_yoast_signature();
 		return;
-
 	}
 
 	/**

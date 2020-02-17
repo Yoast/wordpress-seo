@@ -26,7 +26,6 @@ class WPSEO_Health_Check_Default_Tagline extends WPSEO_Health_Check {
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
 			$this->description    = esc_html__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' );
-			$this->add_yoast_signature();
 
 			return;
 		}
@@ -48,8 +47,6 @@ class WPSEO_Health_Check_Default_Tagline extends WPSEO_Health_Check {
 			'<a href="' . esc_attr( $customize_url ) . '">',
 			'</a>'
 		);
-
-		$this->add_yoast_signature();
 	}
 
 	/**

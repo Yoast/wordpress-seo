@@ -32,8 +32,6 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->once()
 			->andReturn( 'http://example.org/wp-admin/customize.php?autofocus[control]=blogdescription' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
-
 		$health_check = new \WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
@@ -53,8 +51,6 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->with( 'blogdescription' )
 			->andReturn( '' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
-
 		$health_check = new \WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
@@ -73,8 +69,6 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->once()
 			->with( 'blogdescription' )
 			->andReturn( 'My custom site tagline' );
-
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$health_check = new \WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();

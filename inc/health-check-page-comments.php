@@ -26,7 +26,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
 			$this->description    = esc_html__( 'Comments on your posts are displayed on a single page. This is just like we\'d suggest it. You\'re doing well!', 'wordpress-seo' );
-			$this->add_yoast_signature();
 			return;
 		}
 
@@ -40,7 +39,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
 		);
-		$this->add_yoast_signature();
 	}
 
 	/**
