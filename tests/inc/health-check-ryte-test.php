@@ -40,7 +40,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is disabled.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers ::run
 	 */
 	public function test_run_with_option_disabled() {
 		$this->health_check
@@ -62,7 +62,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when the site is not public.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers ::run
 	 */
 	public function test_run_with_blog_not_public() {
 		Monkey\Functions\expect( 'get_option' )
@@ -89,7 +89,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when the development mode is on, but Yoast development mode is not on.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
+	 * @covers ::run
 	 */
 	public function test_run_with_development_mode() {
 		Monkey\Functions\expect( 'get_option' )
@@ -121,8 +121,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and the site cannot be indexed.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
-	 * @covers WPSEO_Health_Check_Ryte::is_not_indexable_response
+	 * @covers ::run
+	 * @covers ::is_not_indexable_response
 	 */
 	public function test_run_site_cannot_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
@@ -157,8 +157,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte Option cannot be fetched.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
-	 * @covers WPSEO_Health_Check_Ryte::unknown_indexability_response
+	 * @covers ::run
+	 * @covers ::unknown_indexability_response
 	 */
 	public function test_run_cannot_fetch() {
 		$this->ryte_enabled_and_blog_public();
@@ -193,8 +193,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and the site can be indexed.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
-	 * @covers WPSEO_Health_Check_Ryte::is_indexable_response
+	 * @covers ::run
+	 * @covers ::is_indexable_response
 	 */
 	public function test_run_site_can_be_indexed() {
 		$this->ryte_enabled_and_blog_public();
@@ -229,8 +229,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	/**
 	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte response failed with errors.
 	 *
-	 * @covers WPSEO_Health_Check_Ryte::run
-	 * @covers WPSEO_Health_Check_Ryte::response_error
+	 * @covers ::run
+	 * @covers ::response_error
 	 */
 	public function test_run_with_response_failure() {
 		$this->ryte_enabled_and_blog_public();
