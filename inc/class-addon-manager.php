@@ -220,12 +220,14 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Retrieves the installed Yoast addons.
+	 * Checks if there are any installed addons.
 	 *
-	 * @return array The installed plugins.
+	 * @return bool True when there are installed Yoast addons.
 	 */
-	public function get_installed_addons() {
-		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
+	public function has_installed_addons() {
+		$installed_addons = $this->get_installed_addons();
+
+		return ! empty( $installed_addons );
 	}
 
 	/**
@@ -296,6 +298,15 @@ class WPSEO_Addon_Manager {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Retrieves the installed Yoast addons.
+	 *
+	 * @return array The installed plugins.
+	 */
+	protected function get_installed_addons() {
+		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
 	}
 
 	/**
@@ -409,17 +420,6 @@ class WPSEO_Addon_Manager {
 			'url'           => WPSEO_Utils::get_home_url(),
 			'subscriptions' => [],
 		];
-	}
-
-	/**
-	 * Checks if there are any installed addons.
-	 *
-	 * @return bool True when there are installed Yoast addons.
-	 */
-	protected function has_installed_addons() {
-		$installed_addons = $this->get_installed_addons();
-
-		return ! empty( $installed_addons );
 	}
 
 	/**

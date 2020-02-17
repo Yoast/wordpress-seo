@@ -118,11 +118,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	protected function has_premium_plugins_installed() {
 		$addon_manager = new WPSEO_Addon_Manager();
 
-		if ( empty( $addon_manager->get_installed_addons() ) ) {
-			return false;
-		}
-
-		return true;
+		return $addon_manager->has_installed_addons();
 	}
 
 	/**
