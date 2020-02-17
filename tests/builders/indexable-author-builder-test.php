@@ -48,23 +48,23 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
 
 		// Resetting the image.
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
-		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'og_image_id' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'avatar_image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'gravatar-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'avatar_image.jpg' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
 
@@ -102,23 +102,23 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
 
 		// Resetting the image.
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
-		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'og_image_id' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'avatar_image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'gravatar-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'avatar_image.jpg' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
 

@@ -14,8 +14,8 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter
  *
  * @group presenters
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Image_Presenter_Test extends TestCase {
 
@@ -45,7 +45,7 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_no_set_images() {
-		$this->presentation->og_images = [];
+		$this->presentation->open_graph_images = [];
 
 		$this->assertEmpty( $this->instance->present( $this->presentation ) );
 	}
@@ -62,7 +62,7 @@ class Image_Presenter_Test extends TestCase {
 			'height' => 100,
 		];
 
-		$this->presentation->og_images = [ $image ];
+		$this->presentation->open_graph_images = [ $image ];
 
 		$this->assertEquals(
 			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:secure_url" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',

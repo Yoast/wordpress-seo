@@ -151,7 +151,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_type() {
+	public function generate_open_graph_type() {
 		return 'profile';
 	}
 }

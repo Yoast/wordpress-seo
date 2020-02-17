@@ -93,12 +93,12 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'twitter_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
 
 		// Open-Graph.
-		$indexable_table->column( 'og_title', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'og_description', 'mediumtext', [ 'null' => true ] );
-		$indexable_table->column( 'og_image',  'mediumtext', [ 'null' => true ] );
-		$indexable_table->column( 'og_image_id', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'og_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'og_image_meta', 'text', [ 'null' => true ] );
+		$indexable_table->column( 'open_graph_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'open_graph_description', 'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'open_graph_image',  'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'open_graph_image_id', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'open_graph_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'open_graph_image_meta', 'text', [ 'null' => true ] );
 
 		// Link count.
 		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );

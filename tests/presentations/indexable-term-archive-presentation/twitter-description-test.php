@@ -42,13 +42,13 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_og_enabled() {
+	public function test_with_term_description_with_open_graph_enabled() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = true;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
 			->andReturn( '' );
 
@@ -66,15 +66,15 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_og_enabled_and_have_og_description() {
+	public function test_with_term_description_with_open_graph_enabled_and_have_open_graph_description() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = true;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
-			->andReturn( 'OG Description' );
+			->andReturn( 'Open Graph Description' );
 
 		$this->assertEquals( '', $this->instance->generate_twitter_description() );
 	}
@@ -84,15 +84,15 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_with_term_description_with_og_disabled() {
+	public function test_with_term_description_with_open_graph_disabled() {
 		$this->indexable->twitter_description = '';
 		$this->instance->meta_description     = '';
 		$this->context->open_graph_enabled    = false;
 
 		$this->instance
-			->expects( 'generate_og_description' )
+			->expects( 'generate_open_graph_description' )
 			->once()
-			->andReturn( 'OG Description' );
+			->andReturn( 'Open Graph Description' );
 
 		$this->taxonomy
 			->expects( 'get_term_description' )

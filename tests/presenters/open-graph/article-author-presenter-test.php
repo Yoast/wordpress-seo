@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Article_Author_Presenter_Test extends TestCase {
 
@@ -43,7 +43,7 @@ class Article_Author_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_author = 'https://facebook.com/author';
+		$this->presentation->open_graph_article_author = 'https://facebook.com/author';
 
 		$expected = '<meta property="article:author" content="https://facebook.com/author" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -57,7 +57,7 @@ class Article_Author_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_article_author() {
-		$this->presentation->og_article_author = '';
+		$this->presentation->open_graph_article_author = '';
 
 		$expected = '';
 		$actual   = $this->instance->present( $this->presentation );
@@ -72,7 +72,7 @@ class Article_Author_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_article_author = 'https://facebook.com/author';
+		$this->presentation->open_graph_article_author = 'https://facebook.com/author';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_author_facebook' )
 			->once()
