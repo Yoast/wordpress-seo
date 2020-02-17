@@ -2,15 +2,13 @@
 // External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
-import { ArticleList as WordpressFeed, ScoreAssessments } from "@yoast/components";
+import { ArticleList as WordpressFeed } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
-import { getPostFeed, makeOutboundLink } from "@yoast/helpers";
+import { getPostFeed } from "@yoast/helpers";
 
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
-
-const RyteLandingPageLink = makeOutboundLink();
 
 class DashboardWidget extends React.Component {
 	/**
@@ -21,12 +19,10 @@ class DashboardWidget extends React.Component {
 
 		this.state = {
 			statistics: null,
-			ryte: null,
 			feed: null,
 		};
 
 		this.getStatistics();
-		this.getRyte();
 		this.getFeed();
 	}
 
@@ -60,33 +56,6 @@ class DashboardWidget extends React.Component {
 			statistics.header = jQuery( `<div>${ response.header }</div>` ).text();
 
 			this.setState( { statistics } );
-		} );
-	}
-
-	/**
-	 * Fetches data from the Ryte endpoint, parses it and sets it to the state.
-	 *
-	 * @returns {void}
-	 */
-	getRyte() {
-		if ( wpseoDashboardWidgetL10n.ryteEnabled !== "1" ) {
-			return;
-		}
-
-		wpseoApi.get( "ryte", ( response ) => {
-			if ( ! response.ryte ) {
-				return;
-			}
-
-			const ryte = {
-				scores: [ {
-					color: DashboardWidget.getColorFromScore( response.ryte.score ),
-					html: response.ryte.label,
-				} ],
-				canFetch: response.ryte.can_fetch,
-			};
-
-			this.setState( { ryte } );
 		} );
 	}
 
@@ -134,34 +103,6 @@ class DashboardWidget extends React.Component {
 	}
 
 	/**
-	 * Returns the Ryte Assessment sub-component.
-	 *
-	 * @returns {ReactElement} The Ryte Assessment component.
-	 */
-	getRyteAssessment() {
-		if ( this.state.ryte === null ) {
-			return null;
-		}
-
-		return (
-			<div id="yoast-seo-ryte-assessment" key="yoast-seo-ryte-assessment">
-				<h3>{ wpseoDashboardWidgetL10n.ryte_header }</h3>
-				<ScoreAssessments items={ this.state.ryte.scores } />
-				<div>
-					{ this.state.ryte.canFetch &&
-						<a className="fetch-status button" href={ wpseoDashboardWidgetL10n.ryte_fetch_url }>
-							{ wpseoDashboardWidgetL10n.ryte_fetch }
-						</a>
-					}
-					<RyteLandingPageLink className="landing-page button" href={ wpseoDashboardWidgetL10n.ryte_landing_url }>
-						{ wpseoDashboardWidgetL10n.ryte_analyze }
-					</RyteLandingPageLink>
-				</div>
-			</div>
-		);
-	}
-
-	/**
 	 * Returns the yoast.com feed sub-component.
 	 *
 	 * @returns {ReactElement} The yoast.com feed component.
@@ -188,7 +129,6 @@ class DashboardWidget extends React.Component {
 	render() {
 		const contents = [
 			this.getSeoAssessment(),
-			this.getRyteAssessment(),
 			this.getYoastFeed(),
 		].filter( item => item !== null );
 

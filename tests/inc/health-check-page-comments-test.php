@@ -24,8 +24,6 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 			->with( 'page_comments' )
 			->andReturn( '0' );
 
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
-
 		$health_check = new \WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
 
@@ -45,9 +43,7 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 			->with( 'page_comments' )
 			->andReturn( '1' );
 
-		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
-		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$health_check = new \WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
