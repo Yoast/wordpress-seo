@@ -382,3 +382,18 @@ function wpseo_ajax_replace_vars() {
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
 }
+
+/**
+ * Hides the default tagline notice for a specific user.
+ *
+ * @deprecated xx.x
+ * @codeCoverageIgnore
+ */
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	_deprecated_function( __FUNCTION__, 'WPSEO xx.x', 'This method is deprecated.' );
+	wpseo_ajax_json_echo_die( '' );
+}
