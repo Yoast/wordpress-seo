@@ -30,8 +30,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	public function run() {
-		$this->ryte_option = $this->get_ryte_option();
-
 		// If Ryte is disabled or the blog is not public or development mode is on, don't run code.
 		if ( ! $this->should_run() ) {
 			return;
@@ -77,7 +75,8 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return bool True when Ryte is enabled, the blog is public and development mode is not on.
 	 */
 	protected function should_run() {
-		if ( ! $this->ryte_option->is_enabled() ) {
+		$ryte_option = $this->get_ryte_option();
+		if ( ! $ryte_option->is_enabled() ) {
 			return false;
 		}
 
