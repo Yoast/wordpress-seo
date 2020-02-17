@@ -47,7 +47,7 @@ describe( validateTwitterImage, () => {
 	} );
 
 	it( "returns an array with a warning about: the dimensions not being suitable when the image-width is too wide ", () => {
-		const testImage = { ...image, width: 100 };
+		const testImage = { ...image, width: 5000 };
 
 		const actual = validateTwitterImage( testImage );
 
@@ -59,7 +59,7 @@ describe( validateTwitterImage, () => {
 	} );
 
 	it( "returns an array with a warning about: the dimensions not being suitable when the image-width is too narrow", () => {
-		const testImage = { ...image, width: 5000 };
+		const testImage = { ...image, width: 100 };
 
 		const actual = validateTwitterImage( testImage );
 

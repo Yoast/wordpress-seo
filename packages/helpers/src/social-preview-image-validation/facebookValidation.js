@@ -13,19 +13,15 @@ const validateSize = ( image ) => {
 	const { width, height } = image;
 
 	const warningMessage = sprintf(
-		/* Translators: %d expands to the minimum width, %d expands to the minimum hight,
-		%d expands to the maximum width, %d expands to the maximum hight. */
+		/* Translators: %d expands to the minimum width, %d expands to the minimum hight */
 		__(
-			"Your image dimensions are not suitable: The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.",
+			"Your image dimensions are not suitable: The minimum dimensions are %dx%d pixels.",
 			"yoast-components"
 		),
-		200, 200, 4096, 4096,
+		200, 200,
 	);
 
-	if ( image.width < 200 || image.height < 200 ) {
-		return warningMessage;
-	}
-	if ( width > 4096 || height > 4096 ) {
+	if ( width < 200 || height < 200 ) {
 		return warningMessage;
 	}
 	return true;
@@ -33,10 +29,11 @@ const validateSize = ( image ) => {
 
 /** Checks if the image type is allowed. If not correct returns a warning.
  *
- * @param {String} type The image type.
- * @returns {String | Boolean} A warning string.
+ * @param {String} image The image type.
+ * @returns {String | Boolean} A warning string | true.
  */
-export const validateImageType = ( { type } ) => {
+export const validateImageType = ( image ) => {
+	const { type } = image;
 	const validTypes = [ "jpg", "png", "gif" ];
 
 	const warningMessage = sprintf(
@@ -57,6 +54,7 @@ export const validateImageType = ( { type } ) => {
 
 const validate = validationFactory( [
 	validateSize,
+	validateImageType,
 ] );
 
 export default validate;

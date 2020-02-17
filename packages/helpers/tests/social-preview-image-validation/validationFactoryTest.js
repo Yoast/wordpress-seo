@@ -8,6 +8,18 @@ describe( validationFactory, () => {
 
 		expect( typeof actual ).toEqual( "function" );
 	} );
+
+	it( "returns an array with with a string when provided a function that return a string", () => {
+		const platformRequirements = [
+			() => "I feel returned",
+		];
+
+		const actual = validationFactory( platformRequirements );
+
+		const expected = [ "I feel returned" ];
+
+		expect( actual() ).toEqual( expected );
+	} );
 } );
 
 
