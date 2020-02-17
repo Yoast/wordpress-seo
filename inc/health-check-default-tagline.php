@@ -59,7 +59,7 @@ class WPSEO_Health_Check_Default_Tagline extends WPSEO_Health_Check {
 		$default_blog_description = 'Just another WordPress site';
 
 		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
+		// @codingStandardsIgnoreLine WordPress.WP.I18n.TextDomainMismatch
 		$translated_blog_description = __( 'Just another WordPress site', 'default' );
 
 		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;

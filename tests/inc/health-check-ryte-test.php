@@ -10,7 +10,7 @@ use WPSEO_Utils;
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass WPSEO_Health_Check_Ryte
+ * @coversDefaultClass \WPSEO_Health_Check_Ryte
  * @group health-check
  */
 class WPSEO_Health_Check_Ryte_Test extends TestCase {
@@ -223,7 +223,6 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
 		$this->assertAttributeEquals( 'good', 'status', $this->health_check );
-
 	}
 
 	/**
@@ -281,6 +280,4 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 	}
-
-
 }

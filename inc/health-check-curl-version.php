@@ -80,7 +80,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	/**
 	 * Gets the current cURL version.
 	 *
-	 * @return mixed The cURL version as a string or false if cURL is not installed.
+	 * @return string|bool The cURL version as a string or false if cURL is not installed.
 	 */
 	protected function get_curl_version() {
 		if ( function_exists( 'curl_version' ) ) {
