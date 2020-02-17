@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var Mockery\Mock|\WPSEO_Health_Check_Curl_Version
 	 */
 	private $instance;
