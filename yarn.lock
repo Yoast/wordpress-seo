@@ -648,10 +648,10 @@
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/search-metadata-previews@^1.18.0-rc.0":
-  version "1.18.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.18.0-rc.0.tgz#d33dd319545ea75b2e4a67db5dffd6e225ee525a"
-  integrity sha512-Ac2S+COGLYYzjc2wKiu2JGUhe+oggCLTQwPWyGbFERIBdqwlwOA4BK9X+QrB/aV3cvmEdfmhvPM4GAlXKxBxDg==
+"@yoast/search-metadata-previews@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.18.0.tgz#af9dc7ffa6162d3e20b1f6f0a1977914971f3791"
+  integrity sha512-Xbi9Cd2GLB0kqMexVGBsZk6pDgNM1Vh1vEKJIjqaRGOx/U15lxnl86Lm3G1XMPKVj407nMmG303RxxQdPFL9yg==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -667,7 +667,7 @@
     prop-types "^15.6.0"
     react-transition-group "^2.7.1"
     styled-components "^4.2.0"
-    yoastseo "^1.69.0-rc.0"
+    yoastseo "^1.69.0"
 
 "@yoast/style-guide@^0.11.1":
   version "0.11.1"
@@ -12875,10 +12875,10 @@ yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^4.42.0-rc.0:
-  version "4.42.0-rc.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.42.0-rc.0.tgz#148fa5b29ec2fa7e3e54d54431dfce099e4782ba"
-  integrity sha512-hsqrgmf2osBAu9GCgt33cBhskGBDHmox9cqLIu6P0ZDFUwtfdIWr5O/zfKWVxAp5rocZHkGhoTfWZZnJPXGmUg==
+yoast-components@^4.42.0:
+  version "4.42.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.42.0.tgz#3654732d1e013488e026d8457e99b2698ae10873"
+  integrity sha512-DlmiKPmnmG/iDK/2yajOEBy5Ex1Ds8Dpdit4A3Q30+cCF1aaT+1YUlLmXgvvUR6a/0KrURGZKcfR26r8mHRz9A==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -12886,7 +12886,7 @@ yoast-components@^4.42.0-rc.0:
     "@yoast/components" "^0.13.1"
     "@yoast/configuration-wizard" "^1.12.1"
     "@yoast/helpers" "^0.11.1"
-    "@yoast/search-metadata-previews" "^1.18.0-rc.0"
+    "@yoast/search-metadata-previews" "^1.18.0"
     "@yoast/style-guide" "^0.11.1"
     clipboard "^1.5.15"
     draft-js "^0.10.5"
@@ -12905,12 +12905,12 @@ yoast-components@^4.42.0-rc.0:
     styled-components "^4.2.0"
     whatwg-fetch "^1.0.0"
     wicked-good-xpath "^1.3.0"
-    yoastseo "^1.69.0-rc.0"
+    yoastseo "^1.69.0"
 
-yoastseo@^1.69.0-rc.0:
-  version "1.69.0-rc.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.69.0-rc.0.tgz#5366a7c251aa24a0b95f691d267549d7c25dcb33"
-  integrity sha512-5A4COByOhjqbQpnphlr6GTd9EUtiLK4Is1XEXh58d1WPpFVuH3D4d/9DgZJ6Uf80xLlgGXcVP65FM90c8Z90/g==
+yoastseo@^1.69.0:
+  version "1.69.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.69.0.tgz#fdd217bf49054c585fdf110ba2fa321fee59a45d"
+  integrity sha512-HMwH3HIQZengUv5mYPcTUAnaSChWE027bTddbaLQ+4RiFeNMT9jdIqbICMyrVesTjb/kH4McGiFKMCxh8LPMPQ==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     "@yoast/feature-flag" "^0.5.1"

@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3.2
-Stable tag: 13.0
+Stable tag: 13.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 13.1 =
 Release Date: February 18th, 2020
 
+Yoast SEO 13.1 is out today! In this plugin, you’ll find several fixes and enhancements, mostly focused at improving our Schema.org structured data implementation. Learn more about the latest versions of Yoast SEO in [our 13.1 release post](https://yoa.st/release-13-1)!
+
 Bugfixes:
 
 * Fixes a bug where the HowTo schema name was incorrectly set to the page title.
@@ -227,7 +229,6 @@ Enhancements:
 Other:
 
 * Removes the Search Console item from the admin menu and the toolbar menu.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic)
 
 = 13.0 =
 Release Date: February 4th, 2020
