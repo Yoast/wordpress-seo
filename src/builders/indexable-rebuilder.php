@@ -37,7 +37,7 @@ class Indexable_Rebuilder {
 	}
 
 	/**
-	 * Builds the indexables for an object type.
+	 * Rebuilds the indexables for an object type.
 	 *
 	 * @param string $object_type The object type.
 	 *
@@ -55,7 +55,7 @@ class Indexable_Rebuilder {
 	}
 
 	/**
-	 * Builds the indexables that have the given object sub type.
+	 * Rebuilds the indexables that have the given object type and sub type.
 	 *
 	 * @param string $object_type     The object type.
 	 * @param string $object_sub_type The object sub type.
