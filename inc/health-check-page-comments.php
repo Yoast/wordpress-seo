@@ -22,22 +22,18 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 	 */
 	public function run() {
 		if ( ! $this->has_page_comments() ) {
-			$this->label          = esc_html__( 'Paging comments is properly disabled', 'wordpress-seo' );
+			$this->label          = esc_html__( 'Comments are displayed on a single page', 'wordpress-seo' );
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
-			$this->description    = esc_html__( 'Paging comments is disabled. As this is not needed in 999 out of 1000 cases, we recommend to keep it disabled.', 'wordpress-seo' );
+			$this->description    = esc_html__( 'Comments on your posts are displayed on a single page. Breaking comments into multiple pages is not needed in 999 out of 1000 cases. We recommend to display all comments on the same page.', 'wordpress-seo' );
 			$this->add_yoast_signature();
 			return;
 		}
 
-		$this->label          = esc_html__( 'Paging comments is enabled', 'wordpress-seo' );
+		$this->label          = esc_html__( 'Comments break into multiple pages', 'wordpress-seo' );
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
-		$this->description    = esc_html__(
-			'Paging comments is enabled. As this is not needed in 999 out of 1000 cases, we recommend you disable it.
-								To fix this, uncheck the box in front of "Break comments into pages..." on the Discussion Settings page.',
-			'wordpress-seo'
-		);
+		$this->description    = esc_html__( 'Comments on your posts break into multiple pages. As this is not needed in 999 out of 1000 cases, we recommend you disable it. To fix this, uncheck "Break comments into pages..." on the Discussion Settings page.', 'wordpress-seo' );
 		$this->actions        = sprintf(
 			/* translators: 1: Opening tag of the link to the discussion settings page, 2: Link closing tag. */
 			esc_html__( '%1$sGo to the Discussion Settings page%2$s', 'wordpress-seo' ),
@@ -53,6 +49,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 	 * @return bool True when page comments are enabled.
 	 */
 	protected function has_page_comments() {
-		return '1' === get_option( 'page_comments' );
+		return get_option( 'page_comments' ) === '1';
 	}
 }

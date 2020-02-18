@@ -283,6 +283,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		try {
 			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
+			// WP_die has been called in the verify request function.
 		}
 
 		$this->assertNull( $e );
@@ -342,6 +343,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		try {
 			$admin->verify_request( 'my_action' );
 		} catch ( WPDieException $e ) {
+			// WP_die has been called in the verify request function.
 		}
 
 		$this->assertNull( $e );
