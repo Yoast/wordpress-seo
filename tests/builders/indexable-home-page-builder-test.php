@@ -92,9 +92,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
-
 		// Setup the options mock.
 		$this->options_mock = Mockery::mock( Options_Helper::class );
 		$this->options_mock->expects( 'get' )->with( 'title-home-wpseo' )->andReturn( 'home_title' );
@@ -117,7 +114,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'home_og_title' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'home_og_image' )->twice();
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 1337 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 
@@ -136,7 +132,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		// Mock Open Graph image helper.
 		$this->open_graph_image_mock = Mockery::mock( Open_Graph_Image_Helper::class );
-		$this->open_graph_image_mock->expects( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		// Mock main image helper.
 		$this->image_mock = Mockery::mock( Image_Helper::class );
@@ -151,6 +146,11 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
+		// Provide stubs.
+		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->open_graph_image_mock->allows( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
@@ -166,10 +166,35 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_with_fallback_description() {
+		// Provide stubs.
+		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->open_graph_image_mock->allows( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+
 		// When no meta description is stored in the WP_Options...
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
 		// We expect the description to be `false` in the ORM layer.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', false );
+
+		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
+		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
+		$builder->build( $this->indexable_mock );
+	}
+
+	/**
+	 * Tests whether the open graph image meta data is correctly build and set on the Indexable.
+	 */
+	public function test_build_open_graph_image_meta_data() {
+		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
+
+		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
+		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		// We expect open graph image meta data to be set on the Indexable ORM.
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		// We expect image meta data to be retrieved from the open graph image helper.
+		$this->open_graph_image_mock->expects( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
