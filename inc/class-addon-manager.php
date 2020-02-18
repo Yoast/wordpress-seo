@@ -346,16 +346,6 @@ class WPSEO_Addon_Manager {
 
 		// Force re-check on license & dashboard pages.
 		$current_page = $this->get_current_page();
-		// Check whether the licenses are valid or whether we need to show notifications.
-		$exclude_cache = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
-
-		// Also do a fresh request on Plugins & Core Update pages.
-		$exclude_cache = $exclude_cache || $pagenow === 'plugins.php';
-		$exclude_cache = $exclude_cache || $pagenow === 'update-core.php';
-
-		if ( $exclude_cache ) {
-			return false;
-		}
 
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
 	}
@@ -381,7 +371,7 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	protected function set_site_information_transient( $site_information ) {
-		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, DAY_IN_SECONDS );
+		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, HOUR_IN_SECONDS );
 	}
 
 	/**
