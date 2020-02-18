@@ -1,4 +1,5 @@
 import { validateFacebookImage } from "../../src/index";
+import { validateSize, validateType } from "../../src/social-preview-image-validation/facebookValidation";
 
 const image = {
 	bytes: 3,
@@ -20,36 +21,59 @@ describe( validateFacebookImage, () => {
 
 		expect( actual ).toEqual( expected );
 	} );
+} );
 
-	// Image size
-	it( "returns an array with a warning about: the dimensions not being suitable when the image-height is too low", () => {
+describe( validateSize, () => {
+	const warningMessage = "Your image dimensions are not suitable. The minimum dimensions are 200x200 pixels.";
+
+	it( "returns true when the dimensions are valid", () => {
 		const testImage = { ...image, height: 100 };
 
-		const actual = validateFacebookImage( testImage );
+		const actual = validateSize( testImage );
 
-		const expected = [ "Your image dimensions are not suitable: The minimum dimensions are 200x200 pixels." ];
+		const expected = warningMessage;
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns an array with a warning about: the dimensions not being suitable when the image-width is too narrow", () => {
+	it( "returns a string with a warning about: the dimensions not being suitable when the image-height is too low", () => {
+		const testImage = { ...image, height: 100 };
+
+		const actual = validateSize( testImage );
+
+		const expected = warningMessage;
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "returns a string with a warning about: the dimensions not being suitable when the image-width is too narrow", () => {
 		const testImage = { ...image, width: 100 };
 
-		const actual = validateFacebookImage( testImage );
+		const actual = validateSize( testImage );
 
-		const expected = [
-			"Your image dimensions are not suitable: The minimum dimensions are 200x200 pixels." ];
+		const expected = warningMessage;
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( validateType, () => {
+	it(	"returns true when the fileType is jpeg, gif or png", () => {
+		const testImage = { ...image, type: "jpg" };
+
+		const actual = validateType( testImage );
+
+		const expected = true;
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	// Image type
-	it(	"returns an array with a warning about: The uplaoded image is not supported; when the fileType is not jpeg, gif or png", () => {
+	it(	"returns a string with a warning about: The uploaded image is not supported; when the fileType is not jpeg, gif or png", () => {
 		const testImage = { ...image, type: "svg" };
 
-		const actual = validateFacebookImage( testImage );
+		const actual = validateType( testImage );
 
-		const expected = [ "The format of the uploaded image is not supported. The supported formats are: JPG, PNG and GIF." ];
+		const expected = "The format of the uploaded image is not supported. The supported formats are: JPG, PNG and GIF.";
 
 		expect( actual ).toEqual( expected );
 	} );

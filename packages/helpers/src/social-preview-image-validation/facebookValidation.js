@@ -5,35 +5,36 @@ import { __, sprintf } from "@wordpress/i18n";
 import validationFactory from "./validationFactory";
 
 
-/** Checks if the image dimensions are allowed. If not correct returns a warning.
+/**
+ * Checks if the image dimensions are allowed. If not correct returns a warning.
  *
  * @param {Object} image The image type.
- * @returns {String | Boolean} A warning string | true.
+ *
+ * @returns {string | boolean} A warning string | true.
  */
-const validateSize = ( image ) => {
+export const validateSize = ( image ) => {
 	const { width, height } = image;
 
 	const warningMessage = sprintf(
 		/* Translators: %d expands to the minimum width, %d expands to the minimum hight */
 		__(
-			"Your image dimensions are not suitable: The minimum dimensions are %dx%d pixels.",
+			"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels.",
 			"yoast-components"
 		),
 		200, 200,
 	);
 
-	if ( width < 200 || height < 200 ) {
-		return warningMessage;
-	}
-	return true;
+	return ( width < 200 || height < 200 ) ? warningMessage : true;
 };
 
-/** Checks if the image type is allowed. If not correct returns a warning.
+/**
+ * Checks if the image type is allowed. If not correct returns a warning.
  *
- * @param {String} image The image type.
- * @returns {String | Boolean} A warning string | true.
+ * @param {string} image The image type.
+ *
+ * @returns {string | boolean} A warning string | true.
  */
-export const validateImageType = ( image ) => {
+export const validateType = ( image ) => {
 	const { type } = image;
 	const validTypes = [ "jpg", "png", "gif" ];
 
@@ -55,7 +56,7 @@ export const validateImageType = ( image ) => {
 
 const validate = validationFactory( [
 	validateSize,
-	validateImageType,
+	validateType,
 ] );
 
 export default validate;

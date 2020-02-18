@@ -5,37 +5,51 @@ import { __, sprintf } from "@wordpress/i18n";
 import validationFactory from "./validationFactory";
 
 
-/** Validates the image dimensions. Returns a warning if not valid.
+/**
+ * Validates the image dimensions. Returns a warning if not valid.
  *
  * @param {Object} image The image object.
- * @returns {String | Boolean} A warning string | true.
+ *  @param {boolean} isLarge Is the card large yes/no?
+ *
+ * @returns {string | boolean} A warning string | true.
  */
-const validateSize = ( image ) => {
+export const validateSize = ( image, isLarge ) => {
 	const { width, height } = image;
 
-	const warningMessage = sprintf(
+	const warningString = "Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.";
+
+	const warningMessageSmall = sprintf(
 		/* Translators: %d expands to the minimum width, %d expands to the minimum hight,
 		%d expands to the maximum width, %d expands to the maximum hight. */
-		__(
-			"Your image dimensions are not suitable: The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.",
-			"yoast-components"
-		),
+		__( warningString, "yoast-components" ),
 		200, 200, 4096, 4096,
 	);
 
-	if ( width < 200 || height < 200 ) {
-		return warningMessage;
+	const warningMessageLarge = sprintf(
+		/* Translators: %d expands to the minimum width, %d expands to the minimum hight,
+		%d expands to the maximum width, %d expands to the maximum hight. */
+		__( warningString, "yoast-components" ),
+		300, 157, 4096, 4096,
+	);
+
+	const isMaximumDimensions = width > 4096 || height > 4096;
+
+	if ( isLarge && ( width < 300 || height < 157 || isMaximumDimensions ) ) {
+		return warningMessageLarge;
 	}
-	if ( width > 4096 || height > 4096 ) {
-		return warningMessage;
+	if ( width < 200 || height < 200 || isMaximumDimensions ) {
+		return warningMessageSmall;
 	}
 	return true;
 };
 
-/** Validates image type. Returns a warning if not valid.
+/**
+ * Validates image type. Returns a warning if not valid.
+ * The Gif type is an exception it is a valid type but results a warning.
  *
- * @param {String} image The image object.
- * @returns {String | Boolean} A warning string | true.
+ * @param {Object} image The image object.
+ *
+ * @returns {string | boolean} A warning string | true.
  */
 export const validateType = ( image ) => {
 	const { type } = image;
@@ -69,10 +83,12 @@ export const validateType = ( image ) => {
 };
 
 
-/** Validates if the filesize exceeds 5MB. Returns a warning if not valid.
+/**
+ * Validates if the filesize exceeds 5MB. Returns a warning if not valid.
  *
- * @param {String} image The image object.
- * @returns {String | Boolean} A warning string | true.
+ * @param {string} image The image object.
+ *
+ * @returns {string | boolean} A warning string | true.
  */
 export const validatesBytes = ( image ) => {
 	const { bytes } = image;
@@ -86,7 +102,7 @@ export const validatesBytes = ( image ) => {
 		"Twitter", "5MB",
 	);
 
-	if ( bytes > 5 ) {
+	if ( bytes >= 5 ) {
 		return warningMessage;
 	}
 	return true;
@@ -99,4 +115,3 @@ const validate = validationFactory( [
 ] );
 
 export default validate;
-
