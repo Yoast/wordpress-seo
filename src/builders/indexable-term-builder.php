@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -16,14 +17,30 @@ class Indexable_Term_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 */
+	private $taxonomy;
+
+	/**
+	 * Indexable_Term_Builder constructor.
+	 *
+	 * @param \Yoast\WP\SEO\Helpers\Taxonomy_Helper $taxonomy The taxonomy helper.
+	 */
+	public function __construct(
+		Taxonomy_Helper $taxonomy
+	) {
+		$this->taxonomy = $taxonomy;
+	}
+
+	/**
 	 * Formats the data.
 	 *
 	 * @param int                            $term_id   ID of the term to save data for.
 	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
-	 *
 	 * @throws \Exception If the term could not be found.
+	 *
+	 * @return Indexable The extended indexable.
 	 */
 	public function build( $term_id, $indexable ) {
 		$term = \get_term( $term_id );
@@ -32,17 +49,17 @@ class Indexable_Term_Builder {
 			throw new \Exception( current( array_keys( $term->errors ) ) );
 		}
 
-		$taxonomy  = $term->taxonomy;
-		$term_link = \get_term_link( $term_id, $taxonomy );
+		$term_link = \get_term_link( $term, $term->taxonomy );
 
 		if ( is_wp_error( $term_link ) ) {
 			throw new \Exception( current( array_keys( $term_link->errors ) ) );
 		}
-		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );
 
-		$indexable->object_id       = $term_id;
+		$term_meta = $this->taxonomy->get_term_meta( $term );
+
+		$indexable->object_id       = $term->term_id;
 		$indexable->object_type     = 'term';
-		$indexable->object_sub_type = $taxonomy;
+		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
@@ -51,6 +68,7 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
+		$indexable->is_public = $this->is_public( $indexable );
 
 		$this->reset_social_images( $indexable );
 
@@ -72,6 +90,45 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_nosnippet    = null;
 
 		return $indexable;
+	}
+
+	/**
+	 * Determines the value of is_public.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool Whether or not the term is public.
+	 */
+	protected function is_public( $indexable ) {
+		// Check if the site wide taxonomy configuration is set to not index this taxonomy.
+		$site_wide_is_taxonomy_indexable = $this->taxonomy->is_indexable( $indexable->object_sub_type );
+		if ( $site_wide_is_taxonomy_indexable === false ) {
+			return false;
+		}
+
+		// Check if the term's individual noindex value is set.
+		if ( $indexable->is_robots_noindex === true ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Retrieves the is_robots_noindex value for the given term.
+	 *
+	 * @param string $taxonomy  The term's taxonomy.
+	 * @param array  $term_meta The term's meta data.
+	 *
+	 * @return bool|null Whether the term's no_index
+	 */
+	protected function is_robots_noindex( $taxonomy, $term_meta ) {
+		$site_wide_robots_noindex = ! $this->taxonomy->is_indexable( $taxonomy );
+		if ( $site_wide_robots_noindex === true ) {
+			return true;
+		}
+
+		return $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
 	}
 
 	/**

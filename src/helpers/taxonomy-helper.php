@@ -54,4 +54,16 @@ class Taxonomy_Helper {
 	public function get_term_description( $term_id ) {
 		return $this->string->strip_all_tags( \term_description( $term_id ) );
 	}
+
+	/**
+	 * Retrieves the taxonomy term's meta values.
+	 *
+	 * @param \WP_Term $term Term to get the meta value for.
+	 *
+	 * @return array|bool Array of all the meta data for the term.
+	 *                    False if the term does not exist or the $meta provided is invalid.
+	 */
+	public function get_term_meta( $term ) {
+		return \WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
+	}
 }
