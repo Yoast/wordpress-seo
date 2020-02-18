@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -18,9 +19,18 @@ class Indexable_Author_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
+
+	/**
+	 * The author archive helper.
+	 *
+	 * @var Author_Archive_Helper
+	 */
+	private $author_archive;
 
 	/**
 	 * The indexable repository.
@@ -32,12 +42,15 @@ class Indexable_Author_Builder {
 	/**
 	 * Indexable_Author_Builder constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Options_Helper        $options        The options helper.
+	 * @param Author_Archive_Helper $author_archive The author archive helper.
 	 */
 	public function __construct(
-		Options_Helper $options
+		Options_Helper $options,
+		Author_Archive_Helper $author_archive
 	) {
-		$this->options = $options;
+		$this->options        = $options;
+		$this->author_archive = $author_archive;
 	}
 
 	/**
@@ -107,7 +120,7 @@ class Indexable_Author_Builder {
 		}
 
 		// If so, check whether an author has public posts.
-		return $this->indexable_repository->author_has_public_posts( $indexable->object_id );
+		return $this->author_archive->author_has_public_posts( $indexable->object_id );
 	}
 
 	/**

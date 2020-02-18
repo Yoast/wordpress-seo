@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Exception;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -49,20 +50,30 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	private $hierarchy_repository;
 
 	/**
+	 * The author archive helper.
+	 *
+	 * @var Author_Archive_Helper
+	 */
+	private $author_archive;
+
+	/**
 	 * Indexable_Post_Watcher constructor.
 	 *
 	 * @param Indexable_Repository           $repository           The repository to use.
 	 * @param Indexable_Builder              $builder              The post builder to use.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
+	 * @param Author_Archive_Helper          $author_archive       The author archive helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Indexable_Builder $builder,
-		Indexable_Hierarchy_Repository $hierarchy_repository
+		Indexable_Hierarchy_Repository $hierarchy_repository,
+	    Author_Archive_Helper $author_archive
 	) {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
+		$this->author_archive       = $author_archive;
 	}
 
 	/**
@@ -141,10 +152,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			$post = \get_post( $post_id );
 		}
 
-		// Get the author's public post count.
-		$has_public_posts = $this->repository->author_has_public_posts( $post->post_author );
-
 		try {
+			// Get the author's public post count.
+			$has_public_posts = $this->author_archive->author_has_public_posts( $post->post_author );
+
 			// Get (or create) the indexable for the post's author.
 			$indexable = $this->repository->find_by_id_and_type( $post->post_author, 'user', true );
 
