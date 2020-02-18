@@ -5,7 +5,9 @@ namespace Yoast\WP\SEO\Tests\Builders;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
@@ -36,6 +38,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 			'post_type'     => 'post',
 			'post_status'   => 'publish',
 			'post_password' => '',
+			'post_author'   => '1',
 		] );
 
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
@@ -109,14 +112,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'post_status', 'publish' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_protected', false );
+		$indexable_mock->orm->expects( 'set' )->with( 'author_id', 1 );
 
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'og_image_id' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
-		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'object_sub_type' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
+
+
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'is_protected' )->andReturnFalse();
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( 0 );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'post_status' )->andReturn( 'publish' );
 
 		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
@@ -144,7 +153,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( 'twitter_image.jpg' );
 
 		$builder = new Indexable_Post_Builder(
-			$seo_meta_repository
+			$seo_meta_repository,
+			new Options_Helper()
 		);
 
 		$builder->set_social_image_helpers(

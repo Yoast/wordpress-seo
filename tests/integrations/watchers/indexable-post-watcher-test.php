@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
@@ -41,6 +42,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	private $hierarchy_repository_mock;
 
 	/**
+	 * The author archive helper mock.
+	 * @var Mockery\MockInterface|Author_Archive_Helper
+	 */
+	private $author_archive_mock;
+
+	/**
 	 * @var Indexable_Post_Watcher
 	 */
 	private $instance;
@@ -49,12 +56,14 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository_mock           = Mockery::mock( Indexable_Repository::class );
 		$this->builder_mock              = Mockery::mock( Indexable_Builder::class );
 		$this->hierarchy_repository_mock = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->author_archive_mock       = Mockery::mock( Author_Archive_Helper::class );
 		$this->instance                  = Mockery::mock(
 			Indexable_Post_Watcher::class,
 			[
 				$this->repository_mock,
 				$this->builder_mock,
-				$this->hierarchy_repository_mock
+				$this->hierarchy_repository_mock,
+				$this->author_archive_mock,
 			]
 		)
 			->makePartial()
