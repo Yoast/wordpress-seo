@@ -149,7 +149,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		// Provide stubs.
 		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
-		$this->open_graph_image_mock->allows( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
 
@@ -169,7 +169,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		// Provide stubs.
 		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
-		$this->open_graph_image_mock->allows( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		// When no meta description is stored in the WP_Options...
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
@@ -194,7 +194,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		// We expect open graph image meta data to be set on the Indexable ORM.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		// We expect image meta data to be retrieved from the open graph image helper.
-		$this->open_graph_image_mock->expects( 'get_image_url_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+		$this->open_graph_image_mock->expects( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );

@@ -52,7 +52,7 @@ class Images extends Base_Images {
 	 * @return void
 	 */
 	public function add_image_by_id( $image_id ) {
-		$attachment = $this->open_graph_image->get_image_url_by_id( $image_id );
+		$attachment = $this->open_graph_image->get_image_by_id( $image_id );
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );
