@@ -414,7 +414,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					esc_attr( 'post-type-filter-' . $instance_type )
 				);
 
-				submit_button( esc_html__( 'Filter', 'wordpress-seo' ), 'button', false, false, [ 'id' => 'post-query-submit' ] );
+				submit_button( esc_html__( 'Filter', 'wordpress-seo' ), 'yoast-button yoast-button--secondary', false, false, [ 'id' => 'post-query-submit' ] );
 				echo '</div>';
 			}
 		}
