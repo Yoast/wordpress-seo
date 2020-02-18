@@ -9,6 +9,9 @@
 	--color-dark: #303030;
 	--color-sale: #fec228;
 	--color-sale-darker: #feb601;
+	--color-border: rgba(0,0,0, 0.2);
 
 	--font-size-default: 14px;
+
+	--default-border: 1px solid var(--color-border);
 }
