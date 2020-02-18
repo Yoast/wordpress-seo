@@ -18,6 +18,13 @@ class WPSEO_Addon_Manager {
 	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
 
 	/**
+	 * Holds the name of the transient.
+	 *
+	 * @var string
+	 */
+	const SITE_INFORMATION_TRANSIENT_QUICK = 'wpseo_site_information_quick';
+
+	/**
 	 * Holds the slug for YoastSEO free.
 	 *
 	 * @var string
@@ -347,6 +354,17 @@ class WPSEO_Addon_Manager {
 		// Force re-check on license & dashboard pages.
 		$current_page = $this->get_current_page();
 
+		// Check whether the licenses are valid or whether we need to show notifications.
+		$quick = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+
+		// Also do a fresh request on Plugins & Core Update pages.
+		$quick = $quick || $pagenow === 'plugins.php';
+		$quick = $quick || $pagenow === 'update-core.php';
+
+		if ( $quick ) {
+			return get_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
+		}
+
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
 	}
 
@@ -371,7 +389,8 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	protected function set_site_information_transient( $site_information ) {
-		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, HOUR_IN_SECONDS );
+		set_transient( self::SITE_INFORMATION_TRANSIENT, $site_information, DAY_IN_SECONDS );
+		set_transient( self::SITE_INFORMATION_TRANSIENT_QUICK, $site_information, 60 );
 	}
 
 	/**
