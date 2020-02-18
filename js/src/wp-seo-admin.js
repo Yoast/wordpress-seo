@@ -186,7 +186,7 @@ import { debounce } from "lodash-es";
 		}
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
+		jQuery( "#" + activeTabId + "-tab" ).click();
 	}
 
 	/**
@@ -277,14 +277,14 @@ import { debounce } from "lodash-es";
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+		jQuery( ".yoast-tabs__list-item-link" ).click( function() {
+			jQuery( ".yoast-tabs__list-item-link" ).closest(".yoast-tabs__list-item").removeClass( "yoast-tabs__list-item--active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
 			var activeTab = jQuery( "#" + id );
 			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
+			jQuery( this ).closest(".yoast-tabs__list-item").addClass( "yoast-tabs__list-item--active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
 				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
