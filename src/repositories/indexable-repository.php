@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Cassandra\Index;
 use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -125,15 +126,18 @@ class Indexable_Repository {
 	 *
 	 * @param string $object_type The object type.
 	 *
-	 * @return array The array with all the indexable instances of a certain object type.
+	 * @return Indexable[] The array with all the indexable instances of a certain object type.
 	 */
-	public function find_by_object_type( $object_type ) {
+	public function find_all_with_type( $object_type ) {
 		/**
 		 * The array with all the indexable instances of a certain object type.
 		 *
-		 * @var array $indexables
+		 * @var Indexable[] $indexables
 		 */
-		$indexables = $this->query()->where( 'object_type', $object_type )->find_many();
+		$indexables = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->find_many();
 
 		return $indexables;
 	}
@@ -143,15 +147,18 @@ class Indexable_Repository {
 	 *
 	 * @param string $object_sub_type The object subtype.
 	 *
-	 * @return array The array with all the indexable instances of a certain object subtype.
+	 * @return Indexable[] The array with all the indexable instances of a certain object subtype.
 	 */
-	public function find_by_object_sub_type( $object_sub_type ) {
+	public function find_all_with_sub_type( $object_sub_type ) {
 		/**
 		 * The array with all the indexable instances of a certain object subtype.
 		 *
-		 * @var array $indexables
+		 * @var Indexable[] $indexables
 		 */
-		$indexables = $this->query()->where( 'object_sub_type', $object_sub_type )->find_many();
+		$indexables = $this
+			->query()
+			->where( 'object_sub_type', $object_sub_type )
+			->find_many();
 
 		return $indexables;
 	}
@@ -162,13 +169,13 @@ class Indexable_Repository {
 	 * @param string $object_type     The object type.
 	 * @param string $object_sub_type The object subtype.
 	 *
-	 * @return array The array with all the indexable instances of a certain object subtype.
+	 * @return Indexable[] The array with all the indexable instances of a certain object subtype.
 	 */
-	public function find_by_object_type_and_object_sub_type( $object_type, $object_sub_type ) {
+	public function find_all_with_type_and_sub_type( $object_type, $object_sub_type ) {
 		/**
 		 * The array with all the indexable instances of a certain object type and subtype.
 		 *
-		 * @var array $indexables
+		 * @var Indexable[] $indexables
 		 */
 		$indexables = $this
 			->query()

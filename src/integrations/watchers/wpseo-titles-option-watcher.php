@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Exception;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Rebuilder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -27,18 +28,11 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * The indexable repository.
+	 * The rebuilder object.
 	 *
-	 * @var Indexable_Repository
+	 * @var Indexable_Rebuilder
 	 */
-	protected $repository;
-
-	/**
-	 * The indexable builder.
-	 *
-	 * @var Indexable_Builder
-	 */
-	protected $builder;
+	protected $rebuilder;
 
 	/**
 	 * The post type helper.
@@ -50,13 +44,11 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 	/**
 	 * WPSEO_Titles_Option_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $repository       The repository to use.
-	 * @param Indexable_Builder    $builder          The post builder to use.
-	 * @param Post_Type_Helper     $post_type_helper The post type helper.
+	 * @param Indexable_Rebuilder $rebuilder        The rebuilder to use.
+	 * @param Post_Type_Helper    $post_type_helper The post type helper.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder, Post_Type_Helper $post_type_helper ) {
-		$this->repository       = $repository;
-		$this->builder          = $builder;
+	public function __construct( Indexable_Rebuilder $rebuilder, Post_Type_Helper $post_type_helper ) {
+		$this->rebuilder        = $rebuilder;
 		$this->post_type_helper = $post_type_helper;
 	}
 
@@ -104,7 +96,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			if ( \strpos( $option_key, $term_archive_prefix ) === 0 ) {
 				// The remainder of the option_key is the term archive's object_sub_type.
 				$object_sub_type = \substr( $option_key, \strlen( $term_archive_prefix ) );
-				$this->build_indexables_for_object_type_and_object_sub_type( 'term', $object_sub_type );
+				$this->rebuilder->rebuild_for_type_and_sub_type( 'term', $object_sub_type );
 				continue;
 			}
 
@@ -122,7 +114,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			 * If the option_key is a post type archive and it is not already built.
 			 */
 			if ( $object_sub_type !== false && ! \in_array( $object_sub_type, $post_type_archives_rebuild, true ) ) {
-				$this->build_post_type_archive_indexable( $object_sub_type );
+				$this->rebuilder->rebuild_for_post_type_archive( $object_sub_type );
 				$post_type_archives_rebuild[] = $object_sub_type;
 				continue;
 			}
@@ -136,7 +128,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 				}
 			}
 			if ( $object_sub_type !== false ) {
-				$this->build_indexables_for_object_type_and_object_sub_type( 'post', $object_sub_type );
+				$this->rebuilder->rebuild_for_type_and_sub_type( 'post', $object_sub_type );
 				continue;
 			}
 		}
@@ -157,7 +149,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$this->build_indexables_for_object_type( 'user' );
+		$this->rebuilder->rebuild_for_type( 'user' );
 	}
 
 	/**
@@ -172,59 +164,6 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$this->build_indexables_for_object_type( 'date-archive' );
-	}
-
-	/**
-	 * Builds the post type archive indexable.
-	 *
-	 * @param string $post_type The post type.
-	 *
-	 * @return void
-	 */
-	protected function build_post_type_archive_indexable( $post_type ) {
-		try {
-			$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-			$this->builder->build_for_post_type_archive( $post_type, $indexable );
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
-		}
-	}
-
-	/**
-	 * Builds the indexables for an object type.
-	 *
-	 * @param string $object_type The object type.
-	 *
-	 * @return void
-	 */
-	protected function build_indexables_for_object_type( $object_type ) {
-		try {
-			$indexables = $this->repository->find_by_object_type( $object_type );
-			foreach ( $indexables as $indexable ) {
-				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
-			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
-		}
-	}
-
-	/**
-	 * Builds the indexables that have the given object sub type.
-	 *
-	 * @param string $object_type     The object type.
-	 * @param string $object_sub_type The object sub type.
-	 *
-	 * @return void
-	 */
-	protected function build_indexables_for_object_type_and_object_sub_type( $object_type, $object_sub_type ) {
-		try {
-			$indexables = $this->repository->find_by_object_type_and_object_sub_type( $object_type, $object_sub_type );
-			foreach ( $indexables as $indexable ) {
-				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
-			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
-		}
+		$this->rebuilder->rebuild_for_date_archive();
 	}
 }
