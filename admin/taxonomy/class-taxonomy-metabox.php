@@ -210,8 +210,7 @@ class WPSEO_Taxonomy_Metabox {
 		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
 		 * the values of the social preview are saved in the hidden field.
 		 */
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			$content = $this->hide_form( $content );
 		}
 

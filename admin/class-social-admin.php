@@ -136,8 +136,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
 		 * the values of the social preview are saved in the hidden field.
 		 */
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			return $this->hide_form( $tab_content );
 		}
 
@@ -163,8 +162,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return string The notice HTML on the free version, empty string on premium.
 	 */
 	public function get_premium_notice( $network ) {
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
 			return '';
 		}
 

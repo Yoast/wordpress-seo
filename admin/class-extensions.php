@@ -18,9 +18,15 @@ class WPSEO_Extensions {
 	protected $extensions = [
 		'Yoast SEO Premium' => [
 			'slug'          => 'yoast-seo-premium',
-			'identifier'    => 'wordpress-seo-premium',
+			'identifier'    => 'yoast-seo-premium',
 			'classname'     => 'WPSEO_Premium',
 			'my-yoast-slug' => WPSEO_Addon_Manager::PREMIUM_SLUG,
+		],
+		'Yoast SEO Premium (old)' => [
+			'slug'          => 'yoast-seo-premium',
+			'identifier'    => 'wordpress-seo-premium',
+			'classname'     => 'WPSEO_Premium',
+			'my-yoast-slug' => 'wordpress-seo-premium',
 		],
 		'News SEO' => [
 			'slug'          => 'news-seo',

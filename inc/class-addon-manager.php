@@ -29,7 +29,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @var string
 	 */
-	const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
+	const PREMIUM_SLUG = 'yoast-seo-premium';
 
 	/**
 	 * Holds the slug for Yoast News.
