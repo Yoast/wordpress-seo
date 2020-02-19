@@ -7,13 +7,10 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Exception;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Rebuilder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Watches the wpseo_titles option to save the meta data to the indexables table.
@@ -22,6 +19,7 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -73,6 +71,11 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 		}
 
 		$changed_values = \array_diff_assoc( $old_options, $new_options );
+
+		if ( $changed_values === [] ) {
+			return;
+		}
+
 		$this->check_and_build_author_archive( $changed_values );
 		$this->check_and_build_date_archive( $changed_values );
 
@@ -120,18 +123,14 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			}
 
 			// Is this change for a post type? This should be the last to be checked since the prefix is the least specific.
-			$object_sub_type = false;
 			foreach ( $public_post_types as $public_post_type ) {
 				if ( ( $post_type_prefix . $public_post_type ) === $option_key ) {
-					$object_sub_type = $public_post_type;
-					break;
+					$this->rebuilder->rebuild_for_type_and_sub_type( 'post', $public_post_type );
+					continue;
 				}
 			}
-			if ( $object_sub_type !== false ) {
-				$this->rebuilder->rebuild_for_type_and_sub_type( 'post', $object_sub_type );
-				continue;
-			}
 		}
+
 	}
 
 	/**
