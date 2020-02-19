@@ -538,16 +538,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 				],
 			],
-			[
-				'name' => 'edit-social',
-				'src'  => 'wp-seo-edit-social-' . $flat_version,
-				'deps' => [
-					'wp-plugins',
-					'wp-element',
-					'wp-components',
-					self::PREFIX . 'components',
-				],
-			],
 		];
 	}
 
