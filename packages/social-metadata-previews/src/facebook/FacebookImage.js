@@ -13,9 +13,6 @@ import {
 	FACEBOOK_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
-const MIN_IMAGE_WIDTH = FACEBOOK_IMAGE_SIZES.squareWidth;
-const MIN_IMAGE_HEIGHT = FACEBOOK_IMAGE_SIZES.squareHeight;
-
 const FacebookImageContainer = styled.div`
 	position: relative;
 	height: ${ props => props.dimensions.height };
@@ -47,16 +44,6 @@ const PlaceholderImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-`;
-
-const ErrorImage = styled( PlaceholderImage )`
-	margin: 0;
-	padding: 1em;
-	text-align: center;
-	font-size: 1rem;
-	color: ${ colors.$color_white };
-	background-color: ${ colors.$color_red };
-	border: none;
 `;
 
 /**
@@ -137,22 +124,10 @@ class FacebookImage extends Component {
 	render() {
 		const { imageProperties, status } = this.state;
 
-		if ( status === "loading" || this.props.src === "" ) {
+		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
-		}
-
-		if ( status === "errored" ) {
-			return <ErrorImage>
-				{ __( "The given image url cannot be loaded", "yoast-components" ) }
-			</ErrorImage>;
-		}
-
-		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
-			return <ErrorImage>
-				{ __( "The image you selected is too small for Facebook", "yoast-components" ) }
-			</ErrorImage>;
 		}
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
