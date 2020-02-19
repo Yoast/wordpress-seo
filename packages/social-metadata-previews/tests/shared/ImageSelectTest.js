@@ -2,20 +2,24 @@
 import React from "react";
 import renderer from "react-test-renderer";
 /* Internal dependencies */
-import ImageUpload from "../../src/shared/ImageUpload";
+import ImageSelect from "../../src/shared/ImageSelect";
 
-describe( "<ImageUpload />", () => {
+describe( "<ImageSelect />", () => {
 	it( "renders", () => {
 		const tree = renderer.create(
-			<ImageUpload title="Facebook image" />,
+			<ImageSelect
+				imageSelected={ false }
+				title="Facebook image"
+			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "displays warnings", () => {
 		const tree = renderer.create(
-			<ImageUpload
+			<ImageSelect
 				title="Facebook image"
+				imageSelected={ true }
 				warnings={ [
 					"Your image is too small",
 					"Wow, I like writing tests",

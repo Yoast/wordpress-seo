@@ -5,14 +5,12 @@ import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { SvgIcon } from "@yoast/components";
-
-// Internal dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
+	DescriptionInputContainer,
+	FormSection,
 	SimulatedLabel,
 	TitleInputContainer,
-	DescriptionInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
 } from "../shared";
@@ -20,15 +18,6 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import styled from "styled-components";
-
-export const FormSection = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	margin: 24px 0 0 0;
-`;
 
 /**
  * The replacement variable editor.
@@ -97,8 +86,7 @@ class ReplacementVariableEditor extends React.Component {
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ () => this.triggerReplacementVariableSuggestions() }
 		>
-			<SvgIcon icon="plus-circle" />
-			{ __( "Insert snippet variable", "yoast-components" ) }
+			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
@@ -149,12 +137,21 @@ ReplacementVariableEditor.propTypes = {
 	onFocus: PropTypes.func,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
-	type: PropTypes.oneOf( [ "title", "description" ] ),
+	type: PropTypes.oneOf( [ "title", "description" ] ).isRequired,
 	fieldId: PropTypes.string,
 };
 
 ReplacementVariableEditor.defaultProps = {
+	onFocus: () => {},
+	onBlur: () => {},
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
+	fieldId: "",
+	placeholder: "",
+	label: "",
+	withCaret: false,
+	isHovered: false,
+	isActive: false,
 	editorRef: () => {},
 };
 
