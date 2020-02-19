@@ -40,9 +40,9 @@
 	position: relative;
 	background-color: var(--color-secondary);
 	margin-bottom: 0;
-	border-top: var(--default-border);
-	border-right: var(--default-border);
-	border-left: var(--default-border);
+	border-top: var(--border-default);
+	border-right: var(--border-default);
+	border-left: var(--border-default);
 	box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
 	margin-left: -1px;
 }
@@ -78,7 +78,7 @@
 	}
 
 	.yoast-tabs__list-item {
-		border-bottom: var(--default-border);
+		border-bottom: var(--border-default);
 		margin: 4px;
 	}
 
