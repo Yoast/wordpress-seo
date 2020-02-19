@@ -70,7 +70,10 @@ class WPSEO_Titles_Option_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$changed_values = \array_diff_assoc( $old_options, $new_options );
+		$changed_values = array_merge(
+			\array_diff_assoc( $old_options, $new_options ),
+			\array_diff_assoc( $new_options, $old_options )
+		);
 
 		if ( $changed_values === [] ) {
 			return;
