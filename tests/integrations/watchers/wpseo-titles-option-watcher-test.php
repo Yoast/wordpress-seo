@@ -82,18 +82,20 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests with no array type arguments
+	 * Tests that nothing happens when the arguments are not arrays.
 	 *
 	 * @covers ::check_wpseo_titles
 	 */
 	public function test_check_wpseo_titles_wrong_arguments() {
-		$this->instance->check_wpseo_titles( false, 'string' );
-
 		$this->instance->expects( 'check_and_build_author_archive' )->never();
+
+		$this->instance->check_wpseo_titles( false, [] );
+		$this->instance->check_wpseo_titles( [], 'string' );
+		$this->instance->check_wpseo_titles( false, 'string' );
 	}
 
 	/**
-	 * Tests with no difference between the two arrays.
+	 * Tests that nothing happens without a difference between the two option arguments.
 	 *
 	 * @covers ::check_wpseo_titles
 	 * @covers ::check_and_build_author_archive
@@ -108,7 +110,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests with no changes in the author archive settings.
+	 * Tests that the author archive indexable is not build without a change in the date archive settings.
 	 *
 	 * @covers ::check_wpseo_titles
 	 * @covers ::check_and_build_author_archive
@@ -129,6 +131,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 		$this->rebuilder->expects( 'rebuild_for_type' )->with( 'user' )->never();
 		$this->rebuilder->expects( 'rebuild_for_date_archive' )->once();
 
+		// There have to be other changes in order to get to the date archive part.
 		$this->instance->check_wpseo_titles(
 			[
 				'noindex-archive-wpseo' => '123',
@@ -140,7 +143,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests with no changes in the date archive settings.
+	 * Tests that the date archive indexable is not build without a change in the date archive settings.
 	 *
 	 * @covers ::check_wpseo_titles
 	 * @covers ::check_and_build_author_archive
