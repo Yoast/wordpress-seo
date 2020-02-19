@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph image.
+ * Presenter class for the Open Graph image.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
@@ -36,8 +36,8 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$images = [];
 
-		foreach ( $presentation->og_images as $og_image ) {
-			$images[] = $this->filter( $og_image, $presentation );
+		foreach ( $presentation->open_graph_images as $open_graph_image ) {
+			$images[] = $this->filter( $open_graph_image, $presentation );
 		}
 
 		$images = \array_filter( $images );
@@ -79,9 +79,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	protected function filter( $image, Indexable_Presentation $presentation ) {
 		/**
-		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
+		 * Filter: 'wpseo_opengraph_image' - Allow changing the Open Graph image.
 		 *
-		 * @api string - The URL of the OpenGraph image.
+		 * @api string - The URL of the Open Graph image.
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */

@@ -60,7 +60,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		return $this->url->home();
 	}
 }

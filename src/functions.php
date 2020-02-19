@@ -18,13 +18,14 @@ use Yoast\WP\SEO\Main;
  *
  * @return Main The main instance.
  */
-function yoastseo() {
-	static $main;
+function YoastSEO() { // @codingStandardsIgnoreLine
+ 	static $main;
 
 	if ( $main === null ) {
 		$main = new Main();
-		$main->initialize();
+		$main->load();
 	}
 
 	return $main;
 }
+

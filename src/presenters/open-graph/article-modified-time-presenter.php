@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph article modified time.
+ * Presenter class for the Open Graph article modified time.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
@@ -22,7 +22,7 @@ class Article_Modified_Time_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The article modified time tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$modified_time = $presentation->og_article_modified_time;
+		$modified_time = $presentation->open_graph_article_modified_time;
 
 		if ( \is_string( $modified_time ) && $modified_time !== '' ) {
 			return \sprintf( '<meta property="article:modified_time" content="%s" />', \esc_attr( $modified_time ) );

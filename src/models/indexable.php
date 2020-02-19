@@ -47,12 +47,12 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int     $incoming_link_count
  * @property int     $number_of_pages
  *
- * @property string  $og_title
- * @property string  $og_description
- * @property string  $og_image
- * @property string  $og_image_id
- * @property string  $og_image_source
- * @property string  $og_image_meta
+ * @property string  $open_graph_title
+ * @property string  $open_graph_description
+ * @property string  $open_graph_image
+ * @property string  $open_graph_image_id
+ * @property string  $open_graph_image_source
+ * @property string  $open_graph_image_meta
  *
  * @property string  $twitter_title
  * @property string  $twitter_description

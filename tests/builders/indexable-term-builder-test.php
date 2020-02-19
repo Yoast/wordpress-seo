@@ -53,14 +53,14 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'open_graph_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'open_graph_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'open_graph_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
@@ -77,9 +77,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 75 );
 		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
 
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image_id' );
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image_source' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image_source' );
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image_id' );
 
@@ -106,10 +106,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'wpseo_title'                 => 'title',
 			'wpseo_desc'                  => 'description',
 			'wpseo_bctitle'               => 'breadcrumb_title',
-			'wpseo_opengraph-title'       => 'og_title',
-			'wpseo_opengraph-image'       => 'og_image',
-			'wpseo_opengraph-image-id'    => 'og_image_id',
-			'wpseo_opengraph-description' => 'og_description',
+			'wpseo_opengraph-title'       => 'open_graph_title',
+			'wpseo_opengraph-image'       => 'open_graph_image',
+			'wpseo_opengraph-image-id'    => 'open_graph_image_id',
+			'wpseo_opengraph-description' => 'open_graph_description',
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-image'         => 'twitter_image',
 			'wpseo_twitter-description'   => 'twitter_description',

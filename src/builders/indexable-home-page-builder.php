@@ -58,10 +58,10 @@ class Indexable_Home_Page_Builder {
 
 		$indexable->is_robots_noindex = \get_option( 'blog_public' ) === '0';
 
-		$indexable->og_title       = $this->options->get( 'og_frontpage_title' );
-		$indexable->og_image       = $this->options->get( 'og_frontpage_image' );
-		$indexable->og_image_id    = $this->options->get( 'og_frontpage_image_id' );
-		$indexable->og_description = $this->options->get( 'og_frontpage_desc' );
+		$indexable->open_graph_title       = $this->options->get( 'og_frontpage_title' );
+		$indexable->open_graph_image       = $this->options->get( 'og_frontpage_image' );
+		$indexable->open_graph_image_id    = $this->options->get( 'og_frontpage_image_id' );
+		$indexable->open_graph_description = $this->options->get( 'og_frontpage_desc' );
 
 		return $indexable;
 	}

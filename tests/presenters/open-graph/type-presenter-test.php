@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter
  *
  * @group presenters
+ * @group open-graph
  * @group type-presenter
  */
 class Type_Presenter_Test extends TestCase {
@@ -43,7 +44,7 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->indexable_presentation->og_type = 'article';
+		$this->indexable_presentation->open_graph_type = 'article';
 
 		$expected = '<meta property="og:type" content="article" />';
 		$actual = $this->instance->present( $this->indexable_presentation );
@@ -57,7 +58,7 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_type_is_empty() {
-		$this->indexable_presentation->og_type = '';
+		$this->indexable_presentation->open_graph_type = '';
 
 		$actual = $this->instance->present( $this->indexable_presentation );
 
@@ -72,7 +73,7 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->indexable_presentation->og_type = 'website';
+		$this->indexable_presentation->open_graph_type = 'website';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_type' )
 			->once()

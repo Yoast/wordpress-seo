@@ -55,7 +55,7 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
-	 * The OpenGraph specific presenters.
+	 * The Open Graph specific presenters.
 	 *
 	 * @var array
 	 */

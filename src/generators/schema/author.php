@@ -56,7 +56,7 @@ class Author extends Person {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'author' ) {
+		if ( $context->indexable->object_type === 'user' ) {
 			return true;
 		}
 
@@ -87,7 +87,7 @@ class Author extends Person {
 		$data = $this->build_person_data( $user_id, $context );
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
-		if ( $context->indexable->object_type === 'author' ) {
+		if ( $context->indexable->object_type === 'user' ) {
 			$data['mainEntityOfPage'] = [
 				'@id' => $context->canonical . $this->id->webpage_hash,
 			];
@@ -105,7 +105,7 @@ class Author extends Person {
 	 */
 	protected function determine_user_id( Meta_Tags_Context $context ) {
 		$user_id = (int) $context->post->post_author;
-		if ( $context->indexable->object_type === 'author' ) {
+		if ( $context->indexable->object_type === 'user' ) {
 			$user_id = $context->indexable->object_id;
 		}
 

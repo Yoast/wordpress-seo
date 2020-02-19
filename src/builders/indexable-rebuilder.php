@@ -7,8 +7,14 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Exception;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
+/**
+ * Class Indexable_Rebuilder.
+ *
+ * Contains methods to find and build indexables.
+ */
 class Indexable_Rebuilder {
 
 	/**
@@ -28,6 +34,8 @@ class Indexable_Rebuilder {
 	/**
 	 * Indexable_Rebuilder constructor.
 	 *
+	 * @codeCoverageIgnore No point in testing this constructor without side-effects.
+	 *
 	 * @param Indexable_Repository $repository The repository to use.
 	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
@@ -40,8 +48,6 @@ class Indexable_Rebuilder {
 	 * Rebuilds the indexables for an object type.
 	 *
 	 * @param string $object_type The object type.
-	 *
-	 * @throws \Exception
 	 */
 	public function rebuild_for_type( $object_type ) {
 		try {
@@ -59,8 +65,6 @@ class Indexable_Rebuilder {
 	 *
 	 * @param string $object_type     The object type.
 	 * @param string $object_sub_type The object sub type.
-	 *
-	 * @throws \Exception
 	 */
 	public function rebuild_for_type_and_sub_type( $object_type, $object_sub_type ) {
 		try {
@@ -74,7 +78,9 @@ class Indexable_Rebuilder {
 	}
 
 	/**
-	 * Builds the post type archive indexable.
+	 * Rebuilds the post type archive indexable.
+	 *
+	 * Note: this does build the post type archive indexable, even when it did not exist before.
 	 *
 	 * @param string $post_type The post type.
 	 */
@@ -89,6 +95,8 @@ class Indexable_Rebuilder {
 
 	/**
 	 * Rebuilds the indexable for the date archive.
+	 *
+	 * Note: this does build the date archive indexable, even when it did not exist before.
 	 */
 	public function rebuild_for_date_archive() {
 		try {

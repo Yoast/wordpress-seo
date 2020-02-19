@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph article publisher.
+ * Presenter class for the Open Graph article publisher.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
@@ -23,7 +23,7 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The article publisher tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$article_publisher = $this->filter( $presentation->og_article_publisher, $presentation );
+		$article_publisher = $this->filter( $presentation->open_graph_article_publisher, $presentation );
 
 		if ( \is_string( $article_publisher ) && $article_publisher !== '' ) {
 			return \sprintf( '<meta property="article:publisher" content="%s" />', \esc_attr( $article_publisher ) );
