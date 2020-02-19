@@ -14,7 +14,7 @@ import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple
  * @returns {string} The unique stem.
  */
 const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	for ( const stemSet of morphologyDataNouns.exception.nounExceptionWithTwoStems ) {
+	for ( const stemSet of morphologyDataNouns.exceptions.nounExceptionWithTwoStems ) {
 		const foundStem =  stemSet.find( stem => stemmedWord.endsWith( stem ) );
 		if ( foundStem ) {
 			const precedingLexicalMaterial = stemmedWord.slice( 0, stemmedWord.length - foundStem.length );
