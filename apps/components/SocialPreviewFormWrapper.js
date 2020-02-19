@@ -1,6 +1,7 @@
 import React from "react";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-previews";
 import ExamplesContainer from "./ExamplesContainer";
+import { noop } from "lodash";
 
 const replacementVariables = [
 	{
@@ -34,8 +35,8 @@ const recommendedReplacementVariables = [
 	"post_type",
 ];
 
-const selectFileClick = () => {
-	alert( "YOU CLICKED MY BUTTON!" );
+const selectFileClick = ( message = "YOU CLICKED MY BUTTON!" ) => {
+	return alert.bind( null, message );
 };
 
 const SocialPreviewFormWrapper = () =>
@@ -47,9 +48,10 @@ const SocialPreviewFormWrapper = () =>
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
-			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
-			onTitleChange={ () => {} }
+			onSelectImageClick={ selectFileClick( "select image 1" ) }
+			onRemoveImageClick={ selectFileClick( "remove image 1" ) }
+			onDescriptionChange={ noop }
+			onTitleChange={ noop }
 			imageWarnings={ [] }
 			imageSelected={ false }
 		/>
@@ -60,9 +62,10 @@ const SocialPreviewFormWrapper = () =>
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
-			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
-			onTitleChange={ () => {} }
+			onSelectImageClick={ selectFileClick( "select image 2" ) }
+			onRemoveImageClick={ selectFileClick( "remove image 2" ) }
+			onDescriptionChange={ noop }
+			onTitleChange={ noop }
 			imageWarnings={ [] }
 			imageSelected={ true }
 		/>
@@ -73,9 +76,10 @@ const SocialPreviewFormWrapper = () =>
 			recommendedReplacementVariables={ recommendedReplacementVariables }
 			description=""
 			title="%%title%%%%page%%%%sep%%%%sitename%%"
-			selectFileClick={ selectFileClick }
-			onDescriptionChange={  () => {} }
-			onTitleChange={ () => {} }
+			onSelectImageClick={ selectFileClick( "select image 3" ) }
+			onRemoveImageClick={ selectFileClick( "remove image 3" ) }
+			onDescriptionChange={ noop }
+			onTitleChange={ noop }
 			imageWarnings={ [
 				"You destroyed the world!",
 				"Also, that is not a great image.",
