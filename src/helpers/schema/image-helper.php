@@ -16,11 +16,15 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
  */
 class Image_Helper {
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The Language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;

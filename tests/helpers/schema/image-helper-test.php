@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Helpers\Schema;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -26,19 +27,29 @@ class Image_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper|Mockery\MockInterface
 	 */
 	private $html;
 
 	/**
-	 * Sets up the test.
+	 * The Language helper.
+	 *
+	 * @var Mockery\MockInterface|Languge_Helper
+	 */
+	private $language;
+
+	/**
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->html = Mockery::mock( HTML_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
 
-		$this->instance = new Image_Helper( $this->html );
+		$this->instance = new Image_Helper( $this->html, $this->language );
 	}
 
 	/**
@@ -65,13 +76,21 @@ class Image_Helper_Test extends TestCase {
 				]
 			);
 
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'language';
+				return $data;
+			} );
+
 		$expected = [
-			'@type'   => 'ImageObject',
-			'@id'     => 'https://example.com/#logo',
-			'url'     => 'https://example.com/logo.jpg',
-			'width'   => 256,
-			'height'  => 512,
-			'caption' => 'Company name',
+			'@type'      => 'ImageObject',
+			'@id'        => 'https://example.com/#logo',
+			'url'        => 'https://example.com/logo.jpg',
+			'width'      => 256,
+			'height'     => 512,
+			'caption'    => 'Company name',
+			'inLanguage' => 'language',
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate_from_attachment_id(

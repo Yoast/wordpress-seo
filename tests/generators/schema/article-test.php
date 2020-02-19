@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
@@ -26,37 +27,56 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Article_Test extends TestCase {
 
 	/**
+	 * The Article helper.
+	 *
 	 * @var Mockery\MockInterface|Article_Helper
 	 */
 	private $article;
 
 	/**
+	 * The Date helper.
+	 *
 	 * @var Mockery\MockInterface|Date_Helper
 	 */
 	private $date;
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var Article
 	 */
 	private $instance;
 
 	/**
+	 * The meta tags context object.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $context_mock;
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var Mockery\MockInterface|ID_Helper
 	 */
 	private $id;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var Mockery\MockInterface|HTML_Helper
 	 */
 	private $html;
 
 	/**
-	 * Setup the test.
+	 * The Language helper.
+	 *
+	 * @var Mockery\MockInterface|Languge_Helper
+	 */
+	private $language;
+
+	/**
+	 * Sets up the tests.
 	 */
 	public function setUp() {
 		$this->id                      = Mockery::mock( ID_Helper::class );
@@ -66,7 +86,8 @@ class Article_Test extends TestCase {
 		$this->article                 = Mockery::mock( Article_Helper::class );
 		$this->date                    = Mockery::mock( Date_Helper::class );
 		$this->html                    = Mockery::mock( HTML_Helper::class );
-		$this->instance                = new Article( $this->article, $this->date, $this->html );
+		$this->language                = Mockery::mock( Language_Helper::class );
+		$this->instance                = new Article( $this->article, $this->date, $this->html, $this->language );
 		$this->context_mock            = new Meta_Tags_Context();
 		$this->context_mock->indexable = new Indexable();
 		$this->context_mock->post      = new stdClass();
@@ -199,6 +220,13 @@ class Article_Test extends TestCase {
 			->with( '2345-12-12 23:23:23' )
 			->andReturn( '2345-12-12 23:23:23' );
 
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'language';
+				return $data;
+			} );
+
 		$this->assertEquals(
 			[
 				'@type'            => 'Article',
@@ -213,6 +241,7 @@ class Article_Test extends TestCase {
 				'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
 				'keywords'         => 'Tag1,Tag2',
 				'articleSection'   => 'Category1',
+				'inLanguage'       => 'language',
 			],
 			$this->instance->generate( $this->context_mock )
 		);
