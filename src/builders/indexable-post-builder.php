@@ -10,8 +10,6 @@ namespace Yoast\WP\SEO\Builders;
 use Exception;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Formats the post meta to indexable format.
@@ -27,40 +25,12 @@ class Indexable_Post_Builder {
 	protected $seo_meta_repository;
 
 	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
 	 * Indexable_Post_Builder constructor.
 	 *
 	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
-	 * @param Options_Helper      $options             The options helper.
 	 */
-	public function __construct(
-		SEO_Meta_Repository $seo_meta_repository,
-		Options_Helper $options
-	) {
+	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
-		$this->options             = $options;
-	}
-
-	/**
-	 * @required
-	 *
-	 * Sets the indexable repository. Done to avoid circular dependencies.
-	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 */
-	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -127,7 +97,7 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool Whether or not the post type is public.
+	 * @return bool|null Whether or not the post type is public. Null if no override is set.
 	 */
 	protected function is_public( $indexable ) {
 		if ( $indexable->is_protected ) {
@@ -142,44 +112,11 @@ class Indexable_Post_Builder {
 			return false;
 		}
 
-		if ( $indexable->is_robots_noindex === null && ! \WPSEO_Post_Type::is_post_type_indexable( $indexable->object_sub_type ) ) {
-			return false;
+		if ( $indexable->is_robots_noindex === 0 ) {
+			return true;
 		}
 
-		// Attachments behave differently than the other post types, since they inherit from their parent.
-		if ( $indexable->object_sub_type === 'attachment' ) {
-			return $this->is_public_attachment( $indexable );
-		}
-
-		return true;
-	}
-
-	/**
-	 * Determines the value of is_public for attachments.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool Whether or not the attachment is public.
-	 */
-	protected function is_public_attachment( $indexable ) {
-		// If attachments site-wide are set to noindex, they should not be public.
-		$noindex_attachment = $this->options->get( 'noindex-attachment', false );
-		if ( $noindex_attachment === true ) {
-			return false;
-		}
-
-		// Else, follow the behaviour of the attachment's parent.
-		$parent = get_post( $indexable->object_id );
-
-		// If the attachment has no parent, it should not be public.
-		if ( ! is_object( $parent ) || (int) $parent->post_parent === 0 ) {
-			return false;
-		}
-
-		// Get the parent's value for is_public.
-		$parent_indexable = $this->indexable_repository->find_by_id_and_type( (int) $parent->post_parent, 'post', false );
-
-		return $parent_indexable->is_public;
+		return null;
 	}
 
 	/**

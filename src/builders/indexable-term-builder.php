@@ -17,6 +17,8 @@ class Indexable_Term_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * Holds the taxonomy helper instance.
+	 *
 	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
 	 */
 	private $taxonomy;
@@ -26,9 +28,7 @@ class Indexable_Term_Builder {
 	 *
 	 * @param \Yoast\WP\SEO\Helpers\Taxonomy_Helper $taxonomy The taxonomy helper.
 	 */
-	public function __construct(
-		Taxonomy_Helper $taxonomy
-	) {
+	public function __construct( Taxonomy_Helper $taxonomy ) {
 		$this->taxonomy = $taxonomy;
 	}
 
@@ -68,7 +68,7 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
-		$indexable->is_public = $this->is_public( $indexable );
+		$indexable->is_public = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
 
 		$this->reset_social_images( $indexable );
 
@@ -90,28 +90,6 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_nosnippet    = null;
 
 		return $indexable;
-	}
-
-	/**
-	 * Determines the value of is_public.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool Whether or not the term is public.
-	 */
-	protected function is_public( $indexable ) {
-		// Check if the site wide taxonomy configuration is set to not index this taxonomy.
-		$site_wide_is_taxonomy_indexable = $this->taxonomy->is_indexable( $indexable->object_sub_type );
-		if ( $site_wide_is_taxonomy_indexable === false ) {
-			return false;
-		}
-
-		// Check if the term's individual noindex value is set.
-		if ( $indexable->is_robots_noindex === true ) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

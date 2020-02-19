@@ -7,62 +7,13 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Formats the author meta to indexable format.
  */
 class Indexable_Author_Builder {
 	use Indexable_Social_Image_Trait;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
-	 * The author archive helper.
-	 *
-	 * @var Author_Archive_Helper
-	 */
-	private $author_archive;
-
-	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
-	 * Indexable_Author_Builder constructor.
-	 *
-	 * @param Options_Helper        $options        The options helper.
-	 * @param Author_Archive_Helper $author_archive The author archive helper.
-	 */
-	public function __construct(
-		Options_Helper $options,
-		Author_Archive_Helper $author_archive
-	) {
-		$this->options        = $options;
-		$this->author_archive = $author_archive;
-	}
-
-	/**
-	 * @required
-	 *
-	 * Sets the indexable repository. Done to avoid circular dependencies.
-	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 */
-	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
-	}
 
 	/**
 	 * Formats the data.
@@ -86,41 +37,12 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
-		$indexable->is_public              = $this->is_public( $indexable );
+		$indexable->is_public              = ( $indexable->is_robots_noindex ) ? true : null;
 
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );
 
 		return $indexable;
-	}
-
-	/**
-	 * Determines the value of is_public.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return bool
-	 */
-	protected function is_public( $indexable ) {
-		// Check the robots noindex setting at user level.
-		if ( (int) $indexable->is_robots_noindex === 1 ) {
-			return false;
-		}
-
-		// Check the robots noindex setting site-wide.
-		$is_robots_noindex = $this->options->get( 'noindex-author-wpseo', false );
-		if ( $is_robots_noindex === true ) {
-			return false;
-		}
-
-		// Check whether the author archive should be public for authors without posts.
-		$is_author_without_posts_noindex = $this->options->get( 'noindex-author-noposts-wpseo', false );
-		if ( $is_author_without_posts_noindex === false ) {
-			return true;
-		}
-
-		// If so, check whether an author has public posts.
-		return $this->author_archive->author_has_public_posts( $indexable->object_id );
 	}
 
 	/**
