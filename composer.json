@@ -77,11 +77,6 @@
 		"check-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
-		"premium-check-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
-			"@after-premium-cs"
-		],
 		"check-cs-errors": [
 			"@check-cs -n"
 		],
@@ -93,19 +88,6 @@
 		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
-		],
-		"premium-fix-cs": [
-			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
-			"@after-premium-cs"
-		],
-		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction"
-		],
-		"after-premium-cs": [
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
-			"@php ./scripts/maybe-restore-composer-lock.php",
-			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
 			"composer prefix-ruckusing",
