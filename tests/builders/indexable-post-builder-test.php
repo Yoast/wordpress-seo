@@ -55,10 +55,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_title'                 => [ 'title' ],
 				'_yoast_wpseo_metadesc'              => [ 'description' ],
 				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
-				'_yoast_wpseo_opengraph-title'       => [ 'og_title' ],
-				'_yoast_wpseo_opengraph-image'       => [ 'og_image' ],
-				'_yoast_wpseo_opengraph-image-id'    => [ 'og_image_id' ],
-				'_yoast_wpseo_opengraph-description' => [ 'og_description' ],
+				'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
+				'_yoast_wpseo_opengraph-image'       => [ 'open_graph_image' ],
+				'_yoast_wpseo_opengraph-image-id'    => [ 'open_graph_image_id' ],
+				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
 				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
@@ -77,16 +77,16 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 
-		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1 );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'featured-image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'open_graph_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'open_graph_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'featured-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'open_graph_description' );
 
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
@@ -114,9 +114,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_protected', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'author_id', 1 );
 
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
-		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'og_image_id' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'open_graph_image_id' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'object_sub_type' );

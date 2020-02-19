@@ -85,7 +85,7 @@ class Twitter_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the og_image_id set for an indexable.
+	 * Tests the image id set for an indexable.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable
@@ -102,7 +102,7 @@ class Twitter_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the og_image set for an indexable.
+	 * Tests the image set for an indexable.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_from_indexable

@@ -27,7 +27,7 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_type() {
+	public function generate_open_graph_type() {
 		return 'website';
 	}
 }

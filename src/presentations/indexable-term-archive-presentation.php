@@ -93,10 +93,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_description() {
-		$og_description = parent::generate_og_description();
-		if ( $og_description ) {
-			return $og_description;
+	public function generate_open_graph_description() {
+		$open_graph_description = parent::generate_open_graph_description();
+		if ( $open_graph_description ) {
+			return $open_graph_description;
 		}
 
 		return $this->taxonomy->get_term_description( $this->model->object_id );
@@ -111,7 +111,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
 			return '';
 		}
 

@@ -349,8 +349,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'search-result':
 				$type = 'SearchResultsPage';
 				break;
-			case 'author':
-				$type = 'ProfilePage';
+			case 'user':
+				$type = [ 'ProfilePage', 'WebPage' ];
 				break;
 			case 'home-page':
 			case 'date-archive':

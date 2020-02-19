@@ -169,20 +169,20 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_description() {
-		if ( $this->model->og_description ) {
-			$og_description = $this->model->og_description;
+	public function generate_open_graph_description() {
+		if ( $this->model->open_graph_description ) {
+			$open_graph_description = $this->model->open_graph_description;
 		}
 
-		if ( empty( $og_description ) ) {
-			$og_description = $this->meta_description;
+		if ( empty( $open_graph_description ) ) {
+			$open_graph_description = $this->meta_description;
 		}
 
-		if ( empty( $og_description ) ) {
-			$og_description = $this->post->get_the_excerpt( $this->model->object_id );
+		if ( empty( $open_graph_description ) ) {
+			$open_graph_description = $this->post->get_the_excerpt( $this->model->object_id );
 		}
 
-		return $this->post->strip_shortcodes( $og_description );
+		return $this->post->strip_shortcodes( $open_graph_description );
 	}
 
 	/**
@@ -190,18 +190,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @return array The open graph images.
 	 */
-	public function generate_og_images() {
+	public function generate_open_graph_images() {
 		if ( \post_password_required() ) {
 			return [];
 		}
 
-		return parent::generate_og_images();
+		return parent::generate_open_graph_images();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_type() {
+	public function generate_open_graph_type() {
 		return 'article';
 	}
 
@@ -210,13 +210,13 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph article author.
 	 */
-	public function generate_og_article_author() {
+	public function generate_open_graph_article_author() {
 		$post = $this->source;
 
-		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
+		$open_graph_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
 
-		if ( $og_article_author ) {
-			return $og_article_author;
+		if ( $open_graph_article_author ) {
+			return $open_graph_article_author;
 		}
 
 		return '';
@@ -227,11 +227,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph article publisher.
 	 */
-	public function generate_og_article_publisher() {
-		$og_article_publisher = $this->context->open_graph_publisher;
+	public function generate_open_graph_article_publisher() {
+		$open_graph_article_publisher = $this->context->open_graph_publisher;
 
-		if ( $og_article_publisher ) {
-			return $og_article_publisher;
+		if ( $open_graph_article_publisher ) {
+			return $open_graph_article_publisher;
 		}
 
 		return '';
@@ -242,7 +242,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph article published time.
 	 */
-	public function generate_og_article_published_time() {
+	public function generate_open_graph_article_published_time() {
 		if ( $this->model->object_sub_type !== 'post' ) {
 			/**
 			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
@@ -264,7 +264,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph article modified time.
 	 */
-	public function generate_og_article_modified_time() {
+	public function generate_open_graph_article_modified_time() {
 		if ( $this->source->post_modified_gmt !== $this->source->post_date_gmt ) {
 			return $this->date->format( $this->source->post_modified_gmt );
 		}
@@ -316,7 +316,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		if ( $this->og_description && $this->context->open_graph_enabled === true ) {
+		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
 			return '';
 		}
 

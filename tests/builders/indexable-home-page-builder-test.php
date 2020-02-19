@@ -53,10 +53,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
 		$indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'home_og_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'home_og_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'home_og_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'home_og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 1337 );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 
 		$builder = new Indexable_Home_Page_Builder( $options_mock, $url_mock );
 		$builder->build( $indexable_mock );
@@ -91,10 +91,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'home_og_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'home_og_image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
-		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_title', 'home_og_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'home_og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_id', 1337 );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 
 		$builder = new Indexable_Home_Page_Builder( $options_mock, $url_mock );
 		$builder->build( $indexable_mock );
