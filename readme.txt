@@ -212,24 +212,20 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 13.2 =
 Release Date: March 3rd, 2020
 
-Bugfixes:
-
-* Removes "Check Headers" from the page analysis, as it is no longer available. [#14382](https://github.com/Yoast/wordpress-seo/pull/14382)
-
 Enhancements:
 
-* Adds the capability to view Site Health to the SEO Manager role. [#14314](https://github.com/Yoast/wordpress-seo/pull/14314)
-* Improves the usability of the Ryte indexability Site Health check. [#14339](https://github.com/Yoast/wordpress-seo/pull/14339)
-* Adds error handling for the Ryte indexability status request. [#14372](https://github.com/Yoast/wordpress-seo/pull/14372)
-* Improves the copy for the "cannot be indexed" case of the Ryte indexability Site Health check. [#14336](https://github.com/Yoast/wordpress-seo/pull/14336)
-* Adds a cURL version test to Site Health. [#14149](https://github.com/Yoast/wordpress-seo/pull/14149)
-* Makes sure the Paging comments Site Health check is listed in the Passed tests when it passes. [#14102](https://github.com/Yoast/wordpress-seo/pull/14102)
-* Adds the "Yoast signature" at the bottom of the Site Health checks. [#14210](https://github.com/Yoast/wordpress-seo/pull/14210)
-* Removes remnants of the tagline notice in the Notification Center. [#14373](https://github.com/Yoast/wordpress-seo/pull/14373)
-* Moves the postname in the permalink notification from the SEO Dashboard to Site Health. [#14120](https://github.com/Yoast/wordpress-seo/pull/14120)
-* Moves the Ryte indexability notification and widget from the SEO dashboard to Site Health. [#14123](https://github.com/Yoast/wordpress-seo/pull/14123)
-* Moves the default tagline notification from the SEO Dashboard to Site Health. [#14117](https://github.com/Yoast/wordpress-seo/pull/14117)
-* Adds an ID to the FAQ sections in the front-end output. [#14334](https://github.com/Yoast/wordpress-seo/pull/14334)
+* Adds the capability to view Site Health to the SEO Manager role.
+* Adds a cURL minimal version check to Site Health.
+* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
+* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
+* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
+* Improves the usability of the "Your site is indexable" Site Health check.
+* Adds error handling for the "Your site is indexable" status request.
+* Adds an ID to the FAQ sections in the Schema output.
+
+Bugfixes:
+
+* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
 
 = 13.1 =
 Release Date: February 18th, 2020
