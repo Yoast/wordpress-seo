@@ -35,10 +35,22 @@ const recommendedReplacementVariables = [
 	"post_type",
 ];
 
+/**
+ * Creates a callback that shows an alert dialog.
+ *
+ * @param {string} message The message that should be shown.
+ *
+ * @returns {Function} Callback function.
+ */
 const selectFileClick = ( message = "YOU CLICKED MY BUTTON!" ) => {
 	return alert.bind( null, message );
 };
 
+/**
+ * Renders a react Component.
+ *
+ * @returns {React.Element} The element.
+ */
 const SocialPreviewFormWrapper = () =>
 	<ExamplesContainer>
 		<h1>Regular Facebook</h1>

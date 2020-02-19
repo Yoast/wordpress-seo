@@ -36,16 +36,27 @@ const state = {
 			description: "Facebook Description",
 			errors: [],
 			imageUrl: "http://facebook-image.png",
-			imageId: "",
-			imageType: "square",
+			image: {
+				bytes: null,
+				type: "PNG",
+				height: null,
+				width: null,
+				url: "http://facebook-image.png",
+				id: null,
+			},
 		},
 		twitter: {
 			title: "Twitter Title",
 			description: "Twitter Description",
 			errors: [],
-			imageUrl: "http://twitter-image.png",
-			imageId: "",
-			imageType: "large",
+			image: {
+				bytes: null,
+				type: "JPG",
+				height: null,
+				width: null,
+				url: "http://twitter-image.jpg",
+				id: null,
+			},
 		},
 	},
 };
@@ -85,7 +96,7 @@ describe( selectors.getFacebookImageType, () => {
 	it( "selects the facebook image Type from the state", () => {
 		const actual = selectors.getFacebookImageType( state );
 
-		const expected = "square";
+		const expected = "PNG";
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -117,7 +128,7 @@ describe( selectors.getTwitterImageUrl, () => {
 	it( "selects the twitter image URL from the state", () => {
 		const actual = selectors.getTwitterImageUrl( state );
 
-		const expected = "http://twitter-image.png";
+		const expected = "http://twitter-image.jpg";
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -127,7 +138,7 @@ describe( selectors.getTwitterImageType, () => {
 	it( "selects the twitter image Type from the state", () => {
 		const actual = selectors.getTwitterImageType( state );
 
-		const expected = "large";
+		const expected = "JPG";
 
 		expect( actual ).toEqual( expected );
 	} );

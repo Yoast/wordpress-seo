@@ -9,9 +9,14 @@ const initialState = {
 	title: "",
 	description: "",
 	errors: [],
-	imageUrl: "",
-	imageId: "",
-	imageType: "",
+	image: {
+		bytes: null,
+		type: null,
+		height: null,
+		width: null,
+		url: null,
+		id: null,
+	},
 };
 
 /**
@@ -28,9 +33,9 @@ function socialPreview( state = initialState, action ) {
 		case SET_DESCRIPTION :
 			return { ...state, description: action.description };
 		case SET_IMAGE_URL :
-			return { ...state, imageUrl: action.imageUrl };
+			return { ...state, image: { ...state.image, url: action.imageUrl } };
 		case SET_IMAGE_TYPE :
-			return { ...state, imageType: action.imageType };
+			return { ...state, image: { ...state.image, type: action.imageType } };
 	  default:
 			return state;
 	}

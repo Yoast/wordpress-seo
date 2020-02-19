@@ -7,17 +7,27 @@ const initialState = {
 		title: "",
 		description: "",
 		errors: [],
-		imageUrl: "",
-		imageId: "",
-		imageType: "",
+		image: {
+			bytes: null,
+			type: null,
+			height: null,
+			width: null,
+			url: null,
+			id: null,
+		},
 	},
 	twitter: {
 		title: "",
 		description: "",
 		errors: [],
-		imageUrl: "",
-		imageId: "",
-		imageType: "",
+		image: {
+			bytes: null,
+			type: null,
+			height: null,
+			width: null,
+			url: null,
+			id: null,
+		},
 	},
 };
 
@@ -89,7 +99,7 @@ describe( socialPreviewsReducer, () => {
 		const facebookAction = actions.setSocialPreviewImageUrl( "http://anurl.nl", "facebook" );
 		const expected = {
 			...initialState.facebook,
-			imageUrl: "http://anurl.nl",
+			image: { ...initialState.facebook.image, url: "http://anurl.nl" },
 		};
 
 		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
@@ -98,10 +108,10 @@ describe( socialPreviewsReducer, () => {
 	} );
 	it( "handles the SET_IMAGE_TYPE action for the specific platform", () => {
 		const state = initialState;
-		const facebookAction = actions.setSocialPreviewImageType( "square", "facebook" );
+		const facebookAction = actions.setSocialPreviewImageType( "JPG", "facebook" );
 		const expected = {
 			...initialState.facebook,
-			imageType: "square",
+			image: { ...initialState.facebook.image, type: "JPG" },
 		};
 
 		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
