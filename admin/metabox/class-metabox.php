@@ -831,7 +831,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
-		$asset_manager->enqueue_script( 'edit-social' );
 
 		$asset_manager->enqueue_script( 'post-scraper' );
 		$asset_manager->enqueue_script( 'replacevar-plugin' );
