@@ -7,7 +7,10 @@ import ImageSelect from "../../src/shared/ImageSelect";
 describe( "<ImageSelect />", () => {
 	it( "renders", () => {
 		const tree = renderer.create(
-			<ImageSelect title="Facebook image" />,
+			<ImageSelect
+				imageSelected={ false }
+				title="Facebook image"
+			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
@@ -16,6 +19,7 @@ describe( "<ImageSelect />", () => {
 		const tree = renderer.create(
 			<ImageSelect
 				title="Facebook image"
+				imageSelected={ true }
 				warnings={ [
 					"Your image is too small",
 					"Wow, I like writing tests",
