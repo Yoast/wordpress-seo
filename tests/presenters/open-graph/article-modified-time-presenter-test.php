@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Article_Modified_Time_Presenter_Test extends TestCase {
 
@@ -43,7 +43,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_modified_time = '2019-10-08T12:26:31+00:00';
+		$this->presentation->open_graph_article_modified_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:modified_time" content="2019-10-08T12:26:31+00:00" />';
 		$actual   = $this->instance->present( $this->presentation );
@@ -57,7 +57,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_modified_time() {
-		$this->presentation->og_article_modified_time = '';
+		$this->presentation->open_graph_article_modified_time = '';
 
 		$actual   = $this->instance->present( $this->presentation );
 

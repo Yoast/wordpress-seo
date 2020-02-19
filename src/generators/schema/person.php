@@ -83,7 +83,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		return $context->site_represents === 'person' || $context->indexable->object_type === 'author';
+		return $context->site_represents === 'person' || $context->indexable->object_type === 'user';
 	}
 
 	/**

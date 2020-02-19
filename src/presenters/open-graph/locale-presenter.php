@@ -23,7 +23,7 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The debug close marker.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$locale = $this->filter( $presentation->og_locale, $presentation );
+		$locale = $this->filter( $presentation->open_graph_locale, $presentation );
 		return '<meta property="og:locale" content="' . \esc_attr( $locale ) . '" />';
 	}
 
@@ -37,7 +37,7 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	private function filter( $locale, $presentation ) {
 		/**
-		 * Filter: 'wpseo_og_locale' - Allow changing the Yoast SEO OpenGraph locale.
+		 * Filter: 'wpseo_og_locale' - Allow changing the Yoast SEO Open Graph locale.
 		 *
 		 * @api string The locale string
 		 *

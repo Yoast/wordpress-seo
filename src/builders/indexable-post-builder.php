@@ -162,10 +162,10 @@ class Indexable_Post_Builder {
 			'title'                 => 'title',
 			'metadesc'              => 'description',
 			'bctitle'               => 'breadcrumb_title',
-			'opengraph-title'       => 'og_title',
-			'opengraph-image'       => 'og_image',
-			'opengraph-image-id'    => 'og_image_id',
-			'opengraph-description' => 'og_description',
+			'opengraph-title'       => 'open_graph_title',
+			'opengraph-image'       => 'open_graph_image',
+			'opengraph-image-id'    => 'open_graph_image_id',
+			'opengraph-description' => 'open_graph_description',
 			'twitter-title'         => 'twitter_title',
 			'twitter-image'         => 'twitter_image',
 			'twitter-image-id'      => 'twitter_image_id',
@@ -252,11 +252,11 @@ class Indexable_Post_Builder {
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
 
 		if ( ! empty( $alternative_image['image_id'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image_id     = $alternative_image['image_id'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image_id     = $alternative_image['image_id'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 
-				$this->set_og_image_meta_data( $indexable );
+				$this->set_open_graph_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -267,9 +267,9 @@ class Indexable_Post_Builder {
 		}
 
 		if ( ! empty( $alternative_image['image'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image        = $alternative_image['image'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image        = $alternative_image['image'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -301,16 +301,16 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 */
-	protected function set_og_image_meta_data( Indexable $indexable ) {
-		if ( ! $indexable->og_image_id ) {
+	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
+		if ( ! $indexable->open_graph_image_id ) {
 			return;
 		}
 
-		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+		$image = $this->open_graph_image->get_image_url_by_id( $indexable->open_graph_image_id );
 
 		if ( ! empty( $image ) ) {
-			$indexable->og_image      = $image['url'];
-			$indexable->og_image_meta = wp_json_encode( $image );
+			$indexable->open_graph_image      = $image['url'];
+			$indexable->open_graph_image_meta = wp_json_encode( $image );
 		}
 	}
 }

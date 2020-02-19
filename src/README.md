@@ -31,7 +31,7 @@ src
 ├── presentations       Presentations lazily and polymorphically generate data for presenters to output.
 ├── presenters          Presenters output Presentations. In MVVM, our presenters resemble views, where presentations resemle view models.
 │    ├── debug          Debug marker Presenters
-│    ├── open-graph     OpenGraph Presenters.
+│    ├── open-graph     Open Graph Presenters.
 │    └── twitter        Twitter Presenters.
 ├── repositories        Repositories are injectable services from which I can request ORM Model instances
 ├── wordpress           Contains a WordPress wrapper. @todo move to /wrappers concept.

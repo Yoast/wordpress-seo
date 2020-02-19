@@ -1,6 +1,6 @@
 <?php
 /**
- * Presenter class for the OpenGraph FB app ID.
+ * Presenter class for the Open Graph FB app ID.
  *
  * @package Yoast\YoastSEO\Presenters\Open_Graph
  */
@@ -22,7 +22,7 @@ class FB_App_ID_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The Facebook app ID tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$fb_app_id = $presentation->og_fb_app_id;
+		$fb_app_id = $presentation->open_graph_fb_app_id;
 
 		if ( $fb_app_id !== '' ) {
 			return \sprintf( '<meta property="fb:app_id" content="%s" />', \esc_attr( $fb_app_id ) );
