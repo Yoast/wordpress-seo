@@ -51,8 +51,9 @@ const SocialPreviewFormWrapper = () =>
 			onDescriptionChange={  () => {} }
 			onTitleChange={ () => {} }
 			imageWarnings={ [] }
+			imageSelected={ false }
 		/>
-		<h1>Regular Twitter</h1>
+		<h1>Regular Twitter with selected image</h1>
 		<SocialMetadataPreviewForm
 			socialMediumName="Twitter"
 			replacementVariables={ replacementVariables }
@@ -63,6 +64,7 @@ const SocialPreviewFormWrapper = () =>
 			onDescriptionChange={  () => {} }
 			onTitleChange={ () => {} }
 			imageWarnings={ [] }
+			imageSelected={ true }
 		/>
 		<h1>Twitter with warnings</h1>
 		<SocialMetadataPreviewForm
@@ -79,6 +81,7 @@ const SocialPreviewFormWrapper = () =>
 				"Also, that is not a great image.",
 				"Something else is wrong too...",
 			] }
+			imageSelected={ true }
 		/>
 	</ExamplesContainer>
 ;

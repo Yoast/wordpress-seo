@@ -16,6 +16,7 @@ const SocialMetadataPreviewForm = ( props ) =>
 			title={ `${ props.socialMediumName } image` }
 			onClick={ props.selectFileClick }
 			warnings={ props.imageWarnings }
+			imageSelected={ props.imageSelected }
 		/>
 		<ReplacementVariableEditor
 			onChange={ props.onTitleChange }
@@ -47,6 +48,7 @@ SocialMetadataPreviewForm.propTypes = {
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	imageWarnings: PropTypes.array,
+	imageSelected: PropTypes.bool.isRequired,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
