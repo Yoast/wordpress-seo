@@ -13,5 +13,5 @@
 
 	--font-size-default: 14px;
 
-	--default-border: 1px solid var(--color-border);
+	--border-default: 1px solid var(--color-border);
 }
