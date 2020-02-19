@@ -161,8 +161,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 			// This check is not perfect. The author builder will do additional checks.
 			if ( $indexable->is_public !== $has_public_posts ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
-				$indexable->save();
+				$this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
 			}
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
