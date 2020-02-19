@@ -122,7 +122,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 				[
 					'post',
 					'page',
-					'foo'
+					'foo',
 				]
 			);
 
@@ -154,7 +154,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 				[
 					'post',
 					'page',
-					'foo'
+					'foo',
 				]
 			);
 
@@ -189,7 +189,9 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 				[
 					'post',
 					'page',
-					'foo'
+					'foo',
+					'bar',
+					'baz',
 				]
 			);
 
@@ -198,6 +200,8 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 		$this->rebuilder->expects( 'rebuild_for_post_type_archive' )->with( 'page' )->once();
 		$this->rebuilder->expects( 'rebuild_for_type_and_sub_type' )->with( 'post', 'post' )->once();
 		$this->rebuilder->expects( 'rebuild_for_type_and_sub_type' )->with( 'post', 'page' )->once();
+		$this->rebuilder->expects( 'rebuild_for_type_and_sub_type' )->with( 'post', 'bar' )->once();
+		$this->rebuilder->expects( 'rebuild_for_type_and_sub_type' )->with( 'post', 'baz' )->once();
 		$this->rebuilder->expects( 'rebuild_for_type_and_sub_type' )->with( 'post', 'foo' )->never();
 
 		$this->instance->check_wpseo_titles(
@@ -207,6 +211,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 				'noindex-ptarchive-page'  => '123',
 				'noindex-post'            => '123',
 				'noindex-page'            => '123',
+				'noindex-bar'             => '123',
 			],
 			[
 				'noindex-tax-post_tag'    => '456',
@@ -214,6 +219,7 @@ class WPSEO_Titles_Option_Watcher_Test extends TestCase {
 				'noindex-ptarchive-page'  => '456',
 				'noindex-post'            => '456',
 				'noindex-page'            => '456',
+				'noindex-baz'             => '456',
 			]
 		);
 	}
