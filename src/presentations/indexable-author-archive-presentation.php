@@ -86,13 +86,6 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_twitter_title() {
-		return $this->title;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
 			return $this->model->description;
