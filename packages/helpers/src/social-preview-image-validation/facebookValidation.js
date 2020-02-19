@@ -4,6 +4,8 @@ import { __, sprintf } from "@wordpress/i18n";
 // Internal
 import validationFactory from "./validationFactory";
 
+const MIN_WIDTH = 200;
+const MIN_HEIGHT = 200;
 
 /**
  * Checks if the image dimensions are allowed. If not correct returns a warning.
@@ -21,10 +23,10 @@ export const validateSize = ( image ) => {
 			"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels.",
 			"yoast-components"
 		),
-		200, 200,
+		MIN_WIDTH, MIN_HEIGHT,
 	);
 
-	return ( width < 200 || height < 200 ) ? warningMessage : true;
+	return ( width < MIN_WIDTH || height < MIN_HEIGHT ) ? warningMessage : true;
 };
 
 /**

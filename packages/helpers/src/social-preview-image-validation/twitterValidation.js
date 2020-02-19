@@ -4,6 +4,14 @@ import { __, sprintf } from "@wordpress/i18n";
 // Internal
 import validationFactory from "./validationFactory";
 
+const MAX_WIDTH = 4096;
+const MAX_HEIGHT = 4096;
+
+const MIN_WIDTH_SMALL = 200;
+const MIN_HEIGHT_SMALL = 200;
+
+const MIN_WIDTH_LARGE = 300;
+const MIN_HEIGHT_LARGE = 157;
 
 /**
  * Validates the image dimensions. Returns a warning if not valid.
@@ -15,30 +23,20 @@ import validationFactory from "./validationFactory";
  */
 export const validateSize = ( image, isLarge ) => {
 	const { width, height } = image;
-
-	const warningString = "Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.";
-
-	const warningMessageSmall = sprintf(
-		/* Translators: %d expands to the minimum width, %d expands to the minimum hight,
-		%d expands to the maximum width, %d expands to the maximum hight. */
-		__( warningString, "yoast-components" ),
-		200, 200, 4096, 4096,
+	/* Translators: %d expands to the minimum width, %d expands to the minimum height,
+	%d expands to the maximum width, %d expands to the maximum height. */
+	const warningString = __(
+		"Your image dimensions are not suitable. The minimum dimensions are %dx%d pixels. The maximum dimensions are %dx%d pixels.",
+		"yoast-components"
 	);
 
-	const warningMessageLarge = sprintf(
-		/* Translators: %d expands to the minimum width, %d expands to the minimum hight,
-		%d expands to the maximum width, %d expands to the maximum hight. */
-		__( warningString, "yoast-components" ),
-		300, 157, 4096, 4096,
-	);
+	const isMaximumDimensions = width > MAX_WIDTH || height > MAX_HEIGHT;
 
-	const isMaximumDimensions = width > 4096 || height > 4096;
-
-	if ( isLarge && ( width < 300 || height < 157 || isMaximumDimensions ) ) {
-		return warningMessageLarge;
+	if ( isLarge && ( width < MIN_WIDTH_LARGE || height < MIN_HEIGHT_LARGE || isMaximumDimensions ) ) {
+		return sprintf( warningString, MIN_WIDTH_LARGE, MIN_HEIGHT_LARGE, MAX_WIDTH, MAX_HEIGHT );
 	}
-	if ( width < 200 || height < 200 || isMaximumDimensions ) {
-		return warningMessageSmall;
+	if ( width < MIN_WIDTH_SMALL || height < MIN_HEIGHT_SMALL || isMaximumDimensions ) {
+		return sprintf( warningString, MIN_WIDTH_SMALL, MIN_HEIGHT_SMALL, MAX_WIDTH, MAX_HEIGHT );
 	}
 	return true;
 };
