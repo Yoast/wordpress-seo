@@ -169,16 +169,17 @@ class Indexable_Post_Builder {
 		}
 
 		// Else, follow the behaviour of the attachment's parent.
-		$parent_id = (int) \get_post( $indexable->object_id )->post_parent;
+		$parent = get_post( $indexable->object_id );
 
 		// If the attachment has no parent, it should not be public.
-		if ( $parent_id === 0 ) {
+		if ( ! is_object( $parent ) || (int) $parent->post_parent === 0 ) {
 			return false;
 		}
 
 		// Get the parent's value for is_public.
-		$parent_indexable = $this->indexable_repository->find_by_id_and_type( $parent_id, 'post', false );
-		return (int) $parent_indexable->is_public;
+		$parent_indexable = $this->indexable_repository->find_by_id_and_type( (int) $parent->post_parent, 'post', false );
+
+		return $parent_indexable->is_public;
 	}
 
 	/**
