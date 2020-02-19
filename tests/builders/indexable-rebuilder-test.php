@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group   indexables
  * @group   builders
- * @group   test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Rebuilder
  * @covers ::<!public>
