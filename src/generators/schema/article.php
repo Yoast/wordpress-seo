@@ -19,21 +19,29 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 class Article extends Abstract_Schema_Piece {
 
 	/**
+	 * The article helper.
+	 *
 	 * @var Article_Helper
 	 */
 	private $article;
 
 	/**
+	 * The date helper.
+	 *
 	 * @var Date_Helper
 	 */
 	private $date;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;

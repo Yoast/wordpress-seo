@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 class HowTo extends Abstract_Schema_Piece {
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The schema image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;

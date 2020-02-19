@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 class Website extends Abstract_Schema_Piece {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;

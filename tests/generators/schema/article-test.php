@@ -27,14 +27,14 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Article_Test extends TestCase {
 
 	/**
-	 * The Article helper.
+	 * The article helper.
 	 *
 	 * @var Mockery\MockInterface|Article_Helper
 	 */
 	private $article;
 
 	/**
-	 * The Date helper.
+	 * The date helper.
 	 *
 	 * @var Mockery\MockInterface|Date_Helper
 	 */
@@ -69,7 +69,7 @@ class Article_Test extends TestCase {
 	private $html;
 
 	/**
-	 * The Language helper.
+	 * The language helper.
 	 *
 	 * @var Mockery\MockInterface|Languge_Helper
 	 */
@@ -96,7 +96,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the if needed method
+	 * Tests the if needed method.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -114,7 +114,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the if needed method
+	 * Tests the if needed method with no post.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -128,7 +128,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the if needed method
+	 * Tests the if needed method with no article post type.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -146,7 +146,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the if needed method
+	 * Tests the if needed method when the site doesn't represent a person or organization.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -161,7 +161,7 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the generate function.
+	 * Tests the generate method.
 	 *
 	 * @covers ::__construct
 	 * @covers ::generate

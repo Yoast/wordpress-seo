@@ -23,7 +23,7 @@ class Image_Helper {
 	private $html;
 
 	/**
-	 * The Language helper.
+	 * The language helper.
 	 *
 	 * @var Language_Helper
 	 */

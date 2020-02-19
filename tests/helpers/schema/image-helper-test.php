@@ -34,7 +34,7 @@ class Image_Helper_Test extends TestCase {
 	private $html;
 
 	/**
-	 * The Language helper.
+	 * The language helper.
 	 *
 	 * @var Mockery\MockInterface|Languge_Helper
 	 */
@@ -53,7 +53,7 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the generate_from_attachment_id function.
+	 * Tests the generate_from_attachment_id method.
 	 *
 	 * @covers ::generate_from_attachment_id
 	 * @covers ::generate_object

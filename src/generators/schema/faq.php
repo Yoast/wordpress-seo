@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 class FAQ extends Abstract_Schema_Piece {
 
 	/**
+	 * The article helper.
+	 *
 	 * @var Article_Helper
 	 */
 	private $article;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;

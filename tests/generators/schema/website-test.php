@@ -43,7 +43,7 @@ class Website_Test extends TestCase {
 	private $html;
 
 	/**
-	 * The Language helper.
+	 * The language helper.
 	 *
 	 * @var Language_Helper|Mockery\MockInterface
 	 */
@@ -78,7 +78,7 @@ class Website_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the generate function.
+	 * Tests the generate method.
 	 *
 	 * @covers ::generate
 	 * @covers ::add_alternate_name

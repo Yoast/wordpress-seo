@@ -22,21 +22,29 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 class WebPage extends Abstract_Schema_Piece {
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The date helper.
+	 *
 	 * @var Date_Helper
 	 */
 	private $date;
 
 	/**
+	 * The language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;
