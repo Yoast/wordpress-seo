@@ -68,7 +68,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		Indexable_Repository $repository,
 		Indexable_Builder $builder,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
-	    Author_Archive_Helper $author_archive
+		Author_Archive_Helper $author_archive
 	) {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
@@ -84,11 +84,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
 		\add_action( 'wpseo_save_indexable', [ $this, 'updated_indexable' ], \PHP_INT_MAX, 2 );
 
-		// To check whether the is_public column for authors without posts should be updated.
-		\add_action( 'wp_insert_post', [ $this, 'build_indexable_for_author_without_posts' ], \PHP_INT_MAX, 2 );
-		\add_action( 'delete_post', [ $this, 'build_indexable_for_author_without_posts' ], \PHP_INT_MAX );
-
-		\add_action( 'edit_attachment',[ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'edit_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'add_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_attachment', [ $this, 'delete_indexable' ] );
 	}
@@ -103,69 +99,19 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	public function delete_indexable( $post_id ) {
 		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 
-		if ( ! $indexable ) {
+		// Only interested in post indexables.
+		if ( ! $indexable || $indexable->object_type !== 'post' ) {
 			return;
 		}
 
 		if ( $indexable->is_public ) {
-			$this->update_relations( get_post( $post_id ) );
+			$this->update_relations( \get_post( $post_id ) );
 		}
+
+		$this->update_has_public_posts( $indexable );
 
 		$this->hierarchy_repository->clear_ancestors( $indexable->id );
 		$indexable->delete();
-	}
-
-	/**
-	 * Saves post meta.
-	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return void
-	 */
-	public function build_indexable( $post_id ) {
-		// Bail if this is a multisite installation and the site has been switched.
-		if ( \is_multisite() && \ms_is_switched() ) {
-			return;
-		}
-
-		if ( ! $this->is_post_indexable( $post_id ) ) {
-			return;
-		}
-
-		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
-		$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
-		$indexable->save();
-	}
-
-	/**
-	 * Builds the author indexable.
-	 *
-	 * Looks at the public post count for this author to determine whether the indexable should be rebuilt.
-	 *
-	 * @param int      $post_id The post ID.
-	 * @param \WP_Post $post    Optional. The post instance.
-	 *
-	 * @return void
-	 */
-	public function build_indexable_for_author_without_posts( $post_id, $post = null ) {
-		if ( $post === null ) {
-			$post = \get_post( $post_id );
-		}
-
-		try {
-			// Get the author's public post count.
-			$has_public_posts = $this->author_archive->author_has_public_posts( $post->post_author );
-
-			// Get (or create) the indexable for the post's author.
-			$indexable = $this->repository->find_by_id_and_type( $post->post_author, 'user', true );
-
-			// This check is not perfect. The author builder will do additional checks.
-			if ( $indexable->is_public !== $has_public_posts ) {
-				$this->builder->build_for_id_and_type( $indexable->object_id, 'user', $indexable );
-			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
-		}
 	}
 
 	/**
@@ -175,6 +121,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param Indexable $old_indexable     The old indexable.
 	 */
 	public function updated_indexable( $updated_indexable, $old_indexable ) {
+		// Only interested in post indexables.
 		if ( $updated_indexable->object_type !== 'post' ) {
 			return;
 		}
@@ -183,6 +130,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
 			$this->update_relations( \get_post( $updated_indexable->object_id ) );
 		}
+
+		$this->update_has_public_posts( $updated_indexable );
 	}
 
 	/**
@@ -202,6 +151,81 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Saves post meta.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return void
+	 */
+	public function build_indexable( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( \is_multisite() && \ms_is_switched() ) {
+			return;
+		}
+
+		if ( ! $this->is_post_indexable( $post_id ) ) {
+			return;
+		}
+
+		try {
+			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
+			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
+			$indexable->save();
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Updates the has_public_posts when the post indexable is built.
+	 *
+	 * Note: We only want to update `has_public_posts`. We do not do this in the builder for performance reasons.
+	 *
+	 * @param Indexable $indexable The indexable to check.
+	 */
+	protected function update_has_public_posts( $indexable ) {
+		/*
+		 * For attachments the `has_public_posts` represents whether:
+		 * - The attachment has a post parent.
+		 * - The attachment inherits the post status.
+		 * - The post parent is public.
+		 */
+		if ( $indexable->object_sub_type === 'attachment' ) {
+			$attachment = \get_post( $indexable->object_id );
+			if ( ! is_object( $attachment ) ) {
+				return;
+			}
+
+			$post_parent_indexable = false;
+			if ( $attachment->post_parent !== 0 ) {
+				try {
+					$post_parent_indexable = $this->repository->find_by_id_and_type( $attachment->post_parent, 'post' );
+				} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+					// Do nothing.
+				}
+			}
+
+			$has_public_posts = $post_parent_indexable && $post_parent_indexable->is_public && $attachment->post_status === 'inherit';
+
+			// This check prevents a infinite loop due to saving the attachment again.
+			if ( $indexable->has_public_posts !== $has_public_posts ) {
+				$indexable->has_public_posts = $has_public_posts;
+				$indexable->save();
+			}
+
+			return;
+		}
+
+		try {
+			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
+			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
+			$author_indexable->save();
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// Do nothing.
+		}
 	}
 
 	/**

@@ -225,7 +225,7 @@ class Indexable_Builder {
 		if ( $indexable_before ) {
 			/**
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-			 * when the indexable is udated.
+			 * when the indexable is updated.
 			 *
 			 * @api   Indexable The saved indexable.
 			 * @param Indexable The indexable before saving.
