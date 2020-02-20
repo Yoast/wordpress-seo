@@ -71,4 +71,15 @@ class Current_Page_Surface {
 
 		return $meta_tags_context->presentation->robots;
 	}
+
+	/**
+	 * Returns the presentation of the current page.
+	 *
+	 * @return \Yoast\WP\SEO\Presentations\Indexable_Presentation The presentation.
+	 */
+	public function get_presentation() {
+		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
+
+		return $meta_tags_context->presentation;
+	}
 }
