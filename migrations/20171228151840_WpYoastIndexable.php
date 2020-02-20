@@ -54,10 +54,11 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
 		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		// Post metadata (status, public, protected).
+		// Post metadata: status, public, protected.
 		$indexable_table->column( 'post_status', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'is_public', 'boolean', [ 'default' => true ] );
 		$indexable_table->column( 'is_protected', 'boolean', [ 'default' => false ] );
+		$indexable_table->column( 'has_public_posts', 'boolean', [ 'default' => false ] );
 
 		$indexable_table->column(
 			'number_of_pages',

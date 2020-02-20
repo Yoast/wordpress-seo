@@ -66,6 +66,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property boolean $is_public
  * @property boolean $is_protected
  * @property string  $post_status
+ * @property boolean $has_public_posts
  */
 class Indexable extends Yoast_Model {
 
