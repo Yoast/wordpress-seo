@@ -4,9 +4,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies */
-import { colors } from "@yoast/style-guide";
-
 /* Internal dependencies */
 import {
 	determineImageProperties,
@@ -70,11 +67,6 @@ const BaseImage = styled.div`
 	${ props => injectCardDependentStyles( props.isLarge, false ) }
 `;
 
-const ErrorImage = styled( BaseImage )`
-	color: ${ colors.$color_white };
-	background-color: ${ colors.$color_red };
-`;
-
 const PlaceholderImage = styled( BaseImage )`
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
@@ -135,16 +127,10 @@ export default class TwitterImage extends React.Component {
 	render() {
 		const { imageProperties, status } = this.state;
 
-		if ( status === "loading" || this.props.src === "" ) {
+		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return <PlaceholderImage isLarge={ this.props.isLarge }>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
-		}
-
-		if ( status === "errored" ) {
-			return <ErrorImage>
-				{ __( "The given image url cannot be loaded", "yoast-components" ) }
-			</ErrorImage>;
 		}
 
 		return <TwitterImageContainer
