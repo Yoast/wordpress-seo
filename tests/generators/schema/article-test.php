@@ -7,6 +7,7 @@ use Mockery;
 use stdClass;
 use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
@@ -56,6 +57,13 @@ class Article_Test extends TestCase {
 	private $html;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Helper
+	 */
+	private $post;
+
+	/**
 	 * Setup the test.
 	 */
 	public function setUp() {
@@ -66,7 +74,8 @@ class Article_Test extends TestCase {
 		$this->article                 = Mockery::mock( Article_Helper::class );
 		$this->date                    = Mockery::mock( Date_Helper::class );
 		$this->html                    = Mockery::mock( HTML_Helper::class );
-		$this->instance                = new Article( $this->article, $this->date, $this->html );
+		$this->post                    = Mockery::mock( Post_Helper::class );
+		$this->instance                = new Article( $this->article, $this->date, $this->html, $this->post );
 		$this->context_mock            = new Meta_Tags_Context();
 		$this->context_mock->indexable = new Indexable();
 		$this->context_mock->post      = new stdClass();
@@ -140,14 +149,13 @@ class Article_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the generate function.
+	 * Tests the generate method.
 	 *
 	 * @covers ::__construct
 	 * @covers ::generate
 	 */
 	public function test_generate() {
 		$this->context_mock->id                      = 5;
-		$this->context_mock->title                   = 'the-title </script><script>alert(0)</script><script>'; // Script is here to test script injection
 		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->has_image               = true;
 		$this->context_mock->post->post_author       = '3';
@@ -155,9 +163,14 @@ class Article_Test extends TestCase {
 		$this->context_mock->post->post_modified_gmt = '2345-12-12 23:23:23';
 
 		$this->id->expects( 'get_user_schema_id' )
-							 ->once()
-							 ->with( '3', $this->context_mock )
-							 ->andReturn( 'https://permalink#author-id-hash' );
+			 ->once()
+			 ->with( '3', $this->context_mock )
+			 ->andReturn( 'https://permalink#author-id-hash' );
+
+		$this->post->expects( 'get_post_title_with_fallback' )
+			->once()
+			->with( $this->context_mock->id )
+			->andReturn( 'the-title </script><script>alert(0)</script><script>' ); // Script is here to test script injection
 
 		$this->html->expects( 'smart_strip_tags' )
 			->once()

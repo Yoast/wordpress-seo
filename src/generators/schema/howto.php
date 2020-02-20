@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -29,17 +30,27 @@ class HowTo extends Abstract_Schema_Piece {
 	private $image;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	private $post;
+
+	/**
 	 * HowTo constructor.
 	 *
 	 * @param HTML_Helper  $html  The HTML helper.
 	 * @param Image_Helper $image The schema image helper.
+	 * @param Post_Helper  $post  The post helper.
 	 */
 	public function __construct(
 		HTML_Helper $html,
-		Image_Helper $image
+		Image_Helper $image,
+		Post_Helper $post
 	) {
 		$this->html  = $html;
 		$this->image = $image;
+		$this->post  = $post;
 	}
 
 	/**
@@ -67,7 +78,7 @@ class HowTo extends Abstract_Schema_Piece {
 			$data = [
 				'@type'            => 'HowTo',
 				'@id'              => $context->canonical . '#howto-' . ( $index + 1 ),
-				'name'             => $this->html->smart_strip_tags( $context->title ),
+				'name'             => $this->html->smart_strip_tags( $this->post->get_post_title_with_fallback( $context->id ) ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];

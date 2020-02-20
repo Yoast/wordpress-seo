@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 
 /**
  * Returns schema Article data.
@@ -33,16 +34,25 @@ class Article extends Abstract_Schema_Piece {
 	private $html;
 
 	/**
+	 * The post helper.
+	 *
+	 * @var Post_Helper
+	 */
+	private $post;
+
+	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article The article helper.
 	 * @param Date_Helper    $date    The date helper.
 	 * @param HTML_Helper    $html    The HTML helper.
+	 * @param Post_Helper    $post    The post helper.
 	 */
-	public function __construct( Article_Helper $article, Date_Helper $date, HTML_Helper $html ) {
+	public function __construct( Article_Helper $article, Date_Helper $date, HTML_Helper $html, Post_Helper $post ) {
 		$this->article = $article;
 		$this->date    = $date;
 		$this->html    = $html;
+		$this->post    = $post;
 	}
 
 	/**
@@ -84,7 +94,7 @@ class Article extends Abstract_Schema_Piece {
 			'@id'              => $context->canonical . $this->id->article_hash,
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id->webpage_hash ],
 			'author'           => [ '@id' => $this->id->get_user_schema_id( $context->post->post_author, $context ) ],
-			'headline'         => $this->html->smart_strip_tags( $context->title ),
+			'headline'         => $this->html->smart_strip_tags( $this->post->get_post_title_with_fallback( $context->id ) ),
 			'datePublished'    => $this->date->format( $context->post->post_date_gmt ),
 			'dateModified'     => $this->date->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
