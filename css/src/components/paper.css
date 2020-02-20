@@ -1,0 +1,9 @@
+.yoast-paper {
+	position: relative;
+	padding: 24px;
+	background: white;
+	margin-bottom: 32px;
+	width: 100%;
+	box-shadow: var(--shadow-default);
+	border: var(--border-default);
+}

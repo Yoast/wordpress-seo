@@ -153,10 +153,10 @@ $new_tab_message         = sprintf(
 				</ul>
 			<?php endif; ?>
 			<?php if ( $extension_list->is_installed( $premium_extension->get_title() ) ) : ?>
-				<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
+				<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 				<?php if ( $has_valid_premium_subscription ) : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
+					<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
 					   class="yoast-link--license">
 						<?php
@@ -171,7 +171,7 @@ $new_tab_message         = sprintf(
 						?>
 					</a>
 				<?php else : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
+					<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
 					   class="yoast-link--license">
 						<?php
@@ -190,7 +190,7 @@ $new_tab_message         = sprintf(
 			<?php else : ?>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
-				   class="yoast-button-upsell">
+				   class="yoast-button yoast-button--buy">
 					<?php
 					printf(
 					/* translators: $s expands to Yoast SEO Premium */
@@ -200,7 +200,7 @@ $new_tab_message         = sprintf(
 					);
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
-					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+					echo '<span aria-hidden="true" class="yoast-button--buy__caret"></span>';
 					?>
 				</a>
 
@@ -229,35 +229,32 @@ $new_tab_message         = sprintf(
 
 		<hr class="yoast-hr" aria-hidden="true"/>
 
-		<section class="yoast-promo-extensions">
-			<h2>
-				<?php
-				/* translators: 1: expands to Yoast SEO */
-				$yoast_seo_extensions = sprintf( esc_html__( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
-				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
+		<h2>
+			<?php
+			/* translators: 1: expands to Yoast SEO */
+			$yoast_seo_extensions = sprintf( esc_html__( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
+			$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
 
-				printf(
-				/* translators: 1: expands to Yoast SEO extensions */
-					esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ),
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
-					$yoast_seo_extensions
-				);
-				?>
-			</h2>
+			printf(
+			/* translators: 1: expands to Yoast SEO extensions */
+				esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ),
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
+				$yoast_seo_extensions
+			);
+			?>
+		</h2>
+
+		<section class="yoast-promo-extensions">
 
 			<?php foreach ( $extensions as $slug => $extension ) : ?>
 				<section class="yoast-card">
-					<header class="yoast-card__header">
-						<div class="yoast-card__image">
-							<img alt="" width="100" height="100"
-								 src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
-						</div>
-
+					<div class="yoast-card__image">
+						<img alt="" src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
+					</div>
+					<div class="yoast-card__content">
 						<h2 class="yoast-card__title">
 							<?php echo esc_html( $extension->get_display_title() ); ?>
 						</h2>
-					</header>
-					<div class="yoast-card__content">
 						<ul class="yoast-list--usp">
 							<?php foreach ( $extension->get_benefits() as $benefit ) : ?>
 								<li><?php echo esc_html( $benefit ); ?></li>
@@ -267,12 +264,12 @@ $new_tab_message         = sprintf(
 
 					<footer class="yoast-card__footer">
 						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
-							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed">
+							<div class="yoast-label yoast-label--active">
 								<?php esc_html_e( 'Installed', 'wordpress-seo' ); ?>
 							</div>
 
 							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>
-								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated">
+								<div class="yoast-label yoast-label--active">
 									<?php esc_html_e( 'Activated', 'wordpress-seo' ); ?>
 								</div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
@@ -280,16 +277,15 @@ $new_tab_message         = sprintf(
 									<?php
 									printf(
 									/* translators: %s expands to the extension title */
-										esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
-										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-										$extension->get_title()
+										esc_html__( 'Manage your subscription on MyYoast', 'wordpress-seo' ),
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class
 									);
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;
 									?>
 								</a>
 							<?php else : ?>
-								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated">
+								<div class="yoast-label yoast-label--inactive">
 									<?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?>
 								</div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
@@ -318,7 +314,7 @@ $new_tab_message         = sprintf(
 								);
 								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
-								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+								echo '<span aria-hidden="true" class="yoast-button--buy__caret"></span>';
 								?>
 							</a>
 
