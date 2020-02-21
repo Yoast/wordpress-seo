@@ -22,13 +22,5 @@ class Site_Helper {
 	public function get_site_name() {
 		return WPSEO_Utils::get_site_name();
 	}
-
-	/**
-	 * Retrieves the site's language.
-	 *
-	 * @return string|void
-	 */
-	public function get_language() {
-		return \get_bloginfo( 'language' );
-	}
+	
 }
