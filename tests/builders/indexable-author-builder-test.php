@@ -69,7 +69,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
@@ -126,7 +126,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 

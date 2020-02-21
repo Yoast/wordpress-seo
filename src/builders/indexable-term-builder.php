@@ -93,23 +93,6 @@ class Indexable_Term_Builder {
 	}
 
 	/**
-	 * Retrieves the is_robots_noindex value for the given term.
-	 *
-	 * @param string $taxonomy  The term's taxonomy.
-	 * @param array  $term_meta The term's meta data.
-	 *
-	 * @return bool|null Whether the term's no_index
-	 */
-	protected function is_robots_noindex( $taxonomy, $term_meta ) {
-		$site_wide_robots_noindex = ! $this->taxonomy->is_indexable( $taxonomy );
-		if ( $site_wide_robots_noindex === true ) {
-			return true;
-		}
-
-		return $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
-	}
-
-	/**
 	 * Converts the meta noindex value to the indexable value.
 	 *
 	 * @param string $meta_value Term meta to base the value on.

@@ -86,8 +86,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'object_sub_type' )->andReturn( 'category' );
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'is_robots_noindex' )->andReturn( true );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
 
 		$image            = Mockery::mock( Image_Helper::class );
@@ -114,7 +113,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 			'wpseo_twitter-image'         => 'twitter_image',
 			'wpseo_twitter-description'   => 'twitter_description',
 		] );
-		$taxonomy->expects( 'is_indexable' )->once()->with( 'category' )->andReturn( true );
 
 		$builder = new Indexable_Term_Builder( $taxonomy );
 

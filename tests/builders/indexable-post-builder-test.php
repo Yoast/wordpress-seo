@@ -109,7 +109,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'link_count', 5 );
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
 		$indexable_mock->orm->expects( 'set' )->with( 'number_of_pages', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'post_status', 'publish' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_protected', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'author_id', 1 );
@@ -119,7 +119,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'open_graph_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'object_sub_type' );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'object_sub_type' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
 
