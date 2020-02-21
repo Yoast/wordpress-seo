@@ -22,5 +22,5 @@ class Site_Helper {
 	public function get_site_name() {
 		return WPSEO_Utils::get_site_name();
 	}
-	
+
 }
