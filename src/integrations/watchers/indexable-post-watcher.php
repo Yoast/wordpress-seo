@@ -302,7 +302,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Tests if the site is multisite and switched.
 	 *
-	 * @return bool True when is multisite and switched
+	 * @return bool True when the site is multisite and switched
 	 */
 	protected function is_multisite_and_switched() {
 		return \is_multisite() && \ms_is_switched();
