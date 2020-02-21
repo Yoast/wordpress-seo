@@ -28,16 +28,21 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the indexable repository.
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * Represents the indexable builder.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
 	 */
 	private $builder;
 
 	/**
+	 * Represents the hierarchy repository.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Hierarchy_Repository
 	 */
 	private $hierarchy_repository;
@@ -204,6 +209,55 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the build indexable functionality for a multisite that has been switched.
+	 *
+	 * @covers ::build_indexable
+	 * @covers ::is_multisite_and_switched
+	 */
+	public function test_build_indexable_is_multisite_and_switched() {
+		$id = 1;
+
+		$this->instance
+			->expects( 'is_multisite_and_switched' )
+			->once()
+			->andReturnTrue();
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->never()
+			->with( $id, 'post', false );
+
+		$this->instance->build_indexable( $id );
+	}
+
+	/**
+	 * Tests the build_indexable functionality with an exception being thrown.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_with_thrown_exception() {
+		$id = 1;
+
+		$this->instance
+			->expects( 'is_multisite_and_switched' )
+			->once()
+			->andReturnFalse();
+
+		$this->instance
+			->expects( 'is_post_indexable' )
+			->with( 1 )
+			->once()
+			->andReturnTrue();
+
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->never();
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andThrow( \Exception::class );
+
+		$this->instance->build_indexable( $id );
+	}
+
+	/**
 	 * Tests the save meta functionality.
 	 *
 	 * @covers ::build_indexable
@@ -302,13 +356,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::update_has_public_posts
 	 */
 	public function test_update_has_public_posts_with_post() {
-		$instance = new Indexable_Post_Watcher_Double(
-			$this->repository,
-			$this->builder,
-			$this->hierarchy_repository,
-			$this->author_archive
-		);
-
 		$post_indexable                  = Mockery::mock();
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
@@ -320,7 +367,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->author_archive->expects( 'author_has_public_posts' )->with( 11 )->once()->andReturn( true );
 		$author_indexable->expects( 'save' )->once();
 
-		$instance->update_has_public_posts( $post_indexable );
+		$this->instance->update_has_public_posts( $post_indexable );
 
 		$this->assertTrue( $author_indexable->has_public_posts );
 	}
@@ -331,13 +378,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::update_has_public_posts
 	 */
 	public function test_update_has_public_posts_with_post_throwing_exceptions() {
-		$instance = new Indexable_Post_Watcher_Double(
-			$this->repository,
-			$this->builder,
-			$this->hierarchy_repository,
-			$this->author_archive
-		);
-
 		$post_indexable                  = Mockery::mock();
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
@@ -345,7 +385,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->with( 1, 'user' )->once()->andThrow( new \Exception() );
 		$this->author_archive->expects( 'author_has_public_posts' )->never();
 
-		$instance->update_has_public_posts( $post_indexable );
+		$this->instance->update_has_public_posts( $post_indexable );
 	}
 
 	/**
@@ -490,4 +530,165 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->attachment_has_public_posts( 1337, $indexable ) );
 	}
+
+	/**
+	 * Tests the routine for updating the relations.
+	 *
+	 * @covers ::update_relations
+	 */
+	public function test_update_relations() {
+		$post = (object) [
+			'post_author' => 1,
+			'post_type'   => 'post',
+			'ID'          => 1,
+		];
+
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->is_public = true;
+		$indexable->expects( 'save' )->once();
+
+		$this->instance
+			->expects( 'get_related_indexables' )
+			->once()
+			->with( $post )
+			->andReturn( [ $indexable ] ) ;
+
+		$this->instance->update_relations( $post );
+	}
+
+	/**
+	 * Tests the routine for updating the relations.
+	 *
+	 * @covers ::update_relations
+	 */
+	public function test_update_relations_with_a_non_public_indexable() {
+		$post = (object) [
+			'post_author' => 1,
+			'post_type'   => 'post',
+			'ID'          => 1,
+		];
+
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->is_public = false;
+		$indexable->expects( 'save' )->never();
+
+		$this->instance
+			->expects( 'get_related_indexables' )
+			->once()
+			->with( $post )
+			->andReturn( [ $indexable ] ) ;
+
+		$this->instance->update_relations( $post );
+	}
+
+	/**
+	 * Tests the routine for updating the relations with no related indexables found.
+	 *
+	 * @covers ::update_relations
+	 */
+	public function test_update_relations_with_no_indexables_found() {
+		$post = (object) [
+			'post_author' => 1,
+			'post_type'   => 'post',
+			'ID'          => 1,
+		];
+
+		$this->instance
+			->expects( 'get_related_indexables' )
+			->once()
+			->with( $post )
+			->andReturn( [] ) ;
+
+		$this->instance->update_relations( $post );
+	}
+
+	/**
+	 * Tests the retrieval of the related indexables for a post.
+	 *
+	 * @covers ::get_related_indexables
+	 */
+	public function test_get_releated_indexables() {
+		$post = (object) [
+			'post_author' => 1,
+			'post_type'   => 'post',
+			'ID'          => 1,
+		];
+
+		Monkey\Functions\expect( 'get_post_taxonomies' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				[
+					'taxonomy',
+					'another-taxonomy'
+				]
+			);
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( 'taxonomy' )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( 'another-taxonomy' )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'get_the_terms' )
+			->once()
+			->with( 1, 'taxonomy' )
+			->andReturn(
+				[
+					(object) [
+						'term_id' => 1337,
+					],
+					(object) [
+						'term_id' => 1414,
+					],
+				]
+			);
+
+		Monkey\Functions\expect( 'get_the_terms' )
+			->once()
+			->with( 1, 'another-taxonomy' )
+			->andReturnNull();
+
+		$indexable = Mockery::mock( Indexable::class );
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'user', false )
+			->andReturn( $indexable );
+
+		$this->repository
+			->expects( 'find_for_post_type_archive' )
+			->once()
+			->with( 'post', false )
+			->andReturn( $indexable );
+
+		$this->repository
+			->expects( 'find_for_home_page' )
+			->once()
+			->with( false )
+			->andReturn( $indexable );
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1337, 'term', false )
+			->andReturn( $indexable );
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1414, 'term', false )
+			->andReturnNull();
+
+		$this->assertEquals(
+			[ $indexable, $indexable, $indexable, $indexable ],
+			$this->instance->get_related_indexables( $post )
+		);
+	}
+
 }

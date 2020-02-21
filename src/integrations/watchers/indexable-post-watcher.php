@@ -162,7 +162,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
-		if ( \is_multisite() && \ms_is_switched() ) {
+		if ( $this->is_multisite_and_switched() ) {
 			return;
 		}
 
@@ -251,6 +251,27 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param \WP_Post $post The post that has been updated.
 	 */
 	protected function update_relations( $post ) {
+		$related_indexables = $this->get_related_indexables( $post );
+
+		$updated_at = \gmdate( 'Y-m-d H:i:s' );
+		foreach ( $related_indexables as $indexable ) {
+			if ( ! $indexable->is_public ) {
+				continue;
+			}
+
+			$indexable->updated_at = $updated_at;
+			$indexable->save();
+		}
+	}
+
+	/**
+	 * Retrieves the related indexables for given post.
+	 *
+	 * @param \WP_Post $post The post to get the indexables for.
+	 *
+	 * @return Indexable[] The indexables.
+	 */
+	protected function get_related_indexables( $post ) {
 		/**
 		 * The related indexables.
 		 *
@@ -266,7 +287,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = \get_the_terms( $post->ID, $taxonomy );
 
-			if ( empty( $terms ) ) {
+			if ( empty( $terms ) || is_wp_error( $terms ) ) {
 				continue;
 			}
 
@@ -275,16 +296,15 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			}
 		}
 
-		$related_indexables = \array_filter( $related_indexables );
+		return \array_filter( $related_indexables );
+	}
 
-		$updated_at = \gmdate( 'Y-m-d H:i:s' );
-		foreach ( $related_indexables as $indexable ) {
-			if ( ! $indexable->is_public ) {
-				continue;
-			}
-
-			$indexable->updated_at = $updated_at;
-			$indexable->save();
-		}
+	/**
+	 * Tests if the site is multisite and switched.
+	 *
+	 * @return bool True when is multisite and switched
+	 */
+	protected function is_multisite_and_switched() {
+		return \is_multisite() && \ms_is_switched();
 	}
 }
