@@ -607,7 +607,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::get_related_indexables
 	 */
-	public function test_get_releated_indexables() {
+	public function test_get_related_indexables() {
 		$post = (object) [
 			'post_author' => 1,
 			'post_type'   => 'post',
