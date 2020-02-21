@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -19,27 +20,41 @@ use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 class HowTo extends Abstract_Schema_Piece {
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The schema image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The language helper.
+	 *
+	 * @var Language_Helper
+	 */
+	private $language;
+
+	/**
 	 * HowTo constructor.
 	 *
-	 * @param HTML_Helper  $html  The HTML helper.
-	 * @param Image_Helper $image The schema image helper.
+	 * @param HTML_Helper     $html     The HTML helper.
+	 * @param Image_Helper    $image    The schema image helper.
+	 * @param Language_Helper $language The language helper.
 	 */
 	public function __construct(
 		HTML_Helper $html,
-		Image_Helper $image
+		Image_Helper $image,
+		Language_Helper $language
 	) {
-		$this->html  = $html;
-		$this->image = $image;
+		$this->html     = $html;
+		$this->image    = $image;
+		$this->language = $language;
 	}
 
 	/**
@@ -78,6 +93,8 @@ class HowTo extends Abstract_Schema_Piece {
 
 			$this->add_duration( $data, $block['attrs'] );
 			$this->add_steps( $data, $block['attrs']['steps'], $context );
+
+			$data = $this->language->add_piece_language( $data );
 
 			$graph[] = $data;
 		}
