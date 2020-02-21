@@ -148,7 +148,7 @@ class Images_Test extends TestCase {
 			->andReturn( 1337 );
 
 		$this->instance
-			->expects( 'get_image_url_by_id' )
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturn( 'image.jpg' );
