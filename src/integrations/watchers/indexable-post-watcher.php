@@ -199,16 +199,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				return;
 			}
 
-			$post_parent_indexable = false;
-			if ( $attachment->post_parent !== 0 ) {
-				try {
-					$post_parent_indexable = $this->repository->find_by_id_and_type( $attachment->post_parent, 'post' );
-				} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-					// Do nothing.
-				}
-			}
-
-			$has_public_posts = $post_parent_indexable && $post_parent_indexable->is_public && $attachment->post_status === 'inherit';
+			$has_public_posts = $this->attachment_has_public_posts( (int) $attachment->post_parent, $indexable );
 
 			// This check prevents a infinite loop due to saving the attachment again.
 			if ( $indexable->has_public_posts !== $has_public_posts ) {
@@ -226,6 +217,32 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
+	}
+
+	/**
+	 * Checks if given attachment has any public posts.
+	 *
+	 * @param int       $parent_id The parent post id.
+	 * @param Indexable $indexable The indexable for the attachment.
+	 *
+	 * @return bool True when has public parent indexable.
+	 */
+	protected function attachment_has_public_posts( $parent_id, Indexable $indexable ) {
+		if ( $parent_id === 0 ) {
+			return false;
+		}
+
+		if ( $indexable->post_status !== 'inherit' ) {
+			return false;
+		}
+
+		try {
+			$post_parent_indexable = $this->repository->find_by_id_and_type( $parent_id, 'post' );
+		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			return false;
+		}
+
+		return $post_parent_indexable->is_public;
 	}
 
 	/**

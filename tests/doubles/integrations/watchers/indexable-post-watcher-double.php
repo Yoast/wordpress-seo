@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles;
 
+use Yoast\WP\SEO\Models\Indexable;
+
 /**
  * Class Indexable_Post_Watcher_Double.
  *
@@ -14,5 +16,12 @@ class Indexable_Post_Watcher_Double extends \Yoast\WP\SEO\Integrations\Watchers\
 	 */
 	public function update_has_public_posts( $indexable ) {
 		parent::update_has_public_posts( $indexable );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function attachment_has_public_posts( $parent_id, Indexable $indexable ) {
+		return parent::attachment_has_public_posts( $parent_id, $indexable );
 	}
 }
