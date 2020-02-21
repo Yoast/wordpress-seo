@@ -225,7 +225,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param int       $parent_id The parent post id.
 	 * @param Indexable $indexable The indexable for the attachment.
 	 *
-	 * @return bool True when has public parent indexable.
+	 * @return bool True when the parent indexable has is_public set to true.
 	 */
 	protected function attachment_has_public_posts( $parent_id, Indexable $indexable ) {
 		if ( $parent_id === 0 ) {
@@ -238,7 +238,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		try {
 			$post_parent_indexable = $this->repository->find_by_id_and_type( $parent_id, 'post' );
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+		} catch ( Exception $exception ) {
 			return false;
 		}
 
