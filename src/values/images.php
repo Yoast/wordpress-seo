@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Images {
 
 	/**
+	 * The image size.
+	 *
 	 * @var string
 	 */
 	public $image_size = 'full';
