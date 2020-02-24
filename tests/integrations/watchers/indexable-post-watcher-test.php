@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -29,6 +30,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * Represents the indexable repository.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $repository;
@@ -62,6 +64,13 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	private $post;
+
+	/**
 	 * Initializes the test mocks.
 	 */
 	public function setUp() {
@@ -69,6 +78,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->author_archive       = Mockery::mock( Author_Archive_Helper::class );
+		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Post_Watcher_Double::class,
 			[
@@ -76,6 +86,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 				$this->builder,
 				$this->hierarchy_repository,
 				$this->author_archive,
+				$this->post,
 			]
 		)
 			->makePartial()
@@ -131,7 +142,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable );
 		$this->hierarchy_repository->expects( 'clear_ancestors' )->once()->with( $id )->andReturn( true );
 
-		Monkey\Functions\expect( 'get_post' )->once()->with( $id )->andReturn( $post );
+		$this->post->expects( 'get_post' )->once()->with( $id )->andReturn( $post );
 
 		$this->instance
 			->expects( 'update_relations' )
@@ -338,7 +349,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$updated_indexable->is_public   = false;
 		$updated_indexable->object_id   = 1;
 
-		Monkey\Functions\expect( 'get_post' )
+		$this->post->expects( 'get_post' )
 			->once()
 			->with( 1 )->andReturn( [] );
 
@@ -400,7 +411,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable->expects( 'save' )->never();
 
-		Monkey\Functions\expect( 'get_post' )
+		$this->post->expects( 'get_post' )
 			->once()
 			->with( 1337 )
 			->andReturn( false );
@@ -420,7 +431,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable->expects( 'save' )->once();
 
-		Monkey\Functions\expect( 'get_post' )
+		$this->post->expects( 'get_post' )
 			->once()
 			->with( 1337 )
 			->andReturn(
@@ -453,7 +464,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable->expects( 'save' )->never();
 
-		Monkey\Functions\expect( 'get_post' )
+		$this->post->expects( 'get_post' )
 			->once()
 			->with( 1337 )
 			->andReturn(

@@ -15,6 +15,22 @@ use WP_Block_Parser_Block;
 class Blocks_Helper {
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	private $post;
+
+	/**
+	 * Constructs a Blocks_Helper instance.
+	 *
+	 * @param Post_Helper $post The post helper.
+	 */
+	public function __construct( Post_Helper $post ) {
+		$this->post = $post;
+	}
+
+	/**
 	 * Returns all blocks in a given post.
 	 *
 	 * @param int $post_id The post id.
@@ -26,7 +42,7 @@ class Blocks_Helper {
 			return [];
 		}
 
-		$post = \get_post( $post_id );
+		$post = $this->post->get_post( $post_id );
 		return $this->get_all_blocks_from_content( $post->post_content );
 	}
 

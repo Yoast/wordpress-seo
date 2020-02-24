@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Exception;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
@@ -25,12 +26,21 @@ class Indexable_Post_Builder {
 	protected $seo_meta_repository;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post;
+
+	/**
 	 * Indexable_Post_Builder constructor.
 	 *
 	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
+	 * @param Post_Helper         $post                The post helper.
 	 */
-	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
+	public function __construct( SEO_Meta_Repository $seo_meta_repository, Post_Helper $post ) {
 		$this->seo_meta_repository = $seo_meta_repository;
+		$this->post                = $post;
 	}
 
 	/**
@@ -42,7 +52,7 @@ class Indexable_Post_Builder {
 	 * @return Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
-		$post = \get_post( $post_id );
+		$post = $this->post->get_post( $post_id );
 
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';

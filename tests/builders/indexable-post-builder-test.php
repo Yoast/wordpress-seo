@@ -2,12 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Builders;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
-use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
@@ -33,14 +32,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		Monkey\Functions\expect( 'get_post' )->once()->with( 1 )->andReturn( (object) [
-			'post_content'  => 'The content of the post',
-			'post_type'     => 'post',
-			'post_status'   => 'publish',
-			'post_password' => '',
-			'post_author'   => '1',
-		] );
-
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
 			[
@@ -152,10 +143,16 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'twitter_image.jpg' );
 
-		$builder = new Indexable_Post_Builder(
-			$seo_meta_repository,
-			new Options_Helper()
-		);
+		$post = Mockery::mock( Post_Helper::class );
+		$post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [
+			'post_content'  => 'The content of the post',
+			'post_type'     => 'post',
+			'post_status'   => 'publish',
+			'post_password' => '',
+			'post_author'   => '1',
+		] );
+
+		$builder = new Indexable_Post_Builder( $seo_meta_repository, $post );
 
 		$builder->set_social_image_helpers(
 			$image,

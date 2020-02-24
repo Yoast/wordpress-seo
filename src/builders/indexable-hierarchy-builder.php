@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Post;
 use WP_Term;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -41,20 +42,30 @@ class Indexable_Hierarchy_Builder {
 	private $options;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	private $post;
+
+	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
 	 * @param Primary_Term_Repository        $primary_term_repository        The primary term repository.
 	 * @param Options_Helper                 $options                        The options helper.
+	 * @param Post_Helper                    $post                           The post helper.
 	 */
 	public function __construct(
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
 		Primary_Term_Repository $primary_term_repository,
-		Options_Helper $options
+		Options_Helper $options,
+		Post_Helper $post
 	) {
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
 		$this->primary_term_repository        = $primary_term_repository;
 		$this->options                        = $options;
+		$this->post                           = $post;
 	}
 
 	/**
@@ -99,7 +110,7 @@ class Indexable_Hierarchy_Builder {
 	 * @return void
 	 */
 	private function add_ancestors_for_post( $indexable_id, $post_id, $depth = 1 ) {
-		$post = \get_post( $post_id );
+		$post = $this->post->get_post( $post_id );
 
 		if ( ! isset( $post->post_parent ) ) {
 			return;

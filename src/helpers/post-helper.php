@@ -53,11 +53,22 @@ class Post_Helper {
 	/**
 	 * Retrieves the post type of the current post.
 	 *
-	 * @param WP_Post $post The post.
+	 * @param \WP_Post $post The post.
 	 *
 	 * @return string|false          Post type on success, false on failure.
 	 */
 	public function get_post_type( $post = null ) {
 		return \get_post_type( $post );
+	}
+
+	/**
+	 * Retrieves post data given a post ID.
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return \WP_Post|null The post.
+	 */
+	public function get_post( $post_id ) {
+		return \get_post( $post_id );
 	}
 }

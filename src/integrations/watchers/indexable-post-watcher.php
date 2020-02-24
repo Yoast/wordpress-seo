@@ -11,6 +11,7 @@ use Exception;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
@@ -57,23 +58,33 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	private $author_archive;
 
 	/**
+	 * Holds the Post_Helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	private $post;
+
+	/**
 	 * Indexable_Post_Watcher constructor.
 	 *
 	 * @param Indexable_Repository           $repository           The repository to use.
 	 * @param Indexable_Builder              $builder              The post builder to use.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
 	 * @param Author_Archive_Helper          $author_archive       The author archive helper.
+	 * @param Post_Helper                    $post                 The post helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Indexable_Builder $builder,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
-		Author_Archive_Helper $author_archive
+		Author_Archive_Helper $author_archive,
+		Post_Helper $post
 	) {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->author_archive       = $author_archive;
+		$this->post                 = $post;
 	}
 
 	/**
@@ -105,7 +116,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		if ( $indexable->is_public ) {
-			$this->update_relations( \get_post( $post_id ) );
+			$this->update_relations( $this->post->get_post( $post_id ) );
 		}
 
 		$this->update_has_public_posts( $indexable );
@@ -128,7 +139,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		// When the indexable is public or has a change in its public state.
 		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
-			$this->update_relations( \get_post( $updated_indexable->object_id ) );
+			$this->update_relations( $this->post->get_post( $updated_indexable->object_id ) );
 		}
 
 		$this->update_has_public_posts( $updated_indexable );
@@ -194,7 +205,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		 * - The post parent is public.
 		 */
 		if ( $indexable->object_sub_type === 'attachment' ) {
-			$attachment = \get_post( $indexable->object_id );
+			$attachment = $this->post->get_post( $indexable->object_id );
 			if ( ! is_object( $attachment ) ) {
 				return;
 			}
