@@ -1,0 +1,46 @@
+:root {
+    --color-label: #303030;
+    --color-label-help: #707070;
+
+    --transition-default: all 150ms ease-out;
+}
+
+.yoast-field-group {
+    position: relative;
+    margin-bottom: 24px;
+    border:none;
+    padding:0;
+}
+
+.yoast-field-group__title {
+    display: block;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 8px;
+    color: var(--color-label);
+    line-height: 1.2;
+}
+
+
+.yoast-field-group__help {
+    border-radius: 50%;
+    padding: 4px;
+    width: 12px;
+    height: 12px;
+}
+
+.yoast-field-group__help-icon svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--color-label-help);
+    transition: var(--transition-default);
+}
+
+.yoast-field-group__help:hover svg {
+    fill: var(--color-link);
+}
+
+.yoast-field-group .description{
+    margin: 0;
+}
+
+

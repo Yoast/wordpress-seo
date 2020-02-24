@@ -1,0 +1,13 @@
+[class*="yoast-"] {
+    box-sizing: border-box;
+}
+
+
+/* Mobile focus state needs work, leave this until fixed */
+
+[class*="yoast-"]:focus {
+    box-shadow: 0 0 0 3px #bfdfff;
+    border: 2px solid #007fff;
+    border-radius: 0;
+    outline: none;
+}
