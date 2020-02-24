@@ -130,7 +130,7 @@ class Yoast_Form {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
 			echo '<div id="wpseo-submit-container">';
 
-      submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
+			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
       
 			$settings_changed_listener->show_success_message();
 
