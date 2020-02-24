@@ -5,6 +5,7 @@ import getMorphologyData from "../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataDe = getMorphologyData( "de" );
 
 describe( "test to check url for keyword", function() {
 	it( "returns simple matches", function() {
@@ -94,14 +95,14 @@ describe( "test to check url for keyword", function() {
 	it( "returns matches with special diacritics rules for German", function() {
 		const paper = new Paper( "", { url: "http://local.wordpress.test/natuerlich/ ‎", keyword: "natürlich", locale: "de_DE" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataDe );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics differences for German", function() {
 		const paper = new Paper( "", { url: "http://local.wordpress.test/naturlich/ ‎", keyword: "natürlich", locale: "de_DE" } );
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataDe );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
 
