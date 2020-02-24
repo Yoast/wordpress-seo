@@ -23,9 +23,9 @@ abstract class Abstract_Indexable_Presenter {
 	protected $replace_vars;
 
 	/**
-	 * @required
-	 *
 	 * Sets the replace vars helper, used by DI.
+	 *
+	 * @required
 	 *
 	 * @param \WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 */

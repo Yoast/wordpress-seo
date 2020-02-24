@@ -27,6 +27,8 @@ class Redirects implements Integration_Interface {
 	protected $options;
 
 	/**
+	 * The meta helper.
+	 *
 	 * @var Meta_Helper
 	 */
 	protected $meta;
