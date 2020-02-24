@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Builders;
 use Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
 /**
@@ -24,6 +25,13 @@ class Indexable_Post_Builder {
 	 * @var SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
 
 	/**
 	 * Holds the Post_Helper instance.
@@ -41,6 +49,17 @@ class Indexable_Post_Builder {
 	public function __construct( SEO_Meta_Repository $seo_meta_repository, Post_Helper $post ) {
 		$this->seo_meta_repository = $seo_meta_repository;
 		$this->post                = $post;
+	}
+
+	/**
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
 	}
 
 	/**
@@ -114,19 +133,45 @@ class Indexable_Post_Builder {
 			return false;
 		}
 
-		if ( (int) $indexable->is_robots_noindex === 1 ) {
+		if ( $indexable->is_robots_noindex === true ) {
 			return false;
+		}
+
+		// Attachments behave differently than the other post types, since they inherit from their parent.
+		if ( $indexable->object_sub_type === 'attachment' ) {
+			return $this->is_public_attachment( $indexable );
 		}
 
 		if ( ! \in_array( $indexable->post_status, $this->is_public_post_status(), true ) ) {
 			return false;
 		}
 
-		if ( $indexable->is_robots_noindex === 0 ) {
+		if ( $indexable->is_robots_noindex === false ) {
 			return true;
 		}
 
 		return null;
+	}
+
+	/**
+	 * Determines the value of is_public for attachments.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool|null Whether or not the attachment is public. Null when the parent post has no override.
+	 */
+	protected function is_public_attachment( $indexable ) {
+		// Follow the behaviour of the attachment's parent.
+		$parent_id = (int) $this->post->get_post( $indexable->object_id )->post_parent;
+
+		// If the attachment has no parent, it should not be public.
+		if ( $parent_id === 0 ) {
+			return false;
+		}
+
+		// Get the parent's value for is_public.
+		$parent_indexable = $this->indexable_repository->find_by_id_and_type( $parent_id, 'post' );
+		return $parent_indexable->is_public;
 	}
 
 	/**

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -115,7 +116,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'is_protected' )->andReturnFalse();
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( 0 );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( null );
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'object_sub_type' )->andReturn( 'post' );
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'post_status' )->andReturn( 'publish' );
 
 		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
