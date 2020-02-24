@@ -1,0 +1,38 @@
+{
+  "name": "@yoast/replacement-variable-editor",
+  "version": "1.0.0",
+  "private": false,
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/replacement-variable-editor"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=67",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "testRegex": ".*Test.js$",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@yoast/style-guide": "^0.11.1"
+  }
+}

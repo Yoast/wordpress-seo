@@ -1,9 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Alert } from "@yoast/components";
-import {
-	SimulatedLabel, StandardButton,
-} from "@yoast/search-metadata-previews/src/shared";
+import { Alert, SimulatedLabel } from "@yoast/components";
+import { StandardButton } from "@yoast/replacement-variable-editor";
 import { __ } from "@wordpress/i18n";
 import styled from "styled-components";
 

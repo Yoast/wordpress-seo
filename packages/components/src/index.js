@@ -43,7 +43,7 @@ export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
 export { default as KeywordSuggestions } from "./KeywordSuggestions";
-export { default as Label } from "./Label";
+export { default as Label, SimulatedLabel } from "./Label";
 export { default as LanguageNotice, languageNoticePropType } from "./LanguageNotice";
 export { default as Loader } from "./Loader";
 export { default as MultiStepProgress } from "./MultiStepProgress";
@@ -73,6 +73,7 @@ export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
 export { default as WordOccurrences } from "./WordOccurrences";
 export { default as Checkbox } from "./Checkbox";
+export { VariableEditorInputContainer } from "./input/InputContainer";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

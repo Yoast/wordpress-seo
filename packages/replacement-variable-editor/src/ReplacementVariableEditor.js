@@ -6,14 +6,14 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
+import { withCaretStyles } from "@yoast/style-guide";
 import {
 	DescriptionInputContainer,
 	FormSection,
 	SimulatedLabel,
 	TitleInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
-	withCaretStyles,
-} from "../shared";
+} from "./shared";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
