@@ -111,6 +111,8 @@ class WPSEO_Health_Check_Test extends TestCase {
 	public function test_get_test_result() {
 		$this->instance->shouldReceive( 'run' )->once();
 
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$this->assertEquals(
 			[
 				'label'       => '',
@@ -120,7 +122,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 					'color' => 'green',
 				],
 				'description' => '',
-				'actions'     => '',
+				'actions'     => '<p class="yoast-site-health__signature"><img src="images/Yoast_SEO_Icon.svg" alt="" height="20" width="20" class="yoast-site-health__signature-icon">This was reported by the Yoast SEO plugin</p>',
 				'test'        => '',
 			],
 			$this->instance->get_test_result()

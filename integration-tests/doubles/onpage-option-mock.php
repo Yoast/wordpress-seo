@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class OnPage_Option_Mock extends WPSEO_OnPage_Option {
+class Ryte_Option_Mock extends WPSEO_Ryte_Option {
 
 	private $enabled;
 

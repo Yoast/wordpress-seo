@@ -26,21 +26,6 @@
 	jQuery( document ).ready( displayConsoleNotifications );
 
 	/**
-	 * Used to dismiss the tagline notice for a specific user.
-	 *
-	 * @param {string} nonce Nonce for verification.
-	 *
-	 * @returns {void}
-	 */
-	function wpseoDismissTaglineNotice( nonce ) {
-		jQuery.post( ajaxurl, {
-			action: "wpseo_dismiss_tagline_notice",
-			_wpnonce: nonce,
-		}
-		);
-	}
-
-	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
 	 * @param {string} option The option to ignore.
@@ -121,7 +106,7 @@
 			} );
 		} );
 	} );
-	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
+
 	window.wpseoSetIgnore = wpseoSetIgnore;
 	window.wpseoDismissLink = wpseoDismissLink;
 

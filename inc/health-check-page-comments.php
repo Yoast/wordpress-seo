@@ -25,8 +25,7 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			$this->label          = esc_html__( 'Comments are displayed on a single page', 'wordpress-seo' );
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
-			$this->description    = esc_html__( 'Comments on your posts are displayed on a single page. Breaking comments into multiple pages is not needed in 999 out of 1000 cases. We recommend to display all comments on the same page.', 'wordpress-seo' );
-			$this->add_yoast_signature();
+			$this->description    = esc_html__( 'Comments on your posts are displayed on a single page. This is just like we\'d suggest it. You\'re doing well!', 'wordpress-seo' );
 			return;
 		}
 
@@ -40,7 +39,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
 		);
-		$this->add_yoast_signature();
 	}
 
 	/**

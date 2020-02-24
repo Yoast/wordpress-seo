@@ -32,7 +32,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		// Form fields.
 		'disableadvanced_meta'            => true,
-		'onpage_indexability'             => true,
+		'ryte_indexability'               => true,
 		'baiduverify'                     => '', // Text field.
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
@@ -330,7 +330,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// For the feature variables, set their values to off in case they are disabled.
 		$feature_vars = [
 			'disableadvanced_meta'       => false,
-			'onpage_indexability'        => false,
+			'ryte_indexability'          => false,
 			'content_analysis_active'    => false,
 			'keyword_analysis_active'    => false,
 			'enable_admin_bar_menu'      => false,
