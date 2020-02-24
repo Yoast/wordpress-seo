@@ -199,7 +199,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 */
 	public function message_start_indexing() {
 		return sprintf(
-			'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
+			'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="yoast-button yoast-button--secondary yoast-js-calculate-index-links--all thickbox">%2$s</a>',
 			175,
 			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 		);

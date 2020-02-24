@@ -130,7 +130,8 @@ class Yoast_Form {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
 			echo '<div id="wpseo-submit-container">';
 
-			submit_button( __( 'Save changes', 'wordpress-seo' ) );
+      submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
+      
 			$settings_changed_listener->show_success_message();
 
 			echo '</div>';
@@ -558,16 +559,16 @@ class Yoast_Form {
 				' /> ';
 			echo '<input',
 				' id="wpseo_', $var_esc, '_button"',
-				' class="wpseo_image_upload_button button"',
+				' class="wpseo_image_upload_button yoast-button yoast-button--secondary"',
 				' type="button"',
 				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' /> ';
 			echo '<input',
-				' class="wpseo_image_remove_button button"',
+				' class="wpseo_image_remove_button yoast-button--remove"',
 				' type="button"',
-				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
+				' value="', esc_attr__( 'Remove image', 'wordpress-seo' ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' />';
 			echo '<input',
