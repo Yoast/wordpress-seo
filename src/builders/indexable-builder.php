@@ -16,46 +16,64 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Builder {
 
 	/**
+	 * The author builder.
+	 *
 	 * @var Indexable_Author_Builder
 	 */
 	private $author_builder;
 
 	/**
+	 * The post builder.
+	 *
 	 * @var Indexable_Post_Builder
 	 */
 	private $post_builder;
 
 	/**
+	 * The term builder.
+	 *
 	 * @var Indexable_Term_Builder
 	 */
 	private $term_builder;
 
 	/**
+	 * The home page builder.
+	 *
 	 * @var Indexable_Home_Page_Builder
 	 */
 	private $home_page_builder;
 
 	/**
+	 * The post type archive builder.
+	 *
 	 * @var Indexable_Post_Type_Archive_Builder
 	 */
 	private $post_type_archive_builder;
 
 	/**
+	 * The data archive builder.
+	 *
 	 * @var Indexable_Date_Archive_Builder
 	 */
 	private $date_archive_builder;
 
 	/**
+	 * The system page builder.
+	 *
 	 * @var Indexable_System_Page_Builder
 	 */
 	private $system_page_builder;
 
 	/**
+	 * The indexable hierarchy builder.
+	 *
 	 * @var Indexable_Hierarchy_Builder
 	 */
 	private $hierarchy_builder;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $indexable_repository;
