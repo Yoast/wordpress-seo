@@ -1,5 +1,5 @@
 /* eslint-disable no-undefined */
-import * as actions from "../../../src/redux/actions/socialPreview";
+import * as actions from "../../../src/redux/actions/formActions";
 import { socialPreviewsReducer } from "../../../src/redux/reducers/index";
 
 const initialState = {

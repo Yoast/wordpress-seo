@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../actions/socialPreview";
+import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../actions/formActions";
 
 /**
  * Initial state

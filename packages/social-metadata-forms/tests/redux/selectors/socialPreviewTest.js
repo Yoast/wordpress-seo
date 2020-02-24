@@ -1,4 +1,4 @@
-import selectorsFactory from "../../../src/redux/selectors/socialPreview";
+import selectorsFactory from "../../../src/redux/selectors/fromSelectors";
 
 // Test the selector factory
 describe( selectorsFactory, () => {

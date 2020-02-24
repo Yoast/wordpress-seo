@@ -1,4 +1,4 @@
-import * as actions from "../../../src/redux/actions/socialPreview";
+import * as actions from "../../../src/redux/actions/formActions";
 
 describe( actions.setSocialPreviewTitle,  () => {
 	it( "sets a title for facebook", () => {
