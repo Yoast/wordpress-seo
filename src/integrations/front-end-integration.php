@@ -230,7 +230,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$presenters = $this->get_all_presenters();
 		// Filter out the presenters only needed for singular pages on non-singular pages.
-		if ( $page_type !== 'Post_Type' ) {
+		if ( ! in_array( $page_type, [ 'Post_Type', 'Static_Home_Page' ], true ) ) {
 			$presenters = array_diff( $presenters, $this->singular_presenters );
 		}
 
