@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Mockery;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Image_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -21,21 +20,15 @@ use Brain\Monkey;
 class Image_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Url_Helper|Mockery\MockInterface
-	 */
-	private $url;
-
-	/**
 	 * @var Image_Presenter
 	 */
 	private $instance;
 
 	/**
-	 * Sets an instance with the mocked url helper.
+	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->url = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance   = new Image_Presenter( $this->url );
+		$this->instance   = new Image_Presenter();
 
 		parent::setUp();
 
