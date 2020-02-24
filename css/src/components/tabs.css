@@ -7,17 +7,9 @@
 	display: block;
 }
 
-.wpseotab p.expl {
-	margin-left: 6px;
-}
-
 .wpseotab .tab-block {
 	display: block;
 	margin: 30px 0;
-}
-
-.wpseotab p.expl strong {
-	font-size: 115%;
 }
 
 .yoast-tabs {
