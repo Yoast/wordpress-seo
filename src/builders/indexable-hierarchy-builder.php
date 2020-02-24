@@ -21,21 +21,29 @@ use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 class Indexable_Hierarchy_Builder {
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $indexable_repository;
 
 	/**
+	 * The indexable hierarchy repository.
+	 *
 	 * @var Indexable_Hierarchy_Repository
 	 */
 	private $indexable_hierarchy_repository;
 
 	/**
+	 * The primary term repository.
+	 *
 	 * @var Primary_Term_Repository
 	 */
 	private $primary_term_repository;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;

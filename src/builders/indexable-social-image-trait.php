@@ -18,16 +18,22 @@ use Yoast\WP\SEO\Models\Indexable;
 trait Indexable_Social_Image_Trait {
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The open graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * The twitter image helper.
+	 *
 	 * @var Twitter_Image_Helper
 	 */
 	protected $twitter_image;

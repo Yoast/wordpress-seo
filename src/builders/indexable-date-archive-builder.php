@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Indexable_Date_Archive_Builder {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
