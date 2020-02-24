@@ -17,11 +17,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Article_Modified_Time_Presenter_Test extends TestCase {
 
 	/**
+	 * The article modified time presenter instance.
+	 *
 	 * @var Article_Modified_Time_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;

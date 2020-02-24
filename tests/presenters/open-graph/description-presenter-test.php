@@ -19,16 +19,22 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Description_Presenter_Test extends TestCase {
 
 	/**
+	 * The description presenter instance.
+	 *
 	 * @var \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;

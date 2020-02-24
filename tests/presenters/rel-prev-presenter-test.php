@@ -22,12 +22,14 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Rel_Prev_Presenter_Test extends TestCase {
 
 	/**
+	 * The rel prev presenter instance.
+	 *
 	 * @var Rel_Prev_Presenter|Mockery\MockInterface
 	 */
 	private $instance;
 
 	/**
-	 * Set up.
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();

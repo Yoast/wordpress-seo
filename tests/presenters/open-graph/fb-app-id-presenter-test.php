@@ -17,11 +17,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class FB_App_ID_Presenter_Test extends TestCase {
 
 	/**
+	 * The FB app ID presenter instance.
+	 *
 	 * @var FB_App_ID_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
