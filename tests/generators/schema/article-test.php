@@ -174,6 +174,8 @@ class Article_Test extends TestCase {
 		$this->context_mock->post->post_author       = '3';
 		$this->context_mock->post->post_date_gmt     = '2345-12-12 12:12:12';
 		$this->context_mock->post->post_modified_gmt = '2345-12-12 23:23:23';
+		$this->context_mock->post->post_type         = 'my_awesome_post_type';
+		$this->context_mock->post->comment_status    = 'open';
 
 		$this->id->expects( 'get_user_schema_id' )
 							 ->once()
@@ -227,6 +229,11 @@ class Article_Test extends TestCase {
 				return $data;
 			} );
 
+		Monkey\Functions\expect( 'post_type_supports' )
+			->once()
+			->with( $this->context_mock->post->post_type, 'comments' )
+			->andReturn( true );
+
 		$this->assertEquals(
 			[
 				'@type'            => 'Article',
@@ -242,6 +249,15 @@ class Article_Test extends TestCase {
 				'keywords'         => 'Tag1,Tag2',
 				'articleSection'   => 'Category1',
 				'inLanguage'       => 'language',
+				'potentialAction'  => [
+					[
+						'@type'  => 'CommentAction',
+						'name'   => 'Comment',
+						'target' => [
+							'https://permalink#respond',
+						],
+					],
+				]
 			],
 			$this->instance->generate( $this->context_mock )
 		);

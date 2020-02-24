@@ -121,6 +121,10 @@ class Article extends Abstract_Schema_Piece {
 		$data = $this->add_sections( $data, $context );
 		$data = $this->language->add_piece_language( $data );
 
+		if ( \post_type_supports( $context->post->post_type, 'comments' ) && $context->post->comment_status === 'open' ) {
+			$data = $this->add_potential_action( $data, $context );
+		}
+
 		return $data;
 	}
 
@@ -208,6 +212,31 @@ class Article extends Abstract_Schema_Piece {
 				'@id' => $context->canonical . $this->id->primary_image_hash,
 			];
 		}
+
+		return $data;
+	}
+
+	/**
+	 * Adds the potential action property to the Article Schema piece.
+	 *
+	 * @param array             $data    The Article data.
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return array $data The Article data with the potential action added.
+	 */
+	private function add_potential_action( $data, Meta_Tags_Context $context ) {
+		/**
+		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article potentialAction target.
+		 *
+		 * @api array $targets The URLs for the Article potentialAction target.
+		 */
+		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $context->canonical . '#respond' ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'CommentAction',
+			'name'   => 'Comment',
+			'target' => $targets,
+		];
 
 		return $data;
 	}
