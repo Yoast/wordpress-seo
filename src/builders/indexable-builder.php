@@ -249,7 +249,6 @@ class Indexable_Builder {
 			 * @param Indexable The indexable before saving.
 			 *
 			 * @api Indexable The saved indexable.
-			 *
 			 */
 			do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}
