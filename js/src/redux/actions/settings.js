@@ -13,4 +13,3 @@ export const setSettings = function( settings ) {
 		settings,
 	};
 };
-
