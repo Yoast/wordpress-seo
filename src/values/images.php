@@ -30,11 +30,15 @@ class Images {
 	protected $images = [];
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;

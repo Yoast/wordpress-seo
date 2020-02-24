@@ -20,6 +20,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Redirects implements Integration_Interface {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options;
@@ -30,6 +32,8 @@ class Redirects implements Integration_Interface {
 	protected $meta;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	protected $current_page;

@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 class Current_Page_Helper {
 
 	/**
+	 * The WP Query wrapper.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $wp_query_wrapper;

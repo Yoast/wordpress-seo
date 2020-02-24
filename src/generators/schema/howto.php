@@ -27,7 +27,7 @@ class HowTo extends Abstract_Schema_Piece {
 	private $html;
 
 	/**
-	 * The schema image helper.
+	 * The Schema image helper.
 	 *
 	 * @var Image_Helper
 	 */

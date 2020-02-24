@@ -32,7 +32,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 	private $context_memoizer;
 
 	/**
-	 * The replace vars helper.
+	 * The WPSEO Replace Vars object.
 	 *
 	 * @var WPSEO_Replace_Vars
 	 */
@@ -103,6 +103,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 	}
 
 	/**
+	 * Outputs the canonical value.
+	 *
 	 * @param bool $echo        Whether or not to output the canonical element.
 	 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
 	 * @param bool $no_override Whether or not to return a manually overridden canonical.

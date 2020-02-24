@@ -25,14 +25,14 @@ trait Indexable_Social_Image_Trait {
 	protected $image;
 
 	/**
-	 * The open graph image helper.
+	 * The Open Graph image helper.
 	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
 
 	/**
-	 * The twitter image helper.
+	 * The Twitter image helper.
 	 *
 	 * @var Twitter_Image_Helper
 	 */

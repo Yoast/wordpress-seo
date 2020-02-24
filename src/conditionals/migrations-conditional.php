@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Config\Migration_Status;
 class Migrations_Conditional implements Conditional {
 
 	/**
+	 * The migration status.
+	 *
 	 * @var Migration_Status
 	 */
 	protected $migration_status;

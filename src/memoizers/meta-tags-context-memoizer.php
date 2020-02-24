@@ -19,31 +19,43 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Meta_Tags_Context_Memoizer {
 
 	/**
+	 * The blocks helper.
+	 *
 	 * @var Blocks_Helper
 	 */
 	private $blocks;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $context_prototype;
 
 	/**
+	 * The presentation memoizer.
+	 *
 	 * @var Presentation_Memoizer
 	 */
 	private $presentation_memoizer;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context[]
 	 */
 	private $cache = [];

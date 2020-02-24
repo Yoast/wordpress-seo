@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 abstract class Abstract_Indexable_Presenter {
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var WPSEO_Replace_Vars
 	 */
 	protected $replace_vars;

@@ -13,11 +13,15 @@ namespace Yoast\WP\SEO\Helpers;
 class Taxonomy_Helper {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The string helper.
+	 *
 	 * @var String_Helper
 	 */
 	private $string;

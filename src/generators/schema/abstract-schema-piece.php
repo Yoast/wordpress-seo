@@ -19,14 +19,16 @@ use Yoast\WP\SEO\Presentations\Generators\Generator_Interface;
 abstract class Abstract_Schema_Piece implements Generator_Interface {
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var ID_Helper
 	 */
 	protected $id;
 
 	/**
-	 * @required
-	 *
 	 * Sets the ID helper.
+	 *
+	 * @required
 	 *
 	 * @param ID_Helper $id A helper to retrieve Schema ID's.
 	 */
@@ -35,7 +37,7 @@ abstract class Abstract_Schema_Piece implements Generator_Interface {
 	}
 
 	/**
-	 * Generate the schema piece.
+	 * Generates the schema piece.
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
@@ -44,7 +46,7 @@ abstract class Abstract_Schema_Piece implements Generator_Interface {
 	abstract public function generate( Meta_Tags_Context $context );
 
 	/**
-	 * Determine whether the schema piece is needed.
+	 * Determines whether the schema piece is needed.
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *

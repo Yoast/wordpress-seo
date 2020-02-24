@@ -41,6 +41,8 @@ class Migration_Runner implements Initializer_Interface {
 	protected $logger;
 
 	/**
+	 * The migration status.
+	 *
 	 * @var Migration_Status
 	 */
 	protected $migration_status;

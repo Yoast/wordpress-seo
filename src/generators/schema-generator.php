@@ -21,16 +21,22 @@ use Yoast\WP\SEO\Presentations\Generators\Schema\Abstract_Schema_Piece;
 class Schema_Generator implements Generator_Interface {
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var ID_Helper
 	 */
 	private $id;
 
 	/**
+	 * The generator interface.
+	 *
 	 * @var Generator_Interface[]
 	 */
 	private $generators;

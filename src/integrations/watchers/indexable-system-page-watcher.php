@@ -26,11 +26,15 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;

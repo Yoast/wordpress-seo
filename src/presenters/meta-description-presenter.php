@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The string helper.
+	 *
 	 * @var String_Helper
 	 */
 	private $string;

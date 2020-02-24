@@ -19,6 +19,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Front_End_Integration implements Integration_Interface {
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;

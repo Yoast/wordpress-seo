@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 class Current_Page_Surface {
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer;
 	 */
 	private $meta_tags_context_memoizer;

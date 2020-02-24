@@ -25,11 +25,15 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;

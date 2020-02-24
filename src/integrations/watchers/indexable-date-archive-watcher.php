@@ -25,6 +25,8 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;

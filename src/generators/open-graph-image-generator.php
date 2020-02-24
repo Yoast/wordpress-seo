@@ -22,21 +22,29 @@ use Yoast\WP\SEO\Values\Open_Graph\Images;
 class Open_Graph_Image_Generator implements Generator_Interface {
 
 	/**
+	 * The Open Graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
