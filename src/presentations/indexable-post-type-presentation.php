@@ -366,6 +366,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @param string $page The page number to add on to $url for the $link tag.
 	 *
 	 * @return string The paginated URL.
+	 *
+	 * @codeCoverageIgnore A wrapper method.
 	 */
 	protected function get_paginated_url( $url, $page ) {
 		return $this->pagination->get_paginated_url( $url, $page, false );
