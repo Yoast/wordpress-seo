@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 class Organization extends Abstract_Schema_Piece {
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
@@ -87,7 +93,7 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Retrieve the social profiles to display in the organization schema.
 	 *
-	 * @link  https://developers.google.com/webmasters/structured-data/customize/social-profiles
+	 * @link https://developers.google.com/webmasters/structured-data/customize/social-profiles
 	 *
 	 * @since 1.8
 	 *

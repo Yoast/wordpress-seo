@@ -17,16 +17,22 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 class Generate_Indexables_Command implements Command_Interface {
 
 	/**
+	 * The indexable post watcher.
+	 *
 	 * @var Indexable_Post_Watcher
 	 */
 	private $post_watcher;
 
 	/**
+	 * The indexable term watcher.
+	 *
 	 * @var Indexable_Term_Watcher
 	 */
 	private $term_watcher;
 
 	/**
+	 * Holds the WordPress database object.
+	 *
 	 * @var wpdb
 	 */
 	private $wpdb;

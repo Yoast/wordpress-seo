@@ -26,6 +26,8 @@ class Author extends Person {
 	protected $type = [ 'Person' ];
 
 	/**
+	 * The article helper.
+	 *
 	 * @var Article_Helper
 	 */
 	private $article;

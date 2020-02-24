@@ -26,6 +26,8 @@ class HTML_Helper {
 	}
 
 	/**
+	 * Strips the tags in a smart way.
+	 *
 	 * @param string $html The original HTML.
 	 *
 	 * @return string The sanitized HTML.

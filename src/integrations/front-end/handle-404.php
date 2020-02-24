@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  */
 class Handle_404 implements Integration_Interface {
 	/**
+	 * The WP Query wrapper.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $query_wrapper;

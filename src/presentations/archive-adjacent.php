@@ -32,7 +32,7 @@ trait Archive_Adjacent {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel prev.
 	 */
 	public function generate_rel_prev() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {
@@ -53,7 +53,7 @@ trait Archive_Adjacent {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the rel next.
 	 */
 	public function generate_rel_next() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {

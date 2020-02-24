@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 class Breadcrumb extends Abstract_Schema_Piece {
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;

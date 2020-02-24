@@ -17,11 +17,15 @@ class Indexable_Home_Page_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;

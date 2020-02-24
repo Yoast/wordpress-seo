@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The product helper.
+	 *
 	 * @var Product_Helper
 	 */
 	private $product;

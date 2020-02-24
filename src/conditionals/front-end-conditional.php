@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Conditionals;
 class Front_End_Conditional implements Conditional {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_met() {
 		return ! \is_admin();

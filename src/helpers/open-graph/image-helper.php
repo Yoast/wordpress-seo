@@ -16,11 +16,15 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Image_Helper {
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;
 
 	/**
+	 * The base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
 	private $image;

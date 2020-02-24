@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 class Image_Helper {
 
 	/**
+	 * The base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
 	private $image;

@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Values\Images as Base_Images;
 class Images extends Base_Images {
 
 	/**
+	 * The Open Graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
