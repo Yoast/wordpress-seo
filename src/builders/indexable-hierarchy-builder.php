@@ -66,11 +66,11 @@ class Indexable_Hierarchy_Builder {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @required
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;

@@ -111,11 +111,11 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @required
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
@@ -228,6 +228,7 @@ class Indexable_Builder {
 		if ( ! $indexable ) {
 			return $this->indexable_repository->query()->create();
 		}
+
 		return $indexable;
 	}
 
@@ -245,8 +246,10 @@ class Indexable_Builder {
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
 			 * when the indexable is udated.
 			 *
-			 * @api   Indexable The saved indexable.
 			 * @param Indexable The indexable before saving.
+			 *
+			 * @api Indexable The saved indexable.
+			 *
 			 */
 			do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}

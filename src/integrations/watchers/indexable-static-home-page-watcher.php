@@ -35,6 +35,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
 	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct( Indexable_Repository $repository ) {

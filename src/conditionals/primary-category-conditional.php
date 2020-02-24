@@ -38,6 +38,6 @@ class Primary_Category_Conditional implements Conditional {
 			return true;
 		}
 
-		return in_array( $this->current_page->get_current_admin_page(), [ 'edit.php', 'post.php', 'post-new.php' ], true );
+		return \in_array( $this->current_page->get_current_admin_page(), [ 'edit.php', 'post.php', 'post-new.php' ], true );
 	}
 }
