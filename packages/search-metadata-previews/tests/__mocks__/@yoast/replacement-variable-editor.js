@@ -3,11 +3,12 @@
 import React from "react";
 
 const focus = jest.fn();
+const actual = jest.requireActual( "@yoast/replacement-variable-editor" );
 
 /**
  * The mocked replacement variable editor.
  */
-class ReplacementVariableEditorStandalone extends React.Component {
+class ReplacementVariableEditorMock extends React.Component {
 	/**
 	 * Constructs the mocked replacement variable editor.
 	 *
@@ -20,19 +21,19 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.focus = focus;
+		props.editorRef( { focus } );
 	}
 
 	/**
 	 * @returns {ReactElement} Only a div because the props are already in the snapshot.
 	 */
 	render() {
-		return (
-			<div />
-		);
+		return <div />;
 	}
 }
 
-export default ReplacementVariableEditorStandalone;
-
-export { focus };
+module.exports = {
+	...actual,
+	ReplacementVariableEditor: ReplacementVariableEditorMock,
+	focus,
+};

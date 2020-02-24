@@ -7,20 +7,21 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
-
-// Internal dependencies.
-import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
-	InputContainer,
-	SimulatedLabel,
-	StyledEditor,
-	withCaretStyles,
-} from "../shared";
-import { ProgressBar } from "@yoast/components";
-import {
-	lengthProgressShape,
+	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
+} from "@yoast/replacement-variable-editor";
+import { ProgressBar } from "@yoast/components";
+import { VariableEditorInputContainer, SimulatedLabel } from "@yoast/components";
+import { withCaretStyles } from "@yoast/style-guide";
+
+// Internal dependencies.
+import {
+	StyledEditor,
+} from "./SettingsSnippetEditorFields";
+import {
+	lengthProgressShape,
 } from "./constants";
 
 const SlugInput = styled.input`
@@ -37,7 +38,7 @@ const SlugInput = styled.input`
 	}
 `;
 
-const InputContainerWithCaretStyles = withCaretStyles( InputContainer );
+const InputContainerWithCaretStyles = withCaretStyles( VariableEditorInputContainer );
 
 /**
  * The snippet editor fields component.
@@ -188,7 +189,7 @@ class SnippetEditorFields extends React.Component {
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
 					fieldId="snippet-editor-field-title"
-				/>
+				    type="title" />
 				<ProgressBar
 					max={ titleLengthProgress.max }
 					value={ titleLengthProgress.actual }
