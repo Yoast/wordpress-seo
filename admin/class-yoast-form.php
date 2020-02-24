@@ -136,6 +136,7 @@ class Yoast_Form {
 			echo '<div id="wpseo-submit-container">';
 
 			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
+      
 			$settings_changed_listener->show_success_message();
 
 			echo '</div>';
