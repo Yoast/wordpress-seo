@@ -66,6 +66,8 @@ class Yoast_Form {
 			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
+
+		<!--Todo: remove yoast-'option' from the wrap div if we're not going to use it-->
 		<div class="wrap <?php echo esc_attr( 'yoast-' . $option ); ?>">
 		<?php
 		/**
@@ -128,15 +130,9 @@ class Yoast_Form {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
 			echo '<div id="wpseo-submit-container">';
 
-			echo '<div id="wpseo-submit-container-float" class="wpseo-admin-submit">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
+      
 			$settings_changed_listener->show_success_message();
-			echo '</div>';
-
-			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed" style="display: none;">';
-			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
-			$settings_changed_listener->show_success_message();
-			echo '</div>';
 
 			echo '</div>';
 
