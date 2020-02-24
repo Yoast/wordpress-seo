@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -42,7 +42,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_page_on_front', [ $this, 'update_static_homepage_permalink' ], 10, 2 );

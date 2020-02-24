@@ -25,7 +25,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	private $post_type;
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {

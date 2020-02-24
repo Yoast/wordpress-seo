@@ -33,7 +33,7 @@ class Breadcrumbs_Enabled_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_met() {
 		return $this->options->get( 'breadcrumbs-enable' );

@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_System_Page_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -51,7 +51,7 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );

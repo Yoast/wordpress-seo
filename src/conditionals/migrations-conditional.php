@@ -31,7 +31,7 @@ class Migrations_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_met() {
 		return $this->migration_status->is_version( 'free', WPSEO_VERSION );

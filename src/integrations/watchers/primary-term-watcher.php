@@ -19,7 +19,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 
 	/**
 	 * The primary term repository.
-	 * 
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
 	 */
 	protected $repository;

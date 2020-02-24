@@ -31,7 +31,7 @@ class Primary_Category_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_met() {
 		if ( ! \is_admin() ) {
