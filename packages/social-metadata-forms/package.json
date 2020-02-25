@@ -13,7 +13,7 @@
 	"scripts": {
 		"prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc",
 		"test": "jest",
-		"lint": "eslint ."
+		"lint": "eslint . --max-warnings=0"
 	},
 	"jest": {
 	"testURL": "http://localhost",
@@ -32,9 +32,20 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"dependencies": {
+		"@wordpress/i18n": "^1.1.0",
+		"@yoast/style-guide": "^0.11.1",
+		"lodash": "^4.17.11",
+		"prop-types": "^15.6.0",
+		"redux": "^3.7.2",
+		"styled-components": "^4.2.0"
+	},
 	"devDependencies": {
 		"@yoast/browserslist-config": "^1.2.1",
 		"jest-styled-components": "^6.3.1",
 		"browserslist": "^4.7.3"
+	},
+	"peerDependencies": {
+		"react": "^16.2.0"
 	}
 }
