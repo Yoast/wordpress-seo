@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import { shallow } from "enzyme";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
 	from "../src/ReplacementVariableEditorStandalone";
@@ -10,7 +11,7 @@ jest.mock( "draft-js/lib/generateRandomKey", () => () => {
 		randomKey = 0;
 	}
 
-	randomgirKey++;
+	randomKey++;
 	global._testDraftJSRandomNumber = randomKey;
 
 	return randomKey + "";
