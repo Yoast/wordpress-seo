@@ -63,9 +63,7 @@ class Url_Presenter_Test extends TestCase {
 	public function test_present_empty_url() {
 		$this->presentation->open_graph_url = '';
 
-		$actual = $this->instance->present( $this->presentation );
-
-		$this->assertEmpty( $actual );
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
 	}
 
 	/**
