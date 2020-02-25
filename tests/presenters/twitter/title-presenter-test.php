@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Twitter\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Brain\Monkey;
 use Mockery;
