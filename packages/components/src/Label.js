@@ -1,5 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+
+/**
+ * A div element that looks like it can be interacted with like a label.
+ */
+export const SimulatedLabel = styled.div`
+	flex: 1 1 200px;
+	min-width: 200px;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	margin: 4px 0;
+	color: #303030;
+	font-weight: 500;
+`;
 
 /**
  * Represents the label HTML tag.

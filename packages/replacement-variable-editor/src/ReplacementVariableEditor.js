@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
@@ -6,18 +7,18 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
+import { withCaretStyles } from "@yoast/style-guide";
 import {
 	DescriptionInputContainer,
 	FormSection,
-	SimulatedLabel,
 	TitleInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
-	withCaretStyles,
-} from "../shared";
+} from "./shared";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
+import { SimulatedLabel } from "@yoast/components";
 
 /**
  * The replacement variable editor.
@@ -84,7 +85,7 @@ class ReplacementVariableEditor extends React.Component {
 		const InputContainer = this.InputContainer;
 
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
-			onClick={ () => this.triggerReplacementVariableSuggestions() }
+			onClick={ this.triggerReplacementVariableSuggestions }
 		>
 			{ __( "Insert variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;

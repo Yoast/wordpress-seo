@@ -13,7 +13,7 @@ const StyledMention = styled.span`
 	margin: 2px 2px;
 	border-radius: 17px;
 	cursor: default;
-	
+
 	&:hover {
 		color: ${ colors.$color_white };
 		background-color: ${ colors.$color_pink_dark };
@@ -37,6 +37,6 @@ export const Mention = ( { children, className } ) => {
 };
 
 Mention.propTypes = {
-	children: PropTypes.node,
-	className: PropTypes.string,
+	children: PropTypes.node.isRequired,
+	className: PropTypes.string.isRequired,
 };

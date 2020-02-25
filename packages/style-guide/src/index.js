@@ -1,9 +1,12 @@
 import colors from "./colors";
 import breakpoints from "./responsive-breakpoints";
-import { rgba } from "./helpers";
+import { rgba, withCaretStyles, angleRight, angleLeft } from "./helpers";
 
 export {
 	colors,
 	breakpoints,
 	rgba,
+	withCaretStyles,
+	angleRight,
+	angleLeft,
 };

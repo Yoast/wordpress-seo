@@ -39,6 +39,7 @@ LinkButton.propTypes = {
 	focusColor: PropTypes.string,
 	focusBackgroundColor: PropTypes.string,
 	focusBorderColor: PropTypes.string,
+	focusBoxShadowColor: PropTypes.string,
 };
 
 LinkButton.defaultProps = {
@@ -55,4 +56,5 @@ LinkButton.defaultProps = {
 	focusColor: colors.$color_button_text_hover,
 	focusBackgroundColor: colors.$color_white,
 	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
 };
