@@ -2,7 +2,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 /* Internal dependencies */
-import ImageSelect from "../../src/shared/ImageSelect";
+import ImageSelect from "../src/ImageSelect";
 
 describe( "<ImageSelect />", () => {
 	it( "renders", () => {

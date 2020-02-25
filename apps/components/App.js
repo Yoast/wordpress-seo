@@ -114,7 +114,7 @@ const components = [
 		id: "social-preview-data-form",
 		name: "Social Preview data form",
 		component: <SocialPreviewFormWrapper />,
-	}
+	},
 ];
 
 const LanguageDirectionContainer = styled.div`

@@ -1,5 +1,5 @@
 import React from "react";
-import { SocialMetadataPreviewForm } from "@yoast/social-metadata-previews";
+import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import ExamplesContainer from "./ExamplesContainer";
 import { noop } from "lodash";
 
