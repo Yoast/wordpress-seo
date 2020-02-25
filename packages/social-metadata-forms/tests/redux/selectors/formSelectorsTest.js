@@ -1,4 +1,4 @@
-import selectorsFactory from "../../../src/redux/selectors/fromSelectors";
+import selectorsFactory from "../../../src/redux/selectors/formSelectors";
 
 // Test the selector factory
 describe( selectorsFactory, () => {
