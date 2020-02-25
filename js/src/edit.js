@@ -33,6 +33,7 @@ const PinnedPluginIcon = styled( PluginIcon )`
 	height: 20px;
 `;
 
+/** Class representing edit functions. */
 class Edit {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.
@@ -63,6 +64,11 @@ class Edit {
 		);
 	}
 
+	/**
+	 * Initializes the settings store.
+	 *
+	 * @returns {void} .
+	 */
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
@@ -71,6 +77,9 @@ class Edit {
 		this._data = this._initializeData();
 
 		this._store.dispatch( setSettings( {
+			socialPreviews: {
+				sidewideImage: this._localizedData.sidewide_social_image,
+			},
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
 				date: this._args.snippetEditorDate,
@@ -114,6 +123,11 @@ class Edit {
 			isRtl: this._localizedData.isRtl,
 		};
 
+		/**
+		 * Renders the yoast sidebar
+		 *
+	 	 * @returns {Component} The yoast sidebar component.
+	 	 */
 		const YoastSidebar = () => (
 			<Fragment>
 				<PluginSidebarMoreMenuItem

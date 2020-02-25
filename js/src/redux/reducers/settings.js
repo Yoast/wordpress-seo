@@ -9,9 +9,10 @@ import { SET_SETTINGS } from "../actions/settings";
  * @returns {Object} The state.
  */
 export default function settingsReducer( state = {}, action ) {
-	if ( action.type === SET_SETTINGS ) {
-		return action.settings;
+	switch ( action.type ) {
+		case SET_SETTINGS:
+			return { ...state, ...action.settings };
+		default:
+			return state;
 	}
-
-	return state;
 }
