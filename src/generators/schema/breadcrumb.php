@@ -87,7 +87,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( \is_paged() ) {
+		if ( $this->current_page->is_paged() ) {
 			$list_elements[] = $this->add_paginated_state( $index, $context );
 		}
 
