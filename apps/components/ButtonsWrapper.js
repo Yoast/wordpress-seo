@@ -98,13 +98,12 @@ export default class ButtonsList extends React.Component {
 				<YoastButton>YoastButton</YoastButton>{ " " }
 				<UpsellButton>Upsell Button</UpsellButton>{ " " }
 				<UpsellLinkButton href="http://example.org">Upsell Link Button</UpsellLinkButton>
-
 				<Separator />
 				<IconLabeledButton icon="question-circle">Need help?</IconLabeledButton>
 				<IconLabeledButton icon="gear">Settings</IconLabeledButton>
 				<IconLabeledButton
 					hoverBackgroundColor="#a4286a"
-					hoverColor="white"
+					hoverColor="#fff"
 					icon="eye"
 				>
 					Custom Hover
@@ -118,9 +117,9 @@ export default class ButtonsList extends React.Component {
 					Custom Focus
 				</IconLabeledButton>
 				<IconLabeledButton
-					activeBackgroundColor="yellow"
-					activeBorderColor="black"
-					activeColor="black"
+					activeBackgroundColor="#ff0"
+					activeBorderColor="#000"
+					activeColor="#000"
 					icon="list"
 				>
 					Custom Active

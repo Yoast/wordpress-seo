@@ -104,6 +104,7 @@ IconLabeledButton.propTypes = {
 	focusColor: PropTypes.string,
 	focusBackgroundColor: PropTypes.string,
 	focusBorderColor: PropTypes.string,
+	focusBoxShadowColor: PropTypes.string,
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
@@ -119,13 +120,14 @@ IconLabeledButton.defaultProps = {
 	borderColor: "transparent",
 	hoverColor: colors.$color_white,
 	hoverBackgroundColor: colors.$color_blue,
-	hoverBorderColor: null,
+	hoverBorderColor: colors.$color_button_border_hover,
 	activeColor: colors.$color_white,
 	activeBackgroundColor: colors.$color_blue,
-	activeBorderColor: null,
+	activeBorderColor: colors.$color_button_border_active,
 	focusColor: colors.$color_white,
 	focusBackgroundColor: colors.$color_blue,
 	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
 };
 
 export default IconLabeledButton;

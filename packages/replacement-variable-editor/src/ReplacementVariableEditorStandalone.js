@@ -19,14 +19,14 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "./constants";
-import { positionSuggestions } from "../helpers/positionSuggestions";
+import { positionSuggestions } from "./helpers/positionSuggestions";
 import { Mention } from "./Mention";
 import {
 	serializeEditor,
 	unserializeEditor,
 	replaceReplacementVariables,
 	serializeSelection,
-} from "../helpers/serialization";
+} from "./helpers/serialization";
 import {
 	getTrigger,
 	hasWhitespaceAt,
@@ -35,10 +35,10 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
-} from "../helpers/replaceText";
+} from "./helpers/replaceText";
 import {
 	selectReplacementVariables,
-} from "../helpers/selection";
+} from "./helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the
@@ -539,7 +539,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 
 ReplacementVariableEditorStandalone.propTypes = {
 	content: PropTypes.string.isRequired,
-	replacementVariables: replacementVariablesShape,
+	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
@@ -547,16 +547,15 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onBlur: PropTypes.func,
 	theme: PropTypes.object,
 	placeholder: PropTypes.string,
-	fieldId: PropTypes.string,
+	fieldId: PropTypes.string.isRequired,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
-	onClick: () => {},
 	onFocus: () => {},
 	onBlur: () => {},
-	className: "",
 	placeholder: "",
 	theme: { isRtl: false },
+	recommendedReplacementVariables: [],
 };
 
 export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };

@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=67",
+    "lint": "eslint . --max-warnings=42",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
@@ -20,11 +20,9 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^0.13.1",
     "@yoast/helpers": "^0.11.1",
+    "@yoast/replacement-variable-editor": "^1.0.0",
     "@yoast/style-guide": "^0.11.1",
     "draft-js": "^0.11.4",
-    "draft-js-mention-plugin": "^3.0.4",
-    "draft-js-plugins-editor": "^2.0.4",
-    "draft-js-single-line-plugin": "^2.0.1",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
@@ -40,7 +38,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "jest-styled-components": "^6.3.1",
-    "react": "16.6.3",
     "react-test-renderer": "^16.8.4"
   },
   "jest": {
