@@ -1,15 +1,10 @@
-import { getAdjectiveForms, getBase  } from "../../../src/morphology/english/getAdjectiveForms";
-import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
-import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
+import getAdjectiveStem from "../../../src/morphology/english/getAdjectiveStem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-
 
 const morphologyData = getMorphologyData( "en" );
 const adjectiveData = morphologyData.en.adjectives;
-const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;
-
-import { includes } from "lodash-es";
+const stopAdjectives = adjectiveData.stopAdjectives;
 
 const regularAdjectivesToTest = [
 	[ "short", "shorter", "shortest", "shortly" ],
@@ -122,40 +117,7 @@ const needsDoublingLastConsonant = [
 
 ];
 
-const icAtTheEnd = [
-	[ "academic", "academically" ],
-	[ "systematic", "systematically" ],
-	[ "democratic", "democratically" ],
-	[ "basic", "basically" ],
-	[ "scientific", "scientifically" ],
-	[ "realistic", "realistically" ],
-	[ "organic", "organically" ],
-	[ "genetic", "genetically" ],
-	[ "magnetic", "magnetically" ],
-	[ "problematic", "problematically" ],
-	[ "nordic", "nordically" ],
-	[ "manic", "manically" ],
-	[ "galactic", "galactically" ],
-];
-
-const icallyBase = [
-	[ "academic", "academical", "academically" ],
-	[ "systematic", "systematical", "systematically" ],
-	[ "democratic", "democratical", "democratically" ],
-	[ "basic", "basical", "basically" ],
-	[ "scientific", "scientifical", "scientifically" ],
-	[ "realistic", "realistical", "realistically" ],
-	[ "organic", "organical", "organically" ],
-	[ "magic", "magical", "magically" ],
-	[ "politic", "political", "politically" ],
-	[ "typic", "typical", "typically" ],
-	[ "logic", "logical", "logically" ],
-	[ "optic", "optical", "optically" ],
-	[ "mathematic", "mathematical", "mathematically" ],
-	[ "geographic", "geographical", "geographically" ],
-];
-
-const bleAtTheEnd = [
+const adjectivesWithoutComparativesOrSuperlatives = [
 	[ "noble", "nobly" ],
 	[ "stable", "stably" ],
 	[ "possible", "possibly" ],
@@ -170,233 +132,103 @@ const bleAtTheEnd = [
 	[ "horrible", "horribly" ],
 	[ "suitable", "suitably" ],
 	[ "remarkable", "remarkably" ],
-];
-
-const longAdjectives = [
-	"beautiful",
-	"necessary",
-	"superior",
-	"geographical",
-	"habitual",
-	"fictitious",
-	"fantastic",
-	"feminine",
-	"parallel",
-	"parisian",
-	"pathetic",
-	"powerless",
-	"possible",
-	"academic",
+	[ "beautiful", "beautifully" ],
+	[ "necessary", "necessarily" ],
+	[ "habitual", "habitually" ],
+	[ "fictitious", "fictitiously" ],
+	[ "powerless", "powerlessly" ],
+	[ "possible", "possibly" ],
+	[ "awful",  "awfully" ],
+	[ "careful", "carefully" ],
+	[ "cheerful", "cheerfully" ],
+	[ "foolish", "foolishly" ],
+	[ "childish", "childishly" ],
+	[ "stylish", "stylishly" ],
+	[ "local",  "locally" ],
+	[ "cordial", "cordially" ],
+	[ "equal",  "equally" ],
+	[ "final",  "finally" ],
+	[ "passive", "passively" ],
+	[ "naive",  "naively" ],
+	[ "anxious", "anxiously" ],
+	[ "fearless", "fearlessly" ],
+	[ "jealous", "jealously" ],
 ];
 
 const OnlyBaseAdjective = [
 	"boring",
 	"calming",
 	"numbing",
-	"awful",
-	"careful",
-	"cheerful",
-	"foolish",
-	"childish",
-	"stylish",
-	"local",
-	"cordial",
-	"equal",
-	"final",
 	"alive",
-	"passive",
-	"naive",
 	"childlike",
 	"alike",
-	"basic",
-	"rustic",
-	"anxious",
-	"fearless",
-	"jealous",
 	"stable",
 	"noble",
+	"superior",
+	"feminine",
+	"parallel",
 ];
 
 const allFormsToTestForBase = regularAdjectivesToTest.concat( yAtTheEnd, eAtTheEnd, needsDoublingLastConsonant );
 
-const onlyBaseAndAdverbToTestForBase = bleAtTheEnd;
-
-const icallyAdverbs = icallyBase;
-
-const onlyBaseAndAdverb = longAdjectives.concat( OnlyBaseAdjective );
-
-let receivedForms = [];
-
-describe( "Test for getting all possible word forms for regular adjectives", function() {
-	regularAdjectivesToTest.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a regular adjective", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for yAtTheEnd adjectives", function() {
-	yAtTheEnd.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a yAtTheEnd adjectives", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for eAtTheEnd adjectives", function() {
-	eAtTheEnd.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a eAtTheEnd adjective", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for needsDoublingLastConsonant adjectives", function() {
-	needsDoublingLastConsonant.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a needsDoublingLastConsonant adjectives", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for icAtTheEnd adjectives", function() {
-	icAtTheEnd.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a icAtTheEnd adjectives", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for bleAtTheEnd adjectives", function() {
-	bleAtTheEnd.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a bleAtTheEnd adjectives", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for irregular adjectives", function() {
-	irregularAdjectivesToTest.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for irregular adjectives", function() {
-				receivedForms = getAdjectiveForms( wordInParadigm, adjectiveData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
 let returnedGetBaseResult = "";
-
-const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
-const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
-const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
-const stopAdjectives = adjectiveData.stopAdjectives;
 
 describe( "Test for getting the base from all types of regular adjectives", function() {
 	allFormsToTestForBase.forEach( function( paradigm ) {
 		const testBase = paradigm[ 0 ];
 		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testBase, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
 		const testComparative = paradigm[ 1 ];
 		it( "returns the base of the word form which is a comparative", function() {
-			returnedGetBaseResult = getBase( testComparative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testComparative, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
 		} );
 
 		const testSuperlative = paradigm[ 2 ];
 		it( "returns the base of the word form which is a superlative", function() {
-			returnedGetBaseResult = getBase( testSuperlative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testSuperlative, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
 		} );
 
 		const testAdverb = paradigm[ 3 ];
 		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testAdverb, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
 	} );
 } );
 
-describe( "Test for getting two types of base forms for -ically adverbs", function() {
-	icallyAdverbs.forEach( function( paradigm ) {
-		it( "returns two possible base forms for a -ically adverb", function() {
-			receivedForms = buildTwoFormsFromRegex( paradigm[ 2 ], createRulesFromMorphologyData( regexAdjective.icallyAdverbs ) );
-			expect( receivedForms ).toContain( paradigm[ 1 ] );
-			expect( receivedForms ).toContain( paradigm[ 0 ] );
-		} );
-	} );
-} );
-
-describe( "Test for getting the base from adjectives that have no comparative or superlative form", function() {
-	onlyBaseAndAdverbToTestForBase.forEach( function( paradigm ) {
+describe( "Test for getting the base from adjectives that only form an adverb", function() {
+	adjectivesWithoutComparativesOrSuperlatives.forEach( function( paradigm ) {
 		const testBase = paradigm[ 0 ];
 		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testBase, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
 		const testAdverb = paradigm[ 1 ];
 		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
+			returnedGetBaseResult = getAdjectiveStem( testAdverb, regexAdjective, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
 	} );
 } );
 
-describe( "Test for returning the input form and the adverb of the adjectives that are too long to form comparatives/superlatives", function() {
-	onlyBaseAndAdverb.forEach( function( word ) {
-		it( "returns the input word and the adverb form", function() {
-			receivedForms = getAdjectiveForms( word, adjectiveData );
-			const fakeComparative = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexAdjective.comparative ) );
-			const fakeSuperlative = buildOneFormFromRegex( word, createRulesFromMorphologyData( regexAdjective.superlative ) );
-
-			const whetherReceivedFormsHaveComparative = includes( receivedForms, fakeComparative );
-			const whetherReceivedFormsHaveSuperlative = includes( receivedForms, fakeSuperlative );
-
-			expect( whetherReceivedFormsHaveComparative ).toBe( false );
-			expect( whetherReceivedFormsHaveSuperlative ).toBe( false );
+describe( "Test for getting the base from adjectives that don't get any forms", function() {
+	OnlyBaseAdjective.forEach( function( word ) {
+		it( "returns the base of the word form which is a base itself", function() {
+			returnedGetBaseResult = getAdjectiveStem( word, regexAdjective, stopAdjectives );
+			expect( returnedGetBaseResult.base ).toEqual( word );
+			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 	} );
 } );
