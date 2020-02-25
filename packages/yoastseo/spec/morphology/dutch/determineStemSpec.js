@@ -16,11 +16,26 @@ const wordsToStem = [
 	[ "begin", "begin" ],
 	[ "berg", "berg" ],
 	[ "zeek", "zeik" ],
+	// Return the unique stem from word that end in -t/-d
+	[ "roeit", "roei" ],
+	[ "effect", "effect" ],
+	[ "katten", "kat" ],
+	[ "ontbieden", "ontbied" ],
+	[ "potloden", "potlood" ],
+	[ "beenharde", "beenhard" ],
+	[ "mode", "mood" ],
+	[ "compote", "compoot" ],
+	[ "taarten", "taart" ],
+
 ];
 
 // These words should not be stemmed (same form should be returned).
 
 const wordsNotToStem = [
+	// Return the unique stem from words that does not end in -t/-d
+	"maak",
+	// Return the unique stem from word that is in words not to stem exception list
+	"print",
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
