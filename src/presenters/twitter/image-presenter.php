@@ -45,9 +45,10 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
 		 * @api string $twitter_image Image URL string.
 		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \apply_filters( 'wpseo_twitter_image', $twitter_image, $presentation );
 	}
