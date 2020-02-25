@@ -3,8 +3,6 @@ import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 import { Button, VariableEditorInputContainer } from "@yoast/components";
 
-export const SimulatedLabel = {};
-
 export const TitleInputContainer = styled( VariableEditorInputContainer )`
 	.public-DraftStyleDefault-block {
 		// Don't use properties that trigger hasLayout in IE11.

@@ -189,7 +189,8 @@ class SnippetEditorFields extends React.Component {
 					content={ title }
 					onChange={ content => onChange( "title", content ) }
 					fieldId="snippet-editor-field-title"
-				    type="title" />
+					type="title"
+				/>
 				<ProgressBar
 					max={ titleLengthProgress.max }
 					value={ titleLengthProgress.actual }

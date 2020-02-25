@@ -8,7 +8,7 @@ import styled from "styled-components";
 import {
 	ReplacementVariableEditor,
 	replacementVariablesShape,
-	recommendedReplacementVariablesShape
+	recommendedReplacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
 export const StyledEditor = styled.section`

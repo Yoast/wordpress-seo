@@ -539,7 +539,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 
 ReplacementVariableEditorStandalone.propTypes = {
 	content: PropTypes.string.isRequired,
-	replacementVariables: replacementVariablesShape,
+	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
@@ -547,16 +547,15 @@ ReplacementVariableEditorStandalone.propTypes = {
 	onBlur: PropTypes.func,
 	theme: PropTypes.object,
 	placeholder: PropTypes.string,
-	fieldId: PropTypes.string,
+	fieldId: PropTypes.string.isRequired,
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
-	onClick: () => {},
 	onFocus: () => {},
 	onBlur: () => {},
-	className: "",
 	placeholder: "",
 	theme: { isRtl: false },
+	recommendedReplacementVariables: [],
 };
 
 export { ReplacementVariableEditorStandalone as ReplacementVariableEditorStandaloneInnerComponent };

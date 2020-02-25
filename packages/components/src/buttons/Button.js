@@ -4,7 +4,7 @@ import flow from "lodash/flow";
 import PropTypes from "prop-types";
 
 // Yoast dependencies.
-import { rgba, colors } from "@yoast/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const settings = {
@@ -76,7 +76,7 @@ export function addFocusStyle( component ) {
 			border-color: ${ props => props.focusBorderColor };
 			color: ${ props => props.focusColor };
 			background-color: ${ props => props.focusBackgroundColor };
-			box-shadow: 0 0 3px ${ props => rgba( props.focusBoxShadowColor, .8 ) };
+			box-shadow: 0 0 3px ${ props => rgba( props.focusBoxShadowColor, .8 ) }
 		}
 	`;
 }
@@ -111,7 +111,7 @@ export function addActiveStyle( component ) {
 			color: ${ props => props.activeColor };
 			background-color: ${ props => props.activeBackgroundColor };
 			border-color: ${ props => props.hoverBorderColor };
-			box-shadow: inset 0 2px 5px -3px ${ props => rgba( props.activeBorderColor, 0.5 ) };
+			box-shadow: inset 0 2px 5px -3px ${ props => rgba( props.activeBorderColor, 0.5 ) }
 		}
 	`;
 }
