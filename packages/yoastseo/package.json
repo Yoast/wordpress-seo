@@ -118,6 +118,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": ""
+    "premiumConfiguration": "feature/rewrite-keyword-researchers-to-use-stemmer"
   }
 }
