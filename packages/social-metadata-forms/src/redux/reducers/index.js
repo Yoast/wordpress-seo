@@ -1,1 +1,1 @@
-export { default as socialPreviewsReducer } from "./formReducer";
+export { default as socialReducer } from "./formReducer";
