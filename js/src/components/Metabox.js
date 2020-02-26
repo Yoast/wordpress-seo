@@ -14,6 +14,7 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import Collapsible from "./SidebarCollapsible";
 import SidebarItem from "./SidebarItem";
 import TopLevelProviders from "./TopLevelProviders";
+import AdvancedSettings from "./AdvancedSettings";
 
 /**
  * Creates the Metabox component.
@@ -90,6 +91,15 @@ export default function Metabox( { settings, store, theme } ) {
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
 				</SidebarItem> }
+				<SidebarItem renderPriority={ 40 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "metabox" }
+					>
+						<AdvancedSettings />
+					</TopLevelProviders>
+				</SidebarItem>
 			</Fill>
 		</Fragment>
 	);
