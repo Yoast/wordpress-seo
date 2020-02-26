@@ -12,11 +12,13 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 /**
  * Indexable table definition.
  *
- * @property int    $id
- * @property int    $object_id
- * @property string $object_type
- * @property string $object_sub_type
- * @property int    $author_id
+ * @property int     $id
+ * @property int     $object_id
+ * @property string  $object_type
+ * @property string  $object_sub_type
+ *
+ * @property int     $author_id
+ * @property int     $post_parent
  *
  * @property string  $created_at
  * @property string  $updated_at
@@ -82,7 +84,17 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @var array
 	 */
-	protected $boolean_columns = [ 'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
+	protected $boolean_columns = [
+		'is_robots_noindex',
+		'is_robots_nofollow',
+		'is_robots_noarchive',
+		'is_robots_noimageindex',
+		'is_robots_nosnippet',
+		'is_cornerstone',
+		'is_public',
+		'is_protected',
+		'has_public_posts',
+	];
 
 	/**
 	 * The loaded indexable extensions.
