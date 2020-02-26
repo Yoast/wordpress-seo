@@ -69,7 +69,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'has_public_posts', true );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
@@ -77,7 +79,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'avatar_image.jpg' );
 
-		$builder = new Indexable_Author_Builder( new Options_Helper(), new Author_Archive_Helper() );
+		$author_archive = Mockery::mock( Author_Archive_Helper::class );
+		$author_archive->expects( 'author_has_public_posts' )->with( 1 )->andReturn( true );
+
+		$builder = new Indexable_Author_Builder( $author_archive );
 		$builder->build( 1, $indexable_mock );
 	}
 
@@ -126,7 +131,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'has_public_posts', true );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
@@ -134,7 +141,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'avatar_image.jpg' );
 
-		$builder = new Indexable_Author_Builder( new Options_Helper(), new Author_Archive_Helper() );
+		$author_archive = Mockery::mock( Author_Archive_Helper::class );
+		$author_archive->expects( 'author_has_public_posts' )->with( 1 )->andReturn( true );
+
+		$builder = new Indexable_Author_Builder( $author_archive );
 		$builder->build( 1, $indexable_mock );
 	}
 }
