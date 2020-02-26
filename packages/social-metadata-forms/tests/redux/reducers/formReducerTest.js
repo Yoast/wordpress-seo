@@ -1,6 +1,6 @@
 /* eslint-disable no-undefined */
 import * as actions from "../../../src/redux/actions/formActions";
-import { socialPreviewsReducer } from "../../../src/redux/reducers/index";
+import { socialReducer } from "../../../src/redux/reducers/index";
 
 const initialState = {
 	facebook: {
@@ -31,13 +31,13 @@ const initialState = {
 	},
 };
 
-describe( socialPreviewsReducer, () => {
+describe( socialReducer, () => {
 	it( "initializes the state", () => {
 		const state = undefined;
 		const action = {};
 
 		const expected = initialState;
-		const actual = socialPreviewsReducer( state, action );
+		const actual = socialReducer( state, action );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -48,7 +48,7 @@ describe( socialPreviewsReducer, () => {
 		const facebookAction = actions.setSocialPreviewTitle( "A title", "facebook" );
 		const expected = initialState.twitter;
 
-		const actualTwitter = socialPreviewsReducer( state, facebookAction ).twitter;
+		const actualTwitter = socialReducer( state, facebookAction ).twitter;
 
 		expect( actualTwitter ).toEqual( expected );
 	} );
@@ -64,7 +64,7 @@ describe( socialPreviewsReducer, () => {
 			title: "I feel changed!",
 		};
 
-		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
+		const actualFacebook = socialReducer( state, facebookAction ).facebook;
 
 		expect( actualFacebook ).toEqual( expected );
 	} );
@@ -78,7 +78,7 @@ describe( socialPreviewsReducer, () => {
 			title: "A title",
 		};
 
-		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
+		const actualFacebook = socialReducer( state, facebookAction ).facebook;
 
 		expect( actualFacebook ).toEqual( expected );
 	} );
@@ -90,7 +90,7 @@ describe( socialPreviewsReducer, () => {
 			description: "A description",
 		};
 
-		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
+		const actualFacebook = socialReducer( state, facebookAction ).facebook;
 
 		expect( actualFacebook ).toEqual( expected );
 	} );
@@ -102,7 +102,7 @@ describe( socialPreviewsReducer, () => {
 			image: { ...initialState.facebook.image, url: "http://anurl.nl" },
 		};
 
-		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
+		const actualFacebook = socialReducer( state, facebookAction ).facebook;
 
 		expect( actualFacebook ).toEqual( expected );
 	} );
@@ -114,7 +114,7 @@ describe( socialPreviewsReducer, () => {
 			image: { ...initialState.facebook.image, type: "JPG" },
 		};
 
-		const actualFacebook = socialPreviewsReducer( state, facebookAction ).facebook;
+		const actualFacebook = socialReducer( state, facebookAction ).facebook;
 
 		expect( actualFacebook ).toEqual( expected );
 	} );
