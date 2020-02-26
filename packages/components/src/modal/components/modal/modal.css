@@ -60,10 +60,13 @@
 .yoast-modal__menu {
     grid-area: menu;
     border-right: var(--border-default);
+    overflow-y: auto;
+}
+
+.yoast-modal__menu ul {
     padding: 0;
     margin: 0;
     list-style: none;
-    overflow-y: auto;
 }
 
 .yoast-modal__menu a {
