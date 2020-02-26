@@ -24,18 +24,8 @@
     margin-bottom: 24px;
 }
 
-
-/* Placeholder Firefox */
-::placeholder {
-    color: var(--color-placeholder);
-}
-
-/* Placeholder Chrome/Safari/Opera */
-::-webkit-input-placeholder {
-    color: var(--color-placeholder);
-}
-
-/* Placeholders Edge */
-::-ms-input-placeholder {
+::placeholder,
+::-webkit-input-placeholder,
+::-ms-input-placeholder{
     color: var(--color-placeholder);
 }

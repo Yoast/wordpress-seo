@@ -20,7 +20,7 @@
 }
 
 .yoast-modal__heading {
-    padding: 21px 24px 18px;
+    padding: 13px 24px 14px;
     display: flex;
     align-items: center;
     border-bottom: var(--border-default);
@@ -36,7 +36,7 @@
     flex-shrink: 0;
 }
 
-.yoast-button--close {
+.yoast .yoast-button--close {
     margin-left: auto;
     border: none;
     background: none;
@@ -44,6 +44,11 @@
     width: 44px;
     cursor: pointer;
     margin-right: -12px;
+    box-shadow: none;
+}
+
+.yoast .yoast-button--close::active {
+    top: 0;
 }
 
 .yoast-button--close svg {
@@ -93,6 +98,10 @@
     flex-direction: column;
 }
 
+.yoast-modal__section * {
+    max-width: 600px;
+}
+
 .yoast-modal__section-header {
     position: sticky;
     top: 0;
@@ -126,19 +135,18 @@
 .yoast-modal__settings-saved {
     position: relative;
     margin-right: 16px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .yoast-modal__settings-saved:before {
-    width: 4px;
-    height: 9px;
-    border: 3px solid var(--color-green);
-    border-top: 0;
-    border-left: 0;
-    transform: rotate(40deg);
     content: "";
+    background: var(--checkmark--green) no-repeat center;
+    height: 13px;
+    width: 14px;
+
     display: inline-block;
     margin-right: 8px;
-    border-radius: 2px;
 }
 
 
@@ -208,7 +216,6 @@
     }
 
     .yoast-modal__section-content {
-        border-top: var(--border-default);
         padding: 24px 0;
         margin: 0 16px;
     }
@@ -222,6 +229,7 @@
     }
 
     .yoast-modal__section-header {
+        top: 61px;
         padding: 16px;
         border-bottom: var(--border-default);
         cursor: pointer;
@@ -247,7 +255,10 @@
     }
 
     .yoast-modal__section-open  .yoast-modal__section-header{
-        border-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 16px;
+        margin-right: 16px;
     }
 
     .yoast-modal__section-open {
