@@ -226,11 +226,15 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * Generates the open graph article publisher.
 	 *
 	 * @return string The open graph article publisher.
-	 *
-	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function generate_open_graph_article_publisher() {
-		return $this->context->open_graph_publisher;
+		$open_graph_article_publisher = $this->context->open_graph_publisher;
+
+		if ( $open_graph_article_publisher ) {
+			return $open_graph_article_publisher;
+		}
+
+		return '';
 	}
 
 	/**
