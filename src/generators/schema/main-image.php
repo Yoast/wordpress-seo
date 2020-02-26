@@ -19,11 +19,15 @@ use Yoast\WP\SEO\Helpers\Schema;
 class Main_Image extends Abstract_Schema_Piece {
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The Schema image helper.
+	 *
 	 * @var Schema\Image_Helper
 	 */
 	private $schema_image;

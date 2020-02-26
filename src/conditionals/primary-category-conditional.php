@@ -31,13 +31,13 @@ class Primary_Category_Conditional implements Conditional {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function is_met() {
 		if ( ! \is_admin() ) {
 			return true;
 		}
 
-		return in_array( $this->current_page->get_current_admin_page(), [ 'edit.php', 'post.php', 'post-new.php' ], true );
+		return \in_array( $this->current_page->get_current_admin_page(), [ 'edit.php', 'post.php', 'post-new.php' ], true );
 	}
 }

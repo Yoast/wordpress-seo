@@ -20,11 +20,15 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class WooCommerce implements Integration_Interface {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var WPSEO_Replace_Vars
 	 */
 	private $replace_vars;

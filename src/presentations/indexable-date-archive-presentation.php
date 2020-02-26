@@ -71,13 +71,6 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_twitter_title() {
-		return $this->title;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_rel_prev() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {
 			return '';

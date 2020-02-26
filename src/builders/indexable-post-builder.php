@@ -428,7 +428,7 @@ class Indexable_Post_Builder {
 			return;
 		}
 
-		$image = $this->open_graph_image->get_image_url_by_id( $indexable->open_graph_image_id );
+		$image = $this->open_graph_image->get_image_by_id( $indexable->open_graph_image_id );
 
 		if ( ! empty( $image ) ) {
 			$indexable->open_graph_image      = $image['url'];

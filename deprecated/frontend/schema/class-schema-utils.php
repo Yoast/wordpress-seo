@@ -52,17 +52,15 @@ class WPSEO_Schema_Utils {
 	 * language tag syntax is made of one or more subtags separated by a hyphen
 	 * e.g. "en", "en-US", "zh-Hant-CN".
 	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 *
 	 * @param array $data The Schema piece data.
 	 *
-	 * @return string The Schema piece language.
+	 * @return array The Schema piece data with added language property.
 	 */
 	public static function add_piece_language( $data ) {
-		/**
-		 * Filter: 'wpseo_schema_piece_language' - Allow changing the Schema piece language.
-		 *
-		 * @api string $type The Schema piece language.
-		 */
-		$data['inLanguage'] = apply_filters( 'wpseo_schema_piece_language', get_bloginfo( 'language' ), $data );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return $data;
 	}

@@ -55,61 +55,85 @@ use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
 class Indexable_Presentation extends Abstract_Presentation {
 
 	/**
+	 * The indexable.
+	 *
 	 * @var Indexable
 	 */
 	public $model;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	public $context;
 
 	/**
+	 * The Schema generator.
+	 *
 	 * @var Schema_Generator
 	 */
 	protected $schema_generator;
 
 	/**
+	 * The Open Graph image generator.
+	 *
 	 * @var Open_Graph_Image_Generator
 	 */
 	protected $open_graph_image_generator;
 
 	/**
+	 * The Twitter image generator.
+	 *
 	 * @var Twitter_Image_Generator
 	 */
 	protected $twitter_image_generator;
 
 	/**
+	 * The Open Graph locale generator.
+	 *
 	 * @var Open_Graph_Locale_Generator
 	 */
 	private $open_graph_locale_generator;
 
 	/**
+	 * The breadcrumbs generator.
+	 *
 	 * @var Breadcrumbs_Generator
 	 */
 	private $breadcrumbs_generator;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * The user helper.
+	 *
 	 * @var User_Helper
 	 */
 	protected $user;

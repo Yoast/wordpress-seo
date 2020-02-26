@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Helpers\Site_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema WebPage data.
@@ -22,24 +22,32 @@ use Yoast\WP\SEO\Helpers\Site_Helper;
 class WebPage extends Abstract_Schema_Piece {
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The date helper.
+	 *
 	 * @var Date_Helper
 	 */
 	private $date;
 
 	/**
-	 * @var Site_Helper
+	 * The language helper.
+	 *
+	 * @var Language_Helper
 	 */
-	private $site;
+	private $language;
 
 	/**
 	 * WebPage constructor.
@@ -47,18 +55,18 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param HTML_Helper         $html         The HTML helper.
 	 * @param Date_Helper         $date         The date helper.
-	 * @param Site_Helper         $site         The site helper.
+	 * @param Language_Helper     $language     The language helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page,
 		HTML_Helper $html,
 		Date_Helper $date,
-	    Site_Helper $site
+		Language_Helper $language
 	) {
 		$this->current_page = $current_page;
 		$this->date         = $date;
 		$this->html         = $html;
-		$this->site         = $site;
+		$this->language     = $language;
 	}
 
 	/**
@@ -84,7 +92,6 @@ class WebPage extends Abstract_Schema_Piece {
 			'@type'      => $context->schema_page_type,
 			'@id'        => $context->canonical . $this->id->webpage_hash,
 			'url'        => $context->canonical,
-			'inLanguage' => $this->site->get_language(),
 			'name'       => $this->html->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id->website_hash,
@@ -117,6 +124,8 @@ class WebPage extends Abstract_Schema_Piece {
 				'@id' => $context->canonical . $this->id->breadcrumb_hash,
 			];
 		}
+
+		$data = $this->language->add_piece_language( $data );
 
 		return $data;
 	}

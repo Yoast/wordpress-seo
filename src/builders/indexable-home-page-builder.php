@@ -14,13 +14,18 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
  * Formats the homepage meta to indexable format.
  */
 class Indexable_Home_Page_Builder {
+	use Indexable_Social_Image_Trait;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;
@@ -62,6 +67,13 @@ class Indexable_Home_Page_Builder {
 		$indexable->open_graph_image       = $this->options->get( 'og_frontpage_image' );
 		$indexable->open_graph_image_id    = $this->options->get( 'og_frontpage_image_id' );
 		$indexable->open_graph_description = $this->options->get( 'og_frontpage_desc' );
+
+		// When the image or image id is set.
+		if ( $indexable->open_graph_image || $indexable->open_graph_image_id ) {
+			$indexable->open_graph_image_source = 'set-by-user';
+
+			$this->set_open_graph_image_meta_data( $indexable );
+		}
 
 		return $indexable;
 	}

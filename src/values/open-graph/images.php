@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Values\Images as Base_Images;
 class Images extends Base_Images {
 
 	/**
+	 * The Open Graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
@@ -52,7 +54,7 @@ class Images extends Base_Images {
 	 * @return void
 	 */
 	public function add_image_by_id( $image_id ) {
-		$attachment = $this->open_graph_image->get_image_url_by_id( $image_id );
+		$attachment = $this->open_graph_image->get_image_by_id( $image_id );
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );

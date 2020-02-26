@@ -19,6 +19,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Front_End_Integration implements Integration_Interface {
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
@@ -230,7 +232,7 @@ class Front_End_Integration implements Integration_Interface {
 
 		$presenters = $this->get_all_presenters();
 		// Filter out the presenters only needed for singular pages on non-singular pages.
-		if ( $page_type !== 'Post_Type' ) {
+		if ( ! in_array( $page_type, [ 'Post_Type', 'Static_Home_Page' ], true ) ) {
 			$presenters = array_diff( $presenters, $this->singular_presenters );
 		}
 

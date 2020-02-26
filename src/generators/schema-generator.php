@@ -21,16 +21,22 @@ use Yoast\WP\SEO\Presentations\Generators\Schema\Abstract_Schema_Piece;
 class Schema_Generator implements Generator_Interface {
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var ID_Helper
 	 */
 	private $id;
 
 	/**
+	 * The generator interface.
+	 *
 	 * @var Generator_Interface[]
 	 */
 	private $generators;
@@ -140,7 +146,8 @@ class Schema_Generator implements Generator_Interface {
 				/**
 				 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
 				 *
-				 * @api array               $graph_piece The graph piece to filter.
+				 * @api array $graph_piece The graph piece to filter.
+				 *
 				 * @param Meta_Tags_Context $context     A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );

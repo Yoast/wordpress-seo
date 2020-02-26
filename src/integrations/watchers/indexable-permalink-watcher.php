@@ -18,12 +18,14 @@ use Yoast\WP\SEO\WordPress\Wrapper;
  */
 class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
+	 * The post type helper.
+	 *
 	 * @var Post_Type_Helper
 	 */
 	private $post_type;
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {

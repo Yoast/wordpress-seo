@@ -88,6 +88,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * Redirects out the ?replytocom variables.
 	 *
 	 * @since 1.4.13
+	 *
 	 * @return boolean True when redirect has been done.
 	 */
 	public function replytocom_redirect() {

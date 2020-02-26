@@ -15,11 +15,15 @@ use Exception;
 class Abstract_Presentation {
 
 	/**
+	 * The model.
+	 *
 	 * @var mixed
 	 */
 	public $model;
 
 	/**
+	 * Whether or not there is a presentation prototype.
+	 *
 	 * @var bool
 	 */
 	private $is_prototype = true;

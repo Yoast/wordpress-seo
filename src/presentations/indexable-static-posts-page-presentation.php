@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
 
 	/**
+	 * The pagination helper.
+	 *
 	 * @var Pagination_Helper
 	 */
 	protected $pagination;

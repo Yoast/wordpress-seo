@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 class Current_Page_Surface {
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer;
 	 */
 	private $meta_tags_context_memoizer;
@@ -70,5 +72,16 @@ class Current_Page_Surface {
 		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
 
 		return $meta_tags_context->presentation->robots;
+	}
+
+	/**
+	 * Returns the presentation of the current page.
+	 *
+	 * @return \Yoast\WP\SEO\Presentations\Indexable_Presentation The presentation.
+	 */
+	public function get_presentation() {
+		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
+
+		return $meta_tags_context->presentation;
 	}
 }

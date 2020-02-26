@@ -88,7 +88,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );

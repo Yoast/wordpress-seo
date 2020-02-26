@@ -44,16 +44,22 @@ class Person extends Abstract_Schema_Piece {
 	protected $type = [ 'Person', 'Organization' ];
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The Schema image helper.
+	 *
 	 * @var Schema\Image_Helper
 	 */
 	private $schema_image;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
