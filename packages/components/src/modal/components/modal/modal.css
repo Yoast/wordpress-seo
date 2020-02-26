@@ -26,6 +26,7 @@
     border-bottom: var(--border-default);
     grid-area: heading;
     background: var(--color-white);
+    height:72px;
 }
 
 .yoast-modal__heading-icon {
@@ -36,25 +37,29 @@
     flex-shrink: 0;
 }
 
-.yoast .yoast-button--close {
-    margin-left: auto;
+.yoast-close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     background: none;
     height: 44px;
     width: 44px;
     cursor: pointer;
-    margin-right: -12px;
     box-shadow: none;
+    padding: 0;
+    position: absolute;
+    right: 16px
 }
 
-.yoast .yoast-button--close::active {
+.yoast-close::active {
     top: 0;
 }
 
-.yoast-button--close svg {
+.yoast-close svg {
     margin-right: 0;
     fill: var(--color-font-default);
-    width: 14px;
+    width: 13px;
 }
 
 .yoast-modal__menu {
@@ -193,14 +198,15 @@
     }
 
     .yoast-modal__heading {
-        padding: 8px 16px 8px;
+        padding: 14px 16px 15px;
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 11;
+        height: auto;
     }
 
-    .yoast-button--close svg {
+    .yoast-close svg {
         width: 10px;
     }
 
@@ -224,7 +230,7 @@
     }
 
     .yoast-modal__section:first-of-type {
-        margin-top: 61px;
+        margin-top: 46px;
     }
 
     .yoast-modal__section:last-of-type {
@@ -232,7 +238,7 @@
     }
 
     .yoast-modal__section-header {
-        top: 61px;
+        top: 46px;
         padding: 16px;
         border-bottom: var(--border-default);
         cursor: pointer;
