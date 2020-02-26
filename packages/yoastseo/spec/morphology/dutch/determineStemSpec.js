@@ -133,107 +133,104 @@ const wordsToStem = [
 	 * and is neither in an exception list nor ends in t/d (1-12)
 	 */
 	[ "rennende", "ren" ],
-	// Word that gets suffix -end/-ende (9-i) and is in an verb exception list (1-11)
+	// Word that gets suffix -end/-ende and is in an verb exception list (9i-11)
 	[ "smeltend", "smelt" ],
 	[ "helpende", "help" ],
-	/*
-	 * Word that gets suffix -end/-ende and gets stem modification after suffix deletion (9-j)
-	 * and is in an verb exception list (1-11)
-	 */
+	// Word that gets suffix -end/-ende and gets stem modification after suffix deletion and is in an verb exception list (9j-11)
 	[ "wegend", "weeg" ],
 	[ "wegende", "weeg" ],
-	// Word that ends in -t end gets -end suffix (4-h-13)
+	// Word that ends in -t end gets -end suffix (4h-13)
 	[ "plantend", "plant" ],
 	/*
-	 * Word that gets suffix -end/-ende and gets stem modification after suffix deletion (9-j)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -end/-ende and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9j-12)
 	 */
 	[ "makende", "maak" ],
 	[ "makend", "maak" ],
-	// Word that gets suffix -de/-den (9-k) and is in an verb exception list (1-11)
+	// Word that gets suffix -de/-den and is in an verb exception list (9k-11)
 	[ "beginde", "begin" ],
 	[ "vouwden", "vouw" ],
-	// Word that gets suffix -de/-den (9-k) and is neither in an exception list nor ends in t/d (1-12)
+	// Word that gets suffix -de/-den and is neither in an exception list nor ends in t/d (9k-12)
 	[ "waagde", "waag" ],
 	[ "humde", "hum" ],
-	// Word that gets suffix -ë (9-l) and is neither in an exception list nor ends in t/d (1-12)
+	// Word that gets suffix -ë and is neither in an exception list nor ends in t/d (9l-12)
 	[ "moeë", "moe" ],
 	[ "reeë", "ree" ],
-	// Word that gets suffix -e (9-m) and is neither in an exception list nor ends in t/d (1-12)
+	// Word that gets suffix -e and is neither in an exception list nor ends in t/d (9m-12)
 	[ "lekkere", "lekker" ],
 	[ "bittere", "bitter" ],
 	/*
-	 * Word that gets suffix -e and gets stem modification after suffix deletion (9-n-iv)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -e and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9n-12)
 	 */
 	[ "schone", "schoon" ],
 	[ "hoge", "hoog" ],
 	/*
-	 * Word that gets suffix -etje and gets stem modification after suffix deletion (9-g-o)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -etje and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9go-12)
 	 */
 	[ "balletje", "bal" ],
 	/*
-	 * Word that gets suffix -e and gets stem modification after suffix deletion (9-m-o)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -e and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9mo-12)
 	 */
 	[ "zwakke", "zwak" ],
-	// Change -iël to -ieel after suffix -er/-ers/-ere deletion (9-c-p) and the stem is neither in an exception list nor ends in t/d (1-12)
+	// Change -iël to -ieel after suffix -er/-ers/-ere deletion and the stem is neither in an exception list nor ends in t/d (9cp-12)
 	[ "partiëler", "partieel" ],
 	[ "essentiëlers", "essentieel" ],
 	[ "initiëlere", "initieel" ],
-	// Change -iël to -ieel after suffix -e deletion (9-m-p) and the stem is neither in an exception list nor ends in t/d (1-12)
+	// Change -iël to -ieel after suffix -e deletion and the stem is neither in an exception list nor ends in t/d (9mp-12)
 	[ "initiële", "initieel" ],
 	[ "essentiële", "essentieel" ],
 	/*
-	 * Word that gets suffix -en and undergoes stem-ending devoicing after suffix deletion (9-c-q)
-	 * and is in an verb exception list (1-11)
+	 * Word that gets suffix -en and undergoes stem-ending devoicing after suffix deletion
+	 * and is in an verb exception list (9cq-11)
 	 */
 	[ "bedelven", "bedelf" ],
 	[ "vriezen", "vries" ],
 	/*
-	 * Word that gets suffix -en and gets stem modification after suffix deletion (9-d-q)
-	 * and is in verb exception list (1-11)
+	 * Word that gets suffix -en and gets stem modification after suffix deletion
+	 * and is in verb exception list (9dq-11)
 	 */
 	[ "geblazen", "blaas" ],
 	/*
-	 * Word that gets suffix -en and undergoes stem-ending devoicing after suffix deletion (9-c-q)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -en and undergoes stem-ending devoicing after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9cq-12)
 	 */
 	[ "luizen", "luis" ],
 	/*
-	 * Word that gets suffix -en and gets stem modification after suffix deletion (9-d-q)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -en and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9dq-12)
 	 */
 	[ "reven", "reef" ],
 	/*
-	 * Word that gets suffix -end and undergoes stem-ending devoicing after suffix deletion (9-i-q)
-	 * and is in verb exception list (1-11)
+	 * Word that gets suffix -end and undergoes stem-ending devoicing after suffix deletion
+	 * and is in verb exception list (9iq-11)
 	 */
 	[ "bedelvend", "bedelf" ],
 	/*
-	 * Word that gets suffix -ende and gets stem modification after suffix deletion (9-j-q)
-	 * and is in an verb exception list (1-11)
+	 * Word that gets suffix -ende and gets stem modification after suffix deletion
+	 * and is in an verb exception list (9jq-11)
 	 */
 	[ "blazende", "blaas" ],
 	/*
-	 * Word that gets suffix -end/-ende and undergoes stem-ending devoicing after suffix deletion (9-i-q)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -end/-ende and undergoes stem-ending devoicing after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9iq-12)
 	 */
 	[ "luizend", "luis" ],
 	[ "grievende", "grief" ],
 	/*
-	 * Word that gets suffix -end/-ende and gets stem modification after suffix deletion (9-j-q)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+	 * Word that gets suffix -end/-ende and gets stem modification after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9jq-12)
 	 */
 	[ "snevende", "sneef" ],
 	[ "dovend", "doof" ],
 	/*
- 	 * Word that gets suffix -e and undergoes stem-ending devoicing after suffix deletion (9-m-q)
-	 * and is neither in an exception list nor ends in t/d (1-12)
+ 	 * Word that gets suffix -e and undergoes stem-ending devoicing after suffix deletion
+	 * and is neither in an exception list nor ends in t/d (9mq-12)
  	*/
 	[ "vieze", "vies" ],
-	// Word that gets suffix -e and gets stem modification after suffix deletion (9-n-q) and is neither in an exception list nor ends in t/d (1-12)
+	// Word that gets suffix -e and gets stem modification after suffix deletion and is neither in an exception list nor ends in t/d (9nq-12)
 	[ "daze", "daas" ],
 
 
