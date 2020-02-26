@@ -1,4 +1,5 @@
 import { analysis } from "yoast-components";
+import { socialReducer } from "@yoast/social-metadata-forms";
 
 import activeMarker from "./activeMarker";
 import analysisDataReducer from "./analysisData";
@@ -23,6 +24,7 @@ export default {
 	primaryTaxonomies,
 	isMarkerPaused,
 	settings,
+	socialReducer,
 	snippetEditor,
 	warning,
 };
