@@ -36,13 +36,14 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has a public post.
 	 */
 	public function author_has_public_posts( $author_id ) {
-		$indexable = Yoast_Model::of_type( 'Indexable' )
+		$indexable_exists = Yoast_Model::of_type( 'Indexable' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )
 			->where( 'is_public', 1 )
-			->find_one();
+			->limit( 1 )
+			->count();
 
-		return $indexable !== false;
+		return $indexable_exists === 1;
 	}
 }
