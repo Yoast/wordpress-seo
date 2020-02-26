@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
-use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 
 /**
  * Class Image_Helper
@@ -30,14 +30,25 @@ class Image_Helper {
 	private $language;
 
 	/**
+	 * Represents the main image helper.
+	 *
+	 * @var Main_Image_Helper
+	 */
+	private $image;
+
+	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param HTML_Helper     $html     The HTML helper.
-	 * @param Language_Helper $language The language helper.
+	 * @param HTML_Helper       $html     The HTML helper.
+	 * @param Language_Helper   $language The language helper.
+	 * @param Main_Image_Helper $image    The 'main' image helper.
+	 *
+	 * @codeCoverageIgnore It handles dependencies.
 	 */
-	public function __construct( HTML_Helper $html, Language_Helper $language ) {
+	public function __construct( HTML_Helper $html, Language_Helper $language, Main_Image_Helper $image ) {
 		$this->html     = $html;
 		$this->language = $language;
+		$this->image    = $image;
 	}
 
 	/**
@@ -50,7 +61,7 @@ class Image_Helper {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_url( $schema_id, $url, $caption = '' ) {
-		$attachment_id = \WPSEO_Image_Utils::get_attachment_by_url( $url );
+		$attachment_id = $this->image->get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
 			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption );
 		}
@@ -70,7 +81,7 @@ class Image_Helper {
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
 		$data = $this->generate_object( $schema_id );
 
-		$data['url'] = \wp_get_attachment_image_url( $attachment_id, 'full' );
+		$data['url'] = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 		$data        = $this->add_image_size( $data, $attachment_id );
 		$data        = $this->add_caption( $data, $attachment_id, $caption );
 
@@ -114,16 +125,11 @@ class Image_Helper {
 			return $data;
 		}
 
-		$caption = \wp_get_attachment_caption( $attachment_id );
+		$caption = $this->image->get_caption( $attachment_id );
 		if ( ! empty( $caption ) ) {
 			$data['caption'] = $this->html->smart_strip_tags( $caption );
 
 			return $data;
-		}
-
-		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
-		if ( ! empty( $caption ) ) {
-			$data['caption'] = $this->html->smart_strip_tags( $caption );
 		}
 
 		return $data;
@@ -156,9 +162,9 @@ class Image_Helper {
 	 * @return array An imageObject with width and height set if available.
 	 */
 	private function add_image_size( $data, $attachment_id ) {
-		$image_meta = \wp_get_attachment_metadata( $attachment_id );
+		$image_meta = $this->image->get_metadata( $attachment_id );
 		if ( empty( $image_meta['width'] ) || empty( $image_meta['height'] ) ) {
-			return;
+			return $data;
 		}
 		$data['width']  = $image_meta['width'];
 		$data['height'] = $image_meta['height'];
