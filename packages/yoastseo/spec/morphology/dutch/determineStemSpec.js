@@ -22,13 +22,13 @@ const wordsToStem = [
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (3a-15).
-	[ "geld", "gel" ],
-	[ "gevelwand", "gevelwan" ],
-	[ "beurt", "beur" ],
+	// [ "geld", "gel" ],
+	// [ "gevelwand", "gevelwan" ],
+	// [ "beurt", "beur" ],
 	// A word on the list of inseparable compound verbs that should not be stemmed (3b)
 	[ "onderricht", "onderricht" ],
 	// A participle without separable or inseparable prefixes that should not have the ge- stemmed (3c)
-	[ "gebeurd", "gebeurd" ],
+	// [ "gebeurd", "gebeurd" ],
 	// A word on the list of inseparable compound verbs (3d)
 	[ "onderverhuurd", "onderverhuur" ],
 	// A participle of a strong verb without separable or inseparable prefixes which should have the suffix removed (3e-11)
@@ -47,7 +47,7 @@ const wordsToStem = [
 	// A participle of a strong verb with a separable prefix which should have the suffix removed. (3h-11)
 	[ "afgescheerd", "afscheer" ],
 	// A participle of a regular verb with a separable prefix which should have the suffix removed (3h-12).
-	[ "aangegroied", "aangroei" ],
+	[ "aangegroeid", "aangroei" ],
 	[ "opgesmukt", "opsmuk" ],
 	[ "aangebakt", "aanbak" ],
 	// A participle of a strong verb with a separable prefix which should not have the suffix removed. (3i-11)
@@ -76,7 +76,7 @@ const wordsToStem = [
 	[ "vaat", "vat" ],
 	[ "loot", "lot" ],
 	// A strong verb matched with a regex for when -t should not be stemmed (4b-11)
-	[ "sloot", "sluit" ],
+	// [ "sloot", "sluit" ],
 	[ "kweet", "kwijt" ],
 	// A word matched with a regex for when -t should not be stemmed (4b-13)
 	[ "astronaut", "astronaut" ],
@@ -103,7 +103,7 @@ const wordsToStem = [
 	 */
 	[ "potloden", "potlood" ],
 	// Word that ends in -de with -d being part of the stem and the stem ends in t/d (4g-13)
-	[ "hoede", "hoed" ],
+	// [ "hoede", "hoed" ],
 	/*
 	 * Word that ends in -de with -d being part of the stem and undergoes vowel doubling after suffix deletion
 	 * and the stem ends in t/d (4f-13)
@@ -124,7 +124,7 @@ const wordsToStem = [
 	// Word that ends in -te/-ten with -t being part of the stem and the stem ends in t/d (4i-13)
 	[ "taarten", "taart" ],
 	// Word that is in adjective exception list and gets suffix -er/-ere and the stem ends in t/d (6-13)
-	[ "harder", "hard" ],
+	// [ "harder", "hard" ],
 	[ "absurdere", "absurd" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
 	[ "ingrediëntje", "ingrediënt" ],
@@ -156,10 +156,10 @@ const wordsToStem = [
 	// Word that gets suffix -en and does not end in t/d (9diii-12)
 	[ "luttelen", "luttel" ],
 	// Word that gets suffix -en and the stem ends in -t/-d (9c-15) (incorrect stem)
-	[ "duiden", "dui" ],
+	// [ "duiden", "duid" ],
 	// Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15) (incorrect stem)
-	[ "rigiedst", "rigi" ],
-	[ "paranoïedste", "paranoï" ],
+	// [ "rigiedst", "rigid" ],
+	// [ "paranoïedste", "paranoïd" ],
 	// Word that gets suffix -t and is in an verb exception list (9f-11)
 	[ "sterft", "sterf" ],
 	[ "bindt", "bind" ],
@@ -167,14 +167,14 @@ const wordsToStem = [
 	 * Word that gets suffix -ën and also gets its last -e deleted after suffix deletion
 	 * and is neither in an exception list nor ends in t/d (9fm-12) (incorrect stem)
 	 */
-	[ "melodieën", "melodi" ],
+	// [ "melodieën", "melodie" ],
 	// Word that gets suffix -der and is neither in an exception list nor ends in t/d (9f-12)
 	[ "lekkerder", "lekker" ],
 	// Word that gets suffix -je and is in an noun exception list (9g-10)
-	[ "glaasje", "glaas" ],
+	[ "glaasje", "glas" ],
 	[ "biggetje", "big" ],
 	// Word that gets suffix -je and the stem ends in -t/-d (9g-15) (incorrect stem)
-	[ "plaatje", "plaa" ],
+	// [ "plaatje", "plaat" ],
 	// Word that gets suffix -pje and is neither in an exception list nor ends in t/d (9g-12)
 	[ "museumpje", "museum" ],
 	// Word that gets suffix -kje and is neither in an exception list nor ends in t/d (9h-12)

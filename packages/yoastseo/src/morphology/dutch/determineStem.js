@@ -1,28 +1,8 @@
 import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
 import { flatten } from "lodash-es";
 import stem from "./stem";
-import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-
-// Check full forms exception form words with multiple stems
-// Check noun exceptions for words that are listed with more than one stems.
-/**
- * Checks if the word checked is in the list of noun exception with two stems.
- * If it is, return the first stem of the stem set.
- *
- * @param {Object} morphologyDataNouns The Dutch data file for nouns.
- * @param {string} stemmedWord The word to check.
- * @returns {string} The unique stem.
- */
-const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	for ( const stemSet of morphologyDataNouns.exceptions.nounExceptionWithTwoStems ) {
-		const foundStem =  stemSet.find( stemWord => stemmedWord.endsWith( stemWord ) );
-		if ( foundStem ) {
-			const precedingLexicalMaterial = stemmedWord.slice( 0, stemmedWord.length - foundStem.length );
-
-			return precedingLexicalMaterial + stemSet[ 0 ];
-		}
-	}
-};
+import { createSecondStemWithoutAmbiguousEnding } from "./createSecondStemWithoutAmbiguousEnding";
+import { checkExceptionListWithTwoStems } from "../morphoHelpers/exceptionListHelpers";
 
 /**
  * Checks if the word checked is in the list of strong verbs exceptions. If it is, only return the first stem from the stem set.
@@ -106,9 +86,8 @@ export function determineStem( morphologyDataNL, word ) {
 	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
 	 * If no stem has been found, return the original, programmatically created, stem.
 	 */
-	return findStemOnNounExceptionList( morphologyDataNL.nouns, stemmedWord ) ||
+	return checkExceptionListWithTwoStems( morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems, stemmedWord ) ||
 		   findStemOnVerbExceptionList( morphologyDataNL.verbs, stemmedWord ) ||
-		   detectAndStemRegularParticiple( morphologyDataNL.verbs, word ) ||
-		   stemmedWord;
+		   createSecondStemWithoutAmbiguousEnding( morphologyDataNL, stemmedWord, word );
 }
 

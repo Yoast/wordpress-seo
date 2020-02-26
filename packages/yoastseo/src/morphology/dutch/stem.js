@@ -3,6 +3,8 @@ import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
 import { flatten } from "lodash-es";
+import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 
 /**
  * @file Dutch stemming algorithm. Adapted from:
@@ -185,29 +187,43 @@ const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms,
 };
 
 /**
- * Stems Dutch words.
+ * Checks if the word is a participle, ends in ambiguous -t/-d ending, or in a exception list.
  *
- * @param {string} word  The word to stem.
+ * @param {string} word The word to check.
  * @param {Object} morphologyDataNL The Dutch morphology data file.
- *
- * @returns {string} The stemmed word.
+ * @returns {string} The correct stem.
  */
-export default function stem( word, morphologyDataNL ) {
+const checkIfWordIsAnException = function( word, morphologyDataNL ) {
+	// Check whether the word is in the full form exception list. If it is, return the canonical stem.
+	const checkIfWordInFullFormsList = checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, word );
+	if ( checkIfWordInFullFormsList ) {
+		return checkIfWordInFullFormsList;
+	}
+	// Check if the word is a participle.
+	const checkIfWordIsAParticiple = detectAndStemRegularParticiple( morphologyDataNL, word );
+	if ( checkIfWordIsAParticiple ) {
+		return checkIfWordIsAParticiple;
+	}
 	// Check whether the word is on an exception list of words that shouldn't be stemmed. If it is, return the word.
 	const wordsNotToBeStemmed = flatten( Object.values( morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) );
 
 	if ( checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed ) ) {
 		return word;
 	}
+	// Check if the word ends in -t/-te/-ten/-tend/-de/-den/-dend
+	const tAndDEndings = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.otherTAndDEndings
+	for ( const ending of tAndDEndings ) {
+		if ( word.endsWith( ending ) ) {
+			/*
+	 		 * Return the word if it should not be stemmed.
+	 		 * And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
+			 */
+			const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
 
-	/*
-	 * Return the word if it should not be stemmed.
-	 * And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
-	 */
-	const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
-
-	if ( tAndDStemmingCheck ) {
-		return tAndDStemmingCheck;
+			if ( tAndDStemmingCheck ) {
+				return tAndDStemmingCheck;
+			}
+		}
 	}
 	/*
 	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
@@ -238,7 +254,21 @@ export default function stem( word, morphologyDataNL ) {
 	if ( stemFromFullFormAndDeleteFinalVowel ) {
 		return stemFromFullFormAndDeleteFinalVowel.slice( 0, -1 );
 	}
+};
 
+/**
+ * Stems Dutch words.
+ *
+ * @param {string} word  The word to stem.
+ * @param {Object} morphologyDataNL The Dutch morphology data file.
+ *
+ * @returns {string} The stemmed word.
+ */
+export default function stem( word, morphologyDataNL ) {
+	const ifTheWordIsAnException = checkIfWordIsAnException( word, morphologyDataNL );
+	if ( ifTheWordIsAnException ) {
+		return ifTheWordIsAnException;
+	}
 	/*
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.

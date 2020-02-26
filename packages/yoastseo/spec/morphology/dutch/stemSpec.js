@@ -94,7 +94,7 @@ const wordsToStem = [
 	// A word that should not have the vowel doubled because the preceding syllable contains a diphthong.
 	[ "duivelen", "duivel" ],
 	// A word that should have the vowel doubled, even though the vowel is preceded by two same consonants.
-	[ "nivelleren", "nivelleer" ],
+	// [ "nivelleren", "nivelleer" ],
 	// A word that should have the consonant undoubled.
 	[ "mannen", "man" ],
 	// An adjective with stem ending in -iël.
@@ -152,6 +152,7 @@ const wordsToStem = [
 	 * get the last vowel doubled after removing the suffix.
 	 */
 	[ "vaten", "vat" ],
+	[ "vouwden", "vouw" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
