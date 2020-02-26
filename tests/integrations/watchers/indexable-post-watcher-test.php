@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Brain\Monkey;
+use Exception;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -263,7 +264,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->never();
 
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andThrow( \Exception::class );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andThrow( Exception::class );
 
 		$this->instance->build_indexable( $id );
 	}
@@ -368,8 +369,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 */
 	public function test_update_has_public_posts_with_post() {
 		$post_indexable                  = Mockery::mock();
+		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
+		$post_indexable->is_public       = null;
 
 		$author_indexable            = Mockery::mock();
 		$author_indexable->object_id = 11;
@@ -377,6 +380,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->with( 1, 'user' )->once()->andReturn( $author_indexable );
 		$this->author_archive->expects( 'author_has_public_posts' )->with( 11 )->once()->andReturn( true );
 		$author_indexable->expects( 'save' )->once();
+
+		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
 
 		$this->instance->update_has_public_posts( $post_indexable );
 
@@ -390,156 +395,17 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 */
 	public function test_update_has_public_posts_with_post_throwing_exceptions() {
 		$post_indexable                  = Mockery::mock();
+		$post_indexable->object_id       = 33;
 		$post_indexable->object_sub_type = 'post';
 		$post_indexable->author_id       = 1;
+		$post_indexable->is_public       = null;
 
-		$this->repository->expects( 'find_by_id_and_type' )->with( 1, 'user' )->once()->andThrow( new \Exception() );
+		$this->repository->expects( 'find_by_id_and_type' )->with( 1, 'user' )->once()->andThrow( new Exception() );
 		$this->author_archive->expects( 'author_has_public_posts' )->never();
 
+		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
+
 		$this->instance->update_has_public_posts( $post_indexable );
-	}
-
-	/**
-	 * Tests the attachment logic with no attachment (post) found.
-	 *
-	 * @covers ::update_has_public_posts
-	 */
-	public function test_update_has_public_posts_for_attachment_with_no_post_found() {
-		$indexable                  = Mockery::mock( Indexable::class );
-		$indexable->object_id       = 1337;
-		$indexable->object_sub_type = 'attachment';
-
-		$indexable->expects( 'save' )->never();
-
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1337 )
-			->andReturn( false );
-
-		$this->instance->update_has_public_posts( $indexable );
-	}
-
-	/**
-	 * Tests the attachment logic with the attachment not having a post parent.
-	 *
-	 * @covers ::update_has_public_posts
-	 */
-	public function test_update_has_public_posts_for_attachment_with_no_post_parent() {
-		$indexable                  = Mockery::mock( Indexable::class );
-		$indexable->object_id       = 1337;
-		$indexable->object_sub_type = 'attachment';
-
-		$indexable->expects( 'save' )->once();
-
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1337 )
-			->andReturn(
-				(object) [
-					'post_parent' => 0,
-				]
-			);
-
-		$this->instance
-			->expects( 'attachment_has_public_posts' )
-			->with( 0, $indexable )
-			->once()
-			->andReturnFalse();
-
-		$this->instance->update_has_public_posts( $indexable );
-
-		$this->assertFalse( $indexable->has_public_posts );
-	}
-
-	/**
-	 * Tests the attachment logic with the attachment not having a post parent.
-	 *
-	 * @covers ::update_has_public_posts
-	 */
-	public function test_update_has_public_posts_for_attachment_with_no_value_change() {
-		$indexable                   = Mockery::mock( Indexable::class );
-		$indexable->object_id        = 1337;
-		$indexable->object_sub_type  = 'attachment';
-		$indexable->has_public_posts = true;
-
-		$indexable->expects( 'save' )->never();
-
-		$this->post->expects( 'get_post' )
-			->once()
-			->with( 1337 )
-			->andReturn(
-				(object) [
-					'post_parent' => 707,
-				]
-			);
-
-		$this->instance
-			->expects( 'attachment_has_public_posts' )
-			->with( 707, $indexable )
-			->once()
-			->andReturnTrue();
-
-		$this->instance->update_has_public_posts( $indexable );
-	}
-
-	/**
-	 * Tests if the attachment has public posts when no parent id is set.
-	 *
-	 * @covers ::attachment_has_public_posts
-	 */
-	public function test_attachment_has_public_posts_with_no_parent_id() {
-		$this->assertFalse( $this->instance->attachment_has_public_posts( 0, Mockery::mock( Indexable::class ) ) );
-	}
-
-	/**
-	 * Tests if the attachment has public posts with having publish as the attachment post status.
-	 *
-	 * @covers ::attachment_has_public_posts
-	 */
-	public function test_attachment_has_public_posts_with_no_inherit_post_status() {
-		$indexable = Mockery::mock( Indexable::class );
-		$indexable->post_status = 'publish';
-
-		$this->assertFalse( $this->instance->attachment_has_public_posts( 1337, $indexable ) );
-	}
-
-	/**
-	 * Tests if the attachment has public posts with having publish as the attachment post status.
-	 *
-	 * @covers ::attachment_has_public_posts
-	 */
-	public function test_attachment_has_public_posts_with_public_parent_indexable() {
-		$indexable = Mockery::mock( Indexable::class );
-		$indexable->post_status = 'inherit';
-
-		$parent_indexable = Mockery::mock( Indexable::class );
-		$parent_indexable->is_public = true;
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1337, 'post' )
-			->andReturn( $parent_indexable );
-
-		$this->assertTrue( $this->instance->attachment_has_public_posts( 1337, $indexable ) );
-	}
-
-	/**
-	 * Tests if the attachment has public posts with the repository throwing an exception.
-	 *
-	 * @covers ::attachment_has_public_posts
-	 */
-	public function test_attachment_has_public_posts_with_exception_being_thrown() {
-		$indexable = Mockery::mock( Indexable::class );
-		$indexable->post_status = 'inherit';
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1337, 'post' )
-			->andThrow( \Exception::class );
-
-		$this->assertFalse( $this->instance->attachment_has_public_posts( 1337, $indexable ) );
 	}
 
 	/**
@@ -554,7 +420,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable::class );
 		$indexable->is_public = true;
 		$indexable->expects( 'save' )->once();
 
@@ -562,7 +428,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
-			->andReturn( [ $indexable ] ) ;
+			->andReturn( [ $indexable ] );
 
 		$this->instance->update_relations( $post );
 	}

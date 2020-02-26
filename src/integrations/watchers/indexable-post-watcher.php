@@ -193,34 +193,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Updates the has_public_posts when the post indexable is built.
 	 *
-	 * Note: We only want to update `has_public_posts`. We do not do this in the builder for performance reasons.
-	 *
 	 * @param Indexable $indexable The indexable to check.
 	 */
 	protected function update_has_public_posts( $indexable ) {
-		/*
-		 * For attachments the `has_public_posts` represents whether:
-		 * - The attachment has a post parent.
-		 * - The attachment inherits the post status.
-		 * - The post parent is public.
-		 */
-		if ( $indexable->object_sub_type === 'attachment' ) {
-			$attachment = $this->post->get_post( $indexable->object_id );
-			if ( ! is_object( $attachment ) ) {
-				return;
-			}
-
-			$has_public_posts = $this->attachment_has_public_posts( (int) $attachment->post_parent, $indexable );
-
-			// This check prevents a infinite loop due to saving the attachment again.
-			if ( $indexable->has_public_posts !== $has_public_posts ) {
-				$indexable->has_public_posts = $has_public_posts;
-				$indexable->save();
-			}
-
-			return;
-		}
-
+		// Update the author indexable's has public posts value.
 		try {
 			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
 			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
@@ -228,32 +204,9 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
-	}
 
-	/**
-	 * Checks if given attachment has any public posts.
-	 *
-	 * @param int       $parent_id The parent post id.
-	 * @param Indexable $indexable The indexable for the attachment.
-	 *
-	 * @return bool True when the parent indexable has is_public set to true.
-	 */
-	protected function attachment_has_public_posts( $parent_id, Indexable $indexable ) {
-		if ( $parent_id === 0 ) {
-			return false;
-		}
-
-		if ( $indexable->post_status !== 'inherit' ) {
-			return false;
-		}
-
-		try {
-			$post_parent_indexable = $this->repository->find_by_id_and_type( $parent_id, 'post' );
-		} catch ( Exception $exception ) {
-			return false;
-		}
-
-		return $post_parent_indexable->is_public;
+		// Update possible attachment's has public posts value.
+		$this->post->update_has_public_posts_on_attachments( $indexable->object_id, $indexable->is_public );
 	}
 
 	/**
