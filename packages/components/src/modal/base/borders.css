@@ -2,5 +2,5 @@
     --border-style-default: solid;
     --border-size-default: 1px;
     --border-color-default: rgba(0, 0, 0, 0.2);
-    --border-default: var(--border-size-default) var(--border-style-default) var(--border-color-default)
+    --border-default: 1px solid var(--border-color-default);
 }
