@@ -43,6 +43,8 @@ class Indexable_Post_Builder {
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
+	 * @codeCoverageIgnore This is dependency injection only.
+	 *
 	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 * @param Post_Helper         $post                The post helper.
 	 */
@@ -68,10 +70,16 @@ class Indexable_Post_Builder {
 	 * @param int       $post_id   The post ID to use.
 	 * @param Indexable $indexable The indexable to format.
 	 *
+	 * @throws Exception If the post could not be found.
+	 *
 	 * @return Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
 		$post = $this->post->get_post( $post_id );
+
+		if ( $post === null ) {
+			throw new Exception( 'Post could not be found.' );
+		}
 
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
@@ -112,11 +120,14 @@ class Indexable_Post_Builder {
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
-		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
-		$indexable->post_status     = $post->post_status;
-		$indexable->is_protected    = $post->post_password !== '';
-		$indexable->is_public       = $this->is_public( $indexable );
-		$indexable->author_id       = $post->post_author;
+		$indexable->author_id   = $post->post_author;
+		$indexable->post_parent = $post->post_parent;
+
+		$indexable->number_of_pages  = $this->get_number_of_pages_for_post( $post );
+		$indexable->post_status      = $post->post_status;
+		$indexable->is_protected     = $post->post_password !== '';
+		$indexable->is_public        = $this->is_public( $indexable );
+		$indexable->has_public_posts = $this->has_public_posts( $indexable );
 
 		return $indexable;
 	}
@@ -129,7 +140,7 @@ class Indexable_Post_Builder {
 	 * @return bool|null Whether or not the post type is public. Null if no override is set.
 	 */
 	protected function is_public( $indexable ) {
-		if ( $indexable->is_protected ) {
+		if ( $indexable->is_protected === true ) {
 			return false;
 		}
 
@@ -158,20 +169,49 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool|null Whether or not the attachment is public. Null when the parent post has no override.
+	 * @return bool|null False when it has no parent. Null when it has a parent.
 	 */
 	protected function is_public_attachment( $indexable ) {
-		// Follow the behaviour of the attachment's parent.
-		$parent_id = (int) $this->post->get_post( $indexable->object_id )->post_parent;
-
 		// If the attachment has no parent, it should not be public.
-		if ( $parent_id === 0 ) {
+		if ( empty( $indexable->post_parent ) ) {
 			return false;
 		}
 
-		// Get the parent's value for is_public.
-		$parent_indexable = $this->indexable_repository->find_by_id_and_type( $parent_id, 'post' );
-		return $parent_indexable->is_public;
+		// If the attachment has a parent, the is_public should be NULL.
+		return null;
+	}
+
+	/**
+	 * Determines the value of has_public_posts.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool False when it has no parent. Null when it has a parent.
+	 */
+	protected function has_public_posts( $indexable ) {
+		// Only attachments (and authors) have this value.
+		if ( $indexable->object_sub_type !== 'attachment' ) {
+			return false;
+		}
+
+		// The attachment should have a post parent.
+		if ( empty( $indexable->post_parent ) ) {
+			return false;
+		}
+
+		// The attachment should inherit the post status.
+		if ( $indexable->post_status !== 'inherit' ) {
+			return false;
+		}
+
+		// The post parent should be public.
+		try {
+			$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
+		} catch ( Exception $exception ) {
+			return false;
+		}
+
+		return $post_parent_indexable->is_public;
 	}
 
 	/**
