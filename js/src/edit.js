@@ -19,7 +19,7 @@ import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import Sidebar from "./containers/Sidebar";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
-import * as selectors from "./redux/selectors";
+import selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
