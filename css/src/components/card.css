@@ -40,6 +40,23 @@
 
 .yoast-list--usp {
 	margin-top: 0;
+	margin-left: 22px;
+}
+
+.yoast-list--usp li {
+	position: relative;
+}
+
+.yoast-list--usp li::before {
+	content: '';
+	border-bottom: 3px solid var(--color-active);
+	border-left: 3px solid var(--color-active);
+	width: 10px;
+	height: 5px;
+	transform: rotate(-45deg);
+	position: absolute;
+	left: -20px;
+	top: 5px;
 }
 
 .yoast-card__footer {
