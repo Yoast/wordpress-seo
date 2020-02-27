@@ -48,7 +48,7 @@ describe( getImageFallback, () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-	
+
 	it( "returns the site wide image as a fallback", () => {
 		const state = {
 			 ...testState,
@@ -59,9 +59,9 @@ describe( getImageFallback, () => {
 			},
 		};
 		const actual = getImageFallback( state );
-	
+
 		const expected = "featured.png";
-	
+
 		expect( actual ).toEqual( expected );
 	} );
 } );
