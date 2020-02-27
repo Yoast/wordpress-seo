@@ -18,6 +18,14 @@ export const getDescriptionFallback = state => state.analysisData.snippet.descri
  *
  * @param {Object} state The state object.
  *
- * @returns {string} The fallback title.
+ * @returns {string} The sidewide image url.
  */
-export const getImageUrlFallback = state => state.settings.socialPreviews.siteWideImage;
+export const getSitewideImage = state => state.settings.socialPreviews.siteWideImage;
+
+/**
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The featured image url.
+ */
+export const getFeaturedImage = state => state.snippetEditor.data.snippetPreviewImageURL;
