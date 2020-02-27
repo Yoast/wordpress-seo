@@ -15,6 +15,23 @@ $yform          = Yoast_Form::get_instance();
 $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 
+$credentials = request_filesystem_credentials( $robots_file, '', false, false, null );
+if ( $credentials === false ) {
+	return;
+}
+if ( ! WP_Filesystem( $credentials ) ) {
+	request_filesystem_credentials( $robots_file, '', true, false, null );
+
+	return;
+}
+
+/**
+ * Holds the global WordPress filesystem instance.
+ *
+ * @var \WP_Filesystem_Base
+ */
+global $wp_filesystem;
+
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
@@ -28,12 +45,16 @@ if ( isset( $_POST['create_robots'] ) ) {
 	check_admin_referer( 'wpseo_create_robots' );
 
 	ob_start();
+	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_error_reporting,WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_error_reporting -- Reason: This turns error reporting off, so no disclosure is possible. The error reporting is turned off to not have errors in the middle of our robots output.
 	error_reporting( 0 );
 	do_robots();
 	$robots_content = ob_get_clean();
 
-	$f = fopen( $robots_file, 'x' );
-	fwrite( $f, $robots_content );
+	$wp_filesystem->put_contents(
+		$robots_file,
+		$robots_content,
+		FS_CHMOD_FILE
+	);
 }
 
 if ( isset( $_POST['submitrobots'] ) ) {
