@@ -364,7 +364,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function test_has_public_posts_no_attachment() {
 		$this->indexable->object_sub_type = 'post';
 
-		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
+		$this->assertNull( $this->instance->has_public_posts( $this->indexable ) );
 	}
 
 	/**

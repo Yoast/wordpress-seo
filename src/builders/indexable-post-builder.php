@@ -186,12 +186,12 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return bool False when it has no parent. Null when it has a parent.
+	 * @return bool|null Whether the attachment has a public parent, can be true, false and null. Null when it is not an attachment.
 	 */
 	protected function has_public_posts( $indexable ) {
 		// Only attachments (and authors) have this value.
 		if ( $indexable->object_sub_type !== 'attachment' ) {
-			return false;
+			return null;
 		}
 
 		// The attachment should have a post parent.
