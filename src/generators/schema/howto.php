@@ -51,9 +51,9 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * HowTo constructor.
 	 *
-	 * @param HTML_Helper  $html  The HTML helper.
-	 * @param Image_Helper $image The schema image helper.
-	 * @param Post_Helper  $post  The post helper.
+	 * @param HTML_Helper     $html  The HTML helper.
+	 * @param Image_Helper    $image The schema image helper.
+	 * @param Post_Helper     $post  The post helper.
 	 * @param Language_Helper $language The language helper.
 	 */
 	public function __construct(

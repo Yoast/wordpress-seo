@@ -57,10 +57,10 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article The article helper.
-	 * @param Date_Helper    $date    The date helper.
-	 * @param HTML_Helper    $html    The HTML helper.
-	 * @param Post_Helper    $post    The post helper.
+	 * @param Article_Helper  $article The article helper.
+	 * @param Date_Helper     $date    The date helper.
+	 * @param HTML_Helper     $html    The HTML helper.
+	 * @param Post_Helper     $post    The post helper.
 	 * @param Language_Helper $language The language helper.
 	 */
 	public function __construct(
