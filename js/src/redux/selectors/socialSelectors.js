@@ -8,7 +8,7 @@ const fallbackSelectors = {
 
 	getDescriptionFallback: state => state.analysisData.snippet.description,
 
-	getImageUrlFallback: state => state.settings.socialpreviews.sideWideImage,
+	getImageUrlFallback: state => state.settings.socialPreviews.siteWideImage,
 
 };
 
