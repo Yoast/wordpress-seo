@@ -104,24 +104,24 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_for_invalid_attachment() {
+	public function test_get_image_by_id_for_invalid_attachment() {
 		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnFalse();
 
-		$this->assertFalse( $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertFalse( $this->instance->get_image_by_id( 1337 ) );
 	}
 
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_for_overridden_image_size() {
+	public function test_get_image_by_id_for_overridden_image_size() {
 		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
@@ -139,14 +139,14 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 'full' );
 
-		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_with_best_attachment_variation() {
+	public function test_get_image_by_id_with_best_attachment_variation() {
 		$image_params = [
 			'min_width'  => 200,
 			'max_width'  => 2000,
@@ -171,6 +171,6 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
-		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
 }

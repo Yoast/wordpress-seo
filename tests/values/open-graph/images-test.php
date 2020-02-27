@@ -62,7 +62,7 @@ class Images_Test extends TestCase {
 	 */
 	public function test_add_image_by_id() {
 		$this->open_graph_image
-			->expects( 'get_image_url_by_id' )
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturn( 'image.jpg' );
@@ -86,7 +86,7 @@ class Images_Test extends TestCase {
 	 */
 	public function test_add_image_by_id_no_image_found() {
 		$this->open_graph_image
-			->expects( 'get_image_url_by_id' )
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturnFalse();

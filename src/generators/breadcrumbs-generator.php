@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Breadcrumbs_Generator implements Generator_Interface {
 
 	/**
-	 * Indexable repository.
+	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */

@@ -16,11 +16,15 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Image_Helper {
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;
 
 	/**
+	 * The base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
 	private $image;
@@ -99,13 +103,13 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the image url by a given attachment id.
+	 * Retrieves the image data by a given attachment id.
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return string|false The url when found, false when not.
+	 * @return array|false The image data when found, `false` when not.
 	 */
-	public function get_image_url_by_id( $attachment_id ) {
+	public function get_image_by_id( $attachment_id ) {
 		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {
 			return false;
 		}

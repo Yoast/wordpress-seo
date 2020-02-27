@@ -16,46 +16,64 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Builder {
 
 	/**
+	 * The author builder.
+	 *
 	 * @var Indexable_Author_Builder
 	 */
 	private $author_builder;
 
 	/**
+	 * The post builder.
+	 *
 	 * @var Indexable_Post_Builder
 	 */
 	private $post_builder;
 
 	/**
+	 * The term builder.
+	 *
 	 * @var Indexable_Term_Builder
 	 */
 	private $term_builder;
 
 	/**
+	 * The home page builder.
+	 *
 	 * @var Indexable_Home_Page_Builder
 	 */
 	private $home_page_builder;
 
 	/**
+	 * The post type archive builder.
+	 *
 	 * @var Indexable_Post_Type_Archive_Builder
 	 */
 	private $post_type_archive_builder;
 
 	/**
+	 * The data archive builder.
+	 *
 	 * @var Indexable_Date_Archive_Builder
 	 */
 	private $date_archive_builder;
 
 	/**
+	 * The system page builder.
+	 *
 	 * @var Indexable_System_Page_Builder
 	 */
 	private $system_page_builder;
 
 	/**
+	 * The indexable hierarchy builder.
+	 *
 	 * @var Indexable_Hierarchy_Builder
 	 */
 	private $hierarchy_builder;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $indexable_repository;
@@ -93,11 +111,11 @@ class Indexable_Builder {
 	}
 
 	/**
-	 * @required
-	 *
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 *
+	 * @required
 	 */
 	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
@@ -210,6 +228,7 @@ class Indexable_Builder {
 		if ( ! $indexable ) {
 			return $this->indexable_repository->query()->create();
 		}
+
 		return $indexable;
 	}
 
@@ -227,8 +246,9 @@ class Indexable_Builder {
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
 			 * when the indexable is udated.
 			 *
-			 * @api   Indexable The saved indexable.
 			 * @param Indexable The indexable before saving.
+			 *
+			 * @api Indexable The saved indexable.
 			 */
 			do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}

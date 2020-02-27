@@ -220,6 +220,17 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Checks if there are any installed addons.
+	 *
+	 * @return bool True when there are installed Yoast addons.
+	 */
+	public function has_installed_addons() {
+		$installed_addons = $this->get_installed_addons();
+
+		return ! empty( $installed_addons );
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.
@@ -409,17 +420,6 @@ class WPSEO_Addon_Manager {
 			'url'           => WPSEO_Utils::get_home_url(),
 			'subscriptions' => [],
 		];
-	}
-
-	/**
-	 * Checks if there are any installed addons.
-	 *
-	 * @return bool True when there are installed Yoast addons.
-	 */
-	protected function has_installed_addons() {
-		$installed_addons = $this->get_installed_addons();
-
-		return ! empty( $installed_addons );
 	}
 
 	/**

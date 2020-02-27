@@ -21,21 +21,29 @@ use Yoast\WP\SEO\Values\Images;
 class Twitter_Image_Generator implements Generator_Interface {
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * The Twitter image helper.
+	 *
 	 * @var Twitter_Image_Helper
 	 */
 	protected $twitter_image;
 
 	/**
+	 * Twitter_Image_Generator constructor.
+	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param Image_Helper         $image         The image helper.

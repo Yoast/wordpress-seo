@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
+use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -60,14 +61,17 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::render
 	 */
 	public function test_render() {
-		$indexable_presentation = new Indexable_Presentation();
+		$current_page_surface   = Mockery::mock( Current_Page_Surface::class );
+		$indexable_presentation = Mockery::mock( Indexable_Presentation::class );
 
-		$mock = Mockery::mock( Main::class );
-		$mock
-			->expects( 'get_current_page_presentation' )
+		$current_page_surface
+			->expects( 'get_presentation' )
 			->andReturn( $indexable_presentation );
 
-		Monkey\Functions\expect( 'yoastseo' )->once()->andReturn( $mock );
+		$mock = Mockery::mock( Main::class );
+		$mock->current_page = $current_page_surface;
+
+		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( $mock );
 
 		$this->presenter
 			->expects( 'present' )

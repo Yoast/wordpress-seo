@@ -46,61 +46,85 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Meta_Tags_Context extends Abstract_Presentation {
 
 	/**
+	 * The indexable.
+	 *
 	 * @var Indexable
 	 */
 	public $indexable;
 
 	/**
+	 * The WP Block Parser Block.
+	 *
 	 * @var WP_Block_Parser_Block[]
 	 */
 	public $blocks;
 
 	/**
+	 * The WP Post.
+	 *
 	 * @var WP_Post
 	 */
 	public $post;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;
 
 	/**
+	 * Whether or not the indexable has an image.
+	 *
 	 * @var bool
 	 */
 	public $has_image = false;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	private $url;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * The ID helper.
+	 *
 	 * @var ID_Helper
 	 */
 	private $id_helper;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var WPSEO_Replace_Vars
 	 */
 	private $replace_vars;
 
 	/**
+	 * The site helper.
+	 *
 	 * @var Site_Helper
 	 */
 	private $site;
 
 	/**
+	 * The user helper.
+	 *
 	 * @var User_Helper
 	 */
 	private $user;

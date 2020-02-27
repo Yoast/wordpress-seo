@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema Website data.
@@ -19,24 +20,41 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 class Website extends Abstract_Schema_Piece {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The language helper.
+	 *
+	 * @var Language_Helper
+	 */
+	private $language;
+
+	/**
 	 * Website constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
-	 * @param HTML_Helper    $html    The HTML helper.
+	 * @param Options_Helper  $options  The options helper.
+	 * @param HTML_Helper     $html     The HTML helper.
+	 * @param Language_Helper $language The language helper.
 	 */
-	public function __construct( Options_Helper $options, HTML_Helper $html ) {
-		$this->html    = $html;
-		$this->options = $options;
+	public function __construct(
+		Options_Helper $options,
+		HTML_Helper $html,
+		Language_Helper $language
+	) {
+		$this->html     = $html;
+		$this->options  = $options;
+		$this->language = $language;
 	}
 
 	/**
@@ -56,9 +74,10 @@ class Website extends Abstract_Schema_Piece {
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array Website data blob.
+	 *
 	 * @since 1.5.7
 	 *
-	 * @link  https://developers.google.com/structured-data/site-name
+	 * @link https://developers.google.com/structured-data/site-name
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
@@ -75,6 +94,7 @@ class Website extends Abstract_Schema_Piece {
 
 		$data = $this->add_alternate_name( $data );
 		$data = $this->internal_search_section( $data, $context );
+		$data = $this->language->add_piece_language( $data );
 
 		return $data;
 	}

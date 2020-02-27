@@ -18,18 +18,22 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
 	}
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;
@@ -46,7 +50,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );

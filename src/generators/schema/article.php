@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema Article data.
@@ -19,16 +20,22 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 class Article extends Abstract_Schema_Piece {
 
 	/**
+	 * The article helper.
+	 *
 	 * @var Article_Helper
 	 */
 	private $article;
 
 	/**
+	 * The date helper.
+	 *
 	 * @var Date_Helper
 	 */
 	private $date;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
@@ -41,18 +48,33 @@ class Article extends Abstract_Schema_Piece {
 	private $post;
 
 	/**
+	 * The language helper.
+	 *
+	 * @var Language_Helper
+	 */
+	private $language;
+
+	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article The article helper.
 	 * @param Date_Helper    $date    The date helper.
 	 * @param HTML_Helper    $html    The HTML helper.
 	 * @param Post_Helper    $post    The post helper.
+	 * @param Language_Helper $language The language helper.
 	 */
-	public function __construct( Article_Helper $article, Date_Helper $date, HTML_Helper $html, Post_Helper $post ) {
-		$this->article = $article;
-		$this->date    = $date;
-		$this->html    = $html;
-		$this->post    = $post;
+	public function __construct(
+		Article_Helper $article,
+		Date_Helper $date,
+		HTML_Helper $html,
+		Post_Helper $post,
+		Language_Helper $language
+	) {
+		$this->article  = $article;
+		$this->date     = $date;
+		$this->html     = $html;
+		$this->post     = $post;
+		$this->language = $language;
 	}
 
 	/**
@@ -108,6 +130,7 @@ class Article extends Abstract_Schema_Piece {
 		$data = $this->add_image( $data, $context );
 		$data = $this->add_keywords( $data, $context );
 		$data = $this->add_sections( $data, $context );
+		$data = $this->language->add_piece_language( $data );
 
 		return $data;
 	}
@@ -126,7 +149,7 @@ class Article extends Abstract_Schema_Piece {
 		 *
 		 * @api string $taxonomy The chosen taxonomy.
 		 */
-		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
+		$taxonomy = \apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
 		return $this->add_terms( $data, 'keywords', $taxonomy, $context );
 	}
@@ -145,7 +168,7 @@ class Article extends Abstract_Schema_Piece {
 		 *
 		 * @api string $taxonomy The chosen taxonomy.
 		 */
-		$taxonomy = apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
+		$taxonomy = \apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
 
 		return $this->add_terms( $data, 'articleSection', $taxonomy, $context );
 	}

@@ -20,16 +20,22 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Redirects implements Integration_Interface {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	protected $options;
 
 	/**
+	 * The meta helper.
+	 *
 	 * @var Meta_Helper
 	 */
 	protected $meta;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
@@ -161,8 +167,8 @@ class Redirects implements Integration_Interface {
 		/**
 		 * Allows the developer to change the target redirection URL for attachments.
 		 *
-		 * @api   string $attachment_url The attachment URL for the queried object.
-		 * @api   object $queried_object The queried object.
+		 * @api string $attachment_url The attachment URL for the queried object.
+		 * @api object $queried_object The queried object.
 		 *
 		 * @since 7.5.3
 		 */

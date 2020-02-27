@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 class Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * The url helper.
+	 * The URL helper.
 	 *
 	 * @var Url_Helper
 	 */

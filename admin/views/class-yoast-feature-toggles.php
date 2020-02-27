@@ -113,7 +113,7 @@ class Yoast_Feature_Toggles {
 			(object) [
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
-				'setting'         => 'onpage_indexability',
+				'setting'         => 'ryte_indexability',
 				'label'           => sprintf(
 					/* translators: 1: Ryte, 2: Yoast SEO */
 					__( '%1$s will check weekly if your site is still indexable by search engines and %2$s will notify you when this is not the case.', 'wordpress-seo' ),

@@ -7,6 +7,9 @@
 
 /**
  * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
+ *
+ * @deprecated 13.2
+ * @codeCoverageIgnore
  */
 class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 
@@ -32,40 +35,32 @@ class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
 	/**
-	 * Service to use.
-	 *
-	 * @var WPSEO_Ryte_Service
-	 */
-	protected $service;
-
-	/**
 	 * Constructs the WPSEO_Endpoint_Ryte class and sets the service to use.
 	 *
-	 * @param WPSEO_Ryte_Service $service Service to use.
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
 	 */
-	public function __construct( WPSEO_Ryte_Service $service ) {
-		$this->service = $service;
+	public function __construct() {
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 
 	/**
 	 * Registers the REST routes that are available on the endpoint.
+	 *
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
 	 */
 	public function register() {
-		// Register fetch config.
-		$route_args = [
-			'methods'             => 'GET',
-			'callback'            => [ $this->service, 'get_statistics' ],
-			'permission_callback' => [ $this, 'can_retrieve_data' ],
-		];
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, $route_args );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 
 	/**
 	 * Determines whether or not data can be retrieved for the registered endpoints.
 	 *
-	 * @return bool Whether or not data can be retrieved.
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
 	 */
 	public function can_retrieve_data() {
-		return current_user_can( self::CAPABILITY_RETRIEVE );
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 }

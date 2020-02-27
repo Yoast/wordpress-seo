@@ -16,6 +16,6 @@ class Jetpack_Conditional implements Conditional {
 	 * @inheritDoc
 	 */
 	public function is_met() {
-		return class_exists( 'Jetpack' );
+		return \class_exists( 'Jetpack' );
 	}
 }

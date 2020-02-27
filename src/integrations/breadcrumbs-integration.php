@@ -55,7 +55,7 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	public function render() {
-		$indexable_presentation = yoastseo()->get_current_page_presentation();
+		$indexable_presentation = YoastSEO()->current_page->get_presentation();
 
 		return $this->presenter->present( $indexable_presentation );
 	}

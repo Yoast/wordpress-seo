@@ -24,6 +24,8 @@ class Indexable_System_Page_Builder {
 	];
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;

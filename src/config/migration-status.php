@@ -13,11 +13,15 @@ namespace Yoast\WP\SEO\Config;
 class Migration_Status {
 
 	/**
+	 * The migration option key.
+	 *
 	 * @var string
 	 */
 	const MIGRATION_OPTION_KEY = 'yoast_migrations_';
 
 	/**
+	 * The migration options.
+	 *
 	 * @var array
 	 */
 	protected $migration_options = [];

@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
+
 /**
  * Class Image_Helper
  *
@@ -14,17 +16,28 @@ namespace Yoast\WP\SEO\Helpers\Schema;
  */
 class Image_Helper {
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * The language helper.
+	 *
+	 * @var Language_Helper
+	 */
+	private $language;
+
+	/**
 	 * Image_Helper constructor.
 	 *
-	 * @param HTML_Helper $html The HTML helper.
+	 * @param HTML_Helper     $html     The HTML helper.
+	 * @param Language_Helper $language The language helper.
 	 */
-	public function __construct( HTML_Helper $html ) {
-		$this->html = $html;
+	public function __construct( HTML_Helper $html, Language_Helper $language ) {
+		$this->html     = $html;
+		$this->language = $language;
 	}
 
 	/**
@@ -124,10 +137,14 @@ class Image_Helper {
 	 * @return array an empty ImageObject
 	 */
 	private function generate_object( $schema_id ) {
-		return [
+		$data = [
 			'@type' => 'ImageObject',
 			'@id'   => $schema_id,
 		];
+
+		$data = $this->language->add_piece_language( $data );
+
+		return $data;
 	}
 
 	/**

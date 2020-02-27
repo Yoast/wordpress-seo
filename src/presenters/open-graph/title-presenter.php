@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 class Title_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The string helper.
+	 *
 	 * @var String_Helper
 	 */
 	private $string;
