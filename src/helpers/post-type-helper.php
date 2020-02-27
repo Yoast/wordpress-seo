@@ -19,6 +19,8 @@ class Post_Type_Helper {
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @return bool True when post type is set to index.
 	 */
 	public function is_indexable( $post_type_name ) {
@@ -29,6 +31,8 @@ class Post_Type_Helper {
 	 * Returns an array with the public post types.
 	 *
 	 * @param string $output The output type to use.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @return array Array with all the public post_types.
 	 */

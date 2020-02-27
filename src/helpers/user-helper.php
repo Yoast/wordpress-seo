@@ -19,6 +19,8 @@ class User_Helper {
 	 * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
 	 * @param bool   $single  Whether to return a single value.
 	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
 	 * @return mixed Will be an array if $single is false. Will be value of meta data field if $single is true.
 	 */
 	public function get_meta( $user_id, $key = '', $single = false ) {
@@ -32,6 +34,8 @@ class User_Helper {
 	 * @param array|string $post_type   Optional. Single post type or array of post types to count the number of posts
 	 *                                  for. Default 'post'.
 	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
 	 * @return int The number of posts the user has written in this post type.
 	 */
 	public function count_posts( $user_id, $post_type = 'post' ) {
@@ -43,6 +47,8 @@ class User_Helper {
 	 *
 	 * @param string    $field  The user field to retrieve.
 	 * @param int|false $user_id User ID.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @return string The author's field from the current author's DB object.
 	 */

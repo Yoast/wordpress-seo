@@ -25,6 +25,8 @@ class Current_Page_Helper {
 	 * Current_Page_Helper constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper
@@ -97,6 +99,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Returns the id of the currently opened author archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return int The id of the currently opened author archive.
 	 */
@@ -237,6 +241,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a post type archive.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is a post type archive.
 	 */
 	public function is_post_type_archive() {
@@ -247,6 +253,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Determine whether this is a term archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a term archive.
 	 */
@@ -259,6 +267,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an attachment page.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is an attachment page.
 	 */
 	public function is_attachment() {
@@ -269,6 +279,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Determine whether this is an author archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an author archive.
 	 */
@@ -281,6 +293,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an date archive.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is an date archive.
 	 */
 	public function is_date_archive() {
@@ -291,6 +305,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Determine whether this is a search result.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a search result.
 	 */
@@ -303,6 +319,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a 404 page.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is a 404 page.
 	 */
 	public function is_404() {
@@ -313,6 +331,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Checks if the current page is the post format archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether or not the current page is the post format archive.
 	 */
@@ -347,6 +367,8 @@ class Current_Page_Helper {
 	/**
 	 * Checks if the current page is the front page.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether or not the current page is the front page.
 	 */
 	public function is_front_page() {
@@ -357,6 +379,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Retrieves the current admin page.
+	 *
+	 * @codeCoverageIgnore It only wraps a global WordPress variable.
 	 *
 	 * @return string The current page.
 	 */

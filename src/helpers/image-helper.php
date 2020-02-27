@@ -121,12 +121,12 @@ class Image_Helper {
 	}
 
 	/**
-	 * Find the right version of an image based on size.*
-	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 * Find the right version of an image based on size.
 	 *
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
@@ -137,10 +137,10 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param int   $attachment_id The attachment id.
 	 * @param array $image_params  The image parameters to get dimensions for.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
@@ -161,9 +161,9 @@ class Image_Helper {
 	/**
 	 * Find an attachment ID for a given URL.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string $url The URL to find the attachment for.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
@@ -177,9 +177,9 @@ class Image_Helper {
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
 	 * 0 is also a possibility when no ID is available.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return int|bool The attachment id, or false or 0 if no ID is available.
 	 */
@@ -190,9 +190,9 @@ class Image_Helper {
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return string|null
 	 */

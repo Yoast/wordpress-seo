@@ -21,6 +21,8 @@ class Options_Helper {
 	 * @param string $key     The key it should return.
 	 * @param mixed  $default The default value that should be returned if the key isn't set.
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public function get( $key, $default = null ) {
