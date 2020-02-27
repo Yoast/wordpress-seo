@@ -1,4 +1,5 @@
 /**
+ * Gets the fallback title from: state.analysisData.snippet.title.
  *
  * @param {Object} state The state object.
  *
@@ -7,6 +8,7 @@
 export const getTitleFallback = state => state.analysisData.snippet.title;
 
 /**
+ * Gets the fallback description from: state.analysisData.snippet.description.
  *
  * @param {Object} state The state object.
  *
@@ -15,17 +17,13 @@ export const getTitleFallback = state => state.analysisData.snippet.title;
 export const getDescriptionFallback = state => state.analysisData.snippet.description;
 
 /**
+ * Gets the fallback image from:
+ * state.settings.socialPreviews.siteWideImage
+ * or
+ * state.snippetEditor.data.snippetPreviewImageURL.
  *
  * @param {Object} state The state object.
  *
  * @returns {string} The sidewide image url.
  */
-export const getSitewideImage = state => state.settings.socialPreviews.siteWideImage;
-
-/**
- *
- * @param {Object} state The state object.
- *
- * @returns {string} The featured image url.
- */
-export const getFeaturedImage = state => state.snippetEditor.data.snippetPreviewImageURL;
+export const getImageFallback = state => state.settings.socialPreviews.siteWideImage || state.snippetEditor.data.snippetPreviewImageURL;
