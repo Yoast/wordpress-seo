@@ -75,6 +75,7 @@ class Custom_Loader extends PhpFileLoader {
 
 		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
 		$interfaces           = [];
 		$singly_implemented   = [];
@@ -84,6 +85,7 @@ class Custom_Loader extends PhpFileLoader {
 				$interfaces[] = $class;
 			}
 			else {
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
 				if ( $error_message !== null ) {
 					$definition->addError( $error_message );
