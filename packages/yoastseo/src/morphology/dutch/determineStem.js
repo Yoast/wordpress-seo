@@ -1,7 +1,7 @@
 import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
 import { flatten } from "lodash-es";
 import stem from "./stem";
-import { createSecondStemWithoutAmbiguousEnding } from "./createSecondStemWithoutAmbiguousEnding";
+import { stemTOrDFromEndOfWord } from "./stemTOrDFromEndOfWord";
 import { checkExceptionListWithTwoStems } from "../morphoHelpers/exceptionListHelpers";
 
 /**
@@ -82,12 +82,27 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 export function determineStem( morphologyDataNL, word ) {
 	const stemmedWord = stem( word, morphologyDataNL );
 
-	/*
-	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
-	 * If no stem has been found, return the original, programmatically created, stem.
-	 */
-	return checkExceptionListWithTwoStems( morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems, stemmedWord ) ||
-		   findStemOnVerbExceptionList( morphologyDataNL.verbs, stemmedWord ) ||
-		   createSecondStemWithoutAmbiguousEnding( morphologyDataNL, stemmedWord, word );
+	// Check whether the stemmed word is on an exception list of words with multiple stems. If it is, return the canonical stem.
+	let stemFromExceptionList = checkExceptionListWithTwoStems( morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems, stemmedWord );
+	if ( stemFromExceptionList ) {
+		return stemFromExceptionList;
+	}
+	stemFromExceptionList = findStemOnVerbExceptionList( morphologyDataNL.verbs, stemmedWord );
+	if ( stemFromExceptionList ) {
+		return stemFromExceptionList;
+	}
+
+	// If the stemmed word ends in -t or -d, check whether it should be stemmed further, and return the stem with or without the -t/d.
+	const ambiguousEndings = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tAndDEndings;
+	for ( const ending of ambiguousEndings ) {
+		if ( stemmedWord.endsWith( ending ) ) {
+			const stemmedWordWithoutTOrD = stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word );
+			if ( stemmedWordWithoutTOrD ) {
+				return stemmedWordWithoutTOrD;
+			}
+		}
+	}
+
+	return stemmedWord;
 }
 

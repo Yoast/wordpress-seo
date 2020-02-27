@@ -62,6 +62,7 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemming ) 
 			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
 			return replacement ? replacement : stemmedWord;
 		}
+		return stemmedWord;
 	}
 
 	/*

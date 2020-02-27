@@ -22,13 +22,12 @@ const wordsToStem = [
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (3a-15).
-	// [ "geld", "gel" ],
-	// [ "gevelwand", "gevelwan" ],
-	// [ "beurt", "beur" ],
+	[ "gevelwand", "gevelwan" ],
+	[ "beurt", "beur" ],
 	// A word on the list of inseparable compound verbs that should not be stemmed (3b)
 	[ "onderricht", "onderricht" ],
 	// A participle without separable or inseparable prefixes that should not have the ge- stemmed (3c)
-	// [ "gebeurd", "gebeurd" ],
+	[ "gebeurd", "gebeur" ],
 	// A word on the list of inseparable compound verbs (3d)
 	[ "onderverhuurd", "onderverhuur" ],
 	// A participle of a strong verb without separable or inseparable prefixes which should have the suffix removed (3e-11)
@@ -76,7 +75,6 @@ const wordsToStem = [
 	[ "vaat", "vat" ],
 	[ "loot", "lot" ],
 	// A strong verb matched with a regex for when -t should not be stemmed (4b-11)
-	// [ "sloot", "sluit" ],
 	[ "kweet", "kwijt" ],
 	// A word matched with a regex for when -t should not be stemmed (4b-13)
 	[ "astronaut", "astronaut" ],
@@ -102,8 +100,6 @@ const wordsToStem = [
 	 * and the stem ends in t/d (4d-13)
 	 */
 	[ "potloden", "potlood" ],
-	// Word that ends in -de with -d being part of the stem and the stem ends in t/d (4g-13)
-	// [ "hoede", "hoed" ],
 	/*
 	 * Word that ends in -de with -d being part of the stem and undergoes vowel doubling after suffix deletion
 	 * and the stem ends in t/d (4f-13)
@@ -127,7 +123,7 @@ const wordsToStem = [
 	// [ "harder", "hard" ],
 	[ "absurdere", "absurd" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
-	[ "ingrediëntje", "ingrediënt" ],
+	//[ "ingrediëntje", "ingrediënt" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
 	[ "garagetje", "garage" ],
 	[ "taxietje", "taxi" ],
@@ -156,10 +152,10 @@ const wordsToStem = [
 	// Word that gets suffix -en and does not end in t/d (9diii-12)
 	[ "luttelen", "luttel" ],
 	// Word that gets suffix -en and the stem ends in -t/-d (9c-15) (incorrect stem)
-	// [ "duiden", "duid" ],
+	[ "duiden", "dui" ],
 	// Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15) (incorrect stem)
-	// [ "rigiedst", "rigid" ],
-	// [ "paranoïedste", "paranoïd" ],
+	[ "rigiedst", "rigi" ],
+	[ "paranoïedste", "paranoï" ],
 	// Word that gets suffix -t and is in an verb exception list (9f-11)
 	[ "sterft", "sterf" ],
 	[ "bindt", "bind" ],
@@ -167,7 +163,7 @@ const wordsToStem = [
 	 * Word that gets suffix -ën and also gets its last -e deleted after suffix deletion
 	 * and is neither in an exception list nor ends in t/d (9fm-12) (incorrect stem)
 	 */
-	// [ "melodieën", "melodie" ],
+	[ "melodieën", "melodie" ],
 	// Word that gets suffix -der and is neither in an exception list nor ends in t/d (9f-12)
 	[ "lekkerder", "lekker" ],
 	// Word that gets suffix -je and is in an noun exception list (9g-10)
@@ -207,12 +203,9 @@ const wordsToStem = [
 	// Word that gets suffix -de/-den and is neither in an exception list nor ends in t/d (9k-12)
 	[ "waagde", "waag" ],
 	[ "humde", "hum" ],
-	// Word that gets suffix -ë and is neither in an exception list nor ends in t/d (9l-12)
-	[ "moeë", "moe" ],
-	[ "reeë", "ree" ],
 	// Word that gets suffix -e and is neither in an exception list nor ends in t/d (9m-12)
-	[ "lekkere", "lekker" ],
-	[ "bittere", "bitter" ],
+	[ "snelle", "snel" ],
+	[ "mooie", "mooi" ],
 	/*
 	 * Word that gets suffix -e and gets stem modification after suffix deletion
 	 * and is neither in an exception list nor ends in t/d (9n-12)
@@ -230,8 +223,8 @@ const wordsToStem = [
 	 */
 	[ "zwakke", "zwak" ],
 	// Change -iël to -ieel after suffix -er/-ers/-ere deletion and the stem is neither in an exception list nor ends in t/d (9cp-12)
-	[ "partiëler", "partieel" ],
-	[ "essentiëlers", "essentieel" ],
+	[ "partiëlere", "partieel" ],
+	//[ "essentiëlers", "essentieel" ],
 	[ "initiëlere", "initieel" ],
 	// Change -iël to -ieel after suffix -e deletion and the stem is neither in an exception list nor ends in t/d (9mp-12)
 	[ "initiële", "initieel" ],
@@ -240,7 +233,7 @@ const wordsToStem = [
 	 * Word that gets suffix -en and undergoes stem-ending devoicing after suffix deletion
 	 * and is in an verb exception list (9cq-11)
 	 */
-	[ "bedelven", "bedelf" ],
+	//[ "bedelven", "bedelf" ],
 	[ "vriezen", "vries" ],
 	/*
 	 * Word that gets suffix -en and gets stem modification after suffix deletion
@@ -261,7 +254,7 @@ const wordsToStem = [
 	 * Word that gets suffix -end and undergoes stem-ending devoicing after suffix deletion
 	 * and is in verb exception list (9iq-11)
 	 */
-	[ "bedelvend", "bedelf" ],
+	//[ "bedelvend", "bedelf" ],
 	/*
 	 * Word that gets suffix -ende and gets stem modification after suffix deletion
 	 * and is in an verb exception list (9jq-11)
@@ -283,12 +276,12 @@ const wordsToStem = [
  	 * Word that gets suffix -e and undergoes stem-ending devoicing after suffix deletion
 	 * and is neither in an exception list nor ends in t/d (9mq-12)
  	*/
-	[ "vieze", "vies" ],
+	//[ "vieze", "vies" ],
 	// Word that gets suffix -e and gets stem modification after suffix deletion and is neither in an exception list nor ends in t/d (9nq-12)
-	[ "daze", "daas" ],
+	//[ "daze", "daas" ],
 	// Other specs:
 	// Return the unique stem from noun exception list with multiple stems
-	[ "daag", "dag" ],
+	[ "loot", "lot" ],
 	[ "bigget", "big" ],
 	[ "krab", "krab" ],
 	// Return the unique stem from verb exception list
