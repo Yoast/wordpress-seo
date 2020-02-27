@@ -2,7 +2,7 @@
     --color-placeholder: #707070;
 }
 
-.yoast-field-group textarea,
+.yoast-field-group__textarea,
 .yoast-field-group__inputfield {
     width: 100%;
     font-size: var(--font-size-default);
@@ -14,7 +14,6 @@
 
 .yoast-field-group__inputfield {
     height: 40px;
-    box-sizing: border-box;
 }
 
 
