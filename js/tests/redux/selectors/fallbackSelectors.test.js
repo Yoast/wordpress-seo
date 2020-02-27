@@ -1,4 +1,4 @@
-import { fallbackSelectors } from "../../../src/redux/selectors/socialSelectors";
+import { getDescriptionFallback, getTitleFallback, getImageUrlFallback } from "../../../src/redux/selectors/fallbackSelectors";
 
 const testState = {
 	analysisData: {
@@ -14,18 +14,9 @@ const testState = {
 	},
 };
 
-describe( "fallbackSelectors", () => {
-	it( "is an Object", () => {
-		const actual = fallbackSelectors;
-		const expected = {};
-
-		expect( typeof actual ).toEqual( typeof expected );
-	} );
-} );
-
-describe( fallbackSelectors.getTitleFallback, () => {
+describe( getTitleFallback, () => {
 	it( "returns the snippit title as a fallback", () => {
-		const actual = fallbackSelectors.getTitleFallback( testState );
+		const actual = getTitleFallback( testState );
 
 		const expected = "Hello World!";
 
@@ -33,9 +24,9 @@ describe( fallbackSelectors.getTitleFallback, () => {
 	} );
 } );
 
-describe( fallbackSelectors.getDescriptionFallback, () => {
+describe( getDescriptionFallback, () => {
 	it( "returns the snippit description as a fallback", () => {
-		const actual = fallbackSelectors.getDescriptionFallback( testState );
+		const actual = getDescriptionFallback( testState );
 
 		const expected = "I describe something?";
 
@@ -43,9 +34,9 @@ describe( fallbackSelectors.getDescriptionFallback, () => {
 	} );
 } );
 
-describe( fallbackSelectors.getImageUrlFallback, () => {
+describe( getImageUrlFallback, () => {
 	it( "returns the site wide image as a fallback", () => {
-		const actual = fallbackSelectors.getImageUrlFallback( testState );
+		const actual = getImageUrlFallback( testState );
 
 		const expected = "side-wide.png";
 

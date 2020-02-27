@@ -1,4 +1,5 @@
-import { socialSelectors, fallbackSelectors } from "./socialSelectors";
+import { socialSelectors } from "./socialSelectors";
+import * as fallbackSelectors from "./fallbackSelectors";
 import * as results from "./results";
 import * as primaryTaxonomies from "./primaryTaxonomies";
 import * as activeMarker from "./activeMarker";
