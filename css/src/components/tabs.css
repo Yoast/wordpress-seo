@@ -14,8 +14,6 @@
 
 .yoast-tabs {
 	font-size: 16px;
-	border-bottom: 1px solid var(--color-border);
-	padding-left: 16px;
 	overflow: hidden;
 }
 
@@ -26,6 +24,8 @@
 	margin-bottom: 0;
 	margin-top: 0;
 	padding-top: 3px;
+	padding-left: 16px;
+	border-bottom: 1px solid var(--color-border);
 }
 
 .yoast-tabs__list-item {
@@ -39,6 +39,46 @@
 	margin-left: -1px;
 }
 
+.yoast-tabs__list-item:nth-child(1) {
+	z-index: 10;
+}
+
+.yoast-tabs__list-item:nth-child(2) {
+	z-index: 9;
+}
+
+.yoast-tabs__list-item:nth-child(3) {
+	z-index: 8;
+}
+
+.yoast-tabs__list-item:nth-child(4) {
+	z-index: 7;
+}
+
+.yoast-tabs__list-item:nth-child(5) {
+	z-index: 6;
+}
+
+.yoast-tabs__list-item:nth-child(6) {
+	z-index: 5;
+}
+
+.yoast-tabs__list-item:nth-child(7) {
+	z-index: 4;
+}
+
+.yoast-tabs__list-item:nth-child(8) {
+	z-index: 3;
+}
+
+.yoast-tabs__list-item:nth-child(9) {
+	z-index: 2;
+}
+
+.yoast-tabs__list-item:nth-child(10) {
+	z-index: 1;
+}
+
 .yoast-tabs__list-item-link {
 	display: block;
 	color: var(--color-dark);
@@ -50,11 +90,19 @@
 	color: var(--color-primary);
 }
 
-.yoast-tabs__list-item--active {
-	position: relative;
+.yoast-tabs__list-item.yoast-tabs__list-item--active {
 	top: 1px;
 	background-color: var(--color-white);
-	z-index: 1;
+	z-index: 11;
+}
+
+.yoast-tabs__list-item--active::after {
+	content: '';
+	background-color: var(--color-white);
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
 }
 
 .yoast-tabs__list-item--active .yoast-tabs__list-item-link {
