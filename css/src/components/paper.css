@@ -1,9 +1,15 @@
 .yoast-paper {
-	position: relative;
+	background-color: white;
 	padding: 24px;
-	background: white;
 	margin-bottom: 32px;
-	width: 100%;
 	box-shadow: var(--shadow-default);
 	border: var(--border-default);
+	max-width: 600px;
+	position: relative;
+}
+
+.yoast-paper .yoast-close {
+	position: absolute;
+	right: 15px;
+	top: 15px;
 }
