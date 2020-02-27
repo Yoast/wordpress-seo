@@ -120,6 +120,61 @@ class Image_Helper {
 		return $image_url;
 	}
 
+
+	/**
+	 * Retrieves the caption for an attachment.
+	 *
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return string The caption when found, empty string when no caption is found.
+	 */
+	public function get_caption( $attachment_id ) {
+		$caption = \wp_get_attachment_caption( $attachment_id );
+		if ( ! empty( $caption ) ) {
+			return $caption;
+		}
+
+		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		if ( ! empty( $caption ) ) {
+			return $caption;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the attachment metadata.
+	 *
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return array The metadata, empty array when no metadata is found.
+	 */
+	public function get_metadata( $attachment_id ) {
+		$metadata = \wp_get_attachment_metadata( $attachment_id );
+		if ( ! $metadata || ! is_array( $metadata ) ) {
+			return [];
+		}
+
+		return $metadata;
+	}
+
+	/**
+	 * Retrieves the attachment image url.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          The size to get.
+	 *
+	 * @return string The url when found, empty string otherwise.
+	 */
+	public function get_attachment_image_url( $attachment_id, $size ) {
+		$url = \wp_get_attachment_image_url( $attachment_id, $size );
+		if ( ! $url ) {
+			return '';
+		}
+
+		return $url;
+	}
+
 	/**
 	 * Find the right version of an image based on size.*
 	 *
@@ -185,62 +240,6 @@ class Image_Helper {
 	 */
 	public function get_attachment_id_from_settings( $setting ) {
 		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
-	}
-
-	/**
-	 * Retrieves the caption for an attachment.
-	 *
-	 * @param int $attachment_id Attachment ID.
-	 *
-	 * @return string The caption when found, empty string when no caption is found.
-	 */
-	public function get_caption( $attachment_id ) {
-		$caption = \wp_get_attachment_caption( $attachment_id );
-		if ( ! empty( $caption ) ) {
-			return $caption;
-		}
-
-		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
-		if ( ! empty( $caption ) ) {
-			return $caption;
-		}
-
-		return '';
-	}
-
-	/**
-	 * Retrieves the attachment metadata.
-	 *
-	 * @codeCoverageIgnore It wraps a WordPress funciton.
-	 *
-	 * @param int $attachment_id Attachment ID.
-	 *
-	 * @return array The metadata, empty array when no metadata is found.
-	 */
-	public function get_metadata( $attachment_id ) {
-		$metadata = \wp_get_attachment_metadata( $attachment_id );
-		if ( ! $metadata ) {
-			return [];
-		}
-
-		return $metadata;
-	}
-
-	/**
-	 * Retrieves the attachment image url.
-	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          The size to get.
-	 *
-	 * @return string The url when found, empty string otherwise.
-	 */
-	public function get_attachment_image_url( $attachment_id, $size ) {
-		$url = \wp_get_attachment_image_url( $attachment_id, $size );
-		if ( ! $url ) {
-			return '';
-		}
-
-		return $url;
 	}
 
 	/**
