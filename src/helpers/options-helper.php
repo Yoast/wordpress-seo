@@ -37,11 +37,22 @@ class Options_Helper {
 	 * @return string The option title.
 	 */
 	public function get_title_default( $option_titles_key ) {
-		$default_titles = WPSEO_Option_Titles::get_instance()->get_defaults();
+		$default_titles = $this->get_title_defaults();
 		if ( ! empty( $default_titles[ $option_titles_key ] ) ) {
 			return $default_titles[ $option_titles_key ];
 		}
 
 		return '';
+	}
+
+	/**
+	 * Retrieves the default option titles.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @return array The title defaults.
+	 */
+	protected function get_title_defaults() {
+		return WPSEO_Option_Titles::get_instance()->get_defaults();
 	}
 }
