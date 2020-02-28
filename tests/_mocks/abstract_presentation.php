@@ -1,6 +1,9 @@
 <?php
 namespace Yoast\WP\SEO\Tests\Mocks;
 
+/**
+ * Represents the Abstract_Presentation mock.
+ */
 class Abstract_Presentation extends \Yoast\WP\SEO\Presentations\Abstract_Presentation {
 	/**
 	 * @inheritDoc
