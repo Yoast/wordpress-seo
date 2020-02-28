@@ -118,4 +118,121 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			$output_with_prefix,
 			$this->instance->present( $this->presentation ) );
 	}
+
+	/**
+	 * Tests the presenter of the breadcrumbs when the breadcrumbs are not in array format.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_breadcrumbs_not_array() {
+		$breadcrumb = 'breadcrumb_string';
+
+		$this->presentation->breadcrumbs = $breadcrumb;
+
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+	}
+
+	/**
+	 * Tests the presenter of the breadcrumbs when the breadcrumbs are empty.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_breadcrumbs_empty() {
+		$breadcrumb = '';
+
+		$this->presentation->breadcrumbs = $breadcrumb;
+
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+	}
+
+	/**
+	 * Tests the presenter of the breadcrumbs when the output is empty.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_empty_output() {
+		$breadcrumb_1 = [];
+		$breadcrumb_2 = [];
+
+		$this->presentation->breadcrumbs =
+			[
+				$breadcrumb_1,
+				$breadcrumb_2,
+			];
+
+		$this->instance->expects( 'crumb_to_link' )
+		               ->with( $breadcrumb_1, 0, 2 )
+		               ->andReturn( '' );
+
+		$this->instance->expects( 'crumb_to_link' )
+		               ->with( $breadcrumb_2, 1, 2 )
+		               ->andReturn( '' );
+
+		$this->instance->expects( 'get_separator' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( ' » ' );
+
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+	}
+
+	/**
+	 * Tests the presenter of the breadcrumbs when there is no breadcrumbs prefix.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_no_breadcrumbs_prefix() {
+		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
+		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
+
+		$this->presentation->breadcrumbs =
+			[
+				$breadcrumb_1,
+				$breadcrumb_2,
+			];
+
+		$this->instance->expects( 'crumb_to_link' )
+		               ->with( $breadcrumb_1, 0, 2 )
+		               ->andReturn( '<a href="home_url">home_title</a>' );
+
+		$this->instance->expects( 'crumb_to_link' )
+		               ->with( $breadcrumb_2, 1, 2 )
+		               ->andReturn( 'post_title' );
+
+		$this->instance->expects( 'get_separator' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( ' » ' );
+
+		$this->instance->expects( 'get_wrapper' )
+		               ->twice()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$this->instance->expects( 'get_id' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( ' id="example_id"' );
+
+		$this->instance->expects( 'get_class' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( ' class="example_class"' );
+
+		$output_without_prefix = '<span id="example_id" class="example_class"><a href="home_url">home_title</a> » post_title</span>';
+
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output' )
+			->once()
+			->with( $output_without_prefix, $this->presentation )
+			->andReturn( $output_without_prefix );
+
+		$this->options->expects( 'get' )
+		              ->once()
+		              ->with( 'breadcrumbs-prefix' )
+		              ->andReturn( '' );
+
+		$this->assertEquals(
+			$output_without_prefix,
+			$this->instance->present( $this->presentation ) );
+	}
 }
