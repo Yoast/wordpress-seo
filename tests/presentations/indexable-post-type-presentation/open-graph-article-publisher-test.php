@@ -39,7 +39,7 @@ class Open_Graph_Article_Publisher_Test extends TestCase {
 	/**
 	 * Tests the situation where no article author is given.
 	 *
-	 * @covers ::generate_open_graph_article_author
+	 * @covers ::generate_open_graph_article_publisher
 	 */
 	public function test_generate_open_graph_article_publisher_no_publisher() {
 		$this->context->open_graph_publisher = '';
