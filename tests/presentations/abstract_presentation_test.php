@@ -48,6 +48,7 @@ class Abstract_Presentation_Test extends TestCase {
 	/**
 	 * Tests whether the`of`-method throws an exception when called on a prototype.
 	 *
+	 * @expectedException \Exception
 	 * @covers ::of
 	 */
 	public function test_of_throws_exception_on_prototype() {
@@ -60,7 +61,6 @@ class Abstract_Presentation_Test extends TestCase {
 			'property_2' => 'value_2',
 		];
 
-		$this->expectException( \Exception::class );
 		$this->instance->of( $data );
 	}
 
@@ -68,6 +68,7 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether an exception is thrown when trying to access a property
 	 * with no generator method.
 	 *
+	 * @expectedException \Exception
 	 * @covers ::__get
 	 */
 	public function test_get_throws_exception_when_accessing_property_with_no_generator() {
@@ -75,7 +76,6 @@ class Abstract_Presentation_Test extends TestCase {
 			->expects( 'is_prototype' )
 			->andReturnTrue();
 
-		$this->expectException( \Exception::class );
 		$this->instance->non_existing_property;
 	}
 
@@ -83,13 +83,13 @@ class Abstract_Presentation_Test extends TestCase {
 	 * Tests whether an exception is thrown when trying to access a property
 	 * with no generator method.
 	 *
+	 * @expectedException \Exception
 	 * @covers ::__get
 	 */
 	public function test_get_throws_exception_when_accessing_property_on_prototype() {
 		$this->instance->expects( 'is_prototype' )
 					   ->andReturnFalse();
 
-		$this->expectException( \Exception::class );
 		$this->instance->non_existing_property;
 	}
 
