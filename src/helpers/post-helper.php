@@ -76,10 +76,12 @@ class Post_Helper {
 	 *
 	 * @return string The post title with fallback to `No title`.
 	 */
-	public static function get_post_title_with_fallback( $post_id = 0 ) {
+	public function get_post_title_with_fallback( $post_id = 0 ) {
 		$post_title = \get_the_title( $post_id );
-		$title      = ( $post_title ) ? $post_title : __( 'No title', 'wordpress-seo' );
+		if ( $post_title ) {
+			return $post_title;
+		}
 
-		return $title;
+		return  __( 'No title', 'wordpress-seo' );
 	}
 }
