@@ -204,7 +204,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned ID to add to the wrapper element.
 			 */
 			$this->id = \apply_filters( 'wpseo_breadcrumb_output_id', '' );
-			if ( \is_string( $this->id ) && '' !== $this->id ) {
+			if ( \is_string( $this->id ) && $this->id !== '' ) {
 				$this->id = ' id="' . \esc_attr( $this->id ) . '"';
 			}
 		}
