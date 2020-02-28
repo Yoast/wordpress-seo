@@ -55,9 +55,23 @@ class Post_Helper {
 	 *
 	 * @param WP_Post $post The post.
 	 *
-	 * @return string|false          Post type on success, false on failure.
+	 * @return string|false Post type on success, false on failure.
 	 */
 	public function get_post_type( $post = null ) {
 		return \get_post_type( $post );
+	}
+
+	/**
+	 * Retrieves the post title with fallback to `No title`.
+	 *
+	 * @param int $post_id Optional. Post ID.
+	 *
+	 * @return string The post title with fallback to `No title`.
+	 */
+	public static function get_post_title_with_fallback( $post_id = 0 ) {
+		$post_title = \get_the_title( $post_id );
+		$title      = ( $post_title ) ? $post_title : __( 'No title', 'wordpress-seo' );
+
+		return $title;
 	}
 }
