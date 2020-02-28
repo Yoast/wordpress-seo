@@ -28,6 +28,8 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * Breadcrumb constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
+	 *
+	 * @codeCoverageIgnore Constructor.
 	 */
 	public function __construct( Current_Page_Helper $current_page ) {
 		$this->current_page = $current_page;
