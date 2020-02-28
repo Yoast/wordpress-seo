@@ -37,6 +37,8 @@ class Current_Page_Helper {
 	/**
 	 * Returns the page type for the current request.
 	 *
+	 * @codeCoverageIgnore It just depends on other functions for its result.
+	 *
 	 * @return string Page type.
 	 */
 	public function get_page_type() {
@@ -153,7 +155,8 @@ class Current_Page_Helper {
 	 * @return string The post type of the main query.
 	 */
 	public function get_queried_post_type() {
-		$post_type = $this->wp_query_wrapper->get_main_query()->get( 'post_type' );
+		$wp_query  = $this->wp_query_wrapper->get_main_query();
+		$post_type = $wp_query->get( 'post_type' );
 		if ( \is_array( $post_type ) ) {
 			$post_type = \reset( $post_type );
 		}
@@ -196,7 +199,7 @@ class Current_Page_Helper {
 		 * Whether the static page's `Homepage` option is actually not set to a page.
 		 * Otherwise WordPress proceeds to handle the homepage as a `Your latest posts` page.
 		 */
-		if ( \get_option( 'page_on_front' ) === '0' ) {
+		if ( (int) \get_option( 'page_on_front' ) === 0 ) {
 			return true;
 		}
 
@@ -211,7 +214,15 @@ class Current_Page_Helper {
 	public function is_home_static_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
+		if ( ! $wp_query->is_front_page() ) {
+			return false;
+		}
+
+		if ( \get_option( 'show_on_front' ) !== 'page' ) {
+			return false;
+		}
+
+		return $wp_query->is_page( \get_option( 'page_on_front' ) );
 	}
 
 	/**
@@ -235,7 +246,11 @@ class Current_Page_Helper {
 	public function is_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_home && \get_option( 'show_on_front' ) === 'page' );
+		if ( ! $wp_query->is_home() ) {
+			return false;
+		}
+
+		return \get_option( 'show_on_front' ) === 'page';
 	}
 
 	/**
@@ -348,20 +363,11 @@ class Current_Page_Helper {
 	 * @return bool Whether or not the current page is an archive page for multiple terms.
 	 */
 	public function is_multiple_terms_page() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
 		if ( ! $this->is_term_archive() ) {
 			return false;
 		}
 
-		$term          = $wp_query->get_queried_object();
-		$queried_terms = $wp_query->tax_query->queried_terms;
-
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
-			return false;
-		}
-
-		return \count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+		return $this->count_queried_terms() > 1;
 	}
 
 	/**
@@ -410,5 +416,23 @@ class Current_Page_Helper {
 		}
 
 		return $date_archive_permalink;
+	}
+
+	/**
+	 * Counts the total amount of queried terms.
+	 *
+	 * @codeCoverageIgnore This relies too much on WordPress dependencies.
+	 *
+	 * @return int The amoumt of queried terms.
+	 */
+	protected function count_queried_terms() {
+		$wp_query      = $this->wp_query_wrapper->get_main_query();
+		$term          = $wp_query->get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return 0;
+		}
+
+		return \count( $queried_terms[ $term->taxonomy ]['terms'] );
 	}
 }
