@@ -61,6 +61,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * Breadcrumbs_Presenter constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
+	 *
+	 * @codeCoverageIgnore This is a simple constructor.
 	 */
 	public function __construct( Options_Helper $options ) {
 		$this->options = $options;
