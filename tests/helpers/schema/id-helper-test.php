@@ -61,6 +61,11 @@ class ID_Helper_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests retrieval of the user schema where the user is not found.
+	 *
+	 * @covers ::get_user_schema_id
+	 */
 	public function test_get_user_schema_id_no_user_found() {
 		$context = Mockery::mock();
 		$context->site_url = 'https://example.org/';
@@ -69,7 +74,6 @@ class ID_Helper_Test extends TestCase {
 			->once()
 			->with( 1337 )
 			->andReturn( false );
-
 
 		$this->assertEquals(
 			'',
