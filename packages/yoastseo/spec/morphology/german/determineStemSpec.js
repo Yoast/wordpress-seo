@@ -7,10 +7,14 @@ const morphologyDataDE = getMorphologyData( "de" ).de;
 const wordsToStem = [
 	// Default stemmer
 	[ "studenten", "student" ],
-	// Nouns: exceptionStemsWithFullForms
+	// Nouns: exceptionStems
 	[ "vögel", "vogel" ],
-	// Nouns: exceptionStemsWithFullForms compound
+	// Nouns: exceptionStems compound
 	[ "raubvögel", "raubvogel" ],
+	// Nouns: exceptionStems with one plural matching multiple singulars
+	[ "stadium", "stadi" ],
+	[ "stadion", "stadi" ],
+	[ "stadien", "stadi" ],
 	// Adjectives: elStemChange
 	[ "inakzeptabl", "inakzeptabel" ],
 	// Adjectives: erStemChangeClass1
