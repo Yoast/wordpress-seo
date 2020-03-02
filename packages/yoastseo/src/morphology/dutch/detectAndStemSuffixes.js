@@ -160,7 +160,7 @@ export default function detectAndStemSuffixes( word, morphologyDataNL ) {
 
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
-	console.log(r1Index)
+
 	// Import the suffixes from all three steps.
 	const suffixSteps = morphologyDataNL.stemming.suffixes;
 

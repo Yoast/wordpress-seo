@@ -152,7 +152,6 @@ const wordsToStem = [
 	 * get the last vowel doubled after removing the suffix.
 	 */
 	[ "vaten", "vat" ],
-	[ "vouwden", "vouw" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
