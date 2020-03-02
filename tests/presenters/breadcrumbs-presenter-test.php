@@ -61,6 +61,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the presenter of the breadcrumbs when all goes well.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present_happy_path() {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
@@ -180,6 +181,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * Tests the presenter of the breadcrumbs when there is no breadcrumbs prefix.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present_no_breadcrumbs_prefix() {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
