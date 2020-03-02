@@ -705,6 +705,12 @@ class WPSEO_Replace_Vars {
 				if ( $name !== '' ) {
 					$replacement = $name;
 				}
+			} elseif ( is_category() || is_tag() || is_tax() ) {
+				$term = $GLOBALS['wp_query']->get_queried_object();
+				$name = get_term_meta( $term->term_id, $field, true );
+				if ( $name !== '' ) {
+					$replacement = $name;
+				}
 			}
 		}
 
