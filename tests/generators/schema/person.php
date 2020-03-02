@@ -1,6 +1,5 @@
 <?php
 
-use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 
@@ -21,11 +20,6 @@ class Author_Test extends TestCase {
 	 * @var Schema\ID_Helper
 	 */
 	private $id;
-
-	/**
-	 * @var Article_Helper
-	 */
-	private $article;
 
 	/**
 	 * @var Image_Helper

@@ -25,7 +25,7 @@ class Language_Helper {
 	 *
 	 * @return array The Schema piece data with added language property
 	 */
-	public static function add_piece_language( $data ) {
+	public function add_piece_language( $data ) {
 		/**
 		 * Filter: 'wpseo_schema_piece_language' - Allow changing the Schema piece language.
 		 *
