@@ -279,6 +279,26 @@ const wordsToStem = [
 	//[ "vieze", "vies" ],
 	// Word that gets suffix -e and gets stem modification after suffix deletion and is neither in an exception list nor ends in t/d (9nq-12)
 	//[ "daze", "daas" ],
+	// Word with plural diminutive suffix and the stem is neither in any exception list nor ends in t/d (9fg-12)
+	[ "toetertjes", "toeter" ],
+	// Word with plural diminutive suffix and the stem is neither in any exception list nor ends in t/d (9fh-12)
+	[ "kettinkjes", "ketting" ],
+	// Word with plural diminutive suffix and the stem is in noun exception list (9fg-10)
+	[ "poppetjes", "pop" ],
+	// Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem)
+	[ "momentjes", "momen" ],
+	[ "piraatjes", "piraa" ],
+	[ "hondjes", "hon" ],
+	/*
+	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
+	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem)
+	 */
+	[ "cafeetjes", "caaf" ],
+	/*
+	 * Word with diminutive suffix -etje which is preceded by -e-, the -e- will be further stemmed
+	 * and the final stem does not end in t/d (9gn-12) (incorrect stem)
+	 */
+	[ "cafeetje", "caaf" ],
 	// Other specs:
 	// Return the unique stem from noun exception list with multiple stems
 	[ "loot", "lot" ],
