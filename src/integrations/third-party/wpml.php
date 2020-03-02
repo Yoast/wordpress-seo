@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\SEO\Integrations\Compatibility;
+namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Class WPML
  *
- * @package Yoast\WP\SEO\Integration\Compatibility
+ * @package Yoast\WP\SEO\Integration\Third_Party
  */
 class WPML implements Integration_Interface {
 
@@ -55,8 +55,6 @@ class WPML implements Integration_Interface {
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
 	 * This method gets automatically triggered by the wpml_get_home_url filter.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param string $home_url The url altered by WPML. Unused.
 	 * @param string $url      The url that isn't altered by WPML.
