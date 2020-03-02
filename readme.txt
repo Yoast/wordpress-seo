@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 13.2 =
 Release Date: March 3rd, 2020
 
+In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
+
 Enhancements:
 
 * Adds the capability to view Site Health to the SEO Manager role.
