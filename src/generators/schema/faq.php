@@ -79,17 +79,16 @@ class FAQ extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$ids   = [];
 		$graph = [];
-		$number_of_blocks = count( $context->blocks['yoast/faq-block'] );
 		$number_of_items = 0;
 
-		for ( $block_number = 0; $block_number < $number_of_blocks; $block_number++ ) {
-			foreach ( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] as $index => $question ) {
+		foreach ( $context->blocks['yoast/faq-block'] as $block ) {
+			foreach ( $block['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
 				$ids[]   = [ '@id' => $context->canonical . '#' . esc_attr( $question['id'] ) ];
 				$graph[] = $this->generate_question_block( $question, $index, $context );
-				$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
+				$number_of_items++;
 			}
 		}
 
