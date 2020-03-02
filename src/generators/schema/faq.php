@@ -118,23 +118,15 @@ class FAQ extends Abstract_Schema_Piece {
 	protected function generate_question_block( $question, $position, Meta_Tags_Context $context ) {
 		$url = $context->canonical . '#' . esc_attr( $question['id'] );
 
-		$data = [
+		return [
 			'@type'          => 'Question',
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
 			'name'           => $this->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'acceptedAnswer' => [
-				'@type' => 'Answer',
-				'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
-			],
 			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
-
-		$data = $this->language->add_piece_language( $data );
-
-		return $data;
 	}
 
 	/**
