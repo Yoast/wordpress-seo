@@ -41,7 +41,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It just handles dependencies.
 	 *
 	 * @param Options_Helper   $options  Options helper.
 	 * @param WP_Query_Wrapper $wp_query WP query wrapper.
@@ -52,7 +52,6 @@ class Force_Rewrite_Title implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {

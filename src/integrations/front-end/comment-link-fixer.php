@@ -35,7 +35,6 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
-	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -44,7 +43,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Comment_Link_Fixer constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only sets depedencies.
 	 *
 	 * @param Redirect_Helper $redirect The redirect helper.
 	 * @param Robots_Helper   $robots The robots helper.
@@ -66,9 +65,20 @@ class Comment_Link_Fixer implements Integration_Interface {
 		}
 
 		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
-		if ( filter_input( INPUT_GET, 'replytocom' ) ) {
+		if ( $this->has_replytocom_parameter() ) {
 			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
 		}
+	}
+
+	/**
+	 * Checks if the url contains the ?replytocom query parameter.
+	 *
+	 * @codeCoverageIgnore Wraps the filter input.
+	 *
+	 * @return string The value of replytocom.
+	 */
+	protected function has_replytocom_parameter() {
+		return filter_input( INPUT_GET, 'replytocom' );
 	}
 
 	/**
@@ -114,6 +124,8 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * Checks whether we can allow the feature that removes ?replytocom query parameters.
+	 *
+	 * @codeCoverageIgnore It just wraps a call to a filter.
 	 *
 	 * @return bool True to remove, false not to remove.
 	 */
