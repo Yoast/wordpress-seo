@@ -129,12 +129,12 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * Create a breadcrumb element string.
 	 *
 	 * @param array $breadcrumb Link info array containing the keys:
-	 *                   		'text'    => (string) link text.
-	 *                     		'url'    => (string) link url.
-	 *                    		(optional) 'title'         => (string) link title attribute text.
-	 *                    		(optional) 'allow_html'    => (bool) whether to (not) escape html in the link text.
-	 *                    		This prevents html stripping from the text strings set in the
-	 *                    		WPSEO -> Internal Links options page.
+	 *                          'text'    => (string) link text.
+	 *                          'url'    => (string) link url.
+	 *                          (optional) 'title'         => (string) link title attribute text.
+	 *                          (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text.
+	 *                          This prevents html stripping from the text strings set in the
+	 *                          WPSEO -> Internal Links options page.
 	 * @param int   $index      Index for the current breadcrumb.
 	 * @param int   $total      The total amount of breadcrumbs.
 	 *
