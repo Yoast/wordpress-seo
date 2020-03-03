@@ -209,6 +209,17 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.3 =
+Release Date: March 17th, 2020
+
+Enhancements:
+
+* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
+
+Other:
+
+* Changes the cURL Health Check to `critical` instead of `recommended`.
+
 = 13.2 =
 Release Date: March 3rd, 2020
 
