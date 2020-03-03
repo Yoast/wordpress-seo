@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '13.1' );
+define( 'WPSEO_VERSION', '13.2-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -200,8 +200,8 @@ function _wpseo_activate() {
 	$notifier->manage_notification();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_onpage = new WPSEO_OnPage();
-	$wpseo_onpage->activate_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
 }
@@ -330,8 +330,8 @@ function wpseo_init() {
 	}
 
 	// Loading Ryte integration.
-	$wpseo_onpage = new WPSEO_OnPage();
-	$wpseo_onpage->register_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->register_hooks();
 
 	// Feature flag introduced to resolve problems with composer installation in 11.8.
 	if ( defined( 'YOAST_SEO_EXPERIMENTAL_PHP56' ) && YOAST_SEO_EXPERIMENTAL_PHP56 ) {
@@ -356,12 +356,10 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
 	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
 	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );

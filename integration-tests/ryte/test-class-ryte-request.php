@@ -8,15 +8,15 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
+class WPSEO_Ryte_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if there is a response.
 	 *
-	 * @covers WPSEO_OnPage_Request::get_remote
+	 * @covers WPSEO_Ryte_Request::get_remote
 	 */
 	public function test_get_remote() {
-		$request = new WPSEO_OnPage_Request_Double();
+		$request = new WPSEO_Ryte_Request_Double();
 
 		$this->assertEquals(
 			$request->do_request( home_url() ),
@@ -30,10 +30,10 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if there is a response for a URL that will be redirected.
 	 *
-	 * @covers WPSEO_OnPage_Request::get_remote
+	 * @covers WPSEO_Ryte_Request::get_remote
 	 */
 	public function test_get_remote_redirected() {
-		$request = new WPSEO_OnPage_Request_Double();
+		$request = new WPSEO_Ryte_Request_Double();
 
 		$this->assertEquals(
 			$request->do_request( 'http:://will-be-redirected.wp' ),
@@ -47,10 +47,10 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if there is a response for a domain that isn't 'indexable'.
 	 *
-	 * @covers WPSEO_OnPage_Request::get_remote
+	 * @covers WPSEO_Ryte_Request::get_remote
 	 */
 	public function test_get_remote_not_indexable() {
-		$request = new WPSEO_OnPage_Request_Double();
+		$request = new WPSEO_Ryte_Request_Double();
 
 		$this->assertEquals(
 			$request->do_request( 'http://not_indexable.wp' ),

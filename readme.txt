@@ -209,6 +209,26 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.2 =
+Release Date: March 3rd, 2020
+
+In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
+
+Enhancements:
+
+* Adds the capability to view Site Health to the SEO Manager role.
+* Adds a cURL minimal version check to Site Health.
+* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
+* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
+* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
+* Improves the usability of the "Your site is indexable" Site Health check.
+* Adds error handling for the "Your site is indexable" status request.
+* Adds an ID to the FAQ sections in the Schema output.
+
+Bugfixes:
+
+* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
+
 = 13.1 =
 Release Date: February 18th, 2020
 
@@ -229,16 +249,3 @@ Enhancements:
 Other:
 
 * Removes the Search Console item from the admin menu and the toolbar menu.
-
-= 13.0 =
-Release Date: February 4th, 2020
-
-Today, we’re releasing Yoast SEO 13.0. This release is one in a series of releases focusing on improving our code and fixing issues — most of them behind the scenes. Read more about those changes in [our 13.0 release post](https://yoa.st/release-13-0)!
-
-Enhancements:
-
-* Hides the Facebook settings when Open Graph is disabled.
-* Adds a success state to the paginated comments Health Check. This means the paginated comments check will also be shown when the paginated comments are set up correctly.
-
-= Earlier versions =
-For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
