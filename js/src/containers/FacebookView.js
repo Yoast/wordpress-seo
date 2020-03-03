@@ -10,7 +10,7 @@ import { socialSelectors }  from "../redux/selectors/socialSelectors";
 const {
 	setSocialPreviewTitle,
 	setSocialPreviewDescription,
-	setSocialPreviewImageUrl,
+	setSocialPreviewImage,
 } = actions;
 
 /**
@@ -31,6 +31,29 @@ function mapStateToProps( state ) {
 	};
 }
 
+const media = window.wp.media();
+
+media.on( "select", () => {
+	const selected = media.state().get( "selection" ).first();
+	const {
+		filesizeInBytes,
+		subtype,
+		height,
+		width,
+		url,
+		id,
+	} = selected.attributes;
+	const image = {
+		bytes: filesizeInBytes,
+		type: subtype,
+		height: height,
+		width: width,
+		url: url,
+		id: id,
+	};
+	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( image, "facebook" );
+} );
+
 /**
  * Maps the dispatch to props.
  *
@@ -40,14 +63,20 @@ function mapStateToProps( state ) {
  */
 function mapDispatchToProps( dispatch ) {
 	return {
-		onSelectImageClick: ( imageUrl ) => {
-			// Open wp image library.
-			const wpImage = window.wp.media().select();
-			console.log( "wpImage", wpImage );
-			// dispatch( setSocialPreviewImageUrl( imageUrl, "facebook" ) );
+		onSelectImageClick: () => {
+			media.open();
 		},
 		onRemoveImageClick: () => {
 			// Set the image object back to default.
+			const image = {
+				bytes: null,
+				type: null,
+				height: null,
+				width: null,
+				url: null,
+				id: null,
+			};
+			dispatch( setSocialPreviewImage( image, "facebook" ) );
 		},
 		onDescriptionChange: ( description ) => {
 			dispatch( setSocialPreviewDescription( description, "facebook" ) );
@@ -61,4 +90,3 @@ function mapDispatchToProps( dispatch ) {
 const ContainerCreator = connect( mapStateToProps, mapDispatchToProps );
 
 export const FacebookViewContainer = ContainerCreator( FacebookView );
-// export const SecondConnectedComponent = ContainerCreator(Component2);

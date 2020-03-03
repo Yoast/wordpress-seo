@@ -8,12 +8,11 @@ const YoastShortLink = makeOutboundLink();
 
 /**
  *
- * @param {*} props A.
+ * @param {Object} props A.
  *
  * @returns {Component} A
  */
 const FacebookView = ( props ) => {
-	console.log( "facebook props", props );
 	const {
 		recommendedReplacementVariables,
 		replacementVariables,
@@ -24,17 +23,19 @@ const FacebookView = ( props ) => {
 		onDescriptionChange,
 		onTitleChange,
 		imageWarnings,
-		imageSelected,
-
+		image,
 	} = props;
 
 	return (
 		<Fragment>
 			<Alert type={ "info" }>
+				Do you want to preview what it will look like if people share this post on Facebook?
+				You can, with <b>Yoast SEO Premium.</b>
+				<br />
 				<YoastShortLink
 					href="https://yoast.com/reasons-to-upgrade/"
 				>
-					Do you want to preview what it will look like if people share this post on Facebook? You can, with Yoast SEO Premium.
+					Find out why you should upgrade to Yoast SEO Premium
 				</YoastShortLink>
 			</Alert>
 			<SocialMetadataPreviewForm
@@ -48,7 +49,7 @@ const FacebookView = ( props ) => {
 				onDescriptionChange={ onDescriptionChange }
 				onTitleChange={ onTitleChange }
 				imageWarnings={ imageWarnings }
-				imageSelected={ imageSelected }
+				imageSelected={ image.url }
 			/>
 		</Fragment>
 	);
@@ -67,7 +68,8 @@ FacebookView.propTypes = {
 	onDescriptionChange: PropTypes.func.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	imageWarnings: PropTypes.array,
-	imageSelected: PropTypes.bool.isRequired,
+	// imageSelected: PropTypes.bool.isRequired,
+	image: PropTypes.object.isRequired,
 };
 
 FacebookView.defaultProps = {
