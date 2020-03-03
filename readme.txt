@@ -239,24 +239,3 @@ Enhancements:
 Bugfixes:
 
 * Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
-
-= 13.1 =
-Release Date: February 18th, 2020
-
-Yoast SEO 13.1 is out today! In this plugin, you’ll find several fixes and enhancements, mostly focused at improving our Schema.org structured data implementation. Learn more about the latest versions of Yoast SEO in [our 13.1 release post](https://yoa.st/release-13-1)!
-
-Bugfixes:
-
-* Fixes a bug where the HowTo schema name was incorrectly set to the page title.
-* Fixes a bug where the "force rewrite titles" option would remove the title tag in svg tags. Props to [stodorovic](https://github.com/stodorovic)
-
-Enhancements:
-
-* Sets the Schema HowTo name and Article headline to the post title with a fallback to "No title".
-* Adds the `inLanguage` property to the schema CreativeWork pieces.
-* Removes a duplicate directory from the composer autoload classmap configuration. Props to [szepeviktor](https://github.com/szepeviktor)
-* Improves the copy for the paginated comments Site Health check.
-
-Other:
-
-* Removes the Search Console item from the admin menu and the toolbar menu.
