@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( true, 'social' );
+$yform->admin_header( true, 'wpseo_social' );
 
 $tabs = new WPSEO_Option_Tabs( 'social' );
 $tabs->add_tab( new WPSEO_Option_Tab( 'accounts', __( 'Accounts', 'wordpress-seo' ) ) );

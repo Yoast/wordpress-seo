@@ -186,7 +186,7 @@ import { debounce } from "lodash-es";
 		}
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
+		jQuery( "#" + activeTabId + "-tab" ).click();
 	}
 
 	/**
@@ -207,45 +207,6 @@ import { debounce } from "lodash-es";
 		} else {
 			toggleContainer.hide();
 		}
-	}
-
-	/**
-	 * Add a resize and scroll listener and determine whether the fixed submit button should be shown.
-	 *
-	 * @returns {void}
-	 */
-	function setFixedSubmitButtonVisibility() {
-		const floatContainer = jQuery( "#wpseo-submit-container-float" );
-		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
-
-		if ( ! floatContainer.length || ! fixedContainer.length ) {
-			return;
-		}
-
-		/**
-		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
-		 *
-		 * @returns {void}
-		 */
-		function onViewportChange() {
-			if ( floatContainer._wpseoIsInViewport() ) {
-				fixedContainer.hide();
-			} else {
-				fixedContainer.show();
-			}
-		}
-
-		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
-		jQuery( window ).on( "yoast-seo-tab-change", onViewportChange );
-
-		const messages = jQuery( ".wpseo-message" );
-		if ( messages.length ) {
-			window.setTimeout( () => {
-				messages.fadeOut();
-			}, 5000 );
-		}
-
-		onViewportChange();
 	}
 
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
@@ -316,14 +277,14 @@ import { debounce } from "lodash-es";
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+		jQuery( ".yoast-tabs__list-item-link" ).click( function() {
+			jQuery( ".yoast-tabs__list-item-link" ).closest(".yoast-tabs__list-item").removeClass( "yoast-tabs__list-item--active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
 			var activeTab = jQuery( "#" + id );
 			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
+			jQuery( this ).closest(".yoast-tabs__list-item").addClass( "yoast-tabs__list-item--active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
 				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
@@ -384,7 +345,5 @@ import { debounce } from "lodash-es";
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
-		// Should be called after the initial active tab has been set.
-		setFixedSubmitButtonVisibility();
 	} );
 }() );
