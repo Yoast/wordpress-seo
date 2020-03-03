@@ -576,7 +576,7 @@ class Yoast_Form {
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' /> ';
 			echo '<input',
-				' class="wpseo_image_remove_button yoast-button--remove"',
+				' class="yoast-remove"',
 				' type="button"',
 				' value="', esc_attr__( 'Remove image', 'wordpress-seo' ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),

@@ -26,6 +26,7 @@ body.yoast {
 	font-weight: 400;
 	color: var(--color-primary);
 	padding: 0;
+	margin-top: 0;
 	margin-bottom: 1em;
 	line-height: 1.2;
 }
@@ -43,6 +44,7 @@ body.yoast {
 }
 
 .yoast p {
+	margin-top: 0;
 	font-size: 1em;
 }
 

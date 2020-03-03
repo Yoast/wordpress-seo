@@ -146,11 +146,15 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function notification( $title, $content, $button, $show_dismissal = false ) {
 		$notification  = '<div class="yoast-paper">';
+
+		$notification .= '<div class="yoast-paper__configuration-wizard">';
+
+		$notification .= '<div class="yoast-paper__configuration-wizard-content">';
+
 		$notification .= sprintf(
-			'<img src="%1$s" alt="" />',
-			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' )
+			'<h2>%s</h2>',
+			esc_html( $title )
 		);
-		$notification .= '<div class="yoast-container__configuration-wizard--content">';
 
 		$notification .= '<p>';
 		$notification .= $content;
@@ -159,6 +163,13 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= '<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '" class="yoast-button yoast-button--primary">';
 		$notification .= $button;
 		$notification .= '</a>';
+
+		$notification .= '</div>';
+
+		$notification .= sprintf(
+			'<img src="%1$s" alt="" />',
+			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/new-to-configuration-notice.svg' )
+		);
 
 		$notification .= '</div>';
 		if ( $show_dismissal ) {

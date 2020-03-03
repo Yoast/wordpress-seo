@@ -17,7 +17,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			printf( esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
 			?>
 		</div>
-		<div class="yoast-sidebar__section">
+		<div class="yoast-paper yoast-paper--small yoast-sidebar__section">
 			<h2>
 				<?php
 				/* translators: %s expands to Yoast SEO Premium */
@@ -51,7 +51,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</a><br>
 		</div>
 		<div class="yoast-sidebar__product-list">
-			<div class="yoast-sidebar__section">
+			<div class="yoast-paper yoast-paper--small yoast-sidebar__section">
 				<h2>
 					<?php
 					/* translators: %s expands to Yoast SEO */
@@ -118,7 +118,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				</div>
 			</div>
 		</div>
-		<div class="yoast-sidebar__section">
+		<div class="yoast-paper yoast-paper--small yoast-sidebar__section">
 			<h2>
 				<?php
 				esc_html_e( 'Learn SEO', 'wordpress-seo' );
@@ -143,7 +143,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				</a>
 			</p>
 		</div>
-		<div class="yoast-sidebar__section">
+		<div class="yoast-paper yoast-paper--small yoast-sidebar__section">
 			<h2><?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?></h2>
 			<p>
 				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank">

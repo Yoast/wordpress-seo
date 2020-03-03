@@ -78,13 +78,17 @@
 	background: var(--svg-icon-caret-right) center center no-repeat;
 }
 
-.yoast-button--remove {
+.yoast-remove, .yoast-hide {
 	color: red;
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
 	text-decoration: underline;
 	padding: 0;
+}
+
+.yoast-hide {
+	color: var(--color-link);
 }
 
 .yoast-close {
