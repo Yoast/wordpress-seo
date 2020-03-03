@@ -57,14 +57,14 @@ class WPSEO_Rewrite {
 	/**
 	 * Override the category link to remove the category base.
 	 *
-	 * @param string  $link     Unused, overridden by the function.
+	 * @param string  $link     Term link, overridden by the function for categories.
 	 * @param WP_Term $term     Unused, term object.
 	 * @param string  $taxonomy Taxonomy slug.
 	 *
 	 * @return string
 	 */
 	public function no_category_base( $link, $term, $taxonomy ) {
-		if ( 'category' !== $taxonomy ) {
+		if ( $taxonomy !== 'category' ) {
 			return $link;
 		}
 
