@@ -4,7 +4,7 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
-/*
+/**
  * The first word in each array is the word, the second one is the expected stem. The numbers/letters assigned to the specs
  * refer to the numbers assigned to the different paths in the flowcharts
  *  (https://drive.google.com/drive/u/0/folders/1O5pOnRBCpZnTFAUlrNB3ViiqY3Voj9L3) that the spec covers.
@@ -301,7 +301,7 @@ const wordsToStem = [
 	// Word with plural diminutive suffix and the stem is in noun exception list (9fg-10)
 	[ "poppetjes", "pop" ],
 	// Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem)
-	[ "momentjes", "momen" ],
+	// [ "momentjes", "moment" ],
 	[ "piraatjes", "piraa" ],
 	[ "hondjes", "hon" ],
 	/*
