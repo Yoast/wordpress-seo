@@ -3,8 +3,8 @@ import { flatten } from "lodash-es";
 
 import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from  "../morphoHelpers/createRulesFromMorphologyData.js";
-import { getBase } from "./getAdjectiveForms";
-import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbForms.js";
+import getAdjectiveStem from "./getAdjectiveStem";
+import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbStem.js";
 
 /**
  * Gets the shortest of the alphabetically ordered strings from an array.
@@ -102,21 +102,14 @@ export function determineRegularStem( word, morphologyData ) {
 	const possibleRegularBases = [];
 
 	// Verbal infinitive.
-	const sFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.sFormToInfinitive );
-	const ingFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.ingFormToInfinitive );
-	const edFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.edFormToInfinitive );
-
-	const baseIfVerb = getInfinitive( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ).infinitive;
+	const baseIfVerb = getInfinitive( word, regexVerb ).infinitive;
 
 	possibleRegularBases.push( baseIfVerb );
 
 	// Adjectival base.
-	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
-	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
-	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
 	const stopAdjectives = morphologyData.adjectives.stopAdjectives;
 
-	const baseIfAdjective = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ).base;
+	const baseIfAdjective = getAdjectiveStem( word, regexAdjective, stopAdjectives ).base;
 	possibleRegularBases.push( baseIfAdjective );
 
 	return findShortestAndAlphabeticallyFirst( possibleRegularBases );
@@ -131,10 +124,6 @@ export function determineRegularStem( word, morphologyData ) {
  * @returns {string} Stemmed (or base) form of the word.
  */
 export function determineStem( word, morphologyData ) {
-	if ( ! morphologyData ) {
-		return word;
-	}
-
 	const nounMorphology = morphologyData.nouns;
 
 	const baseIfPossessive = buildOneFormFromRegex( word, createRulesFromMorphologyData( nounMorphology.regexNoun.possessiveToBase ) );
