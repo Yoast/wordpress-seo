@@ -58,8 +58,11 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemming ) 
 		doesWordMatchRegex( word, morphologyDataNLStemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.denEnding ) ) {
 		stemmedWord = word.slice( 0, -2 );
 		//	Check if the vowel needs to be doubled after deleting suffix -en.
-		const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
-		return replacement ? replacement : stemmedWord;
+		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNLStemming.stemExceptions ) ) {
+			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemming.stemModifications.doubleVowel );
+			return replacement ? replacement : stemmedWord;
+		}
+		return stemmedWord;
 	}
 
 	/*

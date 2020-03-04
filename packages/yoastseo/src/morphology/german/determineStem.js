@@ -13,17 +13,15 @@ import stem from "./stem";
  * @returns {string|null} The stemmed word or null if none was found.
  */
 const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	const exceptionStemsWithFullForms = morphologyDataNouns.exceptionStemsWithFullForms;
+	const exceptionStems = morphologyDataNouns.exceptionStems;
 
-	for ( const exceptionSet of exceptionStemsWithFullForms ) {
-		const exceptionStems = exceptionSet[ 0 ];
-
-		const matchedStem = exceptionStems.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
+	for ( const exceptionStemSet of exceptionStems ) {
+		const matchedStem = exceptionStemSet.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
 
 		if ( matchedStem ) {
 			const precedingLexicalMaterial = stemmedWord.slice( 0, stemmedWord.length - matchedStem.length );
 
-			return precedingLexicalMaterial + exceptionStems[ 0 ];
+			return precedingLexicalMaterial + exceptionStemSet[ 0 ];
 		}
 	}
 
