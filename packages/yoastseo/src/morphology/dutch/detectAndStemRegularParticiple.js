@@ -81,7 +81,7 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataNL, word
 		// Remove the prefix.
 		let wordWithoutPrefix = word.slice( 2 );
 
-		// Check whether stem starts with ë. If yes, replace ë with e.
+		// Check if stem starts with ë. If yes, replace ë with e.
 		if ( wordWithoutPrefix.startsWith( "ë" ) ) {
 			wordWithoutPrefix = wordWithoutPrefix.replace( "ë", "e" );
 		}
