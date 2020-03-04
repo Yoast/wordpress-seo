@@ -48,7 +48,7 @@ describe( "Creates stem from words with ambiguous endings", () => {
 	it( "Returns undefined if a word is not matched in any of the checks", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toEqual( null );
 	} );
-	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed.", () => {
+	it( "Creates the stem of a word which is in the list of words ending in -end.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "sportend" ) ).toEqual(
 			"sport" );
 	} );
