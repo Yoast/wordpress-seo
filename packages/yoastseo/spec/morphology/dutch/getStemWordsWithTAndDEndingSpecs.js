@@ -42,7 +42,7 @@ describe( "Creates stem from words with ambiguous endings", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "roeit" ) ).toEqual(
 			"roei" );
 	} );
-	it( "Stems -t if the word is on the list of verbs that should have the -t stemmed", () => {
+	it( "Stems -d if the word is on the list of verbs that should have the -d stemmed", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "vouwden" ) ).toEqual( null );
 	} );
 	it( "Returns undefined if a word is not matched in any of the checks", () => {
