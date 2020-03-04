@@ -126,6 +126,7 @@ module.exports = function( grunt ) {
 			"css/dist/filter-explanation-<%= pluginVersionSlug %>.css": [ "css/src/filter-explanation.scss" ],
 			"css/dist/search-appearance-<%= pluginVersionSlug %>.css": [ "css/src/search-appearance.scss" ],
 			"css/dist/structured-data-blocks-<%= pluginVersionSlug %>.css": [ "css/src/structured-data-blocks.scss" ],
+			"css/dist/schema-blocks-<%= pluginVersionSlug %>.css": [ "css/src/schema-blocks.scss" ],
 		},
 		pkg,
 	};

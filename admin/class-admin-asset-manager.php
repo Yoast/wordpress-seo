@@ -218,6 +218,22 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'moment',
+					'wp-blocks',
+					'wp-block-editor',
+					'wp-components',
+					'wp-data',
+					'wp-editor',
+					'wp-element',
+					'wp-hooks',
+					'wp-i18n'
+				]
+			],
+			[
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => [
@@ -635,6 +651,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'schema-blocks',
+				'src'  => 'schema-blocks-' . $flat_version,
 			],
 		];
 	}

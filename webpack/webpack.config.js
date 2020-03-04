@@ -33,6 +33,8 @@ const externals = {
 };
 
 const wordpressExternals = {
+	"@wordpress/blocks": "window.wp.blocks",
+	"@wordpress/block-editor": "window.wp.blockEditor",
 	"@wordpress/element": "window.wp.element",
 	"@wordpress/data": "window.wp.data",
 	"@wordpress/components": "window.wp.components",

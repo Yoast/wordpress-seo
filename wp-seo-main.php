@@ -334,7 +334,7 @@ function wpseo_init() {
 	$wpseo_ryte->register_hooks();
 
 	// Feature flag introduced to resolve problems with composer installation in 11.8.
-	if ( defined( 'YOAST_SEO_EXPERIMENTAL_PHP56' ) && YOAST_SEO_EXPERIMENTAL_PHP56 ) {
+	if ( true || defined( 'YOAST_SEO_EXPERIMENTAL_PHP56' ) && YOAST_SEO_EXPERIMENTAL_PHP56 ) {
 		// When namespaces are not available, stop further execution.
 		if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 			require_once WPSEO_PATH . 'src/main.php';

@@ -10,6 +10,7 @@ const entry = {
 	"configuration-wizard": "./configuration-wizard.js",
 	"help-scout-beacon": "./help-scout-beacon.js",
 	"search-appearance": "./search-appearance.js",
+	"schema-blocks": "./schema-blocks.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-metabox": "./wp-seo-metabox.js",
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",

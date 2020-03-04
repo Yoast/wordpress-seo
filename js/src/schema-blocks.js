@@ -1,0 +1,1 @@
+import "@yoast/schema-blocks";

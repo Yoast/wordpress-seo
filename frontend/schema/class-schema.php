@@ -121,6 +121,10 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 				 */
 				$block_type = strtolower( $block['blockName'] );
 				$graph      = apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $this->context );
+
+				if ( isset( $block['attrs']['yoast-schema'] ) ) {
+					$graph[] = $block['attrs']['yoast-schema'];
+				}
 			}
 		}
 
@@ -187,12 +191,23 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	private function get_parsed_blocks() {
 		$post          = get_post();
 		$parsed_blocks = parse_blocks( $post->post_content );
+		$this->add_blocks( $parsed_blocks );
+	}
 
-		foreach ( $parsed_blocks as $block ) {
+	/**
+	 * Adds blocks
+	 *
+	 * @param array $blocks The blocks to add.
+	 */
+	private function add_blocks( $blocks ) {
+		foreach ( $blocks as $block ) {
 			if ( ! isset( $this->parsed_blocks[ $block['blockName'] ] ) || ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
 				$this->parsed_blocks[ $block['blockName'] ] = [];
 			}
 			$this->parsed_blocks[ $block['blockName'] ][] = $block;
+			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) ) {
+				$this->add_blocks( $block['innerBlocks'] );
+			}
 		}
 	}
 }
