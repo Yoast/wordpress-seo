@@ -301,7 +301,7 @@ const wordsToStem = [
 	// Word with plural diminutive suffix and the stem is in noun exception list (9fg-10)
 	[ "poppetjes", "pop" ],
 	// Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem)
-	[ "momentjes", "momen" ],
+	// [ "momentjes", "moment" ],
 	[ "piraatjes", "piraa" ],
 	[ "hondjes", "hon" ],
 	/*
