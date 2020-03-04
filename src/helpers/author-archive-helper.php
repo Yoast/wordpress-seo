@@ -56,6 +56,8 @@ class Author_Archive_Helper {
 	 *
 	 * @param int $author_id The author ID.
 	 *
+	 * @codeCoverageIgnore It only performs a count query through the ORM and converts it to a boolean.
+	 *
 	 * @return bool Whether the author has at least one public post.
 	 */
 	protected function author_has_a_public_post( $author_id ) {
@@ -74,6 +76,8 @@ class Author_Archive_Helper {
 	 * Returns whether the author has at least one post with the is public null.
 	 *
 	 * @param int $author_id The author ID.
+	 *
+	 * @codeCoverageIgnore It only performs a count query through the ORM and converts it to a boolean.
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
 	 */
