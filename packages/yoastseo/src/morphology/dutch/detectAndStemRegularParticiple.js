@@ -79,8 +79,12 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataNL, word
 		}
 
 		// Remove the prefix.
-		const wordWithoutPrefix = word.slice( 2 );
+		let wordWithoutPrefix = word.slice( 2 );
 
+		// Check whether stem starts with ë. If yes, replace ë with e.
+		if ( wordWithoutPrefix.startsWith( "ë" ) ) {
+			wordWithoutPrefix = wordWithoutPrefix.replace( "ë", "e" );
+		}
 		// Check whether the suffix should be stemmed. If yes, remove it and return the stem.
 		if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
 			return ( wordWithoutPrefix.slice( 0, -1 ) );
@@ -120,6 +124,10 @@ const detectAndStemParticiplePerPrefixClass = function( morphologyDataNL, word, 
 					return  ( currentPrefix + exception );
 				}
 				wordWithoutPrefix = wordWithoutPrefix.slice( 2 );
+			}
+			// Check whether stem starts with ë. If yes, replace ë with e.
+			if ( wordWithoutPrefix.startsWith( "ë" ) ) {
+			wordWithoutPrefix = wordWithoutPrefix.replace("ë", "e");
 			}
 
 			if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
