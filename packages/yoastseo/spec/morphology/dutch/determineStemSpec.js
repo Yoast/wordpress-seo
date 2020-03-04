@@ -11,59 +11,59 @@ const morphologyDataNL = getMorphologyData( "nl" ).nl;
  */
 
 const wordsToStem = [
-	// A word that exists on the list of words that should not be stemmed and that is a strong verb (1-11 condition in flowchart).
+	// A word that exists on the list of words that should not be stemmed and that is a strong verb (3-11 condition in flowchart).
 	[ "smolt", "smelt" ],
-	// Words that are on the list of words that should not be stemmed (1-12)
+	// Words that are on the list of words that should not be stemmed (3-12)
 	[ "ander", "ander" ],
 	[ "beneden", "beneden" ],
 	[ "zeker", "zeker" ],
-	// Words that are on the list of words with full forms (2-12)
+	// Words that are on the list of words with full forms (1-12)
 	[ "skiën", "ski" ],
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
-	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (3a-15).
+	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
 	[ "gevelwand", "gevelwan" ],
 	[ "beurt", "beur" ],
-	// A word on the list of inseparable compound verbs that should not be stemmed (3b)
+	// A word on the list of inseparable compound verbs that should not be stemmed (2b)
 	[ "onderricht", "onderricht" ],
-	// A participle without separable or inseparable prefixes that should not have the ge- stemmed (3c)
+	// A participle without separable or inseparable prefixes that should not have the ge- stemmed (2c)
 	[ "gebeurd", "gebeur" ],
-	// A word on the list of inseparable compound verbs (3d)
+	// A word on the list of inseparable compound verbs (2d)
 	[ "onderverhuurd", "onderverhuur" ],
-	// A participle of a strong verb without separable or inseparable prefixes which should have the suffix removed (3e-11)
+	// A participle of a strong verb without separable or inseparable prefixes which should have the suffix removed (2e-11)
 	[ "gevraagd", "vraag" ],
 	[ "gejaagd", "jaag" ],
-	// A participle of a regular verb without separable or inseparable prefixes which should have the suffix removed (3e-12)
+	// A participle of a regular verb without separable or inseparable prefixes which should have the suffix removed (2e-12)
 	[ "gewandeld", "wandel" ],
 	[ "gezwikt", "zwik" ],
 	[ "geankerd", "anker" ],
-	// A participle of a strong verb without separable or inseparable prefixes which should not have the suffix removed (3f-11)
+	// A participle of a strong verb without separable or inseparable prefixes which should not have the suffix removed (2f-11)
 	[ "gebracht", "breng" ],
-	// A participle of a regular verb without separable or inseparable prefixes which should not have the suffix removed (3f-15)
+	// A participle of a regular verb without separable or inseparable prefixes which should not have the suffix removed (2f-15)
 	[ "gesport", "sport" ],
 	[ "getocht", "tocht" ],
 	[ "gekorst", "korst" ],
-	// A participle of a strong verb with a separable prefix which should have the suffix removed. (3h-11)
+	// A participle of a strong verb with a separable prefix which should have the suffix removed. (2h-11)
 	[ "afgescheerd", "afscheer" ],
-	// A participle of a regular verb with a separable prefix which should have the suffix removed (3h-12).
+	// A participle of a regular verb with a separable prefix which should have the suffix removed (2h-12).
 	[ "aangegroeid", "aangroei" ],
 	[ "opgesmukt", "opsmuk" ],
 	[ "aangebakt", "aanbak" ],
-	// A participle of a strong verb with a separable prefix which should not have the suffix removed. (3i-11)
+	// A participle of a strong verb with a separable prefix which should not have the suffix removed. (2i-11)
 	[ "aangebracht", "aanbreng" ],
-	// A participle of a regular verb with a separable prefix which should not have the suffix removed. (3i-15)
+	// A participle of a regular verb with a separable prefix which should not have the suffix removed. (2i-15)
 	[ "afgerond", "afrond" ],
 	[ "uitgerust", "uitrust" ],
 	[ "aangelicht", "aanlicht" ],
-	// A participle of a strong verb with an inseparable prefix which should have the suffix removed. (3k-11)
+	// A participle of a strong verb with an inseparable prefix which should have the suffix removed. (2k-11)
 	[ "verzind", "verzin" ],
-	// A participle of a regular verb with an inseparable prefix which should have the suffix removed. (3k-12)
+	// A participle of a regular verb with an inseparable prefix which should have the suffix removed. (2k-12)
 	[ "verlakt", "verlak" ],
 	[ "onderdrukt", "onderdruk" ],
 	[ "herhaald", "herhaal" ],
-	// A participle of a strong verb with an inseparable prefix which should not have the suffix removed. (3l-11)
+	// A participle of a strong verb with an inseparable prefix which should not have the suffix removed. (2l-11)
 	[ "onderbracht", "onderbreng" ],
-	// A participle of a regular verb with an inseparable prefix which should not have the suffix removed. (3l-15)
+	// A participle of a regular verb with an inseparable prefix which should not have the suffix removed. (2l-15)
 	[ "vertroost", "vertroost" ],
 	[ "beantwoord", "beantwoord" ],
 	[ "verlicht", "verlicht" ],
@@ -159,11 +159,17 @@ const wordsToStem = [
 	[ "werken", "werk" ],
 	// Word that gets suffix -en and does not end in t/d (9diii-12)
 	[ "luttelen", "luttel" ],
-	// Word that gets suffix -en and the stem ends in -t/-d (9c-15) (incorrect stem)
-	[ "duiden", "dui" ],
-	// Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15) (incorrect stem)
-	[ "rigiedst", "rigi" ],
-	[ "paranoïedste", "paranoï" ],
+	/*
+	 * Word that gets suffix -en and the stem ends in -t/-d (9c-15) (incorrect stem,
+	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
+	 */
+	// [ "duiden", "duid" ],
+	/*
+	 * Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15) (incorrect stem,
+	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
+	 */
+	// [ "rigiedst", "rigid" ],
+	// [ "paranoïedste", "paranoïd" ],
 	// Word that gets suffix -t and is in an verb exception list (9f-11)
 	[ "sterft", "sterf" ],
 	[ "afsterft", "afsterf" ],
@@ -171,7 +177,7 @@ const wordsToStem = [
 	[ "bindt", "bind" ],
 	/*
 	 * Word that gets suffix -ën and also gets its last -e deleted after suffix deletion
-	 * and is neither in an exception list nor ends in t/d (9fm-12) (incorrect stem)
+	 * and is neither in an exception list nor ends in t/d (9fm-12)
 	 */
 	[ "melodieën", "melodie" ],
 	// Word that gets suffix -der and is neither in an exception list nor ends in t/d (9f-12)
@@ -179,7 +185,10 @@ const wordsToStem = [
 	// Word that gets suffix -je and is in an noun exception list (9g-10)
 	[ "glaasje", "glas" ],
 	[ "biggetje", "big" ],
-	// Word that gets suffix -je and the stem ends in -t/-d (9g-15) (incorrect stem)
+	/*
+	 * Word that gets suffix -je and the stem ends in -t/-d (9g-15) (incorrect stem,
+	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
+	 */
 	// [ "plaatje", "plaat" ],
 	// Word that gets suffix -pje and is neither in an exception list nor ends in t/d (9g-12)
 	[ "museumpje", "museum" ],
@@ -300,20 +309,25 @@ const wordsToStem = [
 	[ "kettinkjes", "ketting" ],
 	// Word with plural diminutive suffix and the stem is in noun exception list (9fg-10)
 	[ "poppetjes", "pop" ],
-	// Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem)
+	/*
+	 * Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem,
+	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
+	 */
 	// [ "momentjes", "moment" ],
-	[ "piraatjes", "piraa" ],
-	[ "hondjes", "hon" ],
+	// [ "piraatjes", "piraat" ],
+	// [ "hondjes", "hond" ],
 	/*
 	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem)
+	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem, this problem will be possibly fixed
+	 * after implementing the list of nouns ending in -e which get plural suffix -s).
 	 */
-	[ "cafeetjes", "caaf" ],
+	// [ "cafeetjes", "cafe" ],
 	/*
 	 * Word with diminutive suffix -etje which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9gn-12) (incorrect stem)
+	 * and the final stem does not end in t/d (9gn-12) (incorrect stem, this problem will be possibly fixed
+	 * after implementing the list of nouns ending in -e which get plural suffix -s).
 	 */
-	[ "cafeetje", "caaf" ],
+	// [ "cafeetje", "cafe" ],
 	// Other specs:
 	// Return the unique stem from noun exception list with multiple stems
 	[ "loot", "lot" ],

@@ -42,11 +42,11 @@ describe( "Creates stem from words with ambiguous endings", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "roeit" ) ).toEqual(
 			"roei" );
 	} );
-	it( "Stems -d if the word is on the list of verbs that should have the -d stemmed", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "vouwden" ) ).toEqual( null );
+	it( "Returns null if a word is not matched in any of the checks", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "vouwden" ) ).toBeNull();
 	} );
-	it( "Returns undefined if a word is not matched in any of the checks", () => {
-		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toEqual( null );
+	it( "Returns null if a word is not matched in any of the checks", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toBeNull();
 	} );
 	it( "Creates the stem of a word which is in the list of words ending in -end.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "sportend" ) ).toEqual(

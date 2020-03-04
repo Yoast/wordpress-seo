@@ -24,8 +24,9 @@ const checkStrongVerbExceptionList = function( strongVerbsLists, stemmedWord ) {
 };
 
 /**
- * Checks if the word checked is in the list of strong verbs exceptions. If it is, only return the first stem from the stem set.
- * E.g. stems: help, hielp, geholp -> the stem returned would be "help".
+ * Checks if the word checked is in the list of strong verbs exceptions. Before checking, see if the word has a prefix and delete it if it does.
+ * If the stem after prefix deletion is in the verb exception list, only return the first stem from the stem set and attach back the prefix.
+ * E.g. words to check: verhielp, stem set: help, hielp, geholp -> the stem returned would be "verhelp".
  *
  * @param  {Object} morphologyDataVerbs The Dutch verbs data.
  * @param  {string} stemmedWord The word to check.
@@ -42,15 +43,17 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 
 	// Check whether the stemmedWord is in the list of strong verbs starting with be-, ont- or ver- that do not need to be stemmed.
 	if ( doNotStemPrefixException ) {
+		// Reset foundPrefix so that it won't be attached when the stem is found in the verb exception list.
 		foundPrefix = null;
 		// If the inputted stem is started with one of the separable compound prefixes, the prefix needs to be deleted for now.
 	} else if ( foundPrefix ) {
+		// Delete the prefix for now.
 		stemmedWordWithoutPrefix = stemmedWord.slice( foundPrefix.length, stemmedWord.length );
-		// At least 3 characters so that e.g. "be" is not found in the stem "berg".
+		// At least 3 characters left after prefix deletion so that e.g. "be" is not found in the stem "berg".
 		if ( stemmedWordWithoutPrefix.length > 2 ) {
 			stemmedWord = stemmedWordWithoutPrefix;
 		} else {
-			// Reset foundPrefix so that it won't be attached when forms are generated.
+			// Reset foundPrefix so that it won't be attached when the stem is found in the verb exception list.
 			foundPrefix = null;
 		}
 	}
