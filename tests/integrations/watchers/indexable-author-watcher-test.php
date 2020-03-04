@@ -110,7 +110,6 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$id = 1;
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
 		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', $indexable_mock )->andReturn( $indexable_mock );
@@ -127,7 +126,6 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$id = 1;
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
 		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );

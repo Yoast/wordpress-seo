@@ -83,8 +83,6 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $user_id ) {
 		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
-		$indexable = $this->builder->build_for_id_and_type( $user_id, 'user', $indexable );
-
-		$indexable->save();
+		$this->builder->build_for_id_and_type( $user_id, 'user', $indexable );
 	}
 }
