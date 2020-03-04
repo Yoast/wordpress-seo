@@ -53,6 +53,7 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
+		\add_action( 'user_register', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
 	}
