@@ -66,5 +66,18 @@ describe( "Creates stem from words with ambiguous endings", () => {
 	it( "Returns undefined if a word is not matched in any of the checks", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming.stemExceptions,
 			morphologyDataNL.stemming.stemModifications, morphologyDataNL.verbs.compoundVerbsPrefixes, "poolt" ) ).toEqual( null );
+	it( "Returns null if a word is not matched in any of the checks", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "vouwden" ) ).toBeNull();
+	} );
+	it( "Returns null if a word is not matched in any of the checks", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "poolt" ) ).toBeNull();
+	} );
+	it( "Creates the stem of a word which is in the list of words ending in -end.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "sportend" ) ).toEqual(
+			"sport" );
+	} );
+	it( "Creates the stem of a word which is in the list of words ending in -den that should only have -en stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, "hoofden" ) ).toEqual(
+			"hoofd" );
 	} );
 } );
