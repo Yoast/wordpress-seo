@@ -1,1 +1,3 @@
-import "@yoast/schema-blocks";
+import initialize from "@yoast/schema-blocks";
+
+initialize();
