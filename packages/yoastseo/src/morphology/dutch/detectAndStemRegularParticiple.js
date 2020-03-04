@@ -127,7 +127,7 @@ const detectAndStemParticiplePerPrefixClass = function( morphologyDataNL, word, 
 			}
 			// Check whether stem starts with ë. If yes, replace ë with e.
 			if ( wordWithoutPrefix.startsWith( "ë" ) ) {
-			wordWithoutPrefix = wordWithoutPrefix.replace("ë", "e");
+				wordWithoutPrefix = wordWithoutPrefix.replace( "ë", "e" );
 			}
 
 			if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
