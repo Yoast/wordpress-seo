@@ -204,7 +204,8 @@ export default function stem( word, morphologyDataNL ) {
 	 * Return the word if it should not be stemmed.
 	 * And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
 	 */
-	const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
+	const tAndDStemmingCheck = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming.stemExceptions,
+		morphologyDataNL.stemming.stemModifications, morphologyDataNL.verbs.compoundVerbsPrefixes, word );
 
 	if ( tAndDStemmingCheck ) {
 		return tAndDStemmingCheck;

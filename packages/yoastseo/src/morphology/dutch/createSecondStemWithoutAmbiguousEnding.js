@@ -17,7 +17,8 @@ import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEndin
  */
 export function createSecondStemWithoutAmbiguousEnding( morphologyDataNL, stemmedWord, word ) {
 	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
-		generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word ||
+		generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming.stemExceptions,
+			morphologyDataNL.stemming.stemModifications, morphologyDataNL.verbs.compoundVerbsPrefixes, word ||
 		checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) ) {
 		return null;
 	}
