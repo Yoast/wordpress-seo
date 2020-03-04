@@ -1,5 +1,6 @@
 window.yoast = window.yoast || {};
-import * as analysis from "yoastseo";
+// This is the only file where yoastseo is imported from the index. Everywhere else the external is used.
+import * as analysis from "yoastseo/index";
 import getL10nObject from "./analysis/getL10nObject";
 import getContentLocale from "./analysis/getContentLocale";
 import { refreshDelay } from "./analysis/constants";

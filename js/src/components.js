@@ -4,7 +4,8 @@ import * as componentsNew from "@yoast/components";
 import * as configurationWizard from "@yoast/configuration-wizard";
 import * as searchMetadataPreviews from "@yoast/search-metadata-previews";
 import * as analysisReport from "@yoast/analysis-report";
-import * as components from "yoast-components";
+// This is the only file where components is imported from the index. Everywhere else the external is used.
+import * as components from "yoast-components/index";
 import Collapsible from "./components/SidebarCollapsible";
 import SidebarItem from "./components/SidebarItem";
 import withSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
