@@ -4,7 +4,7 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
-/*
+/**
  * The first word in each array is the word, the second one is the expected stem. The numbers/letters assigned to the specs
  * refer to the numbers assigned to the different paths in the flowcharts
  *  (https://drive.google.com/drive/u/0/folders/1O5pOnRBCpZnTFAUlrNB3ViiqY3Voj9L3) that the spec covers.
