@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Category_Description implements Integration_Interface {
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -24,7 +23,6 @@ class Category_Description implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {

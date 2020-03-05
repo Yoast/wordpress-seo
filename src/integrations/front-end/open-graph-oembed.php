@@ -33,7 +33,6 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	private $image;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -41,7 +40,6 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
@@ -51,7 +49,7 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	/**
 	 * Open_Graph_OEmbed constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only sets dependencies
 	 *
 	 * @param Meta_Helper  $meta  The meta helper.
 	 * @param Image_Helper $image The image helper.
