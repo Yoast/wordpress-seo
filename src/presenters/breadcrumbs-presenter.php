@@ -133,10 +133,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *                          'url'    => (string) link url.
 	 *                          (optional) 'title'         => (string) link title attribute text.
 	 *                          (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text.
-	 *                          This prevents html stripping from the text strings set in the
-	 *                          WPSEO -> Internal Links options page.
+	 *                          'allow_html' prevents html stripping from the text strings set in the WPSEO -> Internal Links options page.
+	 *                          We never set 'title' or 'allow_html' ourselves but they could be set by users through the
+	 *                          'wpseo_breadcrumb_links' and 'wpseo_breadcrumb_single_link_info' filters.
 	 * @param int   $index      Index for the current breadcrumb.
-	 * @param int   $total      The total amount of breadcrumbs.
+	 * @param int   $total      The total number of breadcrumbs.
 	 *
 	 * @return string The breadcrumb link.
 	 */
@@ -163,7 +164,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			$title_attr = isset( $breadcrumb['title'] ) ? 'title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
 			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '" ' . $title_attr . ' >' . $text . '</a>';
 		}
-		elseif ( $index === ( $total - 1) ) {
+		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
 			$inner_elm = 'span';
 			if ( $this->options->get( 'breadcrumbs-boldlast' ) === true ) {
