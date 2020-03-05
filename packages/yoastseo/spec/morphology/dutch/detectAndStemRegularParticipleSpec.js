@@ -67,4 +67,7 @@ describe( "Detects and stems participles", () => {
 		"Condition: compound matched by doNotStemD exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "aangemeld" ) ).toEqual( "aanmeld" );
 	} );
+	it( "correctly stems a regular participle without prefixes if it starts on ë", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL, "geëmigreerd" ) ).toEqual( "emigreer" );
+	} );
 } );
