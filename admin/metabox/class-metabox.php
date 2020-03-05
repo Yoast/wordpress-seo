@@ -753,7 +753,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					}
 
 					if ( is_string( $data ) ) {
-						$data = WPSEO_Utils::sanitize_text_field( $data );
+						$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 					}
 				}
 
