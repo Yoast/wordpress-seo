@@ -60,15 +60,15 @@
 			</button>
 		</div>
 		<div class="yoast-modal__menu">
-		<ul>
-			<li><a href="#">Google preview</a></li>
-			<li><a href="#">Facebook preview</a></li>
-			<li><a href="#">Twitter preview</a></li>
-			<li><a href="#news-seo" class="active">News SEO</a></li>
-			<li><a href="#video-seo">Video SEO</a></li>
-			<li><a href="#insights">Insights</a></li>
-			<li><a href="#advanced">Advanced</a></li>
-		</ul>
+			<ul>
+				<li><a href="#">Google preview</a></li>
+				<li><a href="#">Facebook preview</a></li>
+				<li><a href="#">Twitter preview</a></li>
+				<li><a href="#news-seo" class="active">News SEO</a></li>
+				<li><a href="#video-seo">Video SEO</a></li>
+				<li><a href="#insights">Insights</a></li>
+				<li><a href="#advanced">Advanced</a></li>
+			</ul>
 		</div>
 		<section class="yoast-modal__section" id="news-seo">
 			<header class="yoast-modal__section-header">
@@ -80,36 +80,37 @@
 				</button>
 			</header>
 			<article class="yoast-modal__section-content">
-				<div class="yoast-field-group">
-					<p class="yoast-field-group__title">
-						Exclude from news sitemap
-						<a class="yoast-field-group__help"  href="#">
-			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false" role="img" aria-hidden="true" focusable="false"><defs/><path
-						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-			</span>
+
+				<fieldset class="yoast-field-group">
+					<legend class="yoast-field-group__title">Exclude from news sitemap
+						<a class="yoast-field-group__help" target="_blank" aria-expanded="false"
+						   href="https://yoast.com">
+				<span class="yoast-field-group__help-icon" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><defs/><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
 							<span class="screen-reader-text">Link to more information about excluding information from the news sitemap</span>
 						</a>
-					</p>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="exclude-news-sitemap" value="yes">
-						Yes
-					</label>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="exclude-news-sitemap" value="no" checked>
-						No
-					</label>
-				</div>
+					</legend>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="yes" name="name" checked>
+						<label for="yes">Yes</label>
+					</div>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="no" name="name">
+						<label for="no">No</label>
+					</div>
+				</fieldset>
 
 				<div class="yoast-field-group">
 					<p class="yoast-field-group__title">
 						Google News genres
-						<a class="yoast-field-group__help" 
+						<a class="yoast-field-group__help"
 						   href="https://yoast.com/link-to-google-news-genres">
 			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+					 focusable="false"><defs/><path
 						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
 			</span>
 							<span class="screen-reader-text">More information about Google News genres</span>
@@ -151,10 +152,11 @@
 				<div class="yoast-field-group">
 					<label class="yoast-field-group__title" for="stock-tickers">
 						Stock tickers
-						<a class="yoast-field-group__help" 
+						<a class="yoast-field-group__help"
 						   href="https://yoast.com/link-to-stock-tickers" target="_blank">
 			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+					 focusable="false"><defs/><path
 						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
 			</span>
 							<span class="screen-reader-text">Link to information about stock tickers.</span>
@@ -164,28 +166,28 @@
 						   placeholder="NASDAQ:AMAT, BOM:500325, etc...">
 				</div>
 
-				<div class="yoast-field-group">
-					<p class="yoast-field-group__title">
-						Googlebot-News index
-						<a class="yoast-field-group__help"  href="#">
-			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
-						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-			</span>
+
+				<fieldset class="yoast-field-group">
+					<legend class="yoast-field-group__title">Googlebot-News index
+						<a class="yoast-field-group__help" target="_blank" aria-expanded="false"
+						   href="https://yoast.com">
+				<span class="yoast-field-group__help-icon" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><defs/><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
 							<span class="screen-reader-text">Link to more information about Googlebot-News index</span>
 						</a>
-					</p>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="googlebot-news-index" value="index" checked>
-						index
-					</label>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="googlebot-news-indexp" value="noindex">
-						noindex
-					</label>
-				</div>
+					</legend>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="index" name="googlebot-news-index" checked>
+						<label for="index">index</label>
+					</div>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="noindex" name="googlebot-news-index">
+						<label for="noindex">noindex</label>
+					</div>
+				</fieldset>
 			</article>
 		</section>
 		<section class="yoast-modal__section" id="video-seo">
@@ -292,9 +294,10 @@
 				<div class="yoast-field-group">
 					<label class="yoast-field-group__title" for="selectid">
 						Allow search engines to show this post in search results?
-						<a class="yoast-field-group__help"  href="#" target="_blank">
+						<a class="yoast-field-group__help" href="#" target="_blank">
 			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+					 focusable="false"><defs/><path
 						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
 			</span>
 							<span class="screen-reader-text">More info about allowing search engines showing post sin search results</span>
@@ -308,35 +311,35 @@
 					</div>
 				</div>
 
-				<div class="yoast-field-group">
-					<p class="yoast-field-group__title">
-						Should search engines follow links on this post
-						<a class="yoast-field-group__help"  href="#">
-			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
-						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-			</span>
+				<fieldset class="yoast-field-group">
+					<legend class="yoast-field-group__title">Should search engines follow links on this post
+						<a class="yoast-field-group__help" target="_blank" aria-expanded="false"
+						   href="https://yoast.com">
+				<span class="yoast-field-group__help-icon" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><defs/><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
 							<span class="screen-reader-text">Link to more information about following links</span>
 						</a>
-					</p>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="exclude-news-sitemap" value="yes">
-						Yes
-					</label>
-
-					<label class="yoast-field-group__radiobutton">
-						<input type="radio" name="exclude-news-sitemap" value="no" checked>
-						No
-					</label>
-				</div>
+					</legend>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="exclude-news-sitema-yes" name="exclude-news-sitemap" checked>
+						<label for="exclude-news-sitema-yes">Yes</label>
+					</div>
+					<div class="yoast-field-group__radiobutton">
+						<input type="radio" id="exclude-news-sitemap-no" name="exclude-news-sitemap">
+						<label for="exclude-news-sitemap-no">No</label>
+					</div>
+				</fieldset>
 
 				<div class="yoast-field-group">
 					<label class="yoast-field-group__title" for="meta-robots">
 						Meta robots advanced
-						<a class="yoast-field-group__help"  href="#" target="_blank">
+						<a class="yoast-field-group__help" href="#" target="_blank">
 			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+					 focusable="false"><defs/><path
 						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
 			</span>
 							<span class="screen-reader-text">Tell what this link does.</span>
@@ -348,9 +351,10 @@
 				<div class="yoast-field-group">
 					<label class="yoast-field-group__title" for="canonical-url">
 						Canonical URL
-						<a class="yoast-field-group__help"  href="#" target="_blank">
+						<a class="yoast-field-group__help" href="#" target="_blank">
 			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><defs/><path
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+					 focusable="false"><defs/><path
 						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
 			</span>
 							<span class="screen-reader-text">Tell what this link does.</span>
