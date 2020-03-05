@@ -27,61 +27,26 @@
 <body>
 <form>
 
-	<div class="yoast-field-group">
-		<p class="yoast-field-group__title">
-			Label name
-			<a class="yoast-field-group__help" aria-expanded="false" href="#">
-			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><defs/><path
-						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-			</span>
+	<fieldset class="yoast-field-group">
+		<legend class="yoast-field-group__title">Do you have a passport?
+			<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
+				<span class="yoast-field-group__help-icon" aria-hidden="true">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
+						 focusable="false"><defs/><path
+							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+				</span>
 				<span class="screen-reader-text">Tell what this link does.</span>
 			</a>
-		</p>
-
-		<label class="yoast-field-group__radiobutton">
-			<input type="radio" name="foobar" value="foobar1" checked>
-			Option 1
-		</label>
-
-		<label class="yoast-field-group__radiobutton">
-			<input type="radio" name="foobar" value="foobar2">
-			Option 2
-		</label>
-
-		<label class="yoast-field-group__radiobutton">
-			<input type="radio" name="foobar" value="foobar3">
-			Option 3
-		</label>
-	</div>
-
-	<div class="yoast-field-group">
-		<p class="yoast-field-group__title">
-			Label name
-			<a class="yoast-field-group__help" aria-expanded="false" href="#">
-			<span class="yoast-field-group__help-icon" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><defs/><path
-						d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-			</span>
-				<span class="screen-reader-text">Tell what this link does.</span>
-			</a>
-		</p>
-
-		<label class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">
-			<input type="radio" name="foobar" value="foobar1" checked>
-			Option 1
-		</label>
-
-		<label class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">
-			<input type="radio" name="foobar" value="foobar2">
-			Option 2
-		</label>
-
-		<label class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">
-			<input type="radio" name="foobar" value="foobar3">
-			Option 3
-		</label>
-	</div>
+		</legend>
+		<div class="yoast-field-group__radiobutton">
+			<input type="radio" id="yes" name="name" checked>
+			<label for="yes" class="yoast-field-group__radiobutton">Yes</label>
+		</div>
+		<div class="yoast-field-group__radiobutton">
+			<input type="radio" id="no" name="name">
+			<label for="no" class="yoast-field-group__radiobutton">No</label>
+		</div>
+	</fieldset>
 
 </form>
 </body>
