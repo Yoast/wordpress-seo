@@ -14,7 +14,6 @@ export function checkIfWordEndingIsOnExceptionList( word, exceptionList ) {
 			return true;
 		}
 	}
-
 	return false;
 }
 

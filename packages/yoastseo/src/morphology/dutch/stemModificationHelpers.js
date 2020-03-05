@@ -1,5 +1,22 @@
-import { flatten } from "lodash-es";
-import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers.js"
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers.js";
+
+/**
+ * Checks whether the word is on any of the sub-lists of the noVowelOrConsonantDoublingList (ending match, exact match,
+ * and verbs) and returns true if it is.
+ *
+ * @param {string}	word							The word to check.
+ * @param {Object}	noVowelOrConsonantDoublingList	The list of stems that should not have the vowel doubled.
+ * @param {Object}	compoundVerbPrefixes			The list of inseparable and separable verb prefixes.
+ *
+ * @returns {boolean} Whether the word was found on one of the lists
+ */
+const checkIfWordIsOnNoVowelDoublingList = function( word, noVowelOrConsonantDoublingList, compoundVerbPrefixes ) {
+	if ( checkIfWordEndingIsOnExceptionList( word, noVowelOrConsonantDoublingList.endingMatch ) ||
+		checkIfWordIsOnVerbExceptionList( word, noVowelOrConsonantDoublingList.verbs, compoundVerbPrefixes ) ||
+		noVowelOrConsonantDoublingList.exactMatch.includes( word ) ) {
+		return true;
+	}
+};
 
 /**
  * Checks whether the third to last and fourth to last characters of the stem are the same. This, in principle, checks
@@ -35,15 +52,16 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
  *
  * @param {string}  word                               The stemmed word that the check should be executed on.
  * @param {Object}  morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
+ * @param {Object}  morphologyDataNLVerbPrefixes	   The separable and inseparable verb prefixes.
  *
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
-export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions ) {
-	const wordsWithoutVowelDoubling = flatten( Object.values( morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling ) );
+export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions, morphologyDataNLVerbPrefixes ) {
 	// Check whether the word is on the list of verbs which should have the vowel doubled (exception to third check)
-	const firstCheck = checkIfWordIsOnVerbExceptionList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
+	const firstCheck = checkIfWordIsOnVerbExceptionList( word, morphologyDataNLStemmingExceptions.getVowelDoubling, morphologyDataNLVerbPrefixes );
 	// Check whether the word is on the list of words which should NOT have the vowel doubled
-	const secondCheck = checkIfWordEndingIsOnExceptionList( word, wordsWithoutVowelDoubling );
+	const secondCheck = checkIfWordIsOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling,
+		morphologyDataNLVerbPrefixes );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
 	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
 

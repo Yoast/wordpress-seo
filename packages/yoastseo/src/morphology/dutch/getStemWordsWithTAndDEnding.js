@@ -7,18 +7,17 @@ import { isVowelDoublingAllowed } from "./stemModificationHelpers";
  * If it does, stem the -e/-en. Also checks if after suffix deletion the stemmed word needs modification, and applies it if
  * needed.
  *
- * @param {Object} 		morphologyDataNLStemExceptions 		The stemming exceptions data from the Dutch morphology data file.
- * @param {Object} 		morphologyDataNLStemModifications 	The stem modifications data from the Dutch morphology data file.
- * @param {Object} 		eOrEnSuffixPrecededByTOrD			The non-verb past endings.
- * @param {string} 		word								The word to be checked.
+ * @param {Object} 		morphologyDataNL			 	The Dutch morphology data file.
+ * @param {string[]} 	regexAndReplacement				The regex to check and the string replacement that should be made.
+ * @param {string} 		word							The word to be checked.
  *
  * @returns {?string}							The stem created or null.
  */
-const stemWordsWithEOrEnSuffix = function( morphologyDataNLStemExceptions, morphologyDataNLStemModifications, eOrEnSuffixPrecededByTOrD, word ) {
-	if ( doesWordMatchRegex( word, eOrEnSuffixPrecededByTOrD[ 0 ] ) ) {
-		const stemmedWord = word.replace( new RegExp( eOrEnSuffixPrecededByTOrD[ 0 ] ), eOrEnSuffixPrecededByTOrD[ 1 ] );
-		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNLStemExceptions ) ) {
-			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemModifications.doubleVowel );
+const stemWordsWithEOrEnSuffix = function( morphologyDataNL, regexAndReplacement, word ) {
+	if ( doesWordMatchRegex( word, regexAndReplacement[ 0 ] ) ) {
+		const stemmedWord = word.replace( new RegExp( regexAndReplacement[ 0 ] ), regexAndReplacement[ 1 ] );
+		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNL.stemming.stemExceptions, morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
+			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNL.stemming.stemModifications.doubleVowel );
 			return replacement ? replacement : stemmedWord;
 		}
 		return stemmedWord;
@@ -32,21 +31,18 @@ const stemWordsWithEOrEnSuffix = function( morphologyDataNLStemExceptions, morph
  * checking lists of words and matching the word with regexes.
  *
  * @param {string}	word								The word to check.
- * @param {Object} 	morphologyDataNLStemExceptions 		The stemming exceptions data from the Dutch morphology data file.
- * @param {Object} 	morphologyDataNLStemModifications 	The stem modifications data from the Dutch morphology data file.
- * @param {Object} 	morphologyDataNLVerbPrefixes 		Separable and inseparable verb prefixes.
+ * @param {Object} 	morphologyDataNL 					The Dutch morphology data.
  *
  * @returns {?string} 							The stemmed word, if matched in one of the checks, or null if not matched.
  */
-const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemExceptions, morphologyDataNLStemModifications,
-											   morphologyDataNLVerbPrefixes ) {
+const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
+	const tAndDPartOfStemData = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem;
 	/*
 	 * Step 1:
 	 * - If the stem ends in -tte, -tten, -dde or -dden leave the first -t/-d and stem the remaining ending.
 	 * - Example: "katten" (-ten should be stemmed, leaving "kat").
 	 */
-	let stemmedWord = searchAndReplaceWithRegex( word,
-		morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.firstTOrDPartOfStem );
+	let stemmedWord = searchAndReplaceWithRegex( word, tAndDPartOfStemData.firstTOrDPartOfStem );
 
 	if ( stemmedWord ) {
 		return stemmedWord;
@@ -57,15 +53,13 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemExcepti
 	 * - Check whether the word has the suffix -en preceded by -d, where the -d is part of the stem. If it is, stem only -en.
 	 * - Example: "eenden" (-en should be stemmed, leaving "eend").
 	 */
-	if ( checkIfWordEndingIsOnExceptionList( word,
-		morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.wordsStemOnlyEnEnding.endingMatch ) ||
-		checkIfWordIsOnVerbExceptionList( word, morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.wordsStemOnlyEnEnding.verbs,
-			morphologyDataNLVerbPrefixes ) ||
-		doesWordMatchRegex( word, morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.denEnding ) ) {
+	if ( checkIfWordEndingIsOnExceptionList( word, tAndDPartOfStemData.wordsStemOnlyEnEnding.endingMatch ) ||
+		checkIfWordIsOnVerbExceptionList( word, tAndDPartOfStemData.wordsStemOnlyEnEnding.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
+		doesWordMatchRegex( word, tAndDPartOfStemData.denEnding ) ) {
 		stemmedWord = word.slice( 0, -2 );
 		//	Check if the vowel needs to be doubled after deleting suffix -en.
-		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNLStemExceptions ) ) {
-			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNLStemModifications.doubleVowel );
+		if ( isVowelDoublingAllowed( stemmedWord, morphologyDataNL.stemming.stemExceptions, morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
+			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNL.stemming.stemModifications.doubleVowel );
 			return replacement ? replacement : stemmedWord;
 		}
 		return stemmedWord;
@@ -77,8 +71,8 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemExcepti
 	 * only stem the -e.
 	 * - Example: "beenharde" (-e should be stemmed, leaving "beenhard")
 	 */
-	const dIsPartOfStemRegex = morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.deEnding;
-	stemmedWord = stemWordsWithEOrEnSuffix( morphologyDataNLStemExceptions, morphologyDataNLStemModifications, dIsPartOfStemRegex, word );
+	const dIsPartOfStemRegex = tAndDPartOfStemData.deEnding;
+	stemmedWord = stemWordsWithEOrEnSuffix( morphologyDataNL, dIsPartOfStemRegex, word );
 
 	if ( stemmedWord ) {
 		return stemmedWord;
@@ -89,8 +83,8 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemExcepti
 	 * matched, only stem the -e/-en.
 	 * - Example: "castraten" (-en should be stemmed, leaving "castraat")
 	 */
-	const tIsPartOfStemRegex = morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.teAndTenEndings;
-	stemmedWord = stemWordsWithEOrEnSuffix( morphologyDataNLStemExceptions, morphologyDataNLStemModifications, tIsPartOfStemRegex, word );
+	const tIsPartOfStemRegex = tAndDPartOfStemData.teAndTenEndings;
+	stemmedWord = stemWordsWithEOrEnSuffix( morphologyDataNL, tIsPartOfStemRegex, word );
 
 	if ( stemmedWord ) {
 		return stemmedWord;
@@ -102,22 +96,19 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNLStemExcepti
 /**
  * Creates the correct stem for words which end in ambiguous endings -t, -te, -ten, -de, or -den.
  *
- * @param {Object} 		morphologyDataNLStemExceptions 		The stemming exceptions data from the Dutch morphology data file.
- * @param {Object} 		morphologyDataNLStemModifications 	The stem modifications data from the Dutch morphology data file.
- * @param {Object} 		morphologyDataNLVerbPrefixes 		Separable and inseparable verb prefixes.
+ * @param {Object} 		morphologyDataNL 					The Dutch morphology data.
  * @param {string} 		word								The word to be checked.
  *
  * @returns {?string} 	The stemmed word or null.
  */
-export function generateCorrectStemWithTAndDEnding( morphologyDataNLStemExceptions, morphologyDataNLStemModifications,
-	morphologyDataNLVerbPrefixes, word ) {
+export function generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) {
 	/*
 	 * Step 1:
 	 * - Check whether the word is in the exception list of words in which -t ending needs to be stemmed. If it is, stem -t.
 	 * - Example: "squasht".
 	 * - This is an exception to one of the rule in step 2.
 	 */
-	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNLStemExceptions.ambiguousTAndDEndings.verbsTShouldBeStemmed ) ) {
+	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.verbsTShouldBeStemmed ) ) {
 		return word.slice( 0, -1 );
 	}
 
@@ -126,7 +117,7 @@ export function generateCorrectStemWithTAndDEnding( morphologyDataNLStemExceptio
 	 * - Check if word is matched by a regex for a t that shouldn't be stemmed.
 	 * - Example: "boot".
 	 */
-	if ( doesWordMatchRegex( word, morphologyDataNLStemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.tEnding ) ) {
+	if ( doesWordMatchRegex( word, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.tEnding ) ) {
 		return word;
 	}
 
@@ -136,7 +127,8 @@ export function generateCorrectStemWithTAndDEnding( morphologyDataNLStemExceptio
 	 *  If yes, stem the suffix that should be stemmed and return the stem which ends in -t/-d.
 	 * - Example: "tijden" (only -en should be removed, not -den).
 	 */
-	const stemmedWord = checkWhetherTOrDIsPartOfStem( word, morphologyDataNLStemExceptions, morphologyDataNLStemModifications, morphologyDataNLVerbPrefixes );
+
+	const stemmedWord = checkWhetherTOrDIsPartOfStem( word, morphologyDataNL );
 
 	if ( stemmedWord ) {
 		return stemmedWord;

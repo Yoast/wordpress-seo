@@ -1,8 +1,7 @@
-import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
-import { flatten } from "lodash-es";
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 
@@ -68,17 +67,25 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) 
 	}
 
 	/*
-	 * Checks whether the word is in the exception list of diminutives that need to be stemmed and that additionally need
+	 * Checks whether the word is in the ending match sub-list of diminutives that need to be stemmed and that additionally need
 	 * to have the final vowel removed. If it is return the stem here.
 	 */
-	const stemFromFullFormAndDeleteFinalVowel = removeSuffixFromFullForm(
-		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms,
+	const stemFromFullFormAndDeleteFinalVowelEndingMatch = removeSuffixFromFullForm(
+		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.endingMatch,
 		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.suffix,
 		word
 	);
 
-	if ( stemFromFullFormAndDeleteFinalVowel ) {
-		return stemFromFullFormAndDeleteFinalVowel.slice( 0, -1 );
+	if ( stemFromFullFormAndDeleteFinalVowelEndingMatch ) {
+		return stemFromFullFormAndDeleteFinalVowelEndingMatch.slice( 0, -1 );
+	}
+
+	/*
+	 * Checks whether the word is in the exact match sub-list of diminutives that need to be stemmed and that additionally need
+	 * to have the final vowel removed. If it is return the stem here.
+	 */
+	if ( morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.exactMatch.includes( word ) ) {
+		return word.slice( 0, -4 );
 	}
 
 	return null;
@@ -94,7 +101,7 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) 
  */
 export default function stem( word, morphologyDataNL ) {
 	// Check whether the word is in the list of words with full forms for which we define the stem. If it is, return the canonical stem.
-	let stemmedWord = checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, word );
+	let stemmedWord = checkExceptionsWithFullForms( morphologyDataNL, word );
 	if ( stemmedWord ) {
 		return stemmedWord;
 	}
@@ -106,8 +113,10 @@ export default function stem( word, morphologyDataNL ) {
 	}
 
 	// Check whether the word is on the list of words that should not be stemmed, and if yes, return the word
-	const wordsNotToBeStemmed = flatten( Object.values( morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) );
-	if ( checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed ) ) {
+	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
+	if ( checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
+		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
+		 wordsNotToBeStemmed.exactMatch.includes( word ) ) {
 		return word;
 	}
 
@@ -119,7 +128,7 @@ export default function stem( word, morphologyDataNL ) {
 	const tAndDEndings = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.otherTAndDEndings;
 	for ( const ending of tAndDEndings ) {
 		if ( word.endsWith( ending ) ) {
-			stemmedWord = generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming, word );
+			stemmedWord = generateCorrectStemWithTAndDEnding( morphologyDataNL, word );
 			if ( stemmedWord ) {
 				return stemmedWord;
 			}

@@ -48,7 +48,7 @@ const shouldSuffixBeStemmed = function( wordWithoutPrefix, morphologyDataNL ) {
 		 * Return false (suffix should not be stemmed) if the word was found on the list of verbs with stem ending in -t.
 		 * Otherwise, return true (if no checks are matched, the default condition is for -t to be stemmed).
 		 */
-		const exceptionsTShouldNotBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions.verbStemEndingInT;
+		const exceptionsTShouldNotBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions.verbs;
 		return ! exceptionsTShouldNotBeStemmed.includes( wordWithoutPrefix );
 	}
 	if ( wordWithoutPrefix.endsWith( "d" ) ) {

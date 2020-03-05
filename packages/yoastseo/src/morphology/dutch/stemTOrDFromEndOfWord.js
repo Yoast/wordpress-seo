@@ -1,4 +1,5 @@
-import { checkIfWordEndingIsOnExceptionList, checkExceptionListWithTwoStems } from "../morphoHelpers/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkExceptionListWithTwoStems,
+	checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
@@ -17,13 +18,17 @@ import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFu
  * @returns {?string}				    The stemmed word or null if the -t/-d should not be stemmed.
  */
 export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
+	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
+	const adjectivesEndingInRd = morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD;
+
 	// Run the checks below. If one of the conditions returns true, return the stem.
 	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
-		 generateCorrectStemWithTAndDEnding( morphologyDataNL.stemming.stemExceptions, morphologyDataNL.stemming.stemExceptions,
-			 morphologyDataNL.verbs.compoundVerbsPrefixes, word ) ||
-		 checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ||
-		 checkIfWordEndingIsOnExceptionList( stemmedWord, morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD ) ||
-		 checkExceptionsWithFullForms( morphologyDataNL.stemming.stemmingExceptionStemsWithFullForms, word ) ||
+		 generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) ||
+		 checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
+		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
+		 wordsNotToBeStemmed.exactMatch.includes( word ) ||
+		 adjectivesEndingInRd.includes( stemmedWord ) ||
+		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
 		 stemmedWord.endsWith( "heid" ) ) {
 		return null;
 	}

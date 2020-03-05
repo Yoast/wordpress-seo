@@ -9,14 +9,21 @@ const morphologyDataNL = getMorphologyData( "nl" ).nl;
  * refer to the numbers assigned to the different paths in the flowcharts
  *  (https://drive.google.com/drive/u/0/folders/1O5pOnRBCpZnTFAUlrNB3ViiqY3Voj9L3) that the spec covers.
  */
-
 const wordsToStem = [
 	// A word that exists on the list of words that should not be stemmed and that is a strong verb (3-11 condition in flowchart).
 	[ "smolt", "smelt" ],
-	// Words that are on the list of words that should not be stemmed (3-12)
-	[ "ander", "ander" ],
-	[ "beneden", "beneden" ],
-	[ "zeker", "zeker" ],
+	// Words that are on the verb sub-list of words that should not be stemmed (3-12)
+	[ "hoest", "hoest" ],
+	[ "aanplant", "aanplant" ],
+	[ "verpest", "verpest" ],
+	// Words that are on the ending match sub-list of words that should not be stemmed (3-12)
+	[ "economist", "economist" ],
+	[ "antifascist", "antifascist" ],
+	[ "koffer", "koffer" ],
+	// Words that are on the exact match sub-list of words that should not be stemmed (3-12)
+	[ "loft", "loft" ],
+	[ "rijst", "rijst" ],
+	[ "akte", "akte" ],
 	// Words that are on the list of words with full forms (1-12)
 	[ "skiën", "ski" ],
 	[ "raderen", "rad" ],
@@ -126,10 +133,16 @@ const wordsToStem = [
 	[ "ingrediëntje", "ingrediën" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
 	[ "garagetje", "garage" ],
+	[ "parkeergaragetje", "parkeergarage" ],
 	[ "taxietje", "taxi" ],
-	// Noun that is in stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
+	[ "watertaxietje", "watertaxi" ],
+	// Noun that is in the ending match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
 	[ "dramaatje", "drama" ],
 	[ "cameraatje", "camera" ],
+	[ "filmcameraatje", "filmcamera" ],
+	// Noun that is in the exact match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
+	[ "omaatje", "oma" ],
+	[ "lamaatje", "lama" ],
 	// Verb that gets suffix -ten and is in verb exception list (9b-11)
 	[ "lachten", "lach" ],
 	[ "bakten", "bak" ],
@@ -348,6 +361,15 @@ const wordsToStem = [
 	[ "mode", "mood" ],
 	[ "compote", "compoot" ],
 	[ "taarten", "taart" ],
+	// Vowel doubling checks:
+	// Is on ending match sub-list of no vowel doubling list
+	[ "hagelslagen", "hagelslag" ],
+	// Is on exact match sub-list of no vowel doubling list
+	[ "flexibeler", "flexibel" ],
+	// Is on verb match sub-list of no vowel doubling list
+	[ "ademen", "adem" ],
+	[ "uitademen", "uitadem" ],
+	[ "verademen", "veradem" ],
 
 	// Words that should not be stemmed (not matched in any stemming steps):
 	[ "verantwoordelijk", "verantwoordelijk" ],
