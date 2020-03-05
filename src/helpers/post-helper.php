@@ -25,6 +25,8 @@ class Post_Helper {
 	 * Post_Helper constructor.
 	 *
 	 * @param String_Helper $string The string helper.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct( String_Helper $string ) {
 		$this->string = $string;
@@ -34,6 +36,8 @@ class Post_Helper {
 	 * Removes all shortcode tags from the given content.
 	 *
 	 * @param string $content Content to remove all the shortcode tags from.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @return string Content without shortcode tags.
 	 */
@@ -46,6 +50,8 @@ class Post_Helper {
 	 *
 	 * @param int $post_id Post ID.
 	 *
+	 * @codeCoverageIgnore It only wraps another helper method.
+	 *
 	 * @return string Post excerpt (without tags).
 	 */
 	public function get_the_excerpt( $post_id ) {
@@ -55,7 +61,9 @@ class Post_Helper {
 	/**
 	 * Retrieves the post type of the current post.
 	 *
-	 * @param \WP_Post $post The post.
+	 * @param WP_Post $post The post.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @return string|false Post type on success, false on failure.
 	 */
@@ -70,11 +78,13 @@ class Post_Helper {
 	 *
 	 * @return string The post title with fallback to `No title`.
 	 */
-	public static function get_post_title_with_fallback( $post_id = 0 ) {
+	public function get_post_title_with_fallback( $post_id = 0 ) {
 		$post_title = \get_the_title( $post_id );
-		$title      = ( $post_title ) ? $post_title : __( 'No title', 'wordpress-seo' );
+		if ( $post_title ) {
+			return $post_title;
+		}
 
-		return $title;
+		return  __( 'No title', 'wordpress-seo' );
 	}
 
 	/**

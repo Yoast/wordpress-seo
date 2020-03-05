@@ -17,6 +17,8 @@ class Site_Helper {
 	/**
 	 * Retrieves the site name.
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @return string
 	 */
 	public function get_site_name() {

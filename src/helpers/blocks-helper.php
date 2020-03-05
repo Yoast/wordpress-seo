@@ -38,7 +38,7 @@ class Blocks_Helper {
 	 * @return array The blocks in a block-type => WP_Block_Parser_Block[] format.
 	 */
 	public function get_all_blocks_from_post( $post_id ) {
-		if ( ! \function_exists( 'parse_blocks' ) ) {
+		if ( ! $this->has_blocks_support() ) {
 			return [];
 		}
 
@@ -54,13 +54,24 @@ class Blocks_Helper {
 	 * @return array The blocks in a block-type => WP_Block_Parser_Block[] format.
 	 */
 	public function get_all_blocks_from_content( $content ) {
-		if ( ! \function_exists( 'parse_blocks' ) ) {
+		if ( ! $this->has_blocks_support() ) {
 			return [];
 		}
 
 		$collection = [];
 		$blocks     = \parse_blocks( $content );
 		return $this->collect_blocks( $blocks, $collection );
+	}
+
+	/**
+	 * Checks if the installation has blocks support.
+	 *
+	 * @codeCoverageIgnore It only checks if a WordPress function exists.
+	 *
+	 * @return bool True when function parse_blocks exists.
+	 */
+	protected function has_blocks_support() {
+		return \function_exists( 'parse_blocks' );
 	}
 
 	/**
@@ -78,7 +89,7 @@ class Blocks_Helper {
 			}
 			$collection[ $block['blockName'] ][] = $block;
 
-			if ( $block['innerBlocks'] ) {
+			if ( isset( $block['innerBlocks'] ) ) {
 				$collection = $this->collect_blocks( $block['innerBlocks'], $collection );
 			}
 		}
