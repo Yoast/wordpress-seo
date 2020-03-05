@@ -61,4 +61,5 @@
 
 .yoast-paper__item:not(:first-of-type) {
 	border-top: 1px solid var(--color-border);
+	padding-top: 16px;
 }
