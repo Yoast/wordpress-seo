@@ -83,7 +83,7 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataNL, word
 
 		// Check if stem starts with ë. If yes, replace ë with e.
 		if ( wordWithoutPrefix.startsWith( "ë" ) ) {
-			wordWithoutPrefix = wordWithoutPrefix.replace( "ë", "e" );
+			wordWithoutPrefix = "e" + wordWithoutPrefix.slice( 1 );
 		}
 		// Check whether the suffix should be stemmed. If yes, remove it and return the stem.
 		if ( shouldSuffixBeStemmed( wordWithoutPrefix, morphologyDataNL ) ) {
