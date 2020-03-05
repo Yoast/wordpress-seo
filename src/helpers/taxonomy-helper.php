@@ -66,6 +66,8 @@ class Taxonomy_Helper {
 	 *
 	 * @param \WP_Term $term Term to get the meta value for.
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @return array|bool Array of all the meta data for the term.
 	 *                    False if the term does not exist or the $meta provided is invalid.
 	 */

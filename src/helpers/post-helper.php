@@ -92,6 +92,8 @@ class Post_Helper {
 	 *
 	 * @param int $post_id Post ID.
 	 *
+	 * @codeCoverageIgnore It wraps a WordPress function.
+	 *
 	 * @return \WP_Post|null The post.
 	 */
 	public function get_post( $post_id ) {
@@ -107,6 +109,8 @@ class Post_Helper {
 	 *
 	 * @param int $post_parent      Post ID.
 	 * @param int $has_public_posts Whether the parent is public.
+	 *
+	 * @codeCoverageIgnore It relies too much on dependencies.
 	 *
 	 * @return bool Whether the update was successful.
 	 */

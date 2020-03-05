@@ -24,6 +24,8 @@ class Blocks_Helper {
 	/**
 	 * Constructs a Blocks_Helper instance.
 	 *
+	 * @codeCoverageIgnore It handles dependencies.
+	 *
 	 * @param Post_Helper $post The post helper.
 	 */
 	public function __construct( Post_Helper $post ) {
