@@ -79,8 +79,8 @@ class Yoast_Form {
 		require_once ABSPATH . 'wp-admin/options-head.php';
 		?>
 		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
-		<div class="wpseo_content_wrapper">
-		<div class="wpseo_content_cell" id="wpseo_content_top">
+		<div class="yoast-layout">
+		<div class="yoast-main">
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
