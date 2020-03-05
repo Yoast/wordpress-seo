@@ -219,6 +219,7 @@ Enhancements:
 Other:
 
 * Changes the cURL Health Check to `critical` instead of `recommended`.
+* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
 
 = 13.2 =
 Release Date: March 3rd, 2020
