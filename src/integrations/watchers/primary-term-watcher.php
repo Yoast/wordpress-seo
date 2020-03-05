@@ -45,7 +45,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @codeCoverageIgnore It sets dependencies.
 	 *
 	 * @param Primary_Term_Repository $repository The primary term repository.
-	 * @param Site_Helper             $site
+	 * @param Site_Helper             $site       The site helper.
 	 */
 	public function __construct( Primary_Term_Repository $repository, Site_Helper $site ) {
 		$this->repository = $repository;
