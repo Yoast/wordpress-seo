@@ -23,7 +23,6 @@ class Handle_404 implements Integration_Interface {
 	private $query_wrapper;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -31,7 +30,6 @@ class Handle_404 implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
@@ -41,7 +39,7 @@ class Handle_404 implements Integration_Interface {
 	/**
 	 * Handle_404 constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore Handles dependencies.
 	 *
 	 * @param WP_Query_Wrapper $query_wrapper The query wrapper.
 	 */

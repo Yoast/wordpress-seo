@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use WPSEO_Options;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +31,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var ContainerInterface
 	 */
 	protected $container;
+
+	/**
+	 * Represents the options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options;
 
 	/**
 	 * The presenters we loop through on each page load.
@@ -125,13 +132,18 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
+	 * @param Options_Helper             $options           The options helper.
+	 *
+	 * @codeCoverageIgnore It sets dependencies.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		ContainerInterface $service_container
+		ContainerInterface $service_container,
+		Options_Helper $options
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
+		$this->options          = $options;
 	}
 
 	/**
@@ -155,6 +167,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
+	 *
+	 * @codeCoverageIgnore It just calls a WordPress function.
 	 */
 	public function call_wpseo_head() {
 		do_action( 'wpseo_head' );
@@ -185,11 +199,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
-
-		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
-		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
-			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-		}
+		$invalid_behaviour = $this->invalid_behaviour();
 
 		return array_filter(
 			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
@@ -246,13 +256,29 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function get_all_presenters() {
 		$presenters = array_merge( $this->base_presenters, $this->indexing_directive_presenters );
-		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
+		if ( $this->options->get( 'opengraph' ) === true ) {
 			$presenters = array_merge( $presenters, $this->open_graph_presenters );
 		}
-		if ( WPSEO_Options::get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
+		if ( $this->options->get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
 			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
 		}
 
 		return array_merge( $presenters, $this->closing_presenters );
+	}
+
+	/**
+	 * The behavior when the service does not exist.
+	 *
+	 * @codeCoverageIgnore This wraps functionality from the Symfony containerinterface.
+	 *
+	 * @return boolean Value from the container interface.
+	 */
+	private function invalid_behaviour() {
+		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
+			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+		}
+
+		return $invalid_behaviour;
 	}
 }

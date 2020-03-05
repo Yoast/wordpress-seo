@@ -10,7 +10,9 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Loadable_Interface;
 
 /**
- * An interface for registering integrations with WordPress
+ * An interface for registering integrations with WordPress.
+ *
+ * @codeCoverageIgnore It represents an interface.
  */
 interface Integration_Interface extends Loadable_Interface {
 

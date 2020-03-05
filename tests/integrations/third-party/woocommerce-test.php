@@ -10,6 +10,8 @@ namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
 use Mockery;
 use Brain\Monkey;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -77,6 +79,31 @@ class WooCommerce_Test extends TestCase {
 		$presentation       = new Indexable_Presentation();
 		$this->indexable    = new Indexable();
 		$this->presentation = $presentation->of( [ 'model' => $this->indexable ] );
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ WooCommerce_Conditional::class, Front_End_Conditional::class ],
+			WooCommerce::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Filters\has( 'wpseo_frontend_page_type_simple_page_id', [ $this->instance, 'get_page_id' ] ) );
+		$this->assertTrue( Monkey\Filters\has( 'wpseo_title', [ $this->instance, 'title' ] ) );
+		$this->assertTrue( Monkey\Filters\has( 'wpseo_metadesc', [ $this->instance, 'description' ] ) );
 	}
 
 	/**

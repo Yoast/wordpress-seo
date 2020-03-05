@@ -9,6 +9,8 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed;
@@ -58,6 +60,29 @@ class Open_Graph_OEmbed_Test extends TestCase {
 		$this->instance = Mockery::mock( Open_Graph_OEmbed::class, [ $this->meta, $this->image ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class, Open_Graph_Conditional::class ],
+			Open_Graph_OEmbed::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Filters\has( 'oembed_response_data', [ $this->instance, 'set_oembed_data' ] ) );
 	}
 
 	/**

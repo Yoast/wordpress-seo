@@ -84,6 +84,8 @@ abstract class TestCase extends BaseTestCase {
 					switch ( $show ) {
 						case 'charset':
 							return 'UTF-8';
+						case 'language':
+							return 'English';
 					}
 					return $show;
 				},

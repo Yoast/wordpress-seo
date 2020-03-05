@@ -60,11 +60,7 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	private $current_page;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The conditionals.
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -84,11 +80,7 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_head', [ $this, 'render_meta_tags' ], 15 );
