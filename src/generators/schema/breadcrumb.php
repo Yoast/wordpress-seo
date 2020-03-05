@@ -72,6 +72,8 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$broken        = false;
 		$list_elements = [];
 
+		$nr_of_breadcrumbs = count( $breadcrumbs );
+
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
 				continue;
@@ -81,7 +83,22 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				$broken = true;
 				break;
 			}
-			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb, $context );
+
+			if ( $index === ( $nr_of_breadcrumbs - 1 ) ) {
+				/*
+				 * Fall back to the current URL and/or title,
+				 * but only for the last breadcrumb, which corresponds to the
+				 * current webpage.
+				 */
+				if ( empty( $breadcrumb['url'] ) ) {
+					$breadcrumb['url'] = $context->canonical;
+				}
+				if ( empty( $breadcrumb['text'] ) ) {
+					$breadcrumb['text'] = $context->title;
+				}
+			}
+
+			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
 		}
 
 		// Only output if JSON is correctly formatted.
@@ -103,21 +120,12 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Returns a breadcrumb array.
 	 *
-	 * @param int               $index      The position in the list.
-	 * @param array             $breadcrumb The breadcrumb array.
-	 * @param Meta_Tags_Context $context    The meta tags context.
+	 * @param int   $index      The position in the list.
+	 * @param array $breadcrumb The breadcrumb array.
 	 *
 	 * @return array A breadcrumb listItem.
 	 */
-	private function add_breadcrumb( $index, $breadcrumb, Meta_Tags_Context $context ) {
-		if ( empty( $breadcrumb['url'] ) ) {
-			$breadcrumb['url'] = $context->canonical;
-		}
-
-		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['text'] = $context->title;
-		}
-
+	private function create_breadcrumb( $index, $breadcrumb ) {
 		return [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
@@ -139,10 +147,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return array A breadcrumb listItem.
 	 */
 	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
-		return $this->add_breadcrumb(
+		return $this->create_breadcrumb(
 			( $index + 1 ),
-			[ 'url' => $context->canonical, 'text' => $context->title ],
-			$context
+			[ 'url' => $context->canonical, 'text' => $context->title ]
 		);
 	}
 }
