@@ -168,4 +168,161 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->get_featured_image_id( 100 ) );
 	}
+
+	/**
+	 * Tests retrieving of the first content image.
+	 *
+	 * @covers ::get_post_content_image
+	 */
+	public function test_get_post_content_image() {
+		$this->instance
+			->expects( 'get_first_usable_content_image_for_post' )
+			->once()
+			->with( 1337 )
+			->andReturn( 'image.jpg' );
+
+		$this->assertEquals( 'image.jpg', $this->instance->get_post_content_image( 1337 ) );
+	}
+
+	/**
+	 * Tests retrieving of the first content image with no image being found.
+	 *
+	 * @covers ::get_post_content_image
+	 */
+	public function test_get_post_content_image_with_no_image_found() {
+		$this->instance
+			->expects( 'get_first_usable_content_image_for_post' )
+			->once()
+			->with( 1337 )
+			->andReturnNull();
+
+		$this->assertEquals( '', $this->instance->get_post_content_image( 1337 ) );
+	}
+
+	/**
+	 * Tests retrieving the caption from the attachment.
+	 *
+	 * @covers ::get_caption
+	 */
+	public function test_get_caption_with_attachment_caption() {
+		Monkey\Functions\expect( 'wp_get_attachment_caption' )
+			->once()
+			->with( 707 )
+			->andReturn( 'This is the attachment caption' );
+
+		$this->assertEquals( 'This is the attachment caption', $this->instance->get_caption( 707 ) );
+	}
+
+	/**
+	 * Tests the retrieving the caption where the caption is set in post meta.
+	 *
+	 * @covers ::get_caption
+	 */
+	public function test_get_caption_with_caption_from_post_meta() {
+		Monkey\Functions\expect( 'wp_get_attachment_caption' )
+			->with( 707 )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( 707, '_wp_attachment_image_alt', true )
+			->andReturn( 'This is the post_meta caption' );
+
+		$this->assertEquals( 'This is the post_meta caption', $this->instance->get_caption( 707 ) );
+	}
+
+	/**
+	 * Tests retrieving the caption with no set caption.
+	 *
+	 * @covers ::get_caption
+	 */
+	public function test_get_caption_with_no_set_caption() {
+		Monkey\Functions\expect( 'wp_get_attachment_caption' )
+			->once()
+			->with( 707 )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->once()
+			->with( 707, '_wp_attachment_image_alt', true )
+			->andReturn( '' );
+
+		$this->assertEquals( '', $this->instance->get_caption( 707 ) );
+	}
+
+	/**
+	 * Tests retrieving the meta data.
+	 *
+	 * @covers ::get_metadata
+	 */
+	public function test_get_metadata() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( [ 'meta' => 'data' ] );
+
+		$this->assertEquals(
+			[
+				'meta' => 'data',
+			],
+			$this->instance->get_metadata( 1337 )
+		);
+	}
+
+	/**
+	 * Tests retrieving the meta data with no metadata found.
+	 *
+	 * @covers ::get_metadata
+	 */
+	public function test_get_metadata_with_no_metadata_found() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( false );
+
+		$this->assertEquals( [], $this->instance->get_metadata( 1337 ) );
+	}
+
+	/**
+	 * Tests retrieving the meta data with unexpected return value.
+	 *
+	 * @covers ::get_metadata
+	 */
+	public function test_get_metadata_with_wrong_metadata_return_type() {
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->once()
+			->with( 1337 )
+			->andReturn( 'string' );
+
+		$this->assertEquals( [], $this->instance->get_metadata( 1337 ) );
+	}
+
+	/**
+	 * Tests retrieving the attachment image url.
+	 *
+	 * @covers ::get_attachment_image_url
+	 */
+	public function test_get_attachment_image_url() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( 'https://example.org/image.jpg' );
+
+		$this->assertEquals(
+			'https://example.org/image.jpg',
+			$this->instance->get_attachment_image_url( 1337, 'full' ) );
+	}
+
+	/**
+	 * Tests retrieving the attachment image url with no url found.
+	 *
+	 * @covers ::get_attachment_image_url
+	 */
+	public function test_get_attachment_image_url_no_url_found() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( false );
+
+		$this->assertEquals( '', $this->instance->get_attachment_image_url( 1337, 'full' ) );
+	}
 }
