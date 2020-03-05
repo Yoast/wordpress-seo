@@ -71,6 +71,9 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'noIndex'                   => WPSEO_Options::get( 'noindex-post', false ) === true,
+			'breadcrumbsDisabled'       => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
