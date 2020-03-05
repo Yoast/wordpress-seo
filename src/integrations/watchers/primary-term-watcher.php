@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
@@ -20,9 +21,16 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * The primary term repository.
 	 *
-	 * @var \Yoast\WP\SEO\Repositories\Primary_Term_Repository
+	 * @var Primary_Term_Repository
 	 */
 	protected $repository;
+
+	/**
+	 * Represents the site helper.
+	 *
+	 * @var Site_Helper
+	 */
+	protected $site;
 
 	/**
 	 * @inheritDoc
@@ -34,10 +42,14 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Repositories\Primary_Term_Repository $repository The primary term repository.
+	 * @codeCoverageIgnore It sets dependencies.
+	 *
+	 * @param Primary_Term_Repository $repository The primary term repository.
+	 * @param Site_Helper             $site
 	 */
-	public function __construct( Primary_Term_Repository $repository ) {
+	public function __construct( Primary_Term_Repository $repository, Site_Helper $site ) {
 		$this->repository = $repository;
+		$this->site       = $site;
 	}
 
 	/**
@@ -57,13 +69,13 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 */
 	public function delete_primary_terms( $post_id ) {
 		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
-			$indexable = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
+			$primary_term = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy->name, false );
 
-			if ( ! $indexable ) {
+			if ( ! $primary_term ) {
 				continue;
 			}
 
-			$indexable->delete();
+			$primary_term->delete();
 		}
 	}
 
@@ -76,7 +88,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 */
 	public function save_primary_terms( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
-		if ( is_multisite() && ms_is_switched() ) {
+		if ( $this->site->is_multisite_and_switched() ) {
 			return;
 		}
 
@@ -165,7 +177,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Returns whether or not a taxonomy is hierarchical
+	 * Returns whether or not a taxonomy is hierarchical.
 	 *
 	 * @param \stdClass $taxonomy Taxonomy object.
 	 *
@@ -178,6 +190,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * Checks if the request is a post request.
 	 *
+	 * @codeCoverageIgnore It wraps server input.
+	 *
 	 * @return bool Whether the method is a post request.
 	 */
 	protected function is_post_request() {
@@ -189,6 +203,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 *
 	 * @param string $taxonomy The taxonomy to check.
 	 *
+	 * @codeCoverageIgnore It wraps form input.
+	 *
 	 * @return int The term ID.
 	 */
 	protected function get_posted_term_id( $taxonomy ) {
@@ -199,6 +215,8 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * Checks if the referer is valid for given taxonomy.
 	 *
 	 * @param string $taxonomy The taxonomy to validate.
+	 *
+	 * @codeCoverageIgnore It wraps a WordPress function.
 	 *
 	 * @return bool Whether the referer is valid.
 	 */

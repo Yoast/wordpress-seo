@@ -26,7 +26,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
-	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Migrations_Conditional::class ];
@@ -35,7 +34,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Permalink_Watcher constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It sets a dependency.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 */
@@ -45,7 +44,6 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
-	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_permalink_structure', [ $this, 'reset_permalinks' ] );
