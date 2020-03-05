@@ -68,7 +68,7 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests the generation of the breadcrumbs.
 	 *
 	 * @covers ::generate
-	 * @covers ::add_breadcrumb
+	 * @covers ::create_breadcrumb
 	 */
 	public function test_generate() {
 		$breadcrumb_data = [
@@ -123,7 +123,7 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests whether a breadcrumb is hidden when it has a `hide_in_schema` property set to `true`.
 	 *
 	 * @covers ::generate
-	 * @covers ::add_breadcrumb
+	 * @covers ::create_breadcrumb
 	 */
 	public function test_do_not_generate_when_hide_in_schema_is_true() {
 		$breadcrumb_data = [
@@ -170,7 +170,7 @@ class Breadcrumb_Test extends TestCase {
 	 * Generate method should break on broken breadcrumbs.
 	 *
 	 * @covers ::generate
-	 * @covers ::add_breadcrumb
+	 * @covers ::create_breadcrumb
 	 */
 	public function test_generate_break_on_broken_breadcrumbs() {
 		$breadcrumb_data = [
@@ -196,7 +196,7 @@ class Breadcrumb_Test extends TestCase {
 	 * Generate method should break on broken breadcrumbs.
 	 *
 	 * @covers ::generate
-	 * @covers ::add_breadcrumb
+	 * @covers ::create_breadcrumb
 	 * @covers ::add_paginated_state
 	 */
 	public function test_generate_when_page_is_paginated() {
@@ -248,6 +248,125 @@ class Breadcrumb_Test extends TestCase {
 						'@type' => 'WebPage',
 						'@id'   => 'https://wordpress.example.com/canonical',
 						'url'   => 'https://wordpress.example.com/canonical',
+						'name'  => 'Page title',
+					],
+				],
+			],
+		];
+
+		$actual = $this->instance->generate( $this->meta_tags_context );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Generate method should fall back to the canonical URL when the
+	 * URL is empty, but only for the current page
+	 * (last item in the breadcrumb list).
+	 *
+	 * @covers ::generate
+	 * @covers ::create_breadcrumb
+	 */
+	public function test_generate_fallbacks_for_url_on_empty_last_item() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://wordpress.example.com/',
+				'text' => 'Home',
+			],
+			[
+				'url'  => '',
+				'text' => 'Test post',
+				'id'   => '123',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+		$this->meta_tags_context->title                     = 'Page title';
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://wordpress.example.com/',
+						'url'   => 'https://wordpress.example.com/',
+						'name'  => 'Home',
+					],
+				],
+				[
+					'@type'    => 'ListItem',
+					'position' => 2,
+					'item'     => [
+						'@type' => 'WebPage',
+						// Fall back to canonical for ID and URL properties.
+						'@id'   => 'https://wordpress.example.com/canonical',
+						'url'   => 'https://wordpress.example.com/canonical',
+						'name'  => 'Test post',
+					],
+				],
+			],
+		];
+
+		$actual = $this->instance->generate( $this->meta_tags_context );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Generate method should fall back to the page title when the
+	 * text is empty, but only for the current page.
+	 * (last item in the breadcrumb list).
+	 *
+	 * @covers ::generate
+	 * @covers ::create_breadcrumb
+	 * @covers ::add_paginated_state
+	 */
+	public function test_generate_fallbacks_for_text_on_empty_last_item() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://wordpress.example.com/',
+				'text' => 'Home',
+			],
+			[
+				'url'  => 'https://wordpress.example.com/post-title',
+				'text' => '',
+				'id'   => '123',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+		$this->meta_tags_context->title                     = 'Page title';
+
+		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+
+		$expected = [
+			'@type'           => 'BreadcrumbList',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'itemListElement' => [
+				[
+					'@type'    => 'ListItem',
+					'position' => 1,
+					'item'     => [
+						'@type' => 'WebPage',
+						'@id'   => 'https://wordpress.example.com/',
+						'url'   => 'https://wordpress.example.com/',
+						'name'  => 'Home',
+					],
+				],
+				[
+					'@type'    => 'ListItem',
+					'position' => 2,
+					'item'     => [
+						'@type' => 'WebPage',
+						// Fall back to canonical for ID and URL properties.
+						'@id'   => 'https://wordpress.example.com/post-title',
+						'url'   => 'https://wordpress.example.com/post-title',
 						'name'  => 'Page title',
 					],
 				],
