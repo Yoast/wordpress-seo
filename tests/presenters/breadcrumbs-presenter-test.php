@@ -612,4 +612,40 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals( 'span', $this->instance->get_wrapper() );
 	}
+
+	/**
+	 * Tests the retrieval of the separator.
+	 *
+	 * @covers ::get_separator
+	 */
+	public function test_get_separator() {
+		$this->options->expects( 'get' )
+		              ->once()
+		              ->with( 'breadcrumbs-sep' )
+		              ->andReturn( 'the_separator' );
+
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_separator' )
+			->once()
+			->with( 'the_separator' )
+			->andReturn( 'the_separator' );
+
+		$separator = ' the_separator ';
+
+		$this->assertEquals( $separator, $this->instance->get_separator() );
+	}
+
+	/**
+	 * Tests the retrieval of the crumb element name.
+	 *
+	 * @covers ::get_element
+	 */
+	public function test_get_element() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_single_link_wrapper' )
+			->once()
+			->with( 'span' )
+			->andReturn( 'span' );
+
+		$this->assertEquals( 'span', $this->instance->get_element() );
+	}
+
 }
