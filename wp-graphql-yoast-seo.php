@@ -41,7 +41,8 @@ add_action('graphql_register_types', function () {
       'opengraphImage' => ['type' => 'MediaItem'],
       'twitterTitle' => ['type' => 'String'],
       'twitterDescription' => ['type' => 'String'],
-      'twitterImage' => ['type' => 'MediaItem']
+      'twitterImage' => ['type' => 'MediaItem'],
+      'canonical' => ['type' => 'String']
     ]
   ]);
 
@@ -82,7 +83,8 @@ add_action('graphql_register_types', function () {
               'opengraphImage' => DataSource::resolve_post_object(get_post_meta($post->ID, '_yoast_wpseo_opengraph-image-id', true), $context),
               'twitterTitle' => trim(get_post_meta($post->ID, '_yoast_wpseo_twitter-title', true)),
               'twitterDescription' => trim(get_post_meta($post->ID, '_yoast_wpseo_twitter-description', true)),
-              'twitterImage' =>  DataSource::resolve_post_object(get_post_meta($post->ID, '_yoast_wpseo_twitter-image-id', true), $context)
+              'twitterImage' =>  DataSource::resolve_post_object(get_post_meta($post->ID, '_yoast_wpseo_twitter-image-id', true), $context),
+              'canonical' => trim(get_post_meta($post->ID, '_yoast_wpseo_canonical', true))
             );
             wp_reset_query();
 
@@ -140,7 +142,8 @@ add_action('graphql_register_types', function () {
               'opengraphImage' => DataSource::resolve_post_object($meta['wpseo_opengraph-image-id'], $context),
               'twitterTitle' => trim($meta['wpseo_twitter-title']),
               'twitterDescription' => trim($meta['wpseo_twitter-description']),
-              'twitterImage' => DataSource::resolve_post_object($meta['wpseo_twitter-image-id'], $context)
+              'twitterImage' => DataSource::resolve_post_object($meta['wpseo_twitter-image-id'], $context),
+              'canonical' => trim($meta['canonical'])
             );
             wp_reset_query();
   
