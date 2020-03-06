@@ -12,11 +12,11 @@ use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Rel_Next_Presenter_Test.
+ * Class Rel_Next_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Rel_Next_Presenter
  *
- * @group presentations
+ * @group presenters
  * @group rel-next
  */
 class Rel_Next_Presenter_Test extends TestCase {
