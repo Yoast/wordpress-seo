@@ -1413,7 +1413,7 @@ class WPSEO_Replace_Vars {
 			'format'    => 'name',
 			'separator' => $separator,
 			'link'      => false,
-			'inclusive' => true,
+			'inclusive' => false,
 		];
 
 		return rtrim(
