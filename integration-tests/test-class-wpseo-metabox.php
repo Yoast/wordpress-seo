@@ -99,14 +99,14 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::save_postdata
 	 */
 	public function test_save_postdata() {
-
-		$this->markTestSkipped( 'This test has been non-functioning for a while. The $meta_fields are empty which means no assertions are made. Issue to implement the test correctly: https://github.com/Yoast/wordpress-seo/issues/12381' );
-
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
 		$post = get_post( $post_id );
+
+		$_POST['ID']                       = $post_id;
+		$_POST['yoast_free_metabox_nonce'] = wp_create_nonce( 'yoast_free_metabox' );
 
 		// Setup.
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
