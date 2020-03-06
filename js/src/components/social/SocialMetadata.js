@@ -3,7 +3,7 @@ import { createPortal, Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
-import { FacebookViewContainer } from "../containers/FacebookView";
+import FacebookContainer from "../../containers/Facebook";
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -18,7 +18,7 @@ const Social = () => {
 				hasSeparator={ true }
 				title="Facebook"
 			>
-				<FacebookViewContainer />
+				<FacebookContainer />
 			</Collapsible>
 			<Collapsible
 				hasPadding={ true }

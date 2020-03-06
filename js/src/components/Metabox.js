@@ -14,7 +14,7 @@ import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import Collapsible from "./SidebarCollapsible";
 import SidebarItem from "./SidebarItem";
 import TopLevelProviders from "./TopLevelProviders";
-import Social from "./SocialMetadata";
+import Social from "./social/SocialMetadata";
 
 /**
  * Creates the Metabox component.

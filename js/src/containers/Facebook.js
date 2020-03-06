@@ -1,16 +1,17 @@
 /* External dependencies */
 import { connect } from "react-redux";
 import { actions } from "@yoast/social-metadata-forms";
-import { debounce } from "lodash";
 
 /* Internal dependencies */
-import FacebookView from "../components/FacebookView";
+import FacebookWrapper from "../components/social/FacebookWrapper";
 import { socialSelectors }  from "../redux/selectors/socialSelectors";
 
 const {
 	setSocialPreviewTitle,
 	setSocialPreviewDescription,
 	setSocialPreviewImage,
+	setSocialPreviewImageUrl,
+	setSocialPreviewImageId,
 } = actions;
 
 /**
@@ -20,19 +21,27 @@ const {
  *
  * @returns {Object} The props for the FacebookView component.
  */
-function mapStateToProps( state ) {
+const mapStateToProps = ( state ) => {
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
+		// TODO: Add fallbacks
 		description: socialSelectors.getFacebookDescription( state ),
 		title: socialSelectors.getFacebookTitle( state ),
 		image: state.socialReducer.facebook.image,
 		imageWarnings: state.socialReducer.facebook.warnings,
 	};
-}
+};
 
+const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
+const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
+const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
+const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
+
+// Make the media library accessible.
 const media = window.wp.media();
 
+// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 media.on( "select", () => {
 	const selected = media.state().get( "selection" ).first();
 	const {
@@ -43,16 +52,31 @@ media.on( "select", () => {
 		url,
 		id,
 	} = selected.attributes;
-	const image = {
+	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
 		bytes: filesizeInBytes,
 		type: subtype,
-		height: height,
-		width: width,
-		url: url,
-		id: id,
-	};
-	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( image, "facebook" );
+		url,
+		id,
+		width,
+		height,
+	}, "facebook" );
+	imageIdInput.value = id;
+	imageUrlInput.value = url;
 } );
+
+/**
+ * Sets the data from the hidden fields to the store.
+ *
+ * @param {func} dispatch Dispatches an action to the store.
+ *
+ * @returns {void}
+ */
+const dispatchHiddenFieldValues = ( dispatch ) => {
+	dispatch( setSocialPreviewTitle( titleInput.value, "facebook" ) );
+	dispatch( setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
+	dispatch( setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
+	dispatch( setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
+};
 
 /**
  * Maps the dispatch to props.
@@ -61,13 +85,15 @@ media.on( "select", () => {
  *
  * @returns {Object} The dispatch props.
  */
-function mapDispatchToProps( dispatch ) {
+const mapDispatchToProps = ( dispatch ) => {
+	dispatchHiddenFieldValues( dispatch );
 	return {
+		dispatchHiddenFieldValues,
 		onSelectImageClick: () => {
 			media.open();
 		},
+		// Set the image object back to default.
 		onRemoveImageClick: () => {
-			// Set the image object back to default.
 			const image = {
 				bytes: null,
 				type: null,
@@ -77,16 +103,18 @@ function mapDispatchToProps( dispatch ) {
 				id: null,
 			};
 			dispatch( setSocialPreviewImage( image, "facebook" ) );
+			imageUrlInput.value = "";
+			imageIdInput.value = "";
 		},
 		onDescriptionChange: ( description ) => {
 			dispatch( setSocialPreviewDescription( description, "facebook" ) );
+			descriptionInput.value = description;
 		},
 		onTitleChange: ( title ) => {
 			dispatch( setSocialPreviewTitle( title, "facebook" ) );
+			titleInput.value = title;
 		},
 	};
-}
+};
 
-const ContainerCreator = connect( mapStateToProps, mapDispatchToProps );
-
-export const FacebookViewContainer = ContainerCreator( FacebookView );
+export default connect( mapStateToProps, mapDispatchToProps )( FacebookWrapper );

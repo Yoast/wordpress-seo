@@ -3,14 +3,37 @@ import PropTypes from "prop-types";
 import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
+import { __, sprintf } from "@wordpress/i18n";
+import styled from "styled-components";
+
+const PremiumInfoText = styled( Alert )`
+	margin-top: 16px;
+ p {
+	 margin: 0;
+ }
+`;
 
 const YoastShortLink = makeOutboundLink();
 
+/* Translators: %s expands to the social medium name, Faceboook.  */
+const previewText = sprintf(
+	__(
+		"Do you want to preview what it will look like if people share this post on %s? You can, with", "yoast-components"
+	), "Facebook"
+);
+
+/* Translators: %s expands to Yoast, %s expands to SEO, %s expands to Premium*/
+const upgradeText = sprintf(
+	__(
+		"Find out why you should upgrade to %s %s %s", "yoast-components"
+	), "Yoast", "SEO", "Premium"
+);
+
 /**
  *
- * @param {Object} props A.
+ * @param {object} props The properties passed to this component.
  *
- * @returns {Component} A
+ * @returns {Component} The FacebookView Component.
  */
 const FacebookView = ( props ) => {
 	const {
@@ -24,20 +47,20 @@ const FacebookView = ( props ) => {
 		onTitleChange,
 		imageWarnings,
 		image,
+		isPremium,
 	} = props;
 
 	return (
 		<Fragment>
-			<Alert type={ "info" }>
-				Do you want to preview what it will look like if people share this post on Facebook?
-				You can, with <b>Yoast SEO Premium.</b>
+			<PremiumInfoText type={ "info" }>
+				<p>{ previewText } <b>Yoast SEO Premium.</b> </p>
 				<br />
 				<YoastShortLink
 					href="https://yoast.com/reasons-to-upgrade/"
 				>
-					Find out why you should upgrade to Yoast SEO Premium
+					<p>{ upgradeText }</p>
 				</YoastShortLink>
-			</Alert>
+			</PremiumInfoText>
 			<SocialMetadataPreviewForm
 				socialMediumName="Facebook"
 				replacementVariables={ replacementVariables }
@@ -49,7 +72,9 @@ const FacebookView = ( props ) => {
 				onDescriptionChange={ onDescriptionChange }
 				onTitleChange={ onTitleChange }
 				imageWarnings={ imageWarnings }
-				imageSelected={ image.url }
+				imageSelected={ !! image.url }
+				imageUrl={ image.url ?? "" }
+				isPremium={ isPremium }
 			/>
 		</Fragment>
 	);
@@ -68,8 +93,8 @@ FacebookView.propTypes = {
 	onDescriptionChange: PropTypes.func.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	imageWarnings: PropTypes.array,
-	// imageSelected: PropTypes.bool.isRequired,
 	image: PropTypes.object.isRequired,
+	isPremium: PropTypes.bool.isRequired,
 };
 
 FacebookView.defaultProps = {
