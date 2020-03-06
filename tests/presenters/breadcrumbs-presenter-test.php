@@ -463,6 +463,97 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $link, $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
 	}
+
+	/**
+	 * Tests the retrieval of the HTML ID attribute when the ID is set through the filter.
+	 *
+	 * @covers ::get_id
+	 */
+	public function test_get_id_where_id_is_set_in_filter() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
+			->once()
+			->with( '' )
+			->andReturn( 'the_id' );
+
+		$id = ' id="the_id"';
+
+		$this->assertEquals( $id, $this->instance->get_id() );
+	}
+
+	/**
+	 * Tests the retrieval of the HTML ID attribute when the ID set through the filter
+	 * is not a string.
+	 *
+	 * @covers ::get_id
+	 */
+	public function test_get_id_not_string() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
+			->once()
+			->with( '' )
+			->andReturn( 123 );
+
+		$this->assertEmpty( $this->instance->get_id() );
+	}
+
+	/**
+	 * Tests the retrieval of the HTML ID attribute when the ID is not set through the filter.
+	 *
+	 * @covers ::get_id
+	 */
+	public function test_get_id_no_id_set() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_id' )
+			->once()
+			->with( '' )
+			->andReturn( '' );
+
+		$this->assertEmpty( $this->instance->get_id() );
+	}
+
+	/**
+	 * Tests the retrieval of the HTML class attribute when the class is set through the filter.
+	 *
+	 * @covers ::get_class
+	 */
+	public function test_get_class_where_class_is_set_in_filter() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
+			->once()
+			->with( '' )
+			->andReturn( 'the_class' );
+
+		$class = ' class="the_class"';
+
+		$this->assertEquals( $class, $this->instance->get_class() );
+	}
+
+	/**
+	 * Tests the retrieval of the HTML class attribute when the class set through the filter
+	 * is not a string.
+	 *
+	 * @covers ::get_class
+	 */
+	public function test_get_class_not_string() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
+			->once()
+			->with( '' )
+			->andReturn( 123 );
+
+		$this->assertEmpty( $this->instance->get_class() );
+	}
+
+	/**
+	 * Tests the retrieval of the HTML class attribute when the class is not set through the filter.
+	 *
+	 * @covers ::get_class
+	 */
+	public function test_get_class_no_class_set() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_class' )
+			->once()
+			->with( '' )
+			->andReturn( '' );
+
+		$this->assertEmpty( $this->instance->get_class() );
+	}
+
 	/**
 	 * Tests the retrieval of the wrapper element name when the wrapper is set through the filter.
 	 *
