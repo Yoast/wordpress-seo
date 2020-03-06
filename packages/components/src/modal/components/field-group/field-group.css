@@ -19,12 +19,8 @@
     margin: 0 0 8px;
     color: var(--color-label);
     line-height: 1.2;
+    float: left;
 }
-
-.yoast-field-group legend {
-    float:left
-}
-
 
 .yoast-field-group__help {
     border-radius: 50%;
@@ -37,9 +33,7 @@
 }
 
 .yoast-field-group__help+* {
-    content:"d";
     clear:both;
-    display: table;
 }
 
 .yoast-field-group__help-icon svg {
