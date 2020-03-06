@@ -532,7 +532,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( is_string( $this->args->post_title ) && $this->args->post_title !== '' ) {
-			$replacement = stripslashes( $this->args->post_title );
+			$replacement = $this->args->post_title;
 		}
 
 		return $replacement;
