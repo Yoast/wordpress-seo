@@ -1407,14 +1407,19 @@ class WPSEO_Replace_Vars {
 			return '';
 		}
 
+		$separator = ' ' . $this->retrieve_sep() . ' ';
+
 		$args = [
 			'format'    => 'name',
-			'separator' => ' - ',
+			'separator' => $separator,
 			'link'      => false,
 			'inclusive' => true,
 		];
 
-		return get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args );
+		return rtrim(
+			get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args ),
+			$separator
+		);
 	}
 
 	/**
