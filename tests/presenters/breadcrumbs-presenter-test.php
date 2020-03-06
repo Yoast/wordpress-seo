@@ -237,4 +237,230 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			$output_without_prefix,
 			$this->instance->present( $this->presentation ) );
 	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's not the last element
+	 * and all goes well.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_not_last_element() {
+		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
+
+		$this->instance->expects( 'get_element' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link = '<span><a href="home_url"  >home_text</a>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests whether the filter is applied when creating a breadcrumb element string.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_filter_applied() {
+		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
+
+		$this->instance->expects( 'get_element' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link = '<span><a href="home_url"  >home_text</a>';
+
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_single_link' )
+			->once()
+			->with( $link, $breadcrumb )
+			->andReturn( $link );
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's not the last element
+	 * and a title is set.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_title_is_set() {
+		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text', 'title' => 'home_title' ];
+
+		$this->instance->expects( 'get_element' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link = '<span><a href="home_url" title="home_title" >home_text</a>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's the last element
+	 * and the last element should be bolded.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_last_element_bold() {
+		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+
+		$this->options->expects( 'get' )
+		              ->once()
+		              ->with( 'breadcrumbs-boldlast' )
+		              ->andReturnTrue();
+
+		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
+
+		$this->instance->expects( 'get_element' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link .= '</span>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's the last element
+	 * and the last element should not be bolded.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_last_element_not_bold() {
+		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+
+		$this->options->expects( 'get' )
+		              ->once()
+		              ->with( 'breadcrumbs-boldlast' )
+		              ->andReturnFalse();
+
+		$link = '<span class="breadcrumb_last" aria-current="page">page_text</span>';
+
+		$this->instance->expects( 'get_element' )
+		               ->once()
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link .= '</span>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ) );
+	}
+
+	/**
+	 * Tests whether enough closing elements are added to the breadcrumb
+	 * when it's the last element.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_add_closing_elements() {
+		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+
+		$this->options->expects( 'get' )
+		              ->once()
+		              ->with( 'breadcrumbs-boldlast' )
+		              ->andReturnTrue();
+
+		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
+
+		$this->instance->expects( 'get_element' )
+		               ->times(3)
+		               ->withNoArgs()
+		               ->andReturn( 'span' );
+
+		$link .= '</span></span></span>';
+
+		$this->assertEquals(
+			$link,
+			$this->instance->crumb_to_link( $breadcrumb, 3, 4 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when the breadcrumb text is not set.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_text_not_set() {
+		$breadcrumb = [ 'url' => 'home_url' ];
+
+		$this->assertEmpty( $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when the breadcrumb text is not a string.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_text_not_string() {
+		$breadcrumb = [ 'url' => 'home_url', 'text' => 123 ];
+
+		$this->assertEmpty( $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when the breadcrumb text is empty.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_empty_text() {
+		$breadcrumb = [ 'url' => 'home_url', 'text' => '' ];
+
+		$this->assertEmpty( $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's the last element
+	 * but the breadcrumb URL is not set.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_url_not_set() {
+		$breadcrumb = [ 'text' => 'home_text' ];
+
+		$link = '<span>home_text</span>';
+
+		$this->assertEquals( $link, $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's the last element
+	 * but the breadcrumb URL is not a string.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_url_not_string() {
+		$breadcrumb = [ 'url' => 123, 'text' => 'home_text' ];
+
+		$link = '<span>home_text</span>';
+
+		$this->assertEquals( $link, $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
+
+	/**
+	 * Tests the creation of a breadcrumb element string when it's the last element
+	 * but the breadcrumb URL is empty.
+	 *
+	 * @covers ::crumb_to_link
+	 */
+	public function test_crumb_to_link_with_url_empty() {
+		$breadcrumb = [ 'url' => '', 'text' => 'home_text' ];
+
+		$link = '<span>home_text</span>';
+
+		$this->assertEquals( $link, $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+	}
 }
