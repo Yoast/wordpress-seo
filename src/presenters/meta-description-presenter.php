@@ -26,6 +26,8 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	 * Meta_Description_Presenter constructor.
 	 *
 	 * @param String_Helper $string The string helper.
+	 *
+	 * @codeCoverageIgnore This is a simple constructor.
 	 */
 	public function __construct( String_Helper $string ) {
 		$this->string = $string;
