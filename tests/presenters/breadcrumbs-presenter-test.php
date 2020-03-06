@@ -463,4 +463,62 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $link, $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
 	}
+	/**
+	 * Tests the retrieval of the wrapper element name when the wrapper is set through the filter.
+	 *
+	 * @covers ::get_wrapper
+	 */
+	public function test_get_wrapper_where_wrapper_set_in_filter() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
+			->once()
+			->with( 'span' )
+			->andReturn( 'span' );
+
+		Monkey\Functions\expect( 'tag_escape' )
+			->once()
+			->with( 'span' )
+			->andReturn( 'span' );
+
+		$this->assertEquals( 'span', $this->instance->get_wrapper() );
+	}
+
+	/**
+	 * Tests the retrieval of the wrapper element name
+	 * when the wrapper that is set through the filter, is not a string.
+	 *
+	 * @covers ::get_wrapper
+	 */
+	public function test_get_wrapper_where_wrapper_not_a_string() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
+			->once()
+			->with( 'span' )
+			->andReturn( 123 );
+
+		Monkey\Functions\expect( 'tag_escape' )
+			->once()
+			->with( 123 )
+			->andReturn( 123 );
+
+		$this->assertEquals( 'span', $this->instance->get_wrapper() );
+	}
+
+	/**
+	 * Tests the retrieval of the wrapper element name
+	 * when the wrapper that is set through the filter, is empty.
+	 *
+	 * @covers ::get_wrapper
+	 */
+	public function test_get_wrapper_where_wrapper_empty() {
+		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
+			->once()
+			->with( 'span' )
+			->andReturn( '' );
+
+		Monkey\Functions\expect( 'tag_escape' )
+			->once()
+			->with( '' )
+			->andReturn( '' );
+
+		$this->assertEquals( 'span', $this->instance->get_wrapper() );
+	}
 }
