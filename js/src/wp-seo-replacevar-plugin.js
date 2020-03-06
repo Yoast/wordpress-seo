@@ -91,7 +91,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%term_hierarchy%%", "term_hierarchy", {
-			scope: [ "term", "term-in-custom-taxonomy" ],
+			scope: [ "term" ],
 		} ) );
 
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
