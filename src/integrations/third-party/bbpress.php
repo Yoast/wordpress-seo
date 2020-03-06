@@ -24,7 +24,6 @@ class BbPress implements Integration_Interface {
 	private $options;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -34,7 +33,7 @@ class BbPress implements Integration_Interface {
 	/**
 	 * BbPress constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -43,7 +42,6 @@ class BbPress implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {

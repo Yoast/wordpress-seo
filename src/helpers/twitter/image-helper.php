@@ -49,6 +49,8 @@ class Image_Helper {
 	/**
 	 * Retrieves an image url by its id.
 	 *
+	 * @codeCoverageIgnore It is a wrapper method.
+	 *
 	 * @param int $image_id The image id.
 	 *
 	 * @return string The image url.

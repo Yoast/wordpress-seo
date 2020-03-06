@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Presentations\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
@@ -18,13 +17,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
  * @since 11.3
  */
 class FAQ extends Abstract_Schema_Piece {
-
-	/**
-	 * The article helper.
-	 *
-	 * @var Article_Helper
-	 */
-	private $article;
 
 	/**
 	 * The HTML helper.
@@ -43,16 +35,13 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper  $article  The article helper.
 	 * @param HTML_Helper     $html     The HTML helper.
 	 * @param Language_Helper $language The language helper.
 	 */
 	public function __construct(
-		Article_Helper $article,
 		HTML_Helper $html,
 		Language_Helper $language
 	) {
-		$this->article  = $article;
 		$this->html     = $html;
 		$this->language = $language;
 	}

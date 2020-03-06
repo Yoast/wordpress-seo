@@ -49,6 +49,7 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
 		$indexable->is_robots_noindex = $this->options->get( 'noindex-ptarchive-' . $post_type );
+		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 
 		return $indexable;
 	}

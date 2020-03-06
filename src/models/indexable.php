@@ -17,6 +17,9 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string  $object_type
  * @property string  $object_sub_type
  *
+ * @property int     $author_id
+ * @property int     $post_parent
+ *
  * @property string  $created_at
  * @property string  $updated_at
  *
@@ -65,6 +68,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property boolean $is_public
  * @property boolean $is_protected
  * @property string  $post_status
+ * @property boolean $has_public_posts
  */
 class Indexable extends Yoast_Model {
 
@@ -80,7 +84,17 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @var array
 	 */
-	protected $boolean_columns = [ 'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
+	protected $boolean_columns = [
+		'is_robots_noindex',
+		'is_robots_nofollow',
+		'is_robots_noarchive',
+		'is_robots_noimageindex',
+		'is_robots_nosnippet',
+		'is_cornerstone',
+		'is_public',
+		'is_protected',
+		'has_public_posts',
+	];
 
 	/**
 	 * The loaded indexable extensions.

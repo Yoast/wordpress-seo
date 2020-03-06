@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Jetpack implements Integration_Interface {
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -26,7 +25,6 @@ class Jetpack implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {

@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Helpers\Schema
  */
 
-namespace Yoast\WP\SEO\Helpers;
+namespace Yoast\WP\SEO\Helpers\Schema;
 
 /**
  * Class Article_Helper

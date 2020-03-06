@@ -31,6 +31,8 @@ class Taxonomy_Helper {
 	 *
 	 * @param Options_Helper $options The options helper.
 	 * @param String_Helper  $string  The string helper.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct( Options_Helper $options, String_Helper $string ) {
 		$this->options = $options;
@@ -57,5 +59,19 @@ class Taxonomy_Helper {
 	 */
 	public function get_term_description( $term_id ) {
 		return $this->string->strip_all_tags( \term_description( $term_id ) );
+	}
+
+	/**
+	 * Retrieves the taxonomy term's meta values.
+	 *
+	 * @param \WP_Term $term Term to get the meta value for.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @return array|bool Array of all the meta data for the term.
+	 *                    False if the term does not exist or the $meta provided is invalid.
+	 */
+	public function get_term_meta( $term ) {
+		return \WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
 }

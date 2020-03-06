@@ -34,7 +34,6 @@ class WooCommerce implements Integration_Interface {
 	private $replace_vars;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -43,6 +42,8 @@ class WooCommerce implements Integration_Interface {
 
 	/**
 	 * WooCommerce constructor.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param Options_Helper     $options      The options helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
@@ -53,7 +54,6 @@ class WooCommerce implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {

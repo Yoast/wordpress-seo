@@ -46,6 +46,8 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'my_post_type_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
+		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturnFalse();
 
 		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock );
 		$builder->build( 'my-post-type', $indexable_mock );
