@@ -228,7 +228,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned Class to add to the wrapper element.
 			 */
 			$this->class = \apply_filters( 'wpseo_breadcrumb_output_class', '' );
-			if ( \is_string( $this->class ) && '' !== $this->class ) {
+			if ( \is_string( $this->class ) && $this->class !== '' ) {
 				$this->class = ' class="' . \esc_attr( $this->class ) . '"';
 			}
 		}
