@@ -1,7 +1,6 @@
 /* Browser:true */
-/* global wpseoSelect2Locale */
 
-( function( $ ) {
+( function() {
 	/**
 	 * Focuses and triggers a click on a tab element.
 	 *
