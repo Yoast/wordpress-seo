@@ -43,7 +43,7 @@ class Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation for a set twitter description.
+	 * Tests the presenter for a set twitter description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
@@ -64,7 +64,7 @@ class Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation of an empty description.
+	 * Tests the presenter of an empty description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
