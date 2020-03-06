@@ -1,15 +1,15 @@
 .yoast-field-group__radiobutton {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 16px;
-}
-
-.yoast-field-group__radiobutton--vertical {
     display: flex;
+    align-items: center;
 }
 
-.yoast-field-group__radiobutton label{
+.yoast-field-group__radiobutton--vertical:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+
+.yoast-field-group__radiobutton label {
     cursor: pointer;
+    margin-right: 16px;
 }
 
 .yoast-field-group__radiobutton input[type='radio'] {

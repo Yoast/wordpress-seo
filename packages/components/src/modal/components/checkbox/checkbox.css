@@ -5,8 +5,11 @@
 }
 
 .yoast-field-group__checkbox--horizontal {
-    display: inline-flex;
-    margin-right: 24px;
+    display: flex;
+}
+
+.yoast-field-group__checkbox--horizontal label {
+    margin-right: 16px;
 }
 
 .yoast-field-group__checkbox:not(.yoast-field-group__checkbox--horizontal) + .yoast-field-group__checkbox {

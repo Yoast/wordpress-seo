@@ -7,17 +7,22 @@
 
 .yoast-field-group {
     position: relative;
-    margin-bottom: 24px;
     border:none;
     padding:0;
+    margin: 0 0 24px 0;
 }
 
 .yoast-field-group__title {
-    display: block;
+    display: flex;
+    align-items: center;
     font-weight: var(--font-weight-bold);
     margin: 0 0 8px;
     color: var(--color-label);
     line-height: 1.2;
+}
+
+.yoast-field-group legend {
+    float:left
 }
 
 
@@ -26,6 +31,15 @@
     padding: 4px;
     width: 12px;
     height: 12px;
+    display: block;
+    float: left;
+    margin-top: -5px;
+}
+
+.yoast-field-group__help+* {
+    content:"d";
+    clear:both;
+    display: table;
 }
 
 .yoast-field-group__help-icon svg {
