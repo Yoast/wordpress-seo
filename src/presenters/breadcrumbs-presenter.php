@@ -207,7 +207,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned ID to add to the wrapper element.
 			 */
 			$this->id = \apply_filters( 'wpseo_breadcrumb_output_id', '' );
-			if ( \is_string( $this->id ) && $this->id !== '' ) {
+			if ( ! \is_string( $this->id ) ) {
+				return '';
+			}
+
+			if ( $this->id !== '' ) {
 				$this->id = ' id="' . \esc_attr( $this->id ) . '"';
 			}
 		}
@@ -228,7 +232,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned Class to add to the wrapper element.
 			 */
 			$this->class = \apply_filters( 'wpseo_breadcrumb_output_class', '' );
-			if ( \is_string( $this->class ) && $this->class !== '' ) {
+			if ( ! \is_string( $this->class ) ) {
+				return '';
+			}
+
+			if ( $this->class !== '' ) {
 				$this->class = ' class="' . \esc_attr( $this->class ) . '"';
 			}
 		}
