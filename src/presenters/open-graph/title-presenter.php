@@ -67,7 +67,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 *
 		 * @api string $title The title.
-		 *
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $presentation ) );
 	}

@@ -48,7 +48,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 *
 		 * @api string $twitter_image Image URL string.
-		 *
 		 */
 		return (string) \apply_filters( 'wpseo_twitter_image', $twitter_image, $presentation );
 	}
