@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Handle_404;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -46,6 +47,29 @@ class Handle_404_Test extends TestCase {
 		$this->instance      = Mockery::mock( Handle_404::class, [ $this->query_wrapper ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Handle_404::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
 	}
 
 	/**

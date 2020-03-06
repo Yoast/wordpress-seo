@@ -24,11 +24,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The conditionals.
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -37,7 +33,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Sets the required helpers.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only handles dependencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -46,11 +42,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_filter( 'the_content_feed', [ $this, 'embed_rssfooter' ] );

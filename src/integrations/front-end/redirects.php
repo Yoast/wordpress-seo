@@ -65,7 +65,6 @@ class Redirects implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -73,7 +72,6 @@ class Redirects implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
@@ -159,7 +157,7 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Retrieves the attachment url for the current page.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It wraps WordPress functions.
 	 *
 	 * @return string The attachment url.
 	 */

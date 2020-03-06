@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Mockery;
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Force_Rewrite_Title;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -22,8 +23,6 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  *
  * @group integrations
  * @group front-end
- *
- *
  */
 class Force_Rewrite_Title_Test extends TestCase {
 
@@ -59,6 +58,18 @@ class Force_Rewrite_Title_Test extends TestCase {
 		$this->instance = Mockery::mock( Force_Rewrite_Title::class, [ $this->options, $this->wp_query ] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Force_Rewrite_Title::get_conditionals()
+		);
 	}
 
 	/**

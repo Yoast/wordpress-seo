@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Author_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher

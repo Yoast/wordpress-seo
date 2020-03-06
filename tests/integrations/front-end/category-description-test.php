@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Category_Description;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -36,6 +37,29 @@ class Category_Description_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = new Category_Description();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Category_Description::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Filters\has( 'category_description', [ $this->instance, 'add_shortcode_support' ] ) );
 	}
 
 	/**

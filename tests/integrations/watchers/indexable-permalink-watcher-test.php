@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -12,8 +13,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Permalink_Watcher_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
- * @group test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher
  * @covers ::<!public>
@@ -42,6 +43,31 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance  = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Migrations_Conditional::class ],
+			Indexable_Permalink_Watcher::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests the registration of the hooks.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Actions\has( 'update_option_permalink_structure', [ $this->instance, 'reset_permalinks' ] ) );
+		$this->assertTrue( Monkey\Actions\has(  'update_option_category_base', [ $this->instance, 'reset_permalinks_term' ] ) );
+		$this->assertTrue( Monkey\Actions\has(  'update_option_tag_base', [ $this->instance, 'reset_permalinks_term' ] ) );
 	}
 
 	/**
@@ -81,8 +107,25 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	 * @covers ::reset_permalinks_term
 	 */
 	public function test_reset_permalinks_term() {
-		$this->instance->expects( 'reset_permalink_indexables' )->with( 'term', 'category' )->once();
+		$this->instance
+			->expects( 'reset_permalink_indexables' )
+			->with( 'term', 'category' )
+			->once();
 
 		$this->instance->reset_permalinks_term( null, null, 'category_base' );
+	}
+
+	/**
+	 * Test resetting the permalinks for the term tag.
+	 *
+	 * @covers ::reset_permalinks_term
+	 */
+	public function test_reset_permalinks_for_term_tag() {
+		$this->instance
+			->expects( 'reset_permalink_indexables' )
+			->with( 'term', 'post_tag' )
+			->once();
+
+		$this->instance->reset_permalinks_term( null, null, 'tag_base' );
 	}
 }

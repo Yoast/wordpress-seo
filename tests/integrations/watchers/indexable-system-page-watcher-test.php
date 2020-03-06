@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_System_Page_Watcher_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
