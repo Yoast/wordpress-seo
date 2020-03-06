@@ -25,14 +25,15 @@ class AdvancedSettings extends Component {
 		);
 		return (
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
-				<label>{ sprintf( __( "Allow search engines to show this Post in search results?", "wordpress-seo" ), wpseoPostScraperL10n.postLabel ) }</label>
+				<label>{ sprintf( __( "Allow search engines to show this %s in search results?", "wordpress-seo" ), wpseoPostScraperL10n.labelSingular ) }</label>
 				<SingleSelect
 					componentId={ "yoast_wpseo_meta-robots-noindex-react" }
 					hiddenInputId={ "#yoast_wpseo_meta-robots-noindex" }
 					options={ [
 						{
 							name: sprintf(
-								__( "Default for Posts, currently: %s", "wordpress-seo" ),
+								__( "Default for %s, currently: %s", "wordpress-seo" ),
+								wpseoPostScraperL10n.label,
 								noIndex,
 							),
 							value: "0",
@@ -41,7 +42,7 @@ class AdvancedSettings extends Component {
 						{ name: __( "No", "wordpress-seo" ), value: "2" },
 					] }
 				/>
-				<label>{ __( "Should search engines follow links on this Post", "wordpress-seo" ) }</label>
+				<label>{ sprintf( __( "Should search engines follow links on this %s", "wordpress-seo" ), wpseoPostScraperL10n.labelSingular ) }</label>
 				<RadioButtons
 					componentId="yoast_wpseo_meta-robots-nofollow-react"
 					hiddenComponentId="#yoast_wpseo_meta-robots-nofollow"
@@ -68,6 +69,7 @@ class AdvancedSettings extends Component {
 						{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
 						{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
 					] }
+					default=""
 				/>
 				{
 					! wpseoPostScraperL10n.breadcrumbsDisabled &&
