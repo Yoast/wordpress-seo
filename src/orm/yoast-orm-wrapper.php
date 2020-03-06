@@ -166,4 +166,13 @@ class ORMWrapper extends ORM {
 	public function get_sql() {
 		return $this->_build_select();
 	}
+
+	/**
+	 * Returns the update query as SQL.
+	 *
+	 * @return string The update query in SQL.
+	 */
+	public function get_update_sql() {
+		return $this->_build_update();
+	}
 }

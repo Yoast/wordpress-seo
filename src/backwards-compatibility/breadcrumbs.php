@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 
 /**
  * Class WPSEO_Breadcrumbs
+ *
+ * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Breadcrumbs implements Initializer_Interface {
 

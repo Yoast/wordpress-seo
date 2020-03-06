@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 
 /**
- * Formats the term meta to indexable format.
+ * Command to generate indexables for all posts and terms.
  */
 class Generate_Indexables_Command implements Command_Interface {
 
