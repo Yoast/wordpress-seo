@@ -226,4 +226,42 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 		return array_merge( $enabled_features, $second_array );
 	}
+
+	/**
+	 * Tests the sanitize_url.
+	 *
+	 * @dataProvider sanitize_url_provider
+	 *
+	 * @covers WPSEO_Utils::sanitize_url
+	 */
+	public function test_sanitize_url( $expected, $url_to_sanitize ) {
+		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
+	}
+
+	/**
+	 * Provides data to the sanitize_url test.
+	 *
+	 * @return array The test data.
+	 */
+	public function sanitize_url_provider() {
+		return [
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/14476.
+			'with_encoded_url'               => [
+				'expected'        => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'url_to_sanitize' => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+			],
+			'with_non_encoded_non_latin_url' => [
+				'expected'        => 'https://danialtaherifar.ir/گروه-تلگرام-سئو',
+				'url_to_sanitize' => 'https://danialtaherifar.ir/گروه-تلگرام-سئو',
+			],
+			'with_non_encoded_url'           => [
+				'expected'        => 'https://example.org/this-is-a-page',
+				'url_to_sanitize' => 'https://example.org/this-is-a-page',
+			],
+			'with_html_in_url'               => [
+				'expected'        => 'https://example.org/this-is-a-page',
+				'url_to_sanitize' => 'https://example.org/this-<strong>is-a-</strong>page',
+			],
+		];
+	}
 }
