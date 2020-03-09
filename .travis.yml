@@ -65,16 +65,10 @@ jobs:
       install:
         - yarn global add grunt-cli
         - yarn install
-        - |
-          if [[ -z "$TRAVIS_TAG" || "$TRAVIS_TAG" == "''" ]]; then
-            git clone https://github.com/yoast/javascript /tmp/javascript
-            echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-            yarn link-monorepo
-          fi
       before_script: skip
       script:
         - |
-          if [[ ! -z "$TRAVIS_TAG" && "$TRAVIS_TAG" != "''" ]]; then
+          if [[ ! -z "$TRAVIS_TAG" ]]; then
             grunt set-version -new-version=$TRAVIS_TAG
             grunt update-version
           fi
