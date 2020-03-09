@@ -74,7 +74,7 @@
     list-style: none;
 }
 
-.yoast-modal__menu a {
+.yoast-modal__menu li {
     padding: 12px 16px 11px;
     border-bottom: var(--border-default);
     font-size: 16px;
@@ -84,16 +84,13 @@
     display: block;
 }
 
-.yoast-modal__menu a:hover {
+.yoast-modal__menu li:hover {
     background-color: #EDD4E1;
 }
 
-.yoast-modal__menu a.active {
+.yoast-modal__menu li.react-tabs__tab--selected {
     background-color: var(--color-primary);
     border-bottom: var(--border-default);
-}
-
-.yoast-modal__menu a.active {
     color: white;
 }
 
@@ -174,12 +171,6 @@
         bottom: 0;
         left: 0;
         right: 0;
-    }
-}
-
-@media screen and (min-width: 600px) {
-    .yoast-modal--menu .yoast-modal__section:not(:target) {
-        display: none;
     }
 }
 
