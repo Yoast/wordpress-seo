@@ -65,6 +65,12 @@ jobs:
       install:
         - yarn global add grunt-cli
         - yarn install
+        - |
+          if [[ -z "$TRAVIS_TAG" ]]; then
+            git clone https://github.com/yoast/javascript /tmp/javascript
+            echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+            yarn link-monorepo
+          fi
       before_script: skip
       script:
         - |
