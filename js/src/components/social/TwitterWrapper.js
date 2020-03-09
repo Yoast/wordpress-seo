@@ -6,10 +6,12 @@ import TwitterView from "../social/TwitterView";
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 
 /**
- * A
- * @param {*} props A
+ * This wrapper is connected to the twitter container. So the data is connected to both components.
+ * isPremium checks if premium is available and if available it doesn't render the 'free' twitter Component.
  *
- * @returns {Component} Renders a React Component.
+ * @param {Object} props The properties object.
+ *
+ * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
 	return (
