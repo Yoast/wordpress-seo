@@ -316,8 +316,6 @@ class WPSEO_Utils {
 	 * Sanitize a url for saving to the database.
 	 * Not to be confused with the old native WP function.
 	 *
-	 * @todo [JRF => whomever] Check/improve url verification.
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param string $value             String URL value to sanitize.
@@ -326,14 +324,77 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
-		$stripped_value = preg_replace( '/[:\/@?#\[\]&\+=]/', '', $value );
 
-		$sanitized_value = rawurlencode( sanitize_text_field( rawurldecode( $stripped_value ) ) );
-		if ( strcasecmp( $sanitized_value, $stripped_value ) === 0 ) {
-			return esc_url_raw( $value, $allowed_protocols );
+		$parts = wp_parse_url( $value );
+
+		if ( empty( $parts['scheme'] ) || empty( $parts['host'] ) || ! in_array( $parts['scheme'], $allowed_protocols, true ) ) {
+			return '';
 		}
 
-		return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
+		$url = $parts['scheme'] . '://';
+
+		if ( isset( $parts['user'] ) ) {
+			$url .= $parts['user'] . ( isset( $parts['pass'] ) ? ':' . $parts['pass'] : '' ) . '@';
+		}
+
+		$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+
+		if ( isset( $parts['path'] ) ) {
+			$path = explode( '/', $parts['path'] );
+			$path = self::sanitize_encoded_text_field( $path );
+			$url .= implode( '/', $path );
+		}
+
+		if ( isset( $parts['query'] ) ) {
+			parse_str( $parts['query'], $parsed_query );
+
+			$parsed_query = array_combine(
+				self::sanitize_encoded_text_field( array_keys( $parsed_query ) ),
+				self::sanitize_encoded_text_field( array_values( $parsed_query ) )
+			);
+
+			$url = add_query_arg( $parsed_query, $url );
+		}
+
+		if ( isset( $parts['fragment'] ) ) {
+			$url .= '#' . self::sanitize_encoded_text_field( $parts['fragment'] );
+		}
+
+		if ( false !== strpos( $url, '%' ) ) {
+			$url = preg_replace_callback( '`%[a-fA-F0-9][a-fA-F0-9]`', [ __CLASS__, 'lowercase_octets' ], $url );
+		}
+
+		return esc_url_raw( $url );
+	}
+
+	/**
+	 * Decode, sanitize and encode the array of strings or the string.
+	 *
+	 * @since 13.3
+	 *
+	 * @param array|string $value The value to sanitize and encode.
+	 *
+	 * @return string
+	 */
+	public static function sanitize_encoded_text_field( $value ) {
+		if ( is_array( $value ) ) {
+			return array_map( [ __CLASS__, 'sanitize_encoded_text_field' ], $value );
+		}
+
+		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );
+	}
+
+	/**
+	 * Converts the first hex-encoded octet match to lowercase.
+	 *
+	 * @since 13.3
+	 *
+	 * @param array $matches Hex-encoded octet matches for the URL.
+	 *
+	 * @return string
+	 */
+	public static function lowercase_octets( $matches ) {
+		return strtolower( $matches[0] );
 	}
 
 	/**
