@@ -194,7 +194,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$terms = array_filter( $terms, function( $term ) {
+		$terms = \array_filter( $terms, function( $term ) {
 			// We are checking against the WordPress internal translation.
 			// @codingStandardsIgnoreLine
 			return $term->name !== __( 'Uncategorized' );
@@ -204,7 +204,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = implode( ',', wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
 
 		return $data;
 	}
@@ -241,7 +241,7 @@ class Article extends Abstract_Schema_Piece {
 		 *
 		 * @api array $targets The URLs for the Article potentialAction target.
 		 */
-		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $context->canonical . '#respond' ] );
+		$targets = \apply_filters( 'wpseo_schema_article_potential_action_target', [ $context->canonical . '#respond' ] );
 
 		$data['potentialAction'][] = [
 			'@type'  => 'CommentAction',
