@@ -67,10 +67,12 @@ class Author_Test extends TestCase {
 			$this->article,
 			$this->image,
 			$this->schema_image,
-			$this->html
+			$this->html,
 		];
 
-		$this->instance = Mockery::mock( Author::class, $constructor_args )->makePartial();
+		$this->instance = Mockery::mock( Author::class, $constructor_args )
+								 ->shouldAllowMockingProtectedMethods()
+								 ->makePartial();
 
 		$this->id = Mockery::mock( Schema\ID_Helper::class );
 
@@ -82,7 +84,8 @@ class Author_Test extends TestCase {
 	/**
 	 * Tests that the author gets a 'mainEntityOfPage' property pointing to the webpage Schema piece on the same page.
 	 *
-	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::generate
+	 * @covers ::generate
+	 * @covers ::determine_user_id
 	 */
 	public function test_generate() {
 		$user_id = 123;
@@ -90,15 +93,15 @@ class Author_Test extends TestCase {
 			'@type' => [
 				'Person',
 			],
-      		'@id'   => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
-      		'name'  => 'Ad Minnie',
-      		'image' => [
+			'@id'   => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
+			'name'  => 'Ad Minnie',
+			'image' => [
 				'@type' => 'ImageObject',
-        		'@id'   => 'http://basic.wordpress.test/#personlogo',
-        		'url'   => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
-        		'caption' => 'Ad Minnie',
-      		],
-      		'sameAs' => [
+				'@id'   => 'http://basic.wordpress.test/#personlogo',
+				'url'   => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
+				'caption' => 'Ad Minnie',
+			],
+			'sameAs' => [
 				'https://facebook.example.org/admin',
 				'https://instagram.example.org/admin',
 				'https://linkedin.example.org/admin',
@@ -128,6 +131,19 @@ class Author_Test extends TestCase {
 
 		$this->assertArrayHasKey( 'mainEntityOfPage', $actual );
 		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/#webpage' ], $actual['mainEntityOfPage'] );
+	}
+
+	/**
+	 * Tests that the author is not output when no user id could be determined.
+	 *
+	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::generate
+	 */
+	public function test_not_generate_when_user_id_cannot_be_defined() {
+		$this->instance
+			->expects( 'determine_user_id' )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->generate( $this->meta_tags_context ) );
 	}
 
 	/**
@@ -209,5 +225,31 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->site_user_id = $other_user_id;
 
 		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the author Schema piece is output on a post
+	 * not authored by the person the website represents.
+	 *
+	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 */
+	public function test_is_not_shown_when_not_a_user_or_post_type() {
+		$user_id         = 123;
+		$other_user_id   = 404;
+		$object_sub_type = null;
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'home-page',
+			'object_sub_type' => $object_sub_type,
+		];
+
+		$this->meta_tags_context->site_user_id = $other_user_id;
+
+		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
 	}
 }
