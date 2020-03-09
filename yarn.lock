@@ -563,21 +563,6 @@
     react-dom "16.6.3"
     styled-components "^4.2.0"
 
-"@yoast/analysis-report@^0.13.2-internal-linking.1":
-  version "0.13.2-internal-linking.1"
-  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-0.13.2-internal-linking.1.tgz#0bda926ccf5669e8934ba885cc5941cb3a7c26a1"
-  integrity sha512-UxOdChzKsru+DKcVTbSUNNgJ7nkNQnAWqIe1lXOIVph88IRtrVQXfX4EuYKYxZ6rczpBL+LGPyFPiLIyFRZPNg==
-  dependencies:
-    "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.13.2-internal-linking.1"
-    "@yoast/helpers" "^0.11.1"
-    "@yoast/style-guide" "^0.11.1"
-    lodash "^4.17.11"
-    prop-types "^15.6.0"
-    react "16.6.3"
-    react-dom "16.6.3"
-    styled-components "^4.2.0"
-
 "@yoast/browserslist-config@^1.0.0":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.0.5.tgz#fd7523d00f2b36fa1b254efd13a76fae48023241"
@@ -599,22 +584,6 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
-"@yoast/components@^0.13.2-internal-linking.1":
-  version "0.13.2-internal-linking.1"
-  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.13.2-internal-linking.1.tgz#452d6ea5bd9a1e2fbe0a9280638cfb0f442c490e"
-  integrity sha512-maGOo1oCyFtpvdeyz4v6ERjpzJC+6ehVcfEEgDKKy2aH6t3leXVYERVwZj88gx1T18Qo1xm8y1lFadn8MbCdtg==
-  dependencies:
-    "@wordpress/a11y" "^1.1.3"
-    "@wordpress/i18n" "^1.2.3"
-    "@yoast/helpers" "^0.11.1"
-    "@yoast/style-guide" "^0.11.1"
-    interpolate-components "^1.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.7.2"
-    react-modal "^3.8.1"
-    react-tabs "^2.3.0"
-    styled-components "^4.2.0"
-
 "@yoast/configuration-wizard@^1.12.1":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.12.1.tgz#1c42e4d4469f62f945d6f78ad8f59024763360c2"
@@ -622,19 +591,6 @@
   dependencies:
     "@wordpress/i18n" "^1.1.0"
     "@yoast/components" "^0.13.1"
-    "@yoast/helpers" "^0.11.1"
-    "@yoast/style-guide" "^0.11.1"
-    interpolate-components "^1.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.7.2"
-
-"@yoast/configuration-wizard@^1.12.2-internal-linking.1":
-  version "1.12.2-internal-linking.1"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.12.2-internal-linking.1.tgz#9a76766171f23bc0a3fd2d1b690fd87334d5e309"
-  integrity sha512-uv8kbJTS/nt75v0iHU8cGM6YuiDtCFyzTaCO86phvepx9tCeN4RFL5wfql2XwI5jd+Xpq5tAjUaWgHhKqqOdHQ==
-  dependencies:
-    "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.13.2-internal-linking.1"
     "@yoast/helpers" "^0.11.1"
     "@yoast/style-guide" "^0.11.1"
     interpolate-components "^1.1.1"
