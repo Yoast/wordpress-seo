@@ -247,12 +247,12 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		return [
 			// Related issue: https://github.com/Yoast/wordpress-seo/issues/14476.
 			'with_encoded_url'               => [
-				'expected'        => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
-				'url_to_sanitize' => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'url_to_sanitize' => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
 			],
 			'with_non_encoded_non_latin_url' => [
-				'expected'        => 'https://danialtaherifar.ir/گروه-تلگرام-سئو',
-				'url_to_sanitize' => 'https://danialtaherifar.ir/گروه-تلگرام-سئو',
+				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88',
+				'url_to_sanitize' => 'https://example.com/گروه-تلگرام-سئو',
 			],
 			'with_non_encoded_url'           => [
 				'expected'        => 'https://example.org/this-is-a-page',
