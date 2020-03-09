@@ -117,7 +117,7 @@ class FAQ extends Abstract_Schema_Piece {
 	protected function generate_question_block( $question, $position, Meta_Tags_Context $context ) {
 		$url = $context->canonical . '#' . esc_attr( $question['id'] );
 
-		return [
+		$data = [
 			'@type'          => 'Question',
 			'@id'            => $url,
 			'position'       => $position,
@@ -126,6 +126,10 @@ class FAQ extends Abstract_Schema_Piece {
 			'answerCount'    => 1,
 			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
+
+		$data = $this->language->add_piece_language( $data );
+
+		return $data;
 	}
 
 	/**
