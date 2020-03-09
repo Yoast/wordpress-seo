@@ -6,10 +6,12 @@ import FacebookView from "../social/FacebookView";
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 
 /**
- * A
- * @param {*} props A
+ * This wrapper is connected to the facebook container. So the data is connected to both components.
+ * isPremium checks if premium is available and if available it doesn't render the 'free' facebook Component.
  *
- * @returns {Component} Renders a React Component.
+ * @param {Object} props The properties object.
+ *
+ * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
 	return (
@@ -17,13 +19,7 @@ const FacebookWrapper = ( props ) => {
 			{
 				! isPremium && <FacebookView isPremium={ isPremium } { ...props } />
 			}
-			<Slot name="YoastFacebookPremium">
-				{
-					( fills ) => {
-						return fills.map( ( Fill, i ) => <Fill key={ i } { ...props } /> );
-					}
-				}
-			</Slot>
+			<Slot name="YoastFacebookPremium" fillProps={ { isPremium, ...props } } />
 		</Fragment>
 	);
 };

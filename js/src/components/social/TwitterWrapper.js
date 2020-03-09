@@ -17,13 +17,7 @@ const TwitterWrapper = ( props ) => {
 			{
 				! isPremium && <TwitterView isPremium={ isPremium } { ...props } />
 			}
-			<Slot name="YoastTwitterPremium">
-				{
-					( fills ) => {
-						return fills.map( ( Fill, i ) => <Fill key={ i } { ...props } /> );
-					}
-				}
-			</Slot>
+			<Slot name="YoastTwitterPremium" fillProps={ { isPremium, ...props } } />
 		</Fragment>
 	);
 };
