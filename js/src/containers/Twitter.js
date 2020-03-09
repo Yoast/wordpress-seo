@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { actions } from "@yoast/social-metadata-forms";
 
 /* Internal dependencies */
-import FacebookWrapper from "../components/social/FacebookWrapper";
+import TwitterWrapper from "../components/social/TwitterWrapper";
 import { socialSelectors }  from "../redux/selectors/socialSelectors";
 import { getImageFallback, getDescriptionFallback, getTitleFallback } from "../redux/selectors/fallbackSelectors";
 
@@ -20,27 +20,25 @@ const {
  *
  * @param {Object} state The state.
  *
- * @returns {Object} The props for the FacebookView component.
+ * @returns {Object} The props for the TwitterView component.
  */
 const mapStateToProps = ( state ) => {
-	const imageObject = state.socialReducer.facebook.image;
-	console.log( "imageObject", imageObject );
+	const imageObject = state.socialReducer.twitter.image;
 	const image = imageObject.url ? imageObject : { ...imageObject, url: getImageFallback( state ) };
-	console.log( "image", image );
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
-		description: socialSelectors.getFacebookDescription( state ) || getDescriptionFallback( state ),
-		title: socialSelectors.getFacebookTitle( state ) || getTitleFallback( state ),
+		description: socialSelectors.getTwitterDescription( state ) || getDescriptionFallback( state ),
+		title: socialSelectors.getTwitterTitle( state ) || getTitleFallback( state ),
 		image: image,
-		imageWarnings: state.socialReducer.facebook.warnings,
+		imageWarnings: state.socialReducer.twitter.warnings,
 	};
 };
 
-const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
-const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
-const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
-const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
+const titleInput = document.getElementById( "yoast_wpseo_twitter-title" );
+const descriptionInput = document.getElementById( "yoast_wpseo_twitter-description" );
+const imageIdInput = document.getElementById( "yoast_wpseo_twitter-image-id" );
+const imageUrlInput = document.getElementById( "yoast_wpseo_twitter-image" );
 
 // Make the media library accessible.
 const media = window.wp.media();
@@ -63,7 +61,7 @@ media.on( "select", () => {
 		id,
 		width,
 		height,
-	}, "facebook" );
+	}, "twitter" );
 	imageIdInput.value = id;
 	imageUrlInput.value = url;
 } );
@@ -76,10 +74,10 @@ media.on( "select", () => {
  * @returns {void}
  */
 const dispatchHiddenFieldValues = ( dispatch ) => {
-	dispatch( setSocialPreviewTitle( titleInput.value, "facebook" ) );
-	dispatch( setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
-	dispatch( setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
-	dispatch( setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
+	dispatch( setSocialPreviewTitle( titleInput.value, "twitter" ) );
+	dispatch( setSocialPreviewDescription( descriptionInput.innerText, "twitter" ) );
+	dispatch( setSocialPreviewImageUrl( imageUrlInput.value, "twitter" ) );
+	dispatch( setSocialPreviewImageId( imageIdInput.value, "twitter" ) );
 };
 
 /**
@@ -105,19 +103,19 @@ const mapDispatchToProps = ( dispatch ) => {
 				url: null,
 				id: null,
 			};
-			dispatch( setSocialPreviewImage( image, "facebook" ) );
+			dispatch( setSocialPreviewImage( image, "twitter" ) );
 			imageUrlInput.value = null;
 			imageIdInput.value = null;
 		},
 		onDescriptionChange: ( description ) => {
-			dispatch( setSocialPreviewDescription( description, "facebook" ) );
+			dispatch( setSocialPreviewDescription( description, "twitter" ) );
 			descriptionInput.value = description;
 		},
 		onTitleChange: ( title ) => {
-			dispatch( setSocialPreviewTitle( title, "facebook" ) );
+			dispatch( setSocialPreviewTitle( title, "twitter" ) );
 			titleInput.value = title;
 		},
 	};
 };
 
-export default connect( mapStateToProps, mapDispatchToProps )( FacebookWrapper );
+export default connect( mapStateToProps, mapDispatchToProps )( TwitterWrapper );

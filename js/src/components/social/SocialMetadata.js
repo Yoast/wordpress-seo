@@ -4,6 +4,7 @@ import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
 import FacebookContainer from "../../containers/Facebook";
+import TwitterContainer from "../../containers/Twitter";
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -25,7 +26,7 @@ const Social = () => {
 				hasSeparator={ true }
 				title="Twitter"
 			>
-				<p>twitter</p>
+				<TwitterContainer />
 			</Collapsible>
 		</Fragment>,
 		document.getElementById( "wpseo-section-social" )

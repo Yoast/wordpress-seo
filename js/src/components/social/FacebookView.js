@@ -73,7 +73,7 @@ const FacebookView = ( props ) => {
 				onTitleChange={ onTitleChange }
 				imageWarnings={ imageWarnings }
 				imageSelected={ !! image.url }
-				imageUrl={ image.url ?? "" }
+				imageUrl={ image.url ? image.url : null }
 				isPremium={ isPremium }
 			/>
 		</Fragment>
@@ -86,8 +86,8 @@ const FacebookView = ( props ) => {
 FacebookView.propTypes = {
 	recommendedReplacementVariables: PropTypes.array.isRequired,
 	replacementVariables: PropTypes.array.isRequired,
-	description: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
+	description: PropTypes.string,
+	title: PropTypes.string,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
@@ -99,6 +99,8 @@ FacebookView.propTypes = {
 
 FacebookView.defaultProps = {
 	imageWarnings: [],
+	title: null,
+	description: null,
 };
 
 export default FacebookView;

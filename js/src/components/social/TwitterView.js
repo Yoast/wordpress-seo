@@ -3,14 +3,37 @@ import PropTypes from "prop-types";
 import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
+import { __, sprintf } from "@wordpress/i18n";
+import styled from "styled-components";
+
+const PremiumInfoText = styled( Alert )`
+	margin-top: 16px;
+ p {
+	 margin: 0;
+ }
+`;
 
 const YoastShortLink = makeOutboundLink();
 
+/* Translators: %s expands to the social medium name, Twitter.  */
+const previewText = sprintf(
+	__(
+		"Do you want to preview what it will look like if people share this post on %s? You can, with", "yoast-components"
+	), "Twitter"
+);
+
+/* Translators: %s expands to Yoast, %s expands to SEO, %s expands to Premium*/
+const upgradeText = sprintf(
+	__(
+		"Find out why you should upgrade to %s %s %s", "yoast-components"
+	), "Yoast", "SEO", "Premium"
+);
+
 /**
  *
- * @param {Object} props A.
+ * @param {object} props The properties passed to this component.
  *
- * @returns {Component} A
+ * @returns {Component} The TwitterView Component.
  */
 const TwitterView = ( props ) => {
 	const {
@@ -23,24 +46,23 @@ const TwitterView = ( props ) => {
 		onDescriptionChange,
 		onTitleChange,
 		imageWarnings,
-		imageSelected,
-
+		image,
+		isPremium,
 	} = props;
 
 	return (
 		<Fragment>
-			<Alert type={ "info" }>
-				Do you want to preview what it will look like if people share this post on Twitter?
-				You can, with <b>Yoast SEO Premium.</b>
+			<PremiumInfoText type={ "info" }>
+				<p>{ previewText } <b>Yoast SEO Premium.</b> </p>
 				<br />
 				<YoastShortLink
 					href="https://yoast.com/reasons-to-upgrade/"
 				>
-					Find out why you should upgrade to Yoast SEO Premium
+					<p>{ upgradeText }</p>
 				</YoastShortLink>
-			</Alert>
+			</PremiumInfoText>
 			<SocialMetadataPreviewForm
-				socialMediumName="twitter"
+				socialMediumName="Twitter"
 				replacementVariables={ replacementVariables }
 				recommendedReplacementVariables={ recommendedReplacementVariables }
 				description={ description }
@@ -50,7 +72,9 @@ const TwitterView = ( props ) => {
 				onDescriptionChange={ onDescriptionChange }
 				onTitleChange={ onTitleChange }
 				imageWarnings={ imageWarnings }
-				imageSelected={ imageSelected }
+				imageSelected={ !! image.url }
+				imageUrl={ image.url ? image.url : null }
+				isPremium={ isPremium }
 			/>
 		</Fragment>
 	);
@@ -60,22 +84,23 @@ const TwitterView = ( props ) => {
  * Adds validation for the properties.
  */
 TwitterView.propTypes = {
-	recommendedReplacementVariables: PropTypes.array,
-	replacementVariables: PropTypes.array,
-	description: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
+	recommendedReplacementVariables: PropTypes.array.isRequired,
+	replacementVariables: PropTypes.array.isRequired,
+	description: PropTypes.string,
+	title: PropTypes.string,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	imageWarnings: PropTypes.array,
-	imageSelected: PropTypes.bool.isRequired,
+	image: PropTypes.object.isRequired,
+	isPremium: PropTypes.bool.isRequired,
 };
 
 TwitterView.defaultProps = {
-	recommendedReplacementVariables: [],
-	replacementVariables: [],
 	imageWarnings: [],
+	title: null,
+	description: null,
 };
 
 export default TwitterView;

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 
-import FacebookView from "../social/FacebookView";
+import TwitterView from "../social/TwitterView";
 
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 
@@ -11,13 +11,13 @@ const isPremium = !! window.wpseoPostScraperL10n.isPremium;
  *
  * @returns {Component} Renders a React Component.
  */
-const FacebookWrapper = ( props ) => {
+const TwitterWrapper = ( props ) => {
 	return (
 		<Fragment>
 			{
-				! isPremium && <FacebookView isPremium={ isPremium } { ...props } />
+				! isPremium && <TwitterView isPremium={ isPremium } { ...props } />
 			}
-			<Slot name="YoastFacebookPremium">
+			<Slot name="YoastTwitterPremium">
 				{
 					( fills ) => {
 						return fills.map( ( Fill, i ) => <Fill key={ i } { ...props } /> );
@@ -28,4 +28,4 @@ const FacebookWrapper = ( props ) => {
 	);
 };
 
-export default FacebookWrapper;
+export default TwitterWrapper;
