@@ -340,7 +340,7 @@ class WPSEO_Utils {
 		$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
 
 		if ( isset( $parts['path'] ) ) {
-			$path = explode( '/', $parts['path'] );
+			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
 			$path = self::sanitize_encoded_text_field( $path );
 			$url .= implode( '/', $path );
 		}
