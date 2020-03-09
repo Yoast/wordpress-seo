@@ -325,19 +325,18 @@ class WPSEO_Utils {
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 
+		$url   = '';
 		$parts = wp_parse_url( $value );
 
-		if ( empty( $parts['scheme'] ) || empty( $parts['host'] ) || ! in_array( $parts['scheme'], $allowed_protocols, true ) ) {
-			return '';
+		if ( isset( $parts['scheme'] ) && isset( $parts['host'] ) ) {
+			$url = $parts['scheme'] . '://';
+
+			if ( isset( $parts['user'] ) ) {
+				$url .= $parts['user'] . ( isset( $parts['pass'] ) ? ':' . $parts['pass'] : '' ) . '@';
+			}
+
+			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
 		}
-
-		$url = $parts['scheme'] . '://';
-
-		if ( isset( $parts['user'] ) ) {
-			$url .= $parts['user'] . ( isset( $parts['pass'] ) ? ':' . $parts['pass'] : '' ) . '@';
-		}
-
-		$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
 
 		if ( isset( $parts['path'] ) ) {
 			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
