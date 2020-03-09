@@ -145,27 +145,6 @@ class Indexable_Repository {
 	/**
 	 * Retrieves all the indexable instances of a certain object subtype.
 	 *
-	 * @param string $object_sub_type The object subtype.
-	 *
-	 * @return Indexable[] The array with all the indexable instances of a certain object subtype.
-	 */
-	public function find_all_with_sub_type( $object_sub_type ) {
-		/**
-		 * The array with all the indexable instances of a certain object subtype.
-		 *
-		 * @var Indexable[] $indexables
-		 */
-		$indexables = $this
-			->query()
-			->where( 'object_sub_type', $object_sub_type )
-			->find_many();
-
-		return $indexables;
-	}
-
-	/**
-	 * Retrieves all the indexable instances of a certain object subtype.
-	 *
 	 * @param string $object_type     The object type.
 	 * @param string $object_sub_type The object subtype.
 	 *
