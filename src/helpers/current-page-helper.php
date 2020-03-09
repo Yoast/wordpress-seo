@@ -374,6 +374,8 @@ class Current_Page_Helper {
 	 * Checks whether the current page is paged.
 	 *
 	 * @return bool Whether the current page is paged.
+	 *
+	 * @codeCoverageIgnore This method only calls a WordPress function.
 	 */
 	public function is_paged() {
 		return \is_paged();
