@@ -69,43 +69,33 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$breadcrumbs   = $context->presentation->breadcrumbs;
-		$broken        = false;
 		$list_elements = [];
 
-		$nr_of_breadcrumbs = count( $breadcrumbs );
+		// Only output breadcrumbs that are not hidden.
+		$breadcrumbs = array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
 
-		foreach ( $breadcrumbs as $index => $breadcrumb ) {
-			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
-				continue;
+		/*
+		 * Check whether at least one of the breadcrumbs is broken.
+		 * If so, do not output anything
+		 */
+		foreach ( $breadcrumbs as $breadcrumb ) {
+			if ( $this->is_broken( $breadcrumb ) ) {
+				return false;
 			}
+		}
 
-			if ( ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb ) ) {
-				$broken = true;
-				break;
-			}
-
-			if ( $index === ( $nr_of_breadcrumbs - 1 ) ) {
-				/*
-				 * Fall back to the current URL and/or title,
-				 * but only for the last breadcrumb, which corresponds to the
-				 * current webpage.
-				 */
-				if ( empty( $breadcrumb['url'] ) ) {
-					$breadcrumb['url'] = $context->canonical;
-				}
-				if ( empty( $breadcrumb['text'] ) ) {
-					$breadcrumb['text'] = $context->title;
-				}
-			}
-
+		// Create intermediate breadcrumbs.
+		$total_breadcrumbs = count( $breadcrumbs );
+		for ( $index = 0; $index < ( $total_breadcrumbs - 1 ); $index++ ) {
+			$breadcrumb = $breadcrumbs[ $index ];
 			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
 		}
 
-		// Only output if JSON is correctly formatted.
-		if ( $broken ) {
-			return false;
-		}
+		// Create the last breadcrumb.
+		$last_breadcrumb = end( $breadcrumbs );
+		$list_elements[] = $this->create_last_breadcrumb( $index, $last_breadcrumb, $context );
 
+		// Add a paginated state if the current page is paged.
 		if ( $this->current_page->is_paged() ) {
 			$list_elements[] = $this->add_paginated_state( $index, $context );
 		}
@@ -121,7 +111,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * Returns a breadcrumb array.
 	 *
 	 * @param int   $index      The position in the list.
-	 * @param array $breadcrumb The breadcrumb array.
+	 * @param array $breadcrumb The position in the list.
 	 *
 	 * @return array A breadcrumb listItem.
 	 */
@@ -136,6 +126,28 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				'name'  => $breadcrumb['text'],
 			],
 		];
+	}
+
+	/**
+	 * Creates the last breadcrumb in the breadcrumb list.
+	 * Provides a fallback for the URL and text:
+	 *  - URL falls back to the canonical of current page.
+	 *  - text falls back to the title of current page.
+	 *
+	 * @param int               $index      The position in the list.
+	 * @param array             $breadcrumb The position in the list.
+	 * @param Meta_Tags_Context $context    The meta tags context.
+	 *
+	 * @return array The last of the breadcrumbs.
+	 */
+	private function create_last_breadcrumb( $index, $breadcrumb, $context ) {
+		if ( empty( $breadcrumb['url'] ) ) {
+			$breadcrumb['url'] = $context->canonical;
+		}
+		if ( empty( $breadcrumb['text'] ) ) {
+			$breadcrumb['text'] = $context->title;
+		}
+		return $this->create_breadcrumb( $index, $breadcrumb );
 	}
 
 	/**
@@ -154,5 +166,28 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				'text' => $context->title,
 			]
 		);
+	}
+
+	/**
+	 * Tests if the breadcrumb is broken.
+	 * A breadcrumb is considered broken when it has no URL or text.
+	 *
+	 * @param array $breadcrumb The breadcrumb to test.
+	 *
+	 * @return bool `true` if the breadcrumb is broken.
+	 */
+	private function is_broken( $breadcrumb ) {
+		return ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb );
+	}
+
+	/**
+	 * Checks whether the breadcrumb is not set to be hidden.
+	 *
+	 * @param array $breadcrumb The breadcrumb array.
+	 *
+	 * @return bool If the breadcrumb should not be hidden.
+	 */
+	private function not_hidden( $breadcrumb ) {
+		return empty( $breadcrumb['hide_in_schema'] );
 	}
 }
