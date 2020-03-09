@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Breadcrumb_Test
  *
+ * @group generators
+ * @group schema
+ *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb
  */
 class Breadcrumb_Test extends TestCase {

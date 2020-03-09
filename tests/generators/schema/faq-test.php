@@ -19,16 +19,22 @@ use Yoast\WP\SEO\Tests\TestCase;
 class FAQ_Test extends TestCase {
 
 	/**
+	 * Holds the HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * Holds the language helper.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;
 
 	/**
+	 * Holds the FAQ helper.
+	 *
 	 * @var FAQ
 	 */
 	private $instance;
@@ -273,7 +279,7 @@ class FAQ_Test extends TestCase {
 	 *
 	 * @param array $data The data to extend.
 	 *
-	 * @return array The altered data
+	 * @return array The altered data.
 	 */
 	public function set_language( $data ) {
 		$data['inLanguage'] = 'language';
