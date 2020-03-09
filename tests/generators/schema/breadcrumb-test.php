@@ -71,7 +71,10 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests the generation of the breadcrumbs.
 	 *
 	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
 	 */
 	public function test_generate() {
 		$breadcrumb_data = [
@@ -126,7 +129,10 @@ class Breadcrumb_Test extends TestCase {
 	 * Tests whether a breadcrumb is hidden when it has a `hide_in_schema` property set to `true`.
 	 *
 	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
 	 */
 	public function test_do_not_generate_when_hide_in_schema_is_true() {
 		$breadcrumb_data = [
@@ -173,7 +179,7 @@ class Breadcrumb_Test extends TestCase {
 	 * Generate method should break on broken breadcrumbs.
 	 *
 	 * @covers ::generate
-	 * @covers ::create_breadcrumb
+	 * @covers ::is_broken
 	 */
 	public function test_generate_break_on_broken_breadcrumbs() {
 		$breadcrumb_data = [
@@ -199,8 +205,10 @@ class Breadcrumb_Test extends TestCase {
 	 * Generate method should break on broken breadcrumbs.
 	 *
 	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
-	 * @covers ::add_paginated_state
+	 * @covers ::format_last_breadcrumb
 	 */
 	public function test_generate_when_page_is_paginated() {
 		$breadcrumb_data = [
@@ -268,7 +276,10 @@ class Breadcrumb_Test extends TestCase {
 	 * (last item in the breadcrumb list).
 	 *
 	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
 	 */
 	public function test_generate_fallbacks_for_url_on_empty_last_item() {
 		$breadcrumb_data = [
@@ -327,8 +338,10 @@ class Breadcrumb_Test extends TestCase {
 	 * (last item in the breadcrumb list).
 	 *
 	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
 	 * @covers ::create_breadcrumb
-	 * @covers ::add_paginated_state
+	 * @covers ::format_last_breadcrumb
 	 */
 	public function test_generate_fallbacks_for_text_on_empty_last_item() {
 		$breadcrumb_data = [

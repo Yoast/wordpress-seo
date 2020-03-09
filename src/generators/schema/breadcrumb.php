@@ -74,9 +74,11 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		// Only output breadcrumbs that are not hidden.
 		$breadcrumbs = array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
 
+		reset( $breadcrumbs );
+
 		/*
 		 * Check whether at least one of the breadcrumbs is broken.
-		 * If so, do not output anything
+		 * If so, do not output anything.
 		 */
 		foreach ( $breadcrumbs as $breadcrumb ) {
 			if ( $this->is_broken( $breadcrumb ) ) {
@@ -84,20 +86,22 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			}
 		}
 
-		// Create intermediate breadcrumbs.
-		$total_breadcrumbs = count( $breadcrumbs );
-		for ( $index = 0; $index < ( $total_breadcrumbs - 1 ); $index++ ) {
-			$breadcrumb = $breadcrumbs[ $index ];
-			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
-		}
 
 		// Create the last breadcrumb.
-		$last_breadcrumb = end( $breadcrumbs );
-		$list_elements[] = $this->create_last_breadcrumb( $index, $last_breadcrumb, $context );
+		$last_breadcrumb = array_pop( $breadcrumbs );
+		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb, $context );
 
 		// Add a paginated state if the current page is paged.
 		if ( $this->current_page->is_paged() ) {
-			$list_elements[] = $this->add_paginated_state( $index, $context );
+			$breadcrumbs[] = [
+				'url'  => $context->canonical,
+				'text' => $context->title,
+			];
+		}
+
+		// Create intermediate breadcrumbs.
+		foreach ( $breadcrumbs as $index => $breadcrumb ) {
+			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
 		}
 
 		return [
@@ -134,38 +138,20 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 *  - URL falls back to the canonical of current page.
 	 *  - text falls back to the title of current page.
 	 *
-	 * @param int               $index      The position in the list.
 	 * @param array             $breadcrumb The position in the list.
 	 * @param Meta_Tags_Context $context    The meta tags context.
 	 *
 	 * @return array The last of the breadcrumbs.
 	 */
-	private function create_last_breadcrumb( $index, $breadcrumb, $context ) {
+	private function format_last_breadcrumb( $breadcrumb, $context ) {
 		if ( empty( $breadcrumb['url'] ) ) {
 			$breadcrumb['url'] = $context->canonical;
 		}
 		if ( empty( $breadcrumb['text'] ) ) {
 			$breadcrumb['text'] = $context->title;
 		}
-		return $this->create_breadcrumb( $index, $breadcrumb );
-	}
 
-	/**
-	 * Adds the paginated state to the breadcrumb array.
-	 *
-	 * @param int               $index   The index.
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
-	 * @return array A breadcrumb listItem.
-	 */
-	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
-		return $this->create_breadcrumb(
-			( $index + 1 ),
-			[
-				'url' => $context->canonical,
-				'text' => $context->title,
-			]
-		);
+		return $breadcrumb;
 	}
 
 	/**

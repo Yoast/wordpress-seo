@@ -91,15 +91,12 @@ class FAQ extends Abstract_Schema_Piece {
 			}
 		}
 
-		\array_unshift(
-			$graph,
-			[
-				'@type'            => 'ItemList',
-				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
-				'numberOfItems'    => $number_of_items,
-				'itemListElement'  => $ids,
-			]
-		);
+		\array_unshift( $graph, [
+			'@type'            => 'ItemList',
+			'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
+			'numberOfItems'    => $number_of_items,
+			'itemListElement'  => $ids,
+		] );
 
 		return $graph;
 	}
