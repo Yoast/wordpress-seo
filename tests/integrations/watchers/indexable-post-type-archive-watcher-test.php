@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Post_Type_Archive_Watcher_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher

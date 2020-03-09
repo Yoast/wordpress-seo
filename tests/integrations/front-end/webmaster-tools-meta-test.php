@@ -7,7 +7,9 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
+use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Webmaster_Tools_Meta;
@@ -45,7 +47,6 @@ class Webmaster_Tools_Meta_Test extends TestCase {
 	 */
 	private $options;
 
-
 	/**
 	 * Sets an instance for test purposes.
 	 */
@@ -55,6 +56,29 @@ class Webmaster_Tools_Meta_Test extends TestCase {
 		$this->options      = Mockery::mock( Options_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->instance     = new Webmaster_Tools_Meta( $this->options, $this->current_page );
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Webmaster_Tools_Meta::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertNotFalse( Monkey\Actions\has( 'wpseo_head', [ $this->instance, 'render_meta_tags' ] ) );
 	}
 
 	/**

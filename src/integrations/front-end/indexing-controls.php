@@ -26,7 +26,6 @@ class Indexing_Controls implements Integration_Interface {
 	protected $robots;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -34,7 +33,9 @@ class Indexing_Controls implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
+	 * The constructor.
+	 *
+	 * @codeCoverageIgnore Sets the dependencies.
 	 *
 	 * @param Robots_Helper $robots The robots helper.
 	 */

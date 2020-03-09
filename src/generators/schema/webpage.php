@@ -126,6 +126,7 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		$data = $this->language->add_piece_language( $data );
+		$data = $this->add_potential_action( $data, $context );
 
 		return $data;
 	}
@@ -176,5 +177,33 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Adds the potential action property to the WebPage Schema piece.
+	 *
+	 * @param array             $data    The WebPage data.
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
+	 * @return array $data The WebPage data with the potential action added.
+	 */
+	private function add_potential_action( $data, Meta_Tags_Context $context ) {
+		if ( $context->generate_schema_page_type() !== 'WebPage' ) {
+			return $data;
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
+		 *
+		 * @api array $targets The URLs for the WebPage potentialAction target.
+		 */
+		$targets = apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $context->canonical ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'ReadAction',
+			'target' => $targets,
+		];
+
+		return $data;
 	}
 }
