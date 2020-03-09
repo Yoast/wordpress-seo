@@ -15,7 +15,7 @@ const PremiumInfoText = styled( Alert )`
 
 const YoastShortLink = makeOutboundLink();
 
-/* Translators: %s expands to the social medium name, Faceboook.  */
+/* Translators: %s expands to the social medium name, Facebook.  */
 const previewText = sprintf(
 	__(
 		"Do you want to preview what it will look like if people share this post on %s? You can, with", "yoast-components"

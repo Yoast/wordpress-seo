@@ -24,9 +24,7 @@ const {
  */
 const mapStateToProps = ( state ) => {
 	const imageObject = state.socialReducer.facebook.image;
-	console.log( "imageObject", imageObject );
 	const image = imageObject.url ? imageObject : { ...imageObject, url: getImageFallback( state ) };
-	console.log( "image", image );
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
