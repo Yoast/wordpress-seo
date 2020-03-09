@@ -359,8 +359,14 @@ class WPSEO_Utils {
 			$url .= '#' . self::sanitize_encoded_text_field( $parts['fragment'] );
 		}
 
-		if ( false !== strpos( $url, '%' ) ) {
-			$url = preg_replace_callback( '`%[a-fA-F0-9][a-fA-F0-9]`', [ __CLASS__, 'lowercase_octets' ], $url );
+		if ( strpos( $url, '%' ) !== false ) {
+			$url = preg_replace_callback(
+				'`%[a-fA-F0-9]{2}`',
+				function( $matches ) {
+					return strtolower( $matches[0] );
+				},
+				$url
+			);
 		}
 
 		return esc_url_raw( $url );
@@ -381,19 +387,6 @@ class WPSEO_Utils {
 		}
 
 		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );
-	}
-
-	/**
-	 * Converts the first hex-encoded octet match to lowercase.
-	 *
-	 * @since 13.3
-	 *
-	 * @param array $matches Hex-encoded octet matches for the URL.
-	 *
-	 * @return string
-	 */
-	public static function lowercase_octets( $matches ) {
-		return strtolower( $matches[0] );
 	}
 
 	/**
