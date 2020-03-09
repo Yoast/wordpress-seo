@@ -90,7 +90,7 @@ class FAQ_Test extends TestCase {
 
 		$this->language
 			->expects( 'add_piece_language' )
-			->twice()
+			->times( 4 )
 			->andReturnUsing( [ $this, 'set_language' ] );
 
 		$expected = [
@@ -117,6 +117,7 @@ class FAQ_Test extends TestCase {
 					'text'       => 'This is an answer',
 					'inLanguage' => 'language',
 				],
+				'inLanguage' => 'language',
 			],
 			[
 				'@id'            => 'https://example.org/page/#id-2',
@@ -130,6 +131,7 @@ class FAQ_Test extends TestCase {
 					'text'       => 'This is the second answer',
 					'inLanguage' => 'language',
 				],
+				'inLanguage' => 'language',
 			],
 		];
 
@@ -183,7 +185,7 @@ class FAQ_Test extends TestCase {
 
 		$this->language
 			->expects( 'add_piece_language' )
-			->once()
+			->twice()
 			->andReturnUsing( [ $this, 'set_language' ] );
 
 		$expected = [
@@ -209,6 +211,7 @@ class FAQ_Test extends TestCase {
 					'text'       => 'This is an answer',
 					'inLanguage' => 'language',
 				],
+				'inLanguage' => 'language',
 			],
 		];
 
