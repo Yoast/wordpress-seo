@@ -328,7 +328,7 @@ class WPSEO_Utils {
 		$url   = '';
 		$parts = wp_parse_url( $value );
 
-		if ( isset( $parts['scheme'] ) && isset( $parts['host'] ) ) {
+		if ( isset( $parts['scheme'], $parts['host'] ) ) {
 			$url = $parts['scheme'] . '://';
 
 			if ( isset( $parts['user'] ) ) {
@@ -345,7 +345,7 @@ class WPSEO_Utils {
 		}
 
 		if ( isset( $parts['query'] ) ) {
-			parse_str( $parts['query'], $parsed_query );
+			wp_parse_str( $parts['query'], $parsed_query );
 
 			$parsed_query = array_combine(
 				self::sanitize_encoded_text_field( array_keys( $parsed_query ) ),
@@ -362,8 +362,8 @@ class WPSEO_Utils {
 		if ( strpos( $url, '%' ) !== false ) {
 			$url = preg_replace_callback(
 				'`%[a-fA-F0-9]{2}`',
-				function( $matches ) {
-					return strtolower( $matches[0] );
+				function( $octects ) {
+					return strtolower( $octects[0] );
 				},
 				$url
 			);
@@ -379,7 +379,7 @@ class WPSEO_Utils {
 	 *
 	 * @param array|string $value The value to sanitize and encode.
 	 *
-	 * @return string
+	 * @return array|string The sanitized value.
 	 */
 	public static function sanitize_encoded_text_field( $value ) {
 		if ( is_array( $value ) ) {
