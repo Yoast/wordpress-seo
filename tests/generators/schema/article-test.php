@@ -79,7 +79,7 @@ class Article_Test extends TestCase {
 	/**
 	 * The language helper.
 	 *
-	 * @var Mockery\MockInterface|Languge_Helper
+	 * @var Mockery\MockInterface|Language_Helper
 	 */
 	private $language;
 
@@ -193,7 +193,7 @@ class Article_Test extends TestCase {
 		$this->post->expects( 'get_post_title_with_fallback' )
 			->once()
 			->with( $this->context_mock->id )
-			->andReturn( 'the-title </script><script>alert(0)</script><script>' ); // Script is here to test script injection
+			->andReturn( 'the-title </script><script>alert(0)</script><script>' ); // Script is here to test script injection.
 
 		$this->html->expects( 'smart_strip_tags' )
 			->once()
@@ -270,7 +270,7 @@ class Article_Test extends TestCase {
 							'https://permalink#respond',
 						],
 					],
-				]
+				],
 			],
 			$this->instance->generate( $this->context_mock )
 		);
