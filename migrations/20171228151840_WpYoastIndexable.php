@@ -138,64 +138,15 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 				'object_sub_type',
 			],
 			[
-				'name' => 'indexable',
+				'name' => 'object_type_and_sub_type',
 			]
 		);
 
 		$this->add_index(
 			$indexable_table_name,
+			'permalink_hash',
 			[
-				'primary_focus_keyword_score',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'primary_focus_keyword_score',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'is_cornerstone',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'cornerstones',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'incoming_link_count',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'orphaned_content',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'is_robots_noindex',
-				'object_id',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'robots_noindex',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			'prominent_words_version',
-			[
-				'name' => 'prominent_words_version',
+				'name' => 'permalink_hash',
 			]
 		);
 	}
