@@ -67,10 +67,6 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	public function check_option( $old_value, $new_value ) {
 		$relevant_keys = [ 'title-ptarchive-', 'metadesc-ptarchive-', 'bctitle-ptarchive-', 'noindex-ptarchive-' ];
 
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
-			return;
-		}
-
 		$keys               = array_unique( array_merge( array_keys( $old_value ), array_keys( $new_value ) ) );
 		$post_types_rebuild = [];
 
