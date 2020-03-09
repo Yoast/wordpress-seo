@@ -161,8 +161,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		) {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
-			$title_attr = isset( $breadcrumb['title'] ) ? 'title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '" ' . $title_attr . ' >' . $text . '</a>';
+			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
+			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.

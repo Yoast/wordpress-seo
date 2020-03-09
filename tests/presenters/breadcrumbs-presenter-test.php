@@ -252,7 +252,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		               ->withNoArgs()
 		               ->andReturn( 'span' );
 
-		$link = '<span><a href="home_url"  >home_text</a>';
+		$link = '<span><a href="home_url">home_text</a>';
 
 		$this->assertEquals(
 			$link,
@@ -272,7 +272,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		               ->withNoArgs()
 		               ->andReturn( 'span' );
 
-		$link = '<span><a href="home_url"  >home_text</a>';
+		$link = '<span><a href="home_url">home_text</a>';
 
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_single_link' )
 			->once()
@@ -298,7 +298,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		               ->withNoArgs()
 		               ->andReturn( 'span' );
 
-		$link = '<span><a href="home_url" title="home_title" >home_text</a>';
+		$link = '<span><a href="home_url" title="home_title">home_text</a>';
 
 		$this->assertEquals(
 			$link,
