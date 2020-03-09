@@ -22,8 +22,8 @@ const wordsToStem = [
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
-	[ "gevelwand", "gevelwan" ],
-	[ "beurt", "beur" ],
+	[ "gevelwand", "gevelwand" ],
+	[ "beurt", "beurt" ],
 	// A word on the list of inseparable compound verbs that should not be stemmed (2b)
 	[ "onderricht", "onderricht" ],
 	// A participle without separable or inseparable prefixes that should not have the ge- stemmed (2c)
@@ -159,17 +159,11 @@ const wordsToStem = [
 	[ "werken", "werk" ],
 	// Word that gets suffix -en and does not end in t/d (9diii-12)
 	[ "luttelen", "luttel" ],
-	/*
-	 * Word that gets suffix -en and the stem ends in -t/-d (9c-15) (incorrect stem,
-	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
-	 */
-	// [ "duiden", "duid" ],
-	/*
-	 * Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15) (incorrect stem,
-	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
-	 */
-	// [ "rigiedst", "rigid" ],
-	// [ "paranoïedste", "paranoïd" ],
+	// Word that gets suffix -en and the stem ends in -t/-d (9c-15)
+	[ "duiden", "duid" ],
+	// Change -ied/-ïed to -id after suffix -st/-ste deletion and the stem ends in -t/-d (9e-15)
+	[ "rigiedst", "rigid" ],
+	[ "paranoïedste", "paranoïd" ],
 	// Word that gets suffix -t and is in an verb exception list (9f-11)
 	[ "sterft", "sterf" ],
 	[ "afsterft", "afsterf" ],
@@ -185,11 +179,8 @@ const wordsToStem = [
 	// Word that gets suffix -je and is in an noun exception list (9g-10)
 	[ "glaasje", "glas" ],
 	[ "biggetje", "big" ],
-	/*
-	 * Word that gets suffix -je and the stem ends in -t/-d (9g-15) (incorrect stem,
-	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
-	 */
-	// [ "plaatje", "plaat" ],
+	// Word that gets suffix -je and the stem ends in -t/-d (9g-15)
+	[ "plaatje", "plaat" ],
 	// Word that gets suffix -pje and is neither in an exception list nor ends in t/d (9g-12)
 	[ "museumpje", "museum" ],
 	// Word that gets suffix -kje and is neither in an exception list nor ends in t/d (9h-12)
@@ -309,13 +300,10 @@ const wordsToStem = [
 	[ "kettinkjes", "ketting" ],
 	// Word with plural diminutive suffix and the stem is in noun exception list (9fg-10)
 	[ "poppetjes", "pop" ],
-	/*
-	 * Word with plural diminutive suffix and the stem ends in -t (9fg-15) (incorrect stem,
-	 * this problem will be possibly solved after the list of the most frequent of words ending in t/d is compiled).
-	 */
-	// [ "momentjes", "moment" ],
-	// [ "piraatjes", "piraat" ],
-	// [ "hondjes", "hond" ],
+	// Word with plural diminutive suffix and the stem ends in -t (9fg-15)
+	[ "momentjes", "moment" ],
+	[ "piraatjes", "piraat" ],
+	[ "hondjes", "hond" ],
 	/*
 	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
 	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem, this problem will be possibly fixed
