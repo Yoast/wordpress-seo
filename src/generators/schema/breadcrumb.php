@@ -149,7 +149,10 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
 		return $this->create_breadcrumb(
 			( $index + 1 ),
-			[ 'url' => $context->canonical, 'text' => $context->title ]
+			[
+				'url' => $context->canonical,
+				'text' => $context->title,
+			]
 		);
 	}
 }
