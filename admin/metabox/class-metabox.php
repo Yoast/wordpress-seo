@@ -512,6 +512,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
 
+		if ( $key === 'canonical' ) {
+			$meta_value = urldecode( $meta_value );
+		}
+
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
 			$class = ' ' . $meta_field_def['class'];

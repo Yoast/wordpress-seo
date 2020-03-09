@@ -243,7 +243,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @api string $unsigned Canonical URL.
 		 */
-		$url = apply_filters( 'wpseo_opengraph_url', $url );
+		$url = urldecode( apply_filters( 'wpseo_opengraph_url', $url ) );
 
 		if ( is_string( $url ) && $url !== '' ) {
 			$this->og_tag( 'og:url', esc_url( $url ) );

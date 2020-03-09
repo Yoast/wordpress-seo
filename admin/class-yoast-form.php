@@ -364,6 +364,9 @@ class Yoast_Form {
 		];
 		$attr       = wp_parse_args( $attr, $defaults );
 		$val        = $this->get_field_value( $var, '' );
+		if ( isset( $attr[ 'type' ] ) && $attr[ 'type' ] === 'url' ) {
+			$val = urldecode( $val );
+		}
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';

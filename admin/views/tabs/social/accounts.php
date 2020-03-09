@@ -94,7 +94,7 @@ if ( $company_or_person === 'company' ) {
 	echo $social_profiles_help->get_panel_html();
 
 	foreach ( $organization_social_fields as $organization ) {
-		$yform->textinput( $organization['id'], $organization['label'] );
+		$yform->textinput( $organization['id'], $organization['label'], [ 'type' => 'url' ] );
 	}
 }
 
