@@ -478,6 +478,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$id = ' id="the_id"';
 
 		$this->assertEquals( $id, $this->instance->get_id() );
+		// Call it again to test that the ID is not built again.
+		$this->assertEquals( $id, $this->instance->get_id() );
 	}
 
 	/**
@@ -523,6 +525,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$class = ' class="the_class"';
 
 		$this->assertEquals( $class, $this->instance->get_class() );
+		// Call it again to test that the class is not built again.
+		$this->assertEquals( $class, $this->instance->get_class() );
 	}
 
 	/**
@@ -559,7 +563,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::get_wrapper
 	 */
-	public function test_get_wrapper_where_wrapper_set_in_filter() {
+	public function test_get_wrapper_where_wrapper_is_set_in_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_output_wrapper' )
 			->once()
 			->with( 'span' )
@@ -570,6 +574,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->with( 'span' )
 			->andReturn( 'span' );
 
+		$this->assertEquals( 'span', $this->instance->get_wrapper() );
+		// Call it again to test that the wrapper is not built again.
 		$this->assertEquals( 'span', $this->instance->get_wrapper() );
 	}
 
@@ -632,6 +638,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$separator = ' the_separator ';
 
 		$this->assertEquals( $separator, $this->instance->get_separator() );
+		// Call it again to test that the separator is not built again.
+		$this->assertEquals( $separator, $this->instance->get_separator() );
 	}
 
 	/**
@@ -645,6 +653,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->with( 'span' )
 			->andReturn( 'span' );
 
+		$this->assertEquals( 'span', $this->instance->get_element() );
+		// Call it again to test that the element is not built again.
 		$this->assertEquals( 'span', $this->instance->get_element() );
 	}
 
