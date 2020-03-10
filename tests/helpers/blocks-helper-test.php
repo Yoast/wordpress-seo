@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Helpers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Blocks_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -17,6 +18,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Blocks_Helper_Test extends TestCase {
 
 	/**
+	 * Represents the post helper.
+	 *
+	 * @var Mockery\MockInterface|Blocks_Helper
+	 */
+	private $post;
+
+	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Mockery\MockInterface|Blocks_Helper
 	 */
 	private $instance;
@@ -27,7 +37,9 @@ class Blocks_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Blocks_Helper::class )
+		$this->post = Mockery::mock( Post_Helper::class );
+
+		$this->instance = Mockery::mock( Blocks_Helper::class, [ $this->post ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -38,7 +50,8 @@ class Blocks_Helper_Test extends TestCase {
 	 * @covers ::get_all_blocks_from_post
 	 */
 	public function test_get_all_blocks_from_post() {
-		Monkey\Functions\expect('get_post' )
+		$this->post
+			->expects('get_post' )
 			->once()
 			->with( 1337 )
 			->andReturn( (object) [

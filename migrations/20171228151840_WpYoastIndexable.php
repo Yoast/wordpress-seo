@@ -47,17 +47,21 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ] );
 		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ] );
+
+		// Ownership.
 		$indexable_table->column( 'author_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column( 'post_parent', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 
 		// Title and description.
 		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
 		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		// Post metadata (status, public, protected).
+		// Post metadata: status, public, protected.
 		$indexable_table->column( 'post_status', 'string', [ 'null' => true, 'limit' => 191 ] );
-		$indexable_table->column( 'is_public', 'boolean', [ 'default' => true ] );
+		$indexable_table->column( 'is_public', 'boolean', [ 'null' => true, 'default' => null ] );
 		$indexable_table->column( 'is_protected', 'boolean', [ 'default' => false ] );
+		$indexable_table->column( 'has_public_posts', 'boolean', [ 'null' => true, 'default' => null ] );
 
 		$indexable_table->column(
 			'number_of_pages',
@@ -125,8 +129,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 * @param string $indexable_table_name The name of the indexable table.
 	 */
 	private function add_indexes( $indexable_table_name ) {
-		$this->add_index( $indexable_table_name, 'permalink_hash' );
-
 		$this->add_index(
 			$indexable_table_name,
 			[
@@ -134,64 +136,15 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 				'object_sub_type',
 			],
 			[
-				'name' => 'indexable',
+				'name' => 'object_type_and_sub_type',
 			]
 		);
 
 		$this->add_index(
 			$indexable_table_name,
+			'permalink_hash',
 			[
-				'primary_focus_keyword_score',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'primary_focus_keyword_score',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'is_cornerstone',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'cornerstones',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'incoming_link_count',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'orphaned_content',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			[
-				'is_robots_noindex',
-				'object_id',
-				'object_type',
-				'object_sub_type',
-			],
-			[
-				'name' => 'robots_noindex',
-			]
-		);
-
-		$this->add_index(
-			$indexable_table_name,
-			'prominent_words_version',
-			[
-				'name' => 'prominent_words_version',
+				'name' => 'permalink_hash',
 			]
 		);
 	}

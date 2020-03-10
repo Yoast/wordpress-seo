@@ -62,13 +62,18 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
 	 *
-	 * @return void
+	 * @return bool Whether or not the option has been saved.
 	 */
 	public function check_option( $old_value, $new_value ) {
 		$relevant_keys = [ 'title-ptarchive-', 'metadesc-ptarchive-', 'bctitle-ptarchive-', 'noindex-ptarchive-' ];
 
+		// If this is the first time saving the option, thus when value is false.
+		if ( $old_value === false ) {
+			$old_value = [];
+		}
+
 		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
-			return;
+			return false;
 		}
 
 		$keys               = array_unique( array_merge( array_keys( $old_value ), array_keys( $new_value ) ) );
@@ -102,6 +107,8 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 				$post_types_rebuild[] = $post_type;
 			}
 		}
+
+		return true;
 	}
 
 	/**

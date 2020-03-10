@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Cassandra\Index;
+use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
@@ -31,14 +33,14 @@ class Indexable_Repository {
 	/**
 	 * The current page helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Current_Page_Helper
+	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
 	 * The logger object.
 	 *
-	 * @var \Psr\Log\LoggerInterface
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
@@ -120,6 +122,50 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Retrieves all the indexable instances of a certain object type.
+	 *
+	 * @param string $object_type The object type.
+	 *
+	 * @return Indexable[] The array with all the indexable instances of a certain object type.
+	 */
+	public function find_all_with_type( $object_type ) {
+		/**
+		 * The array with all the indexable instances of a certain object type.
+		 *
+		 * @var Indexable[] $indexables
+		 */
+		$indexables = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->find_many();
+
+		return $indexables;
+	}
+
+	/**
+	 * Retrieves all the indexable instances of a certain object subtype.
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object subtype.
+	 *
+	 * @return Indexable[] The array with all the indexable instances of a certain object subtype.
+	 */
+	public function find_all_with_type_and_sub_type( $object_type, $object_sub_type ) {
+		/**
+		 * The array with all the indexable instances of a certain object type and subtype.
+		 *
+		 * @var Indexable[] $indexables
+		 */
+		$indexables = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_many();
+
+		return $indexables;
+	}
+
+	/**
 	 * Retrieves the homepage indexable.
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
@@ -146,13 +192,13 @@ class Indexable_Repository {
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
+	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_for_date_archive( $auto_create = true ) {
 		/**
 		 * Indexable instance.
 		 *
-		 * @var \Yoast\WP\SEO\Models\Indexable $indexable
+		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 

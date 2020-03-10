@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
@@ -24,11 +29,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Permalink_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Permalink_Watcher
 	 */
 	protected $instance;
 
 	/**
+	 * Represents the post type helper.
+	 *
 	 * @var Mockery\MockInterface|Post_Type_Helper
 	 */
 	protected $post_type;
@@ -66,8 +75,8 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertTrue( Monkey\Actions\has( 'update_option_permalink_structure', [ $this->instance, 'reset_permalinks' ] ) );
-		$this->assertTrue( Monkey\Actions\has(  'update_option_category_base', [ $this->instance, 'reset_permalinks_term' ] ) );
-		$this->assertTrue( Monkey\Actions\has(  'update_option_tag_base', [ $this->instance, 'reset_permalinks_term' ] ) );
+		$this->assertTrue( Monkey\Actions\has( 'update_option_category_base', [ $this->instance, 'reset_permalinks_term' ] ) );
+		$this->assertTrue( Monkey\Actions\has( 'update_option_tag_base', [ $this->instance, 'reset_permalinks_term' ] ) );
 	}
 
 	/**

@@ -40,7 +40,9 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'date_archive_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'date_archive_breadcrumb_prefix' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'date_archive_meta_description' );
+		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
+		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
 		$builder = new Indexable_Date_Archive_Builder( $options_mock );
 		$builder->build( $indexable_mock );

@@ -1,6 +1,6 @@
 <?php
 
-
+use Brain\Monkey\Functions;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -12,6 +12,10 @@ use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Meta_Tags_Context_Test
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Context\Meta_Tags_Context
+ *
+ * @group context
  */
 class Meta_Tags_Context_Test extends TestCase {
 
@@ -83,7 +87,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * Tests whether the page type for author archives is correctly typed as a 'ProfilePage' and a 'WebPage'.
 	 *
-	 * @covers Meta_Tags_Context::generate_schema_page_type
+	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type_author_archive() {
 		$this->instance->indexable = (Object) [
@@ -92,7 +96,89 @@ class Meta_Tags_Context_Test extends TestCase {
 
 		$actual = $this->instance->generate_schema_page_type();
 
-		$this->assertContains( 'WebPage' , $actual );
+		$this->assertContains( 'WebPage', $actual );
 		$this->assertContains( 'ProfilePage', $actual );
+	}
+
+	/**
+	 * Tests the generate site represents without representation.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_without_representation() {
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturnFalse();
+
+		$this->assertFalse( $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Tests the generate site represents with a company without a name.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_company_without_name() {
+		$this->instance->company_name = '';
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
+
+		$this->assertFalse( $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Tests the generate site represents with a company without a logo.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_company_without_logo() {
+		$this->instance->company_name    = 'Company';
+		$this->instance->company_logo_id = 0;
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
+
+		$this->assertFalse( $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Tests the generate site represents with a company with name and logo.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_company_with_name_and_logo() {
+		$this->instance->company_name    = 'Company';
+		$this->instance->company_logo_id = 12;
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'company' );
+
+		$this->assertEquals( 'company', $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Tests the generate site represents with a person without a user id.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_person_without_user() {
+		$this->instance->site_user_id = 1;
+
+		Functions\expect( 'get_user_by' )->once()->with( 'id', 1 )->andReturn( false );
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'person' );
+
+		$this->assertFalse( $this->instance->generate_site_represents() );
+	}
+
+	/**
+	 * Tests the generate site represents with a person without a user id.
+	 *
+	 * @covers ::generate_site_represents
+	 */
+	public function test_generate_site_represents_person() {
+		$this->instance->site_user_id = 1;
+
+		Functions\expect( 'get_user_by' )->once()->with( 'id', 1 )->andReturn( true );
+
+		$this->options->expects( 'get' )->once()->with( 'company_or_person', false )->andReturn( 'person' );
+
+		$this->assertEquals( 'person', $this->instance->generate_site_represents() );
 	}
 }

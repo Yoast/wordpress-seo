@@ -18,39 +18,77 @@ use Yoast\WP\SEO\Tests\Mocks\Author;
  */
 class Author_Test extends TestCase {
 	/**
+	 * Holds the Schema ID helper.
+	 *
 	 * @var Schema\ID_Helper
 	 */
 	private $id;
 
 	/**
+	 * Holds the article helper.
+	 *
 	 * @var Article_Helper
 	 */
 	private $article;
 
 	/**
+	 * Holds the image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * Holds the Schema image helper.
+	 *
 	 * @var Schema\Image_Helper
 	 */
 	private $schema_image;
 
 	/**
+	 * Holds the HTML helper.
+	 *
 	 * @var Schema\HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * Holds the meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $meta_tags_context;
 
 	/**
+	 * Holds the author schema generator under test.
+	 *
 	 * @var Author
 	 */
 	private $instance;
+
+	/**
+	 * Mock Person schema piece.
+	 *
+	 * @var array
+	 */
+	private $person_data = [
+		'@type'  => [
+			'Person',
+		],
+		'@id'    => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
+		'name'   => 'Ad Minnie',
+		'image'  => [
+			'@type'   => 'ImageObject',
+			'@id'     => 'http://basic.wordpress.test/#personlogo',
+			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
+			'caption' => 'Ad Minnie',
+		],
+		'sameAs' => [
+			'https://facebook.example.org/admin',
+			'https://instagram.example.org/admin',
+			'https://linkedin.example.org/admin',
+		],
+	];
 
 	/**
 	 * Sets up the test.
@@ -67,10 +105,12 @@ class Author_Test extends TestCase {
 			$this->article,
 			$this->image,
 			$this->schema_image,
-			$this->html
+			$this->html,
 		];
 
-		$this->instance = Mockery::mock( Author::class, $constructor_args )->makePartial();
+		$this->instance = Mockery::mock( Author::class, $constructor_args )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 
 		$this->id = Mockery::mock( Schema\ID_Helper::class );
 
@@ -82,33 +122,16 @@ class Author_Test extends TestCase {
 	/**
 	 * Tests that the author gets a 'mainEntityOfPage' property pointing to the webpage Schema piece on the same page.
 	 *
-	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::generate
+	 * @covers ::generate
+	 * @covers ::determine_user_id
 	 */
-	public function test_generate() {
+	public function test_generate_on_author_pages() {
 		$user_id = 123;
-		$person_data = [
-			'@type' => [
-				'Person',
-			],
-      		'@id'   => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
-      		'name'  => 'Ad Minnie',
-      		'image' => [
-				'@type' => 'ImageObject',
-        		'@id'   => 'http://basic.wordpress.test/#personlogo',
-        		'url'   => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
-        		'caption' => 'Ad Minnie',
-      		],
-      		'sameAs' => [
-				'https://facebook.example.org/admin',
-				'https://instagram.example.org/admin',
-				'https://linkedin.example.org/admin',
-			],
-		];
 
 		$this->instance->expects( 'build_person_data' )
-					   ->once()
-					   ->with( $user_id, $this->meta_tags_context )
-			           ->andReturn( $person_data );
+			->once()
+			->with( $user_id, $this->meta_tags_context )
+			->andReturn( $this->person_data );
 
 		$this->id->webpage_hash = '#webpage';
 
@@ -124,6 +147,8 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
+		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+
 		$actual = $this->instance->generate( $this->meta_tags_context );
 
 		$this->assertArrayHasKey( 'mainEntityOfPage', $actual );
@@ -131,9 +156,71 @@ class Author_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the author gets a 'mainEntityOfPage' property pointing to the webpage Schema piece on the same page.
+	 *
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 */
+	public function test_generate_on_posts() {
+		$user_id = 123;
+
+		$this->instance->expects( 'build_person_data' )
+			->once()
+			->with( $user_id, $this->meta_tags_context )
+			->andReturn( $this->person_data );
+
+		$this->id->webpage_hash = '#webpage';
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type' => 'post',
+			'object_id'   => 1234,
+		];
+
+		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
+
+		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+
+		$actual = $this->instance->generate( $this->meta_tags_context );
+
+		$this->assertSame( $this->person_data, $actual );
+	}
+
+	/**
+	 * Tests that the author is not output when no user id could be determined.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_not_generate_when_user_id_cannot_be_defined() {
+		$this->id->webpage_hash = '#webpage';
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => false,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type' => 'post',
+			'object_id'   => 1234,
+		];
+
+		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
+
+		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+
+		$actual = $this->instance->generate( $this->meta_tags_context );
+
+		$this->assertFalse( $actual );
+	}
+
+	/**
 	 * Tests that the author Schema piece is output when the page is a author archive page.
 	 *
-	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 * @covers ::is_needed
 	 */
 	public function test_is_shown_when_on_author_page() {
 		$user_id = 123;
@@ -154,7 +241,7 @@ class Author_Test extends TestCase {
 	 * Tests that the author Schema piece is not output on a post
 	 * authored by the person the website represents.
 	 *
-	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 * @covers ::is_needed
 	 */
 	public function test_is_not_shown_when_on_post_and_site_represents_author() {
 		$user_id         = 123;
@@ -181,20 +268,15 @@ class Author_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the author Schema piece is output on a post
-	 * not authored by the person the website represents.
+	 * Tests that the author Schema piece is not output
+	 * on non-user archives and non-posts.
 	 *
-	 * @covers Yoast\WP\SEO\Presentations\Generators\Schema\Author::is_needed
+	 * @covers ::is_needed
 	 */
-	public function test_is_shown_when_on_post_and_site_does_not_represent_author() {
+	public function test_is_not_shown_when_not_a_user_or_post_type() {
 		$user_id         = 123;
 		$other_user_id   = 404;
-		$object_sub_type = 'recipe';
-
-		$this->article
-			->expects( 'is_article_post_type' )
-			->with( $object_sub_type )
-			->andReturn( true );
+		$object_sub_type = null;
 
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
@@ -202,12 +284,12 @@ class Author_Test extends TestCase {
 		];
 
 		$this->meta_tags_context->indexable = (Object) [
-			'object_type'     => 'post',
+			'object_type'     => 'home-page',
 			'object_sub_type' => $object_sub_type,
 		];
 
 		$this->meta_tags_context->site_user_id = $other_user_id;
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
 	}
 }

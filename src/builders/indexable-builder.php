@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
- * Formats the author meta to indexable format.
+ * Creates all the indexables.
  */
 class Indexable_Builder {
 
@@ -244,7 +244,7 @@ class Indexable_Builder {
 		if ( $indexable_before ) {
 			/**
 			 * Action: 'wpseo_save_indexable' - Allow developers to perform an action
-			 * when the indexable is udated.
+			 * when the indexable is updated.
 			 *
 			 * @param Indexable The indexable before saving.
 			 *

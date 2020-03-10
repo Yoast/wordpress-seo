@@ -280,10 +280,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 				/*
 				 * Do not use a company without a logo.
-				 * This is not a false check due to how `get_attachment_id_from_settings` works.
+				 * The logic check is on `< 1` instead of `false` due to how `get_attachment_id_from_settings` works.
 				 */
 				if ( $this->company_logo_id < 1 ) {
-					$this->site_represents = false;
+					return false;
 				}
 
 				return 'company';

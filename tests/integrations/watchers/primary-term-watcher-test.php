@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
