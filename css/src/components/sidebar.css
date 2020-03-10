@@ -1,10 +1,11 @@
 .yoast-layout {
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .yoast-sidebar {
-	width: 300px;
-	flex-shrink: 0;
+	max-width: 300px;
 }
 
 .yoast-main {
@@ -24,6 +25,7 @@
 .yoast-sidebar li {
 	position: relative;
 	margin-left: 18px;
+	font-weight: 600;
 }
 
 .yoast-sidebar li::before {
@@ -31,4 +33,26 @@
 	position: absolute;
 	top: 0;
 	left: -18px;
+}
+
+.yoast-sidebar__plugins {
+	display: flex;
+	margin-bottom: 24px;
+}
+
+.yoast-sidebar__plugins-content-left {
+	margin-right: 16px;
+}
+
+.yoast-sidebar__plugins-content-right {
+	margin-left: 16px;
+}
+
+.yoast-sidebar__plugins p {
+	margin-bottom: 0;
+}
+
+.yoast-sidebar__plugins-image {
+	flex-shrink: 0;
+	width: 70px;
 }
