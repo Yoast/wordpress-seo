@@ -20,6 +20,7 @@ import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFu
 export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
 	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
 	const adjectivesEndingInRd = morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD;
+	const wordsEndingInTOrDExceptionList = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
 
 	// Run the checks below. If one of the conditions returns true, return the stem.
 	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
@@ -29,12 +30,9 @@ export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
 		 wordsNotToBeStemmed.exactMatch.includes( word ) ||
 		 adjectivesEndingInRd.includes( stemmedWord ) ||
 		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
-		 stemmedWord.endsWith( "heid" ) ) {
+		 stemmedWord.endsWith( "heid" ) ||
+		 wordsEndingInTOrDExceptionList.includes( stemmedWord ) ) {
 		return null;
-	}
-	const wordsEndingInTOrDExceptionList = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
-	if ( wordsEndingInTOrDExceptionList.includes( stemmedWord ) ) {
-		return stemmedWord;
 	}
 	// If none of the conditions above is true, stem the t/d from the word.
 	stemmedWord = stemmedWord.slice( 0, -1 );

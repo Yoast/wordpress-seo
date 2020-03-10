@@ -375,7 +375,11 @@ const wordsToStem = [
 	[ "aangenaam", "aangenaam" ],
 	[ "gelukkig", "gelukkig" ],
 	[ "aardbei", "aardbei" ],
+	// Words that are in the list of doNotStemTOrD in which the t/d is part of the stem and should not be stemmed.
 	[ "abonnement", "abonnement" ],
+	[ "communicatiedienst", "communicatiedienst" ],
+	[ "botermarkt", "botermarkt" ],
+	[ "rijafstand", "rijafstand" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
