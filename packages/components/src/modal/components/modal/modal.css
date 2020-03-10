@@ -1,6 +1,6 @@
 .yoast-modal {
     background: white;
-    display:flex;
+    display: flex;
     flex-direction: column;
     overflow: hidden;
     position: fixed;
@@ -26,7 +26,7 @@
     border-bottom: var(--border-default);
     grid-area: heading;
     background: var(--color-white);
-    height:72px;
+    height: 72px;
 }
 
 .yoast-modal__heading-icon {
@@ -154,7 +154,6 @@
     margin-right: 8px;
 }
 
-
 .yoast-modal__footer .yoast-button {
     display: block;
 }
@@ -176,16 +175,8 @@
 
 @media screen and (max-width: 600px) {
     .yoast-modal {
-        overflow-y: scroll;
+        overflow-y: initial;
         height: auto;
-    }
-
-    .yoast-modal__menu {
-        display: none;
-    }
-
-    .yoast-modal--menu {
-        display: block;
     }
 
     .yoast-modal__heading {
@@ -204,6 +195,10 @@
     .yoast-modal__heading-icon {
         height: 15px;
         margin-right: 8px;
+    }
+
+    .yoast-close {
+        right: 3px;
     }
 
     .yoast-modal__heading .yoast-h2 {
@@ -230,31 +225,33 @@
 
     .yoast-modal__section-header {
         top: 46px;
+        position: sticky;
+        padding: 0;
+        margin: 0;
+    }
+
+    .yoast-modal__section-header button {
         padding: 16px;
+        border: none;
         border-bottom: var(--border-default);
         cursor: pointer;
-        display: flex;
         justify-content: space-between;
-    }
-
-    .yoast-modal__section-header .yoast-h2 {
-        padding: 0;
-        border: none;
         font-size: var(--font-size-default);
+        width: 100%;
+        text-align: left;
     }
 
-    .yoast-modal__section-toggle {
-        background-color: var(--color-white);
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 10px auto ;
-        width: 19px;
-        height: 19px;
-        border: none;
+    button[aria-expanded="true"] .toggleable-container-icon {
+        transform: rotatez(180deg);
     }
 
-    .yoast-modal__section-open  .yoast-modal__section-header{
+    .yoast-modal__section-header button[aria-expanded="true"] {
+        padding: 16px 0;
+        width: calc(100% - 32px);
+        margin: 0 16px;
+    }
+
+    .yoast-modal__section-open .yoast-modal__section-header {
         padding-left: 0;
         padding-right: 0;
         margin-left: 16px;
@@ -265,18 +262,6 @@
         border-bottom: var(--border-default);
     }
 
-    .yoast-modal__section-open .yoast-modal__section-toggle {
-        transform: rotatez(180deg);
-    }
-
-    .yoast-modal--menu .yoast-modal__section-content{
-        display: none;
-    }
-
-    .yoast-modal__section-open  .yoast-modal__section-content{
-        display: block;
-    }
-
     .yoast-modal__footer {
         margin: 0;
         width: 100%;
@@ -284,5 +269,36 @@
         z-index: 11;
         height: 74px;
         padding: 24px 16px;
+    }
+
+    .toggleable-container-icon {
+        background-color: var(--color-white);
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8" fill="%23404040"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 10px auto;
+        width: 19px;
+        height: 19px;
+        border: none;
+        display: block;
+        float: right;
+    }
+
+    .toggleable-container {
+        padding: 32px 16px;
+        border-bottom: var(--border-default)
+    }
+
+    .toggleable-container-hidden {
+        display: none;
+    }
+
+    .tab-block {
+        width: 100%;
+        margin-top: 46px;
+    }
+
+    .tab-block + .tab-block {
+        margin-top: 0;
     }
 }

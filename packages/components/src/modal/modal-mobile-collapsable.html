@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
 	<style>
 		/* Demo styling */
 		body {
@@ -15,7 +13,6 @@
 
 	</style>
 
-
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel='stylesheet' href='base/root.css' type='text/css' media='all'/>
@@ -23,7 +20,6 @@
 	<link rel='stylesheet' href='base/typography.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='base/borders.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='base/icons.css' type='text/css' media='all'/>
-
 
 	<link rel='stylesheet' href='components/field-group/field-group.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='components/checkbox/checkbox.css' type='text/css' media='all'/>
@@ -36,11 +32,10 @@
 
 	<link rel='stylesheet' href='base/utility.css' type='text/css' media='all'/>
 
-
 </head>
 <body class="yoast">
 <div class="yoast-modal__container">
-	<form class="yoast-modal yoast-modal--menu" role="dialog">
+	<form class="yoast-modal yoast-modal--collapsible">
 		<div class="yoast-modal__heading">
 			<svg class="yoast-modal__heading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" role="img"
 				 aria-hidden="true"
@@ -59,27 +54,28 @@
 				</svg>
 			</button>
 		</div>
-		<div class="yoast-modal__menu">
-			<ul>
-				<li>Google preview</li>
-				<li>Facebook preview</li>
-				<li>Twitter preview</li>
-				<li>News SEO</li>
-				<li>Video SEO</li>
-				<li>Insights</li>
-				<li>Advanced</li>
-			</ul>
-		</div>
-		<section class="yoast-modal__section" id="news-seo">
-			<div class="yoast-modal__section-header">
-				<h2 class="yoast-h2">
-					News SEO
-				</h2>
-				<button class="yoast-modal__section-toggle yoast-hide-on-desktop">
-					<span class="screen-reader-text">Toggle section</span>
+		<div class="tab-block" id="block-id">
+
+			<h2 class="yoast-modal__section-header collapsible-header ">
+				<button id="block-id-button" type="button" class="yoast-h2 toggleable-container-trigger"
+						aria-expanded="false">Something
+					<span class="toggleable-container-icon" aria-hidden="true"></span>
 				</button>
-			</div>
-			<div class="yoast-modal__section-content">
+			</h2>
+
+			<div id="block-id-container" class="toggleable-container toggleable-container-hidden"></div>
+		</div>
+
+		<div class="tab-block" id="block-id">
+			<h2 class="yoast-modal__section-header collapsible-header ">
+				<button id="block-id-button" type="button" class="yoast-h2 toggleable-container-trigger"
+						aria-expanded="true">News SEO
+					<span class="toggleable-container-icon" aria-hidden="true"></span>
+				</button>
+			</h2>
+
+			<div id="block-id-container"
+				 class="toggleable-container">
 				<fieldset class="yoast-field-group">
 					<legend class="yoast-field-group__title">Exclude from news sitemap?</legend>
 					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
@@ -99,7 +95,6 @@
 					</div>
 				</fieldset>
 
-
 				<fieldset id="id-name" class="yoast-field-group">
 					<legend class="yoast-field-group__title">Google News genres</legend>
 					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
@@ -110,7 +105,6 @@
 				</span>
 						<span class="screen-reader-text">More information about Google News genres</span>
 					</a>
-
 
 					<div class="yoast-field-group__checkbox">
 						<input type="checkbox" id="press-releases">
@@ -136,9 +130,7 @@
 						<input type="checkbox" id="user-generated">
 						<label for="user-generated" class="yoast-field-group__checkbox">User Generated</label>
 					</div>
-
 				</fieldset>
-
 
 				<div class="yoast-field-group">
 					<label class="yoast-field-group__title">Stock tickers</label>
@@ -165,7 +157,6 @@
 						<span class="screen-reader-text">Link to more information about Googlebot-News index</span>
 					</a>
 
-
 					<div class="yoast-field-group__radiobutton">
 						<input type="radio" id="index" name="googlebot-news-index" checked>
 						<label for="index">index</label>
@@ -175,7 +166,16 @@
 				</fieldset>
 
 			</div>
-		</section>
+		</div>
+
+		<div class="tab-block" id="block-id">
+			<h2 class="yoast-modal__section-header collapsible-header ">
+				<button id="block-id-button" type="button" class="yoast-h2 toggleable-container-trigger"
+						aria-expanded="false">Something
+					<span class="toggleable-container-icon" aria-hidden="true"></span>
+				</button>
+			</h2>
+		</div>
 
 		<div class="yoast-modal__footer">
 			<span class="yoast-modal__settings-saved">Settings saved</span>
@@ -184,18 +184,5 @@
 	</form>
 </div>
 
-<script>
-    window.onload = function () {
-        var headings = document.getElementsByClassName( 'yoast-modal__section-header' );
-
-        for ( var i = 0; i < headings.length; i++ ) {
-
-            var heading = headings[ i ];
-            heading.onclick = function () {
-                this.parentElement.classList.toggle( "yoast-modal__section-open" );
-            }
-        }
-    }
-</script>
 </body>
 </html>

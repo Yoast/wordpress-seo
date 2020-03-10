@@ -13,6 +13,7 @@
     color: var(--color-label);
     line-height: 1.2;
     float: left;
+    padding: 0;
 }
 
 .yoast-field-group__help {
