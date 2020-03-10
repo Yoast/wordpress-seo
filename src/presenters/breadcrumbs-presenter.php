@@ -109,7 +109,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Filters the output.
 	 *
-	 * @param string                 $output       The output.
+	 * @param string                 $output       The HTML output.
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The filtered output.
@@ -118,9 +118,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
-		 * @api string $unsigned HTML output.
-		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
+		 * @api string $output The HTML output.
 		 */
 		return \apply_filters( 'wpseo_breadcrumb_output', $output, $presentation );
 	}
@@ -129,10 +129,10 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * Create a breadcrumb element string.
 	 *
 	 * @param array $breadcrumb Link info array containing the keys:
-	 *                          'text'    => (string) link text.
-	 *                          'url'    => (string) link url.
-	 *                          (optional) 'title'         => (string) link title attribute text.
-	 *                          (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text.
+	 *                          'text'                  => (string) link text.
+	 *                          'url'                   => (string) link url.
+	 *                          (optional) 'title'      => (string) link title attribute text.
+	 *                          (optional) 'allow_html' => (bool) whether to (not) escape html in the link text.
 	 *                          'allow_html' prevents html stripping from the text strings set in the WPSEO -> Internal Links options page.
 	 *                          We never set 'title' or 'allow_html' ourselves but they could be set by users through the
 	 *                          'wpseo_breadcrumb_links' and 'wpseo_breadcrumb_single_link_info' filters.
@@ -160,9 +160,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			! empty( $breadcrumb['url'] )
 		) {
 			// If it's not the last element and we have a url.
-			$link      .= '<' . $this->get_element() . '>';
+			$link       .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link       .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -186,9 +186,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the Yoast SEO breadcrumbs class.
 		 *
-		 * @api string $link_output The output string.
-		 *
 		 * @param array $link The link array.
+		 *
+		 * @api string $link_output The output string.
 		 */
 
 		return \apply_filters( 'wpseo_breadcrumb_single_link', $link, $breadcrumb );
