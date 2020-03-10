@@ -37,7 +37,7 @@ class Schema_Presenter_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->instance     = Mockery::mock( Schema_Presenter::class )
-		                             ->makePartial();
+			->makePartial();
 		$this->presentation = new Indexable_Presentation();
 
 		return parent::setUp();
@@ -58,7 +58,7 @@ class Schema_Presenter_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_json_ld' )
 			->once();
 
-		$output  = '<script type="application/ld+json" class="yoast-schema-graph">[' . PHP_EOL;
+		$output = '<script type="application/ld+json" class="yoast-schema-graph">[' . PHP_EOL;
 		$output .= "\t    \"the_schema\"" . PHP_EOL;
 		$output .= "\t]</script>";
 

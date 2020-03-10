@@ -76,13 +76,13 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->once()
-			->andReturnUsing( function ( $string ) {
+			->andReturnUsing( function( $string ) {
 				return $string;
 			} );
 
 		Monkey\Filters\expectApplied( 'wpseo_metadesc' )
 			->once()
-			->with( 'the_meta_description', $this->indexable_presentation)
+			->with( 'the_meta_description', $this->indexable_presentation )
 			->andReturn( 'the_meta_description' );
 
 		$this->string
@@ -107,7 +107,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->once()
-			->andReturnUsing( function ( $string ) {
+			->andReturnUsing( function( $string ) {
 				return $string;
 			} );
 
@@ -137,7 +137,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->once()
-			->andReturnUsing( function ( $string ) {
+			->andReturnUsing( function( $string ) {
 				return $string;
 			} );
 
