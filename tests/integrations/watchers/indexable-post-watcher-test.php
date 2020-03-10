@@ -1,10 +1,16 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use Symfony\Component\DependencyInjection\Tests\Compiler\I;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
@@ -300,8 +306,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable     = Mockery::mock();
-		$updated_indexable = Mockery::mock();
+		$old_indexable     = Mockery::mock( Indexable::class );
+		$updated_indexable = Mockery::mock( Indexable::class );
 		$updated_indexable->object_type = 'term';
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -317,10 +323,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable            = Mockery::mock();
+		$old_indexable            = Mockery::mock( Indexable::class );
 		$old_indexable->is_public = false;
 
-		$updated_indexable              = Mockery::mock();
+		$updated_indexable              = Mockery::mock( Indexable::class );
 		$updated_indexable->object_type = 'post';
 		$updated_indexable->is_public   = false;
 
@@ -343,15 +349,16 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( [] )
 			->once();
 
-		$old_indexable            = Mockery::mock();
+		$old_indexable            = Mockery::mock( Indexable::class );
 		$old_indexable->is_public = true;
 
-		$updated_indexable              = Mockery::mock();
+		$updated_indexable              = Mockery::mock( Indexable::class );
 		$updated_indexable->object_type = 'post';
 		$updated_indexable->is_public   = false;
 		$updated_indexable->object_id   = 1;
 
-		$this->post->expects( 'get_post' )
+		$this->post
+			->expects( 'get_post' )
 			->once()
 			->with( 1 )->andReturn( [] );
 
@@ -375,11 +382,20 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$post_indexable->author_id       = 1;
 		$post_indexable->is_public       = null;
 
-		$author_indexable            = Mockery::mock();
+		$author_indexable            = Mockery::mock( Indexable::class );
 		$author_indexable->object_id = 11;
 
-		$this->repository->expects( 'find_by_id_and_type' )->with( 1, 'user' )->once()->andReturn( $author_indexable );
-		$this->author_archive->expects( 'author_has_public_posts' )->with( 11 )->once()->andReturn( true );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->with( 1, 'user' )
+			->once()
+			->andReturn( $author_indexable );
+
+		$this->author_archive
+			->expects( 'author_has_public_posts' )
+			->with( 11 )
+			->once()
+			->andReturn( true );
 		$author_indexable->expects( 'save' )->once();
 
 		$this->post->expects( 'update_has_public_posts_on_attachments' )->once()->with( 33, null )->andReturnTrue();
@@ -454,7 +470,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
-			->andReturn( [ $indexable ] ) ;
+			->andReturn( [ $indexable ] );
 
 		$this->instance->update_relations( $post );
 	}
@@ -475,7 +491,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'get_related_indexables' )
 			->once()
 			->with( $post )
-			->andReturn( [] ) ;
+			->andReturn( [] );
 
 		$this->instance->update_relations( $post );
 	}
@@ -498,7 +514,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->andReturn(
 				[
 					'taxonomy',
-					'another-taxonomy'
+					'another-taxonomy',
 				]
 			);
 
