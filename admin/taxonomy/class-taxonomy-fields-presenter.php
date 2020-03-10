@@ -85,15 +85,13 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			$description      = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
 		}
 
-		if ( $field_name === 'wpseo_canonical' ) {
-			$field_value = urldecode( $field_value );
-		}
-
 		switch ( $field_type ) {
 			case 'div':
 				$field .= '<div id="' . $field_name . '"></div>';
 				break;
-
+			case 'url':
+				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="url" value="' . esc_attr( urldecode( $field_value ) ). '" size="40"' . $aria_describedby . '/>';
+				break;
 			case 'text':
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"' . $aria_describedby . '/>';
 				break;

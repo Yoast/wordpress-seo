@@ -512,10 +512,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$esc_form_key = esc_attr( WPSEO_Meta::$form_prefix . $key );
 		$meta_value   = WPSEO_Meta::get_value( $key, $this->get_metabox_post()->ID );
 
-		if ( $key === 'canonical' ) {
-			$meta_value = urldecode( $meta_value );
-		}
-
 		$class = '';
 		if ( isset( $meta_field_def['class'] ) && $meta_field_def['class'] !== '' ) {
 			$class = ' ' . $meta_field_def['class'];
@@ -543,6 +539,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
 				}
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
+				break;
+
+			case 'url':
+				if ( $placeholder !== '' ) {
+					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+				}
+				$content .= '<input type="url"' . $placeholder . ' id="' . $esc_form_key . '" ' . 'name="' . $esc_form_key . '" value="' . esc_attr( urldecode( $meta_value ) ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				break;
 
 			case 'textarea':
