@@ -43,7 +43,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'error-page' ) {
+		if ( $context->indexable->object_type === 'system-page' && $context->indexable->object_sub_type === '404' ) {
 			return false;
 		}
 

@@ -1,12 +1,12 @@
 <?php
 
 
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -400,7 +400,8 @@ class Breadcrumb_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_on_error_page() {
-		$this->meta_tags_context->indexable->object_type = 'error-page';
+		$this->meta_tags_context->indexable->object_type     = 'system-page';
+		$this->meta_tags_context->indexable->object_sub_type = '404';
 		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
 	}
 
