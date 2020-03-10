@@ -101,7 +101,7 @@ class HowToTest extends TestCase {
 	 *
 	 * @var array
 	 */
-	private $base_expected_schema = [
+	private $base_schema = [
 		[
 			'@type'            => 'HowTo',
 			'@id'              => '#howto-1',
@@ -163,6 +163,17 @@ class HowToTest extends TestCase {
 			->with( $id )
 			->andReturn( 'post title' );
 
+		$this->image
+			->shouldReceive( 'generate_from_url' )
+			->andReturn( [
+				'@type'      => 'ImageObject',
+				'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
+				'inLanguage' => 'en-US',
+				'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
+				'width'      => 474,
+				'height'     => 474,
+			] );
+
 		$this->instance = new HowTo( $this->html, $this->image, $this->post, $this->language );
 	}
 
@@ -184,48 +195,114 @@ class HowToTest extends TestCase {
 	}
 
 	/**
-	 * Tests the generation of HowTo Schema pieces.
-	 *
-	 * @param array $blocks          The blocks in the post's content.
-	 * @param array $expected_schema The expected schema.
-	 *
-	 * @dataProvider generate_test_provider
+	 * Tests that a condensed how-to step is generated, with the description as the text,
+	 * when no title is available.
 	 */
-	public function test_generate( $blocks, $expected_schema ) {
-		$this->meta_tags_context->blocks = $blocks;
+	public function test_generate_no_json_name() {
+		$blocks = $this->base_blocks;
+		// Remove the json name from the base blocks.
+		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'] = '';
 
-		$actual_schema = $this->instance->generate( $this->meta_tags_context );
-
-		$this->assertEquals( $expected_schema, $actual_schema );
-	}
-
-	/**
-	 * Provides the test_generate method with test data.
-	 *
-	 * @return array The provided test data.
-	 */
-	public function generate_test_provider() {
-		$no_name_blocks = $this->base_blocks;
-		// Remove the name.
-		$no_name_blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'] = '';
-
-		$no_name_expected_schema               = $this->base_expected_schema;
-		$no_name_expected_schema[0]['step'][0] = [
+		$schema               = $this->base_schema;
+		$schema[0]['step'][0] = [
 			'@type' => 'HowToStep',
 			'url'   => '#how-to-step-1583764039837',
 			'text'  => 'Step 1 description',
 		];
 
-		return [
-			'happy path'         => [
-				$this->base_blocks,
-				$this->base_expected_schema,
-			],
-			'with an empty name' => [
-				$no_name_blocks,
-				$no_name_expected_schema,
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
+	 * Tests that no Schema step is output when a step is empty
+	 * (e.g. it does not contain a description, name and image).
+	 */
+	public function test_empty_step_1() {
+		$blocks = $this->base_blocks;
+		// Remove the json name and text.
+		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'] = '';
+		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['text']     = [];
+
+		$schema = $this->base_schema;
+		unset( $schema[0]['step'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
+	 * Tests that an image Schema piece is output when a step has an image.
+	 */
+	public function test_generate_step_with_image() {
+		// Step with a text and an image.
+		$blocks = $this->base_blocks;
+
+		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['text'] = [
+			'Step 1 description with an image:',
+			[
+				'type'  => 'img',
+				'props' => [
+					'alt'      => '',
+					'src'      => 'http://basic.wordpress.test/wp-content/uploads/2020/02/download.jpeg',
+					'children' => [],
+				],
 			],
 		];
+
+		$schema = $this->base_schema;
+
+		$schema[0]['step'][0]['image'] = [
+			'@type'      => 'ImageObject',
+			'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
+			'inLanguage' => 'en-US',
+			'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
+			'width'      => 474,
+			'height'     => 474,
+		];
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
+	 * Tests that no Schema step is output when a step is empty
+	 * (e.g. it does not contain a description, name and image).
+	 */
+	public function test_empty_step_2() {
+		$blocks = $this->base_blocks;
+		// Remove JSON text and -name attributes.
+		unset(
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'],
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName']
+		);
+
+		$schema = $this->base_schema;
+		unset( $schema[0]['step'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
+	}
+
+	/**
+	 * Tests that no duration is output in the How-to Schema
+	 * when no duration information is available.
+	 */
+	public function test_no_duration() {
+		$blocks = $this->base_blocks;
+		// This How-to has no duration.
+		$blocks['yoast/how-to-block'][0]['attrs']['hasDuration'] = false;
+
+		$schema = $this->base_schema;
+		unset( $schema[0]['totalTime'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
 	}
 
 	/**
