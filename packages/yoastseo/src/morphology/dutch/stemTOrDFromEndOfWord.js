@@ -32,7 +32,10 @@ export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
 		 stemmedWord.endsWith( "heid" ) ) {
 		return null;
 	}
-
+	const wordsEndingInTOrDExceptionList = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
+	if ( wordsEndingInTOrDExceptionList.includes( stemmedWord ) ) {
+		return stemmedWord;
+	}
 	// If none of the conditions above is true, stem the t/d from the word.
 	stemmedWord = stemmedWord.slice( 0, -1 );
 	// Check if after t/d deletion, the word is in noun exception list.
