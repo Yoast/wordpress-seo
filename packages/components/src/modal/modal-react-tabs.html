@@ -39,8 +39,8 @@
 
 </head>
 <body class="yoast">
-<div class="yoast-modal__container">
-	<form class="yoast-modal yoast-modal--menu react-tabs" data-tabs="true" role="dialog">
+<div class="yoast-modal__container" role="dialog">>
+	<form class="yoast-modal yoast-modal--menu react-tabs" data-tabs="true"
 		<div class="yoast-modal__heading">
 			<svg class="yoast-modal__heading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" role="img"
 				 aria-hidden="true"
@@ -203,23 +203,10 @@
 			 aria-labelledby="react-tabs-4"></div>
 		<div class="yoast-modal__footer">
 			<span class="yoast-modal__settings-saved">Settings saved</span>
-			<button type="submit" class="yoast-button yoast-button--primary">Save changes</button>
+			<button type="submit" class="yoast-button--primary">Save changes</button>
 		</div>
 	</form>
 </div>
 
-<script>
-    window.onload = function () {
-        var headings = document.getElementsByClassName( 'yoast-modal__section-header' );
-
-        for ( var i = 0; i < headings.length; i++ ) {
-
-            var heading = headings[ i ];
-            heading.onclick = function () {
-                this.parentElement.classList.toggle( "yoast-modal__section-open" );
-            }
-        }
-    }
-</script>
 </body>
 </html>
