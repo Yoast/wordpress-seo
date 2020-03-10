@@ -50,8 +50,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance     = Mockery::mock( Breadcrumbs_Presenter::class, [ $this->options ] )
-		                             ->makePartial()
-		                             ->shouldAllowMockingProtectedMethods();
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 		$this->presentation = new Indexable_Presentation();
 
 		return parent::setUp();
@@ -74,32 +74,32 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			];
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_1, 0, 2 )
-		               ->andReturn( '<a href="home_url">home_title</a>' );
+			->with( $breadcrumb_1, 0, 2 )
+			->andReturn( '<a href="home_url">home_title</a>' );
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_2, 1, 2 )
-		               ->andReturn( 'post_title' );
+			->with( $breadcrumb_2, 1, 2 )
+			->andReturn( 'post_title' );
 
 		$this->instance->expects( 'get_separator' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' » ' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' » ' );
 
 		$this->instance->expects( 'get_wrapper' )
-		               ->twice()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->twice()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$this->instance->expects( 'get_id' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' id="example_id"' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' id="example_id"' );
 
 		$this->instance->expects( 'get_class' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' class="example_class"' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' class="example_class"' );
 
 		$output_without_prefix = '<span id="example_id" class="example_class"><a href="home_url">home_title</a> » post_title</span>';
 
@@ -109,9 +109,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->andReturn( $output_without_prefix );
 
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-prefix' )
-		              ->andReturn( 'example_breadcrumbs_prefix' );
+			->once()
+			->with( 'breadcrumbs-prefix' )
+			->andReturn( 'example_breadcrumbs_prefix' );
 
 		$output_with_prefix = "\t" . 'example_breadcrumbs_prefix' . "\n" . $output_without_prefix;
 
@@ -162,17 +162,17 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			];
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_1, 0, 2 )
-		               ->andReturn( '' );
+			->with( $breadcrumb_1, 0, 2 )
+			->andReturn( '' );
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_2, 1, 2 )
-		               ->andReturn( '' );
+			->with( $breadcrumb_2, 1, 2 )
+			->andReturn( '' );
 
 		$this->instance->expects( 'get_separator' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' » ' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' » ' );
 
 		$this->assertEmpty( $this->instance->present( $this->presentation ) );
 	}
@@ -194,32 +194,32 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			];
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_1, 0, 2 )
-		               ->andReturn( '<a href="home_url">home_title</a>' );
+			->with( $breadcrumb_1, 0, 2 )
+			->andReturn( '<a href="home_url">home_title</a>' );
 
 		$this->instance->expects( 'crumb_to_link' )
-		               ->with( $breadcrumb_2, 1, 2 )
-		               ->andReturn( 'post_title' );
+			->with( $breadcrumb_2, 1, 2 )
+			->andReturn( 'post_title' );
 
 		$this->instance->expects( 'get_separator' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' » ' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' » ' );
 
 		$this->instance->expects( 'get_wrapper' )
-		               ->twice()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->twice()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$this->instance->expects( 'get_id' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' id="example_id"' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' id="example_id"' );
 
 		$this->instance->expects( 'get_class' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( ' class="example_class"' );
+			->once()
+			->withNoArgs()
+			->andReturn( ' class="example_class"' );
 
 		$output_without_prefix = '<span id="example_id" class="example_class"><a href="home_url">home_title</a> » post_title</span>';
 
@@ -229,9 +229,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->andReturn( $output_without_prefix );
 
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-prefix' )
-		              ->andReturn( '' );
+			->once()
+			->with( 'breadcrumbs-prefix' )
+			->andReturn( '' );
 
 		$this->assertEquals(
 			$output_without_prefix,
@@ -248,9 +248,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
 
 		$this->instance->expects( 'get_element' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->once()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link = '<span><a href="home_url">home_text</a>';
 
@@ -268,9 +268,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
 
 		$this->instance->expects( 'get_element' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->once()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link = '<span><a href="home_url">home_text</a>';
 
@@ -294,9 +294,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text', 'title' => 'home_title' ];
 
 		$this->instance->expects( 'get_element' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->once()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link = '<span><a href="home_url" title="home_title">home_text</a>';
 
@@ -315,16 +315,16 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
 
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-boldlast' )
-		              ->andReturnTrue();
+			->once()
+			->with( 'breadcrumbs-boldlast' )
+			->andReturnTrue();
 
 		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
 
 		$this->instance->expects( 'get_element' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->once()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link .= '</span>';
 
@@ -343,16 +343,16 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
 
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-boldlast' )
-		              ->andReturnFalse();
+			->once()
+			->with( 'breadcrumbs-boldlast' )
+			->andReturnFalse();
 
 		$link = '<span class="breadcrumb_last" aria-current="page">page_text</span>';
 
 		$this->instance->expects( 'get_element' )
-		               ->once()
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->once()
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link .= '</span>';
 
@@ -371,16 +371,16 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
 
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-boldlast' )
-		              ->andReturnTrue();
+			->once()
+			->with( 'breadcrumbs-boldlast' )
+			->andReturnTrue();
 
 		$link = '<strong class="breadcrumb_last" aria-current="page">page_text</strong>';
 
 		$this->instance->expects( 'get_element' )
-		               ->times(3)
-		               ->withNoArgs()
-		               ->andReturn( 'span' );
+			->times( 3 )
+			->withNoArgs()
+			->andReturn( 'span' );
 
 		$link .= '</span></span></span>';
 
@@ -620,9 +620,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 */
 	public function test_get_separator() {
 		$this->options->expects( 'get' )
-		              ->once()
-		              ->with( 'breadcrumbs-sep' )
-		              ->andReturn( 'the_separator' );
+			->once()
+			->with( 'breadcrumbs-sep' )
+			->andReturn( 'the_separator' );
 
 		Monkey\Filters\expectApplied( 'wpseo_breadcrumb_separator' )
 			->once()
