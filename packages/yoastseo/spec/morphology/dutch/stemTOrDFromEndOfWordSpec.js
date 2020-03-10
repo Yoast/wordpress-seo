@@ -16,4 +16,10 @@ describe( "Creates stems of words with ambiguous endings -d/-t", () => {
 	it( "Does not remove the -d from the end of a stem if the word ends in -heid", () => {
 		expect( stemTOrDFromEndOfWord( morphologyDataNL, "zoetigheid", "zoetigheid" ) ).toEqual( null );
 	} );
+	it( "Does not remove the -d from the end of a stem if the word is in the list of words ending in t/d that should not be stemmed", () => {
+		expect( stemTOrDFromEndOfWord( morphologyDataNL, "brand", "brand" ) ).toEqual( "brand" );
+	} );
+	it( "Does not remove the -t from the end of a stem if the word is in the list of words ending in t/d that should not be stemmed", () => {
+		expect( stemTOrDFromEndOfWord( morphologyDataNL, "abonnement", "abonnement" ) ).toEqual( "abonnement" );
+	} );
 } );
