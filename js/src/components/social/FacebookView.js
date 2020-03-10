@@ -50,6 +50,8 @@ const FacebookView = ( props ) => {
 		isPremium,
 	} = props;
 
+	console.log( description );
+
 	return (
 		<Fragment>
 			<PremiumInfoText type={ "info" }>

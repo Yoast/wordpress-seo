@@ -5,7 +5,7 @@ import { actions } from "@yoast/social-metadata-forms";
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 import { socialSelectors }  from "../redux/selectors/socialSelectors";
-import { getImageFallback, getDescriptionFallback, getTitleFallback } from "../redux/selectors/fallbackSelectors";
+import { getImageFallback, getTitleFallback } from "../redux/selectors/fallbackSelectors";
 
 const {
 	setSocialPreviewTitle,
@@ -28,8 +28,10 @@ const mapStateToProps = ( state ) => {
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
-		description: socialSelectors.getFacebookDescription( state ) || getDescriptionFallback( state ),
-		title: socialSelectors.getFacebookTitle( state ) || getTitleFallback( state ),
+		description: socialSelectors.getFacebookDescription( state ),
+		descriptionFallback: "Modify your Facebook description by editing it right here...",
+		title: socialSelectors.getFacebookTitle( state ),
+		titleFallback: getTitleFallback( state ),
 		image: image,
 		imageWarnings: state.socialReducer.facebook.warnings,
 	};
