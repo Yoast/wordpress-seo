@@ -262,6 +262,18 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 				'expected'        => 'https://example.org/this-is-a-page',
 				'url_to_sanitize' => 'https://example.org/this-<strong>is-a-</strong>page',
 			],
+			'with_all_components_in_url'     => [
+				'expected'        => 'https://user:pass@example.com:8080/subdir/test1?mod%c3%a8le=num%c3%a9rique#compl%c3%a8tement',
+				'url_to_sanitize' => 'https://user:pass@example.com:8080/subdir/test1?modèle=numérique#complètement',
+			],
+			'with_invalid_utf8_in_url'       => [
+				'expected'        => 'https://example.com/',
+				'url_to_sanitize' => 'https://example.com/%e2%28%a1-aaaaaa',
+			],
+			'with_reserved_chars_in_url'     => [
+				'expected'        => 'https://www.example.com/%c2%a9-2020/?email=test%40example.com&%c3%a2lt=%c2%a9%c3%b2d%c3%abs',
+				'url_to_sanitize' => 'https://www.example.com/©-2020/?email=test@example.com&âlt=©òdës'
+			],
 		];
 	}
 }
