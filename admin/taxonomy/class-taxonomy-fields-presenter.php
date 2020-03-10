@@ -85,6 +85,10 @@ class WPSEO_Taxonomy_Fields_Presenter {
 			$description      = '<p id="' . $field_name . '-desc" class="yoast-metabox__description">' . $options['description'] . '</p>';
 		}
 
+		if ( $field_name === 'wpseo_canonical' ) {
+			$field_value = urldecode( $field_value );
+		}
+
 		switch ( $field_type ) {
 			case 'div':
 				$field .= '<div id="' . $field_name . '"></div>';
