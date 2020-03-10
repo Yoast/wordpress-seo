@@ -72,15 +72,15 @@ class Author_Test extends TestCase {
 	 * @var array
 	 */
 	private $person_data = [
-		'@type' => [
+		'@type'  => [
 			'Person',
 		],
-		'@id'   => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
-		'name'  => 'Ad Minnie',
-		'image' => [
-			'@type' => 'ImageObject',
-			'@id'   => 'http://basic.wordpress.test/#personlogo',
-			'url'   => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
+		'@id'    => 'http://basic.wordpress.test/#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
+		'name'   => 'Ad Minnie',
+		'image'  => [
+			'@type'   => 'ImageObject',
+			'@id'     => 'http://basic.wordpress.test/#personlogo',
+			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
 			'caption' => 'Ad Minnie',
 		],
 		'sameAs' => [
@@ -109,8 +109,8 @@ class Author_Test extends TestCase {
 		];
 
 		$this->instance = Mockery::mock( Author::class, $constructor_args )
-								 ->shouldAllowMockingProtectedMethods()
-								 ->makePartial();
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 
 		$this->id = Mockery::mock( Schema\ID_Helper::class );
 
@@ -129,9 +129,9 @@ class Author_Test extends TestCase {
 		$user_id = 123;
 
 		$this->instance->expects( 'build_person_data' )
-					   ->once()
-					   ->with( $user_id, $this->meta_tags_context )
-			           ->andReturn( $this->person_data );
+			->once()
+			->with( $user_id, $this->meta_tags_context )
+			->andReturn( $this->person_data );
 
 		$this->id->webpage_hash = '#webpage';
 
@@ -165,9 +165,9 @@ class Author_Test extends TestCase {
 		$user_id = 123;
 
 		$this->instance->expects( 'build_person_data' )
-					   ->once()
-					   ->with( $user_id, $this->meta_tags_context )
-					   ->andReturn( $this->person_data );
+			->once()
+			->with( $user_id, $this->meta_tags_context )
+			->andReturn( $this->person_data );
 
 		$this->id->webpage_hash = '#webpage';
 
