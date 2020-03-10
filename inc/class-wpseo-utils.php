@@ -338,10 +338,14 @@ class WPSEO_Utils {
 			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
 		}
 
-		if ( isset( $parts['path'] ) ) {
+		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {
 			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
 			$path = self::sanitize_encoded_text_field( $path );
 			$url .= implode( '/', $path );
+		}
+
+		if ( ! $url ) {
+			return '';
 		}
 
 		if ( isset( $parts['query'] ) ) {
@@ -369,7 +373,7 @@ class WPSEO_Utils {
 			);
 		}
 
-		return esc_url_raw( $url );
+		return esc_url_raw( $url, $allowed_protocols );
 	}
 
 	/**
