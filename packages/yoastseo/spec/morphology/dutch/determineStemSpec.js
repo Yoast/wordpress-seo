@@ -88,8 +88,10 @@ const wordsToStem = [
 	[ "katten", "kat" ],
 	[ "grondden", "grond" ],
 	[ "splitten", "split" ],
-	// Word that ends in -heden
+	// Word that ends in -heid/-heden
+	[ "snelheid", "snelheid" ],
 	[ "snelheden", "snelheid" ],
+	[ "gezonheid", "gezonheid" ],
 	[ "gezonheden", "gezonheid" ],
 	// Word that ends in -den with -d being part of the stem and the stem is in verb exception list (4e-11).
 	[ "belijden", "belijd" ],
@@ -304,6 +306,11 @@ const wordsToStem = [
 	[ "momentjes", "moment" ],
 	[ "piraatjes", "piraat" ],
 	[ "hondjes", "hond" ],
+	// Noun that looks like a participle
+	[ "gebied", "gebied" ],
+	[ "gebieden", "gebied" ],
+	[ "gezondheidsrecht", "gezondheidsrecht" ],
+	[ "gezondheidsrechten", "gezondheidsrecht" ],
 	/*
 	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
 	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem, this problem will be possibly fixed
