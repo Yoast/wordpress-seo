@@ -68,7 +68,7 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) 
 
 	/*
 	 * Checks whether the word is in the ending match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here.
+	 * to have the final vowel removed. If it is return the stem here. e.g. diplomaatje
 	 */
 	const stemFromFullFormAndDeleteFinalVowelEndingMatch = removeSuffixFromFullForm(
 		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.endingMatch,
@@ -82,7 +82,7 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) 
 
 	/*
 	 * Checks whether the word is in the exact match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here.
+	 * to have the final vowel removed. If it is return the stem here. e.g. omaatje -> omaa -> oma
 	 */
 	if ( morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.exactMatch.includes( word ) ) {
 		return word.slice( 0, -4 );
@@ -112,7 +112,7 @@ export default function stem( word, morphologyDataNL ) {
 		return stemmedWord;
 	}
 
-	// Check whether the word is on the list of words that should not be stemmed, and if yes, return the word
+	// Check whether the word is on the list of words that should not be stemmed, and if yes, return the word. e.g. gans -> gans
 	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
 	if ( checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
 		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
@@ -123,7 +123,7 @@ export default function stem( word, morphologyDataNL ) {
 	/*
 	 * Check whether the word ends in -t/-te/-ten/-tend/-de/-den/-dend. If it does, run through a series of checks aimed at
 	 * predicting whether the -t/d is part of the stem or the suffix. If the word was matched in one of the checks, stem it
-	 * accordingly and return the stem.
+	 * accordingly and return the stem. e.g. boot -> boot, squasht -> squash
 	 */
 	const tAndDEndings = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.otherTAndDEndings;
 	for ( const ending of tAndDEndings ) {

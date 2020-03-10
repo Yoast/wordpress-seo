@@ -5,6 +5,7 @@ import { flattenSortLength } from "./flattenSortLength";
  * Checks whether the word is on the verbs sub-list of the full forms list. Before checking the list, checks whether the word
  * begins with one of the compound verb prefixes, and the prefix is removed if one is found. If a match is found after checking
  * the full forms list, the canonical stem is returned, with the prefix attached back if there was one in the input word.
+ * e.g. aanbevelen -> aanbeveel
  *
  * @param {string}			word							The word to check.
  * @param {string[]}		verbFullFormsList				The list of verb forms we search for match in.
@@ -39,7 +40,7 @@ const checkVerbFullFormsList = function( word, verbFullFormsList, compoundVerbPr
 /**
  * Checks whether the word is on the sub-list of the full forms list for which we search for an ending match between one of
  * the forms and the word (i.e., whether the word ends with a form from the list). If a match is found, the canonical
- * stem is returned.
+ * stem is returned. e.g. fitnesscentra -> fitnesscentrum
  *
  * @param {string}			word							The word to check.
  * @param {string[]}		endingMatchFullFormsList		The list we search for an ending match in.
@@ -72,7 +73,7 @@ const checkEndingMatchFullFormsList = function( word, endingMatchFullFormsList )
 
 /**
  * Checks whether the word is on the sub-list of the full forms list for which we search for the exact match between one of
- * the forms and the word. If a match is found, the canonical stem is returned.
+ * the forms and the word. If a match is found, the canonical stem is returned. e.g. curricula -> curriculum
  *
  * @param {string}			word						The word to check.
  * @param {string[]}		exactMatchFullFormsList		The list we search for an exact match in.

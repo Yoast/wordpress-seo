@@ -5,7 +5,7 @@ import { isVowelDoublingAllowed } from "./stemModificationHelpers";
 /**
  * Checks whether the word ends in suffixes -e or -en which are preceded by -t or -d, and the -t/-d is part of the stem.
  * If it does, stem the -e/-en. Also checks if after suffix deletion the stemmed word needs modification, and applies it if
- * needed.
+ * needed. e.g. doden -> dod -> dood
  *
  * @param {Object} 		morphologyDataNL			 	The Dutch morphology data file.
  * @param {string[]} 	regexAndReplacement				The regex to check and the string replacement that should be made.

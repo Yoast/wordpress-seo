@@ -35,7 +35,7 @@ export function checkIfWordIsOnVerbExceptionList( word, exceptionList, compoundV
 
 	if ( typeof( foundPrefix ) === "string" ) {
 		stemmedWordWithoutPrefix = word.slice( foundPrefix.length );
-		// At least 3 characters so that e.g. "be" is not treated as a prefix if found in the word "berg".
+		// At least 3 characters left after prefix deletion so that e.g. "be" is not treated as a prefix if found in the word "berg".
 		if ( stemmedWordWithoutPrefix.length > 2 ) {
 			word = stemmedWordWithoutPrefix;
 		}

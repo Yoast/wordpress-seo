@@ -25,7 +25,15 @@ const wordsToStem = [
 	[ "rijst", "rijst" ],
 	[ "akte", "akte" ],
 	// Words that are on the list of words with full forms (1-12)
-	[ "skiën", "ski" ],
+	// Words that are on the verb sub-list of full forms exception list (1-12)
+	[ "aanbevelen", "aanbeveel" ],
+	[ "krijsend", "krijs" ],
+	// Words that are on the exact match sub-list of full forms exception list (1-13)
+	[ "bijdehandst", "bijdehand" ],
+	// Words that are on the exact match sub-list of full forms exception list (1-12)
+	[ "blaséëre", "blasé" ],
+	// Words that are on the ending match sub-list of full forms exception list (1-12)
+	[ "hoekschoppen", "hoekschop" ],
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
@@ -98,13 +106,16 @@ const wordsToStem = [
 	// Word that ends in -heden
 	[ "snelheden", "snelheid" ],
 	[ "gezonheden", "gezonheid" ],
-	// Word that ends in -den with -d being part of the stem and the stem is in verb exception list (4e-11).
+	/*
+	 * Word that ends in -den with -d being part of the stem which is in the verb sub-list of wordsStemOnlyEnEnding list
+	 * and the stem is in verb exception list (4e-11).
+	 */
 	[ "belijden", "belijd" ],
 	// Word that ends in -den with -d being part of the stem and the stem ends in t/d (4e-13)
 	[ "onthoofden", "onthoofd" ],
 	/*
-	 * Word that ends in -den with -d being part of the stem and undergoes vowel doubling after suffix deletion
-	 * and the stem ends in t/d (4d-13)
+	 * Word that ends in -den with -d being part of the stem  which is in the ending match sub-list of wordsStemOnlyEnEnding list
+	 * and undergoes vowel doubling after suffix deletion and the stem ends in t/d (4d-13)
 	 */
 	[ "potloden", "potlood" ],
 	/*
@@ -364,6 +375,7 @@ const wordsToStem = [
 	[ "aangenaam", "aangenaam" ],
 	[ "gelukkig", "gelukkig" ],
 	[ "aardbei", "aardbei" ],
+	[ "abonnement", "abonnement" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
