@@ -187,7 +187,7 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @return mixed array $data Article data.
 	 */
-	private function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
+	protected function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
 		$terms = \get_the_terms( $context->id, $taxonomy );
 
 		if ( ! \is_array( $terms ) ) {
