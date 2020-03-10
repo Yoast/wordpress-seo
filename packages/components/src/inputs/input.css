@@ -2,6 +2,9 @@
     --color-placeholder: #707070;
 }
 
+
+.yoast input,
+.yoast textarea,
 .yoast-field-group__textarea,
 .yoast-field-group__inputfield {
     width: 100%;
@@ -10,13 +13,22 @@
     background: white;
     border: var(--border-default);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
+.yoast input,
 .yoast-field-group__inputfield {
     height: 40px;
 }
 
+.yoast textarea,
+.yoast-field-group__textarea {
+    min-height: 200px;
+}
 
+
+.yoast input+ .description,
+.yoast-field-group .description + input,
 .yoast-field-group__inputfield + .description,
 .yoast-field-group .description + .yoast-field-group__inputfield{
     margin-top: 8px;

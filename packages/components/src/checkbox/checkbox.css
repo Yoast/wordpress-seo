@@ -4,18 +4,11 @@
     align-items: center;
 }
 
-.yoast-field-group__checkbox--horizontal {
-    display: flex;
-}
-
-.yoast-field-group__checkbox--horizontal label {
-    margin-right: 16px;
-}
-
 .yoast-field-group__checkbox:not(.yoast-field-group__checkbox--horizontal) + .yoast-field-group__checkbox {
     margin-top: 4px;
 }
 
+.yoast input[type='checkbox'],
 .yoast-field-group__checkbox input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -31,9 +24,13 @@
     overflow: hidden;
 }
 
+.yoast label + input[type='checkbox'] {
+    margin-left: 16px;
+}
+
+.yoast input[type='checkbox']:checked,
 .yoast-field-group__checkbox input[type='checkbox']:checked {
-    background: var(--checkmark--white) var(--color-primary) no-repeat center;
-    background-size: 13px;
+    background: var(--checkmark--white) var(--color-primary) no-repeat center / 13px;
     border: 1px solid var(--color-primary);
     box-shadow: none;
 }

@@ -1,7 +1,8 @@
+.yoast fieldset,
 .yoast-field-group {
     position: relative;
-    border:none;
-    padding:0;
+    border: none;
+    padding: 0;
     margin: 0 0 24px 0;
 }
 
@@ -26,8 +27,8 @@
     margin-top: -5px;
 }
 
-.yoast-field-group__help+* {
-    clear:both;
+.yoast-field-group__help + * {
+    clear: both;
 }
 
 .yoast-field-group__help-icon svg {
@@ -41,7 +42,7 @@
     fill: var(--color-link);
 }
 
-.yoast-field-group .description{
+.yoast-field-group .description {
     margin: 0;
 }
 

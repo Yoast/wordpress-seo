@@ -12,13 +12,13 @@
     word-wrap: normal !important;
 }
 
-@media (max-width: 600px ) {
+@media (max-width: 782px ) {
     .yoast-show-on-mobile {
         display: initial !important;
     }
 }
 
-@media (min-width: 600px ) {
+@media (min-width: 782px ) {
     .yoast-hide-on-desktop {
         display: none;
     }

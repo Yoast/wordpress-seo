@@ -37,31 +37,6 @@
     flex-shrink: 0;
 }
 
-.yoast-close {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    background: none;
-    height: 44px;
-    width: 44px;
-    cursor: pointer;
-    box-shadow: none;
-    padding: 0;
-    position: absolute;
-    right: 16px
-}
-
-.yoast-close::active {
-    top: 0;
-}
-
-.yoast-close svg {
-    margin-right: 0;
-    fill: var(--color-font-default);
-    width: 13px;
-}
-
 .yoast-modal__menu {
     grid-area: menu;
     border-right: var(--border-default);
