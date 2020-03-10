@@ -148,7 +148,7 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 782px) {
     .yoast-modal {
         overflow-y: initial;
         height: auto;
