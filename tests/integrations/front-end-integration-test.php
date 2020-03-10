@@ -96,6 +96,43 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests calling wpseo_head and it's interaction with wp_query.
+	 *
+	 * @covers ::call_wpseo_head
+	 */
+	public function test_call_wpseo_head_with_query() {
+		global $wp_query;
+
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'is_main_query' )->once()->andReturn( true );
+
+		Monkey\Functions\expect( 'wp_reset_query' )->never();
+
+		$this->instance->call_wpseo_head();
+
+		$this->assertSame( 1, did_action( 'wpseo_head' ) );
+	}
+
+	/**
+	 * Tests calling wpseo_head and it's interaction with wp_query.
+	 *
+	 * @covers ::call_wpseo_head
+	 */
+	public function test_call_wpseo_head_without_query() {
+		global $wp_query;
+
+		$wp_query = $initial_wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'is_main_query' )->once()->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_reset_query' )->once();
+
+		$this->instance->call_wpseo_head();
+
+		$this->assertSame( 1, did_action( 'wpseo_head' ) );
+		$this->assertSame( $initial_wp_query, $GLOBALS['wp_query'] );
+	}
+
+	/**
 	 * Tests the present_head.
 	 *
 	 * @covers ::present_head
