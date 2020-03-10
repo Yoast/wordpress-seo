@@ -2,7 +2,6 @@
 <html>
 <head>
 
-
 	<style>
 		/* Demo styling */
 		body {
@@ -14,33 +13,29 @@
 		}
 
 	</style>
-
-
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel='stylesheet' href='base/root.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='base/colors.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='base/typography.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='base/borders.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='base/icons.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/root.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/icons.css' type='text/css' media='all'/>
 
 
-	<link rel='stylesheet' href='components/field-group/field-group.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/checkbox/checkbox.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/select/select.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/radiobutton/radiobutton.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/input/input.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/data-model/data-model.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/button/buttons.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='components/modal/modal.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../checkbox/checkbox.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../select/select.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../radiobutton/radiobutton.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../inputs/input.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../data-model/data-model.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../modal/modal.css' type='text/css' media='all'/>
 
-	<link rel='stylesheet' href='base/utility.css' type='text/css' media='all'/>
-
-
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
 </head>
 <body class="yoast">
 <div class="yoast-modal__container">
-	<form class="yoast-modal yoast-modal--menu" role="dialog">
+	<form class="yoast-modal" role="dialog">
 		<div class="yoast-modal__heading">
 			<svg class="yoast-modal__heading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" role="img"
 				 aria-hidden="true"
@@ -50,7 +45,7 @@
 					  d="M3.9 2.4h7.9l-.3.8H3.9a3 3 0 00-3 3v8.7c0 1.5 1 3 3.5 3v.7h-.5A3.8 3.8 0 010 15V6.2C0 4 1.7 2.4 3.9 2.4zM13.6 0h2.8c-6 16-6.2 16.9-7.8 18.6-1 1-2.1 1.4-3.3 1.4v-2.2c2-.3 2.7-2 2.7-3.2 0-.8 0-.5-3.5-9.4h2.6l2.2 6.6L13.6 0zM19 6v12.6h-9l.4-.8h7.8V6c0-1.4-.7-2.2-2-2.7l.2-.7C18.2 3.2 19 4.4 19 6z"/>
 			</svg>
 			<h1 class="yoast-h2">
-				Yoast SEO post settings
+				Modal heading
 			</h1>
 			<button class="yoast-close" aria-label="Close">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true"
@@ -59,143 +54,42 @@
 				</svg>
 			</button>
 		</div>
-		<div class="yoast-modal__menu">
-			<ul>
-				<li>Google preview</li>
-				<li>Facebook preview</li>
-				<li>Twitter preview</li>
-				<li>News SEO</li>
-				<li>Video SEO</li>
-				<li>Insights</li>
-				<li>Advanced</li>
-			</ul>
-		</div>
-		<section class="yoast-modal__section" id="news-seo">
-			<div class="yoast-modal__section-header">
-				<h2 class="yoast-h2">
-					News SEO
-				</h2>
-				<button class="yoast-modal__section-toggle yoast-hide-on-desktop">
-					<span class="screen-reader-text">Toggle section</span>
-				</button>
-			</div>
+		<div class="yoast-modal__section">
 			<div class="yoast-modal__section-content">
-				<fieldset class="yoast-field-group">
-					<legend class="yoast-field-group__title">Exclude from news sitemap?</legend>
-					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
-				<span class="yoast-field-group__help-icon" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
-						 focusable="false"><defs/><path
-							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-				</span>
-						<span class="screen-reader-text">>Link to more information about excluding information from the news sitemap</span>
-					</a>
 
-					<div class="yoast-field-group__radiobutton">
-						<input type="radio" id="yes" name="name" checked>
-						<label for="yes">Yes</label>
-						<input type="radio" id="no" name="name">
-						<label for="no">No</label>
-					</div>
-				</fieldset>
+				<p>Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum. Praesent
+					commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel
+					scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis,
+					est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
 
+				<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
+					amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur
+					est at lobortis. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus
+					commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere
+					erat a ante venenatis dapibus posuere velit aliquet. Vivamus sagittis lacus vel augue laoreet rutrum
+					faucibus dolor auctor.</p>
 
-				<fieldset id="id-name" class="yoast-field-group">
-					<legend class="yoast-field-group__title">Google News genres</legend>
-					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
-				<span class="yoast-field-group__help-icon" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
-						 focusable="false"><defs/><path
-							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-				</span>
-						<span class="screen-reader-text">More information about Google News genres</span>
-					</a>
+				<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas
+					faucibus mollis interdum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+					ut fermentum massa justo sit amet risus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+					condimentum nibh, ut fermentum massa justo sit amet risus. Fusce dapibus, tellus ac cursus commodo,
+					tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur
+					purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
+					lacinia odio sem nec elit.</p>
 
-
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="press-releases">
-						<label for="press-releases" class="yoast-field-group__checkbox">Press Releases</label>
-					</div>
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="satire">
-						<label for="satire" class="yoast-field-group__checkbox">Satire</label>
-					</div>
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="blog">
-						<label for="blog" class="yoast-field-group__checkbox">Blog</label>
-					</div>
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="op-ed">
-						<label for="op-ed" class="yoast-field-group__checkbox">Op-ed</label>
-					</div>
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="Opinion">
-						<label for="Opinion" class="yoast-field-group__checkbox">Opinion</label>
-					</div>
-					<div class="yoast-field-group__checkbox">
-						<input type="checkbox" id="user-generated">
-						<label for="user-generated" class="yoast-field-group__checkbox">User Generated</label>
-					</div>
-
-				</fieldset>
-
-
-				<div class="yoast-field-group">
-					<label class="yoast-field-group__title">Stock tickers</label>
-					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
-				<span class="yoast-field-group__help-icon" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
-						 focusable="false"><defs/><path
-							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-				</span>
-						<span class="screen-reader-text">Link to information about stock tickers.</span>
-					</a>
-					<input class="yoast-field-group__inputfield" value="" name="foobar" id="foobar"
-						   placeholder="NASDAQ:AMAT, BOM:500325, etc...">
-				</div>
-
-				<fieldset class="yoast-field-group">
-					<legend class="yoast-field-group__title">Googlebot-News index</legend>
-					<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
-				<span class="yoast-field-group__help-icon" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
-						 focusable="false"><defs/><path
-							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
-				</span>
-						<span class="screen-reader-text">Link to more information about Googlebot-News index</span>
-					</a>
-
-
-					<div class="yoast-field-group__radiobutton">
-						<input type="radio" id="index" name="googlebot-news-index" checked>
-						<label for="index">index</label>
-						<input type="radio" id="noindex" name="googlebot-news-index">
-						<label for="noindex">noindex</label>
-					</div>
-				</fieldset>
-
+				<p>Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum. Praesent
+					commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo cursus magna, vel
+					scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis,
+					est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
 			</div>
-		</section>
+		</div>
+
 
 		<div class="yoast-modal__footer">
 			<span class="yoast-modal__settings-saved">Settings saved</span>
-			<button type="submit" class="yoast-button yoast-button--primary">Save changes</button>
+			<button type="submit" class="yoast-button yoast-button--primary">button</button>
 		</div>
 	</form>
 </div>
-
-<script>
-    window.onload = function () {
-        var headings = document.getElementsByClassName( 'yoast-modal__section-header' );
-
-        for ( var i = 0; i < headings.length; i++ ) {
-
-            var heading = headings[ i ];
-            heading.onclick = function () {
-                this.parentElement.classList.toggle( "yoast-modal__section-open" );
-            }
-        }
-    }
-</script>
 </body>
 </html>
