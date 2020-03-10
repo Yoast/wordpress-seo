@@ -85,6 +85,41 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests check option with false given as old_value. This happens when the value is updated
+	 * the first time.
+	 *
+	 * @covers ::check_option
+	 */
+	public function test_check_option_first_time_save() {
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->once();
+
+		$this->repository
+			->expects( 'find_for_post_type_archive' )
+			->once()
+			->with( 'my-post-type', false )
+			->andReturn( $indexable_mock );
+
+		$this->builder
+			->expects( 'build_for_post_type_archive' )
+			->once()
+			->with( 'my-post-type', $indexable_mock )
+			->andReturn( $indexable_mock );
+
+		$this->assertTrue( $this->instance->check_option( false, [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
+	}
+
+	/**
+	 * Tests check option with two strings given as input. This should be considered as faulty, because we only
+	 * want to accept arrays.
+	 *
+	 * @covers ::check_option
+	 */
+	public function test_check_option_wrong_input_given() {
+		$this->assertFalse( $this->instance->check_option( 'string', 'string' ) );
+	}
+
+	/**
 	 * Tests if updating titles works as expected.
 	 *
 	 * @covers ::__construct
@@ -107,7 +142,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 			->with( 'my-post-type', $indexable_mock )
 			->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->assertTrue( $this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
 	}
 
 	/**
@@ -133,7 +168,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 			->with( 'my-post-type', $indexable_mock )
 			->andReturn( $indexable_mock );
 
-		$this->instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->assertTrue( $this->instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] ) );
 	}
 
 	/**
@@ -174,7 +209,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 			->with( 'other-post-type', $other_indexable_mock )
 			->andReturn( $other_indexable_mock );
 
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
+		$this->assertTrue( $this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] ) );
 	}
 
 	/**
@@ -186,7 +221,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value_same_value() {
 		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
+		$this->assertTrue( $this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] ) );
 	}
 
 	/**
@@ -198,7 +233,7 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
 		// No assertions made so this will fail if any method is called on our mocks.
-		$this->instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
+		$this->assertTrue( $this->instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] ) );
 	}
 
 	/**
