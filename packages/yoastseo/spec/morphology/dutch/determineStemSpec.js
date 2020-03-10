@@ -224,6 +224,9 @@ const wordsToStem = [
 	 */
 	[ "schone", "schoon" ],
 	[ "hoge", "hoog" ],
+	// Adjectives ending in -e in their base form
+	[ "luxe", "luxe" ],
+	[ "luxer", "luxe" ],
 	/*
 	 * Word that gets suffix -etje and gets stem modification after suffix deletion
 	 * and is neither in an exception list nor ends in t/d (9go-12)
