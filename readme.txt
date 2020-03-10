@@ -229,7 +229,6 @@ Other:
 * Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
 * Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
 
-
 = 13.2 =
 Release Date: March 3rd, 2020
 
