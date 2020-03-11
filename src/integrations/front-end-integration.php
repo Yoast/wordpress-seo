@@ -171,7 +171,14 @@ class Front_End_Integration implements Integration_Interface {
 	 * @codeCoverageIgnore It just calls a WordPress function.
 	 */
 	public function call_wpseo_head() {
+		global $wp_query;
+
+		$old_wp_query = $wp_query;
+		wp_reset_query();
+
 		do_action( 'wpseo_head' );
+
+		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 
 	/**
