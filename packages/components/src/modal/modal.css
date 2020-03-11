@@ -1,3 +1,15 @@
+.yoast-modal__screen-overlay { /* Background */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(164, 40, 106, 0.6);;
+    z-index: 100000;
+    animation: edit-post__fade-in-animation .2s ease-out 0s;
+    animation-fill-mode: forwards;
+}
+
 .yoast-modal {
     background: white;
     display: flex;
@@ -12,7 +24,7 @@
     width: 100%;
 }
 
-.yoast-modal--menu {
+.yoast-tabs .yoast-modal__content {
     display: grid;
     grid-template-areas: "heading heading" "menu content" "menu footer";
     grid-template-rows: 72px 1fr 89px;
@@ -32,6 +44,10 @@
 .yoast-modal__heading .yoast-close {
     position: absolute;
     right: 16px;
+}
+
+.yoast-modal__heading h1 {
+    font-size: 20px;
 }
 
 .yoast-modal__heading-icon {
@@ -68,10 +84,19 @@
     background-color: #EDD4E1;
 }
 
-.yoast-modal__menu li.react-tabs__tab--selected {
+.yoast-modal__menu li.yoast-tabs__tab--selected {
     background-color: var(--color-primary);
     border-bottom: var(--border-default);
     color: white;
+}
+
+.yoast-modal__content {
+    grid-area: content;
+    overflow-y: auto;
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .yoast-modal__section {
@@ -90,7 +115,7 @@
 .yoast-modal__section-header {
     position: sticky;
     top: 0;
-    background: white;
+    background: var(--color-white);
     padding: 24px 24px 0 24px;
     z-index: 10;
 }
@@ -157,6 +182,7 @@
     .yoast-modal {
         overflow-y: initial;
         height: auto;
+        padding-bottom: 72px;
     }
 
     .yoast-modal__heading {
@@ -210,27 +236,6 @@
         margin: 0;
     }
 
-    .yoast-modal__section-header button {
-        padding: 16px;
-        border: none;
-        border-bottom: var(--border-default);
-        cursor: pointer;
-        justify-content: space-between;
-        font-size: var(--font-size-default);
-        width: 100%;
-        text-align: left;
-    }
-
-    button[aria-expanded="true"] .toggleable-container-icon {
-        transform: rotatez(180deg);
-    }
-
-    .yoast-modal__section-header button[aria-expanded="true"] {
-        padding: 16px 0;
-        width: calc(100% - 32px);
-        margin: 0 16px;
-    }
-
     .yoast-modal__section-open .yoast-modal__section-header {
         padding-left: 0;
         padding-right: 0;
@@ -251,7 +256,42 @@
         padding: 24px 16px;
     }
 
-    .toggleable-container-icon {
+    /* collapsible styling */
+
+    .yoast-modal-collapsible .yoast-modal__section-content {
+        padding: 24px 16px;
+        border-bottom: var(--border-default);
+        margin: 0;
+    }
+
+    .yoast-collapsible__hidden {
+        display: none;
+    }
+
+    .yoast-collapsible__trigger {
+        padding: 16px;
+        border: none;
+        border-bottom: var(--border-default);
+        cursor: pointer;
+        justify-content: space-between;
+        font-size: var(--font-size-default);
+        width: 100%;
+        text-align: left;
+        background: white;
+        color: var(--color-primary);
+    }
+
+    .yoast-collapsible__trigger[aria-expanded="true"] .yoast-collapsible__icon {
+        transform: rotatez(180deg);
+    }
+
+    .yoast-collapsible__trigger[aria-expanded="true"] {
+        padding: 16px 0;
+        width: calc(100% - 32px);
+        margin: 0 16px;
+    }
+
+    .yoast-collapsible__icon {
         background-color: var(--color-white);
         background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8" fill="%23404040"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
         background-position: center center;
@@ -264,21 +304,12 @@
         float: right;
     }
 
-    .toggleable-container {
-        padding: 32px 16px;
-        border-bottom: var(--border-default)
-    }
-
-    .toggleable-container-hidden {
-        display: none;
-    }
-
-    .tab-block {
+    .yoast-collapsible-block {
         width: 100%;
         margin-top: 46px;
     }
 
-    .tab-block + .tab-block {
+    .yoast-collapsible-block + .yoast-collapsible-block {
         margin-top: 0;
     }
 }
