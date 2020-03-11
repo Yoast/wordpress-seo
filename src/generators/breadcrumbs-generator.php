@@ -109,13 +109,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 *
 	 * @return bool Whether or not a blog crumb should be added.
 	 */
-	private function should_have_blog_crumb( $page_for_posts ) {
+	protected function should_have_blog_crumb( $page_for_posts ) {
 		if ( $this->options->get( 'breadcrumbs-display-blog-page' ) !== true ) {
 			return false;
 		}
 
 		// When there is no page configured as blog page.
-		if ( 'page' !== \get_option( 'show_on_front' ) || ! $page_for_posts ) {
+		if ( \get_option( 'show_on_front' ) !== 'page' || ! $page_for_posts ) {
 			return false;
 		}
 
