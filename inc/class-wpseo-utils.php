@@ -332,7 +332,7 @@ class WPSEO_Utils {
 			$url = $parts['scheme'] . '://';
 
 			if ( isset( $parts['user'] ) ) {
-				$url .= rawurlencode ( $parts['user'] );
+				$url .= rawurlencode( $parts['user'] );
 				$url .= isset( $parts['pass'] ) ? ':' . rawurlencode( $parts['pass'] ) : '';
 				$url .= '@';
 			}
