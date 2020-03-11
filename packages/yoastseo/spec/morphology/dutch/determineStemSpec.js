@@ -125,7 +125,7 @@ const wordsToStem = [
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
 	[ "ingrediëntje", "ingrediën" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
-	[ "garagetje", "garage" ],
+	[ "garagetje", "garag" ],
 	[ "taxietje", "taxi" ],
 	// Noun that is in stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
 	[ "dramaatje", "drama" ],
@@ -305,17 +305,28 @@ const wordsToStem = [
 	[ "piraatjes", "piraat" ],
 	[ "hondjes", "hond" ],
 	/*
-	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem, this problem will be possibly fixed
-	 * after implementing the list of nouns ending in -e which get plural suffix -s).
+	 * Word with plural diminutive suffix -etjes whith is preceded by -e-, the -e- will be further stemmed
+	 * and the final stem does not end in t/d (9fgn-12).
 	 */
-	// [ "cafeetjes", "cafe" ],
+	[ "cafeetjes", "caaf" ],
 	/*
 	 * Word with diminutive suffix -etje which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9gn-12) (incorrect stem, this problem will be possibly fixed
-	 * after implementing the list of nouns ending in -e which get plural suffix -s).
+	 * and the final stem does not end in t/d (9gn-12).
 	 */
-	// [ "cafeetje", "cafe" ],
+	[ "cafeetje", "caaf" ],
+	// Word with diminutive suffix that ends in -etje
+	[ "typetje", "typ" ],
+	// Words in -eau that get -s in plural
+	[ "niveaus", "niveau" ],
+	[ "niveau", "niveau" ],
+	// Words in -é that get -s in plural
+	[ "maté", "maté" ],
+	[ "matés", "maté" ],
+	// Words in -ou that get -s in plural
+	[ "bijou", "bijou" ],
+	[ "bijous", "bijou" ],
+	// Plurals in -es where only -s should be stemmed
+	[ "ordonnanties", "ordonnantie" ],
 	// Other specs:
 	// Return the unique stem from noun exception list with multiple stems
 	[ "loot", "lot" ],
