@@ -86,7 +86,7 @@ export function determineStem( morphologyDataNL, word ) {
 	const stemmedWord = stem( word, morphologyDataNL );
 
 	// Check whether the stemmed word is on an exception list of words with multiple stems. If it is, return the canonical stem.
-	let stemFromExceptionList = checkExceptionListWithTwoStems( morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems, stemmedWord );
+	let stemFromExceptionList = checkExceptionListWithTwoStems( morphologyDataNL.stemming.stemmingExceptionsWithTwoStems, stemmedWord );
 	if ( stemFromExceptionList ) {
 		return stemFromExceptionList;
 	}

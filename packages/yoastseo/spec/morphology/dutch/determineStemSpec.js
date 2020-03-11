@@ -140,15 +140,16 @@ const wordsToStem = [
 	// Word that ends in -te/-ten with -t being part of the stem and the stem ends in t/d (4i-13)
 	[ "taarten", "taart" ],
 	// Word that is in adjective exception list and gets suffix -er/-ere and the stem ends in t/d (6-13)
-	// [ "harder", "hard" ],
+	[ "harder", "hard" ],
 	[ "absurdere", "absurd" ],
-	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
-	[ "ingrediëntje", "ingrediën" ],
+	// Word that gets suffix -je and is in doNotStemTOrD list (7-13)
+	[ "ingrediëntje", "ingrediënt" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
-	[ "garagetje", "garage" ],
-	[ "parkeergaragetje", "parkeergarage" ],
 	[ "taxietje", "taxi" ],
 	[ "watertaxietje", "watertaxi" ],
+	// Word that gets suffix -etje and the stem is in the exception list with two stems.
+	[ "garagetje", "garaag" ],
+	[ "parkeergaragetje", "parkeergaraag" ],
 	// Noun that is in the ending match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
 	[ "dramaatje", "drama" ],
 	[ "cameraatje", "camera" ],
@@ -385,6 +386,20 @@ const wordsToStem = [
 	[ "aangenaam", "aangenaam" ],
 	[ "gelukkig", "gelukkig" ],
 	[ "aardbei", "aardbei" ],
+	// A noun ending in -e which gets diminutive suffix -tje/-tjes.
+	[ "aspergetje", "asperg" ],
+	[ "aspergetjes", "asperg" ],
+	// A word ending in -e
+	[ "asperge", "asperg" ],
+	/*
+	 * A noun with diminutive suffix -tje in which undergoes vowel doubling before adding the suffix -tje/-tjes
+	 * and the stem is in the exception list with two stems (9-11)
+	 */
+	[ "dynamootje", "dynamo" ],
+	[ "dynamootjes", "dynamo" ],
+	[ "dramaatje", "drama" ],
+	[ "cameraatje", "camera" ],
+	[ "studentjes", "student" ],
 	// Words that are in the list of doNotStemTOrD in which the t/d is part of the stem and should not be stemmed.
 	[ "abonnement", "abonnement" ],
 	[ "communicatiedienst", "communicatiedienst" ],
