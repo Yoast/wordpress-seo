@@ -29,6 +29,11 @@
     height: 72px;
 }
 
+.yoast-modal__heading .yoast-close {
+    position: absolute;
+    right: 16px;
+}
+
 .yoast-modal__heading-icon {
     fill: var(--color-primary);
     margin-right: 16px;

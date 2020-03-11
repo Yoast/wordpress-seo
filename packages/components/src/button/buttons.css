@@ -79,7 +79,7 @@
   background: var(--svg-icon-caret-right) center center no-repeat;
 }
 
-.yoast-button--remove {
+.yoast-remove, .yoast-hide {
   color: red;
   background-color: transparent;
   border: none;
@@ -88,9 +88,13 @@
   padding: 0;
 }
 
+.yoast-hide {
+  color: var(--color-link);
+}
+
 
 /* Close button for modals or papers */
-.yoast .yoast-close {
+.yoast-close {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,18 +105,11 @@
   cursor: pointer;
   box-shadow: none;
   padding: 0;
-  position: absolute;
-  right: 16px
 }
 
-.yoast .yoast-close::active {
-  top: 0;
-}
-
-.yoast .yoast-close svg {
-  margin-right: 0;
-  fill: var(--color-font-default);
-  width: 13px;
+.yoast-close svg {
+  fill: var(--color-default);
+  width: 14px;
 }
 
 @media screen and (max-width: 782px) {
