@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "1.17.0",
+  "version": "1.19.0-rc.0",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -30,7 +30,7 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^4.2.0",
-    "yoastseo": "^1.68.0"
+    "yoastseo": "^1.70.0-rc.0"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.1",

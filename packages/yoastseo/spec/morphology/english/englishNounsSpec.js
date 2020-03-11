@@ -1,13 +1,9 @@
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import { getNounFormsWithPossessives, getNounForms, checkPossessive } from "../../../src/morphology/english/getNounForms";
-import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
+import { buildOneFormFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
 
-
 const morphologyData = getMorphologyData( "en" );
-const nounData = morphologyData.en.nouns;
-const irregularNounsToTest = nounData.irregularNouns;
-const regexNoun = nounData.regexNoun;
+const regexNoun = morphologyData.en.nouns.regexNoun;
 
 const regularNounsToTest = [
 	[ "word", "words" ],
@@ -115,7 +111,6 @@ const regularNounsToTest = [
 	[ "epicrisis", "epicrises" ],
 	[ "epigenesis", "epigeneses" ],
 	[ "epileptogenesis", "epileptogeneses" ],
-	[ "epipubis", "epipubes" ],
 	[ "epistasis", "epistases" ],
 	[ "epistaxis", "epistaxes" ],
 	[ "episymbiosis", "episymbioses" ],
@@ -135,7 +130,6 @@ const regularNounsToTest = [
 	[ "haemostasis", "haemostases" ],
 	[ "hemarthrosis", "hemarthroses" ],
 	[ "hemiparesis", "hemipareses" ],
-	[ "hemipenis", "hemipenes" ],
 	[ "hemochromatosis", "hemochromatoses" ],
 	[ "hemodialysis", "hemodialyses" ],
 	[ "hemolysis", "hemolyses" ],
@@ -189,7 +183,6 @@ const regularNounsToTest = [
 	[ "mucolipidosis", "mucolipidoses" ],
 	[ "narcoanalysis", "narcoanalyses" ],
 	[ "narcosis", "narcoses" ],
-	[ "naris", "nares" ],
 	[ "necrobiosis", "necrobioses" ],
 	[ "necrosis", "necroses" ],
 	[ "neoangiogenesis", "neoangiogeneses" ],
@@ -206,7 +199,6 @@ const regularNounsToTest = [
 	[ "neurotmesis", "neurotmeses" ],
 	[ "nocardiosis", "nocardioses" ],
 	[ "parenthesis", "parentheses" ],
-	[ "penis", "penes" ],
 	[ "periegesis", "periegeses" ],
 	[ "phaeohyphomycosis", "phaeohyphomycoses" ],
 	[ "phagocytosis", "phagocytoses" ],
@@ -230,7 +222,6 @@ const regularNounsToTest = [
 	[ "sphingolipidosis", "sphingolipidoses" ],
 	[ "spondylolisthesis", "spondylolistheses" ],
 	[ "stenosis", "stenoses" ],
-	[ "sternochondroscapularis", "sternochondroscapulares" ],
 	[ "steroidogenesis", "steroidogeneses" ],
 	[ "subanalysis", "subanalyses" ],
 	[ "sycosis", "sycoses" ],
@@ -256,7 +247,6 @@ const regularNounsToTest = [
 	[ "teleoanalysis", "teleoanalyses" ],
 	[ "tenolysis", "tenolyses" ],
 	[ "teratogenesis", "teratogeneses" ],
-	[ "testis", "testes" ],
 	[ "thanatopsis", "thanatopses" ],
 	[ "theileriasis", "theileriases" ],
 	[ "thermotaxis", "thermotaxes" ],
@@ -437,127 +427,38 @@ const possessivesToBaseToTest = [
 	[ "Tomas", "Tomas'" ],
 ];
 
-const possessivesFormationToTest = [
-	[ "word", "words", "word's", "words'", "words's" ],
-	[ "horse", "horses", "horse's", "horses'", "horses's"  ],
-	[ "chateau", "chateaux", "chateaux's", "chateau's" ],
-	[ "mango", "mangos",  "mangoes", "mangoes's", "mangos's", "mango's", "mangoes'", "mangos'" ],
-	[ "Tomas", "Tomas'", "Tomas's" ],
-	[ "rostrum", "rostra", "rostrum's", "rostra's" ],
-	[ "cortex", "cortices", "cortex's", "cortices's", "cortices'" ],
-];
+let base = [];
 
-let receivedForms = [];
+describe( "Test for getting base from plural", function() {
+	const singularizeRule = createRulesFromMorphologyData( regexNoun.singularize );
 
-describe( "Test for getting all possible word forms for regular words", function() {
-	regularNounsToTest.forEach( function( paradigm ) {
-		it( "returns an array of word forms for a regular singular", function() {
-			receivedForms = getNounForms( paradigm[ 0 ], nounData );
-
-			paradigm.forEach( function( form ) {
-				expect( receivedForms ).toContain( form );
-			} );
+	it( "for regular nouns", function() {
+		regularNounsToTest.forEach( function( paradigm ) {
+			base = buildOneFormFromRegex( paradigm[ 1 ], singularizeRule );
+			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
+	} );
 
-		it( "returns an array of word forms for a regular plural", function() {
-			receivedForms = getNounForms( paradigm[ 1 ], nounData );
+	it( "for hispanic nouns", function() {
+		hispanicNounsToTest.forEach( function( paradigm ) {
+			// -os variant (e.g., tomatos)
+			base = buildOneFormFromRegex( paradigm[ 1 ], singularizeRule );
+			expect( base ).toEqual( paradigm[ 0 ] );
 
-			paradigm.forEach( function( form ) {
-				expect( receivedForms ).toContain( form );
-			} );
+			// -oes variant (e.g., tomatoes)
+			base = buildOneFormFromRegex( paradigm[ 2 ], singularizeRule );
+			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
 	} );
 } );
 
-describe( "Test for getting all possible word forms for hispanic words", function() {
-	hispanicNounsToTest.forEach( function( paradigm ) {
-		it( "returns an array of word forms for a hispanic singular", function() {
-			receivedForms = getNounForms( paradigm[ 0 ], nounData );
+describe( "Test for getting a non-possessive form", function() {
+	const depossessifyRule = createRulesFromMorphologyData( regexNoun.possessiveToBase );
 
-			paradigm.forEach( function( form ) {
-				expect( receivedForms ).toContain( form );
-			} );
-		} );
-
-		it( "returns an array of word forms for a hispanic plural with -os", function() {
-			receivedForms = getNounForms( paradigm[ 1 ], nounData );
-
-			paradigm.forEach( function( form ) {
-				expect( receivedForms ).toContain( form );
-			} );
-		} );
-
-		it( "returns an array of word forms for a hispanic plural with -oes", function() {
-			receivedForms = getNounForms( paradigm[ 2 ], nounData );
-
-			paradigm.forEach( function( form ) {
-				expect( receivedForms ).toContain( form );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting two types of plural word forms for hispanic words", function() {
-	hispanicNounsToTest.forEach( function( paradigm ) {
-		it( "returns two possible plural word forms for a hispanic singular", function() {
-			receivedForms = buildTwoFormsFromRegex( paradigm[ 0 ], createRulesFromMorphologyData( regexNoun.hispanic ) );
-			expect( receivedForms ).toContain( paradigm[ 1 ] );
-			expect( receivedForms ).toContain( paradigm[ 2 ] );
-		} );
-	} );
-} );
-
-describe( "Test for not getting plural form", function() {
-	it( "returns nothing for a plural form of an empty string", function() {
-		receivedForms = getNounForms( "", nounData );
-		expect( receivedForms ).toEqual( [ "" ] );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for irregular words", function() {
-	irregularNounsToTest.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for an irregular word", function() {
-				receivedForms = getNounForms( wordInParadigm, nounData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for a possessive", function() {
-	possessivesToBaseToTest.forEach( function( paradigm ) {
-		const base = paradigm[ 0 ];
-		const possessive = paradigm[ 1 ];
-		it( "returns if the word is a possessive", function() {
-			expect( checkPossessive( base, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( false );
-			expect( checkPossessive( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) ) || false ).toEqual( true );
-		} );
-	} );
-} );
-
-describe( "Test for getting the base from a possessive", function() {
-	possessivesToBaseToTest.forEach( function( paradigm ) {
-		const base = paradigm[ 0 ];
-		const possessive = paradigm[ 1 ];
-		it( "returns the base for a possessive word", function() {
-			const receivedForm = buildOneFormFromRegex( possessive, createRulesFromMorphologyData( regexNoun.possessiveToBase ) );
-			expect( receivedForm ).toContain( base );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms (including possessives)", function() {
-	possessivesFormationToTest.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a word", function() {
-				receivedForms = getNounFormsWithPossessives( wordInParadigm, nounData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
+	it( "from a possessive form", function() {
+		possessivesToBaseToTest.forEach( function( paradigm ) {
+			base = buildOneFormFromRegex( paradigm[ 1 ], depossessifyRule );
+			expect( base ).toEqual( paradigm[ 0 ] );
 		} );
 	} );
 } );
