@@ -20,11 +20,15 @@ use Brain\Monkey;
 class Image_Presenter_Test extends TestCase {
 
 	/**
+	 * The image presenter instance.
+	 *
 	 * @var Image_Presenter|Mockery\MockInterface
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;

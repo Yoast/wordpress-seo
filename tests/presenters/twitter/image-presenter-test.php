@@ -2,40 +2,42 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
-use Mockery;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Image_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class Image_Presenter_Test.
+ * Class Image_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Twitter\Image_Presenter
  *
- * @group presentations
+ * @group presenters
  * @group twitter
  * @group twitter-image
  */
 class Image_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Url_Helper|Mockery\MockInterface
-	 */
-	private $url;
-
-	/**
+	 * The image presenter instance.
+	 *
 	 * @var Image_Presenter
 	 */
 	private $instance;
 
 	/**
-	 * Sets an instance with the mocked url helper.
+	 * The indexable presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
+
+	/**
+	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->url = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance   = new Image_Presenter( $this->url );
+		$this->instance     = new Image_Presenter();
+		$this->presentation = new Indexable_Presentation();
 
 		parent::setUp();
 
@@ -43,18 +45,48 @@ class Image_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation of a relative image.
+	 * Tests whether the presenter returns the correct image.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present() {
+		$this->presentation->twitter_image = 'relative_image.jpg';
+
+		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
+		$actual   = $this->instance->present( $this->presentation );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the presenter with an empty image.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_empty_image() {
+		$this->presentation->twitter_image = '';
+
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct image,
+	 * when the `wpseo_twitter_image` filter is applied.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
 	 */
-	public function test_present() {
-		$presentation = new Indexable_Presentation();
-		$presentation->twitter_image = 'relative_image.jpg';
+	public function test_present_filter() {
+		$this->presentation->twitter_image = 'relative_image.jpg';
 
-		$this->assertEquals(
-			'<meta name="twitter:image" content="relative_image.jpg" />',
-			$this->instance->present( $presentation )
-		);
+		Monkey\Filters\expectApplied( 'wpseo_twitter_image' )
+			->once()
+			->with( 'relative_image.jpg', $this->presentation )
+			->andReturn( 'relative_image.jpg' );
+
+		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
+		$actual   = $this->instance->present( $this->presentation );
+
+		$this->assertEquals( $expected, $actual );
 	}
 }

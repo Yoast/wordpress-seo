@@ -20,6 +20,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Googlebot_Presenter_Test extends TestCase {
 
 	/**
+	 * The Googlebot presenter instance.
+	 *
 	 * @var Googlebot_Presenter
 	 */
 	private $instance;

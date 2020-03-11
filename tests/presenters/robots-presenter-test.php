@@ -20,6 +20,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Robots_Presenter_Test extends TestCase {
 
 	/**
+	 * The robots presenter instance.
+	 *
 	 * @var Robots_Presenter
 	 */
 	private $instance;

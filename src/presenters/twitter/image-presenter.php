@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
@@ -15,22 +14,6 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
  * Class Image_Presenter
  */
 class Image_Presenter extends Abstract_Indexable_Presenter {
-
-	/**
-	 * The URL helper.
-	 *
-	 * @var Url_Helper
-	 */
-	private $url;
-
-	/**
-	 * Sets the url helper as dependency.
-	 *
-	 * @param Url_Helper $url The url helper.
-	 */
-	public function __construct( Url_Helper $url ) {
-		$this->url = $url;
-	}
 
 	/**
 	 * Presents a presentation.
@@ -62,9 +45,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
-		 * @api string $twitter_image Image URL string.
-		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
+		 * @api string $twitter_image Image URL string.
 		 */
 		return (string) \apply_filters( 'wpseo_twitter_image', $twitter_image, $presentation );
 	}

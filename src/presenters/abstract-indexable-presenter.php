@@ -28,6 +28,8 @@ abstract class Abstract_Indexable_Presenter {
 	 * @required
 	 *
 	 * @param \WPSEO_Replace_Vars $replace_vars The replace vars helper.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function set_replace_vars( WPSEO_Replace_Vars $replace_vars ) {
 		$this->replace_vars = $replace_vars;
@@ -38,6 +40,8 @@ abstract class Abstract_Indexable_Presenter {
 	 *
 	 * @param Indexable_Presentation $presentation The presentation to present.
 	 *
+	 * @codeCoverageIgnore There is nothing to test.
+	 *
 	 * @return string The template.
 	 */
 	public abstract function present( Indexable_Presentation $presentation );
@@ -47,6 +51,8 @@ abstract class Abstract_Indexable_Presenter {
 	 *
 	 * @param string                 $meta_description The meta description.
 	 * @param Indexable_Presentation $presentation     The presentation to present.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return string The meta description with replacement variables replaced.
 	 */

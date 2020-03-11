@@ -26,6 +26,7 @@ class Meta_Tags_Context extends \Yoast\WP\SEO\Context\Meta_Tags_Context {
 	public $post;
 
 	/**
+	 *
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;

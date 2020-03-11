@@ -19,6 +19,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Description_Presenter_Test extends TestCase {
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
@@ -41,7 +43,7 @@ class Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation for a set twitter description.
+	 * Tests the presenter for a set twitter description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
@@ -62,7 +64,7 @@ class Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation of an empty description.
+	 * Tests the presenter of an empty description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter

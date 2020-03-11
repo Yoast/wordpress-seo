@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -18,11 +18,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Article_Author_Presenter_Test extends TestCase {
 
 	/**
+	 * The article author presenter instance.
+	 *
 	 * @var Article_Author_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;

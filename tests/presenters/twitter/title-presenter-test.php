@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Twitter\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Brain\Monkey;
 use Mockery;
@@ -18,16 +18,22 @@ use Yoast\WP\SEO\Tests\TestCase;
  */
 class Title_Presenter_Test extends TestCase {
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $indexable_presentation;
 
 	/**
+	 * The title presenter instance.
+	 *
 	 * @var Title_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
