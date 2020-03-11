@@ -5,16 +5,16 @@ import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEndin
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
 
 /**
- * If the word ending in -t/-d was not matched in any of the checks for whether -t/-d should be stemmed or not, other checks still needs
+ * If the word ending in -t/-d was not matched in any of the checks for whether -t/-d should be stemmed or not, other checks still need
  * to be done in order to be sure whether we need to stem the word further or not.
- * If one of these checks true, we do not need to stem the word further.
+ * If one of these checks returns true, we do not need to stem the word further.
  *
  * @param {Object}  morphologyDataNL	The Dutch morphology data.
  * @param {string}	stemmedWord			The stemmed word.
  * @param {string}	word				The unstemmed word.
  * @returns {boolean}	Whether one of the conditions returns true or not.
  */
-const doesOneOfThisChecksReturnsTrue = function( morphologyDataNL, stemmedWord, word ) {
+const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word ) {
 	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
 	const adjectivesEndingInRd = morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD;
 	const wordsEndingInTOrDExceptionList = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
@@ -64,7 +64,7 @@ const checkIfWordIsInNounException = function( morphologyDataNL, stemmedWord ) {
  * @returns {?string}				    The stemmed word or null if the -t/-d should not be stemmed.
  */
 export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
-	if ( doesOneOfThisChecksReturnsTrue( morphologyDataNL, stemmedWord, word ) ) {
+	if ( checkIfTorDIsUnambiguous( morphologyDataNL, stemmedWord, word ) ) {
 		return null;
 	}
 	// If none of the conditions above is true, stem the t/d from the word.
