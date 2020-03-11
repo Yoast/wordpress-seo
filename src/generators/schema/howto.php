@@ -234,8 +234,6 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array Image schema.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );

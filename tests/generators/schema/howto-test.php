@@ -37,21 +37,29 @@ class HowToTest extends TestCase {
 	private $instance;
 
 	/**
+	 * Holds the html helper mock.
+	 *
 	 * @var HTML_Helper
 	 */
 	private $html;
 
 	/**
+	 * Holds the image helper mock.
+	 *
 	 * @var Image_Helper
 	 */
 	private $image;
 
 	/**
+	 * Holds the post helper mock.
+	 *
 	 * @var Post_Helper
 	 */
 	private $post;
 
 	/**
+	 * Holds the language helper mock.
+	 *
 	 * @var Language_Helper
 	 */
 	private $language;
@@ -156,7 +164,10 @@ class HowToTest extends TestCase {
 
 		$this->language
 			->shouldReceive( 'add_piece_language' )
-			->andReturnUsing( [ $this, 'set_language' ] );
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'language';
+				return $data;
+			} );
 
 		$this->post
 			->shouldReceive( 'get_post_title_with_fallback' )
@@ -310,15 +321,21 @@ class HowToTest extends TestCase {
 	}
 
 	/**
-	 * Sets the language.
-	 *
-	 * @param array $data The data to extend.
-	 *
-	 * @return array The altered data
+	 * Tests that the text property of the How-to step
+	 * falls back to the title if no description is available.
 	 */
-	public function set_language( $data ) {
-		$data['inLanguage'] = 'language';
+	public function test_no_jsontext() {
+		$blocks = $this->base_blocks;
+		// Remove JSON text and -name attributes.
+		unset( $blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'] );
 
-		return $data;
+		$schema = $this->base_schema;
+
+		$schema[0]['step'][0]['text'] = '<strong>Step 1 title</strong>';
+		unset( $schema[0]['step'][0]['itemListElement'], $schema[0]['step'][0]['name'] );
+
+		$this->meta_tags_context->blocks = $blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $schema, $actual_schema );
 	}
 }
