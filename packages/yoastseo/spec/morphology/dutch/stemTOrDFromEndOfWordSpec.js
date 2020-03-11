@@ -17,9 +17,9 @@ describe( "Creates stems of words with ambiguous endings -d/-t", () => {
 		expect( stemTOrDFromEndOfWord( morphologyDataNL, "zoetigheid", "zoetigheid" ) ).toEqual( null );
 	} );
 	it( "Does not remove the -d from the end of a stem if the word is in the list of words ending in t/d that should not be stemmed", () => {
-		expect( stemTOrDFromEndOfWord( morphologyDataNL, "brand", "brand" ) ).toEqual( "brand" );
+		expect( stemTOrDFromEndOfWord( morphologyDataNL, "brand", "brand" ) ).toEqual( null );
 	} );
 	it( "Does not remove the -t from the end of a stem if the word is in the list of words ending in t/d that should not be stemmed", () => {
-		expect( stemTOrDFromEndOfWord( morphologyDataNL, "abonnement", "abonnement" ) ).toEqual( "abonnement" );
+		expect( stemTOrDFromEndOfWord( morphologyDataNL, "abonnement", "abonnement" ) ).toEqual( null );
 	} );
 } );

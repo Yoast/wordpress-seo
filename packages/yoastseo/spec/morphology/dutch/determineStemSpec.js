@@ -9,16 +9,31 @@ const morphologyDataNL = getMorphologyData( "nl" ).nl;
  * refer to the numbers assigned to the different paths in the flowcharts
  *  (https://drive.google.com/drive/u/0/folders/1O5pOnRBCpZnTFAUlrNB3ViiqY3Voj9L3) that the spec covers.
  */
-
 const wordsToStem = [
 	// A word that exists on the list of words that should not be stemmed and that is a strong verb (3-11 condition in flowchart).
 	[ "smolt", "smelt" ],
-	// Words that are on the list of words that should not be stemmed (3-12)
-	[ "ander", "ander" ],
-	[ "beneden", "beneden" ],
-	[ "zeker", "zeker" ],
+	// Words that are on the verb sub-list of words that should not be stemmed (3-12)
+	[ "hoest", "hoest" ],
+	[ "aanplant", "aanplant" ],
+	[ "verpest", "verpest" ],
+	// Words that are on the ending match sub-list of words that should not be stemmed (3-12)
+	[ "economist", "economist" ],
+	[ "antifascist", "antifascist" ],
+	[ "koffer", "koffer" ],
+	// Words that are on the exact match sub-list of words that should not be stemmed (3-12)
+	[ "loft", "loft" ],
+	[ "rijst", "rijst" ],
+	[ "akte", "akte" ],
 	// Words that are on the list of words with full forms (1-12)
-	[ "skiën", "ski" ],
+	// Words that are on the verb sub-list of full forms exception list (1-12)
+	[ "aanbevelen", "aanbeveel" ],
+	[ "krijsend", "krijs" ],
+	// Words that are on the exact match sub-list of full forms exception list (1-13)
+	[ "bijdehandst", "bijdehand" ],
+	// Words that are on the exact match sub-list of full forms exception list (1-12)
+	[ "blaséëre", "blasé" ],
+	// Words that are on the ending match sub-list of full forms exception list (1-12)
+	[ "hoekschoppen", "hoekschop" ],
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
@@ -91,13 +106,16 @@ const wordsToStem = [
 	// Word that ends in -heden
 	[ "snelheden", "snelheid" ],
 	[ "gezonheden", "gezonheid" ],
-	// Word that ends in -den with -d being part of the stem and the stem is in verb exception list (4e-11).
+	/*
+	 * Word that ends in -den with -d being part of the stem which is in the verb sub-list of wordsStemOnlyEnEnding list
+	 * and the stem is in verb exception list (4e-11).
+	 */
 	[ "belijden", "belijd" ],
 	// Word that ends in -den with -d being part of the stem and the stem ends in t/d (4e-13)
 	[ "onthoofden", "onthoofd" ],
 	/*
-	 * Word that ends in -den with -d being part of the stem and undergoes vowel doubling after suffix deletion
-	 * and the stem ends in t/d (4d-13)
+	 * Word that ends in -den with -d being part of the stem  which is in the ending match sub-list of wordsStemOnlyEnEnding list
+	 * and undergoes vowel doubling after suffix deletion and the stem ends in t/d (4d-13)
 	 */
 	[ "potloden", "potlood" ],
 	/*
@@ -126,10 +144,16 @@ const wordsToStem = [
 	[ "ingrediëntje", "ingrediën" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
 	[ "garagetje", "garage" ],
+	[ "parkeergaragetje", "parkeergarage" ],
 	[ "taxietje", "taxi" ],
-	// Noun that is in stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
+	[ "watertaxietje", "watertaxi" ],
+	// Noun that is in the ending match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
 	[ "dramaatje", "drama" ],
 	[ "cameraatje", "camera" ],
+	[ "filmcameraatje", "filmcamera" ],
+	// Noun that is in the exact match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
+	[ "omaatje", "oma" ],
+	[ "lamaatje", "lama" ],
 	// Verb that gets suffix -ten and is in verb exception list (9b-11)
 	[ "lachten", "lach" ],
 	[ "bakten", "bak" ],
@@ -341,12 +365,26 @@ const wordsToStem = [
 	[ "mode", "mood" ],
 	[ "compote", "compoot" ],
 	[ "taarten", "taart" ],
+	// Vowel doubling checks:
+	// Is on ending match sub-list of no vowel doubling list
+	[ "hagelslagen", "hagelslag" ],
+	// Is on exact match sub-list of no vowel doubling list
+	[ "flexibeler", "flexibel" ],
+	// Is on verb match sub-list of no vowel doubling list
+	[ "ademen", "adem" ],
+	[ "uitademen", "uitadem" ],
+	[ "verademen", "veradem" ],
 
 	// Words that should not be stemmed (not matched in any stemming steps):
 	[ "verantwoordelijk", "verantwoordelijk" ],
 	[ "aangenaam", "aangenaam" ],
 	[ "gelukkig", "gelukkig" ],
 	[ "aardbei", "aardbei" ],
+	// Words that are in the list of doNotStemTOrD in which the t/d is part of the stem and should not be stemmed.
+	[ "abonnement", "abonnement" ],
+	[ "communicatiedienst", "communicatiedienst" ],
+	[ "botermarkt", "botermarkt" ],
+	[ "rijafstand", "rijafstand" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
