@@ -6,6 +6,10 @@ export const SET_IMAGE_URL = "SET_IMAGE_URL";
 
 export const SET_IMAGE_TYPE = "SET_IMAGE_TYPE";
 
+export const SET_IMAGE_ID = "SET_IMAGE_ID";
+
+export const SET_IMAGE = "SET_IMAGE";
+
 /**
  * An action creator for setting the socialPreview title.
  *
@@ -53,3 +57,28 @@ export const setSocialPreviewImageUrl = ( imageUrl, platform ) => {
 export const setSocialPreviewImageType = ( imageType, platform ) => {
 	return { type: SET_IMAGE_TYPE, platform, imageType };
 };
+
+/**
+ * An action creator for setting the socialPreview imageId.
+ *
+ * @param {number} imageId The image id.
+ * @param {String} platform The platform ( Facebook | Twitter ).
+ *
+ * @returns {Object} The action object.
+ */
+export const setSocialPreviewImageId = ( imageId, platform ) => {
+	return { type: SET_IMAGE_ID, platform, imageId };
+};
+
+/**
+ * An action creator for setting the socialPreview image.
+ *
+ * @param {String} image The image object.
+ * @param {String} platform The platform ( Facebook | Twitter ).
+ *
+ * @returns {Object} The action object.
+ */
+export const setSocialPreviewImage = ( image, platform ) => {
+	return { type: SET_IMAGE, platform, image };
+};
+

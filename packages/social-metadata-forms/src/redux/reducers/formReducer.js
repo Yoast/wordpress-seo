@@ -1,6 +1,13 @@
 import { combineReducers } from "redux";
 
-import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../actions/formActions";
+import {
+	SET_TITLE,
+	SET_DESCRIPTION,
+	SET_IMAGE_URL,
+	SET_IMAGE_TYPE,
+	SET_IMAGE_ID,
+	SET_IMAGE,
+} from "../actions/formActions";
 
 /**
  * Initial state
@@ -32,10 +39,14 @@ function socialPreview( state = initialState, action ) {
 			return { ...state, title: action.title };
 		case SET_DESCRIPTION :
 			return { ...state, description: action.description };
+		case SET_IMAGE :
+			return { ...state, image: { ...action.image } };
 		case SET_IMAGE_URL :
 			return { ...state, image: { ...state.image, url: action.imageUrl } };
 		case SET_IMAGE_TYPE :
 			return { ...state, image: { ...state.image, type: action.imageType } };
+		case SET_IMAGE_ID :
+			return { ...state, image: { ...state.image, id: action.imageId } };
 	  default:
 			return state;
 	}
