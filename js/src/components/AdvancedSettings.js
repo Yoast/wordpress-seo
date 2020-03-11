@@ -7,19 +7,22 @@ import Input from "./Input";
 import { Fragment } from "react";
 import RadioButtons from "./RadioButtons";
 
+// Define where the data comes from. This makes it easier to change the data object in the future.
+const dataObject = window.wpseoAdminL10n;
+
 /**
  * Functional component for the Meta Robots No-Index option.
  *
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const noIndex = window.wpseoPostScraperL10n.noIndex ? "No" : "Yes";
+	const noIndex = dataObject.noIndex ? "No" : "Yes";
 	return <Fragment>
 		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
 			{
 				sprintf(
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					window.wpseoPostScraperL10n.labelSingular
+					dataObject.labelSingular,
 				)
 			}
 		</label>
@@ -30,7 +33,7 @@ const MetaRobotsNoIndex = () => {
 				{
 					name: sprintf(
 						__( "Default for %s, currently: %s", "wordpress-seo" ),
-						window.wpseoPostScraperL10n.label,
+						dataObject.label,
 						noIndex,
 					),
 					value: "0",
@@ -53,7 +56,7 @@ const MetaRobotsNoFollow = () => {
 			{
 				sprintf(
 					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					window.wpseoPostScraperL10n.labelSingular
+					dataObject.labelSingular,
 				)
 			}
 		</label>
@@ -169,12 +172,13 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
+			dataObject.displayAdvancedTab &&
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
 				<MetaRobotsNoFollow />
 				<MetaRobotsAdvanced />
 				{
-					! window.wpseoPostScraperL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
+					! dataObject.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
 			</Collapsible>

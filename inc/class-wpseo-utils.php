@@ -1067,7 +1067,23 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [];
+		global $post;
+		$post_type = '';
+		if ( isset( $post->post_type ) ) {
+			$post_type = $post->post_type;
+		}
+		elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+			$post_type = sanitize_text_field( $_GET['post_type'] );
+		}
+		/* Adjust the no-index text strings based on the post type. */
+		$post_type_object = get_post_type_object( $post_type );
+		$wpseo_admin_l10n = [
+			'displayAdvancedTab'        => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) === false,
+			'noIndex'                   => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
+			'label'                     => $post_type_object->label,
+			'labelSingular'             => $post_type_object->labels->singular_name,
+			'breadcrumbsDisabled'       => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {

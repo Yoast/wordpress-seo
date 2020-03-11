@@ -11,10 +11,10 @@ export default class RadioButtons extends Component {
 	 *
 	 * @returns {void} Nothing.
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 		this.state = {
-			selected: parseInt( document.querySelector( this.props.hiddenComponentId ).value, 10 ),
+			selected: parseInt( document.querySelector( props.hiddenComponentId ).value, 10 ),
 		};
 		this.changeHiddenInput = this.changeHiddenInput.bind( this );
 	}
