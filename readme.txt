@@ -214,20 +214,18 @@ Release Date: March 17th, 2020
 
 Enhancements:
 
-* Makes sure encoded urls are human readable in forms and output.
+* Makes sure all URL fields show an unencoded URL after saving, even when the user input was encoded.
+* Requires all URLs in URL input fields to begin with either ‘/’ or ‘http(s)’. Props to [stodorovic](https://github.com/stodorovic).
 * Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
 
 Bugfixes:
 
-* Allows percent-encoding in canonical field. Props to [stodorovic](https://github.com/stodorovic).
-* Compares URL percent-encoding as case insensitive. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where social URLs containing international characters could not be saved. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic).
 
 Other:
 
-* Changes cURL Health Check to `critical` instead of `recommended`.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
-* Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
-* Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
+* Changes the cURL Health Check category from `recommended` to `critical`.
 
 = 13.2 =
 Release Date: March 3rd, 2020
