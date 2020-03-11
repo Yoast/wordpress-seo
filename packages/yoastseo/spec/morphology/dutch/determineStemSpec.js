@@ -200,6 +200,11 @@ const wordsToStem = [
 	// Word that gets suffix -end/-ende and gets stem modification after suffix deletion and is in an verb exception list (9j-11)
 	[ "wegend", "weeg" ],
 	[ "wegende", "weeg" ],
+	// Past participle that starts with an inseparable prefix and ends in -end.
+	[ "erkend", "erken" ],
+	// Present participle that starts with an inseparable prefix and ends in -end(e).
+	[ "bedelvend", "bedelf" ],
+	[ "bedelvende", "bedelf" ],
 	// Word that ends in -t end gets -end suffix (4h-13)
 	[ "plantend", "plant" ],
 	/*

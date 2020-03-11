@@ -55,6 +55,20 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
 };
 
 /**
+ * Modifies the stem of the word according to the specified modification type.
+ *
+ * @param {string} word The stem that needs to be modified.
+ * @param {string[]} modificationGroup The type of modification that needs to be done.
+ * @returns {string} The modified stem, or the same stem if no modification was made.
+ */
+export function modifyStem( word, modificationGroup ) {
+	const neededReplacement = modificationGroup.find( replacement => word.search( new RegExp( replacement[ 0 ] ) ) !== -1 );
+	if ( typeof neededReplacement !== "undefined" ) {
+		word = word.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
+	} return word;
+}
+
+/**
  * Checks whether the final vowel of the stem should be doubled by going through four checks.
  *
  * @param {string}  word                               The stemmed word that the check should be executed on.
