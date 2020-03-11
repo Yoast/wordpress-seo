@@ -195,10 +195,10 @@ class HowToTest extends TestCase {
 	}
 
 	/**
-	 * Tests that a condensed how-to step is generated, with the description as the text,
-	 * when no title is available.
+	 * Tests that a condensed how-to step is generated, with the block's name as the text,
+	 * when no text is available.
 	 */
-	public function test_generate_no_json_name() {
+	public function test_schema_text_falls_back_to_block_name() {
 		$blocks = $this->base_blocks;
 		// Remove the json name from the base blocks.
 		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'] = '';
@@ -219,11 +219,13 @@ class HowToTest extends TestCase {
 	 * Tests that no Schema step is output when a step is empty
 	 * (e.g. it does not contain a description, name and image).
 	 */
-	public function test_empty_step_1() {
+	public function test_empty_step() {
 		$blocks = $this->base_blocks;
-		// Remove the json name and text.
-		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName'] = '';
-		$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['text']     = [];
+		// Remove JSON text and -name attributes.
+		unset(
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'],
+			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName']
+		);
 
 		$schema = $this->base_schema;
 		unset( $schema[0]['step'] );
@@ -284,30 +286,10 @@ class HowToTest extends TestCase {
 	}
 
 	/**
-	 * Tests that no Schema step is output when a step is empty
-	 * (e.g. it does not contain a description, name and image).
-	 */
-	public function test_empty_step_2() {
-		$blocks = $this->base_blocks;
-		// Remove JSON text and -name attributes.
-		unset(
-			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'],
-			$blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonName']
-		);
-
-		$schema = $this->base_schema;
-		unset( $schema[0]['step'] );
-
-		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
-		$this->assertEquals( $schema, $actual_schema );
-	}
-
-	/**
 	 * Tests that no duration is output in the How-to Schema
-	 * when no duration information is available.
+	 * when no duration information is available on the block.
 	 */
-	public function test_no_duration() {
+	public function test_block_has_no_duration() {
 		$blocks = $this->base_blocks;
 		// This How-to has no duration.
 		$blocks['yoast/how-to-block'][0]['attrs']['hasDuration'] = false;
@@ -321,10 +303,10 @@ class HowToTest extends TestCase {
 	}
 
 	/**
-	 * Tests that the text property of the How-to step
-	 * falls back to the title if no description is available.
+	 * Tests that a condensed how-to step is generated, with the block's text as the text,
+	 * when no name is available.
 	 */
-	public function test_no_jsontext() {
+	public function test_schema_text_falls_back_to_block_text() {
 		$blocks = $this->base_blocks;
 		// Remove JSON text and -name attributes.
 		unset( $blocks['yoast/how-to-block'][0]['attrs']['steps'][0]['jsonText'] );
