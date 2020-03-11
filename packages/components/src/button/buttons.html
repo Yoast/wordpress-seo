@@ -1,0 +1,43 @@
+<!--A button can both be used for a link and a button.
+Use a link when the button should redirect to another page
+use a button when it's used for an action: for example, opening a modal.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--font-family);
+			font-size: var(--font-size-default);
+			color: var(--color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/icons.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='buttons.css' type='text/css' media='all'/>
+
+</head>
+<body class="yoast">
+
+<a href="${url}" class="yoast-button yoast-button--primary">${content}</a>
+
+<button class="yoast-button yoast-button--primary">${content}</button>
+
+<a id="wpseo-premium_upsell-popup-button" class="yoast-button yoast-button--buy" href="#" target="_blank">
+	Get Yoast SEO Premium
+	<span class="screen-reader-text">(Opens in a new browser tab)</span>
+	<span aria-hidden="true" class="yoast-button--buy__caret"></span>
+</a>
+</body>
+</html>
