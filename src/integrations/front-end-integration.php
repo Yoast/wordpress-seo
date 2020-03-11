@@ -173,19 +173,12 @@ class Front_End_Integration implements Integration_Interface {
 	public function call_wpseo_head() {
 		global $wp_query;
 
-		$old_wp_query = null;
-
-		if ( ! $wp_query->is_main_query() ) {
-			$old_wp_query = $wp_query;
-			wp_reset_query();
-		}
+		$old_wp_query = $wp_query;
+		wp_reset_query();
 
 		do_action( 'wpseo_head' );
 
-		if ( ! empty( $old_wp_query ) ) {
-			$GLOBALS['wp_query'] = $old_wp_query;
-			unset( $old_wp_query );
-		}
+		$GLOBALS['wp_query'] = $old_wp_query;
 	}
 
 	/**
