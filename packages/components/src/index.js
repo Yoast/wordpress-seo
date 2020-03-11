@@ -1,5 +1,3 @@
-import "./base";
-
 import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
 import { LinkButton } from "./buttons/LinkButton";
 
@@ -81,13 +79,3 @@ export { Row } from "./table/Row";
 
 export { default as ScreenReaderText } from "./a11y/ScreenReaderText";
 export { default as ScreenReaderShortcut } from "./a11y/ScreenReaderShortcut";
-
-export * from "./button";
-export * from "./checkbox";
-export * from "./data-model";
-export * from "./field-group";
-export * from "./inputs";
-export * from "./modal";
-export * from "./radiobutton";
-export * from "./select";
-export * from "./toggle";
