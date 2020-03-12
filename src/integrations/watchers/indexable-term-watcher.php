@@ -63,6 +63,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
+		\add_action( 'created_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX );
 	}
