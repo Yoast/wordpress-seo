@@ -7,8 +7,8 @@ import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFu
 /**
  * If the word ending in -t/-d was matched in the doNotStemTOrD list.
  *
- * @param {string[]} doNotStemTOrD	The Dutch morphology data.
  * @param {string}	 stemmedWord	The stemmed word.
+ * @param {string[]} doNotStemTOrD	The Dutch morphology data.
  * @returns {boolean} Whether the word is found on the list of doNotStemTOrD exceptions.
  */
 const checkTheWordIsInTOrDExceptionList = function( stemmedWord, doNotStemTOrD ) {
@@ -44,8 +44,8 @@ const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word )
 		 adjectivesEndingInRd.includes( stemmedWord ) ||
 		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
 		 stemmedWord.endsWith( "heid" ) ||
-		 checkTheWordIsInTOrDExceptionList( stemmedWord, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD )
-		) {
+		 checkTheWordIsInTOrDExceptionList( stemmedWord, wordsEndingInTOrDExceptionList )
+	) {
 		return true;
 	}
 };
