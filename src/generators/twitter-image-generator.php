@@ -2,7 +2,7 @@
 /**
  * Generator object for the Twitter image.
  *
- * @package Yoast\YoastSEO\Generators
+ * @package Yoast\WP\SEO\Generators
  */
 
 namespace Yoast\WP\SEO\Generators;
