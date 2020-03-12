@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class HowToTest
+ * Class HowTo_Test
  *
  * @package Yoast\WP\SEO\Tests\Generators\Schema
  *
