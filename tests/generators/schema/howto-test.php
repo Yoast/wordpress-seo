@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\HowTo
  */
-class HowToTest extends TestCase {
+class HowTo_Test extends TestCase {
 
 	/**
 	 * Holds the meta tags context mock.
