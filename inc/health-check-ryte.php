@@ -181,14 +181,24 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->badge['color'] = 'red';
 
 		$this->description = sprintf(
-			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO', %3$s: Opening tag to the Yoast knowledge base, %4$s: Link closing tag. */
-			esc_html__( '%1$s offers a free indexability check for %2$s users and right now it has trouble determining
-			whether search engines can find your site. This could have several (legitimate) reasons and is not a problem
-			in itself. If this is a live site, %3$sit is recommended that you figure out why the %1$s check failed.%4$s', 'wordpress-seo' ),
-			'Ryte',
-			'Yoast SEO',
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
-			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+			'%s<br><br>%s',
+			sprintf(
+				/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
+				esc_html__( '%1$s offers a free indexability check for %2$s users and right now it has trouble determining
+				whether search engines can find your site. This could have several (legitimate) reasons and is not a problem
+				in itself. If this is a live site, it is recommended that you figure out why the %1$s check failed.', 'wordpress-seo' ),
+				'Ryte',
+				'Yoast SEO'
+			),
+			sprintf(
+				/* translators: %1$s: Expands to 'Ryte', %2$s: Opening tag to the Yoast knowledge base, %3$s: Link closing tag. */
+				esc_html__( 'As the indexability status of your website can only be fetched from %1$s every 15 seconds,
+				a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,
+				%2$sread more about troubleshooting search engine visibility%3$s.', 'wordpress-seo' ),
+				'Ryte',
+				'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
+				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+			)
 		);
 
 		$this->add_ryte_link();
