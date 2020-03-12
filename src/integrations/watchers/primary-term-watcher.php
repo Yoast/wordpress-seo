@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use WPSEO_Meta;
+use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -33,6 +34,13 @@ class Primary_Term_Watcher implements Integration_Interface {
 	protected $site;
 
 	/**
+	 * The primary term builder.
+	 *
+	 * @var Primary_Term_Builder
+	 */
+	protected $primary_term_builder;
+
+	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -44,12 +52,18 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 *
-	 * @param Primary_Term_Repository $repository The primary term repository.
-	 * @param Site_Helper             $site       The site helper.
+	 * @param Primary_Term_Repository $repository           The primary term repository.
+	 * @param Site_Helper             $site                 The site helper.
+	 * @param Primary_Term_Builder    $primary_term_builder The primary term builder.
 	 */
-	public function __construct( Primary_Term_Repository $repository, Site_Helper $site ) {
-		$this->repository = $repository;
-		$this->site       = $site;
+	public function __construct(
+		Primary_Term_Repository $repository,
+		Site_Helper $site,
+		Primary_Term_Builder $primary_term_builder
+	) {
+		$this->repository           = $repository;
+		$this->site                 = $site;
+		$this->primary_term_builder = $primary_term_builder;
 	}
 
 	/**
@@ -77,60 +91,6 @@ class Primary_Term_Watcher implements Integration_Interface {
 
 			$primary_term->delete();
 		}
-	}
-
-	/**
-	 * Saves the primary terms for a post.
-	 *
-	 * @param int $post_id Post ID to save the primary terms for.
-	 *
-	 * @return void
-	 */
-	public function save_primary_terms( $post_id ) {
-		// Bail if this is a multisite installation and the site has been switched.
-		if ( $this->site->is_multisite_and_switched() ) {
-			return;
-		}
-
-		if ( ! $this->is_post_request() ) {
-			return;
-		}
-
-		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
-			$this->save_primary_term( $post_id, $taxonomy->name );
-		}
-	}
-
-	/**
-	 * Save the primary term for a specific taxonomy.
-	 *
-	 * @param int    $post_id  Post ID to save primary term for.
-	 * @param string $taxonomy Taxonomy to save primary term for.
-	 *
-	 * @return void
-	 */
-	protected function save_primary_term( $post_id, $taxonomy ) {
-		// This request must be valid.
-		$term_id = $this->get_posted_term_id( $taxonomy );
-		if ( $term_id && ! $this->is_referer_valid( $taxonomy ) ) {
-			return;
-		}
-
-		$term_selected = ! empty( $term_id );
-		$primary_term  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
-
-		// Removes the indexable when found.
-		if ( ! $term_selected ) {
-			if ( $primary_term ) {
-				$primary_term->delete();
-			}
-			return;
-		}
-
-		$primary_term->term_id  = $term_id;
-		$primary_term->post_id  = $post_id;
-		$primary_term->taxonomy = $taxonomy;
-		$primary_term->save();
 	}
 
 	/**
@@ -177,14 +137,23 @@ class Primary_Term_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Returns whether or not a taxonomy is hierarchical.
+	 * Saves the primary terms for a post.
 	 *
-	 * @param \stdClass $taxonomy Taxonomy object.
+	 * @param int $post_id Post ID to save the primary terms for.
 	 *
-	 * @return bool True for hierarchical taxonomy.
+	 * @return void
 	 */
-	protected function filter_hierarchical_taxonomies( $taxonomy ) {
-		return (bool) $taxonomy->hierarchical;
+	public function save_primary_terms( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( $this->site->is_multisite_and_switched() ) {
+			return;
+		}
+
+		if ( ! $this->is_post_request() ) {
+			return;
+		}
+
+		$this->primary_term_builder->build( $post_id );
 	}
 
 	/**
@@ -196,31 +165,5 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 */
 	protected function is_post_request() {
 		return isset( $_SERVER['REQUEST_METHOD'] ) && \strtolower( \wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'post';
-	}
-
-	/**
-	 * Retrieves the posted term ID based on the given taxonomy.
-	 *
-	 * @param string $taxonomy The taxonomy to check.
-	 *
-	 * @codeCoverageIgnore It wraps form input.
-	 *
-	 * @return int The term ID.
-	 */
-	protected function get_posted_term_id( $taxonomy ) {
-		return \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', \FILTER_SANITIZE_NUMBER_INT );
-	}
-
-	/**
-	 * Checks if the referer is valid for given taxonomy.
-	 *
-	 * @param string $taxonomy The taxonomy to validate.
-	 *
-	 * @codeCoverageIgnore It wraps a WordPress function.
-	 *
-	 * @return bool Whether the referer is valid.
-	 */
-	protected function is_referer_valid( $taxonomy ) {
-		return \check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
 	}
 }
