@@ -3,7 +3,7 @@
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 
-use Yoast\WP\SEO\Presentations\Generators\Schema\Person;
+use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Author
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
 class Author_Test extends TestCase {
 	/**

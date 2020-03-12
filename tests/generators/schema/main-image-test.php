@@ -11,7 +11,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Main_Image;
+use Yoast\WP\SEO\Generators\Schema\Main_Image;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -22,7 +22,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Main_Image
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Main_Image
  */
 class Main_Image_Test extends TestCase {
 

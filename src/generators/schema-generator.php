@@ -2,21 +2,19 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators
+ * @package Yoast\WP\SEO\Generators
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators;
+namespace Yoast\WP\SEO\Generators;
 
 use WP_Block_Parser_Block;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Abstract_Schema_Piece;
+use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 
 /**
  * Class Schema_Generator
- *
- * @package Yoast\WP\SEO\Presentations\Generators
  */
 class Schema_Generator implements Generator_Interface {
 
@@ -113,7 +111,7 @@ class Schema_Generator implements Generator_Interface {
 
 		$pieces_to_generate = [];
 		foreach ( $pieces as $piece ) {
-			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
+			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Generators\Schema\\', '', \get_class( $piece ) ) );
 			if ( property_exists( $piece, 'identifier' ) ) {
 				$identifier = $piece->identifier;
 			}
