@@ -16,6 +16,7 @@ const dataObject = window.wpseoAdminL10n;
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
 	const noIndex = dataObject.noIndex ? "No" : "Yes";
 	return <Fragment>
 		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
@@ -28,7 +29,7 @@ const MetaRobotsNoIndex = () => {
 		</label>
 		<SingleSelect
 			componentId={ "yoast_wpseo_meta-robots-noindex-react" }
-			hiddenInputId={ "#yoast_wpseo_meta-robots-noindex" }
+			hiddenInputId={ hiddenInputId }
 			options={ [
 				{
 					name: sprintf(
@@ -107,6 +108,8 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
+	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
+
 	return <Fragment>
 		<CollapsibleHelpText
 			label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
@@ -114,7 +117,7 @@ const BreadCrumbsTitle = () => {
 		/>
 		<Input
 			componentId="yoast_wpseo_bctitle-react"
-			hiddenInputId="#yoast_wpseo_bctitle"
+			hiddenInputId={ hiddenInputId }
 		/>
 	</Fragment>;
 };
@@ -149,6 +152,8 @@ const CanonicalURL = () => {
 		getNewTabMessage() + "</a>",
 	);
 
+	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
+
 	return <Fragment>
 		<CollapsibleHelpText
 			label={ __( "Canonical URL", "wordpress-seo" ) }
@@ -156,9 +161,18 @@ const CanonicalURL = () => {
 		/>
 		<Input
 			componentId="yoast_wpseo_canonical-react"
-			hiddenInputId="#yoast_wpseo_canonical"
+			hiddenInputId={ hiddenInputId }
 		/>
 	</Fragment>;
+};
+
+/**
+ * Helper function to check whether the current object refers to a post or a taxonomy.
+ *
+ * @return {boolean} true if post, false if taxonomy.
+ */
+const isPost = () => {
+	return dataObject.postType === "post";
 };
 
 /**
@@ -172,11 +186,10 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			dataObject.displayAdvancedTab &&
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
-				<MetaRobotsNoFollow />
-				<MetaRobotsAdvanced />
+				{ isPost() && <MetaRobotsNoFollow/> }
+				{ isPost() && <MetaRobotsAdvanced /> }
 				{
 					! dataObject.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
