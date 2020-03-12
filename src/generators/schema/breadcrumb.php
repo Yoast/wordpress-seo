@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -28,6 +28,8 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * Breadcrumb constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
+	 *
+	 * @codeCoverageIgnore Constructor.
 	 */
 	public function __construct( Current_Page_Helper $current_page ) {
 		$this->current_page = $current_page;
@@ -41,7 +43,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'error-page' ) {
+		if ( $context->indexable->object_type === 'system-page' && $context->indexable->object_sub_type === '404' ) {
 			return false;
 		}
 
@@ -67,28 +69,39 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$breadcrumbs   = $context->presentation->breadcrumbs;
-		$broken        = false;
 		$list_elements = [];
 
+		// Only output breadcrumbs that are not hidden.
+		$breadcrumbs = array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
+
+		reset( $breadcrumbs );
+
+		/*
+		 * Check whether at least one of the breadcrumbs is broken.
+		 * If so, do not output anything.
+		 */
+		foreach ( $breadcrumbs as $breadcrumb ) {
+			if ( $this->is_broken( $breadcrumb ) ) {
+				return false;
+			}
+		}
+
+
+		// Create the last breadcrumb.
+		$last_breadcrumb = array_pop( $breadcrumbs );
+		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb, $context );
+
+		// Add a paginated state if the current page is paged.
+		if ( $this->current_page->is_paged() ) {
+			$breadcrumbs[] = [
+				'url'  => $context->canonical,
+				'text' => $context->title,
+			];
+		}
+
+		// Create intermediate breadcrumbs.
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
-			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
-				continue;
-			}
-
-			if ( ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb ) ) {
-				$broken = true;
-				break;
-			}
-			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb, $context );
-		}
-
-		// Only output if JSON is correctly formatted.
-		if ( $broken ) {
-			return false;
-		}
-
-		if ( \is_paged() ) {
-			$list_elements[] = $this->add_paginated_state( $index, $context );
+			$list_elements[] = $this->create_breadcrumb( $index, $breadcrumb );
 		}
 
 		return [
@@ -101,21 +114,12 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Returns a breadcrumb array.
 	 *
-	 * @param int               $index      The position in the list.
-	 * @param array             $breadcrumb The breadcrumb array.
-	 * @param Meta_Tags_Context $context    The meta tags context.
+	 * @param int   $index      The position in the list.
+	 * @param array $breadcrumb The position in the list.
 	 *
 	 * @return array A breadcrumb listItem.
 	 */
-	private function add_breadcrumb( $index, $breadcrumb, Meta_Tags_Context $context ) {
-		if ( empty( $breadcrumb['url'] ) ) {
-			$breadcrumb['url'] = $context->canonical;
-		}
-
-		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['text'] = $context->title;
-		}
-
+	private function create_breadcrumb( $index, $breadcrumb ) {
 		return [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
@@ -129,18 +133,47 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	}
 
 	/**
-	 * Adds the paginated state to the breadcrumb array.
+	 * Creates the last breadcrumb in the breadcrumb list.
+	 * Provides a fallback for the URL and text:
+	 *  - URL falls back to the canonical of current page.
+	 *  - text falls back to the title of current page.
 	 *
-	 * @param int               $index   The index.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array             $breadcrumb The position in the list.
+	 * @param Meta_Tags_Context $context    The meta tags context.
 	 *
-	 * @return array A breadcrumb listItem.
+	 * @return array The last of the breadcrumbs.
 	 */
-	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
-		return $this->add_breadcrumb(
-			( $index + 1 ),
-			[ 'url' => $context->canonical, 'text' => $context->title ],
-			$context
-		);
+	private function format_last_breadcrumb( $breadcrumb, $context ) {
+		if ( empty( $breadcrumb['url'] ) ) {
+			$breadcrumb['url'] = $context->canonical;
+		}
+		if ( empty( $breadcrumb['text'] ) ) {
+			$breadcrumb['text'] = $context->title;
+		}
+
+		return $breadcrumb;
+	}
+
+	/**
+	 * Tests if the breadcrumb is broken.
+	 * A breadcrumb is considered broken when it has no URL or text.
+	 *
+	 * @param array $breadcrumb The breadcrumb to test.
+	 *
+	 * @return bool `true` if the breadcrumb is broken.
+	 */
+	private function is_broken( $breadcrumb ) {
+		return ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb );
+	}
+
+	/**
+	 * Checks whether the breadcrumb is not set to be hidden.
+	 *
+	 * @param array $breadcrumb The breadcrumb array.
+	 *
+	 * @return bool If the breadcrumb should not be hidden.
+	 */
+	private function not_hidden( $breadcrumb ) {
+		return empty( $breadcrumb['hide_in_schema'] );
 	}
 }

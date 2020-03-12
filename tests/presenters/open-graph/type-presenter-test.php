@@ -19,11 +19,15 @@ use Yoast\WP\SEO\Tests\TestCase;
  */
 class Type_Presenter_Test extends TestCase {
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $indexable_presentation;
 
 	/**
+	 * The type presenter instance.
+	 *
 	 * @var Type_Presenter
 	 */
 	protected $instance;

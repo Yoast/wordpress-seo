@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter;
@@ -17,11 +17,15 @@ use Yoast\WP\SEO\Tests\TestCase;
 class FB_App_ID_Presenter_Test extends TestCase {
 
 	/**
+	 * The FB app ID presenter instance.
+	 *
 	 * @var FB_App_ID_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;

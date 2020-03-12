@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
@@ -37,6 +37,8 @@ class FAQ extends Abstract_Schema_Piece {
 	 *
 	 * @param HTML_Helper     $html     The HTML helper.
 	 * @param Language_Helper $language The language helper.
+	 *
+	 * @codeCoverageIgnore Constructor.
 	 */
 	public function __construct(
 		HTML_Helper $html,
@@ -76,29 +78,25 @@ class FAQ extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$ids   = [];
 		$graph = [];
-		$number_of_blocks = count( $context->blocks['yoast/faq-block'] );
 		$number_of_items = 0;
 
-		for ( $block_number = 0; $block_number < $number_of_blocks; $block_number++ ) {
-			foreach ( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] as $index => $question ) {
+		foreach ( $context->blocks['yoast/faq-block'] as $block ) {
+			foreach ( $block['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
 				$ids[]   = [ '@id' => $context->canonical . '#' . esc_attr( $question['id'] ) ];
 				$graph[] = $this->generate_question_block( $question, $index, $context );
-				$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
+				$number_of_items++;
 			}
 		}
 
-		\array_unshift(
-			$graph,
-			[
-				'@type'            => 'ItemList',
-				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
-				'numberOfItems'    => $number_of_items,
-				'itemListElement'  => $ids,
-			]
-		);
+		\array_unshift( $graph, [
+			'@type'            => 'ItemList',
+			'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
+			'numberOfItems'    => $number_of_items,
+			'itemListElement'  => $ids,
+		] );
 
 		return $graph;
 	}
@@ -122,10 +120,6 @@ class FAQ extends Abstract_Schema_Piece {
 			'url'            => $url,
 			'name'           => $this->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'acceptedAnswer' => [
-				'@type' => 'Answer',
-				'text'  => $this->html->sanitize( $question['jsonAnswer'] ),
-			],
 			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
 

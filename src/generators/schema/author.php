@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -39,6 +39,8 @@ class Author extends Person {
 	 * @param Image_Helper        $image        The image helper.
 	 * @param Schema\Image_Helper $schema_image The schema image helper.
 	 * @param Schema\HTML_Helper  $html         The HTML helper.
+	 *
+	 * @codeCoverageIgnore Constructor method.
 	 */
 	public function __construct(
 		Article_Helper $article,
@@ -125,6 +127,8 @@ class Author extends Person {
 	 * @param array             $data      The Person schema.
 	 * @param string            $schema_id The string used in the `@id` for the schema.
 	 * @param Meta_Tags_Context $context   The meta tags context.
+	 *
+	 * @codeCoverageIgnore Wrapper method, only returns `$data` argument.
 	 *
 	 * @return array The Person schema.
 	 */

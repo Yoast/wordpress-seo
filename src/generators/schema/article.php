@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Date_Helper;
@@ -187,14 +187,14 @@ class Article extends Abstract_Schema_Piece {
 	 *
 	 * @return mixed array $data Article data.
 	 */
-	private function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
+	protected function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
 		$terms = \get_the_terms( $context->id, $taxonomy );
 
 		if ( ! \is_array( $terms ) ) {
 			return $data;
 		}
 
-		$terms = array_filter( $terms, function( $term ) {
+		$terms = \array_filter( $terms, function( $term ) {
 			// We are checking against the WordPress internal translation.
 			// @codingStandardsIgnoreLine
 			return $term->name !== __( 'Uncategorized' );
@@ -204,7 +204,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = implode( ',', wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
 
 		return $data;
 	}
@@ -241,7 +241,7 @@ class Article extends Abstract_Schema_Piece {
 		 *
 		 * @api array $targets The URLs for the Article potentialAction target.
 		 */
-		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $context->canonical . '#respond' ] );
+		$targets = \apply_filters( 'wpseo_schema_article_potential_action_target', [ $context->canonical . '#respond' ] );
 
 		$data['potentialAction'][] = [
 			'@type'  => 'CommentAction',

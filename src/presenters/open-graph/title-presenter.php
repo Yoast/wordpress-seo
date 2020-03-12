@@ -27,6 +27,8 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * Title_Presenter constructor.
 	 *
 	 * @param String_Helper $string The string helper.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( String_Helper $string ) {
 		$this->string = $string;
@@ -62,9 +64,9 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_opengraph_title' - Allow changing the Yoast SEO generated title.
 		 *
-		 * @api string $title The title.
-		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
+		 * @api string $title The title.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $presentation ) );
 	}

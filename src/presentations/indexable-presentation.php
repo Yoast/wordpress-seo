@@ -17,8 +17,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presentations\Generators\Open_Graph_Locale_Generator;
-use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
+use Yoast\WP\SEO\Generators\Schema_Generator;
 
 /**
  * Class Indexable_Presentation

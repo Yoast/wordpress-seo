@@ -19,22 +19,30 @@ use Yoast\WP\SEO\Tests\TestCase;
  */
 class Title_Presenter_Test extends TestCase {
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $indexable_presentation;
 
 	/**
+	 * The title presenter instance.
+	 *
 	 * @var Title_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 
 	/**
-	 * @var Mockery\MockInterface
+	 * The string helper.
+	 *
+	 * @var String_Helper|Mockery\MockInterface
 	 */
 	protected $string;
 
@@ -119,9 +127,9 @@ class Title_Presenter_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_title' )
 			->once()
 			->with( 'example_title', Mockery::type( Indexable_Presentation::class ) )
-			->andReturn( 'exampletitle' );
+			->andReturn( 'example_title' );
 
-		$expected = '<title>exampletitle</title>';
+		$expected = '<title>example_title</title>';
 		$actual   = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
