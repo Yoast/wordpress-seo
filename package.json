@@ -103,9 +103,9 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^0.13.2-internal-linking.1",
-    "@yoast/components": "^0.13.2-internal-linking.1",
-    "@yoast/configuration-wizard": "^1.12.2-internal-linking.1",
+    "@yoast/analysis-report": "^0.13.1",
+    "@yoast/components": "^0.13.1",
+    "@yoast/configuration-wizard": "^1.12.1",
     "@yoast/helpers": "^0.11.0-rc.0",
     "@yoast/search-metadata-previews": "^1.19.0-rc.0",
     "@yoast/style-guide": "^0.11.0-rc.0",
@@ -136,6 +136,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "13.3-RC1"
+    "pluginVersion": "13.3-RC2"
   }
 }

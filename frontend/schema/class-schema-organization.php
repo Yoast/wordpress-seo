@@ -93,7 +93,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 		];
 		foreach ( $social_profiles as $profile ) {
 			if ( WPSEO_Options::get( $profile, '' ) !== '' ) {
-				$profiles[] = WPSEO_Options::get( $profile );
+				$profiles[] = urldecode( WPSEO_Options::get( $profile ) );
 			}
 		}
 

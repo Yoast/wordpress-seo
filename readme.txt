@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
-Tested up to: 5.3.2
+Tested up to: 5.4
 Stable tag: 13.2
 Requires PHP: 5.6.20
 
@@ -214,11 +214,20 @@ Release Date: March 17th, 2020
 
 Enhancements:
 
+* Makes sure encoded urls are human readable in forms and output.
 * Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
+
+Bugfixes:
+
+* Allows percent-encoding in canonical field. Props to [stodorovic](https://github.com/stodorovic).
+* Compares URL percent-encoding as case insensitive. Props to [stodorovic](https://github.com/stodorovic).
 
 Other:
 
-* Changes the cURL Health Check to `critical` instead of `recommended`.
+* Changes cURL Health Check to `critical` instead of `recommended`.
+* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
+* Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
+* Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
 
 = 13.2 =
 Release Date: March 3rd, 2020
