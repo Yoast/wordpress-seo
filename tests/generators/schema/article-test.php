@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
+use Yoast\WP\SEO\Generators\Schema\Article;
 use Yoast\WP\SEO\Tests\Doubles\Article_Double;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Article
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Article
  * @covers ::<!public>
  */
 class Article_Test extends TestCase {

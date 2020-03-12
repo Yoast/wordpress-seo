@@ -1,9 +1,11 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
+use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb;
+use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
@@ -15,7 +17,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Breadcrumb
  */
 class Breadcrumb_Test extends TestCase {
 

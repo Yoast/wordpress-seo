@@ -9,14 +9,14 @@ namespace Yoast\WP\SEO\Tests\Generators;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Presentations\Generators\Open_Graph_Locale_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Open_Graph_Locale_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Open_Graph_Locale_Generator
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator
  *
  * @group generators
  * @group open-graph

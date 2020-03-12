@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\FAQ;
+use Yoast\WP\SEO\Generators\Schema\FAQ;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass Yoast\WP\SEO\Presentations\Generators\Schema\FAQ
+ * @coversDefaultClass Yoast\WP\SEO\Generators\Schema\FAQ
  */
 class FAQ_Test extends TestCase {
 
