@@ -15,8 +15,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @package Yoast\WP\SEO\Tests\Generators\Schema
  *
- * @group   generators
- * @group   schema
  * @group generators
  * @group schema
  *
