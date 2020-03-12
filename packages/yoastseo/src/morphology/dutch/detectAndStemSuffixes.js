@@ -98,7 +98,8 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions ) ) {
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions,
+		morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 	return word;
