@@ -1,0 +1,23 @@
+:root {
+	--color-default: #404040;
+	--color-primary: #a4286a;
+	--color-secondary: #f7f7f7;
+	--color-white: #fff;
+	--color-green: #6EA029;
+	--color-primary-darker: #7b1e50;
+	--color-secondary-darker: #d9d9d9;
+	--color-button-upsell: #FEC228;
+	--color-button-upsell-hover: #F2AE01;
+	--color-dark: #303030;
+	--color-sale: #fec228;
+
+	--color-label: #303030;
+	--color-label-help: #707070;
+
+	--color-toggle-on: #303030;
+	--color-toggle-off: #707070;
+
+	--transition-default: all 150ms ease-out;
+
+	--color-link : #006dac;
+}
