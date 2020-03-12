@@ -21,6 +21,7 @@ const wordsToStem = [
 	[ "skiën", "ski" ],
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
+	[ "cafeetje", "café" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
 	[ "gevelwand", "gevelwand" ],
 	[ "beurt", "beurt" ],
@@ -308,12 +309,12 @@ const wordsToStem = [
 	 * Word with plural diminutive suffix -etjes whith is preceded by -e-, the -e- will be further stemmed
 	 * and the final stem does not end in t/d (9fgn-12).
 	 */
-	[ "cafeetjes", "caaf" ],
+	[ "chimpanseetjes", "chimpans" ],
 	/*
 	 * Word with diminutive suffix -etje which is preceded by -e-, the -e- will be further stemmed
 	 * and the final stem does not end in t/d (9gn-12).
 	 */
-	[ "cafeetje", "caaf" ],
+	[ "chimpanseetje", "chimpans" ],
 	// Word with diminutive suffix that ends in -etje
 	[ "typetje", "typ" ],
 	// Words in -eau that get -s in plural
