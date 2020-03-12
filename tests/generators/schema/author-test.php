@@ -262,9 +262,40 @@ class Author_Test extends TestCase {
 			'object_sub_type' => $object_sub_type,
 		];
 
-		$this->meta_tags_context->site_user_id = $user_id;
+		$this->meta_tags_context->site_represents = 'person';
+		$this->meta_tags_context->site_user_id    = $user_id;
 
 		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the author Schema piece is output on a post and the site is represented by an organization.
+	 *
+	 * @covers ::is_needed
+	 */
+	public function test_is_shown_when_on_post_site_organization() {
+		$user_id         = 123;
+		$object_sub_type = 'post';
+
+		$this->article
+			->expects( 'is_article_post_type' )
+			->with( $object_sub_type )
+			->andReturn( true );
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'post',
+			'object_sub_type' => $object_sub_type,
+		];
+
+		$this->meta_tags_context->site_represents = 'organization';
+		$this->meta_tags_context->site_user_id    = $user_id;
+
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
 	}
 
 	/**
