@@ -9,8 +9,8 @@ namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 
 /**
  * Returns schema Organization data.
@@ -111,8 +111,9 @@ class Organization extends Abstract_Schema_Piece {
 			'wikipedia_url',
 		];
 		foreach ( $social_profiles as $profile ) {
-			if ( $this->options->get( $profile, '' ) !== '' ) {
-				$profiles[] = $this->options->get( $profile );
+			$social_profile = $this->options->get( $profile, '' );
+			if ( $social_profile !== '' ) {
+				$profiles[] = $social_profile;
 			}
 		}
 
