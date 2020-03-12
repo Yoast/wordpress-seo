@@ -33,26 +33,24 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 * @return array Fields to be used on the General tab.
 	 */
 	public function get() {
-		$labels = $this->get_taxonomy_labels();
 		$fields = [
 			'noindex'   => $this->get_field_config(
-				/* translators: %s = taxonomy name. */
-				esc_html( sprintf( __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' ), $labels->singular_name ) ),
 				'',
-				'select',
+				'',
+				'hidden',
 				$this->get_noindex_options()
 			),
 			'bctitle'   => $this->get_field_config(
-				__( 'Breadcrumbs Title', 'wordpress-seo' ),
-				esc_html__( 'The Breadcrumbs Title is used in the breadcrumbs where this taxonomy appears.', 'wordpress-seo' ),
-				'text',
+				'',
+				'',
+				'hidden',
 				'',
 				( WPSEO_Options::get( 'breadcrumbs-enable' ) !== true )
 			),
 			'canonical' => $this->get_field_config(
-				__( 'Canonical URL', 'wordpress-seo' ),
-				esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ),
-				'url'
+				'',
+				'',
+				'hidden'
 			),
 		];
 

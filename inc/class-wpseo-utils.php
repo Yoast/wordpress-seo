@@ -1135,13 +1135,50 @@ SVG;
 		return $network_active;
 	}
 
+	public static function get_post_type(){
+		global $post;
+
+		if ( isset( $post->post_type ) ) {
+			return $post->post_type;
+		}
+		elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+			return sanitize_text_field( $_GET['post_type'] );
+		}
+		return '';
+	}
+
+	public static function get_page_type(){
+		global $pagenow;
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ){
+			return 'post';
+		}
+
+		return 'taxonomy';
+	}
+
 	/**
 	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
 	 *
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [];
+		$post_type = WPSEO_Utils::get_post_type();
+
+		/* Adjust the no-index text strings based on the post type. */
+		$post_type_object = get_post_type_object( $post_type );
+
+		echo '<pre>';
+		var_dump( $post_type_object );
+		echo '</pre>';
+
+		$wpseo_admin_l10n = [
+			'displayAdvancedTab'        => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) === false,
+			'noIndex'                   => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
+			'postType'                  => get_post_type(),
+			'label'                     => $post_type_object->label,
+			'labelSingular'             => $post_type_object->labels->singular_name,
+			'breadcrumbsDisabled'       => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {

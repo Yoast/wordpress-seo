@@ -44,17 +44,6 @@ class WPSEO_Metabox_Formatter {
 	 * @return array Default settings for the metabox.
 	 */
 	private function get_defaults() {
-		global $post;
-		$post_type = '';
-		if ( isset( $post->post_type ) ) {
-			$post_type = $post->post_type;
-		}
-		elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
-			$post_type = sanitize_text_field( $_GET['post_type'] );
-		}
-		/* Adjust the no-index text strings based on the post type. */
-		$post_type_object = get_post_type_object( $post_type );
-
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
@@ -82,10 +71,6 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
-			'noIndex'                   => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
-			'label'                     => $post_type_object->label,
-			'labelSingular'             => $post_type_object->labels->singular_name,
-			'breadcrumbsDisabled'       => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 
 
 			/**
