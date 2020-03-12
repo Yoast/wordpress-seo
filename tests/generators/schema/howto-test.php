@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\HowTo;
+use Yoast\WP\SEO\Generators\Schema\HowTo;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group   generators
  * @group   schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\HowTo
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\HowTo
  */
 class HowToTest extends TestCase {
 
