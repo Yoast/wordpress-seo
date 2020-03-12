@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Generators;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presentations\Generators\Generator_Interface;
+use Yoast\WP\SEO\Generators\Generator_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -109,13 +109,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 *
 	 * @return bool Whether or not a blog crumb should be added.
 	 */
-	private function should_have_blog_crumb( $page_for_posts ) {
+	protected function should_have_blog_crumb( $page_for_posts ) {
 		if ( $this->options->get( 'breadcrumbs-display-blog-page' ) !== true ) {
 			return false;
 		}
 
 		// When there is no page configured as blog page.
-		if ( 'page' !== \get_option( 'show_on_front' ) || ! $page_for_posts ) {
+		if ( \get_option( 'show_on_front' ) !== 'page' || ! $page_for_posts ) {
 			return false;
 		}
 

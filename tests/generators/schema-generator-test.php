@@ -3,26 +3,26 @@
 namespace Yoast\WP\SEO\Tests\Generators;
 
 use Mockery;
-use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Organization;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Person;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Website;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Main_Image;
-use Yoast\WP\SEO\Presentations\Generators\Schema\WebPage;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Breadcrumb;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Article;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Author;
-use Yoast\WP\SEO\Presentations\Generators\Schema\FAQ;
-use Yoast\WP\SEO\Presentations\Generators\Schema\HowTo;
+use Yoast\WP\SEO\Generators\Schema\Organization;
+use Yoast\WP\SEO\Generators\Schema\Person;
+use Yoast\WP\SEO\Generators\Schema\Website;
+use Yoast\WP\SEO\Generators\Schema\Main_Image;
+use Yoast\WP\SEO\Generators\Schema\WebPage;
+use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
+use Yoast\WP\SEO\Generators\Schema\Article;
+use Yoast\WP\SEO\Generators\Schema\Author;
+use Yoast\WP\SEO\Generators\Schema\FAQ;
+use Yoast\WP\SEO\Generators\Schema\HowTo;
 
 /**
  * Class Schema_Generator_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema_Generator
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema_Generator
  *
  * @group generators
  * @group schema

@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Mocks\Author;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Author
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
 class Author_Test extends TestCase {
 	/**
