@@ -36,6 +36,7 @@ const wordsToStem = [
 	[ "hoekschoppen", "hoekschop" ],
 	[ "raderen", "rad" ],
 	[ "grofs", "grof" ],
+	[ "cafeetje", "café" ],
 	// Words that are on the list of nonParticiples (are matched with participle regex but are not actually participles) (2a-15).
 	[ "gevelwand", "gevelwand" ],
 	[ "beurt", "beurt" ],
@@ -145,8 +146,8 @@ const wordsToStem = [
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
 	[ "ingrediëntje", "ingrediën" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
-	[ "garagetje", "garage" ],
-	[ "parkeergaragetje", "parkeergarage" ],
+	[ "garagetje", "garag" ],
+	[ "parkeergaragetje", "parkeergarag" ],
 	[ "taxietje", "taxi" ],
 	[ "watertaxietje", "watertaxi" ],
 	// Noun that is in the ending match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
@@ -339,17 +340,28 @@ const wordsToStem = [
 	[ "gezondheidsrecht", "gezondheidsrecht" ],
 	[ "gezondheidsrechten", "gezondheidsrecht" ],
 	/*
-	 * Word with plural diminutive suffix -etjes which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9fgn-12) (incorrect stem, this problem will be possibly fixed
-	 * after implementing the list of nouns ending in -e which get plural suffix -s).
+	 * Word with plural diminutive suffix -etjes whith is preceded by -e-, the -e- will be further stemmed
+	 * and the final stem does not end in t/d (9fgn-12).
 	 */
-	// [ "cafeetjes", "cafe" ],
+	[ "chimpanseetjes", "chimpans" ],
 	/*
 	 * Word with diminutive suffix -etje which is preceded by -e-, the -e- will be further stemmed
-	 * and the final stem does not end in t/d (9gn-12) (incorrect stem, this problem will be possibly fixed
-	 * after implementing the list of nouns ending in -e which get plural suffix -s).
+	 * and the final stem does not end in t/d (9gn-12).
 	 */
-	// [ "cafeetje", "cafe" ],
+	[ "chimpanseetje", "chimpans" ],
+	// Word with diminutive suffix that ends in -etje
+	[ "typetje", "typ" ],
+	// Words in -eau that get -s in plural
+	[ "niveaus", "niveau" ],
+	[ "niveau", "niveau" ],
+	// Words in -é that get -s in plural
+	[ "maté", "maté" ],
+	[ "matés", "maté" ],
+	// Words in -ou that get -s in plural
+	[ "bijou", "bijou" ],
+	[ "bijous", "bijou" ],
+	// Plurals in -es where only -s should be stemmed
+	[ "ordonnanties", "ordonnantie" ],
 	// Other specs:
 	// Return the unique stem from noun exception list with multiple stems
 	[ "loot", "lot" ],
