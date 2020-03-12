@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Generators\Schema
+ */
 
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
@@ -86,8 +91,13 @@ class Organization_Test extends TestCase {
 
 	/**
 	 * Tests the generated schema is as expected.
+	 *
+	 * @dataProvider generate_provider
+	 *
+	 * @param array $profiles_input    The social profiles input for the options.
+	 * @param array $profiles_expected The social profiles expected output.
 	 */
-	public function test_generate() {
+	public function test_generate( $profiles_input, $profiles_expected ) {
 		$this->context->site_url        = 'https://yoast.com/';
 		$this->context->company_name    = 'Yoast';
 		$this->context->company_logo_id = 1337;
@@ -95,17 +105,7 @@ class Organization_Test extends TestCase {
 		$schema_id      = $this->context->site_url . $this->id->organization_hash;
 		$schema_logo_id = $this->context->site_url . $this->id->organization_logo_hash;
 
-		$profiles = [
-			'https://www.facebook.com/yoast/',
-			'https://www.instagram.com/yoast/',
-			'https://www.linkedin.com/company/yoast-com',
-			'https://myspace.com/yoast/',
-			'https://www.youtube.com/yoast',
-			'https://www.pinterest.com/yoast/',
-			'https://en.wikipedia.org/wiki/Yoast_SEO',
-			'https://twitter.com/yoast',
-		];
-		$logo     = [
+		$logo = [
 			'@type' => 'ImageObject',
 			'@id'   => $schema_logo_id,
 			'url'   => 'https://yoast.com/logo.jpg',
@@ -117,42 +117,16 @@ class Organization_Test extends TestCase {
 			->andReturn( $this->context->company_name );
 
 		// For the private `fetch_social_profiles` method.
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'facebook_site', '' )
-			->andReturn( 'https://www.facebook.com/yoast/' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'instagram_url', '' )
-			->andReturn( 'https://www.instagram.com/yoast/' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'linkedin_url', '' )
-			->andReturn( 'https://www.linkedin.com/company/yoast-com' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'myspace_url', '' )
-			->andReturn( 'https://myspace.com/yoast/' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'youtube_url', '' )
-			->andReturn( 'https://www.youtube.com/yoast' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'pinterest_url', '' )
-			->andReturn( 'https://www.pinterest.com/yoast/' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'wikipedia_url', '' )
-			->andReturn( 'https://en.wikipedia.org/wiki/Yoast_SEO' );
-		$this->options->expects( 'get' )
-			->once()
-			->with( 'twitter_site', '' )
-			->andReturn( 'yoast' );
+		foreach ( $profiles_input as $profile_type => $profile_value ) {
+			$this->options->expects( 'get' )
+				->once()
+				->with( $profile_type, '' )
+				->andReturn( $profile_value );
+		}
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
 			->once()
-			->with( $profiles )
-			->andReturn( $profiles );
+			->with( $profiles_expected )
+			->andReturn( $profiles_expected );
 
 		$this->image->expects( 'generate_from_attachment_id' )
 			->once()
@@ -164,7 +138,7 @@ class Organization_Test extends TestCase {
 			'@id'    => $schema_id,
 			'name'   => $this->context->company_name,
 			'url'    => $this->context->site_url,
-			'sameAs' => $profiles,
+			'sameAs' => $profiles_expected,
 			'logo'   => $logo,
 			'image'  => [ '@id' => $schema_logo_id ],
 		];
@@ -194,5 +168,76 @@ class Organization_Test extends TestCase {
 		$this->context->site_represents = false;
 
 		$this->assertFalse( $this->instance->is_needed( $this->context ) );
+	}
+
+	/**
+	 * Provides data for the generate test.
+	 *
+	 * @return array The test data to use.
+	 */
+	public function generate_provider() {
+		return [
+			// Every possible social profile filled.
+			[
+				'profiles_input'    => [
+					'facebook_site' => 'https://www.facebook.com/yoast/',
+					'instagram_url' => 'https://www.instagram.com/yoast/',
+					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
+					'myspace_url'   => 'https://myspace.com/yoast/',
+					'youtube_url'   => 'https://www.youtube.com/yoast',
+					'pinterest_url' => 'https://www.pinterest.com/yoast/',
+					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'twitter_site'  => 'yoast',
+				],
+				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://www.instagram.com/yoast/',
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'https://twitter.com/yoast',
+				],
+			],
+			// Without Twitter.
+			[
+				'profiles_input'    => [
+					'facebook_site' => 'https://www.facebook.com/yoast/',
+					'instagram_url' => 'https://www.instagram.com/yoast/',
+					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
+					'myspace_url'   => 'https://myspace.com/yoast/',
+					'youtube_url'   => 'https://www.youtube.com/yoast',
+					'pinterest_url' => 'https://www.pinterest.com/yoast/',
+					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'twitter_site'  => '',
+				],
+				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://www.instagram.com/yoast/',
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
+				],
+			],
+			// Only Twitter.
+			[
+				'profiles_input'    => [
+					'facebook_site' => '',
+					'instagram_url' => '',
+					'linkedin_url'  => '',
+					'myspace_url'   => '',
+					'youtube_url'   => '',
+					'pinterest_url' => '',
+					'wikipedia_url' => '',
+					'twitter_site'  => 'yoast',
+				],
+				'profiles_expected' => [
+					'https://twitter.com/yoast',
+				],
+			],
+		];
 	}
 }
