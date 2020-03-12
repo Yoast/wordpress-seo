@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WPSEO_Meta;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 

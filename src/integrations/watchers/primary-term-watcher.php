@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use WPSEO_Meta;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
