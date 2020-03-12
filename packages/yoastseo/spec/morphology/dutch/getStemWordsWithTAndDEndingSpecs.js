@@ -39,6 +39,12 @@ describe( "Creates stem from words with ambiguous endings", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL,  "bieden" ) ).toEqual(
 			"bied" );
 	} );
+	it( "Creates the stem of a past-tense verb that ends in -den and that should have -den stemmed.", () => {
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "aanblaasden" ) ).toEqual(
+			"aanblaas" );
+		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL, "aandurfden" ) ).toEqual(
+			"aandurf" );
+	} );
 	it( "Creates the stem of a compound word which ends with a word from the verbs sub-list of the exception list of words ending in -en" +
 		"which should only have -en stemmed.", () => {
 		expect( generateCorrectStemWithTAndDEnding( morphologyDataNL,  "ontbieden" ) ).toEqual(

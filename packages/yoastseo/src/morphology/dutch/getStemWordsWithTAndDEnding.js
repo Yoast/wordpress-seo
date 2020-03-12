@@ -50,9 +50,14 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
 
 	/*
 	 * Step 2:
+	 * - Checks whether the word is in the exception list of verbal forms ending in long vowel + -fden/sden. If so, stems -den off.
 	 * - Check whether the word has the suffix -en preceded by -d, where the -d is part of the stem. If it is, stem only -en.
 	 * - Example: "eenden" (-en should be stemmed, leaving "eend").
 	 */
+	if ( tAndDPartOfStemData.verbsDenShouldBeStemmed.includes( word ) ) {
+		return word.slice( 0, -3 );
+	}
+
 	if ( checkIfWordEndingIsOnExceptionList( word, tAndDPartOfStemData.wordsStemOnlyEnEnding.endingMatch ) ||
 		checkIfWordIsOnVerbExceptionList( word, tAndDPartOfStemData.wordsStemOnlyEnEnding.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
 		doesWordMatchRegex( word, tAndDPartOfStemData.denEnding ) ) {
@@ -77,6 +82,7 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
 	if ( stemmedWord ) {
 		return stemmedWord;
 	}
+
 	/*
 	 * Step 4:
 	 * - Checks whether the word matches the regex for words ending in -te or -ten with -t being part of the stem. If it is
