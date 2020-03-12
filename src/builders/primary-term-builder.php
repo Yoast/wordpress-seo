@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Builders;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
- * Creates an indexable for the primary term.
+ * Creates the primary term for a post.
  */
 class Primary_Term_Builder {
 
