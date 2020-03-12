@@ -1,7 +1,8 @@
 <?php
 
-use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
+namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
  * Creates an indexable for the primary term.
