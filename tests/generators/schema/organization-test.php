@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Schema\Organization;
+use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Generators\Schema\Organization
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Organization
  */
 class Organization_Test extends TestCase {
 
