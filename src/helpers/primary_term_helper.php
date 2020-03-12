@@ -47,4 +47,15 @@ class Primary_Term_Helper {
 
 		return $taxonomies;
 	}
+
+	/**
+	 * Returns whether or not a taxonomy is hierarchical.
+	 *
+	 * @param \stdClass $taxonomy Taxonomy object.
+	 *
+	 * @return bool True for hierarchical taxonomy.
+	 */
+	protected function filter_hierarchical_taxonomies( $taxonomy ) {
+		return (bool) $taxonomy->hierarchical;
+	}
 }
