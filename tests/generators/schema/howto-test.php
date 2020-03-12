@@ -166,6 +166,7 @@ class HowToTest extends TestCase {
 			->shouldReceive( 'add_piece_language' )
 			->andReturnUsing( function( $data ) {
 				$data['inLanguage'] = 'language';
+
 				return $data;
 			} );
 
@@ -195,8 +196,25 @@ class HowToTest extends TestCase {
 	}
 
 	/**
+	 * Test the happy path: a HowTo with a duration, including a step with a title and a description.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_steps
+	 * @covers ::add_duration
+	 * @covers ::add_step_description
+	 */
+	public function test_generate_schema() {
+		$this->meta_tags_context->blocks = $this->base_blocks;
+		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$this->assertEquals( $this->base_schema, $actual_schema );
+	}
+
+	/**
 	 * Tests that a condensed how-to step is generated, with the block's name as the text,
 	 * when no text is available.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_steps
 	 */
 	public function test_schema_text_falls_back_to_block_name() {
 		$blocks = $this->base_blocks;
@@ -218,6 +236,9 @@ class HowToTest extends TestCase {
 	/**
 	 * Tests that no Schema step is output when a step is empty
 	 * (e.g. it does not contain a description, name and image).
+	 *
+	 * @covers ::generate
+	 * @covers ::add_steps
 	 */
 	public function test_empty_step() {
 		$blocks = $this->base_blocks;
@@ -237,6 +258,11 @@ class HowToTest extends TestCase {
 
 	/**
 	 * Tests that an image Schema piece is output when a step has an image.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_steps
+	 * @covers ::add_step_image
+	 * @covers ::get_image_schema
 	 */
 	public function test_generate_step_with_image() {
 		// Step with a text and an image.
@@ -288,6 +314,9 @@ class HowToTest extends TestCase {
 	/**
 	 * Tests that no duration is output in the How-to Schema
 	 * when no duration information is available on the block.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_duration
 	 */
 	public function test_block_has_no_duration() {
 		$blocks = $this->base_blocks;
@@ -305,6 +334,9 @@ class HowToTest extends TestCase {
 	/**
 	 * Tests that a condensed how-to step is generated, with the block's text as the text,
 	 * when no name is available.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_steps
 	 */
 	public function test_schema_text_falls_back_to_block_text() {
 		$blocks = $this->base_blocks;
