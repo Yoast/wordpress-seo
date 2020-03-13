@@ -50,7 +50,10 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
 
 	/*
 	 * Step 2:
+	 * 2a)
 	 * - Checks whether the word is in the exception list of verbal forms ending in long vowel + -fden/sden. If so, stems -den off.
+	 * - Example: "hoefden" (-den should be stemmed, leaving "hoef").
+	 * 2b)
 	 * - Check whether the word has the suffix -en preceded by -d, where the -d is part of the stem. If it is, stem only -en.
 	 * - Example: "eenden" (-en should be stemmed, leaving "eend").
 	 */
