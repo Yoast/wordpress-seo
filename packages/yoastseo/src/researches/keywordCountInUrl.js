@@ -1,5 +1,6 @@
 /** @module researches/countKeywordInUrl */
 
+import parseSlug from "../stringProcessing/parseSlug";
 import { findTopicFormsInString } from "./findKeywordFormsInString.js";
 
 /**
@@ -12,7 +13,7 @@ import { findTopicFormsInString } from "./findKeywordFormsInString.js";
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
-	const slug = paper.getUrl().replace( /[-_]/ig, " " );
+	const slug = parseSlug( paper.getUrl() );
 
 	const keyphraseInSlug = findTopicFormsInString( topicForms, slug, false, paper.getLocale() );
 

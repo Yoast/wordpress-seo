@@ -1,0 +1,59 @@
+.yoast-field-group__toggle {
+    display: flex;
+    align-items: center;
+    width: 600px;
+    justify-content: space-between;
+}
+
+.yoast-field-group__toggle input {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+}
+
+.yoast-field-group__toggle label {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.yoast-field-group__toggle input:checked + label {
+    color: var(--color-toggle-on);
+}
+
+.yoast-field-group__toggle input:not(:checked) + label {
+    color: var(--color-toggle-off);
+}
+
+.yoast-field-group__toggle a {
+    display: inline-block;
+    width: 34px;
+    height: 14px;
+    border-radius: 5px;
+    background: #B6CF94;
+    position: relative;
+    margin: 0 9px;
+}
+
+.yoast-field-group__toggle input:first-of-type:checked ~ a {
+    background: #9E9E9E;
+}
+
+.yoast-field-group__toggle a:after {
+    content: "";
+    display: block;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    right: -2px;
+    background: #6EA029;
+    border-radius: 50%;
+    top: -3px;
+    transition: all ease-out 100ms;
+}
+
+.yoast-field-group__toggle input:first-of-type:checked ~ a:after {
+    right: calc(100% - 18px);
+    background: #F1F1F1;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.20), 0 2px 1px -1px rgba(0,0,0,.12);
+}
