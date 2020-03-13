@@ -121,6 +121,9 @@ const wordsToStem = [
 	 * and undergoes vowel doubling after suffix deletion and the stem ends in t/d (4d-13)
 	 */
 	[ "potloden", "potlood" ],
+	// Past-tense forms of verbs ending in fden/sden
+	[ "aanblaasden", "aanblaas" ],
+	[ "aandurfden", "aandurf" ],
 	/*
 	 * Word that ends in -de with -d being part of the stem and undergoes vowel doubling after suffix deletion
 	 * and the stem ends in t/d (4f-13)
