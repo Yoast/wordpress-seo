@@ -71,7 +71,6 @@ class Primary_Term_Builder {
 	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		// This request must be valid.
 		$term_id = $this->meta->get_value( 'primary_category', $post_id );
 
 		$term_selected = ! empty( $term_id );

@@ -96,7 +96,7 @@ class Indexable_Builder {
 	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
-	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builde for creating missing primary term indexables.
+	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
