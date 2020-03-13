@@ -78,11 +78,12 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 /**
  * Return the unique stem for a given Dutch input word.
  *
- * @param {Object} morphologyDataNL The Dutch data file.
  * @param {string} word The word to be checked.
+ * @param {Object} morphologyDataNL The Dutch data file.
+ *
  * @returns {string} The unique stem.
  */
-export function determineStem( morphologyDataNL, word ) {
+export function determineStem( word, morphologyDataNL ) {
 	const stemmedWord = stem( word, morphologyDataNL );
 
 	// Check whether the stemmed word is on an exception list of words with multiple stems. If it is, return the canonical stem.
