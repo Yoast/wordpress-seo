@@ -181,7 +181,7 @@ class HowTo extends Abstract_Schema_Piece {
 			else {
 				$schema_step['name'] = $json_name;
 
-				$this->add_step_description( $schema_step, $step );
+				$this->add_step_description( $schema_step, $json_text );
 				$this->add_step_image( $schema_step, $step, $context );
 			}
 
@@ -192,16 +192,10 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * Checks if we have a step description, if we do, add it.
 	 *
-	 * @param array $schema_step Our Schema output for the Step.
-	 * @param array $step        The step block data.
+	 * @param array  $schema_step Our Schema output for the Step.
+	 * @param string $json_text   The step text.
 	 */
-	private function add_step_description( &$schema_step, $step ) {
-		$json_text = $this->html->sanitize( $step['jsonText'] );
-
-		if ( empty( $json_text ) ) {
-			return;
-		}
-
+	private function add_step_description( &$schema_step, $json_text ) {
 		$schema_step['itemListElement'] = [
 			[
 				'@type' => 'HowToDirection',
@@ -232,8 +226,6 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array Image schema.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
