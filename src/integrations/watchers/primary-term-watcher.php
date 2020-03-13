@@ -116,21 +116,6 @@ class Primary_Term_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( ! $this->is_post_request() ) {
-			return;
-		}
-
 		$this->primary_term_builder->build( $post_id );
-	}
-
-	/**
-	 * Checks if the request is a post request.
-	 *
-	 * @codeCoverageIgnore It wraps server input.
-	 *
-	 * @return bool Whether the method is a post request.
-	 */
-	protected function is_post_request() {
-		return isset( $_SERVER['REQUEST_METHOD'] ) && \strtolower( \wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'post';
 	}
 }

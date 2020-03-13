@@ -178,31 +178,6 @@ class Primary_Term_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the saving of the primary terms where the current request isn't a post request..
-	 *
-	 * @covers ::save_primary_terms
-	 */
-	public function test_save_primary_terms_where_request_is_not_post_request() {
-		$this->site
-			->expects( 'is_multisite_and_switched' )
-			->andReturnFalse();
-
-		$this->instance
-			->expects( 'is_post_request' )
-			->andReturnFalse();
-
-		$this->instance
-			->expects( 'get_primary_term_taxonomies' )
-			->never();
-
-		$this->instance
-			->expects( 'save_primary_term' )
-			->never();
-
-		$this->instance->save_primary_terms( 2 );
-	}
-
-	/**
 	 * Tests the saving of the primary terms.
 	 *
 	 * @covers ::save_primary_terms
@@ -211,10 +186,6 @@ class Primary_Term_Watcher_Test extends TestCase {
 		$this->site
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
-
-		$this->instance
-			->expects( 'is_post_request' )
-			->andReturnTrue();
 
 		$this->primary_term_builder
 			->expects( 'build' )
