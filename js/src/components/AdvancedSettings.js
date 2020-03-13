@@ -6,6 +6,7 @@ import CollapsibleHelpText from "./CollapsibleHelpText";
 import Input from "./Input";
 import { Fragment } from "react";
 import RadioButtons from "./RadioButtons";
+import { Alert } from "@yoast/components";
 
 // Define where the data comes from. This makes it easier to change the data object in the future.
 const dataObject = window.wpseoAdminL10n;
@@ -19,6 +20,12 @@ const MetaRobotsNoIndex = () => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
 	const noIndex = dataObject.noIndex ? "No" : "Yes";
 	return <Fragment>
+		{
+			dataObject.privateBlog &&
+			<Alert type="warning">
+				{ __( 'Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) }
+			</Alert>
+		}
 		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
 			{
 				sprintf(

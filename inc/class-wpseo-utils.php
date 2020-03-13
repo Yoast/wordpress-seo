@@ -1146,6 +1146,7 @@ SVG;
 			'label'               => $label_array['label'],
 			'labelSingular'       => $label_array['labelSingular'],
 			'breadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'privateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
