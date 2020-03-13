@@ -2,6 +2,6 @@ import getLanguagesWithWordFormSupport from "../../src/helpers/getLanguagesWithW
 
 describe( "Checks which languages have morphology support in YoastSEO.js", function() {
 	it( "returns an array of languages that have morphology support", function() {
-		expect( getLanguagesWithWordFormSupport() ).toEqual( [ "en", "de" ] );
+		expect( getLanguagesWithWordFormSupport() ).toEqual( [ "en", "de", "nl" ] );
 	} );
 } );

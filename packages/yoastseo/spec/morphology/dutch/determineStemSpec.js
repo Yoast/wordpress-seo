@@ -414,6 +414,6 @@ const wordsToStem = [
 
 describe( "Test for determining unique stem for Dutch words", () => {
 	it( "stems Dutch words", () => {
-		wordsToStem.forEach( wordToStem => expect( determineStem( morphologyDataNL, wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
+		wordsToStem.forEach( wordToStem => expect( determineStem( wordToStem[ 0 ], morphologyDataNL ) ).toBe( wordToStem[ 1 ] ) );
 	} );
 } );
