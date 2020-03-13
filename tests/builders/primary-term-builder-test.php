@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Builders;
 
 use Mockery;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Primary_Term_Builder_Double;
@@ -40,6 +41,13 @@ class Primary_Term_Builder_Test extends TestCase {
 	private $primary_term;
 
 	/**
+	 * Holds the meta helper.
+	 *
+	 * @var Mockery\MockInterface|Meta_Helper
+	 */
+	private $meta;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -47,7 +55,11 @@ class Primary_Term_Builder_Test extends TestCase {
 
 		$this->repository   = Mockery::mock( Primary_Term_Repository::class );
 		$this->primary_term = Mockery::mock( Primary_Term_Helper::class );
-		$this->instance     = Mockery::mock( Primary_Term_Builder_Double::class, [ $this->repository, $this->primary_term ] )
+		$this->meta         = Mockery::mock( Meta_Helper::class );
+		$this->instance     = Mockery::mock(
+			Primary_Term_Builder_Double::class,
+			[ $this->repository, $this->primary_term, $this->meta ]
+		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -58,18 +70,6 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term() {
-		$this->instance
-			->expects( 'get_posted_term_id' )
-			->once()
-			->with( 'category' )
-			->andReturn( 1337 );
-
-		$this->instance
-			->expects( 'is_referer_valid' )
-			->once()
-			->with( 'category' )
-			->andReturnTrue();
-
 		$primary_term = Mockery::mock( Primary_Term::class );
 		$primary_term->expects( 'save' )->once();
 
@@ -79,6 +79,11 @@ class Primary_Term_Builder_Test extends TestCase {
 			->with( 1, 'category', true )
 			->andReturn( $primary_term );
 
+		$this->meta
+			->expects( 'get_value' )
+			->with( 'primary_category', 1 )
+			->andReturn( 1337 );
+
 		$this->instance->save_primary_term( 1, 'category' );
 
 		$this->assertEquals( 1337, $primary_term->term_id );
@@ -87,39 +92,13 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the saving of a primary term with having an invalid nonce.
-	 *
-	 * @covers ::save_primary_term
-	 */
-	public function test_save_primary_term_having_invalid_referer() {
-		$this->instance
-			->expects( 'get_posted_term_id' )
-			->once()
-			->with( 'category' )
-			->andReturn( 1337 );
-
-		$this->instance
-			->expects( 'is_referer_valid' )
-			->once()
-			->with( 'category' )
-			->andReturnFalse();
-
-		$this->instance->save_primary_term( 1, 'category' );
-	}
-
-	/**
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term_with_no_term_selected() {
-		$this->instance
-			->expects( 'get_posted_term_id' )
-			->once()
-			->with( 'category' )
-			->andReturnNull();
-
-		$this->instance
-			->expects( 'is_referer_valid' )
-			->never();
+		$this->meta
+			->expects( 'get_value' )
+			->with( 'primary_category', 1 )
+			->andReturn( false );
 
 		$primary_term = Mockery::mock();
 		$primary_term->expects( 'delete' )->once();
