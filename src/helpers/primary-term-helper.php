@@ -1,4 +1,9 @@
 <?php
+/**
+ * Primary term helper.
+ *
+ * @package Yoast\WP\SEO\Helpers
+ */
 
 namespace Yoast\WP\SEO\Helpers;
 
