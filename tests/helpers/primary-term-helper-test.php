@@ -66,46 +66,4 @@ class Primary_Term_Helper_Test extends TestCase {
 
 		$this->assertEquals( $taxonomies, $this->instance->get_primary_term_taxonomies( 1 ) );
 	}
-
-	/**
-	 * Tests the retrieval of the primary term taxonomies with no post id passed.
-	 *
-	 * @covers ::get_primary_term_taxonomies
-	 */
-	public function test_get_primary_term_taxonomies_with_no_post_id_given() {
-		Monkey\Functions\expect( 'get_the_ID' )
-			->once()
-			->andReturn( 1 );
-
-		$taxonomies = [
-			(object) [
-				'name'         => 'category',
-				'hierarchical' => true,
-			],
-		];
-
-		Monkey\Functions\expect( 'get_object_taxonomies' )
-			->once()
-			->with( 'post', 'objects' )
-			->andReturn( [
-				(object) [
-					'name'         => 'category',
-					'hierarchical' => true,
-				],
-				(object) [
-					'name'         => 'tag',
-					'hierarchical' => false,
-				],
-			] );
-
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 1 )
-			->andReturn( 'post' );
-
-		Monkey\Filters\expectApplied( 'wpseo_primary_term_taxonomies' )
-			->with( $taxonomies, 'post', $taxonomies );
-
-		$this->assertEquals( $taxonomies, $this->instance->get_primary_term_taxonomies() );
-	}
 }

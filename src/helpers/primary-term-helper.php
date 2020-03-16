@@ -13,28 +13,13 @@ namespace Yoast\WP\SEO\Helpers;
 class Primary_Term_Helper {
 
 	/**
-	 * Returns all the taxonomies for which the primary term selection is enabled.
-	 *
-	 * @param int $post_id Default current post ID.
-	 *
-	 * @return array The taxonomies.
-	 */
-	public function get_primary_term_taxonomies( $post_id = null ) {
-		if ( $post_id === null ) {
-			$post_id = \get_the_ID();
-		}
-
-		return $this->generate_primary_term_taxonomies( $post_id );
-	}
-
-	/**
 	 * Generate the primary term taxonomies.
 	 *
 	 * @param int $post_id ID of the post.
 	 *
 	 * @return array The taxonomies.
 	 */
-	protected function generate_primary_term_taxonomies( $post_id ) {
+	public function get_primary_term_taxonomies( $post_id ) {
 		$post_type      = \get_post_type( $post_id );
 		$all_taxonomies = \get_object_taxonomies( $post_type, 'objects' );
 		$all_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
