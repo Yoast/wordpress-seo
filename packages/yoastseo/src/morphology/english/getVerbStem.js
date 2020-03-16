@@ -1,7 +1,5 @@
 // "use strict";
 import { isUndefined } from "lodash-es";
-import { uniq as unique } from "lodash-es";
-import { flatten } from "lodash-es";
 
 import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData.js";
 import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
@@ -195,14 +193,19 @@ const endsWithEd = function( word ) {
 /**
  * Forms the infinitive from an input word.
  *
- * @param {string} word The word to build the infinitive for.
- * @param {Array} sFormToInfinitiveRegex The array of regex-based rules used to bring -s forms to infinitive.
- * @param {Array} ingFormToInfinitiveRegex The array of regex-based rules used to bring -ing forms to infinitive.
- * @param {Array} edFormToInfinitiveRegex The array of regex-based rules used to bring -ed forms to infinitive.
+ * @param {string} word                               The word to build the infinitive for.
+ * @param {Object} regexVerb                          The list of regex rules used to bring verb forms to infinitive.
+ * @param {Array}  regexVerb.sFormToInfinitiveRegex   The array of regex-based rules used to bring -s forms to infinitive.
+ * @param {Array}  regexVerb.ingFormToInfinitiveRegex The array of regex-based rules used to bring -ing forms to infinitive.
+ * @param {Array}  regexVerb.edFormToInfinitiveRegex  The array of regex-based rules used to bring -ed forms to infinitive.
  *
  * @returns {string} The infinitive of the input word.
  */
-const getInfinitive = function( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ) {
+const getInfinitive = function( word, regexVerb ) {
+	const sFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.sFormToInfinitive );
+	const ingFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.ingFormToInfinitive );
+	const edFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.edFormToInfinitive );
+
 	if ( endsWithS( word ) ) {
 		return {
 			infinitive: buildOneFormFromRegex( word, sFormToInfinitiveRegex ),
@@ -229,51 +232,9 @@ const getInfinitive = function( word, sFormToInfinitiveRegex, ingFormToInfinitiv
 	};
 };
 
-/**
- * Collects all possible verb forms for a given word through checking if it is irregular, infinitive, s-form, ing-form or ed-form.
- *
- * @param {string} word The word for which to determine its forms.
- * @param {Object} verbsData The verb morphology data available for this language.
- *
- * @returns {Array} Array of word forms.
- */
-const getVerbForms = function( word, verbsData ) {
-	const regexVerb = verbsData.regexVerb;
-
-	const irregular = checkIrregulars( word, verbsData.irregularVerbs, regexVerb.verbPrefixes );
-	if ( ! isUndefined( irregular ) ) {
-		return irregular;
-	}
-
-	let forms = [];
-
-	const sFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.sFormToInfinitive );
-	const ingFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.ingFormToInfinitive );
-	const edFormToInfinitiveRegex = createRulesFromMorphologyData( regexVerb.edFormToInfinitive );
-
-	let infinitive = getInfinitive( word, sFormToInfinitiveRegex, ingFormToInfinitiveRegex, edFormToInfinitiveRegex ).infinitive;
-
-	if ( isUndefined( infinitive ) ) {
-		infinitive = word;
-	}
-
-	// Const guessedForm = getInfinitive( word ).guessedForm; //Meant to be used to check if the newly built forms are built correctly.
-	forms = forms.concat( word );
-
-	forms.push( infinitive );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToSForm ) ) );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToIngForm ) ) );
-	forms.push( buildOneFormFromRegex( infinitive, createRulesFromMorphologyData( regexVerb.infinitiveToEdForm ) ) );
-
-	forms = forms.filter( Boolean );
-
-	return unique( flatten( forms ) );
-};
-
 export {
 	getInfinitive,
 	checkIrregulars,
 	endsWithIng,
-	getVerbForms,
 	normalizePrefixed,
 };
