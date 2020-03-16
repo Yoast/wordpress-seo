@@ -9,7 +9,7 @@
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
 
-import { isVowelDoublingAllowed } from "./stemModificationHelpers";
+import { isVowelDoublingAllowed, modifyStem } from "./stemModificationHelpers";
 
 /**
  * Determines the start index of the R1 region.
@@ -63,20 +63,6 @@ const findSuffix = function( word, suffixStep, r1Index ) {
 			}
 		}
 	}
-};
-
-/**
- * Modifies the stem of the word according to the specified modification type.
- *
- * @param {string} word The stem that needs to be modified.
- * @param {string[]} modificationGroup The type of modification that needs to be done.
- * @returns {string} The modified stem, or the same stem if no modification was made.
- */
-const modifyStem = function( word, modificationGroup ) {
-	const neededReplacement = modificationGroup.find( replacement => word.search( new RegExp( replacement[ 0 ] ) ) !== -1 );
-	if ( typeof neededReplacement !== "undefined" ) {
-		word = word.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
-	} return word;
 };
 
 /**

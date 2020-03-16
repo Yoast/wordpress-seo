@@ -67,6 +67,13 @@ describe( "Detects and stems participles", () => {
 		"Condition: compound matched by doNotStemD exception list", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "aangemeld" ) ).toEqual( "aanmeld" );
 	} );
+	it( "correctly stems a past participle that ends in -end." +
+		"Condition: word is on pastParticiplesEndingOnEnd exception list", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL, "erkend" ) ).toEqual( "erken" );
+	} );
+	it( "correctly stems a present participle that ends in -end.", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL, "bedelvend" ) ).toEqual( "bedelf" );
+	} );
 	it( "correctly stems a regular participle without prefixes if it starts on ë", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL, "geëmigreerd" ) ).toEqual( "emigreer" );
 	} );
