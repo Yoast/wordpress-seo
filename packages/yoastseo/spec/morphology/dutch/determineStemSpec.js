@@ -424,6 +424,7 @@ const wordsToStem = [
 	[ "communicatiedienst", "communicatiedienst" ],
 	[ "botermarkt", "botermarkt" ],
 	[ "rijafstand", "rijafstand" ],
+	[ "etiologieën", "etiologie" ]
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
