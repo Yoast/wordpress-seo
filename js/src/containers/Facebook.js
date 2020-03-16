@@ -23,8 +23,7 @@ const {
  * @returns {Object} The props for the FacebookView component.
  */
 const mapStateToProps = ( state ) => {
-	const imageObject = state.socialReducer.facebook.image;
-	const image = imageObject.url ? imageObject : { ...imageObject, url: getImageFallback( state ) };
+	const image = state.socialReducer.facebook.image;
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
@@ -32,7 +31,7 @@ const mapStateToProps = ( state ) => {
 		descriptionFallback: "Modify your Facebook description by editing it right here...",
 		title: socialSelectors.getFacebookTitle( state ),
 		titleFallback: getTitleFallback( state ),
-		image: image,
+		image: { ...image, fallbackUrl: getImageFallback( state ) },
 		imageWarnings: state.socialReducer.facebook.warnings,
 	};
 };

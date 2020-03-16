@@ -23,14 +23,13 @@ const {
  * @returns {Object} The props for the TwitterView component.
  */
 const mapStateToProps = ( state ) => {
-	const imageObject = state.socialReducer.twitter.image;
-	const image = imageObject.url ? imageObject : { ...imageObject, url: getImageFallback( state ) };
+	const image = state.socialReducer.twitter.image;
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
 		description: socialSelectors.getTwitterDescription( state ) || getDescriptionFallback( state ),
 		title: socialSelectors.getTwitterTitle( state ) || getTitleFallback( state ),
-		image: image,
+		image: { ...image, fallbackUrl: getImageFallback( state ) },
 		imageWarnings: state.socialReducer.twitter.warnings,
 	};
 };

@@ -72,8 +72,8 @@ const TwitterView = ( props ) => {
 				onDescriptionChange={ onDescriptionChange }
 				onTitleChange={ onTitleChange }
 				imageWarnings={ imageWarnings }
-				imageSelected={ !! image.url }
-				imageUrl={ image.url ? image.url : null }
+				imageSelected={ !! image.url || !! image.fallback }
+				imageUrl={ image.url || image.fallbackUrl || null }
 				isPremium={ isPremium }
 			/>
 		</Fragment>
