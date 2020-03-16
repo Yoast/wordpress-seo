@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Title_Presenter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -38,6 +39,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * The title presenter.
+	 *
+	 * @var Title_Presenter
+	 */
+	protected $title_presenter;
 
 	/**
 	 * The presenters we loop through on each page load.
@@ -133,17 +141,20 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
+	 * @param Title_Presenter            $title_presenter   The title presenter.
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
-		Options_Helper $options
+		Options_Helper $options,
+		Title_Presenter $title_presenter
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
+		$this->title_presenter  = $title_presenter;
 	}
 
 	/**
@@ -151,6 +162,8 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		// Filter the title for compatibility with other plugins and themes.
+		add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
 		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
 		add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
@@ -164,6 +177,19 @@ class Front_End_Integration implements Integration_Interface {
 		remove_action( 'wp_head', 'noindex', 1 );
 		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 		remove_action( 'wp_head', 'gutenberg_render_title_tag', 1 );
+
+		if ( ! get_theme_support( 'title-tag' ) ) {
+			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
+			$this->base_presenters = array_diff( $this->base_presenters, [ 'Title' ] );
+		}
+	}
+
+	/**
+	 * Filters the title, mainly used for compatibility reasons.
+	 */
+	public function filter_title() {
+		$context = $this->context_memoizer->for_current_page();
+		return $this->title_presenter->present( $context->presentation, false );
 	}
 
 	/**
