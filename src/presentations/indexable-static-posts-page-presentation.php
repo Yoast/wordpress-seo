@@ -46,6 +46,6 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 	 * @return string The open graph url.
 	 */
 	public function generate_open_graph_url() {
-		return $this->url->home();
+		return $this->model->permalink;
 	}
 }

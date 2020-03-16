@@ -24,15 +24,13 @@ class Open_Graph_URL_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the canonical is returned.
+	 * Tests the situation where the permalink is returned.
 	 *
 	 * @covers ::generate_open_graph_url
 	 */
-	public function test_generate_open_graph_url_and_return_home_url() {
-		$this->url->expects( 'home' )
-			->once()
-			->andReturn( 'https://example.com/' );
+	public function test_generate_open_graph_url_and_return_permalink() {
+		$this->indexable->permalink = 'https://example.com/static-posts-page';
 
-		$this->assertEquals( 'https://example.com/', $this->instance->generate_open_graph_url() );
+		$this->assertEquals( 'https://example.com/static-posts-page', $this->instance->generate_open_graph_url() );
 	}
 }
