@@ -8,9 +8,6 @@ import { Fragment } from "react";
 import RadioButtons from "./RadioButtons";
 import { Alert } from "@yoast/components";
 
-// Define where the data comes from. This makes it easier to change the data object in the future.
-const dataObject = window.wpseoAdminL10n;
-
 /**
  * Functional component for the Meta Robots No-Index option.
  *
@@ -18,7 +15,7 @@ const dataObject = window.wpseoAdminL10n;
  */
 const MetaRobotsNoIndex = () => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
-	const noIndex = dataObject.noIndex ? "No" : "Yes";
+	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
 
 	// Set the options object based on whether this is rendered in a post or in a taxonomy (the values differ).
 	let options;
@@ -27,7 +24,7 @@ const MetaRobotsNoIndex = () => {
 			{
 				name: sprintf(
 					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					dataObject.label,
+					window.wpseoAdminL10n.label,
 					noIndex,
 				),
 				value: "0",
@@ -40,7 +37,7 @@ const MetaRobotsNoIndex = () => {
 			{
 				name: sprintf(
 					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					dataObject.label,
+					window.wpseoAdminL10n.label,
 					noIndex,
 				),
 				value: "default",
@@ -52,7 +49,7 @@ const MetaRobotsNoIndex = () => {
 
 	return <Fragment>
 		{
-			dataObject.privateBlog &&
+			window.wpseoAdminL10n.privateBlog &&
 			<Alert type="warning">
 				{ __( 'Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) }
 			</Alert>
@@ -61,7 +58,7 @@ const MetaRobotsNoIndex = () => {
 			{
 				sprintf(
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					dataObject.labelSingular,
+					window.wpseoAdminL10n.labelSingular,
 				)
 			}
 		</label>
@@ -84,7 +81,7 @@ const MetaRobotsNoFollow = () => {
 			{
 				sprintf(
 					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					dataObject.labelSingular,
+					window.wpseoAdminL10n.labelSingular,
 				)
 			}
 		</label>
@@ -199,7 +196,7 @@ const CanonicalURL = () => {
  * @return {boolean} true if post, false if taxonomy.
  */
 const isPost = () => {
-	return dataObject.postType === "post";
+	return window.wpseoAdminL10n.postType === "post";
 };
 
 /**
@@ -218,7 +215,7 @@ class AdvancedSettings extends Component {
 				{ isPost() && <MetaRobotsNoFollow/> }
 				{ isPost() && <MetaRobotsAdvanced /> }
 				{
-					! dataObject.breadcrumbsDisabled && <BreadCrumbsTitle />
+					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
 			</Collapsible>
