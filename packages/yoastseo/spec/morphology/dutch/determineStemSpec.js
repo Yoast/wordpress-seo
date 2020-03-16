@@ -23,7 +23,6 @@ const wordsToStem = [
 	// Words that are on the exact match sub-list of words that should not be stemmed (3-12)
 	[ "loft", "loft" ],
 	[ "rijst", "rijst" ],
-	[ "akte", "akte" ],
 	// Words that are on the list of words with full forms (1-12)
 	// Words that are on the verb sub-list of full forms exception list (1-12)
 	[ "aanbevelen", "aanbeveel" ],

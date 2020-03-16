@@ -65,29 +65,6 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) 
 	if ( stemFromFullForm ) {
 		return stemFromFullForm;
 	}
-
-	/*
-	 * Checks whether the word is in the ending match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here. Example: zwemdiplomaatje -> zwemdiplomaa -> zwemdiploma
-	 */
-	const stemFromFullFormAndDeleteFinalVowelEndingMatch = removeSuffixFromFullForm(
-		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.endingMatch,
-		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.suffix,
-		word
-	);
-
-	if ( stemFromFullFormAndDeleteFinalVowelEndingMatch ) {
-		return stemFromFullFormAndDeleteFinalVowelEndingMatch.slice( 0, -1 );
-	}
-
-	/*
-	 * Checks whether the word is in the exact match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here. Example: omaatje -> omaa -> oma
-	 */
-	if ( morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.exactMatch.includes( word ) ) {
-		return word.slice( 0, -4 );
-	}
-
 	return null;
 };
 
