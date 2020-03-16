@@ -143,7 +143,11 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				}
 				break;
 			case 'hidden':
-				$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
+				if ( $field_name === 'wpseo_noindex' || $field_name === 'wpseo_bctitle' || $field_name === 'wpseo_canonical' ){
+					$field .= '<input name="' . $field_name . '" id="' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
+				} else {
+					$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
+				}
 				break;
 		}
 

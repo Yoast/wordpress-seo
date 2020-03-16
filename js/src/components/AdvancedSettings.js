@@ -17,7 +17,7 @@ const dataObject = window.wpseoAdminL10n;
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	const noIndex = dataObject.noIndex ? "No" : "Yes";
 	return <Fragment>
 		{
@@ -115,7 +115,7 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#wpseo_bctitle";
 
 	return <Fragment>
 		<CollapsibleHelpText
@@ -159,7 +159,7 @@ const CanonicalURL = () => {
 		getNewTabMessage() + "</a>",
 	);
 
-	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#wpseo_canonical";
 
 	return <Fragment>
 		<CollapsibleHelpText
