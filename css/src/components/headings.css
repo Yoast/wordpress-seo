@@ -45,6 +45,7 @@ body.yoast {
 
 .yoast p {
 	margin-top: 0;
+	margin-bottom: 16px;
 	font-size: 1em;
 }
 

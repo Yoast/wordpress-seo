@@ -37,6 +37,8 @@ if ( $tool_page === '' ) {
 		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
 	];
 
+	echo '<div class="yoast-break"></div>';
+
 	echo '<p>';
 	printf(
 		/* translators: %1$s expands to Yoast SEO */
@@ -45,7 +47,7 @@ if ( $tool_page === '' ) {
 	);
 	echo '</p>';
 
-	echo '<ul class="ul-disc">';
+	echo '<ul class="yoast-list">';
 
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
@@ -54,7 +56,7 @@ if ( $tool_page === '' ) {
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
-		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
+		echo '<a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a><br/>';
 		echo esc_html( $tool['desc'] );
 		echo '</li>';
 	}
