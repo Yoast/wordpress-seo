@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -59,13 +60,15 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->title_presenter  = Mockery::mock( Title_Presenter::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
 			[
 				$this->context_memoizer,
 				$this->container,
-				$this->options
+				$this->options,
+				$this->title_presenter
 			]
 		)->makePartial();
 	}
@@ -88,11 +91,14 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
 		$this->instance->register_hooks();
 
-		$this->assertTrue( has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ) );
-		$this->assertTrue( has_action( 'amp_post_template_head', [ $this->instance, 'call_wpseo_head' ] ) );
-		$this->assertTrue( has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ) );
+		$this->assertTrue( has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
+		$this->assertTrue( has_action( 'amp_post_template_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected amp_post_template_head action' );
+		$this->assertTrue( has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
+		$this->assertTrue( has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 	}
 
 	/**
@@ -287,4 +293,37 @@ class Front_End_Integration_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests retrieval of the presents for a theme without title tag.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_theme_without_title_tag() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
+
+		$this->instance->register_hooks();
+
+		$this->container
+			->expects( 'get' )
+			->times( 6 )
+			->andReturnUsing( function ( $presenter ) {
+				return $presenter;
+			} );
+
+
+		$this->assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Schema_Presenter',
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+			],
+			$this->instance->get_presenters( 'Error_Page' )
+		);
+	}
 }
