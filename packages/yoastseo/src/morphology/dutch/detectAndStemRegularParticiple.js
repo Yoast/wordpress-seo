@@ -1,5 +1,6 @@
 import nonParticiples from "../../researches/dutch/passiveVoice/nonParticiples.js";
 import { doesWordMatchRegex } from "../morphoHelpers/regexHelpers";
+import { modifyStem } from "./stemModificationHelpers";
 
 /**
  * Checks whether the word is on an exception list of participles that do not have a ge- prefix. If it is found on the list,
@@ -186,6 +187,26 @@ const checkIfParticipleIsSameAsStem = function( dataParticiplesSameAsStem, word 
 };
 
 /**
+ * Check whether the word is on an exception list of past participles with inseparable prefixes and ending in -end.
+ * If not, stem the word that starts with an inseparable verb prefix and ends in -end as a present participle.
+ *
+ * @param {array}  inseparablePrefixes      The list of inseparable prefixes.
+ * @param {array}  dataExceptionListToCheck The list of the exception words.
+ * @param {array}  finalChangesRules        The array of regex-based rules to be applied to the stem.
+ * @param {string} word 	                The (unstemmed) word to check.
+ *
+ * @returns {null|string} The stemmed word or null if the word was found on the exception list.
+ */
+const checkAndStemIfInseparablePrefixWithEndEnding = function( inseparablePrefixes, dataExceptionListToCheck, finalChangesRules, word ) {
+	const startsWithInseparablePrefix = inseparablePrefixes.map( prefix => word.startsWith( prefix ) ).some( value => value === true );
+
+	if ( startsWithInseparablePrefix && word.endsWith( "end" ) && ! dataExceptionListToCheck.includes( word ) ) {
+		return modifyStem( word.slice( 0, -3 ), finalChangesRules );
+	}
+	return null;
+};
+
+/**
  * Detects whether a word is a regular participle and if so, returns the stem.
  *
  * @param {Object}  morphologyDataNL 	The Dutch morphology data.
@@ -219,6 +240,21 @@ export function detectAndStemRegularParticiple( morphologyDataNL, word ) {
 	 * If it is, remove just the suffix and return the stem.
 	 */
 	stem = checkAndStemIfExceptionWithoutGePrefix( morphologyDataNL.verbs.inseparableCompoundVerbs, word );
+
+	if ( stem ) {
+		return stem;
+	}
+
+	/**
+	 * Check whether the word is on an exception list of past participles with inseparable prefixes and ending in -end.
+	 * If not, stem the word that starts with an inseparable verb prefix and ends in -end as a present participle.
+	 */
+	stem = checkAndStemIfInseparablePrefixWithEndEnding(
+		morphologyDataNL.verbs.compoundVerbsPrefixes.inseparable,
+		morphologyDataNL.verbs.pastParticiplesEndingOnEnd,
+		morphologyDataNL.stemming.stemModifications.finalChanges,
+		word
+	);
 
 	if ( stem ) {
 		return stem;
