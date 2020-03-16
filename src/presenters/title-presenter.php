@@ -36,19 +36,19 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the document title.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_html  Optional. Whether or not to output HTML. Defaults to true.
+	 * @param Indexable_Presentation $presentation     The presentation of an indexable.
+	 * @param bool                   $output_title_tag Optional. Whether or not to output the title with the title tag (`<title>`) included. Defaults to true.
 	 *
 	 * @return string The document title tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_html = true ) {
+	public function present( Indexable_Presentation $presentation, $output_title_tag = true ) {
 		$title = $this->replace_vars( $presentation->title, $presentation );
 		$title = $this->filter( $title, $presentation );
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 		$title = \trim( $title );
 
 		if ( \is_string( $title ) && $title !== '' ) {
-			if ( $output_html ) {
+			if ( $output_title_tag ) {
 				return '<title>' . \esc_html( $title ) . '</title>';
 			}
 			return \esc_html( $title );

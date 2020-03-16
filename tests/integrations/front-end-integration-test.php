@@ -165,9 +165,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->container
 			->expects( 'get' )
 			->times( 28 )
-			->andReturnUsing( function ( $presenter ) {
-				return $presenter;
-			} );
+			->andReturnArg( 0 );
 
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
@@ -219,9 +217,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->container
 			->expects( 'get' )
 			->times( 7 )
-			->andReturnUsing( function ( $presenter ) {
-				return $presenter;
-			} );
+			->andReturnArg( 0 );
 
 
 		$this->assertEquals(
@@ -249,9 +245,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->container
 			->expects( 'get' )
 			->times( 23 )
-			->andReturnUsing( function ( $presenter ) {
-				return $presenter;
-			} );
+			->andReturnArg( 0 );
 
 		$this->options
 			->expects( 'get' )
@@ -309,9 +303,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->container
 			->expects( 'get' )
 			->times( 6 )
-			->andReturnUsing( function ( $presenter ) {
-				return $presenter;
-			} );
+			->andReturnArg( 0 );
 
 
 		$this->assertEquals(
