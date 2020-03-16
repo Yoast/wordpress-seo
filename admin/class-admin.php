@@ -261,7 +261,6 @@ class WPSEO_Admin {
 	public function enqueue_global_style() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'admin-global' );
-		$asset_manager->enqueue_style( 'monorepo' );
 	}
 
 	/**
