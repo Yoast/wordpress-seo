@@ -163,7 +163,7 @@ class Front_End_Integration implements Integration_Interface {
 	public function register_hooks() {
 		add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
-		add_filter( 'wp_title', [ $this, 'filter_title' ] );
+		add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
 		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
 		add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
