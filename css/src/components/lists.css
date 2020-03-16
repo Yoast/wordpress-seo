@@ -1,0 +1,54 @@
+.yoast-list {
+	margin-left: 22px;
+	max-width: 600px;
+}
+
+.yoast-list li {
+	position: relative;
+	margin-bottom: 16px;
+}
+
+.yoast-list li::before {
+	content: '';
+	background-color: var(--color-default);
+	border-radius: 50%;
+	width: 6px;
+	height: 6px;
+	position: absolute;
+	left: -20px;
+	top: 8px;
+}
+
+.yoast-check {
+	position: relative;
+}
+
+.yoast-check::before {
+	content: '';
+	background: var(--checkmark--green) no-repeat center center;
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	left: -24px;
+	top: 2px;
+}
+
+.yoast-list--usp {
+	margin-top: 0;
+	margin-left: 22px;
+	margin-bottom: 0;
+}
+
+.yoast-list--usp li {
+	position: relative;
+}
+
+.yoast-list--usp li::before {
+	content: '';
+	background: var(--checkmark--green) no-repeat center center;
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	left: -20px;
+	top: 5px;
+}

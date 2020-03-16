@@ -38,26 +38,6 @@
 	padding: 16px;
 }
 
-.yoast-list--usp {
-	margin-top: 0;
-	margin-left: 22px;
-	margin-bottom: 0;
-}
-
-.yoast-list--usp li {
-	position: relative;
-}
-
-.yoast-list--usp li::before {
-	content: '';
-	background: var(--checkmark--green) no-repeat center center;
-	width: 14px;
-	height: 14px;
-	position: absolute;
-	left: -20px;
-	top: 5px;
-}
-
 .yoast-card__footer {
 	padding: 16px;
 }
