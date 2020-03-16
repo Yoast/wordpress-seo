@@ -212,7 +212,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 13.3 =
 Release Date: March 17th, 2020
 
-Our current string of releases focusing on improving our code is continuing with Yoast SEO 13.3. In this release, for instance, you’ll find a sizable update to how we work with languages. In addition, we have a Schema structured data addition and several improvements to how Yoast SEO handles URLs. Read on in [our 13.3 release post](https://yoa.st/release-13-3)!
+Our current string of releases focusing on improving our code is continuing with Yoast SEO 13.3. In this release, we have a Schema structured data addition and several improvements to how Yoast SEO handles URLs. Read on in [our 13.3 release post](https://yoa.st/release-13-3)!
 
 Enhancements:
 
