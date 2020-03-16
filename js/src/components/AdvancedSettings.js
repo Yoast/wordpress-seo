@@ -19,6 +19,37 @@ const dataObject = window.wpseoAdminL10n;
 const MetaRobotsNoIndex = () => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	const noIndex = dataObject.noIndex ? "No" : "Yes";
+
+	// Set the options object based on whether this is rendered in a post or in a taxonomy (the values differ).
+	let options;
+	if ( isPost() ) {
+		options = [
+			{
+				name: sprintf(
+					__( "Default for %s, currently: %s", "wordpress-seo" ),
+					dataObject.label,
+					noIndex,
+				),
+				value: "0",
+			},
+			{ name: __( "Yes", "wordpress-seo" ), value: "1" },
+			{ name: __( "No", "wordpress-seo" ), value: "2" },
+		];
+	} else {
+		options = [
+			{
+				name: sprintf(
+					__( "Default for %s, currently: %s", "wordpress-seo" ),
+					dataObject.label,
+					noIndex,
+				),
+				value: "default",
+			},
+			{ name: __( "Yes", "wordpress-seo" ), value: "index" },
+			{ name: __( "No", "wordpress-seo" ), value: "noindex" },
+		];
+	}
+
 	return <Fragment>
 		{
 			dataObject.privateBlog &&
@@ -37,18 +68,7 @@ const MetaRobotsNoIndex = () => {
 		<SingleSelect
 			componentId={ "yoast_wpseo_meta-robots-noindex-react" }
 			hiddenInputId={ hiddenInputId }
-			options={ [
-				{
-					name: sprintf(
-						__( "Default for %s, currently: %s", "wordpress-seo" ),
-						dataObject.label,
-						noIndex,
-					),
-					value: "0",
-				},
-				{ name: __( "Yes", "wordpress-seo" ), value: "1" },
-				{ name: __( "No", "wordpress-seo" ), value: "2" },
-			] }
+			options={ options }
 		/>
 	</Fragment>;
 };
