@@ -9,18 +9,15 @@ import RadioButtons from "./RadioButtons";
 import { Alert } from "@yoast/components";
 
 /**
- * Functional component for the Meta Robots No-Index option.
+ * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
+ * options that can be used to populate a select field.
  *
- * @returns {Component} The Meta Robots No-Index component.
+ * @return Array Returns an array of options for the noIndex setting.
  */
-const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+const getNoIndexOptions = () => {
 	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
-
-	// Set the options object based on whether this is rendered in a post or in a taxonomy (the values differ).
-	let options;
 	if ( isPost() ) {
-		options = [
+		return [
 			{
 				name: sprintf(
 					__( "Default for %s, currently: %s", "wordpress-seo" ),
@@ -32,26 +29,33 @@ const MetaRobotsNoIndex = () => {
 			{ name: __( "Yes", "wordpress-seo" ), value: "1" },
 			{ name: __( "No", "wordpress-seo" ), value: "2" },
 		];
-	} else {
-		options = [
-			{
-				name: sprintf(
-					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					window.wpseoAdminL10n.label,
-					noIndex,
-				),
-				value: "default",
-			},
-			{ name: __( "Yes", "wordpress-seo" ), value: "index" },
-			{ name: __( "No", "wordpress-seo" ), value: "noindex" },
-		];
 	}
+	return [
+		{
+			name: sprintf(
+				__( "Default for %s, currently: %s", "wordpress-seo" ),
+				window.wpseoAdminL10n.label,
+				noIndex,
+			),
+			value: "default",
+		},
+		{ name: __( "Yes", "wordpress-seo" ), value: "index" },
+		{ name: __( "No", "wordpress-seo" ), value: "noindex" },
+	];
+};
 
+/**
+ * Functional component for the Meta Robots No-Index option.
+ *
+ * @returns {Component} The Meta Robots No-Index component.
+ */
+const MetaRobotsNoIndex = () => {
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	return <Fragment>
 		{
 			window.wpseoAdminL10n.privateBlog &&
 			<Alert type="warning">
-				{ __( 'Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) }
+				{ __( "Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.", "wordpress-seo" ) }
 			</Alert>
 		}
 		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
@@ -65,7 +69,7 @@ const MetaRobotsNoIndex = () => {
 		<SingleSelect
 			componentId={ "yoast_wpseo_meta-robots-noindex-react" }
 			hiddenInputId={ hiddenInputId }
-			options={ options }
+			options={ getNoIndexOptions() }
 		/>
 	</Fragment>;
 };
@@ -212,7 +216,7 @@ class AdvancedSettings extends Component {
 		return (
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
-				{ isPost() && <MetaRobotsNoFollow/> }
+				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }
 				{
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
