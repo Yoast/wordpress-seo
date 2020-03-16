@@ -6,43 +6,38 @@ import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-gr
 import "./input.css";
 
 /**
- * Renders a input field of type text for use in our forms.
+ * Renders a textarea for use in our HTML forms.
  *
- * @param props The props required for rendering the component.
+ * @param {object} props The properties required for rendering this component.
  *
- * @return {React.Component} Component that can be used inside a form.
+ * @return {React.Component} A react component that can be used in our forms.
  */
-export const TextInput = ( props ) => {
+export const TextArea = ( props ) => {
 	return (
 		<FieldGroup { ...props } >
-			<input
-				type="text"
-				value={ props.value }
-				className="yoast-field-group__inputfield"
-				name={ props.name }
+			<textarea
 				id={ props.id }
+				name={ props.name }
+				value={ props.value }
 				aria-describedby={ props.ariaDescribedBy }
-				placeholder={ props.placeholder }
 			/>
 		</FieldGroup>
 	);
 };
 
-TextInput.propTypes = {
+TextArea.propTypes = {
 	id: PropTypes.string,
 	name: PropTypes.name,
 	value: PropTypes.string,
 	ariaDescribedBy: PropTypes.string,
-	placeholder: PropTypes.string,
 	...FieldGroupProps,
 };
 
-TextInput.defaultProps = {
+TextArea.defaultProps = {
 	// Generate a unique string of length 8.
 	id: ( +new Date ).toString( 36 ).slice( -8 ),
 	name: "",
 	value: "",
 	ariaDescribedBy: "",
-	placeholder: "",
 	...FieldGroupDefaultProps,
 };

@@ -5,6 +5,18 @@ import { __ } from "@wordpress/i18n";
 // Import the required CSS.
 import "./field-group.css";
 
+/**
+ * FieldGroup component that can be used to wrap our form elements in.
+ *
+ * @param {string} htmlFor ID to which HTML element the label belongs.
+ * @param {string} label Text displayed as label.
+ * @param {string} linkTo Location to which the icon links.
+ * @param {string} linkText Screen-reader text that is added to the link.
+ * @param {string} description Optional: a description where the input element is used for.
+ * @param {array} children Children that are rendered in the FieldGroup.
+ *
+ * @return {React.Component} A div with a label, icon and optional description that renders all children.
+ */
 const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children } ) => {
 	return (
 		<div className="yoast-field-group">
@@ -24,20 +36,32 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children }
 	);
 };
 
-FieldGroup.propTypes = {
+/**
+ * Export the Props for the FieldGroup so that we can easily use it in other places.
+ */
+export const FieldGroupProps = {
 	label: PropTypes.string.isRequired,
-	htmlFor: PropTypes.string.isRequired,
 	linkTo: PropTypes.string,
 	linkText: PropTypes.string,
 	description: PropTypes.string,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 };
 
-FieldGroup.defaultProps = {
+/**
+ * Export the DefaultProps for the FieldGroup so that we can easily use it in other places.
+ */
+export const FieldGroupDefaultProps = {
 	linkTo: "https://yoast.com",
 	linkText: "Tell me what this link does",
 	description: "",
 	children: [],
 };
+
+FieldGroup.propTypes = {
+	htmlFor: PropTypes.string.isRequired,
+	...FieldGroupProps
+};
+
+FieldGroup.defaultProps = FieldGroupDefaultProps;
 
 export default FieldGroup;
