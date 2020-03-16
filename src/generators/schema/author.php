@@ -69,7 +69,11 @@ class Author extends Person {
 			$this->article->is_article_post_type( $context->indexable->object_sub_type )
 		) {
 			// If the author is the user the site represents, no need for an extra author block.
-			return (int) $context->post->post_author !== $context->site_user_id;
+			if ( parent::is_needed( $context ) ) {
+				return (int) $context->post->post_author !== $context->site_user_id;
+			}
+
+			return true;
 		}
 
 		return false;
