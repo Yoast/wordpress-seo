@@ -1,38 +1,39 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import Warning from "../containers/Warning";
-import KeywordInput from "./contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
-import SidebarItem from "./SidebarItem";
-import SnippetPreviewModal from "./SnippetPreviewModal";
-import TopLevelProviders from "./TopLevelProviders";
+import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
+import SnippetEditor from "../../containers/SnippetEditor";
+import Warning from "../../containers/Warning";
+import KeywordInput from "../contentAnalysis/KeywordInput";
+import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
+import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import Collapsible from "../SidebarCollapsible";
+import SidebarItem from "../SidebarItem";
+import TopLevelProviders from "../TopLevelProviders";
+import Social from "../SocialMetadata";
 
 /**
- * Creates the Sidebar component.
+ * Creates the Metabox component.
  *
  * @param {Object} settings The feature toggles.
  * @param {Object} store    The Redux store.
  * @param {Object} theme    The theme to use.
  *
- * @returns {ReactElement} The Sidebar component.
- *
- * @constructor
+ * @returns {ReactElement} The Metabox component.
  */
-export default function Sidebar( { settings, store, theme } ) {
+export default function MetaboxFill( { settings, store, theme } ) {
 	return (
 		<Fragment>
-			<Fill name="YoastSidebar">
+			<Fill name="YoastMetabox">
 				<SidebarItem renderPriority={ 1 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
 						<Warning />
 					</TopLevelProviders>
@@ -41,25 +42,30 @@ export default function Sidebar( { settings, store, theme } ) {
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
 						<KeywordInput />
 					</TopLevelProviders>
 				</SidebarItem> }
-				{ <SidebarItem renderPriority={ 9 }>
+				<SidebarItem renderPriority={ 9 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
-						<SnippetPreviewModal />
+						<Collapsible
+							id={ "yoast-snippet-editor-metabox" }
+							title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+						>
+							<SnippetEditor hasPaperStyle={ false } />
+						</Collapsible>
 					</TopLevelProviders>
-				</SidebarItem> }
+				</SidebarItem>
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
 						<ReadabilityAnalysis />
 					</TopLevelProviders>
@@ -68,7 +74,7 @@ export default function Sidebar( { settings, store, theme } ) {
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
@@ -80,18 +86,24 @@ export default function Sidebar( { settings, store, theme } ) {
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "sidebar" }
+						location={ "metabox" }
 					>
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
-				</SidebarItem>
-				}
+				</SidebarItem> }
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<Social />
+				</TopLevelProviders>
 			</Fill>
 		</Fragment>
 	);
 }
 
-Sidebar.propTypes = {
+MetaboxFill.propTypes = {
 	settings: PropTypes.object.isRequired,
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,

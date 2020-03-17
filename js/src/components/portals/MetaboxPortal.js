@@ -1,8 +1,9 @@
-import { Slot } from "@wordpress/components";
-import { createPortal, Fragment } from "@wordpress/element";
+import { createPortal } from "@wordpress/element";
 
-import Metabox from "../containers/Metabox";
-import sortComponentsByRenderPriority from "../helpers/sortComponentsByRenderPriority";
+import MetaboxSlot from "../slots/MetaboxSlot";
+import MetaboxFill from "../../containers/MetaboxFill";
+import { Fragment } from "react";
+import PropTypes from "prop-types";
 
 /**
  * Renders the metabox portal.
@@ -22,13 +23,15 @@ export default function MetaboxPortal( { target, store, theme } ) {
 
 	return createPortal(
 		<Fragment>
-			<Slot name="YoastMetabox">
-				{ ( fills ) => {
-					return sortComponentsByRenderPriority( fills );
-				} }
-			</Slot>
-			<Metabox store={ store } theme={ theme } />
+			<MetaboxSlot />
+			<MetaboxFill store={ store } theme={ theme } />
 		</Fragment>,
 		metaboxElement
 	);
 }
+
+MetaboxPortal.propTypes = {
+	target: PropTypes.string.isRequired,
+	store: PropTypes.object,
+	theme: PropTypes.object,
+};

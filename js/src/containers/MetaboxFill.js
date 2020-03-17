@@ -1,4 +1,4 @@
-import Metabox from "../components/Metabox";
+import MetaboxFill from "../components/fills/MetaboxFill";
 import { connect } from "react-redux";
 
 /**
@@ -16,4 +16,4 @@ function mapStateToProps( state, ownProps ) {
 	};
 }
 
-export default connect( mapStateToProps )( Metabox );
+export default connect( mapStateToProps )( MetaboxFill );
