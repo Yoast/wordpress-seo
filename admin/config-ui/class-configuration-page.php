@@ -87,6 +87,7 @@ class WPSEO_Configuration_Page {
 		$asset_manager->register_assets();
 		$asset_manager->enqueue_script( 'configuration-wizard' );
 		$asset_manager->enqueue_style( 'yoast-components' );
+		$asset_manager->enqueue_style( 'monorepo' );
 
 		$config = $this->get_config();
 
