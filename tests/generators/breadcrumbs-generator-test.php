@@ -124,14 +124,15 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->once()
 				->with( $front_page_id, 'post' )
 				->andReturn( $this->indexable );
-		} else {
+		}
+		else {
 			$this->repository
 				->expects( 'find_for_home_page' )
 				->once()
 				->andReturn( $this->indexable );
 		}
 
-		if ( substr( $scenario, 0, 21 ) === 'on-singular-post-page' ) {
+		if ( strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
 			$this->repository
 				->expects( 'find_by_id_and_type' )
 				->once()
@@ -265,7 +266,6 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			return;
 		}
 
-
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'show_on_front' )
@@ -273,7 +273,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$is_home     = ( $scenario === 'on-home-page' );
 		$is_search   = ( $scenario === 'on-search-page' );
-		$is_singular = ( substr( $scenario, 0, 21 ) === 'on-singular-post-page' );
+		$is_singular = ( strpos( $scenario, 'on-singular-post-page' ) === 0 );
 
 		Monkey\Functions\expect( 'is_home' )
 			->andReturn( $is_home );
