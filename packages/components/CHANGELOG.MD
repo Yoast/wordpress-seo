@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.14.0 March 30th, 2020
+### Added
+* Adds CSS and HTML used in the upcoming redesign of the components for borders, colors, icons, buttons, checkbox, data-model, inputs, modal, radio button, select and toggle.
+
 ## 0.13.0 January 20th, 2020
 ### Added
 * Adds `className` attribute to the Input component.
