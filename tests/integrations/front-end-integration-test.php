@@ -91,8 +91,6 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
-
 		$this->instance->register_hooks();
 
 		$this->assertTrue( has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
@@ -162,6 +160,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_all_presenters
 	 */
 	public function test_get_presenters_for_singular_page() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
 		$this->container
 			->expects( 'get' )
 			->times( 28 )
@@ -214,6 +214,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_all_presenters
 	 */
 	public function test_get_presenters_for_error_page() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
 		$this->container
 			->expects( 'get' )
 			->times( 7 )
@@ -242,6 +244,8 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::get_all_presenters
 	 */
 	public function test_get_presenters_for_non_singular_page() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
+
 		$this->container
 			->expects( 'get' )
 			->times( 23 )
@@ -298,8 +302,6 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_get_presenters_for_theme_without_title_tag() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
 
-		$this->instance->register_hooks();
-
 		$this->container
 			->expects( 'get' )
 			->times( 6 )
@@ -315,7 +317,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$this->instance->get_presenters( 'Error_Page' )
+			array_values( $this->instance->get_presenters( 'Error_Page' ) )
 		);
 	}
 }
