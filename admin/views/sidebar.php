@@ -10,7 +10,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 
 ?>
 <aside class="yoast-sidebar">
-	<h2 class="yoast-sidebar__title yoast-sidebar__title--top">
+	<h2 class="yoast-sidebar__heading">
 		<?php
 		/* translators: %1$s expands to Yoast */
 		printf( esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
