@@ -70,7 +70,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$front_page_id = $this->current_page->get_front_page_id();
 			if ( $front_page_id === 0 ) {
 				$static_ancestors[] = $this->repository->find_for_home_page();
-			} else {
+			}
+			else {
 				$static_ancestors[] = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
 			}
 		}
