@@ -882,7 +882,7 @@ class WPSEO_Frontend {
 		}
 
 		if ( is_string( $canonical ) && '' !== $canonical ) {
-			echo '<link rel="canonical" href="' . esc_url( $canonical, null, 'other' ) . '" />' . "\n";
+			echo '<link rel="canonical" href="' . esc_url( urldecode( $canonical ), null, 'other' ) . '" />' . "\n";
 		}
 	}
 

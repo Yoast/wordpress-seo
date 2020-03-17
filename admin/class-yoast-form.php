@@ -241,7 +241,7 @@ class Yoast_Form {
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 */
 	public function checkbox( $var, $label, $label_left = false ) {
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
@@ -273,7 +273,7 @@ class Yoast_Form {
 	 * @param string $labels   The labels to show for the variable.
 	 */
 	public function checkbox_list( $variable, $labels ) {
-		$values = WPSEO_Options::get( $variable, [] );
+		$values = $this->get_field_value( $variable, [] );
 
 		foreach ( $labels as $name => $label ) {
 			printf(
@@ -306,7 +306,7 @@ class Yoast_Form {
 	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
 	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false ) {
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
@@ -351,6 +351,7 @@ class Yoast_Form {
 	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $var, $label, $attr = [] ) {
+		$type = 'text';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class'    => $attr,
@@ -363,7 +364,11 @@ class Yoast_Form {
 			'class'       => '',
 		];
 		$attr       = wp_parse_args( $attr, $defaults );
-		$val        = WPSEO_Options::get( $var, '' );
+		$val        = $this->get_field_value( $var, '' );
+		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
+			$val  = urldecode( $val );
+			$type = 'url';
+		}
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -383,7 +388,7 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
 
@@ -409,7 +414,7 @@ class Yoast_Form {
 			'class' => '',
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = WPSEO_Options::get( $var, '' );
+		$val      = $this->get_field_value( $var, '' );
 
 		$this->label(
 			$label,
@@ -430,7 +435,7 @@ class Yoast_Form {
 	 * @param string $id  The ID of the element.
 	 */
 	public function hidden( $var, $id = '' ) {
-		$val = WPSEO_Options::get( $var, '' );
+		$val = $this->get_field_value( $var, '' );
 		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
@@ -471,7 +476,7 @@ class Yoast_Form {
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
-		$active_option     = WPSEO_Options::get( $var, '' );
+		$active_option     = $this->get_field_value( $var, '' );
 		$wrapper_start_tag = '';
 		$wrapper_end_tag   = '';
 
@@ -504,7 +509,7 @@ class Yoast_Form {
 	 * @param string $label The label to show for the variable.
 	 */
 	public function file_upload( $var, $label ) {
-		$val = WPSEO_Options::get( $var, '' );
+		$val = $this->get_field_value( $var, '' );
 		if ( is_array( $val ) ) {
 			$val = $val['url'];
 		}
@@ -537,8 +542,8 @@ class Yoast_Form {
 	 * @param string $label Label message.
 	 */
 	public function media_input( $var, $label ) {
-		$val      = WPSEO_Options::get( $var, '' );
-		$id_value = WPSEO_Options::get( $var . '_id', '' );
+		$val      = $this->get_field_value( $var, '' );
+		$id_value = $this->get_field_value( $var . '_id', '' );
 
 		$var_esc = esc_attr( $var );
 
@@ -599,7 +604,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		$var_esc = esc_attr( $var );
 
@@ -656,7 +661,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 		if ( $val === true ) {
 			$val = 'on';
 		}
@@ -739,6 +744,18 @@ class Yoast_Form {
 		];
 
 		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
+	}
+
+	/**
+	 * Retrieves the value for the form field.
+	 *
+	 * @param string $field_name    The field name to retrieve the value for.
+	 * @param string $default_value The default value, when field has no value.
+	 *
+	 * @return mixed|null The retrieved value.
+	 */
+	protected function get_field_value( $field_name, $default_value = null ) {
+		return WPSEO_Options::get( $field_name, $default_value );
 	}
 
 	/**

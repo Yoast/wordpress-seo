@@ -33,7 +33,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
 				'my.yoast.com'
 			);
-			$this->status         = self::STATUS_RECOMMENDED;
+			$this->status         = self::STATUS_CRITICAL;
 			$this->badge['color'] = 'red';
 			$this->description    = sprintf(
 				/* translators: %1$s Emphasis open tag, %2$s: Emphasis close tag, %3$s Link start tag to the Yoast knowledge base, %4$s Link closing tag. */
