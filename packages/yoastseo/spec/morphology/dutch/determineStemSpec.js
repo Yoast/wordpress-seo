@@ -362,9 +362,11 @@ const wordsToStem = [
 	// Words in -eau that get -s in plural
 	[ "niveaus", "niveau" ],
 	[ "niveau", "niveau" ],
-	// Words in -é that get -s in plural
+	// Words in -é that get -s in plural and -tje/-tjes in diminutive forms
 	[ "maté", "maté" ],
 	[ "matés", "maté" ],
+	[ "souffleetje", "soufflé" ],
+	[ "plisseetje", "plissé" ],
 	// Words in -ou that get -s in plural
 	[ "bijou", "bijou" ],
 	[ "bijous", "bijou" ],
@@ -424,7 +426,26 @@ const wordsToStem = [
 	[ "communicatiedienst", "communicatiedienst" ],
 	[ "botermarkt", "botermarkt" ],
 	[ "rijafstand", "rijafstand" ],
-	[ "etiologieën", "etiologie" ]
+	// Nouns ending in -e and are in the list of exception with two stems
+	[ "etiologieën", "etiologie" ],
+	[ "etiologietjes", "etiologie" ],
+	[ "verjaardagscadeautje", "verjaardagscadeau" ],
+	// Nouns ending in -e that get suffix -s, -es will be stemmed and apply stem modification after suffix deletion
+	[ "gazelles", "gazel" ],
+	[ "hoeves", "hoef" ],
+	[ "finales", "finaal" ],
+	// Adjectives ending in -er which get adjective suffixes and is in exception list removeSuffixesFromFullForms
+	[ "bittere", "bitter" ],
+	[ "lekkers", "lekker" ],
+	[ "lekkerdere", "lekker" ],
+	[ "lekkere", "lekker" ],
+	// Adjectives ending in -st which get adjective suffixes and is in exception list removeSuffixesFromFullForms
+	[ "beheerstste", "beheerst" ],
+	[ "geruste", "gerust" ],
+	// Adjectives ending in -s which get superlative suffix -t/-te and is in exception list
+	[ "precieste", "precies" ],
+	[ "preciest", "precies" ],
+	[ "trotste", "trots" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
