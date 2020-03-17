@@ -12,14 +12,15 @@
 	margin-right: 24px;
 }
 
-.yoast .yoast-sidebar__title {
+.yoast .yoast-sidebar__heading {
 	font-size: 16px;
-}
-
-.yoast .yoast-sidebar__title--top {
 	margin-top: 35px;
 	padding-bottom: 8px;
 	border-bottom: 1px solid var(--color-primary);
+}
+
+.yoast .yoast-sidebar__title {
+	font-size: 16px;
 }
 
 .yoast-sidebar li {
