@@ -8,7 +8,7 @@
 /**
  * This class handles the data for the option where the Ryte data is stored.
  */
-class WPSEO_OnPage_Option {
+class WPSEO_Ryte_Option {
 
 	/**
 	 * Indicates the data is not fetched.
@@ -43,7 +43,7 @@ class WPSEO_OnPage_Option {
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'wpseo_onpage';
+	const OPTION_NAME = 'wpseo_ryte';
 
 	/**
 	 * The key of the status in the option.
@@ -71,13 +71,13 @@ class WPSEO_OnPage_Option {
 	 *
 	 * @var array
 	 */
-	private $onpage_option;
+	private $ryte_option;
 
 	/**
 	 * Setting the object by setting the properties.
 	 */
 	public function __construct() {
-		$this->onpage_option = $this->get_option();
+		$this->ryte_option = $this->get_option();
 	}
 
 	/**
@@ -86,8 +86,8 @@ class WPSEO_OnPage_Option {
 	 * @return string
 	 */
 	public function get_status() {
-		if ( array_key_exists( self::STATUS, $this->onpage_option ) ) {
-			return $this->onpage_option[ self::STATUS ];
+		if ( array_key_exists( self::STATUS, $this->ryte_option ) ) {
+			return $this->ryte_option[ self::STATUS ];
 		}
 
 		return self::CANNOT_FETCH;
@@ -99,7 +99,7 @@ class WPSEO_OnPage_Option {
 	 * @param string $status The status to save.
 	 */
 	public function set_status( $status ) {
-		$this->onpage_option[ self::STATUS ] = $status;
+		$this->ryte_option[ self::STATUS ] = $status;
 	}
 
 	/**
@@ -108,23 +108,31 @@ class WPSEO_OnPage_Option {
 	 * @param integer $timestamp Timestamp with the new value.
 	 */
 	public function set_last_fetch( $timestamp ) {
-		$this->onpage_option[ self::LAST_FETCH ] = $timestamp;
+		$this->ryte_option[ self::LAST_FETCH ] = $timestamp;
 	}
 
 	/**
-	 * Check if the last fetch is within the time of 60 minutes.
+	 * Determines whether the indexability status should be fetched.
 	 *
-	 * @return bool
+	 * If LAST_FETCH isn't set, we assume the indexability status hasn't been fetched
+	 * yet and return true. Then, we check whether the last fetch is within the
+	 * FETCH_LIMIT time interval (15 seconds) to avoid too many consecutive API calls.
+	 *
+	 * @return bool Whether the indexability status should be fetched.
 	 */
 	public function should_be_fetched() {
-		return ( ( time() - $this->onpage_option[ self::LAST_FETCH ] ) > self::FETCH_LIMIT );
+		if ( ! isset( $this->ryte_option[ self::LAST_FETCH ] ) ) {
+			return true;
+		}
+
+		return ( ( time() - $this->ryte_option[ self::LAST_FETCH ] ) > self::FETCH_LIMIT );
 	}
 
 	/**
 	 * Saving the option with the current data.
 	 */
 	public function save_option() {
-		update_option( self::OPTION_NAME, $this->onpage_option );
+		update_option( self::OPTION_NAME, $this->ryte_option );
 	}
 
 	/**
@@ -133,7 +141,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		return WPSEO_Options::get( 'onpage_indexability' );
+		return WPSEO_Options::get( 'ryte_indexability' );
 	}
 
 	/**

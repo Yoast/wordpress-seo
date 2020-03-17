@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 12.9.1
+Tested up to: 5.4
+Stable tag: 13.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -209,55 +209,42 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.9.1 =
-Release Date: January 21st, 2020
-
-Bugfixes:
-
-* Fixes a bug where a notification would be shown that Gutenberg was outdated when the latest version of Gutenberg was already installed.
-
-= 12.9 =
-Release Date: January 21st, 2020
-
-Today, we’re releasing Yoast SEO 12.9. In this release, you’ll find a number of bug fixes and enhancements. Among other things, you’ll find a renamed snippet preview with clearer settings. Find out what else is new in [our 12.9 release post](https://yoa.st/release-12-9)!
-
-Other:
-
-* Renames the 'Snippet preview' to 'Google preview'.
-* Replaces the Google preview mode switcher toggle with radio buttons.
-
-= 12.8.1 =
-Release Date: January 15th, 2020
-
-Bugfixes:
-
-* Fixes a bug where the Yoast SEO metabox would not be shown on custom post types and taxonomies when the settings of our plugin were never saved before.
-* Fixes a bug where the default titles for custom post types and taxonomies were not shown in the Search Appearance settings when the settings of our plugin were never saved before.
-
-= 12.8 =
-Release Date: January 7th, 2020
-
-Welcome to another year of helping you achieve your goals with your site! Today, it’s time for the first in a long line of releases planned for 2020: Yoast SEO 12.8. In this release, you’ll find a number of bug fixes and performance enhancements. Find out more about this release in [our 12.8 release post](https://yoa.st/release-12-8)!
-
-Bugfixes:
-
-* Fixes a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
-* Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
-* Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
-* Fixes a bug where author archives for authors without post would show up in the search results, even though the "Show archives for authors without posts in search results?" option was enabled.
-* Fixes a bug where the styling was missing from admin error notices in WordPress 5.3.
-* Fixes a bug where the results of the images alt attribute SEO assessment in the Classic Editor were incorrect when the image did not have an alt attribute but did have a title attribute.
+= 13.3 =
+Release Date: March 17th, 2020
 
 Enhancements:
 
-* Optimizes the options retrieval processes. Props to [Alex Bouma](https://alex.bouma.dev/) for his testing and suggestions.
-* Adds the possibility to declare an identifier when integrating with the Schema output.
+* Makes sure encoded urls are human readable in forms and output.
+* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
+
+Bugfixes:
+
+* Allows percent-encoding in canonical field. Props to [stodorovic](https://github.com/stodorovic).
+* Compares URL percent-encoding as case insensitive. Props to [stodorovic](https://github.com/stodorovic).
 
 Other:
 
-* Fixes the documentation in the Schema HowTo file. Props to [timvaniersel](https://github.com/timvaniersel).
-* Fixes the documentation in the Breadcrumbs file. Props to [alfiosalanitri](https://github.com/alfiosalanitri).
-* Moves the paginated comments notice from the dashboard to WordPress' Site Health screen.
+* Changes cURL Health Check to `critical` instead of `recommended`.
+* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
+* Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
+* Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
 
-= Earlier versions =
-For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
+= 13.2 =
+Release Date: March 3rd, 2020
+
+In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
+
+Enhancements:
+
+* Adds the capability to view Site Health to the SEO Manager role.
+* Adds a cURL minimal version check to Site Health.
+* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
+* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
+* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
+* Improves the usability of the "Your site is indexable" Site Health check.
+* Adds error handling for the "Your site is indexable" status request.
+* Adds an ID to the FAQ sections in the Schema output.
+
+Bugfixes:
+
+* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.

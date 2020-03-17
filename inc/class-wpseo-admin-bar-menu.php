@@ -319,11 +319,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-header',
-				'title'  => __( 'Check Headers', 'wordpress-seo' ),
-				'href'   => '//quixapp.com/headers/?r=' . urlencode( $url ),
-			],
-			[
 				'id'     => 'wpseo-structureddata',
 				'title'  => __( 'Google Structured Data Test', 'wordpress-seo' ),
 				'href'   => 'https://search.google.com/structured-data/testing-tool#url=' . $encoded_url,
@@ -397,6 +392,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		foreach ( $submenu_pages as $submenu_page ) {
 			if ( ! current_user_can( $submenu_page[3] ) ) {
+				continue;
+			}
+
+			// Don't add the Google Search Console menu item.
+			if ( $submenu_page[4] === 'wpseo_search_console' ) {
 				continue;
 			}
 

@@ -67,23 +67,6 @@ function wpseo_set_ignore() {
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 
 /**
- * Hides the default tagline notice for a specific user.
- */
-function wpseo_dismiss_tagline_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-dismiss-tagline-notice' );
-
-	update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
-
-	die( '1' );
-}
-
-add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
-
-/**
  * Save an individual SEO title from the Bulk Editor.
  */
 function wpseo_save_title() {
@@ -331,8 +314,6 @@ wpseo_register_ajax_integrations();
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax();
 
-new Yoast_OnPage_Ajax();
-
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
@@ -400,4 +381,19 @@ function wpseo_ajax_replace_vars() {
 	$omit = [ 'excerpt', 'excerpt_only', 'title' ];
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
+}
+
+/**
+ * Hides the default tagline notice for a specific user.
+ *
+ * @deprecated 13.2
+ * @codeCoverageIgnore
+ */
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	_deprecated_function( __FUNCTION__, 'WPSEO 13.2', 'This method is deprecated.' );
+	wpseo_ajax_json_echo_die( '' );
 }

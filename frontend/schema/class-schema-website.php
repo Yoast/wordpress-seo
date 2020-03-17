@@ -48,11 +48,13 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		$data = [
-			'@type'     => 'WebSite',
-			'@id'       => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
-			'url'       => $this->context->site_url,
-			'name'      => $this->context->site_name,
+			'@type' => 'WebSite',
+			'@id'   => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
+			'url'   => $this->context->site_url,
+			'name'  => $this->context->site_name,
 		];
+
+		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
 		if ( $this->context->site_description ) {
 			$data['description'] = $this->context->site_description;
@@ -106,7 +108,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 			 */
 			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->context->site_url . '?s={search_term_string}' );
 
-			$data['potentialAction'] = [
+			$data['potentialAction'][] = [
 				'@type'       => 'SearchAction',
 				'target'      => $search_url,
 				'query-input' => 'required name=search_term_string',
