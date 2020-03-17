@@ -7,14 +7,10 @@
  *
  * @returns {string} The stemmed word.
  */
-const removeSuffixFromFullForm = function( exceptions, suffix, word ) {
+export function removeSuffixFromFullForm( exceptions, suffix, word ) {
 	for ( let i = 0; i < exceptions.length; i++ ) {
 		if ( word.endsWith( exceptions[ i ] ) ) {
 			return word.slice( 0, -suffix.length );
 		}
 	}
-};
-
-export {
-	removeSuffixFromFullForm,
-};
+}
