@@ -209,6 +209,12 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.4 =
+Release Date: March 31st, 2020
+
+Bugfixes:
+* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+
 = 13.3 =
 Release Date: March 17th, 2020
 
@@ -228,22 +234,6 @@ Other:
 * Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
 * Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
 * Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
-
-= 13.2 =
-Release Date: March 3rd, 2020
-
-In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
-
-Enhancements:
-
-* Adds the capability to view Site Health to the SEO Manager role.
-* Adds a cURL minimal version check to Site Health.
-* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
-* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
-* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
-* Improves the usability of the "Your site is indexable" Site Health check.
-* Adds error handling for the "Your site is indexable" status request.
-* Adds an ID to the FAQ sections in the Schema output.
 
 Bugfixes:
 
