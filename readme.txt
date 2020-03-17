@@ -234,3 +234,6 @@ Other:
 * Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
 * Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
 * Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
+
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
