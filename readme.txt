@@ -234,7 +234,3 @@ Other:
 * Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
 * Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
 * Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
-
-Bugfixes:
-
-* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
