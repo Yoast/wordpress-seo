@@ -314,37 +314,20 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Returns all ancestors of a given indexable. Optionally prepending a set of static ancestors.
+	 * Returns all ancestors of a given indexable.
 	 *
-	 * @param Indexable $indexable              The indexable to find the ancestors of.
-	 * @param array     $static_ancestor_wheres Optional. The where conditions by which to find static ancestors.
-	 *                                          Should be an array of arrays with the inner arrays containing find
-	 *                                          conditions.
+	 * @param Indexable $indexable The indexable to find the ancestors of.
 	 *
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
-	public function get_ancestors( Indexable $indexable, $static_ancestor_wheres = [] ) {
+	public function get_ancestors( Indexable $indexable ) {
 		$hierarchy_table = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
-		$ancestor_query  = $this->query()
-								->table_alias( 'i' )
-								->select( 'i.*' )
-								->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
-								->where( 'ih.indexable_id', $indexable->id )
-								->order_by_desc( 'ih.depth' );
-
-		$ancestor_queries = [];
-		if ( ! empty( $static_ancestor_wheres ) ) {
-			$ancestor_queries = array_map( function ( $where ) {
-				return $this->query()->where( $where )->limit( 1 )->find_many();
-			}, $static_ancestor_wheres );
-		}
-
-		$ancestor_queries[] = $ancestor_query->find_many();
-
-		if ( empty( $ancestor_queries ) ) {
-			return [];
-		}
-
-		return array_merge( ...$ancestor_queries );
+		return $this->query()
+					->table_alias( 'i' )
+					->select( 'i.*' )
+					->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
+					->where( 'ih.indexable_id', $indexable->id )
+					->order_by_desc( 'ih.depth' )
+					->find_many();
 	}
 }
