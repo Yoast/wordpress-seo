@@ -19,14 +19,19 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * Presents a presentation.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation to present.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The template.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$twitter_image = $this->filter( $presentation->twitter_image, $presentation );
 		$twitter_image = \esc_url( $twitter_image );
 
 		if ( \is_string( $twitter_image ) && $twitter_image !== '' ) {
+			if ( ! $output_tag ) {
+				return $twitter_image;
+			}
+
 			return '<meta name="twitter:image" content="' . $twitter_image . '" />';
 		}
 

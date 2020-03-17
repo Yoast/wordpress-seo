@@ -18,14 +18,18 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the googlebot output.
 	 *
 	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The googlebot output tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$googlebot = \implode( ', ', $presentation->googlebot );
 		$googlebot = $this->filter( $googlebot, $presentation );
 
 		if ( \is_string( $googlebot ) && $googlebot !== '' ) {
+			if ( ! $output_tag ) {
+				return $googlebot;
+			}
 			return \sprintf( '<meta name="googlebot" content="%s" />', \esc_attr( $googlebot ) );
 		}
 

@@ -19,13 +19,18 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the open graph url.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The open graph URL tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$open_graph_url = $this->filter( $presentation->open_graph_url, $presentation );
 
 		if ( \is_string( $open_graph_url ) && $open_graph_url !== '' ) {
+			if ( ! $output_tag ) {
+				return $open_graph_url;
+			}
+
 			return '<meta property="og:url" content="' . \esc_url( $open_graph_url ) . '" />';
 		}
 

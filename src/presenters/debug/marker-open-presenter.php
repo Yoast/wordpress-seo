@@ -41,7 +41,7 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The debug close marker.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		return \sprintf(
 			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			\esc_html( $this->product->get_name() ),

@@ -40,6 +40,7 @@ $excluded_directories = [
 	'generated',
 	'orm',
 	'backwards-compatibility',
+	'surfaces/values',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );

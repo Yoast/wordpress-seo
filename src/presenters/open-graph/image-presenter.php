@@ -30,10 +30,11 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the image for a post.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The image tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$images = [];
 
 		foreach ( $presentation->open_graph_images as $open_graph_image ) {
@@ -41,6 +42,10 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$images = \array_filter( $images );
+
+		if ( ! $output_tag ) {
+			return $images;
+		}
 
 		if ( empty( $images ) ) {
 			return '';

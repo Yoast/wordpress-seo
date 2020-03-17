@@ -39,12 +39,13 @@ abstract class Abstract_Indexable_Presenter {
 	 * Presents a presentation.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation to present.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @codeCoverageIgnore There is nothing to test.
 	 *
 	 * @return string The template.
 	 */
-	public abstract function present( Indexable_Presentation $presentation );
+	public abstract function present( Indexable_Presentation $presentation, $output_tag = true );
 
 	/**
 	 * Replace replacement variables in the meta description.

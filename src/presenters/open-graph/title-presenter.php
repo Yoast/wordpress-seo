@@ -30,7 +30,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct( String_Helper $string ) {
+	public function __construct( String_Helper $string, $output_tag = true ) {
 		$this->string = $string;
 	}
 
@@ -38,14 +38,19 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the title for a post.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The title tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$title = $this->filter( $this->replace_vars( $presentation->open_graph_title, $presentation ), $presentation );
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 
 		if ( \is_string( $title ) && $title !== '' ) {
+			if ( ! $output_tag ) {
+				return $title;
+			}
+
 			return '<meta property="og:title" content="' . \esc_attr( $title ) . '" />';
 		}
 

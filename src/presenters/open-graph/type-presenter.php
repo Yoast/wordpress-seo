@@ -19,13 +19,18 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the opengraph type for a post.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The open graph type tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$open_graph_type = $this->filter( $presentation->open_graph_type, $presentation );
 
 		if ( \is_string( $open_graph_type ) && $open_graph_type !== '' ) {
+			if ( ! $output_tag ) {
+				return $open_graph_type;
+			}
+
 			return '<meta property="og:type" content="' . \esc_attr( $open_graph_type ) . '" />';
 		}
 

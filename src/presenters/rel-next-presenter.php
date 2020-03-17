@@ -18,10 +18,11 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the rel prev meta tag.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The rel next tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
 			return '';
 		}
@@ -29,6 +30,10 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 		$rel_next = $this->filter( $presentation->rel_next, $presentation );
 
 		if ( \is_string( $rel_next ) && $rel_next !== '' ) {
+			if ( ! $output_tag ) {
+				return $rel_next;
+			}
+
 			$link = \sprintf( '<link rel="next" href="%s" />', \esc_url( $rel_next ) );
 
 			/**

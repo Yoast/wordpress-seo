@@ -72,10 +72,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * Presents the breadcrumbs.
 	 *
 	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The breadcrumbs HTML.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
+		if ( ! $output_tag ) {
+			return $presentation->breadcrumbs;
+		}
+
 		if ( ! is_array( $presentation->breadcrumbs ) || empty( $presentation->breadcrumbs ) ) {
 			return '';
 		}

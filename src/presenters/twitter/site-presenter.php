@@ -19,14 +19,19 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the Twitter site.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Twitter site tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$twitter_site = $this->filter( $presentation->twitter_site, $presentation );
 		$twitter_site = $this->get_twitter_id( $twitter_site );
 
 		if ( \is_string( $twitter_site ) && $twitter_site !== '' ) {
+			if ( ! $output_tag ) {
+				return $twitter_site;
+			}
+
 			return \sprintf( '<meta name="twitter:site" content="%s" />', \esc_attr( '@' . $twitter_site ) );
 		}
 

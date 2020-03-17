@@ -18,10 +18,15 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the schema output.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The schema tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
+		if ( ! $output_tag ) {
+			return $presentation->schema;
+		}
+
 		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		];

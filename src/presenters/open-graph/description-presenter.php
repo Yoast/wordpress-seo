@@ -19,13 +19,18 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the Open Graph description.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Open Graph description's meta tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$description = $this->filter( $this->replace_vars( $presentation->open_graph_description, $presentation ), $presentation );
 
 		if ( \is_string( $description ) && $description !== '' ) {
+			if ( ! $output_tag ) {
+				return $description;
+			}
+
 			return \sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );
 		}
 

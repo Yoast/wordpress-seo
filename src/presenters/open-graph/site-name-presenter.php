@@ -19,13 +19,18 @@ class Site_Name_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the site name.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The title tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$site_name = $this->filter( $presentation->open_graph_site_name, $presentation );
 
 		if ( \is_string( $site_name ) && $site_name !== '' ) {
+			if ( ! $output_tag ) {
+				return $site_name;
+			}
+
 			return \sprintf( '<meta property="og:site_name" content="%s" />', \esc_attr( $site_name ) );
 		}
 

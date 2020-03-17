@@ -19,11 +19,17 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the debug close marker.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The debug close marker.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$locale = $this->filter( $presentation->open_graph_locale, $presentation );
+
+		if ( ! $output_tag ) {
+			return $locale;
+		}
+
 		return '<meta property="og:locale" content="' . \esc_attr( $locale ) . '" />';
 	}
 

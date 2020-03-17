@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO;
 
 use Exception;
+use Yoast\WP\Free\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
@@ -22,8 +23,8 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 /**
  * Class Main
  *
- * @property Current_Page_Surface current_page
- * @property Classes_Surface      classes
+ * @property Current_Page_Surface $current_page
+ * @property Classes_Surface      $classes
  */
 class Main {
 
@@ -42,6 +43,7 @@ class Main {
 	private $surfaces = [
 		'current_page' => Current_Page_Surface::class,
 		'classes'      => Classes_Surface::class,
+		'meta'         => Meta_Surface::class,
 	];
 
 	/**

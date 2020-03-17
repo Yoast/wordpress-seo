@@ -18,16 +18,21 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the rel prev meta tag.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The rel prev tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
 			return '';
 		}
 
 		$rel_prev = $this->filter( $presentation->rel_prev, $presentation );
 		if ( \is_string( $rel_prev ) && $rel_prev !== '' ) {
+			if ( ! $output_tag ) {
+				return $rel_prev;
+			}
+
 			$link = \sprintf( '<link rel="prev" href="%s" />', \esc_url( $rel_prev ) );
 
 			/**

@@ -19,14 +19,19 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	 * Presents a presentation.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation to present.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The template.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$twitter_description = $this->replace_vars( $presentation->twitter_description, $presentation );
 		$twitter_description = $this->filter( $twitter_description, $presentation );
 
 		if ( $twitter_description ) {
+			if ( ! $output_tag ) {
+				return $twitter_description;
+			}
+
 			return '<meta name="twitter:description" content="' . \esc_attr( $twitter_description ) . '" />';
 		}
 

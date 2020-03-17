@@ -37,16 +37,20 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the meta description for a post.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The meta description tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$meta_description = $this->replace_vars( $presentation->meta_description, $presentation );
 		$meta_description = $this->filter( $meta_description, $presentation );
 		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
 		$meta_description = \trim( $meta_description );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
+			if ( ! $output_tag ) {
+				return $meta_description;
+			}
 			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( $meta_description ) );
 		}
 

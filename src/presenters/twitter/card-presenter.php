@@ -18,13 +18,18 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 	 * Presents the Twitter card meta tag.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Twitter card tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$card_type = $this->filter( $presentation->twitter_card, $presentation );
 
 		if ( \is_string( $card_type ) && $card_type !== '' ) {
+			if ( ! $output_tag ) {
+				return $card_type;
+			}
+
 			return \sprintf( '<meta name="twitter:card" content="%s" />', \esc_attr( $card_type ) );
 		}
 

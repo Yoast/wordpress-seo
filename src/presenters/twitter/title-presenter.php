@@ -18,13 +18,18 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the Twitter title.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Twitter title tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
+	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$twitter_title = (string) $this->filter( $this->replace_vars( $presentation->twitter_title, $presentation ), $presentation );
 
 		if ( $twitter_title !== '' ) {
+			if ( ! $output_tag ) {
+				return $twitter_title;
+			}
+
 			return \sprintf( '<meta name="twitter:title" content="%s" />', \esc_attr( $twitter_title ) );
 		}
 
