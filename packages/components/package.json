@@ -19,7 +19,10 @@
   "jest": {
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/jest/CSSStub.js"
+    }
   },
   "dependencies": {
     "@wordpress/a11y": "^1.1.3",
