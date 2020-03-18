@@ -55,7 +55,10 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tests/CSSStub.js"
+    }
   },
   "publishConfig": {
     "access": "public"
