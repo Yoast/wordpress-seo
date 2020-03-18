@@ -10,6 +10,7 @@ describe( "<ImageSelect />", () => {
 			<ImageSelect
 				imageSelected={ false }
 				title="Facebook image"
+				isPremium={ true }
 			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
@@ -20,6 +21,7 @@ describe( "<ImageSelect />", () => {
 			<ImageSelect
 				title="Facebook image"
 				imageSelected={ true }
+				isPremium={ false }
 				warnings={ [
 					"Your image is too small",
 					"Wow, I like writing tests",
