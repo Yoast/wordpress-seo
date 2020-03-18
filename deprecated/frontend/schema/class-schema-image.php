@@ -29,6 +29,7 @@ class WPSEO_Schema_Image {
 
 	/**
 	 * Value to use as the image id.
+	 *
 	 * @var string
 	 */
 	private $schema_id;
