@@ -26,4 +26,4 @@ export const getDescriptionFallback = state => state.analysisData.snippet.descri
  *
  * @returns {string} The sidewide image url.
  */
-export const getImageFallback = state => state.settings.socialPreviews.siteWideImage || state.snippetEditor.data.snippetPreviewImageURL;
+export const getImageFallback = state => state.settings.socialPreviews.sitewideImage || state.snippetEditor.data.snippetPreviewImageURL;

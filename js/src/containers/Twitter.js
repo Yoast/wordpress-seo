@@ -18,7 +18,7 @@ const {
 /**
  * Maps the state to props.
  *
- * @param {Object} state The state.
+ * @param {Object} state The state.`
  *
  * @returns {Object} The props for the TwitterView component.
  */
@@ -27,9 +27,11 @@ const mapStateToProps = ( state ) => {
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
-		description: socialSelectors.getTwitterDescription( state ) || getDescriptionFallback( state ),
-		title: socialSelectors.getTwitterTitle( state ) || getTitleFallback( state ),
-		image: { ...image, fallbackUrl: getImageFallback( state ) },
+		description: socialSelectors.getTwitterDescription( state ) || socialSelectors.getFacebookDescription( state ) || getDescriptionFallback( state ),
+		descriptionFallback: "Modify your Twitter description by editing it right here...",
+		title: socialSelectors.getTwitterTitle( state ),
+		titleFallback: socialSelectors.getFacebookTitle( state ) || getTitleFallback( state ),
+		image: { ...image, fallbackUrl: state.socialReducer.facebook.image.url || getImageFallback( state ) },
 		imageWarnings: state.socialReducer.twitter.warnings,
 	};
 };
