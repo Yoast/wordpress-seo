@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
-import { getId } from "../generateId";
+import { getId } from "../GenerateId";
 
 // A list defining all the possible inputs for which this component can be used.
 export const inputTypes = [
