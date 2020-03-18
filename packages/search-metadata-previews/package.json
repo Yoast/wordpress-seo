@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "1.19.0-rc.0",
+  "version": "1.20.0-rc.0",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.13.1",
+    "@yoast/components": "^0.14.0-rc.0",
     "@yoast/helpers": "^0.11.1",
     "@yoast/style-guide": "^0.11.1",
     "draft-js": "^0.10.5",
@@ -30,7 +30,7 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^4.2.0",
-    "yoastseo": "^1.70.0-rc.0"
+    "yoastseo": "^1.71.0-rc.0"
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.1",

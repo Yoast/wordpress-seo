@@ -38,4 +38,5 @@
 .yoast p,
 .yoast-paragraph {
 	font-size: var(--font-size-default);
+	margin-top: 0;
 }

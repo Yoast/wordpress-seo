@@ -36,63 +36,6 @@
   border: 1px solid rgba(0,0,0, 0.2);
 }
 
-.yoast .yoast-button--secondary {
-  color: var(--color-dark);
-  background-color: var(--color-secondary);
-}
-
-.yoast .yoast-button--secondary:visited {
-  color: var(--color-dark);
-}
-
-.yoast .yoast-button--secondary:hover,
-.yoast .yoast-button--secondary:active {
-  color: var(--color-dark);
-  background-color: var(--color-secondary-darker);
-  border: 1px solid rgba(0,0,0, 0.2);
-}
-
-.yoast .yoast-button--buy {
-  display: inline-flex;
-  align-items: center;
-  color: var(--color-dark);
-  background-color: var(--color-sale);
-}
-
-.yoast .yoast-button--buy:visited {
-  color: var(--color-dark);
-}
-
-.yoast .yoast-button--buy:hover,
-.yoast .yoast-button--buy:active {
-  color: var(--color-dark);
-  background-color: var(--color-sale-darker)
-}
-
-.yoast .yoast-button--buy__caret {
-  flex-shrink: 0;
-  display: inline-block;
-  width: 6px;
-  height: 16px;
-  /*Negative margin to compensate the icon white space within its viewbox.*/
-  margin: 0 -2px 0 6px;
-  background: var(--svg-icon-caret-right) center center no-repeat;
-}
-
-.yoast-remove, .yoast-hide {
-  color: red;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.yoast-hide {
-  color: var(--color-link);
-}
-
-
 /* Close button for modals or papers */
 .yoast-close {
   display: flex;
