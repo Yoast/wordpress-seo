@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.71.0 March 30th, 2020
+### Enhancements:
+* Adds word form support for Dutch.
+
 ## 1.66.0 January 6th, 2019
 ### Other
 * Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
