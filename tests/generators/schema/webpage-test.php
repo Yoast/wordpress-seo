@@ -182,6 +182,162 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
+	 * Tests generate on the front case when the site isn't set to represent anything.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::add_breadcrumbs
+	 * @covers ::add_potential_action
+	 */
+	public function test_generate_on_front_page_site_does_not_represents_reference() {
+		$this->meta_tags_context->has_image           = false;
+		$this->meta_tags_context->breadcrumbs_enabled = false;
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'The post title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_date_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_date_gmt );
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_modified_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'the-language';
+
+				return $data;
+			} );
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
+			->with( [ $this->meta_tags_context->canonical ] )
+			->once()
+			->andReturn( [ $this->meta_tags_context->canonical ] );
+
+		$expected = [
+			'@type'           => 'WebPage',
+			'@id'             => 'https://example.com/the-post/#webpage',
+			'url'             => 'https://example.com/the-post/',
+			'name'            => 'The post title',
+			'isPartOf'        => [
+				'@id' => 'https://example.com/#website',
+			],
+			'datePublished'   => '2345-12-12 12:12:12',
+			'dateModified'    => '2345-12-12 23:23:23',
+			'inLanguage'      => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [ 'https://example.com/the-post/' ],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests generate on the front page when the site represents an organization.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::add_breadcrumbs
+	 * @covers ::add_potential_action
+	 */
+	public function test_generate_on_front_page_site_represents_reference() {
+		$this->meta_tags_context->has_image                 = false;
+		$this->meta_tags_context->breadcrumbs_enabled       = false;
+		$this->meta_tags_context->site_represents_reference = [ '@id' => $this->meta_tags_context->site_url . '#organization' ];
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'The post title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->once()
+			->withNoArgs()
+			->andReturnTrue();
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_date_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_date_gmt );
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_modified_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'the-language';
+
+				return $data;
+			} );
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
+			->with( [ $this->meta_tags_context->canonical ] )
+			->once()
+			->andReturn( [ $this->meta_tags_context->canonical ] );
+
+		$expected = [
+			'@type'           => 'WebPage',
+			'@id'             => 'https://example.com/the-post/#webpage',
+			'url'             => 'https://example.com/the-post/',
+			'name'            => 'The post title',
+			'isPartOf'        => [
+				'@id' => 'https://example.com/#website',
+			],
+			'datePublished'   => '2345-12-12 12:12:12',
+			'dateModified'    => '2345-12-12 23:23:23',
+			'about'           => [ '@id' => 'https://example.com/#organization' ],
+			'inLanguage'      => 'the-language',
+			'potentialAction' => [
+				[
+					'@type'  => 'ReadAction',
+					'target' => [ 'https://example.com/the-post/' ],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
 	 * Provides data to the generate test.
 	 *
 	 * @return array The data to use.
