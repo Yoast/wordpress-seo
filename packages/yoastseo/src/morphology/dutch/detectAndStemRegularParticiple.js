@@ -37,7 +37,7 @@ const checkAndStemIfExceptionWithoutGePrefix = function( dataExceptionListToChec
 const shouldSuffixBeStemmed = function( wordWithoutPrefix, morphologyDataNL ) {
 	if ( wordWithoutPrefix.endsWith( "t" ) ) {
 		// Return true (suffix should be stemmed) if word was found on the exception list of verbs which should have the final -t stemmed.
-		const exceptionsTShouldBeStemmed = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.verbsTShouldBeStemmed;
+		const exceptionsTShouldBeStemmed = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.wordsTShouldBeStemmed;
 		if ( exceptionsTShouldBeStemmed.includes( wordWithoutPrefix ) ) {
 			return true;
 		}

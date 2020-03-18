@@ -117,7 +117,7 @@ export function generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) {
 	 * - Example: "squasht".
 	 * - This is an exception to one of the rule in step 2.
 	 */
-	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.verbsTShouldBeStemmed ) ) {
+	if ( checkIfWordEndingIsOnExceptionList( word, morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.wordsTShouldBeStemmed ) ) {
 		return word.slice( 0, -1 );
 	}
 
