@@ -35,24 +35,25 @@ const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
  */
 const removeSuffixFromFullForms = function( morphologyDataNL,  word ) {
 	/*
-	 * Checks whether the word ends in -er/-st which gets adjectives suffixes
-	 * and is in the exception list. If it is, remove the corresponding suffix.
-	 * e.g. lekkere -> lekker, geruste -> gerust, beheerstste -> beheerst
+	 * Checks whether the word is in the exception list of words ending in -er and gets either -e or -s suffix
+	 * If it is, remove the corresponding suffix.
+	 * e.g. lekkere -> lekker, bitters -> bitter
 	*/
 	for ( const exceptionClass of morphologyDataNL.stemming.stemExceptions.removeSuffixesFromFullForms ) {
-		const adjectiveStemmedWord = removeSuffixesFromFullForm( exceptionClass.forms, exceptionClass.suffixes, word );
-		if ( adjectiveStemmedWord ) {
-			return adjectiveStemmedWord;
+		const stemmedWord = removeSuffixesFromFullForm( exceptionClass.forms, exceptionClass.suffixes, word );
+		if ( stemmedWord ) {
+			return stemmedWord;
 		}
 	}
 	/*
-	 * Checks whether the word is in the exception list of nouns with specific diminutive or plural suffixes that needs to be stemmed.
-	 * If it is return the stem here. e.g. modes -> mod
+	 * Checks whether the word is in one of the exception lists of nouns
+	 * for which a specific suffix needs to be stemmed (e.g. -s, -es, -eren, -er etc.)
+	 * e.g. kuddes -> kud, modes -> mod, revenuen -> revenu
 	 */
 	for ( const exceptionClass of morphologyDataNL.stemming.stemExceptions.removeSuffixFromFullForms ) {
-		const nounStemmedWord = removeSuffixFromFullForm( exceptionClass.forms, exceptionClass.suffix, word );
-		if ( nounStemmedWord ) {
-			return nounStemmedWord;
+		const stemmedWord = removeSuffixFromFullForm( exceptionClass.forms, exceptionClass.suffix, word );
+		if ( stemmedWord ) {
+			return stemmedWord;
 		}
 	}
 };
@@ -79,9 +80,8 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNL ) {
 	 */
 	let stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL, word );
 	if ( stemFromFullForm ) {
-		const checkIfDoublingVowelIsNeeded = isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.stemming.stemExceptions,
-			morphologyDataNL.verbs.compoundVerbsPrefixes );
-		if ( checkIfDoublingVowelIsNeeded ) {
+		if ( isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.stemming.stemExceptions,
+			morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
 			stemFromFullForm = modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.doubleVowel );
 			return modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.finalChanges );
 		}
