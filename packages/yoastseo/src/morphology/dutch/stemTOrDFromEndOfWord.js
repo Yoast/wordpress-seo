@@ -5,22 +5,6 @@ import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEndin
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
 
 /**
- * If the word ending in -t/-d was matched in the doNotStemTOrD list.
- *
- * @param {string}	 stemmedWord	The stemmed word.
- * @param {string[]} doNotStemTOrD	The Dutch morphology data.
- * @returns {boolean} Whether the word is found on the list of doNotStemTOrD exceptions.
- */
-const checkTheWordIsInTOrDExceptionList = function( stemmedWord, doNotStemTOrD ) {
-	for ( let i = 0; i < doNotStemTOrD.length; i++ ) {
-		if ( stemmedWord.endsWith( doNotStemTOrD[ i ] ) ) {
-			return true;
-		}
-	}
-	return null;
-};
-
-/**
  * If the word ending in -t/-d was not matched in any of the checks for whether -t/-d should be stemmed or not, other checks still need
  * to be done in order to be sure whether we need to stem the word further or not.
  * If one of these checks returns true, we do not need to stem the word further.
@@ -44,7 +28,7 @@ const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word )
 		 adjectivesEndingInRd.includes( stemmedWord ) ||
 		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
 		 stemmedWord.endsWith( "heid" ) ||
-		 checkTheWordIsInTOrDExceptionList( stemmedWord, wordsEndingInTOrDExceptionList )
+		 checkIfWordEndingIsOnExceptionList( stemmedWord, wordsEndingInTOrDExceptionList )
 	) {
 		return true;
 	}
