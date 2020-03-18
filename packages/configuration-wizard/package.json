@@ -53,6 +53,9 @@
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tools/jest/CSSStub.js"
+    },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
