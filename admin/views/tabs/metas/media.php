@@ -12,13 +12,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $wpseo_media_presenter = new WPSEO_Paper_Presenter(
+	// @todo fix the shortlink below to be a real yoa.st shortlink to the correct page!
 	esc_html__( 'Media & attachment URLs', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/paper-content/media-content.php',
 	[
-		// @todo fix the shortlink below to be a real yoa.st shortlink to the correct page!
-		'help_text' => new WPSEO_Admin_Help_Button( 'shortlink', __( 'Learn more about the Media and attachment URLs setting', 'wordpress-seo' ) ),
-		'paper_id'  => 'settings-media-attachment-url',
-		'class'     => 'search-appearance',
+		'help_button' => new WPSEO_Admin_Help_Button( 'shortlink', __( 'Learn more about the Media and attachment URLs setting', 'wordpress-seo' ) ),
+		'paper_id'    => 'settings-media-attachment-url',
+		'class'       => 'search-appearance',
 	]
 );
 
