@@ -5,6 +5,10 @@
  * @package WPSEO\Frontend\Schema
  */
 
+use Yoast\WP\SEO\Generators\Schema\Article;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+
 /**
  * Returns schema Article data.
  *
@@ -21,7 +25,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::__construct' );
 	}
 
 	/**
@@ -33,9 +37,20 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
 
-		return false;
+		$yoast = YoastSEO();
+		/**
+		 * @var Meta_Tags_Context_Memoizer
+		 */
+		$memoizer = $yoast->classes->get( Meta_Tags_Context_Memoizer::class );
+		$context  = $memoizer->for_current_page();
+		/**
+		 * @var Article
+		 */
+		$piece = $yoast->classes->get( Article::class );
+
+		return $piece->is_needed( $context );
 	}
 
 	/**
@@ -47,9 +62,24 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
 
-		return array();
+		$yoast = YoastSEO();
+		/**
+		 * Holds a memoizer for the meta tag context.
+		 *
+		 * @var Meta_Tags_Context_Memoizer
+		 */
+		$memoizer = $yoast->classes->get( Meta_Tags_Context_Memoizer::class );
+		$context  = $memoizer->for_current_page();
+		/**
+		 * Holds the article schema.
+		 *
+		 * @var Article
+		 */
+		$piece = $yoast->classes->get( Article::class );
+
+		return $piece->generate( $context );
 	}
 
 	/**
@@ -63,8 +93,15 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return bool True if it has article schema, false if not.
 	 */
 	public static function is_article_post_type( $post_type = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Article_Helper::is_article_post_type' );
 
-		return false;
+		/**
+		 * Holds the article schema helper.
+		 *
+		 * @var Article_Helper
+		 */
+		$article = YoastSEO()->classes->get( Article_Helper::class );
+
+		return $article->is_article_post_type( $post_type );
 	}
 }
