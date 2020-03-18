@@ -41,8 +41,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
 				$button_id_attr,
 				esc_attr( $collapsible_config['expanded'] ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-				$help_text->get_button_html(),
+				( $help_text instanceof WPSEO_Admin_Help_Panel ) ? $help_text->get_button_html() : '',
 				esc_html( $title ) . wp_kses_post( $title_after ),
 				wp_kses_post( $collapsible_config['toggle_icon'] )
 			);
@@ -51,8 +50,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			echo '<div class="paper-title"><h2 class="help-button-inline">',
 				esc_html( $title ),
 				wp_kses_post( $title_after ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-				$help_text->get_button_html(),
+				( $help_text instanceof WPSEO_Admin_Help_Panel ) ? $help_text->get_button_html() : '',
+				' ' . $help_button,
 				'</h2></div>';
 		}
 	}
