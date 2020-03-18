@@ -79,9 +79,8 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNL ) {
 	 */
 	let stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL, word );
 	if ( stemFromFullForm ) {
-		const checkIfDoublingVowelIsNeeded = isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.stemming.stemExceptions,
-			morphologyDataNL.verbs.compoundVerbsPrefixes );
-		if ( checkIfDoublingVowelIsNeeded ) {
+		if ( isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.stemming.stemExceptions,
+			morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
 			stemFromFullForm = modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.doubleVowel );
 			return modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.finalChanges );
 		}
