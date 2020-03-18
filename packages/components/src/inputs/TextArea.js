@@ -45,7 +45,7 @@ TextArea.propTypes = {
 };
 
 TextArea.defaultProps = {
-	id: false,
+	id: "",
 	name: "",
 	value: "",
 	ariaDescribedBy: "",

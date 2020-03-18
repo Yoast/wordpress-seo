@@ -1,4 +1,3 @@
-/* global jest */
 import generateId, { getId } from "../src/GenerateId";
 
 describe( "GenerateId", () => {
