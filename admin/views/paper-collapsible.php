@@ -23,7 +23,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 ?>
 <div
-	class="<?php echo esc_attr( 'yoast-paper tab-block ' . $class ); ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( $paper_id_prefix . $paper_id ) . '"' : ''; ?>>
+	class="<?php echo esc_attr( 'yoast-paper ' . $class ); ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( $paper_id_prefix . $paper_id ) . '"' : ''; ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {
