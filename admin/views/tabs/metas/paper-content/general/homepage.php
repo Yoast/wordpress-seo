@@ -14,7 +14,7 @@
 		// @todo add the proper URL here once this article has been written.
 		$homepage_help = new WPSEO_Admin_Help_Button(
 			'search-appearance-homepage',
-			__( 'Learn more about the homepage setting', 'wordpress-seo' ),
+			__( 'Learn more about the homepage setting', 'wordpress-seo' )
 		);
 
 		echo '<h2 class="help-button-inline">', esc_html__( 'Homepage', 'wordpress-seo' ), $homepage_help, '</h2>';

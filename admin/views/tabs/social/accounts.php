@@ -15,7 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $social_profiles_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yo',
-	__( 'Learn more about your social profiles settings', 'wordpress-seo' ),
+	__( 'Learn more about your social profiles settings', 'wordpress-seo' )
 );
 
 $company_or_person = WPSEO_Options::get( 'company_or_person', '' );

@@ -11,9 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-// To improve readability, this tab has been divided into separate blocks, included below.
-require __DIR__ . '/archives/help.php';
-
 $wpseo_archives = [
 	[
 		'title'     => esc_html__( 'Author archives settings', 'wordpress-seo' ),

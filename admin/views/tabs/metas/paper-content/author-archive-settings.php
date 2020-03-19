@@ -39,7 +39,7 @@ $yform->index_switch(
 
 $author_archives_no_posts_help = new WPSEO_Admin_Help_Button(
 	'https://yoast.com/show-x-in-search-results/',
-	esc_html__( 'Help on the authors without posts archive search results setting', 'wordpress-seo' ),
+	esc_html__( 'Help on the authors without posts archive search results setting', 'wordpress-seo' )
 );
 
 $yform->index_switch(
