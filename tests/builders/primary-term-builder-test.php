@@ -96,6 +96,61 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building of primary terms.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build() {
+		$post_id = 123;
+
+		$this->primary_term
+			->expects( 'get_primary_term_taxonomies' )
+			->with( $post_id )
+			->andReturn(
+				[
+					(object) [
+						'name'         => 'category',
+						'hierarchical' => true,
+					],
+					(object) [
+						'name'         => 'tag',
+						'hierarchical' => true,
+					],
+				]
+			);
+
+		$this->instance
+			->expects( 'save_primary_term' )
+			->with( $post_id, 'category' );
+
+		$this->instance
+			->expects( 'save_primary_term' )
+			->with( $post_id, 'tag' );
+
+		$this->instance->build( $post_id );
+	}
+
+	/**
+	 * Tests that no primary terms are built when no applicable taxonomies are available.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_empty_taxonomies() {
+		$post_id = 123;
+
+		$this->primary_term
+			->expects( 'get_primary_term_taxonomies' )
+			->with( $post_id )
+			->andReturn( [] );
+
+		$this->instance
+			->expects( 'save_primary_term' )
+			->never();
+
+		$this->instance->build( $post_id );
+	}
+
+	/**
 	 * Tests the saving of a primary term, the happy path.
 	 *
 	 * @covers ::save_primary_term
