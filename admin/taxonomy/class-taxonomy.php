@@ -378,6 +378,7 @@ class WPSEO_Taxonomy {
 			'page',
 			'term_title',
 			'term_description',
+			'term_hierarchy',
 			'category_description',
 			'tag_description',
 			'searchphrase',
