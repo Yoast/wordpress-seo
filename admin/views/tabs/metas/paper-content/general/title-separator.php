@@ -7,17 +7,14 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-$title_separator_help = new WPSEO_Admin_Help_Panel(
-	'search-appearance-title-separator',
-	__( 'Learn more about the title separator setting', 'wordpress-seo' ),
-	__( 'Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name. Symbols are shown in the size they\'ll appear in the search results.', 'wordpress-seo' ),
-	'has-wrapper'
+$title_separator_help = new WPSEO_Admin_Help_Button(
+	'https://yoa.st/3yd',
+	__( 'Learn more about the title separator setting', 'wordpress-seo' )
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help->get_button_html(); ?></h2>
+	<h2 class="help-button-inline"><?php echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help; ?></h2>
 	<?php
-	echo $title_separator_help->get_panel_html();
 	$legend      = __( 'Title separator symbol', 'wordpress-seo' );
 	$legend_attr = [ 'class' => 'radiogroup screen-reader-text' ];
 	$yform->radio( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(), $legend, $legend_attr );

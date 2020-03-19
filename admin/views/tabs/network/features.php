@@ -39,11 +39,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			);
 		}
 
-		$feature_help = new WPSEO_Admin_Help_Panel(
-			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
+		$feature_help = new WPSEO_Admin_Help_Button(
+			$feature->read_more_url,
 			/* translators: %s expands to a feature's name */
-			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
-			$help_text
+			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) )
 		);
 
 		$yform->toggle_switch(
@@ -53,7 +52,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'off' => __( 'Disable', 'wordpress-seo' ),
 			],
 			'<strong>' . $feature->name . '</strong>',
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
+			$feature_help
 		);
 	}
 	?>

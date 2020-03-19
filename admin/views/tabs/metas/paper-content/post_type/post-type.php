@@ -13,7 +13,6 @@
 
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
 
-
 $yform->index_switch(
 	$noindex_option_name,
 	$wpseo_post_type->labels->name,

@@ -675,13 +675,7 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
-		// @todo Once WPSEO_Admin_Help_Panel is no longer used, the else below shouldn't be needed anymore and thus this if can go too.
-		if ( $help instanceof WPSEO_Admin_Help_Button ) {
-			echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, ' ', $help, '</legend>';
-		}
-		else {
-			echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
-		}
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, ' ', $help, '</legend>';
 
 		echo $this->get_disabled_note( $var );
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
@@ -701,7 +695,7 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
+		echo '</div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
