@@ -657,18 +657,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// By default, use the field title as a label element.
 			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
 
-			// Set the inline help and help panel, if any.
-			$help_button = '';
-			$help_panel  = '';
-			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help        = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
-				$help_button = $help->get_button_html();
-				$help_panel  = $help->get_panel_html();
-			}
-
 			// If it's a set of radio buttons, output proper fieldset and legend.
 			if ( $meta_field_def['type'] === 'radio' ) {
-				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
+				return '<fieldset><legend>' . $title . '</legend>' . $content . $description . '</fieldset>';
 			}
 
 			// If it's a single checkbox, ignore the title.
@@ -681,7 +672,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html = $content;
 			}
 			else {
-				$html = $label . $description . $help_button . $help_panel . $content;
+				$html = $label . $description . $content;
 			}
 		}
 
