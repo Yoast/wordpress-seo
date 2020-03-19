@@ -5,6 +5,7 @@ import Paper from "../../src/values/Paper.js";
 
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataDe = getMorphologyData( "de" );
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";
@@ -690,7 +691,7 @@ describe( "tests for edge cases", function() {
 			}
 		);
 		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
+		researcher.addResearchData( "morphology", morphologyDataDe );
 		expect( firstParagraph( paper, researcher ) ).toEqual( {
 			foundInOneSentence: true,
 			foundInParagraph: true,

@@ -1,15 +1,14 @@
 import { get } from "lodash-es";
 import { memoize } from "lodash-es";
 import { uniq } from "lodash-es";
+import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getWords from "../stringProcessing/getWords";
 import { normalizeSingle } from "../stringProcessing/quotes";
 import ProminentWord from "../values/ProminentWord";
 import functionWordListsFactory from "../helpers/getFunctionWords";
-import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 
 const functionWordLists = functionWordListsFactory();
-const stemFunctions = getStemForLanguageFactory();
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
@@ -117,17 +116,6 @@ function retrieveFunctionWords( language ) {
 }
 
 /**
- * Retrieves a stemmer function from the factory. Returns the identity function if the language does not have a stemmer.
- *
- * @param {string} language The language to retrieve a stemmer function for.
- *
- * @returns {Function} A stemmer function for the language.
- */
-function retrieveStemmer( language ) {
-	return get( stemFunctions, language, word => word );
-}
-
-/**
  * Retrieves a list of all abbreviations from the text. Returns an empty array if the input text is empty.
  *
  * @param {string} text A text.
@@ -161,7 +149,7 @@ function retrieveAbbreviations( text ) {
  */
 function computeProminentWords( words, abbreviations, language, morphologyData ) {
 	const functionWords = retrieveFunctionWords( language );
-	const determineStem = retrieveStemmer( language );
+	const determineStem = retrieveStemmer( language, morphologyData );
 
 	if ( words.length === 0 ) {
 		return [];

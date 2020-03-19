@@ -1,4 +1,4 @@
-import getFormsForLanguage from "./getFormsForLanguage";
+import getStemForLanguage from "./getStemForLanguage";
 
 /**
  * Checks which languages have morphology support inside YoastSEO.js.
@@ -6,5 +6,5 @@ import getFormsForLanguage from "./getFormsForLanguage";
  * @returns {string[]} A list of languages that have morphology support.
  */
 export default function() {
-	return Object.keys( getFormsForLanguage() );
+	return Object.keys( getStemForLanguage() );
 }
