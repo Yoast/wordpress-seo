@@ -65,6 +65,37 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the constructor succesfully creates
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_successfully_creates_primary_term_builder() {
+		$primary_term_builder = new Primary_Term_Builder_Double(
+			$this->repository,
+			$this->primary_term,
+			$this->meta
+		);
+
+		$this->assertAttributeInstanceOf(
+			Primary_Term_Repository::class,
+			'repository',
+			$primary_term_builder
+		);
+
+		$this->assertAttributeInstanceOf(
+			Primary_Term_Helper::class,
+			'primary_term',
+			$primary_term_builder
+		);
+
+		$this->assertAttributeInstanceOf(
+			Meta_Helper::class,
+			'meta',
+			$primary_term_builder
+		);
+	}
+
+	/**
 	 * Tests the saving of a primary term, the happy path.
 	 *
 	 * @covers ::save_primary_term
