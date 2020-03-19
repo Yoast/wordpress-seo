@@ -4,7 +4,7 @@ import TextArea from "@yoast/components/src/inputs/TextArea";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
-		<div>
+		<div className="yoast">
 			<TextInput
 				label="This is the input label"
 				value="This is the input value"
