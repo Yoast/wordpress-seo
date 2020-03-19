@@ -1,9 +1,10 @@
 import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
-import { removeSuffixFromFullForm } from "../morphoHelpers/stemHelpers";
+import { removeSuffixFromFullForm, removeSuffixesFromFullForm } from "../morphoHelpers/stemHelpers";
 import detectAndStemSuffixes from "./detectAndStemSuffixes";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
+import { modifyStem, isVowelDoublingAllowed } from "./stemModificationHelpers";
 
 /**
  * Check whether the word is a comparative adjective with a stem ending in -rd. If yes, stem it (the regular stemmer
@@ -27,15 +28,30 @@ const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
 /**
  * Get the stem from noun diminutives and plurals exceptions.
  *
- * @param {Object[]}    exceptionsRemoveSuffixFromFullForms The data for stemming exception.
+ * @param {Object}    morphologyDataNL The data for stemming exception.
  * @param {string}      word                                The word to check.
  *
  * @returns {string} The stemmed word.
  */
-const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms, word ) {
-	for ( const exceptionClass of exceptionsRemoveSuffixFromFullForms ) {
+const removeSuffixFromFullForms = function( morphologyDataNL,  word ) {
+	/*
+	 * Checks whether the word is in the exception list of words ending in -er and gets either -e or -s suffix
+	 * If it is, remove the corresponding suffix.
+	 * e.g. lekkere -> lekker, bitters -> bitter
+	*/
+	for ( const exceptionClass of morphologyDataNL.stemming.stemExceptions.removeSuffixesFromFullForms ) {
+		const stemmedWord = removeSuffixesFromFullForm( exceptionClass.forms, exceptionClass.suffixes, word );
+		if ( stemmedWord ) {
+			return stemmedWord;
+		}
+	}
+	/*
+	 * Checks whether the word is in one of the exception lists of nouns
+	 * for which a specific suffix needs to be stemmed (e.g. -s, -es, -eren, -er etc.)
+	 * e.g. kuddes -> kud, modes -> mod, revenuen -> revenu
+	 */
+	for ( const exceptionClass of morphologyDataNL.stemming.stemExceptions.removeSuffixFromFullForms ) {
 		const stemmedWord = removeSuffixFromFullForm( exceptionClass.forms, exceptionClass.suffix, word );
-
 		if ( stemmedWord ) {
 			return stemmedWord;
 		}
@@ -46,48 +62,31 @@ const removeSuffixFromFullForms = function( exceptionsRemoveSuffixFromFullForms,
  * Checks if the word is on a stemming exception list.
  *
  * @param {string} word The word to check.
- * @param {Object} morphologyDataNLStemming The Dutch morphology data file.
+ * @param {Object} morphologyDataNL The Dutch morphology data file.
  * @returns {string|null} The stem or null if the word was not matched by any of the exception checks.
  */
-const checkOtherStemmingExceptions = function( word, morphologyDataNLStemming ) {
+const checkOtherStemmingExceptions = function( word, morphologyDataNL ) {
 	/*
 	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
 	 * return the word here, instead of going through the regular stemmer.
  	 */
-	const wordAfterRdExceptionCheck = stemAdjectiveEndingInRd( word, morphologyDataNLStemming.stemExceptions.adjectivesEndInRD );
+	const wordAfterRdExceptionCheck = stemAdjectiveEndingInRd( word, morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD );
 	if ( wordAfterRdExceptionCheck !== word ) {
 		return wordAfterRdExceptionCheck;
 	}
-	/* Checks whether the word is in the exception list of nouns with specific diminutive or plural suffixes that needs to be stemmed.
-	 * If it is return the stem here.
+	/*
+	 * Checks whether the word is in the exception list of nouns or adjectives with specific suffixes that needs to be stemmed.
+	 * If it is return the stem here and run possible stem modification if it is required. e.g. modes -> mod -> mood
 	 */
-	const stemFromFullForm = removeSuffixFromFullForms( morphologyDataNLStemming.stemExceptions.removeSuffixFromFullForms, word );
+	let stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL, word );
 	if ( stemFromFullForm ) {
-		return stemFromFullForm;
+		if ( isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.stemming.stemExceptions,
+			morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
+			stemFromFullForm = modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.doubleVowel );
+			return modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.finalChanges );
+		}
+		return modifyStem( stemFromFullForm, morphologyDataNL.stemming.stemModifications.finalChanges );
 	}
-
-	/*
-	 * Checks whether the word is in the ending match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here. Example: zwemdiplomaatje -> zwemdiplomaa -> zwemdiploma
-	 */
-	const stemFromFullFormAndDeleteFinalVowelEndingMatch = removeSuffixFromFullForm(
-		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.endingMatch,
-		morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.suffix,
-		word
-	);
-
-	if ( stemFromFullFormAndDeleteFinalVowelEndingMatch ) {
-		return stemFromFullFormAndDeleteFinalVowelEndingMatch.slice( 0, -1 );
-	}
-
-	/*
-	 * Checks whether the word is in the exact match sub-list of diminutives that need to be stemmed and that additionally need
-	 * to have the final vowel removed. If it is return the stem here. Example: omaatje -> omaa -> oma
-	 */
-	if ( morphologyDataNLStemming.stemExceptions.stemTjeAndOnePrecedingVowel.forms.exactMatch.includes( word ) ) {
-		return word.slice( 0, -4 );
-	}
-
 	return null;
 };
 
@@ -136,7 +135,7 @@ export default function stem( word, morphologyDataNL ) {
 	}
 
 	// Check if the word is on any other stemming exception list, and if yes, return the correct stem.
-	stemmedWord = checkOtherStemmingExceptions( word, morphologyDataNL.stemming );
+	stemmedWord = checkOtherStemmingExceptions( word, morphologyDataNL );
 	if ( stemmedWord ) {
 		return stemmedWord;
 	}
