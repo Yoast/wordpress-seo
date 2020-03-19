@@ -1,6 +1,7 @@
 import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
+import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
@@ -38,6 +39,41 @@ const ReactifiedComponentsWrapper = () => {
 				placeholder="Ugly placeholder"
 				value="Wow, what happens now??"
 				description="The greatest textarea ever!!1!"
+			/>
+			<RadioButtonGroup
+				options={ [
+					{
+						groupName: "groep2",
+						value: "hoi",
+						label: "hoi",
+						checked: false,
+					},
+					{
+						groupName: "groep2",
+						value: "hi",
+						label: "hi",
+						checked: true,
+					}
+				] }
+				label="Horizontal radiobutton group"
+			/>
+			<RadioButtonGroup
+				options={ [
+					{
+						groupName: "groep1",
+						value: "haha",
+						label: "haha",
+						checked: false,
+					},
+					{
+						groupName: "groep1",
+						value: "hoho",
+						label: "hoho",
+						checked: true,
+					}
+				] }
+				label="Vertical radiobutton group"
+				vertical={ true }
 			/>
 		</div>
 	);
