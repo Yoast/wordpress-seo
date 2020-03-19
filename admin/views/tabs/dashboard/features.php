@@ -32,7 +32,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'on'  => __( 'On', 'wordpress-seo' ),
 				'off' => __( 'Off', 'wordpress-seo' ),
 			],
-			// @todo verify that all feature_toggles above have a proper read_more_url!
 			'<strong>' . $feature->name . '</strong> ' . new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
 		);
 	}
