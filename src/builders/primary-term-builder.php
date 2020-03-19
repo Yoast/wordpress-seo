@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
@@ -56,9 +57,11 @@ class Primary_Term_Builder {
 
 
 	/**
-	 * Formats the data.
+	 * Formats and saves the primary terms for the post with the given post id.
 	 *
 	 * @param int $post_id The post ID.
+	 *
+	 * @return void
 	 */
 	public function build( $post_id ) {
 		foreach ( $this->primary_term->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
