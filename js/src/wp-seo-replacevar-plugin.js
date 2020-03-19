@@ -90,6 +90,10 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			scope: [ "term" ],
 		} ) );
 
+		this.addReplacement( new ReplaceVar( "%%term_hierarchy%%", "term_hierarchy", {
+			scope: [ "term" ],
+		} ) );
+
 		this.addReplacement( new ReplaceVar( "%%title%%", "title", {
 			source: "app",
 			scope: [ "post", "term", "page" ],
