@@ -17,17 +17,16 @@ const RadioButtonGroup = ( props ) => {
 	/**
 	 * Function that returns a radiobutton with accompanying label.
 	 *
-	 * @param {string} groupName The name of the group to which the radiobutton belongs.
 	 * @param {string} value The value of the radiobutton.
 	 * @param {string} label The label that accompanies the radiobutton.
 	 * @param {boolean} checked Whether the radiobutton is checked.
 	 *
 	 * @returns {React.Component} A single radiobutton field with label.
 	 */
-	const RadioButtonWithLabel = ( { groupName, value, label, checked } ) => <Fragment>
+	const RadioButtonWithLabel = ( { value, label, checked } ) => <Fragment>
 		<input
 			type="radio"
-			name={ groupName }
+			name={ props.groupName }
 			id={ value }
 			value={ value }
 			defaultChecked={ checked }
@@ -41,7 +40,6 @@ const RadioButtonGroup = ( props ) => {
 	</Fragment>;
 
 	RadioButtonWithLabel.propTypes = {
-		groupName: PropTypes.string.isRequired,
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
 		checked: PropTypes.bool.isRequired,
@@ -89,8 +87,8 @@ const RadioButtonGroup = ( props ) => {
 
 RadioButtonGroup.propTypes = {
 	id: PropTypes.string,
+	groupName: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
-		groupName: PropTypes.string.isRequired,
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
 		checked: PropTypes.bool.isRequired,
