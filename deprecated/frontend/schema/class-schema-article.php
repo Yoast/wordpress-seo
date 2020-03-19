@@ -41,11 +41,15 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 
 		$yoast = YoastSEO();
 		/**
+		 * Holds a memoizer for the meta tag context.
+		 *
 		 * @var Meta_Tags_Context_Memoizer
 		 */
 		$memoizer = $yoast->classes->get( Meta_Tags_Context_Memoizer::class );
 		$context  = $memoizer->for_current_page();
 		/**
+		 * Holds the article schema.
+		 *
 		 * @var Article
 		 */
 		$piece = $yoast->classes->get( Article::class );
