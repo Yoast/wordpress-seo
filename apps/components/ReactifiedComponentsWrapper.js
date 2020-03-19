@@ -18,16 +18,23 @@ const ReactifiedComponentsWrapper = () => {
 			/>
 			<TextInput
 				label="This is a number input"
-				description="Great description!"
+				description="The minimum number is 3 and the maximum is 6 (if you use arrow keys)."
 				type="number"
+				min={ 3 }
+				max={ 6 }
 			/>
 			<TextInput
 				label="This is a email input without description where the help links to google.com"
 				type="email"
 				linkTo="https://www.google.com"
 			/>
+			<TextInput
+				label="This is a password input"
+				type="password"
+				linkTo="https://www.google.com"
+			/>
 			<TextArea
-				label="This is an textarea"
+				label="This is a textarea"
 				placeholder="Ugly placeholder"
 				value="Wow, what happens now??"
 				description="The greatest textarea ever!!1!"
