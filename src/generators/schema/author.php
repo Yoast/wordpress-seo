@@ -112,7 +112,12 @@ class Author extends Person {
 	 * @return bool|int User ID or false upon return.
 	 */
 	protected function determine_user_id( Meta_Tags_Context $context ) {
-		$user_id = (int) $context->post->post_author;
+		$user_id = 0;
+
+		if ( $context->indexable->object_type === 'post' ) {
+			$user_id = (int) $context->post->post_author;
+		}
+
 		if ( $context->indexable->object_type === 'user' ) {
 			$user_id = $context->indexable->object_id;
 		}
