@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupDefaultProps, FieldGroupProps } from "../field-group/FieldGroup";
 // Import the required CSS.
 import "./input.css";
+import "../base";
 import { getId } from "../GenerateId";
 
 /**
