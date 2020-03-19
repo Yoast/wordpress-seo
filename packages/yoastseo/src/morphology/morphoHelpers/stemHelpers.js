@@ -7,7 +7,7 @@
  * @param {string}      word        The word to check.
  * @returns {string}	The stemmed word.
  */
-const removeSuffixesFromFullForm = function( exceptions, suffixes, word ) {
+export function removeSuffixesFromFullForm ( exceptions, suffixes, word ) {
 	for ( let i = 0; i < exceptions.length; i++ ) {
 		if ( word.startsWith( exceptions[ i ] ) ) {
 			const suffixRetrieved = word.substring( exceptions[ i ].length );
@@ -28,15 +28,9 @@ const removeSuffixesFromFullForm = function( exceptions, suffixes, word ) {
  *
  * @returns {string} The stemmed word.
  */
-const removeSuffixFromFullForm = function( exceptions, suffix, word ) {
+export function removeSuffixFromFullForm( exceptions, suffix, word ) {
 	for ( let i = 0; i < exceptions.length; i++ ) {
 		if ( word.endsWith( exceptions[ i ] ) ) {
 			return word.slice( 0, -suffix.length );
 		}
 	}
-};
-
-export {
-	removeSuffixFromFullForm,
-	removeSuffixesFromFullForm,
-};
