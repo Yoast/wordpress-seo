@@ -15,7 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $webmaster_tools_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yn',
-	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' ),
+	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' )
 );
 
 echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help . '</h2>';

@@ -44,8 +44,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Create a row in the form table.
 	 *
-	 * @param string $field_name Variable the row controls.
-	 * @param array $field_configuration Array with the field configuration.
+	 * @param string $field_name          Variable the row controls.
+	 * @param array  $field_configuration Array with the field configuration.
 	 *
 	 * @return string
 	 */

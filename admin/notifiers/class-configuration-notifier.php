@@ -112,7 +112,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			'Yoast SEO'
 		);
 		$button = sprintf(
-			esc_html__( 'Reopen configuration wizard' )
+			esc_html__( 'Reopen configuration wizard', 'wordpress-seo' )
 		);
 		return $this->notification( __( 'SEO settings configured', 'wordpress-seo' ), $content, $button );
 	}
@@ -129,7 +129,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			'Yoast SEO'
 		);
 		$button = sprintf(
-			esc_html__( 'Start configuration wizard' )
+			esc_html__( 'Start configuration wizard', 'wordpress-seo' )
 		);
 
 		return $this->notification( __( 'First-time SEO configuration', 'wordpress-seo' ), $content, $button, true );
@@ -140,6 +140,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 *
 	 * @param string $title          Title for the notification.
 	 * @param string $content        Content for the notification.
+	 * @param string $button         Content for the button.
 	 * @param bool   $show_dismissal Whether to show the dismiss button or not.
 	 *
 	 * @return string The styled notification.
