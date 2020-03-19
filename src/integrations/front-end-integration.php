@@ -177,11 +177,6 @@ class Front_End_Integration implements Integration_Interface {
 		remove_action( 'wp_head', 'noindex', 1 );
 		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 		remove_action( 'wp_head', 'gutenberg_render_title_tag', 1 );
-
-		if ( ! get_theme_support( 'title-tag' ) ) {
-			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
-			$this->base_presenters = array_diff( $this->base_presenters, [ 'Title' ] );
-		}
 	}
 
 	/**
@@ -251,6 +246,11 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function get_needed_presenters( $page_type ) {
 		$presenters = $this->get_presenters_for_page_type( $page_type );
+
+		if ( ! get_theme_support( 'title-tag' ) ) {
+			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
+			$presenters = array_diff( $presenters, [ 'Title' ] );
+		}
 
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering presenters in or out of the request.
