@@ -28,7 +28,8 @@ const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word )
 		 adjectivesEndingInRd.includes( stemmedWord ) ||
 		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
 		 stemmedWord.endsWith( "heid" ) ||
-		 wordsEndingInTOrDExceptionList.includes( stemmedWord ) ) {
+		 checkIfWordEndingIsOnExceptionList( stemmedWord, wordsEndingInTOrDExceptionList )
+	) {
 		return true;
 	}
 };
