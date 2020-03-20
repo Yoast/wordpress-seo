@@ -16,10 +16,12 @@ module.exports = {
 	],
 	"build-assets-js": [
 		"js/dist/*.js",
+		"<%= paths.css %>monorepo*.css",
 		"<%= paths.js %>/select2",
 	],
 	"build-assets-css": [
 		"<%= files.css %>",
+		"!<%= paths.css %>monorepo*.css",
 		"<%= files.cssMap %>",
 		"<%= paths.css %>/select2",
 	],
