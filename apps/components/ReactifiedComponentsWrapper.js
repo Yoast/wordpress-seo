@@ -1,6 +1,7 @@
 import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
+import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
@@ -38,6 +39,31 @@ const ReactifiedComponentsWrapper = () => {
 				placeholder="Ugly placeholder"
 				value="Wow, what happens now??"
 				description="The greatest textarea ever!!1!"
+			/>
+			<CheckboxGroup
+				label="Heya best checkboxes"
+				options={ [
+					{
+						label: "Fancy label",
+					},
+					{
+						label: "option with id 1",
+						id: "1",
+					},
+				] }
+			/>
+			<CheckboxGroup
+				label="Horizontal checkboxes"
+				vertical={ false }
+				options={ [
+					{
+						label: "Nice 1",
+					},
+					{
+						label: "option with id 3",
+						id: "3",
+					},
+				] }
 			/>
 		</div>
 	);
