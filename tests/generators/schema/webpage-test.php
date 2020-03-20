@@ -93,7 +93,7 @@ class WebPage_Test extends TestCase {
 
 		$this->id = Mockery::mock( ID_Helper::class );
 
-		$this->instance->set_id_helper( new ID_Helper() );
+		$this->instance->set_id_helper( $this->id );
 
 		$this->meta_tags_context = new Meta_Tags_Context();
 
