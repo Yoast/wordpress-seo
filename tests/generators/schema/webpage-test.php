@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group generators
  * @group schema
- * @group test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\WebPage
  */
@@ -79,10 +78,12 @@ class WebPage_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-		$this->html         = Mockery::mock( HTML_Helper::class );
-		$this->date         = Mockery::mock( Date_Helper::class );
-		$this->language     = Mockery::mock( Language_Helper::class );
+		$this->current_page      = Mockery::mock( Current_Page_Helper::class );
+		$this->html              = Mockery::mock( HTML_Helper::class );
+		$this->date              = Mockery::mock( Date_Helper::class );
+		$this->language          = Mockery::mock( Language_Helper::class );
+		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context::class );
+		$this->id                = Mockery::mock( ID_Helper::class );
 
 		$this->instance = new WebPage(
 			$this->current_page,
@@ -90,17 +91,12 @@ class WebPage_Test extends TestCase {
 			$this->date,
 			$this->language
 		);
-
-		$this->id = Mockery::mock( ID_Helper::class );
-
 		$this->instance->set_id_helper( $this->id );
-
-		$this->meta_tags_context = new Meta_Tags_Context();
 
 		// Set some values that are used in multiple tests.
 		$this->meta_tags_context->schema_page_type = 'WebPage';
 		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
-		$this->meta_tags_context->title            = 'The post title';
+		$this->meta_tags_context->title            = 'the-title';
 		$this->meta_tags_context->description      = '';
 		$this->meta_tags_context->site_url         = 'https://example.com/';
 		$this->meta_tags_context->post             = (Object) [
@@ -139,7 +135,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -175,6 +171,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -197,7 +199,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -233,6 +235,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -242,7 +250,7 @@ class WebPage_Test extends TestCase {
 			'@type'           => 'WebPage',
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
-			'name'            => 'The post title',
+			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -275,7 +283,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -311,6 +319,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -320,7 +334,7 @@ class WebPage_Test extends TestCase {
 			'@type'           => 'WebPage',
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
-			'name'            => 'The post title',
+			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -360,7 +374,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -396,6 +410,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -405,7 +425,7 @@ class WebPage_Test extends TestCase {
 			'@type'           => 'WebPage',
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
-			'name'            => 'The post title',
+			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -444,7 +464,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -486,6 +506,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -495,7 +521,7 @@ class WebPage_Test extends TestCase {
 			'@type'           => 'WebPage',
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
-			'name'            => 'The post title',
+			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -529,7 +555,7 @@ class WebPage_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->with( 'The post title' )
+			->with( 'the-title' )
 			->once()
 			->andReturnArg( 0 );
 
@@ -571,6 +597,12 @@ class WebPage_Test extends TestCase {
 				return $data;
 			} );
 
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->withNoArgs()
+			->once()
+			->andReturn( 'WebPage' );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->once()
@@ -580,7 +612,7 @@ class WebPage_Test extends TestCase {
 			'@type'           => 'WebPage',
 			'@id'             => 'https://example.com/the-post/#webpage',
 			'url'             => 'https://example.com/the-post/',
-			'name'            => 'The post title',
+			'name'            => 'the-title',
 			'isPartOf'        => [
 				'@id' => 'https://example.com/#website',
 			],
@@ -600,6 +632,173 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
+	 * Tests generate when the object type is home page.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::add_breadcrumbs
+	 * @covers ::add_potential_action
+	 */
+	public function test_generate_object_type_home_page() {
+		$this->meta_tags_context->schema_page_type = 'CollectionPage';
+		$this->meta_tags_context->has_image        = false;
+		$this->meta_tags_context->indexable        = (Object) [
+			'object_type' => 'home-page',
+		];
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'the-title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'the-language';
+
+				return $data;
+			} );
+
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->once()
+			->andReturn( 'CollectionPage' );
+
+		$expected = [
+			'@type'      => 'CollectionPage',
+			'@id'        => 'https://example.com/the-post/#webpage',
+			'url'        => 'https://example.com/the-post/',
+			'name'       => 'the-title',
+			'isPartOf'   => [
+				'@id' => 'https://example.com/#website',
+			],
+			'inLanguage' => 'the-language',
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests generate for a static homepage.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::add_breadcrumbs
+	 * @covers ::add_potential_action
+	 */
+	public function test_generate_home_static_page() {
+		$this->meta_tags_context->schema_page_type = 'CollectionPage';
+		$this->meta_tags_context->has_image        = false;
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'the-title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->once()
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_date_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_date_gmt );
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_modified_gmt )
+			->once()
+			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->withNoArgs()
+			->once()
+			->andReturnTrue();
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'the-language';
+
+				return $data;
+			} );
+
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->once()
+			->andReturn( 'CollectionPage' );
+
+		$expected = [
+			'@type'         => 'CollectionPage',
+			'@id'           => 'https://example.com/the-post/#webpage',
+			'url'           => 'https://example.com/the-post/',
+			'name'          => 'the-title',
+			'datePublished' => '2345-12-12 12:12:12',
+			'dateModified'  => '2345-12-12 23:23:23',
+			'isPartOf'      => [
+				'@id' => 'https://example.com/#website',
+			],
+			'inLanguage'    => 'the-language',
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests is needed when the conditional is true.
+	 *
+	 * @covers ::__construct
+	 * @covers ::is_needed
+	 */
+	public function test_is_needed() {
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'user',
+			'object_sub_type' => '',
+		];
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests is needed for a system page (but not a 404 page).
+	 *
+	 * @covers ::__construct
+	 * @covers ::is_needed
+	 */
+	public function test_is_needed_system_page() {
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'system_page',
+			'object_sub_type' => '',
+		];
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests is needed for a system page / 404 page.
+	 *
+	 * @covers ::__construct
+	 * @covers ::is_needed
+	 */
+	public function test_is_needed_system_page_404() {
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type'     => 'system-page',
+			'object_sub_type' => '404',
+		];
+		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
 	 * Provides data to the generate test.
 	 *
 	 * @return array The data to use.
@@ -615,7 +814,7 @@ class WebPage_Test extends TestCase {
 					'@type'           => 'WebPage',
 					'@id'             => 'https://example.com/the-post/#webpage',
 					'url'             => 'https://example.com/the-post/',
-					'name'            => 'The post title',
+					'name'            => 'the-title',
 					'isPartOf'        => [
 						'@id' => 'https://example.com/#website',
 					],
@@ -640,7 +839,7 @@ class WebPage_Test extends TestCase {
 					'@type'              => 'WebPage',
 					'@id'                => 'https://example.com/the-post/#webpage',
 					'url'                => 'https://example.com/the-post/',
-					'name'               => 'The post title',
+					'name'               => 'the-title',
 					'isPartOf'           => [
 						'@id' => 'https://example.com/#website',
 					],
@@ -666,7 +865,7 @@ class WebPage_Test extends TestCase {
 					'@type'           => 'WebPage',
 					'@id'             => 'https://example.com/the-post/#webpage',
 					'url'             => 'https://example.com/the-post/',
-					'name'            => 'The post title',
+					'name'            => 'the-title',
 					'isPartOf'        => [
 						'@id' => 'https://example.com/#website',
 					],
