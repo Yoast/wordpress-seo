@@ -332,10 +332,18 @@ class WPSEO_Utils {
 			$url = $parts['scheme'] . '://';
 
 			if ( isset( $parts['user'] ) ) {
-				$url .= $parts['user'] . ( isset( $parts['pass'] ) ? ':' . $parts['pass'] : '' ) . '@';
+				$url .= rawurlencode( $parts['user'] );
+				$url .= isset( $parts['pass'] ) ? ':' . rawurlencode( $parts['pass'] ) : '';
+				$url .= '@';
 			}
 
-			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . $parts['port'] : '' );
+			$parts['host'] = preg_replace(
+				'`[^a-z0-9-.:\[\]\\x80-\\xff]`',
+				'',
+				strtolower( $parts['host'] )
+			);
+
+			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . intval( $parts['port'] ) : '' );
 		}
 
 		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {

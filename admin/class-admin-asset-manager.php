@@ -632,6 +632,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'search-appearance-' . $flat_version,
 			],
 			[
+				'name' => 'monorepo',
+				'src'  => 'monorepo-' . $flat_version,
+			],
+			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],

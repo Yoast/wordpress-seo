@@ -287,6 +287,10 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 				'expected'        => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
 				'url_to_sanitize' => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
 			],
+			'html_injection'                 => [
+				'expected'        => 'https://onafterprintconsole.log0',
+				'url_to_sanitize' => 'https://" onafterprint="console.log(0)',
+			],
 		];
 	}
 }
