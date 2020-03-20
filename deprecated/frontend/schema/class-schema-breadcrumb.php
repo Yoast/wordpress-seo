@@ -47,6 +47,9 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	/**
 	 * Determine if we should add a breadcrumb attribute.
 	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 *
 	 * @return bool
 	 */
 	public function is_needed() {
@@ -59,6 +62,9 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * Returns Schema breadcrumb data to allow recognition of page's position in the site hierarchy.
 	 *
 	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
 	 *
 	 * @return bool|array Array on success, false on failure.
 	 */
