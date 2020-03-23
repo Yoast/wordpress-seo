@@ -14,7 +14,6 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import Collapsible from "../SidebarCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
-import SocialMetadata from "../SocialMetadata";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 
 /**
@@ -28,79 +27,77 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
  */
 export default function MetaboxFill( { settings, store, theme } ) {
 	return (
-		<Fragment>
-			<Fill name="YoastMetabox">
-				<SidebarItem renderPriority={ 1 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<Warning />
-					</TopLevelProviders>
-				</SidebarItem>
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<KeywordInput />
-					</TopLevelProviders>
-				</SidebarItem> }
-				<SidebarItem renderPriority={ 9 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<Collapsible
-							id={ "yoast-snippet-editor-metabox" }
-							title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
-						>
-							<SnippetEditor hasPaperStyle={ false } />
-						</Collapsible>
-					</TopLevelProviders>
-				</SidebarItem>
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<ReadabilityAnalysis />
-					</TopLevelProviders>
-				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<SeoAnalysis
-							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-						/>
-					</TopLevelProviders>
-				</SidebarItem> }
-				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-					<TopLevelProviders
-						store={ store }
-						theme={ theme }
-						location={ "metabox" }
-					>
-						<CollapsibleCornerstone />
-					</TopLevelProviders>
-				</SidebarItem> }
+		<Fill name="YoastMetabox">
+			<SidebarItem renderPriority={ 1 }>
 				<TopLevelProviders
 					store={ store }
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<SocialMetadataPortal target="wpseo-section-social" />
+					<Warning />
 				</TopLevelProviders>
-			</Fill>
-		</Fragment>
+			</SidebarItem>
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<KeywordInput />
+				</TopLevelProviders>
+			</SidebarItem> }
+			<SidebarItem renderPriority={ 9 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<Collapsible
+						id={ "yoast-snippet-editor-metabox" }
+						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+					>
+						<SnippetEditor hasPaperStyle={ false } />
+					</Collapsible>
+				</TopLevelProviders>
+			</SidebarItem>
+			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<ReadabilityAnalysis />
+				</TopLevelProviders>
+			</SidebarItem> }
+			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<SeoAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+					/>
+				</TopLevelProviders>
+			</SidebarItem> }
+			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<CollapsibleCornerstone />
+				</TopLevelProviders>
+			</SidebarItem> }
+			<TopLevelProviders
+				store={ store }
+				theme={ theme }
+				location={ "metabox" }
+			>
+				<SocialMetadataPortal target="wpseo-section-social" />
+			</TopLevelProviders>
+		</Fill>
 	);
 }
 
