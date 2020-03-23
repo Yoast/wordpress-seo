@@ -19,13 +19,30 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 
 	/**
+	 * Holds the article schema generator.
+	 *
+	 * @var Article
+	 */
+	private $article;
+
+	/**
+	 * Holds a memoizer for the meta tag context.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	private $memoizer;
+
+	/**
 	 * WPSEO_Schema_Article constructor.
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::__construct' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article' );
+
+		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->article  = YoastSEO()->classes->get( Article::class );
 	}
 
 	/**
@@ -39,22 +56,9 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
 
-		$yoast = YoastSEO();
-		/**
-		 * Holds a memoizer for the meta tag context.
-		 *
-		 * @var Meta_Tags_Context_Memoizer
-		 */
-		$memoizer = $yoast->classes->get( Meta_Tags_Context_Memoizer::class );
-		$context  = $memoizer->for_current_page();
-		/**
-		 * Holds the article schema.
-		 *
-		 * @var Article
-		 */
-		$piece = $yoast->classes->get( Article::class );
+		$context = $this->memoizer->for_current_page();
 
-		return $piece->is_needed( $context );
+		return $this->article->is_needed( $context );
 	}
 
 	/**
@@ -68,22 +72,9 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
 
-		$yoast = YoastSEO();
-		/**
-		 * Holds a memoizer for the meta tag context.
-		 *
-		 * @var Meta_Tags_Context_Memoizer
-		 */
-		$memoizer = $yoast->classes->get( Meta_Tags_Context_Memoizer::class );
-		$context  = $memoizer->for_current_page();
-		/**
-		 * Holds the article schema.
-		 *
-		 * @var Article
-		 */
-		$piece = $yoast->classes->get( Article::class );
+		$context = $this->memoizer->for_current_page();
 
-		return $piece->generate( $context );
+		return $this->article->generate( $context );
 	}
 
 	/**
