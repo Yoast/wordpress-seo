@@ -105,9 +105,16 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		// Set a 'content-type' header of 'application/json'.
+		$tracking_request_args = [
+			'headers' => [
+				'content-type:' => 'application/json',
+			],
+		];
+
 		$collector = $this->get_collector();
 
-		$request = new WPSEO_Remote_Request( $this->endpoint );
+		$request = new WPSEO_Remote_Request( $this->endpoint, $tracking_request_args );
 		$request->set_body( $collector->get_as_json() );
 		$request->send();
 

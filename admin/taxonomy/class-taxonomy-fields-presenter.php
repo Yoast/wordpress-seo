@@ -30,6 +30,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * Displaying the form fields.
 	 *
 	 * @param array $fields Array with the fields that will be displayed.
+	 *
+	 * @return string
 	 */
 	public function html( array $fields ) {
 		$content = '';
@@ -44,6 +46,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 *
 	 * @param string $field_name          Variable the row controls.
 	 * @param array  $field_configuration Array with the field configuration.
+	 *
+	 * @return string
 	 */
 	private function form_row( $field_name, array $field_configuration ) {
 		$esc_field_name = esc_attr( $field_name );
@@ -56,9 +60,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 
 		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
 		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
-		$help_content     = isset( $field_configuration['options']['help'] ) ? $field_configuration['options']['help'] : '';
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
-		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $help_content );
+		$help             = new WPSEO_Admin_Help_Button( 'https://yoast.com/show-x-in-search-results/', $help_button_text );
 
 		return $this->parse_row( $label, $help, $field );
 	}
@@ -201,15 +204,15 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
-	 * @param string                 $label The html for the label if there was a label set.
-	 * @param WPSEO_Admin_Help_Panel $help  The help panel to render in this row.
-	 * @param string                 $field The html for the field.
+	 * @param string                  $label The html for the label if there was a label set.
+	 * @param WPSEO_Admin_Help_Button $help  The help panel to render in this row.
+	 * @param string                  $field The html for the field.
 	 *
 	 * @return string
 	 */
-	private function parse_row( $label, WPSEO_Admin_Help_Panel $help, $field ) {
+	private function parse_row( $label, WPSEO_Admin_Help_Button $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
-			return $label . $help->get_button_html() . $help->get_panel_html() . $field;
+			return $label . $help . $field;
 		}
 
 		return $field;

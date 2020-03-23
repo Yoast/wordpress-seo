@@ -62,7 +62,10 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 	}
 }
 
-$wpseo_i18n_summary = $i18n_issues;
+if ( ! empty( $i18n_issues ) ) {
+	$wpseo_i18n_summary = $i18n_issues;
+}
+
 if ( ! $active ) {
 	$dashicon           = 'yes';
 	$wpseo_i18n_summary = $i18n_no_issues;

@@ -21,10 +21,6 @@ $wpseo_post_types = get_post_types( [ 'public' => true ], 'objects' );
 // We'll show attachments on the Media tab.
 $wpseo_post_types = WPSEO_Post_Type::filter_attachment_post_type( $wpseo_post_types );
 
-echo '<p>';
-esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
-echo '</p>';
-
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	$view_utils                   = new Yoast_View_Utils();
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();

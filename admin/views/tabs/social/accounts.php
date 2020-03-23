@@ -13,12 +13,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$social_profiles_help = new WPSEO_Admin_Help_Panel(
-	'social-accounts',
-	__( 'Learn more about your social profiles settings', 'wordpress-seo' ),
-	__( 'To let search engines know which social profiles are associated to this site, enter your site social profiles data below.', 'wordpress-seo' ) . ' ' .
-	__( 'If a Wikipedia page for you or your organization exists, add it too.', 'wordpress-seo' ),
-	'has-wrapper'
+$social_profiles_help = new WPSEO_Admin_Help_Button(
+	'https://yoa.st/3yo',
+	__( 'Learn more about your social profiles settings', 'wordpress-seo' )
 );
 
 $company_or_person = WPSEO_Options::get( 'company_or_person', '' );
@@ -98,8 +95,7 @@ if ( $company_or_person === 'person' ) {
 }
 
 if ( $company_or_person === 'company' ) {
-	echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
-	echo $social_profiles_help->get_panel_html();
+	echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help . '</h2>';
 
 	foreach ( $organization_social_fields as $organization ) {
 		$yform->textinput( $organization['id'], $organization['label'], $organization['attributes'] );
