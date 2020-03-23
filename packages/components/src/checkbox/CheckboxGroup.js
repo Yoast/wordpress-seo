@@ -37,7 +37,7 @@ const VerticalCheckboxes = ( { options, onChange } ) => {
 	return options.map( option => {
 		const id = getId( option.id );
 		return (
-			<div className="yoast-field-group__checkbox">
+			<div key={ id } className="yoast-field-group__checkbox">
 				<Checkbox id={ id } label={ option.label } onChange={ onChange } />
 			</div>
 		);
@@ -64,7 +64,7 @@ const HorizontalCheckboxes = ( { options, onChange } ) => {
 	return <div className="yoast-field-group__checkbox yoast-field-group__checkbox--horizontal">
 		{ options.map( option => {
 			const id = getId( option.id );
-			return <Checkbox label={ option.label } id={ id } onChange={ onChange } />;
+			return <Checkbox key={ id } label={ option.label } id={ id } onChange={ onChange } />;
 		} ) }
 	</div>;
 };
@@ -92,10 +92,10 @@ const CheckboxGroup = ( props ) => {
 	};
 
 	return (
-		<FieldGroup { ...fieldGroupProps } >
-			{ props.vertical ?
-				<VerticalCheckboxes options={ props.options } onChange={ props.onChange } /> :
-				<HorizontalCheckboxes options={ props.options } onChange={ props.onChange } />
+		<FieldGroup { ...fieldGroupProps }>
+			{ props.vertical
+				? <VerticalCheckboxes options={ props.options } onChange={ props.onChange } />
+				: <HorizontalCheckboxes options={ props.options } onChange={ props.onChange } />
 			}
 		</FieldGroup>
 	);
