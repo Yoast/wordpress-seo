@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.4
-Stable tag: 13.2
+Stable tag: 13.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,42 +209,31 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.4 =
+Release Date: March 31st, 2020
+
+Bugfixes:
+* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+
 = 13.3 =
 Release Date: March 17th, 2020
 
+Our current string of releases focusing on improving our code is continuing with Yoast SEO 13.3. In this release, we have a Schema structured data addition and several improvements to how Yoast SEO handles URLs. Read on in [our 13.3 release post](https://yoa.st/release-13-3)!
+
 Enhancements:
 
-* Makes sure encoded urls are human readable in forms and output.
+* Makes sure all URL fields show an unencoded URL after saving, even when the user input was encoded.
+* Requires all URLs in URL input fields to begin with either ‘/’ or ‘http(s)’. Props to [stodorovic](https://github.com/stodorovic).
 * Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
 
 Bugfixes:
 
-* Allows percent-encoding in canonical field. Props to [stodorovic](https://github.com/stodorovic).
-* Compares URL percent-encoding as case insensitive. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where social URLs containing international characters could not be saved. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic) and [Shahram Rahbari](https://github.com/ShahramRahbari).
 
 Other:
 
-* Changes cURL Health Check to `critical` instead of `recommended`.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
-* Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
-* Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
+* Changes the cURL Health Check category from `recommended` to `critical`.
 
-= 13.2 =
-Release Date: March 3rd, 2020
-
-In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
-
-Enhancements:
-
-* Adds the capability to view Site Health to the SEO Manager role.
-* Adds a cURL minimal version check to Site Health.
-* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
-* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
-* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
-* Improves the usability of the "Your site is indexable" Site Health check.
-* Adds error handling for the "Your site is indexable" status request.
-* Adds an ID to the FAQ sections in the Schema output.
-
-Bugfixes:
-
-* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
