@@ -559,7 +559,7 @@ class WPSEO_Frontend {
 			$title = $this->get_default_title( $separator, $separator_location, $title_part );
 		}
 
-		if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
+		if ( defined( 'ICL_LANGUAGE_CODE' ) && !empty(ICL_LANGUAGE_CODE) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
 			$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
 		}
 
