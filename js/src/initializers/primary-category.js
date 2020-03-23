@@ -8,12 +8,12 @@ import {
 } from "lodash-es";
 
 /* Internal dependencies */
-import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import PrimaryTaxonomyFilter from "../components/PrimaryTaxonomyFilter";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
-( function( $ ) {
+export default function initPrimaryCategory( $ ) {
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
 
@@ -293,4 +293,4 @@ const PLUGIN_NAMESPACE = "yoast-seo";
 
 		registerCategorySelectorFilter();
 	} );
-}( jQuery ) );
+};

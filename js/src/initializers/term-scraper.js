@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
@@ -13,49 +13,50 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "./edit";
-import { termsTmceId } from "./wp-seo-tinymce";
-import Pluggable from "./Pluggable";
-import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
+import Edit from "../edit";
+import { termsTmceId } from "../wp-seo-tinymce";
+import Pluggable from "../Pluggable";
+import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
+import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 
 // UI dependencies.
-import { update as updateTrafficLight } from "./ui/trafficLight";
-import { update as updateAdminBar } from "./ui/adminBar";
+import { update as updateTrafficLight } from "../ui/trafficLight";
+import { update as updateAdminBar } from "../ui/adminBar";
 
 // Analysis dependencies.
-import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
-import collectAnalysisData from "./analysis/collectAnalysisData";
-import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import getTranslations from "./analysis/getTranslations";
-import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
-import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetEditorHelpers from "./analysis/snippetEditor";
-import TermDataCollector from "./analysis/TermDataCollector";
-import CustomAnalysisData from "./analysis/CustomAnalysisData";
-import getApplyMarks from "./analysis/getApplyMarks";
-import { refreshDelay } from "./analysis/constants";
-import handleWorkerError from "./analysis/handleWorkerError";
+import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
+import collectAnalysisData from "../analysis/collectAnalysisData";
+import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getTranslations from "../analysis/getTranslations";
+import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import snippetEditorHelpers from "../analysis/snippetEditor";
+import TermDataCollector from "../analysis/TermDataCollector";
+import CustomAnalysisData from "../analysis/CustomAnalysisData";
+import getApplyMarks from "../analysis/getApplyMarks";
+import { refreshDelay } from "../analysis/constants";
+import handleWorkerError from "../analysis/handleWorkerError";
 
 // Redux dependencies.
-import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
-import { setFocusKeyword } from "./redux/actions/focusKeyword";
-import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
+import { setFocusKeyword } from "../redux/actions/focusKeyword";
+import { setMarkerStatus } from "../redux/actions/markerButtons";
 
 // Helper dependencies.
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
-} from "./helpers/classicEditor";
+} from "../helpers/classicEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
-( function( $, window ) {
+export default function initTermScraper( $, window ) {
 	var app;
 
 	var termSlugInput;
@@ -425,4 +426,4 @@ window.yoastHideMarkers = true;
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
-}( jQuery, window ) );
+};

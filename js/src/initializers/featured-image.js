@@ -4,9 +4,9 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
 
-( function( $ ) {
+export default function initFeaturedImageIntegration( $ ) {
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;
@@ -194,7 +194,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			}
 		} );
 	} );
-}( jQuery ) );
+};
 
 /* eslint-disable */
 /* jshint ignore:start */
@@ -206,8 +206,6 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
  */
 function yst_removeOpengraphWarning() {
 	console.error( "yst_removeOpengraphWarning is deprecated since Yoast SEO 10.1." );
-
-	return;
 }
 
 window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;

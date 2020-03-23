@@ -135,13 +135,12 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'term-scraper' );
+			$asset_manager->enqueue_script( 'term-edit' );
 			$asset_manager->enqueue_script( 'admin-script' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit' );
 
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -158,7 +157,7 @@ class WPSEO_Taxonomy {
 				'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 			];
 			wp_localize_script(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit',
 				'wpseoAnalysisWorkerL10n',
 				$localization_data
 			);
@@ -169,10 +168,10 @@ class WPSEO_Taxonomy {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 

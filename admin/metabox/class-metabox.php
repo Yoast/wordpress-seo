@@ -829,20 +829,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'select2' );
 
-		$asset_manager->enqueue_script( 'metabox' );
+		$asset_manager->enqueue_script( 'post-edit' );
 		$asset_manager->enqueue_script( 'admin-media' );
-
-		$asset_manager->enqueue_script( 'post-scraper' );
-		$asset_manager->enqueue_script( 'replacevar-plugin' );
-		$asset_manager->enqueue_script( 'shortcode-plugin' );
 
 		$asset_manager->enqueue_script( 'admin-script' );
 		$asset_manager->enqueue_style( 'admin-css' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' );
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
 
 		$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
@@ -855,7 +851,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		];
 		wp_localize_script(
-			WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper',
+			WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit',
 			'wpseoAnalysisWorkerL10n',
 			$localization_data
 		);
@@ -866,21 +862,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
 
-			$asset_manager->enqueue_script( 'featured-image' );
-
-			$featured_image_l10 = [ 'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) ];
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
+			$featured_image_l10 = [
+				'featured_image_notice' => __( 'SEO issue: The featured image should be at least 200 by 200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
+			];
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 		}
 	}
 
