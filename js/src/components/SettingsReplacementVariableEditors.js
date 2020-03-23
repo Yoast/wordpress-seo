@@ -1,7 +1,7 @@
 /* global wpseoReplaceVarsL10n */
 
 /* External dependencies */
-import React from "react";
+import { Fragment, Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import {
 	includes,
@@ -21,7 +21,7 @@ import SettingsFieldPortal from "./portals/SettingsFieldPortal";
  * Also listens for changes in the separator radio buttons and
  * updates the store with the new separator on change.
  */
-class SettingsReplacementVariableEditors extends React.Component {
+class SettingsReplacementVariableEditors extends Component {
 	constructor( props ) {
 		super( props );
 	}
@@ -70,6 +70,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 
 			return (
 				<SettingsEditorPortal
+					key={ reactReplacevarTitleFieldId }
 					target={ targetElement }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
@@ -109,6 +110,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 
 			return (
 				<SettingsFieldPortal
+					key={ reactReplacevarFieldId }
 					target={ targetElement }
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ filteredReplacementVariables }

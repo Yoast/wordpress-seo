@@ -1,3 +1,4 @@
+import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
 import FacebookPreviewSlot from "./slots/FacebookPreviewSlot";
 import TwitterPreviewSlot from "./slots/TwitterPreviewSlot";
