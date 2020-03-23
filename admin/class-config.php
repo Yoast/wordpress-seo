@@ -56,7 +56,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'select2' );
-
+		$this->asset_manager->enqueue_style( 'monorepo');
 		$this->asset_manager->enqueue_style( 'admin-all' );
 	}
 
