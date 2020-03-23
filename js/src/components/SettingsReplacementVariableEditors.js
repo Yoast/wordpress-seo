@@ -3,7 +3,6 @@
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
 import {
 	includes,
 	map,
@@ -12,9 +11,9 @@ import { connect } from "react-redux";
 import { replacementVariablesShape } from "@yoast/search-metadata-previews";
 
 /* Internal dependencies */
-import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
-import SettingsReplacementVariableField from "./SettingsReplacementVariableField";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import SettingsEditorPortal from "./portals/SettingsEditorPortal";
+import SettingsFieldPortal from "./portals/SettingsFieldPortal";
 
 /**
  * Renders a Portal for each element passed to it as a prop.
@@ -69,15 +68,15 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarPageTypeSpecific,
 			);
 
-			return ReactDOM.createPortal(
-				<SettingsReplacementVariableEditor
+			return (
+				<SettingsEditorPortal
+					target={ targetElement }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
 					titleTarget={ reactReplacevarTitleFieldId }
 					descriptionTarget={ reactReplacevarMetadescFieldId }
 					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
-				/>,
-				targetElement
+				/>
 			);
 		} );
 	}
@@ -108,14 +107,14 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarPageTypeSpecific,
 			);
 
-			return ReactDOM.createPortal(
-				<SettingsReplacementVariableField
+			return (
+				<SettingsFieldPortal
+					target={ targetElement }
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
 					fieldId={ reactReplacevarFieldId }
-				/>,
-				targetElement
+				/>
 			);
 		} );
 	}
@@ -127,10 +126,10 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 */
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				{ this.renderEditors() }
 				{ this.renderSingleFields() }
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }

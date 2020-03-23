@@ -1,9 +1,8 @@
-import { createPortal } from "@wordpress/element";
+import PropTypes from "prop-types";
 
 import MetaboxSlot from "../slots/MetaboxSlot";
 import MetaboxFill from "../../containers/MetaboxFill";
-import { Fragment } from "react";
-import PropTypes from "prop-types";
+import Portal from "./Portal";
 
 /**
  * Renders the metabox portal.
@@ -15,18 +14,11 @@ import PropTypes from "prop-types";
  * @returns {null|ReactElement} The element.
  */
 export default function MetaboxPortal( { target, store, theme } ) {
-	const metaboxElement = document.getElementById( target );
-
-	if ( ! metaboxElement ) {
-		return null;
-	}
-
-	return createPortal(
-		<Fragment>
+	return (
+		<Portal target={ target }>
 			<MetaboxSlot />
 			<MetaboxFill store={ store } theme={ theme } />
-		</Fragment>,
-		metaboxElement
+		</Portal>
 	);
 }
 

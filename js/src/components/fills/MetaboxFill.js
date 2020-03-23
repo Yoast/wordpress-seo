@@ -14,7 +14,8 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import Collapsible from "../SidebarCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
-import Social from "../SocialMetadata";
+import SocialMetadata from "../SocialMetadata";
+import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 
 /**
  * Creates the Metabox component.
@@ -96,7 +97,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<Social />
+					<SocialMetadataPortal target="wpseo-section-social" />
 				</TopLevelProviders>
 			</Fill>
 		</Fragment>

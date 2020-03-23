@@ -9,7 +9,7 @@ import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import ScoreIconPortal from "./ScoreIconPortal";
+import ScoreIconPortal from "../portals/ScoreIconPortal";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -197,7 +197,7 @@ class SeoAnalysis extends Component {
 
 		return (
 			<ScoreIconPortal
-				elementId="wpseo-seo-score-icon"
+				target="wpseo-seo-score-icon"
 				scoreIndicator={ scoreIndicator }
 			/>
 		);

@@ -1,7 +1,7 @@
-import { createPortal } from "@wordpress/element";
+import PropTypes from "prop-types";
 
 import WordPressUserSelectorSearchAppearance from "../WordPressUserSelectorSearchAppearance";
-import PropTypes from "prop-types";
+import Portal from "./Portal";
 
 /**
  * Renders a user select portal for the search appearance settings.
@@ -11,13 +11,11 @@ import PropTypes from "prop-types";
  * @returns {null|ReactElement} The element.
  */
 export default function UserSelectPortal( { target } ) {
-	const targetElement = document.getElementById( target );
-
-	if ( ! targetElement ) {
-		return null;
-	}
-
-	return createPortal( <WordPressUserSelectorSearchAppearance />, targetElement );
+	return (
+		<Portal target={ target }>
+			<WordPressUserSelectorSearchAppearance />
+		</Portal>
+	);
 }
 
 UserSelectPortal.propTypes = {

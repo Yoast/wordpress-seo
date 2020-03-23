@@ -1,6 +1,7 @@
-import { createPortal } from "@wordpress/element";
-import CompanyInfoMissing from "../CompanyInfoMissing";
 import PropTypes from "prop-types";
+
+import CompanyInfoMissing from "../CompanyInfoMissing";
+import Portal from "./Portal";
 
 /**
  * Renders a portal for a company info missing notice in the search appearance settings.
@@ -12,15 +13,10 @@ import PropTypes from "prop-types";
  * @returns {null|ReactElement} The element.
  */
 export default function CompanyInfoMissingPortal( { target, message, link } ) {
-	const targetElement = document.getElementById( target );
-
-	if ( ! targetElement ) {
-		return null;
-	}
-
-	return createPortal(
-		<CompanyInfoMissing message={ message } link={ link } />,
-		targetElement
+	return (
+		<Portal target={ target }>
+			<CompanyInfoMissing message={ message } link={ link } />
+		</Portal>
 	);
 }
 

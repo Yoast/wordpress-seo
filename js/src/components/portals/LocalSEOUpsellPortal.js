@@ -1,6 +1,8 @@
-import { createPortal } from "@wordpress/element";
-import LocalSEOUpsell from "../LocalSEOUpsell";
 import PropTypes from "prop-types";
+
+import LocalSEOUpsell from "../LocalSEOUpsell";
+import Portal from "./Portal";
+
 
 /**
  * Renders a portal for a Local SEO upsell in the search appearance settings.
@@ -12,15 +14,10 @@ import PropTypes from "prop-types";
  * @returns {null|ReactElement} The element.
  */
 export default function LocalSEOUpsellPortal( { target, url, backgroundUrl } ) {
-	const targetElement = document.getElementById( target );
-
-	if ( ! targetElement ) {
-		return null;
-	}
-
-	return createPortal(
-		<LocalSEOUpsell url={ url } backgroundUrl={ backgroundUrl } />,
-		targetElement
+	return (
+		<Portal target={ target }>
+			<LocalSEOUpsell url={ url } backgroundUrl={ backgroundUrl } />
+		</Portal>
 	);
 }
 
