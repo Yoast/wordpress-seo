@@ -181,6 +181,7 @@ const wordsToStem = [
 	[ "beklimmen", "beklim" ],
 	 // Word that gets suffix -en and is in getVowelDoubling list and does not end in t/d (9di-12)
 	[ "nivelleren", "nivelleer" ],
+	[ "verafgoden", "verafgood" ],
 	// Word that gets suffix -en and is in noVowelOrConsonantDoubling list and is in noun exception list (9dii-10)
 	[ "vaten", "vat" ],
 	 // Word that gets suffix -en and is in noVowelOrConsonantDoubling list and is in verb exception list (9dii-11)
@@ -449,6 +450,8 @@ const wordsToStem = [
 	// Plural nouns ending in -ors which should have -or stemmed
 	[ "alligators", "alligator" ],
 	[ "tenors", "tenor" ],
+	// A word that can be both a noun and a verb, which gets stemmed as a noun (to 'bad', not 'bid')
+	[ "baden", "bad" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
