@@ -43,8 +43,8 @@ const ReactifiedComponentsWrapper = () => {
 			<RadioButtonGroup
 				options={ [
 					{
-						value: "hoi",
-						label: "hoi",
+						value: "hey",
+						label: "hey",
 						checked: false,
 					},
 					{
@@ -54,7 +54,7 @@ const ReactifiedComponentsWrapper = () => {
 					}
 				] }
 				label="Horizontal radiobutton group"
-				groupName="groep2"
+				groupName="group1"
 			/>
 			<RadioButtonGroup
 				options={ [
@@ -71,7 +71,7 @@ const ReactifiedComponentsWrapper = () => {
 				] }
 				label="Vertical radiobutton group"
 				vertical={ true }
-				groupName="groep1"
+				groupName="group2"
 			/>
 		</div>
 	);
