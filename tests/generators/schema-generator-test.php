@@ -212,9 +212,11 @@ class Schema_Generator_Test extends TestCase {
 						'name' => '',
 						'description' => 'description',
 						'potentialAction' => [
-							'@type' => 'SearchAction',
-							'target' => '?s={search_term_string}',
-							'query-input' => 'required name=search_term_string',
+							[
+								'@type' => 'SearchAction',
+								'target' => '?s={search_term_string}',
+								'query-input' => 'required name=search_term_string',
+							],
 						],
 						'inLanguage' => 'English',
 					],
@@ -343,9 +345,11 @@ class Schema_Generator_Test extends TestCase {
 						'name'            => '',
 						'description'     => 'description',
 						'potentialAction' => [
-							'@type'       => 'SearchAction',
-							'target'      => '?s={search_term_string}',
-							'query-input' => 'required name=search_term_string',
+							[
+								'@type'       => 'SearchAction',
+								'target'      => '?s={search_term_string}',
+								'query-input' => 'required name=search_term_string',
+							],
 						],
 						'inLanguage'      => 'English',
 					],
@@ -389,9 +393,11 @@ class Schema_Generator_Test extends TestCase {
 					'name'            => '',
 					'description'     => 'description',
 					'potentialAction' => [
-						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
-						'query-input' => 'required name=search_term_string',
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
 					],
 					'inLanguage'      => 'English',
 				],

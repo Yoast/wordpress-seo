@@ -115,9 +115,11 @@ class Website_Test extends TestCase {
 			'alternateName'   => 'Alternate site name',
 			'description'     => 'description',
 			'potentialAction' => [
-				'@type'       => 'SearchAction',
-				'target'      => 'https://example.com/?s={search_term_string}',
-				'query-input' => 'required name=search_term_string',
+				[
+					'@type'       => 'SearchAction',
+					'target'      => 'https://example.com/?s={search_term_string}',
+					'query-input' => 'required name=search_term_string',
+				],
 			],
 			'inLanguage'      => 'language',
 		];
