@@ -13,15 +13,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$webmaster_tools_help = new WPSEO_Admin_Help_Panel(
-	'dashboard-webmaster-tools',
-	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' ),
-	esc_html__( 'You can use the boxes below to verify with the different Webmaster Tools. This feature will add a verification meta tag on your home page. Follow the links to the different Webmaster Tools and look for instructions for the meta tag verification method to get the verification code. If your site is already verified, you can just forget about these.', 'wordpress-seo' ),
-	'has-wrapper'
+$webmaster_tools_help = new WPSEO_Admin_Help_Button(
+	'https://yoa.st/3yn',
+	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' )
 );
 
-echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help->get_button_html() . '</h2>';
-echo $webmaster_tools_help->get_panel_html();
+echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help . '</h2>';
 
 $msverify_link = 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
 	rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) );

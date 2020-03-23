@@ -7,7 +7,7 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-$special_pages_help = new WPSEO_Admin_Help_Panel(
+$special_pages_help = new WPSEO_Admin_Help_Button(
 	'search-appearance-special-pages',
 	__( 'Learn more about the special pages setting', 'wordpress-seo' ),
 	sprintf(

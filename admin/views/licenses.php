@@ -277,8 +277,8 @@ $new_tab_message         = sprintf(
 									<?php
 									printf(
 									/* translators: %s expands to the extension title */
-										esc_html__( 'Manage your subscription on MyYoast', 'wordpress-seo' ),
-										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class
+										esc_html__( 'Manage your subscription on MyYoast', 'wordpress-seo' )
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 									);
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;

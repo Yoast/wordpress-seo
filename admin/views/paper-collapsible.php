@@ -4,15 +4,15 @@
  *
  * @package WPSEO\Admin\Views
  *
- * @uses    string                 $paper_id                  The ID of the paper.
- * @uses    string                 $paper_id_prefix           The ID prefix of the paper.
- * @uses    bool                   $collapsible               Whether the collapsible should be rendered.
- * @uses    array                  $collapsible_config        Configuration for the collapsible.
- * @uses    string                 $collapsible_header_class  Class for the collapsible header.
- * @uses    string                 $title                     The title.
- * @uses    string                 $title_after               Additional content to render after the title.
- * @uses    string                 $view_file                 Path to the view file.
- * @uses    WPSEO_Admin_Help_Panel $help_text                 The help text.
+ * @uses    string                  $paper_id                  The ID of the paper.
+ * @uses    string                  $paper_id_prefix           The ID prefix of the paper.
+ * @uses    bool                    $collapsible               Whether the collapsible should be rendered.
+ * @uses    array                   $collapsible_config        Configuration for the collapsible.
+ * @uses    string                  $collapsible_header_class  Class for the collapsible header.
+ * @uses    string                  $title                     The title.
+ * @uses    string                  $title_after               Additional content to render after the title.
+ * @uses    string                  $view_file                 Path to the view file.
+ * @uses    WPSEO_Admin_Help_Button $help_button               The help button.
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -41,9 +41,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
 				$button_id_attr,
 				esc_attr( $collapsible_config['expanded'] ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-				$help_text->get_button_html(),
 				esc_html( $title ) . wp_kses_post( $title_after ),
+				$help_button,
 				wp_kses_post( $collapsible_config['toggle_icon'] )
 			);
 		}
@@ -51,16 +50,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			echo '<div class="paper-title"><h2 class="help-button-inline">',
 				esc_html( $title ),
 				wp_kses_post( $title_after ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-				$help_text->get_button_html(),
+				$help_button,
 				'</h2></div>';
 		}
 	}
 	?>
 	<?php
-
-	// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-	echo $help_text->get_panel_html();
 
 	$container_id_attr = '';
 	if ( ! empty( $paper_id ) ) {

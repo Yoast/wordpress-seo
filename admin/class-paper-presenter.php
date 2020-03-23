@@ -46,7 +46,7 @@ class WPSEO_Paper_Presenter {
 			'collapsible'              => false,
 			'collapsible_header_class' => '',
 			'expanded'                 => false,
-			'help_text'                => '',
+			'help_button'              => '',
 			'title_after'              => '',
 			'class'                    => '',
 			'content'                  => '',
@@ -89,17 +89,13 @@ class WPSEO_Paper_Presenter {
 	 * @return array The view variables.
 	 */
 	private function get_view_variables() {
-		if ( $this->settings['help_text'] instanceof WPSEO_Admin_Help_Panel === false ) {
-			$this->settings['help_text'] = new WPSEO_Admin_Help_Panel( '', '', '' );
-		}
-
 		$view_variables = [
 			'class'                    => $this->settings['class'],
 			'collapsible'              => $this->settings['collapsible'],
 			'collapsible_config'       => $this->collapsible_config(),
 			'collapsible_header_class' => $this->settings['collapsible_header_class'],
 			'title_after'              => $this->settings['title_after'],
-			'help_text'                => $this->settings['help_text'],
+			'help_button'              => $this->settings['help_button'],
 			'view_file'                => $this->view_file,
 			'title'                    => $this->title,
 			'paper_id'                 => $this->settings['paper_id'],
