@@ -40,7 +40,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization' );
 
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->organization = YoastSEO()->classes->get( Organization::class );
 	}
 
