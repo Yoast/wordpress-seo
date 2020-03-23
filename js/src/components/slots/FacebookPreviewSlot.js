@@ -6,6 +6,6 @@ import React from "react";
  *
  * @returns {null|ReactElement} The element.
  */
-export default function FacebookPreviewSlot( { location } ) {
+export default function FacebookPreviewSlot() {
 	return ( <Slot name="YoastFacebookPreview" /> );
 }

@@ -6,6 +6,6 @@ import React from "react";
  *
  * @returns {null|ReactElement} The element.
  */
-export default function TwitterPreviewSlot( { location } ) {
+export default function TwitterPreviewSlot() {
 	return ( <Slot name="YoastTwitterPreview" /> );
 }
