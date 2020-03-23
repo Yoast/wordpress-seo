@@ -197,7 +197,7 @@ class WebPage extends Abstract_Schema_Piece {
 		 *
 		 * @api array $targets The URLs for the WebPage potentialAction target.
 		 */
-		$targets = apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $context->canonical ] );
+		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $context->canonical ] );
 
 		$data['potentialAction'][] = [
 			'@type'  => 'ReadAction',

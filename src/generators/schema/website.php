@@ -142,15 +142,11 @@ class Website extends Abstract_Schema_Piece {
 		 */
 		$search_url = \apply_filters( 'wpseo_json_ld_search_url', $context->site_url . '?s={search_term_string}' );
 
-		/**
-		 * Array of potentialActions because there can occur more than one
-		 */
-		$data['potentialAction'][] =
-			[
+		$data['potentialAction'][] = [
 			'@type'       => 'SearchAction',
 			'target'      => $search_url,
 			'query-input' => 'required name=search_term_string',
-			];
+		];
 
 		return $data;
 	}
