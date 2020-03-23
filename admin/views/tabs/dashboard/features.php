@@ -20,7 +20,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 <div class="yoast-feature">
 	<p>
 		<?php
-		echo sprintf(
+		printf(
 			/* translators: %1$s expands to Yoast SEO */
 			esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
 			'Yoast SEO'
