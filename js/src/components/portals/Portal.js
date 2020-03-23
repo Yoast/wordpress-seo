@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
  * @returns {null|ReactElement} The element.
  */
 export default function Portal( { target, children } ) {
-	const targetElement = target;
+	let targetElement = target;
 
-	if ( typeof target === 'string' ) {
+	if ( typeof target === "string" ) {
 		targetElement = document.getElementById( target );
 	}
 
@@ -21,7 +21,7 @@ export default function Portal( { target, children } ) {
 	}
 
 	return createPortal(
-		{ children },
+		children,
 		targetElement
 	);
 }
