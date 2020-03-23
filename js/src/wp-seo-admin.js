@@ -222,11 +222,8 @@ import { debounce } from "lodash-es";
 		wpseoSetTabHash();
 
 		// Toggle the Author archives section.
-		jQuery( "#disable-author input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-author" ).change( function() {
+			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
 		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
@@ -251,19 +248,13 @@ import { debounce } from "lodash-es";
 		} );
 
 		// Toggle the Date archives section.
-		jQuery( "#disable-date input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-date" ).change( function() {
+			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
 		// Toggle the Media section.
-		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-attachment" ).change( function() {
+			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		// Toggle the Format-based archives section.

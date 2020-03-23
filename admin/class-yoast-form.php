@@ -126,16 +126,13 @@ class Yoast_Form {
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
-			echo '<div id="wpseo-submit-container">';
 
+			echo '<div id="wpseo-submit-container">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
 			$settings_changed_listener->show_success_message();
 			echo '</div>';
 
-			echo '</div>';
-
-			echo '
-			</form>';
+			echo PHP_EOL . '</form>';
 		}
 
 		/**
@@ -292,16 +289,20 @@ class Yoast_Form {
 	 *
 	 * @since 3.1
 	 *
-	 * @param string $var     The variable within the option to create the checkbox for.
-	 * @param string $label   The label element text for the checkbox.
-	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
-	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
+	 * @param string      $var     The variable within the option to create the checkbox for.
+	 * @param string      $label   The label element text for the checkbox.
+	 * @param array       $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
+	 * @param string      $help    Inline Help that will be printed out before the visible toggles text.
+	 * @param bool|string $reverse Used when the option is saved reversed, for instance for "noindex-" type options. Use 'display' when only the display needs to be reversed.
 	 */
-	public function light_switch( $var, $label, $buttons = [], $help = '' ) {
+	public function light_switch( $var, $label, $buttons = [], $help = '', $reverse = false ) {
 		$val = WPSEO_Options::get( $var, false );
 
-		if ( $val === true ) {
+		if ( $val === true && $reverse === false || ! $val && $reverse === true ) {
 			$val = 'on';
+		}
+		if ( $reverse ) {
+			$buttons = array_reverse( $buttons );
 		}
 
 		if ( empty( $buttons ) ) {
@@ -682,19 +683,20 @@ class Yoast_Form {
 	 */
 	public function index_switch( $var, $label, $help = '' ) {
 		$index_switch_values = [
-			'off' => __( 'Yes', 'wordpress-seo' ),
-			'on'  => __( 'No', 'wordpress-seo' ),
+			__( 'Yes', 'wordpress-seo' ),
+			__( 'No', 'wordpress-seo' ),
 		];
 
-		$this->toggle_switch(
+		$this->light_switch(
 			$var,
-			$index_switch_values,
 			sprintf(
 				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
-				'<strong>' . esc_html( $label ) . '</strong>'
+				esc_html( $label )
 			),
-			$help
+			$index_switch_values,
+			$help,
+			true
 		);
 	}
 
@@ -709,15 +711,12 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
-		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
-		$off_key = ( $inverse_keys ) ? 'on' : 'off';
-
 		$show_hide_switch = [
-			$on_key  => __( 'Show', 'wordpress-seo' ),
-			$off_key => __( 'Hide', 'wordpress-seo' ),
+			__( 'Hide', 'wordpress-seo' ),
+			__( 'Show', 'wordpress-seo' ),
 		];
 
-		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
+		$this->light_switch( $var, $label, $show_hide_switch, $help, $inverse_keys );
 	}
 
 	/**
