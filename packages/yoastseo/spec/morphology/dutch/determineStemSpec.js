@@ -446,6 +446,9 @@ const wordsToStem = [
 	[ "precieste", "precies" ],
 	[ "preciest", "precies" ],
 	[ "trotste", "trots" ],
+	// plural nouns ending in -ors which should have -or stemmed
+	[ "alligators", "alligator" ],
+	[ "tenors", "tenor" ]
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {
