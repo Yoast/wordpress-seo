@@ -15,6 +15,20 @@ class WPSEO_Alert {
 	 *
 	 * @var string
 	 */
+	const ERROR = 'error';
+
+	/**
+	 * Alert type.
+	 *
+	 * @var string
+	 */
+	const INFO = 'info';
+
+	/**
+	 * Alert type.
+	 *
+	 * @var string
+	 */
 	const SUCCESS = 'success';
 
 	/**
@@ -24,19 +38,7 @@ class WPSEO_Alert {
 	 */
 	const WARNING = 'warning';
 
-	/**
-	 * Alert type.
-	 *
-	 * @var string
-	 */
-	const ERROR = 'error';
 
-	/**
-	 * Alert type.
-	 *
-	 * @var string
-	 */
-	const INFO = 'info';
 
 	/**
 	 * The type of the Alert.
@@ -57,8 +59,8 @@ class WPSEO_Alert {
 	/**
 	 * WPSEO_Alert constructor.
 	 *
-	 * @param $type
-	 * @param $content
+	 * @param string $type Type of the Alert (error/info/success/warning).
+	 * @param string $content Content of the Alert.
 	 */
 	public function __construct( $type, $content ) {
 		$this->type = $type;
@@ -82,16 +84,13 @@ class WPSEO_Alert {
 	private function render() {
 		$out  = '<div class="wpseo-alert wpseo-alert__' . $this->type . '">';
 
-		// render icon
 		$out .= '<span class="wpseo-alert-icon">';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
 		$out .= '<img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file )
 					. '" class="wpseo-alert__icon">';
 		$out .= '</span>';
 
-		// render content
 		$out .= '<span>' . $this->content . '</span>';
-
 		$out .= '</div>';
 
 		return $out;
