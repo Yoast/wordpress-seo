@@ -17,7 +17,8 @@ const stemWordsWithEOrEnSuffix = function( morphologyDataNL, regexAndReplacement
 	if ( doesWordMatchRegex( word, regexAndReplacement[ 0 ] ) ) {
 		const stemmedWord = word.replace( new RegExp( regexAndReplacement[ 0 ] ), regexAndReplacement[ 1 ] );
 		if ( isVowelDoublingAllowed( stemmedWord,
-			morphologyDataNL.exceptionsStemModifications, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
+			morphologyDataNL.regularStemmer.stemModifications.exceptionsStemModifications,
+			morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
 			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNL.regularStemmer.stemModifications.doubleVowel );
 			return replacement ? replacement : stemmedWord;
 		}
@@ -69,7 +70,8 @@ const checkWhetherTOrDIsPartOfStem = function( word, morphologyDataNL ) {
 		stemmedWord = word.slice( 0, -2 );
 		//	Check if the vowel needs to be doubled after deleting suffix -en.
 		if ( isVowelDoublingAllowed( stemmedWord,
-			morphologyDataNL.exceptionsStemModifications, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
+			morphologyDataNL.regularStemmer.stemModifications.exceptionsStemModifications,
+			morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
 			const replacement = searchAndReplaceWithRegex( stemmedWord, morphologyDataNL.regularStemmer.stemModifications.doubleVowel );
 			return replacement ? replacement : stemmedWord;
 		}

@@ -53,7 +53,7 @@ const checkOtherStemmingExceptions = function( word, morphologyDataNL ) {
 	 */
 	let stemFromFullForm = removeSuffixFromFullForms( morphologyDataNL, word );
 	if ( stemFromFullForm ) {
-		if ( isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.exceptionsStemModifications,
+		if ( isVowelDoublingAllowed( stemFromFullForm, morphologyDataNL.regularStemmer.stemModifications.exceptionsStemModifications,
 			morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
 			stemFromFullForm = modifyStem( stemFromFullForm, morphologyDataNL.regularStemmer.stemModifications.doubleVowel );
 			return modifyStem( stemFromFullForm, morphologyDataNL.regularStemmer.stemModifications.finalChanges );

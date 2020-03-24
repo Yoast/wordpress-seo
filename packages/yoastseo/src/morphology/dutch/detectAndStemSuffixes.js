@@ -84,7 +84,7 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
 		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.exceptionsStemModifications,
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.regularStemmer.stemModifications.exceptionsStemModifications,
 		morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ) {
 		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.doubleVowel );
 	}
