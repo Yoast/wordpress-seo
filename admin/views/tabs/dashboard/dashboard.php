@@ -6,13 +6,13 @@
  */
 
 /**
- * Alerts template variables.
+ * Notifications template variables.
  *
  * @noinspection PhpUnusedLocalVariableInspection
  *
  * @var array
  */
-$alerts_data = Yoast_Notifications::get_template_variables();
+$notifications_data = Yoast_Notifications::get_template_variables();
 
 $notifier = new WPSEO_Configuration_Notifier();
 $notifier->listen();
@@ -31,11 +31,11 @@ $wpseo_contributors_phrase = sprintf(
 		<?php echo $notifier->notify(); ?>
 
 		<div class="yoast-container yoast-container__error">
-			<?php require WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>
+			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
 		</div>
 
 		<div class="yoast-container yoast-container__warning">
-			<?php require WPSEO_PATH . 'admin/views/partial-alerts-warnings.php'; ?>
+			<?php require WPSEO_PATH . 'admin/views/partial-notifications-warnings.php'; ?>
 		</div>
 
 	</div>

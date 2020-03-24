@@ -17,17 +17,17 @@
  * @uses    array  $dismissed
  */
 
-if ( ! function_exists( '_yoast_display_alerts' ) ) {
+if ( ! function_exists( '_yoast_display_notifications' ) ) {
 	/**
-	 * Create the alert HTML with restore/dismiss button.
+	 * Create the notifications HTML with restore/dismiss button.
 	 *
-	 * @param array  $list   List of alerts.
-	 * @param string $status Status of the alerts (active/dismissed).
+	 * @param array  $list   List of notifications.
+	 * @param string $status Status of the notifications (active/dismissed).
 	 *
 	 * @return string The output to render.
 	 */
-	function _yoast_display_alerts( $list, $status ) {
-		$alerts = '';
+	function _yoast_display_notifications( $list, $status ) {
+		$notifications = '';
 
 		foreach ( $list as $notification ) {
 
@@ -47,7 +47,7 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 					break;
 			}
 
-			$alerts .= sprintf(
+			$notifications .= sprintf(
 				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
@@ -59,7 +59,7 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 			);
 		}
 
-		return $alerts;
+		return $notifications;
 	}
 }
 
@@ -82,8 +82,8 @@ if ( ! $active ) {
 
 		<div class="container yoast-alerts-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_alerts is considered a safe function.
-			echo _yoast_display_alerts( $active, 'active' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
+			echo _yoast_display_notifications( $active, 'active' );
 			?>
 		</div>
 
@@ -96,7 +96,7 @@ if ( ! $active ) {
 					'paper_id'                 => esc_attr( $type . '-dismissed' ),
 					'paper_id_prefix'          => 'yoast-',
 					'class'                    => 'yoast-alerts-dismissed',
-					'content'                  => _yoast_display_alerts( $dismissed, 'dismissed' ),
+					'content'                  => _yoast_display_notifications( $dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-alert',
 				]

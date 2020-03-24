@@ -179,10 +179,10 @@ class Yoast_Notifications {
 		 *
 		 * @noinspection PhpUnusedLocalVariableInspection
 		 */
-		$alerts_data = self::get_template_variables();
+		$notifications_data = self::get_template_variables();
 
 		ob_start();
-		include WPSEO_PATH . 'admin/views/partial-alerts-' . $view . '.php';
+		include WPSEO_PATH . 'admin/views/partial-notifications-' . $view . '.php';
 		$html = ob_get_clean();
 
 		return $html;
@@ -211,7 +211,7 @@ class Yoast_Notifications {
 		 *
 		 * @noinspection PhpUnusedLocalVariableInspection
 		 */
-		$alerts_data = self::get_template_variables();
+		$notifications_data = self::get_template_variables();
 
 		include WPSEO_PATH . 'admin/views/alerts-dashboard.php';
 	}
