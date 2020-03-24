@@ -447,6 +447,9 @@ const wordsToStem = [
 	[ "precieste", "precies" ],
 	[ "preciest", "precies" ],
 	[ "trotste", "trots" ],
+	// Plural nouns ending in -ors which should have -or stemmed
+	[ "alligators", "alligator" ],
+	[ "tenors", "tenor" ],
 	// A word that can be both a noun and a verb, which gets stemmed as a noun (to 'bad', not 'bid')
 	[ "baden", "bad" ],
 ];
