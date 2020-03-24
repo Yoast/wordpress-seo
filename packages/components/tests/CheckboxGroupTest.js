@@ -28,14 +28,13 @@ describe( "CheckboxGroup", () => {
 					label: "Ho",
 					id: "id2",
 					checked: true,
-				}
+				},
 			] }
 			onChange={ onChange }
 		/> ).root;
 
 		const checkbox = component.findByProps( { id: "id1" } );
 		checkbox.props.onChange( { target: { id: "id1" } } );
-		expect(onChange).toHaveBeenCalledTimes( 1 );
+		expect( onChange ).toHaveBeenCalledTimes( 1 );
 	} );
-
 } );

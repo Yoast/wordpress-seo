@@ -15,7 +15,7 @@ import "./checkbox.css";
  * @returns {React.Component} A React component that wraps around the HTML checkbox.
  */
 const Checkbox = ( { id, label, onChange, checked } ) => <Fragment>
-	<input type="checkbox" id={ id } onChange={ onChange } defaultChecked={ checked }/>
+	<input type="checkbox" id={ id } onChange={ onChange } defaultChecked={ checked } />
 	<label htmlFor={ id } className="yoast-field-group__checkbox">{ label }</label>
 </Fragment>;
 
@@ -116,7 +116,6 @@ const CheckboxGroup = ( props ) => {
 		</FieldGroup>
 	);
 };
-
 
 
 CheckboxGroup.propTypes = {
