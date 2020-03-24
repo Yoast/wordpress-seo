@@ -108,18 +108,6 @@ class Person_Test extends TestCase {
 		];
 		$person_logo_id        = 42;
 		$person_schema_logo_id = $this->context->site_url . $this->id->person_logo_hash;
-		$social_profiles       = [
-			'facebook',
-			'instagram',
-			'linkedin',
-			'pinterest',
-			'twitter',
-			'myspace',
-			'youtube',
-			'soundcloud',
-			'tumblr',
-			'wikipedia',
-		];
 		$image_schema          = [
 			'@type'      => 'ImageObject',
 			'@id'        => $person_schema_logo_id,
@@ -151,25 +139,9 @@ class Person_Test extends TestCase {
 			'image'       => $image_schema,
 		];
 
-		// Tests for the method `determine_user_id`.
-		Filters\expectApplied( 'wpseo_schema_person_user_id' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( $this->context->site_user_id );
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
 
-		// Tests for the method `build_person_data`.
-		Functions\expect( 'get_userdata' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( $user_data );
-		$this->id->expects( 'get_user_schema_id' )
-			->once()
-			->with( $this->context->site_user_id, $this->context )
-			->andReturn( 'person_id' );
-		$this->html->expects( 'smart_strip_tags' )
-			->once()
-			->with( $user_data->display_name )
-			->andReturn( $user_data->display_name );
 		// Tests for the method `set_image_from_options`.
 		$this->image->expects( 'get_attachment_id_from_settings' )
 			->once()
@@ -179,23 +151,8 @@ class Person_Test extends TestCase {
 			->once()
 			->with( $person_schema_logo_id, $person_logo_id, $user_data->display_name )
 			->andReturn( $image_schema );
-		// Back to `build_person_data`.
-		$this->html->expects( 'smart_strip_tags' )
-			->once()
-			->with( $user_data->description )
-			->andReturn( $user_data->description );
-		// Tests for the method `get_social_profiles`.
-		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
-			->once()
-			->with( $social_profiles, $this->context->site_user_id )
-			->andReturn( $social_profiles );
-		// Tests for the method `url_social_site`.
-		foreach ( $social_profiles as $social_profile ) {
-			Functions\expect( 'get_the_author_meta' )
-				->once()
-				->with( $social_profile, $this->context->site_user_id )
-				->andReturn( 'https://example.com/social/' . $social_profile );
-		}
+
+		$this->expects_for_social_profiles();
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
@@ -210,10 +167,7 @@ class Person_Test extends TestCase {
 	public function test_generate_no_user_id() {
 		$this->context->site_user_id = 1337;
 
-		Filters\expectApplied( 'wpseo_schema_person_user_id' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( false );
+		$this->expects_for_determine_user_id( 'false' );
 
 		$this->assertFalse( $this->instance->generate( $this->context ) );
 	}
@@ -228,14 +182,10 @@ class Person_Test extends TestCase {
 	public function test_generate_user_id_zero() {
 		$this->context->site_user_id = 1337;
 
-		Filters\expectApplied( 'wpseo_schema_person_user_id' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( 0 );
+		$this->expects_for_determine_user_id( 'zero' );
 
 		$this->assertFalse( $this->instance->generate( $this->context ) );
 	}
-
 
 	/**
 	 * Tests whether generate returns the expected schema without userdata.
@@ -253,21 +203,8 @@ class Person_Test extends TestCase {
 			'@id'   => 'person_id',
 		];
 
-		// Tests for the method `determine_user_id`.
-		Filters\expectApplied( 'wpseo_schema_person_user_id' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( $this->context->site_user_id );
-
-		// Tests for the method `build_person_data`.
-		Functions\expect( 'get_userdata' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( false );
-		$this->id->expects( 'get_user_schema_id' )
-			->once()
-			->with( $this->context->site_user_id, $this->context )
-			->andReturn( 'person_id' );
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( false );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
@@ -301,32 +238,9 @@ class Person_Test extends TestCase {
 			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
 		];
 
-		// Tests for the method `determine_user_id`.
-		Filters\expectApplied( 'wpseo_schema_person_user_id' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( $this->context->site_user_id );
-
-		// Tests for the method `build_person_data`.
-		Functions\expect( 'get_userdata' )
-			->once()
-			->with( $this->context->site_user_id )
-			->andReturn( $user_data );
-		$this->id->expects( 'get_user_schema_id' )
-			->once()
-			->with( $this->context->site_user_id, $this->context )
-			->andReturn( 'person_id' );
-		$this->html->expects( 'smart_strip_tags' )
-			->once()
-			->with( $user_data->display_name )
-			->andReturn( $user_data->display_name );
-		$this->html->expects( 'smart_strip_tags' )
-			->never()
-			->with( $user_data->description );
-		// Tests for the method `get_social_profiles`.
-		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
-			->once()
-			->andReturn( [] );
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+		$this->expects_for_social_profiles( [] );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
@@ -368,5 +282,113 @@ class Person_Test extends TestCase {
 		$this->context->indexable->object_type = 'post';
 
 		$this->assertFalse( $this->instance->is_needed( $this->context ) );
+	}
+
+	/**
+	 * Sets the tests for determine_user_id.
+	 *
+	 * @param string $scenario The scenario to set.
+	 */
+	protected function expects_for_determine_user_id( $scenario = 'default' ) {
+		$user_id = $this->context->site_user_id;
+
+		switch ( $scenario ) {
+			case 'false':
+				$user_id = false;
+				break;
+			case 'zero':
+				$user_id = 0;
+				break;
+		}
+
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( $user_id );
+	}
+
+	/**
+	 * Sets the tests for get_userdata inside build_person_data.
+	 *
+	 * @param object|false $user_data The user data get_userdata returns. An object representing WP_User or false.
+	 */
+	protected function expects_for_get_userdata( $user_data ) {
+		Functions\expect( 'get_userdata' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( $user_data );
+		$this->id->expects( 'get_user_schema_id' )
+			->once()
+			->with( $this->context->site_user_id, $this->context )
+			->andReturn( 'person_id' );
+
+		// No more tests needed when there is no user data.
+		if ( $user_data === false ) {
+			return;
+		}
+
+		$this->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( $user_data->display_name )
+			->andReturn( $user_data->display_name );
+
+		if ( empty( $user_data->description ) ) {
+			$this->html->expects( 'smart_strip_tags' )
+				->never()
+				->with( $user_data->description );
+			return;
+		}
+
+		$this->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( $user_data->description )
+			->andReturn( $user_data->description );
+	}
+
+	/**
+	 * Sets the tests for get_social_profiles.
+	 *
+	 * @param string[]|null $social_profiles The social profiles after the `wpseo_schema_person_social_profiles`
+	 *                                       filter. Use null to return the same as the input.
+	 */
+	protected function expects_for_social_profiles( $social_profiles = null ) {
+		// These should be a copy of the private variable $social_profiles in Person.
+		$social_profiles_input = [
+			'facebook',
+			'instagram',
+			'linkedin',
+			'pinterest',
+			'twitter',
+			'myspace',
+			'youtube',
+			'soundcloud',
+			'tumblr',
+			'wikipedia',
+		];
+
+		// Hacky way to have access to the private class variable as hardcoded above.
+		if ( $social_profiles === null ) {
+			$social_profiles = $social_profiles_input;
+		}
+
+		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
+			->once()
+			->with( $social_profiles_input, $this->context->site_user_id )
+			->andReturn( $social_profiles );
+
+		if ( empty( $social_profiles ) ) {
+			Functions\expect( 'get_the_author_meta' )
+				->never();
+
+			return;
+		}
+
+		// Tests for the method `url_social_site`.
+		foreach ( $social_profiles as $social_profile ) {
+			Functions\expect( 'get_the_author_meta' )
+				->once()
+				->with( $social_profile, $this->context->site_user_id )
+				->andReturn( 'https://example.com/social/' . $social_profile );
+		}
 	}
 }
