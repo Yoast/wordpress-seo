@@ -87,6 +87,6 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	public static function get_type() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
-		return array();
+		return [ 'Person' ];
 	}
 }
