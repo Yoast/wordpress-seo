@@ -201,6 +201,42 @@ class Person_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether generate returns false when no user id could be determined.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 */
+	public function test_generate_no_user_id() {
+		$this->context->site_user_id = 1337;
+
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->generate( $this->context ) );
+	}
+
+	/**
+	 * Tests whether generate returns false when no user id 0 was determined.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 */
+	public function test_generate_user_id_zero() {
+		$this->context->site_user_id = 1337;
+
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( 0 );
+
+		$this->assertFalse( $this->instance->generate( $this->context ) );
+	}
+
+	/**
 	 * Tests whether the person Schema piece is shown when the site represents a person.
 	 *
 	 * @covers ::__construct
