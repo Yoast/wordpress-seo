@@ -614,3 +614,46 @@ body.folded {
 		margin-right: 8px;
 	}
 }
+
+.wpseo-alert {
+	display: flex;
+	align-items: flex-start;
+	font-size: 14px;
+	line-height: 1.5;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	padding: 16px;
+	margin: 16px 0;
+
+	&__error {
+		color: #8f1919;
+		background: #f9dcdc;
+	}
+
+	&__info {
+		color: #00468f;
+		background: #cce5ff;
+	}
+
+	&__success {
+		color: #395315;
+		background: #e2f2cc;
+	}
+
+	&__warning {
+		color: #674e00;
+		background: #fff3cd;
+	}
+
+	&__icon {
+		margin-top: 0.125rem;
+		display: block;
+		margin-right: 10px;
+		height: 14px;
+		width: 14px;
+	}
+
+	a {
+		color: #004973;
+	}
+}
+
