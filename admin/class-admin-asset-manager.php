@@ -242,8 +242,8 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'admin-media',
-				'src'  => 'wp-seo-admin-media-' . $flat_version,
+				'name' => 'settings',
+				'src'  => 'settings-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'jquery-ui-core',

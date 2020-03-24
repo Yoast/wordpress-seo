@@ -830,12 +830,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 
 		$asset_manager->enqueue_script( 'post-edit' );
-		$asset_manager->enqueue_script( 'admin-media' );
-
 		$asset_manager->enqueue_script( 'admin-script' );
 		$asset_manager->enqueue_style( 'admin-css' );
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
 		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );

@@ -172,11 +172,8 @@ class WPSEO_Taxonomy {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
-
-			$asset_manager->enqueue_script( 'admin-media' );
-
 			wp_localize_script(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media',
+				WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit',
 				'wpseoMediaL10n',
 				[ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ]
 			);

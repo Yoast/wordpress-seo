@@ -91,8 +91,8 @@ class WPSEO_Admin_Pages {
 		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ], true ) ) {
 			wp_enqueue_media();
 
-			$this->asset_manager->enqueue_script( 'admin-media' );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+			$this->asset_manager->enqueue_script( 'settings' );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'settings', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
 		if ( $page === 'wpseo_tools' ) {
