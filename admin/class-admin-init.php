@@ -35,7 +35,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
@@ -102,37 +101,6 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
-	}
-
-	/**
-	 * Add an alert if the blog is not publicly visible.
-	 */
-	public function blog_public_notice() {
-
-		$info_message  = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
-		$info_message .= sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
-			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-blog-public-notice',
-			'priority'     => 1.0,
-			'capabilities' => 'wpseo_manage_options',
-		];
-
-		$notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( ! $this->is_blog_public() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
 	}
 
 	/**
@@ -592,5 +560,15 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
+	}
+
+	/**
+	 * Add an alert if the blog is not publicly visible.
+	 *
+	 * @deprecated 13.5
+	 * @codeCoverageIgnore
+	 */
+	public function blog_public_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 13.5' );
 	}
 }
