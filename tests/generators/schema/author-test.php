@@ -190,6 +190,43 @@ class Author_Test extends TestCase {
 		$this->assertSame( $this->person_data, $actual );
 	}
 
+
+	/**
+	 * Tests that the author Schema piece is not output
+	 * on non-user archives and non-posts.
+	 *
+	 * @covers ::generate
+	 * @covers ::is_needed
+	 */
+	public function test_is_not_shown_when_filter_does_not_output_valid_user_id() {
+		$user_id = 123;
+
+		$this->instance->expects( 'build_person_data' )
+			->never();
+
+		$this->id->webpage_hash = '#webpage';
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type' => 'post',
+			'object_id'   => 1234,
+		];
+
+		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
+
+		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->with( $user_id )
+			->andReturn( 'not_a_valid_user_id' );
+
+		$actual = $this->instance->generate( $this->meta_tags_context );
+
+		$this->assertFalse( $actual );
+	}
+
 	/**
 	 * Tests that the author is not output when no user id could be determined.
 	 *
