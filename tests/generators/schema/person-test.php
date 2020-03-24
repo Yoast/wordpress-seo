@@ -246,6 +246,81 @@ class Person_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether generate returns the expected schema with an image from an avatar.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 */
+	public function test_generate_image_from_avatar() {
+		$this->context->site_user_id    = 1337;
+		$this->context->site_url        = 'https://example.com/';
+		$this->context->site_represents = false;
+
+		$user_data = (object) [
+			'display_name' => 'John Doe',
+			'description'  => '',
+			'user_email'   => 'johndoe@example.com',
+		];
+
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+		$image_schema = $this->expects_for_set_image_from_avatar( $user_data );
+		$this->expects_for_social_profiles( [] );
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+			'name'  => $user_data->display_name,
+			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'image' => $image_schema,
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
+	 * Tests whether generate returns the expected schema with an invalid avatar url.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 */
+	public function test_generate_invalid_avatar_url() {
+		$this->context->site_user_id    = 1337;
+		$this->context->site_url        = 'https://example.com/';
+		$this->context->site_represents = false;
+
+		$user_data = (object) [
+			'display_name' => 'John Doe',
+			'description'  => '',
+			'user_email'   => 'johndoe@example.com',
+		];
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+			'name'  => 'John Doe',
+			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+		];
+
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+		$this->expects_for_set_image_from_avatar( $user_data, 'empty_avatar_url' );
+		$this->expects_for_social_profiles( [] );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
 	 * Tests whether the person Schema piece is shown when the site represents a person.
 	 *
 	 * @covers ::__construct
@@ -390,5 +465,56 @@ class Person_Test extends TestCase {
 				->with( $social_profile, $this->context->site_user_id )
 				->andReturn( 'https://example.com/social/' . $social_profile );
 		}
+	}
+
+	/**
+	 * Sets the tests for set_image_from_avatar.
+	 *
+	 * @param object $user_data An object representing WP_User. Expected to have `display_name` and `user_email`.
+	 * @param string $scenario  The scenario to test.
+	 *
+	 * @return array The image schema.
+	 */
+	protected function expects_for_set_image_from_avatar( $user_data, $scenario = 'default' ) {
+		$image_schema = [
+			'@type'      => 'ImageObject',
+			'@id'        => $this->context->site_url . $this->id->person_logo_hash,
+			'inLanguage' => 'en-US',
+			'url'        => 'https://example.com/image.png',
+			'width'      => 64,
+			'height'     => 128,
+			'caption'    => 'Person image',
+		];
+		$avatar_url = $image_schema['url'];
+
+		switch ( $scenario ) {
+			case 'empty_avatar_url':
+				$avatar_url = '';
+				break;
+		}
+
+		Functions\expect( 'get_option' )
+			->once()
+			->with( 'show_avatars' )
+			->andReturn( true );
+		Functions\expect( 'get_avatar_url' )
+			->once()
+			->with( $user_data->user_email )
+			->andReturn( $avatar_url );
+
+		// No more tests when the avatar url is empty.
+		if ( empty( $avatar_url ) ) {
+			$this->schema_image->expects( 'simple_image_object' )
+				->never();
+
+			return $image_schema;
+		}
+
+		$this->schema_image->expects( 'simple_image_object' )
+			->once()
+			->with( $image_schema['@id'], $avatar_url, $user_data->display_name )
+			->andReturn( $image_schema );
+
+		return $image_schema;
 	}
 }
