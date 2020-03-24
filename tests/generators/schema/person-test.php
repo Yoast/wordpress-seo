@@ -236,6 +236,101 @@ class Person_Test extends TestCase {
 		$this->assertFalse( $this->instance->generate( $this->context ) );
 	}
 
+
+	/**
+	 * Tests whether generate returns the expected schema without userdata.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 */
+	public function test_generate_without_userdata() {
+		$this->context->site_user_id = 1337;
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+		];
+
+		// Tests for the method `determine_user_id`.
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( $this->context->site_user_id );
+
+		// Tests for the method `build_person_data`.
+		Functions\expect( 'get_userdata' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( false );
+		$this->id->expects( 'get_user_schema_id' )
+			->once()
+			->with( $this->context->site_user_id, $this->context )
+			->andReturn( 'person_id' );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
+	 * Tests whether generate returns the expected schema without a user description or social profiles.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_options
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 */
+	public function test_generate_without_user_description_or_social_profiles() {
+		$this->context->site_user_id    = 1337;
+		$this->context->site_url        = 'https://example.com/';
+		$this->context->site_represents = false;
+
+		$user_data = (object) [
+			'display_name' => 'John',
+			'description'  => '',
+		];
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+			'name'  => 'John',
+			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+		];
+
+		// Tests for the method `determine_user_id`.
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( $this->context->site_user_id );
+
+		// Tests for the method `build_person_data`.
+		Functions\expect( 'get_userdata' )
+			->once()
+			->with( $this->context->site_user_id )
+			->andReturn( $user_data );
+		$this->id->expects( 'get_user_schema_id' )
+			->once()
+			->with( $this->context->site_user_id, $this->context )
+			->andReturn( 'person_id' );
+		$this->html->expects( 'smart_strip_tags' )
+			->once()
+			->with( $user_data->display_name )
+			->andReturn( $user_data->display_name );
+		$this->html->expects( 'smart_strip_tags' )
+			->never()
+			->with( $user_data->description );
+		// Tests for the method `get_social_profiles`.
+		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
+			->once()
+			->andReturn( [] );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
 	/**
 	 * Tests whether the person Schema piece is shown when the site represents a person.
 	 *
