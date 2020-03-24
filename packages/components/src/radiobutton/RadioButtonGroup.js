@@ -5,6 +5,108 @@ import { getId } from "../GenerateId";
 
 import "./radiobutton.css";
 
+/**
+ * Function that returns a radiobutton with accompanying label.
+ *
+ * @param {string} value The value of the radiobutton.
+ * @param {string} label The label that accompanies the radiobutton.
+ * @param {boolean} checked Whether the radiobutton is checked.
+ * @param {string} groupName The name of the group of radio buttons.
+ * @param {string} id The id of the radio button.
+ *
+ * @returns {React.Component} A single radiobutton field with label.
+ */
+const LabeledRadioButton = ( { value, label, checked, groupName, id } ) => <Fragment>
+	<input
+		type="radio"
+		name={ groupName }
+		id={ id }
+		value={ value }
+		defaultChecked={ checked }
+	/>
+	<label
+		htmlFor={ id }
+	>
+		{ label }
+	</label>
+</Fragment>;
+
+LabeledRadioButton.propTypes = {
+	value: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	checked: PropTypes.bool.isRequired,
+	groupName: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+};
+
+/**
+ * Returns a set of radiobuttons that are on the same line.
+ *
+ * @param {array} options An array of options for the radio buttons.
+ * @param {function} onChange The onChange function.
+ * @param {string} groupName The name of the radio button group.
+ * @param {string} id The id of the component.
+ * @param {string} selected Optional: the selected radio button.
+ *
+ * @returns {React.Component} A div with radiobuttons in it.
+ */
+const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected } ) => (
+	<div className="yoast-field-group__radiobutton" onChange={ onChange }>
+		{ options.map( option =>
+			<LabeledRadioButton
+				key={ option.value }
+				groupName={ groupName }
+				checked={ selected === option.value }
+				id={ `${ id }_${ option.value }` }
+				{ ...option }
+			/>,
+		) }
+	</div>
+);
+
+HorizontalRadioButtons.propTypes = {
+	options: PropTypes.array.isRequired,
+	onChange: PropTypes.func.isRequired,
+	groupName: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	selected: PropTypes.string.isRequired,
+};
+
+/**
+ * Returns a set of radiobuttons that are vertically aligned.
+ *
+ * @param {array} options An array of options for the radio buttons.
+ * @param {function} onChange The onChange function.
+ * @param {string} groupName The name of the radio button group.
+ * @param {string} id The id of the component.
+ * @param {string} selected Optional: the selected radio button.
+ *
+ * @returns {React.Component} A lot of divs with one radiobutton in it.
+ */
+const VerticalRadioButtons = ( { options, onChange, groupName, id, selected } ) => (
+	<div onChange={ onChange }>
+		{ options.map( option => <div
+			className="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical"
+			key={ option.value }
+		>
+			<LabeledRadioButton
+				groupName={ groupName }
+				checked={ selected === option.value }
+				id={ `${ id }_${ option.value }` }
+				{ ...option }
+			/>
+		</div>,
+		) }
+	</div>
+);
+
+VerticalRadioButtons.propTypes = {
+	options: PropTypes.array.isRequired,
+	onChange: PropTypes.func.isRequired,
+	groupName: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	selected: PropTypes.string.isRequired,
+};
 
 /**
  * Component that generates a group of radio buttons.
@@ -13,74 +115,35 @@ import "./radiobutton.css";
  *
  * @returns {React.Component} A RadioButtonGroup.
  */
-const RadioButtonGroup = ( props ) => {
-	/**
-	 * Function that returns a radiobutton with accompanying label.
-	 *
-	 * @param {string} value The value of the radiobutton.
-	 * @param {string} label The label that accompanies the radiobutton.
-	 * @param {boolean} checked Whether the radiobutton is checked.
-	 *
-	 * @returns {React.Component} A single radiobutton field with label.
-	 */
-	const RadioButtonWithLabel = ( { value, label, checked } ) => <Fragment>
-		<input
-			type="radio"
-			name={ props.groupName }
-			id={ value }
-			value={ value }
-			defaultChecked={ checked }
-			onChange={ props.onChange }
-		/>
-		<label
-			htmlFor={ value }
-		>
-			{ label }
-		</label>
-	</Fragment>;
+const RadioButtonGroup = props => {
+	const {
+		id,
+		options,
+		groupName,
+		onChange,
+		vertical,
+		selected,
+		...fieldGroupProps
+	} = props;
+	const componentId = getId( id );
 
-	RadioButtonWithLabel.propTypes = {
-		value: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		checked: PropTypes.bool.isRequired,
+	const radioButtonProps = {
+		options,
+		groupName,
+		selected,
+		onChange: event => onChange( event.target.value ),
+		id: componentId,
 	};
 
-	/**
-	 * Returns a set of radiobuttons that are on the same line.
-	 *
-	 * @returns {React.Component} A div with radiobuttons in it.
-	 */
-	const HorizontalRadioButtons = () =>
-		<div className="yoast-field-group__radiobutton">
-			{ props.options.map( option => <RadioButtonWithLabel key={ option.value }{ ...option } /> ) }
-		</div>;
-
-	/**
-	 * Returns a set of radiobuttons that are vertically aligned.
-	 *
-	 * @returns {React.Component} A lot of divs with one radiobutton in it.
-	 */
-	const VerticalRadioButtons = () =>
-		<Fragment>
-			{ props.options.map( option => <div
-				className="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical"
-				key={ option.value }
-			>
-				<RadioButtonWithLabel { ...option } />
-			</div>,
-			) }
-		</Fragment>;
-
-	const id = getId( props.id );
-	const fieldGroupProps = {
-		htmlFor: id,
-		...props,
-	};
 	return (
 		<FieldGroup
+			htmlFor={ componentId }
 			{ ...fieldGroupProps }
 		>
-			{ props.vertical ? <VerticalRadioButtons /> : <HorizontalRadioButtons /> }
+			{ vertical
+				? <VerticalRadioButtons { ...radioButtonProps } />
+				: <HorizontalRadioButtons { ...radioButtonProps } />
+			}
 		</FieldGroup>
 	);
 };
@@ -91,8 +154,8 @@ RadioButtonGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
-		checked: PropTypes.bool.isRequired,
 	} ) ).isRequired,
+	selected: PropTypes.string,
 	onChange: PropTypes.func,
 	vertical: PropTypes.bool,
 	...FieldGroupProps,
@@ -101,6 +164,7 @@ RadioButtonGroup.propTypes = {
 RadioButtonGroup.defaultProps = {
 	id: "",
 	vertical: false,
+	selected: null,
 	onChange: () => {},
 	...FieldGroupDefaultProps,
 };

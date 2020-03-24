@@ -29,6 +29,6 @@ describe( "RadioButtonGroup", () => {
 
 		expect( result ).toBeDefined();
 		expect( result.props.label ).toBe( "Nice label" );
-		expect( result.props.groupName ).toBe( "best-group" );
+		expect( result.props.children.props.groupName ).toBe( "best-group" );
 	} );
 } );
