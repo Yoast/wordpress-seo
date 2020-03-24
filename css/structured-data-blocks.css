@@ -1,0 +1,142 @@
+.schema-how-to-step,
+.schema-faq-section {
+  position: relative;
+  padding: 8px 4px 8px 32px;
+  margin: 4px 0;
+  border: 1px solid rgba(145, 151, 162, 0.25);
+  list-style-type: none;
+}
+
+.schema-how-to-buttons,
+.schema-faq-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.schema-how-to-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
+.schema-faq-buttons button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+  box-shadow: none;
+  color: #007cba;
+}
+
+.schema-how-to-step-mover,
+.schema-faq-section-mover {
+  display: inline-block;
+}
+
+.schema-how-to-step-mover .editor-block-mover__control,
+.schema-faq-section-mover .editor-block-mover__control {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+}
+
+.schema-how-to-step-name,
+.schema-faq-question {
+  font-weight: 600;
+}
+
+.schema-how-to .schema-how-to-steps,
+.schema-how-to .schema-how-to-description,
+.schema-how-to .schema-how-to-step-name,
+.schema-how-to .schema-how-to-step-text,
+.schema-faq .schema-faq-question,
+.schema-faq .schema-faq-answer {
+  margin: 0;
+  line-height: inherit;
+}
+
+.schema-how-to .schema-how-to-steps {
+  padding-top: 0;
+}
+
+.schema-how-to-step-button-container,
+.schema-faq-section-button-container {
+  display: inline-flex;
+  text-align: right;
+}
+
+.schema-how-to-step-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover,
+.schema-faq-section-button-container button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+  box-shadow: none;
+  color: #007cba;
+}
+
+.schema-how-to-step-controls-container,
+.schema-faq-section-controls-container {
+  text-align: right;
+  margin-left: -28px;
+}
+
+.schema-how-to-step-controls-container .dashicons-arrow-up-alt2,
+.schema-faq-section-controls-container .dashicons-arrow-up-alt2 {
+  position: relative;
+  top: -1px;
+}
+
+.schema-how-to-duration-button .dashicon,
+.how-to-step-add-media .dashicon,
+.schema-how-to-add-step .dashicon,
+.faq-section-add-media .dashicon,
+.schema-faq-add-question .dashicon {
+  margin-right: 4px;
+}
+
+.schema-how-to {
+  padding-top: 4px;
+}
+
+.schema-how-to-step-number {
+  position: absolute;
+  left: 4px;
+  width: 24px;
+  text-align: right;
+}
+
+.schema-how-to-duration-flex-container {
+  display: flex;
+  align-items: center;
+}
+
+.schema-how-to-duration-time-input {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+legend.schema-how-to-duration-legend {
+  margin-right: 4px;
+}
+
+#schema-how-to-duration-days {
+  margin-right: 8px;
+}
+
+.schema-how-to-duration .schema-how-to-duration-input[type="number"] {
+  width: 40px;
+  margin: 0 2px;
+  padding: 6px 4px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.schema-how-to-duration .schema-how-to-duration-input[type="number"]::-webkit-outer-spin-button, .schema-how-to-duration .schema-how-to-duration-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.schema-how-to-duration-button.components-icon-button {
+  margin-left: -8px;
+  vertical-align: top;
+}
+
+.schema-how-to-duration-button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
+  box-shadow: none;
+  color: #007cba;
+}
+
+.schema-how-to-description {
+  margin: 8px 0;
+}
+
+/*# sourceMappingURL=structured-data-blocks.css.map */

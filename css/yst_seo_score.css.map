@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "yst_seo_score.css",
+	"sources": [
+		"src/yst_seo_score.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,kBAAkB,CAAC;EAClB,WAAW,EAAE,GAAG;CAChB;;AAED,AAAA,iBAAiB,CAAC;EACjB,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,CAAC;EACN,WAAW,EAAE,KAAK;CAClB"
+}

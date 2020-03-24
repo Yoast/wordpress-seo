@@ -1,0 +1,10 @@
+@media screen and (max-width: 782px) {
+  .column-wpseo-title,
+  .column-wpseo-score,
+  .column-wpseo-metadesc,
+  .column-wpseo-focuskw {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=edit-page.css.map */

@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "icons.css",
+	"sources": [
+		"src/icons.css"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,KAAK,CAAC;EACL,eAAe,CAAA,wlBAAC;EAChB,gBAAgB,CAAA,uXAAC;EACjB,mBAAmB,CAAA,uXAAC;EACpB,sBAAsB,CAAA,4WAAC;EACvB,qBAAqB,CAAA,mWAAC;EACtB,cAAc,CAAA,kpBAAC;EACf,eAAe,CAAA,mxBAAC;EAChB,cAAc,CAAA,0tBAAC;EACf,eAAe,CAAA,ycAAC;EAChB,gBAAgB,CAAA,umBAAC;EACjB,qBAAqB,CAAA,umBAAC;EACtB,mBAAmB,CAAA,umBAAC;EACpB,oBAAoB,CAAA,umBAAC;EACrB,wBAAwB,CAAA,umBAAC;CACzB"
+}

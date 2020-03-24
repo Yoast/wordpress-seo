@@ -1,7 +1,5 @@
 @import "../../node_modules/@yoast/style-guide/src/colors";
-@import "../../node_modules/yoast-components/css/all.scss";
-@import "../../node_modules/sassdash/index";
-@import "../../node_modules/yoastseo/css/icons";
+@import "icons.css";
 
 $breakpoint_mobile: '768px';
 $yoast-alerts-button-icon-width: 20px;
@@ -188,7 +186,7 @@ $yoast-alerts-active-margin: 20px;
 	}
 
 	.yoast-svg-icon-eye {
-		background: transparent url(svg-icon-eye($color_button_text)) no-repeat 0 0;
+		background: transparent var(--svg-icon-eye) no-repeat 0 0;
 		background-size: $yoast-alerts-button-icon-width;
 	}
 }

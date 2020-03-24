@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "inside-editor.css",
+	"sources": [
+		"src/inside-editor.scss",
+		"../node_modules/yoastseo/css/_marks.scss"
+	],
+	"names": [],
+	"mappings": "ACAA,AAAA,gBAAgB,CAAC;EAChB,gBAAgB,EAAE,OAAO;CACzB;;AAED,AAAA,2BAA2B,CAAC;EAC3B,gBAAgB,EAAE,OAAO;EACzB,KAAK,EAAE,KAAK;CACZ"
+}
