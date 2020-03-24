@@ -1,8 +1,8 @@
 <?php
 /**
- * WPSEO plugin file.
+ * Presenter class for Alert boxes.
  *
- * @package WPSEO\Admin
+ * @package Yoast\YoastSEO\Presenters
  */
 
 /**
@@ -37,7 +37,7 @@ class WPSEO_Alert {
 	 * @var string
 	 */
 	const WARNING = 'warning';
-	
+
 	/**
 	 * The type of the Alert.
 	 * Can be: "error", "info", "success" or "warning".
