@@ -42,7 +42,11 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
-		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
+		add_action( 'admin_footer', [ $this, 'permalink_settings_notice' ] );
+
+		if ( ! $this->is_blog_public() ) {
+			add_action( 'admin_notices', [ $this, 'blog_public_site_wide_notice' ] );
+		}
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
@@ -459,6 +463,35 @@ class WPSEO_Admin_Init {
 				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
 			);
 		}
+	}
+
+	/**
+	 * Displays a site wide admin notice when the blog is set to private.
+	 */
+	public function blog_public_site_wide_notice() {
+		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
+			return;
+		}
+
+		if ( ! WPSEO_Capability_Utils::current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( WPSEO_Options::get( 'ignore_blog_public_notification' ) === true ) {
+			return;
+		}
+
+		printf( '<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');">%4$s</a></p></div>',
+			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
+				__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
+				'</a>'
+			),
+			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
+			__( 'I know, don\'t bug me.', 'wordpress-seo' )
+		);
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

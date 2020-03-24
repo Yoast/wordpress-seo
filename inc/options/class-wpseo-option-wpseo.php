@@ -27,6 +27,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'ms_defaults_set'                 => false,
+		'ignore_blog_public_notification' => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 
@@ -63,6 +64,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @var array
 	 */
 	public $ms_exclude = [
+		'ignore_blog_public_notification',
 		/* Privacy. */
 		'baiduverify',
 		'googleverify',
@@ -241,6 +243,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * Boolean dismiss warnings - not fields - may not be in form
 				 * (and don't need to be either as long as the default is false).
 				 */
+				case 'ignore_blog_public_notification':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -387,6 +390,21 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
+		// Deal with value change from text string to boolean.
+		$value_change = [
+			'ignore_blog_public_notification',
+		];
+
+		foreach ( $value_change as $key ) {
+			if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], [
+					'ignore',
+					'done',
+				], true )
+			) {
+				$option_value[ $key ] = true;
+			}
+		}
+
 		return $option_value;
 	}
 }
