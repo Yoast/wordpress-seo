@@ -49,6 +49,7 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						label: "option with id 1",
 						id: "1",
+						checked: true,
 					},
 				] }
 			/>
@@ -58,12 +59,14 @@ const ReactifiedComponentsWrapper = () => {
 				options={ [
 					{
 						label: "Nice 1",
+						checked: true,
 					},
 					{
 						label: "option with id 3",
 						id: "3",
 					},
 				] }
+				onChange={ console.warn }
 			/>
 		</div>
 	);

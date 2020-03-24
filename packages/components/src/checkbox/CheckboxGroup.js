@@ -14,8 +14,8 @@ import "./checkbox.css";
  *
  * @returns {React.Component} A React component that wraps around the HTML checkbox.
  */
-const Checkbox = ( { id, label, onChange } ) => <Fragment>
-	<input type="checkbox" id={ id } onChange={ onChange } />
+const Checkbox = ( { id, label, onChange, checked } ) => <Fragment>
+	<input type="checkbox" id={ id } onChange={ onChange } defaultChecked={ checked }/>
 	<label htmlFor={ id } className="yoast-field-group__checkbox">{ label }</label>
 </Fragment>;
 
@@ -23,6 +23,11 @@ Checkbox.propTypes = {
 	label: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
+	checked: PropTypes.bool,
+};
+
+Checkbox.defaultProps = {
+	checked: false,
 };
 
 /**
@@ -38,7 +43,7 @@ const VerticalCheckboxes = ( { options, onChange } ) => {
 		const id = getId( option.id );
 		return (
 			<div key={ id } className="yoast-field-group__checkbox">
-				<Checkbox id={ id } label={ option.label } onChange={ onChange } />
+				<Checkbox id={ id } label={ option.label } onChange={ onChange } { ...option } />
 			</div>
 		);
 	} );
@@ -64,7 +69,7 @@ const HorizontalCheckboxes = ( { options, onChange } ) => {
 	return <div className="yoast-field-group__checkbox yoast-field-group__checkbox--horizontal">
 		{ options.map( option => {
 			const id = getId( option.id );
-			return <Checkbox key={ id } label={ option.label } id={ id } onChange={ onChange } />;
+			return <Checkbox key={ id } id={ id } onChange={ onChange } { ...option } />;
 		} ) }
 	</div>;
 };
@@ -85,26 +90,40 @@ HorizontalCheckboxes.propTypes = {
  * @returns {React.Component} A list of checkboxes.
  */
 const CheckboxGroup = ( props ) => {
-	const id = getId( props.id );
-	const fieldGroupProps = {
-		htmlFor: id,
-		...props,
+	const {
+		id,
+		options,
+		vertical,
+		onChange,
+		...fieldGroupProps
+	} = props;
+	const componentId = getId( id );
+
+	const checkboxProps = {
+		options,
+		onChange: event => onChange( event.target.id ),
 	};
 
 	return (
-		<FieldGroup { ...fieldGroupProps }>
-			{ props.vertical
-				? <VerticalCheckboxes options={ props.options } onChange={ props.onChange } />
-				: <HorizontalCheckboxes options={ props.options } onChange={ props.onChange } />
+		<FieldGroup
+			htmlFor={ componentId }
+			{ ...fieldGroupProps }
+		>
+			{ vertical
+				? <VerticalCheckboxes { ...checkboxProps } />
+				: <HorizontalCheckboxes { ...checkboxProps } />
 			}
 		</FieldGroup>
 	);
 };
 
+
+
 CheckboxGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		label: PropTypes.string.isRequired,
 		id: PropTypes.string,
+		checked: PropTypes.bool,
 	} ) ).isRequired,
 	vertical: PropTypes.bool,
 	onChange: PropTypes.func,

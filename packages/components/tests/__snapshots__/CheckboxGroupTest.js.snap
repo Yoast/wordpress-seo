@@ -6,7 +6,7 @@ exports[`CheckboxGroup should render with only the required props 1`] = `
 >
   <label
     className="yoast-field-group__title"
-    htmlFor="xmdvfm"
+    htmlFor="test-id"
   >
     Nice label
   </label>
@@ -46,13 +46,14 @@ exports[`CheckboxGroup should render with only the required props 1`] = `
     className="yoast-field-group__checkbox"
   >
     <input
-      id="21cexp"
+      defaultChecked={false}
+      id="hi"
       onChange={[Function]}
       type="checkbox"
     />
     <label
       className="yoast-field-group__checkbox"
-      htmlFor="21cexp"
+      htmlFor="hi"
     >
       Hi
     </label>
@@ -61,13 +62,14 @@ exports[`CheckboxGroup should render with only the required props 1`] = `
     className="yoast-field-group__checkbox"
   >
     <input
-      id="ixu06g"
+      defaultChecked={false}
+      id="hello"
       onChange={[Function]}
       type="checkbox"
     />
     <label
       className="yoast-field-group__checkbox"
-      htmlFor="ixu06g"
+      htmlFor="hello"
     >
       Hello
     </label>
