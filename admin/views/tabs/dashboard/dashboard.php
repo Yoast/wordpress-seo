@@ -12,7 +12,7 @@
  *
  * @var array
  */
-$alerts_data = Yoast_Alerts::get_template_variables();
+$alerts_data = Yoast_Notifications::get_template_variables();
 
 $notifier = new WPSEO_Configuration_Notifier();
 $notifier->listen();
