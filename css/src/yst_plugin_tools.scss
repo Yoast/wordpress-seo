@@ -1,4 +1,5 @@
-@import "icons";
+@import "icons.css";
+@import "yoastcom/0-settings/all";
 
 /* Settings pages layout based on CSS table model. */
 .wpseo_content_wrapper {
@@ -946,7 +947,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	width: 18px;
 	margin-right: 5px;
 	height: 18px;
-	background: url(svg-icon-check-ok()) no-repeat;
+	background: var(--svg-icon-check-ok) no-repeat;
 	background-size: 18px;
 	vertical-align: top;
 }

@@ -4,7 +4,7 @@
 @import "yoastcom/headings";
 @import "yoastcom/buttons";
 @import "yoastcom/promoblock";
-@import "icons";
+@import "icons.css";
 
 .yoast {
 	font-family: "Open Sans",Arial,sans-serif;
@@ -31,7 +31,7 @@
 	&-list--usp {
 		li:before {
 			content: "";
-			background: url(svg-icon-check($color-green)) no-repeat;
+			background: var(--svg-icon-check) no-repeat;
 			background-size: contain;
 			width: 1em;
 			height: 100%;
@@ -229,7 +229,7 @@
 
 
 	&-link--more-info {
-		background: url(svg-icon-info($color-pink-dark));
+		background: var(--svg-icon-info);
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;

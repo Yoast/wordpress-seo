@@ -1,7 +1,7 @@
 @import "menu";
 @import "../../node_modules/yoastseo/css/tooltips";
 @import "yoastcom/0-settings/color";
-@import "icons";
+@import "icons.css";
 @import "yoastcom/0-settings/_type";
 
 /* General typography */
@@ -510,10 +510,10 @@ td.column-wpseo-linked {
 		height: 16px;
 		// Negative margin to compensate the icon white space within its viewbox.
 		margin: 0 -2px 0 6px;
-		background: transparent url(svg-icon-caret-right()) center no-repeat;
+		background: transparent var(--svg-icon-caret-right) center no-repeat;
 
 		.rtl & {
-			background-image: url(svg-icon-caret-left());
+			background-image: var(--svg-icon-caret-left);
 		}
 	}
 }

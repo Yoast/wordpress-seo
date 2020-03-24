@@ -108,6 +108,7 @@ module.exports = function( grunt ) {
 			grunt: "Gruntfile.js",
 		},
 		sassFiles: {
+			"css/icons.css": [ "css/src/icons.css" ],
 			"css/admin-global.css": [ "css/src/admin-global.scss" ],
 			"css/adminbar.css": [ "css/src/adminbar.scss" ],
 			"css/alerts.css": [ "css/src/alerts.scss" ],
