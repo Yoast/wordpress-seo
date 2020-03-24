@@ -103,6 +103,7 @@
 			$.ajax( {
 				url: wpApiSettings.root + "yoast/v1/" + route,
 				method: method,
+				// eslint-disable-next-line require-jsdoc
 				beforeSend: function( xhr ) {
 					xhr.setRequestHeader( "X-WP-Nonce", wpApiSettings.nonce );
 				},
