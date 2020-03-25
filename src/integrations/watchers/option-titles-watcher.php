@@ -56,7 +56,11 @@ class Option_Titles_Watcher implements Integration_Interface {
 		}
 
 		$relevant_keys = $this->get_relevant_keys();
-		$post_types    = [];
+		if( empty( $relevant_keys ) ) {
+			return false;
+		}
+
+		$post_types = [];
 
 		foreach ( $relevant_keys as $post_type => $relevant_option ) {
 			// If both values aren't set they haven't changed.
@@ -69,9 +73,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 			}
 		}
 
-		$this->delete_ancestors( $post_types );
-
-		return true;
+		return $this->delete_ancestors( $post_types );
 	}
 
 	/**
@@ -97,10 +99,12 @@ class Option_Titles_Watcher implements Integration_Interface {
 	 * Removes the ancestors for given post types.
 	 *
 	 * @param array $post_types The post types to remove hierarchy for.
+	 *
+	 * @return bool True when ancestors are deleted and false when not.
 	 */
 	protected function delete_ancestors( $post_types ) {
 		if ( empty( $post_types ) ) {
-			return; // There is nothing to do.
+			return false; // There is nothing to do.
 		}
 
 		$wpdb             = Wrapper::get_wpdb();
@@ -110,7 +114,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 		$hierarchy_table  = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
 		$indexable_table  = Yoast_Model::get_table_name( 'Indexable' );
 
-		$wpdb->query(
+		$result = $wpdb->query(
 			$wpdb->prepare( "
 				DELETE FROM `$hierarchy_table`
 				WHERE indexable_id IN( 
@@ -119,5 +123,11 @@ class Option_Titles_Watcher implements Integration_Interface {
 				$post_types
 			)
 		);
+
+		if ( is_bool( $result ) ) {
+			return $result;
+		}
+
+		return true;
 	}
 }
