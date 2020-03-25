@@ -105,6 +105,11 @@
 				$button.attr( "aria-expanded", ! isPanelVisible );
 			} );
 		} );
+
+		// Dismiss the "block not public" site-wide admin notice.
+		jQuery( "#robotsmessage button" ).on( "click", function() {
+			wpseoSetIgnore( "blog_public_notification", "robotsmessage", jQuery( this ).data( "nonce" ) );
+		} );
 	} );
 
 	window.wpseoSetIgnore = wpseoSetIgnore;
