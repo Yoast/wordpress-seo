@@ -13,6 +13,7 @@
 'build:css':
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
+  - 'copy:css-files'
   - 'sass:build'
   - 'postcss:build'
   - 'rtlcss:build'
