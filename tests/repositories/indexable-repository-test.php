@@ -98,7 +98,7 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of ancestors with nothing found.
+	 * Tests retrieval of ancestors with one ancestor with no ancestor id found.
 	 *
 	 * @covers ::get_ancestors
 	 */
@@ -119,7 +119,7 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of ancestors with nothing found.
+	 * Tests retrieval of ancestors with one found ancestor.
 	 *
 	 * @covers ::get_ancestors
 	 */
@@ -157,7 +157,7 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of ancestors with nothing found.
+	 * Tests retrieval of ancestors with multiple ancestors found.
 	 *
 	 * @covers ::get_ancestors
 	 */

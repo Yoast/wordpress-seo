@@ -56,7 +56,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 		}
 
 		$relevant_keys = $this->get_relevant_keys();
-		if( empty( $relevant_keys ) ) {
+		if ( empty( $relevant_keys ) ) {
 			return false;
 		}
 
