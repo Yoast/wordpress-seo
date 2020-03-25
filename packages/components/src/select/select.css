@@ -5,7 +5,8 @@
 }
 
 .yoast select,
-.yoast-field-group__select select {
+.yoast-field-group__select select,
+.yoast-multiselect {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
@@ -22,4 +23,29 @@
     position: relative;
     max-width: 300px;
     display: block;
+}
+
+.yoast-multiselect {
+    background-image: none;
+}
+
+.yoast-multiselect ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.yoast-multiselect .select2-selection__choice {
+    background-color: var(--color-primary);
+    border-radius: 12px;
+    color: var(--color-white);
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 8px;
+    line-height: 1.7;
+}
+
+.select2-selection__choice__remove {
+    margin-right: 8px;
 }
