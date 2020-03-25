@@ -481,7 +481,7 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
-		printf( '<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');">%4$s</a></p></div>',
+		printf( '<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <a href="javascript:wpseoSetIgnore(\'blog_public_notification\',\'robotsmessage\',\'%3$s\');">%4$s</a></p></div>',
 			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
 			sprintf(
 				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
