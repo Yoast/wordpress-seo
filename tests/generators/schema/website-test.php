@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Mockery;
+use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
@@ -98,6 +99,7 @@ class Website_Test extends TestCase {
 			->once()
 			->andReturnUsing( function( $data ) {
 				$data['inLanguage'] = 'language';
+
 				return $data;
 			} );
 
@@ -125,5 +127,90 @@ class Website_Test extends TestCase {
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that no internal search section is added to the schema
+	 * when the `disable_wpseo_json_ld_search` filter disables it.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_alternate_name
+	 * @covers ::internal_search_section
+	 */
+	public function test_generate_does_not_add_internal_search_when_filter_disables_it() {
+		Monkey\Filters\expectApplied( 'disable_wpseo_json_ld_search' )
+			->with( false )
+			->andReturn( true );
+
+		$this->meta_tags_context->site_url                  = 'https://example.com/';
+		$this->meta_tags_context->site_name                 = 'My site';
+		$this->meta_tags_context->site_represents_reference = 'https://example.com/#publisher';
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->twice()
+			->andReturnArg( 0 );
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'language';
+
+				return $data;
+			} );
+
+		$this->options->expects( 'get' )
+			->with( 'alternate_website_name', '' )
+			->once()
+			->andReturn( 'Alternate site name' );
+
+		$expected = [
+			'@type'           => 'WebSite',
+			'@id'             => 'https://example.com/#website',
+			'url'             => 'https://example.com/',
+			'name'            => 'My site',
+			'publisher'       => 'https://example.com/#publisher',
+			'alternateName'   => 'Alternate site name',
+			'description'     => 'description',
+			'inLanguage'      => 'language',
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the webpage graph piece is always needed.
+	 *
+	 * @covers ::is_needed
+	 */
+	public function test_is_needed() {
+		// The website graph piece is always needed.
+		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+	}
+
+	/**
+	 * Tests that the website schema generator is constructed
+	 * with the right properties.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$instance = new Website( $this->options, $this->html, $this->language );
+
+		$this->assertAttributeInstanceOf(
+			Options_Helper::class,
+			'options',
+			$instance
+		);
+		$this->assertAttributeInstanceOf(
+			HTML_Helper::class,
+			'html',
+			$instance
+		);
+		$this->assertAttributeInstanceOf(
+			Language_Helper::class,
+			'language',
+			$instance
+		);
 	}
 }
