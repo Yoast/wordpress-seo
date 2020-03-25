@@ -10,13 +10,13 @@ import Portal from "./Portal";
  *
  * @returns {React.Component} The social metadata collapsibles.
  */
-export default function SocialMetadataPortal ( { target } ) {
+export default function SocialMetadataPortal( { target } ) {
 	return (
 		<Portal target={ target }>
 			<SocialMetadata />
 		</Portal>
 	);
-};
+}
 
 SocialMetadataPortal.propTypes = {
 	target: PropTypes.string.isRequired,

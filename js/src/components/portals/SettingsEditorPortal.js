@@ -20,7 +20,14 @@ import Portal from "./Portal";
  *
  * @returns {null|ReactElement} The element.
  */
-export default function SettingsEditorPortal( { target, replacementVariables, recommendedReplacementVariables, titleTarget, descriptionTarget, hasPaperStyle } ) {
+export default function SettingsEditorPortal( {
+	target,
+	replacementVariables,
+	recommendedReplacementVariables,
+	titleTarget,
+	descriptionTarget,
+	hasPaperStyle,
+} ) {
 	return (
 		<Portal target={ target }>
 			<SettingsReplacementVariableEditor

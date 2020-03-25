@@ -12,6 +12,13 @@ export default function initFeaturedImageIntegration( $ ) {
 	var $postImageDiv;
 	var $postImageDivHeading;
 
+	/**
+	 * @summary Adds the featured image to the content for analysis.
+	 *
+	 * @param {object} app The YoastSEO.app
+	 *
+	 * @returns {undefined}
+	 */
 	var FeaturedImagePlugin = function( app ) {
 		this._app = app;
 

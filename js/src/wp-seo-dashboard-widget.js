@@ -12,6 +12,9 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 
 const RyteLandingPageLink = makeOutboundLink();
 
+/**
+ * @summary Dashboard widget component.
+ */
 class DashboardWidget extends React.Component {
 	/**
 	 * Creates the components and initializes its state.

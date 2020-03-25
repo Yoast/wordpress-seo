@@ -19,6 +19,9 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 
 const PluginConflictLink = makeOutboundLink();
 
+/**
+ * @summary Configuration wizard component.
+ */
 class App extends React.Component {
 	/**
 	 * Constructs the App component.

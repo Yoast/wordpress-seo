@@ -1,6 +1,6 @@
 /* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
 /* External components */
-import { Component, Fragment, createPortal } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -106,7 +106,7 @@ class ReadabilityAnalysis extends Component {
 
 					if ( location === "metabox" ) {
 						return (
-							<ReadabilityResultsPortal target="wpseo-metabox-readability-root" >
+							<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
 								<ReadabilityResultsTabContainer>
 									<ScoreIconPortal
 										target="wpseo-readability-score-icon"

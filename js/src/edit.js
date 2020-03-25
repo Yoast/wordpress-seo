@@ -3,7 +3,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import {
 	get,
@@ -18,7 +17,6 @@ import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import SidebarFill from "./containers/SidebarFill";
 import MetaboxPortal from "./components/portals/MetaboxPortal";
-import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
