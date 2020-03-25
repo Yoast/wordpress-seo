@@ -25,7 +25,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 			$old_value = [];
 		}
 
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
 			return false;
 		}
 
@@ -69,25 +69,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 			}
 		}
 
-		if ( empty( $post_types ) ) {
-			return true; // There is nothing to do.
-		}
-
-		$wpdb = Wrapper::get_wpdb();
-
-		$post_types_placeholders = implode( ', ', array_fill( 0, count( $post_types ), '%s' ) );
-		$hierarchy_table         = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
-		$indexable_table         = Yoast_Model::get_table_name( 'Indexable' );
-
-		$wpdb->query(
-			$wpdb->prepare( "
-				DELETE FROM `$hierarchy_table`
-				WHERE indexable_id IN( 
-					SELECT id FROM `$indexable_table` WHERE object_type = 'post' AND object_sub_type IN( $post_types_placeholders )	
-				)",
-				$post_types
-			)
-		);
+		$this->delete_ancestors( $post_types );
 
 		return true;
 	}
@@ -98,8 +80,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 	 * @return array Array with the relevant keys.
 	 */
 	protected function get_relevant_keys() {
-		$post_types = get_post_types( [ 'public' => true ], 'names' );
-		if ( ! is_array( $post_types ) || $post_types === [] ) {
+		$post_types = \get_post_types( [ 'public' => true ], 'names' );
+		if ( ! \is_array( $post_types ) || $post_types === [] ) {
 			return [];
 		}
 
@@ -109,5 +91,33 @@ class Option_Titles_Watcher implements Integration_Interface {
 		}
 
 		return $relevant_keys;
+	}
+
+	/**
+	 * Removes the ancestors for given post types.
+	 *
+	 * @param array $post_types The post types to remove hierarchy for.
+	 */
+	protected function delete_ancestors( $post_types ) {
+		if ( empty( $post_types ) ) {
+			return; // There is nothing to do.
+		}
+
+		$wpdb             = Wrapper::get_wpdb();
+		$total            = \count( $post_types );
+		$placeholders     = \array_fill( 0, $total, '%s' );
+		$placeholders     = \implode( ', ', $placeholders );
+		$hierarchy_table  = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		$indexable_table  = Yoast_Model::get_table_name( 'Indexable' );
+
+		$wpdb->query(
+			$wpdb->prepare( "
+				DELETE FROM `$hierarchy_table`
+				WHERE indexable_id IN( 
+					SELECT id FROM `$indexable_table` WHERE object_type = 'post' AND object_sub_type IN( $placeholders )	
+				)",
+				$post_types
+			)
+		);
 	}
 }

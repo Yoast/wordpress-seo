@@ -59,11 +59,11 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the get_ancestors when having already results.
+	 * Tests the retrieval of the find_ancestors when having already results.
 	 *
-	 * @covers ::get_ancestors
+	 * @covers ::find_ancestors
 	 */
-	public function test_get_ancestors_having_results() {
+	public function test_find_ancestors_having_results() {
 		$indexable     = Mockery::mock( Indexable::class );
 		$indexable->id = 1;
 
@@ -97,15 +97,15 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->expects( 'query' )
 			->andReturn( $orm_object );
 
-		$this->assertSame( $ancestors, $this->instance->get_ancestors( $indexable ) );
+		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
 
 	/**
 	 * Tests retrieval of the ancestors when having no results the first time we query.
 	 *
-	 * @covers ::get_ancestors
+	 * @covers ::find_ancestors
 	 */
-	public function test_get_ancestors_having_no_results_first_time() {
+	public function test_find_ancestors_having_no_results_first_time() {
 		$indexable     = Mockery::mock( Indexable::class );
 		$indexable->id = 1;
 
@@ -148,7 +148,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->with( $indexable )
 			->andReturn( $indexable );
 
-		$this->assertSame( $ancestors, $this->instance->get_ancestors( $indexable ) );
+		$this->assertSame( $ancestors, $this->instance->find_ancestors( $indexable ) );
 	}
 
 	/**

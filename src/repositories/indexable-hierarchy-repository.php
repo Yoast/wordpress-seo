@@ -74,7 +74,7 @@ class Indexable_Hierarchy_Repository {
 	 *
 	 * @return Indexable_Hierarchy[] The ancestors.
 	 */
-	public function get_ancestors( Indexable $indexable ) {
+	public function find_ancestors( Indexable $indexable ) {
 		$ancestors = $this->query()
 			->where( 'indexable_id', $indexable->id )
 			->order_by_desc( 'depth' )

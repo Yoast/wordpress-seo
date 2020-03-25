@@ -341,8 +341,7 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable ) {
-		// In the get_ancestors function first do a query purely on the indexable hierarchy table.
-		$ancestors = $this->hierarchy_repository->get_ancestors( $indexable );
+		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
 
 		if ( empty( $ancestors ) ) {
 			return [];
@@ -353,14 +352,13 @@ class Indexable_Repository {
 			$indexables[] = $ancestor->ancestor_id;
 		}
 
-		// If this query returns a single result with an ancestor_id of -1 then return an empty array.
-		if ( $indexables[0] === 0 && count( $indexables ) === 1 ) {
+		if ( $indexables[0] === 0 && \count( $indexables ) === 1 ) {
 			return [];
 		}
 
 		return $this->query()
 			->where_in( 'id', $indexables )
-			->order_by_expr( 'FIELD(id,' . implode( ',', $indexables ) . ')' )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexables ) . ')' )
 			->find_many();
 	}
 }
