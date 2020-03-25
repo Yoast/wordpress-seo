@@ -61,9 +61,29 @@ class Person_Test extends TestCase {
 	protected $schema_image;
 
 	/**
+	 * The HTML helper.
+	 *
 	 * @var HTML_Helper
 	 */
 	protected $html;
+
+	/**
+	 * The social profiles. Should be a copy of $social_profiles in Person.
+	 *
+	 * @var string[]
+	 */
+	protected $social_profiles = [
+		'facebook',
+		'instagram',
+		'linkedin',
+		'pinterest',
+		'twitter',
+		'myspace',
+		'youtube',
+		'soundcloud',
+		'tumblr',
+		'wikipedia',
+	];
 
 	/**
 	 * Initializes the test environment.
@@ -152,7 +172,7 @@ class Person_Test extends TestCase {
 			->with( $person_schema_logo_id, $person_logo_id, $user_data->display_name )
 			->andReturn( $image_schema );
 
-		$this->expects_for_social_profiles();
+		$this->expects_for_social_profiles( $this->social_profiles );
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
 	}
@@ -321,6 +341,88 @@ class Person_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether generate returns the expected schema when social profiles are not an array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_options
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 */
+	public function test_generate_social_profiles_non_array() {
+		$this->context->site_user_id    = 1337;
+		$this->context->site_url        = 'https://example.com/';
+		$this->context->site_represents = false;
+
+		$user_data = (object) [
+			'display_name' => 'John Doe',
+			'description'  => '',
+		];
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+			'name'  => 'John Doe',
+			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+		];
+
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+		$this->expects_for_social_profiles( 'this is not an array' );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
+	 * Tests whether generate returns the expected schema when social profiles contain non string or falsy values.
+	 *
+	 * @covers ::__construct
+	 * @covers ::generate
+	 * @covers ::determine_user_id
+	 * @covers ::build_person_data
+	 * @covers ::add_image
+	 * @covers ::set_image_from_options
+	 * @covers ::set_image_from_avatar
+	 * @covers ::get_social_profiles
+	 * @covers ::url_social_site
+	 */
+	public function test_generate_social_profiles_non_string_or_falsy_values() {
+		$this->context->site_user_id    = 1337;
+		$this->context->site_url        = 'https://example.com/';
+		$this->context->site_represents = false;
+
+		$user_data = (object) [
+			'display_name' => 'John Doe',
+			'description'  => '',
+		];
+
+		$expected = [
+			'@type' => [ 'Person', 'Organization' ],
+			'@id'   => 'person_id',
+			'name'  => 'John Doe',
+			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'sameAs' => [
+				'https://example.com/social/facebook',
+				'https://example.com/social/wiki',
+			],
+		];
+
+		$this->expects_for_determine_user_id();
+		$this->expects_for_get_userdata( $user_data );
+		$this->expects_for_social_profiles( [
+			'facebook'  => 'facebook',
+			'instagram' => 1234,
+			'youtube'   => false,
+			'wikipedia' => 'wiki',
+		] );
+
+		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+	}
+
+	/**
 	 * Tests whether the person Schema piece is shown when the site represents a person.
 	 *
 	 * @covers ::__construct
@@ -423,35 +525,15 @@ class Person_Test extends TestCase {
 	/**
 	 * Sets the tests for get_social_profiles.
 	 *
-	 * @param string[]|null $social_profiles The social profiles after the `wpseo_schema_person_social_profiles`
-	 *                                       filter. Use null to return the same as the input.
+	 * @param string[] $social_profiles The social profiles after the `wpseo_schema_person_social_profiles` filter.
 	 */
-	protected function expects_for_social_profiles( $social_profiles = null ) {
-		// These should be a copy of the private variable $social_profiles in Person.
-		$social_profiles_input = [
-			'facebook',
-			'instagram',
-			'linkedin',
-			'pinterest',
-			'twitter',
-			'myspace',
-			'youtube',
-			'soundcloud',
-			'tumblr',
-			'wikipedia',
-		];
-
-		// Hacky way to have access to the private class variable as hardcoded above.
-		if ( $social_profiles === null ) {
-			$social_profiles = $social_profiles_input;
-		}
-
+	protected function expects_for_social_profiles( $social_profiles ) {
 		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
 			->once()
-			->with( $social_profiles_input, $this->context->site_user_id )
+			->with( $this->social_profiles, $this->context->site_user_id )
 			->andReturn( $social_profiles );
 
-		if ( empty( $social_profiles ) ) {
+		if ( empty( $social_profiles ) || ! \is_array( $social_profiles ) ) {
 			Functions\expect( 'get_the_author_meta' )
 				->never();
 
@@ -460,6 +542,14 @@ class Person_Test extends TestCase {
 
 		// Tests for the method `url_social_site`.
 		foreach ( $social_profiles as $social_profile ) {
+			if ( ! \is_string( $social_profile ) ) {
+				Functions\expect( 'get_the_author_meta' )
+					->never()
+					->with( $social_profile, $this->context->site_user_id );
+
+				continue;
+			}
+
 			Functions\expect( 'get_the_author_meta' )
 				->once()
 				->with( $social_profile, $this->context->site_user_id )
