@@ -3,7 +3,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import {
 	get,
@@ -16,15 +15,15 @@ import reducers from "./redux/reducers";
 import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import Sidebar from "./containers/Sidebar";
-import MetaboxPortal from "./components/MetaboxPortal";
-import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
+import SidebarFill from "./containers/SidebarFill";
+import MetaboxPortal from "./components/portals/MetaboxPortal";
 import selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
+import SidebarSlot from "./components/slots/SidebarSlot";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -140,15 +139,10 @@ class Edit {
 					name="seo-sidebar"
 					title={ pluginTitle }
 				>
-					<Slot name="YoastSidebar">
-						{ ( fills ) => {
-							return sortComponentsByRenderPriority( fills );
-						} }
-					</Slot>
+					<SidebarSlot />
 				</PluginSidebar>
-
 				<Fragment>
-					<Sidebar store={ store } theme={ theme } />
+					<SidebarFill store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
 			</Fragment>

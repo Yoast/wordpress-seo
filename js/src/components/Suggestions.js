@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 
 import Suggestion from "./Suggestion";
 
+/**
+ * @summary Suggestions component for config wizard.
+ */
 class Suggestions extends React.Component {
 	/**
 	 * @summary Renders the Suggestions component.

@@ -1,34 +1,32 @@
-import { createPortal, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
-import { Slot } from "@wordpress/components";
+import FacebookPreviewSlot from "./slots/FacebookPreviewSlot";
+import TwitterPreviewSlot from "./slots/TwitterPreviewSlot";
 
 /**
  * Component that renders the social metadata collapsibles.
  *
  * @returns {React.Component} The social metadata collapsibles.
  */
-const Social = () => {
-	return createPortal(
+const SocialMetadata = () => {
+	return (
 		<Fragment>
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
 				title="Facebook"
 			>
-				<Slot name="YoastFacebookPreview" />
+				<FacebookPreviewSlot />
 			</Collapsible>
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
 				title="Twitter"
 			>
-				<Slot name="YoastTwitterPreview" />
+				<TwitterPreviewSlot />
 			</Collapsible>
-		</Fragment>,
-		document.getElementById( "wpseo-section-social" )
+		</Fragment>
 	);
 };
 
-export default Social;
-
-
+export default SocialMetadata;

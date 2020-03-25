@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import SidebarFill from "../components/fills/SidebarFill";
 import { connect } from "react-redux";
 
 /**
@@ -16,4 +16,4 @@ function mapStateToProps( state, ownProps ) {
 	};
 }
 
-export default connect( mapStateToProps )( Sidebar );
+export default connect( mapStateToProps )( SidebarFill );
