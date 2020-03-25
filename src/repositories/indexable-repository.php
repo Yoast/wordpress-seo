@@ -304,13 +304,22 @@ class Indexable_Repository {
 	 * @return Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		/**
+		 * Represents an array of indexable objects.
+		 *
+		 * @var Indexable[] $indexables
+		 */
 		$indexables = $this->query()
 						   ->where_in( 'object_id', $object_ids )
 						   ->where( 'object_type', $object_type )
 						   ->find_many();
 
 		if ( $auto_create ) {
-			$indexables_available = \array_column( $indexables, 'object_id' );
+			$indexables_available = [];
+			foreach ( $indexables as $indexable ) {
+				$indexables_available[] = $indexable->object_id;
+			}
+
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
@@ -339,7 +348,10 @@ class Indexable_Repository {
 			return [];
 		}
 
-		$indexables = array_column( $ancestors, 'ancestor_id' );
+		$indexables = [];
+		foreach ( $ancestors as $ancestor ) {
+			$indexables[] = $ancestor->ancestor_id;
+		}
 
 		// If this query returns a single result with an ancestor_id of -1 then return an empty array.
 		if ( $indexables[0] === 0 && count( $indexables ) === 1 ) {
