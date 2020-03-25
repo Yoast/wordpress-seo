@@ -41,6 +41,23 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test whether the given argument isn't a WP_Post.
+	 *
+	 * @see https://github.com/Yoast/wordpress-seo/issues/14616
+	 *
+	 * @covers ::save_post
+	 */
+	public function test_is_wrong_post_type() {
+		$processor = $this->get_processor();
+		$processor
+			->expects( $this->never() )
+			->method( 'process' );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( 1, null );
+	}
+
+	/**
 	 * Test whether a post revision is correctly recognized as processable.
 	 *
 	 * @covers ::save_post
