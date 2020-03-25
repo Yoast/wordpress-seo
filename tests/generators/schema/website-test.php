@@ -132,6 +132,10 @@ class Website_Test extends TestCase {
 	/**
 	 * Tests that no internal search section is added to the schema
 	 * when the `disable_wpseo_json_ld_search` filter disables it.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_alternate_name
+	 * @covers ::internal_search_section
 	 */
 	public function test_generate_does_not_add_internal_search_when_filter_disables_it() {
 		Monkey\Filters\expectApplied( 'disable_wpseo_json_ld_search' )
