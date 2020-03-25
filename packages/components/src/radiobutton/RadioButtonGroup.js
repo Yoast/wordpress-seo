@@ -5,6 +5,18 @@ import { getId } from "../GenerateId";
 
 import "./radiobutton.css";
 
+const radioButtonsProps = {
+	options: PropTypes.array.isRequired,
+	onChange: PropTypes.func.isRequired,
+	groupName: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	selected: PropTypes.string,
+};
+
+const radioButtonsDefaultProps = {
+	selected: null,
+};
+
 /**
  * Function that returns a radiobutton with accompanying label.
  *
@@ -64,13 +76,8 @@ const HorizontalRadioButtons = ( { options, onChange, groupName, id, selected } 
 	</div>
 );
 
-HorizontalRadioButtons.propTypes = {
-	options: PropTypes.array.isRequired,
-	onChange: PropTypes.func.isRequired,
-	groupName: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	selected: PropTypes.string.isRequired,
-};
+HorizontalRadioButtons.propTypes = radioButtonsProps;
+HorizontalRadioButtons.defaultProps = radioButtonsDefaultProps;
 
 /**
  * Returns a set of radiobuttons that are vertically aligned.
@@ -100,13 +107,8 @@ const VerticalRadioButtons = ( { options, onChange, groupName, id, selected } ) 
 	</div>
 );
 
-VerticalRadioButtons.propTypes = {
-	options: PropTypes.array.isRequired,
-	onChange: PropTypes.func.isRequired,
-	groupName: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	selected: PropTypes.string.isRequired,
-};
+VerticalRadioButtons.propTypes = radioButtonsProps;
+VerticalRadioButtons.defaultProps = radioButtonsDefaultProps;
 
 /**
  * Component that generates a group of radio buttons.
