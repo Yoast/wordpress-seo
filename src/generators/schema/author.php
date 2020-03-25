@@ -127,7 +127,13 @@ class Author extends Person {
 		 *
 		 * @api int|bool $user_id The user ID currently determined.
 		 */
-		return apply_filters( 'wpseo_schema_person_user_id', $user_id );
+		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $user_id );
+
+		if ( \is_int( $user_id ) && $user_id > 0 ) {
+			return $user_id;
+		}
+
+		return false;
 	}
 
 	/**
