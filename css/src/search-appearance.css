@@ -1,3 +1,8 @@
+@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+/*rtl:begin:ignore*/
+@import "../../node_modules/draft-js/dist/Draft.css";
+/*rtl:end:ignore*/
+
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
   cursor: pointer;

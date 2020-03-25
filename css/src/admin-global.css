@@ -1,4 +1,6 @@
 @import url(icons.css);
+@import "../../node_modules/yoastseo/css/_tooltips.scss";
+
 .wpseo-premium-indicator {
   width: 1px;
   height: 1px;
