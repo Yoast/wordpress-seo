@@ -11,6 +11,7 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
@@ -88,7 +89,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$this->hierarchy_repository
-			->expects( 'get_ancestors' )
+			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
 			->andReturn( [] );
@@ -105,7 +106,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$this->hierarchy_repository
-			->expects( 'get_ancestors' )
+			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
 			->andReturn( [
@@ -126,7 +127,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$this->hierarchy_repository
-			->expects( 'get_ancestors' )
+			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
 			->andReturn( [
@@ -145,6 +146,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'order_by_expr' )
 			->with( 'FIELD(id,1)' )
 			->andReturn( $orm_object );
+
 		$orm_object
 			->expects( 'find_many' )
 			->andReturn( [ $indexable ] );
@@ -163,7 +165,7 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$this->hierarchy_repository
-			->expects( 'get_ancestors' )
+			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
 			->andReturn( [
@@ -194,4 +196,21 @@ class Indexable_Repository_Test extends TestCase {
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 	}
 
+	/**
+	 * Tests if the query method returns an instance of the ORMWrapper class that
+	 * represents the Indexable.
+	 *
+	 * @covers ::query
+	 */
+	public function test_query() {
+		$wpdb = Mockery::mock();
+		$wpdb->prefix = 'wp_';
+
+		$GLOBALS['wpdb'] = $wpdb;
+
+		$query = $this->instance->query();
+
+		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
+		$this->assertInstanceOf( ORMWrapper::class, $query );
+	}
 }

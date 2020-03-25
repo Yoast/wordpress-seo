@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -199,5 +200,23 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( $hierarchy, $this->instance->add_ancestor( 1, 2, 1 ) );
+	}
+
+	/**
+	 * Tests if the query method returns an instance of the ORMWrapper class that
+	 * represents the Indexable_Hierarchy.
+	 *
+	 * @covers ::query
+	 */
+	public function test_query() {
+		$wpdb = Mockery::mock();
+		$wpdb->prefix = 'wp_';
+
+		$GLOBALS['wpdb'] = $wpdb;
+
+		$query = $this->instance->query();
+
+		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
+		$this->assertInstanceOf( ORMWrapper::class, $query );
 	}
 }

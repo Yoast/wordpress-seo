@@ -96,8 +96,6 @@ class Indexable_Hierarchy_Repository {
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @codeCoverageIgnore Too difficult to test because of static. Needs more research.
-	 *
 	 * @return \Yoast\WP\SEO\ORM\ORMWrapper
 	 */
 	public function query() {
