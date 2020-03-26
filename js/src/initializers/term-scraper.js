@@ -56,6 +56,11 @@ setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
+/**
+ * @summary Initializes the term scraper script.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
 export default function initTermScraper( $ ) {
 	var app;
 
@@ -426,4 +431,4 @@ export default function initTermScraper( $ ) {
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
-};
+}

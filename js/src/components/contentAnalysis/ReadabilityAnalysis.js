@@ -1,4 +1,5 @@
-/* global wpseoScriptData, wpseoAdminL10n */
+/* global wpseoAdminL10n */
+
 /* External components */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
@@ -28,7 +29,7 @@ const ReadabilityResultsTabContainer = styled.div`
 	padding: 16px;
 `;
 
-let localizedData = window.wpseoScriptData.metabox;
+const localizedData = window.wpseoScriptData.metabox;
 
 const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;

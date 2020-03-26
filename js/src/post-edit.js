@@ -1,3 +1,4 @@
+/* global wpseoScriptData */
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import initPostScraper from "./initializers/post-scraper";
@@ -7,13 +8,13 @@ import initAdmin from "./initializers/admin";
 
 initTabs( jQuery );
 
-if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ){
+if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
 	initPrimaryCategory( jQuery );
 }
 
 initPostScraper( jQuery );
 
-if ( wpseoScriptData && typeof wpseoScriptData.featuredImage !== "undefined" ){
+if ( wpseoScriptData && typeof wpseoScriptData.featuredImage !== "undefined" ) {
 	initFeaturedImageIntegration( jQuery );
 }
 

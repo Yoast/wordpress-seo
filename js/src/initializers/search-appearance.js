@@ -18,6 +18,10 @@ import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 
+/**
+ * @summary Initializes the search appearance settings script.
+ * @returns {undefined}
+ */
 export default function initSearchAppearance() {
 	setYoastComponentsL10n();
 	setWordPressSeoL10n();

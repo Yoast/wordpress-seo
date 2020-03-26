@@ -186,7 +186,11 @@ class Edit {
 	initializeUsedKeywords( refreshAnalysis, ajaxAction ) {
 		const store         = this._store;
 		const localizedData = this._localizedData;
-		const scriptUrl     = get( window, [ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
+		const scriptUrl     = get(
+			window,
+			[ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ],
+			"wp-seo-used-keywords-assessment.js"
+		);
 
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,

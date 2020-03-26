@@ -13,6 +13,11 @@ import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
+/**
+ * @summary Initializes the primary category integration.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
 export default function initPrimaryCategory( $ ) {
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
 	var taxonomies = wpseoPrimaryCategoryL10n.taxonomies;
@@ -293,4 +298,4 @@ export default function initPrimaryCategory( $ ) {
 
 		registerCategorySelectorFilter();
 	} );
-};
+}

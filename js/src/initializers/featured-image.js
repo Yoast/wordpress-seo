@@ -6,6 +6,11 @@
 import a11ySpeak from "a11y-speak";
 import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
 
+/**
+ * @summary Initializes the featured image integration.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
 export default function initFeaturedImageIntegration( $ ) {
 	var featuredImagePlugin;
 	var $featuredImageElement;
@@ -201,7 +206,7 @@ export default function initFeaturedImageIntegration( $ ) {
 			}
 		} );
 	} );
-};
+}
 
 /* eslint-disable */
 /* jshint ignore:start */

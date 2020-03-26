@@ -3,6 +3,11 @@
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 
+/**
+ * @summary Initializes the admin script.
+ * @param {object} jQuery jQuery
+ * @returns {undefined}
+ */
 export default function initAdmin( jQuery ) {
 	/**
 	 * Utility function to check whether the given element is fully visible withing the viewport.

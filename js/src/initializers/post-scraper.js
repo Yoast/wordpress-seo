@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wpseoScriptData */
+/* global YoastSEO: true, wpseoScriptData */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -61,6 +61,11 @@ import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 setYoastComponentsL10n();
 setWordPressSeoL10n();
 
+/**
+ * @summary Initializes the post scraper script.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
 export default function initPostScraper( $ ) {
 	/* eslint-disable-next-line */
 	"use strict";
@@ -628,4 +633,4 @@ export default function initPostScraper( $ ) {
 	}
 
 	jQuery( document ).ready( initializePostAnalysis );
-};
+}

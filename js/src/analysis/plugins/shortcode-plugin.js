@@ -296,7 +296,9 @@ YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback 
 	}
 
 	if ( typeof shortcodes === "object" && shortcodes.length > 0 ) {
-		jQuery.post( ajaxurl, {
+		jQuery.post(
+			ajaxurl,
+			{
 				action: "wpseo_filter_shortcodes",
 				_wpnonce: wpseoScriptData.analysis.plugins.shortcodes.wpseo_filter_shortcodes_nonce,
 				data: shortcodes,

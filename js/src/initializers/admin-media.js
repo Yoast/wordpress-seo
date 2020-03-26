@@ -1,11 +1,16 @@
 /* global wpseoScriptData */
 /* global wp */
 
+/**
+ * @summary Initializes the admin media script.
+ * @param {object} jQuery jQuery
+ * @returns {undefined}
+ */
 export default function initAdminMedia( jQuery ) {
 // Taken and adapted from http://www.webmaster-source.com/2013/02/06/using-the-wordpress-3-5-media-uploader-in-your-plugin-or-theme/
 	jQuery( document ).ready(
 		function( $ ) {
-			if (typeof wp.media === "undefined") {
+			if ( typeof wp.media === "undefined" ) {
 				return;
 			}
 
@@ -21,7 +26,7 @@ export default function initAdminMedia( jQuery ) {
 				let target = $button.data( "target" );
 
 				// This is the implicit way to define which URL field to fill.
-				if (! target || target === "") {
+				if ( ! target || target === "" ) {
 					target = $( $button ).attr( "id" ).replace( /_button$/, "" );
 				}
 

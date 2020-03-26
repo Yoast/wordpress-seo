@@ -8,7 +8,7 @@ import { isUndefined } from "lodash-es";
 function getL10nObject() {
 	var l10nObject = null;
 
-	if ( ! isUndefined( window.wpseoScriptData ) && !isUndefined( window.wpseoScriptData.metabox ) ) {
+	if ( ! isUndefined( window.wpseoScriptData ) && ! isUndefined( window.wpseoScriptData.metabox ) ) {
 		l10nObject = window.wpseoScriptData.metabox;
 	}
 
