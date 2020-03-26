@@ -128,7 +128,7 @@ class Redirects implements Integration_Interface {
 			return;
 		}
 
-		$this->redirect->do_redirect( $url );
+		$this->redirect->do_redirect( $url, 301 );
 	}
 
 	/**
