@@ -485,12 +485,12 @@ class WPSEO_Admin_Init {
 			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
 			sprintf(
 				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
-				__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
+				__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
 				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
 				'</a>'
 			),
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			__( 'I know, don\'t bug me.', 'wordpress-seo' )
+			__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
 		);
 	}
 
