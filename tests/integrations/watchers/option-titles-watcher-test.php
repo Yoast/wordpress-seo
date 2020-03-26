@@ -131,7 +131,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 		$wpdb = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
-		$wpdb->expects( 'prepare' )
+		$wpdb
+			->expects( 'prepare' )
 			->once()
 			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
@@ -146,14 +147,15 @@ class Option_Titles_Watcher_Test extends TestCase {
 					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )	
 				)" );
 
-		$wpdb->expects( 'query' )
+		$wpdb
+			->expects( 'query' )
 			->once()
-		     ->with( "
+			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
 				WHERE indexable_id IN( 
 					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )	
 				)"
-		     )
+			)
 			->andReturn( 2 );
 
 		$GLOBALS['wpdb'] = $wpdb;
@@ -162,7 +164,6 @@ class Option_Titles_Watcher_Test extends TestCase {
 			->once()
 			->with( [ 'public' => true ], 'names' )
 			->andReturn( [ 'post' ] );
-
 
 		$this->assertTrue(
 			$this->instance->check_option(
@@ -188,21 +189,23 @@ class Option_Titles_Watcher_Test extends TestCase {
 		$wpdb = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
-		$wpdb->expects( 'prepare' )
-		     ->once()
-		     ->with( "
+		$wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
 				WHERE indexable_id IN( 
 					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( %s )	
 				)",
-			     [ 'post' ]
-		     )
-		     ->andReturn( 'the query' );
+				[ 'post' ]
+			)
+			->andReturn( 'the query' );
 
-		$wpdb->expects( 'query' )
-		     ->once()
-		     ->with( 'the query' )
-		     ->andReturnFalse();
+		$wpdb
+			->expects( 'query' )
+			->once()
+			->with( 'the query' )
+			->andReturnFalse();
 
 		$GLOBALS['wpdb'] = $wpdb;
 
