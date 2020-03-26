@@ -1,5 +1,5 @@
 /* Browser:true */
-/* global wpseoSelect2Locale */
+/* global wpseoScriptData */
 
 export default function initTabs( jQuery ) {
 	/**
@@ -238,8 +238,8 @@ export default function initTabs( jQuery ) {
 	 */
 	function initSelect2() {
 		// Select2 for Yoast SEO Metabox Advanced tab
-		jQuery( "#yoast_wpseo_meta-robots-noindex" ).select2( { width: "100%", language: wpseoSelect2Locale } );
-		jQuery( "#yoast_wpseo_meta-robots-adv" ).select2( { width: "100%", language: wpseoSelect2Locale } );
+		jQuery( "#yoast_wpseo_meta-robots-noindex" ).select2( { width: "100%", language: wpseoScriptData.userLanguageCode } );
+		jQuery( "#yoast_wpseo_meta-robots-adv" ).select2( { width: "100%", language: wpseoScriptData.userLanguageCode } );
 	}
 
 	jQuery( document ).ready( function() {

@@ -1,5 +1,5 @@
 /* global tinyMCE */
-/* global wpseoShortcodePluginL10n */
+/* global wpseoScriptData */
 /* global ajaxurl */
 /* global _ */
 /* global JSON */
@@ -36,7 +36,7 @@ var YoastShortcodePlugin = function( { registerPlugin, registerModification, plu
 	registerPlugin( "YoastShortcodePlugin", { status: "loading" } );
 	this.bindElementEvents();
 
-	var keywordRegexString = "(" + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join( "|" ) + ")";
+	var keywordRegexString = "(" + wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags.join( "|" ) + ")";
 
 	// The regex for matching shortcodes based on the available shortcode keywords.
 	this.keywordRegex = new RegExp( keywordRegexString, "g" );
@@ -298,7 +298,7 @@ YoastShortcodePlugin.prototype.parseShortcodes = function( shortcodes, callback 
 	if ( typeof shortcodes === "object" && shortcodes.length > 0 ) {
 		jQuery.post( ajaxurl, {
 				action: "wpseo_filter_shortcodes",
-				_wpnonce: wpseoShortcodePluginL10n.wpseo_filter_shortcodes_nonce,
+				_wpnonce: wpseoScriptData.analysis.plugins.shortcodes.wpseo_filter_shortcodes_nonce,
 				data: shortcodes,
 			},
 			function( shortcodeResults ) {

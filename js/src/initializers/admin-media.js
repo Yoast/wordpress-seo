@@ -1,4 +1,4 @@
-/* global wpseoMediaL10n */
+/* global wpseoScriptData */
 /* global wp */
 
 export default function initAdminMedia( jQuery ) {
@@ -49,8 +49,8 @@ export default function initAdminMedia( jQuery ) {
 
 				// eslint-disable-next-line
 				var wpseoCustomUploader = wp.media.frames.file_frame = wp.media( {
-					title: wpseoMediaL10n.choose_image,
-					button: { text: wpseoMediaL10n.choose_image },
+					title: wpseoScriptData.media.choose_image,
+					button: { text: wpseoScriptData.media.choose_image },
 					multiple: false,
 					library: {
 						type: "image",

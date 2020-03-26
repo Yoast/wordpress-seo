@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n */
+/* global YoastSEO: true, wpseoScriptData */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
@@ -56,7 +56,7 @@ setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
-export default function initTermScraper( $, window ) {
+export default function initTermScraper( $ ) {
 	var app;
 
 	var termSlugInput;
@@ -224,9 +224,9 @@ export default function initTermScraper( $, window ) {
 		var args, termScraper, translations;
 
 		const editArgs = {
-			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
-			replaceVars: wpseoReplaceVarsL10n.replace_vars,
-			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
+			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
+			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 			classicEditorDataSettings: {
 				tinyMceId: termsTmceId,
 			},
@@ -249,7 +249,7 @@ export default function initTermScraper( $, window ) {
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.contentLocale,
+			locale: wpseoScriptData.metabox.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
@@ -370,7 +370,7 @@ export default function initTermScraper( $, window ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.

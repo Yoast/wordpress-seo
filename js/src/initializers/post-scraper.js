@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n */
+/* global YoastSEO: true, tinyMCE, wpseoScriptData */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -64,7 +64,7 @@ setWordPressSeoL10n();
 export default function initPostScraper( $ ) {
 	/* eslint-disable-next-line */
 	"use strict";
-	if ( typeof wpseoPostScraperL10n === "undefined" ) {
+	if ( typeof wpseoScriptData === "undefined" ) {
 		return;
 	}
 
@@ -125,7 +125,7 @@ export default function initPostScraper( $ ) {
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isGutenbergDataAvailable() && wpseoPostScraperL10n.show_markers === "1";
+		return ! isGutenbergDataAvailable() && wpseoScriptData.metabox.show_markers === "1";
 	}
 
 	/**
@@ -138,7 +138,7 @@ export default function initPostScraper( $ ) {
 	function updateMarkerStatus( store ) {
 		// Only add markers when tinyMCE is loaded and show_markers is enabled (can be disabled by a WordPress hook).
 		// Only check for the tinyMCE object because the actual editor isn't loaded at this moment yet.
-		if ( typeof tinyMCE === "undefined" || ! displayMarkers() ) {
+		if ( typeof window.tinyMCE === "undefined" || ! displayMarkers() ) {
 			store.dispatch( setMarkerStatus( "hidden" ) );
 		}
 	}
@@ -246,7 +246,7 @@ export default function initPostScraper( $ ) {
 			callbacks: {
 				getData: postDataCollector.getData.bind( postDataCollector ),
 			},
-			locale: wpseoPostScraperL10n.contentLocale,
+			locale: wpseoScriptData.metabox.contentLocale,
 			marker: getApplyMarks( store ),
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
@@ -415,10 +415,10 @@ export default function initPostScraper( $ ) {
 	function initializePostAnalysis() {
 		const editArgs = {
 			onRefreshRequest: () => {},
-			snippetEditorBaseUrl: wpseoPostScraperL10n.base_url,
-			snippetEditorDate: wpseoPostScraperL10n.metaDescriptionDate,
-			replaceVars: wpseoReplaceVarsL10n.replace_vars,
-			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
+			snippetEditorDate: wpseoScriptData.metabox.metaDescriptionDate,
+			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
+			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 		};
 		edit = new Edit( editArgs );
 
@@ -498,7 +498,7 @@ export default function initPostScraper( $ ) {
 			pluginReloaded: YoastSEO.app.pluginReloaded,
 		} );
 
-		if ( wpseoPostScraperL10n.markdownEnabled ) {
+		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
 			markdownPlugin.register();
 		}
@@ -542,7 +542,7 @@ export default function initPostScraper( $ ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( postDataCollector );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoPostScraperL10n );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.

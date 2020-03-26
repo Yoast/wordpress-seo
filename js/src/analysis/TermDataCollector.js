@@ -1,4 +1,4 @@
-/* global jQuery, wpseoTermScraperL10n */
+/* global jQuery, wpseoScriptData */
 
 /* External dependencies */
 import { get } from "lodash-es";
@@ -185,7 +185,7 @@ TermDataCollector.prototype.getName = function() {
  * @returns {string} The base url.
  */
 TermDataCollector.prototype.getBaseUrl = function() {
-	return wpseoTermScraperL10n.base_url;
+	return wpseoScriptData.metabox.base_url;
 };
 
 /**
