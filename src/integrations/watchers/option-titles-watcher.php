@@ -43,7 +43,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.
 	 *
-	 * @return bool Whether or not the option has been saved.
+	 * @return bool Whether or not the ancestors are removed.
 	 */
 	public function check_option( $old_value, $new_value ) {
 		// If this is the first time saving the option, thus when value is false.
@@ -100,11 +100,11 @@ class Option_Titles_Watcher implements Integration_Interface {
 	 *
 	 * @param array $post_types The post types to remove hierarchy for.
 	 *
-	 * @return bool True when ancestors are deleted and false when not.
+	 * @return bool True when delete query was successful.
 	 */
 	protected function delete_ancestors( $post_types ) {
 		if ( empty( $post_types ) ) {
-			return false; // There is nothing to do.
+			return false;
 		}
 
 		$wpdb             = Wrapper::get_wpdb();
@@ -124,10 +124,6 @@ class Option_Titles_Watcher implements Integration_Interface {
 			)
 		);
 
-		if ( is_bool( $result ) ) {
-			return $result;
-		}
-
-		return true;
+		return $result !== false;
 	}
 }
