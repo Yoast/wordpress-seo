@@ -223,7 +223,7 @@ import { debounce } from "lodash-es";
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author" ).change( function() {
-			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
+			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
@@ -249,7 +249,7 @@ import { debounce } from "lodash-es";
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date" ).change( function() {
-			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
+			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		// Toggle the Media section.
