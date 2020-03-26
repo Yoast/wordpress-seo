@@ -222,7 +222,7 @@ import a11ySpeak from "a11y-speak";
 
 		// Toggle the Author archives section.
 		jQuery( "#disable-author" ).change( function() {
-			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
+			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
@@ -248,7 +248,7 @@ import a11ySpeak from "a11y-speak";
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date" ).change( function() {
-			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":checked" ) );
+			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		// Toggle the Media section.
