@@ -209,15 +209,6 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
-				'deps' => [
-					'wp-api',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
 				'name' => 'yoast-modal',
 				'src'  => 'wp-seo-modal-' . $flat_version,
 				'deps' => [
@@ -229,25 +220,18 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-' . $flat_version,
+				'name' => 'settings',
+				'src'  => 'settings-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					'wp-api',
+					self::PREFIX . 'commons',
+					self::PREFIX . 'components',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
-				'name' => 'settings',
-				'src'  => 'settings-' . $flat_version,
-				'deps' => [
-					'jquery',
-					'jquery-ui-core',
-					self::PREFIX . 'commons',
 				],
 			],
 			[

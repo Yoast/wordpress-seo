@@ -11,7 +11,6 @@ const entry = {
 	"help-scout-beacon": "./help-scout-beacon.js",
 	"post-edit": "./post-edit.js",
 	"term-edit": "./term-edit.js",
-	"search-appearance": "./search-appearance.js",
 	"settings": "./settings.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
 	"wp-seo-modal": "./wp-seo-modal.js",
@@ -19,7 +18,6 @@ const entry = {
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
-	"wp-seo-admin": "./wp-seo-admin.js",
 	"wp-seo-bulk-editor": "./wp-seo-bulk-editor.js",
 	"wp-seo-edit-page": "./wp-seo-edit-page.js",
 	"wp-seo-recalculate": "./wp-seo-recalculate.js",
