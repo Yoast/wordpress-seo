@@ -155,7 +155,7 @@ class WPSEO_Taxonomy {
 			$script_data = [
 				'analysis' => [
 					'plugins' => [
-						'replaceVars' =>   [
+						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 							'replace_vars'             => $this->get_replace_vars(),
 							'recommended_replace_vars' => $this->get_recommended_replace_vars(),

@@ -825,7 +825,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$script_data = [
 			'analysis' => [
 				'plugins' => [
-					'replaceVars' =>  [
+					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 						'replace_vars'             => $this->get_replace_vars(),
 						'recommended_replace_vars' => $this->get_recommended_replace_vars(),
@@ -835,7 +835,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'shortcodes' => [
 						'wpseo_filter_shortcodes_nonce' => wp_create_nonce( 'wpseo-filter-shortcodes' ),
 						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
-					]
+					],
 				],
 				'worker' => [
 					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),

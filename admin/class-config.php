@@ -60,7 +60,7 @@ class WPSEO_Admin_Pages {
 
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( $page === 'wpseo_titles' ) {
-			$this->asset_manager->enqueue_style('search-appearance');
+			$this->asset_manager->enqueue_style( 'search-appearance' );
 		}
 	}
 
@@ -79,12 +79,12 @@ class WPSEO_Admin_Pages {
 		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( $page === 'wpseo_titles' ) {
-			$script_data[ 'analysis' ] = [
+			$script_data['analysis'] = [
 				'plugins' => [
 					'replaceVars' => $this->get_replace_vars_script_data(),
 				],
 			];
-			$script_data[ 'searchAppearance' ] = [
+			$script_data['searchAppearance'] = [
 				'isRtl'                    => is_rtl(),
 				'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
 				'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
