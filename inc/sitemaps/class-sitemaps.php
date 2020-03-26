@@ -432,7 +432,7 @@ class WPSEO_Sitemaps {
 		// Make the browser cache this file properly.
 		$expires = YEAR_IN_SECONDS;
 		header( 'Pragma: public' );
-		header( 'Cache-Control: maxage=' . $expires );
+		header( 'Cache-Control: max-age=' . $expires );
 		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
 		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );

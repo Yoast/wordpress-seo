@@ -125,6 +125,7 @@ class WPSEO_Taxonomy {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
+		$asset_manager->enqueue_style( 'monorepo' );
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
@@ -377,6 +378,7 @@ class WPSEO_Taxonomy {
 			'page',
 			'term_title',
 			'term_description',
+			'term_hierarchy',
 			'category_description',
 			'tag_description',
 			'searchphrase',

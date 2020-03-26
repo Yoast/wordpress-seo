@@ -5,6 +5,8 @@
  * @package WPSEO\Frontend\Schema
  */
 
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+
 /**
  * Returns schema image data.
  *
@@ -19,6 +21,20 @@
 class WPSEO_Schema_Image {
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	private $image;
+
+	/**
+	 * Value to use as the image id.
+	 *
+	 * @var string
+	 */
+	private $schema_id;
+
+	/**
 	 * WPSEO_Schema_Image constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -27,7 +43,10 @@ class WPSEO_Schema_Image {
 	 * @param string $schema_id The string to use in an image's `@id`.
 	 */
 	public function __construct( $schema_id ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Image_Helper' );
+
+		$this->schema_id = $schema_id;
+		$this->image     = YoastSEO()->classes->get( Image_Helper::class );
 	}
 
 	/**
@@ -42,9 +61,9 @@ class WPSEO_Schema_Image {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_url( $url, $caption = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Image_Helper::generate_from_url' );
 
-		return array();
+		return $this->image->generate_from_url( $this->schema_id, $url, $caption );
 	}
 
 	/**
@@ -59,9 +78,9 @@ class WPSEO_Schema_Image {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_attachment_id( $attachment_id, $caption = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Image_Helper::generate_from_attachment_id' );
 
-		return array();
+		return $this->image->generate_from_attachment_id( $this->schema_id, $attachment_id, $caption );
 	}
 
 	/**
@@ -76,8 +95,8 @@ class WPSEO_Schema_Image {
 	 * @return array $data Schema ImageObject array.
 	 */
 	public function simple_image_object( $url, $caption = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Image_Helper::simple_image_object' );
 
-		return array();
+		return $this->image->simple_image_object( $this->schema_id, $url, $caption );
 	}
 }

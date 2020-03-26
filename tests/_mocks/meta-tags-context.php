@@ -11,32 +11,6 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Meta_Tags_Context extends \Yoast\WP\SEO\Context\Meta_Tags_Context {
 
 	/**
-	 * @var Indexable
-	 */
-	public $indexable;
-
-	/**
-	 * @var WP_Block_Parser_Block[]
-	 */
-	public $blocks;
-
-	/**
-	 * @var WP_Post
-	 */
-	public $post;
-
-	/**
-	 *
-	 * @var Indexable_Presentation
-	 */
-	public $presentation;
-
-	/**
-	 * @var bool
-	 */
-	public $has_image = false;
-
-	/**
 	 * @var string
 	 */
 	public $canonical;
