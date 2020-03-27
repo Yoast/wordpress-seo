@@ -38,8 +38,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->faq      = YoastSEO()->classes->get( FAQ::class );
 	}
@@ -53,7 +52,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @param array $blocks The blocks of this type on the current page.
 	 */
 	public function prepare_schema( $blocks ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -67,8 +66,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @return array $page_type The page type that's now an array.
 	 */
 	public function change_schema_page_type( $page_type ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 		return array();
 	}
 
@@ -81,8 +79,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @return array $data Our Schema graph.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->faq->generate( $context );
@@ -101,8 +98,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @return array $data Our Schema graph.
 	 */
 	public function render_schema_questions( $graph, $block, $context ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 		return array();
 	}
 

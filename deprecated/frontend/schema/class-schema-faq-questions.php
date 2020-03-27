@@ -25,7 +25,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 * @param WPSEO_Schema_Context  $context A value object with context variables.
 	 */
 	public function __construct( $data, $block, $context ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -37,8 +37,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 * @return array The Schema with Questions added.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 		return array();
 	}
 }

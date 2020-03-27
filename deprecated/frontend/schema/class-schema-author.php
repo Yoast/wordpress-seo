@@ -38,8 +38,7 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->author   = YoastSEO()->classes->get( Author::class );
 	}
@@ -53,8 +52,7 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->author->is_needed( $context );
@@ -69,8 +67,7 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->author->generate( $context );
@@ -85,8 +82,7 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	 * @return string[] The schema type.
 	 */
 	public static function get_type() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 		return [ 'Person' ];
 	}
 }

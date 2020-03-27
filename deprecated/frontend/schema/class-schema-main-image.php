@@ -39,8 +39,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
 		$this->memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->main_image   = YoastSEO()->classes->get( Main_Image::class );
 	}
@@ -54,8 +53,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->main_image->is_needed( $context );
@@ -72,8 +70,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->main_image->generate( $context );
