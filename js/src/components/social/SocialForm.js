@@ -7,9 +7,9 @@ import SocialUpsell from "./SocialUpsell";
  *
  * @param {object} props The properties passed to this component.
  *
- * @returns {Component} The SocialView Component.
+ * @returns {Component} The SocialForm Component.
  */
-const SocialView = ( props ) => {
+const SocialForm = ( props ) => {
 	const {
 		image,
 		...otherProps
@@ -30,7 +30,7 @@ const SocialView = ( props ) => {
 /**
  * Adds validation for the properties.
  */
-SocialView.propTypes = {
+SocialForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.array.isRequired,
 	replacementVariables: PropTypes.array.isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
@@ -45,10 +45,10 @@ SocialView.propTypes = {
 	imageWarnings: PropTypes.array,
 };
 
-SocialView.defaultProps = {
+SocialForm.defaultProps = {
 	imageWarnings: [],
 	title: null,
 	description: null,
 };
 
-export default SocialView;
+export default SocialForm;
