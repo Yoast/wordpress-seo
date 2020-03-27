@@ -98,7 +98,7 @@ class Yoast_Notifications {
 	public function enqueue_assets() {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'alerts' );
+		$asset_manager->enqueue_style( 'notifications' );
 	}
 
 	/**
