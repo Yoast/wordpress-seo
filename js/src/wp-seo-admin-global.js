@@ -159,7 +159,7 @@
 	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
-		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
+		$( ".yoast-notification-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
 
 		if ( typeof response.html === "undefined" ) {
 			return;
@@ -199,11 +199,11 @@
 	 * @returns {void}
 	 */
 	function hookDismissRestoreButtons() {
-		var $dismissible = $( ".yoast-alert-holder" );
+		var $dismissible = $( ".yoast-notification-holder" );
 
 		$dismissible.on( "click", ".dismiss", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var $source = $this.closest( ".yoast-notification-holder" );
 
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );
@@ -223,7 +223,7 @@
 
 		$dismissible.on( "click", ".restore", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var $source = $this.closest( ".yoast-notification-holder" );
 
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );

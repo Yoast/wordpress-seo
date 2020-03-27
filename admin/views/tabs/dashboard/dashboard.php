@@ -26,7 +26,7 @@ $wpseo_contributors_phrase = sprintf(
 ?>
 
 <div class="tab-block">
-	<div class="yoast-alerts">
+	<div class="yoast-notifications">
 
 		<?php echo $notifier->notify(); ?>
 

@@ -4,11 +4,11 @@
 @import "../../node_modules/yoastseo/css/icons";
 
 $breakpoint_mobile: '768px';
-$yoast-alerts-button-icon-width: 20px;
-$yoast-alerts-button-width: 52px;
-$yoast-alerts-active-margin: 20px;
+$yoast-notifications-button-icon-width: 20px;
+$yoast-notifications-button-width: 52px;
+$yoast-notifications-active-margin: 20px;
 
-.yoast-alert {
+.yoast-notification {
 	padding: 0 12px;
 	border-left: 4px solid #fff;
 	background: #fff;
@@ -25,7 +25,7 @@ $yoast-alerts-active-margin: 20px;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
-.yoast-alerts > h2:first-child {
+.yoast-notifications > h2:first-child {
 	margin: 0;
 	padding: 9px 0 4px 0;
 	font-size: 23px;
@@ -33,7 +33,7 @@ $yoast-alerts-active-margin: 20px;
 	line-height: 29px;
 }
 
-.yoast-alerts .yoast-container h3 {
+.yoast-notifications .yoast-container h3 {
 	margin: -20px -20px 0;
 	padding: 1em;
 	border-bottom: 1px solid #ccc;
@@ -45,16 +45,16 @@ $yoast-alerts-active-margin: 20px;
 	max-width: 980px;
 }
 
-.yoast-container .yoast-alert-holder {
+.yoast-container .yoast-notification-holder {
 	display: flex;
 	position: relative;
 }
 
 .restore .dashicons,
 .dismiss .dashicons {
-	font-size: $yoast-alerts-button-icon-width;
-	width: $yoast-alerts-button-icon-width;
-	height: $yoast-alerts-button-icon-width;
+	font-size: $yoast-notifications-button-icon-width;
+	width: $yoast-notifications-button-icon-width;
+	height: $yoast-notifications-button-icon-width;
 }
 
 .yoast-bottom-spacing {
@@ -62,11 +62,11 @@ $yoast-alerts-active-margin: 20px;
 }
 
 /* These selectors need a higher specificity than .wp-core-ui .button */
-.yoast-alerts .button.restore,
-.yoast-alerts .button.dismiss {
+.yoast-notifications .button.restore,
+.yoast-notifications .button.dismiss {
 	position: absolute;
 	right: 0;
-	width: $yoast-alerts-button-width;
+	width: $yoast-notifications-button-width;
 	height: 100%;
 	line-height: inherit;
 	padding: 0;
@@ -78,13 +78,13 @@ $yoast-alerts-active-margin: 20px;
 	border-radius: 0;
 }
 
-.yoast-alerts .button.restore:hover,
-.yoast-alerts .button.dismiss:hover {
+.yoast-notifications .button.restore:hover,
+.yoast-notifications .button.dismiss:hover {
 	background: transparent;
 }
 
-.yoast-alerts .button.restore:focus,
-.yoast-alerts .button.dismiss:focus {
+.yoast-notifications .button.restore:focus,
+.yoast-notifications .button.dismiss:focus {
 	background: transparent;
 
 	&::before {
@@ -104,7 +104,7 @@ $yoast-alerts-active-margin: 20px;
 }
 
 // Get started dismiss button focus style position.
-.yoast-alerts .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+.yoast-notifications .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
 	top: 0;
 	transform: translate(-50%,6px);
 }
@@ -157,29 +157,29 @@ $yoast-alerts-active-margin: 20px;
 }
 
 .yoast-alerts-active, .yoast-alerts-dismissed {
-	.yoast-alert {
-		padding-right: $yoast-alerts-button-width;
+	.yoast-notification {
+		padding-right: $yoast-notifications-button-width;
 		flex: 1;
 	}
 }
 
 .yoast-alerts-active {
-	.yoast-alert-holder {
-		margin-bottom: $yoast-alerts-active-margin;
+	.yoast-notification-holder {
+		margin-bottom: $yoast-notifications-active-margin;
 	}
 }
 
 .yoast-alerts-dismissed {
 	&.paper.tab-block {
-		margin: $yoast-alerts-active-margin 0 $yoast-alerts-active-margin 0;
+		margin: $yoast-notifications-active-margin 0 $yoast-notifications-active-margin 0;
 
 		.paper-container.toggleable-container {
 			padding: 0;
 
-			.yoast-alert-holder:nth-child(odd) {
+			.yoast-notification-holder:nth-child(odd) {
 				background-color: $color_background_light;
 
-				.yoast-alert {
+				.yoast-notification {
 					background-color: transparent;
 				}
 			}
@@ -189,7 +189,7 @@ $yoast-alerts-active-margin: 20px;
 
 	.yoast-svg-icon-eye {
 		background: transparent url(svg-icon-eye($color_button_text)) no-repeat 0 0;
-		background-size: $yoast-alerts-button-icon-width;
+		background-size: $yoast-notifications-button-icon-width;
 	}
 }
 
@@ -201,13 +201,13 @@ $yoast-alerts-active-margin: 20px;
 }
 
 #yoast-errors-active {
-	.yoast-alert {
+	.yoast-notification {
 		border-left-color: $color_red;
 	}
 }
 
 #yoast-errors-dismissed {
-	.yoast-alert {
+	.yoast-notification {
 		border-left-color: #d93f69;
 	}
 }
@@ -220,18 +220,18 @@ $yoast-alerts-active-margin: 20px;
 }
 
 #yoast-warnings-active {
-	.yoast-alert {
+	.yoast-notification {
 		border-left-color: $color_purple;
 	}
 }
 
 #yoast-warnings-dismissed {
-	.yoast-alert {
+	.yoast-notification {
 		border-left-color: #0075b3;
 	}
 }
 
-.yoast-alerts {
+.yoast-notifications {
 
 	.yoast-container {
 		&__configuration-wizard {

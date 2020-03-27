@@ -48,7 +48,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 			}
 
 			$notifications .= sprintf(
-				'<div class="yoast-alert-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				'<div class="yoast-notification-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
@@ -98,7 +98,7 @@ if ( ! $active ) {
 					'class'                    => 'yoast-alerts-dismissed',
 					'content'                  => _yoast_display_notifications( $dismissed, 'dismissed' ),
 					'collapsible'              => true,
-					'collapsible_header_class' => 'yoast-alert',
+					'collapsible_header_class' => 'yoast-notification',
 				]
 			);
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
