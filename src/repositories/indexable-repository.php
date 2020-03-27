@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Repositories;
 use Cassandra\Index;
 use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -31,6 +32,13 @@ class Indexable_Repository {
 	private $builder;
 
 	/**
+	 * Represents the hierarchy repository.
+	 *
+	 * @var Indexable_Hierarchy_Repository
+	 */
+	protected $hierarchy_repository;
+
+	/**
 	 * The current page helper.
 	 *
 	 * @var Current_Page_Helper
@@ -47,19 +55,22 @@ class Indexable_Repository {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Builder   $builder      The indexable builder.
-	 * @param Current_Page_Helper $current_page The current post helper.
-	 * @param Logger              $logger       The logger.
+	 * @param Indexable_Builder              $builder              The indexable builder.
+	 * @param Current_Page_Helper            $current_page         The current post helper.
+	 * @param Logger                         $logger               The logger.
+	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
 		Current_Page_Helper $current_page,
-		Logger $logger
-	) {
-		$this->builder      = $builder;
-		$this->current_page = $current_page;
-		$this->logger       = $logger;
+		Logger $logger,
+		Indexable_Hierarchy_Repository $hierarchy_repository
 
+	) {
+		$this->builder              = $builder;
+		$this->current_page         = $current_page;
+		$this->logger               = $logger;
+		$this->hierarchy_repository = $hierarchy_repository;
 	}
 
 	/**
@@ -293,13 +304,22 @@ class Indexable_Repository {
 	 * @return Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		/**
+		 * Represents an array of indexable objects.
+		 *
+		 * @var Indexable[] $indexables
+		 */
 		$indexables = $this->query()
 						   ->where_in( 'object_id', $object_ids )
 						   ->where( 'object_type', $object_type )
 						   ->find_many();
 
 		if ( $auto_create ) {
-			$indexables_available = \array_column( $indexables, 'object_id' );
+			$indexables_available = [];
+			foreach ( $indexables as $indexable ) {
+				$indexables_available[] = $indexable->object_id;
+			}
+
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
@@ -321,13 +341,24 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable ) {
-		$hierarchy_table = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
+
+		if ( empty( $ancestors ) ) {
+			return [];
+		}
+
+		$indexables = [];
+		foreach ( $ancestors as $ancestor ) {
+			$indexables[] = $ancestor->ancestor_id;
+		}
+
+		if ( $indexables[0] === 0 && \count( $indexables ) === 1 ) {
+			return [];
+		}
+
 		return $this->query()
-					->table_alias( 'i' )
-					->select( 'i.*' )
-					->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
-					->where( 'ih.indexable_id', $indexable->id )
-					->order_by_desc( 'ih.depth' )
-					->find_many();
+			->where_in( 'id', $indexables )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexables ) . ')' )
+			->find_many();
 	}
 }
