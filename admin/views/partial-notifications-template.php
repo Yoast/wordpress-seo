@@ -70,7 +70,7 @@ if ( ! $active ) {
 }
 
 ?>
-<h3 class="yoast-alerts-header" id="<?php echo esc_attr( 'yoast-' . $type . '-header' ); ?>">
+<h3 class="yoast-notifications-header" id="<?php echo esc_attr( 'yoast-' . $type . '-header' ); ?>">
 	<span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span>
 	<?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)
 </h3>
@@ -80,7 +80,7 @@ if ( ! $active ) {
 	<?php if ( $total ) : ?>
 		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
-		<div class="container yoast-alerts-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
+		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
 			echo _yoast_display_notifications( $active, 'active' );
@@ -95,7 +95,7 @@ if ( ! $active ) {
 				[
 					'paper_id'                 => esc_attr( $type . '-dismissed' ),
 					'paper_id_prefix'          => 'yoast-',
-					'class'                    => 'yoast-alerts-dismissed',
+					'class'                    => 'yoast-notifications-dismissed',
 					'content'                  => _yoast_display_notifications( $dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-notification',

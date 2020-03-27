@@ -153,23 +153,23 @@ $yoast-notifications-active-margin: 20px;
 }
 
 /* Shared style for the problems and notifications. */
-.yoast-alerts-header {
+.yoast-notifications-header {
 }
 
-.yoast-alerts-active, .yoast-alerts-dismissed {
+.yoast-notifications-active, .yoast-notifications-dismissed {
 	.yoast-notification {
 		padding-right: $yoast-notifications-button-width;
 		flex: 1;
 	}
 }
 
-.yoast-alerts-active {
+.yoast-notifications-active {
 	.yoast-notification-holder {
 		margin-bottom: $yoast-notifications-active-margin;
 	}
 }
 
-.yoast-alerts-dismissed {
+.yoast-notifications-dismissed {
 	&.paper.tab-block {
 		margin: $yoast-notifications-active-margin 0 $yoast-notifications-active-margin 0;
 
