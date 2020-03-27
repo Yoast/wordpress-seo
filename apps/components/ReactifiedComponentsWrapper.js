@@ -2,6 +2,7 @@ import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
+import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
@@ -67,6 +68,37 @@ const ReactifiedComponentsWrapper = () => {
 					},
 				] }
 				onChange={ console.warn }
+			<RadioButtonGroup
+				onChange={ console.log }
+				options={ [
+					{
+						value: "hey-value",
+						label: "Hey there!",
+					},
+					{
+						value: "hi-value",
+						label: "Hi there!",
+					}
+				] }
+				label="Horizontal radiobutton group"
+				groupName="group1"
+				selected="hi"
+			/>
+			<RadioButtonGroup
+				onChange={ console.log }
+				options={ [
+					{
+						value: "haha-value",
+						label: "Haha, that's funny!",
+					},
+					{
+						value: "hoho-value",
+						label: "Hohoho, I'm santa!",
+					}
+				] }
+				label="Vertical radiobutton group"
+				vertical={ true }
+				groupName="group2"
 			/>
 		</div>
 	);
