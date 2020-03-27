@@ -4,6 +4,8 @@ import * as results from "./results";
 import * as primaryTaxonomies from "./primaryTaxonomies";
 import * as activeMarker from "./activeMarker";
 import * as markerPauseStatus from "./markerPauseStatus";
+import * as replaceVars from "./replaceVars";
+import * as settings from "./settings";
 
 const selectors = {
 	...socialSelectors,
@@ -12,6 +14,8 @@ const selectors = {
 	...primaryTaxonomies,
 	...activeMarker,
 	...markerPauseStatus,
+	...settings,
+	...replaceVars,
 };
 
 export default selectors;

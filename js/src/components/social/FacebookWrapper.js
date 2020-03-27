@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 
-import FacebookView from "../social/FacebookView";
+import SocialForm from "../social/SocialForm";
 
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 
@@ -14,12 +14,15 @@ const isPremium = !! window.wpseoPostScraperL10n.isPremium;
  * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
+	props.socialMediumName = "Facebook";
+	props.isPremium = isPremium;
 	return (
 		<Fragment>
 			{
-				! isPremium && <FacebookView isPremium={ isPremium } { ...props } />
+				isPremium
+					? <Slot name="YoastFacebookPremium" fillProps={ { ...props } } />
+					: <SocialForm { ...props } />
 			}
-			<Slot name="YoastFacebookPremium" fillProps={ { isPremium, ...props } } />
 		</Fragment>
 	);
 };

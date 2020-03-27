@@ -1,19 +1,11 @@
 /* External dependencies */
-import { connect } from "react-redux";
 import { actions } from "@yoast/social-metadata-forms";
+import { compose } from "@wordpress/compose";
+import { withDispatch, withSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 import { socialSelectors }  from "../redux/selectors/socialSelectors";
-import { getImageFallback, getTitleFallback } from "../redux/selectors/fallbackSelectors";
-
-const {
-	setSocialPreviewTitle,
-	setSocialPreviewDescription,
-	setSocialPreviewImage,
-	setSocialPreviewImageUrl,
-	setSocialPreviewImageId,
-} = actions;
 
 /**
  * Maps the state to props.
@@ -23,7 +15,10 @@ const {
  * @returns {Object} The props for the FacebookView component.
  */
 const mapStateToProps = ( state ) => {
-	const image = state.socialReducer.facebook.image;
+	const data = socialSelectors.getFacebookData( state );
+	const image = data.image;
+	image.fallbackUrl = getImageFallback( state );
+
 	return {
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		replacementVariables: state.snippetEditor.replacementVariables,
@@ -31,8 +26,8 @@ const mapStateToProps = ( state ) => {
 		descriptionFallback: "Modify your Facebook description by editing it right here...",
 		title: socialSelectors.getFacebookTitle( state ),
 		titleFallback: getTitleFallback( state ),
-		image: { ...image, fallbackUrl: getImageFallback( state ) },
-		imageWarnings: state.socialReducer.facebook.warnings,
+		imageWarnings: data.warnings,
+		image,
 	};
 };
 
@@ -81,42 +76,66 @@ const dispatchHiddenFieldValues = ( dispatch ) => {
 	dispatch( setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
 };
 
-/**
- * Maps the dispatch to props.
- *
- * @param {function} dispatch The dispatch function.
- *
- * @returns {Object} The dispatch props.
- */
-const mapDispatchToProps = ( dispatch ) => {
-	dispatchHiddenFieldValues( dispatch );
-	return {
-		onSelectImageClick: () => {
-			media.open();
-		},
-		// Set the image object back to default.
-		onRemoveImageClick: () => {
-			const image = {
-				bytes: null,
-				type: null,
-				height: null,
-				width: null,
-				url: null,
-				id: null,
-			};
-			dispatch( setSocialPreviewImage( image, "facebook" ) );
-			imageUrlInput.value = null;
-			imageIdInput.value = null;
-		},
-		onDescriptionChange: ( description ) => {
-			dispatch( setSocialPreviewDescription( description, "facebook" ) );
-			descriptionInput.value = description;
-		},
-		onTitleChange: ( title ) => {
-			dispatch( setSocialPreviewTitle( title, "facebook" ) );
-			titleInput.value = title;
-		},
-	};
-};
+// Export default connect( mapStateToProps, mapDispatchToProps )( FacebookWrapper );
 
-export default connect( mapStateToProps, mapDispatchToProps )( FacebookWrapper );
+export default compose( [
+	withSelect( select => {
+		const {
+			getFacebookDescription,
+			getFacebookTitle,
+			getFacebookData,
+			getImageFallback,
+			getRecommendedReplaceVars,
+			getReplaceVars,
+		} = select( "yoast-seo/editor" );
+
+		const data = getFacebookData();
+		const image = data.image;
+		image.fallbackUrl = getImageFallback();
+		return {
+			image,
+			recommendedReplacementVariables: getRecommendedReplaceVars(),
+			replacementVariables: getReplaceVars(),
+			description: getFacebookDescription(),
+			descriptionFallback: "Modify your Facebook description by editing it right here...",
+			title: getFacebookTitle(),
+			titleFallback: getTitleFallback(),
+			imageWarnings: data.warnings,
+		};
+	} ),
+
+	withDispatch( dispatch => {
+		const {
+			setSocialPreviewTitle,
+			setSocialPreviewDescription,
+			setSocialPreviewImage,
+		} = dispatch( "yoast-seo/editor" );
+
+		return {
+			onSelectImageClick: () => {
+				media.open();
+			},
+			onRemoveImageClick: () => {
+				imageUrlInput.value = null;
+				imageIdInput.value = null;
+				const image = {
+					bytes: null,
+					type: null,
+					height: null,
+					width: null,
+					url: null,
+					id: null,
+				};
+				setSocialPreviewImage( image, "facebook" );
+			},
+			onDescriptionChange: ( description ) => {
+				descriptionInput.value = description;
+				setSocialPreviewDescription( description, "facebook" );
+			},
+			onTitleChange: ( title ) => {
+				titleInput.value = title;
+				 setSocialPreviewTitle( title, "facebook" );
+			},
+		};
+	} ),
+] )( FacebookWrapper );

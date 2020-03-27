@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 
-import TwitterView from "../social/TwitterView";
+import SocialView from "../social/SocialView";
 
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 
@@ -14,12 +14,15 @@ const isPremium = !! window.wpseoPostScraperL10n.isPremium;
  * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
+	props.socialMediumName = "Twitter";
+	props.isPremium = isPremium;
 	return (
 		<Fragment>
 			{
-				! isPremium && <TwitterView isPremium={ isPremium } { ...props } />
+				isPremium
+					? <Slot name="YoastTwitterPremium" fillProps={ { ...props } } />
+					: <SocialView { ...props } />
 			}
-			<Slot name="YoastTwitterPremium" fillProps={ { isPremium, ...props } } />
 		</Fragment>
 	);
 };
