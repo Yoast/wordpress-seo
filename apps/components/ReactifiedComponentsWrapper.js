@@ -41,14 +41,15 @@ const ReactifiedComponentsWrapper = () => {
 				description="The greatest textarea ever!!1!"
 			/>
 			<RadioButtonGroup
+				onChange={ console.log }
 				options={ [
 					{
-						value: "hey",
-						label: "hey",
+						value: "hey-value",
+						label: "Hey there!",
 					},
 					{
-						value: "hi",
-						label: "hi",
+						value: "hi-value",
+						label: "Hi there!",
 					}
 				] }
 				label="Horizontal radiobutton group"
@@ -56,14 +57,15 @@ const ReactifiedComponentsWrapper = () => {
 				selected="hi"
 			/>
 			<RadioButtonGroup
+				onChange={ console.log }
 				options={ [
 					{
-						value: "haha",
-						label: "haha",
+						value: "haha-value",
+						label: "Haha, that's funny!",
 					},
 					{
-						value: "hoho",
-						label: "hoho",
+						value: "hoho-value",
+						label: "Hohoho, I'm santa!",
 					}
 				] }
 				label="Vertical radiobutton group"
