@@ -91,14 +91,9 @@ class WPSEO_Taxonomy {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
-
 		echo '<div class="inside">';
-		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
-		echo '<span class="icon">';
-		echo '<svg xmlns="http://www.w3.org/2000/svg" fill="#674E00" height="14px" width="14px" viewBox="0 0 576 512" role="img" aria-hidden="true" focusable="false"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg>';
-		echo '</span>';
-		echo '<div style="float: left">';
-		printf(
+
+		$content = sprintf(
 			/* translators: 1: link to Firefox website; 2: link to Chrome website; 3: link to Edge website; 4: link close tag. */
 			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
 			'<a href="https://www.mozilla.org/firefox/new/">',
@@ -106,7 +101,8 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
-		echo '</div></div>';
+		echo new WPSEO_Alert( WPSEO_Alert::WARNING, $content );
+
 		echo '</div></div>';
 	}
 

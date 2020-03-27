@@ -571,34 +571,6 @@ body.folded {
 	}
 }
 
-.yoast-alert-box {
-	display: flex;
-	align-items: baseline;
-	position: relative;
-	padding: 16px;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1.5;
-	margin: 16px 0;
-
-	span.icon {
-		display: block;
-		margin-right: 8px;
-	}
-
-	a {
-		color: #004973;
-		text-decoration: underline;
-	}
-
-	&__warning {
-		color: #674E00;
-		background: #FFF3CD;
-	}
-
-}
-
 .yoast-site-health {
 	&__signature {
 		display: flex;
@@ -617,12 +589,15 @@ body.folded {
 
 .wpseo-alert {
 	display: flex;
-	align-items: flex-start;
-	font-size: 14px;
-	line-height: 1.5;
-	border: 1px solid rgba(0, 0, 0, 0.2);
+	align-items: baseline;
+	position: relative;
 	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
 	margin: 16px 0;
+
 
 	&__error {
 		color: #8f1919;
@@ -644,12 +619,12 @@ body.folded {
 		background: #fff3cd;
 	}
 
-	&__icon {
-		margin-top: 0.125rem;
+	img.icon {
 		display: block;
-		margin-right: 10px;
+		margin-right: 8px;
 		height: 14px;
 		width: 14px;
+		max-width: none;
 	}
 
 	a {

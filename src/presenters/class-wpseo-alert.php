@@ -82,10 +82,9 @@ class WPSEO_Alert {
 	private function render() {
 		$out  = '<div class="wpseo-alert wpseo-alert__' . $this->type . '">';
 
-		$out .= '<span class="wpseo-alert-icon">';
+		$out .= '<span>';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
-		$out .= '<img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file )
-					. '" class="wpseo-alert__icon">';
+		$out .= '<img class="icon" src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file ) . '"">';
 		$out .= '</span>';
 
 		$out .= '<span>' . $this->content . '</span>';
