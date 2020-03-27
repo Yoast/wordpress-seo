@@ -88,8 +88,8 @@ class Yoast_Notifications {
 		add_action( 'admin_init', [ __CLASS__, 'collect_notifications' ], 99 );
 
 		// Add AJAX hooks.
-		add_action( 'wp_ajax_yoast_dismiss_alert', [ $this, 'ajax_dismiss_notification' ] );
-		add_action( 'wp_ajax_yoast_restore_alert', [ $this, 'ajax_restore_notification' ] );
+		add_action( 'wp_ajax_yoast_dismiss_notification', [ $this, 'ajax_dismiss_notification' ] );
+		add_action( 'wp_ajax_yoast_restore_notification', [ $this, 'ajax_restore_notification' ] );
 	}
 
 	/**

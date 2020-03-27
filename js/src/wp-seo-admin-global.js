@@ -211,7 +211,7 @@
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_dismiss_alert",
+					action: "yoast_dismiss_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
 					data: $source.data( "json" ),
@@ -231,7 +231,7 @@
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_restore_alert",
+					action: "yoast_restore_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
 					data: $source.data( "json" ),
