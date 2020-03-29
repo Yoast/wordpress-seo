@@ -41,7 +41,7 @@
 	border-radius: 50%;
 }
 
-.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch, .yoast-toggle-inverse input[type="checkbox"]:checked ~ .yoast-toggle__switch {
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch, .yoast-toggle-inverse input[type="checkbox"]:not(:checked) ~ .yoast-toggle__switch {
 	background-color: var(--color-active-light);
 }
 
