@@ -53,7 +53,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$expected = 'name="wpseo_fieldname" id="wpseo_fieldname"';
 
-		$this->assertStringContainsString( $expected, $output );
+		$this->assertContains( $expected, $output );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$expected = 'name="wpseo_fieldname" id="wpseo_fieldname"';
 
-		$this->assertStringContainsString( $expected, $output );
+		$this->assertContains( $expected, $output );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertStringContainsString( 'name="wpseo_fieldname" id="wpseo_fieldname"', $output );
+		$this->assertContains( 'name="wpseo_fieldname" id="wpseo_fieldname"', $output );
 	}
 
 	/**
