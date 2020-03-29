@@ -269,13 +269,13 @@ import { debounce } from "lodash-es";
 
 		// Handle the settings pages tabs.
 		jQuery( ".yoast-tabs__list-item-link" ).click( function() {
-			jQuery( ".yoast-tabs__list-item-link" ).closest(".yoast-tabs__list-item").removeClass( "yoast-tabs__list-item--active" );
+			jQuery( ".yoast-tabs__list-item-link" ).closest( ".yoast-tabs__list-item" ).removeClass( "yoast-tabs__list-item--active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
 			var activeTab = jQuery( "#" + id );
 			activeTab.addClass( "active" );
-			jQuery( this ).closest(".yoast-tabs__list-item").addClass( "yoast-tabs__list-item--active" );
+			jQuery( this ).closest( ".yoast-tabs__list-item" ).addClass( "yoast-tabs__list-item--active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
 				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
