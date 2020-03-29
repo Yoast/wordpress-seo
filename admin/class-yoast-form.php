@@ -90,7 +90,12 @@ class Yoast_Form {
 				$hidden_fields_cb = [ $network_admin, 'settings_fields' ];
 			}
 
-			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+			echo '<form action="' .
+				esc_url( $action_url ) .
+				'" method="post" id="wpseo-conf"' .
+				$enctype . ' accept-charset="' .
+				esc_attr( get_bloginfo( 'charset' ) ) .
+				'" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
 		}
 		$this->set_option( $option );
