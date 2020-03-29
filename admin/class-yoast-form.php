@@ -41,7 +41,6 @@ class Yoast_Form {
 	 *
 	 * @return Yoast_Form
 	 * @since 2.0
-	 *
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -60,7 +59,6 @@ class Yoast_Form {
 	 * @param bool   $option_long_name Group name of the option.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
@@ -84,13 +82,12 @@ class Yoast_Form {
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
 
-			$network_admin = new Yoast_Network_Admin();
+			$action_url       = admin_url( 'options.php' );
+			$hidden_fields_cb = 'settings_fields';
+			$network_admin    = new Yoast_Network_Admin();
 			if ( $network_admin->meets_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
 				$hidden_fields_cb = [ $network_admin, 'settings_fields' ];
-			} else {
-				$action_url       = admin_url( 'options.php' );
-				$hidden_fields_cb = 'settings_fields';
 			}
 
 			echo '<form action="' . esc_url( $action_url ) . '" method="post" id="wpseo-conf"' . $enctype . ' accept-charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
@@ -105,7 +102,6 @@ class Yoast_Form {
 	 * @param string $option_name Option key.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
@@ -123,7 +119,6 @@ class Yoast_Form {
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
@@ -184,7 +179,6 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function label( $text, $attr ) {
 		$defaults = [
@@ -213,7 +207,6 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 *
 	 * @since 3.4
-	 *
 	 */
 	public function legend( $text, $attr ) {
 		$defaults = [
@@ -234,7 +227,6 @@ class Yoast_Form {
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function checkbox( $var, $label, $label_left = false ) {
 		$val = WPSEO_Options::get( $var, false );
@@ -243,11 +235,10 @@ class Yoast_Form {
 			$val = 'on';
 		}
 
-		$class = '';
+		$class = 'double';
 		if ( $label_left !== false ) {
 			$this->label( $label_left, [ 'for' => $var ] );
-		} else {
-			$class = 'double';
+			$class = '';
 		}
 
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>';
@@ -266,7 +257,6 @@ class Yoast_Form {
 	 * @param string $labels   The labels to show for the variable.
 	 *
 	 * @since 12.8
-	 *
 	 */
 	public function checkbox_list( $variable, $labels ) {
 		$values = WPSEO_Options::get( $variable, [] );
@@ -299,7 +289,6 @@ class Yoast_Form {
 	 * @param bool   $inverse Used when the option is saved inverse, for instance for "noindex-" or "disable-" type options.
 	 *
 	 * @since 3.1
-	 *
 	 */
 	public function light_switch( $var, $label, $buttons = [], $help = '', $inverse = false ) {
 		$val = WPSEO_Options::get( $var, false );
@@ -382,7 +371,6 @@ class Yoast_Form {
 	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function textarea( $var, $label, $attr = [] ) {
 		if ( ! is_array( $attr ) ) {
@@ -416,7 +404,6 @@ class Yoast_Form {
 	 * @param string $id  The ID of the element.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function hidden( $var, $id = '' ) {
 		$val = WPSEO_Options::get( $var, '' );
@@ -441,7 +428,6 @@ class Yoast_Form {
 	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true ) {
 
@@ -492,7 +478,6 @@ class Yoast_Form {
 	 * @param string $label The label to show for the variable.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function file_upload( $var, $label ) {
 		$val = WPSEO_Options::get( $var, '' );
@@ -526,7 +511,6 @@ class Yoast_Form {
 	 * @param string $label Label message.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function media_input( $var, $label ) {
 		$val      = WPSEO_Options::get( $var, '' );
@@ -586,7 +570,6 @@ class Yoast_Form {
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
 	 *
 	 * @since 2.0
-	 *
 	 */
 	public function radio( $var, $values, $legend = '', $legend_attr = [] ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -644,7 +627,6 @@ class Yoast_Form {
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
 	 *
 	 * @since 3.1
-	 *
 	 */
 	public function toggle_switch( $var, $values, $label, $help = '' ) {
 		if ( ! is_array( $values ) || $values === [] ) {
