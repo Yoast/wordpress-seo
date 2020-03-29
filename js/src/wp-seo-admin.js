@@ -253,7 +253,7 @@ import a11ySpeak from "a11y-speak";
 
 		// Toggle the Media section.
 		jQuery( "#disable-attachment" ).change( function() {
-			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
+			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
 		// Toggle the Format-based archives section.
