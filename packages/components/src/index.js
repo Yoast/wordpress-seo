@@ -1,8 +1,7 @@
 import "./base";
 
-import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
+import { default as StyledSection, StyledHeading, StyledSectionBase } from "./StyledSection";
 import { LinkButton } from "./buttons/LinkButton";
-
 
 export * from "./button";
 export * from "./data-model";

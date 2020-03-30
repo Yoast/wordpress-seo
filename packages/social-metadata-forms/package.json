@@ -27,14 +27,18 @@
 		"transformIgnorePatterns": [
 			"/node_modules/(?!yoastseo|lodash-es).+\\.js$"
 		],
-		"setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+		"setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+		"moduleNameMapper": {
+			"\\.css$": "<rootDir>/jest/__mocks__/styleMock.js"
+		}
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"dependencies": {
 		"@wordpress/i18n": "^1.1.0",
-		"@yoast/components": "0.14.0-rc.0",
+		"@yoast/components": "0.14.0",
+		"@yoast/replacement-variable-editor": "^1.0.0",
 		"@yoast/style-guide": "^0.11.1",
 		"lodash": "^4.17.11",
 		"prop-types": "^15.6.0",
