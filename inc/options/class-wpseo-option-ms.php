@@ -86,7 +86,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			'access'                                    => 'admin',
 			'defaultblog'                               => '', // Numeric blog ID or empty.
 			"{$allow_prefix}disableadvanced_meta"       => true,
-			"{$allow_prefix}onpage_indexability"        => true,
+			"{$allow_prefix}ryte_indexability"          => true,
 			"{$allow_prefix}content_analysis_active"    => true,
 			"{$allow_prefix}keyword_analysis_active"    => true,
 			"{$allow_prefix}enable_admin_bar_menu"      => true,

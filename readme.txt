@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 13.0
+Tested up to: 5.4
+Stable tag: 13.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -209,35 +209,32 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.1 =
-Release Date: February 18th, 2020
+= 13.4 =
+Release Date: March 31st, 2020
+
+Bugfixes:
+* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+* Fixes a bug where form fields were validated inconsistently.
+
+= 13.3 =
+Release Date: March 17th, 2020
+
+Our current string of releases focusing on improving our code is continuing with Yoast SEO 13.3. In this release, we have a Schema structured data addition and several improvements to how Yoast SEO handles URLs. Read on in [our 13.3 release post](https://yoa.st/release-13-3)!
+
+Enhancements:
+
+* Makes sure all URL fields show an unencoded URL after saving, even when the user input was encoded.
+* Requires all URLs in URL input fields to begin with either ‘/’ or ‘http(s)’. Props to [stodorovic](https://github.com/stodorovic).
+* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
 
 Bugfixes:
 
-* Fixes a bug where the HowTo schema name was incorrectly set to the page title.
-* Fixes a bug where the "force rewrite titles" option would remove the title tag in svg tags. Props to [stodorovic](https://github.com/stodorovic)
-
-Enhancements:
-
-* Sets the Schema HowTo name and Article headline to the post title with a fallback to "No title".
-* Adds the `inLanguage` property to the schema CreativeWork pieces.
-* Removes a duplicate directory from the composer autoload classmap configuration. Props to [szepeviktor](https://github.com/szepeviktor)
-* Improves the copy for the paginated comments Site Health check.
+* Fixes a bug where social URLs containing international characters could not be saved. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic) and [Shahram Rahbari](https://github.com/ShahramRahbari).
 
 Other:
 
-* Removes the Search Console item from the admin menu and the toolbar menu.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic)
-
-= 13.0 =
-Release Date: February 4th, 2020
-
-Today, we’re releasing Yoast SEO 13.0. This release is one in a series of releases focusing on improving our code and fixing issues — most of them behind the scenes. Read more about those changes in [our 13.0 release post](https://yoa.st/release-13-0)!
-
-Enhancements:
-
-* Hides the Facebook settings when Open Graph is disabled.
-* Adds a success state to the paginated comments Health Check. This means the paginated comments check will also be shown when the paginated comments are set up correctly.
+* Changes the cURL Health Check category from `recommended` to `critical`.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

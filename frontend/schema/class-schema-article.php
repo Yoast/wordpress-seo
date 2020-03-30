@@ -82,6 +82,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data = $this->add_sections( $data );
 		$data = WPSEO_Schema_Utils::add_piece_language( $data );
 
+		if ( post_type_supports( $post->post_type, 'comments' ) && $post->comment_status === 'open' ) {
+			$data = $this->add_potential_action( $data );
+		}
+
 		return $data;
 	}
 
@@ -182,6 +186,30 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH,
 			];
 		}
+
+		return $data;
+	}
+
+	/**
+	 * Adds the potential action JSON LD code to an Article Schema piece.
+	 *
+	 * @param array $data The Article data array.
+	 *
+	 * @return array $data
+	 */
+	private function add_potential_action( $data ) {
+		/**
+		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article potentialAction target.
+		 *
+		 * @api array $targets The URLs for the Article potentialAction target.
+		 */
+		$targets = apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#respond' ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'CommentAction',
+			'name'   => 'Comment',
+			'target' => $targets,
+		];
 
 		return $data;
 	}
