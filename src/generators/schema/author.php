@@ -8,10 +8,6 @@
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Config\Schema_Ids;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Schema;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 
 /**
  * Returns schema Person data.
@@ -39,7 +35,7 @@ class Author extends Person {
 			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
 		) {
 			// If the author is the user the site represents, no need for an extra author block.
-			if ( parent::is_needed( $this->context ) ) {
+			if ( parent::is_needed() ) {
 				return (int) $this->context->post->post_author !== $this->context->site_user_id;
 			}
 

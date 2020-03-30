@@ -29,18 +29,17 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	public function generate() {
-		$schema_id = $this->context->site_url . Schema_Ids::ORGANIZATION_LOGO_HASH;
-		$data      = [
+		$logo_schema_id = $this->context->site_url . Schema_Ids::ORGANIZATION_LOGO_HASH;
+
+		return [
 			'@type'  => 'Organization',
 			'@id'    => $this->context->site_url . Schema_Ids::ORGANIZATION_HASH,
 			'name'   => $this->helpers->schema->html->smart_strip_tags( $this->context->company_name ),
 			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
-			'logo'   => $this->helpers->schema->image->generate_from_attachment_id( $schema_id, $this->context->company_logo_id, $this->context->company_name ),
-			'image'  => [ '@id' => $schema_id ],
+			'logo'   => $this->helpers->schema->image->generate_from_attachment_id( $logo_schema_id, $this->context->company_logo_id, $this->context->company_name ),
+			'image'  => [ '@id' => $logo_schema_id ],
 		];
-
-		return $data;
 	}
 
 	/**
