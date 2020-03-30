@@ -178,7 +178,7 @@ class Indexable_Hierarchy_Builder {
 
 		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
 
-		if ( $primary_term ) {
+		if ( $primary_term && term_exists( $primary_term->term_id ) ) {
 			return $primary_term->term_id;
 		}
 
