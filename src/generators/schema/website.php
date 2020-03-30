@@ -44,7 +44,7 @@ class Website extends Abstract_Schema_Piece {
 		}
 
 		$data = $this->add_alternate_name( $data );
-		$data = $this->internal_search_section( $data, $this->context );
+		$data = $this->internal_search_section( $data );
 		$data = $this->helpers->schema->language->add_piece_language( $data );
 
 		return $data;
