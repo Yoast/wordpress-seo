@@ -61,13 +61,13 @@ class Database_Logger implements Integration_Interface {
 	 * @return void
 	 */
 	public function log_output() {
-		$content_type          = $this->get_content_type();
+		$content_type = $this->get_content_type();
 
 		if (
 			\wp_doing_ajax() ||
 			( defined( 'WP_CLI' ) && WP_CLI ) ||
 			( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
-			( stripos( $content_type, 'text/html' ) === false )
+			( stripos( $content_type, 'text/html' ) === false && $content_type !== '' )
 		) {
 			return;
 		}
