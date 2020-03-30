@@ -64,7 +64,7 @@ export default class Toggle extends React.Component {
 				htmlFor={ id }
 				{ ...fieldGroupProps }
 			>
-				<div className="yoast yoast-toggle">
+				<div className="yoast-toggle">
 					<input
 						type="checkbox"
 						id={ id }
