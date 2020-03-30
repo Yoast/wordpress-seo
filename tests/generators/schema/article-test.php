@@ -94,20 +94,25 @@ class Article_Test extends TestCase {
 		$this->html                    = Mockery::mock( HTML_Helper::class );
 		$this->post                    = Mockery::mock( Post_Helper::class );
 		$this->language                = Mockery::mock( Language_Helper::class );
-		$this->instance                = Mockery::mock( Article_Double::class, [
-			$this->article,
-			$this->date,
-			$this->html,
-			$this->post,
-			$this->language,
-		] )
+		$this->instance                = Mockery::mock( Article_Double::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->context_mock            = new Meta_Tags_Context();
 		$this->context_mock->indexable = new Indexable();
 		$this->context_mock->post      = new stdClass();
 		$this->context_mock->id        = 5;
-		$this->instance->set_id_helper( $this->id );
+
+		$this->instance->context = $this->context_mock;
+		$this->instance->helpers = (object) [
+			'date'   => $this->date,
+			'post'   => $this->post,
+			'schema' => (object) [
+				'article'  => $this->article,
+				'id'       => $this->id,
+				'html'     => $this->html,
+				'language' => $this->language,
+			]
+		];
 
 		return parent::setUp();
 	}
@@ -126,7 +131,7 @@ class Article_Test extends TestCase {
 
 		$this->article->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
 
-		$this->assertTrue( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertTrue( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article' );
 	}
 
@@ -140,7 +145,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->indexable->object_type = 'home-page';
 		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
@@ -158,7 +163,7 @@ class Article_Test extends TestCase {
 
 		$this->article->expects( 'is_article_post_type' )->with( 'not-article' )->andReturn( false );
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
@@ -173,7 +178,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents        = false;
 		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
@@ -242,7 +247,7 @@ class Article_Test extends TestCase {
 
 		$this->instance
 			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_keywords'], 'keywords', 'post_tag', $this->context_mock )
+			->with( $values_to_test['data_for_add_keywords'], 'keywords', 'post_tag' )
 			->once()
 			->andReturn( $values_to_test['data_for_add_keywords'] += [ 'keywords' => 'Tag1,Tag2' ] );
 
@@ -253,7 +258,7 @@ class Article_Test extends TestCase {
 
 		$this->instance
 			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_sections'], 'articleSection', 'category', $this->context_mock )
+			->with( $values_to_test['data_for_add_sections'], 'articleSection', 'category' )
 			->once()
 			->andReturn( $values_to_test['data_for_add_sections'] += [ 'articleSection' => 'Category1' ] );
 
@@ -270,7 +275,7 @@ class Article_Test extends TestCase {
 			->with( $this->context_mock->post->post_type, 'comments' )
 			->andReturn( $values_to_test['mock_value_post_type_supports'] );
 
-		$this->assertEquals( $expected_value, $this->instance->generate( $this->context_mock ), $message );
+		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
 	}
 
 	/**
@@ -299,7 +304,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1, 'keywords' => 'Tag1,Tag2' ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -319,7 +324,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1 ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -339,7 +344,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1 ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**

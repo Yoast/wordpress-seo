@@ -100,23 +100,23 @@ class Author_Test extends TestCase {
 		$this->image        = Mockery::mock( Image_Helper::class );
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
-
-		$constructor_args = [
-			$this->article,
-			$this->image,
-			$this->schema_image,
-			$this->html,
-		];
-
-		$this->instance = Mockery::mock( Author::class, $constructor_args )
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
-
-		$this->id = Mockery::mock( Schema\ID_Helper::class );
-
-		$this->instance->set_id_helper( $this->id );
+		$this->id           = Mockery::mock( Schema\ID_Helper::class );
 
 		$this->meta_tags_context = new Meta_Tags_Context();
+
+		$this->instance = Mockery::mock( Author::class )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'image'  => $this->image,
+			'schema' => (object) [
+				'article' => $this->article,
+				'id'      => $this->id,
+				'image'   => $this->schema_image,
+				'html'    => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Author_Test extends TestCase {
 
 		$this->instance->expects( 'build_person_data' )
 			->once()
-			->with( $user_id, $this->meta_tags_context )
+			->with( $user_id )
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
@@ -147,7 +147,7 @@ class Author_Test extends TestCase {
 
 		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertArrayHasKey( 'mainEntityOfPage', $actual );
 		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/#webpage' ], $actual['mainEntityOfPage'] );
@@ -164,7 +164,7 @@ class Author_Test extends TestCase {
 
 		$this->instance->expects( 'build_person_data' )
 			->once()
-			->with( $user_id, $this->meta_tags_context )
+			->with( $user_id )
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
@@ -181,7 +181,7 @@ class Author_Test extends TestCase {
 
 		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertSame( $this->person_data, $actual );
 	}
@@ -216,7 +216,7 @@ class Author_Test extends TestCase {
 			->with( $user_id )
 			->andReturn( 'not_a_valid_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertFalse( $actual );
 	}
@@ -241,7 +241,7 @@ class Author_Test extends TestCase {
 
 		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertFalse( $actual );
 	}
@@ -263,7 +263,7 @@ class Author_Test extends TestCase {
 			'object_id'   => $user_id,
 		];
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -294,7 +294,7 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->site_represents = 'person';
 		$this->meta_tags_context->site_user_id    = $user_id;
 
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -324,7 +324,7 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->site_represents = 'organization';
 		$this->meta_tags_context->site_user_id    = $user_id;
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -350,6 +350,6 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->site_user_id = $other_user_id;
 
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 }

@@ -87,7 +87,15 @@ class Organization_Test extends TestCase {
 			$this->html
 		);
 
-		$this->instance->set_id_helper( $this->id );
+		$this->instance->context = $this->context;
+		$this->instance->helpers = (object) [
+			'options' => $this->options,
+			'schema'  => (object) [
+				'id'      => $this->id,
+				'image'   => $this->image,
+				'html'    => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -144,7 +152,7 @@ class Organization_Test extends TestCase {
 			'image'  => [ '@id' => $schema_logo_id ],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
@@ -156,7 +164,7 @@ class Organization_Test extends TestCase {
 	public function test_is_needed() {
 		$this->context->site_represents = 'company';
 
-		$this->assertTrue( $this->instance->is_needed( $this->context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -168,7 +176,7 @@ class Organization_Test extends TestCase {
 	public function test_is_not_needed() {
 		$this->context->site_represents = false;
 
-		$this->assertFalse( $this->instance->is_needed( $this->context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
