@@ -164,7 +164,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 *
 	 * @return array Image schema.
 	 */
-	protected function get_image_schema( $url) {
+	protected function get_image_schema( $url ) {
 		$schema_id = $this->context->canonical . '#schema-image-' . \md5( $url );
 
 		return $this->helpers->schema->image->generate_from_url( $schema_id, $url );
