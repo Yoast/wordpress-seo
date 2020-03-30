@@ -5,6 +5,7 @@ const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
 const root = path.join( __dirname, "../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -137,6 +138,11 @@ module.exports = function( env ) {
 
 	const plugins = [
 		new CaseSensitivePathsPlugin(),
+		new MiniCssExtractPlugin(
+			{
+				filename: "css/dist/monorepo-" + pluginVersionSlug + ".css",
+			}
+		),
 	];
 
 	const base = {
@@ -181,6 +187,13 @@ module.exports = function( env ) {
 						},
 					],
 				},
+				{
+					test: /\.css$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+					],
+				},
 			],
 		},
 		externals,
@@ -215,6 +228,11 @@ module.exports = function( env ) {
 			...base,
 			entry: {
 				components: "./js/src/components.js",
+			},
+			output: {
+				path: path.resolve(),
+				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
+				jsonpFunction: "yoastWebpackJsonp",
 			},
 			externals: {
 				...externals,
