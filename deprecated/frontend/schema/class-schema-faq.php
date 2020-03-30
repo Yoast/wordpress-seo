@@ -111,8 +111,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\FAQ::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->faq->is_needed( $context );

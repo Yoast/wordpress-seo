@@ -38,8 +38,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Person' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Person' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->person = YoastSEO()->classes->get( Person::class );
 	}
