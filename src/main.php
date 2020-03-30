@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
 use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -42,6 +43,7 @@ class Main {
 	private $surfaces = [
 		'current_page' => Current_Page_Surface::class,
 		'classes'      => Classes_Surface::class,
+		'helpers'      => Helpers_Surface::class,
 	];
 
 	/**
