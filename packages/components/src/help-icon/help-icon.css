@@ -1,0 +1,24 @@
+.yoast-help {
+    border-radius: 50%;
+    padding: 4px;
+    width: 12px;
+    height: 12px;
+    display: block;
+    float: left;
+    margin-top: -5px;
+}
+
+.yoast-help + * {
+    clear: both;
+}
+
+.yoast-help__icon svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--color-label-help);
+    transition: var(--transition-default);
+}
+
+.yoast-help:hover svg {
+    fill: var(--color-link);
+}
