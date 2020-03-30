@@ -117,8 +117,6 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Adds the RSS footer and/or header to an RSS feed item.
 	 *
-	 * @since 1.4.14
-	 *
 	 * @param string $content Feed item content.
 	 *
 	 * @return string The content to add.

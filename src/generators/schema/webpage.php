@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use WP_Post;
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
@@ -16,8 +17,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema WebPage data.
- *
- * @since 10.2
  */
 class WebPage extends Abstract_Schema_Piece {
 
@@ -90,11 +89,11 @@ class WebPage extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
 			'@type'      => $context->schema_page_type,
-			'@id'        => $context->canonical . $this->id->webpage_hash,
+			'@id'        => $context->canonical . Schema_Ids::WEBPAGE_HASH,
 			'url'        => $context->canonical,
 			'name'       => $this->html->smart_strip_tags( $context->title ),
 			'isPartOf'   => [
-				'@id' => $context->site_url . $this->id->website_hash,
+				'@id' => $context->site_url . Schema_Ids::WEBSITE_HASH,
 			],
 		];
 
@@ -121,7 +120,7 @@ class WebPage extends Abstract_Schema_Piece {
 
 		if ( $this->add_breadcrumbs( $context ) ) {
 			$data['breadcrumb'] = [
-				'@id' => $context->canonical . $this->id->breadcrumb_hash,
+				'@id' => $context->canonical . Schema_Ids::BREADCRUMB_HASH,
 			];
 		}
 
@@ -156,7 +155,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_image( &$data, Meta_Tags_Context $context ) {
 		if ( $context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $context->canonical . $this->id->primary_image_hash ];
+			$data['primaryImageOfPage'] = [ '@id' => $context->canonical . Schema_Ids::PRIMARY_IMAGE_HASH ];
 		}
 	}
 

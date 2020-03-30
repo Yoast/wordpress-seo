@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
@@ -14,8 +15,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema Website data.
- *
- * @since 10.2
  */
 class Website extends Abstract_Schema_Piece {
 
@@ -75,14 +74,12 @@ class Website extends Abstract_Schema_Piece {
 	 *
 	 * @return array Website data blob.
 	 *
-	 * @since 1.5.7
-	 *
 	 * @link https://developers.google.com/structured-data/site-name
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$data = [
 			'@type'       => 'WebSite',
-			'@id'         => $context->site_url . $this->id->website_hash,
+			'@id'         => $context->site_url . Schema_Ids::WEBSITE_HASH,
 			'url'         => $context->site_url,
 			'name'        => $this->html->smart_strip_tags( $context->site_name ),
 			'description' => \get_bloginfo( 'description' ),

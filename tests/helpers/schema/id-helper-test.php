@@ -80,25 +80,4 @@ class ID_Helper_Test extends TestCase {
 			$this->instance->get_user_schema_id( 1337, $context )
 		);
 	}
-
-	/**
-	 * Retrieves the value of the website hash constant.
-	 *
-	 * @covers ::__get
-	 */
-	public function test_magic_getter() {
-		$this->assertEquals( '#website', $this->instance->website_hash );
-	}
-
-	/**
-	 * Retrieves the value of a constant that doesn't exist.
-	 *
-	 * @covers ::__get
-	 *
-	 * @expectedException  \Exception
-	 * @expectedExceptionMessage  Property NON_EXISTING_CONSTANT does not exist.
-	 */
-	public function test_magic_getter_for_a_non_existing_constant() {
-		$this->assertEmpty( $this->instance->non_existing_constant );
-	}
 }

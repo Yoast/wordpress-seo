@@ -133,8 +133,6 @@ class Author_Test extends TestCase {
 			->with( $user_id, $this->meta_tags_context )
 			->andReturn( $this->person_data );
 
-		$this->id->webpage_hash = '#webpage';
-
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
 			'post_author' => $user_id,
@@ -169,8 +167,6 @@ class Author_Test extends TestCase {
 			->with( $user_id, $this->meta_tags_context )
 			->andReturn( $this->person_data );
 
-		$this->id->webpage_hash = '#webpage';
-
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
 			'post_author' => $user_id,
@@ -204,8 +200,6 @@ class Author_Test extends TestCase {
 		$this->instance->expects( 'build_person_data' )
 			->never();
 
-		$this->id->webpage_hash = '#webpage';
-
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
 			'post_author' => $user_id,
@@ -233,8 +227,6 @@ class Author_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_not_generate_when_user_id_cannot_be_defined() {
-		$this->id->webpage_hash = '#webpage';
-
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
 			'post_author' => false,

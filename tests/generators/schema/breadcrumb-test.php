@@ -58,8 +58,6 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->id           = Mockery::mock( ID_Helper::class );
 
-		$this->id->breadcrumb_hash = '#breadcrumbs';
-
 		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context::class );
 		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
 		$this->meta_tags_context->indexable    = Mockery::mock( Indexable::class );
@@ -99,7 +97,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -159,7 +157,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -232,7 +230,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -303,7 +301,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -365,7 +363,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',

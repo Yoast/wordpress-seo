@@ -21,3 +21,5 @@ interface Initializer_Interface extends Loadable_Interface {
 	 */
 	public function initialize();
 }
+
+class_alias( '\Yoast\WP\SEO\Initializers\Initializer_Interface', '\Yoast\WP\SEO\WordPress\Initializer' );
