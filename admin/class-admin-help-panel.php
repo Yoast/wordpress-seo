@@ -68,8 +68,8 @@ class WPSEO_Admin_Help_Panel {
 		}
 
 		return sprintf(
-			'<a class="yoast-field-group__help" target="_blank" href="%1$s">
-				<span class="yoast-field-group__help-icon">
+			'<a class="yoast-help" target="_blank" href="%1$s">
+				<span class="yoast-help__icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
 						 focusable="false"><path
 							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>

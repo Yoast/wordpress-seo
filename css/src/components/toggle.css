@@ -13,6 +13,7 @@
 .yoast-toggle__item-title {
 	display: flex;
 	font-weight: bold;
+	align-items: center;
 }
 
 .yoast-toggle input[type="checkbox"], .yoast-toggle-inverse input[type="checkbox"] {
