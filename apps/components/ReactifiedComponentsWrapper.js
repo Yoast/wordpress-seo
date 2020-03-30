@@ -80,9 +80,9 @@ const ReactifiedComponentsWrapper = () => {
 				label="React Toggle"
 				offText="off"
 				onText="on"
-				value="toggle-value"
 				name="toggle"
 				id="weird-id-that-is-unique"
+				onChange={ console.warn }
 			/>
 		</div>
 	);
