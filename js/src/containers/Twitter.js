@@ -6,10 +6,10 @@ import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 
-const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
-const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
-const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
-const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
+const titleInput = document.getElementById( "yoast_wpseo_twitter-title" );
+const descriptionInput = document.getElementById( "yoast_wpseo_twitter-description" );
+const imageIdInput = document.getElementById( "yoast_wpseo_twitter-image-id" );
+const imageUrlInput = document.getElementById( "yoast_wpseo_twitter-image" );
 
 /**
  * Sets the data from the hidden fields to the store.
