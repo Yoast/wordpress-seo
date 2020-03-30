@@ -6,7 +6,6 @@ import * as markerPauseStatus from "./markerPauseStatus";
 import * as snippetEditor from "./snippetEditor";
 import * as settings from "./settings";
 
-console.log ( social ); 
 const selectors = {
 	...social,
 	...results,
