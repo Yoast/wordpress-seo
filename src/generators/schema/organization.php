@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use mysql_xdevapi\Schema;
-use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
@@ -78,10 +76,10 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$schema_id = $context->site_url . Schema_Ids::ORGANIZATION_LOGO_HASH;
+		$schema_id = $context->site_url . $this->id->organization_logo_hash;
 		$data      = [
 			'@type'  => 'Organization',
-			'@id'    => $context->site_url . Schema_Ids::ORGANIZATION_HASH,
+			'@id'    => $context->site_url . $this->id->organization_hash,
 			'name'   => $this->html->smart_strip_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),

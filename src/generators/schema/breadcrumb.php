@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
@@ -107,7 +106,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $context->canonical . Schema_Ids::BREADCRUMB_HASH,
+			'@id'             => $context->canonical . $this->id->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		];
 	}
