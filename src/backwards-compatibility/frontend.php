@@ -219,8 +219,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 	/**
 	 * Adds 'prev' and 'next' links to archives.
 	 *
-	 * @link  http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-	 * @since 1.0.3
+	 * @link http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 	 */
 	public function adjacent_rel_links() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );

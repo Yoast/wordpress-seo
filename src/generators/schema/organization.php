@@ -15,8 +15,6 @@ use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 
 /**
  * Returns schema Organization data.
- *
- * @since 10.2
  */
 class Organization extends Abstract_Schema_Piece {
 
@@ -95,8 +93,6 @@ class Organization extends Abstract_Schema_Piece {
 	 * Retrieve the social profiles to display in the organization schema.
 	 *
 	 * @link https://developers.google.com/webmasters/structured-data/customize/social-profiles
-	 *
-	 * @since 1.8
 	 *
 	 * @return array $profiles An array of social profiles.
 	 */
