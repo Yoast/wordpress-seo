@@ -6,6 +6,9 @@ import initFeaturedImageIntegration from "./initializers/featured-image";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 
+// Backwards compatibility globals.
+window.wpseoPostScraperL10n = wpseoScriptData.metabox;
+
 initTabs( jQuery );
 
 if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
