@@ -477,11 +477,12 @@ class WPSEO_Admin_Init {
 			return;
 		}
 
-		if ( WPSEO_Options::get( 'ignore_blog_public_notification' ) === true ) {
+		if ( WPSEO_Options::get( 'ignore_blog_public_notification', false ) === true ) {
 			return;
 		}
 
-		printf( '<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
+		printf(
+			'<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" id="robotsmessage-dismiss-button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
 			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
 			sprintf(
 				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
