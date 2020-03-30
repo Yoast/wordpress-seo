@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
@@ -94,7 +95,7 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		if ( $this->article->is_article_post_type( $context->indexable->object_sub_type ) ) {
-			$context->main_schema_id = $context->canonical . $this->id->article_hash;
+			$context->main_schema_id = $context->canonical . Schema_Ids::ARTICLE_HASH;
 
 			return true;
 		}
@@ -113,14 +114,14 @@ class Article extends Abstract_Schema_Piece {
 		$comment_count = \get_comment_count( $context->id );
 		$data          = [
 			'@type'            => 'Article',
-			'@id'              => $context->canonical . $this->id->article_hash,
-			'isPartOf'         => [ '@id' => $context->canonical . $this->id->webpage_hash ],
+			'@id'              => $context->canonical . Schema_Ids::ARTICLE_HASH,
+			'isPartOf'         => [ '@id' => $context->canonical . Schema_Ids::WEBPAGE_HASH ],
 			'author'           => [ '@id' => $this->id->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $this->html->smart_strip_tags( $this->post->get_post_title_with_fallback( $context->id ) ),
 			'datePublished'    => $this->date->format( $context->post->post_date_gmt ),
 			'dateModified'     => $this->date->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id->webpage_hash ],
+			'mainEntityOfPage' => [ '@id' => $context->canonical . Schema_Ids::WEBPAGE_HASH ],
 		];
 
 		if ( $context->site_represents_reference ) {
@@ -220,7 +221,7 @@ class Article extends Abstract_Schema_Piece {
 	private function add_image( $data, Meta_Tags_Context $context ) {
 		if ( $context->has_image ) {
 			$data['image'] = [
-				'@id' => $context->canonical . $this->id->primary_image_hash,
+				'@id' => $context->canonical . Schema_Ids::PRIMARY_IMAGE_HASH,
 			];
 		}
 
