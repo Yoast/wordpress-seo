@@ -5,6 +5,13 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<script
+			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+			crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
 	<style>
 		/* Demo styling */
 		body {
@@ -54,6 +61,19 @@
 		</div>
 	</div>
 
+	<p>Multiselect with select2 component</p>
+
+	<div class="yoast-field-group">
+		<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+			<option value="dog">Dog</option>
+			<option value="cat">Cat</option>
+			<option value="hamster">Hamster</option>
+			<option value="parrot">Parrot</option>
+			<option value="spider">Spider</option>
+			<option value="goldfish">Goldfish</option>
+		</select>
+	</div>
+
 	<p>Select without additional styling</p>
 
 	<label for="selectid2">Label name</label>
@@ -68,5 +88,13 @@
 	</select>
 
 </form>
+
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			containerCssClass: 'yoast-multiselect',
+		});
+	});
+</script>
 </body>
 </html>

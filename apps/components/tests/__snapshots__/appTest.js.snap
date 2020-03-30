@@ -143,6 +143,13 @@ exports[`App renders without problems 1`] = `
     >
       Social Preview data form
     </button>
+    <button
+      onClick={[Function]}
+      style={Object {}}
+      type="button"
+    >
+      Reactified components
+    </button>
     <p
       style={
         Object {
