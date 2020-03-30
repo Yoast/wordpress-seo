@@ -96,46 +96,4 @@ class Taxonomy_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'Term description', $this->instance->get_term_description( 1337 ) );
 	}
-
-	/**
-	 * Tests if the term exists.
-	 *
-	 * @covers ::term_exists
-	 */
-	public function test_term_exists() {
-		Monkey\Functions\expect( 'term_exists' )
-			->once()
-			->with( 1337 )
-			->andReturn( 1337 );
-
-		$this->assertTrue( $this->instance->term_exists( 1337 ) );
-	}
-
-	/**
-	 * Tests if a non existing term exists.
-	 *
-	 * @covers ::term_exists
-	 */
-	public function test_term_exists_not_found() {
-		Monkey\Functions\expect( 'term_exists' )
-			->once()
-			->with( 1337 )
-			->andReturnNull();
-
-		$this->assertFalse( $this->instance->term_exists( 1337 ) );
-	}
-
-	/**
-	 * Tests if term exists with fallback to the VIP function.
-	 *
-	 * @covers ::term_exists
-	 */
-	public function test_term_exists_using_vip_function() {
-		Monkey\Functions\expect( 'wpcom_vip_term_exists' )
-			->once()
-			->with( 1337 )
-			->andReturn( 1337 );
-
-		$this->assertTrue( $this->instance->term_exists( 1337 ) );
-	}
 }

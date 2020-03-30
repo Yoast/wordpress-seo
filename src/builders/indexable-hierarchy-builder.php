@@ -58,33 +58,23 @@ class Indexable_Hierarchy_Builder {
 	private $post;
 
 	/**
-	 * Holds the Taxonomy_Helper instance.
-	 *
-	 * @var Taxonomy_Helper
-	 */
-	private $taxonomy;
-
-	/**
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Indexable_Hierarchy_Repository $indexable_hierarchy_repository The indexable hierarchy repository.
 	 * @param Primary_Term_Repository        $primary_term_repository        The primary term repository.
 	 * @param Options_Helper                 $options                        The options helper.
 	 * @param Post_Helper                    $post                           The post helper.
-	 * @param Taxonomy_Helper                $taxonomy                       The taxonomy helper.
 	 */
 	public function __construct(
 		Indexable_Hierarchy_Repository $indexable_hierarchy_repository,
 		Primary_Term_Repository $primary_term_repository,
 		Options_Helper $options,
-		Post_Helper $post,
-		Taxonomy_Helper $taxonomy
+		Post_Helper $post
 	) {
 		$this->indexable_hierarchy_repository = $indexable_hierarchy_repository;
 		$this->primary_term_repository        = $primary_term_repository;
 		$this->options                        = $options;
 		$this->post                           = $post;
-		$this->taxonomy                       = $taxonomy;
 	}
 
 	/**
@@ -189,7 +179,7 @@ class Indexable_Hierarchy_Builder {
 
 		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
 
-		if ( $primary_term && $this->taxonomy->term_exists( $primary_term->term_id ) ) {
+		if ( $primary_term && get_term( $primary_term->term_id ) ) {
 			return $primary_term->term_id;
 		}
 
