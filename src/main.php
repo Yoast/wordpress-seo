@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
 use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -22,8 +23,9 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 /**
  * Class Main
  *
- * @property Current_Page_Surface current_page
- * @property Classes_Surface      classes
+ * @property Current_Page_Surface $current_page The Current Page Surface.
+ * @property Classes_Surface      $classes      The classes surface.
+ * @property Helpers_Surface      $helpers      The helpers surface.
  */
 class Main {
 
@@ -42,6 +44,7 @@ class Main {
 	private $surfaces = [
 		'current_page' => Current_Page_Surface::class,
 		'classes'      => Classes_Surface::class,
+		'helpers'      => Helpers_Surface::class,
 	];
 
 	/**
@@ -80,9 +83,10 @@ class Main {
 	 * @throws Exception When the property doesn't exist.
 	 */
 	public function __get( $property ) {
-		if ( isset( $this->{ $property } ) ) {
-			$this->{ $property } = $this->container->get( $this->surfaces[ $property ] );
-			return $this->{ $property };
+		if ( isset( $this->{$property} ) ) {
+			$this->{$property} = $this->container->get( $this->surfaces[ $property ] );
+
+			return $this->{$property};
 		}
 		throw new Exception( "Property $property does not exist." );
 	}
@@ -113,6 +117,7 @@ class Main {
 
 		if ( \file_exists( __DIR__ . '/generated/container.php' ) ) {
 			require_once __DIR__ . '/generated/container.php';
+
 			return new Cached_Container();
 		}
 
