@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
-import { Alert } from "@yoast/components";
-import { makeOutboundLink } from "@yoast/helpers";
-import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
+import PropTypes from "prop-types";
+import { __, sprintf } from "@wordpress/i18n";
+import { Alert } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const PremiumInfoText = styled( Alert )`
 	margin-top: 16px;
@@ -33,7 +34,7 @@ const SocialUpsell = ( props ) => {
 		/* Translators: %s expands to the social medium name, which is either Twitter or Facebook. %s expands to Yoast SEO Premium */
 		__(
 			"Do you want to preview what it will look like if people share this post on %s? You can, with %s.", "yoast-components"
-		), props.socialMedium, " {{strong}}Yoast SEO Premium{{/strong}}"
+		), props.socialMediumName, " {{strong}}Yoast SEO Premium{{/strong}}"
 	);
 
 	return (
@@ -54,6 +55,10 @@ const SocialUpsell = ( props ) => {
 			</PremiumInfoText>
 		</Fragment>
 	);
+};
+
+SocialUpsell.propTypes = {
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
 };
 
 export default SocialUpsell;

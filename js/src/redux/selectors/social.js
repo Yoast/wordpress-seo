@@ -32,8 +32,6 @@ const getDescriptionFallback = state => state.analysisData.snippet.description;
  */
 const getImageFallback = state => state.settings.socialPreviews.sitewideImage || state.snippetEditor.data.snippetPreviewImageURL;
 
-console.log( socialSelectors.getFacebookData );
-
 export default {
 	...socialSelectors,
 	getTitleFallback,

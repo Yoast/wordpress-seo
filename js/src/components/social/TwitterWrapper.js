@@ -15,22 +15,20 @@ const socialMediumName = "Twitter";
  * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
-	props.socialMediumName = "Twitter";
-	props.isPremium = isPremium;
+	const richProps = {
+		...props,
+		isPremium,
+		socialMediumName,
+	};
 	return (
 		<Fragment>
 			{
 				isPremium
 					? <Slot
-						name="YoastTwitterPremium" 
-						fillProps={ {
-							socialMediumName,
-							isPremium,
-							...props,
-						} }
+						name="YoastTwitterPremium"
+						fillProps={ richProps }
 					/>
-					// : <SocialForm { ...props } />
-					: <div>null</div>
+					: <SocialForm { ...richProps } />
 			}
 		</Fragment>
 	);

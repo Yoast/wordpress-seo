@@ -1,45 +1,29 @@
 /* External dependencies */
-import { connect } from "react-redux";
 import { actions } from "@yoast/social-metadata-forms";
+import { compose } from "@wordpress/compose";
+import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
-import { socialSelectors }  from "../redux/selectors/socialSelectors";
-import { getImageFallback, getDescriptionFallback, getTitleFallback } from "../redux/selectors/fallbackSelectors";
 
-const {
-	setSocialPreviewTitle,
-	setSocialPreviewDescription,
-	setSocialPreviewImage,
-	setSocialPreviewImageUrl,
-	setSocialPreviewImageId,
-} = actions;
+const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
+const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
+const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
+const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
 
 /**
- * Maps the state to props.
+ * Sets the data from the hidden fields to the store.
  *
- * @param {Object} state The state.`
- *
- * @returns {Object} The props for the TwitterView component.
+ * @returns {void}
  */
-const mapStateToProps = ( state ) => {
-	const image = state.socialReducer.twitter.image;
-	return {
-		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
-		replacementVariables: state.snippetEditor.replacementVariables,
-		description: socialSelectors.getTwitterDescription( state ) || socialSelectors.getFacebookDescription( state ) || getDescriptionFallback( state ),
-		descriptionFallback: "Modify your Twitter description by editing it right here...",
-		title: socialSelectors.getTwitterTitle( state ),
-		titleFallback: socialSelectors.getFacebookTitle( state ) || getTitleFallback( state ),
-		image: { ...image, fallbackUrl: state.socialReducer.facebook.image.url || getImageFallback( state ) },
-		imageWarnings: state.socialReducer.twitter.warnings,
-	};
+const dispatchHiddenFieldValues = () => {
+	wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "twitter" ) );
+	wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "twitter" ) );
+	wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "twitter" ) );
+	wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "twitter" ) );
 };
 
-const titleInput = document.getElementById( "yoast_wpseo_twitter-title" );
-const descriptionInput = document.getElementById( "yoast_wpseo_twitter-description" );
-const imageIdInput = document.getElementById( "yoast_wpseo_twitter-image-id" );
-const imageUrlInput = document.getElementById( "yoast_wpseo_twitter-image" );
+dispatchHiddenFieldValues();
 
 // Make the media library accessible.
 const media = window.wp.media();
@@ -67,56 +51,54 @@ media.on( "select", () => {
 	imageUrlInput.value = url;
 } );
 
-/**
- * Sets the data from the hidden fields to the store.
- *
- * @param {func} dispatch Dispatches an action to the store.
- *
- * @returns {void}
- */
-const dispatchHiddenFieldValues = ( dispatch ) => {
-	dispatch( setSocialPreviewTitle( titleInput.value, "twitter" ) );
-	dispatch( setSocialPreviewDescription( descriptionInput.innerText, "twitter" ) );
-	dispatch( setSocialPreviewImageUrl( imageUrlInput.value, "twitter" ) );
-	dispatch( setSocialPreviewImageId( imageIdInput.value, "twitter" ) );
-};
+export default compose( [
+	withSelect( select => {
+		const {
+			getTwitterDescription,
+			getTwitterTitle,
+			getTwitterData,
+			getImageFallback,
+			getRecommendedReplaceVars,
+			getReplaceVars,
+		} = select( "yoast-seo/editor" );
 
-/**
- * Maps the dispatch to props.
- *
- * @param {function} dispatch The dispatch function.
- *
- * @returns {Object} The dispatch props.
- */
-const mapDispatchToProps = ( dispatch ) => {
-	dispatchHiddenFieldValues( dispatch );
-	return {
-		onSelectImageClick: () => {
-			media.open();
-		},
-		// Set the image object back to default.
-		onRemoveImageClick: () => {
-			const image = {
-				bytes: null,
-				type: null,
-				height: null,
-				width: null,
-				url: null,
-				id: null,
-			};
-			dispatch( setSocialPreviewImage( image, "twitter" ) );
-			imageUrlInput.value = null;
-			imageIdInput.value = null;
-		},
-		onDescriptionChange: ( description ) => {
-			dispatch( setSocialPreviewDescription( description, "twitter" ) );
-			descriptionInput.value = description;
-		},
-		onTitleChange: ( title ) => {
-			dispatch( setSocialPreviewTitle( title, "twitter" ) );
-			titleInput.value = title;
-		},
-	};
-};
+		const data = getTwitterData();
+		const image = data.image;
+		image.fallbackUrl = getImageFallback();
+		return {
+			image,
+			recommendedReplacementVariables: getRecommendedReplaceVars(),
+			replacementVariables: getReplaceVars(),
+			description: getTwitterDescription(),
+			title: getTwitterTitle(),
+			imageWarnings: data.warnings,
+		};
+	} ),
 
-export default connect( mapStateToProps, mapDispatchToProps )( TwitterWrapper );
+	withDispatch( dispatch => {
+		const {
+			setSocialPreviewTitle,
+			setSocialPreviewDescription,
+			clearSocialPreviewImage,
+		} = dispatch( "yoast-seo/editor" );
+
+		return {
+			onSelectImageClick: () => {
+				media.open();
+			},
+			onRemoveImageClick: () => {
+				imageUrlInput.value = null;
+				imageIdInput.value = null;
+				clearSocialPreviewImage( "twitter" );
+			},
+			onDescriptionChange: ( description ) => {
+				descriptionInput.value = description;
+				setSocialPreviewDescription( description, "twitter" );
+			},
+			onTitleChange: ( title ) => {
+				titleInput.value = title;
+				 setSocialPreviewTitle( title, "twitter" );
+			},
+		};
+	} ),
+] )( TwitterWrapper );

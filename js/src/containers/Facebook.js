@@ -71,7 +71,6 @@ export default compose( [
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
 			title: getFacebookTitle(),
-			titleFallback: () => {},
 			imageWarnings: data.warnings,
 		};
 	} ),
@@ -80,7 +79,7 @@ export default compose( [
 		const {
 			setSocialPreviewTitle,
 			setSocialPreviewDescription,
-			setSocialPreviewImage,
+			clearSocialPreviewImage,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -90,15 +89,7 @@ export default compose( [
 			onRemoveImageClick: () => {
 				imageUrlInput.value = null;
 				imageIdInput.value = null;
-				const image = {
-					bytes: null,
-					type: null,
-					height: null,
-					width: null,
-					url: null,
-					id: null,
-				};
-				setSocialPreviewImage( image, "facebook" );
+				clearSocialPreviewImage( "facebook" );
 			},
 			onDescriptionChange: ( description ) => {
 				descriptionInput.value = description;
