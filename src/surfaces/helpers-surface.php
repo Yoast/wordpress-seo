@@ -14,25 +14,25 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Class Helpers_Surface
  *
  * @property Helpers\Author_Archive_Helper $author_archive
- * @property Helpers\Blocks_Helper $blocks
- * @property Helpers\Current_Page_Helper $current_page
- * @property Helpers\Date_Helper $date
- * @property Helpers\Home_Url_Helper $home_url
- * @property Helpers\Image_Helper $image
- * @property Helpers\Meta_Helper $meta
- * @property Helpers\Options_Helper $options
- * @property Helpers\Pagination_Helper $pagination
- * @property Helpers\Post_Helper $post
- * @property Helpers\Post_Type_Helper $post_type
- * @property Helpers\Primary_Term_Helper $primary_term
- * @property Helpers\Product_Helper $product
- * @property Helpers\Redirect_Helper $redirect
- * @property Helpers\Robots_Helper $robots
- * @property Helpers\Site_Helper $site
- * @property Helpers\String_Helper $string
- * @property Helpers\Taxonomy_Helper $taxonomy
- * @property Helpers\Url_Helper $url
- * @property Helpers\User_Helper $user
+ * @property Helpers\Blocks_Helper         $blocks
+ * @property Helpers\Current_Page_Helper   $current_page
+ * @property Helpers\Date_Helper           $date
+ * @property Helpers\Home_Url_Helper       $home_url
+ * @property Helpers\Image_Helper          $image
+ * @property Helpers\Meta_Helper           $meta
+ * @property Helpers\Options_Helper        $options
+ * @property Helpers\Pagination_Helper     $pagination
+ * @property Helpers\Post_Helper           $post
+ * @property Helpers\Post_Type_Helper      $post_type
+ * @property Helpers\Primary_Term_Helper   $primary_term
+ * @property Helpers\Product_Helper        $product
+ * @property Helpers\Redirect_Helper       $redirect
+ * @property Helpers\Robots_Helper         $robots
+ * @property Helpers\Site_Helper           $site
+ * @property Helpers\String_Helper         $string
+ * @property Helpers\Taxonomy_Helper       $taxonomy
+ * @property Helpers\Url_Helper            $url
+ * @property Helpers\User_Helper           $user
  */
 class Helpers_Surface {
 
@@ -67,7 +67,10 @@ class Helpers_Surface {
 	/**
 	 * Loader constructor.
 	 *
-	 * @param ContainerInterface $container The dependency injection container.
+	 * @param ContainerInterface         $container  The dependency injection container.
+	 * @param Open_Graph_Helpers_Surface $open_graph The OpenGraph helpers surface.
+	 * @param Schema_Helpers_Surface     $schema     The Schema helpers surface.
+	 * @param Twitter_Helpers_Surface    $twitter    The Twitter helpers surface.
 	 */
 	public function __construct(
 		ContainerInterface $container,
