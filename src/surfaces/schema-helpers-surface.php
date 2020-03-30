@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Surfaces;
 use Yoast\WP\SEO\Helpers\Schema;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * Class Schema_Helpers_Surface
  *
@@ -22,12 +21,12 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Schema_Helpers_Surface {
 
-    /**
-     * The DI container.
-     *
-     * @var ContainerInterface
-     */
-    private $container;
+	/**
+	 * The DI container.
+	 *
+	 * @var ContainerInterface
+	 */
+	private $container;
 
 	/**
 	 * Loader constructor.
@@ -35,18 +34,18 @@ class Schema_Helpers_Surface {
 	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
-        $this->container = $container;
-    }
+		$this->container = $container;
+	}
 
-    /**
-     * Magic getter for getting helper classes.
-     *
-     * @param string $helper The helper to get.
-     *
-     * @return mixed The helper class.
-     */
+	/**
+	 * Magic getter for getting helper classes.
+	 *
+	 * @param string $helper The helper to get.
+	 *
+	 * @return mixed The helper class.
+	 */
 	public function __get( $helper ) {
-        $class  = "Yoast\WP\SEO\Helpers\Schema\\{$helper}_Helper";
+		$class  = "Yoast\WP\SEO\Helpers\Schema\\{$helper}_Helper";
 		return $this->container->get( $class );
 	}
 }

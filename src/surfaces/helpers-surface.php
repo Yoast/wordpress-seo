@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Surfaces;
 use Yoast\WP\SEO\Helpers;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * Class Helpers_Surface
  *
@@ -37,33 +36,33 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class Helpers_Surface {
 
-    /**
-     * The DI container.
-     *
-     * @var ContainerInterface
-     */
-    private $container;
+	/**
+	 * The DI container.
+	 *
+	 * @var ContainerInterface
+	 */
+	private $container;
 
-    /**
-     * The open_graph helper namespace
-     *
-     * @var Open_Graph_Helpers_Surface
-     */
-    public $open_graph;
+	/**
+	 * The open_graph helper namespace
+	 *
+	 * @var Open_Graph_Helpers_Surface
+	 */
+	public $open_graph;
 
-    /**
-     * The schema helper namespace
-     *
-     * @var Schema_Helpers_Surface
-     */
-    public $schema;
+	/**
+	 * The schema helper namespace
+	 *
+	 * @var Schema_Helpers_Surface
+	 */
+	public $schema;
 
-    /**
-     * The twitter helper namespace
-     *
-     * @var Twitter_Helpers_Surface
-     */
-    public $twitter;
+	/**
+	 * The twitter helper namespace
+	 *
+	 * @var Twitter_Helpers_Surface
+	 */
+	public $twitter;
 
 	/**
 	 * Loader constructor.
@@ -71,26 +70,26 @@ class Helpers_Surface {
 	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct(
-        ContainerInterface $container,
-        Open_Graph_Helpers_Surface $open_graph,
-        Schema_Helpers_Surface $schema,
-        Twitter_Helpers_Surface $twitter
-    ) {
-        $this->container  = $container;
-        $this->open_graph = $open_graph;
-        $this->schema     = $schema;
-        $this->twitter    = $twitter;
-    }
+		ContainerInterface $container,
+		Open_Graph_Helpers_Surface $open_graph,
+		Schema_Helpers_Surface $schema,
+		Twitter_Helpers_Surface $twitter
+	) {
+		$this->container  = $container;
+		$this->open_graph = $open_graph;
+		$this->schema     = $schema;
+		$this->twitter    = $twitter;
+	}
 
-    /**
-     * Magic getter for getting helper classes.
-     *
-     * @param string $helper The helper to get.
-     *
-     * @return mixed The helper class.
-     */
+	/**
+	 * Magic getter for getting helper classes.
+	 *
+	 * @param string $helper The helper to get.
+	 *
+	 * @return mixed The helper class.
+	 */
 	public function __get( $helper ) {
-        $class  = "Yoast\WP\SEO\Helpers\\{$helper}_Helper";
+		$class  = "Yoast\WP\SEO\Helpers\\{$helper}_Helper";
 		return $this->container->get( $class );
 	}
 }
