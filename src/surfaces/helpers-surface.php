@@ -7,10 +7,33 @@
 
 namespace Yoast\WP\SEO\Surfaces;
 
+use Yoast\WP\SEO\Helpers;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
+
 /**
- * Class Classes_Surface
+ * Class Helpers_Surface
+ *
+ * @property Helpers\Author_Archive_Helper $author_archive
+ * @property Helpers\Blocks_Helper $blocks
+ * @property Helpers\Current_Page_Helper $current_page
+ * @property Helpers\Date_Helper $date
+ * @property Helpers\Home_Url_Helper $home_url
+ * @property Helpers\Image_Helper $image
+ * @property Helpers\Meta_Helper $meta
+ * @property Helpers\Options_Helper $options
+ * @property Helpers\Pagination_Helper $pagination
+ * @property Helpers\Post_Helper $post
+ * @property Helpers\Post_Type_Helper $post_type
+ * @property Helpers\Primary_Term_Helper $primary_term
+ * @property Helpers\Product_Helper $product
+ * @property Helpers\Redirect_Helper $redirect
+ * @property Helpers\Robots_Helper $robots
+ * @property Helpers\Site_Helper $site
+ * @property Helpers\String_Helper $string
+ * @property Helpers\Taxonomy_Helper $taxonomy
+ * @property Helpers\Url_Helper $url
+ * @property Helpers\User_Helper $user
  */
 class Helpers_Surface {
 
@@ -22,30 +45,23 @@ class Helpers_Surface {
     private $container;
 
     /**
-     * The namespace to find helpers in.
-     *
-     * @var string
-     */
-    protected $namespace;
-
-    /**
      * The open_graph helper namespace
      *
-     * @var self
+     * @var Open_Graph_Helpers_Surface
      */
     public $open_graph;
 
     /**
      * The schema helper namespace
      *
-     * @var self
+     * @var Schema_Helpers_Surface
      */
     public $schema;
 
     /**
      * The twitter helper namespace
      *
-     * @var self
+     * @var Twitter_Helpers_Surface
      */
     public $twitter;
 
@@ -54,26 +70,16 @@ class Helpers_Surface {
 	 *
 	 * @param ContainerInterface $container The dependency injection container.
 	 */
-	public function __construct( ContainerInterface $container ) {
-        $this->container = $container;
-    }
-
-    /**
-     * Correctly sets all namespace variables
-     *
-     * @required
-     */
-    public function set_namespaces() {
-        $this->namespace = 'Yoast\WP\SEO\Helpers';
-
-        $this->open_graph = new self( $this->container );
-        $this->open_graph->namespace = 'Yoast\WP\SEO\Helpers\Open_Graph';
-
-        $this->schema = new self( $this->container );
-        $this->schema->namespace = 'Yoast\WP\SEO\Helpers\Schema';
-
-        $this->twitter = new self( $this->container );
-        $this->twitter->namespace = 'Yoast\WP\SEO\Helpers\Twitter';
+	public function __construct(
+        ContainerInterface $container,
+        Open_Graph_Helpers_Surface $open_graph,
+        Schema_Helpers_Surface $schema,
+        Twitter_Helpers_Surface $twitter
+    ) {
+        $this->container  = $container;
+        $this->open_graph = $open_graph;
+        $this->schema     = $schema;
+        $this->twitter    = $twitter;
     }
 
     /**
@@ -84,8 +90,7 @@ class Helpers_Surface {
      * @return mixed The helper class.
      */
 	public function __get( $helper ) {
-        $helper = ucfirst( $helper );
-        $class  = "$this->namespace\\{$helper}_Helper";
+        $class  = "Yoast\WP\SEO\Helpers\\{$helper}_Helper";
 		return $this->container->get( $class );
 	}
 }
