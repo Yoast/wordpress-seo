@@ -2,7 +2,13 @@ import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
+import Toggle from "@yoast/components/src/toggle/Toggle";
 
+/**
+ * Function that displays all the reactified components that we currently have.
+ *
+ * @returns {React.Component} A wrapper for all the new reactified components.
+ */
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
@@ -41,7 +47,6 @@ const ReactifiedComponentsWrapper = () => {
 				description="The greatest textarea ever!!1!"
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "hey-value",
@@ -50,14 +55,13 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hi-value",
 						label: "Hi there!",
-					}
+					},
 				] }
 				label="Horizontal radiobutton group"
 				groupName="group1"
 				selected="hi"
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "haha-value",
@@ -66,11 +70,19 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hoho-value",
 						label: "Hohoho, I'm santa!",
-					}
+					},
 				] }
 				label="Vertical radiobutton group"
 				vertical={ true }
 				groupName="group2"
+			/>
+			<Toggle
+				label="React Toggle"
+				offText="off"
+				onText="on"
+				value="toggle-value"
+				name="toggle"
+				id="weird-id-that-is-unique"
 			/>
 		</div>
 	);
