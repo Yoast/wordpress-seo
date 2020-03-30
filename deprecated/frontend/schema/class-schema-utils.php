@@ -30,8 +30,7 @@ class WPSEO_Schema_Utils {
 	 * @return string The user's schema ID.
 	 */
 	public static function get_user_schema_id( $user_id, $context ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\ID_Helper::get_user_schema_id' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\ID_Helper::get_user_schema_id' );
 		/**
 		 * It represents the ID_Helper.
 		 *
@@ -39,7 +38,7 @@ class WPSEO_Schema_Utils {
 		 */
 		$id = YoastSEO()->classes->get( ID_Helper::class );
 
-		 return $id->get_user_schema_id( $user_id, $context );
+		return $id->get_user_schema_id( $user_id, $context );
 	}
 
 	/**
@@ -53,8 +52,7 @@ class WPSEO_Schema_Utils {
 	 * @return string The post title with fallback to `No title`.
 	 */
 	public static function get_post_title_with_fallback( $post_id = 0 ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', ' Yoast\WP\SEO\Helpers\Post_Helper::get_post_title_with_fallback' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', ' Yoast\WP\SEO\Helpers\Post_Helper::get_post_title_with_fallback' );
 		/**
 		 * Represents the Post_Helper.
 		 *
@@ -80,8 +78,7 @@ class WPSEO_Schema_Utils {
 	 * @return array The Schema piece data with added language property.
 	 */
 	public static function add_piece_language( $data ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Language_Helper::add_piece_language' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Language_Helper::add_piece_language' );
 		/**
 		 * Represents the Language_Helper.
 		 *

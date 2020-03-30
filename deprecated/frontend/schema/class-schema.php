@@ -23,7 +23,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @deprecated xx.x
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -35,7 +35,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function json_ld() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -49,6 +49,6 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 }

@@ -38,8 +38,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb' );
 		$this->breadcrumb = YoastSEO()->classes->get( Breadcrumb::class );
 		$this->memoizer   = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 	}
@@ -53,7 +52,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::is_needed' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::is_needed' );
 		$context = $this->memoizer->for_current_page();
 		return $this->breadcrumb->is_needed( $context );
 	}
@@ -69,7 +68,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @return bool|array Array on success, false on failure.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::generate' );
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::generate' );
 		$context = $this->memoizer->for_current_page();
 		return $this->breadcrumb->generate( $context );
 	}
