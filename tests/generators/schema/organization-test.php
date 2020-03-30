@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey\Filters;
 use Mockery;
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
@@ -102,8 +103,8 @@ class Organization_Test extends TestCase {
 		$this->context->company_name    = 'Yoast';
 		$this->context->company_logo_id = 1337;
 
-		$schema_id      = $this->context->site_url . $this->id->organization_hash;
-		$schema_logo_id = $this->context->site_url . $this->id->organization_logo_hash;
+		$schema_id      = $this->context->site_url . Schema_Ids::ORGANIZATION_HASH;
+		$schema_logo_id = $this->context->site_url . Schema_Ids::ORGANIZATION_LOGO_HASH;
 
 		$logo = [
 			'@type' => 'ImageObject',
