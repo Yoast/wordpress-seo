@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema FAQ data.
- *
- * @since 11.3
  */
 class FAQ extends Abstract_Schema_Piece {
 

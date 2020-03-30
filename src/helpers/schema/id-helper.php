@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * Schema utility functions.
- *
- * @since 11.6
  */
 class ID_Helper {
 	/**

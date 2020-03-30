@@ -17,8 +17,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema WebPage data.
- *
- * @since 10.2
  */
 class WebPage extends Abstract_Schema_Piece {
 

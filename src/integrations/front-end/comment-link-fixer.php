@@ -13,9 +13,7 @@ use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class WPSEO_Remove_Reply_To_Com.
- *
- * @since 7.0
+ * Class Comment_Link_Fixer.
  */
 class Comment_Link_Fixer implements Integration_Interface {
 
@@ -96,8 +94,6 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * Redirects out the ?replytocom variables.
-	 *
-	 * @since 1.4.13
 	 *
 	 * @return boolean True when redirect has been done.
 	 */

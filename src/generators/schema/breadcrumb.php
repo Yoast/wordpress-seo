@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
  * Returns schema Breadcrumb data.
- *
- * @since 10.2
  */
 class Breadcrumb extends Abstract_Schema_Piece {
 
