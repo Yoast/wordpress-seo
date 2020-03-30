@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 /* Internal dependencies */
 import ImageSelect from "../src/ImageSelect";
 
-describe( "<ImageSelect />", () => {
+describe( "The ImageSelect component", () => {
 	it( "renders", () => {
 		const tree = renderer.create(
 			<ImageSelect

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ImageSelect /> displays warnings 1`] = `
+exports[`The ImageSelect component displays warnings 1`] = `
 Array [
   .c0 {
   -webkit-flex: 1 1 200px;
@@ -386,7 +386,7 @@ Array [
 ]
 `;
 
-exports[`<ImageSelect /> renders 1`] = `
+exports[`The ImageSelect component renders 1`] = `
 Array [
   .c0 {
   -webkit-flex: 1 1 200px;
