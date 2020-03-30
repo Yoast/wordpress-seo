@@ -11,6 +11,7 @@ use WP_Post;
 use WP_Term;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -178,7 +179,7 @@ class Indexable_Hierarchy_Builder {
 
 		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
 
-		if ( $primary_term ) {
+		if ( $primary_term && \get_term( $primary_term->term_id ) ) {
 			return $primary_term->term_id;
 		}
 
