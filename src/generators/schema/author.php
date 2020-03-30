@@ -25,51 +25,22 @@ class Author extends Person {
 	protected $type = [ 'Person' ];
 
 	/**
-	 * The article helper.
-	 *
-	 * @var Article_Helper
-	 */
-	private $article;
-
-	/**
-	 * Author constructor.
-	 *
-	 * @param Article_Helper      $article      The article helper.
-	 * @param Image_Helper        $image        The image helper.
-	 * @param Schema\Image_Helper $schema_image The schema image helper.
-	 * @param Schema\HTML_Helper  $html         The HTML helper.
-	 *
-	 * @codeCoverageIgnore Constructor method.
-	 */
-	public function __construct(
-		Article_Helper $article,
-		Image_Helper $image,
-		Schema\Image_Helper $schema_image,
-		Schema\HTML_Helper $html
-	) {
-		parent::__construct( $image, $schema_image, $html );
-		$this->article = $article;
-	}
-
-	/**
 	 * Determine whether we should return Person schema.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
-	public function is_needed( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'user' ) {
+	public function is_needed() {
+		if ( $this->context->indexable->object_type === 'user' ) {
 			return true;
 		}
 
 		if (
-			$context->indexable->object_type === 'post' &&
-			$this->article->is_article_post_type( $context->indexable->object_sub_type )
+			$this->context->indexable->object_type === 'post' &&
+			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
 		) {
 			// If the author is the user the site represents, no need for an extra author block.
-			if ( parent::is_needed( $context ) ) {
-				return (int) $context->post->post_author !== $context->site_user_id;
+			if ( parent::is_needed( $this->context ) ) {
+				return (int) $this->context->post->post_author !== $this->context->site_user_id;
 			}
 
 			return true;
@@ -81,22 +52,20 @@ class Author extends Person {
 	/**
 	 * Returns Person Schema data.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
-	public function generate( Meta_Tags_Context $context ) {
-		$user_id = $this->determine_user_id( $context );
+	public function generate() {
+		$user_id = $this->determine_user_id();
 		if ( ! $user_id ) {
 			return false;
 		}
 
-		$data = $this->build_person_data( $user_id, $context );
+		$data = $this->build_person_data( $user_id );
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
-		if ( $context->indexable->object_type === 'user' ) {
+		if ( $this->context->indexable->object_type === 'user' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $context->canonical . Schema_Ids::WEBPAGE_HASH,
+				'@id' => $this->context->canonical . Schema_Ids::WEBPAGE_HASH,
 			];
 		}
 
@@ -106,19 +75,17 @@ class Author extends Person {
 	/**
 	 * Determines a User ID for the Person data.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return bool|int User ID or false upon return.
 	 */
-	protected function determine_user_id( Meta_Tags_Context $context ) {
+	protected function determine_user_id() {
 		$user_id = 0;
 
-		if ( $context->indexable->object_type === 'post' ) {
-			$user_id = (int) $context->post->post_author;
+		if ( $this->context->indexable->object_type === 'post' ) {
+			$user_id = (int) $this->context->post->post_author;
 		}
 
-		if ( $context->indexable->object_type === 'user' ) {
-			$user_id = $context->indexable->object_id;
+		if ( $this->context->indexable->object_type === 'user' ) {
+			$user_id = $this->context->indexable->object_id;
 		}
 
 		/**
@@ -138,15 +105,14 @@ class Author extends Person {
 	/**
 	 * An author should not have an image from options, this only applies to persons.
 	 *
-	 * @param array             $data      The Person schema.
-	 * @param string            $schema_id The string used in the `@id` for the schema.
-	 * @param Meta_Tags_Context $context   The meta tags context.
+	 * @param array  $data      The Person schema.
+	 * @param string $schema_id The string used in the `@id` for the schema.
 	 *
 	 * @codeCoverageIgnore Wrapper method, only returns `$data` argument.
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id, Meta_Tags_Context $context ) {
+	protected function set_image_from_options( $data, $schema_id ) {
 		return $data;
 	}
 }
