@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -192,7 +193,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data, Meta_Tags_Context $context ) {
-		$schema_id = $context->site_url . $this->id->person_logo_hash;
+		$schema_id = $context->site_url . Schema_Ids::PERSON_LOGO_HASH;
 
 		$data = $this->set_image_from_options( $data, $schema_id, $context );
 		if ( ! isset( $data['image'] ) ) {

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -97,7 +98,7 @@ class Author extends Person {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $context->indexable->object_type === 'user' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $context->canonical . $this->id->webpage_hash,
+				'@id' => $context->canonical . Schema_Ids::WEBPAGE_HASH,
 			];
 		}
 
