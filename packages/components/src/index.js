@@ -1,6 +1,6 @@
 import "./base";
 
-import { default as StyledSection, StyledHeading, StyledSectionBase } from "./StyledSection";
+import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
 import { LinkButton } from "./buttons/LinkButton";
 
 export * from "./button";
