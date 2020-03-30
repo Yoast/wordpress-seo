@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use mysql_xdevapi\Schema;
 use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
