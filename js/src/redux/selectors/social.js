@@ -1,3 +1,7 @@
+import { selectorsFactory } from "@yoast/social-metadata-forms";
+
+const socialSelectors = selectorsFactory( "social" );
+
 /**
  * Gets the fallback title from: state.analysisData.snippet.title.
  *
@@ -5,7 +9,7 @@
  *
  * @returns {string} The fallback title.
  */
-export const getTitleFallback = state => state.analysisData.snippet.title;
+const getTitleFallback = state => state.analysisData.snippet.title;
 
 /**
  * Gets the fallback description from: state.analysisData.snippet.description.
@@ -14,7 +18,7 @@ export const getTitleFallback = state => state.analysisData.snippet.title;
  *
  * @returns {string} The fallback description.
  */
-export const getDescriptionFallback = state => state.analysisData.snippet.description;
+const getDescriptionFallback = state => state.analysisData.snippet.description;
 
 /**
  * Gets the fallback image from:
@@ -26,4 +30,13 @@ export const getDescriptionFallback = state => state.analysisData.snippet.descri
  *
  * @returns {string} The sidewide image url.
  */
-export const getImageFallback = state => state.settings.socialPreviews.sitewideImage || state.snippetEditor.data.snippetPreviewImageURL;
+const getImageFallback = state => state.settings.socialPreviews.sitewideImage || state.snippetEditor.data.snippetPreviewImageURL;
+
+console.log( socialSelectors.getFacebookData );
+
+export default {
+	...socialSelectors,
+	getTitleFallback,
+	getImageFallback,
+	getDescriptionFallback,
+};

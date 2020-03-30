@@ -1,40 +1,29 @@
 /* External dependencies */
 import { actions } from "@yoast/social-metadata-forms";
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
-import { socialSelectors }  from "../redux/selectors/socialSelectors";
-
-/**
- * Maps the state to props.
- *
- * @param {Object} state The state.
- *
- * @returns {Object} The props for the FacebookView component.
- */
-const mapStateToProps = ( state ) => {
-	const data = socialSelectors.getFacebookData( state );
-	const image = data.image;
-	image.fallbackUrl = getImageFallback( state );
-
-	return {
-		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
-		replacementVariables: state.snippetEditor.replacementVariables,
-		description: socialSelectors.getFacebookDescription( state ),
-		descriptionFallback: "Modify your Facebook description by editing it right here...",
-		title: socialSelectors.getFacebookTitle( state ),
-		titleFallback: getTitleFallback( state ),
-		imageWarnings: data.warnings,
-		image,
-	};
-};
 
 const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
 const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
 const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
 const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
+
+/**
+ * Sets the data from the hidden fields to the store.
+ *
+ * @returns {void}
+ */
+const dispatchHiddenFieldValues = () => {
+	wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "facebook" ) );
+	wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
+	wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
+	wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
+};
+
+dispatchHiddenFieldValues();
 
 // Make the media library accessible.
 const media = window.wp.media();
@@ -62,22 +51,6 @@ media.on( "select", () => {
 	imageUrlInput.value = url;
 } );
 
-/**
- * Sets the data from the hidden fields to the store.
- *
- * @param {func} dispatch Dispatches an action to the store.
- *
- * @returns {void}
- */
-const dispatchHiddenFieldValues = ( dispatch ) => {
-	dispatch( setSocialPreviewTitle( titleInput.value, "facebook" ) );
-	dispatch( setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
-	dispatch( setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
-	dispatch( setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
-};
-
-// Export default connect( mapStateToProps, mapDispatchToProps )( FacebookWrapper );
-
 export default compose( [
 	withSelect( select => {
 		const {
@@ -97,9 +70,8 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
-			descriptionFallback: "Modify your Facebook description by editing it right here...",
 			title: getFacebookTitle(),
-			titleFallback: getTitleFallback(),
+			titleFallback: () => {},
 			imageWarnings: data.warnings,
 		};
 	} ),

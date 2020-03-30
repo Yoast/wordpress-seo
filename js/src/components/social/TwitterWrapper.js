@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 
-import SocialView from "../social/SocialView";
+import SocialForm from "../social/SocialForm";
 
 const isPremium = !! window.wpseoPostScraperL10n.isPremium;
+const socialMediumName = "Twitter";
 
 /**
  * This wrapper is connected to the twitter container. So the data is connected to both components.
@@ -20,8 +21,16 @@ const TwitterWrapper = ( props ) => {
 		<Fragment>
 			{
 				isPremium
-					? <Slot name="YoastTwitterPremium" fillProps={ { ...props } } />
-					: <SocialView { ...props } />
+					? <Slot
+						name="YoastTwitterPremium" 
+						fillProps={ {
+							socialMediumName,
+							isPremium,
+							...props,
+						} }
+					/>
+					// : <SocialForm { ...props } />
+					: <div>null</div>
 			}
 		</Fragment>
 	);

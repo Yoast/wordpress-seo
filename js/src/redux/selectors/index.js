@@ -1,21 +1,20 @@
-import { socialSelectors } from "./socialSelectors";
-import * as fallbackSelectors from "./fallbackSelectors";
+import social from "./social";
 import * as results from "./results";
 import * as primaryTaxonomies from "./primaryTaxonomies";
 import * as activeMarker from "./activeMarker";
 import * as markerPauseStatus from "./markerPauseStatus";
-import * as replaceVars from "./replaceVars";
+import * as snippetEditor from "./snippetEditor";
 import * as settings from "./settings";
 
+console.log ( social ); 
 const selectors = {
-	...socialSelectors,
-	...fallbackSelectors,
+	...social,
 	...results,
 	...primaryTaxonomies,
 	...activeMarker,
 	...markerPauseStatus,
 	...settings,
-	...replaceVars,
+	...snippetEditor,
 };
 
 export default selectors;
