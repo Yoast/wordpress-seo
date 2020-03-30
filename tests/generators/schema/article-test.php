@@ -89,9 +89,9 @@ class Article_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->id                      = Mockery::mock( ID_Helper::class );
-		$this->id->article_hash        = '#article-hash';
-		$this->id->webpage_hash        = '#webpage-hash';
-		$this->id->primary_image_hash  = '#primary-image-hash';
+		$this->id->article_hash        = '#article';
+		$this->id->webpage_hash        = '#webpage';
+		$this->id->primary_image_hash  = '#primary-image';
 		$this->article                 = Mockery::mock( Article_Helper::class );
 		$this->date                    = Mockery::mock( Date_Helper::class );
 		$this->html                    = Mockery::mock( HTML_Helper::class );
@@ -130,7 +130,7 @@ class Article_Test extends TestCase {
 		$this->article->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->is_needed( $this->context_mock ) );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article-hash' );
+		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article' );
 	}
 
 	/**

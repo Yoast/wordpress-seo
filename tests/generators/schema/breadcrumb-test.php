@@ -99,7 +99,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -159,7 +159,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -232,7 +232,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -303,7 +303,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -365,7 +365,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
