@@ -61,13 +61,13 @@ class Database_Logger implements Integration_Interface {
 	 * @return void
 	 */
 	public function log_output() {
-		$content_type = $this->get_content_type();
+		$content_type          = $this->get_content_type();
 
 		if (
-			\wp_doing_ajax()  ||
+			\wp_doing_ajax() ||
 			( defined( 'WP_CLI' ) && WP_CLI ) ||
 			( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
-			( $content_type !== 'text/html' && $content_type !== '' )
+			( stripos( $content_type, 'text/html' ) === false )
 		) {
 			return;
 		}
@@ -89,8 +89,8 @@ class Database_Logger implements Integration_Interface {
 	 */
 	private function get_content_type() {
 		$headers = headers_list();
-		foreach( $headers as $header ) {
-			if ( stripos( $header, 'Content-Type:' ) ) {
+		foreach ( $headers as $header ) {
+			if ( stripos( $header, 'Content-Type:' ) !== false ) {
 				return (string) preg_replace( '/^Content-Type:\s*(.*)/', '$1', $header );
 			}
 		}
@@ -153,6 +153,7 @@ class Database_Logger implements Integration_Interface {
 				echo '    ', $query[2], PHP_EOL;
 				$i ++;
 			}
+
 			return;
 		}
 		$this->header( 'WPDB Queries' );
