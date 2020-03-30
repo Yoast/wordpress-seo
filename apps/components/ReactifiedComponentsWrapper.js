@@ -46,13 +46,14 @@ const ReactifiedComponentsWrapper = () => {
 				options={ [
 					{
 						label: "Fancy label",
+						id: "fancy-checkbox"
 					},
 					{
 						label: "option with id 1",
-						id: "1",
-						checked: true,
+						id: "horizontal-check-1",
 					},
 				] }
+				checked={ [ "fancy-checkbox" ] }
 			/>
 			<CheckboxGroup
 				label="Horizontal checkboxes"
@@ -60,14 +61,16 @@ const ReactifiedComponentsWrapper = () => {
 				options={ [
 					{
 						label: "Nice 1",
-						checked: true,
+						id: "id1",
 					},
 					{
 						label: "option with id 3",
-						id: "3",
+						id: "id3",
 					},
 				] }
+				checked={ [ "id1" ] }
 				onChange={ console.warn }
+			/>
 			<RadioButtonGroup
 				onChange={ console.log }
 				options={ [
@@ -78,7 +81,7 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hi-value",
 						label: "Hi there!",
-					}
+					},
 				] }
 				label="Horizontal radiobutton group"
 				groupName="group1"
@@ -94,7 +97,7 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hoho-value",
 						label: "Hohoho, I'm santa!",
-					}
+					},
 				] }
 				label="Vertical radiobutton group"
 				vertical={ true }

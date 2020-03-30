@@ -6,6 +6,27 @@ import { getId } from "../GenerateId";
 import "./checkbox.css";
 
 /**
+ * Proptypes for the vertical and horizontal checkboxes components.
+ */
+const checkboxesProps = {
+	options: PropTypes.arrayOf( PropTypes.shape( {
+		label: PropTypes.string.isRequired,
+		id: PropTypes.string.isRequired,
+	} ) ).isRequired,
+	checked: PropTypes.arrayOf( PropTypes.string ).isRequired,
+};
+
+/**
+ * Function that checks whether the ID is in an array of ids.
+ *
+ * @param {string} id An ID of an individual checkbox.
+ * @param {string[]} checkedIds An array of ids of the checkboxes that are checked.
+ *
+ * @returns {bool} true if id is in checkedIds, false otherwise.
+ */
+const isChecked = ( id, checkedIds ) => checkedIds.indexOf( id ) !== -1;
+
+/**
  * Smallest component in the CheckboxGroup. Contains a label and the checkbox.
  *
  * @param {string} id The ID of te checkbox.
@@ -14,15 +35,14 @@ import "./checkbox.css";
  *
  * @returns {React.Component} A React component that wraps around the HTML checkbox.
  */
-const Checkbox = ( { id, label, onChange, checked } ) => <Fragment>
-	<input type="checkbox" id={ id } onChange={ onChange } defaultChecked={ checked } />
+const Checkbox = ( { id, label, checked } ) => <Fragment>
+	<input type="checkbox" id={ id } defaultChecked={ checked } />
 	<label htmlFor={ id } className="yoast-field-group__checkbox">{ label }</label>
 </Fragment>;
 
 Checkbox.propTypes = {
 	label: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
 	checked: PropTypes.bool,
 };
 
@@ -34,53 +54,39 @@ Checkbox.defaultProps = {
  * Component that renders a vertical list of checkboxes with their labels.
  *
  * @param {Object[]} options An array of options of the checkboxes.
- * @param {function} onChange The onChange handler.
+ * @param {string[]} checked An array of ids that are checked.
  *
  * @returns {*} A React component that contains a list of vertical checkboxes.
  */
-const VerticalCheckboxes = ( { options, onChange } ) => {
+const VerticalCheckboxes = ( { options, checked } ) => {
 	return options.map( option => {
-		const id = getId( option.id );
 		return (
-			<div key={ id } className="yoast-field-group__checkbox">
-				<Checkbox id={ id } label={ option.label } onChange={ onChange } { ...option } />
+			<div key={ option.id } className="yoast-field-group__checkbox">
+				<Checkbox { ...option } checked={ isChecked( option.id, checked ) } />
 			</div>
 		);
 	} );
 };
 
-VerticalCheckboxes.propTypes = {
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		label: PropTypes.string.isRequired,
-		id: PropTypes.string,
-	} ) ).isRequired,
-	onChange: PropTypes.func.isRequired,
-};
+VerticalCheckboxes.propTypes = checkboxesProps;
 
 /**
  * React component that renders a list of horizontal checkboxes.
  *
  * @param {object[]} options An array of checkbox options.
- * @param {function} onChange The onChange handler.
+ * @param {string[]} checked An array of ids that are checked.
  *
  * @returns {*} A React component that renders a list of horizontal checkboxes.
  */
-const HorizontalCheckboxes = ( { options, onChange } ) => {
+const HorizontalCheckboxes = ( { options, checked } ) => {
 	return <div className="yoast-field-group__checkbox yoast-field-group__checkbox--horizontal">
-		{ options.map( option => {
-			const id = getId( option.id );
-			return <Checkbox key={ id } id={ id } onChange={ onChange } { ...option } />;
-		} ) }
+		{ options.map( option =>
+			<Checkbox key={ option.id } { ...option } checked={ isChecked( option.id, checked ) } />
+		) }
 	</div>;
 };
 
-HorizontalCheckboxes.propTypes = {
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		label: PropTypes.string.isRequired,
-		id: PropTypes.string,
-	} ) ).isRequired,
-	onChange: PropTypes.func.isRequired,
-};
+HorizontalCheckboxes.propTypes = checkboxesProps;
 
 /**
  * This component renders a list of vertical or horizontal checkboxes based on the provided props.
@@ -89,48 +95,89 @@ HorizontalCheckboxes.propTypes = {
  *
  * @returns {React.Component} A list of checkboxes.
  */
-const CheckboxGroup = ( props ) => {
-	const {
-		id,
-		options,
-		vertical,
-		onChange,
-		...fieldGroupProps
-	} = props;
-	const componentId = getId( id );
+class CheckboxGroup extends React.Component {
+	/**
+	 * Constructor for the CheckboxGroup class.
+	 *
+	 * @param {object} props Component props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+		this.state = {
+			checked: props.checked,
+		};
+		this.onChangeHandler = this.onChangeHandler.bind( this );
+	}
 
-	const checkboxProps = {
-		options,
-		onChange: event => onChange( event.target.id ),
-	};
+	/**
+	 * Handles the onChange events of the checkboxes and calls the onChange props with an array of checked ids.
+	 *
+	 * @param {object} event The event object.
+	 *
+	 * @returns {void}
+	 */
+	onChangeHandler( event ) {
+		const target = event.target;
+		const checked = this.state.checked;
+		const updated = target.checked ? checked.concat( target.id ) : checked.filter( item => item !== target.id );
+		this.setState( {
+			checked: updated,
+		} );
+		this.props.onChange( updated );
+	}
 
-	return (
-		<FieldGroup
-			htmlFor={ componentId }
-			{ ...fieldGroupProps }
-		>
-			{ vertical
-				? <VerticalCheckboxes { ...checkboxProps } />
-				: <HorizontalCheckboxes { ...checkboxProps } />
-			}
-		</FieldGroup>
-	);
-};
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {React.Component} The CheckboxGroup component.
+	 */
+	render() {
+		const {
+			id,
+			options,
+			vertical,
+			...fieldGroupProps
+		} = this.props;
+		const componentId = getId( id );
+
+		const checkboxProps = {
+			options,
+			checked: this.state.checked,
+		};
+
+		return (
+			<FieldGroup
+				htmlFor={ componentId }
+				{ ...fieldGroupProps }
+			>
+				<div onChange={ this.onChangeHandler }>
+					{ vertical
+						? <VerticalCheckboxes { ...checkboxProps } />
+						: <HorizontalCheckboxes { ...checkboxProps } />
+					}
+				</div>
+			</FieldGroup>
+		);
+	}
+}
 
 
 CheckboxGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		label: PropTypes.string.isRequired,
 		id: PropTypes.string,
-		checked: PropTypes.bool,
 	} ) ).isRequired,
 	vertical: PropTypes.bool,
+	checked: PropTypes.arrayOf( PropTypes.string ),
 	onChange: PropTypes.func,
 	...FieldGroupProps,
 };
 
 CheckboxGroup.defaultProps = {
 	vertical: true,
+	checked: [],
 	onChange: () => {},
 	...FieldGroupDefaultProps,
 };
