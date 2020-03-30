@@ -20,6 +20,8 @@ import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
+import ReactifiedComponentsWrapper from "./ReactifiedComponentsWrapper";
+
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -114,6 +116,11 @@ const components = [
 		id: "social-preview-data-form",
 		name: "Social Preview data form",
 		component: <SocialPreviewFormWrapper />,
+	},
+	{
+		id: "reactified-components",
+		name: "Reactified components",
+		component: <ReactifiedComponentsWrapper />,
 	},
 ];
 
