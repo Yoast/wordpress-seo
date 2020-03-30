@@ -25,3 +25,5 @@ interface Integration_Interface extends Loadable_Interface {
 	 */
 	public function register_hooks();
 }
+
+class_alias( '\Yoast\WP\SEO\Integrations\Integration_Interface', '\Yoast\WP\SEO\WordPress\Integration' );
