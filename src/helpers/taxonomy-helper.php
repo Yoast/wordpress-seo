@@ -74,4 +74,20 @@ class Taxonomy_Helper {
 	public function get_term_meta( $term ) {
 		return \WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
+
+	/**
+	 * Checks if the term for given term_id exists.
+	 *
+	 * @param int $term_id The term_id.
+	 *
+	 * @return bool True when exists
+	 */
+	public function term_exists( $term_id ) {
+		if ( function_exists( 'wpcom_vip_term_exists' ) ) {
+			return wpcom_vip_term_exists( $term_id ) !== null;
+		}
+
+		// phpcs:ignore WordPress.VIP.RestrictedFunctions.term_exists -- We use the WP COM version if we can, see above.
+		return term_exists( $term_id ) !== null;
+	}
 }
