@@ -8,8 +8,8 @@
 namespace Yoast\WP\Free\Surfaces\Values;
 
 use Exception;
-use WPSEO_Replace_Vars;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -56,28 +56,52 @@ class Meta {
     /**
      * The meta tags context.
      *
-     * @var Indexable_Presentation
+     * @var Meta_Tags_Context
      */
-    private $presentation;
+    public $context;
 
     /**
-     * The replace vars helper.
+     * The front end integration.
      *
-     * @var WPSEO_Replace_Vars
+     * @var Front_End_Integration
      */
-    private $replace_vars;
+    private $front_end;
 
     /**
      * Create a meta value object.
      *
-     * @param Indexable_Presentation $presentation The indexable presentation.
-     * @param ContainerInterface     $container    The DI container.
-     * @param WPSEO_Replace_Vars     $replace_vars The replace vars helper.
+     * @param Meta_Tags_Context      $context   The indexable presentation.
+     * @param ContainerInterface     $container The DI container.
+     * @param Front_End_Integration  $front_end The front end integration.
      */
-    public function __construct( Indexable_Presentation $presentation, ContainerInterface $container, WPSEO_Replace_Vars $replace_vars ) {
+    public function __construct(
+        Meta_Tags_Context $context,
+        ContainerInterface $container,
+        Front_End_Integration $front_end
+    ) {
         $this->container    = $container;
-        $this->presentation = $presentation;
-        $this->replace_vars = $replace_vars;
+        $this->context      = $context;
+        $this->front_end    = $front_end;
+    }
+
+    /**
+     * Returns the output as would be presented in the head.
+     *
+     * @return void
+     */
+    public function get_head() {
+        $presenters = $this->front_end->get_presenters( $this->context->page_type );
+
+        $output = '';
+
+        foreach ( $presenters as $presenter ) {
+            $presenter_output = $presenter->present( $this->context->presentation );
+			if ( ! empty( $presenter_output ) ) {
+				$output .= $presenter_output . PHP_EOL;
+			}
+		}
+
+        return \trim( $output );
     }
 
     /**
@@ -88,7 +112,7 @@ class Meta {
 	 * @return mixed The value, as presented by teh appropriate presenter.
 	 */
 	public function __get( $name ) {
-        if ( ! isset( $this->presentation->{$name} ) ) {
+        if ( ! isset( $this->context->presentation->{$name} ) ) {
             throw new Exception( "Property $name has does not exist." );
         }
 
@@ -108,9 +132,9 @@ class Meta {
          */
         $presenter = $this->container->get( $presenter_namespace . $presenter_class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
         if ( $presenter ) {
-            $value = $presenter->present( $this->presentation, false );
+            $value = $presenter->present( $this->context->presentation, false );
         } else {
-            $value = $this->presentation->{$name};
+            $value = $this->context->presentation->{$name};
         }
 
         $this->{$name} = $value;
@@ -125,6 +149,6 @@ class Meta {
 	 * @return bool Whether or not the requested property exists.
 	 */
 	public function __isset( $name ) {
-		return isset( $this->presentation->{$name} );
+		return isset( $this->context->presentation->{$name} );
 	}
 }

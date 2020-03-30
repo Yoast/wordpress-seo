@@ -7,12 +7,10 @@
 
 namespace Yoast\WP\Free\Surfaces;
 
-use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -34,9 +32,9 @@ class Meta_Surface {
 	private $repository;
 
 	/**
-	 * @var WPSEO_Replace_Vars
+	 * @var Front_End_Integration
 	 */
-	private $replace_vars;
+	private $front_end;
 
 	/**
 	 * Current_Page_Surface constructor.
@@ -44,18 +42,18 @@ class Meta_Surface {
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
-	 * @param WPSEO_Replace_Vars         $replace_vars         The replace vars helper.
+	 * @param Front_End_Integration      $replace_vars         The replace vars helper.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		Indexable_Repository $indexable_repository,
-		WPSEO_Replace_Vars $replace_vars
+		Front_End_Integration $front_end
 	) {
 		$this->container        = $container;
 		$this->context_memoizer = $context_memoizer;
 		$this->repository       = $indexable_repository;
-		$this->replace_vars     = $replace_vars;
+		$this->front_end        = $front_end;
 	}
 
 	/**
@@ -189,6 +187,6 @@ class Meta_Surface {
 	 * @return Meta The meta value
 	 */
 	private function build_meta( Meta_Tags_Context $context ) {
-		return new Meta( $context->presentation, $this->container, $this->replace_vars );
+		return new Meta( $context, $this->container, $this->front_end );
 	}
 }
