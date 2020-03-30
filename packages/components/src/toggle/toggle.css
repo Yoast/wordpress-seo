@@ -72,3 +72,4 @@
 .yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle--active, .yoast-toggle-inverse input[type="checkbox"]:checked ~ .yoast-toggle--active {
 	color: var(--color-default-darker);
 }
+
