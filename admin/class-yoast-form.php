@@ -62,7 +62,7 @@ class Yoast_Form {
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
-			$option_long_name = $this->get_field_value_group_name( $option );
+			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
 	<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
@@ -111,7 +111,7 @@ class Yoast_Form {
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
 
-		$this->option_instance = $this->get_field_value_option_instance( $option_name );
+		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
 		if ( ! $this->option_instance ) {
 			$this->option_instance = null;
 		}
