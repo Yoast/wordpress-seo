@@ -20,11 +20,13 @@ import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/Help
 const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children } ) => {
 	return (
 		<div className="yoast-field-group">
-			<label htmlFor={ htmlFor } className="yoast-field-group__title">{ label }</label>
-			<HelpIcon
-				linkTo={ linkTo }
-				linkText={ linkText }
-			/>
+			<div className="yoast-field-group__title">
+				<label htmlFor={ htmlFor }>{ label }</label>
+				<HelpIcon
+					linkTo={ linkTo }
+					linkText={ linkText }
+				/>
+			</div>
 			{ description !== ""  && <p className="description" id="yoast_unique_description_id">{ description }</p> }
 			{ children }
 		</div>
