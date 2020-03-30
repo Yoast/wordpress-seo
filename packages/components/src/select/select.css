@@ -66,6 +66,10 @@
     color: var(--color-white);
 }
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: var(--color-white);
+}
+
 .select2-dropdown {
     border-color: var(--color-border--default);
     border-radius: 0;
