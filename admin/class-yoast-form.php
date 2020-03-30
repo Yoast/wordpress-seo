@@ -62,7 +62,7 @@ class Yoast_Form {
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
-			$option_long_name = WPSEO_Options::get_group_name( $option );
+			$option_long_name = $this->get_field_value_group_name( $option );
 		}
 		?>
 	<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
@@ -111,7 +111,7 @@ class Yoast_Form {
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
 
-		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
+		$this->option_instance = $this->get_field_value_option_instance( $option_name );
 		if ( ! $this->option_instance ) {
 			$this->option_instance = null;
 		}
@@ -234,7 +234,7 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function checkbox( $var, $label, $label_left = false ) {
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
@@ -264,7 +264,7 @@ class Yoast_Form {
 	 * @since 12.8
 	 */
 	public function checkbox_list( $variable, $labels ) {
-		$values = WPSEO_Options::get( $variable, [] );
+		$values = $this->get_field_value( $variable, [] );
 
 		foreach ( $labels as $name => $label ) {
 			printf(
@@ -296,7 +296,7 @@ class Yoast_Form {
 	 * @since 3.1
 	 */
 	public function light_switch( $var, $label, $buttons = [], $help = '', $inverse = false ) {
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		$class = 'yoast-toggle';
 		if ( $inverse ) {
@@ -344,7 +344,7 @@ class Yoast_Form {
 			'class'       => '',
 		];
 		$attr       = wp_parse_args( $attr, $defaults );
-		$val        = WPSEO_Options::get( $var, '' );
+		$val        = $this->get_field_value( $var, '' );
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -390,7 +390,7 @@ class Yoast_Form {
 			'class' => '',
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = WPSEO_Options::get( $var, '' );
+		$val      = $this->get_field_value( $var, '' );
 
 		$this->label(
 			$label,
@@ -411,7 +411,7 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function hidden( $var, $id = '' ) {
-		$val = WPSEO_Options::get( $var, '' );
+		$val = $this->get_field_value( $var, '' );
 		if ( is_bool( $val ) ) {
 			$val = ( $val === true ) ? 'true' : 'false';
 		}
@@ -452,7 +452,7 @@ class Yoast_Form {
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
-		$active_option     = WPSEO_Options::get( $var, '' );
+		$active_option     = $this->get_field_value( $var, '' );
 		$wrapper_start_tag = '';
 		$wrapper_end_tag   = '';
 
@@ -485,7 +485,7 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function file_upload( $var, $label ) {
-		$val = WPSEO_Options::get( $var, '' );
+		$val = $this->get_field_value( $var, '' );
 		if ( is_array( $val ) ) {
 			$val = $val['url'];
 		}
@@ -518,8 +518,8 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function media_input( $var, $label ) {
-		$val      = WPSEO_Options::get( $var, '' );
-		$id_value = WPSEO_Options::get( $var . '_id', '' );
+		$val      = $this->get_field_value( $var, '' );
+		$id_value = $this->get_field_value( $var . '_id', '' );
 
 		$var_esc = esc_attr( $var );
 
@@ -580,7 +580,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 
 		$var_esc = esc_attr( $var );
 
@@ -637,7 +637,7 @@ class Yoast_Form {
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
-		$val = WPSEO_Options::get( $var, false );
+		$val = $this->get_field_value( $var, false );
 		if ( $val === true ) {
 			$val = 'on';
 		}
@@ -716,6 +716,18 @@ class Yoast_Form {
 		];
 
 		$this->light_switch( $var, $label, $show_hide_switch, $help, $inverse_keys );
+	}
+
+	/**
+	 * Retrieves the value for the form field.
+	 *
+	 * @param string $field_name    The field name to retrieve the value for.
+	 * @param string $default_value The default value, when field has no value.
+	 *
+	 * @return mixed|null The retrieved value.
+	 */
+	protected function get_field_value( $field_name, $default_value = null ) {
+		return WPSEO_Options::get( $field_name, $default_value );
 	}
 
 	/**
