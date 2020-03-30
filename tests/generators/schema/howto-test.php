@@ -175,7 +175,17 @@ class HowTo_Test extends TestCase {
 			->with( $id )
 			->andReturn( 'post title' );
 
-		$this->instance = new HowTo( $this->html, $this->image, $this->post, $this->language );
+		$this->instance = new HowTo();
+
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'post'   => $this->post,
+			'schema' => (object) [
+				'language' => $this->language,
+				'image'    => $this->image,
+				'html'     => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -193,7 +203,7 @@ class HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -207,7 +217,7 @@ class HowTo_Test extends TestCase {
 	 */
 	public function test_generate_schema() {
 		$this->meta_tags_context->blocks = $this->base_blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $this->base_schema, $actual_schema );
 	}
 
@@ -232,7 +242,7 @@ class HowTo_Test extends TestCase {
 		];
 
 		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $schema, $actual_schema );
 	}
 
@@ -256,7 +266,7 @@ class HowTo_Test extends TestCase {
 		unset( $schema[0]['step'] );
 
 		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $schema, $actual_schema );
 	}
 
@@ -312,7 +322,7 @@ class HowTo_Test extends TestCase {
 		];
 
 		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $schema, $actual_schema );
 	}
 
@@ -333,7 +343,7 @@ class HowTo_Test extends TestCase {
 		unset( $schema[0]['totalTime'] );
 
 		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $schema, $actual_schema );
 	}
 
@@ -356,7 +366,7 @@ class HowTo_Test extends TestCase {
 		unset( $schema[0]['step'][0]['itemListElement'], $schema[0]['step'][0]['name'] );
 
 		$this->meta_tags_context->blocks = $blocks;
-		$actual_schema                   = $this->instance->generate( $this->meta_tags_context );
+		$actual_schema                   = $this->instance->generate();
 		$this->assertEquals( $schema, $actual_schema );
 	}
 }
