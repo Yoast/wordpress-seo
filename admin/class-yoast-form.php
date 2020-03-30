@@ -310,7 +310,7 @@ class Yoast_Form {
 		list( $off_button, $on_button ) = $buttons;
 
 		echo '<div class="yoast-toggle__item">',
-		'<span class="yoast-toggle__item-title">', esc_html( $label ), '</span>', $help,
+		'<div class="yoast-toggle__item-title"><legend>', esc_html( $label ), '</legend>', $help, '</div>',
 		'<div class="', $class, '">';
 		echo '<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span class="yoast-toggle--inactive">', esc_html( $off_button ), '</span>',
