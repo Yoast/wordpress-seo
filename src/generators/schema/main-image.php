@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Helpers\Schema;
 
 /**
  * Returns ImageObject schema data.
- *
- * @since 11.5
  */
 class Main_Image extends Abstract_Schema_Piece {
 

@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 
 /**
  * Returns schema Website data.
- *
- * @since 10.2
  */
 class Website extends Abstract_Schema_Piece {
 
@@ -74,8 +72,6 @@ class Website extends Abstract_Schema_Piece {
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array Website data blob.
-	 *
-	 * @since 1.5.7
 	 *
 	 * @link https://developers.google.com/structured-data/site-name
 	 */

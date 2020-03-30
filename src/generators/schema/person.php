@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema Person data.
- *
- * @since 10.2
  */
 class Person extends Abstract_Schema_Piece {
 	/**

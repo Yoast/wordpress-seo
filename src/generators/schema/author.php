@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 
 /**
  * Returns schema Person data.
- *
- * @since 10.2
  */
 class Author extends Person {
 	/**

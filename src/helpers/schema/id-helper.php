@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 /**
  * Schema utility functions.
  *
- * @since 11.6
- *
  * @property string author_hash
  * @property string author_logo_hash
  * @property string breadcrumb_hash
