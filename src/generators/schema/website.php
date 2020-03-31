@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_Ids;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema Website data.
@@ -33,7 +33,7 @@ class Website extends Abstract_Schema_Piece {
 	public function generate() {
 		$data = [
 			'@type'       => 'WebSite',
-			'@id'         => $this->context->site_url . Schema_Ids::WEBSITE_HASH,
+			'@id'         => $this->context->site_url . Schema_IDs::WEBSITE_HASH,
 			'url'         => $this->context->site_url,
 			'name'        => $this->helpers->schema->html->smart_strip_tags( $this->context->site_name ),
 			'description' => \get_bloginfo( 'description' ),
