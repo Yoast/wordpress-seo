@@ -2,7 +2,7 @@ import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
-import { MultiSelect } from "@yoast/components/src/select/Select";
+import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
@@ -75,6 +75,13 @@ const ReactifiedComponentsWrapper = () => {
 			/>
 			<MultiSelect
 				label="This is a styled multiselect"
+				id="my-awesome-multiselect"
+				name="my-selection"
+				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" }, { name: "option3", value: "opt3" }, { name: "option4", value: "opt4" } ] }
+				selected={ "opt1" }
+			/>
+			<Select
+				label="This is a styled select"
 				id="my-awesome-multiselect"
 				name="my-selection"
 				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" }, { name: "option3", value: "opt3" }, { name: "option4", value: "opt4" } ] }

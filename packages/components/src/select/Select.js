@@ -6,6 +6,39 @@ import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-gr
 import "./select.css";
 
 /**
+ * Defines how a select option should look.
+ */
+const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes.string } );
+const selectProps = {
+	id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	options: PropTypes.arrayOf( selectOption ).isRequired,
+	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
+	onChange: PropTypes.func,
+	...FieldGroupProps,
+};
+const selectDefaultProps = {
+	selected: [],
+	onChange: () => {},
+	...FieldGroupDefaultProps,
+};
+
+/**
+ * Renders a HTML option based on a name and value.
+ *
+ * @param {string} name The name of the option.
+ * @param {string} value The value of the option.
+ *
+ * @returns {React.Component} An HTML option.
+ */
+const Option = ( { name, value } ) => <option key={ value } value={ value }>{ name }</option>;
+
+Option.propTypes = {
+	name: PropTypes.string.isRequired,
+	value: PropTypes.string.isRequired,
+};
+
+/**
  * MultiSelect using the select2 package.
  */
 export class MultiSelect extends React.Component {
@@ -58,6 +91,10 @@ export class MultiSelect extends React.Component {
 			name,
 			...fieldGroupProps
 		} = this.props;
+
+		// Make sure to pass an array of options to the multiselect.
+		const selections = Array.isArray( selected ) ? selected : [ selected ];
+
 		return (
 			<FieldGroup
 				htmlFor={ id }
@@ -67,33 +104,82 @@ export class MultiSelect extends React.Component {
 					multiple="multiple"
 					id={ id }
 					name={ `${ name }[]` }
-					defaultValue={ selected }
+					defaultValue={ selections }
 				>
-					{ options.map( option => {
-						return <option key={ option.value } value={ option.value }>{ option.name }</option>;
-					} ) }
+					{ options.map( Option ) }
 				</select>
 			</FieldGroup>
 		);
 	}
 }
 
+MultiSelect.propTypes = selectProps;
+MultiSelect.defaultProps = selectDefaultProps;
+
 /**
- * Defines how a select option should look.
+ * React wrapper for a basic HTML select.
  */
-const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes.string } );
+export class Select extends React.Component {
+	/**
+	 * Class constructor.
+	 *
+	 * @param {object} props Class props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+		this.onBlurHandler = this.onBlurHandler.bind( this );
+	}
 
-MultiSelect.propTypes = {
-	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	options: PropTypes.arrayOf( selectOption ).isRequired,
-	selected: PropTypes.arrayOf( PropTypes.string ),
-	onChange: PropTypes.func,
-	...FieldGroupProps,
-};
+	/**
+	 * Handles the onBlur event of the select.
+	 *
+	 * We are using onBlur because onChange can negatively impact the a11y.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
+	onBlurHandler( event ) {
+		// The selected option is set as the value on the complete select component.
+		this.props.onChange( event.target.value );
+	}
 
-MultiSelect.defaultProps = {
-	selected: [],
-	onChange: () => {},
-	...FieldGroupDefaultProps,
-};
+	/**
+	 * Render function for component.
+	 *
+	 * @returns {void}
+	 */
+	render() {
+		const {
+			id,
+			selected,
+			options,
+			name,
+			...fieldGroupProps
+		} = this.props;
+
+		// Make sure to pass a single option when it is a normal select.
+		const selection = Array.isArray( selected ) ? selected[ 0 ] : selected;
+
+		return (
+			<FieldGroup
+				htmlFor={ id }
+				{ ...fieldGroupProps }
+			>
+				<select
+					id={ id }
+					name={ name }
+					defaultValue={ selection }
+					onBlur={ this.onBlurHandler }
+				>
+					{ options.map( Option ) }
+				</select>
+			</FieldGroup>
+		);
+	}
+}
+
+Select.propTypes = selectProps;
+Select.defaultProps = selectDefaultProps;
