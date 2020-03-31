@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_OpenGraph_OEmbed.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  */
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 
@@ -16,10 +16,10 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @inheritDoc
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
@@ -29,7 +29,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * if both are present.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @param array   $data The oEmbed data.
 	 * @param WP_Post $post The current Post object.
@@ -39,7 +39,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return $data;
 	}

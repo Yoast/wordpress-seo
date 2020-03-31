@@ -73,7 +73,7 @@ class Theme_Titles_Test extends TestCase {
 			->once()
 			->with(
 				'Yoast\WP\SEO\Integrations\Front_End\Theme_Titles::title',
-				'WPSEO xx.x',
+				'WPSEO 14.0',
 				'a theme that has proper title-tag theme support, or adapt your theme to have that support'
 			);
 
