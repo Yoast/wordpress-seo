@@ -6,7 +6,7 @@
 
 .yoast select,
 .yoast-field-group__select select,
-.select2-container--default {
+.select2-container.select2-container--default {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
@@ -25,9 +25,9 @@
     display: block;
 }
 
-.select2-container--default {
+.select2-container.select2-container--default {
     background-image: none;
-    padding: 8px;
+    padding: 0 8px;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
@@ -42,6 +42,7 @@
 
 .select2-container--default .select2-selection--multiple.yoast-multiselect ul {
     display: flex;
+    align-items: center;
     margin: 0;
     padding: 0;
     list-style: none;

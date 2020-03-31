@@ -76,7 +76,7 @@ const ReactifiedComponentsWrapper = () => {
 			<MultiSelect
 				label="This is a styled multiselect"
 				id="my-awesome-multiselect"
-				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" } ] }
+				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" }, { name: "option3", value: "opt3" }, { name: "option4", value: "opt4" } ] }
 				selected={ [ "opt1" ] }
 			/>
 		</div>
