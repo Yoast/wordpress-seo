@@ -30,7 +30,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct( String_Helper $string, $output_tag = true ) {
+	public function __construct( String_Helper $string ) {
 		$this->string = $string;
 	}
 

@@ -46,7 +46,7 @@ class Meta_Surface {
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
-	 * @param Front_End_Integration      $replace_vars         The replace vars helper.
+	 * @param Front_End_Integration      $front_end            The front end integration.
 	 */
 	public function __construct(
 		ContainerInterface $container,
@@ -82,7 +82,7 @@ class Meta_Surface {
 			$indexable = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
 
 			if ( ! $indexable ) {
-				throw new Exception( "Could not find meta for home page." );
+				throw new Exception( 'Could not find meta for home page.' );
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Static_Home_Page' ) );
@@ -91,7 +91,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_home_page();
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for home page." );
+			throw new Exception( 'Could not find meta for home page.' );
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Home_Page' ) );
@@ -110,7 +110,7 @@ class Meta_Surface {
 			$indexable = $this->repository->find_by_id_and_type( $posts_page_id, 'post' );
 
 			if ( ! $indexable ) {
-				throw new Exception( "Could not find meta for posts page." );
+				throw new Exception( 'Could not find meta for posts page.' );
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Static_Posts_Page' ) );
@@ -119,7 +119,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_home_page();
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for posts page." );
+			throw new Exception( 'Could not find meta for posts page.' );
 		}
 
 
@@ -137,7 +137,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_date_archive();
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for date archive." );
+			throw new Exception( 'Could not find meta for date archive.' );
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Date_Archive' ) );
@@ -177,7 +177,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_system_page( 'search-result' );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for search result." );
+			throw new Exception( 'Could not find meta for search result.' );
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Search_Result_Page' ) );
@@ -194,7 +194,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_system_page( '404' );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for 404." );
+			throw new Exception( 'Could not find meta for 404.' );
 		}
 
 
@@ -275,7 +275,7 @@ class Meta_Surface {
 		if ( $url_parts['host'] !== $site_host ) {
 			throw new Exception( "Could not find meta for extarnal host: {$url_parts['host']}." );
 		}
-		$url = \site_url( $url_parts[ 'path' ] );
+		$url = \site_url( $url_parts['path'] );
 
 		$indexable = $this->repository->find_by_permalink( $url );
 
@@ -284,7 +284,7 @@ class Meta_Surface {
 		}
 		$page_type = '';
 
-		switch( $indexable->object_type ) {
+		switch ( $indexable->object_type ) {
 			case 'post':
 				$front_page_id = (int) \get_option( 'page_on_front' );
 				if ( $indexable->object_id === $front_page_id ) {

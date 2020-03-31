@@ -38,6 +38,7 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	 * Returns the debug close marker.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The debug close marker.
 	 */
