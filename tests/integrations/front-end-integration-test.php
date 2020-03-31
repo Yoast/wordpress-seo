@@ -292,15 +292,21 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the presents for a theme without title tag.
+	 * Tests retrieval of the presents for a theme without title tag
+	 * and with force rewrite titles disabled.
 	 *
 	 * @covers ::get_presenters
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
 	 * @covers ::get_all_presenters
 	 */
-	public function test_get_presenters_for_theme_without_title_tag() {
+	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_disabled() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'forcerewritetitle', false )
+			->andReturn( false );
 
 		$this->container
 			->expects( 'get' )
@@ -311,6 +317,43 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Schema_Presenter',
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+			],
+			array_values( $this->instance->get_presenters( 'Error_Page' ) )
+		);
+	}
+
+	/**
+	 * Tests retrieval of the presents for a theme without title tag
+	 * and with force rewrite titles enabled.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_theme_without_title_tag_and_force_rewrite_titles_enabled() {
+		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'forcerewritetitle', false )
+			->andReturn( true );
+
+		$this->container
+			->expects( 'get' )
+			->times( 7 )
+			->andReturnArg( 0 );
+
+
+		$this->assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
