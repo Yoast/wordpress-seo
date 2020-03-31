@@ -13,28 +13,4 @@ describe( "CheckboxGroup", () => {
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
-
-	it( "should fire the onChange event when checkbox is changed", () => {
-		const onChange = jest.fn();
-		const component = renderer.create( <CheckboxGroup
-			id="test-id-2"
-			label="very nice"
-			options={ [
-				{
-					label: "Hey",
-					id: "id1",
-				},
-				{
-					label: "Ho",
-					id: "id2",
-					checked: true,
-				},
-			] }
-			onChange={ onChange }
-		/> ).root;
-
-		const checkbox = component.findByProps( { id: "id1" } );
-		checkbox.props.onChange( { target: { id: "id1" } } );
-		expect( onChange ).toHaveBeenCalledTimes( 1 );
-	} );
 } );
