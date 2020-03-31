@@ -60,18 +60,18 @@ const SocialMetadataPreviewForm = ( props ) => {
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
-	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
-	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
-	imageWarnings: PropTypes.array,
 	imageSelected: PropTypes.bool.isRequired,
-	imageUrl: PropTypes.string,
 	isPremium: PropTypes.bool.isRequired,
+	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
+	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
+	imageWarnings: PropTypes.array,
+	imageUrl: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {

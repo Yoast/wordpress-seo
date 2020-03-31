@@ -41,11 +41,11 @@ const RowWrapper = styled.div`
 /**
  * Renders the standard and the undo button.
  *
- * @param {function} onClick            Callback called when the "Select image" or "Replace image" button is clicked.
- * @param {bool} imageSelected   Is there already an image slected.
- * @param {function} onRemoveImageClick Callback called when the "Remove image" button is clicked.
+ * @param {function} 	onClick				Callback called when the "Select image" or "Replace image" button is clicked.
+ * @param {bool}		imageSelected		Is there already an image slected.
+ * @param {function}	onRemoveImageClick 	Callback called when the "Remove image" button is clicked.
  *
- * @returns {Components} A
+ * @returns {Components} The buttons to render for the ImageSelect.
  */
 const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
 	return (
@@ -83,7 +83,7 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
  * @param {string}   props.imageUrl           The Url adress of the image
  * @param {bool}     props.isPremium          States if premium is installed.
  *
- * @returns {React.Component} A fragment with a title, optional warnings and an image selection button.
+ * @returns {React.Component} The ImageSelect component with a title, optional warnings and an image selection button.
  */
 const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageClick, imageUrl, isPremium } ) =>
 	<Fragment>
@@ -110,12 +110,12 @@ const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageCl
 
 ImageSelect.propTypes = {
 	title: PropTypes.string.isRequired,
+	imageSelected: PropTypes.bool.isRequired,
+	isPremium: PropTypes.bool.isRequired,
 	onClick: PropTypes.func,
 	onRemoveImageClick: PropTypes.func,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
-	imageSelected: PropTypes.bool.isRequired,
 	imageUrl: PropTypes.string,
-	isPremium: PropTypes.bool.isRequired,
 };
 
 ImageSelect.defaultProps = {
