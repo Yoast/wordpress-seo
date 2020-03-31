@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -209,6 +209,16 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.4 =
+Release Date: March 31st, 2020
+
+In Yoast SEO 9.0, we launched an innovative new way to analyze your English language text using word forms. In Yoast SEO 10.1, we added word form support for the German language. Today, we’re glad to announce word form support for Dutch. You can read why this is such an awesome addition in [our 13.4 release post](https://yoa.st/release-13-4)!
+
+Bugfixes:
+
+* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+* Fixes a bug where form fields were validated inconsistently.
+
 = 13.3 =
 Release Date: March 17th, 2020
 
@@ -223,28 +233,11 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where social URLs containing international characters could not be saved. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic) and [Shahram Rahbari](https://github.com/ShahramRahbari).
 
 Other:
 
 * Changes the cURL Health Check category from `recommended` to `critical`.
 
-= 13.2 =
-Release Date: March 3rd, 2020
-
-In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
-
-Enhancements:
-
-* Adds the capability to view Site Health to the SEO Manager role.
-* Adds a cURL minimal version check to Site Health.
-* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
-* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
-* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
-* Improves the usability of the "Your site is indexable" Site Health check.
-* Adds error handling for the "Your site is indexable" status request.
-* Adds an ID to the FAQ sections in the Schema output.
-
-Bugfixes:
-
-* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
