@@ -97,7 +97,7 @@ export default compose( [
 			},
 			onTitleChange: ( title ) => {
 				titleInput.value = title;
-				 setSocialPreviewTitle( title, "facebook" );
+				setSocialPreviewTitle( title, "facebook" );
 			},
 		};
 	} ),

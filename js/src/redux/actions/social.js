@@ -6,4 +6,5 @@ export const {
 	setSocialPreviewImageUrl,
 	setSocialPreviewImageType,
 	setSocialPreviewImage,
+	clearSocialPreviewImage,
 } = actions;
