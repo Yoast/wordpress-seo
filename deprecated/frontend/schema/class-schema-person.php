@@ -23,7 +23,7 @@ class WPSEO_Schema_Person extends Person implements WPSEO_Graph_Piece {
 	 *
 	 * @var string
 	 */
-	protected $image_hash;
+	protected $image_hash = Schema_IDs::PERSON_LOGO_HASH;
 
 	/**
 	 * WPSEO_Schema_Person constructor.
@@ -33,7 +33,6 @@ class WPSEO_Schema_Person extends Person implements WPSEO_Graph_Piece {
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person' );
-		$this->image_hash = Schema_IDs::PERSON_LOGO_HASH;
 		$memoizer         = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->context    = $memoizer->for_current_page();
 		$this->helpers    = YoastSEO()->helpers;
