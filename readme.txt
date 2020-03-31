@@ -220,11 +220,6 @@ Enhancements:
 
 * Adds the term ancestors hierarchy as a taxonomy replacement variable.
 
-Non user facing:
-
-* Makes sure the monorepo css survives the grunt build steps.
-* Load the component's package's CSS in the plugin.
-
 = 13.4 =
 Release Date: March 31st, 2020
 
