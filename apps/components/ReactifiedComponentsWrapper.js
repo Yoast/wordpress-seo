@@ -2,6 +2,7 @@ import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
+import { MultiSelect } from "@yoast/components/src/select/Select";
 
 const ReactifiedComponentsWrapper = () => {
 	return (
@@ -50,7 +51,7 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hi-value",
 						label: "Hi there!",
-					}
+					},
 				] }
 				label="Horizontal radiobutton group"
 				groupName="group1"
@@ -66,11 +67,17 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						value: "hoho-value",
 						label: "Hohoho, I'm santa!",
-					}
+					},
 				] }
 				label="Vertical radiobutton group"
 				vertical={ true }
 				groupName="group2"
+			/>
+			<MultiSelect
+				label="This is a styled multiselect"
+				id="my-awesome-multiselect"
+				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" } ] }
+				selected={ [ "opt1" ] }
 			/>
 		</div>
 	);
