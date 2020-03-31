@@ -15,6 +15,8 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 abstract class Indexable_Extension extends Yoast_Model {
 
 	/**
+	 * Holds the Indexable instance.
+	 *
 	 * @var \Yoast\WP\SEO\Models\Indexable
 	 */
 	protected $indexable = null;
