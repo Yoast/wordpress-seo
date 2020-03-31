@@ -1,3 +1,13 @@
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
 .yoast-feature {
 	max-width: 600px;
 }
@@ -16,10 +26,6 @@
 	align-items: center;
 }
 
-.yoast-toggle input[type="checkbox"], .yoast-toggle-inverse input[type="checkbox"] {
-	display: none;
-}
-
 .yoast-toggle__switch {
 	display: inline-block;
 	position: relative;
@@ -29,6 +35,10 @@
 	border-radius: 8px;
 	margin-left: 8px;
 	margin-right: 8px;
+}
+
+.visually-hidden:focus ~ .yoast-toggle__switch {
+	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
 }
 
 .yoast-toggle__switch::before {
