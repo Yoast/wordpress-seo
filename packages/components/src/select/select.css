@@ -1,71 +1,8 @@
-/*
-Theme Name:   YoastSwag
-Description:  Theme for the Yoast Swag Shop
-Author:       Yoast Swag
-Author URL:   https://hackaton-3.yoast.com/
-Template:     storefront
-Version:      1.0
-License:      GNU General Public License v2 or later
-License URI:  http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain:  YoastSwag
-*/
-
-/* Write here your own personal stylesheet */
-
-.storefront-primary-navigation {
-    background-color: #a4286a;
-    color: white;
+.yoast-field-group__select {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
 }
-
-.menu.nav-menu li a,
-.menu.nav-menu li a:hover,
-.site-header .menu.nav-menu li.current-menu-item > a {
-    color: white;
-    padding-top: 1em !important;
-    padding-bottom: 1em !important;
-}
-
-.page-template-template-homepage .entry-content {
-    max-width: inherit;
-}
-
-.site-header .product_list_widget li .quantity {
-    color: initial;
-}
-
-.site-header-cart a.cart-contents,
-.site-header-cart a.cart-contents:hover {
-    color: white !important;
-    padding-top: 1em;
-    padding-bottom: 1em;
-}
-
-.woocommerce-mini-cart__total.total {
-    color: initial;
-}
-
-.site-header {
-    margin-bottom: 0;
-}
-
-.hero {
-    background: url('https://hackaton-3.yoast.com/wp-content/uploads/2020/03/Branding_Cart_Shop_FI.png') no-repeat center center /cover;
-    height: 300px;
-    width: 100%;
-}
-
-.site-footer {
-    background-color: #a4286a;
-    color: white;
-}
-
-.site-footer a:not(.button):not(.components-button) {
-    color: white;
-}.yoast-field-group__select {
-     display: flex;
-     cursor: pointer;
-     align-items: center;
- }
 
 .yoast select,
 .yoast-field-group__select select,
