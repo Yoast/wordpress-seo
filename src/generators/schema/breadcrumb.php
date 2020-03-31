@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_Ids;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema Breadcrumb data.
@@ -81,7 +81,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 		return [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $this->context->canonical . Schema_Ids::BREADCRUMB_HASH,
+			'@id'             => $this->context->canonical . Schema_IDs::BREADCRUMB_HASH,
 			'itemListElement' => $list_elements,
 		];
 	}
