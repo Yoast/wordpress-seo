@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_Ids;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema Person data.
@@ -141,7 +141,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
-		$schema_id = $this->context->site_url . Schema_Ids::PERSON_LOGO_HASH;
+		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 
 		$data = $this->set_image_from_options( $data, $schema_id );
 		if ( ! isset( $data['image'] ) ) {
