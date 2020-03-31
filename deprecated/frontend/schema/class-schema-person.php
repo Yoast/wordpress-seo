@@ -5,7 +5,7 @@
  * @package WPSEO\Frontend\Schema
  */
 
-use Yoast\WP\SEO\Config\Schema_Ids;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
@@ -33,7 +33,7 @@ class WPSEO_Schema_Person extends Person implements WPSEO_Graph_Piece {
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person' );
-		$this->image_hash = Schema_Ids::PERSON_LOGO_HASH;
+		$this->image_hash = Schema_IDs::PERSON_LOGO_HASH;
 		$memoizer         = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->context    = $memoizer->for_current_page();
 		$this->helpers    = YoastSEO()->helpers;
