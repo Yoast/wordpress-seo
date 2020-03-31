@@ -11,18 +11,11 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 /**
  * Returns schema Person data.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 10.2
  */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the Person schema generator.
-	 *
-	 * @var Person
-	 */
-	private $person;
 
 	/**
 	 * Holds a memoizer for the meta tag context.
@@ -35,41 +28,44 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_Person constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Person' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->person = YoastSEO()->classes->get( Person::class );
 	}
 
 	/**
 	 * Determine whether we should return Person schema.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Person::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::is_needed' );
+		$person = new Person();
+		$person->context = $this->memoizer->for_current_page();
+		$person->helpers = YoastSEO()->helpers;
 
-		return $this->person->is_needed( $context );
+		return $person->is_needed();
 	}
 
 	/**
 	 * Returns Person Schema data.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Person::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person::generate' );
+		$person = new Person();
+		$person->context = $this->memoizer->for_current_page();
+		$person->helpers = YoastSEO()->helpers;
 
-		return $this->person->generate( $context );
+		return $person->generate();
 	}
 }

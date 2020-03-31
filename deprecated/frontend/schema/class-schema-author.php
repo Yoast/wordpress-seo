@@ -11,18 +11,11 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 /**
  * Returns schema Person data.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 10.2
  */
 class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the author schema generator.
-	 *
-	 * @var Author
-	 */
-	private $author;
 
 	/**
 	 * Holds a memoizer for the meta tag context.
@@ -35,54 +28,57 @@ class WPSEO_Schema_Author implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_Author constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->author   = YoastSEO()->classes->get( Author::class );
 	}
 
 	/**
 	 * Determine whether we should return Person schema.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author::is_needed' );
+		$author = new Author();
+		$author->context = $this->memoizer->for_current_page();
+		$author->helpers = YoastSEO()->helpers;
 
-		return $this->author->is_needed( $context );
+		return $author->is_needed();
 	}
 
 	/**
 	 * Returns Person Schema data.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
+		$author = new Author();
+		$author->context = $this->memoizer->for_current_page();
+		$author->helpers = YoastSEO()->helpers;
 
-		return $this->author->generate( $context );
+		return $author->is_needed();
 	}
 
 	/**
 	 * Gets the Schema type we use for this class.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return string[] The schema type.
 	 */
 	public static function get_type() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return [ 'Person' ];
 	}
 }

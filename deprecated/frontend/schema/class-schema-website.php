@@ -11,18 +11,11 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 /**
  * Returns schema Website data.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 10.2
  */
 class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the Website schema generator.
-	 *
-	 * @var Website
-	 */
-	private $website;
 
 	/**
 	 * Holds a memoizer for the meta tag context.
@@ -35,34 +28,35 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_Website constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Website' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Website' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->website  = YoastSEO()->classes->get( Website::class );
 	}
 
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Website::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Website::is_needed' );
+		$website = new Website();
+		$website->context = $this->memoizer->for_current_page();
+		$website->helpers = YoastSEO()->helpers;
 
-		return $this->website->is_needed( $context );
+		return $website->is_needed();
 	}
 
 	/**
 	 * Outputs code to allow recognition of the internal search engine.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @since 1.5.7
 	 *
@@ -71,9 +65,11 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 * @return array Website data blob.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Website::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Website::generate' );
+		$website = new Website();
+		$website->context = $this->memoizer->for_current_page();
+		$website->helpers = YoastSEO()->helpers;
 
-		return $this->website->generate( $context );
+		return $website->generate();
 	}
 }
