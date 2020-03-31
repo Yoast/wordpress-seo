@@ -45,6 +45,10 @@ class Indexable_Term_Builder {
 	public function build( $term_id, $indexable ) {
 		$term = \get_term( $term_id );
 
+		if ( $term === null ) {
+			throw new \Exception( 'Term could not be found.' );
+		}
+
 		if ( is_wp_error( $term ) ) {
 			throw new \Exception( \current( \array_keys( $term->errors ) ) );
 		}

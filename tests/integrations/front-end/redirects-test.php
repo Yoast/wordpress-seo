@@ -225,7 +225,7 @@ class Redirects_Test extends TestCase {
 		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
-			->with( 'https://example.org/redirect' );
+			->with( 'https://example.org/redirect', 301 );
 
 		$this->instance->page_redirect();
 	}
@@ -323,7 +323,7 @@ class Redirects_Test extends TestCase {
 		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
-			->with( 'https://example.org/redirect' );
+			->with( 'https://example.org/redirect', 301 );
 
 		$this->instance->attachment_redirect();
 	}

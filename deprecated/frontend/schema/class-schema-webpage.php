@@ -38,8 +38,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->web_page = YoastSEO()->classes->get( WebPage::class );
 	}
@@ -53,8 +52,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->web_page->is_needed( $context );
@@ -69,8 +67,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array WebPage schema data.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->web_page->generate( $context );
@@ -88,8 +85,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array The WebPage schema.
 	 */
 	public function add_author( $data, $post ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_author' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_author' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->web_page->add_author( $data, $post, $context );
@@ -104,8 +100,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @param array $data WebPage schema data.
 	 */
 	public function add_image( &$data ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_image' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_image' );
 		$context = $this->memoizer->for_current_page();
 
 		$this->web_page->add_image( $data, $context );

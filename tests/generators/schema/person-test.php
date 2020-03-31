@@ -8,14 +8,14 @@ use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Author_Test
+ * Class Person_Test
  *
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
+ * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Person
  */
-class Author_Test extends TestCase {
+class Person_Test extends TestCase {
 	/**
 	 * @var Schema\ID_Helper
 	 */
@@ -55,20 +55,21 @@ class Author_Test extends TestCase {
 		$this->image        = Mockery::mock( Image_Helper::class );
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
+		$this->id           = Mockery::mock( Schema\ID_Helper::class );
 
-		$constructor_args = [
-			$this->image,
-			$this->schema_image,
-			$this->html
-		];
-
-		$this->instance = Mockery::mock( Person::class, $constructor_args )->makePartial();
-
-		$this->id = Mockery::mock( Schema\ID_Helper::class );
-
-		$this->instance->set_id_helper( $this->id );
+		$this->instance = Mockery::mock( Person::class )->makePartial();
 
 		$this->meta_tags_context = new Meta_Tags_Context();
+
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'image'  => $this->image,
+			'schema' => (object) [
+				'id'      => $this->id,
+				'image'   => $this->schema_image,
+				'html'    => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -77,7 +78,7 @@ class Author_Test extends TestCase {
 	 */
 	public function test_is_shown_when_site_represents_person() {
 		$this->meta_tags_context->site_represents = 'person';
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -88,6 +89,6 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->indexable = (Object) [
 			'object_type' => 'user'
 		];
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 }

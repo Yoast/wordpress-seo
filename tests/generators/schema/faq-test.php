@@ -46,7 +46,14 @@ class FAQ_Test extends TestCase {
 		$this->html     = \Mockery::mock( HTML_Helper::class );
 		$this->language = \Mockery::mock( Language_Helper::class );
 
-		$this->instance = new FAQ( $this->html, $this->language );
+		$this->instance = new FAQ();
+
+		$this->instance->helpers = (object) [
+			'schema' => (object) [
+				'language' => $this->language,
+				'html'     => $this->html,
+			]
+		];
 		parent::setUp();
 	}
 
@@ -83,6 +90,8 @@ class FAQ_Test extends TestCase {
 		$meta_tags_context->blocks         = $blocks;
 		$meta_tags_context->main_schema_id = 'https://example.org/page/';
 		$meta_tags_context->canonical      = 'https://example.org/page/';
+
+		$this->instance->context = $meta_tags_context;
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -141,7 +150,7 @@ class FAQ_Test extends TestCase {
 			],
 		];
 
-		$actual = $this->instance->generate( $meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -178,6 +187,8 @@ class FAQ_Test extends TestCase {
 		$meta_tags_context->blocks         = $blocks;
 		$meta_tags_context->main_schema_id = 'https://example.org/page/';
 		$meta_tags_context->canonical      = 'https://example.org/page/';
+
+		$this->instance->context = $meta_tags_context;
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -221,7 +232,7 @@ class FAQ_Test extends TestCase {
 			],
 		];
 
-		$actual = $this->instance->generate( $meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -236,7 +247,9 @@ class FAQ_Test extends TestCase {
 		$meta_tags_context         = new Meta_Tags_Context();
 		$meta_tags_context->blocks = [];
 
-		$this->assertFalse( $this->instance->is_needed( $meta_tags_context ) );
+		$this->instance->context = $meta_tags_context;
+
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -270,7 +283,9 @@ class FAQ_Test extends TestCase {
 		$meta_tags_context->blocks           = $blocks;
 		$meta_tags_context->schema_page_type = 'WebPage';
 
-		$this->assertTrue( $this->instance->is_needed( $meta_tags_context ) );
+		$this->instance->context = $meta_tags_context;
+
+		$this->assertTrue( $this->instance->is_needed() );
 		$this->assertEquals( [ 'WebPage', 'FAQPage' ], $meta_tags_context->schema_page_type );
 	}
 

@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Context;
 use WP_Block_Parser_Block;
 use WP_Post;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
@@ -309,7 +310,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return [ '@id' => $this->id_helper->get_user_schema_id( $this->site_user_id, $this ) ];
 		}
 		if ( $this->site_represents === 'company' ) {
-			return [ '@id' => $this->site_url . $this->id_helper->organization_hash ];
+			return [ '@id' => $this->site_url . Schema_Ids::ORGANIZATION_HASH ];
 		}
 
 		return false;
@@ -400,7 +401,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * The main schema id.
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . $this->id_helper->webpage_hash;
+		return $this->canonical . Schema_Ids::WEBPAGE_HASH;
 	}
 }
 

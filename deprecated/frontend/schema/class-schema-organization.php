@@ -38,8 +38,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization' );
 		$this->memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->organization = YoastSEO()->classes->get( Organization::class );
 	}
@@ -53,8 +52,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->organization->is_needed( $context );
@@ -69,8 +67,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Organization::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->organization->generate( $context );

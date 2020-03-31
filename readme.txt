@@ -214,6 +214,7 @@ Release Date: March 31st, 2020
 
 Bugfixes:
 * Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+* Fixes a bug where form fields were validated inconsistently.
 
 = 13.3 =
 Release Date: March 17th, 2020

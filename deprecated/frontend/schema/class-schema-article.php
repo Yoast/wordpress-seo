@@ -39,7 +39,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article' );
+		//_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article' );
 
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->article  = YoastSEO()->classes->get( Article::class );
@@ -54,8 +54,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->article->is_needed( $context );
@@ -70,8 +69,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
 		$context = $this->memoizer->for_current_page();
 
 		return $this->article->generate( $context );
@@ -88,8 +86,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return bool True if it has article schema, false if not.
 	 */
 	public static function is_article_post_type( $post_type = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Article_Helper::is_article_post_type' );
-
+		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Article_Helper::is_article_post_type' );
 		/**
 		 * Holds the article schema helper.
 		 *

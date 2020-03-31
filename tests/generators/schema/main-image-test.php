@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Generators\Schema\Main_Image;
@@ -71,15 +72,19 @@ class Main_Image_Test extends TestCase {
 		$this->image        = Mockery::mock( Image_Helper::class );
 		$this->schema_id    = new Schema\ID_Helper();
 
-		$this->instance = new Main_Image(
-			$this->image,
-			$this->schema_image
-		);
-
-		$this->instance->set_id_helper( $this->schema_id );
+		$this->instance = new Main_Image();
 
 		$this->meta_tags_context            = new Meta_Tags_Context();
 		$this->meta_tags_context->indexable = new Indexable();
+
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'image'  => $this->image,
+			'schema' => (object) [
+				'id'      => $this->schema_id,
+				'image'   => $this->schema_image,
+			]
+		];
 	}
 
 	/**
@@ -118,7 +123,7 @@ class Main_Image_Test extends TestCase {
 			->with( $image_id, 1337 )
 			->andReturn( $image_schema );
 
-		$this->assertEquals( $image_schema, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $image_schema, $this->instance->generate() );
 		$this->assertTrue( $this->meta_tags_context->has_image );
 	}
 
@@ -158,7 +163,7 @@ class Main_Image_Test extends TestCase {
 			->with( $image_id, $image_url )
 			->andReturn( $image_schema );
 
-		$this->assertEquals( $image_schema, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $image_schema, $this->instance->generate() );
 		$this->assertTrue( $this->meta_tags_context->has_image );
 	}
 
@@ -186,7 +191,7 @@ class Main_Image_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( '' );
 
-		$this->assertFalse( $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->generate() );
 	}
 
 	/**
@@ -198,7 +203,7 @@ class Main_Image_Test extends TestCase {
 	public function test_is_needed() {
 		$this->meta_tags_context->indexable->object_type = 'post';
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -210,7 +215,7 @@ class Main_Image_Test extends TestCase {
 	public function test_is_not_needed() {
 		$this->meta_tags_context->indexable->object_type = 'user';
 
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -219,6 +224,6 @@ class Main_Image_Test extends TestCase {
 	 * @return string The image id.
 	 */
 	protected function generate_image_id() {
-		return $this->meta_tags_context->canonical . $this->schema_id->primary_image_hash;
+		return $this->meta_tags_context->canonical . Schema_Ids::PRIMARY_IMAGE_HASH;
 	}
 }

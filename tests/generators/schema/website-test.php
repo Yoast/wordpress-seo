@@ -67,15 +67,19 @@ class Website_Test extends TestCase {
 		$this->html     = Mockery::mock( HTML_Helper::class );
 		$this->language = Mockery::mock( Language_Helper::class );
 
-		$this->instance = new Website(
-			$this->options,
-			$this->html,
-			$this->language
-		);
-
-		$this->instance->set_id_helper( new ID_Helper() );
+		$this->instance = new Website();
 
 		$this->meta_tags_context = new Meta_Tags_Context();
+
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'options' => $this->options,
+			'schema'  => (object) [
+				'id'       => new ID_Helper(),
+				'language' => $this->language,
+				'html'     => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -126,7 +130,7 @@ class Website_Test extends TestCase {
 			'inLanguage'      => 'language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
@@ -175,7 +179,7 @@ class Website_Test extends TestCase {
 			'inLanguage'      => 'language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
@@ -185,32 +189,6 @@ class Website_Test extends TestCase {
 	 */
 	public function test_is_needed() {
 		// The website graph piece is always needed.
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
-	}
-
-	/**
-	 * Tests that the website schema generator is constructed
-	 * with the right properties.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		$instance = new Website( $this->options, $this->html, $this->language );
-
-		$this->assertAttributeInstanceOf(
-			Options_Helper::class,
-			'options',
-			$instance
-		);
-		$this->assertAttributeInstanceOf(
-			HTML_Helper::class,
-			'html',
-			$instance
-		);
-		$this->assertAttributeInstanceOf(
-			Language_Helper::class,
-			'language',
-			$instance
-		);
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 }

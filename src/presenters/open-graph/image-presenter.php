@@ -57,11 +57,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 
 			$return .= '<meta property="og:image" content="' . \esc_url( $image_url ) . '" />';
 
-			// Adds secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
-			if ( \strpos( $image_url, 'https://' ) === 0 ) {
-				$return .= PHP_EOL . "\t" . '<meta property="og:image:secure_url" content="' . \esc_url( $image_url ) . '" />';
-			}
-
 			foreach ( static::$image_tags as $key => $value ) {
 				if ( empty( $image_meta[ $key ] ) ) {
 					continue;

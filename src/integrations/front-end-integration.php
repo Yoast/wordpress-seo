@@ -247,7 +247,7 @@ class Front_End_Integration implements Integration_Interface {
 	private function get_needed_presenters( $page_type ) {
 		$presenters = $this->get_presenters_for_page_type( $page_type );
 
-		if ( ! get_theme_support( 'title-tag' ) ) {
+		if ( ! get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
 			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
 			$presenters = array_diff( $presenters, [ 'Title' ] );
 		}

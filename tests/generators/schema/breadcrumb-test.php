@@ -58,15 +58,20 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->id           = Mockery::mock( ID_Helper::class );
 
-		$this->id->breadcrumb_hash = '#breadcrumbs';
-
 		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context::class );
 		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
 		$this->meta_tags_context->indexable    = Mockery::mock( Indexable::class );
 		$this->meta_tags_context->canonical    = 'https://wordpress.example.com/canonical';
 
-		$this->instance = new Breadcrumb( $this->current_page );
-		$this->instance->set_id_helper( $this->id );
+		$this->instance = new Breadcrumb();
+
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'current_page' => $this->current_page,
+			'schema'       => (object) [
+				'id' => $this->id,
+			]
+		];
 	}
 
 	/**
@@ -95,11 +100,11 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -155,11 +160,11 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -198,7 +203,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( false, $actual );
 	}
@@ -232,7 +237,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -267,7 +272,7 @@ class Breadcrumb_Test extends TestCase {
 			],
 		];
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -303,7 +308,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -329,7 +334,7 @@ class Breadcrumb_Test extends TestCase {
 			],
 		];
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -365,7 +370,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
-			'@id'             => 'https://wordpress.example.com/canonical#breadcrumbs',
+			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
 			'itemListElement' => [
 				[
 					'@type'    => 'ListItem',
@@ -391,7 +396,7 @@ class Breadcrumb_Test extends TestCase {
 			],
 		];
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -404,7 +409,7 @@ class Breadcrumb_Test extends TestCase {
 	public function test_is_not_needed_on_error_page() {
 		$this->meta_tags_context->indexable->object_type     = 'system-page';
 		$this->meta_tags_context->indexable->object_sub_type = '404';
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -414,7 +419,7 @@ class Breadcrumb_Test extends TestCase {
 	 */
 	public function test_is_not_needed_on_home_page() {
 		$this->meta_tags_context->indexable->object_type = 'home-page';
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -424,7 +429,7 @@ class Breadcrumb_Test extends TestCase {
 	 */
 	public function test_is_not_needed_on_static_home_page() {
 		$this->current_page->expects( 'is_home_static_page' )->andReturnTrue();
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -435,7 +440,7 @@ class Breadcrumb_Test extends TestCase {
 	public function test_is_needed_when_breadcrumbs_are_enabled() {
 		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = true;
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -446,6 +451,6 @@ class Breadcrumb_Test extends TestCase {
 	public function test_is_not_needed_when_breadcrumbs_are_disabled() {
 		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 		$this->meta_tags_context->breadcrumbs_enabled = false;
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 }

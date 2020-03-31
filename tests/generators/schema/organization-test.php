@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey\Filters;
 use Mockery;
+use Yoast\WP\SEO\Config\Schema_Ids;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
@@ -86,7 +87,15 @@ class Organization_Test extends TestCase {
 			$this->html
 		);
 
-		$this->instance->set_id_helper( $this->id );
+		$this->instance->context = $this->context;
+		$this->instance->helpers = (object) [
+			'options' => $this->options,
+			'schema'  => (object) [
+				'id'      => $this->id,
+				'image'   => $this->image,
+				'html'    => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -102,8 +111,8 @@ class Organization_Test extends TestCase {
 		$this->context->company_name    = 'Yoast';
 		$this->context->company_logo_id = 1337;
 
-		$schema_id      = $this->context->site_url . $this->id->organization_hash;
-		$schema_logo_id = $this->context->site_url . $this->id->organization_logo_hash;
+		$schema_id      = $this->context->site_url . Schema_Ids::ORGANIZATION_HASH;
+		$schema_logo_id = $this->context->site_url . Schema_Ids::ORGANIZATION_LOGO_HASH;
 
 		$logo = [
 			'@type' => 'ImageObject',
@@ -143,7 +152,7 @@ class Organization_Test extends TestCase {
 			'image'  => [ '@id' => $schema_logo_id ],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
@@ -155,7 +164,7 @@ class Organization_Test extends TestCase {
 	public function test_is_needed() {
 		$this->context->site_represents = 'company';
 
-		$this->assertTrue( $this->instance->is_needed( $this->context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -167,7 +176,7 @@ class Organization_Test extends TestCase {
 	public function test_is_not_needed() {
 		$this->context->site_represents = false;
 
-		$this->assertFalse( $this->instance->is_needed( $this->context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
