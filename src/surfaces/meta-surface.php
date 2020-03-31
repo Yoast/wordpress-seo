@@ -301,7 +301,7 @@ class Meta_Surface {
 			case 'term':
 				$page_type = 'Term_Archive';
 				break;
-			case 'author':
+			case 'user':
 				$page_type = 'Author_Archive';
 				break;
 			case 'home-page':
