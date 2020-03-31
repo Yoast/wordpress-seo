@@ -1,4 +1,4 @@
-@import url(icons.css);
+@import url(../src/icons.css);
 @import "../../node_modules/yoast-components/css/accessibility.scss";
 .yoast-alert {
   padding: 0 12px;

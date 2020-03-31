@@ -4,7 +4,8 @@ module.exports = {
 		options: {
 			map: "<%= developmentBuild %>",
 			processors: [
-				require( "postcss" )(),
+				require( "autoprefixer" )(),
+				require( "cssnano" )(),
 				require( "postcss-import" )(),
 			],
 		},

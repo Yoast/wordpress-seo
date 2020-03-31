@@ -1,4 +1,4 @@
-@import url(score_icon.css);
+@import url(../src/score_icon.css);
 .wpseo-score-title {
   font-weight: 600;
 }

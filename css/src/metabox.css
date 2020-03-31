@@ -1,4 +1,4 @@
-@import url(icons.css);
+@import url(../src/icons.css);
 @import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
 /*!rtl:begin:ignore*/
 @import "../../node_modules/draft-js/dist/Draft.css";

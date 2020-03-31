@@ -1,4 +1,4 @@
-@import url(score_icon.css);
+@import url(../src/score_icon.css);
 .adminbar-seo-score {
   margin: 10px 0 0 4px !important;
 }
