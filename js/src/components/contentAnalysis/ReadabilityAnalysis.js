@@ -1,6 +1,6 @@
 /* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
 /* External components */
-import { Component, Fragment, createPortal } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -8,13 +8,14 @@ import { __ } from "@wordpress/i18n";
 import { isNil } from "lodash-es";
 
 /* Internal components */
-import ScoreIconPortal from "./ScoreIconPortal";
+import ScoreIconPortal from "../portals/ScoreIconPortal";
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "../contexts/location";
 import HelpLink from "./HelpLink";
+import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -104,15 +105,16 @@ class ReadabilityAnalysis extends Component {
 					}
 
 					if ( location === "metabox" ) {
-						return createPortal(
-							<ReadabilityResultsTabContainer>
-								<ScoreIconPortal
-									scoreIndicator={ score.className }
-									elementId="wpseo-readability-score-icon"
-								/>
-								{ this.renderResults() }
-							</ReadabilityResultsTabContainer>,
-							document.getElementById( "wpseo-metabox-readability-root" )
+						return (
+							<ReadabilityResultsPortal target="wpseo-metabox-readability-root">
+								<ReadabilityResultsTabContainer>
+									<ScoreIconPortal
+										target="wpseo-readability-score-icon"
+										scoreIndicator={ score.className }
+									/>
+									{ this.renderResults() }
+								</ReadabilityResultsTabContainer>
+							</ReadabilityResultsPortal>
 						);
 					}
 				} }

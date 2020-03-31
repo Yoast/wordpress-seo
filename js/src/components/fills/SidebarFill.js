@@ -4,17 +4,17 @@ import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
-import Warning from "../containers/Warning";
-import KeywordInput from "./contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
-import SidebarItem from "./SidebarItem";
-import SnippetPreviewModal from "./SnippetPreviewModal";
-import TopLevelProviders from "./TopLevelProviders";
+import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
+import Warning from "../../containers/Warning";
+import KeywordInput from "../contentAnalysis/KeywordInput";
+import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
+import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import SidebarItem from "../SidebarItem";
+import SnippetPreviewModal from "../SnippetPreviewModal";
+import TopLevelProviders from "../TopLevelProviders";
 
 /**
- * Creates the Sidebar component.
+ * Creates the SidebarFill component.
  *
  * @param {Object} settings The feature toggles.
  * @param {Object} store    The Redux store.
@@ -24,7 +24,7 @@ import TopLevelProviders from "./TopLevelProviders";
  *
  * @constructor
  */
-export default function Sidebar( { settings, store, theme } ) {
+export default function SidebarFill( { settings, store, theme } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
@@ -91,7 +91,7 @@ export default function Sidebar( { settings, store, theme } ) {
 	);
 }
 
-Sidebar.propTypes = {
+SidebarFill.propTypes = {
 	settings: PropTypes.object.isRequired,
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,

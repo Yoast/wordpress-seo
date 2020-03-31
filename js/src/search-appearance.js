@@ -1,7 +1,7 @@
 /* global wpseoReplaceVarsL10n, wpseoSearchAppearance */
 
 /* External dependencies */
-import { render, createPortal, Fragment } from "@wordpress/element";
+import { render, Fragment } from "@wordpress/element";
 import { forEach } from "lodash-es";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
@@ -14,9 +14,9 @@ import getDefaultReplacementVariables from "./values/defaultReplaceVariables";
 import { updateReplacementVariable } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { ThemeProvider } from "styled-components";
-import WordPressUserSelectorSearchAppearance from "./components/WordPressUserSelectorSearchAppearance";
-import CompanyInfoMissing from "./components/CompanyInfoMissing";
-import LocalSEOUpsell from "./components/LocalSEOUpsell";
+import UserSelectPortal from "./components/portals/UserSelectPortal";
+import CompanyInfoMissingPortal from "./components/portals/CompanyInfoMissingPortal";
+import LocalSEOUpsellPortal from "./components/portals/LocalSEOUpsellPortal";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -53,9 +53,6 @@ function configureStore() {
 
 const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
-const wpUserSelector = document.getElementById( "wpseo-person-selector" );
-const localSEOElement = document.getElementById( "wpseo-local-seo-upsell" );
-const companyInfoMissingElement = document.getElementById( "knowledge-graph-company-warning" );
 
 const element = document.createElement( "div" );
 document.body.appendChild( element );
@@ -81,20 +78,18 @@ render(
 					singleFieldElements={ singleFieldElements }
 					editorElements={ editorElements }
 				/>
-				{ createPortal( <WordPressUserSelectorSearchAppearance />, wpUserSelector ) }
-				{ companyInfoMissingElement && createPortal(
-					<CompanyInfoMissing
-						message={ knowledgeGraphCompanyInfoMissing.message }
-						link={ knowledgeGraphCompanyInfoMissing.URL }
-					/>,
-					companyInfoMissingElement
-				) }
-				{ showLocalSEOUpsell && createPortal(
-					<LocalSEOUpsell
+				<UserSelectPortal target="wpseo-person-selector" />
+				<CompanyInfoMissingPortal
+					target="knowledge-graph-company-warning"
+					message={ knowledgeGraphCompanyInfoMissing.message }
+					link={ knowledgeGraphCompanyInfoMissing.URL }
+				/>
+				{ showLocalSEOUpsell && (
+					<LocalSEOUpsellPortal
+						target="wpseo-local-seo-upsell"
 						url={ localSEOUpsellURL }
 						backgroundUrl={ brushstrokeBackgroundURL }
-					/>,
-					localSEOElement
+					/>
 				) }
 			</Fragment>
 		</ThemeProvider>

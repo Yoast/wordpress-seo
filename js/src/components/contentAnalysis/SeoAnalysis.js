@@ -4,13 +4,12 @@ import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import ScoreIconPortal from "./ScoreIconPortal";
+import ScoreIconPortal from "../portals/ScoreIconPortal";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -21,6 +20,7 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { ModalContainer, ModalIcon } from "../modals/Container";
+import SynonymSlot from "../slots/SynonymSlot";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -197,7 +197,7 @@ class SeoAnalysis extends Component {
 
 		return (
 			<ScoreIconPortal
-				elementId="wpseo-seo-score-icon"
+				target="wpseo-seo-score-icon"
 				scoreIndicator={ scoreIndicator }
 			/>
 		);
@@ -228,7 +228,7 @@ class SeoAnalysis extends Component {
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ location }` }
 						>
-							<Slot name={ `yoast-synonyms-${ location }` } />
+							<SynonymSlot location={ location } />
 							{ this.props.shouldUpsell && <Fragment>
 								{ this.renderSynonymsUpsell( location ) }
 								{ this.renderMultipleKeywordsUpsell( location ) }

@@ -1,5 +1,5 @@
 /* External dependencies */
-import { createPortal, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
@@ -11,8 +11,8 @@ import TwitterContainer from "../../containers/Twitter";
  *
  * @returns {React.Component} The social metadata collapsibles.
  */
-const Social = () => {
-	return createPortal(
+const SocialMetadata = () => {
+	return (
 		<Fragment>
 			<Collapsible
 				hasPadding={ true }
@@ -28,11 +28,8 @@ const Social = () => {
 			>
 				<TwitterContainer />
 			</Collapsible>
-		</Fragment>,
-		document.getElementById( "wpseo-section-social" )
+		</Fragment>
 	);
 };
 
-export default Social;
-
-
+export default SocialMetadata;
