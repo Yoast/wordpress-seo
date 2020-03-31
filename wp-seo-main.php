@@ -658,3 +658,10 @@ function wpseo_frontend_head_init() {
 function wpseo_frontend_init() {
 	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
+
+/**
+ * Aliasses added in order to keep compatibility with Yoast SEO: Local.
+ */
+class_alias( '\Yoast\WP\SEO\Initializers\Initializer_Interface', '\Yoast\WP\SEO\WordPress\Initializer' );
+class_alias( '\Yoast\WP\SEO\Loadable_Interface', '\Yoast\WP\SEO\WordPress\Loadable' );
+class_alias( '\Yoast\WP\SEO\Integrations\Integration_Interface', '\Yoast\WP\SEO\WordPress\Integration' );

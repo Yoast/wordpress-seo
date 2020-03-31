@@ -28,4 +28,3 @@ function YoastSEO() { // @codingStandardsIgnoreLine
 
 	return $main;
 }
-
