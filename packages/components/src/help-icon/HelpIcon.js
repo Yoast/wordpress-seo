@@ -23,7 +23,7 @@ export const helpIconDefaultProps = {
 /**
  * Function for the HelpIcon component.
  *
- * @param {string} linKTo Location where the icon refers to.
+ * @param {string} linkTo Location where the icon refers to.
  * @param {string} linkText Text for screenreaders that tells what the link does.
  *
  * @returns {React.Component} The HelpIcon.
