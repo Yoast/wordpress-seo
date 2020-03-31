@@ -38,6 +38,23 @@ class WPSEO_Schema_FAQ_Questions {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		return [];
+	}
+
+	/**
+	 * Generate a Question piece.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param array $question The question to generate schema for.
+	 *
+	 * @return array Schema.org Question piece.
+	 */
+	protected function generate_question_block( $question ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+
+		return [];
 	}
 }
