@@ -202,21 +202,6 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Show the notification overview page.
-	 */
-	public static function show_overview_page() {
-
-		/**
-		 * Stops PHPStorm from nagging about this variable being unused. The variable is used in the view.
-		 *
-		 * @noinspection PhpUnusedLocalVariableInspection
-		 */
-		$notifications_data = self::get_template_variables();
-
-		include WPSEO_PATH . 'admin/views/alerts-dashboard.php';
-	}
-
-	/**
 	 * Collect the notifications and group them together.
 	 */
 	public static function collect_notifications() {
