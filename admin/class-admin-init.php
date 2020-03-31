@@ -441,19 +441,19 @@ class WPSEO_Admin_Init {
 				'alternative' => null,
 			],
 			'wpseo_opengraph'                       => [
-				'version'     => 'xx.x',
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 			'wpseo_twitter'                         => [
-				'version'     => 'xx.x',
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 			'wpseo_twitter_taxonomy_image'          => [
-				'version'     => 'xx.x',
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 			'wpseo_twitter_metatag_key'             => [
-				'version'     => 'xx.x',
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 		];

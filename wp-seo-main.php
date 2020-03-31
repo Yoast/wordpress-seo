@@ -642,19 +642,19 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
 /**
  * Instantiate the different social classes on the frontend.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
 
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }

@@ -8,7 +8,7 @@
 /**
  * This class handles the Twitter card functionality.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
  */
@@ -31,33 +31,33 @@ class WPSEO_Twitter {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Outputs the Twitter Card code on singular pages.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 */
 	public function twitter() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Get the singleton instance of this class.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return object
 	 */
 	public static function get_instance() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return null;
 	}

@@ -72,14 +72,14 @@ class WPSEO_WooCommerce_Shop_Page {
 	 * Returns the ID of the WooCommerce shop page when the currently opened page is the shop page.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @param int $page_id The page id.
 	 *
 	 * @return int The Page ID of the shop.
 	 */
 	public function get_page_id( $page_id ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return $page_id;
 	}
