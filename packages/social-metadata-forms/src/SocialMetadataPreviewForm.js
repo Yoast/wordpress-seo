@@ -33,6 +33,8 @@ const SocialMetadataPreviewForm = ( props ) => {
 				onRemoveImageClick={ props.onRemoveImageClick }
 				warnings={ props.imageWarnings }
 				imageSelected={ props.imageSelected }
+				imageUrl={ props.imageUrl }
+				isPremium={ props.isPremium }
 			/>
 			<ReplacementVariableEditor
 				onChange={ props.onTitleChange }
@@ -58,22 +60,25 @@ const SocialMetadataPreviewForm = ( props ) => {
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
-	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
-	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
-	imageWarnings: PropTypes.array,
 	imageSelected: PropTypes.bool.isRequired,
+	isPremium: PropTypes.bool.isRequired,
+	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
+	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
+	imageWarnings: PropTypes.array,
+	imageUrl: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	imageWarnings: [],
+	imageUrl: "",
 };
 
 export default SocialMetadataPreviewForm;

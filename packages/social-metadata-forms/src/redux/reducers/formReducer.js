@@ -1,6 +1,14 @@
 import { combineReducers } from "redux";
 
-import { SET_TITLE, SET_DESCRIPTION, SET_IMAGE_URL, SET_IMAGE_TYPE } from "../actions/formActions";
+import {
+	SET_SOCIAL_TITLE,
+	SET_SOCIAL_DESCRIPTION,
+	SET_SOCIAL_IMAGE_URL,
+	SET_SOCIAL_IMAGE_TYPE,
+	SET_SOCIAL_IMAGE_ID,
+	SET_SOCIAL_IMAGE,
+	CLEAR_SOCIAL_IMAGE,
+} from "../actions/formActions";
 
 /**
  * Initial state
@@ -28,14 +36,27 @@ const initialState = {
  */
 function socialPreview( state = initialState, action ) {
 	switch ( action.type ) {
-		case SET_TITLE :
+		case SET_SOCIAL_TITLE :
 			return { ...state, title: action.title };
-		case SET_DESCRIPTION :
+		case SET_SOCIAL_DESCRIPTION :
 			return { ...state, description: action.description };
-		case SET_IMAGE_URL :
+		case SET_SOCIAL_IMAGE :
+			return { ...state, image: { ...action.image } };
+		case SET_SOCIAL_IMAGE_URL :
 			return { ...state, image: { ...state.image, url: action.imageUrl } };
-		case SET_IMAGE_TYPE :
+		case SET_SOCIAL_IMAGE_TYPE :
 			return { ...state, image: { ...state.image, type: action.imageType } };
+		case SET_SOCIAL_IMAGE_ID :
+			return { ...state, image: { ...state.image, id: action.imageId } };
+		case CLEAR_SOCIAL_IMAGE :
+			return { ...state, image: {
+				bytes: null,
+				type: null,
+				height: null,
+				width: null,
+				url: null,
+				id: null,
+			} };
 	  default:
 			return state;
 	}
