@@ -1,7 +1,10 @@
+/* External dependencies */
 import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
-import FacebookPreviewSlot from "./slots/FacebookPreviewSlot";
-import TwitterPreviewSlot from "./slots/TwitterPreviewSlot";
+
+/* Internal dependencies */
+import FacebookContainer from "../../containers/Facebook";
+import TwitterContainer from "../../containers/Twitter";
 
 /**
  * Component that renders the social metadata collapsibles.
@@ -16,14 +19,14 @@ const SocialMetadata = () => {
 				hasSeparator={ true }
 				title="Facebook"
 			>
-				<FacebookPreviewSlot />
+				<FacebookContainer />
 			</Collapsible>
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
 				title="Twitter"
 			>
-				<TwitterPreviewSlot />
+				<TwitterContainer />
 			</Collapsible>
 		</Fragment>
 	);

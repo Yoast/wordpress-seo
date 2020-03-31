@@ -1,4 +1,4 @@
-export * from "./socialActions";
+export * from "./social";
 export * from "./focusKeyword";
 export * from "./cornerstoneContent";
 export * from "./markerButtons";
