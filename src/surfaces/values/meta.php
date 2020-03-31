@@ -124,7 +124,7 @@ class Meta {
 			$presenter_namespace .= 'Twitter\\';
 			$parts = \array_slice( $parts, 1 );
 		}
-		else if ( $parts[0] === 'open' && $parts[1] === 'graph' ) {
+		elseif ( $parts[0] === 'open' && $parts[1] === 'graph' ) {
 			$presenter_namespace .= 'Open_Graph\\';
 			$parts = \array_slice( $parts, 2 );
 		}
