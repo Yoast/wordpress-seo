@@ -4,11 +4,6 @@ import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-gr
 
 // Import required CSS.
 import "./select.css";
-import "../base/typography.css";
-import "../base/root.css";
-import "../base/icons.css";
-import "../base/colors.css";
-import "../base/utility.css";
 
 /**
  * MultiSelect using the select2 package.
@@ -23,6 +18,7 @@ export class MultiSelect extends React.Component {
 	 */
 	constructor( props ) {
 		super( props );
+		this.onChangeHandler = this.onChangeHandler.bind( this );
 	}
 
 	/**
@@ -43,9 +39,10 @@ export class MultiSelect extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	onChangeHandler( event ) {
-		// TODO: Remove stub and implement function.
-		console.warn( event );
+	onChangeHandler() {
+		// It is easier to query the select for the selected options than keep track of them in this component as well.
+		const selection = this.select2.select2( "data" ).map( option => option.id );
+		this.props.onChange( selection );
 	}
 
 	/**
@@ -58,6 +55,7 @@ export class MultiSelect extends React.Component {
 			id,
 			selected,
 			options,
+			name,
 			...fieldGroupProps
 		} = this.props;
 		return (
@@ -68,6 +66,7 @@ export class MultiSelect extends React.Component {
 				<select
 					multiple="multiple"
 					id={ id }
+					name={ `${ name }[]` }
 					defaultValue={ selected }
 				>
 					{ options.map( option => {
@@ -86,12 +85,15 @@ const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes
 
 MultiSelect.propTypes = {
 	id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.arrayOf( PropTypes.string ),
+	onChange: PropTypes.func,
 	...FieldGroupProps,
 };
 
 MultiSelect.defaultProps = {
 	selected: [],
+	onChange: () => {},
 	...FieldGroupDefaultProps,
 };
