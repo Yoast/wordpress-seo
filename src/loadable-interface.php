@@ -19,5 +19,3 @@ interface Loadable_Interface {
 	 */
 	public static function get_conditionals();
 }
-
-class_alias( '\Yoast\WP\SEO\Loadable_Interface', '\Yoast\WP\SEO\WordPress\Loadable' );
