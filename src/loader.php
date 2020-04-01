@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO;
 
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,16 +19,23 @@ class Loader {
 	/**
 	 * The registered integrations.
 	 *
-	 * @var \Yoast\WP\SEO\WordPress\Integration[]
+	 * @var Integration_Interface[]
 	 */
 	protected $integrations = [];
 
 	/**
-	 * The registered initializer.
+	 * The registered initializers.
 	 *
-	 * @var \Yoast\WP\SEO\WordPress\Initializer[]
+	 * @var Integration_Interface[]
 	 */
 	protected $initializers = [];
+
+	/**
+	 * The registered commands.
+	 *
+	 * @var Command_Interface[]
+	 */
+	protected $commands = [];
 
 	/**
 	 * The dependency injection container.
@@ -56,7 +65,7 @@ class Loader {
 	}
 
 	/**
-	 * Registers a initializer.
+	 * Registers an initializer.
 	 *
 	 * @param string $class The class name of the initializer to be loaded.
 	 *
@@ -67,6 +76,17 @@ class Loader {
 	}
 
 	/**
+	 * Registers a command.
+	 *
+	 * @param string $class The class name of the command to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_command( $class ) {
+		$this->commands[] = $class;
+	}
+
+	/**
 	 * Loads all registered classes if their conditionals are met.
 	 *
 	 * @return void
@@ -74,6 +94,23 @@ class Loader {
 	public function load() {
 		$this->load_initializers();
 		$this->load_integrations();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$this->load_commands();
+		}
+	}
+
+	/**
+	 * Loads all registered commands.
+	 *
+	 * @return void
+	 */
+	protected function load_commands() {
+		foreach ( $this->commands as $command ) {
+			$command = $this->container->get( $command );
+
+			\WP_CLI::add_command( $command->get_name(), [ $command, 'execute' ], $command->get_config() );
+		}
 	}
 
 	/**
@@ -109,7 +146,7 @@ class Loader {
 	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param \Yoast\WP\SEO\WordPress\Loadable $class The class name of the integration.
+	 * @param Loadable_Interface $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */

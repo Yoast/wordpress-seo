@@ -92,11 +92,6 @@ class ORMWrapper extends ORM {
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
-
-		if ( self::$repositories[ $table_name ] ) {
-			return new self::$repositories[ $table_name ]( $table_name, [], $connection_name );
-		}
-
 		return new static( $table_name, [], $connection_name );
 	}
 
@@ -161,5 +156,23 @@ class ORMWrapper extends ORM {
 	 */
 	public function create( $data = null ) {
 		return $this->create_model_instance( parent::create( $data ) );
+	}
+
+	/**
+	 * Returns the select query as SQL.
+	 *
+	 * @return string The select query in SQL.
+	 */
+	public function get_sql() {
+		return $this->_build_select();
+	}
+
+	/**
+	 * Returns the update query as SQL.
+	 *
+	 * @return string The update query in SQL.
+	 */
+	public function get_update_sql() {
+		return $this->_build_update();
 	}
 }

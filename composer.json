@@ -100,10 +100,14 @@
 			"@after-premium-cs"
 		],
 		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction"
+			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
+			"composer config-yoastcs-premium"
+		],
+		"config-yoastcs-premium": [
+			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
 		],
 		"after-premium-cs": [
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
+			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
 			"@php ./scripts/maybe-restore-composer-lock.php",
 			"composer config-yoastcs"
 		],
@@ -112,8 +116,7 @@
 			"composer prefix-idiorm",
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt",
-			"composer du"
+			"touch ./vendor_prefixed/dependencies-prefixed.txt"
 		],
 		"prefix-ruckusing": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
@@ -136,11 +139,15 @@
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
 			"rm -f ./src/generated/container.php.meta",
-			"composer du",
+			"composer du --no-scripts",
 			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-install-cmd": [
-			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies"
+		"post-autoload-dump": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
+		],
+		"generate-migration": [
+			"./vendor/bin/ruckus.php db:generate"
 		]
 	}
 }
