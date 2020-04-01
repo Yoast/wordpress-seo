@@ -28,4 +28,15 @@ class Primary_Term extends Yoast_Model {
 	 * @var bool
 	 */
 	protected $uses_timestamps = true;
+
+	/**
+	 * Which columns contain int values.
+	 *
+	 * @var array
+	 */
+	protected $int_columns = [
+		'id',
+		'post_id',
+		'term_id',
+	];
 }
