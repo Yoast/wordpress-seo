@@ -32,7 +32,6 @@ module.exports = function( grunt ) {
 				return this.grunt + "config/";
 			},
 			css: "css/dist/",
-			sass: "css/src/",
 			grunt: "grunt/",
 			images: "images/",
 			js: "js/src/",
@@ -42,7 +41,6 @@ module.exports = function( grunt ) {
 			vendor: "vendor/",
 		},
 		files: {
-			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
 				"css/dist/*.css",
 			],
@@ -106,26 +104,6 @@ module.exports = function( grunt ) {
 				return project.paths.theme + "changelog.txt";
 			},
 			grunt: "Gruntfile.js",
-		},
-		sassFiles: {
-			"css/src/admin-global.css": [ "css/src/admin-global.scss" ],
-			"css/src/adminbar.css": [ "css/src/adminbar.scss" ],
-			"css/src/alerts.css": [ "css/src/alerts.scss" ],
-			"css/src/dashboard.css": [ "css/src/dashboard.scss" ],
-			"css/src/edit-page.css": [ "css/src/edit-page.scss" ],
-			"css/src/featured-image.css": [ " css/src/featured-image.scss" ],
-			"css/src/inside-editor.css": [ "css/src/inside-editor.scss" ],
-			"css/src/metabox.css": [ "css/src/metabox.scss" ],
-			"css/src/metabox-primary-category.css": [ "css/src/metabox-primary-category.scss" ],
-			"css/src/toggle-switch.css": [ "css/src/toggle-switch.scss" ],
-			"css/src/wpseo-dismissible.css": [ "css/src/wpseo-dismissible.scss" ],
-			"css/src/yst_plugin_tools.css": [ "css/src/yst_plugin_tools.scss" ],
-			"css/src/yoast-extensions.css": [ "css/src/extensions.scss" ],
-			"css/src/yst_seo_score.css": [ "css/src/yst_seo_score.scss" ],
-			"css/src/yoast-components.css": [ "css/src/yoast-components.scss" ],
-			"css/src/filter-explanation.css": [ "css/src/filter-explanation.scss" ],
-			"css/src/search-appearance.css": [ "css/src/search-appearance.scss" ],
-			"css/src/structured-data-blocks.css": [ "css/src/structured-data-blocks.scss" ],
 		},
 		pkg,
 	};
