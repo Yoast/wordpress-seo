@@ -18,6 +18,13 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * Holds a memoizer for the meta tag context.
 	 *
 	 * @var Meta_Tags_Context_Memoizer
@@ -32,6 +39,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Article' );
+		$this->date     = new WPSEO_Date_Helper();
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 	}
 

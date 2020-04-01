@@ -15,14 +15,14 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 10.2
  */
-class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
+class WPSEO_Schema_WebPage extends WebPage implements WPSEO_Graph_Piece {
 
 	/**
-	 * Holds a memoizer for the meta tag context.
+	 * The date helper.
 	 *
-	 * @var Meta_Tags_Context_Memoizer
+	 * @var WPSEO_Date_Helper
 	 */
-	private $memoizer;
+	protected $date;
 
 	/**
 	 * WPSEO_Schema_WebPage constructor.
@@ -32,7 +32,10 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\WebPage' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->date    = new WPSEO_Date_Helper();
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -45,11 +48,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\WebPage::is_needed' );
-		$web_page = new WebPage();
-		$web_page->context = $this->memoizer->for_current_page();
-		$web_page->helpers = YoastSEO()->helpers;
 
-		return $web_page->is_needed();
+		return parent::is_needed();
 	}
 
 	/**
@@ -62,11 +62,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\WebPage::generate' );
-		$web_page = new WebPage();
-		$web_page->context = $this->memoizer->for_current_page();
-		$web_page->helpers = YoastSEO()->helpers;
 
-		return $web_page->generate();
+		return parent::generate();
 	}
 
 	/**
@@ -82,11 +79,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function add_author( $data, $post ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_author' );
-		$web_page = new WebPage();
-		$web_page->context = $this->memoizer->for_current_page();
-		$web_page->helpers = YoastSEO()->helpers;
 
-		return $web_page->add_author( $data, $post );
+		return parent::add_author( $data, $post );
 	}
 
 	/**
@@ -99,10 +93,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function add_image( &$data ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\WebPage::add_image' );
-		$web_page = new WebPage();
-		$web_page->context = $this->memoizer->for_current_page();
-		$web_page->helpers = YoastSEO()->helpers;
 
-		$web_page->add_image( $data );
+		parent::add_image( $data );
 	}
 }
