@@ -12,6 +12,7 @@ use Yoast\WP\Free\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -279,6 +280,11 @@ class Meta_Surface {
 
 		$indexable = $this->repository->find_by_permalink( $url );
 
+		// If we haven't found any indexable first try to match against date archive urls.
+		if ( ! $indexable ) {
+			$indexable = $this->find_date_archive_by_url( $url_parts['path'] );
+		}
+		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.
 		if ( ! $indexable ) {
 			throw new Exception( "Could not find meta for url: $url." );
 		}
@@ -306,6 +312,9 @@ class Meta_Surface {
 				break;
 			case 'home-page':
 				$page_type = 'Home_Page';
+				break;
+			case 'date-archive':
+				$page_type = 'Date_Archive';
 				break;
 			case 'post-type-archive':
 				$page_type = 'Post_Type_Archive';
@@ -335,5 +344,25 @@ class Meta_Surface {
 	 */
 	private function build_meta( Meta_Tags_Context $context ) {
 		return new Meta( $context, $this->container, $this->front_end );
+	}
+
+	/**
+	 * Attempts to find the date archive indexabe by URL. Returns false if the URL does not match the date archive.
+	 *
+	 * @param string $url The relative url.
+	 *
+	 * @return Indexable
+	 */
+	private function find_date_archive_by_url( $url ) {
+		global $wp_rewrite;
+		$regexes = array_keys( $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE ) );
+
+		foreach ( $regexes as $regex ) {
+			if ( preg_match( "#^/$regex#", $url ) ) {
+				return $this->repository->find_for_date_archive();
+			}
+		}
+
+		return false;
 	}
 }
