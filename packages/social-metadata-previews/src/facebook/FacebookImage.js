@@ -68,12 +68,14 @@ class FacebookImage extends Component {
 	}
 
 	/**
-	 * After the component has mounted, determine the properties of the FacebookImage.
+	 * Determine the image properties and set them in state.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @param {string} src The image source URL.
+	 *
+	 * @returns {void}
 	 */
-	componentDidMount() {
-		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
+	determineImageProperties( src ) {
+		determineImageProperties( src, "Facebook" ).then( ( imageProperties ) => {
 			this.props.onImageLoaded( imageProperties.mode );
 
 			this.setState( {
@@ -87,6 +89,28 @@ class FacebookImage extends Component {
 				status: "errored",
 			} );
 		} );
+	}
+
+	/**
+	 * After the component has mounted, determine the properties of the FacebookImage.
+	 *
+	 * @returns {void}
+	 */
+	componentDidMount() {
+		this.determineImageProperties( this.props.src );
+	}
+
+	/**
+	 * After the image has been updated, determine the properties of the FacebookImage.
+	 *
+	 * @param {Object} prevProps The previous properties.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( prevProps ) {
+		if ( prevProps.src !== this.props.src ) {
+			this.determineImageProperties( this.props.src );
+		}
 	}
 
 	/**
@@ -125,7 +149,7 @@ class FacebookImage extends Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
-			return <PlaceholderImage>
+			return <PlaceholderImage onClick={ this.props.onSelectImage }>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
 		}
@@ -147,11 +171,13 @@ FacebookImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
+	onSelectImage: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
 	alt: "",
 	onImageLoaded: () => {},
+	onSelectImage: () => {},
 };
 
 export default FacebookImage;
