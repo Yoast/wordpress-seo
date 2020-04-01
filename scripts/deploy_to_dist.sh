@@ -29,7 +29,7 @@ lastTag=$1
 branch="master"
 mainDir=$(pwd)
 
-if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
   branch=$lastTag
 fi
 
