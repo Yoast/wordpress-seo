@@ -92,6 +92,17 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * The Open Graph specific presenters that should be output on error pages.
+	 *
+	 * @var array
+	 */
+	protected $open_graph_error_presenters = [
+		'Open_Graph\Locale',
+		'Open_Graph\Title',
+		'Open_Graph\Site_Name',
+	];
+
+	/**
 	 * The Twitter card specific presenters.
 	 *
 	 * @var array
@@ -271,7 +282,11 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function get_presenters_for_page_type( $page_type ) {
 		if ( $page_type === 'Error_Page' ) {
-			return array_merge( $this->base_presenters, $this->closing_presenters );
+			$presenters = $this->base_presenters;
+			if ( $this->options->get( 'opengraph' ) === true ) {
+				$presenters = array_merge( $presenters, $this->open_graph_error_presenters );
+			}
+			return array_merge( $presenters, $this->closing_presenters );
 		}
 
 		$presenters = $this->get_all_presenters();
