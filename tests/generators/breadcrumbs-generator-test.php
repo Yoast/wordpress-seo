@@ -83,6 +83,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->indexable                   = Mockery::mock( Indexable::class );
 		$this->indexable->object_id        = 1;
 		$this->indexable->object_type      = 'post';
+		$this->indexable->object_sub_type  = 'post';
 		$this->indexable->permalink        = 'https://example.com/post';
 		$this->indexable->breadcrumb_title = 'post';
 		$this->context                     = Mockery::mock( Meta_Tags_Context::class );
