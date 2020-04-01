@@ -97,6 +97,30 @@ export default class TwitterImage extends React.Component {
 			imageProperties: null,
 			status: "loading",
 		};
+		this.handleImage = this.handleImage.bind( this );
+		this.socialMedium = "Twitter";
+	}
+
+	/**
+	 * Handles the determining of image properties.
+	 *
+	 * @param {string} 			src  			The image url.
+	 * @param {socialMedium}	socialMedium	The social medium, Twitter or Facebook.
+	 *
+	 * @returns {void}
+	 */
+	handleImage( src ) {
+		determineImageProperties( src, this.socialMedium ).then( ( imageProperties ) => {
+			this.setState( {
+				imageProperties: imageProperties,
+				status: "loaded",
+			} );
+		} ).catch( () => {
+			this.setState( {
+				imageProperties: null,
+				status: "errored",
+			} );
+		} );
 	}
 
 	/**
@@ -108,18 +132,17 @@ export default class TwitterImage extends React.Component {
 	 */
 	componentDidUpdate( prevProps ) {
 		if ( prevProps.src !== this.props.src ) {
-			determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
-				this.setState( {
-					imageProperties: imageProperties,
-					status: "loaded",
-				} );
-			} ).catch( () => {
-				this.setState( {
-					imageProperties: null,
-					status: "errored",
-				} );
-			} );
+			this.handleImage( this.props.src );
 		}
+	}
+
+	/**
+	 * After the component has mounted, determine the properties of the TwitterImage.
+	 *
+	 * @returns {Promise} Resolves when there are image properties.
+	 */
+	componentDidMount() {
+		this.handleImage( this.props.src );
 	}
 
 	/**
