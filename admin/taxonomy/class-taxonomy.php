@@ -125,6 +125,7 @@ class WPSEO_Taxonomy {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
+		$asset_manager->enqueue_style( 'monorepo' );
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
@@ -377,6 +378,7 @@ class WPSEO_Taxonomy {
 			'page',
 			'term_title',
 			'term_description',
+			'term_hierarchy',
 			'category_description',
 			'tag_description',
 			'searchphrase',
@@ -434,9 +436,8 @@ class WPSEO_Taxonomy {
 	 * @return string Content with shortcodes filtered out.
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0', 'WPSEO_Frontend::custom_category_descriptions_add_shortcode_support' );
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
 
-		$frontend = WPSEO_Frontend::get_instance();
-		return $frontend->custom_category_descriptions_add_shortcode_support( $desc );
+		return '';
 	}
 }

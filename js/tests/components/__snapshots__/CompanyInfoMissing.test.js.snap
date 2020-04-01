@@ -6,7 +6,7 @@ exports[`CompanyInfoMissing matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-alert-warning Alert__AlertIcon-sc-13lb81i-2 camkTq createSvgIconComponent__StyledSvg-f1towz-0 dzRRs"
+    className="yoast-svg-icon yoast-svg-icon-alert-warning Alert__AlertIcon-sc-13lb81i-2 camkTq createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
     fill="#674e00"
     focusable="false"
     role="img"

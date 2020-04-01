@@ -1,7 +1,10 @@
 # Grunt aliases
 ---
 'build':
-  - 'build-default'
+  - 'build:js'
+  - 'build:css'
+  - 'build:images'
+  - 'build:i18n'
 
 # Build JavaScript from assets to production
 'build:js':
@@ -138,8 +141,8 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'build:css'
   - 'release:js'
+  - 'build:css'
   - 'build:i18n'
 'release:js':
   - 'copy:js-dependencies'
