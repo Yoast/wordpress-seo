@@ -8,7 +8,6 @@
 	--color-font-default: #404040;
 }
 
-.yoast h1, .yoast h2, .yoast h3,
 .yoast-h1, .yoast-h2, .yoast-h3 {
 	font-weight: 400;
 	color: var(--color-primary);
@@ -21,21 +20,18 @@
 	text-decoration: none;
 }
 
-.yoast h1,
 .yoast-h1 {
 	font-size: 24px;
 }
-.yoast h2,
+
 .yoast-h2 {
 	font-size: 20px;
 }
 
-.yoast h4,
 .yoast-h3 {
 	font-size: 16px;
 }
 
-.yoast p,
 .yoast-paragraph {
 	font-size: var(--font-size-default);
 	margin-top: 0;
