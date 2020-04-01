@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.4
-Stable tag: 13.3
+Stable tag: 13.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,32 +209,26 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.4 =
-Release Date: March 31st, 2020
+= 14.0 =
+Release Date: April 14th, 2020
 
 Bugfixes:
-* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
-* Fixes a bug where form fields were validated inconsistently.
 
-= 13.3 =
-Release Date: March 17th, 2020
-
-Our current string of releases focusing on improving our code is continuing with Yoast SEO 13.3. In this release, we have a Schema structured data addition and several improvements to how Yoast SEO handles URLs. Read on in [our 13.3 release post](https://yoa.st/release-13-3)!
+* Fixes a bug where sometimes a fatal error is given when saving a post.
 
 Enhancements:
 
-* Makes sure all URL fields show an unencoded URL after saving, even when the user input was encoded.
-* Requires all URLs in URL input fields to begin with either ‘/’ or ‘http(s)’. Props to [stodorovic](https://github.com/stodorovic).
-* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
+* Adds the term ancestors hierarchy as a taxonomy replacement variable.
+
+= 13.4 =
+Release Date: March 31st, 2020
+
+In Yoast SEO 9.0, we launched an innovative new way to analyze your English language text using word forms. In Yoast SEO 10.1, we added word form support for the German language. Today, we’re glad to announce word form support for Dutch. You can read why this is such an awesome addition in [our 13.4 release post](https://yoa.st/release-13-4)!
 
 Bugfixes:
 
-* Fixes a bug where social URLs containing international characters could not be saved. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where encoded characters would be stripped from canonical URLs. Props to [stodorovic](https://github.com/stodorovic) and [Shahram Rahbari](https://github.com/ShahramRahbari).
-
-Other:
-
-* Changes the cURL Health Check category from `recommended` to `critical`.
+* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
+* Fixes a bug where form fields were validated inconsistently.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
