@@ -15,14 +15,7 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 11.5
  */
-class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds a memoizer for the meta tag context.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	private $memoizer;
+class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_FAQ constructor.
@@ -31,8 +24,10 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		 _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -45,11 +40,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::generate' );
-		$how_to = new HowTo();
-		$how_to->context = $this->memoizer->for_current_page();
-		$how_to->helpers = YoastSEO()->helpers;
 
-		return $how_to->generate();
+		return parent::generate();
 	}
 
 	/**
@@ -65,7 +57,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 */
 	public function render( $graph, $block ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		return [];
 	}
 
 	/**
@@ -78,10 +71,39 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::is_needed' );
-		$how_to = new HowTo();
-		$how_to->context = $this->memoizer->for_current_page();
-		$how_to->helpers = YoastSEO()->helpers;
 
-		return $how_to->is_needed();
+		return parent::is_needed();
+	}
+
+	/**
+	 * Determines whether we're part of an article or a webpage.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @return string A reference URL.
+	 */
+	protected function get_main_schema_id() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+
+		return $this->context->main_schema_id;
+	}
+
+	/**
+	 * Generates the image schema from the attachment $url.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param string $url Attachment url.
+	 *
+	 * @return array Image schema.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function get_image_schema( $url ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::get_image_schema' );
+
+		return parent::get_image_schema( $url );
 	}
 }
