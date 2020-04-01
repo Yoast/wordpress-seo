@@ -104,8 +104,8 @@ export default class TwitterImage extends React.Component {
 	/**
 	 * Handles the determining of image properties.
 	 *
-	 * @param {string} 			src  			The image url.
-	 * @param {socialMedium}	socialMedium	The social medium, Twitter or Facebook.
+	 * @param {string}       src          The image url.
+	 * @param {socialMedium} socialMedium The social medium, Twitter or Facebook.
 	 *
 	 * @returns {void}
 	 */
