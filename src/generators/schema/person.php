@@ -133,7 +133,6 @@ class Person extends Abstract_Schema_Piece {
 		$data      = [
 			'@type' => $this->type,
 			'@id'   => $this->helpers->schema->id->get_user_schema_id( $user_id, $this->context ),
-			'name'  => $this->helpers->schema->html->smart_strip_tags( $user_data->display_name ),
 		];
 
 		// Safety check for the `get_userdata` WP function, which could return false.
@@ -141,7 +140,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['name'] = $this->html->smart_strip_tags( $user_data->display_name );
+		$data['name'] = $this->helpers->schema->html->smart_strip_tags( $user_data->display_name );
 		$data         = $this->add_image( $data, $user_data );
 
 		if ( ! empty( $user_data->description ) ) {
