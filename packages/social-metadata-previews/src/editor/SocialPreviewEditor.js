@@ -8,6 +8,15 @@ import FacebookPreview from "../facebook/FacebookPreview";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 
 class SocialPreviewEditor extends Component {
+	constructor() {
+		super();
+
+		this.state = {
+			activeField: "",
+			hoveredField: "",
+		};
+	}
+
 	render() {
 		const {
 			onDescriptionChange,
@@ -27,6 +36,7 @@ class SocialPreviewEditor extends Component {
 		return (
 			<React.Fragment>
 				<FacebookPreview
+					onMouseHover={ console.log }
 					siteName={ siteName }
 					title={ title }
 					description={ description }

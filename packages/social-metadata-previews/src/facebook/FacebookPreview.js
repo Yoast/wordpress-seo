@@ -102,6 +102,10 @@ class FacebookPreview extends Component {
 			imageMode: null,
 		};
 		this.onImageLoaded = this.onImageLoaded.bind( this );
+
+		this.onTitleEnter = this.onMouseHover.bind( this, "title" );
+		this.onDescriptionEnter = this.onMouseHover.bind( this, "description" );
+		this.onLeave = this.onMouseHover.bind( this, "" );
 	}
 
 	/**
@@ -113,6 +117,10 @@ class FacebookPreview extends Component {
 	 */
 	onImageLoaded( mode ) {
 		this.setState( { imageMode: mode } );
+	}
+
+	onMouseHover( field ) {
+		this.props.onMouseHover( field );
 	}
 
 	/**
@@ -137,8 +145,17 @@ class FacebookPreview extends Component {
 						authorName={ this.props.authorName }
 						mode={ imageMode }
 					/>
-					<FacebookTitle title={ this.props.title } />
-					<FacebookDescription mode={ imageMode }>
+					<FacebookTitle
+						onMouseEnter={ this.onTitleEnter }
+						onMouseLeave={ this.onLeave }
+					>
+						{ this.props.title }
+					</FacebookTitle>
+					<FacebookDescription
+						onMouseEnter={ this.onDescriptionEnter }
+						onMouseLeave={ this.onLeave }
+						mode={ imageMode }
+					>
 						{ this.props.description }
 					</FacebookDescription>
 				</OuterTextWrapper>
@@ -155,6 +172,7 @@ FacebookPreview.propTypes = {
 	image: PropTypes.string,
 	alt: PropTypes.string,
 	onSelectImage: PropTypes.func,
+	onMouseHover: PropTypes.func,
 };
 
 FacebookPreview.defaultProps = {
@@ -163,6 +181,7 @@ FacebookPreview.defaultProps = {
 	alt: "",
 	image: "",
 	onSelectImage: () => {},
+	onMouseHover: () => {},
 };
 
 export default FacebookPreview;
