@@ -7,7 +7,15 @@ import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import FacebookPreview from "../facebook/FacebookPreview";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 
+/**
+ * A form with an image selection button, a title input field and a description field and the social preview.
+ *
+ * @returns {void} Void.
+ */
 class SocialPreviewEditor extends Component {
+	/**
+	 * The constructor.
+	 */
 	constructor() {
 		super();
 
@@ -15,8 +23,43 @@ class SocialPreviewEditor extends Component {
 			activeField: "",
 			hoveredField: "",
 		};
+
+		this.setHoveredField = this.setHoveredField.bind( this );
 	}
 
+	/**
+	 * Sets the field that the mouse is hovering over in state.
+	 *
+	 * @param {string} field The field that is hovered over.
+	 *
+	 * @returns {void}
+	 */
+	setHoveredField( field ) {
+		this.setState( {
+			hoveredField: field,
+		} );
+		console.log( "field", field );
+	}
+
+	/**
+	 * Sets the active field that is selected in state.
+	 *
+	 * @param {string} field The field that is selected.
+	 *
+	 * @returns {void}
+	 */
+	setActiveField( field ) {
+		this.setState( {
+			activeField: field,
+		} );
+		console.log( field );
+	}
+
+	/**
+	 * The render function.
+	 *
+	 * @returns {void} Void.
+	 */
 	render() {
 		const {
 			onDescriptionChange,
@@ -36,7 +79,8 @@ class SocialPreviewEditor extends Component {
 		return (
 			<React.Fragment>
 				<FacebookPreview
-					onMouseHover={ console.log }
+					onMouseHover={ this.setHoveredField }
+					onSelect={ this.setActiveField }
 					siteName={ siteName }
 					title={ title }
 					description={ description }
