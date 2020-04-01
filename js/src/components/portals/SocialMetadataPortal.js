@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import SocialMetadata from "../SocialMetadata";
+import SocialMetadata from "../social/SocialMetadata";
 import Portal from "./Portal";
 
 /**

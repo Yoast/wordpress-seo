@@ -99,14 +99,14 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox::save_postdata
 	 */
 	public function test_save_postdata() {
-
-		$this->markTestSkipped( 'This test has been non-functioning for a while. The $meta_fields are empty which means no assertions are made. Issue to implement the test correctly: https://github.com/Yoast/wordpress-seo/issues/12381' );
-
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
 		$post = get_post( $post_id );
+
+		$_POST['ID']                       = $post_id;
+		$_POST['yoast_free_metabox_nonce'] = wp_create_nonce( 'yoast_free_metabox' );
 
 		// Setup.
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
@@ -152,5 +152,109 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 				$this->assertEquals( $value, 'on' );
 			}
 		}
+	}
+
+	/**
+	 * Tests that saving postdata works properly.
+	 *
+	 * @covers       WPSEO_Metabox::save_postdata
+	 *
+	 * @dataProvider save_metabox_field_provider
+	 *
+	 * @param string $field_name     The field name.
+	 * @param string $field_value    The field value.
+	 * @param string $expected_value The expected value.
+	 * @param string $message        The message to show when test fails.
+	 */
+	public function test_save_postdata_for_separate_fields( $field_name, $field_value, $expected_value, $message ) {
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$prefixed_field_name = WPSEO_Meta::$form_prefix . $field_name;
+
+		$_POST = [
+			'ID'                       => $post_id,
+			$prefixed_field_name       => $field_value,
+			'yoast_free_metabox_nonce' => wp_create_nonce( 'yoast_free_metabox' ),
+		];
+
+		// Setup.
+		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
+
+		$disabled_advanced_meta = WPSEO_Options::get( 'disableadvanced_meta' );
+		WPSEO_Options::set( 'disableadvanced_meta', false );
+
+		// Call method that saves the $_POST data.
+		self::$class_instance->save_postdata( $post_id );
+
+		$this->assertEquals( $expected_value, WPSEO_Meta::get_value( $field_name, $post_id ), $message );
+
+		WPSEO_Options::set( 'disableadvanced_meta', $disabled_advanced_meta );
+	}
+
+	/**
+	 * Provided data to the save metabox test.
+	 *
+	 * @return array The data to use.
+	 */
+	public function save_metabox_field_provider( ) {
+		return [
+			[
+				// Related issue for this case: https://github.com/Yoast/wordpress-seo/issues/14476.
+				'field_name'     => 'canonical',
+				'field_value'    => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'expected_value' => 'https://danialtaherifar.ir/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'message'        => 'Test with an encoded url given.',
+			],
+			[
+				'field_name'     => 'meta-robots-noindex',
+				'field_value'    => '0',
+				'expected_value' => '0',
+				'message'        => 'Test dropdown with a known option value.',
+			],
+			[
+				'field_name'     => 'meta-robots-noindex',
+				'field_value'    => '100',
+				'expected_value' => '0',
+				'message'        => 'Test dropdown with an unknown option value.',
+			],
+			[
+				'field_name'     => 'meta-robots-nofollow',
+				'field_value'    => '1',
+				'expected_value' => '1',
+				'message'        => 'Test radio button with a known option value.',
+			],
+			[
+				'field_name'     => 'meta-robots-nofollow',
+				'field_value'    => '2',
+				'expected_value' => '0',
+				'message'        => 'Test radio button with an unknown option value.',
+			],
+			[
+				'field_name'     => 'title',
+				'field_value'    => 'Title',
+				'expected_value' => 'Title',
+				'message'        => 'Test text field with string value given.',
+			],
+			[
+				'field_name'     => 'title',
+				'field_value'    => '<strong>Title</strong>',
+				'expected_value' => 'Title',
+				'message'        => 'Test text field with html given.',
+			],
+			[
+				'field_name'     => 'meta-robots-adv',
+				'field_value'    => [ 'noimageindex', 'nosnippet' ],
+				'expected_value' => 'noimageindex,nosnippet',
+				'message'        => 'Test multiselect field with valid values given.',
+			],
+			[
+				'field_name'     => 'meta-robots-adv',
+				'field_value'    => [ '<strong>noimageindex</strong>', 'dingdong' ],
+				'expected_value' => 'noimageindex',
+				'message'        => 'Test multiselect field with invalid values given.',
+			],
+		];
 	}
 }

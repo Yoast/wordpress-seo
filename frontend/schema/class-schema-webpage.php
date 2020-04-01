@@ -95,6 +95,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			];
 		}
 
+		$data = $this->add_potential_action( $data );
+
 		return $data;
 	}
 
@@ -169,5 +171,32 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		 * @api string $type The WebPage type.
 		 */
 		return apply_filters( 'wpseo_schema_webpage_type', $type );
+	}
+
+	/**
+	 * Adds the potential action JSON LD code to a WebPage Schema piece.
+	 *
+	 * @param array $data The WebPage data array.
+	 *
+	 * @return array $data
+	 */
+	private function add_potential_action( $data ) {
+		if ( $this->determine_page_type() !== 'WebPage' ) {
+			return $data;
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
+		 *
+		 * @api array $targets The URLs for the WebPage potentialAction target.
+		 */
+		$targets = apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $this->context->canonical ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'ReadAction',
+			'target' => $targets,
+		];
+
+		return $data;
 	}
 }

@@ -1,5 +1,5 @@
-/* global wpseoScriptData, wp */
-import ReplaceVar from "../../values/replaceVar";
+/* global wpseoReplaceVarsL10n, wp */
+import ReplaceVar from "./values/replaceVar";
 import {
 	forEach,
 	filter,
@@ -10,9 +10,10 @@ import {
 	removeReplacementVariable,
 	updateReplacementVariable,
 	refreshSnippetEditor,
-} from "../../redux/actions/snippetEditor";
+} from "./redux/actions/snippetEditor";
 
-import { isGutenbergDataAvailable } from "../../helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+
 
 var modifiableFields = [
 	"content",
@@ -89,6 +90,10 @@ YoastReplaceVarPlugin.prototype.registerReplacements = function() {
 		scope: [ "term" ],
 	} ) );
 
+	this.addReplacement( new ReplaceVar( "%%term_hierarchy%%", "term_hierarchy", {
+		scope: [ "term" ],
+	} ) );
+
 	this.addReplacement( new ReplaceVar( "%%title%%", "title", {
 		source: "app",
 		scope: [ "post", "term", "page" ],
@@ -118,7 +123,7 @@ YoastReplaceVarPlugin.prototype.registerReplacements = function() {
  * @returns {void}
  */
 YoastReplaceVarPlugin.prototype.registerEvents = function() {
-	const currentScope = wpseoScriptData.analysis.plugins.replaceVars.scope;
+	const currentScope = wpseoReplaceVarsL10n.scope;
 
 	if ( currentScope === "post" ) {
 		// Set events for each taxonomy box.
@@ -252,7 +257,7 @@ YoastReplaceVarPlugin.prototype.replaceByStore = function( data ) {
 };
 
 /**
- * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoScriptData.analysis.plugins.replaceVars.
+ * Retrieves the object containing the replacements for the placeholders. Defaults to wpseoReplaceVarsL10n.
  *
  * @param {Object} placeholderOptions Placeholder options object containing a replacement and source.
  * @returns {Object} The replacement object to use.
@@ -266,7 +271,7 @@ YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOpti
 		return "direct";
 	}
 
-	return wpseoScriptData.analysis.plugins.replaceVars.replace_vars;
+	return wpseoReplaceVarsL10n.replace_vars;
 };
 
 /**
@@ -278,7 +283,7 @@ YoastReplaceVarPlugin.prototype.getReplacementSource = function( placeholderOpti
 YoastReplaceVarPlugin.prototype.getReplacement = function( replaceVar ) {
 	var replacementSource = this.getReplacementSource( replaceVar.options );
 
-	if ( replaceVar.inScope( wpseoScriptData.analysis.plugins.replaceVars.scope ) === false ) {
+	if ( replaceVar.inScope( wpseoReplaceVarsL10n.scope ) === false ) {
 		return "";
 	}
 
@@ -614,7 +619,7 @@ YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
 YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
 	var parentText = parent.find( "option:selected" ).text();
 
-	if ( parentText === wpseoScriptData.analysis.plugins.replaceVars.no_parent_text ) {
+	if ( parentText === wpseoReplaceVarsL10n.no_parent_text ) {
 		return "";
 	}
 

@@ -8,12 +8,12 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
+class WPSEO_Ryte_Option_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_OnPage_Option
+	 * @var WPSEO_Ryte_Option
 	 */
 	protected $class_instance;
 
@@ -23,13 +23,13 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_OnPage_Option();
+		$this->class_instance = new WPSEO_Ryte_Option();
 	}
 
 	/**
 	 * Test with the default options.
 	 *
-	 * @covers WPSEO_OnPage_Option::get_status
+	 * @covers WPSEO_Ryte_Option::get_status
 	 */
 	public function test_get_status() {
 		$this->assertEquals( $this->class_instance->get_status(), 99 );
@@ -38,7 +38,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * First test with the value before, then set the status to 1 and test of status has been set.
 	 *
-	 * @covers WPSEO_OnPage_Option::set_status
+	 * @covers WPSEO_Ryte_Option::set_status
 	 */
 	public function test_set() {
 		$this->assertEquals( $this->class_instance->get_status(), 99 );
@@ -49,7 +49,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test without the last fetch time being set.
 	 *
-	 * @covers WPSEO_OnPage_Option::should_be_fetched
+	 * @covers WPSEO_Ryte_Option::should_be_fetched
 	 */
 	public function test_can_fetch() {
 		$this->assertTrue( $this->class_instance->should_be_fetched() );
@@ -58,7 +58,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test with the last fetch time being set to 15 minutes ago.
 	 *
-	 * @covers WPSEO_OnPage_Option::should_be_fetched
+	 * @covers WPSEO_Ryte_Option::should_be_fetched
 	 */
 	public function test_cannot_fetch() {
 		$this->class_instance->set_last_fetch( strtotime( '-5 seconds' ) );
@@ -68,7 +68,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test with the last fetch time being set to 2 hours ago.
 	 *
-	 * @covers WPSEO_OnPage_Option::should_be_fetched
+	 * @covers WPSEO_Ryte_Option::should_be_fetched
 	 */
 	public function test_cannot_fetch_two_hours_ago() {
 		$this->class_instance->set_last_fetch( strtotime( '-2 hours' ) );

@@ -24,7 +24,7 @@ export default {
 	primaryTaxonomies,
 	isMarkerPaused,
 	settings,
-	socialReducer,
+	social: socialReducer,
 	snippetEditor,
 	warning,
 };

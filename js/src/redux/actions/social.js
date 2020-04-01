@@ -5,4 +5,6 @@ export const {
 	setSocialPreviewTitle,
 	setSocialPreviewImageUrl,
 	setSocialPreviewImageType,
+	setSocialPreviewImage,
+	clearSocialPreviewImage,
 } = actions;
