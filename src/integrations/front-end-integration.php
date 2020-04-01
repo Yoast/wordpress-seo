@@ -50,7 +50,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The presenters we loop through on each page load.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $base_presenters = [
 		'Debug\Marker_Open',
@@ -63,7 +63,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The presenters we loop through on each page load.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $indexing_directive_presenters = [
 		'Canonical',
@@ -74,7 +74,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Open Graph specific presenters.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $open_graph_presenters = [
 		'Open_Graph\Locale',
@@ -94,7 +94,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Twitter card specific presenters.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $twitter_card_presenters = [
 		'Twitter\Card',
@@ -108,7 +108,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Presenters that are only needed on singular pages.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $singular_presenters = [
 		'Open_Graph\Article_Author',
@@ -121,7 +121,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The presenters we want to be last in our output.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $closing_presenters = [
 		'Schema',
@@ -227,14 +227,21 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
 	public function get_presenters( $page_type ) {
-		$needed_presenters = $this->get_needed_presenters( $page_type );
-		$invalid_behaviour = $this->invalid_behaviour();
+			$needed_presenters = $this->get_needed_presenters( $page_type );
+			$invalid_behaviour = $this->invalid_behaviour();
 
-		return array_filter(
+		$presenters = array_filter(
 			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
 				return $this->container->get( "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
 			}, $needed_presenters )
 		);
+
+		/**
+		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
+		 *
+		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
+		 */
+		return apply_filters( 'wpseo_frontend_presenters', $presenters );
 	}
 
 	/**
@@ -242,7 +249,7 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @param string $page_type The page type we're retrieving presenters for.
 	 *
-	 * @return Abstract_Indexable_Presenter[] The presenters.
+	 * @return string[] The presenters.
 	 */
 	private function get_needed_presenters( $page_type ) {
 		$presenters = $this->get_presenters_for_page_type( $page_type );
@@ -253,11 +260,11 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		/**
-		 * Filter 'wpseo_frontend_presenters' - Allow filtering presenters in or out of the request.
+		 * Filter 'wpseo_frontend_presenter_classes' - Allow filtering presenters in or out of the request.
 		 *
 		 * @api array List of presenters.
 		 */
-		$presenters = apply_filters( 'wpseo_frontend_presenters', $presenters );
+		$presenters = apply_filters( 'wpseo_frontend_presenter_classes', $presenters );
 
 		return $presenters;
 	}
@@ -267,7 +274,7 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @param string $page_type The page type.
 	 *
-	 * @return Abstract_Indexable_Presenter[] The presenters.
+	 * @return string[] The presenters.
 	 */
 	private function get_presenters_for_page_type( $page_type ) {
 		if ( $page_type === 'Error_Page' ) {
@@ -286,7 +293,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Returns a list of all available presenters based on settings.
 	 *
-	 * @return Abstract_Indexable_Presenter[] The presenters.
+	 * @return string[] The presenters.
 	 */
 	private function get_all_presenters() {
 		$presenters = array_merge( $this->base_presenters, $this->indexing_directive_presenters );
