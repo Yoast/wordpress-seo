@@ -227,8 +227,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
 	public function get_presenters( $page_type ) {
-			$needed_presenters = $this->get_needed_presenters( $page_type );
-			$invalid_behaviour = $this->invalid_behaviour();
+		$needed_presenters = $this->get_needed_presenters( $page_type );
+		$invalid_behaviour = $this->invalid_behaviour();
 
 		$presenters = array_filter(
 			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
