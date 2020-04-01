@@ -11,6 +11,51 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Class Current_Page_Surface
+ *
+ * @property string      $canonical
+ * @property string      $description
+ * @property string      $title
+ * @property string      $id
+ * @property string      $site_name
+ * @property string      $wordpress_site_name
+ * @property string      $site_url
+ * @property string      $company_name
+ * @property int         $company_logo_id
+ * @property int         $site_user_id
+ * @property string      $site_represents
+ * @property array|false $site_represents_reference
+ * @property bool        $breadcrumbs_enabled
+ * @property string      $schema_page_type
+ * @property string      $main_schema_id
+ * @property string      $page_type
+ * @property string      $meta_description
+ * @property array       $robots
+ * @property array       $googlebot
+ * @property string      $rel_next
+ * @property string      $rel_prev
+ * @property bool        $open_graph_enabled
+ * @property string      $open_graph_publisher
+ * @property string      $open_graph_type
+ * @property string      $open_graph_title
+ * @property string      $open_graph_description
+ * @property array       $open_graph_images
+ * @property string      $open_graph_url
+ * @property string      $open_graph_site_name
+ * @property string      $open_graph_article_publisher
+ * @property string      $open_graph_article_author
+ * @property string      $open_graph_article_published_time
+ * @property string      $open_graph_article_modified_time
+ * @property string      $open_graph_locale
+ * @property string      $open_graph_fb_app_id
+ * @property array       $schema
+ * @property string      $twitter_card
+ * @property string      $twitter_title
+ * @property string      $twitter_description
+ * @property string      $twitter_image
+ * @property string      $twitter_creator
+ * @property string      $twitter_site
+ * @property array       $source
+ * @property array       $breadcrumbs
  */
 class Current_Page_Surface {
 
@@ -31,47 +76,24 @@ class Current_Page_Surface {
 	}
 
 	/**
-	 * Returns the title of the current page.
+	 * Magic getter to retrieve variables from either meta tags context or presentation.
 	 *
-	 * @return string The title.
+	 * @param string $key The variable to retrieve.
+	 *
+	 * @return mixed|null
 	 */
-	public function get_title() {
+	public function __get( $key ) {
 		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
 
-		return $meta_tags_context->title;
-	}
+		if ( isset( $meta_tags_context->$key ) ) {
+			return $meta_tags_context->$key;
+		}
 
-	/**
-	 * Returns the meta description of the current page.
-	 *
-	 * @return string The meta description.
-	 */
-	public function get_description() {
-		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
+		if ( isset( $meta_tags_context->presentation->$key ) ) {
+			return $meta_tags_context->presentation->$key;
+		}
 
-		return $meta_tags_context->description;
-	}
-
-	/**
-	 * Returns the canonical of the current page.
-	 *
-	 * @return string The canonical.
-	 */
-	public function get_canonical() {
-		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
-
-		return $meta_tags_context->canonical;
-	}
-
-	/**
-	 * Returns the robots of the current page.
-	 *
-	 * @return string[] The robots.
-	 */
-	public function get_robots() {
-		$meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
-
-		return $meta_tags_context->presentation->robots;
+		return null;
 	}
 
 	/**
