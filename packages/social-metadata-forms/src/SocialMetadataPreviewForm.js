@@ -20,12 +20,12 @@ function addCaretStyle( WithoutCaret ) {
 	return styled( WithoutCaret )`
 		&::before {
 			display: block;
-			position: absolute;
+			position: relative;
 			top: 0;
 			${ getDirectionalStyle( "left", "right" ) }: ${ () => "-22px" };
 			width: 22px;
 			height: 22px;
-			background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_white ), angleLeft( colors.$color_snippet_hover ) ) } );
+			background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_snippet_hover ) ) } );
 			background-size: 24px;
 			background-repeat: no-repeat;
 			background-position: center;

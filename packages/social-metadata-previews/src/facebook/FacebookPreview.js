@@ -119,6 +119,13 @@ class FacebookPreview extends Component {
 		this.setState( { imageMode: mode } );
 	}
 
+	/**
+	 * Retrieves the imageMode from the Facebook image container.
+	 *
+	 * @param {string} field The field that is hovered.
+	 *
+	 * @returns {void} Void.
+	 */
 	onMouseHover( field ) {
 		this.props.onMouseHover( field );
 	}
@@ -148,6 +155,7 @@ class FacebookPreview extends Component {
 					<FacebookTitle
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
+						onSelect={ this.props.onSelect }
 					>
 						{ this.props.title }
 					</FacebookTitle>

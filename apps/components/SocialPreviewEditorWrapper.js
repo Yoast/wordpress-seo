@@ -4,11 +4,19 @@ import styled from "styled-components";
 import SocialPreviewEditor from "@yoast/social-metadata-previews/src/editor/SocialPreviewEditor";
 const Container = styled.div`
 	background-color: white;
+	padding: 16px;
 	margin: 20px;
 `;
 
-
+/**
+ * @returns {void} Void
+ */
 class SocialPreviewEditorWrapper extends React.Component {
+	/**
+	* The constructor
+	*
+	@param {Object} props The properties of this component.
+	*/
 	constructor( props ) {
 		super( props );
 
@@ -24,15 +32,24 @@ class SocialPreviewEditorWrapper extends React.Component {
 		this.removeImage = this.setStateAttribute.bind( this, "image", "" );
 	}
 
+	/**
+	* @returns {void} Void
+	*
+	* @param {Object} attr Attributes
+	* @param {string} value Value
+	*/
 	setStateAttribute( attr, value ) {
 		this.setState( state => ( {
 			...state,
 			[ attr ]: value,
 		} ) );
 	}
-
+	/**
+	* @returns {void} Void
+	*
+	@param {Object} props The properties of this component.
+	*/
 	render() {
-		console.log( this.state );
 		return (
 			<Container>
 				<SocialPreviewEditor
@@ -44,11 +61,13 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
 					image={ this.state.image }
-					onSelectImageClick={ () => this.setImage( "https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png" ) }
+					// eslint-disable-next-line react/jsx-no-bind
+					onSelectImageClick={ () => this.setImage(
+						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+					) }
 				/>
 			</Container>
 		);
 	}
-
 }
 export default SocialPreviewEditorWrapper;
