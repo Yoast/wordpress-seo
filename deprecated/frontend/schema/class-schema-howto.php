@@ -18,6 +18,13 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 
 	/**
+	 * The HowTo blocks count on the current page.
+	 *
+	 * @var int
+	 */
+	private $counter;
+
+	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -28,6 +35,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->context = $memoizer->for_current_page();
 		$this->helpers = YoastSEO()->helpers;
+		$this->counter = 0;
 	}
 
 	/**
@@ -56,9 +64,12 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	 * @return mixed
 	 */
 	public function render( $graph, $block ) {
-		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::add_how_to' );
 
-		return [];
+		$this->counter++;
+		parent::add_how_to( $graph, $block, $this->counter );
+
+		return $graph;
 	}
 
 	/**
