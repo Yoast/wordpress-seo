@@ -49,8 +49,8 @@ cd ./artifact-composer
 # Commit the files.
 git add -A
 
-# If it's a feature branch.
-if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
+# If it's a feature, release or trunk branch.
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
   git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
 else
   git commit -m "Release ${lastTag}"
