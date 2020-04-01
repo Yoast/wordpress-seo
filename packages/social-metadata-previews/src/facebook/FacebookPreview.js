@@ -129,6 +129,7 @@ class FacebookPreview extends Component {
 					src={ this.props.image }
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
+					onSelectImage={ this.props.onSelectImage }
 				/>
 				<OuterTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
@@ -153,6 +154,7 @@ FacebookPreview.propTypes = {
 	description: PropTypes.string,
 	image: PropTypes.string,
 	alt: PropTypes.string,
+	onSelectImage: PropTypes.func,
 };
 
 FacebookPreview.defaultProps = {
@@ -160,6 +162,7 @@ FacebookPreview.defaultProps = {
 	description: "",
 	alt: "",
 	image: "",
+	onSelectImage: () => {},
 };
 
 export default FacebookPreview;

@@ -21,6 +21,7 @@ import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 import SocialPreviewFormWrapper from "./SocialPreviewFormWrapper";
 import ReactifiedComponentsWrapper from "./ReactifiedComponentsWrapper";
+import SocialPreviewEditorWrapper from "./SocialPreviewEditorWrapper";
 
 
 // Setup empty translations to prevent Jed error.
@@ -116,6 +117,11 @@ const components = [
 		id: "social-preview-data-form",
 		name: "Social Preview data form",
 		component: <SocialPreviewFormWrapper />,
+	},
+	{
+		id: "social-preview-",
+		name: "Social Preview",
+		component: <SocialPreviewEditorWrapper />,
 	},
 	{
 		id: "reactified-components",
