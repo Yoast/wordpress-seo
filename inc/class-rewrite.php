@@ -15,7 +15,7 @@ class WPSEO_Rewrite {
 	 */
 	public function __construct() {
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
-		add_filter( 'category_link', [ $this, 'no_category_base' ] );
+		add_filter( 'term_link', [ $this, 'no_category_base' ], 10, 3 );
 		add_filter( 'request', [ $this, 'request' ] );
 		add_filter( 'category_rewrite_rules', [ $this, 'category_rewrite_rules' ] );
 
@@ -57,11 +57,17 @@ class WPSEO_Rewrite {
 	/**
 	 * Override the category link to remove the category base.
 	 *
-	 * @param string $link Unused, overridden by the function.
+	 * @param string  $link     Term link, overridden by the function for categories.
+	 * @param WP_Term $term     Unused, term object.
+	 * @param string  $taxonomy Taxonomy slug.
 	 *
 	 * @return string
 	 */
-	public function no_category_base( $link ) {
+	public function no_category_base( $link, $term, $taxonomy ) {
+		if ( $taxonomy !== 'category' ) {
+			return $link;
+		}
+
 		$category_base = get_option( 'category_base' );
 
 		if ( empty( $category_base ) ) {
