@@ -56,7 +56,6 @@ const SmallTwitterPreviewWrapper = styled( TwitterPreviewWrapper )`
  */
 const TwitterPreview = ( props ) => {
 	const Wrapper = props.isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
-
 	return (
 		<Wrapper isLarge={ props.isLarge }>
 			<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />

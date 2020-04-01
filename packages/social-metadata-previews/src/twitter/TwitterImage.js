@@ -100,22 +100,26 @@ export default class TwitterImage extends React.Component {
 	}
 
 	/**
-	 * After the component has mounted, determine the properties of the TwitterImage.
+	 * React Lifecycle method that is called after the component updates.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @param {Object} prevProps The props.
+	 *
+	 * @returns {Object} The new props.
 	 */
-	componentDidMount() {
-		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
+	componentDidUpdate( prevProps ) {
+		if ( prevProps.src !== this.props.src ) {
+			determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
+				this.setState( {
+					imageProperties: imageProperties,
+					status: "loaded",
+				} );
+			} ).catch( () => {
+				this.setState( {
+					imageProperties: null,
+					status: "errored",
+				} );
 			} );
-		} ).catch( () => {
-			this.setState( {
-				imageProperties: null,
-				status: "errored",
-			} );
-		} );
+		}
 	}
 
 	/**
