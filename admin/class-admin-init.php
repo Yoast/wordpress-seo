@@ -42,7 +42,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
-		add_action( 'admin_footer', [ $this, 'permalink_settings_notice' ] );
+		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
 		if ( ! $this->is_blog_public() ) {
 			add_action( 'admin_notices', [ $this, 'blog_public_site_wide_notice' ] );
