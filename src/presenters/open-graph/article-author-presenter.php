@@ -18,12 +18,10 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the site article author tag.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The article author tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$article_author = $this->filter( $presentation->open_graph_article_author, $presentation );
+	public function present() {
+		$article_author = $this->filter( $this->presentation->open_graph_article_author );
 
 		if ( \is_string( $article_author ) && $article_author !== '' ) {
 			return \sprintf( '<meta property="article:author" content="%s" />', \esc_attr( $article_author ) );
@@ -35,12 +33,11 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the article author's Facebook URL through the `wpseo_opengraph_author_facebook` filter.
 	 *
-	 * @param string                 $article_author The article author's Facebook URL to filter.
-	 * @param Indexable_Presentation $presentation   The presentation of an indexable.
+	 * @param string $article_author The article author's Facebook URL to filter.
 	 *
 	 * @return string The filtered article author's Facebook URL.
 	 */
-	private function filter( $article_author, Indexable_Presentation $presentation ) {
+	private function filter( $article_author ) {
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the article author's Facebook URL.
 		 *
@@ -48,6 +45,6 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author, $presentation ) );
+		return \trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author, $this->presentation ) );
 	}
 }

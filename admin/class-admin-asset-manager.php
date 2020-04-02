@@ -631,10 +631,14 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 			],
-			[
-				'name' => 'monorepo',
-				'src'  => 'monorepo-' . $flat_version,
-			],
+
+			/*
+			 * Temporarily commented out to prevent unwanted monorepo styles seeping through.
+			 * [
+			 * 	'name' => 'monorepo',
+			 * 	'src'  => 'monorepo-' . $flat_version,
+			 * ],
+			 */
 			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,

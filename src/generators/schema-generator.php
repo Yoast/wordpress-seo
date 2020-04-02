@@ -147,10 +147,11 @@ class Schema_Generator implements Generator_Interface {
 		 * @api array $pieces The schema pieces.
 		 */
 		return \apply_filters( 'wpseo_schema_graph_pieces', [
+			new Schema\Organization(),
 			new Schema\Person(),
 			new Schema\Website(),
-			new Schema\Main_Image(),
 			new Schema\WebPage(),
+			new Schema\Main_Image(),
 			new Schema\Breadcrumb(),
 			new Schema\Article(),
 			new Schema\Author(),

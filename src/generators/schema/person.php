@@ -72,7 +72,14 @@ class Person extends Abstract_Schema_Piece {
 		 *
 		 * @api int|bool $user_id The user ID currently determined.
 		 */
-		return \apply_filters( 'wpseo_schema_person_user_id', $this->context->site_user_id );
+		$user_id = \apply_filters( 'wpseo_schema_person_user_id', $this->context->site_user_id );
+
+		// It should to be an integer higher than 0.
+		if ( \is_int( $user_id ) && $user_id > 0 ) {
+			return $user_id;
+		}
+
+		return false;
 	}
 
 	/**
@@ -93,7 +100,18 @@ class Person extends Abstract_Schema_Piece {
 		 */
 		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 		$output          = [];
+
+		// We can only handle an array.
+		if ( ! \is_array( $social_profiles ) ) {
+			return $output;
+		}
+
 		foreach ( $social_profiles as $profile ) {
+			// Skip non-string values.
+			if ( ! \is_string( $profile ) ) {
+				continue;
+			}
+
 			$social_url = $this->url_social_site( $profile, $user_id );
 			if ( $social_url ) {
 				$output[] = $social_url;
@@ -115,17 +133,22 @@ class Person extends Abstract_Schema_Piece {
 		$data      = [
 			'@type' => $this->type,
 			'@id'   => $this->helpers->schema->id->get_user_schema_id( $user_id, $this->context ),
-			'name'  => $this->helpers->schema->html->smart_strip_tags( $user_data->display_name ),
 		];
 
-		$data = $this->add_image( $data, $user_data );
+		// Safety check for the `get_userdata` WP function, which could return false.
+		if ( $user_data === false ) {
+			return $data;
+		}
+
+		$data['name'] = $this->helpers->schema->html->smart_strip_tags( $user_data->display_name );
+		$data         = $this->add_image( $data, $user_data );
 
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
-		if ( \is_array( $social_profiles ) ) {
+		if ( ! empty( $social_profiles ) ) {
 			$data['sameAs'] = $social_profiles;
 		}
 

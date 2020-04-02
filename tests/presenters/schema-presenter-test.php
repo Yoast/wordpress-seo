@@ -38,7 +38,7 @@ class Schema_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->instance     = Mockery::mock( Schema_Presenter::class )
 			->makePartial();
-		$this->presentation = new Indexable_Presentation();
+		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		return parent::setUp();
 	}
@@ -62,7 +62,7 @@ class Schema_Presenter_Test extends TestCase {
 		$output .= "\t    \"the_schema\"" . PHP_EOL;
 		$output .= "\t]</script>";
 
-		$this->assertEquals( $output, $this->instance->present( $this->presentation ) );
+		$this->assertEquals( $output, $this->instance->present() );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Schema_Presenter_Test extends TestCase {
 			->once()
 			->andReturn( [] );
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Schema_Presenter_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -110,6 +110,6 @@ class Schema_Presenter_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_json_ld' )
 			->once();
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 }
