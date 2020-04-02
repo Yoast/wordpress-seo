@@ -60,7 +60,7 @@ export class MultiSelect extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.select2 = $( `#${ this.props.id }` );
+		this.select2 = jQuery( `#${ this.props.id }` );
 		this.select2.select2( { containerCssClass: "yoast-multiselect" } );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
