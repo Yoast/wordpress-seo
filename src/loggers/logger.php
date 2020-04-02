@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO\Loggers
  */
 
-namespace Yoast\WP\Free\Loggers;
+namespace Yoast\WP\SEO\Loggers;
 
 use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
- * Creates an instance of a logger object.
+ * Our logger class.
  */
 class Logger implements LoggerInterface {
 	use LoggerTrait;

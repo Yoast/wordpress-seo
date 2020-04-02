@@ -226,4 +226,71 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 		return array_merge( $enabled_features, $second_array );
 	}
+
+	/**
+	 * Tests the sanitize_url.
+	 *
+	 * @dataProvider sanitize_url_provider
+	 *
+	 * @covers WPSEO_Utils::sanitize_url
+	 */
+	public function test_sanitize_url( $expected, $url_to_sanitize ) {
+		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
+	}
+
+	/**
+	 * Provides data to the sanitize_url test.
+	 *
+	 * @return array The test data.
+	 */
+	public function sanitize_url_provider() {
+		return [
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/14476.
+			'with_encoded_url'               => [
+				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+				'url_to_sanitize' => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88/',
+			],
+			'with_non_encoded_non_latin_url' => [
+				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88',
+				'url_to_sanitize' => 'https://example.com/گروه-تلگرام-سئو',
+			],
+			// https://github.com/Yoast/wordpress-seo/issues/7664.
+			'invalid_url'                    => [
+				'expected'        => '',
+				'url_to_sanitize' => 'WordPress',
+			],
+			'only_absolute_path'             => [
+				'expected'        => '/images/user-defined.png',
+				'url_to_sanitize' => '/images/user-defined.png',
+			],
+			'with_non_encoded_url'           => [
+				'expected'        => 'https://example.org/this-is-a-page',
+				'url_to_sanitize' => 'https://example.org/this-is-a-page',
+			],
+			'with_html_in_url'               => [
+				'expected'        => 'https://example.org/this-is-a-page',
+				'url_to_sanitize' => 'https://example.org/this-<strong>is-a-</strong>page',
+			],
+			'with_all_components_in_url'     => [
+				'expected'        => 'http://user:pass@example.com:8080/subdir/test1?mod%c3%a8le=num%c3%a9rique#compl%c3%a8tement',
+				'url_to_sanitize' => 'http://user:pass@example.com:8080/subdir/test1?modèle=numérique#complètement',
+			],
+			'with_invalid_utf8_in_url'       => [
+				'expected'        => 'https://example.com/',
+				'url_to_sanitize' => 'https://example.com/%e2%28%a1-aaaaaa',
+			],
+			'with_reserved_chars_in_url'     => [
+				'expected'        => 'https://www.example.com/%c2%a9-2020/?email=test%40example.com&%c3%a2lt=%c2%a9%c3%b2d%c3%abs',
+				'url_to_sanitize' => 'https://www.example.com/©-2020/?email=test@example.com&âlt=©òdës',
+			],
+			'with_ipv6_in_url'               => [
+				'expected'        => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
+				'url_to_sanitize' => 'https://user:pass@[fc00::1]:8443/subdir/test1/?query=test2#fragment',
+			],
+			'html_injection'                 => [
+				'expected'        => 'https://onafterprintconsole.log0',
+				'url_to_sanitize' => 'https://" onafterprint="console.log(0)',
+			],
+		];
+	}
 }

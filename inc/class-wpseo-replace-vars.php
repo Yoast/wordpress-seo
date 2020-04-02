@@ -70,8 +70,6 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Constructor.
-	 *
-	 * @return \WPSEO_Replace_Vars
 	 */
 	public function __construct() {
 		$this->date = new WPSEO_Date_Helper();
@@ -394,7 +392,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
-			if ( isset( $GLOBALS['post']->post_parent ) && 0 !== $GLOBALS['post']->post_parent ) {
+			if ( isset( $GLOBALS['post']->post_parent ) && $GLOBALS['post']->post_parent !== 0 ) {
 				$replacement = get_the_title( $GLOBALS['post']->post_parent );
 			}
 		}
@@ -1294,6 +1292,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description', 'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term_hierarchy', __( 'Term hierarchy', 'wordpress-seo' ), __( 'Replaced with the term ancestors hierarchy', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), $separator_description ),
 		];
 
@@ -1396,5 +1395,49 @@ class WPSEO_Replace_Vars {
 		 * @api    string    $taxonomy  The taxonomy of the terms.
 		 */
 		return apply_filters( 'wpseo_terms', $output, $taxonomy );
+	}
+
+	/**
+	 * Gets a taxonomy term hierarchy including the term to get the parents for.
+	 *
+	 * @return string
+	 */
+	private function get_term_hierarchy() {
+		if ( ! is_taxonomy_hierarchical( $this->args->taxonomy ) ) {
+			return '';
+		}
+
+		$separator = ' ' . $this->retrieve_sep() . ' ';
+
+		$args = [
+			'format'    => 'name',
+			'separator' => $separator,
+			'link'      => false,
+			'inclusive' => true,
+		];
+
+		return rtrim(
+			get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args ),
+			$separator
+		);
+	}
+
+	/**
+	 * Retrieves the term ancestors hierarchy.
+	 *
+	 * @return string|null The term ancestors hierarchy.
+	 */
+	private function retrieve_term_hierarchy() {
+		$replacement = null;
+
+		if ( ! isset( $replacement ) && isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+			$hierarchy = $this->get_term_hierarchy();
+
+			if ( $hierarchy !== '' ) {
+				$replacement = esc_html( $hierarchy );
+			}
+		}
+
+		return $replacement;
 	}
 } /* End of class WPSEO_Replace_Vars */

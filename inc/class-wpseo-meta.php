@@ -178,13 +178,13 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 			],
 			'canonical'            => [
-				'type'          => 'text',
+				'type'          => 'url',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			],
 			'redirect'             => [
-				'type'          => 'text',
+				'type'          => 'url',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
@@ -249,7 +249,7 @@ class WPSEO_Meta {
 	public static function init() {
 
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( true === WPSEO_Options::get( $option, false ) ) {
+			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
@@ -416,8 +416,7 @@ class WPSEO_Meta {
 				break;
 
 
-			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'canonical' ):
-			case ( $field_def['type'] === 'text' && $meta_key === self::$meta_prefix . 'redirect' ):
+			case ( $field_def['type'] === 'url' ):
 				// Validate as url(-part).
 				$url = WPSEO_Utils::sanitize_url( $meta_value );
 				if ( $url !== '' ) {
@@ -455,7 +454,7 @@ class WPSEO_Meta {
 				}
 				break;
 
-			case ( 'multiselect' === $field_def['type'] ):
+			case ( $field_def['type'] === 'multiselect' ):
 				$clean = $meta_value;
 				break;
 

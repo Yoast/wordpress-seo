@@ -15,7 +15,7 @@ class WPSEO_Rewrite {
 	 */
 	public function __construct() {
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
-		add_filter( 'category_link', [ $this, 'no_category_base' ] );
+		add_filter( 'term_link', [ $this, 'no_category_base' ], 10, 3 );
 		add_filter( 'request', [ $this, 'request' ] );
 		add_filter( 'category_rewrite_rules', [ $this, 'category_rewrite_rules' ] );
 
@@ -57,11 +57,17 @@ class WPSEO_Rewrite {
 	/**
 	 * Override the category link to remove the category base.
 	 *
-	 * @param string $link Unused, overridden by the function.
+	 * @param string  $link     Term link, overridden by the function for categories.
+	 * @param WP_Term $term     Unused, term object.
+	 * @param string  $taxonomy Taxonomy slug.
 	 *
 	 * @return string
 	 */
-	public function no_category_base( $link ) {
+	public function no_category_base( $link, $term, $taxonomy ) {
+		if ( $taxonomy !== 'category' ) {
+			return $link;
+		}
+
 		$category_base = get_option( 'category_base' );
 
 		if ( empty( $category_base ) ) {
@@ -72,7 +78,7 @@ class WPSEO_Rewrite {
 		 * Remove initial slash, if there is one (we remove the trailing slash
 		 * in the regex replacement and don't want to end up short a slash).
 		 */
-		if ( '/' === substr( $category_base, 0, 1 ) ) {
+		if ( substr( $category_base, 0, 1 ) === '/' ) {
 			$category_base = substr( $category_base, 1 );
 		}
 
@@ -125,7 +131,7 @@ class WPSEO_Rewrite {
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		$blog_prefix = '';
-		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpos( $permalink_structure, '/blog/' ) ) {
+		if ( is_multisite() && ! is_subdomain_install() && is_main_site() && strpos( $permalink_structure, '/blog/' ) === 0 ) {
 			$blog_prefix = 'blog/';
 		}
 
@@ -133,11 +139,11 @@ class WPSEO_Rewrite {
 		if ( is_array( $categories ) && $categories !== [] ) {
 			foreach ( $categories as $category ) {
 				$category_nicename = $category->slug;
-				if ( $category->parent == $category->cat_ID ) {
+				if ( $category->parent === $category->cat_ID ) {
 					// Recursive recursion.
 					$category->parent = 0;
 				}
-				elseif ( $taxonomy->rewrite['hierarchical'] != 0 && $category->parent !== 0 ) {
+				elseif ( $taxonomy->rewrite['hierarchical'] !== false && $category->parent !== 0 ) {
 						$parents = get_category_parents( $category->parent, false, '/', true );
 					if ( ! is_wp_error( $parents ) ) {
 						$category_nicename = $parents . $category_nicename;
@@ -232,7 +238,7 @@ class WPSEO_Rewrite {
 	protected function redirect( $category_redirect ) {
 		$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
 
-		wp_redirect( $catlink, 301, 'Yoast SEO' );
+		wp_safe_redirect( $catlink, 301, 'Yoast SEO' );
 		exit;
 	}
 } /* End of class */

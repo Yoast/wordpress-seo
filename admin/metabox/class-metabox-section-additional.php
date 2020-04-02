@@ -77,7 +77,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 			'<li role="presentation"><a role="tab" href="#wpseo-meta-section-%1$s" id="wpseo-meta-tab-%1$s" aria-controls="wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s>%4$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
-			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
+			( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
 			$this->link_content
 		);
 	}

@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Dependency_Injection
  */
 
-namespace Yoast\WP\Free\Dependency_Injection;
+namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,6 +30,10 @@ class Container_Compiler {
 		$cache = new ConfigCache( $file, $debug );
 
 		if ( ! $cache->isFresh() ) {
+			if ( ! defined( 'WPSEO_VERSION' ) ) {
+				define( 'WPSEO_VERSION', 'COMPILING' );
+			}
+
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
 			$loader = new Custom_Loader( $container_builder );
@@ -40,7 +44,7 @@ class Container_Compiler {
 			$code   = $dumper->dump(
 				[
 					'class'     => 'Cached_Container',
-					'namespace' => 'Yoast\WP\Free\Generated',
+					'namespace' => 'Yoast\WP\SEO\Generated',
 				]
 			);
 			$code   = \str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );

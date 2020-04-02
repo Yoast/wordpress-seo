@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests;
+namespace Yoast\WP\SEO\Tests;
 
 use Brain\Monkey;
 use PHPUnit\Framework\TestCase as BaseTestCase;
@@ -60,10 +60,15 @@ abstract class TestCase extends BaseTestCase {
 				'absint'              => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'          => null,
+				'mysql2date'          => function ( $format, $date ) {
+					return $date;
+				},
 				'number_format_i18n'  => null,
 				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
+				},
+				'user_trailingslashit' => function( $string ) {
+					return \trailingslashit( $string );
 				},
 				'wp_strip_all_tags'   => function ( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
@@ -79,6 +84,8 @@ abstract class TestCase extends BaseTestCase {
 					switch ( $show ) {
 						case 'charset':
 							return 'UTF-8';
+						case 'language':
+							return 'English';
 					}
 					return $show;
 				},

@@ -632,6 +632,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'search-appearance-' . $flat_version,
 			],
 			[
+				'name' => 'monorepo',
+				'src'  => 'monorepo-' . $flat_version,
+			],
+			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
@@ -654,5 +658,18 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		return $this->asset_location->get_url( $asset, $type );
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * This function is needed for backwards compatibility with Local SEO 12.5.
+	 *
+	 * @deprecated 12.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function register_wp_assets() {
 	}
 }

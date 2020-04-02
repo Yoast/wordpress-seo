@@ -5,7 +5,9 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\WordPress;
+namespace Yoast\WP\SEO\WordPress;
+
+use WPSEO_Replace_Vars;
 
 /**
  * Wrapper class for WordPress globals.
@@ -25,13 +27,11 @@ class Wrapper {
 	}
 
 	/**
-	 * Wrapper method for returning the wp_query object for use in dependency injection.
+	 * Factory function for replace vars helper.
 	 *
-	 * @return \WP_Query The wp_query global.
+	 * @return WPSEO_Replace_Vars The replace vars helper.
 	 */
-	public static function get_wp_query() {
-		global $wp_query;
-
-		return $wp_query;
+	public static function get_replace_vars() {
+		return new WPSEO_Replace_Vars();
 	}
 }

@@ -6,12 +6,12 @@
  */
 
 // Determine the WP_TEST_DIR.
-if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+if ( getenv( 'WP_TESTS_DIR' ) !== false ) {
 	$_tests_dir = getenv( 'WP_TESTS_DIR' );
 }
 
 // Fall back on the WP_DEVELOP_DIR environment variable.
-if ( empty( $_tests_dir ) && false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+if ( empty( $_tests_dir ) && getenv( 'WP_DEVELOP_DIR' ) !== false ) {
 	$_tests_dir = rtrim( getenv( 'WP_DEVELOP_DIR' ), '/' ) . '/tests/phpunit';
 }
 
@@ -50,6 +50,9 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 // Overwrite the plugin URL to not include the full path.
 tests_add_filter( 'plugins_url', '_plugins_url', 10, 3 );
+
+// Make sure the tests never register as being in development mode.
+tests_add_filter( 'yoast_seo_development_mode', '__return_false' );
 
 /* *****[ Yoast SEO specific configuration ]***** */
 

@@ -35,9 +35,7 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'tagline_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
-		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
@@ -47,8 +45,17 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
-		$page_comments = new WPSEO_Health_Check_Page_Comments();
-		$page_comments->register_test();
+		$health_checks = [
+			new WPSEO_Health_Check_Page_Comments(),
+			new WPSEO_Health_Check_Ryte(),
+			new WPSEO_Health_Check_Default_Tagline(),
+			new WPSEO_Health_Check_Postname_Permalink(),
+			new WPSEO_Health_Check_Curl_Version(),
+		];
+
+		foreach ( $health_checks as $health_check ) {
+			$health_check->register_test();
+		}
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
@@ -98,34 +105,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Notify about the default tagline if the user hasn't changed it.
-	 */
-	public function tagline_notice() {
-		$query_args    = [
-			'autofocus[control]' => 'blogdescription',
-		];
-		$customize_url = add_query_arg( $query_args, wp_customize_url() );
-
-		$info_message = sprintf(
-			/* translators: 1: link open tag; 2: link close tag. */
-			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
-			'<a href="' . esc_attr( $customize_url ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-tagline-notice',
-			'capabilities' => 'wpseo_manage_options',
-		];
-
-		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( $tagline_notification );
-	}
-
-	/**
 	 * Add an alert if the blog is not publicly visible.
 	 */
 	public function blog_public_notice() {
@@ -154,66 +133,6 @@ class WPSEO_Admin_Init {
 		else {
 			$notification_center->remove_notification( $notification );
 		}
-	}
-
-	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
-	}
-
-	/**
-	 * Show alert when the permalink doesn't contain %postname%.
-	 */
-	public function permalink_notice() {
-
-		$info_message  = __( 'You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>.', 'wordpress-seo' );
-		$info_message .= '<br/>';
-		$info_message .= sprintf(
-			/* translators: %1$s resolves to the starting tag of the link to the permalink settings page, %2$s resolves to the closing tag of the link */
-			__( 'You can fix this on the %1$sPermalink settings page%2$s.', 'wordpress-seo' ),
-			'<a href="' . admin_url( 'options-permalink.php' ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::WARNING,
-			'id'           => 'wpseo-dismiss-permalink-notice',
-			'capabilities' => 'wpseo_manage_options',
-			'priority'     => 0.8,
-		];
-
-		$notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( ! $this->has_postname_in_permalink() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 *
-	 * @deprecated 12.5
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function ga_compatibility_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
@@ -348,7 +267,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_site_notice_dismissed( $notice_name ) {
-		return '1' === get_option( $notice_name, true );
+		return get_option( $notice_name, true ) === '1';
 	}
 
 	/**
@@ -357,7 +276,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		return 'admin.php' === $this->pagenow && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+		return $this->pagenow === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
 	}
 
 	/**
@@ -502,7 +421,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function is_blog_public() {
-		return '1' === (string) get_option( 'blog_public' );
+		return (string) get_option( 'blog_public' ) === '1';
 	}
 
 	/**
@@ -519,6 +438,22 @@ class WPSEO_Admin_Init {
 		$deprecated_filters = [
 			'wpseo_genesis_force_adjacent_rel_home' => [
 				'version'     => '9.4',
+				'alternative' => null,
+			],
+			'wpseo_opengraph'                       => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter'                         => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter_taxonomy_image'          => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter_metatag_key'             => [
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 		];
@@ -548,7 +483,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+		return ( strpos( get_option( 'permalink_structure' ), '%postname%' ) !== false );
 	}
 
 	/**
@@ -599,6 +534,18 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
+	 * on the google search console page.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function ga_compatibility_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+	}
+
+	/**
 	 * Display notice to disable comment pagination.
 	 *
 	 * @deprecated 12.8
@@ -619,6 +566,47 @@ class WPSEO_Admin_Init {
 	public function has_page_comments() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
 
-		return '1' === get_option( 'page_comments' );
+		return get_option( 'page_comments' ) === '1';
+	}
+
+	/**
+	 * Notify about the default tagline if the user hasn't changed it.
+	 *
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
+	 */
+	public function tagline_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
+	}
+
+	/**
+	 * Returns whether or not the site has the default tagline.
+	 *
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool
+	 */
+	public function has_default_tagline() {
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
+
+		$blog_description         = get_bloginfo( 'description' );
+		$default_blog_description = 'Just another WordPress site';
+
+		// We are checking against the WordPress internal translation.
+		// @codingStandardsIgnoreLine
+		$translated_blog_description = __( 'Just another WordPress site', 'default' );
+
+		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
+	}
+
+	/**
+	 * Shows an alert when the permalink doesn't contain %postname%.
+	 *
+	 * @deprecated 13.2
+	 * @codeCoverageIgnore
+	 */
+	public function permalink_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
 	}
 }
