@@ -94,7 +94,6 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "readline-sync": "^1.4.9",
-    "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
     "tmp": "^0.1.0",
