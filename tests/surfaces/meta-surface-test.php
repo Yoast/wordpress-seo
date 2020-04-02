@@ -255,4 +255,134 @@ class Meta_Surface_Test extends TestCase {
 		$this->repository->expects( 'find_for_post_type_archive' )->once()->with( 'post_type' )->andReturn( null );
 		$this->instance->for_post_type_archive( 'post_type' );
 	}
+
+	/**
+	 * Tests the search result function.
+	 *
+	 * @covers ::for_search_result
+	 */
+	public function test_for_search_result() {
+		$this->repository->expects( 'find_for_system_page' )->once()->with( 'search-result' )->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Search_Result_Page' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_search_result();
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Tests the search result function.
+	 *
+	 * @covers ::for_search_result
+	 * @expectedException Exception
+	 * @expectedExceptionMessage Could not find meta for search result.
+	 */
+	public function test_for_search_result_no_indexable() {
+		$this->repository->expects( 'find_for_system_page' )->once()->with( 'search-result' )->andReturn( null );
+		$this->instance->for_search_result();
+	}
+
+	/**
+	 * Tests the 404 function.
+	 *
+	 * @covers ::for_404
+	 */
+	public function test_for_404() {
+		$this->repository->expects( 'find_for_system_page' )->once()->with( '404' )->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Error_Page' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_404();
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Tests the 404 function.
+	 *
+	 * @covers ::for_404
+	 * @expectedException Exception
+	 * @expectedExceptionMessage Could not find meta for 404.
+	 */
+	public function test_for_404_no_indexable() {
+		$this->repository->expects( 'find_for_system_page' )->once()->with( '404' )->andReturn( null );
+		$this->instance->for_404();
+	}
+
+	/**
+	 * Tests the post function.
+	 *
+	 * @covers ::for_post
+	 */
+	public function test_for_post() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Post_Type' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_post( 1 );
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Tests the post function.
+	 *
+	 * @covers ::for_post
+	 * @expectedException Exception
+	 * @expectedExceptionMessage Could not find meta for post: 1.
+	 */
+	public function test_for_post_no_indexable() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( null );
+		$this->instance->for_post( 1 );
+	}
+
+	/**
+	 * Tests the term function.
+	 *
+	 * @covers ::for_term
+	 */
+	public function test_for_term() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Term_Archive' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_term( 1 );
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Tests the term function.
+	 *
+	 * @covers ::for_term
+	 * @expectedException Exception
+	 * @expectedExceptionMessage Could not find meta for term: 1.
+	 */
+	public function test_for_term_no_indexable() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( null );
+		$this->instance->for_term( 1 );
+	}
+
+	/**
+	 * Tests the author function.
+	 *
+	 * @covers ::for_author
+	 */
+	public function test_for_author() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'author' )->andReturn( $this->indexable );
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Author_Archive' )->andReturn( $this->context );
+
+		$meta = $this->instance->for_author( 1 );
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Tests the author function.
+	 *
+	 * @covers ::for_author
+	 * @expectedException Exception
+	 * @expectedExceptionMessage Could not find meta for author: 1.
+	 */
+	public function test_for_author_no_indexable() {
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'author' )->andReturn( null );
+		$this->instance->for_author( 1 );
+	}
 }
