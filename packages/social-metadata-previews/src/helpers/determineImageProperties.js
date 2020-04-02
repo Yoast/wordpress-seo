@@ -235,20 +235,19 @@ export function determineImageProperties( src, socialMedium ) {
  *
  * @param {String} src          The image URL.
  * @param {String} socialMedium Twitter or Facebook.
- * @param {function} stateSetter Twitter or Facebook.
  *
  * @returns {Object} An object the Image components can handle.
  */
-export function handleImage( src, socialMedium, stateSetter ) {
-	determineImageProperties( src, socialMedium ).then( ( imageProperties ) => {
-		stateSetter( {
+export function handleImage( src, socialMedium ) {
+	return determineImageProperties( src, socialMedium ).then( ( imageProperties ) => {
+		return {
 			imageProperties: imageProperties,
 			status: "loaded",
-		} );
+		};
 	} ).catch( () => {
-		stateSetter( {
+		return {
 			imageProperties: null,
 			status: "errored",
-		} );
+		};
 	} );
 }

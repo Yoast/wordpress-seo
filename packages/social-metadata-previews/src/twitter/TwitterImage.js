@@ -109,7 +109,7 @@ export default class TwitterImage extends React.Component {
 	 * @returns {void}
 	 */
 	handleTwitterImage() {
-		handleImage( this.props.src, this.socialMedium, this.setState );
+		handleImage( this.props.src, this.socialMedium ).then( ( newState ) => this.setState( newState ) );
 	}
 
 	/**
