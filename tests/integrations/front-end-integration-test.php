@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Integrations;
 
 use \Mockery;
 use Brain\Monkey;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -12,6 +13,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -69,6 +71,8 @@ class Front_End_Integration_Test extends TestCase {
 				$this->container,
 				$this->options,
 				$this->title_presenter,
+				Mockery::mock( Helpers_Surface::class ),
+				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
 		)->makePartial();
 	}
@@ -162,11 +166,6 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_get_presenters_for_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
 
-		$this->container
-			->expects( 'get' )
-			->times( 28 )
-			->andReturnArg( 0 );
-
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
 
@@ -221,12 +220,6 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$this->container
-			->expects( 'get' )
-			->times( 10 )
-			->andReturnArg( 0 );
-
-
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -254,11 +247,6 @@ class Front_End_Integration_Test extends TestCase {
 	 */
 	public function test_get_presenters_for_non_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
-
-		$this->container
-			->expects( 'get' )
-			->times( 23 )
-			->andReturnArg( 0 );
 
 		$this->options
 			->expects( 'get' )
@@ -322,12 +310,6 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$this->container
-			->expects( 'get' )
-			->times( 9 )
-			->andReturnArg( 0 );
-
-
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -365,12 +347,6 @@ class Front_End_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'opengraph' )
 			->andReturnTrue();
-
-		$this->container
-			->expects( 'get' )
-			->times( 10 )
-			->andReturnArg( 0 );
-
 
 		$this->assertEquals(
 			[

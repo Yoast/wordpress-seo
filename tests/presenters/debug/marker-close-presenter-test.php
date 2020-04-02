@@ -31,12 +31,14 @@ class Marker_Close_Presenter_Test extends TestCase {
 		$product = Mockery::mock( Product_Helper::class );
 		$product->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance     = new Marker_Close_Presenter( $product );
-		$presentation = new Indexable_Presentation();
+		$instance = new Marker_Close_Presenter( $product );
+		$instance->helpers = (object) [
+			'product' => $product,
+		];
 
 		$this->assertEquals(
 			'<!-- / Yoast SEO plugin. -->' . PHP_EOL . PHP_EOL,
-			$instance->present( $presentation )
+			$instance->present()
 		);
 	}
 

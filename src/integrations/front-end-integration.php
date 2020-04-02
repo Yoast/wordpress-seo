@@ -264,11 +264,13 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
-		$invalid_behaviour = $this->invalid_behaviour();
 
 		$presenters = array_filter(
-			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
-				return $this->container->get( "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
+			array_map( function( $presenter ) {
+				if ( ! class_exists( $presenter ) ) {
+					return null;
+				}
+				return new $presenter();
 			}, $needed_presenters )
 		);
 
@@ -294,6 +296,10 @@ class Front_End_Integration implements Integration_Interface {
 			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
 			$presenters = array_diff( $presenters, [ 'Title' ] );
 		}
+
+		$presenters = array_map( function ( $presenter ) {
+			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
+		}, $presenters );
 
 		/**
 		 * Filter 'wpseo_frontend_presenter_classes' - Allow filtering presenters in or out of the request.
@@ -345,21 +351,5 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return array_merge( $presenters, $this->closing_presenters );
-	}
-
-	/**
-	 * The behavior when the service does not exist.
-	 *
-	 * @codeCoverageIgnore This wraps functionality from the Symfony containerinterface.
-	 *
-	 * @return boolean Value from the container interface.
-	 */
-	private function invalid_behaviour() {
-		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
-		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
-			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-		}
-
-		return $invalid_behaviour;
 	}
 }

@@ -43,13 +43,13 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$indexable_presentation = new Indexable_Presentation();
+		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
 		$indexable_presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',
 		];
 
-		$actual   = $this->instance->present( $indexable_presentation );
+		$actual   = $this->instance->present();
 		$expected = '<meta name="robots" content="index,nofollow" />';
 
 		$this->assertEquals( $actual, $expected );
@@ -62,7 +62,7 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$indexable_presentation = new Indexable_Presentation();
+		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
 		$indexable_presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',
@@ -73,7 +73,7 @@ class Robots_Presenter_Test extends TestCase {
 			->with( 'index,nofollow', $indexable_presentation )
 			->andReturn( 'noindex' );
 
-		$actual   = $this->instance->present( $indexable_presentation );
+		$actual   = $this->instance->present();
 		$expected = '<meta name="robots" content="noindex" />';
 
 		$this->assertEquals( $actual, $expected );
@@ -85,7 +85,7 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$indexable_presentation = new Indexable_Presentation();
+		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
 		$indexable_presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present( $indexable_presentation ) );
@@ -98,7 +98,7 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::remove_defaults
 	 */
 	public function test_present_with_filtering_default_and_null_values() {
-		$indexable_presentation = new Indexable_Presentation();
+		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
 		$indexable_presentation->robots = [
 			'index'        => 'index',
 			'follow'       => 'follow',
@@ -107,7 +107,7 @@ class Robots_Presenter_Test extends TestCase {
 			'noarchive'    => null,
 		];
 
-		$actual   = $this->instance->present( $indexable_presentation );
+		$actual   = $this->instance->present();
 		$expected = '<meta name="robots" content="noimageindex" />';
 
 		$this->assertEquals( $actual, $expected );
