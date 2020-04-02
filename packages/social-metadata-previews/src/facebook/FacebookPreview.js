@@ -102,6 +102,7 @@ class FacebookPreview extends Component {
 			imageMode: null,
 		};
 		this.onImageLoaded = this.onImageLoaded.bind( this );
+		this.setState = this.setState.bind( this );
 	}
 
 	/**
