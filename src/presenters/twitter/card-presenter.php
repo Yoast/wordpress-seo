@@ -42,6 +42,6 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_twitter_card_type', $this->presentation->card_type, $this->presentation ) );
+		return \trim( \apply_filters( 'wpseo_twitter_card_type', $this->presentation->twitter_card, $this->presentation ) );
 	}
 }

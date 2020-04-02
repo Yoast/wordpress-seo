@@ -22,7 +22,8 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 			return '';
 		}
 
-		$rel_prev = $this->filter( $this->presentation->rel_prev, $this->presentation );
+		$rel_prev = $this->filter();
+
 		if ( \is_string( $rel_prev ) && $rel_prev !== '' ) {
 			$link = \sprintf( '<link rel="prev" href="%s" />', \esc_url( $rel_prev ) );
 
@@ -50,6 +51,6 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param string                 $rel          Link relationship, prev or next.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $$this->presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $this->presentation ) );
 	}
 }

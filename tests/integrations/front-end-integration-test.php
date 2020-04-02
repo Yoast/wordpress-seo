@@ -147,7 +147,7 @@ class Front_End_Integration_Test extends TestCase {
 		$presenter
 			->expects( 'present' )
 			->once()
-			->with( $presentation )
+			->with()
 			->andReturn( 'Output' );
 
 		$this->instance->present_head();
@@ -200,7 +200,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$this->instance->get_presenters( 'Post_Type' )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Post_Type' ) )
 		);
 	}
 
@@ -233,7 +233,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$this->instance->get_presenters( 'Error_Page' )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Error_Page' ) )
 		);
 	}
 
@@ -284,7 +284,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Term_Archive' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Term_Archive' ) ) )
 		);
 	}
 
@@ -322,7 +322,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Error_Page' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
 		);
 	}
 
@@ -361,7 +361,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Error_Page' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
 		);
 	}
 }
