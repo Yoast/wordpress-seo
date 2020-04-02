@@ -303,6 +303,7 @@ class Yoast_Form {
 			$class .= '-inverse';
 		}
 
+
 		if ( empty( $buttons ) ) {
 			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
 		}
@@ -310,9 +311,9 @@ class Yoast_Form {
 		list( $off_button, $on_button ) = $buttons;
 
 		echo '<div class="yoast-toggle__item">',
-		'<div class="yoast-toggle__item-title"><legend>', esc_html( $label ), '</legend>', $help, '</div>',
+		'<div class="yoast-toggle__item-title"><label for="', esc_attr( $var ) ,'">', esc_html( $label ), '</label>', $help, '</div>',
 		'<div class="', $class, '">';
-		echo '<input type="checkbox" class="visually-hidden" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
+		echo '<input type="checkbox" class="visually-hidden" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span class="yoast-toggle--inactive">', esc_html( $off_button ), '</span>',
 		'<label class="yoast-toggle__switch" for="', esc_attr( $var ), '"></label>',
 		'<span class="yoast-toggle--active">', esc_html( $on_button ), '</span>';
