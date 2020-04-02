@@ -59,7 +59,7 @@ class Front_End_Integration implements Integration_Interface {
 	protected $helpers;
 
 	/**
-	 * The replace vars helper
+	 * The replace vars helper.
 	 *
 	 * @var WPSEO_Replace_Vars
 	 */
@@ -281,11 +281,11 @@ class Front_End_Integration implements Integration_Interface {
 		 */
 		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters );
 
-		if ( ! is_array( $presenter_instances ) ) {
+		if ( ! \is_array( $presenter_instances ) ) {
 			return $presenters;
 		}
 
-		return array_merge(
+		return \array_merge(
 			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
 		);
 	}
