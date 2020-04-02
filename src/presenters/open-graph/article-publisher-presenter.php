@@ -18,13 +18,12 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the site article publisher tag.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The article publisher tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$article_publisher = $this->filter( $presentation->open_graph_article_publisher, $presentation );
+	public function present( $output_tag = true ) {
+		$article_publisher = $this->filter( $this->presentation->open_graph_article_publisher );
 
 		if ( \is_string( $article_publisher ) && $article_publisher !== '' ) {
 			if ( ! $output_tag ) {
@@ -40,12 +39,11 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the article publisher's Facebook URL through the `wpseo_og_article_publisher` filter.
 	 *
-	 * @param string                 $article_publisher The article publisher's Facebook URL to filter.
-	 * @param Indexable_Presentation $presentation      The presentation of an indexable.
+	 * @param string $article_publisher The article publisher's Facebook URL to filter.
 	 *
 	 * @return string The filtered article publisher's Facebook URL.
 	 */
-	private function filter( $article_publisher, Indexable_Presentation $presentation ) {
+	private function filter( $article_publisher ) {
 		/**
 		 * Filter: 'wpseo_og_article_publisher' - Allow developers to filter the article publisher's Facebook URL.
 		 *
@@ -53,6 +51,6 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_og_article_publisher', $article_publisher, $presentation ) );
+		return \trim( \apply_filters( 'wpseo_og_article_publisher', $article_publisher, $this->presentation ) );
 	}
 }

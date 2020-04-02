@@ -18,13 +18,12 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the debug close marker.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The debug close marker.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$locale = $this->filter( $presentation->open_graph_locale, $presentation );
+	public function present( $output_tag = true ) {
+		$locale = $this->filter( $this->presentation->open_graph_locale );
 
 		if ( ! $output_tag ) {
 			return $locale;
@@ -36,12 +35,11 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the locale through the `wpseo_og_locale` filter.
 	 *
-	 * @param string                 $locale       The locale to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $locale The locale to filter.
 	 *
 	 * @return string $locale The filtered locale.
 	 */
-	private function filter( $locale, $presentation ) {
+	private function filter( $locale ) {
 		/**
 		 * Filter: 'wpseo_og_locale' - Allow changing the Yoast SEO Open Graph locale.
 		 *
@@ -49,6 +47,6 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_og_locale', $locale, $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_og_locale', $locale, $this->presentation ) );
 	}
 }

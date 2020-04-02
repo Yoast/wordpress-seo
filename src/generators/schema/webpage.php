@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use WP_Post;
-use Yoast\WP\SEO\Config\Schema_Ids;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema WebPage data.
@@ -32,11 +32,11 @@ class WebPage extends Abstract_Schema_Piece {
 	public function generate() {
 		$data = [
 			'@type'      => $this->context->schema_page_type,
-			'@id'        => $this->context->canonical . Schema_Ids::WEBPAGE_HASH,
+			'@id'        => $this->context->canonical . Schema_IDs::WEBPAGE_HASH,
 			'url'        => $this->context->canonical,
 			'name'       => $this->helpers->schema->html->smart_strip_tags( $this->context->title ),
 			'isPartOf'   => [
-				'@id' => $this->context->site_url . Schema_Ids::WEBSITE_HASH,
+				'@id' => $this->context->site_url . Schema_IDs::WEBSITE_HASH,
 			],
 		];
 
@@ -63,7 +63,7 @@ class WebPage extends Abstract_Schema_Piece {
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = [
-				'@id' => $this->context->canonical . Schema_Ids::BREADCRUMB_HASH,
+				'@id' => $this->context->canonical . Schema_IDs::BREADCRUMB_HASH,
 			];
 		}
 
@@ -96,7 +96,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_image( &$data ) {
 		if ( $this->context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_Ids::PRIMARY_IMAGE_HASH ];
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 		}
 	}
 

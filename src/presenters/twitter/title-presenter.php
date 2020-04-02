@@ -17,13 +17,12 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the Twitter title.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Twitter title tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$twitter_title = (string) $this->filter( $this->replace_vars( $presentation->twitter_title, $presentation ), $presentation );
+	public function present( $output_tag = true ) {
+		$twitter_title = (string) $this->filter( $this->replace_vars( $this->presentation->twitter_title ) );
 
 		if ( $twitter_title !== '' ) {
 			if ( ! $output_tag ) {
@@ -39,12 +38,11 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the Twitter title through the `wpseo_twitter_title` filter.
 	 *
-	 * @param string                 $twitter_title The Twitter title to filter.
-	 * @param Indexable_Presentation $presentation  The presentation of an indexable.
+	 * @param string $twitter_title The Twitter title to filter.
 	 *
 	 * @return string The filtered Twitter title.
 	 */
-	private function filter( $twitter_title, Indexable_Presentation $presentation ) {
+	private function filter( $twitter_title ) {
 		/**
 		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title.
 		 *
@@ -52,6 +50,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_twitter_title', $twitter_title, $presentation ) );
+		return \trim( \apply_filters( 'wpseo_twitter_title', $twitter_title, $this->presentation ) );
 	}
 }

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class WPSEO_Breadcrumbs
@@ -43,14 +44,21 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
-	private $context_memoizer;
+	protected $context_memoizer;
 
 	/**
-	 * Breadcrumbs presenter.
+	 * The helpers surface.
 	 *
-	 * @var Breadcrumbs_Presenter
+	 * @var Helpers_Surface
 	 */
-	private $presenter;
+	protected $helpers;
+
+	/**
+	 * The replace vars helper
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
 
 	/**
 	 * @inheritDoc
@@ -63,14 +71,17 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 * WPSEO_Breadcrumbs constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer The context memoizer.
-	 * @param Breadcrumbs_Presenter      $presenter        The breadcrumbs presenter.
+	 * @param Helpers_Surface            $helpers          The helpers surface.
+	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		Breadcrumbs_Presenter $presenter
+		Helpers_Surface $helpers,
+		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->context_memoizer = $context_memoizer;
-		$this->presenter        = $presenter;
+		$this->helpers          = $helpers;
+		$this->replace_vars     = $replace_vars;
 	}
 
 	/**
@@ -139,8 +150,11 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 * @return string The rendered breadcrumbs.
 	 */
 	private function render() {
-		$context = $this->context_memoizer->for_current_page();
+		$presenter = new Breadcrumbs_Presenter();
+		$presenter->presentation = $this->context_memoizer->for_current_page()->presentation;
+		$presenter->replace_vars = $this->replace_vars;
+		$presenter->helpers      = $this->helpers;
 
-		return $this->presenter->present( $context->presentation );
+		return $presenter->present();
 	}
 }

@@ -6,24 +6,16 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\Article;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema Article data.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 10.2
  */
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the article schema generator.
-	 *
-	 * @var Article
-	 */
-	private $article;
 
 	/**
 	 * Holds a memoizer for the meta tag context.
@@ -36,64 +28,59 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_Article constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		//_deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article' );
-
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Article' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->article  = YoastSEO()->classes->get( Article::class );
 	}
 
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Article::is_needed' );
+		$article = new Article();
+		$article->context = $this->memoizer->for_current_page();
+		$article->helpers = YoastSEO()->helpers;
 
-		return $this->article->is_needed( $context );
+		return $article->is_needed();
 	}
 
 	/**
 	 * Returns Article data.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Article::generate' );
+		$article = new Article();
+		$article->context = $this->memoizer->for_current_page();
+		$article->helpers = YoastSEO()->helpers;
 
-		return $this->article->generate( $context );
+		return $article->generate();
 	}
 
 	/**
 	 * Determines whether a given post type should have Article schema.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @param string $post_type Post type to check.
 	 *
 	 * @return bool True if it has article schema, false if not.
 	 */
 	public static function is_article_post_type( $post_type = null ) {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Helpers\Schema\Article_Helper::is_article_post_type' );
-		/**
-		 * Holds the article schema helper.
-		 *
-		 * @var Article_Helper
-		 */
-		$article = YoastSEO()->classes->get( Article_Helper::class );
-
-		return $article->is_article_post_type( $post_type );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->article->is_article_post_type' );
+		return YoastSEO()->helpers->schema->article->is_article_post_type( $post_type );
 	}
 }

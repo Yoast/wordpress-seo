@@ -17,6 +17,7 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the canonical for a post.
 	 *
+<<<<<<< HEAD
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
@@ -24,10 +25,16 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
+=======
+	 * @return string The canonical tag.
+	 */
+	public function present() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
+>>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 			return '';
 		}
 
-		$canonical = $this->filter( $presentation->canonical, $presentation );
+		$canonical = $this->filter();
 		if ( \is_string( $canonical ) && $canonical !== '' ) {
 			if ( ! $output_tag ) {
 				return $canonical;
@@ -41,12 +48,9 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
-	 * @param string                 $canonical    The canonical to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string $canonical The filtered canonical.
 	 */
-	private function filter( $canonical, Indexable_Presentation $presentation ) {
+	private function filter() {
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO.
 		 *
@@ -54,6 +58,6 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_canonical', $canonical, $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) );
 	}
 }

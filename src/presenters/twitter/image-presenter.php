@@ -18,13 +18,12 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Presents a presentation.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The template.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$twitter_image = $this->filter( $presentation->twitter_image, $presentation );
+	public function present( $output_tag = true ) {
+		$twitter_image = $this->filter( $this->presentation->twitter_image );
 		$twitter_image = \esc_url( $twitter_image );
 
 		if ( \is_string( $twitter_image ) && $twitter_image !== '' ) {
@@ -41,12 +40,9 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the Twitter image value through the `wpseo_twitter_image` filter.
 	 *
-	 * @param string                 $twitter_image The Twitter image to filter.
-	 * @param Indexable_Presentation $presentation  The presentation of an indexable.
-	 *
 	 * @return string The filtered Twitter image.
 	 */
-	private function filter( $twitter_image, Indexable_Presentation $presentation ) {
+	private function filter() {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
@@ -54,6 +50,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $twitter_image Image URL string.
 		 */
-		return (string) \apply_filters( 'wpseo_twitter_image', $twitter_image, $presentation );
+		return (string) \apply_filters( 'wpseo_twitter_image', $this->presentation->twitter_image, $this->presentation );
 	}
 }

@@ -19,4 +19,15 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string $type
  */
 class SEO_Links extends Yoast_Model {
+
+	/**
+	 * Which columns contain int values.
+	 *
+	 * @var array
+	 */
+	protected $int_columns = [
+		'id',
+		'post_id',
+		'target_post_id',
+	];
 }

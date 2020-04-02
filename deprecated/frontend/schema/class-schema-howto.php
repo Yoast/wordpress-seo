@@ -11,18 +11,11 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 /**
  * Returns schema FAQ data.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 11.5
  */
 class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the HowTo schema generator.
-	 *
-	 * @var HowTo
-	 */
-	private $how_to;
 
 	/**
 	 * Holds a memoizer for the meta tag context.
@@ -35,34 +28,35 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_FAQ constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
+		// _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
 		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->how_to   = YoastSEO()->classes->get( HowTo::class );
 	}
 
 	/**
 	 * Renders a list of questions, referencing them by ID.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return array $data Our Schema graph.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\HowTo::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::generate' );
+		$how_to = new HowTo();
+		$how_to->context = $this->memoizer->for_current_page();
+		$how_to->helpers = YoastSEO()->helpers;
 
-		return $this->how_to->generate( $context );
+		return $how_to->generate();
 	}
 
 	/**
 	 * Renders the How-To block into our graph.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
@@ -70,7 +64,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @return mixed
 	 */
 	public function render( $graph, $block ) {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return array();
 	}
 
@@ -78,14 +72,16 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\HowTo::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::is_needed' );
+		$how_to = new HowTo();
+		$how_to->context = $this->memoizer->for_current_page();
+		$how_to->helpers = YoastSEO()->helpers;
 
-		return $this->how_to->is_needed( $context );
+		return $how_to->is_needed();
 	}
 }

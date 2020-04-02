@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  * Returns ImageObject schema data.
  *
  * @codeCoverageIgnore
- * @deprecated xx.x
+ * @deprecated 14.0
  *
  * @since 11.5
  */
@@ -36,27 +36,28 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * WPSEO_Schema_WebPage constructor.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 */
 	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
-		$this->memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->main_image   = YoastSEO()->classes->get( Main_Image::class );
+		// _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
+		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 	}
 
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::is_needed' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image::is_needed' );
+		$main_image = new Main_Image();
+		$main_image->context = $this->memoizer->for_current_page();
+		$main_image->helpers = YoastSEO()->helpers;
 
-		return $this->main_image->is_needed( $context );
+		return $main_image->is_needed();
 	}
 
 	/**
@@ -65,14 +66,16 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * This can be either the featured image, or fall back to the first image in the content of the page.
 	 *
 	 * @codeCoverageIgnore
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @return false|array $data Image Schema.
 	 */
 	public function generate() {
-		// _deprecated_function( __METHOD__, 'WPSEO xx.x', 'Yoast\WP\SEO\Generators\Schema\Main_Image::generate' );
-		$context = $this->memoizer->for_current_page();
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image::generate' );
+		$main_image = new Main_Image();
+		$main_image->context = $this->memoizer->for_current_page();
+		$main_image->helpers = YoastSEO()->helpers;
 
-		return $this->main_image->generate( $context );
+		return $main_image->generate();
 	}
 }

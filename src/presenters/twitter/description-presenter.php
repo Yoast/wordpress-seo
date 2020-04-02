@@ -18,14 +18,13 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Presents a presentation.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The template.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$twitter_description = $this->replace_vars( $presentation->twitter_description, $presentation );
-		$twitter_description = $this->filter( $twitter_description, $presentation );
+	public function present( $output_tag = true ) {
+		$twitter_description = $this->replace_vars( $this->presentation->twitter_description );
+		$twitter_description = $this->filter( $twitter_description );
 
 		if ( $twitter_description ) {
 			if ( ! $output_tag ) {
@@ -41,12 +40,11 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the Twitter description through the `wpseo_twitter_description` filter.
 	 *
-	 * @param string                 $twitter_description The Twitter description to filter.
-	 * @param Indexable_Presentation $presentation        The presentation of an indexable.
+	 * @param string $twitter_description The Twitter description to filter.
 	 *
 	 * @return string The filtered Twitter description.
 	 */
-	private function filter( $twitter_description, Indexable_Presentation $presentation ) {
+	private function filter( $twitter_description ) {
 		/**
 		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO.
 		 *
@@ -54,6 +52,6 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_twitter_description', $twitter_description, $presentation );
+		return \apply_filters( 'wpseo_twitter_description', $twitter_description, $this->presentation );
 	}
 }

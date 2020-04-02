@@ -17,6 +17,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the robots output.
 	 *
+<<<<<<< HEAD
 	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
@@ -24,9 +25,15 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$robots = \array_filter( $presentation->robots );
+=======
+	 * @return string The robots output tag.
+	 */
+	public function present() {
+		$robots = \array_filter( $this->presentation->robots );
+>>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 		$robots = $this->remove_defaults( $robots );
 		$robots = \implode( ',', $robots );
-		$robots = $this->filter( $robots, $presentation );
+		$robots = $this->filter( $robots, $this->presentation );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
 			if ( ! $output_tag ) {
@@ -42,12 +49,11 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the robots output content through the `wpseo_robots` filter.
 	 *
-	 * @param string                 $robots       The meta robots output to filter.
-	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 * @param string $robots The meta robots output to filter.
 	 *
 	 * @return string The filtered meta robots output.
 	 */
-	private function filter( $robots, Indexable_Presentation $presentation ) {
+	private function filter( $robots ) {
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
 		 *
@@ -55,7 +61,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_robots', $robots, $presentation );
+		return (string) \apply_filters( 'wpseo_robots', $robots, $this->presentation );
 	}
 
 	/**

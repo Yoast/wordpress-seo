@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-
 /**
  * Class Schema_Presenter
  */
@@ -17,14 +15,13 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the schema output.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The schema tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
+	public function present( $output_tag = true ) {
 		if ( ! $output_tag ) {
-			return $presentation->schema;
+			return $this->presentation->schema;
 		}
 
 		$deprecated_data = [
@@ -46,8 +43,8 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		 */
 		\do_action( 'wpseo_json_ld' );
 
-		if ( is_array( $presentation->schema ) ) {
-			$output = \WPSEO_Utils::format_json_encode( $presentation->schema );
+		if ( is_array( $this->presentation->schema ) ) {
+			$output = \WPSEO_Utils::format_json_encode( $this->presentation->schema );
 			$output = \str_replace( "\n", PHP_EOL . "\t", $output );
 			return '<script type="application/ld+json" class="yoast-schema-graph">' . $output . '</script>';
 		}

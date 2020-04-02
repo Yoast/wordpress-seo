@@ -18,13 +18,12 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the opengraph type for a post.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The open graph type tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$open_graph_type = $this->filter( $presentation->open_graph_type, $presentation );
+	public function present( $output_tag = true ) {
+		$open_graph_type = $this->filter( $this->presentation->open_graph_type );
 
 		if ( \is_string( $open_graph_type ) && $open_graph_type !== '' ) {
 			if ( ! $output_tag ) {
@@ -40,12 +39,11 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the opengraph type content through the `wpseo_opengraph_type` filter.
 	 *
-	 * @param string                 $type         The type to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $type The type to filter.
 	 *
 	 * @return string $type The filtered type.
 	 */
-	private function filter( $type, Indexable_Presentation $presentation ) {
+	private function filter( $type ) {
 		/**
 		 * Filter: 'wpseo_opengraph_type' - Allow changing the opengraph type.
 		 *
@@ -53,6 +51,6 @@ class Type_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_opengraph_type', $type, $presentation );
+		return (string) \apply_filters( 'wpseo_opengraph_type', $type, $this->presentation );
 	}
 }

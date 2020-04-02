@@ -18,6 +18,7 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the site article author tag.
 	 *
+<<<<<<< HEAD
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
@@ -25,6 +26,12 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
 		$article_author = $this->filter( $presentation->open_graph_article_author, $presentation );
+=======
+	 * @return string The article author tag.
+	 */
+	public function present() {
+		$article_author = $this->filter( $this->presentation->open_graph_article_author );
+>>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 
 		if ( \is_string( $article_author ) && $article_author !== '' ) {
 			if ( ! $output_tag ) {
@@ -40,12 +47,11 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the article author's Facebook URL through the `wpseo_opengraph_author_facebook` filter.
 	 *
-	 * @param string                 $article_author The article author's Facebook URL to filter.
-	 * @param Indexable_Presentation $presentation   The presentation of an indexable.
+	 * @param string $article_author The article author's Facebook URL to filter.
 	 *
 	 * @return string The filtered article author's Facebook URL.
 	 */
-	private function filter( $article_author, Indexable_Presentation $presentation ) {
+	private function filter( $article_author ) {
 		/**
 		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the article author's Facebook URL.
 		 *
@@ -53,6 +59,6 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author, $presentation ) );
+		return \trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author, $this->presentation ) );
 	}
 }
