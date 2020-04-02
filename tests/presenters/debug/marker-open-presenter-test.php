@@ -30,7 +30,7 @@ class Marker_Open_Presenter_Test extends TestCase {
 		$product_mock = Mockery::mock( Product_Helper::class );
 		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance = new Marker_Open_Presenter( $product_mock );
+		$instance = new Marker_Open_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product_mock,
 		];

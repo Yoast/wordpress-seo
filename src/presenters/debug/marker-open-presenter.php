@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Debug;
 
-use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 
 /**

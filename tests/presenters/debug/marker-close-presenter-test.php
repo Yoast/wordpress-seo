@@ -30,7 +30,7 @@ class Marker_Close_Presenter_Test extends TestCase {
 		$product = Mockery::mock( Product_Helper::class );
 		$product->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance = new Marker_Close_Presenter( $product );
+		$instance = new Marker_Close_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product,
 		];
