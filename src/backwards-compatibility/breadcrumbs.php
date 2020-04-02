@@ -155,6 +155,6 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 		$presenter->replace_vars = $this->replace_vars;
 		$presenter->helpers      = $this->helpers;
 
-		return $this->presenter->present();
+		return $presenter->present();
 	}
 }
