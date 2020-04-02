@@ -41,6 +41,8 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->instance     = Mockery::mock( Image_Presenter::class )->makePartial();
 		$this->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -51,7 +53,7 @@ class Image_Presenter_Test extends TestCase {
 	public function test_present_with_no_set_images() {
 		$this->presentation->open_graph_images = [];
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -70,7 +72,7 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
-			$this->instance->present( $this->presentation )
+			$this->instance->present()
 		);
 	}
 
