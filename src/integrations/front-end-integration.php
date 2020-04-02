@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
+use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -69,7 +71,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var string[]
 	 */
 	protected $base_presenters = [
-		'Debug\Marker_Open',
 		'Title',
 		'Meta_Description',
 		'Robots',
@@ -152,7 +153,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $closing_presenters = [
 		'Schema',
-		'Debug\Marker_Close',
 	];
 
 	/**
@@ -279,7 +279,15 @@ class Front_End_Integration implements Integration_Interface {
 		 *
 		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
 		 */
-		return \apply_filters( 'wpseo_frontend_presenters', $presenters );
+		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters );
+
+		if ( ! is_array( $presenter_instances ) ) {
+			return $presenters;
+		}
+
+		return array_merge(
+			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
+		);
 	}
 
 	/**
