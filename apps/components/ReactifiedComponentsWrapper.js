@@ -1,6 +1,7 @@
 import React from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
+import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 
@@ -40,6 +41,36 @@ const ReactifiedComponentsWrapper = () => {
 				placeholder="Ugly placeholder"
 				value="Wow, what happens now??"
 				description="The greatest textarea ever!!1!"
+			/>
+			<CheckboxGroup
+				label="Heya best checkboxes"
+				options={ [
+					{
+						label: "Fancy label",
+						id: "fancy-checkbox"
+					},
+					{
+						label: "option with id 1",
+						id: "horizontal-check-1",
+					},
+				] }
+				checked={ [ "fancy-checkbox" ] }
+			/>
+			<CheckboxGroup
+				label="Horizontal checkboxes"
+				vertical={ false }
+				options={ [
+					{
+						label: "Nice 1",
+						id: "id1",
+					},
+					{
+						label: "option with id 3",
+						id: "id3",
+					},
+				] }
+				checked={ [ "id1" ] }
+				onChange={ console.warn }
 			/>
 			<RadioButtonGroup
 				onChange={ console.log }
