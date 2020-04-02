@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import {
-	determineImageProperties,
+	handleImage,
 	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
@@ -97,30 +97,19 @@ export default class TwitterImage extends React.Component {
 			imageProperties: null,
 			status: "loading",
 		};
-		this.handleImage = this.handleImage.bind( this );
+
 		this.socialMedium = "Twitter";
+		this.handleTwitterImage = this.handleTwitterImage.bind( this );
+		this.setState = this.setState.bind( this );
 	}
 
 	/**
-	 * Handles the determining of image properties.
-	 *
-	 * @param {string}       src          The image url.
-	 * @param {socialMedium} socialMedium The social medium, Twitter or Facebook.
+	 * Handles setting the handled image properties on the state.
 	 *
 	 * @returns {void}
 	 */
-	handleImage( src ) {
-		determineImageProperties( src, this.socialMedium ).then( ( imageProperties ) => {
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
-			} );
-		} ).catch( () => {
-			this.setState( {
-				imageProperties: null,
-				status: "errored",
-			} );
-		} );
+	handleTwitterImage() {
+		handleImage( this.props.src, this.socialMedium, this.setState );
 	}
 
 	/**
@@ -131,18 +120,19 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Object} The new props.
 	 */
 	componentDidUpdate( prevProps ) {
+		// Only perform calculations on the image if the src has actually changed.
 		if ( prevProps.src !== this.props.src ) {
-			this.handleImage( this.props.src );
+			this.handleTwitterImage();
 		}
 	}
 
 	/**
 	 * After the component has mounted, determine the properties of the TwitterImage.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @returns {void}
 	 */
 	componentDidMount() {
-		this.handleImage( this.props.src );
+		this.handleTwitterImage();
 	}
 
 	/**

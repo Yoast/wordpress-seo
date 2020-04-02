@@ -65,7 +65,7 @@ const FacebookPreviewWrapper = styled.div`
 	height: ${ props => determineWrapperHeight( props.mode ) };
 `;
 
-const OuterTextWrapper = styled.div`
+const FacebookTextWrapper = styled.div`
 	box-sizing: border-box;
 	background-color: #f2f3f5;
 	margin: 0;
@@ -130,7 +130,7 @@ class FacebookPreview extends Component {
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
 				/>
-				<OuterTextWrapper mode={ imageMode }>
+				<FacebookTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
 						siteName={ this.props.siteName }
 						authorName={ this.props.authorName }
@@ -140,7 +140,7 @@ class FacebookPreview extends Component {
 					<FacebookDescription mode={ imageMode }>
 						{ this.props.description }
 					</FacebookDescription>
-				</OuterTextWrapper>
+				</FacebookTextWrapper>
 			</FacebookPreviewWrapper>
 		);
 	}
