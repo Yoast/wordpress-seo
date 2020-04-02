@@ -37,6 +37,8 @@ class FB_App_ID_Presenter_Test extends TestCase {
 		$this->instance     = new FB_App_ID_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -49,7 +51,7 @@ class FB_App_ID_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_fb_app_id = '12345';
 
 		$expected = '<meta property="fb:app_id" content="12345" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -62,7 +64,7 @@ class FB_App_ID_Presenter_Test extends TestCase {
 	public function test_present_empty_fb_app_id() {
 		$this->presentation->open_graph_fb_app_id = '';
 
-		$actual = $this->instance->present( $this->presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}

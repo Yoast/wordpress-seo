@@ -49,7 +49,9 @@ class Description_Presenter_Test extends TestCase {
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->instance->presentation = $this->presentation;
+		$this->instance->replace_vars = $this->replace_vars;
+
 		$this->presentation->source = [];
 
 		$this->replace_vars
@@ -69,7 +71,7 @@ class Description_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_description = 'My description';
 
 		$expected = '<meta property="og:description" content="My description" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -83,7 +85,7 @@ class Description_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_description = '';
 
 		$expected = '';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -103,7 +105,7 @@ class Description_Presenter_Test extends TestCase {
 			->andReturn( 'My filtered description' );
 
 		$expected = '<meta property="og:description" content="My filtered description" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

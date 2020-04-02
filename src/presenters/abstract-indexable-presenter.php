@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Presenters;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class Abstract_Indexable_Presenter
@@ -20,43 +21,41 @@ abstract class Abstract_Indexable_Presenter {
 	 *
 	 * @var WPSEO_Replace_Vars
 	 */
-	protected $replace_vars;
+	public $replace_vars;
 
 	/**
-	 * Sets the replace vars helper, used by DI.
+	 * The indexable presentation.
 	 *
-	 * @required
-	 *
-	 * @param \WPSEO_Replace_Vars $replace_vars The replace vars helper.
-	 *
-	 * @codeCoverageIgnore Wrapper method.
+	 * @var Indexable_Presentation
 	 */
-	public function set_replace_vars( WPSEO_Replace_Vars $replace_vars ) {
-		$this->replace_vars = $replace_vars;
-	}
+	public $presentation;
+
+	/**
+	 * The helpers surface
+	 *
+	 * @var Helpers_Surface
+	 */
+	public $helpers;
 
 	/**
 	 * Presents a presentation.
-	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
 	 *
 	 * @codeCoverageIgnore There is nothing to test.
 	 *
 	 * @return string The template.
 	 */
-	public abstract function present( Indexable_Presentation $presentation );
+	public abstract function present();
 
 	/**
-	 * Replace replacement variables in the meta description.
+	 * Replace replacement variables in a string.
 	 *
-	 * @param string                 $meta_description The meta description.
-	 * @param Indexable_Presentation $presentation     The presentation to present.
+	 * @param string $string The string.
 	 *
 	 * @codeCoverageIgnore Wrapper method.
 	 *
-	 * @return string The meta description with replacement variables replaced.
+	 * @return string The string with replacement variables replaced.
 	 */
-	protected function replace_vars( $meta_description, Indexable_Presentation $presentation ) {
-		return $this->replace_vars->replace( $meta_description, $presentation->source );
+	protected function replace_vars( $string ) {
+		return $this->replace_vars->replace( $string, $this->presentation->source );
 	}
 }
