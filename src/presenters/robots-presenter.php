@@ -17,25 +17,27 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the robots output.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @return string The robots output tag.
 	 */
-	public function present( $output_tag = true ) {
-		$robots = \array_filter( $this->presentation->robots );
-		$robots = $this->remove_defaults( $robots );
-		$robots = \implode( ',', $robots );
+	public function present() {
+		$robots = \implode( ',', $this->get() );
 		$robots = $this->filter( $robots, $this->presentation );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
-			if ( ! $output_tag ) {
-				return $robots;
-			}
-
 			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
 		}
 
 		return '';
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		$robots = \array_filter( $this->presentation->robots );
+		return $this->remove_defaults( $robots );
 	}
 
 	/**

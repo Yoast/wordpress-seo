@@ -98,7 +98,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 
 		$output = '<meta name="description" content="the_meta_description" />';
 
-		$this->assertEquals( $output, $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEquals( $output, $this->instance->present() );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->with( 'wpseo_manage_options' )
 			->andReturn( false );
 
-		$this->assertEmpty( $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -159,6 +159,6 @@ class Meta_Description_Presenter_Test extends TestCase {
 
 		$notice = '<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [SEO - Search Appearance] menu and set up a template. -->';
 
-		$this->assertEquals( $notice, $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEquals( $notice, $this->instance->present() );
 	}
 }

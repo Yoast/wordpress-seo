@@ -8,9 +8,11 @@
 namespace Yoast\WP\Free\Surfaces\Values;
 
 use Exception;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 
@@ -51,37 +53,52 @@ class Meta {
 	/**
 	 * @var ContainerInterface
 	 */
-	private $container;
+	protected $container;
 
 	/**
 	 * The meta tags context.
 	 *
 	 * @var Meta_Tags_Context
 	 */
-	public $context;
+	protected $context;
 
 	/**
 	 * The front end integration.
 	 *
 	 * @var Front_End_Integration
 	 */
-	private $front_end;
+	protected $front_end;
+
+	/**
+	 * The helpers surface.
+	 *
+	 * @var Helpers_Surface
+	 */
+	protected $helpers;
+
+	/**
+	 * The replace vars helper
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
 
 	/**
 	 * Create a meta value object.
 	 *
-	 * @param Meta_Tags_Context     $context   The indexable presentation.
-	 * @param ContainerInterface    $container The DI container.
-	 * @param Front_End_Integration $front_end The front end integration.
+	 * @param Meta_Tags_Context  $context   The indexable presentation.
+	 * @param ContainerInterface $container The DI container.
 	 */
 	public function __construct(
 		Meta_Tags_Context $context,
-		ContainerInterface $container,
-		Front_End_Integration $front_end
+		ContainerInterface $container
 	) {
 		$this->container = $container;
 		$this->context   = $context;
-		$this->front_end = $front_end;
+
+		$this->helpers      = $this->container->get( Helpers_Surface::class );
+		$this->replace_vars = $this->container->get( WPSEO_Replace_Vars::class );
+		$this->front_end    = $this->container->get( Front_End_Integration::class );
 	}
 
 	/**
@@ -95,7 +112,10 @@ class Meta {
 		$output = '';
 
 		foreach ( $presenters as $presenter ) {
-			$presenter_output = $presenter->present( $this->context->presentation );
+			$presenter->presentation = $this->context->presentation;
+			$presenter->helpers      = $this->helpers;
+			$presenter->replace_vars = $this->replace_vars;
+			$presenter_output = $presenter->present();
 			if ( ! empty( $presenter_output ) ) {
 				$output .= $presenter_output . PHP_EOL;
 			}
@@ -128,14 +148,18 @@ class Meta {
 			$presenter_namespace .= 'Open_Graph\\';
 			$parts = \array_slice( $parts, 2 );
 		}
-		$presenter_class = implode( '_', array_map( 'ucfirst', $parts ) ) . '_Presenter';
+		$presenter_class = $presenter_namespace . implode( '_', array_map( 'ucfirst', $parts ) ) . '_Presenter';
 
-		/**
-		 * @var Abstract_Indexable_Presenter
-		 */
-		$presenter = $this->container->get( $presenter_namespace . $presenter_class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
-		if ( $presenter ) {
-			$value = $presenter->present( $this->context->presentation, false );
+
+		if ( \class_exists( $presenter_class ) ) {
+			/**
+			 * @var Abstract_Indexable_Presenter
+			 */
+			$presenter               = new $presenter_class();
+			$presenter->presentation = $this->context->presentation;
+			$presenter->helpers      = $this->helpers;
+			$presenter->replace_vars = $this->replace_vars;
+			$value                   = $presenter->get();
 		}
 		else {
 			$value = $this->context->presentation->{$name};

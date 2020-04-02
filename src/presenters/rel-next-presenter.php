@@ -12,35 +12,30 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Rel_Next_Presenter
  */
-class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
+class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the rel prev meta tag.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @var string
+	 */
+	protected $tag_format = '<link rel="next" href="%s" />';
+
+	/**
+	 * Returns the rel next meta tag.
 	 *
 	 * @return string The rel next tag.
 	 */
-	public function present( $output_tag = true ) {
-		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
-			return '';
-		}
+	public function present() {
+		$output = parent::present();
 
-		$rel_next = $this->filter();
-
-		if ( \is_string( $rel_next ) && $rel_next !== '' ) {
-			if ( ! $output_tag ) {
-				return $rel_next;
-			}
-
-			$link = \sprintf( '<link rel="next" href="%s" />', \esc_url( $rel_next ) );
-
+		if ( ! empty( $output ) ) {
 			/**
 			 * Filter: 'wpseo_next_rel_link' - Allow changing link rel output by Yoast SEO.
 			 *
 			 * @api string $unsigned The full `<link` element.
 			 */
-			return \apply_filters( 'wpseo_next_rel_link', $link );
+			return \apply_filters( 'wpseo_next_rel_link', $output );
 		}
 
 		return '';
@@ -51,7 +46,11 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string $rel_next The filtered adjacent link.
 	 */
-	private function filter() {
+	public function get() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
+			return '';
+		}
+
 		/**
 		 * Filter: 'wpseo_adjacent_rel_url' - Allow filtering of the rel next URL put out by Yoast SEO.
 		 *
@@ -61,5 +60,16 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_next, 'next', $this->presentation ) );
+	}
+
+	/**
+	 * Escaped the output.
+	 *
+	 * @param string $value The value.
+	 *
+	 * @return string The escaped value.
+	 */
+	protected function escape( $value ) {
+		return \esc_url( $value );
 	}
 }

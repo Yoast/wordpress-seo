@@ -8,49 +8,44 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Url_Presenter
  */
-class Url_Presenter extends Abstract_Indexable_Presenter {
+class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the open graph url.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
-	 * @return string The open graph URL tag.
+	 * @var string
 	 */
-	public function present( $output_tag = true ) {
-		$open_graph_url = $this->filter( $this->presentation->open_graph_url );
-
-		if ( \is_string( $open_graph_url ) && $open_graph_url !== '' ) {
-			if ( ! $output_tag ) {
-				return $open_graph_url;
-			}
-
-			return '<meta property="og:url" content="' . \esc_url( $open_graph_url ) . '" />';
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta property="og:url" content="%s" />';
 
 	/**
-	 * Run the title content through the `wpseo_opengraph_url` filter.
+	 * Run the url content through the `wpseo_opengraph_url` filter.
 	 *
-	 * @param string $open_graph_url The open graph URL to filter.
-	 *
-	 * @return string $title The filtered title.
+	 * @return string The filtered url.
 	 */
-	private function filter( $open_graph_url ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_opengraph_url' - Allow changing the Yoast SEO generated open graph URL.
 		 *
-		 * @api string $title The open graph URL.
+		 * @api string $url The open graph URL.
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_opengraph_url', $open_graph_url, $this->presentation );
+		return (string) \apply_filters( 'wpseo_opengraph_url', $this->presentation->open_graph_url, $this->presentation );
+	}
+
+	/**
+	 * Escaped the output.
+	 *
+	 * @param string $value The value.
+	 *
+	 * @return string The escaped value.
+	 */
+	protected function escape( $value ) {
+		return \esc_url( $value );
 	}
 }

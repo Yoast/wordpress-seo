@@ -12,37 +12,25 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Abstract_Meta_Description_Presenter
  */
-class Canonical_Presenter extends Abstract_Indexable_Presenter {
+class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the canonical for a post.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
-	 * @return string The canonical tag.
+	 * @var string
 	 */
-	public function present( $output_tag = true ) {
-		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
-			return '';
-		}
-
-		$canonical = $this->filter();
-		if ( \is_string( $canonical ) && $canonical !== '' ) {
-			if ( ! $output_tag ) {
-				return $canonical;
-			}
-			return \sprintf( '<link rel="canonical" href="%s" />', \esc_url( $canonical, null, 'other' ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<link rel="canonical" href="%s" />';
 
 	/**
 	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
 	 * @return string $canonical The filtered canonical.
 	 */
-	private function filter() {
+	public function get() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
+			return '';
+		}
+
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO.
 		 *
@@ -51,5 +39,16 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) );
+	}
+
+	/**
+	 * Escaped the output.
+	 *
+	 * @param string $value The value.
+	 *
+	 * @return string The escaped value.
+	 */
+	protected function escape( $value ) {
+		return \esc_url( $value, null, 'other' );
 	}
 }

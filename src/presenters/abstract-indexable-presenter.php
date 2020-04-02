@@ -40,13 +40,18 @@ abstract class Abstract_Indexable_Presenter {
 	/**
 	 * Presents a presentation.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @codeCoverageIgnore There is nothing to test.
 	 *
 	 * @return string The template.
 	 */
-	public abstract function present( $output_tag = true );
+	public abstract function present();
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return mixed The raw value.
+	 */
+	public abstract function get();
 
 	/**
 	 * Replace replacement variables in a string.

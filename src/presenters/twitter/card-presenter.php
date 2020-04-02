@@ -8,39 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Card_Presenter
  */
-class Card_Presenter extends Abstract_Indexable_Presenter {
+class Card_Presenter extends Abstract_Indexable_Tag_Presenter {
+
 	/**
-	 * Presents the Twitter card meta tag.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
-	 * @return string The Twitter card tag.
+	 * @var string
 	 */
-	public function present( $output_tag = true ) {
-		$card_type = $this->filter( $this->presentation->twitter_card );
-
-		if ( \is_string( $card_type ) && $card_type !== '' ) {
-			if ( ! $output_tag ) {
-				return $card_type;
-			}
-
-			return \sprintf( '<meta name="twitter:card" content="%s" />', \esc_attr( $card_type ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta name="twitter:card" content="%s" />';
 
 	/**
 	 * Runs the card type through the `wpseo_twitter_card_type` filter.
 	 *
 	 * @return string $card_type The filtered card type.
 	 */
-	private function filter() {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter card type.
 		 *

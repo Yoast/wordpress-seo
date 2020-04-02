@@ -29,22 +29,10 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the image for a post.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @return string The image tag.
 	 */
-	public function present( $output_tag = true ) {
-		$images = [];
-
-		foreach ( $this->presentation->open_graph_images as $open_graph_image ) {
-			$images[] = $this->filter( $open_graph_image );
-		}
-
-		$images = \array_filter( $images );
-
-		if ( ! $output_tag ) {
-			return $images;
-		}
+	public function present() {
+		$images = $this->get();
 
 		if ( empty( $images ) ) {
 			return '';
@@ -66,6 +54,21 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		$images = [];
+
+		foreach ( $this->presentation->open_graph_images as $open_graph_image ) {
+			$images[] = $this->filter( $open_graph_image );
+		}
+
+		return \array_filter( $images );
 	}
 
 	/**

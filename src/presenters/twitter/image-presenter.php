@@ -8,41 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Image_Presenter
  */
-class Image_Presenter extends Abstract_Indexable_Presenter {
+class Image_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Presents a presentation.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
-	 * @return string The template.
+	 * @var string
 	 */
-	public function present( $output_tag = true ) {
-		$twitter_image = $this->filter( $this->presentation->twitter_image );
-		$twitter_image = \esc_url( $twitter_image );
-
-		if ( \is_string( $twitter_image ) && $twitter_image !== '' ) {
-			if ( ! $output_tag ) {
-				return $twitter_image;
-			}
-
-			return '<meta name="twitter:image" content="' . $twitter_image . '" />';
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta name="twitter:image" content="%s" />';
 
 	/**
 	 * Run the Twitter image value through the `wpseo_twitter_image` filter.
 	 *
 	 * @return string The filtered Twitter image.
 	 */
-	private function filter() {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
@@ -51,5 +36,16 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @api string $twitter_image Image URL string.
 		 */
 		return (string) \apply_filters( 'wpseo_twitter_image', $this->presentation->twitter_image, $this->presentation );
+	}
+
+	/**
+	 * Escaped the output.
+	 *
+	 * @param string $value The value.
+	 *
+	 * @return string The escaped value.
+	 */
+	protected function escape( $value ) {
+		return \esc_url( $value );
 	}
 }

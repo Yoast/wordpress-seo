@@ -52,22 +52,17 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Presents the breadcrumbs.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @return string The breadcrumbs HTML.
 	 */
-	public function present( $output_tag = true ) {
-		if ( ! $output_tag ) {
-			return $this->presentation->breadcrumbs;
-		}
-
-		if ( ! is_array( $this->presentation->breadcrumbs ) || empty( $this->presentation->breadcrumbs ) ) {
+	public function present() {
+		$breadcrumbs = $this->get();
+		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
 		$links = [];
-		$total = \count( $this->presentation->breadcrumbs );
-		foreach ( $this->presentation->breadcrumbs as $index => $breadcrumb ) {
+		$total = \count( $breadcrumbs );
+		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$links[ $index ] = $this->crumb_to_link( $breadcrumb, $index, $total );
 		}
 
@@ -89,6 +84,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->breadcrumbs;
 	}
 
 	/**

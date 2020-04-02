@@ -15,15 +15,9 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the schema output.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @return string The schema tag.
 	 */
-	public function present( $output_tag = true ) {
-		if ( ! $output_tag ) {
-			return $this->presentation->schema;
-		}
-
+	public function present() {
 		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		];
@@ -43,12 +37,22 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		 */
 		\do_action( 'wpseo_json_ld' );
 
-		if ( is_array( $this->presentation->schema ) ) {
-			$output = \WPSEO_Utils::format_json_encode( $this->presentation->schema );
+		$schema = $this->get();
+		if ( is_array( $schema ) ) {
+			$output = \WPSEO_Utils::format_json_encode( $schema );
 			$output = \str_replace( "\n", PHP_EOL . "\t", $output );
 			return '<script type="application/ld+json" class="yoast-schema-graph">' . $output . '</script>';
 		}
 
 		return '';
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->schema;
 	}
 }

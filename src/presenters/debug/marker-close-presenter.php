@@ -17,14 +17,21 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the debug close marker.
 	 *
-	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
-	 *
 	 * @return string The debug close marker.
 	 */
-	public function present( $output_tag = true ) {
+	public function present() {
 		return \sprintf(
 			'<!-- / %s. -->' . PHP_EOL . PHP_EOL,
 			\esc_html( $this->helpers->product->get_name() )
 		);
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
+		return '';
 	}
 }

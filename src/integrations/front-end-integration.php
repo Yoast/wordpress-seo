@@ -217,7 +217,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
-		return \esc_html( $this->title_presenter->present( $context->presentation, false ) );
+		return \esc_html( $this->title_presenter->get() );
 	}
 
 	/**
