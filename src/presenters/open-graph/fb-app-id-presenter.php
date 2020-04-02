@@ -18,20 +18,12 @@ class FB_App_ID_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the Facebook app ID tag.
 	 *
-<<<<<<< HEAD
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The Facebook app ID tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$fb_app_id = $presentation->open_graph_fb_app_id;
-=======
-	 * @return string The Facebook app ID tag.
-	 */
-	public function present() {
+	public function present( $output_tag = true ) {
 		$fb_app_id = $this->presentation->open_graph_fb_app_id;
->>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 
 		if ( $fb_app_id !== '' ) {
 			if ( ! $output_tag ) {

@@ -128,23 +128,6 @@ class Meta_Surface {
 	}
 
 	/**
-	 * Returns the meta tags context for the date archive.
-	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
-	 */
-	public function for_date_archive() {
-		$indexable = $this->repository->find_for_date_archive();
-
-		if ( ! $indexable ) {
-			throw new Exception( 'Could not find meta for date archive.' );
-		}
-
-		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Date_Archive' ) );
-	}
-
-	/**
 	 * Returns the meta tags context for a post type archive.
 	 *
 	 * @param string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
@@ -280,10 +263,6 @@ class Meta_Surface {
 
 		$indexable = $this->repository->find_by_permalink( $url );
 
-		// If we haven't found any indexable first try to match against date archive urls.
-		if ( ! $indexable ) {
-			$indexable = $this->find_date_archive_by_url( $url_parts['path'] );
-		}
 		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.
 		if ( ! $indexable ) {
 			throw new Exception( "Could not find meta for url: $url." );
@@ -344,25 +323,5 @@ class Meta_Surface {
 	 */
 	private function build_meta( Meta_Tags_Context $context ) {
 		return new Meta( $context, $this->container, $this->front_end );
-	}
-
-	/**
-	 * Attempts to find the date archive indexabe by URL. Returns false if the URL does not match the date archive.
-	 *
-	 * @param string $url The relative url.
-	 *
-	 * @return Indexable
-	 */
-	private function find_date_archive_by_url( $url ) {
-		global $wp_rewrite;
-		$regexes = array_keys( $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE ) );
-
-		foreach ( $regexes as $regex ) {
-			if ( preg_match( "#^/$regex#", $url ) ) {
-				return $this->repository->find_for_date_archive();
-			}
-		}
-
-		return false;
 	}
 }

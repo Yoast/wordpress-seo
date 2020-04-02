@@ -17,20 +17,12 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the canonical for a post.
 	 *
-<<<<<<< HEAD
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The canonical tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
-=======
-	 * @return string The canonical tag.
-	 */
-	public function present() {
+	public function present( $output_tag = true ) {
 		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
->>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 			return '';
 		}
 

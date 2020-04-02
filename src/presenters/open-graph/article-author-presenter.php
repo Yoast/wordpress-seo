@@ -18,20 +18,12 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the site article author tag.
 	 *
-<<<<<<< HEAD
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The article author tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$article_author = $this->filter( $presentation->open_graph_article_author, $presentation );
-=======
-	 * @return string The article author tag.
-	 */
-	public function present() {
+	public function present( $output_tag = true ) {
 		$article_author = $this->filter( $this->presentation->open_graph_article_author );
->>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 
 		if ( \is_string( $article_author ) && $article_author !== '' ) {
 			if ( ! $output_tag ) {

@@ -231,32 +231,6 @@ class Meta_Surface_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the current page function.
-	 *
-	 * @covers ::for_date_archive
-	 */
-	public function test_for_date_archive() {
-		$this->repository->expects( 'find_for_date_archive' )->once()->andReturn( $this->indexable );
-		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Date_Archive' )->andReturn( $this->context );
-
-		$meta = $this->instance->for_date_archive();
-
-		$this->assertEquals( $this->context, $meta->context );
-	}
-
-	/**
-	 * Tests the current page function.
-	 *
-	 * @covers ::for_date_archive
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for date archive.
-	 */
-	public function test_for_date_archive_no_indexable() {
-		$this->repository->expects( 'find_for_date_archive' )->once()->andReturn( null );
-		$this->instance->for_date_archive();
-	}
-
-	/**
 	 * Tests the post type archive function.
 	 *
 	 * @covers ::for_post_type_archive

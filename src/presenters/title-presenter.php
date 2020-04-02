@@ -24,7 +24,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	public function present( $output_tag = true ) {
 		$title = $this->replace_vars( $this->presentation->title );
 		$title = $this->filter( $title );
-		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
+		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
 		$title = \trim( $title );
 
 		if ( \is_string( $title ) && $title !== '' ) {

@@ -17,20 +17,12 @@ class Article_Published_Time_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the article published time tag.
 	 *
-<<<<<<< HEAD
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 * @param bool                   $output_tag   Optional. Whether or not to output the HTML tag. Defaults to true.
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
 	 *
 	 * @return string The article published time tag.
 	 */
-	public function present( Indexable_Presentation $presentation, $output_tag = true ) {
-		$published_time = $presentation->open_graph_article_published_time;
-=======
-	 * @return string The article published time tag.
-	 */
-	public function present() {
+	public function present( $output_tag = true ) {
 		$published_time = $this->presentation->open_graph_article_published_time;
->>>>>>> e2e9a4b81435c68471e9fd6075fb2ae7ffa3a8b1
 
 		if ( \is_string( $published_time ) && $published_time !== '' ) {
 			if ( ! $output_tag ) {

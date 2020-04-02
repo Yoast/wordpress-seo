@@ -24,7 +24,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	public function present( $output_tag = true ) {
 		$meta_description = $this->replace_vars( $this->presentation->meta_description );
 		$meta_description = $this->filter( $meta_description );
-		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
+		$meta_description = $this->helpers->string->strip_all_tags( \stripslashes( $meta_description ) );
 		$meta_description = \trim( $meta_description );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
