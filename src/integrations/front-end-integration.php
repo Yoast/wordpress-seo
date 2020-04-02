@@ -285,6 +285,10 @@ class Front_End_Integration implements Integration_Interface {
 			return $presenters;
 		}
 
+		$presenter_instances = \array_filter( $presenter_instances, function ( $presenter_instance ) {
+			return $presenter_instance instanceof Abstract_Indexable_Presenter;
+		} );
+
 		return \array_merge(
 			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
 		);
