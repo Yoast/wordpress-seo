@@ -76,11 +76,20 @@ class FacebookImage extends Component {
 	 * @returns {void}
 	 */
 	handleFacebookImage() {
-		handleImage( this.props.src, this.socialMedium ).then(
-			( newState ) => {
-				this.setState( newState );
-				this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
-			} );
+		handleImage( this.props.src, this.socialMedium )
+			.then(
+				( newState ) => {
+					console.log( "newState: ", newState );
+					this.setState( newState );
+					this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
+				} )
+			.catch(
+				( errorState ) => {
+					console.log( "Errorstate: ", errorState );
+					this.setState( errorState );
+					this.props.onImageLoaded( "landscape" );
+				}
+			);
 	}
 
 	/**
