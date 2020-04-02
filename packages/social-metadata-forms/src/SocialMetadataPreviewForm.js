@@ -7,6 +7,24 @@ import styled from "styled-components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 
+const Caret = styled.div`
+	position: absolute;
+
+	::before {
+		display: block;
+		position: absolute;
+		top: 0;
+		${ getDirectionalStyle( "left", "right" ) === "left" ? "left: 5px" : "right: 5px" };
+		width: 22px;
+		height: 22px;
+		background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_black ) ) } );
+		background-size: 24px;
+		background-repeat: no-repeat;
+		background-position: center;
+		content: "";
+	}
+`;
+
 /**
  * Adds caret styles to a component.
  *
@@ -17,21 +35,12 @@ import { angleLeft, angleRight, colors } from "@yoast/style-guide";
  * @returns {ReactComponent} The component with caret styles.
  */
 function addCaretStyle( WithoutCaret ) {
-	return styled( WithoutCaret )`
-		&::before {
-			display: block;
-			position: relative;
-			top: 0;
-			${ getDirectionalStyle( "left", "right" ) }: ${ () => "-22px" };
-			width: 22px;
-			height: 22px;
-			background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_snippet_hover ) ) } );
-			background-size: 24px;
-			background-repeat: no-repeat;
-			background-position: center;
-			content: "";
-		}
-	`;
+	return (
+		<Fragment>
+			<Caret />
+			<WithoutCaret />
+		</Fragment>
+	);
 }
 
 const CaretContainer = addCaretStyle( styled.div`` );
@@ -68,7 +77,8 @@ const SocialMetadataPreviewForm = ( props ) => {
 				imageUrl={ props.imageUrl }
 				isPremium={ props.isPremium }
 			/>
-			<CaretContainer>
+			<div>
+				<Caret />
 				<ReplacementVariableEditor
 					onChange={ props.onTitleChange }
 					content={ props.title }
@@ -77,18 +87,17 @@ const SocialMetadataPreviewForm = ( props ) => {
 					type="title"
 					label={ titleEditorTitle }
 				/>
-			</CaretContainer>
-			<CaretContainer>
-				<ReplacementVariableEditor
-					onChange={ props.onDescriptionChange }
-					content={ props.description }
-					placeholder={ descEditorPlaceholder }
-					replacementVariables={ props.replacementVariables }
-					recommendedReplacementVariables={ props.recommendedReplacementVariables }
-					type="description"
-					label={ descEditorTitle }
-				/>
-			</CaretContainer>
+			</div>
+			<Caret />
+			<ReplacementVariableEditor
+				onChange={ props.onDescriptionChange }
+				content={ props.description }
+				placeholder={ descEditorPlaceholder }
+				replacementVariables={ props.replacementVariables }
+				recommendedReplacementVariables={ props.recommendedReplacementVariables }
+				type="description"
+				label={ descEditorTitle }
+			/>
 		</Fragment>
 	);
 }
