@@ -7,13 +7,13 @@ import FacebookImage from "../../src/facebook/FacebookImage";
 import delayComponentSnapshot from "../testHelpers/delayComponentSnapshot";
 
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
-determineImageProperties.determineImageProperties = jest.fn();
+determineImageProperties.handleImage = jest.fn();
 
 describe( "FacebookImage Component", () => {
 	it( "calls determineImageProperties with the correct image URL", () => {
 		const imageUrl = "https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png";
 
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "portrait",
 			height: 600,
 			width: 300,
@@ -23,11 +23,11 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src={ imageUrl } />
 		);
 
-		expect( determineImageProperties.determineImageProperties ).toBeCalledWith( imageUrl, "Facebook" );
+		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Facebook" );
 	} );
 
 	it( "matches the snapshot in the loading state", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce(
+		determineImageProperties.handleImage.mockReturnValueOnce(
 			// Make sure the promise is never resolved to keep the loading state.
 			new Promise( () => {} )
 		);
@@ -39,7 +39,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a portrait image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "portrait",
 			height: 600,
 			width: 300,
@@ -53,7 +53,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a landscape image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "landscape",
 			height: 300,
 			width: 600,
@@ -67,7 +67,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a square image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "square",
 			height: 300,
 			width: 300,
@@ -81,7 +81,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a too small image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValue( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValue( Promise.resolve( {
 			mode: "square",
 			height: 100,
 			width: 100,
@@ -95,7 +95,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a faulty image", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.reject() );
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.reject() );
 
 		const component = renderer.create(
 			<FacebookImage src="thisisnoimage" />

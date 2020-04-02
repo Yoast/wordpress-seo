@@ -7,13 +7,13 @@ import TwitterImage from "../../src/twitter/TwitterImage";
 import delayComponentSnapshot from "../testHelpers/delayComponentSnapshot";
 
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
-determineImageProperties.determineImageProperties = jest.fn();
+determineImageProperties.handleImage = jest.fn();
 
 describe( "TwitterImage Component", () => {
 	it( "calls determineImageProperties with the correct image URL", () => {
 		const imageUrl = "https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg";
 
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "landscape",
 			height: 300,
 			width: 600,
@@ -23,11 +23,11 @@ describe( "TwitterImage Component", () => {
 			<TwitterImage src={ imageUrl } isLarge={ true } />
 		);
 
-		expect( determineImageProperties.determineImageProperties ).toBeCalledWith( imageUrl, "Twitter" );
+		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Twitter" );
 	} );
 
 	it( "matches the snapshot in the loading state", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce(
+		determineImageProperties.handleImage.mockReturnValueOnce(
 			// Make sure the promise is never resolved to keep the loading state.
 			new Promise( () => {} )
 		);
@@ -39,7 +39,7 @@ describe( "TwitterImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a landscape image in a summary card", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "square",
 			height: 300,
 			width: 600,
@@ -53,7 +53,7 @@ describe( "TwitterImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a landscape image in a summary-large-image card", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "landscape",
 			height: 300,
 			width: 600,
@@ -67,7 +67,7 @@ describe( "TwitterImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a square image in a summary card", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "square",
 			height: 300,
 			width: 300,
@@ -81,7 +81,7 @@ describe( "TwitterImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a square image in a summary-large-image card", () => {
-		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
 			mode: "landscape",
 			height: 300,
 			width: 300,

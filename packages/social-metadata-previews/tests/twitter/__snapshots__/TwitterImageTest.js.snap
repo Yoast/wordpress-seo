@@ -2,143 +2,147 @@
 
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary card 1`] = `
 .c0 {
-  position: relative;
-  box-sizing: content-box;
-  overflow: hidden;
-  background-color: #e1e8ed;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
   width: 125px;
-  border-right: 1px solid #E1E8ED;
-}
-
-.c1 {
-  width: 600px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
 }
 
 <div
   className="c0"
 >
-  <img
-    alt=""
-    className="c1"
-    src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-  />
+  Select image
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary-large-image card 1`] = `
 .c0 {
-  position: relative;
-  box-sizing: content-box;
-  overflow: hidden;
-  background-color: #e1e8ed;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
   height: 265px;
   width: 506px;
-  border-bottom: 1px solid #E1E8ED;
-}
-
-.c1 {
-  width: 600px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
 }
 
 <div
   className="c0"
 >
-  <img
-    alt=""
-    className="c1"
-    src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-  />
+  Select image
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a square image in a summary card 1`] = `
 .c0 {
-  position: relative;
-  box-sizing: content-box;
-  overflow: hidden;
-  background-color: #e1e8ed;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
   width: 125px;
-  border-right: 1px solid #E1E8ED;
-}
-
-.c1 {
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
 }
 
 <div
   className="c0"
 >
-  <img
-    alt=""
-    className="c1"
-    src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-  />
+  Select image
 </div>
 `;
 
 exports[`TwitterImage Component matches the snapshot for a square image in a summary-large-image card 1`] = `
 .c0 {
-  position: relative;
-  box-sizing: content-box;
-  overflow: hidden;
-  background-color: #e1e8ed;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
   height: 265px;
   width: 506px;
-  border-bottom: 1px solid #E1E8ED;
-}
-
-.c1 {
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073cba;
+  background-color: #f1f1f1;
 }
 
 <div
   className="c0"
 >
-  <img
-    alt=""
-    className="c1"
-    src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-  />
+  Select image
 </div>
 `;
 
