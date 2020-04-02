@@ -366,7 +366,7 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_author
 	 */
 	public function test_for_author() {
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'author' )->andReturn( $this->indexable );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'user' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Author_Archive' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_author( 1 );
@@ -382,7 +382,61 @@ class Meta_Surface_Test extends TestCase {
 	 * @expectedExceptionMessage Could not find meta for author: 1.
 	 */
 	public function test_for_author_no_indexable() {
-		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'author' )->andReturn( null );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'user' )->andReturn( null );
 		$this->instance->for_author( 1 );
+	}
+
+	/**
+	 * Tests the url function.
+	 *
+	 * @param string $object_type       The object type.
+	 * @param string $object_sub_type   The object sub type.
+	 * @param int    $object_id         The object id.
+	 * @param string $page_type         The page type.
+	 * @param int    $front_page_id     The front page id.
+	 * @param int    $page_for_posts_id The page for posts id.
+	 *
+	 * @covers ::for_url
+	 * @dataProvider for_url_provider
+	 */
+	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
+		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'url' )->andReturn( [ 'host' => 'host', 'path' => 'path' ] );
+		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'https://www.example.org', PHP_URL_HOST )->andReturn( 'host' );
+		$this->repository->expects( 'find_by_permalink' )->once()->with( 'https://www.example.org' )->andReturn( $this->indexable );
+		$this->indexable->object_type     = $object_type;
+		$this->indexable->object_id       = $object_id;
+		$this->indexable->object_sub_type = $object_sub_type;
+
+		if ( $object_type === 'post' ) {
+			Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( $front_page_id );
+			if ( $front_page_id === 0 ) {
+				Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( $page_for_posts_id );
+			}
+		}
+
+		$this->context_memoizer->expects( 'get' )->with( $this->indexable, $page_type )->andReturn( $this->context );
+
+		$meta = $this->instance->for_url( 'url' );
+
+		$this->assertEquals( $this->context, $meta->context );
+	}
+
+	/**
+	 * Data provider for the url test.
+	 *
+	 * @return array The test parameters.
+	 */
+	public function for_url_provider() {
+		return [
+			[ 'post', 'post', 1, 'Static_Home_Page', 1, 0 ],
+			[ 'post', 'post', 1, 'Static_Posts_Page', 0, 1 ],
+			[ 'post', 'post', 1, 'Post_Type', 0, 0 ],
+			[ 'term', 'tag', 1, 'Term_Archive', 0, 0 ],
+			[ 'user', null, 1, 'Author_Archive', 0, 0 ],
+			[ 'home-page', null, 1, 'Home_Page', 0, 0 ],
+			[ 'post-type-archive', 'book', 1, 'Post_Type_Archive', 0, 0 ],
+			[ 'system-page', 'search-result', 1, 'Search_Result_Page', 0, 0 ],
+			[ 'system-page', '404', 1, 'Error_Page', 0, 0 ],
+		];
 	}
 }

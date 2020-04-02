@@ -235,7 +235,7 @@ class Meta_Surface {
 	 * @throws Exception If no meta could be found.
 	 */
 	public function for_author( $id ) {
-		$indexable = $this->repository->find_by_id_and_type( $id, 'author' );
+		$indexable = $this->repository->find_by_id_and_type( $id, 'user' );
 
 		if ( ! $indexable ) {
 			throw new Exception( "Could not find meta for author: $id." );
@@ -254,8 +254,8 @@ class Meta_Surface {
 	 * @throws Exception If no meta could be found.
 	 */
 	public function for_url( $url ) {
-		$url_parts = wp_parse_url( $url );
-		$site_host = wp_parse_url( \site_url(), PHP_URL_HOST );
+		$url_parts = \wp_parse_url( $url );
+		$site_host = \wp_parse_url( \site_url(), PHP_URL_HOST );
 		if ( $url_parts['host'] !== $site_host ) {
 			throw new Exception( "Could not find meta for extarnal host: {$url_parts['host']}." );
 		}
@@ -292,15 +292,12 @@ class Meta_Surface {
 			case 'home-page':
 				$page_type = 'Home_Page';
 				break;
-			case 'date-archive':
-				$page_type = 'Date_Archive';
-				break;
 			case 'post-type-archive':
 				$page_type = 'Post_Type_Archive';
 				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
-					$page_type = 'Search_Result';
+					$page_type = 'Search_Result_Page';
 				}
 				if ( $indexable->object_sub_type === '404' ) {
 					$page_type = 'Error_Page';
