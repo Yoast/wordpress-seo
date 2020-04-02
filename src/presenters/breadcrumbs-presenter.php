@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -51,38 +50,18 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	private $element;
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
-	 * Breadcrumbs_Presenter constructor.
-	 *
-	 * @param Options_Helper $options The options helper.
-	 *
-	 * @codeCoverageIgnore This is a simple constructor.
-	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
-	}
-
-	/**
 	 * Presents the breadcrumbs.
-	 *
-	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 *
 	 * @return string The breadcrumbs HTML.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		if ( ! is_array( $presentation->breadcrumbs ) || empty( $presentation->breadcrumbs ) ) {
+	public function present() {
+		if ( ! is_array( $this->presentation->breadcrumbs ) || empty( $this->presentation->breadcrumbs ) ) {
 			return '';
 		}
 
 		$links = [];
-		$total = \count( $presentation->breadcrumbs );
-		foreach ( $presentation->breadcrumbs as $index => $breadcrumb ) {
+		$total = \count( $this->presentation->breadcrumbs );
+		foreach ( $this->presentation->breadcrumbs as $index => $breadcrumb ) {
 			$links[ $index ] = $this->crumb_to_link( $breadcrumb, $index, $total );
 		}
 
@@ -96,9 +75,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$output = '<' . $this->get_wrapper() . $this->get_id() . $this->get_class() . '>' . $output . '</' . $this->get_wrapper() . '>';
-		$output = $this->filter( $output, $presentation );
+		$output = $this->filter( $output, $this->presentation );
 
-		$prefix = $this->options->get( 'breadcrumbs-prefix' );
+		$prefix = $this->helpers->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
 			$output = "\t" . $prefix . "\n" . $output;
 		}
@@ -109,20 +88,19 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Filters the output.
 	 *
-	 * @param string                 $output       The HTML output.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $output The HTML output.
 	 *
 	 * @return string The filtered output.
 	 */
-	protected function filter( $output, Indexable_Presentation $presentation ) {
+	protected function filter( $output ) {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 * @param Indexable_Presentation $this->presentation The presentation of an indexable.
 		 *
 		 * @api string $output The HTML output.
 		 */
-		return \apply_filters( 'wpseo_breadcrumb_output', $output, $presentation );
+		return \apply_filters( 'wpseo_breadcrumb_output', $output, $this->presentation );
 	}
 
 	/**
@@ -167,7 +145,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
 			$inner_elm = 'span';
-			if ( $this->options->get( 'breadcrumbs-boldlast' ) === true ) {
+			if ( $this->helpers->options->get( 'breadcrumbs-boldlast' ) === true ) {
 				$inner_elm = 'strong';
 			}
 
@@ -268,7 +246,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	protected function get_separator() {
 		if ( ! $this->separator ) {
-			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->options->get( 'breadcrumbs-sep' ) );
+			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->helpers->options->get( 'breadcrumbs-sep' ) );
 			$this->separator = ' ' . $this->separator . ' ';
 		}
 

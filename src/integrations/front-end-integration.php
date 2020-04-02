@@ -7,11 +7,13 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -46,6 +48,20 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Title_Presenter
 	 */
 	protected $title_presenter;
+
+	/**
+	 * The helpers surface.
+	 *
+	 * @var Helpers_Surface
+	 */
+	protected $helpers;
+
+	/**
+	 * The replace vars helper
+	 *
+	 * @var WPSEO_Replace_Vars
+	 */
+	protected $replace_vars;
 
 	/**
 	 * The presenters we loop through on each page load.
@@ -153,6 +169,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
 	 * @param Title_Presenter            $title_presenter   The title presenter.
+	 * @param Helpers_Surface            $helpers           The helpers surface.
+	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 */
@@ -160,12 +178,16 @@ class Front_End_Integration implements Integration_Interface {
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
-		Title_Presenter $title_presenter
+		Title_Presenter $title_presenter,
+		Helpers_Surface $helpers,
+		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
 		$this->title_presenter  = $title_presenter;
+		$this->helpers          = $helpers;
+		$this->replace_vars     = $replace_vars;
 	}
 
 	/**
@@ -222,7 +244,10 @@ class Front_End_Integration implements Integration_Interface {
 		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
-			$output = $presenter->present( $context->presentation );
+			$presenter->presentation = $context->presentation;
+			$presenter->helpers      = $this->helpers;
+			$presenter->replace_vars = $this->replace_vars;
+			$output = $presenter->present();
 			if ( ! empty( $output ) ) {
 				echo "\t" . $output . PHP_EOL;
 			}
