@@ -7,7 +7,7 @@ describe( "Select", () => {
 	it( "should render a multiselect", () => {
 		// This object is used to mock jQuery, select2 and the on function.
 		// The result of the render is a normal HTML multiselect.
-		window.$ = () => ( { select2: () => {}, on: () => {} } );
+		window.jQuery = () => ( { select2: () => {}, on: () => {} } );
 		const component = renderer.create(
 			<MultiSelect
 				label="Nice label"
