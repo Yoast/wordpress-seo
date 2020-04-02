@@ -3,7 +3,13 @@ import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
+import Toggle from "@yoast/components/src/toggle/Toggle";
 
+/**
+ * Function that displays all the reactified components that we currently have.
+ *
+ * @returns {React.Component} A wrapper for all the new reactified components.
+ */
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
@@ -72,7 +78,6 @@ const ReactifiedComponentsWrapper = () => {
 				onChange={ console.warn }
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "hey-value",
@@ -88,7 +93,6 @@ const ReactifiedComponentsWrapper = () => {
 				selected="hi"
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "haha-value",
@@ -102,6 +106,14 @@ const ReactifiedComponentsWrapper = () => {
 				label="Vertical radiobutton group"
 				vertical={ true }
 				groupName="group2"
+			/>
+			<Toggle
+				label="React Toggle"
+				offText="off"
+				onText="on"
+				name="toggle"
+				id="weird-id-that-is-unique"
+				onChange={ console.warn }
 			/>
 		</div>
 	);
