@@ -18,12 +18,10 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the Twitter site.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The Twitter site tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$twitter_site = $this->filter( $presentation->twitter_site, $presentation );
+	public function present() {
+		$twitter_site = $this->filter();
 		$twitter_site = $this->get_twitter_id( $twitter_site );
 
 		if ( \is_string( $twitter_site ) && $twitter_site !== '' ) {
@@ -36,12 +34,9 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the Twitter site through the `wpseo_twitter_site` filter.
 	 *
-	 * @param string                 $twitter_site The Twitter site to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The filtered Twitter site.
 	 */
-	private function filter( $twitter_site, Indexable_Presentation $presentation ) {
+	private function filter() {
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO.
 		 *
@@ -49,7 +44,7 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_twitter_site', $twitter_site, $presentation );
+		return \apply_filters( 'wpseo_twitter_site', $this->presentation->twitter_site, $this->presentation );
 	}
 
 	/**

@@ -6,7 +6,6 @@
 namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
