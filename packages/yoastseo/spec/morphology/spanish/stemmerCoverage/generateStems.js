@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import stem from "../../../src/morphology/spanish/stem";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
+import stem from "../../../../src/morphology/spanish/stem";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
+import filterFunctionWordsFromArray from "../../../../src/helpers/filterFunctionWordsFromArray.js";
 
 const morphologyDataES = getMorphologyData( "es" ).es;
 
@@ -8164,9 +8165,10 @@ const wordsToStem = [
 	"zúrich",
 ];
 
+const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( wordsToStem, "es" );
+
 describe( "Generate stems for Spanish words", () => {
-	const corpusWithStems = wordsToStem.map( word => [ word, stem( word, morphologyDataES ) ] );
+	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataES ) ] );
 
 	console.log( JSON.stringify( corpusWithStems ) );
 } );
-
