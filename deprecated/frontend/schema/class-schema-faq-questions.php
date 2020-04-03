@@ -16,10 +16,11 @@ class WPSEO_Schema_FAQ_Questions {
 
 	/**
 	 * A value object with context variables.
+	 * This property is public, because originally it was dynamically declared.
 	 *
 	 * @var WPSEO_Schema_Context
 	 */
-	protected $context;
+	public $context;
 
 	/**
 	 * WPSEO_Schema_FAQ_Questions constructor.
