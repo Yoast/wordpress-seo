@@ -106,6 +106,9 @@ class FacebookPreview extends Component {
 		this.onTitleEnter = this.onMouseHover.bind( this, "title" );
 		this.onDescriptionEnter = this.onMouseHover.bind( this, "description" );
 		this.onLeave = this.onMouseHover.bind( this, "" );
+
+		this.onSelectTitle = this.onSelect.bind( this, "title" );
+		this.onSelectDescription = this.onSelect.bind( this, "description" );
 	}
 
 	/**
@@ -120,7 +123,7 @@ class FacebookPreview extends Component {
 	}
 
 	/**
-	 * Retrieves the imageMode from the Facebook image container.
+	 * Sets the hovered field on the container via a callback.
 	 *
 	 * @param {string} field The field that is hovered.
 	 *
@@ -128,6 +131,17 @@ class FacebookPreview extends Component {
 	 */
 	onMouseHover( field ) {
 		this.props.onMouseHover( field );
+	}
+
+	/**
+	 * Sets the active field on the container via a callback.
+	 *
+	 * @param {string} field The field that is hovered.
+	 *
+	 * @returns {void} Void.
+	 */
+	onSelect( field ) {
+		this.props.onSelect( field );
 	}
 
 	/**
@@ -144,7 +158,7 @@ class FacebookPreview extends Component {
 					src={ this.props.image }
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
-					onSelectImage={ this.props.onSelectImage }
+					onSelectImage={ this.onSelectImage }
 				/>
 				<OuterTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
@@ -155,13 +169,14 @@ class FacebookPreview extends Component {
 					<FacebookTitle
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
-						onSelect={ this.props.onSelect }
+						onClick={ this.onSelectTitle }
 					>
 						{ this.props.title }
 					</FacebookTitle>
 					<FacebookDescription
 						onMouseEnter={ this.onDescriptionEnter }
 						onMouseLeave={ this.onLeave }
+						onClick={ this.onSelectDescription }
 						mode={ imageMode }
 					>
 						{ this.props.description }
@@ -179,7 +194,7 @@ FacebookPreview.propTypes = {
 	description: PropTypes.string,
 	image: PropTypes.string,
 	alt: PropTypes.string,
-	onSelectImage: PropTypes.func,
+	onSelect: PropTypes.func,
 	onMouseHover: PropTypes.func,
 };
 
@@ -188,7 +203,7 @@ FacebookPreview.defaultProps = {
 	description: "",
 	alt: "",
 	image: "",
-	onSelectImage: () => {},
+	onSelect: () => {},
 	onMouseHover: () => {},
 };
 

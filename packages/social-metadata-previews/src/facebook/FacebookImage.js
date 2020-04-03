@@ -162,6 +162,7 @@ class FacebookImage extends Component {
 				src={ this.props.src }
 				alt={ this.props.alt }
 				imageProperties={ imageProperties }
+				onClick={ this.props.onSelectImage }
 			/>
 		</FacebookImageContainer>;
 	}

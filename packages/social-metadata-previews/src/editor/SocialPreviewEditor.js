@@ -25,6 +25,8 @@ class SocialPreviewEditor extends Component {
 		};
 
 		this.setHoveredField = this.setHoveredField.bind( this );
+		this.setActiveField = this.setActiveField.bind( this );
+		this.setState = this.setState.bind( this );
 	}
 
 	/**
@@ -35,10 +37,13 @@ class SocialPreviewEditor extends Component {
 	 * @returns {void}
 	 */
 	setHoveredField( field ) {
+		if ( field === this.state.hoveredField ) {
+			return;
+		}
+		console.log( "hoveredfield", field );
 		this.setState( {
 			hoveredField: field,
 		} );
-		console.log( "field", field );
 	}
 
 	/**
@@ -49,10 +54,13 @@ class SocialPreviewEditor extends Component {
 	 * @returns {void}
 	 */
 	setActiveField( field ) {
+		if ( field === this.state.activeField ) {
+			return;
+		}
+		console.log( "activefield", field );
 		this.setState( {
 			activeField: field,
 		} );
-		console.log( field );
 	}
 
 	/**
@@ -99,6 +107,8 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					onFocus={ this.setHoveredField }
+					onSelect={ this.setActiveField }
 				/>
 			</React.Fragment>
 		);
