@@ -278,7 +278,7 @@ class Front_End_Integration implements Integration_Interface {
 		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters );
 
 		if ( ! \is_array( $presenter_instances ) ) {
-			return $presenters;
+			$presenter_instances = $presenters;
 		}
 
 		$presenter_instances = \array_filter( $presenter_instances, function ( $presenter_instance ) {
