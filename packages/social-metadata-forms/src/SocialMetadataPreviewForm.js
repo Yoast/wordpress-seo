@@ -76,8 +76,19 @@ const SocialMetadataPreviewForm = ( props ) => {
 		props.socialMediumName
 	);
 
-	const focusTitle = () => props.onSelect( "title" );
-	const focusDescription = () => props.onSelect( "description" );
+	/**
+	 * @returns {void}
+	 */
+	function focusTitle() {
+		props.onSelect( "title" );
+	}
+
+	/**
+	 * @returns {void}
+	 */
+	function focusDescription() {
+		props.onSelect( "description" );
+	}
 
 	return (
 		<Fragment>
@@ -134,6 +145,7 @@ SocialMetadataPreviewForm.propTypes = {
 	imageUrl: PropTypes.string,
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
+	onSelect: PropTypes.func,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -141,6 +153,9 @@ SocialMetadataPreviewForm.defaultProps = {
 	recommendedReplacementVariables: [],
 	imageWarnings: [],
 	imageUrl: "",
+	hoveredField: "",
+	activeField: "",
+	onSelect: () => {},
 };
 
 export default SocialMetadataPreviewForm;
