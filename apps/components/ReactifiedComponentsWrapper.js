@@ -115,9 +115,9 @@ const ReactifiedComponentsWrapper = () => {
 				options={
 					[
 						{ name: "option 1", value: "opt1" },
-						{ name: "option2", value: "opt2" },
-						{ name: "option3", value: "opt3" },
-						{ name: "option4", value: "opt4" },
+						{ name: "option 2", value: "opt2" },
+						{ name: "option 3", value: "opt3" },
+						{ name: "option 4", value: "opt4" },
 					]
 				}
 				selected={ "opt1" }
@@ -129,9 +129,9 @@ const ReactifiedComponentsWrapper = () => {
 				options={
 					[
 						{ name: "option 1", value: "opt1" },
-						{ name: "option2", value: "opt2" },
-						{ name: "option3", value: "opt3" },
-						{ name: "option4", value: "opt4" },
+						{ name: "option 2", value: "opt2" },
+						{ name: "option 3", value: "opt3" },
+						{ name: "option 4", value: "opt4" },
 					]
 				}
 				selected={ [ "opt1" ] }
