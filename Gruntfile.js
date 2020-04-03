@@ -108,7 +108,7 @@ module.exports = function( grunt ) {
 			grunt: "Gruntfile.js",
 		},
 		sassFiles: {
-			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.scss" ],
+			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.css" ],
 			"css/dist/adminbar-<%= pluginVersionSlug %>.css": [ "css/src/adminbar.scss" ],
 			"css/dist/notifications-<%= pluginVersionSlug %>.css": [ "css/src/notifications.scss" ],
 			"css/dist/dashboard-<%= pluginVersionSlug %>.css": [ "css/src/dashboard.scss" ],
@@ -119,7 +119,7 @@ module.exports = function( grunt ) {
 			"css/dist/metabox-primary-category-<%= pluginVersionSlug %>.css": [ "css/src/metabox-primary-category.scss" ],
 			"css/dist/toggle-switch-<%= pluginVersionSlug %>.css": [ "css/src/toggle-switch.scss" ],
 			"css/dist/wpseo-dismissible-<%= pluginVersionSlug %>.css": [ "css/src/wpseo-dismissible.scss" ],
-			"css/dist/yst_plugin_tools-<%= pluginVersionSlug %>.css": [ "css/src/yst_plugin_tools.scss" ],
+			"css/dist/yst_plugin_tools-<%= pluginVersionSlug %>.css": [ "css/src/yst_plugin_tools.css" ],
 			"css/dist/yoast-extensions-<%= pluginVersionSlug %>.css": [ "css/src/extensions.scss" ],
 			"css/dist/yst_seo_score-<%= pluginVersionSlug %>.css": [ "css/src/yst_seo_score.scss" ],
 			"css/dist/yoast-components-<%= pluginVersionSlug %>.css": [ "css/src/yoast-components.scss" ],
