@@ -22,6 +22,13 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $tag_format = '<title>%s</title>';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'html';
+
+	/**
 	 * Gets the raw value of a presentation.
 	 *
 	 * @return string The raw value.
@@ -38,16 +45,5 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		$title = \apply_filters( 'wpseo_title', $title, $this->presentation );
 		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
 		return \trim( $title );
-	}
-
-	/**
-	 * Escaped the output.
-	 *
-	 * @param string $value The value.
-	 *
-	 * @return string The escaped value.
-	 */
-	protected function escape( $value ) {
-		return \esc_html( $value );
 	}
 }

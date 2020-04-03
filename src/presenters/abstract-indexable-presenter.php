@@ -49,7 +49,7 @@ abstract class Abstract_Indexable_Presenter {
 	/**
 	 * Gets the raw value of a presentation.
 	 *
-	 * @return mixed The raw value.
+	 * @return string|array The raw value.
 	 */
 	public abstract function get();
 
