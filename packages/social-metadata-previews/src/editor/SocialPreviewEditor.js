@@ -26,7 +26,6 @@ class SocialPreviewEditor extends Component {
 
 		this.setHoveredField = this.setHoveredField.bind( this );
 		this.setActiveField = this.setActiveField.bind( this );
-		this.setState = this.setState.bind( this );
 	}
 
 	/**
@@ -109,6 +108,8 @@ class SocialPreviewEditor extends Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					onFocus={ this.setHoveredField }
 					onSelect={ this.setActiveField }
+					activeField={ this.state.activeField }
+					hoveredField={ this.state.hoveredField }
 				/>
 			</React.Fragment>
 		);

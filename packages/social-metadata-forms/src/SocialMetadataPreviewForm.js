@@ -11,7 +11,7 @@ const Caret = styled.div`
 	position: absolute;
 
 	::before {
-		display: block;
+		display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 		position: absolute;
 		top: 0;
 		${ getDirectionalStyle( "left", "right" ) === "left" ? "left: 5px" : "right: 5px" };
@@ -29,21 +29,31 @@ const Caret = styled.div`
  * Adds caret styles to a component.
  *
  * @param {ReactComponent} WithoutCaret The component without caret styles.
- * @param {string} color The color to render the caret in.
- * @param {string} mode The mode the snippet preview is in.
  *
  * @returns {ReactComponent} The component with caret styles.
  */
-function addCaretStyle( WithoutCaret ) {
+function addCaretStyle( field, WithoutCaret ) {
 	return (
-		<Fragment>
-			<Caret />
-			<WithoutCaret />
-		</Fragment>
+		function WithCaret( props ) {
+			return (
+				<Fragment>
+					<Caret
+						// eslint-disable-next-line react/prop-types
+						isActive={ props.activeField === field }
+						// eslint-disable-next-line react/prop-types
+						isHovered={ props.hoveredField === field }
+					/>
+					<WithoutCaret { ...props } />
+				</Fragment>
+			);
+		}
 	);
 }
 
-const CaretContainer = addCaretStyle( styled.div`` );
+
+const TitleWithCaret = addCaretStyle( "title", ReplacementVariableEditor );
+const DescriptionWithCaret = addCaretStyle( "description", ReplacementVariableEditor );
+const ImageSelectWithCaret = addCaretStyle( "image", ImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -66,28 +76,30 @@ const SocialMetadataPreviewForm = ( props ) => {
 		props.socialMediumName
 	);
 
+	const focusTitle = () => props.onSelect( "title" );
+	const focusDescription = () => props.onSelect( "description" );
+
 	return (
 		<Fragment>
-			<ImageSelect
+			<ImageSelectWithCaret
 				title={ imageSelectTitle }
 				onClick={ props.onSelectImageClick }
 				onRemoveImageClick={ props.onRemoveImageClick }
 				warnings={ props.imageWarnings }
 				imageSelected={ props.imageSelected }
 			/>
-			<div>
-				<Caret />
-				<ReplacementVariableEditor
-					onChange={ props.onTitleChange }
-					content={ props.title }
-					replacementVariables={ props.replacementVariables }
-					recommendedReplacementVariables={ props.recommendedReplacementVariables }
-					type="title"
-					label={ titleEditorTitle }
-				/>
-			</div>
-			<Caret />
-			<ReplacementVariableEditor
+			<TitleWithCaret
+				onChange={ props.onTitleChange }
+				content={ props.title }
+				replacementVariables={ props.replacementVariables }
+				recommendedReplacementVariables={ props.recommendedReplacementVariables }
+				type="title"
+				label={ titleEditorTitle }
+				activeField={ props.activeField }
+				hoveredField={ props.hoveredField }
+				onFocus={ focusTitle }
+			/>
+			<DescriptionWithCaret
 				onChange={ props.onDescriptionChange }
 				content={ props.description }
 				placeholder={ descEditorPlaceholder }
@@ -95,6 +107,9 @@ const SocialMetadataPreviewForm = ( props ) => {
 				recommendedReplacementVariables={ props.recommendedReplacementVariables }
 				type="description"
 				label={ descEditorTitle }
+				activeField={ props.activeField }
+				hoveredField={ props.hoveredField }
+				onFocus={ focusDescription }
 			/>
 		</Fragment>
 	);
@@ -113,6 +128,8 @@ SocialMetadataPreviewForm.propTypes = {
 	onDescriptionChange: PropTypes.func.isRequired,
 	imageWarnings: PropTypes.array,
 	imageSelected: PropTypes.bool.isRequired,
+	hoveredField: PropTypes.string,
+	activeField: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
