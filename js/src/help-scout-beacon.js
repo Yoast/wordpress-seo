@@ -1,3 +1,5 @@
+/* global wpseoAdminGlobalL10n */
+
 import { render, useState, Fragment } from "@wordpress/element";
 import styled, { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
@@ -5,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 const BeaconOffset = createGlobalStyle`
 	@media only screen and (min-width: 1024px) {
 		.BeaconFabButtonFrame.BeaconFabButtonFrame {
-			right: 340px;
+			${ ( props => props.isRtl === "1" ? "left" : "right" ) }: 340px !important;
 		}
 	}
 `;
@@ -13,15 +15,15 @@ const BeaconOffset = createGlobalStyle`
 /**
  * Render a component in a newly created div.
  *
- * @param {React.Component} Component The component to render.
+ * @param {React.Component} component The component to render.
  *
  * @returns {void}
  */
-function renderComponent( Component ) {
+function renderComponent( component ) {
 	const element = document.createElement( "div" );
 	element.setAttribute( "id", "yoast-helpscout-beacon" );
 
-	render( <Component />, element );
+	render( component, element );
 
 	document.body.appendChild( element );
 }
@@ -83,8 +85,12 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 		window.Beacon( "session-data", JSON.parse( sessionData ) );
 	}
 
+	if ( window.wpseoAdminGlobalL10n.isRtl === "1" ) {
+		window.Beacon( "config", { display: { position: "left" } } );
+	}
+
 	if ( pageHasUpsells() ) {
-		renderComponent( BeaconOffset );
+		renderComponent( <BeaconOffset isRtl={ window.wpseoAdminGlobalL10n.isRtl } /> );
 	}
 }
 
@@ -106,7 +112,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		z-index: 1049;
 		bottom: 40px;
 		box-shadow: rgba(0, 0, 0, 0.1) 0 4px 7px;
-		right: 40px;
+		${ ( props => props.isRtl === "1" ? "left" : "right" ) }: 40px;
 		top: auto;
 		border-width: initial;
 		border-style: none;
@@ -222,8 +228,8 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 
 		return (
 			<Fragment>
-				{ hasUpsells && <BeaconOffset /> }
-				{ show && <Frame className={ hasUpsells ? "BeaconFabButtonFrame" : "" }>
+				{ hasUpsells && <BeaconOffset isRtl={ window.wpseoAdminGlobalL10n.isRtl } /> }
+				{ show && <Frame className={ hasUpsells ? "BeaconFabButtonFrame" : "" } isRtl={ window.wpseoAdminGlobalL10n.isRtl }>
 					<Button onClick={ onClick }>
 						<SpeechBubble />
 					</Button>
@@ -232,7 +238,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		);
 	};
 
-	renderComponent( HelpScoutBeaconAskConsentButton );
+	renderComponent( <HelpScoutBeaconAskConsentButton /> );
 }
 
 window.wpseoHelpScoutBeacon = loadHelpScout;
