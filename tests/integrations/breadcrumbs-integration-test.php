@@ -4,12 +4,14 @@ namespace Yoast\WP\SEO\Tests\Integrations;
 
 use \Mockery;
 use Brain\Monkey;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -41,9 +43,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->presenter = Mockery::mock( Breadcrumbs_Presenter::class );
-
-		$this->instance = new Breadcrumbs_Integration( $this->presenter );
+		$this->instance = new Breadcrumbs_Integration( Mockery::mock( Helpers_Surface::class ), Mockery::mock( WPSEO_Replace_Vars::class ) );
 	}
 
 	/**
@@ -63,6 +63,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	public function test_render() {
 		$current_page_surface   = Mockery::mock( Current_Page_Surface::class );
 		$indexable_presentation = Mockery::mock( Indexable_Presentation::class );
+		$indexable_presentation->breadcrumbs = [];
 
 		$current_page_surface
 			->expects( 'get_presentation' )
@@ -73,12 +74,6 @@ class Breadcrumbs_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( $mock );
 
-		$this->presenter
-			->expects( 'present' )
-			->once()
-			->with( $indexable_presentation )
-			->andReturn( 'breadcrumbs html' );
-
-		$this->assertEquals( 'breadcrumbs html', $this->instance->render() );
+		$this->assertEquals( '', $this->instance->render() );
 	}
 }
