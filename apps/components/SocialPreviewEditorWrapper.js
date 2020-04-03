@@ -21,8 +21,8 @@ class SocialPreviewEditorWrapper extends React.Component {
 		super( props );
 
 		this.state = {
-			title: "",
-			description: "",
+			title: "Initial title state",
+			description: "Initial description state",
 			image: "",
 		};
 

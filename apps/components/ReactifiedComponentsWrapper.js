@@ -3,6 +3,11 @@ import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 
+/**
+ * Wraps all components in a div.
+ *
+ * @returns {*} A div with all reactified components.
+ */
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
