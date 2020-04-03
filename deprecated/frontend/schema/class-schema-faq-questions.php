@@ -15,6 +15,13 @@
 class WPSEO_Schema_FAQ_Questions {
 
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	protected $context;
+
+	/**
 	 * WPSEO_Schema_FAQ_Questions constructor.
 	 *
 	 * @codeCoverageIgnore
