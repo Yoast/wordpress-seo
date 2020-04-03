@@ -4,7 +4,13 @@ import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 import { MultiSelect, Select } from "@yoast/components/src/select/Select";
+import Toggle from "@yoast/components/src/toggle/Toggle";
 
+/**
+ * Function that displays all the reactified components that we currently have.
+ *
+ * @returns {React.Component} A wrapper for all the new reactified components.
+ */
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
@@ -73,7 +79,6 @@ const ReactifiedComponentsWrapper = () => {
 				onChange={ console.warn }
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "hey-value",
@@ -89,7 +94,6 @@ const ReactifiedComponentsWrapper = () => {
 				selected="hi"
 			/>
 			<RadioButtonGroup
-				onChange={ console.log }
 				options={ [
 					{
 						value: "haha-value",
@@ -108,15 +112,37 @@ const ReactifiedComponentsWrapper = () => {
 				label="This is a styled multiselect"
 				id="my-awesome-multiselect"
 				name="my-selection"
-				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" }, { name: "option3", value: "opt3" }, { name: "option4", value: "opt4" } ] }
+				options={
+					[
+						{ name: "option 1", value: "opt1" },
+						{ name: "option2", value: "opt2" },
+						{ name: "option3", value: "opt3" },
+						{ name: "option4", value: "opt4" },
+					]
+				}
 				selected={ "opt1" }
 			/>
 			<Select
 				label="This is a styled select"
 				id="my-awesome-multiselect"
 				name="my-selection"
-				options={ [ { name: "option 1", value: "opt1" }, { name: "option2", value: "opt2" }, { name: "option3", value: "opt3" }, { name: "option4", value: "opt4" } ] }
+				options={
+					[
+						{ name: "option 1", value: "opt1" },
+						{ name: "option2", value: "opt2" },
+						{ name: "option3", value: "opt3" },
+						{ name: "option4", value: "opt4" },
+					]
+				}
 				selected={ [ "opt1" ] }
+			/>
+			<Toggle
+				label="React Toggle"
+				offText="off"
+				onText="on"
+				name="toggle"
+				id="weird-id-that-is-unique"
+				onChange={ console.warn }
 			/>
 		</div>
 	);

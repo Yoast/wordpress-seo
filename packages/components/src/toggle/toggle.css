@@ -1,59 +1,75 @@
-.yoast-field-group__toggle {
-    display: flex;
-    align-items: center;
-    width: 600px;
-    justify-content: space-between;
+.yoast-feature {
+	max-width: 600px;
 }
 
-.yoast-field-group__toggle input {
-    position: absolute;
-    left: 0;
-    opacity: 0;
+.yoast-toggle__item {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--color-border);
+	margin-bottom: 16px;
 }
 
-.yoast-field-group__toggle label {
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
+.yoast-toggle__item-title {
+	display: flex;
+	font-weight: bold;
 }
 
-.yoast-field-group__toggle input:checked + label {
-    color: var(--color-toggle-on);
+.yoast-toggle input[type="checkbox"], .yoast-toggle-inverse input[type="checkbox"] {
+	display: none;
 }
 
-.yoast-field-group__toggle input:not(:checked) + label {
-    color: var(--color-toggle-off);
+.yoast-toggle__switch {
+	display: inline-block;
+	position: relative;
+	background-color: var(--color-inactive-grey);
+	width: 34px;
+	height: 14px;
+	border-radius: 8px;
+	margin-left: 8px;
+	margin-right: 8px;
 }
 
-.yoast-field-group__toggle a {
-    display: inline-block;
-    width: 34px;
-    height: 14px;
-    border-radius: 5px;
-    background: #B6CF94;
-    position: relative;
-    margin: 0 9px;
+.yoast-toggle__switch::before {
+	content: '';
+	position: absolute;
+	top: -3px;
+	left: 0;
+	background-color: var(--color-inactive-grey-light);
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
 }
 
-.yoast-field-group__toggle input:first-of-type:checked ~ a {
-    background: #9E9E9E;
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch, .yoast-toggle-inverse input[type="checkbox"]:not(:checked) ~ .yoast-toggle__switch {
+	background-color: var(--color-active-light);
 }
 
-.yoast-field-group__toggle a:after {
-    content: "";
-    display: block;
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    right: -2px;
-    background: #6EA029;
-    border-radius: 50%;
-    top: -3px;
-    transition: all ease-out 100ms;
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch::before {
+	background-color: var(--color-active);
+	right: 0;
+	left: initial;
 }
 
-.yoast-field-group__toggle input:first-of-type:checked ~ a:after {
-    right: calc(100% - 18px);
-    background: #F1F1F1;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.20), 0 2px 1px -1px rgba(0,0,0,.12);
+.yoast-toggle-inverse input[type="checkbox"]:not(:checked) ~ .yoast-toggle__switch::before {
+	background-color: var(--color-active);
+	right: initial;
+	left: 0;
 }
+
+.yoast-toggle input[type="checkbox"] ~ .yoast-toggle--inactive, .yoast-toggle-inverse input[type="checkbox"] ~ .yoast-toggle--inactive {
+	color: var(--color-default-darker);
+}
+
+.yoast-toggle input[type="checkbox"] ~ .yoast-toggle--active, .yoast-toggle-inverse input[type="checkbox"] ~ .yoast-toggle--active {
+	color: var(--color-inactive-text);
+}
+
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle--inactive, .yoast-toggle-inverse input[type="checkbox"]:checked ~ .yoast-toggle--inactive {
+	color: var(--color-inactive-text);
+}
+
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle--active, .yoast-toggle-inverse input[type="checkbox"]:checked ~ .yoast-toggle--active {
+	color: var(--color-default-darker);
+}
+
