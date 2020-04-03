@@ -43,11 +43,6 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( (object) [ 'post_content' => '' ] );
 
-		Monkey\Functions\expect( 'has_shortcode' )
-			->with( '', 'gallery' )
-			->once()
-			->andReturn( false );
-
 		Monkey\Functions\expect( 'get_post_gallery_images' )
 			->never();
 
@@ -63,12 +58,7 @@ class Image_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post' )
 			->with( 100 )
 			->once()
-			->andReturn( (object) [ 'post_content' => '' ] );
-
-		Monkey\Functions\expect( 'has_shortcode' )
-			->with( '', 'gallery' )
-			->once()
-			->andReturn( true );
+			->andReturn( (object) [ 'post_content' => '[gallery][/gallery]' ] );
 
 		Monkey\Functions\expect( 'get_post_gallery_images' )
 			->once()
@@ -86,12 +76,7 @@ class Image_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post' )
 			->with( 100 )
 			->once()
-			->andReturn( (object) [ 'post_content' => '' ] );
-
-		Monkey\Functions\expect( 'has_shortcode' )
-			->with( '', 'gallery' )
-			->once()
-			->andReturn( true );
+			->andReturn( (object) [ 'post_content' => '[gallery][/gallery]' ] );
 
 		Monkey\Functions\expect( 'get_post_gallery_images' )
 			->once()
