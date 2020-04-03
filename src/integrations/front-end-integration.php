@@ -45,13 +45,6 @@ class Front_End_Integration implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * The title presenter.
-	 *
-	 * @var Title_Presenter
-	 */
-	protected $title_presenter;
-
-	/**
 	 * The helpers surface.
 	 *
 	 * @var Helpers_Surface
@@ -168,7 +161,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
-	 * @param Title_Presenter            $title_presenter   The title presenter.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 *
@@ -178,14 +170,12 @@ class Front_End_Integration implements Integration_Interface {
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
-		Title_Presenter $title_presenter,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
-		$this->title_presenter  = $title_presenter;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 	}
@@ -218,9 +208,10 @@ class Front_End_Integration implements Integration_Interface {
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
 
-		$this->title_presenter->presentation = $context->presentation;
-		$this->title_presenter->replace_vars = $this->replace_vars;
-		$this->title_presenter->helpers      = $this->helpers;
+		$title_presenter               = new Title_Presenter();
+		$title_presenter->presentation = $context->presentation;
+		$title_presenter->replace_vars = $this->replace_vars;
+		$title_presenter->helpers      = $this->helpers;
 
 		return \esc_html( $this->title_presenter->get() );
 	}
