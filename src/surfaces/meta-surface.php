@@ -12,7 +12,6 @@ use Yoast\WP\Free\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -37,28 +36,20 @@ class Meta_Surface {
 	private $repository;
 
 	/**
-	 * @var Front_End_Integration
-	 */
-	private $front_end;
-
-	/**
 	 * Current_Page_Surface constructor.
 	 *
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
-	 * @param Front_End_Integration      $front_end            The front end integration.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		Indexable_Repository $indexable_repository,
-		Front_End_Integration $front_end
+		Indexable_Repository $indexable_repository
 	) {
 		$this->container        = $container;
 		$this->context_memoizer = $context_memoizer;
 		$this->repository       = $indexable_repository;
-		$this->front_end        = $front_end;
 	}
 
 	/**
@@ -319,6 +310,6 @@ class Meta_Surface {
 	 * @return Meta The meta value
 	 */
 	private function build_meta( Meta_Tags_Context $context ) {
-		return new Meta( $context, $this->container, $this->front_end );
+		return new Meta( $context, $this->container );
 	}
 }

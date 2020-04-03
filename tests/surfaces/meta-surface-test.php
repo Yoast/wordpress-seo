@@ -7,7 +7,6 @@
 
 use Brain\Monkey;
 use Yoast\WP\Free\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
@@ -47,13 +46,6 @@ class Meta_Surface_Test extends TestCase {
 	protected $repository;
 
 	/**
-	 * The front_end
-	 *
-	 * @var Front_End_Integration
-	 */
-	protected $front_end;
-
-	/**
 	 * The context
 	 *
 	 * @var Meta_Tags_Context
@@ -83,16 +75,16 @@ class Meta_Surface_Test extends TestCase {
 		$this->container = Mockery::mock( ContainerInterface::class );
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->front_end = Mockery::mock( Front_End_Integration::class );
 		$this->context = Mockery::mock( Meta_Tags_Context::class );
 		$this->indexable = Mockery::mock( Indexable::class );
 
 		$this->instance = new Meta_Surface(
 			$this->container,
 			$this->context_memoizer,
-			$this->repository,
-			$this->front_end
+			$this->repository
 		);
+
+		$this->context->presentation = (object) [ 'test' => 'succeeds' ];
 
 		parent::setUp();
 	}
@@ -103,11 +95,12 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_current_page
 	 */
 	public function test_for_current_page() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->context_memoizer->expects( 'for_current_page' )->once()->andReturn( $this->context );
 
 		$meta = $this->instance->for_current_page();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -116,6 +109,7 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_home_page
 	 */
 	public function test_for_home_page() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 0 );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'posts' );
 		$this->repository->expects( 'find_for_home_page' )->once()->andReturn( $this->indexable );
@@ -123,7 +117,7 @@ class Meta_Surface_Test extends TestCase {
 
 		$meta = $this->instance->for_home_page();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -147,6 +141,7 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_home_page
 	 */
 	public function test_for_home_page_static_page() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'page' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $this->indexable );
@@ -154,7 +149,7 @@ class Meta_Surface_Test extends TestCase {
 
 		$meta = $this->instance->for_home_page();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -178,13 +173,14 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_posts_page
 	 */
 	public function test_for_posts_page() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 0 );
 		$this->repository->expects( 'find_for_home_page' )->once()->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Home_Page' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_posts_page();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -207,13 +203,14 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_posts_page
 	 */
 	public function test_for_posts_page_with_page() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 1 );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Static_Posts_Page' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_posts_page();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -236,12 +233,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_post_type_archive
 	 */
 	public function test_for_post_type_archive() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_for_post_type_archive' )->once()->with( 'post_type' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Post_Type_Archive' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_post_type_archive( 'post_type' );
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -262,12 +260,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_search_result
 	 */
 	public function test_for_search_result() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_for_system_page' )->once()->with( 'search-result' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Search_Result_Page' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_search_result();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -288,12 +287,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_404
 	 */
 	public function test_for_404() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_for_system_page' )->once()->with( '404' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Error_Page' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_404();
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -314,12 +314,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_post
 	 */
 	public function test_for_post() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Post_Type' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_post( 1 );
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -340,12 +341,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_term
 	 */
 	public function test_for_term() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Term_Archive' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_term( 1 );
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -366,12 +368,13 @@ class Meta_Surface_Test extends TestCase {
 	 * @covers ::for_author
 	 */
 	public function test_for_author() {
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'user' )->andReturn( $this->indexable );
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, 'Author_Archive' )->andReturn( $this->context );
 
 		$meta = $this->instance->for_author( 1 );
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
@@ -402,6 +405,7 @@ class Meta_Surface_Test extends TestCase {
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
 		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'url' )->andReturn( [ 'host' => 'host', 'path' => 'path' ] );
 		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'https://www.example.org', PHP_URL_HOST )->andReturn( 'host' );
+		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_by_permalink' )->once()->with( 'https://www.example.org' )->andReturn( $this->indexable );
 		$this->indexable->object_type     = $object_type;
 		$this->indexable->object_id       = $object_id;
@@ -418,7 +422,7 @@ class Meta_Surface_Test extends TestCase {
 
 		$meta = $this->instance->for_url( 'url' );
 
-		$this->assertEquals( $this->context, $meta->context );
+		$this->assertEquals( 'succeeds', $meta->test );
 	}
 
 	/**
