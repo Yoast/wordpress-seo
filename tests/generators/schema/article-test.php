@@ -120,7 +120,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the if needed method.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -138,7 +137,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the if needed method with no post.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_post() {
@@ -152,7 +150,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the if needed method with no article post type.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_article_post_type() {
@@ -170,7 +167,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the if needed method when the site doesn't represent a person or organization.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_site_represents() {
@@ -189,7 +185,6 @@ class Article_Test extends TestCase {
 	 * @param boolean $expected_value The expected generated article schema.
 	 * @param string  $message        The message to show in case a test fails.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_image
 	 * @covers ::add_keywords

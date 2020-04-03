@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Rel_Next_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Static_Home_Page_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group adjacent
@@ -27,7 +27,6 @@ class Rel_Next_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned when a post is not paginated.
 	 *
-	 * @covers ::build_rel_next
 	 * @covers ::generate_rel_next
 	 */
 	public function test_not_paginated() {
@@ -39,7 +38,6 @@ class Rel_Next_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned when rel and prev links are disabled.
 	 *
-	 * @covers ::build_rel_next
 	 * @covers ::generate_rel_next
 	 */
 	public function test_disabled_by_filter() {
@@ -56,7 +54,6 @@ class Rel_Next_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned when there is no next page.
 	 *
-	 * @covers ::build_rel_next
 	 * @covers ::generate_rel_next
 	 */
 	public function test_no_next_page() {
@@ -78,7 +75,6 @@ class Rel_Next_Test extends TestCase {
 	/**
 	 * Tests whether the correct url is returned for the next page.
 	 *
-	 * @covers ::build_rel_next
 	 * @covers ::generate_rel_next
 	 */
 	public function test_next_url() {
