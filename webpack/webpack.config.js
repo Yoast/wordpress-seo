@@ -61,6 +61,7 @@ const defaultAllowedHosts = [
 	"two.wordpress.test",
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
+	"basic.wordpress.test",
 ];
 
 let bundleAnalyzerPort = 8888;
