@@ -12,7 +12,6 @@ use Yoast\WP\Free\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
-use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
@@ -24,7 +23,6 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 /**
  * Class Main
  *
- * @property Current_Page_Surface $current_page The Current Page Surface.
  * @property Classes_Surface      $classes      The classes surface.
  * @property Meta_Surface         $meta         The meta surface.
  * @property Helpers_Surface      $helpers      The helpers surface.
@@ -44,7 +42,6 @@ class Main {
 	 * @var string[]
 	 */
 	private $surfaces = [
-		'current_page' => Current_Page_Surface::class,
 		'classes'      => Classes_Surface::class,
 		'meta'         => Meta_Surface::class,
 		'helpers'      => Helpers_Surface::class,

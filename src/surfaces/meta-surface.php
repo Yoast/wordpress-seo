@@ -36,7 +36,7 @@ class Meta_Surface {
 	private $repository;
 
 	/**
-	 * Current_Page_Surface constructor.
+	 * Meta_Surface constructor.
 	 *
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
