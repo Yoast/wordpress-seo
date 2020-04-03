@@ -24,25 +24,25 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Meta_Tags_Context
  *
- * @property string      canonical
- * @property string      title
- * @property string      description
- * @property string      id
- * @property string      site_name
- * @property string      wordpress_site_name
- * @property string      site_url
- * @property string      company_name
- * @property int         company_logo_id
- * @property int         site_user_id
- * @property string      site_represents
- * @property array|false site_represents_reference
- * @property bool        breadcrumbs_enabled
+ * @property string      $canonical
+ * @property string      $title
+ * @property string      $description
+ * @property string      $id
+ * @property string      $site_name
+ * @property string      $wordpress_site_name
+ * @property string      $site_url
+ * @property string      $company_name
+ * @property int         $company_logo_id
+ * @property int         $site_user_id
+ * @property string      $site_represents
+ * @property array|false $site_represents_reference
+ * @property bool        $breadcrumbs_enabled
  * @property string      schema_page_type
- * @property string      main_schema_id
- * @property bool        open_graph_enabled
- * @property string      open_graph_publisher
- * @property string      twitter_card
- * @property string      page_type
+ * @property string      $main_schema_id
+ * @property bool        $open_graph_enabled
+ * @property string      $open_graph_publisher
+ * @property string      $twitter_card
+ * @property string      $page_type
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 

@@ -122,7 +122,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 		}
 
 		$canonical_presenter = new Canonical_Presenter();
-		echo $canonical_presenter->present( $context->presentation );
+		$canonical_presenter->presentation = $context->presentation;
+		echo $canonical_presenter->present();
 	}
 
 	/**
@@ -146,7 +147,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 
 		$context   = $this->context_memoizer->for_current_page();
 		$presenter = new Robots_Presenter();
-		$presenter->present( $context->presentation );
+		$presenter->presentation = $context->presentation;
+		echo $presenter->present();
 	}
 
 	/**
@@ -227,10 +229,12 @@ class WPSEO_Frontend implements Initializer_Interface {
 		$context = $this->context_memoizer->for_current_page();
 
 		$rel_prev_presenter = new Rel_Prev_Presenter();
-		$rel_prev_presenter->present( $context->presentation );
+		$rel_prev_presenter->presentation = $context->presentation;
+		echo $rel_prev_presenter->present();
 
 		$rel_next_presenter = new Rel_Next_Presenter();
-		$rel_next_presenter->present( $context->presentation );
+		$rel_next_presenter->presentation = $context->presentation;
+		echo $rel_next_presenter->present();
 	}
 
 	/**
@@ -250,6 +254,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 		}
 
 		$presenter = new Meta_Description_Presenter();
-		$presenter->present( $context->presentation );
+		$presenter->presentation = $context->presentation;
+		$presenter->present();
 	}
 }

@@ -7,24 +7,26 @@
 
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Creator_Presenter
  */
-class Creator_Presenter extends Abstract_Indexable_Presenter {
+class Creator_Presenter extends Abstract_Indexable_Tag_Presenter {
+
 	/**
-	 * Presents the Twitter creator meta tag.
+	 * The tag format including placeholders.
 	 *
-	 * @return string The Twitter creator tag.
+	 * @var string
 	 */
-	public function present() {
-		$twitter_creator = $this->presentation->twitter_creator;
+	protected $tag_format = '<meta name="twitter:creator" content="%s" />';
 
-		if ( \is_string( $twitter_creator ) && $twitter_creator !== '' ) {
-			return \sprintf( '<meta name="twitter:creator" content="%s" />', \esc_attr( $twitter_creator ) );
-		}
-
-		return '';
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
+		return $this->presentation->twitter_creator;
 	}
 }
