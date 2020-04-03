@@ -216,7 +216,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * Filters the title, mainly used for compatibility reasons.
 	 */
 	public function filter_title() {
-		$context    = $this->context_memoizer->for_current_page();
+		$context = $this->context_memoizer->for_current_page();
 
 		$this->title_presenter->presentation = $context->presentation;
 		$this->title_presenter->replace_vars = $this->replace_vars;
