@@ -53,7 +53,7 @@ const ReactifiedComponentsWrapper = () => {
 				options={ [
 					{
 						label: "Fancy label",
-						id: "fancy-checkbox"
+						id: "fancy-checkbox",
 					},
 					{
 						label: "option with id 1",
