@@ -22,6 +22,13 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $tag_format = '<link rel="next" href="%s" />';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
+
+	/**
 	 * Returns the rel next meta tag.
 	 *
 	 * @return string The rel next tag.
@@ -60,16 +67,5 @@ class Rel_Next_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_next, 'next', $this->presentation ) );
-	}
-
-	/**
-	 * Escaped the output.
-	 *
-	 * @param string $value The value.
-	 *
-	 * @return string The escaped value.
-	 */
-	protected function escape( $value ) {
-		return \esc_url( $value );
 	}
 }

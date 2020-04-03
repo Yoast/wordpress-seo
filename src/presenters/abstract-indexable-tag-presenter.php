@@ -49,6 +49,9 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 	 * @return string The escaped value.
 	 */
 	protected function escape( $value ) {
+		if ( $this->escaping === 'url' ) {
+			return \esc_url( $value );
+		}
 		return \esc_attr( $value );
 	}
 }

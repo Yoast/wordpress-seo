@@ -20,6 +20,13 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $tag_format = '<link rel="prev" href="%s" />';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
+
+	/**
 	 * Returns the rel prev meta tag.
 	 *
 	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
@@ -59,16 +66,5 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param string                 $rel          Link relationship, prev or next.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $this->presentation ) );
-	}
-
-	/**
-	 * Escaped the output.
-	 *
-	 * @param string $value The value.
-	 *
-	 * @return string The escaped value.
-	 */
-	protected function escape( $value ) {
-		return \esc_url( $value );
 	}
 }

@@ -23,6 +23,13 @@ class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $tag_format = '<meta property="og:url" content="%s" />';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'attribute';
+
+	/**
 	 * Run the url content through the `wpseo_opengraph_url` filter.
 	 *
 	 * @return string The filtered url.
@@ -36,16 +43,5 @@ class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \apply_filters( 'wpseo_opengraph_url', $this->presentation->open_graph_url, $this->presentation );
-	}
-
-	/**
-	 * Escaped the output.
-	 *
-	 * @param string $value The value.
-	 *
-	 * @return string The escaped value.
-	 */
-	protected function escape( $value ) {
-		return \esc_url( $value );
 	}
 }

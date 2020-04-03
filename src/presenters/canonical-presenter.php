@@ -22,6 +22,13 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 	protected $tag_format = '<link rel="canonical" href="%s" />';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
+
+	/**
 	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
 	 * @return string $canonical The filtered canonical.
@@ -39,16 +46,5 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) );
-	}
-
-	/**
-	 * Escaped the output.
-	 *
-	 * @param string $value The value.
-	 *
-	 * @return string The escaped value.
-	 */
-	protected function escape( $value ) {
-		return \esc_url( $value, null, 'other' );
 	}
 }
