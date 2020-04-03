@@ -1,5 +1,3 @@
-/* global wpseoAdminGlobalL10n */
-
 import { render, useState, Fragment } from "@wordpress/element";
 import styled, { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
@@ -86,6 +84,7 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 	}
 
 	if ( window.wpseoAdminGlobalL10n.isRtl === "1" ) {
+		// eslint-disable-next-line new-cap
 		window.Beacon( "config", { display: { position: "left" } } );
 	}
 
