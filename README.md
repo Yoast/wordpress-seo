@@ -1,5 +1,9 @@
 # WPGraphQl Yoast SEO Plugin
 
+[![Latest Stable Version](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/v/stable)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
+[![Total Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/downloads)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
+[![Monthly Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/d/monthly)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
+
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
 > Using this plugin? I would love to see what you make with it. 😃 [@ash_hitchcock](https://twitter.com/ash_hitchcock)
