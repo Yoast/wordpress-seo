@@ -35,8 +35,9 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	/**
 	 * Breadcrumbs integration constructor.
 	 *
-	 * @param Helpers_Surface    $helpers      The helpers.
-	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
+	 * @param Helpers_Surface            $helpers          The helpers.
+	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer The meta tags context memoizer.
 	 */
 	public function __construct(
 		Helpers_Surface $helpers,
