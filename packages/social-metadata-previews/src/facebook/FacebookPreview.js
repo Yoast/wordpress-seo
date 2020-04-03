@@ -103,12 +103,14 @@ class FacebookPreview extends Component {
 		};
 		this.onImageLoaded = this.onImageLoaded.bind( this );
 
-		this.onTitleEnter = this.onMouseHover.bind( this, "title" );
-		this.onDescriptionEnter = this.onMouseHover.bind( this, "description" );
-		this.onLeave = this.onMouseHover.bind( this, "" );
+		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
+		this.onTitleEnter = this.props.onMouseHover.bind( this, "title" );
+		this.onDescriptionEnter = this.props.onMouseHover.bind( this, "description" );
+		this.onLeave = this.props.onMouseHover.bind( this, "" );
 
-		this.onSelectTitle = this.onSelect.bind( this, "title" );
-		this.onSelectDescription = this.onSelect.bind( this, "description" );
+		// Binding fields to onSelect to prevent arrow functions in JSX props.
+		this.onSelectTitle = this.props.onSelect.bind( this, "title" );
+		this.onSelectDescription = this.props.onSelect.bind( this, "description" );
 	}
 
 	/**
@@ -120,28 +122,6 @@ class FacebookPreview extends Component {
 	 */
 	onImageLoaded( mode ) {
 		this.setState( { imageMode: mode } );
-	}
-
-	/**
-	 * Sets the hovered field on the container via a callback.
-	 *
-	 * @param {string} field The field that is hovered.
-	 *
-	 * @returns {void} Void.
-	 */
-	onMouseHover( field ) {
-		this.props.onMouseHover( field );
-	}
-
-	/**
-	 * Sets the active field on the container via a callback.
-	 *
-	 * @param {string} field The field that is hovered.
-	 *
-	 * @returns {void} Void.
-	 */
-	onSelect( field ) {
-		this.props.onSelect( field );
 	}
 
 	/**
