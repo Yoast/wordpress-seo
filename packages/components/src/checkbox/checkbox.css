@@ -8,7 +8,6 @@
     margin-top: 4px;
 }
 
-.yoast input[type='checkbox'],
 .yoast-field-group__checkbox input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -28,7 +27,6 @@
     margin-left: 16px;
 }
 
-.yoast input[type='checkbox']:checked,
 .yoast-field-group__checkbox input[type='checkbox']:checked {
     background: var(--checkmark--white) var(--color-primary) no-repeat center / 13px;
     border: 1px solid var(--color-primary);

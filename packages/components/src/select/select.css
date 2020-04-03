@@ -30,17 +30,21 @@
     padding: 0 8px;
 }
 
+.select2-container--default.select2-container--open:not(.select2) {
+    max-width: 0;
+}
+
 .select2-container--default.select2-container--focus .select2-selection--multiple {
     outline: inherit;
     border: 0;
 }
 
-.select2-container--default .select2-selection.select2-selection--multiple.yoast-multiselect {
+.select2-container--default .select2-selection {
     border: 0;
     min-height: 0;
 }
 
-.select2-container--default .select2-selection--multiple.yoast-multiselect ul {
+.select2-container--default .select2-selection ul {
     display: flex;
     align-items: center;
     margin: 0;
@@ -48,7 +52,7 @@
     list-style: none;
 }
 
-.select2-container--default .select2-selection--multiple.yoast-multiselect .select2-selection__choice {
+.select2-container--default .select2-selection .select2-selection__choice {
     background-color: var(--color-primary);
     border: 0;
     border-radius: 12px;
@@ -62,7 +66,7 @@
     font-weight: 500;
 }
 
-.select2-container--default .select2-selection--multiple.yoast-multiselect .select2-selection__choice__remove {
+.select2-container--default .select2-selection .select2-selection__choice__remove {
     margin-right: 8px;
     color: var(--color-white);
 }

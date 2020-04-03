@@ -2,9 +2,6 @@
     --color-placeholder: #707070;
 }
 
-
-.yoast input,
-.yoast textarea,
 .yoast-field-group__textarea,
 .yoast-field-group__inputfield {
     width: 100%;
@@ -16,12 +13,10 @@
     box-sizing: border-box;
 }
 
-.yoast input,
 .yoast-field-group__inputfield {
     height: 40px;
 }
 
-.yoast textarea,
 .yoast-field-group__textarea {
     min-height: 200px;
 }
