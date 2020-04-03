@@ -20,6 +20,15 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The debug close marker.
 	 */
 	public function present() {
+		/**
+		 * Filter: 'wpseo_debug_markers' - Allow disabling the debug markers.
+		 *
+		 * @api bool $show_markers True when the debug markers should be shown.
+		 */
+		if ( ! \apply_filters( 'wpseo_debug_markers', true ) ) {
+			return '';
+		}
+
 		return \sprintf(
 			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
 			\esc_html( $this->helpers->product->get_name() ),
