@@ -28,6 +28,7 @@ const Caret = styled.div`
 /**
  * Adds caret styles to a component.
  *
+ * @param {string} field The identifier for this field.
  * @param {ReactComponent} WithoutCaret The component without caret styles.
  *
  * @returns {ReactComponent} The component with caret styles.
