@@ -234,6 +234,7 @@ Enhancements:
 
 Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Sets minimum supported WordPress version to 5.3.
 
 = 13.4 =
 Release Date: March 31st, 2020
