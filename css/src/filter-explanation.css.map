@@ -1,9 +1,0 @@
-{
-	"version": 3,
-	"file": "filter-explanation.css",
-	"sources": [
-		"src/filter-explanation.scss"
-	],
-	"names": [],
-	"mappings": "AAAA,AAAA,aAAa,CAAC,yBAAyB,CAAC;EACtC,MAAM,EAAE,YAAY;EACpB,KAAK,EAAE,IAAI;CACZ"
-}

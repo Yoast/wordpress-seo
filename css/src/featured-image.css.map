@@ -1,9 +1,0 @@
-{
-	"version": 3,
-	"file": "featured-image.css",
-	"sources": [
-		"src/featured-image.scss"
-	],
-	"names": [],
-	"mappings": "AAAA,AAAA,4BAA4B,CAAC;EAC5B,UAAU,EAAE,CAAC;CACb;;AAED,AAAA,6BAA6B,CAAC,mBAAmB,GAAG,GAAG,CAAC;EACvD,UAAU,EAAE,iCAAiC;CAC7C"
-}

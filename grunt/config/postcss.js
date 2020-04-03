@@ -5,7 +5,10 @@ const postCSSImport = require( "postcss-import" );
 module.exports = {
 	build: {
 		options: {
-			map: true,
+			map: {
+				inline: false,
+				annotation: "css/dist",
+			},
 			processors: [
 				autoPrefixer(),
 				postCSSImport(),

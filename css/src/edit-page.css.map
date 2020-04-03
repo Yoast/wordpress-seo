@@ -1,9 +1,0 @@
-{
-	"version": 3,
-	"file": "edit-page.css",
-	"sources": [
-		"src/edit-page.scss"
-	],
-	"names": [],
-	"mappings": "AAAA,OAAO,CAAP,mBAAO;AAEP,MAAM,CAAC,MAAM,MAAM,SAAS,EAAE,KAAK;EAClC,AAAA,mBAAmB;EACnB,mBAAmB;EACnB,sBAAsB;EACtB,qBAAqB,CAAC;IACrB,OAAO,EAAE,IAAI;GACb"
-}
