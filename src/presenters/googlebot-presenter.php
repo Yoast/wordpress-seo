@@ -20,7 +20,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The googlebot output tag.
 	 */
 	public function present() {
-		$googlebot = \implode( ', ', $this->presentation->googlebot );
+		$googlebot = \implode( ', ', $this->get() );
 		$googlebot = $this->filter( $googlebot );
 
 		if ( \is_string( $googlebot ) && $googlebot !== '' ) {
@@ -28,6 +28,15 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->googlebot;
 	}
 
 	/**

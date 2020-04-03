@@ -55,13 +55,14 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The breadcrumbs HTML.
 	 */
 	public function present() {
-		if ( ! is_array( $this->presentation->breadcrumbs ) || empty( $this->presentation->breadcrumbs ) ) {
+		$breadcrumbs = $this->get();
+		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
 		$links = [];
-		$total = \count( $this->presentation->breadcrumbs );
-		foreach ( $this->presentation->breadcrumbs as $index => $breadcrumb ) {
+		$total = \count( $breadcrumbs );
+		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$links[ $index ] = $this->crumb_to_link( $breadcrumb, $index, $total );
 		}
 
@@ -83,6 +84,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->breadcrumbs;
 	}
 
 	/**

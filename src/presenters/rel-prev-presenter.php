@@ -10,29 +10,39 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Class Rel_Prev_Presenter
  */
-class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
+class Rel_Prev_Presenter extends Abstract_Indexable_Tag_Presenter {
+
+	/**
+	 * The tag format including placeholders.
+	 *
+	 * @var string
+	 */
+	protected $tag_format = '<link rel="prev" href="%s" />';
+
+	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
 
 	/**
 	 * Returns the rel prev meta tag.
 	 *
+	 * @param bool $output_tag Optional. Whether or not to output the HTML tag. Defaults to true.
+	 *
 	 * @return string The rel prev tag.
 	 */
-	public function present() {
-		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
-			return '';
-		}
+	public function present( $output_tag = true ) {
+		$output = parent::present();
 
-		$rel_prev = $this->filter();
-
-		if ( \is_string( $rel_prev ) && $rel_prev !== '' ) {
-			$link = \sprintf( '<link rel="prev" href="%s" />', \esc_url( $rel_prev ) );
-
+		if ( ! empty( $output ) ) {
 			/**
 			 * Filter: 'wpseo_prev_rel_link' - Allow changing link rel output by Yoast SEO.
 			 *
 			 * @api string $unsigned The full `<link` element.
 			 */
-			return \apply_filters( 'wpseo_prev_rel_link', $link );
+			return \apply_filters( 'wpseo_prev_rel_link', $output );
 		}
 
 		return '';
@@ -43,7 +53,11 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string $rel_prev The filtered adjacent link.
 	 */
-	private function filter() {
+	public function get() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
+			return '';
+		}
+
 		/**
 		 * Filter: 'wpseo_adjacent_rel_url' - Allow filtering of the rel prev URL put out by Yoast SEO.
 		 *
