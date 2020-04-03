@@ -32,7 +32,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 
 		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
 
-		$this->assertEquals( 'http://localhost:8080/commons.js', $actual );
+		$this->assertEquals( 'http://localhost:8080/js/dist/commons.js', $actual );
 	}
 
 	/**
@@ -47,7 +47,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 
 		$actual = $dev_server_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS );
 
-		$this->assertEquals( 'https://localhost:8081/commons.js', $actual );
+		$this->assertEquals( 'https://localhost:8081/js/dist/commons.js', $actual );
 	}
 
 	/**

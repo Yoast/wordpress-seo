@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -16,34 +15,14 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * The string helper.
-	 *
-	 * @var String_Helper
-	 */
-	private $string;
-
-	/**
-	 * Meta_Description_Presenter constructor.
-	 *
-	 * @param String_Helper $string The string helper.
-	 *
-	 * @codeCoverageIgnore This is a simple constructor.
-	 */
-	public function __construct( String_Helper $string ) {
-		$this->string = $string;
-	}
-
-	/**
 	 * Returns the meta description for a post.
-	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The meta description tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$meta_description = $this->replace_vars( $presentation->meta_description, $presentation );
-		$meta_description = $this->filter( $meta_description, $presentation );
-		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
+	public function present() {
+		$meta_description = $this->replace_vars( $this->presentation->meta_description );
+		$meta_description = $this->filter( $meta_description );
+		$meta_description = $this->helpers->string->strip_all_tags( \stripslashes( $meta_description ) );
 		$meta_description = \trim( $meta_description );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
@@ -67,12 +46,11 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the meta description content through the `wpseo_metadesc` filter.
 	 *
-	 * @param string                 $meta_description The meta description to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $meta_description The meta description to filter.
 	 *
 	 * @return string $meta_description The filtered meta description.
 	 */
-	private function filter( $meta_description, Indexable_Presentation $presentation ) {
+	private function filter( $meta_description ) {
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *
@@ -80,6 +58,6 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_metadesc', $meta_description, $presentation );
+		return \apply_filters( 'wpseo_metadesc', $meta_description, $this->presentation );
 	}
 }

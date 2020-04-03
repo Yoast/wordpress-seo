@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-
 /**
  * Class Rel_Prev_Presenter
  */
@@ -17,16 +15,15 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the rel prev meta tag.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The rel prev tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
+	public function present() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}
 
-		$rel_prev = $this->filter( $presentation->rel_prev, $presentation );
+		$rel_prev = $this->filter();
+
 		if ( \is_string( $rel_prev ) && $rel_prev !== '' ) {
 			$link = \sprintf( '<link rel="prev" href="%s" />', \esc_url( $rel_prev ) );
 
@@ -44,20 +41,16 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the rel prev content through the `wpseo_adjacent_rel_url` filter.
 	 *
-	 * @param string                 $rel_prev     The adjacent link to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string $rel_prev The filtered adjacent link.
 	 */
-	private function filter( $rel_prev, Indexable_Presentation $presentation ) {
+	private function filter() {
 		/**
 		 * Filter: 'wpseo_adjacent_rel_url' - Allow filtering of the rel prev URL put out by Yoast SEO.
 		 *
 		 * @api string $canonical The rel prev URL.
 		 *
 		 * @param string                 $rel          Link relationship, prev or next.
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $rel_prev, 'prev', $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_prev, 'prev', $this->presentation ) );
 	}
 }

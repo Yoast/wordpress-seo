@@ -17,4 +17,15 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int $depth        The depth of the ancestry. 1 being a parent, 2 being a grandparent etc.
  */
 class Indexable_Hierarchy extends Yoast_Model {
+
+	/**
+	 * Which columns contain int values.
+	 *
+	 * @var array
+	 */
+	protected $int_columns = [
+		'indexable_id',
+		'ancestor_id',
+		'depth',
+	];
 }

@@ -17,16 +17,14 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the rel prev meta tag.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The rel next tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
+	public function present() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}
 
-		$rel_next = $this->filter( $presentation->rel_next, $presentation );
+		$rel_next = $this->filter();
 
 		if ( \is_string( $rel_next ) && $rel_next !== '' ) {
 			$link = \sprintf( '<link rel="next" href="%s" />', \esc_url( $rel_next ) );
@@ -45,12 +43,9 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the canonical content through the `wpseo_adjacent_rel_url` filter.
 	 *
-	 * @param string                 $rel_next     The adjacent link to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string $rel_next The filtered adjacent link.
 	 */
-	private function filter( $rel_next, Indexable_Presentation $presentation ) {
+	private function filter() {
 		/**
 		 * Filter: 'wpseo_adjacent_rel_url' - Allow filtering of the rel next URL put out by Yoast SEO.
 		 *
@@ -59,6 +54,6 @@ class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
 		 * @param string                 $rel          Link relationship, prev or next.
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $rel_next, 'next', $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_adjacent_rel_url', $this->presentation->rel_next, 'next', $this->presentation ) );
 	}
 }

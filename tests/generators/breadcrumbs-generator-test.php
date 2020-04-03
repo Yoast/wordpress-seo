@@ -83,6 +83,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->indexable                   = Mockery::mock( Indexable::class );
 		$this->indexable->object_id        = 1;
 		$this->indexable->object_type      = 'post';
+		$this->indexable->object_sub_type  = 'post';
 		$this->indexable->permalink        = 'https://example.com/post';
 		$this->indexable->breadcrumb_title = 'post';
 		$this->context                     = Mockery::mock( Meta_Tags_Context::class );
@@ -137,6 +138,14 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->expects( 'find_by_id_and_type' )
 				->once()
 				->with( $page_for_posts, 'post' )
+				->andReturn( $this->indexable );
+		}
+
+		if ( $scenario === 'show-custom-post-type' ) {
+			$this->repository
+				->expects( 'find_for_post_type_archive' )
+				->once()
+				->with( 'custom' )
 				->andReturn( $this->indexable );
 		}
 
@@ -234,6 +243,13 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				'front_page_id'    => 2,
 				'message'          => 'Tests with current request being a singular post page and a front page being set',
 			],
+			[
+				'scenario'         => 'show-custom-post-type',
+				'page_for_posts'   => 1,
+				'breadcrumb_home'  => 'home',
+				'front_page_id'    => 2,
+				'message'          => 'Tests with current request being a singular custom post page',
+			],
 		];
 	}
 
@@ -264,6 +280,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->andReturn( 'posts' );
 
 			return;
+		}
+
+		if ( $scenario === 'show-custom-post-type' ) {
+			$this->indexable->object_sub_type = 'custom';
 		}
 
 		Monkey\Functions\expect( 'get_option' )
