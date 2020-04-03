@@ -19,7 +19,7 @@ class AMP implements Integration_Interface {
 	/**
 	 * The front end integration.
 	 *
-	 * @return Front_End_Integration
+	 * @var Front_End_Integration
 	 */
 	protected $front_end;
 
