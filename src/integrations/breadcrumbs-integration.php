@@ -7,8 +7,10 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
@@ -23,14 +25,18 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	private $presenter;
 
 	/**
-	 * Breadcrumbs_Integration constructor.
+	 * Breadcrumbs integration constructor.
 	 *
-	 * @param Breadcrumbs_Presenter $presenter The breadcrumbs presenter.
-	 *
-	 * @codeCoverageIgnore
+	 * @param Helpers_Surface    $helpers      The helpers.
+	 * @param WPSEO_Replace_Vars $replace_vars The replace vars.
 	 */
-	public function __construct( Breadcrumbs_Presenter $presenter ) {
-		$this->presenter = $presenter;
+	public function __construct(
+		Helpers_Surface $helpers,
+		WPSEO_Replace_Vars $replace_vars
+	) {
+		$this->presenter = new Breadcrumbs_Presenter();
+		$this->presenter->helpers      = $helpers;
+		$this->presenter->replace_vars = $replace_vars;
 	}
 
 	/**
@@ -52,11 +58,10 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * Renders the breadcrumbs.
 	 *
 	 * @return string The rendered breadcrumbs.
-	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	public function render() {
-		$indexable_presentation = YoastSEO()->current_page->get_presentation();
+		$this->presenter->presentation = YoastSEO()->current_page->get_presentation();
 
-		return $this->presenter->present( $indexable_presentation );
+		return $this->presenter->present();
 	}
 }
