@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Conditional;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
-use Yoast\WP\SEO\WordPress\Initializer;
-use Yoast\WP\SEO\WordPress\Integration;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -44,7 +44,7 @@ class Loader_Test extends TestCase {
 	 * @covers ::load
 	 */
 	public function test_loading_unconditional_integration() {
-		$integration_mock = Mockery::mock( 'alias:Unconditional_Integration', Integration::class );
+		$integration_mock = Mockery::mock( 'alias:Unconditional_Integration', Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
 		$integration_mock->expects( 'register_hooks' )->once();
 
@@ -67,7 +67,7 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Integration', Integration::class );
+		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Integration', Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'register_hooks' )->once();
 
@@ -91,7 +91,7 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Integration', Integration::class );
+		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Integration', Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'register_hooks' )->never();
 
@@ -112,7 +112,7 @@ class Loader_Test extends TestCase {
 	 * @covers ::load
 	 */
 	public function test_loading_unconditional_initializer() {
-		$integration_mock = Mockery::mock( 'alias:Unconditional_Initializer', Initializer::class );
+		$integration_mock = Mockery::mock( 'alias:Unconditional_Initializer', Initializer_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
 		$integration_mock->expects( 'initialize' )->once();
 
@@ -135,7 +135,7 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Initializer', Initializer::class );
+		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Initializer', Initializer_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'initialize' )->once();
 
@@ -159,7 +159,7 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Initializer', Initializer::class );
+		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Initializer', Initializer_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'initialize' )->never();
 
