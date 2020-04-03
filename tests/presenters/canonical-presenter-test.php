@@ -75,7 +75,7 @@ class Canonical_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://filtered" />',
-			$instance->present( $presentation )
+			$instance->present()
 		);
 	}
 

@@ -8,36 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Description_Presenter
  */
-class Description_Presenter extends Abstract_Indexable_Presenter {
+class Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the Open Graph description.
+	 * The tag format including placeholders.
 	 *
-	 * @return string The Open Graph description's meta tag.
+	 * @var string
 	 */
-	public function present() {
-		$description = $this->filter( $this->replace_vars( $this->presentation->open_graph_description ) );
-
-		if ( \is_string( $description ) && $description !== '' ) {
-			return \sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta property="og:description" content="%s" />';
 
 	/**
-	 * Run the Open Graph description through the `wpseo_opengraph_desc` filter.
-	 *
-	 * @param string $description The description to filter.
+	 * Run the Open Graph description through replace vars and the `wpseo_opengraph_desc` filter.
 	 *
 	 * @return string $description The filtered description.
 	 */
-	private function filter( $description ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_opengraph_desc' - Allow changing the Yoast SEO generated Open Graph description.
 		 *
@@ -45,6 +35,6 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_opengraph_desc', $description, $this->presentation ) );
+		return \trim( \apply_filters( 'wpseo_opengraph_desc', $this->replace_vars( $this->presentation->open_graph_description ), $this->presentation ) );
 	}
 }

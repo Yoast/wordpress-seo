@@ -8,20 +8,12 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Author_Archive_Presentation
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
-
-	/**
-	 * Holds the WP query wrapper instance.
-	 *
-	 * @var WP_Query_Wrapper
-	 */
-	protected $wp_query_wrapper;
 
 	/**
 	 * Holds the post type helper instance.
@@ -33,17 +25,12 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param Post_Type_Helper $post_type The post type helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper,
-		Post_Type_Helper $post_type
-	) {
-		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->post_type        = $post_type;
+	public function __construct( Post_Type_Helper $post_type ) {
+		$this->post_type = $post_type;
 	}
 
 	/**
@@ -113,7 +100,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $robots;
 		}
 
-		$current_author = $this->wp_query_wrapper->get_query()->get_queried_object();
+		$current_author = \get_userdata( $this->model->object_id );
 
 		// Safety check. The call to `get_user_data` could return false (called in `get_queried_object`).
 		if ( $current_author === false ) {

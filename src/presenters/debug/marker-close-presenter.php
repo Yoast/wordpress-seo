@@ -34,4 +34,13 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 			\esc_html( $this->helpers->product->get_name() )
 		);
 	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
+		return '';
+	}
 }

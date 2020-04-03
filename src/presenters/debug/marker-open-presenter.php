@@ -40,4 +40,13 @@ final class Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 			( ( \apply_filters( 'wpseo_hide_version', false ) && \WPSEO_Utils::is_yoast_seo_premium() ) ? '' : 'v' . \WPSEO_VERSION )
 		);
 	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
+		return '';
+	}
 }
