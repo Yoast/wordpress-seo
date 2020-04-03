@@ -19,7 +19,6 @@
 	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
-	<link rel='stylesheet' href='../base/root.css' type='text/css' media='all'/>
 
 	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
@@ -65,7 +64,7 @@
 				<span class="screen-reader-text">(Opens in a new browser tab)</span>
 			</a>
 		</div>
-		<input type="password" value="" name="foobar" id="example-input"
+		<input class="yoast-field-group__inputfield" type="password" value="" name="foobar" id="example-input"
 			   aria-describedby="yoast_unique_description_id">
 	</div>
 
@@ -84,20 +83,9 @@
 				<span class="screen-reader-text">(Opens in a new browser tab)</span>
 			</a>
 		</div>
-		<textarea value="" name="foobar" id="example-input"
+		<textarea value="" name="foobar" id="example-input" class="yoast-field-group__textarea"
 				  aria-describedby="yoast_unique_description_id"></textarea>
 	</div>
-
-	<p>Label and input without any styling</p>
-
-	<label for="example-input3">Do you have a passport?</label>
-	<textarea value="" name="foobar" id="example-input"
-	          aria-describedby="yoast_unique_description_id"></textarea>
-
-	<p>Label and textarea without additional styling</p>
-
-	<label for="example-input3">Do you have a passport?</label>
-	<input value="" name="foobar" id="example-input3" >
 
 </form>
 </body>
