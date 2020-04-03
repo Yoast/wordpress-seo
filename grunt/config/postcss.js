@@ -5,11 +5,21 @@ const postCSSImport = require( "postcss-import" );
 module.exports = {
 	build: {
 		options: {
-			map: "<%= developmentBuild %>",
+			map: true,
 			processors: [
 				autoPrefixer(),
-				cssNano(),
 				postCSSImport(),
+			],
+		},
+		src: "<%= files.css %>",
+	},
+	release: {
+		options: {
+			map: false,
+			processors: [
+				autoPrefixer(),
+				postCSSImport(),
+				cssNano(),
 			],
 		},
 		src: "<%= files.css %>",
