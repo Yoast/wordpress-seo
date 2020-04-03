@@ -26,6 +26,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 */
 	public function __construct( $data, $block, $context ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+		$this->context = $context;
 	}
 
 	/**

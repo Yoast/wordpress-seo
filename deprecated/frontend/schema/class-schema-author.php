@@ -5,6 +5,7 @@
  * @package WPSEO\Frontend\Schema
  */
 
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Author;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
@@ -16,6 +17,13 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  * @since 10.2
  */
 class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
+
+	/**
+	 * The hash used for images.
+	 *
+	 * @var string
+	 */
+	protected $image_hash = Schema_IDs::AUTHOR_LOGO_HASH;
 
 	/**
 	 * WPSEO_Schema_Author constructor.
