@@ -24,7 +24,7 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 		$open_graph_url = $this->filter( $this->presentation->open_graph_url );
 
 		if ( \is_string( $open_graph_url ) && $open_graph_url !== '' ) {
-			return '<meta property="og:url" content="' . \esc_url( $open_graph_url ) . '" />';
+			return '<meta property="og:url" content="' . \esc_url( urldecode( $open_graph_url ) ) . '" />';
 		}
 
 		return '';

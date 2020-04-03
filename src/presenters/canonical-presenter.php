@@ -26,7 +26,7 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 
 		$canonical = $this->filter();
 		if ( \is_string( $canonical ) && $canonical !== '' ) {
-			return \sprintf( '<link rel="canonical" href="%s" />', \esc_url( $canonical, null, 'other' ) );
+			return \sprintf( '<link rel="canonical" href="%s" />', \esc_url( urldecode( $canonical ), null, 'other' ) );
 		}
 
 		return '';
