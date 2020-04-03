@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
+import ErrorWithUrl from "../../internal/ErrorWithUrl";
+import ErrorBoundary from "../../internal/ErrorBoundary";
 
 // Import required CSS.
 import "./select.css";
@@ -41,7 +43,7 @@ Option.propTypes = {
 /**
  * MultiSelect using the select2 package.
  */
-export class MultiSelect extends React.Component {
+class MultiSelect extends React.Component {
 	/**
 	 * Constructor for the MultiSelect.
 	 *
@@ -50,6 +52,14 @@ export class MultiSelect extends React.Component {
 	 * @returns {void}
 	 */
 	constructor( props ) {
+		// Make sure that both jQuery and select2 are defined on the global window.
+		if ( typeof window.jQuery === "undefined" || typeof window.jQuery().select2 === "undefined" ) {
+			throw new ErrorWithUrl(
+				"Make sure to read our docs about the requirements for the MultiSelect.",
+				"https://github.com/Yoast/javascript/blob/develop/packages/components/README.md#using-the-multiselect"
+			);
+		}
+
 		super( props );
 		this.onChangeHandler = this.onChangeHandler.bind( this );
 	}
@@ -115,6 +125,24 @@ export class MultiSelect extends React.Component {
 
 MultiSelect.propTypes = selectProps;
 MultiSelect.defaultProps = selectDefaultProps;
+
+/**
+ * Renders the MultiSelect inside its own ErrorBoundary to prevent errors from bubbling up.
+ *
+ * @param {object} props The props for the MultiSelect.
+ *
+ * @returns {React.Component} The MultiSelect wrapped in an ErrorBoundary.
+ */
+const MultiSelectWithErrorBoundary = ( props ) => (
+	<ErrorBoundary>
+		<MultiSelect { ...props } />
+	</ErrorBoundary>
+);
+
+MultiSelectWithErrorBoundary.propTypes = selectProps;
+MultiSelectWithErrorBoundary.defaultProps = selectDefaultProps;
+
+export { MultiSelectWithErrorBoundary as MultiSelect };
 
 /**
  * React wrapper for a basic HTML select.
