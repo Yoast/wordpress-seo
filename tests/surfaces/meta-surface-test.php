@@ -124,15 +124,13 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for home page.
 	 */
 	public function test_for_home_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 0 );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'posts' );
 		$this->repository->expects( 'find_for_home_page' )->once()->andReturn( null );
 
-		$this->instance->for_home_page();
+		$this->assertFalse( $this->instance->for_home_page() );
 	}
 
 	/**
@@ -156,15 +154,13 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_home_page
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for home page.
 	 */
 	public function test_for_home_page_static_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'show_on_front' )->andReturn( 'page' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( null );
 
-		$this->instance->for_home_page();
+		$this->assertFalse( $this->instance->for_home_page() );
 	}
 
 	/**
@@ -187,14 +183,12 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for posts page.
 	 */
 	public function test_for_posts_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 0 );
 		$this->repository->expects( 'find_for_home_page' )->once()->andReturn( null );
 
-		$this->instance->for_posts_page();
+		$this->assertFalse( $this->instance->for_posts_page() );
 	}
 
 	/**
@@ -217,14 +211,12 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the current page function.
 	 *
 	 * @covers ::for_posts_page
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for posts page.
 	 */
 	public function test_for_posts_page_with_page_no_indexable() {
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( 1 );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( null );
 
-		$this->instance->for_posts_page();
+		$this->assertFalse( $this->instance->for_posts_page() );
 	}
 
 	/**
@@ -246,8 +238,6 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the post type archive function.
 	 *
 	 * @covers ::for_post_type_archive
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for post type archive: post_type.
 	 */
 	public function test_for_post_type_archive_no_indexable() {
 		$this->repository->expects( 'find_for_post_type_archive' )->once()->with( 'post_type' )->andReturn( null );
@@ -273,12 +263,10 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the search result function.
 	 *
 	 * @covers ::for_search_result
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for search result.
 	 */
 	public function test_for_search_result_no_indexable() {
 		$this->repository->expects( 'find_for_system_page' )->once()->with( 'search-result' )->andReturn( null );
-		$this->instance->for_search_result();
+		$this->assertFalse( $this->instance->for_search_result() );
 	}
 
 	/**
@@ -300,12 +288,10 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the 404 function.
 	 *
 	 * @covers ::for_404
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for 404.
 	 */
 	public function test_for_404_no_indexable() {
 		$this->repository->expects( 'find_for_system_page' )->once()->with( '404' )->andReturn( null );
-		$this->instance->for_404();
+		$this->assertFalse( $this->instance->for_404() );
 	}
 
 	/**
@@ -327,8 +313,6 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the post function.
 	 *
 	 * @covers ::for_post
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for post: 1.
 	 */
 	public function test_for_post_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' )->andReturn( null );
@@ -354,8 +338,6 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the term function.
 	 *
 	 * @covers ::for_term
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for term: 1.
 	 */
 	public function test_for_term_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( null );
@@ -381,8 +363,6 @@ class Meta_Surface_Test extends TestCase {
 	 * Tests the author function.
 	 *
 	 * @covers ::for_author
-	 * @expectedException Exception
-	 * @expectedExceptionMessage Could not find meta for author: 1.
 	 */
 	public function test_for_author_no_indexable() {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'user' )->andReturn( null );

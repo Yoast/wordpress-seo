@@ -64,9 +64,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for the home page.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_home_page() {
 		$front_page_id = \get_option( 'page_on_front' );
@@ -74,7 +72,7 @@ class Meta_Surface {
 			$indexable = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
 
 			if ( ! $indexable ) {
-				throw new Exception( 'Could not find meta for home page.' );
+				return false;
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Static_Home_Page' ) );
@@ -83,7 +81,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_home_page();
 
 		if ( ! $indexable ) {
-			throw new Exception( 'Could not find meta for home page.' );
+			return false;
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Home_Page' ) );
@@ -92,9 +90,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for the posts page.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_posts_page() {
 		$posts_page_id = (int) \get_option( 'page_for_posts' );
@@ -102,7 +98,7 @@ class Meta_Surface {
 			$indexable = $this->repository->find_by_id_and_type( $posts_page_id, 'post' );
 
 			if ( ! $indexable ) {
-				throw new Exception( 'Could not find meta for posts page.' );
+				return false;
 			}
 
 			return $this->build_meta( $this->context_memoizer->get( $indexable, 'Static_Posts_Page' ) );
@@ -111,7 +107,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_home_page();
 
 		if ( ! $indexable ) {
-			throw new Exception( 'Could not find meta for posts page.' );
+			return false;
 		}
 
 
@@ -123,9 +119,7 @@ class Meta_Surface {
 	 *
 	 * @param string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_post_type_archive( $post_type = null ) {
 		if ( $post_type === null ) {
@@ -135,7 +129,7 @@ class Meta_Surface {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for post type archive: $post_type." );
+			return false;
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Post_Type_Archive' ) );
@@ -144,15 +138,13 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for the search result page.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_search_result() {
 		$indexable = $this->repository->find_for_system_page( 'search-result' );
 
 		if ( ! $indexable ) {
-			throw new Exception( 'Could not find meta for search result.' );
+			return false;
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Search_Result_Page' ) );
@@ -161,15 +153,13 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for the search result page.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_404() {
 		$indexable = $this->repository->find_for_system_page( '404' );
 
 		if ( ! $indexable ) {
-			throw new Exception( 'Could not find meta for 404.' );
+			return false;
 		}
 
 
@@ -181,15 +171,13 @@ class Meta_Surface {
 	 *
 	 * @param int $id The ID of the post.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_post( $id ) {
 		$indexable = $this->repository->find_by_id_and_type( $id, 'post' );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for post: $id." );
+			return false;
 		}
 
 
@@ -201,15 +189,13 @@ class Meta_Surface {
 	 *
 	 * @param int $id The ID of the term.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_term( $id ) {
 		$indexable = $this->repository->find_by_id_and_type( $id, 'term' );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for term: $id." );
+			return false;
 		}
 
 
@@ -221,15 +207,13 @@ class Meta_Surface {
 	 *
 	 * @param int $id The ID of the author.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_author( $id ) {
 		$indexable = $this->repository->find_by_id_and_type( $id, 'user' );
 
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for author: $id." );
+			return false;
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, 'Author_Archive' ) );
@@ -240,15 +224,13 @@ class Meta_Surface {
 	 *
 	 * @param string $url The url of the page. Required to be relative to the site url.
 	 *
-	 * @return Meta The meta values.
-	 *
-	 * @throws Exception If no meta could be found.
+	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_url( $url ) {
 		$url_parts = \wp_parse_url( $url );
 		$site_host = \wp_parse_url( \site_url(), PHP_URL_HOST );
 		if ( $url_parts['host'] !== $site_host ) {
-			throw new Exception( "Could not find meta for extarnal host: {$url_parts['host']}." );
+			return false;
 		}
 		$url = \site_url( $url_parts['path'] );
 
@@ -256,7 +238,7 @@ class Meta_Surface {
 
 		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.
 		if ( ! $indexable ) {
-			throw new Exception( "Could not find meta for url: $url." );
+			return false;
 		}
 		$page_type = '';
 
@@ -296,7 +278,7 @@ class Meta_Surface {
 		}
 
 		if ( empty( $page_type ) ) {
-			throw new Exception( "Could not determine page type for url: $url." );
+			return false;
 		}
 
 		return $this->build_meta( $this->context_memoizer->get( $indexable, $page_type ) );
