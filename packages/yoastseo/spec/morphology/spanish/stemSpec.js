@@ -373,6 +373,19 @@ const wordsToStem = [
 	// Non-verb ending in -ido
 	[ "antióxido", "antioxid" ],
 	[ "antióxidos", "antioxid" ],
+	// Input a word that looks like it ends on a personal pronoun but is not.
+	// Word with no personal pronoun ending on -me
+	[ "uniforme", "uniform" ],
+	// Word with no personal pronoun ending on -se
+	[ "concordiense", "concordiens" ],
+	// Word with no personal pronoun ending on -le
+	[ "doble", "dobl" ],
+	// Word with no personal pronoun ending on -la
+	[ "acerolas", "acerol" ],
+	// Word with no personal pronoun ending on -lo
+	[ "estrello", "estrell" ],
+	// Word with no personal pronoun ending on -no
+	[ "infernos", "infern" ],
 ];
 
 const paradigms = [
