@@ -240,7 +240,10 @@ Release Date: April 14th, 2020
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
-* Fixes a bug where .xsl sitemap files would not be cached.
+* Fixes a bug where .xsl site map files would not be cached correctly.
+
+Other:
+* Sets minimum supported WordPress version to 5.3.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
