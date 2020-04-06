@@ -46,6 +46,6 @@ $yform->toggle_switch(
 		echo '<div style="clear:both; background-color: #ffeb3b; color: #000000; padding: 16px; max-width: 450px; margin-bottom: 32px;">' . $description . '</div>';
 	}
 
-	require dirname( __FILE__ ) . '/post_type/post-type.php';
+	require __DIR__ . '/post_type/post-type.php';
 	?>
 </div>
