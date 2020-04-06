@@ -209,6 +209,10 @@ class PDO_MySQLi_Polyfill {
 		return null;
 	}
 
+	public function setAttribute( $attribute, $value ) {
+		return false;
+	}
+
 	/**
 	 * Establish a secure connection
 	 *
