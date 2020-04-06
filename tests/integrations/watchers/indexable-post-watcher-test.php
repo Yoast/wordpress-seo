@@ -584,5 +584,4 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			$this->instance->get_related_indexables( $post )
 		);
 	}
-
 }

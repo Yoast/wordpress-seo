@@ -12,6 +12,7 @@ use YoastSEO_Vendor\Ruckusing_Migration_Base;
  * Class WpYoastIndexableHierarchy
  */
 class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base {
+
 	/**
 	 * Migration up.
 	 */

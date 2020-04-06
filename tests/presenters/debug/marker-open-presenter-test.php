@@ -43,8 +43,6 @@ class Marker_Open_Presenter_Test extends TestCase {
 		);
 	}
 
-
-
 	/**
 	 * Tests the presentation of the close debug marker.
 	 *
@@ -66,5 +64,4 @@ class Marker_Open_Presenter_Test extends TestCase {
 			$instance->present()
 		);
 	}
-
 }

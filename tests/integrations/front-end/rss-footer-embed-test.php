@@ -227,5 +227,4 @@ class RSS_Footer_Embed_Test extends TestCase {
 			$this->instance->embed_rssfooter_excerpt( 'No options set' )
 		);
 	}
-
 }

@@ -63,5 +63,4 @@ class Open_Graph_Article_Modified_Time_Test extends TestCase {
 		$expected            = '2019-11-09T12:34:56+00:00';
 		$this->assertEquals( $expected, $actual );
 	}
-
 }

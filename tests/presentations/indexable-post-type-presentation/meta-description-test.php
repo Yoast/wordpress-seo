@@ -35,7 +35,6 @@ class Meta_Description_Test extends TestCase {
 		$this->assertEquals( 'This is the meta description', $this->instance->generate_meta_description() );
 	}
 
-
 	/**
 	 * Tests the situation where the meta description is not set.
 	 *

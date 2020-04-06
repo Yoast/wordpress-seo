@@ -13,6 +13,7 @@ use WP_Query;
  * Class WP_Query_Wrapper
  */
 class WP_Query_Wrapper {
+
 	/**
 	 * Returns the global WP_Query object.
 	 *

@@ -79,5 +79,4 @@ First words';
 		$expected = 'I am: • smart • beautiful';
 		$this->assertEquals( $expected, $this->instance->smart_strip_tags( $input ) );
 	}
-
 }

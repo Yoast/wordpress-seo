@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional
  */
 class Breadcrumbs_Enabled_Conditional_Test extends TestCase {
+
 	/**
 	 * The breadcrumbs enabled conditional.
 	 *

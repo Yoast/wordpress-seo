@@ -25,5 +25,4 @@ class WPSEO_OnPage_Option extends WPSEO_Ryte_Option  {
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.2', WPSEO_Ryte_Option::class );
 	}
-
 }

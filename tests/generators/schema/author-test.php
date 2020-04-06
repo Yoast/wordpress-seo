@@ -3,7 +3,6 @@
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
-
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Tests\Mocks\Author;
@@ -17,6 +16,7 @@ use Yoast\WP\SEO\Tests\Mocks\Author;
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
 class Author_Test extends TestCase {
+
 	/**
 	 * Holds the Schema ID helper.
 	 *
@@ -185,7 +185,6 @@ class Author_Test extends TestCase {
 
 		$this->assertSame( $this->person_data, $actual );
 	}
-
 
 	/**
 	 * Tests that the author Schema piece is not output

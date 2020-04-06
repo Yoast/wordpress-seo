@@ -23,6 +23,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group front-end
  */
 class Handle_404_Test extends TestCase {
+
 	/**
 	 * The wp query Wrapper helper.
 	 *
@@ -257,5 +258,4 @@ class Handle_404_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->handle_404( false ) );
 	}
-
 }

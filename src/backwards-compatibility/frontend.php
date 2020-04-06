@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Presenters\Robots_Presenter;
  * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Frontend implements Initializer_Interface {
+
 	/**
 	 * Instance of this class.
 	 *

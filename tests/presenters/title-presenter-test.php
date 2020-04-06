@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group title-presenter
  */
 class Title_Presenter_Test extends TestCase {
+
 	/**
 	 * The indexable presentation.
 	 *

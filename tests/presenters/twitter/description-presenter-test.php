@@ -80,5 +80,4 @@ class Description_Presenter_Test extends TestCase {
 
 		$this->assertEmpty( $this->instance->present() );
 	}
-
 }
