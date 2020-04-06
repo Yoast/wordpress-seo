@@ -18,18 +18,18 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
-	}
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.

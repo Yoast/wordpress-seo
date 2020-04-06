@@ -14,18 +14,18 @@
 class WPSEO_Admin_Asset_Manager {
 
 	/**
-	 * Class that manages the assets' location.
-	 *
-	 * @var WPSEO_Admin_Asset_Location
-	 */
-	protected $asset_location;
-
-	/**
 	 * Prefix for naming the assets.
 	 *
 	 * @var string
 	 */
 	const PREFIX = 'yoast-seo-';
+
+	/**
+	 * Class that manages the assets' location.
+	 *
+	 * @var WPSEO_Admin_Asset_Location
+	 */
+	protected $asset_location;
 
 	/**
 	 * Prefix for naming the assets.
