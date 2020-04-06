@@ -47,6 +47,13 @@ abstract class Abstract_Indexable_Presenter {
 	public abstract function present();
 
 	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string|array The raw value.
+	 */
+	public abstract function get();
+
+	/**
 	 * Replace replacement variables in a string.
 	 *
 	 * @param string $string The string.

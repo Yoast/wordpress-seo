@@ -30,24 +30,7 @@ class HowTo extends Abstract_Schema_Piece {
 		$graph = [];
 
 		foreach ( $this->context->blocks['yoast/how-to-block'] as $index => $block ) {
-			$data = [
-				'@type'            => 'HowTo',
-				'@id'              => $this->context->canonical . '#howto-' . ( $index + 1 ),
-				'name'             => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
-				'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
-				'description'      => '',
-			];
-
-			if ( isset( $block['attrs']['jsonDescription'] ) ) {
-				$data['description'] = $this->helpers->schema->html->sanitize( $block['attrs']['jsonDescription'] );
-			}
-
-			$this->add_duration( $data, $block['attrs'] );
-			$this->add_steps( $data, $block['attrs']['steps'] );
-
-			$data = $this->helpers->schema->language->add_piece_language( $data );
-
-			$graph[] = $data;
+			$this->add_how_to( $graph, $block, $index );
 		}
 
 		return $graph;
@@ -155,6 +138,34 @@ class HowTo extends Abstract_Schema_Piece {
 				$schema_step['image'] = $this->get_image_schema( esc_url( $line['props']['src'] ) );
 			}
 		}
+	}
+
+	/**
+	 * Generates the HowTo schema for a block.
+	 *
+	 * @param array $graph Our Schema data.
+	 * @param array $block The How-To block content.
+	 * @param int   $index The index of the current block.
+	 */
+	protected function add_how_to( &$graph, $block, $index ) {
+		$data = [
+			'@type'            => 'HowTo',
+			'@id'              => $this->context->canonical . '#howto-' . ( $index + 1 ),
+			'name'             => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
+			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
+			'description'      => '',
+		];
+
+		if ( isset( $block['attrs']['jsonDescription'] ) ) {
+			$data['description'] = $this->helpers->schema->html->sanitize( $block['attrs']['jsonDescription'] );
+		}
+
+		$this->add_duration( $data, $block['attrs'] );
+		$this->add_steps( $data, $block['attrs']['steps'] );
+
+		$data = $this->helpers->schema->language->add_piece_language( $data );
+
+		$graph[] = $data;
 	}
 
 	/**

@@ -267,12 +267,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => [
+				'name'      => 'admin-global-script',
+				'src'       => 'wp-seo-admin-global-' . $flat_version,
+				'deps'      => [
 					'jquery',
 					self::PREFIX . 'commons',
 				],
+				'in_footer' => false,
 			],
 			[
 				'name'      => 'metabox',

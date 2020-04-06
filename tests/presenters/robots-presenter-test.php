@@ -88,7 +88,7 @@ class Robots_Presenter_Test extends TestCase {
 		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
 		$indexable_presentation->robots = [];
 
-		$this->assertEmpty( $this->instance->present( $indexable_presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**

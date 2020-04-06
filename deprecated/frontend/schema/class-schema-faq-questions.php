@@ -15,6 +15,14 @@
 class WPSEO_Schema_FAQ_Questions {
 
 	/**
+	 * A value object with context variables.
+	 * This property is public, because originally it was dynamically declared.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	public $context;
+
+	/**
 	 * WPSEO_Schema_FAQ_Questions constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -26,6 +34,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 */
 	public function __construct( $data, $block, $context ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+		$this->context = $context;
 	}
 
 	/**
@@ -38,6 +47,23 @@ class WPSEO_Schema_FAQ_Questions {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		return [];
+	}
+
+	/**
+	 * Generate a Question piece.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param array $question The question to generate schema for.
+	 *
+	 * @return array Schema.org Question piece.
+	 */
+	protected function generate_question_block( $question ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+
+		return [];
 	}
 }

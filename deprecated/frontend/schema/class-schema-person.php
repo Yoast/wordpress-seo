@@ -28,14 +28,17 @@ class WPSEO_Schema_Person extends Person implements WPSEO_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Person constructor.
 	 *
+	 * @param null $context The context. No longer used but present for BC.
+	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 */
-	public function __construct() {
+	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Person' );
-		$memoizer         = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->context    = $memoizer->for_current_page();
-		$this->helpers    = YoastSEO()->helpers;
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**

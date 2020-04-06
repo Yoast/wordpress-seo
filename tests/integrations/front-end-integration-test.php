@@ -62,7 +62,6 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->title_presenter  = Mockery::mock( Title_Presenter::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -70,7 +69,6 @@ class Front_End_Integration_Test extends TestCase {
 				$this->context_memoizer,
 				$this->container,
 				$this->options,
-				$this->title_presenter,
 				Mockery::mock( Helpers_Surface::class ),
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]

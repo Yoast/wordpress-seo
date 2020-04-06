@@ -8,37 +8,27 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Title_Presenter
  */
-class Title_Presenter extends Abstract_Indexable_Presenter {
+class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the title for a post.
+	 * The tag format including placeholders.
 	 *
-	 * @return string The title tag.
+	 * @var string
 	 */
-	public function present() {
-		$title = $this->filter( $this->replace_vars( $this->presentation->open_graph_title ) );
-		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
-
-		if ( \is_string( $title ) && $title !== '' ) {
-			return '<meta property="og:title" content="' . \esc_attr( $title ) . '" />';
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta property="og:title" content="%s" />';
 
 	/**
-	 * Run the title content through the `wpseo_opengraph_title` filter.
-	 *
-	 * @param string $title The title to filter.
+	 * Run the title content through replace vars, the `wpseo_opengraph_title` filter and sanitization.
 	 *
 	 * @return string $title The filtered title.
 	 */
-	private function filter( $title ) {
+	public function get() {
+		$title = $this->replace_vars( $this->presentation->open_graph_title );
 		/**
 		 * Filter: 'wpseo_opengraph_title' - Allow changing the Yoast SEO generated title.
 		 *
@@ -46,6 +36,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $title The title.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $this->presentation ) );
+		$title = (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $this->presentation ) );
+		return $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
 	}
 }

@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
  * Returns schema Person data.
  */
 class Author extends Person {
+
 	/**
 	 * The Schema type we use for this class.
 	 *

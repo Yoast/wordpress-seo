@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
+use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -43,13 +45,6 @@ class Front_End_Integration implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * The title presenter.
-	 *
-	 * @var Title_Presenter
-	 */
-	protected $title_presenter;
-
-	/**
 	 * The helpers surface.
 	 *
 	 * @var Helpers_Surface
@@ -57,7 +52,7 @@ class Front_End_Integration implements Integration_Interface {
 	protected $helpers;
 
 	/**
-	 * The replace vars helper
+	 * The replace vars helper.
 	 *
 	 * @var WPSEO_Replace_Vars
 	 */
@@ -69,7 +64,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var string[]
 	 */
 	protected $base_presenters = [
-		'Debug\Marker_Open',
 		'Title',
 		'Meta_Description',
 		'Robots',
@@ -152,7 +146,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $closing_presenters = [
 		'Schema',
-		'Debug\Marker_Close',
 	];
 
 	/**
@@ -168,7 +161,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
 	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
-	 * @param Title_Presenter            $title_presenter   The title presenter.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 *
@@ -178,14 +170,12 @@ class Front_End_Integration implements Integration_Interface {
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
-		Title_Presenter $title_presenter,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
 	) {
 		$this->container        = $service_container;
 		$this->context_memoizer = $context_memoizer;
 		$this->options          = $options;
-		$this->title_presenter  = $title_presenter;
 		$this->helpers          = $helpers;
 		$this->replace_vars     = $replace_vars;
 	}
@@ -217,7 +207,13 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
-		return $this->title_presenter->present( $context->presentation, false );
+
+		$title_presenter               = new Title_Presenter();
+		$title_presenter->presentation = $context->presentation;
+		$title_presenter->replace_vars = $this->replace_vars;
+		$title_presenter->helpers      = $this->helpers;
+
+		return \esc_html( $title_presenter->get() );
 	}
 
 	/**
@@ -279,7 +275,19 @@ class Front_End_Integration implements Integration_Interface {
 		 *
 		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
 		 */
-		return \apply_filters( 'wpseo_frontend_presenters', $presenters );
+		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters );
+
+		if ( ! \is_array( $presenter_instances ) ) {
+			$presenter_instances = $presenters;
+		}
+
+		$presenter_instances = \array_filter( $presenter_instances, function ( $presenter_instance ) {
+			return $presenter_instance instanceof Abstract_Indexable_Presenter;
+		} );
+
+		return \array_merge(
+			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
+		);
 	}
 
 	/**

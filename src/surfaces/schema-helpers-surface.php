@@ -29,6 +29,13 @@ class Schema_Helpers_Surface {
 	private $container;
 
 	/**
+	 * Helpers that should be fully capitalized.
+	 *
+	 * @var array
+	 */
+	private $capitalized_helpers = [ 'html', 'id' ];
+
+	/**
 	 * Loader constructor.
 	 *
 	 * @param ContainerInterface $container The dependency injection container.
@@ -45,6 +52,10 @@ class Schema_Helpers_Surface {
 	 * @return mixed The helper class.
 	 */
 	public function __get( $helper ) {
+		if ( \in_array( $helper, $this->capitalized_helpers, true ) ) {
+			$helper = strtoupper( $helper );
+		}
+		$helper = implode( '_', array_map( 'ucfirst', explode( '_', $helper ) ) );
 		$class  = "Yoast\WP\SEO\Helpers\Schema\\{$helper}_Helper";
 		return $this->container->get( $class );
 	}
