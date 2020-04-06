@@ -104,6 +104,7 @@ class FacebookPreview extends Component {
 		this.onImageLoaded = this.onImageLoaded.bind( this );
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
+		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
 		this.onTitleEnter = this.props.onMouseHover.bind( this, "title" );
 		this.onDescriptionEnter = this.props.onMouseHover.bind( this, "description" );
 		this.onLeave = this.props.onMouseHover.bind( this, "" );
@@ -139,6 +140,8 @@ class FacebookPreview extends Component {
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
 					onSelectImage={ this.onSelectImage }
+					onMouseEnter={ this.onImageEnter }
+					onMouseLeave={ this.onLeave }
 				/>
 				<OuterTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
