@@ -73,7 +73,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			return false;
 		}
 
-		if ( '0' === get_option( 'blog_public' ) ) {
+		if ( get_option( 'blog_public' ) === '0' ) {
 			return false;
 		}
 

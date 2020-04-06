@@ -212,7 +212,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function add_to_title( $sep, $seplocation, $title, $title_part ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		if ( 'right' === $seplocation ) {
+		if ( $seplocation === 'right' ) {
 			return $title . $sep . $title_part;
 		}
 
