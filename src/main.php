@@ -110,7 +110,7 @@ class Main {
 	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	private function get_container() {
-		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
+		if ( false && $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {
 			// Exception here is unhandled as it will only occur in development.
 			Container_Compiler::compile( $this->is_development() );
 		}

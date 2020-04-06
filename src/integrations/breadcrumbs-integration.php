@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -54,7 +55,7 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Breadcrumbs_Enabled_Conditional::class ];
+		return [ Breadcrumbs_Enabled_Conditional::class, Migrations_Conditional::class ];
 	}
 
 	/**

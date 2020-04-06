@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
@@ -152,7 +153,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class ];
+		return [ Front_End_Conditional::class, Migrations_Conditional::class ];
 	}
 
 	/**
@@ -237,6 +238,9 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
+		var_dump( $context->indexable );
+		exit;
+
 		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
