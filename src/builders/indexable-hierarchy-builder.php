@@ -159,7 +159,7 @@ class Indexable_Hierarchy_Builder {
 		foreach ( $parents as $parent ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-			$depth = ( $depth + 1 );
+			++$depth;
 		}
 	}
 

@@ -163,7 +163,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// This is the last element, now close all previous elements.
 			while ( $index > 0 ) {
 				$link .= '</' . $this->get_element() . '>';
-				$index--;
+				--$index;
 			}
 		}
 		else {

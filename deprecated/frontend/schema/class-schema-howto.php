@@ -68,7 +68,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	public function render( $graph, $block ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::add_how_to' );
 
-		$this->counter++;
+		++$this->counter;
 		$this->add_how_to( $graph, $block, $this->counter );
 
 		return $graph;
