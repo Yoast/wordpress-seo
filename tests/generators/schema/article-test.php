@@ -276,8 +276,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests adding terms to the data array when the terms are a non-empty array.
 	 *
-	 * @param array $terms The terms.
-	 *
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_happy_path() {
@@ -305,8 +303,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests adding terms to the data array when the terms are not an array.
 	 *
-	 * @param array $terms The terms.
-	 *
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_not_array() {
@@ -324,8 +320,6 @@ class Article_Test extends TestCase {
 
 	/**
 	 * Tests adding terms to the data array when the terms are an empty array.
-	 *
-	 * @param array $terms The terms.
 	 *
 	 * @covers ::add_terms
 	 */
