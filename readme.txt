@@ -210,7 +210,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 14.0 =
-Release Date: April 14th, 2020
+Release Date: April 28th, 2020
 
 Bugfixes:
 
