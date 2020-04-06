@@ -259,7 +259,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
-
+	 *
 	 * @param string|bool $image Optional. Image URL.
 	 *
 	 * @return void
