@@ -233,6 +233,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @dataProvider sanitize_url_provider
 	 *
 	 * @covers WPSEO_Utils::sanitize_url
+	 *
+	 * @param string $expected        Expected function outcome.
+	 * @param string $url_to_sanitize Input to pass to the function under test.
 	 */
 	public function test_sanitize_url( $expected, $url_to_sanitize ) {
 		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
