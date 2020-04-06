@@ -217,6 +217,9 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
 * Fixes a bug where .xsl site map files would not be cached correctly.
 
+Other:
+* Sets minimum supported WordPress version to 5.3.
+
 = 13.4 =
 Release Date: March 31st, 2020
 
