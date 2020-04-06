@@ -16,31 +16,22 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 11.5
  */
-class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds the Main_Image schema generator.
-	 *
-	 * @var Main_Image
-	 */
-	private $main_image;
-
-	/**
-	 * Holds a memoizer for the meta tag context.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	private $memoizer;
+class WPSEO_Schema_MainImage extends Main_Image implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_WebPage constructor.
 	 *
+	 * @param null $context The context. No longer used but present for BC.
+	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 */
-	public function __construct() {
-		// _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+	public function __construct( $context = null ) {
+		 _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -53,11 +44,8 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image::is_needed' );
-		$main_image = new Main_Image();
-		$main_image->context = $this->memoizer->for_current_page();
-		$main_image->helpers = YoastSEO()->helpers;
 
-		return $main_image->is_needed();
+		return parent::is_needed();
 	}
 
 	/**
@@ -72,10 +60,56 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image::generate' );
-		$main_image = new Main_Image();
-		$main_image->context = $this->memoizer->for_current_page();
-		$main_image->helpers = YoastSEO()->helpers;
 
-		return $main_image->generate();
+		return parent::generate();
+	}
+
+	/**
+	 * Gets the post's first usable content image. Null if none is available.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return string|null The image URL or null if there is no image.
+	 */
+	protected function get_first_usable_content_image_for_post( $post_id ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
+
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+	}
+
+	/**
+	 * Generates image schema from the attachment id.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param string $image_id The image schema id.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	protected function generate_image_schema_from_attachment_id( $image_id ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->image->generate_from_attachment_id' );
+
+		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, \get_post_thumbnail_id() );
+	}
+
+	/**
+	 * Generates image schema from the url.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 14.0
+	 *
+	 * @param string $image_id  The image schema id.
+	 * @param string $image_url The image URL.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	protected function generate_image_schema_from_url( $image_id, $image_url ) {
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->image->generate_from_url' );
+
+		return $this->helpers->schema->image->generate_from_url( $image_id, $image_url );
 	}
 }

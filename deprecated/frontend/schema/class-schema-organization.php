@@ -15,24 +15,22 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 10.2
  */
-class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds a memoizer for the meta tag context.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	private $memoizer;
+class WPSEO_Schema_Organization extends Organization implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_Organization constructor.
 	 *
+	 * @param null $context The context. No longer used but present for BC.
+	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 */
-	public function __construct() {
+	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Organization' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -45,11 +43,8 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Organization::is_needed' );
-		$organization = new Organization();
-		$organization->context = $this->memoizer->for_current_page();
-		$organization->helpers = YoastSEO()->helpers;
 
-		return $organization->is_needed();
+		return parent::is_needed();
 	}
 
 	/**
@@ -62,10 +57,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Organization::generate' );
-		$organization = new Organization();
-		$organization->context = $this->memoizer->for_current_page();
-		$organization->helpers = YoastSEO()->helpers;
 
-		return $organization->generate();
+		return parent::generate();
 	}
 }

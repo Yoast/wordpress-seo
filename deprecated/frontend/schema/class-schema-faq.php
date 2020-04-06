@@ -15,24 +15,22 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 11.3
  */
-class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
-
-	/**
-	 * Holds a memoizer for the meta tag context.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	private $memoizer;
+class WPSEO_Schema_FAQ extends FAQ implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
+	 * @param null $context The context. No longer used but present for BC.
+	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 */
-	public function __construct() {
+	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\FAQ' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -59,7 +57,13 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 */
 	public function change_schema_page_type( $page_type ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		if ( ! is_array( $page_type ) ) {
+			$page_type = [ $page_type ];
+		}
+		$page_type[] = 'FAQPage';
+
+		return $page_type;
 	}
 
 	/**
@@ -72,11 +76,8 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\FAQ::generate' );
-		$faq = new FAQ();
-		$faq->context = $this->memoizer->for_current_page();
-		$faq->helpers = YoastSEO()->helpers;
 
-		return $faq->generate();
+		return parent::generate();
 	}
 
 	/**
@@ -93,7 +94,8 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 */
 	public function render_schema_questions( $graph, $block, $context ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		return [];
 	}
 
 	/**
@@ -106,10 +108,7 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\FAQ::is_needed' );
-		$faq = new FAQ();
-		$faq->context = $this->memoizer->for_current_page();
-		$faq->helpers = YoastSEO()->helpers;
 
-		return $faq->is_needed();
+		return parent::is_needed();
 	}
 }
