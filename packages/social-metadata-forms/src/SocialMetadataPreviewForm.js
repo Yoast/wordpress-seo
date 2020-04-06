@@ -11,19 +11,19 @@ import { angleLeft, angleRight, colors } from "@yoast/style-guide";
  * Sets the color based on whether the caret is active or not (usually hovered).
  * Display css prop sets the visibility, so this only needs to switch color.
  *
- * @param {*} showActive Whether to show the active color or the hover color.
- * 
+ * @param {*} active Whether to show the active color or the hover color.
+ *
  * @returns {string} The color of the caret. Black if active, grey otherwise.
  */
-const getCaretColor = ( showActive ) => {
-	return showActive ? colors.$color_black : colors.$palette_grey;
+const getCaretColor = ( active ) => {
+	return active ? colors.$color_black : colors.$palette_grey;
 };
 
 const CaretContainer = styled.div`position: relative`;
 
 const Caret = styled.div`
 	position: absolute;
-	display: ${ props => ( props.showActive || props.showHovered ) ? "block" : "none" };
+	display: ${ props => ( props.active || props.hovered ) ? "block" : "none" };
 
 	::before {
 		position: absolute;
@@ -33,10 +33,10 @@ const Caret = styled.div`
 		height: 22px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.showActive ) ),
-		angleLeft( getCaretColor( props.showActive ) ) ) }
+		angleRight( getCaretColor( props.active ) ),
+		angleLeft( getCaretColor( props.active ) ) ) }
 		);
-		color: ${ props => getCaretColor( props.showActive ) };
+		color: ${ props => getCaretColor( props.active ) };
 		background-size: 24px;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -45,13 +45,13 @@ const Caret = styled.div`
 `;
 
 Caret.propTypes = {
-	showActive: PropTypes.bool,
-	showHovered: PropTypes.bool,
+	active: PropTypes.bool,
+	hovered: PropTypes.bool,
 };
 
 Caret.propTypes = {
-	showActive: false,
-	showHovered: false,
+	active: false,
+	hovered: false,
 };
 
 /**
@@ -65,7 +65,7 @@ const withCaretStyle = ( Component ) => {
 		return (
 			<CaretContainer>
 				{ /* eslint-disable-next-line react/prop-types */ }
-				<Caret showActive={ props.isActive } showHovered={ props.isHovered } />
+				<Caret active={ props.isActive } hovered={ props.isHovered } />
 				<Component { ...props } />
 			</CaretContainer>
 		);

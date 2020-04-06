@@ -81,6 +81,7 @@ class SocialPreviewEditor extends Component {
 			title,
 			replacementVariables,
 			recommendedReplacementVariables,
+			isPremium,
 		} = this.props;
 
 		return (
@@ -88,6 +89,8 @@ class SocialPreviewEditor extends Component {
 				<FacebookPreview
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
+					activeField={ this.state.activeField }
+					hoveredField={ this.state.hoveredField }
 					siteName={ siteName }
 					title={ title }
 					description={ description }
@@ -110,6 +113,7 @@ class SocialPreviewEditor extends Component {
 					onSelect={ this.setActiveField }
 					activeField={ this.state.activeField }
 					hoveredField={ this.state.hoveredField }
+					isPremium={ isPremium }
 				/>
 			</React.Fragment>
 		);
@@ -125,6 +129,7 @@ SocialPreviewEditor.propTypes = {
 	alt: PropTypes.string.isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
+	isPremium: PropTypes.bool,
 	imageWarnings: PropTypes.array,
 	siteName: PropTypes.string.isRequired,
 	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
@@ -135,6 +140,7 @@ SocialPreviewEditor.defaultProps = {
 	imageWarnings: [],
 	recommendedReplacementVariables: [],
 	replacementVariables: [],
+	isPremium: false,
 };
 
 export default SocialPreviewEditor;

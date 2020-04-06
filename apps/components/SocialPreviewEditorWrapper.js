@@ -65,6 +65,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onSelectImageClick={ () => this.setImage(
 						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
 					) }
+					isPremium={ true }
 				/>
 			</Container>
 		);

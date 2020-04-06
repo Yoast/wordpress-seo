@@ -149,14 +149,22 @@ class FacebookImage extends Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
-			return <PlaceholderImage onClick={ this.props.onSelectImage }>
-				{ __( "Select image", "yoast-components" ) }
-			</PlaceholderImage>;
+			return (
+				<PlaceholderImage
+					onClick={ this.props.onSelectImage }
+					onMouseEnter={ this.props.onMouseEnter }
+					onMouseLeave={ this.props.onMouseLeave }
+				>
+					{ __( "Select image", "yoast-components" ) }
+				</PlaceholderImage>
+			);
 		}
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <FacebookImageContainer
 			dimensions={ containerDimensions }
+			onMouseEnter={ this.props.onMouseEnter }
+			onMouseLeave={ this.props.onMouseLeave }
 		>
 			<StyledImage
 				src={ this.props.src }
