@@ -8,36 +8,73 @@ import { getDirectionalStyle } from "@yoast/helpers";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 
 /**
- * Adds caret styles to a component.
+ * Sets the color based on whether the caret is active or not (usually hovered).
+ * Display css prop sets the visibility, so this only needs to switch color.
  *
- * @param {ReactComponent} WithoutCaret The component without caret styles.
- *
- * @returns {ReactComponent} The component with caret styles.
+ * @param {*} showActive Whether to show the active color or the hover color.
+ * 
+ * @returns {string} The color of the caret. Black if active, grey otherwise.
  */
-function addCaretStyle( WithoutCaret ) {
-	const WithCaret = styled( WithoutCaret )`
-		&::before {
-			display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
-			position: absolute;
-			top: 0;
-			${ getDirectionalStyle( "left", "right" ) === "left" ? "left: -22px" : "right: 5px" };
-			width: 22px;
-			height: 22px;
-			background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_black ) ) } );
-			background-size: 24px;
-			background-repeat: no-repeat;
-			background-position: center;
-			content: "";
-		}
-	`;
+const getCaretColor = ( showActive ) => {
+	return showActive ? colors.$color_black : colors.$palette_grey;
+};
 
-	return WithCaret;
-}
+const CaretContainer = styled.div`position: relative`;
 
+const Caret = styled.div`
+	position: absolute;
+	display: ${ props => ( props.showActive || props.showHovered ) ? "block" : "none" };
 
-const TitleWithCaret = addCaretStyle( ReplacementVariableEditor );
-const DescriptionWithCaret = addCaretStyle( ReplacementVariableEditor );
-const ImageSelectWithCaret = addCaretStyle( ImageSelect );
+	::before {
+		position: absolute;
+		top: 8px;
+		${ getDirectionalStyle( "left", "right" ) }: -22px;
+		width: 22px;
+		height: 22px;
+		background-image: url(
+		${ props => getDirectionalStyle(
+		angleRight( getCaretColor( props.showActive ) ),
+		angleLeft( getCaretColor( props.showActive ) ) ) }
+		);
+		color: ${ props => getCaretColor( props.showActive ) };
+		background-size: 24px;
+		background-repeat: no-repeat;
+		background-position: center;
+		content: "";
+	}
+`;
+
+Caret.propTypes = {
+	showActive: PropTypes.bool,
+	showHovered: PropTypes.bool,
+};
+
+Caret.propTypes = {
+	showActive: false,
+	showHovered: false,
+};
+
+/**
+ * Adds Caret to a component.
+ * @param {React.Element} Component The component to add a Caret to.
+ *
+ * @returns {React.Element} A component with added Caret.
+ */
+const withCaretStyle = ( Component ) => {
+	return function ComponentWithCaret( props ) {
+		return (
+			<CaretContainer>
+				{ /* eslint-disable-next-line react/prop-types */ }
+				<Caret showActive={ props.isActive } showHovered={ props.isHovered } />
+				<Component { ...props } />
+			</CaretContainer>
+		);
+	};
+};
+
+const TitleWithCaret = withCaretStyle( ReplacementVariableEditor );
+const DescriptionWithCaret = withCaretStyle( ReplacementVariableEditor );
+const ImageSelectWithCaret = withCaretStyle( ImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -87,19 +124,17 @@ const SocialMetadataPreviewForm = ( props ) => {
 				isActive={ props.activeField === "image" }
 				isHovered={ props.hoveredField === "image" }
 			/>
-			<div>
-				<TitleWithCaret
-					onChange={ props.onTitleChange }
-					content={ props.title }
-					replacementVariables={ props.replacementVariables }
-					recommendedReplacementVariables={ props.recommendedReplacementVariables }
-					type="title"
-					label={ titleEditorTitle }
-					isActive={ props.activeField === "title" }
-					isHovered={ props.hoveredField === "title" }
-					onFocus={ focusTitle }
-				/>
-			</div>
+			<TitleWithCaret
+				onChange={ props.onTitleChange }
+				content={ props.title }
+				replacementVariables={ props.replacementVariables }
+				recommendedReplacementVariables={ props.recommendedReplacementVariables }
+				type="title"
+				label={ titleEditorTitle }
+				isActive={ props.activeField === "title" }
+				isHovered={ props.hoveredField === "title" }
+				onFocus={ focusTitle }
+			/>
 			<DescriptionWithCaret
 				onChange={ props.onDescriptionChange }
 				content={ props.description }
