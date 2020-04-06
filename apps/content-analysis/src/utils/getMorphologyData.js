@@ -12,11 +12,11 @@ function loadLocalMorphologyData() {
 		// eslint-disable-next-line global-require
 		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-v3.json" );
 		// eslint-disable-next-line global-require
-		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v5.json" );
+		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v4.json" );
 		// eslint-disable-next-line global-require
-		dataNL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-nl-v5.json" );
+		dataNL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-nl-v4.json" );
 		// eslint-disable-next-line global-require
-		dataES = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-es-v5.json" );
+		dataES = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-es-v4.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
