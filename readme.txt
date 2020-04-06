@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
+Requires at least: 5.3
 Tested up to: 5.4
 Stable tag: 13.4
 Requires PHP: 5.6.20
@@ -214,11 +214,27 @@ Release Date: April 14th, 2020
 
 Bugfixes:
 
-* Fixes a bug where sometimes a fatal error is given when saving a post.
+* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer `WP_Post` due to filtering.
+* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
+* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
+* Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
+* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
+* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
 
 Enhancements:
 
-* Adds the term ancestors hierarchy as a taxonomy replacement variable.
+* No longer outputs the `og:type` meta tag on 404 pages.
+* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
+* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
+* No longer outputs an `og:updated_time` as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
+* No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
+* Strips all tags from text fields in the schema output.
+* Adds `Term hierarchy` as a taxonomy snippet variable.
+* Uses the Gravatar image as a fallback for user archive's `og:image` and `twitter:image`.
+
+Other:
+* Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Sets minimum supported WordPress version to 5.3.
 
 = 13.4 =
 Release Date: March 31st, 2020

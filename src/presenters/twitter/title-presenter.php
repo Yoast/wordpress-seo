@@ -8,38 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Title_Presenter
  */
-class Title_Presenter extends Abstract_Indexable_Presenter {
+class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
+
 	/**
-	 * Returns the Twitter title.
+	 * The tag format including placeholders.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
-	 * @return string The Twitter title tag.
+	 * @var string
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$twitter_title = (string) $this->filter( $this->replace_vars( $presentation->twitter_title, $presentation ), $presentation );
-
-		if ( $twitter_title !== '' ) {
-			return \sprintf( '<meta name="twitter:title" content="%s" />', \esc_attr( $twitter_title ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta name="twitter:title" content="%s" />';
 
 	/**
-	 * Run the Twitter title through the `wpseo_twitter_title` filter.
-	 *
-	 * @param string                 $twitter_title The Twitter title to filter.
-	 * @param Indexable_Presentation $presentation  The presentation of an indexable.
+	 * Run the Twitter title through replace vars and the `wpseo_twitter_title` filter.
 	 *
 	 * @return string The filtered Twitter title.
 	 */
-	private function filter( $twitter_title, Indexable_Presentation $presentation ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title.
 		 *
@@ -47,6 +35,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_twitter_title', $twitter_title, $presentation ) );
+		return \trim( \apply_filters( 'wpseo_twitter_title', $this->replace_vars( $this->presentation->twitter_title ), $this->presentation ) );
 	}
 }

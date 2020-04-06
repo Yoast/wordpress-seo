@@ -56,10 +56,15 @@ class Title_Presenter_Test extends TestCase {
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers = (object) [
+			'string' => $this->string,
+		];
 
 		$this->indexable_presentation         = new Indexable_Presentation();
 		$this->indexable_presentation->source = [];
+
+		$this->instance->presentation = $this->indexable_presentation;
 
 		$this->string
 			->expects( 'strip_all_tags' )
@@ -85,7 +90,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<title>example_title</title>';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -104,7 +109,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}
@@ -130,7 +135,7 @@ class Title_Presenter_Test extends TestCase {
 			->andReturn( 'example_title' );
 
 		$expected = '<title>example_title</title>';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

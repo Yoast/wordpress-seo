@@ -81,7 +81,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$category_base .= '/';
 
 		$expected = preg_replace( '`' . preg_quote( $category_base, '`' ) . '`u', '', $input, 1 );
-		$this->assertEquals( $expected, self::$class_instance->no_category_base( $input ) );
+		$this->assertEquals( $expected, self::$class_instance->no_category_base( $input, null, 'category' ) ); // Passing null as 2nd parameter as it is not used.
 	}
 
 	/**

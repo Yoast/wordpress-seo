@@ -38,6 +38,8 @@ class Article_Publisher_Presenter_Test extends TestCase {
 		$this->instance     = new Article_Publisher_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -50,7 +52,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_article_publisher = 'https://example.com';
 
 		$expected = '<meta property="article:publisher" content="https://example.com" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -64,7 +66,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_article_publisher = '';
 
 		$expected = '';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -84,7 +86,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 			->andReturn( 'https://otherpublisher.com' );
 
 		$expected = '<meta property="article:publisher" content="https://otherpublisher.com" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

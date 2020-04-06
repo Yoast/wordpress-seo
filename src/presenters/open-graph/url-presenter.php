@@ -8,46 +8,40 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Url_Presenter
  */
-class Url_Presenter extends Abstract_Indexable_Presenter {
+class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the open graph url.
+	 * The tag format including placeholders.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
-	 * @return string The open graph URL tag.
+	 * @var string
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$open_graph_url = $this->filter( $presentation->open_graph_url, $presentation );
-
-		if ( \is_string( $open_graph_url ) && $open_graph_url !== '' ) {
-			return '<meta property="og:url" content="' . \esc_url( $open_graph_url ) . '" />';
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta property="og:url" content="%s" />';
 
 	/**
-	 * Run the title content through the `wpseo_opengraph_url` filter.
+	 * The method of escaping to use.
 	 *
-	 * @param string                 $open_graph_url The open graph URL to filter.
-	 * @param Indexable_Presentation $presentation   The presentation of an indexable.
-	 *
-	 * @return string $title The filtered title.
+	 * @var string
 	 */
-	private function filter( $open_graph_url, Indexable_Presentation $presentation ) {
+	protected $escaping = 'attribute';
+
+	/**
+	 * Run the url content through the `wpseo_opengraph_url` filter.
+	 *
+	 * @return string The filtered url.
+	 */
+	public function get() {
 		/**
 		 * Filter: 'wpseo_opengraph_url' - Allow changing the Yoast SEO generated open graph URL.
 		 *
-		 * @api string $title The open graph URL.
+		 * @api string $url The open graph URL.
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_opengraph_url', $open_graph_url, $presentation );
+		return (string) \apply_filters( 'wpseo_opengraph_url', $this->presentation->open_graph_url, $this->presentation );
 	}
 }

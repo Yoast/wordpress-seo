@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Integrations;
 
 use \Mockery;
 use Brain\Monkey;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -12,6 +13,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -60,7 +62,6 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
-		$this->title_presenter  = Mockery::mock( Title_Presenter::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -68,7 +69,8 @@ class Front_End_Integration_Test extends TestCase {
 				$this->context_memoizer,
 				$this->container,
 				$this->options,
-				$this->title_presenter
+				Mockery::mock( Helpers_Surface::class ),
+				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
 		)->makePartial();
 	}
@@ -143,7 +145,7 @@ class Front_End_Integration_Test extends TestCase {
 		$presenter
 			->expects( 'present' )
 			->once()
-			->with( $presentation )
+			->with()
 			->andReturn( 'Output' );
 
 		$this->instance->present_head();
@@ -161,11 +163,6 @@ class Front_End_Integration_Test extends TestCase {
 	 */
 	public function test_get_presenters_for_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
-
-		$this->container
-			->expects( 'get' )
-			->times( 28 )
-			->andReturnArg( 0 );
 
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
@@ -201,7 +198,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$this->instance->get_presenters( 'Post_Type' )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Post_Type' ) )
 		);
 	}
 
@@ -216,11 +213,10 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_get_presenters_for_error_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
 
-		$this->container
+		$this->options
 			->expects( 'get' )
-			->times( 7 )
-			->andReturnArg( 0 );
-
+			->with( 'opengraph' )
+			->andReturnTrue();
 
 		$this->assertEquals(
 			[
@@ -229,15 +225,19 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			$this->instance->get_presenters( 'Error_Page' )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Error_Page' ) )
 		);
 	}
 
 	/**
 	 * Tests the retrieval of the presenters for a non singular page.
+	 *
 	 * @covers ::get_presenters
 	 * @covers ::get_needed_presenters
 	 * @covers ::get_presenters_for_page_type
@@ -245,11 +245,6 @@ class Front_End_Integration_Test extends TestCase {
 	 */
 	public function test_get_presenters_for_non_singular_page() {
 		Monkey\Functions\expect( 'get_theme_support' )->once()->with( 'title-tag' )->andReturn( true );
-
-		$this->container
-			->expects( 'get' )
-			->times( 23 )
-			->andReturnArg( 0 );
 
 		$this->options
 			->expects( 'get' )
@@ -287,7 +282,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Term_Archive' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Term_Archive' ) ) )
 		);
 	}
 
@@ -308,11 +303,10 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'forcerewritetitle', false )
 			->andReturn( false );
 
-		$this->container
+		$this->options
 			->expects( 'get' )
-			->times( 6 )
-			->andReturnArg( 0 );
-
+			->with( 'opengraph' )
+			->andReturnTrue();
 
 		$this->assertEquals(
 			[
@@ -320,10 +314,13 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Error_Page' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
 		);
 	}
 
@@ -344,11 +341,10 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'forcerewritetitle', false )
 			->andReturn( true );
 
-		$this->container
+		$this->options
 			->expects( 'get' )
-			->times( 7 )
-			->andReturnArg( 0 );
-
+			->with( 'opengraph' )
+			->andReturnTrue();
 
 		$this->assertEquals(
 			[
@@ -357,10 +353,13 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_values( $this->instance->get_presenters( 'Error_Page' ) )
+			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
 		);
 	}
 }
