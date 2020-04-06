@@ -162,168 +162,6 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the image for a specific object type which isn't unknown to us.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 */
-	public function test_generate_for_object_type_for_unknown_type() {
-		$this->indexable->object_type = 'unknown';
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnTrue();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the image for a specific object in the case we already have found images.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 */
-	public function test_generate_for_object_type_when_having_images_already() {
-		$this->indexable->object_type = 'post';
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnTrue();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the attachment image for an attachment that isn't one.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_attachment
-	 */
-	public function test_generate_with_attachment_no_being_an_attachment() {
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_sub_type = 'attachment';
-
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
-			->once()
-			->andReturn( false );
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnFalse();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Test getting the attachment image.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_attachment
-	 */
-	public function test_generate_with_attachment() {
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->object_id       = 1337;
-
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
-			->once()
-			->andReturn( true );
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'add_image_by_id' )
-			->once()
-			->with( 1337 );
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnFalse();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the featured image id for a post.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_post_type
-	 */
-	public function test_with_featured_image_id() {
-		$this->indexable->object_type = 'post';
-		$this->indexable->object_id   = 1337;
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image
-			->expects( 'get_featured_image_id' )
-			->once()
-			->with( 1337 )
-			->andReturn( 1 );
-
-		$this->image_container
-			->expects( 'add_image_by_id' )
-			->once()
-			->with( 1 )
-			->andReturnNull();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests the situation where the content image is used.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_post_type
-	 */
-	public function test_with_content_image() {
-		$this->indexable->object_type = 'post';
-		$this->indexable->object_id   = 1337;
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image
-			->expects( 'get_featured_image_id' )
-			->once()
-			->with( 1337 )
-			->andReturnFalse();
-
-		$this->image
-			->expects( 'get_post_content_image' )
-			->once()
-			->with( 1337 )
-			->andReturn( 'image.jpg' );
-
-		$this->image_container
-			->expects( 'add_image_by_url' )
-			->with( 'image.jpg' )
-			->andReturnNull();
-
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
 	 * Tests the situation where the default Open Graph image id is given.
 	 *
 	 * @covers ::generate
@@ -334,7 +172,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnFalse();
 
 		$this->options
@@ -362,7 +200,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnFalse();
 
 		$this->options
@@ -396,7 +234,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnTrue();
 
 		$this->instance->generate( $this->context );

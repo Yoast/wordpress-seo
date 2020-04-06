@@ -89,7 +89,6 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 		do_action( 'wpseo_add_opengraph_images', $image_container );
 
 		$this->add_from_indexable( $context->indexable, $image_container );
-		$this->add_for_object_type( $context->indexable, $image_container );
 
 		/**
 		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the Open Graph tags.
@@ -130,65 +129,6 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 
 		if ( $indexable->open_graph_image_id ) {
 			$image_container->add_image_by_id( $indexable->open_graph_image_id );
-		}
-	}
-
-	/**
-	 * Adds the images for the indexable object type.
-	 *
-	 * @param Indexable $indexable       The indexable.
-	 * @param Images    $image_container The image container.
-	 */
-	protected function add_for_object_type( Indexable $indexable, Images $image_container ) {
-		if ( $image_container->has_images() ) {
-			return;
-		}
-
-		switch ( $indexable->object_type ) {
-			case 'post' :
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					$this->add_for_attachment( $indexable->object_id, $image_container );
-
-					return;
-				}
-
-				$this->add_for_post_type( $indexable, $image_container );
-
-				break;
-		}
-	}
-
-	/**
-	 * Adds the image for an attachment.
-	 *
-	 * @param int    $attachment_id   The attachment id.
-	 * @param Images $image_container The image container.
-	 */
-	protected function add_for_attachment( $attachment_id, Images $image_container ) {
-		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
-			return;
-		}
-
-		$image_container->add_image_by_id( $attachment_id );
-	}
-
-	/**
-	 * Adds the images for a post type.
-	 *
-	 * @param Indexable $indexable       The indexable.
-	 * @param Images    $image_container The image container.
-	 */
-	protected function add_for_post_type( Indexable $indexable, Images $image_container ) {
-		$featured_image_id = $this->image->get_featured_image_id( $indexable->object_id );
-		if ( $featured_image_id ) {
-			$image_container->add_image_by_id( $featured_image_id );
-
-			return;
-		}
-
-		$content_image = $this->image->get_post_content_image( $indexable->object_id );
-		if ( $content_image ) {
-			$image_container->add_image_by_url( $content_image );
 		}
 	}
 

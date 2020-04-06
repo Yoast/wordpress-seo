@@ -158,7 +158,6 @@ class Organization_Test extends TestCase {
 	/**
 	 * Tests is needed when the site represents a company.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -170,7 +169,6 @@ class Organization_Test extends TestCase {
 	/**
 	 * Tests is not needed when the site does not represent a company.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed() {

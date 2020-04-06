@@ -184,6 +184,14 @@ class Indexable_Term_Builder {
 	 * @return array|bool False when not found, array with data when found.
 	 */
 	protected function find_alternative_image( Indexable $indexable ) {
+		$content_image = $this->image->get_term_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
+			];
+		}
+
 		return false;
 	}
 }
