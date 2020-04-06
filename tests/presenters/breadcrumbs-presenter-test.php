@@ -71,11 +71,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
 		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
@@ -159,11 +158,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [];
 		$breadcrumb_2 = [];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
@@ -191,11 +189,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
 		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
