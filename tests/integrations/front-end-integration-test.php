@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
-use \Mockery;
+use Mockery;
 use Brain\Monkey;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
