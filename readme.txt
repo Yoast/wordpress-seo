@@ -244,6 +244,5 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
 * Fixes a bug where .xsl sitemap files would not be cached.
 
-
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
