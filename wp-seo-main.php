@@ -27,8 +27,8 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 }
 
 if ( ! extension_loaded( 'pdo_mysql' ) ) {
-	require_once WPSEO_PATH . 'polyfills/pdo-mysqli-polyfill.php';
-	require_once WPSEO_PATH . 'polyfills/pdo-mysqli-statement-polyfill.php';
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-polyfill.php';
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-statement-polyfill.php';
 }
 
 /*

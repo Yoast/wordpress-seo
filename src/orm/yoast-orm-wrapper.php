@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\ORM;
 
+use PDO;
+use Yoast\WP\Polyfills\PDO\PDO_MySQLi_Polyfill;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -178,31 +180,37 @@ class ORMWrapper extends ORM {
 
 	/**
 	 * Set up the database connection used by the class
-	 * @param string $connection_name Which connection to use
+	 *
+	 * @param string $connection_name Which connection to use.
 	 */
-	protected static function _setup_db($connection_name = self::DEFAULT_CONNECTION) {
-		if (!array_key_exists($connection_name, self::$_db) ||
-			!is_object(self::$_db[$connection_name])) {
-			self::_setup_db_config($connection_name);
+	protected static function _setup_db( $connection_name = self::DEFAULT_CONNECTION ) {
+		if (
+			! array_key_exists( $connection_name, self::$_db ) ||
+			! is_object( self::$_db[ $connection_name ] )
+		) {
+			self::_setup_db_config( $connection_name );
 
 			if ( extension_loaded( 'pdo_mysql' ) ) {
-				$db = new \PDO(
-					self::$_config[$connection_name]['connection_string'],
-					self::$_config[$connection_name]['username'],
-					self::$_config[$connection_name]['password'],
-					self::$_config[$connection_name]['driver_options']
+				// @codingStandardsIgnoreStart -- Reason: This is part of a well-tested library.
+				$db = new PDO(
+					self::$_config[ $connection_name ]['connection_string'],
+					self::$_config[ $connection_name ]['username'],
+					self::$_config[ $connection_name ]['password'],
+					self::$_config[ $connection_name ]['driver_options']
 				);
-				$db->setAttribute(PDO::ATTR_ERRMODE, self::$_config[$connection_name]['error_mode']);
-			} else {
-				$db = new \PDO_MySQLi_Polyfill(
-					self::$_config[$connection_name]['connection_string'],
-					self::$_config[$connection_name]['username'],
-					self::$_config[$connection_name]['password'],
-					self::$_config[$connection_name]['driver_options']
+				$db->setAttribute( PDO::ATTR_ERRMODE, self::$_config[ $connection_name ]['error_mode'] );
+				// @codingStandardsIgnoreEnd -- Reason: This is part of a well-tested library.
+			}
+			else {
+				$db = new PDO_MySQLi_Polyfill(
+					self::$_config[ $connection_name ]['connection_string'],
+					self::$_config[ $connection_name ]['username'],
+					self::$_config[ $connection_name ]['password'],
+					self::$_config[ $connection_name ]['driver_options']
 				);
 			}
 
-			self::set_db($db, $connection_name);
+			self::set_db( $db, $connection_name );
 		}
 	}
 }

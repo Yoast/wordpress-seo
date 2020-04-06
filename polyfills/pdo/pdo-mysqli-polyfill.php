@@ -1,6 +1,32 @@
 <?php
+/**
+ * These are polyfills of PDO in case the extension isn't loaded.
+ *
+ * This code is primarily based on the MySQLi driver for Doctrine.
+ *
+ * The Doctrine license is included below:
+ *
+ * Copyright (c) 2006-2018 Doctrine Project
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-declare(strict_types = 1);
+namespace Yoast\WP\Polyfills\PDO;
 
 class PDO_MySQLi_Polyfill {
 	/**
@@ -15,7 +41,7 @@ class PDO_MySQLi_Polyfill {
 	 * @param array<string, mixed> $params
 	 * @param array<int, mixed>    $driverOptions
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function __construct( $params, $username, $password, $driverOptions = [] ) {
 		if ( is_string( $params ) ) {
@@ -59,7 +85,7 @@ class PDO_MySQLi_Polyfill {
 		});
 		try {
 			if ( ! $this->conn->real_connect( $host, $username, $password, $dbname, $port, $socket, $flags ) ) {
-				throw new Exception( $this->conn->error, $this->conn->errno );
+				throw new \Exception( $this->conn->error, $this->conn->errno );
 			}
 		} finally {
 			restore_error_handler();
@@ -119,7 +145,7 @@ class PDO_MySQLi_Polyfill {
 
 	public function exec( $statement ) {
 		if ( $this->conn->query( $statement ) === false ) {
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 
 		return $this->conn->affected_rows;
@@ -135,13 +161,13 @@ class PDO_MySQLi_Polyfill {
 
 	public function commit() {
 		if ( ! $this->conn->commit() ) {
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 	}
 
 	public function rollBack() {
 		if ( ! $this->conn->rollback() ) {
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 	}
 
@@ -150,8 +176,8 @@ class PDO_MySQLi_Polyfill {
 	 *
 	 * @param array<int, mixed> $driverOptions
 	 *
-	 * @throws Exception When one of of the options is not supported.
-	 * @throws Exception When applying doesn't work - e.g. due to incorrect value.
+	 * @throws \Exception When one of of the options is not supported.
+	 * @throws \Exception When applying doesn't work - e.g. due to incorrect value.
 	 */
 	private function setDriverOptions( $driverOptions = [] ) {
 		if ( empty( $driverOptions ) ) {
@@ -178,7 +204,7 @@ class PDO_MySQLi_Polyfill {
 			}
 
 			if ( ! in_array( $option, $supportedDriverOptions, true ) ) {
-				throw new Exception(
+				throw new \Exception(
 					sprintf( $exceptionMsg, 'Unsupported', $option, $value )
 				);
 			}
@@ -187,7 +213,7 @@ class PDO_MySQLi_Polyfill {
 				continue;
 			}
 
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 	}
 
@@ -198,12 +224,12 @@ class PDO_MySQLi_Polyfill {
 	 */
 	public function ping() {
 		if ( ! $this->conn->ping() ) {
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 	}
 
 	public function getAttribute( $name ) {
-		if ( $name === PDO::ATTR_DRIVER_NAME ) {
+		if ( $name === \PDO::ATTR_DRIVER_NAME ) {
 			return 'mysql';
 		}
 		return null;
@@ -218,7 +244,7 @@ class PDO_MySQLi_Polyfill {
 	 *
 	 * @param array<string, mixed> $params
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function setSecureConnection( $params ) {
 		if ( ! isset( $params['ssl_key'] ) &&

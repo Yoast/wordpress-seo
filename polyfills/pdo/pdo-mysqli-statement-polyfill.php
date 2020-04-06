@@ -1,17 +1,43 @@
 <?php
+/**
+ * These are polyfills of PDO in case the extension isn't loaded.
+ *
+ * This code is primarily based on the MySQLi driver for Doctrine.
+ *
+ * The Doctrine license is included below:
+ *
+ * Copyright (c) 2006-2018 Doctrine Project
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-declare(strict_types = 1);
+namespace Yoast\WP\Polyfills\PDO;
 
-final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
+final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 
 	/** @var string[] */
 	private static $paramTypeMap = [
-		PDO::PARAM_STR  => 's',
-		16              => 's',
-		PDO::PARAM_BOOL => 'i',
-		PDO::PARAM_NULL => 's',
-		PDO::PARAM_INT  => 'i',
-		PDO::PARAM_LOB  => 'b',
+		\PDO::PARAM_STR  => 's',
+		16               => 's',
+		\PDO::PARAM_BOOL => 'i',
+		\PDO::PARAM_NULL => 's',
+		\PDO::PARAM_INT  => 'i',
+		\PDO::PARAM_LOB  => 'b',
 	];
 
 	/** @var mysqli */
@@ -60,7 +86,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	private $values = [];
 
 	/** @var int */
-	private $defaultFetchMode = PDO::FETCH_BOTH;
+	private $defaultFetchMode = \PDO::FETCH_BOTH;
 
 	/**
 	 * Indicates whether the statement is in the state when fetching results is possible
@@ -70,7 +96,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	private $result = false;
 
 	/**
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function __construct( $conn, $sql ) {
 		$this->conn = $conn;
@@ -78,7 +104,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 		$stmt = $conn->prepare( $sql );
 
 		if ( $stmt === false ) {
-			throw new Exception( $this->conn->error, $this->conn->errno );
+			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 
 		$this->stmt = $stmt;
@@ -95,11 +121,11 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function bindParam( $param, &$variable, $type = PDO::PARAM_STR, $length = null ) {
+	public function bindParam( $param, &$variable, $type = \PDO::PARAM_STR, $length = null ) {
 		assert( is_int( $param ) );
 
 		if ( ! isset( self::$paramTypeMap[ $type ] ) ) {
-			throw new Exception( sprintf( 'Unknown type, %d given.', $type ) );
+			throw new \Exception( sprintf( 'Unknown type, %d given.', $type ) );
 		}
 
 		$this->boundValues[ $param ] =& $variable;
@@ -109,11 +135,11 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function bindValue( $param, $value, $type = PDO::PARAM_STR ) {
+	public function bindValue( $param, $value, $type = \PDO::PARAM_STR ) {
 		assert( is_int( $param ) );
 
 		if ( ! isset( self::$paramTypeMap[ $type ] ) ) {
-			throw new Exception( sprintf( 'Unknown type, %d given.', $type ) );
+			throw new \Exception( sprintf( 'Unknown type, %d given.', $type ) );
 		}
 
 		$this->values[ $param ]      = $value;
@@ -127,14 +153,14 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	public function execute( $params = null ) {
 		if ( $params !== null && count( $params ) > 0 ) {
 			if ( ! $this->bindUntypedValues( $params ) ) {
-				throw new Exception( $this->stmt->error, $this->stmt->errno );
+				throw new \Exception( $this->stmt->error, $this->stmt->errno );
 			}
 		} else {
 			$this->bindTypedParameters();
 		}
 
 		if ( ! $this->stmt->execute() ) {
-			throw new Exception( $this->stmt->error, $this->stmt->errno );
+			throw new \Exception( $this->stmt->error, $this->stmt->errno );
 		}
 
 		if ( ! $this->metadataFetched ) {
@@ -145,7 +171,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 				$fields = $meta->fetch_fields();
 				assert( is_array( $fields ) );
 
-				$this->columnNames = array_map(static function ( stdClass $field ) {
+				$this->columnNames = array_map(static function ( \stdClass $field ) {
 					return $field->name;
 				}, $fields);
 
@@ -182,7 +208,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 			}
 
 			if ( ! $this->stmt->bind_result( ...$refs ) ) {
-				throw new Exception( $this->stmt->error, $this->stmt->errno );
+				throw new \Exception( $this->stmt->error, $this->stmt->errno );
 			}
 		}
 
@@ -192,7 +218,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	/**
 	 * Binds parameters with known types previously bound to the statement
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function bindTypedParameters() {
 		$streams = $values = [];
@@ -201,13 +227,13 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 		foreach ( $this->boundValues as $parameter => $value ) {
 			assert( is_int( $parameter ) );
 			if ( ! isset( $types[ ($parameter - 1) ] ) ) {
-				$types[ ($parameter - 1) ] = self::$paramTypeMap[ PDO::PARAM_STR ];
+				$types[ ($parameter - 1) ] = self::$paramTypeMap[ \PDO::PARAM_STR ];
 			}
 
-			if ( $types[ ($parameter - 1) ] === self::$paramTypeMap[ PDO::PARAM_LOB ] ) {
+			if ( $types[ ($parameter - 1) ] === self::$paramTypeMap[ \PDO::PARAM_LOB ] ) {
 				if ( is_resource( $value ) ) {
 					if ( get_resource_type( $value ) !== 'stream' ) {
-						throw new Exception( 'Resources passed with the LARGE_OBJECT parameter type must be stream resources.' );
+						throw new \Exception( 'Resources passed with the LARGE_OBJECT parameter type must be stream resources.' );
 					}
 
 					$streams[ $parameter ] = $value;
@@ -215,14 +241,14 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 					continue;
 				}
 
-				$types[ ($parameter - 1) ] = self::$paramTypeMap[ PDO::PARAM_STR ];
+				$types[ ($parameter - 1) ] = self::$paramTypeMap[ \PDO::PARAM_STR ];
 			}
 
 			$values[ $parameter ] = $value;
 		}
 
 		if ( count( $values ) > 0 && ! $this->stmt->bind_param( $types, ...$values ) ) {
-			throw new Exception( $this->stmt->error, $this->stmt->errno );
+			throw new \Exception( $this->stmt->error, $this->stmt->errno );
 		}
 
 		$this->sendLongData( $streams );
@@ -233,7 +259,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	 *
 	 * @param array<int, resource> $streams
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function sendLongData( $streams ) {
 		foreach ( $streams as $paramNr => $stream ) {
@@ -241,11 +267,11 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 				$chunk = fread( $stream, 8192 );
 
 				if ( $chunk === false ) {
-					return new Exception( sprintf( 'Failed reading the stream resource for parameter offset %d.', $paramNr ) );
+					return new \Exception( sprintf( 'Failed reading the stream resource for parameter offset %d.', $paramNr ) );
 				}
 
 				if ( ! $this->stmt->send_long_data( ($paramNr - 1), $chunk ) ) {
-					throw new Exception( $this->stmt->error, $this->stmt->errno );
+					throw new \Exception( $this->stmt->error, $this->stmt->errno );
 				}
 			}
 		}
@@ -297,7 +323,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 
 		$fetchMode = $fetchMode ?: $this->defaultFetchMode;
 
-		if ( $fetchMode === PDO::FETCH_COLUMN ) {
+		if ( $fetchMode === \PDO::FETCH_COLUMN ) {
 			return $this->fetchColumn();
 		}
 
@@ -308,10 +334,10 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 		}
 
 		if ( $values === false ) {
-			throw new Exception( $this->stmt->error, $this->stmt->errno );
+			throw new \Exception( $this->stmt->error, $this->stmt->errno );
 		}
 
-		if ( $fetchMode === PDO::FETCH_NUM ) {
+		if ( $fetchMode === \PDO::FETCH_NUM ) {
 			return $values;
 		}
 
@@ -319,17 +345,17 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 		assert( is_array( $assoc ) );
 
 		switch ( $fetchMode ) {
-			case PDO::FETCH_ASSOC:
+			case \PDO::FETCH_ASSOC:
 				return $assoc;
 
-			case PDO::FETCH_BOTH:
+			case \PDO::FETCH_BOTH:
 				return ($assoc + $values);
 
-			case PDO::FETCH_OBJ:
+			case \PDO::FETCH_OBJ:
 				return (object) $assoc;
 
 			default:
-				throw new Exception( sprintf( 'Unknown fetch mode %d.', $fetchMode ) );
+				throw new \Exception( sprintf( 'Unknown fetch mode %d.', $fetchMode ) );
 		}
 	}
 
@@ -341,7 +367,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 
 		$rows = [];
 
-		if ( $fetchMode === PDO::FETCH_COLUMN ) {
+		if ( $fetchMode === \PDO::FETCH_COLUMN ) {
 			while ( ($row = $this->fetchColumn()) !== false ) {
 				$rows[] = $row;
 			}
@@ -358,7 +384,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 	 * {@inheritdoc}
 	 */
 	public function fetchColumn( $columnIndex = 0 ) {
-		$row = $this->fetch( PDO::FETCH_NUM );
+		$row = $this->fetch( \PDO::FETCH_NUM );
 
 		if ( $row === false ) {
 			return false;
@@ -366,7 +392,7 @@ final class PDO_MySQLi_Statement_Polyfill implements IteratorAggregate {
 
 		if ( ! array_key_exists( $columnIndex, $row ) ) {
 			$count = count( $row );
-			throw new Exception( sprintf(
+			throw new \Exception( sprintf(
 				'Invalid column index %d. The statement result contains %d column%s.',
 				$columnIndex,
 				$count,
