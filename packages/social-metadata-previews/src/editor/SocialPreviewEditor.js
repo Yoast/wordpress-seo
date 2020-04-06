@@ -63,6 +63,12 @@ class SocialPreviewEditor extends Component {
 		} );
 	}
 
+	/**
+	 * Combines the setting of the activeField to "image" and the onSelectImageClick.
+	 * This helps with setting the caret's activeField and calling the image select function.
+	 *
+	 * @returns {void}
+	 */
 	handleImageClick() {
 		this.setActiveField( "image" );
 		this.props.onSelectImageClick();
