@@ -127,6 +127,19 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * The Webmaster verification specific presenters.
+	 *
+	 * @var string[]
+	 */
+	protected $webmaster_verification_presenters = [
+		'Webmaster\Baidu',
+		'Webmaster\Bing',
+		'Webmaster\Google',
+		'Webmaster\Pinterest',
+		'Webmaster\Yandex',
+	];
+
+	/**
 	 * Presenters that are only needed on singular pages.
 	 *
 	 * @var string[]
@@ -336,6 +349,10 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$presenters = $this->get_all_presenters();
+		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ] ) ) {
+			$presenters = \array_merge( $presenters, $this->webmaster_verification_presenters );
+		}
+
 		// Filter out the presenters only needed for singular pages on non-singular pages.
 		if ( ! \in_array( $page_type, [ 'Post_Type', 'Static_Home_Page' ], true ) ) {
 			$presenters = \array_diff( $presenters, $this->singular_presenters );
