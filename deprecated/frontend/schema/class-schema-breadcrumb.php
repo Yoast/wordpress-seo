@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema Breadcrumb data.
@@ -15,14 +14,7 @@ use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
  *
  * @since 10.2
  */
-class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
-
-	/**
-	 * The meta tags context memoizer.
-	 *
-	 * @var Meta_Tags_Context_Memoizer
-	 */
-	private $memoizer;
+class WPSEO_Schema_Breadcrumb extends Breadcrumb implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
@@ -34,7 +26,6 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb' );
-		$this->memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 	}
 
 	/**
@@ -47,11 +38,8 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::is_needed' );
-		$breadcrumb = new Breadcrumb();
-		$breadcrumb->context = $this->memoizer->for_current_page();
-		$breadcrumb->helpers = YoastSEO()->helpers;
 
-		return $breadcrumb->is_needed();
+		return parent::is_needed();
 	}
 
 	/**
@@ -66,10 +54,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Breadcrumb::generate' );
-		$breadcrumb = new Breadcrumb();
-		$breadcrumb->context = $this->memoizer->for_current_page();
-		$breadcrumb->helpers = YoastSEO()->helpers;
 
-		return $breadcrumb->generate();
+		return parent::generate();
 	}
 }

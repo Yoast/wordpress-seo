@@ -7,7 +7,6 @@
 
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Author;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema Person data.
@@ -35,9 +34,6 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author' );
-		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->context = $memoizer->for_current_page();
-		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**
@@ -79,7 +75,7 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
 
-		return parent::is_needed();
+		return parent::generate();
 	}
 
 	/**

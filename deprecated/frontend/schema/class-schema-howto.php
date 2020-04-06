@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\HowTo;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema FAQ data.
@@ -22,7 +21,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	 *
 	 * @var int
 	 */
-	private $counter;
+	private $counter = 0;
 
 	/**
 	 * WPSEO_Schema_FAQ constructor.
@@ -34,10 +33,6 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( $context = null ) {
 		 _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
-		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->context = $memoizer->for_current_page();
-		$this->helpers = YoastSEO()->helpers;
-		$this->counter = 0;
 	}
 
 	/**
@@ -69,7 +64,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::add_how_to' );
 
 		$this->counter++;
-		parent::add_how_to( $graph, $block, $this->counter );
+		$this->add_how_to( $graph, $block, $this->counter );
 
 		return $graph;
 	}
