@@ -510,7 +510,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 'A date archive permalink' );
 
-		$this->assertEquals( "A date archive permalink", $this->instance->get_date_archive_permalink() );
+		$this->assertEquals( 'A date archive permalink', $this->instance->get_date_archive_permalink() );
 	}
 
 	/**
@@ -525,7 +525,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->expects( 'get_non_cached_date_archive_permalink' )
 			->never();
 
-		$this->assertEquals( "A date archive permalink", $this->instance->get_date_archive_permalink() );
+		$this->assertEquals( 'A date archive permalink', $this->instance->get_date_archive_permalink() );
 	}
 
 	/**
