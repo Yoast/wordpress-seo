@@ -162,6 +162,10 @@ SocialMetadataPreviewForm.propTypes = {
 	onDescriptionChange: PropTypes.func.isRequired,
 	imageSelected: PropTypes.bool.isRequired,
 	isPremium: PropTypes.bool.isRequired,
+	hoveredField: PropTypes.string,
+	activeField: PropTypes.string,
+	onSelect: PropTypes.func,
+	isPremium: PropTypes.bool,
 	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
@@ -179,6 +183,8 @@ SocialMetadataPreviewForm.defaultProps = {
 	hoveredField: "",
 	activeField: "",
 	onSelect: () => {},
+	imageUrl: "",
+	isPremium: false,
 };
 
 export default SocialMetadataPreviewForm;
