@@ -23,7 +23,7 @@ const CaretContainer = styled.div`position: relative`;
 
 const Caret = styled.div`
 	position: absolute;
-	display: ${ props => ( props.active || props.hovered ) ? "block" : "none" };
+	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 
 	::before {
 		position: absolute;
@@ -33,10 +33,10 @@ const Caret = styled.div`
 		height: 22px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.active ) ),
-		angleLeft( getCaretColor( props.active ) ) ) }
+		angleRight( getCaretColor( props.isActive ) ),
+		angleLeft( getCaretColor( props.isActive ) ) ) }
 		);
-		color: ${ props => getCaretColor( props.active ) };
+		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;
 		background-repeat: no-repeat;
 		background-position: center;
@@ -45,13 +45,13 @@ const Caret = styled.div`
 `;
 
 Caret.propTypes = {
-	active: PropTypes.bool,
-	hovered: PropTypes.bool,
+	isActive: PropTypes.bool,
+	isHovered: PropTypes.bool,
 };
 
 Caret.propTypes = {
-	active: false,
-	hovered: false,
+	isActive: false,
+	isHovered: false,
 };
 
 /**
@@ -65,7 +65,7 @@ const withCaretStyle = ( Component ) => {
 		return (
 			<CaretContainer>
 				{ /* eslint-disable-next-line react/prop-types */ }
-				<Caret active={ props.isActive } hovered={ props.isHovered } />
+				<Caret isActive={ props.isActive } isHovered={ props.isHovered } />
 				<Component { ...props } />
 			</CaretContainer>
 		);
