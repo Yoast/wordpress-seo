@@ -38,6 +38,8 @@ class Site_Name_Presenter_Test extends TestCase {
 		$this->instance     = new Site_Name_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -50,7 +52,7 @@ class Site_Name_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_site_name = 'My Site';
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -64,7 +66,7 @@ class Site_Name_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_site_name = '';
 
 		$expected = '';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -84,7 +86,7 @@ class Site_Name_Presenter_Test extends TestCase {
 			->andReturn( 'My Site' );
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

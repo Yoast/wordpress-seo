@@ -17,13 +17,11 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the googlebot output.
 	 *
-	 * @param Indexable_Presentation $presentation The indexable presentation.
-	 *
 	 * @return string The googlebot output tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$googlebot = \implode( ', ', $presentation->googlebot );
-		$googlebot = $this->filter( $googlebot, $presentation );
+	public function present() {
+		$googlebot = \implode( ', ', $this->presentation->googlebot );
+		$googlebot = $this->filter( $googlebot );
 
 		if ( \is_string( $googlebot ) && $googlebot !== '' ) {
 			return \sprintf( '<meta name="googlebot" content="%s" />', \esc_attr( $googlebot ) );
@@ -35,12 +33,11 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the googlebot output content through the `wpseo_googlebot` filter.
 	 *
-	 * @param string                 $googlebot    The meta googlebot output to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $googlebot The meta googlebot output to filter.
 	 *
 	 * @return string The filtered meta googlebot output.
 	 */
-	private function filter( $googlebot, Indexable_Presentation $presentation ) {
+	private function filter( $googlebot ) {
 		/**
 		 * Filter: 'wpseo_googlebot' - Allows filtering of the meta googlebot output of Yoast SEO.
 		 *
@@ -48,6 +45,6 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \apply_filters( 'wpseo_googlebot', $googlebot, $presentation );
+		return (string) \apply_filters( 'wpseo_googlebot', $googlebot, $this->presentation );
 	}
 }

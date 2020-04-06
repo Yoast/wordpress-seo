@@ -94,7 +94,6 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "readline-sync": "^1.4.9",
-    "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
     "tmp": "^0.1.0",
@@ -123,6 +122,7 @@
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
+    "postcss-import": "^12.0.1",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
@@ -138,6 +138,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.0-RC1"
+    "pluginVersion": "14.0-RC2"
   }
 }

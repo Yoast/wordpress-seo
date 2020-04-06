@@ -17,12 +17,10 @@ class Article_Modified_Time_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the article modified time tag.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The article modified time tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$modified_time = $presentation->open_graph_article_modified_time;
+	public function present() {
+		$modified_time = $this->presentation->open_graph_article_modified_time;
 
 		if ( \is_string( $modified_time ) && $modified_time !== '' ) {
 			return \sprintf( '<meta property="article:modified_time" content="%s" />', \esc_attr( $modified_time ) );
