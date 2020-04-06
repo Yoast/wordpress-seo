@@ -30,6 +30,13 @@ class Baidu_Presenter_Test extends TestCase {
 	private $option_name = 'baiduverify';
 
 	/**
+	 * Our mocked options helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
+	 */
+	private $options;
+
+	/**
 	 * Setup of the tests.
 	 */
 	public function setUp() {
@@ -37,11 +44,10 @@ class Baidu_Presenter_Test extends TestCase {
 
 		$this->instance = new Baidu_Presenter();
 
-		$options = Mockery::mock( Options_Helper::class );
-		$options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );
+		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance->helpers = (object) [
-			'options' => $options,
+			'options' => $this->options,
 		];
 	}
 
@@ -52,8 +58,17 @@ class Baidu_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_present() {
-		$this->assertEquals(
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );
+
+		$this->assertSame(
 			'<meta name="baidu-site-verification" content="baidu" />',
+			$this->instance->present()
+		);
+
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
+
+		$this->assertSame(
+			'',
 			$this->instance->present()
 		);
 	}
@@ -64,8 +79,17 @@ class Baidu_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_get() {
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'baidu' );
+
 		$this->assertSame(
 			'baidu',
+			$this->instance->get()
+		);
+
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
+
+		$this->assertSame(
+			'',
 			$this->instance->get()
 		);
 	}

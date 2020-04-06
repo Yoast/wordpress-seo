@@ -30,6 +30,13 @@ class Pinterest_Presenter_Test extends TestCase {
 	private $option_name = 'pinterestverify';
 
 	/**
+	 * Our mocked options helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
+	 */
+	private $options;
+
+	/**
 	 * Setup of the tests.
 	 */
 	public function setUp() {
@@ -37,11 +44,10 @@ class Pinterest_Presenter_Test extends TestCase {
 
 		$this->instance = new Pinterest_Presenter();
 
-		$options = Mockery::mock( Options_Helper::class );
-		$options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'pinterest-ver' );
+		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance->helpers = (object) [
-			'options' => $options,
+			'options' => $this->options,
 		];
 	}
 
@@ -52,8 +58,17 @@ class Pinterest_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_present() {
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'pinterest-ver' );
+
 		$this->assertSame(
 			'<meta name="p:domain_verify" content="pinterest-ver" />',
+			$this->instance->present()
+		);
+
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
+
+		$this->assertSame(
+			'',
 			$this->instance->present()
 		);
 	}
@@ -64,6 +79,8 @@ class Pinterest_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_get() {
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'pinterest-ver' );
+
 		$this->assertSame(
 			'pinterest-ver',
 			$this->instance->get()
