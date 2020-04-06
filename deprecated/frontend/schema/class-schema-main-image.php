@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\Main_Image;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns ImageObject schema data.
@@ -27,6 +28,10 @@ class WPSEO_Schema_MainImage extends Main_Image implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( $context = null ) {
 		 _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Main_Image' );
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**

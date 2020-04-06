@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\FAQ;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema FAQ data.
@@ -26,6 +27,10 @@ class WPSEO_Schema_FAQ extends FAQ implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\FAQ' );
+
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
 	}
 
 	/**

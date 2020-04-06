@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\Article;
+use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema Article data.
@@ -34,7 +35,10 @@ class WPSEO_Schema_Article extends Article implements WPSEO_Graph_Piece {
 	public function __construct( $context = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Article' );
 
-		$this->date = new WPSEO_Date_Helper();
+		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->context = $memoizer->for_current_page();
+		$this->helpers = YoastSEO()->helpers;
+		$this->date    = new WPSEO_Date_Helper();
 	}
 
 	/**
