@@ -129,8 +129,8 @@ class WPSEO_Taxonomy {
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
-			self::is_term_edit( $pagenow ) &&
-			! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+			self::is_term_edit( $pagenow )
+			&& ! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
