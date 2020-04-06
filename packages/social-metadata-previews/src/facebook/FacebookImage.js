@@ -151,7 +151,7 @@ class FacebookImage extends Component {
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
 			return (
 				<PlaceholderImage
-					onClick={ this.props.onSelectImage }
+					onClick={ this.props.onImageClick }
 					onMouseEnter={ this.props.onMouseEnter }
 					onMouseLeave={ this.props.onMouseLeave }
 				>
@@ -165,12 +165,12 @@ class FacebookImage extends Component {
 			dimensions={ containerDimensions }
 			onMouseEnter={ this.props.onMouseEnter }
 			onMouseLeave={ this.props.onMouseLeave }
+			onClick={ this.props.onImageClick }
 		>
 			<StyledImage
 				src={ this.props.src }
 				alt={ this.props.alt }
 				imageProperties={ imageProperties }
-				onClick={ this.props.onSelectImage }
 			/>
 		</FacebookImageContainer>;
 	}
@@ -180,13 +180,17 @@ FacebookImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
-	onSelectImage: PropTypes.func,
+	onImageClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
 	alt: "",
 	onImageLoaded: () => {},
-	onSelectImage: () => {},
+	onImageClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default FacebookImage;

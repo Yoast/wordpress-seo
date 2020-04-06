@@ -26,6 +26,7 @@ class SocialPreviewEditor extends Component {
 
 		this.setHoveredField = this.setHoveredField.bind( this );
 		this.setActiveField = this.setActiveField.bind( this );
+		this.handleImageClick = this.handleImageClick.bind( this );
 	}
 
 	/**
@@ -62,6 +63,11 @@ class SocialPreviewEditor extends Component {
 		} );
 	}
 
+	handleImageClick() {
+		this.setActiveField( "image" );
+		this.props.onSelectImageClick();
+	}
+
 	/**
 	 * The render function.
 	 *
@@ -89,6 +95,7 @@ class SocialPreviewEditor extends Component {
 				<FacebookPreview
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
+					onImageClick={ this.handleImageClick }
 					activeField={ this.state.activeField }
 					hoveredField={ this.state.hoveredField }
 					siteName={ siteName }
