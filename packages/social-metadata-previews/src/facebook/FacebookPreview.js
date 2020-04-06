@@ -109,7 +109,7 @@ class FacebookPreview extends Component {
 		this.onDescriptionEnter = this.props.onMouseHover.bind( this, "description" );
 		this.onLeave = this.props.onMouseHover.bind( this, "" );
 
-		// Binding fields to onSelect to prevent arrow functions in JSX props.
+		// Binding fields to onSelect to prevent arrow functions in JSX props. Image field is handled in onImageClick function.
 		this.onSelectTitle = this.props.onSelect.bind( this, "title" );
 		this.onSelectDescription = this.props.onSelect.bind( this, "description" );
 	}
@@ -139,7 +139,7 @@ class FacebookPreview extends Component {
 					src={ this.props.image }
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
-					onSelectImage={ this.onSelectImage }
+					onImageClick={ this.props.onImageClick }
 					onMouseEnter={ this.onImageEnter }
 					onMouseLeave={ this.onLeave }
 				/>
@@ -178,6 +178,7 @@ FacebookPreview.propTypes = {
 	image: PropTypes.string,
 	alt: PropTypes.string,
 	onSelect: PropTypes.func,
+	onImageClick: PropTypes.func,
 	onMouseHover: PropTypes.func,
 };
 
@@ -187,6 +188,7 @@ FacebookPreview.defaultProps = {
 	alt: "",
 	image: "",
 	onSelect: () => {},
+	onImageClick: () => {},
 	onMouseHover: () => {},
 };
 
