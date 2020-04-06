@@ -111,7 +111,7 @@ class Article_Test extends TestCase {
 				'id'       => $this->id,
 				'html'     => $this->html,
 				'language' => $this->language,
-			]
+			],
 		];
 
 		return parent::setUp();

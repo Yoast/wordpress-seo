@@ -115,7 +115,7 @@ class Author_Test extends TestCase {
 				'id'      => $this->id,
 				'image'   => $this->schema_image,
 				'html'    => $this->html,
-			]
+			],
 		];
 	}
 

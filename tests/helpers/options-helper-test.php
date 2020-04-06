@@ -44,7 +44,7 @@ class Options_Helper_Test extends TestCase {
 			->once()
 			->andReturn(
 				[
-					'my-title' => 'This is a title'
+					'my-title' => 'This is a title',
 				]
 			);
 

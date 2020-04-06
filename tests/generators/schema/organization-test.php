@@ -94,7 +94,7 @@ class Organization_Test extends TestCase {
 				'id'      => $this->id,
 				'image'   => $this->image,
 				'html'    => $this->html,
-			]
+			],
 		];
 	}
 

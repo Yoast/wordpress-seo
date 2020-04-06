@@ -87,7 +87,7 @@ trait Presentation_Instance_Builder {
 				$this->post_type,
 				$this->date,
 				$this->pagination,
-				$this->post
+				$this->post,
 			]
 		)
 			->shouldAllowMockingProtectedMethods()
