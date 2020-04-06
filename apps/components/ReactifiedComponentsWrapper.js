@@ -120,7 +120,7 @@ const ReactifiedComponentsWrapper = () => {
 						{ name: "option 4", value: "opt4" },
 					]
 				}
-				selected={ "opt1" }
+				selected={ [ "opt1", "opt3" ] }
 			/>
 			<Select
 				label="This is a styled select"
@@ -134,7 +134,7 @@ const ReactifiedComponentsWrapper = () => {
 						{ name: "option 4", value: "opt4" },
 					]
 				}
-				selected={ [ "opt1" ] }
+				selected={ "opt1" }
 			/>
 			<Toggle
 				label="React Toggle"
