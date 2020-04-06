@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 13.5 =
+Release Date: April 14th, 2020
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
+* Fixes a bug where .xsl sitemap files would not be cached.
+
 = 13.4 =
 Release Date: March 31st, 2020
 
