@@ -7,54 +7,37 @@ import styled from "styled-components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
 
-const Caret = styled.div`
-	position: absolute;
-
-	::before {
-		display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
-		position: absolute;
-		top: 0;
-		${ getDirectionalStyle( "left", "right" ) === "left" ? "left: 5px" : "right: 5px" };
-		width: 22px;
-		height: 22px;
-		background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_black ) ) } );
-		background-size: 24px;
-		background-repeat: no-repeat;
-		background-position: center;
-		content: "";
-	}
-`;
-
 /**
  * Adds caret styles to a component.
  *
- * @param {string} field The identifier for this field.
  * @param {ReactComponent} WithoutCaret The component without caret styles.
  *
  * @returns {ReactComponent} The component with caret styles.
  */
-function addCaretStyle( field, WithoutCaret ) {
-	return (
-		function WithCaret( props ) {
-			return (
-				<Fragment>
-					<Caret
-						// eslint-disable-next-line react/prop-types
-						isActive={ props.activeField === field }
-						// eslint-disable-next-line react/prop-types
-						isHovered={ props.hoveredField === field }
-					/>
-					<WithoutCaret { ...props } />
-				</Fragment>
-			);
+function addCaretStyle( WithoutCaret ) {
+	const WithCaret = styled( WithoutCaret )`
+		&::before {
+			display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
+			position: absolute;
+			top: 0;
+			${ getDirectionalStyle( "left", "right" ) === "left" ? "left: -22px" : "right: 5px" };
+			width: 22px;
+			height: 22px;
+			background-image: url( ${ getDirectionalStyle( angleRight( colors.$color_black ), angleLeft( colors.$color_black ) ) } );
+			background-size: 24px;
+			background-repeat: no-repeat;
+			background-position: center;
+			content: "";
 		}
-	);
+	`;
+
+	return WithCaret;
 }
 
 
-const TitleWithCaret = addCaretStyle( "title", ReplacementVariableEditor );
-const DescriptionWithCaret = addCaretStyle( "description", ReplacementVariableEditor );
-const ImageSelectWithCaret = addCaretStyle( "image", ImageSelect );
+const TitleWithCaret = addCaretStyle( ReplacementVariableEditor );
+const DescriptionWithCaret = addCaretStyle( ReplacementVariableEditor );
+const ImageSelectWithCaret = addCaretStyle( ImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
@@ -101,18 +84,22 @@ const SocialMetadataPreviewForm = ( props ) => {
 				imageSelected={ props.imageSelected }
 				imageUrl={ props.imageUrl }
 				isPremium={ props.isPremium }
+				isActive={ props.activeField === "image" }
+				isHovered={ props.hoveredField === "image" }
 			/>
-			<TitleWithCaret
-				onChange={ props.onTitleChange }
-				content={ props.title }
-				replacementVariables={ props.replacementVariables }
-				recommendedReplacementVariables={ props.recommendedReplacementVariables }
-				type="title"
-				label={ titleEditorTitle }
-				activeField={ props.activeField }
-				hoveredField={ props.hoveredField }
-				onFocus={ focusTitle }
-			/>
+			<div>
+				<TitleWithCaret
+					onChange={ props.onTitleChange }
+					content={ props.title }
+					replacementVariables={ props.replacementVariables }
+					recommendedReplacementVariables={ props.recommendedReplacementVariables }
+					type="title"
+					label={ titleEditorTitle }
+					isActive={ props.activeField === "title" }
+					isHovered={ props.hoveredField === "title" }
+					onFocus={ focusTitle }
+				/>
+			</div>
 			<DescriptionWithCaret
 				onChange={ props.onDescriptionChange }
 				content={ props.description }
@@ -121,8 +108,8 @@ const SocialMetadataPreviewForm = ( props ) => {
 				recommendedReplacementVariables={ props.recommendedReplacementVariables }
 				type="description"
 				label={ descEditorTitle }
-				activeField={ props.activeField }
-				hoveredField={ props.hoveredField }
+				isActive={ props.activeField === "description" }
+				isHovered={ props.hoveredField === "description" }
 				onFocus={ focusDescription }
 			/>
 		</Fragment>
