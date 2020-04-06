@@ -315,7 +315,7 @@ class Yoast_Form {
 		'<div class="', $class, '">';
 		echo '<input type="checkbox" class="visually-hidden" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span class="yoast-toggle--inactive">', esc_html( $off_button ), '</span>',
-		'<label class="yoast-toggle__switch" for="', esc_attr( $var ), '"></label>',
+		'<span class="yoast-toggle__switch"></span>',
 		'<span class="yoast-toggle--active">', esc_html( $on_button ), '</span>';
 		echo '</div>',
 		'</div>';

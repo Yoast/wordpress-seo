@@ -1,11 +1,17 @@
-.visually-hidden {
-	clip: rect(0 0 0 0);
-	clip-path: inset(50%);
-	height: 1px;
+input[type=checkbox].visually-hidden {
+	height: 23px;
 	overflow: hidden;
 	position: absolute;
-	white-space: nowrap;
-	width: 1px;
+	left: 30px;
+	width: 34px;
+	z-index: 1;
+	box-shadow: none;
+	border: 0;
+	background-color: transparent;
+}
+
+input[type="checkbox"].visually-hidden:checked::before {
+	content: none;
 }
 
 .yoast-feature {
@@ -50,6 +56,10 @@
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
+}
+
+.yoast-toggle {
+	position: relative;
 }
 
 .yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch, .yoast-toggle-inverse input[type="checkbox"]:not(:checked) ~ .yoast-toggle__switch {
