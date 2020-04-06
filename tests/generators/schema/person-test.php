@@ -358,10 +358,10 @@ class Person_Test extends TestCase {
 		];
 
 		$expected = [
-			'@type' => [ 'Person', 'Organization' ],
-			'@id'   => 'person_id',
-			'name'  => 'John Doe',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'@type'  => [ 'Person', 'Organization' ],
+			'@id'    => 'person_id',
+			'name'   => 'John Doe',
+			'logo'   => [ '@id' => 'https://example.com/#personlogo' ],
 			'sameAs' => [
 				'https://example.com/social/facebook',
 				'https://example.com/social/wiki',

@@ -175,26 +175,26 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type' => 'WebSite',
-						'@id'   => '#website',
-						'url'   => null,
-						'name' => '',
-						'description' => 'description',
+						'@type'           => 'WebSite',
+						'@id'             => '#website',
+						'url'             => null,
+						'name'            => '',
+						'description'     => 'description',
 						'potentialAction' => [
 							[
-								'@type' => 'SearchAction',
-								'target' => '?s={search_term_string}',
+								'@type'       => 'SearchAction',
+								'target'      => '?s={search_term_string}',
 								'query-input' => 'required name=search_term_string',
 							],
 						],
-						'inLanguage' => 'English',
+						'inLanguage'      => 'English',
 					],
 					[
 						'@id'   => '#website',
 					],
 					[
 						[
-							'@type' => 'ReadAction',
+							'@type'  => 'ReadAction',
 							'target' => [
 								null,
 							],
@@ -341,7 +341,7 @@ class Schema_Generator_Test extends TestCase {
 							'text'       => 'This is an answer',
 							'inLanguage' => 'English',
 						],
-						'inLanguage' => 'English',
+						'inLanguage'     => 'English',
 					],
 				],
 			],
