@@ -4,12 +4,13 @@ import renderer from "react-test-renderer";
 /* Internal dependencies */
 import ImageSelect from "../src/ImageSelect";
 
-describe( "<ImageSelect />", () => {
+describe( "The ImageSelect component", () => {
 	it( "renders", () => {
 		const tree = renderer.create(
 			<ImageSelect
 				imageSelected={ false }
 				title="Facebook image"
+				isPremium={ true }
 			/>,
 		).toJSON();
 		expect( tree ).toMatchSnapshot();
@@ -20,6 +21,7 @@ describe( "<ImageSelect />", () => {
 			<ImageSelect
 				title="Facebook image"
 				imageSelected={ true }
+				isPremium={ false }
 				warnings={ [
 					"Your image is too small",
 					"Wow, I like writing tests",

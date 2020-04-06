@@ -84,6 +84,8 @@ const SocialMetadataPreviewForm = ( props ) => {
 				imageSelected={ props.imageSelected }
 				isActive={ props.activeField === "image" }
 				isHovered={ props.hoveredField === "image" }
+				imageUrl={ props.imageUrl }
+				isPremium={ props.isPremium }
 			/>
 			<div>
 				<TitleWithCaret
@@ -117,19 +119,21 @@ const SocialMetadataPreviewForm = ( props ) => {
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
-	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
-	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
-	imageWarnings: PropTypes.array,
 	imageSelected: PropTypes.bool.isRequired,
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	onSelect: PropTypes.func,
+	isPremium: PropTypes.bool.isRequired,
+	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
+	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
+	imageWarnings: PropTypes.array,
+	imageUrl: PropTypes.string,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -139,6 +143,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	hoveredField: "",
 	activeField: "",
 	onSelect: () => {},
+	imageUrl: "",
 };
 
 export default SocialMetadataPreviewForm;
