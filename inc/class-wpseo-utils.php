@@ -308,7 +308,6 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
 
@@ -690,7 +689,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
 		}

@@ -251,7 +251,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
 		$this->instance->build( $indexable );

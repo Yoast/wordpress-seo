@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Main;
  * @return Main The main instance.
  */
 function YoastSEO() { // @codingStandardsIgnoreLine
- 	static $main;
+	static $main;
 
 	if ( $main === null ) {
 		$main = new Main();

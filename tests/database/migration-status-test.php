@@ -119,7 +119,7 @@ class Migration_Status_Test extends TestCase {
 
 		$instance = new Migration_Status();
 
-		$this->assertTrue( $instance->is_version( 'test' , '1.0' ) );
+		$this->assertTrue( $instance->is_version( 'test', '1.0' ) );
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Migration_Status_Test extends TestCase {
 
 		$instance = new Migration_Status();
 
-		$this->assertFalse( $instance->is_version( 'test' , '2.0' ) );
+		$this->assertFalse( $instance->is_version( 'test', '2.0' ) );
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Migration_Status_Test extends TestCase {
 
 		$instance = new Migration_Status();
 
-		$this->assertFalse( $instance->is_version( 'test' , '2.0' ) );
+		$this->assertFalse( $instance->is_version( 'test', '2.0' ) );
 	}
 
 	/**

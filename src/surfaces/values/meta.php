@@ -165,8 +165,8 @@ class Meta {
 			$presenter_namespace .= 'Open_Graph\\';
 			$parts = \array_slice( $parts, 2 );
 		}
-		$presenter_class = $presenter_namespace . implode( '_', array_map( 'ucfirst', $parts ) ) . '_Presenter';
 
+		$presenter_class = $presenter_namespace . implode( '_', array_map( 'ucfirst', $parts ) ) . '_Presenter';
 
 		if ( \class_exists( $presenter_class ) ) {
 			/**

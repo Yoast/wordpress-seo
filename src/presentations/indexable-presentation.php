@@ -483,13 +483,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_site() {
 		switch ( $this->context->site_represents ) {
-			case 'person' :
+			case 'person':
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
 					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
-			case 'company' :
+			case 'company':
 			default:
 				$twitter = $this->options->get( 'twitter_site' );
 				break;

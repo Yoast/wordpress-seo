@@ -198,7 +198,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The data to use.
 	 */
-	public function save_metabox_field_provider( ) {
+	public function save_metabox_field_provider() {
 		return [
 			[
 				// Related issue for this case: https://github.com/Yoast/wordpress-seo/issues/14476.
