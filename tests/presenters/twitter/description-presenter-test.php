@@ -49,7 +49,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
 		$presentation->source              = [];
 		$presentation->twitter_description = 'This is the twitter description';
 
@@ -70,7 +71,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_description() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
 		$presentation->source              = [];
 		$presentation->twitter_description = '';
 

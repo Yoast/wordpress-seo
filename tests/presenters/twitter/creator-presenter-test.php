@@ -37,7 +37,8 @@ class Creator_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation  = new Indexable_Presentation();
+		$presentation                  = $this->instance->presentation;
 		$presentation->twitter_creator = '@TwitterHandle';
 
 		$this->assertEquals(
@@ -52,7 +53,8 @@ class Creator_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_empty_twitter_creator() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation  = new Indexable_Presentation();
+		$presentation                  = $this->instance->presentation;
 		$presentation->twitter_creator = '';
 
 		$this->assertEmpty( $this->instance->present() );

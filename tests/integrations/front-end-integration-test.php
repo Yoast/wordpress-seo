@@ -109,7 +109,8 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_call_wpseo_head() {
 		global $wp_query;
 
-		$wp_query = $initial_wp_query = Mockery::mock( 'WP_Query' );
+		$initial_wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query         = $initial_wp_query;
 		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->instance->call_wpseo_head();

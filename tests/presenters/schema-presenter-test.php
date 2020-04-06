@@ -36,9 +36,11 @@ class Schema_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = Mockery::mock( Schema_Presenter::class )
+		$this->instance = Mockery::mock( Schema_Presenter::class )
 			->makePartial();
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		return parent::setUp();
 	}
