@@ -12,6 +12,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests getting the full image for an existing attachment.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_image
 	 */
 	public function test_get_full_image() {
 		$attachment = self::factory()->attachment->create();
@@ -42,6 +44,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests getting a medium image.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_image
 	 */
 	public function test_get_medium_image() {
 		$attachment = self::factory()->attachment->create();
@@ -59,6 +63,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Returns getting the image for an existing attachment.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_image
 	 */
 	public function test_get_image_for_unexisting_attachment() {
 		$this->assertFalse( WPSEO_Image_Utils::get_image( 0, 'full' ) );
@@ -88,6 +94,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 * Tests the usable dimensions method.
 	 *
 	 * @dataProvider data_get_usable_dimensions
+	 *
+	 * @covers \WPSEO_Image_Utils::filter_usable_dimensions
 	 *
 	 * @param int     $width       Width of the image.
 	 * @param int     $height      Height of the image.
@@ -147,6 +155,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if the absolute path is working as expected.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_absolute_path
 	 *
 	 * @param string $input    Data to use in execution.
 	 * @param string $expected Expected result.
