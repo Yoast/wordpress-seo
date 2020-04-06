@@ -114,7 +114,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'%s<br><br>%s',
 			sprintf(
 				/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
-				esc_html( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
+				esc_html__( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
 				'Ryte',
 				'Yoast SEO'
 			),
