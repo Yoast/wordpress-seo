@@ -230,7 +230,7 @@ Enhancements:
 * No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
 * Strips all tags from text fields in the schema output.
 * Adds `Term hierarchy` as a taxonomy snippet variable.
-* Uses the Gravatar image as a fallback for user archive's `og:image` and `twitter:image`.
+* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
 
 Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
