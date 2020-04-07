@@ -97,10 +97,10 @@ class Database_Setup implements Initializer_Interface {
 		$config = $this->get_database_config();
 
 		$connection_string = 'mysql:host=' . $config['host'] . ';dbname=' . \DB_NAME . ';';
-		if ( ! empty( $port ) ) {
+		if ( ! empty( $config['port'] ) ) {
 			$connection_string .= 'port=' . $config['port'] . ';';
 		}
-		if ( ! empty( $socket ) ) {
+		if ( ! empty( $config['socket'] ) ) {
 			$connection_string .= 'unix_socket=' . $config['socket'] . ';';
 		}
 		if ( ! empty( \DB_CHARSET ) ) {

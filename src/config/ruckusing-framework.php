@@ -126,7 +126,7 @@ class Ruckusing_Framework {
 				'production' => [
 					'type'                      => 'mysql',
 					'host'                      => $config['host'],
-					'port'                      => $config['post'],
+					'port'                      => $config['port'],
 					'database'                  => \DB_NAME,
 					'user'                      => \DB_USER,
 					'password'                  => \DB_PASSWORD,
