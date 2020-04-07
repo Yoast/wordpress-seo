@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import ImageSelect from "./ImageSelect";
 import PropTypes from "prop-types";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
@@ -16,7 +16,7 @@ import { angleLeft, angleRight, colors } from "@yoast/style-guide";
  * @returns {string} The color of the caret. Black if active, grey otherwise.
  */
 const getCaretColor = ( active ) => {
-	return active ? colors.$color_black : colors.$palette_grey;
+	return active ? colors.$color_snippet_focus : colors.$color_snippet_hover;
 };
 
 const CaretContainer = styled.div`position: relative`;
@@ -27,14 +27,15 @@ const Caret = styled.div`
 
 	::before {
 		position: absolute;
-		top: 8px;
-		${ getDirectionalStyle( "left", "right" ) }: -22px;
+		top: -2px;
+		${ getDirectionalStyle( "left", "right" ) }: -16px;
 		width: 22px;
 		height: 22px;
 		background-image: url(
 		${ props => getDirectionalStyle(
 		angleRight( getCaretColor( props.isActive ) ),
-		angleLeft( getCaretColor( props.isActive ) ) ) }
+		angleLeft( getCaretColor( props.isActive ) )
+	) }
 		);
 		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;
@@ -49,31 +50,29 @@ Caret.propTypes = {
 	isHovered: PropTypes.bool,
 };
 
-Caret.propTypes = {
+Caret.defaultProps = {
 	isActive: false,
 	isHovered: false,
 };
 
 /**
  * Adds Caret to a component.
- * @param {React.Element} Component The component to add a Caret to.
+ * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
  *
  * @returns {React.Element} A component with added Caret.
  */
-const withCaretStyle = ( Component ) => {
+export const withCaretStyle = ( WithoutCaretComponent ) => {
 	return function ComponentWithCaret( props ) {
 		return (
 			<CaretContainer>
 				{ /* eslint-disable-next-line react/prop-types */ }
 				<Caret isActive={ props.isActive } isHovered={ props.isHovered } />
-				<Component { ...props } />
+				<WithoutCaretComponent { ...props } />
 			</CaretContainer>
 		);
 	};
 };
 
-const TitleWithCaret = withCaretStyle( ReplacementVariableEditor );
-const DescriptionWithCaret = withCaretStyle( ReplacementVariableEditor );
 const ImageSelectWithCaret = withCaretStyle( ImageSelect );
 
 /**
@@ -83,74 +82,145 @@ const ImageSelectWithCaret = withCaretStyle( ImageSelect );
  *
  * @returns {React.Component} Returns a Fragment that contains all input fields.
  */
-const SocialMetadataPreviewForm = ( props ) => {
-	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), props.socialMediumName );
-	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), props.socialMediumName );
-	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	const descEditorTitle = sprintf( __( "%s desciption", "yoast-components" ), props.socialMediumName );
-	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-	const descEditorPlaceholder  = sprintf(
+class SocialMetadataPreviewForm extends Component {
+	/**
+	 * Constructs the component.
+	 *
+	 * @param {Object} props The component's props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+
+		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
+		this.onImageEnter = props.onMouseHover.bind( this, "image" );
+		this.onTitleEnter = props.onMouseHover.bind( this, "title" );
+		this.onDescriptionEnter = props.onMouseHover.bind( this, "description" );
+		this.onLeave = props.onMouseHover.bind( this, "" );
+
+		this.onSelectTitleEditor = this.onSelectEditor.bind( this, "title" );
+		this.onSelectDescriptionEditor = this.onSelectEditor.bind( this, "description" );
+		this.onDeselectEditor = this.onSelectEditor.bind( this, "" );
+
+		this.onTitleEditorRef = this.onSetEditorRef.bind( this, "title" );
+		this.onDescriptionEditorRef = this.onSetEditorRef.bind( this, "description" );
+	}
+
+	/**
+	 * Handles the onSelect function for the editors.
+	 *
+	 * @param {String} field The field name of the editor to focus.
+	 *
+	 * @returns {void}
+	 */
+	onSelectEditor( field ) {
+		this.props.onSelect( field );
+	}
+
+	/**
+	 * Handles the onSelect function for the editors.
+	 *
+	 * @param {String} field The field name of the editor to focus.
+	 * @param {String} ref The field name of the editor to focus.
+	 *
+	 * @returns {void}
+	 */
+	onSetEditorRef( field, ref ) {
+		this.props.setEditorRef( field, ref );
+	}
+
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {React.Element} The rend
+	 */
+	render() {
+		const {
+			socialMediumName,
+			onSelectImageClick,
+			onRemoveImageClick,
+			title,
+			description,
+			onTitleChange,
+			onDescriptionChange,
+			imageSelected,
+			hoveredField,
+			activeField,
+			isPremium,
+			replacementVariables,
+			recommendedReplacementVariables,
+			imageWarnings,
+			imageUrl,
+		} = this.props;
+
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		__( "Modify your %s description by editing it right here...", "yoast-components" ),
-		props.socialMediumName
-	);
+		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
+		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
+		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		const descEditorTitle = sprintf( __( "%s desciption", "yoast-components" ), socialMediumName );
+		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+		const descEditorPlaceholder  = sprintf(
+			/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+			__( "Modify your %s description by editing it right here...", "yoast-components" ),
+			socialMediumName
+		);
 
-	/**
-	 * @returns {void}
-	 */
-	function focusTitle() {
-		props.onSelect( "title" );
+
+		return (
+			<Fragment>
+				<ImageSelectWithCaret
+					title={ imageSelectTitle }
+					onClick={ onSelectImageClick }
+					onRemoveImageClick={ onRemoveImageClick }
+					warnings={ imageWarnings }
+					imageSelected={ imageSelected }
+					onMouseEnter={ this.onImageEnter }
+					onMouseLeave={ this.onLeave }
+					isActive={ activeField === "image" }
+					isHovered={ hoveredField === "image" }
+					imageUrl={ imageUrl }
+					isPremium={ isPremium }
+				/>
+				<ReplacementVariableEditor
+					onChange={ onTitleChange }
+					content={ title }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					type="title"
+					label={ titleEditorTitle }
+					onMouseEnter={ this.onTitleEnter }
+					onMouseLeave={ this.onLeave }
+					isActive={ activeField === "title" }
+					isHovered={ hoveredField === "title" }
+					withCaret={ true }
+					onFocus={ this.onSelectTitleEditor }
+					onBlur={ this.onDeselectEditor }
+					editorRef={ this.onTitleEditorRef }
+				/>
+				<ReplacementVariableEditor
+					onChange={ onDescriptionChange }
+					content={ description }
+					placeholder={ descEditorPlaceholder }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					type="description"
+					label={ descEditorTitle }
+					onMouseEnter={ this.onDescriptionEnter }
+					onMouseLeave={ this.onLeave }
+					isActive={ activeField === "description" }
+					isHovered={ hoveredField === "description" }
+					withCaret={ true }
+					onFocus={ this.onSelectDescriptionEditor }
+					onBlur={ this.onDeselectEditor }
+					editorRef={ this.onDescriptionEditorRef }
+				/>
+			</Fragment>
+		);
 	}
-
-	/**
-	 * @returns {void}
-	 */
-	function focusDescription() {
-		props.onSelect( "description" );
-	}
-
-	return (
-		<Fragment>
-			<ImageSelectWithCaret
-				title={ imageSelectTitle }
-				onClick={ props.onSelectImageClick }
-				onRemoveImageClick={ props.onRemoveImageClick }
-				warnings={ props.imageWarnings }
-				imageSelected={ props.imageSelected }
-				imageUrl={ props.imageUrl }
-				isPremium={ props.isPremium }
-				isActive={ props.activeField === "image" }
-				isHovered={ props.hoveredField === "image" }
-			/>
-			<TitleWithCaret
-				onChange={ props.onTitleChange }
-				content={ props.title }
-				replacementVariables={ props.replacementVariables }
-				recommendedReplacementVariables={ props.recommendedReplacementVariables }
-				type="title"
-				label={ titleEditorTitle }
-				isActive={ props.activeField === "title" }
-				isHovered={ props.hoveredField === "title" }
-				onFocus={ focusTitle }
-			/>
-			<DescriptionWithCaret
-				onChange={ props.onDescriptionChange }
-				content={ props.description }
-				placeholder={ descEditorPlaceholder }
-				replacementVariables={ props.replacementVariables }
-				recommendedReplacementVariables={ props.recommendedReplacementVariables }
-				type="description"
-				label={ descEditorTitle }
-				isActive={ props.activeField === "description" }
-				isHovered={ props.hoveredField === "description" }
-				onFocus={ focusDescription }
-			/>
-		</Fragment>
-	);
 }
-;
+
 
 SocialMetadataPreviewForm.propTypes = {
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
@@ -161,18 +231,16 @@ SocialMetadataPreviewForm.propTypes = {
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	imageSelected: PropTypes.bool.isRequired,
-	isPremium: PropTypes.bool.isRequired,
+	isPremium: PropTypes.bool,
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	onSelect: PropTypes.func,
-	isPremium: PropTypes.bool,
 	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
-	hoveredField: PropTypes.string,
-	activeField: PropTypes.string,
-	onSelect: PropTypes.func,
+	setEditorRef: PropTypes.func,
+	onMouseHover: PropTypes.func,
 };
 
 SocialMetadataPreviewForm.defaultProps = {
@@ -183,8 +251,9 @@ SocialMetadataPreviewForm.defaultProps = {
 	hoveredField: "",
 	activeField: "",
 	onSelect: () => {},
-	imageUrl: "",
 	isPremium: false,
+	setEditorRef: () => {},
+	onMouseHover: () => {},
 };
 
 export default SocialMetadataPreviewForm;

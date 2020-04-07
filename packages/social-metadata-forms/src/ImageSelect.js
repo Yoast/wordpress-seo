@@ -85,8 +85,11 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
  *
  * @returns {React.Component} The ImageSelect component with a title, optional warnings and an image selection button.
  */
-const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageClick, imageUrl, isPremium } ) =>
-	<Fragment>
+const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageClick, imageUrl, isPremium, onMouseEnter, onMouseLeave } ) =>
+	<div
+		onMouseEnter={ onMouseEnter }
+		onMouseLeave={ onMouseLeave }
+	>
 		<SimulatedLabel>
 			{ title }
 		</SimulatedLabel>
@@ -105,7 +108,7 @@ const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageCl
 					</RowWrapper>
 				</ColumnWrapper>
 		}
-	</Fragment>
+	</div>
 ;
 
 ImageSelect.propTypes = {
@@ -116,6 +119,8 @@ ImageSelect.propTypes = {
 	onRemoveImageClick: PropTypes.func,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	imageUrl: PropTypes.string,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 ImageSelect.defaultProps = {
@@ -123,6 +128,8 @@ ImageSelect.defaultProps = {
 	onClick: () => {},
 	warnings: [],
 	imageUrl: "",
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default ImageSelect;
