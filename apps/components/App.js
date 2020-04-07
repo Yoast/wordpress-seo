@@ -119,7 +119,7 @@ const components = [
 		component: <SocialPreviewFormWrapper />,
 	},
 	{
-		id: "social-preview-",
+		id: "social-preview",
 		name: "Social Preview",
 		component: <SocialPreviewEditorWrapper />,
 	},
@@ -145,7 +145,7 @@ class App extends React.Component {
 		super();
 
 		this.state = {
-			activeComponent: "buttons",
+			activeComponent: ( localStorage.getItem( "active-component" ) || "buttons" ),
 			isRtl: false,
 		};
 		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
@@ -175,6 +175,8 @@ class App extends React.Component {
 	navigate( activeComponent ) {
 		this.setState( {
 			activeComponent: activeComponent,
+		}, () => {
+			localStorage.setItem( "active-component", activeComponent );
 		} );
 	}
 
