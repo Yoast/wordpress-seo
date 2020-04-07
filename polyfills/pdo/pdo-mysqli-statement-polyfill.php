@@ -119,7 +119,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function bindParam( $param, &$variable, $type = \PDO::PARAM_STR, $length = null ) {
 		assert( is_int( $param ) );
@@ -133,7 +133,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function bindValue( $param, $value, $type = \PDO::PARAM_STR ) {
 		assert( is_int( $param ) );
@@ -148,7 +148,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function execute( $params = null ) {
 		if ( $params !== null && count( $params ) > 0 ) {
@@ -312,7 +312,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function fetch( $fetchMode = null, ...$args ) {
 		// do not try fetching from the statement if it's not expected to contain result
@@ -360,7 +360,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function fetchAll( $fetchMode = null, ...$args ) {
 		$fetchMode = $fetchMode ?: $this->defaultFetchMode;
@@ -381,7 +381,7 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function fetchColumn( $columnIndex = 0 ) {
 		$row = $this->fetch( \PDO::FETCH_NUM );
@@ -431,14 +431,14 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function setFetchMode( $fetchMode, ...$args ) {
 		$this->defaultFetchMode = $fetchMode;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 */
 	public function getIterator() {
 		while ( ($result = $this->fetch()) !== false ) {

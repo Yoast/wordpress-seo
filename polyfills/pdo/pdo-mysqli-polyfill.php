@@ -108,7 +108,7 @@ class PDO_MySQLi_Polyfill {
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @inheritdoc
 	 *
 	 * The server version detection includes a special case for MariaDB
 	 * to support '5.5.5-' prefixed versions introduced in Maria 10+
@@ -128,6 +128,9 @@ class PDO_MySQLi_Polyfill {
 		return $majorVersion . '.' . $minorVersion . '.' . $patchVersion;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function prepare( $sql ) {
 		return new PDO_MySQLi_Statement_Polyfill( $this->conn, $sql );
 	}
@@ -241,7 +244,7 @@ class PDO_MySQLi_Polyfill {
 	/**
 	 * Pings the server and re-connects when `mysqli.reconnect = 1`
 	 *
-	 * {@inheritDoc}
+	 * @inheritDoc
 	 */
 	public function ping() {
 		if ( ! $this->conn->ping() ) {
