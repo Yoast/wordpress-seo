@@ -56,7 +56,9 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$this->instance->helpers = (object) [
 			'options' => $this->options,
 		];
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		return parent::setUp();
 	}
