@@ -56,7 +56,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Title_Presenter();
+		$this->instance               = new Title_Presenter();
 		$this->instance->replace_vars = $this->replace_vars;
 		$this->instance->helpers      = (object) [
 			'string' => $this->string,

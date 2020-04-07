@@ -98,7 +98,7 @@ class Handle_404 implements Integration_Interface {
 	 * Sets the 404 status code.
 	 */
 	protected function set_404() {
-		$wp_query = $this->query_wrapper->get_query();
+		$wp_query          = $this->query_wrapper->get_query();
 		$wp_query->is_feed = false;
 		$wp_query->set_404();
 		$this->query_wrapper->set_query( $wp_query );

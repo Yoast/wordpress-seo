@@ -150,7 +150,7 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 * @return string The rendered breadcrumbs.
 	 */
 	private function render() {
-		$presenter = new Breadcrumbs_Presenter();
+		$presenter               = new Breadcrumbs_Presenter();
 		$presenter->presentation = $this->context_memoizer->for_current_page()->presentation;
 		$presenter->replace_vars = $this->replace_vars;
 		$presenter->helpers      = $this->helpers;

@@ -49,7 +49,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->options = Mockery::mock( Options_Helper::class );
 
-		$this->instance     = Mockery::mock( Breadcrumbs_Presenter::class )
+		$this->instance = Mockery::mock( Breadcrumbs_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 

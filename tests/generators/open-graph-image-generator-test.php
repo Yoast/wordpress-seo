@@ -77,7 +77,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 			Open_Graph_Image_Helper::class,
 			[ $this->url, $this->image ]
 		);
-		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
+		$this->image_container  = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Open_Graph_Image_Generator::class,

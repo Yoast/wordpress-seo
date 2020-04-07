@@ -48,7 +48,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->indexable_presentation = $this->instance->presentation;
 		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->replace_vars         = $this->replace_vars;
 		$this->indexable_presentation->source = [];
 
 		return parent::setUp();
@@ -69,7 +69,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -112,7 +112,7 @@ class Title_Presenter_Test extends TestCase {
 			->andReturn( 'twitterexampletitle' );
 
 		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

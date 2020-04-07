@@ -97,7 +97,7 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 * @return Images The image container.
 	 */
 	protected function get_image_container() {
-		$image_container = new Images( $this->image, $this->url );
+		$image_container             = new Images( $this->image, $this->url );
 		$image_container->image_size = $this->twitter_image->get_image_size();
 
 		return $image_container;

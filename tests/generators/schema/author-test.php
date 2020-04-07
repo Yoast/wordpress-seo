@@ -107,6 +107,7 @@ class Author_Test extends TestCase {
 		$this->instance = Mockery::mock( Author::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
+
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [
 			'image'  => $this->image,

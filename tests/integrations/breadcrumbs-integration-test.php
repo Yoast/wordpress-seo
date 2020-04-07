@@ -51,7 +51,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 		parent::setUp();
 
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->instance = new Breadcrumbs_Integration(
+		$this->instance         = new Breadcrumbs_Integration(
 			Mockery::mock( Helpers_Surface::class ),
 			Mockery::mock( WPSEO_Replace_Vars::class ),
 			$this->context_memoizer
@@ -73,7 +73,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::render
 	 */
 	public function test_render() {
-		$indexable_presentation = Mockery::mock( Indexable_Presentation::class );
+		$indexable_presentation              = Mockery::mock( Indexable_Presentation::class );
 		$indexable_presentation->breadcrumbs = [];
 
 		$this->context_memoizer
