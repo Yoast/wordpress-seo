@@ -54,7 +54,7 @@ if ( $tool_page === '' ) {
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
-		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
+		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ), '>', esc_html( $tool['title'] ), '</a></strong><br/>';
 		echo esc_html( $tool['desc'] );
 		echo '</li>';
 	}
