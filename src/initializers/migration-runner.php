@@ -66,7 +66,7 @@ class Migration_Runner implements Initializer_Interface {
 		Migration_Status $migration_status,
 		Ruckusing_Framework $framework,
 		Logger $logger,
-		Database_Setup $database_setup,
+		Database_Setup $database_setup
 	) {
 		$this->migration_status = $migration_status;
 		$this->framework        = $framework;
