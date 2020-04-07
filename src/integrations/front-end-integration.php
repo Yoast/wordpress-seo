@@ -238,9 +238,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
-		var_dump( $context->indexable );
-		exit;
-
 		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
