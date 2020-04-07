@@ -60,6 +60,29 @@ input[type="checkbox"].visually-hidden:checked::before {
 
 .yoast-toggle {
 	position: relative;
+	display: grid;
+	grid-template: 1fr / repeat(3, auto);
+	align-items: center;
+}
+
+.yoast-toggle > * {
+	grid-row: 1;
+}
+
+.yoast-toggle--inactive {
+	grid-column: 1;
+}
+
+.yoast-toggle input[type="checkbox"] {
+	grid-column: 2;
+}
+
+.yoast-toggle__switch {
+	grid-column: 2;
+}
+
+.yoast-toggle--active {
+	grid-column: 3;
 }
 
 .yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch, .yoast-toggle-inverse input[type="checkbox"]:not(:checked) ~ .yoast-toggle__switch {
