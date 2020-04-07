@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Tests\Presenters
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Debug;
 
 use Brain\Monkey;
 use Mockery;
@@ -40,7 +40,7 @@ class Marker_Close_Presenter_Test extends TestCase {
 		];
 
 		$this->assertEquals(
-			'<!-- / Yoast SEO plugin. -->' . PHP_EOL . PHP_EOL,
+			'<!-- / Yoast SEO plugin. -->',
 			$instance->present()
 		);
 	}

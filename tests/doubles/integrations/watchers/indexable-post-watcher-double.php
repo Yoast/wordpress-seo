@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles;
+namespace Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers;
 
 use Yoast\WP\SEO\Models\Indexable;
 

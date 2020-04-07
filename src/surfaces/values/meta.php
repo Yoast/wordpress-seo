@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Surfaces\Values
  */
 
-namespace Yoast\WP\Free\Surfaces\Values;
+namespace Yoast\WP\SEO\Surfaces\Values;
 
 use Exception;
 use WPSEO_Replace_Vars;

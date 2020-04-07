@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles;
+namespace Yoast\WP\SEO\Tests\Doubles\Builders;
 
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 

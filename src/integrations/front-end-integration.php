@@ -11,7 +11,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
@@ -125,6 +125,19 @@ class Front_End_Integration implements Integration_Interface {
 		'Twitter\Image',
 		'Twitter\Creator',
 		'Twitter\Site',
+	];
+
+	/**
+	 * The Webmaster verification specific presenters.
+	 *
+	 * @var string[]
+	 */
+	protected $webmaster_verification_presenters = [
+		'Webmaster\Baidu',
+		'Webmaster\Bing',
+		'Webmaster\Google',
+		'Webmaster\Pinterest',
+		'Webmaster\Yandex',
 	];
 
 	/**
@@ -337,6 +350,10 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$presenters = $this->get_all_presenters();
+		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ] ) ) {
+			$presenters = \array_merge( $presenters, $this->webmaster_verification_presenters );
+		}
+
 		// Filter out the presenters only needed for singular pages on non-singular pages.
 		if ( ! \in_array( $page_type, [ 'Post_Type', 'Static_Home_Page' ], true ) ) {
 			$presenters = \array_diff( $presenters, $this->singular_presenters );

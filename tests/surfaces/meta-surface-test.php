@@ -5,9 +5,12 @@
  * @package Yoast\WP\SEO\Tests\Surfaces
  */
 
+namespace Yoast\WP\SEO\Tests\Surfaces;
+
 use Brain\Monkey;
-use Yoast\WP\Free\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Mockery;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
