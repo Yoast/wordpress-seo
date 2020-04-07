@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\AMP;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -52,7 +53,7 @@ class AMP_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class ],
+			[ Front_End_Conditional::class, Migrations_Conditional::class ],
 			AMP::get_conditionals()
 		);
 	}
