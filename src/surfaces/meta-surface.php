@@ -5,10 +5,10 @@
  * @package Yoast\YoastSEO\Surfaces
  */
 
-namespace Yoast\WP\Free\Surfaces;
+namespace Yoast\WP\SEO\Surfaces;
 
 use Exception;
-use Yoast\WP\Free\Surfaces\Values\Meta;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;

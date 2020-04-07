@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO;
 
 use Exception;
-use Yoast\WP\Free\Surfaces\Meta_Surface;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
