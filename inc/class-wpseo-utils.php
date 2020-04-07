@@ -1197,7 +1197,7 @@ SVG;
 		do_action( 'wpseo_home_url' );
 
 		// If the plugin is network-activated, use the network home URL.
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
+		if ( self::is_plugin_network_active() ) {
 			return network_home_url();
 		}
 
