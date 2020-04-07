@@ -172,6 +172,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	public function generate_open_graph_type() {
+		return 'article';
+	}
+
+	/**
 	 * Checks if term archive query is for multiple terms (/term-1,term-2/ or /term-1+term-2/).
 	 *
 	 * @return bool Whether the query contains multiple terms.
