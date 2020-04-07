@@ -48,6 +48,8 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return [
+			'author_name'               => get_the_author_meta( 'display_name' ),
+			'site_name'                 => get_bloginfo(),
 			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),

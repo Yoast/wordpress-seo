@@ -78,6 +78,8 @@ class Edit {
 		this._store.dispatch( setSettings( {
 			socialPreviews: {
 				sitewideImage: this._localizedData.sitewide_social_image,
+				authorName: this._localizedData.author_name,
+				siteName: this._localizedData.site_name,
 			},
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
