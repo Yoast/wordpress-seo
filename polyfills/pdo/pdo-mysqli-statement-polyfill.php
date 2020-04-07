@@ -403,11 +403,18 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 		return $row[ $columnIndex ];
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
 	public function closeCursor() {
 		$this->stmt->free_result();
 		$this->result = false;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function rowCount() {
 		if ( $this->hasColumns ) {
 			return $this->stmt->num_rows;
@@ -416,6 +423,9 @@ final class PDO_MySQLi_Statement_Polyfill implements \IteratorAggregate {
 		return $this->stmt->affected_rows;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function columnCount() {
 		return $this->stmt->field_count;
 	}

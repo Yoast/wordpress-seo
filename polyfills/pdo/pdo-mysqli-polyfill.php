@@ -38,8 +38,8 @@ class PDO_MySQLi_Polyfill {
 	private $conn;
 
 	/**
-	 * @param array<string, mixed> $params
-	 * @param array<int, mixed>    $driverOptions
+	 * @param array<string, mixed> $params        The params.
+	 * @param array<int, mixed>    $driverOptions The driver options.
 	 *
 	 * @throws \Exception
 	 */
@@ -132,6 +132,9 @@ class PDO_MySQLi_Polyfill {
 		return new PDO_MySQLi_Statement_Polyfill( $this->conn, $sql );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function query( $sql ) {
 		$stmt = $this->prepare( $sql );
 		$stmt->execute();
@@ -139,10 +142,16 @@ class PDO_MySQLi_Polyfill {
 		return $stmt;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function quote( $input ) {
 		return "'" . $this->conn->escape_string( $input ) . "'";
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function exec( $statement ) {
 		if ( $this->conn->query( $statement ) === false ) {
 			throw new \Exception( $this->conn->error, $this->conn->errno );
@@ -151,20 +160,32 @@ class PDO_MySQLi_Polyfill {
 		return $this->conn->affected_rows;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function lastInsertId( $name = null ) {
 		return (string) $this->conn->insert_id;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function beginTransaction() {
 		$this->conn->query( 'START TRANSACTION' );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function commit() {
 		if ( ! $this->conn->commit() ) {
 			throw new \Exception( $this->conn->error, $this->conn->errno );
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function rollBack() {
 		if ( ! $this->conn->rollback() ) {
 			throw new \Exception( $this->conn->error, $this->conn->errno );
@@ -228,6 +249,9 @@ class PDO_MySQLi_Polyfill {
 		}
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getAttribute( $name ) {
 		if ( $name === \PDO::ATTR_DRIVER_NAME ) {
 			return 'mysql';
@@ -235,6 +259,9 @@ class PDO_MySQLi_Polyfill {
 		return null;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setAttribute( $attribute, $value ) {
 		return false;
 	}
