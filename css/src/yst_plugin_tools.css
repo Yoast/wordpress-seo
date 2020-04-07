@@ -344,7 +344,7 @@ tr.yst_row.even {
 .yoast .search-box,
 .wpseo_content_wrapper .notice p,
 .yoast-container .container,
-.yoast-alert p {
+.yoast-notification p {
   max-width: none;
 }
 

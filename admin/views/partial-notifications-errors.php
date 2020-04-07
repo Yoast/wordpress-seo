@@ -1,21 +1,21 @@
-<?php
+-<?php
 /**
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin
  *
- * @uses    array $alerts_data
+ * @uses    array $notifications_data
  */
 
 $type     = 'errors';
 $dashicon = 'warning';
 
-$active    = $alerts_data['errors']['active'];
-$dismissed = $alerts_data['errors']['dismissed'];
+$active    = $notifications_data['errors']['active'];
+$dismissed = $notifications_data['errors']['dismissed'];
 
 $active_total    = count( $active );
 $dismissed_total = count( $dismissed );
-$total           = $alerts_data['metrics']['errors'];
+$total           = $notifications_data['metrics']['errors'];
 
 $i18n_title              = __( 'Problems', 'wordpress-seo' );
 $i18n_issues             = __( 'We have detected the following issues that affect the SEO of your site.', 'wordpress-seo' );
@@ -26,4 +26,4 @@ $i18n_muted_issues_title = sprintf(
 	$dismissed_total
 );
 
-require WPSEO_PATH . 'admin/views/partial-alerts-template.php';
+require WPSEO_PATH . 'admin/views/partial-notifications-template.php';

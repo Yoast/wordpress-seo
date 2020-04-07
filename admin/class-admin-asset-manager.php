@@ -567,8 +567,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wpseo-dismissible-' . $flat_version,
 			],
 			[
-				'name' => 'alerts',
-				'src'  => 'alerts-' . $flat_version,
+				'name' => 'notifications',
+				'src'  => 'notifications-' . $flat_version,
 			],
 			[
 				'name' => 'edit-page',
