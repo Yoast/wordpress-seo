@@ -102,7 +102,7 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Handle ajax request to dismiss a alert.
+	 * Deprecated: Handle ajax request to dismiss a alert.
 	 * Renamed to ajax_dismiss_notification
 	 *
 	 * @deprecated 14.0
@@ -130,7 +130,7 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Handle ajax request to restore a notification.
+	 * Deprecated: Handle ajax request to restore a notification.
 	 * Renamed to ajax_restore_notification
 	 *
 	 * @return void
@@ -271,7 +271,7 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Get the number of active notifications.
+	 * Deprecated: Get the number of active notifications.
 	 * Renamed to get_active_notification_count
 	 *
 	 * @return int
@@ -295,8 +295,7 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Filter out any non-errors.
-	 * Renamed to filter_error_notifications
+	 * Deprecated: Filter out any non-errors. Renamed to filter_error_notifications
 	 *
 	 * @param Yoast_Notification $notification
 	 * @return bool
@@ -323,8 +322,7 @@ class Yoast_Notifications {
 
 
 	/**
-	 * Filter out any non-warnings.
-	 * Renamed to filter_warning_notifications
+	 * Deprecated: Filter out any non-warnings. Renamed to filter_warning_notifications
 	 *
 	 * @param Yoast_Notification $notification
 	 * @return bool
@@ -351,8 +349,7 @@ class Yoast_Notifications {
 	}
 
 	/**
-	 * Filter out any dismissed notifications.
-	 * Renamed to filter_dismissed_alerts
+	 * Deprecated: Filter out any dismissed notifications. Renamed to filter_dismissed_alerts.
 	 *
 	 * @param Yoast_Notification $notification
 	 * @return bool
