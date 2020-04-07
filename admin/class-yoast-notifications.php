@@ -385,3 +385,5 @@ class Yoast_Notifications {
 		return Yoast_Notification_Center::is_notification_dismissed( $notification );
 	}
 }
+
+class_alias( Yoast_Notifications::class, 'Yoast_Alerts' );
