@@ -74,28 +74,41 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	/**
 	 * Retrieves the images for an indexable.
 	 *
+	 * For legacy reasons some plugins might expect we filter a WPSEO_Opengraph_Image object. That might cause
+	 * type errors. This is why we try/catch our filters.
+	 *
 	 * @param Meta_Tags_Context $context The context.
 	 *
 	 * @return array The images.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$image_container = $this->get_image_container();
+		$backup_image_container = $this->get_image_container();
 
-		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the Open Graph tags.
-		 *
-		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_images', $image_container );
+		try {
+			/**
+			 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the Open Graph tags.
+			 *
+			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
+			 */
+			apply_filters( 'wpseo_add_opengraph_images', $image_container );
+		} catch ( \Error $error ) {
+			$image_container = $backup_image_container;
+		}
 
 		$this->add_from_indexable( $context->indexable, $image_container );
+		$backup_image_container = $image_container;
 
-		/**
-		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the Open Graph tags.
-		 *
-		 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_additional_images', $image_container );
+		try {
+			/**
+			 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the Open Graph tags.
+			 *
+			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
+			 */
+			apply_filters( 'wpseo_add_opengraph_additional_images', $image_container );
+		} catch ( \Error $error ) {
+			$image_container = $backup_image_container;
+		}
 
 		$this->add_from_default( $image_container );
 
