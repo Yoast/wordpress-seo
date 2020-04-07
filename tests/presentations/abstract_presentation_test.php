@@ -88,7 +88,7 @@ class Abstract_Presentation_Test extends TestCase {
 	 */
 	public function test_get_throws_exception_when_accessing_property_on_prototype() {
 		$this->instance->expects( 'is_prototype' )
-					   ->andReturnFalse();
+			->andReturnFalse();
 
 		$this->instance->non_existing_property;
 	}
