@@ -41,7 +41,7 @@ class Meta_Description_Test extends TestCase {
 	 * @covers ::generate_meta_description
 	 */
 	public function test_without_meta_description() {
-		$this->indexable->description = null;
+		$this->indexable->description     = null;
 		$this->indexable->object_sub_type = 'post';
 
 		$this->options

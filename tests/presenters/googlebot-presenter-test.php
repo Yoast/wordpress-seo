@@ -47,7 +47,7 @@ class Googlebot_Presenter_Test extends TestCase {
 		$indexable_presentation            = $this->instance->presentation;
 		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two, three" />';
 
 		$this->assertEquals( $actual, $expected );
@@ -69,7 +69,7 @@ class Googlebot_Presenter_Test extends TestCase {
 			->with( 'one, two, three', $indexable_presentation )
 			->andReturn( 'one, two' );
 
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two" />';
 
 		$this->assertEquals( $actual, $expected );

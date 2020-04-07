@@ -96,7 +96,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = new \stdClass();
+		$wp_query        = new \stdClass();
 		$wp_query->posts = true;
 
 		$this->query_wrapper
@@ -118,7 +118,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnTrue();
 
@@ -141,7 +141,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnFalse();
@@ -166,7 +166,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnTrue();
@@ -201,7 +201,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnFalse();

@@ -364,12 +364,12 @@ class Yoast_Form {
 			];
 		}
 
-		$defaults   = [
+		$defaults = [
 			'placeholder' => '',
 			'class'       => '',
 		];
-		$attr       = wp_parse_args( $attr, $defaults );
-		$val        = $this->get_field_value( $var, '' );
+		$attr     = wp_parse_args( $attr, $defaults );
+		$val      = $this->get_field_value( $var, '' );
 		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
 			$val  = urldecode( $val );
 			$type = 'url';

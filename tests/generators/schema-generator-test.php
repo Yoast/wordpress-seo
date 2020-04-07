@@ -87,8 +87,8 @@ class Schema_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->id                     = Mockery::mock( ID_Helper::class );
-		$this->current_page           = Mockery::mock( Current_Page_Helper::class )->makePartial();
+		$this->id           = Mockery::mock( ID_Helper::class );
+		$this->current_page = Mockery::mock( Current_Page_Helper::class )->makePartial();
 
 		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
 
@@ -248,7 +248,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_generator_have_identifier() {
-		$piece = new FAQ();
+		$piece             = new FAQ();
 		$piece->identifier = 'faq_block';
 		$this->instance
 			->expects( 'get_graph_pieces' )

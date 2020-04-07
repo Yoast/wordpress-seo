@@ -209,7 +209,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::query
 	 */
 	public function test_query() {
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$GLOBALS['wpdb'] = $wpdb;

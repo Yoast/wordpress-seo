@@ -36,8 +36,8 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array $data Our Schema graph.
 	 */
 	public function generate() {
-		$ids   = [];
-		$graph = [];
+		$ids             = [];
+		$graph           = [];
 		$number_of_items = 0;
 
 		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {

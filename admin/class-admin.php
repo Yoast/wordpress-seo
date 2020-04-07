@@ -379,7 +379,7 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		$integrations = [];
 
-		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
+		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
 
 		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
 			return $integrations;

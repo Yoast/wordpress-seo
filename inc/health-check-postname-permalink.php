@@ -34,7 +34,7 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
 
-		$this->description  = sprintf(
+		$this->description = sprintf(
 			/* translators: %s expands to '/%postname%/' */
 			__( 'It\'s highly recommended to have your postname in the URL of your posts and pages. Consider setting your permalink structure to %s.', 'wordpress-seo' ),
 			'<strong>/%postname%/</strong>'

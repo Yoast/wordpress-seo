@@ -59,8 +59,8 @@ class Open_Graph_Article_Modified_Time_Test extends TestCase {
 			->once()
 			->andReturn( '2019-11-09T12:34:56+00:00' );
 
-		$actual              = $this->instance->generate_open_graph_article_modified_time();
-		$expected            = '2019-11-09T12:34:56+00:00';
+		$actual   = $this->instance->generate_open_graph_article_modified_time();
+		$expected = '2019-11-09T12:34:56+00:00';
 		$this->assertEquals( $expected, $actual );
 	}
 }

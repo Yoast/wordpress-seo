@@ -530,7 +530,7 @@ class Person_Test extends TestCase {
 			'height'     => 128,
 			'caption'    => 'Person image',
 		];
-		$avatar_url = $image_schema['url'];
+		$avatar_url   = $image_schema['url'];
 
 		switch ( $scenario ) {
 			case 'empty_avatar_url':
