@@ -54,6 +54,6 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 	 * @return bool
 	 */
 	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+		return ( strpos( get_option( 'permalink_structure' ), '%postname%' ) !== false );
 	}
 }
