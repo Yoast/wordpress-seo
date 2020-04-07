@@ -27,7 +27,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Toggle indicating whether output buffering has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $ob_started = false;
 
