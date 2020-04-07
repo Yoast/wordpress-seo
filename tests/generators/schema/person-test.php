@@ -5,8 +5,11 @@
  * @package Yoast\WP\SEO\Tests\Generators\Schema
  */
 
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
+
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use Mockery;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Helpers\Image_Helper;

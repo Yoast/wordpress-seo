@@ -24,7 +24,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group integrations
  * @group front-end
  */
-class Comment_link_Fixer_Test extends TestCase {
+class Comment_Link_Fixer_Test extends TestCase {
 
 	/**
 	 * The redirect helper.

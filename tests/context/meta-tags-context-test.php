@@ -1,6 +1,10 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Context;
+
 use Brain\Monkey\Functions;
+use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
