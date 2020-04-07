@@ -42,7 +42,7 @@ class Ruckusing_Framework {
 	protected $migration_logger;
 
 	/**
-	 * The migration logger object.
+	 * The database setup object.
 	 *
 	 * @var \Yoast\WP\SEO\Initializers\Database_Setup
 	 */
