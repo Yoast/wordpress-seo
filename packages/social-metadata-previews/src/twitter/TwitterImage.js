@@ -128,13 +128,21 @@ export default class TwitterImage extends React.Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
-			return <PlaceholderImage isLarge={ this.props.isLarge }>
+			return <PlaceholderImage
+				isLarge={ this.props.isLarge }
+				onClick={ this.props.onImageClick }
+				onMouseEnter={ this.props.onMouseEnter }
+				onMouseLeave={ this.props.onMouseLeave }
+			>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
 		}
 
 		return <TwitterImageContainer
 			isLarge={ this.props.isLarge }
+			onClick={ this.props.onImageClick }
+			onMouseEnter={ this.props.onMouseEnter }
+			onMouseLeave={ this.props.onMouseLeave }
 		>
 			<StyledImage
 				src={ this.props.src }
@@ -149,8 +157,14 @@ TwitterImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	isLarge: PropTypes.bool.isRequired,
 	alt: PropTypes.string,
+	onImageClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 TwitterImage.defaultProps = {
 	alt: "",
+	onImageClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };

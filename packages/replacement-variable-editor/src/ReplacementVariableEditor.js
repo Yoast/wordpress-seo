@@ -80,6 +80,9 @@ class ReplacementVariableEditor extends React.Component {
 			editorRef,
 			placeholder,
 			fieldId,
+			withCaret,
+			onMouseEnter,
+			onMouseLeave,
 		} = this.props;
 
 		const InputContainer = this.InputContainer;
@@ -91,7 +94,10 @@ class ReplacementVariableEditor extends React.Component {
 		</TriggerReplacementVariableSuggestionsButton>;
 
 		return (
-			<FormSection>
+			<FormSection
+				onMouseEnter={ onMouseEnter }
+				onMouseLeave={ onMouseLeave }
+			>
 				<SimulatedLabel
 					id={ this.uniqueId }
 					onClick={ onFocus }
@@ -111,6 +117,7 @@ class ReplacementVariableEditor extends React.Component {
 						onChange={ onChange }
 						onFocus={ onFocus }
 						onBlur={ onBlur }
+						withCaret={ withCaret }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						ref={ ref => {
@@ -140,6 +147,8 @@ ReplacementVariableEditor.propTypes = {
 	placeholder: PropTypes.string,
 	type: PropTypes.oneOf( [ "title", "description" ] ).isRequired,
 	fieldId: PropTypes.string,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 ReplacementVariableEditor.defaultProps = {
@@ -154,6 +163,8 @@ ReplacementVariableEditor.defaultProps = {
 	isHovered: false,
 	isActive: false,
 	editorRef: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default ReplacementVariableEditor;

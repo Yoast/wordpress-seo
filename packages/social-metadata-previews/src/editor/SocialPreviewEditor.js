@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 /* Internal dependencies */
 import { SocialMetadataPreviewForm } from "@yoast/social-metadata-forms";
 import FacebookPreview from "../facebook/FacebookPreview";
+import TwitterPreview from "../twitter/TwitterPreview";
 import { recommendedReplacementVariablesShape, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 
 /**
@@ -15,18 +16,23 @@ import { recommendedReplacementVariablesShape, replacementVariablesShape } from 
 class SocialPreviewEditor extends Component {
 	/**
 	 * The constructor.
+	 * @param {Object} props The props object.
+	 *
+	 * @returns {void}
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			activeField: "",
 			hoveredField: "",
 		};
 
+		this.SocialPreview = props.socialMediumName === "Facebook" ? FacebookPreview : TwitterPreview;
 		this.setHoveredField = this.setHoveredField.bind( this );
 		this.setActiveField = this.setActiveField.bind( this );
 		this.handleImageClick = this.handleImageClick.bind( this );
+		this.setEditorRef = this.setEditorRef.bind( this );
 	}
 
 	/**
@@ -60,6 +66,16 @@ class SocialPreviewEditor extends Component {
 		console.log( "activefield", field );
 		this.setState( {
 			activeField: field,
+		}, () => {
+			switch ( field ) {
+				case "title":
+					this.titleEditorRef.focus();
+					return;
+				case "description":
+					console.log( "HERE!" );
+					this.descriptionEditorRef.focus();
+					return;
+			}
 		} );
 	}
 
@@ -75,6 +91,25 @@ class SocialPreviewEditor extends Component {
 	}
 
 	/**
+	 * Hoi
+	 * @param {*} field  hoi
+	 * @param {*} ref hoi
+	 *
+	 * @returns {void}
+	 */
+	setEditorRef( field, ref ) {
+		console.log( "setEditorRef: ", field, ref );
+		switch ( field ) {
+			case "title":
+				this.titleEditorRef = ref;
+				return;
+			case "description":
+				this.descriptionEditorRef = ref;
+				return;
+		}
+	}
+
+	/**
 	 * The render function.
 	 *
 	 * @returns {void} Void.
@@ -85,6 +120,7 @@ class SocialPreviewEditor extends Component {
 			onTitleChange,
 			onSelectImageClick,
 			onRemoveImageClick,
+			socialMediumName,
 			imageWarnings,
 			siteName,
 			description,
@@ -94,25 +130,27 @@ class SocialPreviewEditor extends Component {
 			replacementVariables,
 			recommendedReplacementVariables,
 			isPremium,
+			isLarge,
 		} = this.props;
 
 		return (
 			<React.Fragment>
-				<FacebookPreview
+				<this.SocialPreview
 					onMouseHover={ this.setHoveredField }
-					onSelect={ this.setActiveField }
-					onImageClick={ this.handleImageClick }
-					activeField={ this.state.activeField }
 					hoveredField={ this.state.hoveredField }
+					onSelect={ this.setActiveField }
+					activeField={ this.state.activeField }
+					onImageClick={ this.handleImageClick }
 					siteName={ siteName }
 					title={ title }
 					description={ description }
 					image={ image }
 					alt={ alt }
+					isLarge={ isLarge }
 				/>
 				<SocialMetadataPreviewForm
 					onDescriptionChange={ onDescriptionChange }
-					socialMediumName="Facebook"
+					socialMediumName={ socialMediumName }
 					title={ title }
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! image }
@@ -122,11 +160,12 @@ class SocialPreviewEditor extends Component {
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
-					onFocus={ this.setHoveredField }
+					onMouseHover={ this.setHoveredField }
+					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
 					activeField={ this.state.activeField }
-					hoveredField={ this.state.hoveredField }
 					isPremium={ isPremium }
+					setEditorRef={ this.setEditorRef }
 				/>
 			</React.Fragment>
 		);
@@ -142,8 +181,10 @@ SocialPreviewEditor.propTypes = {
 	alt: PropTypes.string.isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
+	socialMediumName: PropTypes.string.isRequired,
 	isPremium: PropTypes.bool,
 	imageWarnings: PropTypes.array,
+	isLarge: PropTypes.bool,
 	siteName: PropTypes.string.isRequired,
 	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
 	recommendedReplacementVariables: PropTypes.arrayOf( recommendedReplacementVariablesShape ),
@@ -154,6 +195,7 @@ SocialPreviewEditor.defaultProps = {
 	recommendedReplacementVariables: [],
 	replacementVariables: [],
 	isPremium: false,
+	isLarge: true,
 };
 
 export default SocialPreviewEditor;

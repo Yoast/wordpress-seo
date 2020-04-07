@@ -1,14 +1,18 @@
 /* External dependencies */
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import TwitterTitle from "./TwitterTitle";
-import TwitterDescription from "./TwitterDescription";
 import TwitterSiteName from "./TwitterSiteName";
 import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
+import { default as NoCaretTitle } from "./TwitterTitle";
+import { default as NoCaretDescription } from "./TwitterDescription";
+import { withCaretStyle } from "../../../social-metadata-forms/src/SocialMetadataPreviewForm.js";
+
+const TwitterTitle = withCaretStyle( NoCaretTitle );
+const TwitterDescription = withCaretStyle( NoCaretDescription );
 
 const TwitterPreviewWrapper = styled.div`
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
@@ -54,36 +58,109 @@ const SmallTwitterPreviewWrapper = styled( TwitterPreviewWrapper )`
  *
  * @returns {React.Element} The rendered element.
  */
-const TwitterPreview = ( props ) => {
-	const Wrapper = props.isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
+class TwitterPreview extends Component {
+	/**
+	 * The constructor.
+	 *
+	 * @param {Object} props The props.
+	 *
+	 * @returns {void}
+	 */
+	constructor( props ) {
+		super( props );
+		this.Wrapper = props.isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
 
-	return (
-		<Wrapper isLarge={ props.isLarge }>
-			<TwitterImage src={ props.image } alt={ props.alt } isLarge={ props.isLarge } />
-			<TwitterTextWrapper>
-				<TwitterTitle title={ props.title } />
-				<TwitterDescription description={ props.description } />
-				<TwitterSiteName siteName={ props.siteName } />
-			</TwitterTextWrapper>
-		</Wrapper>
-	);
-};
+		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
+		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
+		this.onTitleEnter = this.props.onMouseHover.bind( this, "title" );
+		this.onDescriptionEnter = this.props.onMouseHover.bind( this, "description" );
+		this.onLeave = this.props.onMouseHover.bind( this, "" );
+
+		// Binding fields to onSelect to prevent arrow functions in JSX props. Image field is handled in onImageClick function.
+		this.onSelectTitle = this.props.onSelect.bind( this, "title" );
+		this.onSelectDescription = this.props.onSelect.bind( this, "description" );
+	}
+
+	/**
+	 * The render function.
+	 *
+	 * @returns {*} The rendered component.
+	 */
+	render() {
+		const {
+			isLarge,
+			image,
+			alt,
+			title,
+			description,
+			siteName,
+			activeField,
+			hoveredField,
+		} = this.props;
+		return (
+			<this.Wrapper isLarge={ isLarge }>
+				<TwitterImage
+					src={ image }
+					alt={ alt }
+					isLarge={ isLarge }
+					onImageClick={ this.props.onImageClick }
+					onMouseEnter={ this.onImageEnter }
+					onMouseLeave={ this.onLeave }
+					isActive={ activeField === "image" }
+					isHovered={ hoveredField === "image" }
+				/>
+				<TwitterTextWrapper>
+					<TwitterTitle
+						onMouseEnter={ this.onTitleEnter }
+						onMouseLeave={ this.onLeave }
+						onClick={ this.onSelectTitle }
+						isActive={ activeField === "title" }
+						isHovered={ hoveredField === "title" }
+					>
+						{ title }
+					</TwitterTitle>
+					<TwitterDescription
+						onMouseEnter={ this.onDescriptionEnter }
+						onMouseLeave={ this.onLeave }
+						onClick={ this.onSelectDescription }
+						isActive={ activeField === "description" }
+						isHovered={ hoveredField === "description" }
+					>
+						{ description }
+					</TwitterDescription>
+					<TwitterSiteName
+						siteName={ siteName }
+					/>
+				</TwitterTextWrapper>
+			</this.Wrapper>
+		);
+	}
+}
 
 TwitterPreview.propTypes = {
+	siteName: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
-	isLarge: PropTypes.bool.isRequired,
-	siteName: PropTypes.string.isRequired,
-	image: PropTypes.string.isRequired,
+	isLarge: PropTypes.bool,
+	image: PropTypes.string,
 	alt: PropTypes.string,
-};
-
-TwitterPreview.defaultProps = {
-	alt: "",
+	onSelect: PropTypes.func,
+	onImageClick: PropTypes.func,
+	onMouseHover: PropTypes.func,
+	activeField: PropTypes.string,
+	hoveredField: PropTypes.string,
 };
 
 TwitterPreview.defaultProps = {
 	description: "",
+	alt: "",
+	image: "",
+	activeField: "",
+	hoveredField: "",
+	onSelect: () => {},
+	onImageClick: () => {},
+	onMouseHover: () => {},
+	isLarge: true,
 };
 
 export default TwitterPreview;

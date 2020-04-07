@@ -52,6 +52,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 	render() {
 		return (
 			<Container>
+				<h2>Facebook</h2>
 				<SocialPreviewEditor
 					title={ this.state.title }
 					onTitleChange={ this.setTitle }
@@ -61,6 +62,25 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
 					image={ this.state.image }
+					socialMediumName={ "Facebook" }
+					// eslint-disable-next-line react/jsx-no-bind
+					onSelectImageClick={ () => this.setImage(
+						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+					) }
+					isPremium={ true }
+				/>
+				<br />
+				<h2>Twitter</h2>
+				<SocialPreviewEditor
+					title={ this.state.title }
+					onTitleChange={ this.setTitle }
+					description={ this.state.description }
+					onDescriptionChange={ this.setDescription }
+					siteName="Site name"
+					onRemoveImageClick={ this.removeImage }
+					alt="Alt text"
+					image={ this.state.image }
+					socialMediumName={ "Twitter" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
 						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
