@@ -2,7 +2,7 @@ input[type=checkbox].visually-hidden {
 	height: 23px;
 	overflow: hidden;
 	position: absolute;
-	left: 30px;
+	margin-left:8px;
 	width: 34px;
 	z-index: 1;
 	box-shadow: none;
@@ -66,7 +66,7 @@ input[type="checkbox"].visually-hidden:checked::before {
 	background-color: var(--color-active-light);
 }
 
-.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch::before {
+.yoast-toggle input[type="checkbox"]:checked ~ .yoast-toggle__switch::before{
 	background-color: var(--color-active);
 	right: 0;
 	left: initial;
@@ -76,6 +76,11 @@ input[type="checkbox"].visually-hidden:checked::before {
 	background-color: var(--color-active);
 	right: initial;
 	left: 0;
+}
+
+.yoast-toggle-inverse input[type="checkbox"]:checked ~ .yoast-toggle__switch::before{
+	right: 0;
+	left: initial;
 }
 
 .yoast-toggle input[type="checkbox"] ~ .yoast-toggle--inactive, .yoast-toggle-inverse input[type="checkbox"] ~ .yoast-toggle--inactive {
