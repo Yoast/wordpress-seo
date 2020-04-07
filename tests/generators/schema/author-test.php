@@ -134,11 +134,11 @@ class Author_Test extends TestCase {
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'user',
 			'object_id'   => $user_id,
 		];
@@ -168,11 +168,11 @@ class Author_Test extends TestCase {
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
@@ -200,11 +200,11 @@ class Author_Test extends TestCase {
 			->never();
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
@@ -227,11 +227,11 @@ class Author_Test extends TestCase {
 	 */
 	public function test_not_generate_when_user_id_cannot_be_defined() {
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => false,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
@@ -253,11 +253,11 @@ class Author_Test extends TestCase {
 	public function test_is_shown_when_on_author_page() {
 		$user_id = 123;
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'user',
 			'object_id'   => $user_id,
 		];
@@ -281,11 +281,11 @@ class Author_Test extends TestCase {
 			->andReturn( true );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => $object_sub_type,
 		];
@@ -311,11 +311,11 @@ class Author_Test extends TestCase {
 			->andReturn( true );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => $object_sub_type,
 		];
@@ -338,11 +338,11 @@ class Author_Test extends TestCase {
 		$object_sub_type = null;
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'home-page',
 			'object_sub_type' => $object_sub_type,
 		];

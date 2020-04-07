@@ -397,7 +397,7 @@ class Person_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_shown_on_author_archive_pages() {
-		$this->instance->context->indexable = (Object) [
+		$this->instance->context->indexable = (object) [
 			'object_type' => 'user',
 		];
 
