@@ -52,7 +52,7 @@ class FAQ_Test extends TestCase {
 			'schema' => (object) [
 				'language' => $this->language,
 				'html'     => $this->html,
-			]
+			],
 		];
 		parent::setUp();
 	}

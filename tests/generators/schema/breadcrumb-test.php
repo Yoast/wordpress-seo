@@ -70,7 +70,7 @@ class Breadcrumb_Test extends TestCase {
 			'current_page' => $this->current_page,
 			'schema'       => (object) [
 				'id' => $this->id,
-			]
+			],
 		];
 	}
 

@@ -196,7 +196,7 @@ class Schema_Generator_Test extends TestCase {
 						[
 							'@type' => 'ReadAction',
 							'target' => [
-								null
+								null,
 							],
 						],
 					],
@@ -318,7 +318,7 @@ class Schema_Generator_Test extends TestCase {
 							[
 								'@type'  => 'ReadAction',
 								'target' => [
-									null
+									null,
 								],
 							],
 						],
@@ -327,7 +327,7 @@ class Schema_Generator_Test extends TestCase {
 						'@type'            => 'ItemList',
 						'mainEntityOfPage' => [ '@id' => null ],
 						'numberOfItems'    => 1,
-						'itemListElement'  => [ [ '@id' => '#id-1' ] ]
+						'itemListElement'  => [ [ '@id' => '#id-1' ] ],
 					],
 					[
 						'@type'          => 'Question',
@@ -342,7 +342,7 @@ class Schema_Generator_Test extends TestCase {
 							'inLanguage' => 'English',
 						],
 						'inLanguage' => 'English',
-					]
+					],
 				],
 			],
 			$this->instance->generate( $this->context )
@@ -386,7 +386,7 @@ class Schema_Generator_Test extends TestCase {
 						[
 							'@type'  => 'ReadAction',
 							'target' => [
-								null
+								null,
 							],
 						],
 					],

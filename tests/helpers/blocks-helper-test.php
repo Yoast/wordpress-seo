@@ -136,8 +136,8 @@ class Blocks_Helper_Test extends TestCase {
 					[
 						'blockName'        => 'InnerBlock',
 						'blockDescription' => 'This is a inner block',
-					]
-				]
+					],
+				],
 			],
 			$this->instance->get_all_blocks_from_content( 'post content' ) );
 	}
