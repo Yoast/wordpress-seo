@@ -135,7 +135,7 @@ class Database_Logger implements Integration_Interface {
 		$i = 1;
 		foreach ( $this->query_log as $query ) {
 			echo $i, ': "', $query['query'], '" in ', round( $query['time'], 5 ), PHP_EOL;
-			$i ++;
+			++$i;
 		}
 	}
 
@@ -152,7 +152,7 @@ class Database_Logger implements Integration_Interface {
 			foreach ( $wpdb->queries as $query ) {
 				echo $i, ': "', trim( $query[0] ), '" in ', round( $query[1], 5 ), PHP_EOL;
 				echo '    ', $query[2], PHP_EOL;
-				$i ++;
+				++$i;
 			}
 
 			return;
