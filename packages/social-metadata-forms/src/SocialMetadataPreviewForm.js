@@ -22,15 +22,14 @@ const getCaretColor = ( active ) => {
 const CaretContainer = styled.div`position: relative`;
 
 const Caret = styled.div`
-	position: absolute;
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
 
 	::before {
 		position: absolute;
 		top: -2px;
-		${ getDirectionalStyle( "left", "right" ) }: -16px;
-		width: 22px;
-		height: 22px;
+		${ getDirectionalStyle( "left", "right" ) }: ${ ( props ) => props.inPreview ? "-35px" : "-25px" };
+		width: 24px;
+		height: 24px;
 		background-image: url(
 		${ props => getDirectionalStyle(
 		angleRight( getCaretColor( props.isActive ) ),
@@ -48,25 +47,28 @@ const Caret = styled.div`
 Caret.propTypes = {
 	isActive: PropTypes.bool,
 	isHovered: PropTypes.bool,
+	inPreview: PropTypes.bool,
 };
 
 Caret.defaultProps = {
 	isActive: false,
 	isHovered: false,
+	inPreview: false,
 };
 
 /**
  * Adds Caret to a component.
  * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
+ * @param {bool} inPreview Whether or not the component is in a social preview.
  *
  * @returns {React.Element} A component with added Caret.
  */
-export const withCaretStyle = ( WithoutCaretComponent ) => {
+export const withCaretStyle = ( WithoutCaretComponent, inPreview = false ) => {
 	return function ComponentWithCaret( props ) {
 		return (
 			<CaretContainer>
 				{ /* eslint-disable-next-line react/prop-types */ }
-				<Caret isActive={ props.isActive } isHovered={ props.isHovered } />
+				<Caret isActive={ props.isActive } isHovered={ props.isHovered } inPreview={ inPreview } />
 				<WithoutCaretComponent { ...props } />
 			</CaretContainer>
 		);
@@ -98,6 +100,7 @@ class SocialMetadataPreviewForm extends Component {
 		this.onTitleEnter = props.onMouseHover.bind( this, "title" );
 		this.onDescriptionEnter = props.onMouseHover.bind( this, "description" );
 		this.onLeave = props.onMouseHover.bind( this, "" );
+		this.onImageSelectBlur = props.onSelect.bind( this, "" );
 
 		this.onSelectTitleEditor = this.onSelectEditor.bind( this, "title" );
 		this.onSelectDescriptionEditor = this.onSelectEditor.bind( this, "description" );

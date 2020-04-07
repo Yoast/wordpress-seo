@@ -25,6 +25,7 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 			width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
 			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
+			border-radius: 14px 14px 0 0;
 			`
 		);
 	}
@@ -32,6 +33,7 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 		`
 		width: ${ TWITTER_IMAGE_SIZES.squareWidth }px;
 		${ border ? "border-right: 1px solid #E1E8ED;" : "" }
+		border-radius: 14px 0 0 14px;
 		`
 	);
 };
