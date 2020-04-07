@@ -81,9 +81,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$static_ancestors[] = $this->repository->find_by_id_and_type( $page_for_posts, 'post' );
 		}
 		if (
-			$context->indexable->object_type === 'post' &&
-			$context->indexable->object_sub_type !== 'post' &&
-			$context->indexable->object_sub_type !== 'page'
+			$context->indexable->object_type === 'post'
+			&& $context->indexable->object_sub_type !== 'post'
+			&& $context->indexable->object_sub_type !== 'page'
 		) {
 			$static_ancestors[] = $this->repository->find_for_post_type_archive( $context->indexable->object_sub_type );
 		}

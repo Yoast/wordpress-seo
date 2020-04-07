@@ -33,6 +33,64 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieving the first image url of a gallery when there is no gallery.
+	 *
+	 * @covers ::get_gallery_image
+	 */
+	public function test_get_gallery_image_when_gallery_is_absent() {
+		Monkey\Functions\expect( 'get_post' )
+			->with( 100 )
+			->once()
+			->andReturn( (object) [ 'post_content' => '' ] );
+
+		Monkey\Functions\expect( 'get_post_gallery_images' )
+			->never();
+
+		$this->assertEmpty( $this->instance->get_gallery_image( 100 ) );
+	}
+
+	/**
+	 * Tests retrieving the first image url of a gallery when there is an empty gallery.
+	 *
+	 * @covers ::get_gallery_image
+	 */
+	public function test_get_gallery_image_when_gallery_is_empty() {
+		Monkey\Functions\expect( 'get_post' )
+			->with( 100 )
+			->once()
+			->andReturn( (object) [ 'post_content' => '[gallery][/gallery]' ] );
+
+		Monkey\Functions\expect( 'get_post_gallery_images' )
+			->once()
+			->andReturn( [] );
+
+		$this->assertEmpty( $this->instance->get_gallery_image( 100 ) );
+	}
+
+	/**
+	 * Tests retrieving the first image url of a gallery when there is a gallery.
+	 *
+	 * @covers ::get_gallery_image
+	 */
+	public function test_get_gallery_image_when_gallery_is_present() {
+		Monkey\Functions\expect( 'get_post' )
+			->with( 100 )
+			->once()
+			->andReturn( (object) [ 'post_content' => '[gallery][/gallery]' ] );
+
+		Monkey\Functions\expect( 'get_post_gallery_images' )
+			->once()
+			->andReturn(
+				[
+					'https://example.com/media/image.jpg',
+					'https://example.com/media/image2.jpg',
+				]
+			);
+
+		$this->assertEquals( 'https://example.com/media/image.jpg', $this->instance->get_gallery_image( 100 ) );
+	}
+
+	/**
 	 * Tests if the attachment is a valid image.
 	 *
 	 * @covers ::is_valid_attachment
@@ -197,6 +255,39 @@ class Image_Helper_Test extends TestCase {
 			->andReturnNull();
 
 		$this->assertEquals( '', $this->instance->get_post_content_image( 1337 ) );
+	}
+
+	/**
+	 * Tests getting the first image from the post content.
+	 *
+	 * @covers ::get_term_content_image
+	 */
+	public function test_get_term_content_image() {
+		$this->instance
+			->expects( 'get_first_content_image_for_term' )
+			->with( 1337 )
+			->once()
+			->andReturn( 'https://example.com/media/content_image.jpg' );
+
+		$this->assertEquals(
+			'https://example.com/media/content_image.jpg',
+			$this->instance->get_term_content_image( 1337 )
+		);
+	}
+
+	/**
+	 * Tests whether an empty string is returned when the content contains no image.
+	 *
+	 * @covers ::get_term_content_image
+	 */
+	public function test_get_term_content_image_no_image_in_content() {
+		$this->instance
+			->expects( 'get_first_content_image_for_term' )
+			->with( 1337 )
+			->once()
+			->andReturn( null );
+
+		$this->assertEmpty( $this->instance->get_term_content_image( 1337 ) );
 	}
 
 	/**

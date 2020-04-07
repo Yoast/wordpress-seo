@@ -327,5 +327,4 @@ class Redirects_Test extends TestCase {
 
 		$this->instance->attachment_redirect();
 	}
-
 }

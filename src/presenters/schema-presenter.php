@@ -37,12 +37,22 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		 */
 		\do_action( 'wpseo_json_ld' );
 
-		if ( is_array( $this->presentation->schema ) ) {
-			$output = \WPSEO_Utils::format_json_encode( $this->presentation->schema );
+		$schema = $this->get();
+		if ( is_array( $schema ) ) {
+			$output = \WPSEO_Utils::format_json_encode( $schema );
 			$output = \str_replace( "\n", PHP_EOL . "\t", $output );
 			return '<script type="application/ld+json" class="yoast-schema-graph">' . $output . '</script>';
 		}
 
 		return '';
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->schema;
 	}
 }

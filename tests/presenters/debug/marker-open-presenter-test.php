@@ -1,10 +1,13 @@
 <?php
 /**
  * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Presenters
  */
 
 namespace Yoast\WP\SEO\Tests\Presenters;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Helpers\Product_Helper;
@@ -23,14 +26,13 @@ class Marker_Open_Presenter_Test extends TestCase {
 	/**
 	 * Tests the presentation of the open debug marker.
 	 *
-	 * @covers ::__construct
 	 * @covers ::present
 	 */
 	public function test_present() {
 		$product_mock = Mockery::mock( Product_Helper::class );
 		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance = new Marker_Open_Presenter();
+		$instance          = new Marker_Open_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product_mock,
 		];
@@ -41,4 +43,25 @@ class Marker_Open_Presenter_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests the presentation of the close debug marker.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_disabled_by_filter() {
+		$product_mock = Mockery::mock( Product_Helper::class );
+		$product_mock->expects( 'get_name' )->never();
+
+		Monkey\Filters\expectApplied( 'wpseo_debug_markers' )->andReturn( false );
+
+		$instance          = new Marker_Open_Presenter();
+		$instance->helpers = (object) [
+			'product' => $product_mock,
+		];
+
+		$this->assertEquals(
+			'',
+			$instance->present()
+		);
+	}
 }

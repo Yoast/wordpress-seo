@@ -90,7 +90,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type_author_archive() {
-		$this->instance->indexable = (Object) [
+		$this->instance->indexable = (object) [
 			'object_type' => 'user',
 		];
 

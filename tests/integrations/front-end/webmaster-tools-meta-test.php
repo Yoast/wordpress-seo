@@ -142,5 +142,4 @@ class Webmaster_Tools_Meta_Test extends TestCase {
 
 		$this->expectOutputContains( '<meta name="p:domain_verify" content="qwerty" />' );
 	}
-
 }

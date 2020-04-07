@@ -49,14 +49,16 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->options = Mockery::mock( Options_Helper::class );
 
-		$this->instance     = Mockery::mock( Breadcrumbs_Presenter::class )
+		$this->instance = Mockery::mock( Breadcrumbs_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
 		$this->instance->helpers = (object) [
 			'options' => $this->options,
 		];
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		return parent::setUp();
 	}
@@ -71,11 +73,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
 		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
@@ -159,11 +160,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [];
 		$breadcrumb_2 = [];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
@@ -191,11 +191,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
 		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->instance->expects( 'crumb_to_link' )
 			->with( $breadcrumb_1, 0, 2 )
@@ -661,5 +660,4 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		// Call it again to test that the element is not built again.
 		$this->assertEquals( 'span', $this->instance->get_element() );
 	}
-
 }

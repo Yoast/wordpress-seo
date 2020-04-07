@@ -27,8 +27,9 @@ class Canonical_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$instance     = new Canonical_Presenter();
-		$presentation = $instance->presentation = new Indexable_Presentation();
+		$instance               = new Canonical_Presenter();
+		$instance->presentation = new Indexable_Presentation();
+		$presentation           = $instance->presentation;
 
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [];
@@ -46,8 +47,9 @@ class Canonical_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_empty() {
-		$instance     = new Canonical_Presenter();
-		$presentation = $instance->presentation = new Indexable_Presentation();
+		$instance               = new Canonical_Presenter();
+		$instance->presentation = new Indexable_Presentation();
+		$presentation           = $instance->presentation;
 
 		$presentation->canonical = '';
 		$presentation->robots    = [];
@@ -62,8 +64,9 @@ class Canonical_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_filter() {
-		$instance     = new Canonical_Presenter();
-		$presentation = $instance->presentation = new Indexable_Presentation();
+		$instance               = new Canonical_Presenter();
+		$instance->presentation = new Indexable_Presentation();
+		$presentation           = $instance->presentation;
 
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [];
@@ -75,7 +78,7 @@ class Canonical_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://filtered" />',
-			$instance->present( $presentation )
+			$instance->present()
 		);
 	}
 
@@ -86,8 +89,9 @@ class Canonical_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_when_robots_is_noindex() {
-		$instance     = new Canonical_Presenter();
-		$presentation = $instance->presentation = new Indexable_Presentation();
+		$instance               = new Canonical_Presenter();
+		$instance->presentation = new Indexable_Presentation();
+		$presentation           = $instance->presentation;
 
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [ 'noindex' ];

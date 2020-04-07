@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Memoizers
  */
 
-namespace Yoast\WP\SEO\Memoizer;
+namespace Yoast\WP\SEO\Memoizers;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Models\Indexable;
@@ -58,7 +58,14 @@ class Presentation_Memoizer {
 				$presentation = $this->container->get( Indexable_Presentation::class );
 			}
 
-			$this->cache[ $indexable->id ] = $context->presentation = $presentation->of( [ 'model' => $indexable, 'context' => $context ] );
+			$context->presentation        = $presentation->of(
+				[
+					'model'   => $indexable,
+					'context' => $context,
+				]
+			);
+
+			$this->cache[ $indexable->id ] = $context->presentation;
 		}
 
 		return $this->cache[ $indexable->id ];

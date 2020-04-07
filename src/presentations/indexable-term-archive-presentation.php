@@ -177,7 +177,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @return bool Whether the query contains multiple terms.
 	 */
 	protected function is_multiple_terms_query() {
-		$queried_terms = $this->wp_query_wrapper->get_query()->tax_query->queried_terms;
+		$query = $this->wp_query_wrapper->get_query();
+
+		if ( ! isset( $query->tax_query ) ) {
+			return false;
+		}
+
+		$queried_terms = $query->tax_query->queried_terms;
 
 		if ( empty( $queried_terms[ $this->source->taxonomy ]['terms'] ) ) {
 			return false;

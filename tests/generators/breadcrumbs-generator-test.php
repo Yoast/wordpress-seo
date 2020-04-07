@@ -99,11 +99,11 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 *
-	 * @param string $scenario           The scenario to test.
-	 * @param int    $page_for_posts     ID for page for posts option.
-	 * @param bool   $breadcrumb_home    Show the home breadcrumbs.
-	 * @param int    $front_page_id      The front page ID.
-	 * @param string $message            Message to show when test fails.
+	 * @param string $scenario        The scenario to test.
+	 * @param int    $page_for_posts  ID for page for posts option.
+	 * @param bool   $breadcrumb_home Show the home breadcrumbs.
+	 * @param int    $front_page_id   The front page ID.
+	 * @param string $message         Message to show when test fails.
 	 */
 	public function test_generate( $scenario, $page_for_posts, $breadcrumb_home, $front_page_id, $message ) {
 		$this->set_scenario( $scenario );
@@ -319,5 +319,4 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		return [ $post_type_indexable ];
 	}
-
 }

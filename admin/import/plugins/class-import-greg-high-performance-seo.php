@@ -39,5 +39,4 @@ class WPSEO_Import_Greg_SEO extends WPSEO_Plugin_Importer {
 			'new_key' => 'title',
 		],
 	];
-
 }

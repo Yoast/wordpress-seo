@@ -195,8 +195,8 @@ class WPSEO_Sitemaps_Cache {
 	public static function invalidate_helper( $unused, $type ) {
 
 		if (
-			WPSEO_Options::get( 'noindex-' . $type ) === false ||
-			WPSEO_Options::get( 'noindex-tax-' . $type ) === false
+			WPSEO_Options::get( 'noindex-' . $type ) === false
+			|| WPSEO_Options::get( 'noindex-tax-' . $type ) === false
 		) {
 			self::invalidate( $type );
 		}

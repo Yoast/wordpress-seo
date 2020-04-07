@@ -345,8 +345,8 @@ class Indexable_Post_Builder {
 	 */
 	protected function find_alternative_image( Indexable $indexable ) {
 		if (
-			$indexable->object_sub_type === 'attachment' &&
-			$this->image->is_valid_attachment( $indexable->object_id )
+			$indexable->object_sub_type === 'attachment'
+			&& $this->image->is_valid_attachment( $indexable->object_id )
 		) {
 			return [
 				'image_id' => $indexable->object_id,
@@ -359,6 +359,22 @@ class Indexable_Post_Builder {
 			return [
 				'image_id' => $featured_image_id,
 				'source'   => 'featured-image',
+			];
+		}
+
+		$gallery_image = $this->image->get_gallery_image( $indexable->object_id );
+		if ( $gallery_image ) {
+			return [
+				'image'  => $gallery_image,
+				'source' => 'gallery-image',
+			];
+		}
+
+		$content_image = $this->image->get_post_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
 			];
 		}
 

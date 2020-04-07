@@ -34,7 +34,7 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
 
-		$this->description  = sprintf(
+		$this->description = sprintf(
 			/* translators: %s expands to '/%postname%/' */
 			__( 'It\'s highly recommended to have your postname in the URL of your posts and pages. Consider setting your permalink structure to %s.', 'wordpress-seo' ),
 			'<strong>/%postname%/</strong>'
@@ -54,6 +54,6 @@ class WPSEO_Health_Check_Postname_Permalink extends WPSEO_Health_Check {
 	 * @return bool
 	 */
 	private function has_postname_in_permalink() {
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
+		return ( strpos( get_option( 'permalink_structure' ), '%postname%' ) !== false );
 	}
 }

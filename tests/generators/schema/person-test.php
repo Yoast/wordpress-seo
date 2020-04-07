@@ -358,10 +358,10 @@ class Person_Test extends TestCase {
 		];
 
 		$expected = [
-			'@type' => [ 'Person', 'Organization' ],
-			'@id'   => 'person_id',
-			'name'  => 'John Doe',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'@type'  => [ 'Person', 'Organization' ],
+			'@id'    => 'person_id',
+			'name'   => 'John Doe',
+			'logo'   => [ '@id' => 'https://example.com/#personlogo' ],
 			'sameAs' => [
 				'https://example.com/social/facebook',
 				'https://example.com/social/wiki',
@@ -397,7 +397,7 @@ class Person_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_shown_on_author_archive_pages() {
-		$this->instance->context->indexable = (Object) [
+		$this->instance->context->indexable = (object) [
 			'object_type' => 'user',
 		];
 
@@ -530,7 +530,7 @@ class Person_Test extends TestCase {
 			'height'     => 128,
 			'caption'    => 'Person image',
 		];
-		$avatar_url = $image_schema['url'];
+		$avatar_url   = $image_schema['url'];
 
 		switch ( $scenario ) {
 			case 'empty_avatar_url':

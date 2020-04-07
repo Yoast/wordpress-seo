@@ -83,14 +83,13 @@ class Main_Image_Test extends TestCase {
 			'schema' => (object) [
 				'id'      => $this->schema_id,
 				'image'   => $this->schema_image,
-			]
+			],
 		];
 	}
 
 	/**
 	 * Tests that generate returns the featured image schema.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_featured_image
 	 */
@@ -130,7 +129,6 @@ class Main_Image_Test extends TestCase {
 	/**
 	 * Tests that generate call generate from url without a featured image but with a content image.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
@@ -170,7 +168,6 @@ class Main_Image_Test extends TestCase {
 	/**
 	 * Tests that generate returns null if no image available.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::get_featured_image
 	 * @covers ::get_first_content_image
@@ -197,7 +194,6 @@ class Main_Image_Test extends TestCase {
 	/**
 	 * Tests is needed.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -209,7 +205,6 @@ class Main_Image_Test extends TestCase {
 	/**
 	 * Tests is not needed.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed() {

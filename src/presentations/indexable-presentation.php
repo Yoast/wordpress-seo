@@ -23,34 +23,34 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
 /**
  * Class Indexable_Presentation
  *
- * @property string title
- * @property string meta_description
- * @property array  robots
- * @property array  googlebot
- * @property string canonical
- * @property string rel_next
- * @property string rel_prev
- * @property string open_graph_type
- * @property string open_graph_title
- * @property string open_graph_description
- * @property array  open_graph_images
- * @property string open_graph_url
- * @property string open_graph_site_name
- * @property string open_graph_article_publisher
- * @property string open_graph_article_author
- * @property string open_graph_article_published_time
- * @property string open_graph_article_modified_time
- * @property string open_graph_locale
- * @property string open_graph_fb_app_id
- * @property array  schema
- * @property string twitter_card
- * @property string twitter_title
- * @property string twitter_description
- * @property string twitter_image
- * @property string twitter_creator
- * @property string twitter_site
- * @property array  source
- * @property array  breadcrumbs
+ * @property string $title
+ * @property string $meta_description
+ * @property array  $robots
+ * @property array  $googlebot
+ * @property string $canonical
+ * @property string $rel_next
+ * @property string $rel_prev
+ * @property string $open_graph_type
+ * @property string $open_graph_title
+ * @property string $open_graph_description
+ * @property array  $open_graph_images
+ * @property string $open_graph_url
+ * @property string $open_graph_site_name
+ * @property string $open_graph_article_publisher
+ * @property string $open_graph_article_author
+ * @property string $open_graph_article_published_time
+ * @property string $open_graph_article_modified_time
+ * @property string $open_graph_locale
+ * @property string $open_graph_fb_app_id
+ * @property array  $schema
+ * @property string $twitter_card
+ * @property string $twitter_title
+ * @property string $twitter_description
+ * @property string $twitter_image
+ * @property string $twitter_creator
+ * @property string $twitter_site
+ * @property array  $source
+ * @property array  $breadcrumbs
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
@@ -483,13 +483,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_site() {
 		switch ( $this->context->site_represents ) {
-			case 'person' :
+			case 'person':
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
 					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
-			case 'company' :
+			case 'company':
 			default:
 				$twitter = $this->options->get( 'twitter_site' );
 				break;

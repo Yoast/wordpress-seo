@@ -54,5 +54,4 @@ trait Presentation_Instance_Builder {
 
 		$this->context->indexable = $this->indexable;
 	}
-
 }
