@@ -142,10 +142,10 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		if (
-			$index < ( $total - 1 ) &&
-			isset( $breadcrumb['url'] ) &&
-			\is_string( $breadcrumb['url'] ) &&
-			! empty( $breadcrumb['url'] )
+			$index < ( $total - 1 )
+			&& isset( $breadcrumb['url'] )
+			&& \is_string( $breadcrumb['url'] )
+			&& ! empty( $breadcrumb['url'] )
 		) {
 			// If it's not the last element and we have a url.
 			$link       .= '<' . $this->get_element() . '>';
