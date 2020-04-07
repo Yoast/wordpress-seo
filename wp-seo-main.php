@@ -26,6 +26,11 @@ if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
 }
 
+if ( ! extension_loaded( 'pdo_mysql' ) ) {
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-polyfill.php';
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-statement-polyfill.php';
+}
+
 /*
  * {@internal The prefix constants are used to build prefixed versions of dependencies.
  *            These should not be changed on run-time, thus missing the ! defined() check.}}
