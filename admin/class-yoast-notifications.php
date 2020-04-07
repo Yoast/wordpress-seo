@@ -108,10 +108,8 @@ class Yoast_Notifications {
 	 * @deprecated 14.0
 	 *
 	 * @codeCoverageIgnore
-	 *
 	 */
-	public function ajax_dismiss_alert()
-	{
+	public function ajax_dismiss_alert() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
@@ -139,10 +137,8 @@ class Yoast_Notifications {
 	 * @deprecated 14.0
 	 *
 	 * @codeCoverageIgnore
-	 *
 	 */
-	public function ajax_restore_alert()
-	{
+	public function ajax_restore_alert() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
@@ -283,8 +279,7 @@ class Yoast_Notifications {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function get_active_alert_count()
-	{
+	public function get_active_alert_count() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return 0;
 	}
@@ -309,8 +304,7 @@ class Yoast_Notifications {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function filter_error_alerts( Yoast_Notification $notification )
-	{
+	public function filter_error_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return false;
 	}
@@ -338,8 +332,7 @@ class Yoast_Notifications {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function filter_warning_alerts( Yoast_Notification $notification )
-	{
+	public function filter_warning_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return false;
 	}
@@ -367,8 +360,7 @@ class Yoast_Notifications {
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function filter_dismissed_alerts( Yoast_Notification $notification )
-	{
+	public function filter_dismissed_alerts( Yoast_Notification $notification ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return false;
 	}
