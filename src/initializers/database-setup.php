@@ -38,6 +38,7 @@ class Database_Setup implements Initializer_Interface {
 	 * Database_Setup constructor.
 	 *
 	 * @param Logger $logger The logger.
+	 * @param wpdb   $wpdb   The wpdb instance.
 	 */
 	public function __construct( Logger $logger, wpdb $wpdb ) {
 		$this->logger = $logger;
