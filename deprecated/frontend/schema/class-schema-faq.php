@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\SEO\Generators\Schema\FAQ;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema FAQ data.

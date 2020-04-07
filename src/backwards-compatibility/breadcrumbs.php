@@ -7,7 +7,7 @@
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
-use Yoast\WP\SEO\Memoizer\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
