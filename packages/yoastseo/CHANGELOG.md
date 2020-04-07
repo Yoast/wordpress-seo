@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.72.0 April 14th, 2020
+### Added
+* Adds word-form support for Spanish. [#602](https://github.com/Yoast/javascript/pull/602)
+
+### Fixed
+* Fixes a bug where the text analysis would break if the text contains the word "Ying". [#600](https://github.com/Yoast/javascript/pull/600)
+
 ## 1.71.0 March 30th, 2020
 ### Enhancements:
 * Adds word form support for Dutch.
