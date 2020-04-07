@@ -18,7 +18,6 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
-
 /**
  * Unit Test Class.
  *

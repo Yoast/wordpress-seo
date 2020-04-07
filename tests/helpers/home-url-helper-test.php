@@ -96,5 +96,4 @@ class Home_Url_Helper_Test extends TestCase {
 			],
 			$this->instance->get_parsed() );
 	}
-
 }

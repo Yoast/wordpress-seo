@@ -95,5 +95,4 @@ class Images_Test extends TestCase {
 
 		$this->assertEquals( [], $this->instance->get_images() );
 	}
-
 }

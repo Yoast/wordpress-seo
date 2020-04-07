@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Handles intercepting requests.
  */
 class Handle_404 implements Integration_Interface {
+
 	/**
 	 * The WP Query wrapper.
 	 *
@@ -67,6 +68,7 @@ class Handle_404 implements Integration_Interface {
 
 		return true;
 	}
+
 	/**
 	 * If there are no posts in a feed, make it 404 instead of sending an empty RSS feed.
 	 *
@@ -91,7 +93,6 @@ class Handle_404 implements Integration_Interface {
 
 		return true;
 	}
-
 
 	/**
 	 * Sets the 404 status code.

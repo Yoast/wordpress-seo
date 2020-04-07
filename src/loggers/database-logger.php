@@ -15,6 +15,7 @@ use YoastSEO_Vendor\ORM;
  * Class Database_Logger
  */
 class Database_Logger implements Integration_Interface {
+
 	/**
 	 * Private array of queries used for logging.
 	 *

@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group type-presenter
  */
 class Type_Presenter_Test extends TestCase {
+
 	/**
 	 * The indexable presentation.
 	 *

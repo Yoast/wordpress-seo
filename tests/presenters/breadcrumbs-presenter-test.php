@@ -661,5 +661,4 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		// Call it again to test that the element is not built again.
 		$this->assertEquals( 'span', $this->instance->get_element() );
 	}
-
 }

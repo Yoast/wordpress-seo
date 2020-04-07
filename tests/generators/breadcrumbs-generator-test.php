@@ -319,5 +319,4 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		return [ $post_type_indexable ];
 	}
-
 }

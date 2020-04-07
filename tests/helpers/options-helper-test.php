@@ -64,6 +64,4 @@ class Options_Helper_Test extends TestCase {
 
 		$this->assertEquals( '', $this->instance->get_title_default( 'unknown-title' ) );
 	}
-
-
 }

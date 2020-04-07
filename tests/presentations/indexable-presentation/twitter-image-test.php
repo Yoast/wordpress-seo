@@ -111,6 +111,7 @@ class Twitter_Image_Test extends TestCase {
 			],
 		];
 	}
+
 	/**
 	 * Provides data to the image provider, with Open Graph enabled.
 	 *

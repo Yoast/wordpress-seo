@@ -19,7 +19,6 @@ use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
-
 	/**
 	 * Represents the indexable.
 	 *

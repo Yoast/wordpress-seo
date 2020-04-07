@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @package Yoast\Tests
  */
 class Migration_Status_Test extends TestCase {
+
 	/**
 	 * @covers ::should_run_migration
 	 */
