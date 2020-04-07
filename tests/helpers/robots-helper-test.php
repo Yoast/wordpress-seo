@@ -66,7 +66,12 @@ class Robots_Helper_Test extends TestCase {
 	 */
 	public function test_set_robots_no_index_with_empty_value() {
 		$presentation         = new Indexable_Presentation();
-		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow', '' => '', '' => '' ];
+		$presentation->robots = [
+			'index'  => 'index',
+			'follow' => 'follow',
+			0        => '',
+			1        => '',
+		];
 
 		$this->assertEquals(
 			'noindex,follow',

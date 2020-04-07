@@ -40,7 +40,7 @@ class Marker_Close_Presenter_Test extends TestCase {
 		];
 
 		$this->assertEquals(
-			'<!-- / Yoast SEO plugin. -->' . PHP_EOL . PHP_EOL,
+			'<!-- / Yoast SEO plugin. -->',
 			$instance->present()
 		);
 	}
