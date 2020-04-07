@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presenters
+ * @package Yoast\WP\SEO\Tests\Repositories
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
