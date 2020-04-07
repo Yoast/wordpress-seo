@@ -52,7 +52,7 @@
  *
  */
 
-function stem(word) {
+export default function stem( word ) {
 
 	word = word.toLowerCase();
 	var oriWord = word;
