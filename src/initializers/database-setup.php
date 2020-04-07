@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
+use wpdb;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\ORM\Yoast_Model;
@@ -20,6 +21,13 @@ class Database_Setup implements Initializer_Interface {
 	use No_Conditionals;
 
 	/**
+	 * The database object.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * The logger object.
 	 *
 	 * @var LoggerInterface
@@ -31,8 +39,9 @@ class Database_Setup implements Initializer_Interface {
 	 *
 	 * @param Logger $logger The logger.
 	 */
-	public function __construct( Logger $logger ) {
+	public function __construct( Logger $logger, wpdb $wpdb ) {
 		$this->logger = $logger;
+		$this->wpdb   = $wpdb;
 	}
 
 	/**
@@ -48,19 +57,17 @@ class Database_Setup implements Initializer_Interface {
 	}
 
 	/**
-	 * Builds a connection string from wpdb
+	 * Retrieves the database config from wpdb.
 	 *
-	 * @return string The connection string.
+	 * @return array An array with host, port and socket properties.
 	 */
-	private function get_connection_string() {
-		global $wpdb;
-
+	public function get_database_config() {
 		$host    = \DB_HOST;
 		$port    = null;
 		$socket  = null;
 		$is_ipv6 = false;
 
-		$host_data = $wpdb->parse_db_host( \DB_HOST );
+		$host_data = $this->wpdb->parse_db_host( \DB_HOST );
 		if ( $host_data ) {
 			list( $host, $port, $socket, $is_ipv6 ) = $host_data;
 		}
@@ -70,13 +77,31 @@ class Database_Setup implements Initializer_Interface {
 		if ( empty( $port ) ) {
 			$port = ini_get( 'mysqli.default_port' );
 		}
+		if ( empty( $port ) ) {
+			$port = 3306;
+		}
 
-		$connection_string = 'mysql:host=' . $host . ';dbname=' . \DB_NAME . ';';
+		return [
+			'host'   => $host,
+			'port'   => $port,
+			'socket' => $socket,
+		];
+	}
+
+	/**
+	 * Builds a connection string from wpdb
+	 *
+	 * @return string The connection string.
+	 */
+	private function get_connection_string() {
+		$config = $this->get_database_config();
+
+		$connection_string = 'mysql:host=' . $config['host'] . ';dbname=' . \DB_NAME . ';';
 		if ( ! empty( $port ) ) {
-			$connection_string .= 'port=' . $port . ';';
+			$connection_string .= 'port=' . $config['port'] . ';';
 		}
 		if ( ! empty( $socket ) ) {
-			$connection_string .= 'unix_socket=' . $socket . ';';
+			$connection_string .= 'unix_socket=' . $config['socket'] . ';';
 		}
 		if ( ! empty( \DB_CHARSET ) ) {
 			$connection_string .= 'charset=' . \DB_CHARSET . ';';
