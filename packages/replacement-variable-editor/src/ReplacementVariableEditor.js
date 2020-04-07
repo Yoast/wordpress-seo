@@ -80,7 +80,6 @@ class ReplacementVariableEditor extends React.Component {
 			editorRef,
 			placeholder,
 			fieldId,
-			withCaret,
 			onMouseEnter,
 			onMouseLeave,
 		} = this.props;
@@ -117,7 +116,6 @@ class ReplacementVariableEditor extends React.Component {
 						onChange={ onChange }
 						onFocus={ onFocus }
 						onBlur={ onBlur }
-						withCaret={ withCaret }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						ref={ ref => {

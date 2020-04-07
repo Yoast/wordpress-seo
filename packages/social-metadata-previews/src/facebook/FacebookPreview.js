@@ -10,8 +10,8 @@ import { default as NoCaretTitle } from "./FacebookTitle";
 import { default as NoCaretDescription } from "./FacebookDescription";
 import { withCaretStyle } from "../../../social-metadata-forms/src/SocialMetadataPreviewForm.js";
 
-const FacebookTitle = withCaretStyle( NoCaretTitle );
-const FacebookDescription = withCaretStyle( NoCaretDescription );
+const FacebookTitle = withCaretStyle( NoCaretTitle, true );
+const FacebookDescription = withCaretStyle( NoCaretDescription, true );
 
 /**
  * Determines the height depending on the mode.
@@ -64,7 +64,6 @@ const FacebookPreviewWrapper = styled.div`
 	display: flex;
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
-	overflow: hidden;
 	width: 527px;
 	height: ${ props => determineWrapperHeight( props.mode ) };
 `;

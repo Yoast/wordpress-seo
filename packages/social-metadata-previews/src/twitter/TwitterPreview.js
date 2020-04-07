@@ -11,8 +11,8 @@ import { default as NoCaretTitle } from "./TwitterTitle";
 import { default as NoCaretDescription } from "./TwitterDescription";
 import { withCaretStyle } from "../../../social-metadata-forms/src/SocialMetadataPreviewForm.js";
 
-const TwitterTitle = withCaretStyle( NoCaretTitle );
-const TwitterDescription = withCaretStyle( NoCaretDescription );
+const TwitterTitle = withCaretStyle( NoCaretTitle, true );
+const TwitterDescription = withCaretStyle( NoCaretDescription, true );
 
 const TwitterPreviewWrapper = styled.div`
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
@@ -20,15 +20,14 @@ const TwitterPreviewWrapper = styled.div`
 	font-weight: 400;
 	line-height: 20px;
 	width: 507px;
-	border-radius: 14px;
 	border: 1px solid #E1E8ED;
 	box-sizing: border-box;
+	border-radius: 14px;
 	color: #292F33;
 	background: #FFFFFF;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	display: flex;
-
+	
 	&:hover {
 		background: #f5f8fa;
 		border: 1px solid rgba(136,153,166,.5);
@@ -98,7 +97,7 @@ class TwitterPreview extends Component {
 			hoveredField,
 		} = this.props;
 		return (
-			<this.Wrapper isLarge={ isLarge }>
+			<this.Wrapper>
 				<TwitterImage
 					src={ image }
 					alt={ alt }

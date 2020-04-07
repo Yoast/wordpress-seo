@@ -31,8 +31,8 @@ class SocialPreviewEditor extends Component {
 		this.SocialPreview = props.socialMediumName === "Facebook" ? FacebookPreview : TwitterPreview;
 		this.setHoveredField = this.setHoveredField.bind( this );
 		this.setActiveField = this.setActiveField.bind( this );
-		this.handleImageClick = this.handleImageClick.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
+		this.setEditorFocus = this.setEditorFocus.bind( this );
 	}
 
 	/**
@@ -46,7 +46,6 @@ class SocialPreviewEditor extends Component {
 		if ( field === this.state.hoveredField ) {
 			return;
 		}
-		console.log( "hoveredfield", field );
 		this.setState( {
 			hoveredField: field,
 		} );
@@ -63,42 +62,41 @@ class SocialPreviewEditor extends Component {
 		if ( field === this.state.activeField ) {
 			return;
 		}
-		console.log( "activefield", field );
-		this.setState( {
-			activeField: field,
-		}, () => {
-			switch ( field ) {
-				case "title":
-					this.titleEditorRef.focus();
-					return;
-				case "description":
-					console.log( "HERE!" );
-					this.descriptionEditorRef.focus();
-					return;
-			}
-		} );
+		this.setState(
+			{ activeField: field },
+			() => this.setEditorFocus( field )
+		);
 	}
 
 	/**
-	 * Combines the setting of the activeField to "image" and the onSelectImageClick.
-	 * This helps with setting the caret's activeField and calling the image select function.
+	 * Sets focus on the editor that is the active field.
+	 *
+	 * @param {String} field The active field belonging to the editor to focus.
 	 *
 	 * @returns {void}
 	 */
-	handleImageClick() {
-		this.setActiveField( "image" );
-		this.props.onSelectImageClick();
+	setEditorFocus( field ) {
+		switch ( field ) {
+			case "title":
+				this.titleEditorRef.focus();
+				return;
+			case "description":
+				this.descriptionEditorRef.focus();
+				return;
+		}
 	}
 
 	/**
-	 * Hoi
-	 * @param {*} field  hoi
-	 * @param {*} ref hoi
+	 * Sets the reference of each editor.
+	 * Used by child components to communicate with this focus managing component.
+	 * This component can then call the .focus() function on the passed refs.
+	 *
+	 * @param {String} field The field belonging to the editor that belongs to the ref.
+	 * @param {*} ref A ref to an editor.
 	 *
 	 * @returns {void}
 	 */
 	setEditorRef( field, ref ) {
-		console.log( "setEditorRef: ", field, ref );
 		switch ( field ) {
 			case "title":
 				this.titleEditorRef = ref;
@@ -132,6 +130,7 @@ class SocialPreviewEditor extends Component {
 			isPremium,
 			isLarge,
 		} = this.props;
+		console.log( "this.props.isLarge: ", isLarge );
 
 		return (
 			<React.Fragment>
@@ -140,7 +139,7 @@ class SocialPreviewEditor extends Component {
 					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
 					activeField={ this.state.activeField }
-					onImageClick={ this.handleImageClick }
+					onImageClick={ onSelectImageClick }
 					siteName={ siteName }
 					title={ title }
 					description={ description }

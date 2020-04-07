@@ -24,12 +24,14 @@ class SocialPreviewEditorWrapper extends React.Component {
 			title: "Initial title state",
 			description: "Initial description state",
 			image: "",
+			isLarge: true,
 		};
 
 		this.setTitle = this.setStateAttribute.bind( this, "title" );
 		this.setDescription = this.setStateAttribute.bind( this, "description" );
 		this.setImage = this.setStateAttribute.bind( this, "image" );
 		this.removeImage = this.setStateAttribute.bind( this, "image", "" );
+		this.toggleLarge = this.setStateAttribute.bind( this, "isLarge" );
 	}
 
 	/**
@@ -71,6 +73,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 				/>
 				<br />
 				<h2>Twitter</h2>
+				<button onClick={ () => this.toggleLarge( ! this.state.isLarge ) }>Toggle Large Summary Card</button>
 				<SocialPreviewEditor
 					title={ this.state.title }
 					onTitleChange={ this.setTitle }
@@ -79,6 +82,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					siteName="Site name"
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
+					isLarge={ this.state.isLarge }
 					image={ this.state.image }
 					socialMediumName={ "Twitter" }
 					// eslint-disable-next-line react/jsx-no-bind
