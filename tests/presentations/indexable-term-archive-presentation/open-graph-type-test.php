@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Open_Graph_Description_Test
+ * Class Open_Graph_Type_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
  *
