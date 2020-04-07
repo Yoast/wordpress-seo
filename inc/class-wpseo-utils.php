@@ -981,7 +981,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
-		return <<<SVG
+		return <<<'SVG'
 <svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
 	 role="img" aria-hidden="true" focusable="false"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
