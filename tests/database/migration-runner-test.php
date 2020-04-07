@@ -83,6 +83,7 @@ class Migration_Runner_Test extends TestCase {
 		$runner_mock->expects( 'get_adapter' )->once()->andReturn( $adapter_mock );
 		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( true );
 		$task_manager_mock->expects( 'execute' )->once()->with( $runner_mock, 'db:migrate', [] );
+		$database_setup_mock->expects( 'get_database_config' )->once()->andReturn( [] );
 
 		$instance = new Migration_Runner( $status_mock, $framework_mock, $logger_mock, $database_setup_mock );
 
@@ -116,6 +117,7 @@ class Migration_Runner_Test extends TestCase {
 		$table_mock->expects( 'column' )->once()->with( 'version', 'string', [ 'limit' => 191 ] );
 		$table_mock->expects( 'finish' )->once();
 		$task_manager_mock->expects( 'execute' )->once()->with( $runner_mock, 'db:migrate', [] );
+		$database_setup_mock->expects( 'get_database_config' )->once()->andReturn( [] );
 
 		$instance = new Migration_Runner( $status_mock, $framework_mock, $logger_mock, $database_setup_mock );
 
