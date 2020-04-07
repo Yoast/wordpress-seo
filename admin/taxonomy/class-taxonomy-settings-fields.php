@@ -81,6 +81,8 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	private function get_noindex_options() {
 		$labels                                = $this->get_taxonomy_labels();
+
+		$noindex_options                       = [];
 		$noindex_options['options']            = $this->no_index_options;
 		$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $labels->name, $this->get_robot_index() );
 
