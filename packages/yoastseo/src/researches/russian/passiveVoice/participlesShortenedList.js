@@ -1,5 +1,5 @@
 /**
- * Returns a list of all frequent participles used for the Russian passive voice assessment.
+ * Returns a list of all frequent participles used for the russian passive voice assessment.
  * For each participle, versions for all four possible suffixes (-[], -а, -о, -ы) are included for masculine, feminine,
  * neuter, and plural respectively.
  * @returns {Array} The list with participles.

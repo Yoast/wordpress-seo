@@ -86,7 +86,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 0 in the test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>." );
 	} );
 
-	it( "returns a 'very easy' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'very easy' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 100.0 ), i18n );
 
@@ -94,7 +94,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 100 in the test, which is considered very easy to read. Good job!" );
 	} );
 
-	it( "returns a 'very easy' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'very easy' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" }  );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 85 ), i18n );
 
@@ -102,7 +102,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 85 in the test, which is considered very easy to read. Good job!" );
 	} );
 
-	it( "returns an 'easy' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns an 'easy' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" }  );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 72.0 ), i18n );
 
@@ -110,7 +110,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 72 in the test, which is considered easy to read. Good job!" );
 	} );
 
-	it( "returns a 'fairly easy' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'fairly easy' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "A piece of text to calculate scores.", { locale: "ru_RU" }  );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 68.9 ), i18n );
 
@@ -118,7 +118,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 68.9 in the test, which is considered fairly easy to read. Good job!" );
 	} );
 
-	it( "returns an 'ok' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns an 'ok' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 53.9 ), i18n );
 
@@ -126,7 +126,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 53.9 in the test, which is considered ok to read. Good job!" );
 	} );
 
-	it( "returns an 'ok' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns an 'ok' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 50.0 ), i18n );
 
@@ -134,7 +134,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 50 in the test, which is considered ok to read. Good job!" );
 	} );
 
-	it( "returns a 'fairly difficult' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'fairly difficult' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 45.0 ), i18n );
 
@@ -142,7 +142,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 45 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>." );
 	} );
 
-	it( "returns a 'difficult' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'difficult' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 35.0 ), i18n );
 
@@ -150,7 +150,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 35 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>." );
 	} );
 
-	it( "returns a 'difficult' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'difficult' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 26.6 ), i18n );
 
@@ -158,7 +158,7 @@ describe( "An assessment for the flesch reading", function() {
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 26.6 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>." );
 	} );
 
-	it( "returns a 'very difficult' score and the associated feedback text for a Russian paper.", function() {
+	it( "returns a 'very difficult' score and the associated feedback text for a russian paper.", function() {
 		const paper = new Paper( "This is a very interesting paper", { locale: "ru_RU" } );
 		const result = new FleschReadingAssessment( contentConfiguration( paper.getLocale() ).fleschReading ).getResult( paper, factory.buildMockResearcher( 0 ), i18n );
 

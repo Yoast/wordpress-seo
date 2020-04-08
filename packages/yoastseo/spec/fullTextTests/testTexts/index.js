@@ -33,7 +33,7 @@ import polishPaper1 from "./pl/polishPaper1";
 import polishPaper2 from "./pl/polishPaper2";
 import polishPaper3 from "./pl/polishPaper3";
 
-// Russian papers
+// russian papers
 import russianPaper1 from "./ru/russianPaper1";
 import russianPaper2 from "./ru/russianPaper2";
 import russianPaper3 from "./ru/russianPaper3";

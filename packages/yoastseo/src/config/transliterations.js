@@ -232,7 +232,7 @@ var transliterations = {
 		{ letter: /[\u00FA\u016F]/g, alternative: "u" },
 		{ letter: /[\u00DA\u016E]/g, alternative: "U" }
 	],
-	// Language: Russian.
+	// Language: russian.
 	// Source:  Machine Readable Travel Documents, Doc 9303, Part 1, Volume 1 (PDF) (Sixth ed.).
 	// ICAO. 2006. p. IV-50—IV-52. http://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
 	// ‘ь’ is the so-called soft sign, indicating a sound change (palatalization) of the preceding consonant.
