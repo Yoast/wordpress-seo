@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
@@ -17,13 +16,6 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
  * Class Open_Graph_OEmbed.
  */
 class Open_Graph_OEmbed implements Integration_Interface {
-
-	/**
-	 * The image helper.
-	 *
-	 * @var Image_Helper
-	 */
-	private $image;
 
 	/**
 	 * The meta surface.
@@ -63,17 +55,10 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	/**
 	 * Open_Graph_OEmbed constructor.
 	 *
-	 * @codeCoverageIgnore It only sets dependencies
-	 *
-	 * @param Image_Helper $image The image helper.
 	 * @param Meta_Surface $meta  The meta surface.
 	 */
-	public function __construct(
-		Image_Helper $image,
-		Meta_Surface $meta
-	) {
+	public function __construct( Meta_Surface $meta ) {
 		$this->meta  = $meta;
-		$this->image = $image;
 	}
 
 	/**
@@ -87,7 +72,6 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 *
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
-	 *
 	 */
 	public function set_oembed_data( $data, $post ) {
 		// Data to be returned.
@@ -131,6 +115,10 @@ class Open_Graph_OEmbed implements Integration_Interface {
 		$image  = reset( $images );
 
 		if ( empty( $image ) ) {
+			return;
+		}
+
+		if ( ! isset( $image['url'] ) ) {
 			return;
 		}
 
