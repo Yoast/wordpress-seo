@@ -11,6 +11,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   flex-shrink: 0;
   width: 125px;
   border-right: 1px solid #E1E8ED;
+  border-radius: 14px 0 0 14px;
 }
 
 .c1 {
@@ -26,6 +27,9 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -47,6 +51,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   height: 265px;
   width: 506px;
   border-bottom: 1px solid #E1E8ED;
+  border-radius: 14px 14px 0 0;
 }
 
 .c1 {
@@ -62,6 +67,9 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -82,6 +90,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   flex-shrink: 0;
   width: 125px;
   border-right: 1px solid #E1E8ED;
+  border-radius: 14px 0 0 14px;
 }
 
 .c1 {
@@ -97,6 +106,9 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -118,6 +130,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   height: 265px;
   width: 506px;
   border-bottom: 1px solid #E1E8ED;
+  border-radius: 14px 14px 0 0;
 }
 
 .c1 {
@@ -133,6 +146,9 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -164,6 +180,7 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
   font-size: 1rem;
   height: 265px;
   width: 506px;
+  border-radius: 14px 14px 0 0;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
   border-style: dashed;
@@ -174,6 +191,9 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   Select image
 </div>

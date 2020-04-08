@@ -2,11 +2,12 @@
 
 exports[`FacebookTitle matches the snapshot by default 1`] = `
 .c0 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -25,7 +26,6 @@ exports[`FacebookTitle matches the snapshot by default 1`] = `
 
 <span
   className="c0"
->
-  YoastCon Workshops
-</span>
+  title="YoastCon Workshops"
+/>
 `;

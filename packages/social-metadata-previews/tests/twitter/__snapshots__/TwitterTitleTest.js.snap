@@ -3,6 +3,7 @@
 exports[`TwitterTitle matches the snapshot by default 1`] = `
 .c0 {
   line-height: 18px;
+  min-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -13,7 +14,6 @@ exports[`TwitterTitle matches the snapshot by default 1`] = `
 
 <p
   className="c0"
->
-  My Twitter Title
-</p>
+  title="My Twitter Title"
+/>
 `;
