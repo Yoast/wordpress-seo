@@ -238,7 +238,8 @@ Enhancements:
 
 Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
-* Prevents integrations relying on the deprecated WPSEO_OpenGraph_Image class from creating Type Errors with the latest version of Yoast SEO.
+* Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
+* Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
 
 = 13.5 =
 Release Date: April 14th, 2020
