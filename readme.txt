@@ -219,6 +219,8 @@ Bugfixes:
 * Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
 * Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
 * Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
+* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
+* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
 
 Enhancements:
 
@@ -230,9 +232,13 @@ Enhancements:
 * Strips all tags from text fields in the schema output.
 * Adds `Term hierarchy` as a taxonomy snippet variable.
 * Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
+* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
+* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
+* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
 
 Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Prevents integrations relying on the deprecated WPSEO_OpenGraph_Image class from creating Type Errors with the latest version of Yoast SEO.
 
 = 13.5 =
 Release Date: April 14th, 2020
