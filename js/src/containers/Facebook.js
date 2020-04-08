@@ -64,6 +64,7 @@ export default compose( [
 
 		const data = getFacebookData();
 		const image = data.image;
+		image.src = image.src || "";
 		image.fallbackUrl = getImageFallback();
 		return {
 			image,

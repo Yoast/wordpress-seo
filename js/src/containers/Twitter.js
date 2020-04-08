@@ -64,6 +64,7 @@ export default compose( [
 
 		const data = getTwitterData();
 		const image = data.image;
+		image.src = image.src || "";
 		image.fallbackUrl = getImageFallback();
 		return {
 			image,
