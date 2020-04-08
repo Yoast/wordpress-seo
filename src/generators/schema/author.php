@@ -47,8 +47,9 @@ class Author extends Person {
 
 		$data = $this->build_person_data( $user_id );
 
-		if ( ! $this->site_represents_current_author() ) {
+		if ( $this->site_represents_current_author() === false ) {
 			$data['@type'] = [ 'Person' ];
+			unset( $data['logo'] );
 		}
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
