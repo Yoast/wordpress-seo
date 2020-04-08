@@ -1,8 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
-Array [
-  .c0 {
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+.c3 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c3 a {
+  color: #004973;
+}
+
+.c2 {
+  margin-top: 0.125rem;
+  margin-right: 8px;
+}
+
+.c0 {
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   flex: 1 1 200px;
@@ -15,126 +48,7 @@ Array [
   font-weight: 500;
 }
 
-<div
-    className="c0"
-  >
-    Facebook image
-  </div>,
-  .c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  font-size: 14px;
-  line-height: 1.5;
-  border: 1px solid rgba(0,0,0,0.2);
-  padding: 16px;
-  color: #674e00;
-  background: #fff3cd;
-  margin-bottom: 20px;
-}
-
-.c2 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.c2 a {
-  color: #004973;
-}
-
-.c1 {
-  margin-top: 0.125rem;
-  margin-right: 8px;
-}
-
-<div
-    className="c0"
-  >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-      fill="#674e00"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 576 512"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-      />
-    </svg>
-    <div
-      className="c2"
-    >
-      Your image is too small
-    </div>
-  </div>,
-  .c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  font-size: 14px;
-  line-height: 1.5;
-  border: 1px solid rgba(0,0,0,0.2);
-  padding: 16px;
-  color: #674e00;
-  background: #fff3cd;
-  margin-bottom: 20px;
-}
-
-.c2 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.c2 a {
-  color: #004973;
-}
-
-.c1 {
-  margin-top: 0.125rem;
-  margin-right: 8px;
-}
-
-<div
-    className="c0"
-  >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c1 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-      fill="#674e00"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 576 512"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
-      />
-    </svg>
-    <div
-      className="c2"
-    >
-      Wow, I like writing tests
-    </div>
-  </div>,
-  .c3 {
+.c7 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -180,18 +94,18 @@ Array [
   height: 40px;
 }
 
-.c3:active {
+.c7:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c3::-moz-focus-inner {
+.c7::-moz-focus-inner {
   border-width: 0;
 }
 
-.c3:focus {
+.c7:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -199,19 +113,19 @@ Array [
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c3:hover {
+.c7:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c3 svg {
+.c7 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c4 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -265,18 +179,18 @@ Array [
   box-shadow: none;
 }
 
-.c4:active {
+.c8:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c4::-moz-focus-inner {
+.c8::-moz-focus-inner {
   border-width: 0;
 }
 
-.c4:focus {
+.c8:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -284,31 +198,31 @@ Array [
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c4:hover {
+.c8:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c4 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c4:hover {
+.c8:hover {
   color: #F00;
 }
 
-.c4:focus {
+.c8:focus {
   color: #F00;
 }
 
-.c1 {
+.c5 {
   min-width: 100%;
 }
 
-.c1.c1.c1 {
+.c5.c5.c5 {
   padding: 0 8px;
   min-height: 34px;
   font-size: 1em;
@@ -317,12 +231,12 @@ Array [
   border-radius: 0;
 }
 
-.c1.c1.c1:focus {
+.c5.c5.c5:focus {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
 }
 
-.c0 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -332,7 +246,7 @@ Array [
   flex-direction: column;
 }
 
-.c2 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -341,7 +255,7 @@ Array [
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c7::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -349,7 +263,7 @@ Array [
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c8::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -357,38 +271,92 @@ Array [
 }
 
 <div
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
     className="c0"
   >
+    Facebook image
+  </div>
+  <div
+    className="c1"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c3"
+    >
+      Your image is too small
+    </div>
+  </div>
+  <div
+    className="c1"
+  >
+    <svg
+      aria-hidden={true}
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      fill="#674e00"
+      focusable="false"
+      role="img"
+      size="16px"
+      viewBox="0 0 576 512"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+      />
+    </svg>
+    <div
+      className="c3"
+    >
+      Wow, I like writing tests
+    </div>
+  </div>
+  <div
+    className="c4"
+  >
     <input
-      className="c1"
+      className="c5"
       disabled="disabled"
       value=""
     />
     <div
-      className="c2"
+      className="c6"
     >
       <button
-        className="c3"
+        className="c7"
         onClick={[Function]}
         type="button"
       >
         Replace image
       </button>
       <button
-        className="c4"
+        className="c8"
         onClick={[Function]}
         type="button"
       >
         Remove image
       </button>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;
 
 exports[`The ImageSelect component renders 1`] = `
-Array [
-  .c0 {
+.c0 {
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   flex: 1 1 200px;
@@ -401,12 +369,7 @@ Array [
   font-weight: 500;
 }
 
-<div
-    className="c0"
-  >
-    Facebook image
-  </div>,
-  .c0 {
+.c1 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -452,18 +415,18 @@ Array [
   height: 40px;
 }
 
-.c0:active {
+.c1:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c0::-moz-focus-inner {
+.c1::-moz-focus-inner {
   border-width: 0;
 }
 
-.c0:focus {
+.c1:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -471,32 +434,41 @@ Array [
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c0:hover {
+.c1:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c0 svg {
+.c1 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c0::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 22px;
   }
 }
 
-<button
+<div
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
     className="c0"
+  >
+    Facebook image
+  </div>
+  <button
+    className="c1"
     onClick={[Function]}
     type="button"
   >
     Select image
-  </button>,
-]
+  </button>
+</div>
 `;
