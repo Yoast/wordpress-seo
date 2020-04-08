@@ -301,7 +301,7 @@ class Yoast_Form {
 
 		$class = 'yoast-toggle';
 		if ( $inverse ) {
-			$class .= '-inverse';
+			$class .= '--inverse';
 		}
 
 
@@ -314,7 +314,7 @@ class Yoast_Form {
 		echo '<div class="yoast-toggle__item">',
 		'<div class="yoast-toggle__item-title"><label for="', esc_attr( $var ) ,'">', esc_html( $label ), '</label>', $help, '</div>',
 		'<div class="', $class, '">',
-		'<input type="checkbox" class="visually-hidden" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
+		'<input type="checkbox" class="yoast-toggle__checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
 		'<span class="yoast-toggle__switch"></span>',
 		'<span class="yoast-toggle--inactive" aria-hidden="true">', esc_html( $off_button ), '</span>',
 		'<span class="yoast-toggle--active" aria-hidden="true">', esc_html( $on_button ), '</span>',
