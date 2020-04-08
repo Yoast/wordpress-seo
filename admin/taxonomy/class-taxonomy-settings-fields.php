@@ -29,7 +29,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				'',
 				'hidden',
-				$this->get_noindex_options()
+				''
 			),
 			'bctitle'   => $this->get_field_config(
 				'',
