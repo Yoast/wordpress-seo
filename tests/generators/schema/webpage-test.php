@@ -117,6 +117,7 @@ class WebPage_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::generate
+	 * @covers ::add_image
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
 	 *
