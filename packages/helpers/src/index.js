@@ -17,5 +17,3 @@ export {
 };
 
 export { makeOutboundLink } from "./makeOutboundLink";
-
-export * from "./hiddenInputHelper";
