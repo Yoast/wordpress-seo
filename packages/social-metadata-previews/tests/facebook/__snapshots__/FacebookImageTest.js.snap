@@ -26,6 +26,9 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   Select image
 </div>
@@ -53,6 +56,9 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -84,6 +90,9 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -115,6 +124,9 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -146,6 +158,9 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <img
     alt=""
@@ -181,6 +196,9 @@ exports[`FacebookImage Component matches the snapshot in the loading state 1`] =
 
 <div
   className="c0"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   Select image
 </div>

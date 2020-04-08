@@ -3,6 +3,7 @@
 exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 .c0 {
   max-height: 55px;
+  min-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 0 2px;
@@ -14,14 +15,13 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 
 <p
   className="c0"
->
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description.
-</p>
+/>
 `;
 
 exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
 .c0 {
   max-height: 55px;
+  min-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0 0 2px;
@@ -33,7 +33,5 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
 
 <p
   className="c0"
->
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description.
-</p>
+/>
 `;

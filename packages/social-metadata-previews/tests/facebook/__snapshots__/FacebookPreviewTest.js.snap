@@ -48,12 +48,13 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   align-items: center;
 }
 
-.c5 {
+.c7 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -70,10 +71,11 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   overflow: hidden;
 }
 
-.c6 {
+.c8 {
+  line-height: 16px;
+  min-height: 16px;
   color: #606770;
   font-size: 12px;
-  line-height: 16px;
   padding: 0;
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
@@ -81,6 +83,28 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.c5 {
+  position: relative;
+}
+
+.c6 {
+  display: none;
+}
+
+.c6::before {
+  position: absolute;
+  top: -2px;
+  left: -35px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  color: #ccc;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
 }
 
 .c0 {
@@ -93,7 +117,6 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  overflow: hidden;
   width: 527px;
   height: 57px;
 }
@@ -128,6 +151,9 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 >
   <div
     className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     Select image
   </div>
@@ -150,17 +176,37 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
         yoast.com
       </span>
     </p>
-    <span
+    <div
       className="c5"
     >
-      YoastCon Workshops
-    </span>
-    <p
-      className="c6"
-      mode={null}
+      <div
+        className="c6"
+      />
+      <span
+        className="c7"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        YoastCon Workshops
+      </span>
+    </div>
+    <div
+      className="c5"
     >
-      Description to go along with a faulty image.
-    </p>
+      <div
+        className="c6"
+      />
+      <p
+        className="c8"
+        mode={null}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        Description to go along with a faulty image.
+      </p>
+    </div>
   </div>
 </div>
 `;
@@ -213,12 +259,13 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   align-items: center;
 }
 
-.c5 {
+.c7 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -235,10 +282,11 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   overflow: hidden;
 }
 
-.c6 {
+.c8 {
+  line-height: 16px;
+  min-height: 16px;
   color: #606770;
   font-size: 12px;
-  line-height: 16px;
   padding: 0;
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
@@ -246,6 +294,28 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.c5 {
+  position: relative;
+}
+
+.c6 {
+  display: none;
+}
+
+.c6::before {
+  position: absolute;
+  top: -2px;
+  left: -35px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  color: #ccc;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
 }
 
 .c0 {
@@ -258,7 +328,6 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  overflow: hidden;
   width: 527px;
   height: 57px;
 }
@@ -293,6 +362,9 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 >
   <div
     className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     Select image
   </div>
@@ -315,17 +387,37 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
         yoast.com
       </span>
     </p>
-    <span
+    <div
       className="c5"
     >
-      YoastCon Workshops
-    </span>
-    <p
-      className="c6"
-      mode={null}
+      <div
+        className="c6"
+      />
+      <span
+        className="c7"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        YoastCon Workshops
+      </span>
+    </div>
+    <div
+      className="c5"
     >
-      Description to go along with a landscape image.
-    </p>
+      <div
+        className="c6"
+      />
+      <p
+        className="c8"
+        mode={null}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        Description to go along with a landscape image.
+      </p>
+    </div>
   </div>
 </div>
 `;
@@ -378,12 +470,13 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   align-items: center;
 }
 
-.c5 {
+.c7 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -400,10 +493,11 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   overflow: hidden;
 }
 
-.c6 {
+.c8 {
+  line-height: 16px;
+  min-height: 16px;
   color: #606770;
   font-size: 12px;
-  line-height: 16px;
   padding: 0;
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
@@ -411,6 +505,28 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.c5 {
+  position: relative;
+}
+
+.c6 {
+  display: none;
+}
+
+.c6::before {
+  position: absolute;
+  top: -2px;
+  left: -35px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  color: #ccc;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
 }
 
 .c0 {
@@ -423,7 +539,6 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  overflow: hidden;
   width: 527px;
   height: 57px;
 }
@@ -458,6 +573,9 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 >
   <div
     className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     Select image
   </div>
@@ -480,17 +598,37 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
         yoast.com
       </span>
     </p>
-    <span
+    <div
       className="c5"
     >
-      YoastCon Workshops
-    </span>
-    <p
-      className="c6"
-      mode={null}
+      <div
+        className="c6"
+      />
+      <span
+        className="c7"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        YoastCon Workshops
+      </span>
+    </div>
+    <div
+      className="c5"
     >
-      Description to go along with a portrait image.
-    </p>
+      <div
+        className="c6"
+      />
+      <p
+        className="c8"
+        mode={null}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        Description to go along with a portrait image.
+      </p>
+    </div>
   </div>
 </div>
 `;
@@ -543,12 +681,13 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   align-items: center;
 }
 
-.c5 {
+.c7 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -565,10 +704,11 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   overflow: hidden;
 }
 
-.c6 {
+.c8 {
+  line-height: 16px;
+  min-height: 16px;
   color: #606770;
   font-size: 12px;
-  line-height: 16px;
   padding: 0;
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
@@ -576,6 +716,28 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.c5 {
+  position: relative;
+}
+
+.c6 {
+  display: none;
+}
+
+.c6::before {
+  position: absolute;
+  top: -2px;
+  left: -35px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  color: #ccc;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
 }
 
 .c0 {
@@ -588,7 +750,6 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  overflow: hidden;
   width: 527px;
   height: 57px;
 }
@@ -623,6 +784,9 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 >
   <div
     className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     Select image
   </div>
@@ -645,17 +809,37 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
         yoast.com
       </span>
     </p>
-    <span
+    <div
       className="c5"
     >
-      YoastCon Workshops
-    </span>
-    <p
-      className="c6"
-      mode={null}
+      <div
+        className="c6"
+      />
+      <span
+        className="c7"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        YoastCon Workshops
+      </span>
+    </div>
+    <div
+      className="c5"
     >
-      Description to go along with a square image.
-    </p>
+      <div
+        className="c6"
+      />
+      <p
+        className="c8"
+        mode={null}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        Description to go along with a square image.
+      </p>
+    </div>
   </div>
 </div>
 `;
@@ -708,12 +892,13 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   align-items: center;
 }
 
-.c5 {
+.c7 {
+  line-height: 20px;
+  min-height: 20px;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
-  line-height: 20px;
   margin: 0;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
@@ -730,10 +915,11 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   overflow: hidden;
 }
 
-.c6 {
+.c8 {
+  line-height: 16px;
+  min-height: 16px;
   color: #606770;
   font-size: 12px;
-  line-height: 16px;
   padding: 0;
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
@@ -741,6 +927,28 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.c5 {
+  position: relative;
+}
+
+.c6 {
+  display: none;
+}
+
+.c6::before {
+  position: absolute;
+  top: -2px;
+  left: -35px;
+  width: 24px;
+  height: 24px;
+  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
+  color: #ccc;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  content: "";
 }
 
 .c0 {
@@ -753,7 +961,6 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -ms-flex-direction: row;
   flex-direction: row;
   background-color: #f2f3f5;
-  overflow: hidden;
   width: 527px;
   height: 57px;
 }
@@ -788,6 +995,9 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
 >
   <div
     className="c1"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   >
     Select image
   </div>
@@ -810,17 +1020,37 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
         yoast.com
       </span>
     </p>
-    <span
+    <div
       className="c5"
     >
-      YoastCon Workshops
-    </span>
-    <p
-      className="c6"
-      mode={null}
+      <div
+        className="c6"
+      />
+      <span
+        className="c7"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        YoastCon Workshops
+      </span>
+    </div>
+    <div
+      className="c5"
     >
-      Description to go along with too small an image.
-    </p>
+      <div
+        className="c6"
+      />
+      <p
+        className="c8"
+        mode={null}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+      >
+        Description to go along with too small an image.
+      </p>
+    </div>
   </div>
 </div>
 `;
