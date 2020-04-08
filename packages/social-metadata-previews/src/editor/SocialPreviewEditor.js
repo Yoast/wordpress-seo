@@ -130,7 +130,6 @@ class SocialPreviewEditor extends Component {
 			isPremium,
 			isLarge,
 		} = this.props;
-		console.log( "this.props.isLarge: ", isLarge );
 
 		return (
 			<React.Fragment>
