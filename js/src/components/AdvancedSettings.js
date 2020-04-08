@@ -1,18 +1,27 @@
 import Collapsible from "./SidebarCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
-import { MultipleSelect, SingleSelect } from "./Select2";
+import { MultiSelect, Select } from "@yoast/components/src/select/Select";
+import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
+import TextInput from "@yoast/components/src/inputs/TextInput";
+import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
 import { Component } from "@wordpress/element";
-import CollapsibleHelpText from "./CollapsibleHelpText";
-import Input from "./Input";
 import { Fragment } from "react";
-import RadioButtons from "./RadioButtons";
 import { Alert } from "@yoast/components";
+
+/**
+ * Helper function to check whether the current object refers to a post or a taxonomy.
+ *
+ * @returns {boolean} true if post, false if taxonomy.
+ */
+const isPost = () => {
+	return window.wpseoAdminL10n.postType === "post";
+};
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
  * options that can be used to populate a select field.
  *
- * @return Array Returns an array of options for the noIndex setting.
+ * @returns {void} Array Returns an array of options for the noIndex setting.
  */
 const getNoIndexOptions = () => {
 	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
@@ -32,6 +41,7 @@ const getNoIndexOptions = () => {
 	}
 	return [
 		{
+			/* Translator: %s translates to the Post Label, %s translates to the indexOption */
 			name: sprintf(
 				__( "Default for %s, currently: %s", "wordpress-seo" ),
 				window.wpseoAdminL10n.label,
@@ -51,25 +61,29 @@ const getNoIndexOptions = () => {
  */
 const MetaRobotsNoIndex = () => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
 		{
 			window.wpseoAdminL10n.privateBlog &&
 			<Alert type="warning">
-				{ __( "Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.", "wordpress-seo" ) }
+				{ __(
+					"Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings," +
+					"so these settings won't have an effect.",
+					"wordpress-seo"
+				) }
 			</Alert>
 		}
-		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
-			{
+		<Select
+			label={
 				sprintf(
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
 					window.wpseoAdminL10n.labelSingular,
-				)
-			}
-		</label>
-		<SingleSelect
-			componentId={ "yoast_wpseo_meta-robots-noindex-react" }
-			hiddenInputId={ hiddenInputId }
+				) }
+			onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+			name={ "yoast_wpseo_meta-robots-noindex-react" }
+			id={ "yoast_wpseo_meta-robots-noindex-react" }
 			options={ getNoIndexOptions() }
+			selected={ value }
 		/>
 	</Fragment>;
 };
@@ -80,22 +94,19 @@ const MetaRobotsNoIndex = () => {
  * @returns {Component} The Meta Robots No-Follow option.
  */
 const MetaRobotsNoFollow = () => {
-	return <Fragment>
-		<label htmlFor="yoast_wpseo_meta-robots-nofollow-react">
-			{
-				sprintf(
-					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					window.wpseoAdminL10n.labelSingular,
-				)
-			}
-		</label>
-		<RadioButtons
-			componentId="yoast_wpseo_meta-robots-nofollow-react"
-			hiddenComponentId="#yoast_wpseo_meta-robots-nofollow"
-			numberOfButtons={ 2 }
-			options={ [ "Yes", "No" ] }
-		/>
-	</Fragment>;
+	const hiddenInputId = "#yoast_wpseo_meta-robots-nofollow";
+	const value = getValueFromHiddenInput( hiddenInputId );
+
+	return <RadioButtonGroup
+		options={ [ { value: "Yes", label: "Yes" }, { value: "No", label: "No" } ] }
+		label={ sprintf(
+			__( "Should search engines follow links on this %s", "wordpress-seo" ),
+			window.wpseoAdminL10n.labelSingular,
+		) }
+		groupName="yoast_wpseo_meta-robots-nofollow-react"
+		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+		selected={ value }
+	/>;
 };
 
 /**
@@ -104,30 +115,21 @@ const MetaRobotsNoFollow = () => {
  * @returns {Component} The Meta Robots advanced field component.
  */
 const MetaRobotsAdvanced = () => {
-	return <Fragment>
-		<CollapsibleHelpText
-			label={ __( "Meta robots advanced", "wordpress-seo" ) }
-			helpText={
-				sprintf(
-					__( "If you want to apply advanced %1$smeta%2$s robots settings for this page, please define them in the following field.",
-						"wordpress-seo",
-					),
-					"<code>",
-					"</code>",
-				)
-			}
-		/>
-		<MultipleSelect
-			componentId={ "yoast_wpseo_meta-robots-adv-react" }
-			hiddenInputId={ "#yoast_wpseo_meta-robots-adv" }
-			options={ [
-				{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
-				{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
-				{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
-			] }
-			default=""
-		/>
-	</Fragment>;
+	const hiddenInputId = "#yoast_wpseo_meta-robots-adv";
+	const value = getValueFromHiddenInput( hiddenInputId );
+
+	return <MultiSelect
+		label={ __( "Meta robots advanced", "wordpress-seo" ) }
+		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+		name="yoast_wpseo_meta-robots-adv-react"
+		id="yoast_wpseo_meta-robots-adv-react"
+		options={ [
+			{ name: __( "No Image Index", "wordpress-seo" ), value: "noimageindex" },
+			{ name: __( "No Archive", "wordpress-seo" ), value: "noarchive" },
+			{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
+		] }
+		selected={ value.split( "," ) }
+	/>;
 };
 
 /**
@@ -136,18 +138,16 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#wpseo_bctitle";
+	const value = getValueFromHiddenInput( hiddenInputId );
 
-	return <Fragment>
-		<CollapsibleHelpText
-			label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
-			helpText={ __( "Title to use for this page in breadcrumb paths", "wordpress-seo" ) }
-		/>
-		<Input
-			componentId="yoast_wpseo_bctitle-react"
-			hiddenInputId={ hiddenInputId }
-		/>
-	</Fragment>;
+	return <TextInput
+		label={ __( "Breadcrumbs Title", "wordpress-seo" ) }
+		id="yoast_wpseo_bctitle-react"
+		name="yoast_wpseo_bctitle-react"
+		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+		value={ value }
+	/>;
 };
 
 /**
@@ -156,52 +156,18 @@ const BreadCrumbsTitle = () => {
  * @returns {Component} The canonical URL component.
  */
 const CanonicalURL = () => {
-	/**
-	 * Returns a span with a message that the link will open in a new tab.
-	 *
-	 * @returns {string} The span.
-	 */
-	const getNewTabMessage = () => {
-		return sprintf(
-			"<span class=\"screen-reader-text\">%s</span>",
-			__( "(Opens in a new browser tab)", "wordpress-seo" ),
-		);
-	};
+	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#wpseo_canonical";
+	const value = getValueFromHiddenInput( hiddenInputId );
 
-	/**
-	 * Gets the canonical URL helptext.
-	 */
-	const canonicalDescription = sprintf(
-		__(
-			"The canonical URL that this page should point to. Leave empty to default to permalink. %1$sCross domain canonical%2$s supported too.",
-			"wordpress-seo",
-		),
-		"<a href=\"https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html\" target=\"_blank\" rel=\"noopener\">",
-		getNewTabMessage() + "</a>",
-	);
-
-	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
-
-	return <Fragment>
-		<CollapsibleHelpText
-			label={ __( "Canonical URL", "wordpress-seo" ) }
-			helpText={ canonicalDescription }
-		/>
-		<Input
-			componentId="yoast_wpseo_canonical-react"
-			hiddenInputId={ hiddenInputId }
-		/>
-	</Fragment>;
+	return <TextInput
+		label={ __( "Canonical URL", "wordpress-seo" ) }
+		id="yoast_wpseo_canonical-react"
+		name="yoast_wpseo_canonical-react"
+		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
+		value={ value }
+	/>;
 };
 
-/**
- * Helper function to check whether the current object refers to a post or a taxonomy.
- *
- * @return {boolean} true if post, false if taxonomy.
- */
-const isPost = () => {
-	return window.wpseoAdminL10n.postType === "post";
-};
 
 /**
  * Class that renders the Advanced Settings tab.
