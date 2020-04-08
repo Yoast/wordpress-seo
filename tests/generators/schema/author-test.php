@@ -6,6 +6,7 @@ use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use PhpParser\Node\Expr\Cast\Object_;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -321,29 +322,11 @@ class Author_Test extends TestCase {
 		Functions\expect( 'get_userdata' )
 			->with( $this->instance->context->indexable->object_id )
 			->andReturn( $user_data );
-		$this->instance->helpers->schema->id
-			->expects( 'get_user_schema_id' )
-			->with( $this->instance->context->indexable->object_id, $this->instance->context )
-			->andReturn( 'user_schema_id' );
-		$this->instance->helpers->schema->html
-			->expects( 'smart_strip_tags' )
-			->with( $user_data->display_name )
-			->andReturn( $user_data->display_name );
+
 		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
 			->andReturn( [] );
 
-		$this->instance->helpers->image
-			->expects( 'get_attachment_id_from_settings' )
-			->with( 'person_logo' )
-			->andReturn( $person_logo_id );
-		$this->instance->helpers->schema->image
-			->expects( 'generate_from_attachment_id' )
-			->with(
-				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
-				$person_logo_id,
-				$user_data->display_name
-			)
-			->andReturn( 'our_image_schema' );
+		$this->set_helpers_expectations( $user_data, $person_logo_id );
 
 		$data = $this->instance->generate();
 
@@ -370,21 +353,39 @@ class Author_Test extends TestCase {
 		Functions\expect( 'get_userdata' )
 			->with( $this->instance->context->indexable->object_id )
 			->andReturn( $user_data );
+
+		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
+			->andReturn( [] );
+
+		$this->set_helpers_expectations( $user_data, $person_logo_id );
+
+		$data = $this->instance->generate();
+
+		$this->assertSame( [ 'Person', 'Organization' ], $data['@type'] );
+	}
+
+	/**
+	 * Sets expectations on the helpers.
+	 *
+	 * @param object $user_data      The user data object.
+	 * @param string $person_logo_id The person logo id.
+	 */
+	private function set_helpers_expectations( $user_data, $person_logo_id ) {
 		$this->instance->helpers->schema->id
 			->expects( 'get_user_schema_id' )
 			->with( $this->instance->context->indexable->object_id, $this->instance->context )
 			->andReturn( 'user_schema_id' );
+
 		$this->instance->helpers->schema->html
 			->expects( 'smart_strip_tags' )
 			->with( $user_data->display_name )
 			->andReturn( $user_data->display_name );
-		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
-			->andReturn( [] );
 
 		$this->instance->helpers->image
 			->expects( 'get_attachment_id_from_settings' )
 			->with( 'person_logo' )
 			->andReturn( $person_logo_id );
+
 		$this->instance->helpers->schema->image
 			->expects( 'generate_from_attachment_id' )
 			->with(
@@ -393,10 +394,6 @@ class Author_Test extends TestCase {
 				$user_data->display_name
 			)
 			->andReturn( 'our_image_schema' );
-
-		$data = $this->instance->generate();
-
-		$this->assertSame( [ 'Person', 'Organization' ], $data['@type'] );
 	}
 
 	/**
