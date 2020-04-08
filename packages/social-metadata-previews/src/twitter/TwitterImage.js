@@ -156,8 +156,8 @@ export default class TwitterImage extends React.Component {
 }
 
 TwitterImage.propTypes = {
-	src: PropTypes.string.isRequired,
 	isLarge: PropTypes.bool.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
 	onImageClick: PropTypes.func,
 	onMouseEnter: PropTypes.func,
@@ -165,8 +165,9 @@ TwitterImage.propTypes = {
 };
 
 TwitterImage.defaultProps = {
+	src: "",
 	alt: "",
-	onImageClick: () => {},
 	onMouseEnter: () => {},
+	onImageClick: () => {},
 	onMouseLeave: () => {},
 };

@@ -176,16 +176,16 @@ SocialPreviewEditor.propTypes = {
 	description: PropTypes.string.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	image: PropTypes.string.isRequired,
-	alt: PropTypes.string.isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	socialMediumName: PropTypes.string.isRequired,
+	alt: PropTypes.string,
 	isPremium: PropTypes.bool,
 	imageWarnings: PropTypes.array,
 	isLarge: PropTypes.bool,
-	siteName: PropTypes.string.isRequired,
-	replacementVariables: PropTypes.arrayOf( replacementVariablesShape ),
-	recommendedReplacementVariables: PropTypes.arrayOf( recommendedReplacementVariablesShape ),
+	siteName: PropTypes.string,
+	replacementVariables: replacementVariablesShape,
+	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -194,6 +194,8 @@ SocialPreviewEditor.defaultProps = {
 	replacementVariables: [],
 	isPremium: false,
 	isLarge: true,
+	siteName: "",
+	alt: "",
 };
 
 export default SocialPreviewEditor;
