@@ -10,20 +10,12 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class Open_Graph_OEmbed.
  */
 class Open_Graph_OEmbed implements Integration_Interface {
-
-	/**
-	 * The meta helper.
-	 *
-	 * @var Meta_Helper
-	 */
-	private $meta;
 
 	/**
 	 * The image helper.
@@ -51,11 +43,9 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies
 	 *
-	 * @param Meta_Helper  $meta  The meta helper.
 	 * @param Image_Helper $image The image helper.
 	 */
-	public function __construct( Meta_Helper $meta, Image_Helper $image ) {
-		$this->meta  = $meta;
+	public function __construct( Image_Helper $image ) {
 		$this->image = $image;
 	}
 
@@ -68,33 +58,38 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * @param array    $data The oEmbed data.
 	 * @param \WP_Post $post The current Post object.
 	 *
+	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
 	 *
-	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
 		// Data to be returned.
 		$filter_data = $data;
 
-		$filter_data = $this->set_title( $filter_data, $post->ID );
+		$filter_data = $this->set_title_description( $filter_data, $post->ID );
 		$filter_data = $this->set_image( $filter_data, $post->ID );
 
 		return $filter_data;
 	}
 
 	/**
-	 * Sets the title if it has been configured.
+	 * Sets the OpenGraph title and description if they have been configured.
 	 *
 	 * @param array $data    The data.
 	 * @param int   $post_id The post id.
 	 *
 	 * @return array The modified data array.
 	 */
-	protected function set_title( array $data, $post_id ) {
-		$opengraph_title = $this->meta->get_value( 'opengraph-title', $post_id );
+	protected function set_title_description( array $data, $post_id ) {
+		$opengraph_title       = YoastSEO()->meta->for_post( $post_id )->open_graph_title;
+		$opengraph_description = YoastSEO()->meta->for_post( $post_id )->open_graph_description;
 
 		if ( ! empty( $opengraph_title ) ) {
 			$data['title'] = $opengraph_title;
+		}
+
+		if ( ! empty( $opengraph_description ) ) {
+			$data['description'] = $opengraph_description;
 		}
 
 		return $data;
@@ -135,19 +130,12 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * @return array The image details to use.
 	 */
 	protected function get_image( $post_id ) {
-		$image_id = $this->meta->get_value( 'opengraph-image-id', $post_id );
-		if ( $image_id ) {
+		$images   = YoastSEO()->meta->for_post( $post_id )->open_graph_images;
+		$image_id = $images[ array_key_first( $images ) ]['id'];
+		if ( ! empty( $image_id ) ) {
 			return [
 				'id'  => $image_id,
 				'url' => $this->image->get_attachment_image_source( $image_id ),
-			];
-		}
-
-		$image = $this->meta->get_value( 'opengraph-image', $post_id );
-		if ( $image ) {
-			return [
-				'id'  => $this->image->get_attachment_by_url( $image ),
-				'url' => $image,
 			];
 		}
 
