@@ -114,6 +114,7 @@ module.exports = {
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",
+					"polyfills/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
 					"vendor_prefixed/dependencies-prefixed.txt",

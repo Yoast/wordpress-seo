@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Indexable_Post_Watcher_Double;
+use Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers\Indexable_Post_Watcher_Double;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 

@@ -39,6 +39,13 @@ class Migration_Runner implements Initializer_Interface {
 	protected $migration_status;
 
 	/**
+	 * The database setup object.
+	 *
+	 * @var Database_Setup
+	 */
+	protected $database_setup;
+
+	/**
 	 * Retrieves the conditionals for the migrations.
 	 *
 	 * @return array The conditionals.
@@ -53,15 +60,18 @@ class Migration_Runner implements Initializer_Interface {
 	 * @param Migration_Status    $migration_status The migration status.
 	 * @param Ruckusing_Framework $framework        The Ruckusing framework runner.
 	 * @param Logger              $logger           A PSR compatible logger.
+	 * @param Database_Setup      $database_setup   The database setup.
 	 */
 	public function __construct(
 		Migration_Status $migration_status,
 		Ruckusing_Framework $framework,
-		Logger $logger
+		Logger $logger,
+		Database_Setup $database_setup
 	) {
 		$this->migration_status = $migration_status;
 		$this->framework        = $framework;
 		$this->logger           = $logger;
+		$this->database_setup   = $database_setup;
 	}
 
 	/**
@@ -96,6 +106,12 @@ class Migration_Runner implements Initializer_Interface {
 		}
 
 		try {
+			$database_config = $this->database_setup->get_database_config();
+			if ( ! empty( $database_config['socket'] ) ) {
+				// Temporarily set the defined socket as the default as we can't pass it to ruckusing.
+				$old_mysqli_socket = @ini_set( 'mysqli.default_socket', $database_config['socket'] );
+			}
+
 			$framework_runner = $this->framework->get_framework_runner( $migrations_table_name, $migrations_directory );
 			/**
 			 * This variable represents Ruckusing_Adapter_MySQL_Base adapter.
@@ -128,6 +144,11 @@ class Migration_Runner implements Initializer_Interface {
 			}
 
 			return false;
+		} finally {
+			if ( isset( $old_mysqli_socket ) && $old_mysqli_socket !== false ) {
+				// Always restore the old default if it was overwritten.
+				@ini_set( 'mysqli.default_socket', $old_mysqli_socket );
+			}
 		}
 
 		$this->migration_status->set_success( $name );

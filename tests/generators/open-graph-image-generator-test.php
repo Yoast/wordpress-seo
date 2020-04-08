@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Generators;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -86,12 +87,56 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->instance
 			->expects( 'get_image_container' )
-			->once()
+			->twice()
 			->andReturn( $this->image_container );
 
 		$this->indexable          = new Indexable();
 		$this->context            = Mockery::mock( Meta_Tags_Context::class );
 		$this->context->indexable = $this->indexable;
+	}
+
+	/**
+	 * Tests the open_graph_image_id set for an indexable where the `wpseo_add_opengraph_images_filter` filter throws an error.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_from_indexable
+	 */
+	public function test_generate_with_wpseo_add_opengraph_images_filter_throws_an_exception() {
+		$this->indexable->open_graph_image_id = 1337;
+
+		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_images' )
+			->andThrow( new \Error( 'Something went wrong' ) );
+
+		$this->instance->expects( 'add_from_default' )->andReturnNull();
+
+		$this->image_container
+			->expects( 'add_image_by_id' )
+			->once()
+			->with( 1337 );
+
+		$this->instance->generate( $this->context );
+	}
+
+	/**
+	 * Tests the open_graph_image_id set for an indexable where the `wpseo_add_opengraph_additional_images` filter throws an error.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_from_indexable
+	 */
+	public function test_generate_with_wpseo_add_opengraph_additional_images_filter_throws_an_exception() {
+		$this->indexable->open_graph_image_id = 1337;
+
+		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_additional_images' )
+			->andThrow( new \Error( 'Something went wrong' ) );
+
+		$this->instance->expects( 'add_from_default' )->andReturnNull();
+
+		$this->image_container
+			->expects( 'add_image_by_id' )
+			->once()
+			->with( 1337 );
+
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -140,7 +185,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_image_url_from_indexable_with_open_graph_image_meta() {
 		$this->indexable->open_graph_image      = 'image.jpg';
-		$this->indexable->open_graph_image_meta = json_encode( [
+		$this->indexable->open_graph_image_meta = wp_json_encode( [
 			'height' => 1024,
 			'width'  => 2048,
 		] );

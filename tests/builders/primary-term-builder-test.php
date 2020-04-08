@@ -6,7 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Primary_Term_Builder_Double;
+use Yoast\WP\SEO\Tests\Doubles\Builders\Primary_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
 use Yoast\WP\SEO\Tests\TestCase;
 
