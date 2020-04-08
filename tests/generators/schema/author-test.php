@@ -3,14 +3,16 @@
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey\Filters;
+use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
-
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+use Yoast\WP\SEO\Tests\Mocks\Author;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
-use Yoast\WP\SEO\Tests\Mocks\Author;
 
 /**
  * Class Author_Test
@@ -119,7 +121,7 @@ class Author_Test extends TestCase {
 				'id'      => $this->id,
 				'image'   => $this->schema_image,
 				'html'    => $this->html,
-			]
+			],
 		];
 	}
 
@@ -166,6 +168,8 @@ class Author_Test extends TestCase {
 	public function test_generate_on_posts() {
 		$user_id = 123;
 
+		$this->instance->context->site_represents = 'organization';
+
 		$this->instance->expects( 'build_person_data' )
 			->once()
 			->with( $user_id )
@@ -190,6 +194,104 @@ class Author_Test extends TestCase {
 		$this->assertSame( $this->person_data, $actual );
 	}
 
+	/**
+	 * Tests set_image_from_options when the site represents the current author.
+	 *
+	 * @covers ::generate
+	 * @covers ::set_image_from_options
+	 */
+	public function test_set_image_from_options_when_site_represents_current_author() {
+		$person_logo_id                                  = 'person_logo_id';
+		$user_data                                       = (object) [
+			'display_name' => 'Piet',
+		];
+		$this->instance->context->site_user_id           = 123;
+		$this->instance->context->site_url               = 'http://example.com';
+		$this->instance->context->site_represents        = 'person';
+		$this->instance->context->indexable              = new Indexable();
+		$this->instance->context->indexable->object_type = 'user';
+		$this->instance->context->indexable->object_id   = 123;
+
+		Functions\expect( 'get_userdata' )
+			->with( $this->instance->context->indexable->object_id )
+			->andReturn( $user_data );
+		$this->instance->helpers->schema->id
+			->expects( 'get_user_schema_id' )
+			->with( $this->instance->context->indexable->object_id, $this->instance->context )
+			->andReturn( 'user_schema_id' );
+		$this->instance->helpers->schema->html
+			->expects( 'smart_strip_tags' )
+			->with( $user_data->display_name )
+			->andReturn( $user_data->display_name );
+		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
+			->andReturn( [] );
+
+		$this->instance->helpers->image
+			->expects( 'get_attachment_id_from_settings' )
+			->with( 'person_logo' )
+			->andReturn( $person_logo_id );
+		$this->instance->helpers->schema->image
+			->expects( 'generate_from_attachment_id' )
+			->with(
+				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+				$person_logo_id,
+				$user_data->display_name
+			)
+			->andReturn( 'our_image_schema' );
+
+		$data = $this->instance->generate();
+
+		$this->assertSame( 'our_image_schema', $data['image'] );
+	}
+
+	/**
+	 * Tests the generated type when the site represents the current author.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_type_when_site_represents_current_author() {
+		$person_logo_id                                  = 'person_logo_id';
+		$user_data                                       = (object) [
+			'display_name' => 'Piet',
+		];
+		$this->instance->context->site_user_id           = 123;
+		$this->instance->context->site_url               = 'http://example.com';
+		$this->instance->context->site_represents        = 'person';
+		$this->instance->context->indexable              = new Indexable();
+		$this->instance->context->indexable->object_type = 'user';
+		$this->instance->context->indexable->object_id   = 123;
+
+		Functions\expect( 'get_userdata' )
+			->with( $this->instance->context->indexable->object_id )
+			->andReturn( $user_data );
+		$this->instance->helpers->schema->id
+			->expects( 'get_user_schema_id' )
+			->with( $this->instance->context->indexable->object_id, $this->instance->context )
+			->andReturn( 'user_schema_id' );
+		$this->instance->helpers->schema->html
+			->expects( 'smart_strip_tags' )
+			->with( $user_data->display_name )
+			->andReturn( $user_data->display_name );
+		Filters\expectApplied( 'wpseo_schema_person_social_profiles' )
+			->andReturn( [] );
+
+		$this->instance->helpers->image
+			->expects( 'get_attachment_id_from_settings' )
+			->with( 'person_logo' )
+			->andReturn( $person_logo_id );
+		$this->instance->helpers->schema->image
+			->expects( 'generate_from_attachment_id' )
+			->with(
+				$this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
+				$person_logo_id,
+				$user_data->display_name
+			)
+			->andReturn( 'our_image_schema' );
+
+		$data = $this->instance->generate();
+
+		$this->assertSame( [ 'Person', 'Organization' ], $data['@type'] );
+	}
 
 	/**
 	 * Tests that the author Schema piece is not output
@@ -268,37 +370,6 @@ class Author_Test extends TestCase {
 		];
 
 		$this->assertTrue( $this->instance->is_needed() );
-	}
-
-	/**
-	 * Tests that the author Schema piece is not output on a post
-	 * authored by the person the website represents.
-	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_not_shown_when_on_post_and_site_represents_author() {
-		$user_id         = 123;
-		$object_sub_type = 'recipe';
-
-		$this->article
-			->expects( 'is_article_post_type' )
-			->with( $object_sub_type )
-			->andReturn( true );
-
-		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
-			'post_author' => $user_id,
-		];
-
-		$this->meta_tags_context->indexable = (Object) [
-			'object_type'     => 'post',
-			'object_sub_type' => $object_sub_type,
-		];
-
-		$this->meta_tags_context->site_represents = 'person';
-		$this->meta_tags_context->site_user_id    = $user_id;
-
-		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
