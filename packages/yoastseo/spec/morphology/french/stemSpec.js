@@ -71,8 +71,12 @@ const wordsToStem = [
 ];
 
 const paradigms = [
-	// A paradigm with various types of diminutive
+	// A paradigm of a noun.
 	{ stem: "acteur", forms: [ "acteurs", "acteur" ] },
+	// A paradigm of an adjective.
+	{ stem: "petit", forms: [ "petit", "petite", "petits" ] },
+	// A paradigm of a verb the suffixes of which start with i.
+	{ stem: "dorm", forms: [ "dors", "dort", "dormons", "dormez", "dorment", "dormais", "dormait", "dormions", "dormiez", "dormaient", "dormirai", "dormiras", "dormira", "dormirons", "dormirez", "dormiront", "dormis", "dormit", "dormîmes", "dormîtes", "dormirent", "dormes", "dorme", "dormions", "dormiez", "dorment", "dormisse", "dormisses", "dormît", "dormissions", "dormissiez", "dormissent", "dormirais", "dormirait", "dormirions", "dormiriez", "dormiraient", "dormant", "dormons", "dormez", "dormi", "dormir" ] },
 ];
 
 
