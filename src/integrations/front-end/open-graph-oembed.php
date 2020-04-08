@@ -144,5 +144,4 @@ class Open_Graph_OEmbed implements Integration_Interface {
 			$this->data['thumbnail_height'] = $image['height'];
 		}
 	}
-
 }
