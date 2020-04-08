@@ -242,11 +242,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			],
 		];
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_script' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_script' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -288,11 +286,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			],
 		];
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_style' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_style' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -318,11 +314,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_assets() {
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_scripts', 'register_styles' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_scripts', 'register_styles' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->once() )
