@@ -67,7 +67,6 @@ class TwitterPreview extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-		this.Wrapper = props.isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
 
 		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
 		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
@@ -96,8 +95,11 @@ class TwitterPreview extends Component {
 			activeField,
 			hoveredField,
 		} = this.props;
+
+		const Wrapper = isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
+
 		return (
-			<this.Wrapper>
+			<Wrapper>
 				<TwitterImage
 					src={ image }
 					alt={ alt }
@@ -131,7 +133,7 @@ class TwitterPreview extends Component {
 						siteName={ siteName }
 					/>
 				</TwitterTextWrapper>
-			</this.Wrapper>
+			</Wrapper>
 		);
 	}
 }

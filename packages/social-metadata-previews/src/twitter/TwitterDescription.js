@@ -11,6 +11,7 @@ import styled from "styled-components";
  */
 const TwitterDescription = styled.p`
 	max-height: 55px;
+	min-height: 20px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0 0 2px;

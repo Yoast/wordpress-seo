@@ -21,6 +21,9 @@ const determineClamp = ( mode ) => {
 	}
 };
 
+// Used to sure the element also has a height when empty by setting min-height equal to line-height.
+const height = "16px";
+
 /**
  * Renders a FacebookDescription component.
  *
@@ -29,9 +32,10 @@ const determineClamp = ( mode ) => {
  * @returns {React.Component} The rendered element.
  */
 const FacebookDescription = styled.p`
+	line-height: ${ height };
+	min-height : ${ height };
 	color: #606770;
 	font-size: 12px;
-	line-height: 16px;
 	padding: 0;
 	text-overflow: ellipsis;
 	margin: 3px 0 0 0;
