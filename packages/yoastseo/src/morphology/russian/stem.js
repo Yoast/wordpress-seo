@@ -54,7 +54,7 @@ const isVowel = function( char ) {
  *
  * @param {string} word	The word checked.
  *
- * @returns {int[]} The array of R1 and RV.
+ * @returns {int[]} The array of RV and R2.
  */
 const findRegions = function( word ) {
 	let rv = 0;
@@ -133,11 +133,8 @@ export default function stem( word ) {
 		removeEndings( word, regexReflexives, rv );
 
 		// Затем в следующем порядке пробуем удалить окончания: ADJECTIVAL, VERB, NOUN. Как только одно из них найдено – шаг завершается.
-		if ( ! (
-				removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
-				removeEndings( word, regexAdjective, rv )
-			)
-		) {
+		if ( ! ( removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
+				 removeEndings( word, regexAdjective, rv ) ) ) {
 			if ( ! removeEndings( word, [ regexVerb1, regexVerb2 ], rv ) ) {
 				removeEndings( word, regexNoun, rv );
 			}
