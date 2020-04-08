@@ -39,11 +39,11 @@ const regexNN = "нн$";
 const regexSoftSign = "ь$";
 
 /**
- * Checks if the input character is a russian vowel.
+ * Checks if the input character is a Russian vowel.
  *
  * @param {string} char The character to be checked.
  *
- * @returns {boolean} Whether the input character is a russian vowel.
+ * @returns {boolean} Whether the input character is a Russian vowel.
  */
 const isVowel = function( char ) {
 	return vowels.includes( char );
@@ -94,7 +94,7 @@ const findRegions = function( word ) {
  * @param {string|string[]} regex	The regex or a pair of regexes to match.
  * @param {int}             region	The word region
  *
- * @returns {boolean}	Whether the word ends in one of the endings or not.
+ * @returns {string|null}	The word if the stemming rule could be applied or null otherwise.
  */
 const removeEndings = function( word, regex, region ) {
 	const prefix = word.substr( 0, region );
@@ -103,20 +103,20 @@ const removeEndings = function( word, regex, region ) {
 	let currentRegex;
 
 	if ( Array.isArray( regex ) ) {
-		currentRegex = new RegExp( "/.+[ая]" + regex[ 0 ] + "/ui" );
+		currentRegex = new RegExp( "." + regex[ 0 ], "ui" );
 		if ( currentRegex.test( ending ) ) {
 			word = prefix + ending.replace( currentRegex, "" );
-			return true;
+			return word;
 		}
 	}
 
-	currentRegex = new RegExp( "/.+[ая]" + regex[ 1 ] + "/ui" );
+	currentRegex = new RegExp( "." + regex[ 1 ], "ui" );
 	if ( currentRegex.test( ending ) ) {
 		word = prefix + ending.replace( currentRegex, "" );
-		return true;
+		return word;
 	}
 
-	return false;
+	return null;
 };
 
 /**
@@ -130,38 +130,65 @@ export default function stem( word ) {
 	const [ rv, r2 ] = findRegions( word );
 
 	// Step 1: Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
-	if ( ! removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv ) ) {
-		// If there is no PERFECTIVE GERUND ending than try removing a REFLEXIVE ending.
-		removeEndings( word, regexReflexives, rv );
+	const removeGerundSuffixes = removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv );
 
-		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the stem is finalized.
-		if ( ! (
-			removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
-			removeEndings( word, regexAdjective, rv )
-		) ) {
-			if ( ! removeEndings( word, [ regexVerb1, regexVerb2 ], rv ) ) {
-				removeEndings( word, regexNoun, rv );
+	if ( removeGerundSuffixes ) {
+		word = removeGerundSuffixes;
+	} else {
+		// If there is no PERFECTIVE GERUND ending than try removing a REFLEXIVE ending.
+		const removeReflexiveSuffixes = removeEndings( word, regexReflexives, rv );
+
+		if ( removeReflexiveSuffixes ) {
+			word = removeReflexiveSuffixes;
+		}
+		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the step is finalized.
+		const removeParticipleSuffixes = removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv );
+		const removeAdjectiveSuffixes = removeEndings( word, regexAdjective, rv );
+
+		if ( removeParticipleSuffixes ) {
+			word = removeParticipleSuffixes;
+		} else if ( removeAdjectiveSuffixes ) {
+			word = removeAdjectiveSuffixes;
+		} else {
+			const removeVerbalSuffixes = removeEndings( word, [ regexVerb1, regexVerb2 ], rv );
+			if ( removeVerbalSuffixes ) {
+				word = removeVerbalSuffixes;
+			} else {
+				const removeNounSuffixes = removeEndings( word, regexNoun, rv );
+				if ( removeNounSuffixes ) {
+					word = removeNounSuffixes;
+				}
 			}
 		}
 	}
-
 	// Step 2: If the word ends in "и", remove it.
-	removeEndings( word, regexI, rv );
-
+	const removeIEnding = removeEndings( word, regexI, rv );
+	if ( removeIEnding ) {
+		word = removeIEnding;
+	}
 	// Step 3: If the R2 ends in a DERIVATIONAL ending, remove it.
-	removeEndings( word, regexDerivational, r2 );
+	const removeDerivationalSuffixes = removeEndings( word, regexDerivational, r2 );
+	if ( removeDerivationalSuffixes ) {
+		word = removeDerivationalSuffixes;
+	}
 
 	// Step 4: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
-	if ( removeEndings( word, regexNN, rv ) ) {
+	const removeNNEnding = removeEndings( word, regexNN, rv );
+	if ( removeNNEnding ) {
 		word += "н";
 	}
 
 	// 2. If the word ends in a SUPERLATIVE ending, remove it and then again the last letter if the word ends in "нн".
-	removeEndings( word, regexSuperlative, rv );
-
+	const removeSuperlativeSuffixes = removeEndings( word, regexSuperlative, rv );
+	if ( removeSuperlativeSuffixes ) {
+		word = removeSuperlativeSuffixes;
+	}
 	// 3. If the word ends in "ь", remove it.
-	removeEndings( word, regexSoftSign, rv );
+	const removeSoftSignEnding = removeEndings( word, regexSoftSign, rv );
+	if ( removeSoftSignEnding ) {
+		word = removeSoftSignEnding;
+	}
 
 	return word;
 }
