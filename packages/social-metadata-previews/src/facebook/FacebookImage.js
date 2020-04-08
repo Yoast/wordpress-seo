@@ -177,7 +177,7 @@ class FacebookImage extends Component {
 }
 
 FacebookImage.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
 	onImageClick: PropTypes.func,
@@ -186,6 +186,7 @@ FacebookImage.propTypes = {
 };
 
 FacebookImage.defaultProps = {
+	src: "",
 	alt: "",
 	onImageLoaded: () => {},
 	onImageClick: () => {},
