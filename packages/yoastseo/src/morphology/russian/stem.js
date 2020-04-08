@@ -1,5 +1,5 @@
 /**
- * MIT License
+ *  MIT License
  *
  * Copyright (c) 2016 Alexander Kiryukhin
  *
@@ -23,94 +23,89 @@
  */
 
 const vowels = [ "а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я" ];
-const regexPerfectiveGerunds1 = "(в|вши|вшись)$";
-const regexPerfectiveGerunds2 = "(ив|ивши|ившись|ыв|ывши|ывшись)$";
-const regexAdjective = "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$";
-const regexParticiple1 = "(ем|нн|вш|ющ|щ)";
-const regexParticiple2 = "(ивш|ывш|ующ)";
-const regexReflexives = "(ся|сь)$";
-const regexVerb1 = "(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ть|ешь|нно)$";
-const regexVerb2 = "(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|ю)$";
-const regexNoun = "(а|ев|ов|ие|ье|е|ьё|иями|ями|ами|еи|ии|и|ией|ей|ой|ий|й|иям|ям|ием|ем|ам|ом|о|у|ах|иях|ях|ы|ь|ию|ью|ю|ия|ья|я)$";
-const regexSuperlative = "(ейш|ейше)$";
-const regexDerivational = "(ост|ость)$";
-const regexI = "и$";
-const regexNN = "нн$";
-const regexSoftSign = "ь$";
+const REGEX_PERFECTIVE_GERUNDS1 = '(в|вши|вшись)$';
+const REGEX_PERFECTIVE_GERUNDS2 = '(ив|ивши|ившись|ыв|ывши|ывшись)$';
+const REGEX_ADJECTIVE = '(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$';
+const REGEX_PARTICIPLE1 = '(ем|нн|вш|ющ|щ)';
+const REGEX_PARTICIPLE2 = '(ивш|ывш|ующ)';
+const REGEX_REFLEXIVES = '(ся|сь)$';
+const REGEX_VERB1 = '(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ть|ешь|нно)$';
+const REGEX_VERB2 = '(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|ю)$';
+const REGEX_NOUN = '(а|ев|ов|ие|ье|е|ьё|иями|ями|ами|еи|ии|и|ией|ей|ой|ий|й|иям|ям|ием|ем|ам|ом|о|у|ах|иях|ях|ы|ь|ию|ью|ю|ия|ья|я)$';
+const REGEX_SUPERLATIVE = '(ейш|ейше)$';
+const REGEX_DERIVATIONAL = '(ост|ость)$';
+const REGEX_I = 'и$';
+const REGEX_NN = 'нн$';
+const REGEX_SOFT_SIGN = 'ь$';
 
 /**
- * Checks if the input character is a russian vowel.
+ * @param string char
  *
- * @param {string} char The character to be checked.
- *
- * @returns {boolean} Whether the input character is a russian vowel.
+ * @return boolean
  */
-const isVowel = function( char ) {
+const isVowel = function ( char )
+{
 	return vowels.includes( char );
 };
 
 /**
- * Determines the region of the word.
+ * @param string word
  *
- * @param {string} word	The word checked.
- *
- * @returns {int[]} The array of R1 and RV.
+ * @return int[]
  */
 const findRegions = function( word ) {
 	let rv = 0;
 	let state = 0;
 	const wordLength = word.length;
 
-	for ( let i = 1; i < wordLength; i++ ) {
+	for ( let i = 1; i < wordLength; i++) {
 		const prevChar = word.substring( i - 1, i );
 		const char = word.substring( i, i + 1 );
-		switch ( state ) {
+		switch (state) {
 			case 0:
-				if ( isVowel( char ) ) {
+				if (isVowel(char)) {
 					rv = i + 1;
 					state = 1;
 				}
 				break;
 			case 1:
-				if ( isVowel( prevChar ) && isVowel( char ) ) {
+				if (isVowel(prevChar) && isVowel(char)) {
 					state = 2;
 				}
 				break;
 			case 2:
-				if ( isVowel( prevChar ) && isVowel( char ) ) {
-					return [ rv, i + 1 ];
+				if (isVowel(prevChar) && isVowel(char)) {
+					return [rv, i + 1];
 				}
 				break;
 		}
 	}
 
-	return [ rv, 0 ];
+	return [rv, 0];
 };
 
 /**
- * Removes the endings from the word.
+ * @param string          word
+ * @param string|string[] regex
+ * @param int             region
  *
- * @param {string}          word	The word to check.
- * @param {string|string[]} regex	The regex or an array of regexes to match.
- * @param {int}             region	The word region
- *
- * @returns {boolean}	Whether the word ends in one of the endings or not.
+ * @return boolean
  */
-const removeEndings = function( word, regex, region ) {
-	const prefix = word.substr( 0, region );
+const removeEndings = function(word, regex, region) {
+	const prefix = word.substr(0, region );
 	const ending = word.substr( prefix.length );
 
 	if ( Array.isArray( regex ) ) {
-		const currentRegex = new RegExp( "/.+[ая]" + regex[ 0 ] + "/ui" );
-		if ( currentRegex.test( ending ) ) {
-			word = prefix + ending.replace( currentRegex, "" );
+		const currentRegex = '/.+[ая]' + regex[0] + '/ui';
+		if ( currentRegex.test ( ending ) ) {
+			word = prefix + ending.replace( currentRegex, '' );
 			return true;
 		}
 	}
 
-	const currentRegex = new RegExp( "/.+[ая]" + regex[ 1 ] + "/ui" );
-	if ( currentRegex.test( ending ) ) {
-		word = prefix + ending.replace( currentRegex, "" );
+	const currentRegex = '/.+[ая]' + regex[ 1 ] + '/ui';
+	if ( currentRegex.test ( ending ) ) {
+		word = prefix + ending.replace( currentRegex, '' );
 		return true;
 	}
 
@@ -118,49 +113,45 @@ const removeEndings = function( word, regex, region ) {
 };
 
 /**
- * Stems russian words.
+ * @param string word
  *
- * @param {string} word	The word to stem.
- *
- * @returns {string}	The stemmed word.
+ * @return string
  */
-export default function stem( word ) {
-	const [ rv, r2 ] = findRegions( word );
+export default function stem( word) {
+	[ rv, r2 ] = findRegions( word );
 
 	// Step 1: Найти окончание PERFECTIVE GERUND. Если оно существует – удалить его и завершить этот шаг.
-	if ( ! removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv ) ) {
+	if ( ! removeEndings( word, [ REGEX_PERFECTIVE_GERUNDS1, REGEX_PERFECTIVE_GERUNDS2], rv ) ) {
 		// Иначе, удаляем окончание REFLEXIVE (если оно существует).
-		removeEndings( word, regexReflexives, rv );
+		removeEndings( word, REGEX_REFLEXIVES, rv );
 
 		// Затем в следующем порядке пробуем удалить окончания: ADJECTIVAL, VERB, NOUN. Как только одно из них найдено – шаг завершается.
-		if ( ! (
-			removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
-			removeEndings( word, regexAdjective, rv )
-		)
+		if ( ! ( removeEndings( word, [ REGEX_PARTICIPLE1 + REGEX_ADJECTIVE, REGEX_PARTICIPLE2 + REGEX_ADJECTIVE ], rv ) ||
+				removeEndings( word, REGEX_ADJECTIVE, rv ) )
 		) {
-			if ( ! removeEndings( word, [ regexVerb1, regexVerb2 ], rv ) ) {
-				removeEndings( word, regexNoun, rv );
+			if ( ! removeEndings( word, [ REGEX_VERB1, REGEX_VERB2 ], rv ) ) {
+				removeEndings( word, REGEX_NOUN, rv );
 			}
 		}
 	}
 
 	// Step 2: Если слово оканчивается на и – удаляем и.
-	removeEndings( word, regexI, rv );
+	removeEndings( word, REGEX_I, rv );
 
 	// Step 3: Если в R2 найдется окончание DERIVATIONAL – удаляем его.
-	removeEndings( word, regexDerivational, r2 );
+	removeEndings( word, REGEX_DERIVATIONAL, r2 );
 
 	// Step 4: Возможен один из трех вариантов:
 	// 1. Если слово оканчивается на нн – удаляем последнюю букву.
-	if ( removeEndings( word, regexNN, rv ) ) {
-		word += "н";
+	if ( removeEndings( word, REGEX_NN, rv ) ) {
+		word += 'н';
 	}
 
 	// 2. Если слово оканчивается на SUPERLATIVE – удаляем его и снова удаляем последнюю букву, если слово оканчивается на нн.
-	removeEndings( word, regexSuperlative, rv );
+	removeEndings( word, REGEX_SUPERLATIVE, rv);
 
 	// 3. Если слово оканчивается на ь – удаляем его.
-	removeEndings( word, regexSoftSign, rv );
+	removeEndings( word, REGEX_SOFT_SIGN, rv);
 
 	return word;
-}
+};

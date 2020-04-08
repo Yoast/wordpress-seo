@@ -40,10 +40,10 @@ describe( "a test removing special characters from text", function() {
 	it( "returns a Czech string without special characters.", function() {
 		expect( transliteration( "áÁčČďĎéÉěĚíÍňŇóÓřŘšŠťŤúÚůŮýÝžŽ", "cs_CZ" ) ).toBe( "aAcCdDeEeEiInNoOrRsStTuUuUyYzZ" );
 	} );
-	it( "returns a russian string without special characters.", function() {
+	it( "returns a Russian string without special characters.", function() {
 		expect( transliteration( "АабБвВгГдДеЕёЁжЖзЗиИйЙіІкКлЛмМнНоОпПрРсСтТуУфФхХцЦчЧшШщЩъЪыЫьЬэЭюЮяЯ", "ru_RU" ) ).toBe( "AabBvVgGdDeEeEzhZhzZiIiIiIkKlLmMnNoOpPrRsStTuUfFkhKhtsTschChshShshchShchieIeyYeEiuIuiaIa" );
 	} );
-	it( "returns a russian string without special characters.", function() {
+	it( "returns a Russian string without special characters.", function() {
 		expect( transliteration( "Транслитерация", "ru_RU" ) ).toBe( "Transliteratsiia" );
 	} );
 	it( "returns an Esperanto string without special characters.", function() {

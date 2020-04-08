@@ -294,7 +294,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
-	it( "returns 1 when a transition word is found in a sentence (russian)", function() {
+	it( "returns 1 when a transition word is found in a sentence (Russian)", function() {
 		// Transition word: к примеру
 		mockPaper = new Paper( "Мы, к примеру, всегда сразу идем домой после работы.", { locale: "ru_RU" } );
 		result = transitionWordsResearch( mockPaper );
@@ -302,7 +302,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 1 when a two-part transition word is found in a sentence (russian)", function() {
+	it( "returns 1 when a two-part transition word is found in a sentence (Russian)", function() {
 		// Transition word: стоило...как
 		mockPaper = new Paper( "Стоило ему прийти, как она ушла.", { locale: "ru_RU" } );
 		result = transitionWordsResearch( mockPaper );
@@ -310,7 +310,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 0 when no transition words are present in a sentence (russian)", function() {
+	it( "returns 0 when no transition words are present in a sentence (Russian)", function() {
 		mockPaper = new Paper( "Я не знаю, как пишется это слово.", { locale: "ru_RU" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );

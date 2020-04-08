@@ -1,7 +1,7 @@
 import countSyllableFunction from "../../../src/stringProcessing/syllables/count.js";
 
-describe( "a syllable counter for russian text strings", function() {
-	it( "returns the number of syllables of russian words", function() {
+describe( "a syllable counter for Russian text strings", function() {
+	it( "returns the number of syllables of Russian words", function() {
 		expect( countSyllableFunction( "нет", "ru_RU" ) ).toBe( 1 );
 		expect( countSyllableFunction( "мама", "ru_RU" ) ).toBe( 2 );
 		expect( countSyllableFunction( "сестрёнка", "ru_RU" ) ).toBe( 3 );

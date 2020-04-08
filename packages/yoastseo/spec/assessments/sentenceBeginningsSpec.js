@@ -107,12 +107,12 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "is not applicable for a russian paper without text.", function() {
+	it( "is not applicable for a Russian paper without text.", function() {
 		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "", { locale: "ru_RU" } ) );
 		expect( assessment ).toBe( false );
 	} );
 
-	it( "is applicable for a russian paper with text.", function() {
+	it( "is applicable for a Russian paper with text.", function() {
 		const assessment = sentenceBeginningsAssessment.isApplicable( new Paper( "почему", { locale: "ru_RU" } ) );
 		expect( assessment ).toBe( true );
 	} );

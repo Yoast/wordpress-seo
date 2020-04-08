@@ -90,7 +90,7 @@ describe( "An assessment for sentence length", function() {
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
-	it( "returns the score for 100% long sentences in russian", function() {
+	it( "returns the score for 100% long sentences in Russian", function() {
 		const mockPaper = new Paper( "text", { locale: "ru_RU" } );
 		const sentenceLengthInTextAssessmentRussian = new SentenceLengthInTextAssessment( contentConfiguration( mockPaper.getLocale() ).sentenceLength );
 
