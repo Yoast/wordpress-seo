@@ -1,0 +1,31 @@
+.yoast-field-group__title-selector {
+    line-height: 44px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.yoast-field-group__title-selector input[type='radio'] {
+    left: -9999em;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+}
+
+.yoast-field-group__title-selector label {
+    display: block;
+    border: solid 1px #f00;
+    text-align: center;
+    border: var(--border-default);
+    cursor: pointer;
+    height: 42px;
+    line-height: 42px;
+    width: 42px;
+    margin: 0 6px 6px 0;
+}
+
+.yoast-field-group__title-selector input[type='radio']:checked + label {
+    border: solid 3px var(--color-primary);
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+}
