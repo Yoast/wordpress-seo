@@ -54,7 +54,7 @@
 
 export default function stem( word ) {
 	word = word.toLowerCase();
-	var oriWord = word;
+	const oriWord = word;
 	// Have to perform first, as after the operation, capital U is not treated as a vowel
 	word = word.replace( /qu/g, "qU" );
 	word = word.replace( /([aeiouyâàëéêèïîôûù])u([aeiouyâàëéêèïîôûù])/g, "$1U$2" );
@@ -62,8 +62,8 @@ export default function stem( word ) {
 	word = word.replace( /([aeiouyâàëéêèïîôûù])y/g, "$1Y" );
 	word = word.replace( /y([aeiouyâàëéêèïîôûù])/g, "Y$1" );
 
-	var rv = "";
-	var rvIndex = -1;
+	let rv = "";
+	let rvIndex = -1;
 	if ( word.search( /^(par|col|tap)/ ) !== -1 || word.search( /^[aeiouyâàëéêèïîôûù]{2}/ ) !== -1 ) {
 		rv = word.substring( 3 );
 		rvIndex = 3;
@@ -80,8 +80,8 @@ export default function stem( word ) {
 
 	//    R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 	//    R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel
-	var r1Index = word.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
-	var r1 = "";
+	let r1Index = word.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
+	let r1 = "";
 	if ( r1Index === -1 ) {
 		r1Index = word.length;
 	} else {
@@ -89,8 +89,8 @@ export default function stem( word ) {
 		r1 = word.substring( r1Index );
 	}
 
-	var r2Index = -1;
-	var r2 = "";
+	let r2Index = -1;
+	let r2 = "";
 	if ( r1Index !== -1 ) {
 		r2Index = r1.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
 		if ( r2Index !== -1 ) {
@@ -110,27 +110,27 @@ export default function stem( word ) {
 	/*
 	Step 1: Standard suffix removal
 	*/
-	var a1Index = word.search( /(ance|iqUe|isme|able|iste|eux|ances|iqUes|ismes|ables|istes)$/ );
-	var a2Index = word.search( /(atrice|ateur|ation|atrices|ateurs|ations)$/ );
-	var a3Index = word.search( /(logie|logies)$/ );
-	var a4Index = word.search( /(usion|ution|usions|utions)$/ );
-	var a5Index = word.search( /(ence|ences)$/ );
-	var a6Index = word.search( /(ement|ements)$/ );
-	var a7Index = word.search( /(ité|ités)$/ );
-	var a8Index = word.search( /(if|ive|ifs|ives)$/ );
-	var a9Index = word.search( /(eaux)$/ );
-	var a10Index = word.search( /(aux)$/ );
-	var a11Index = word.search( /(euse|euses)$/ );
-	var a12Index = word.search( /[^aeiouyâàëéêèïîôûù](issement|issements)$/ );
-	var a13Index = word.search( /(amment)$/ );
-	var a14Index = word.search( /(emment)$/ );
-	var a15Index = word.search( /[aeiouyâàëéêèïîôûù](ment|ments)$/ );
+	let a1Index = word.search( /(ance|iqUe|isme|able|iste|eux|ances|iqUes|ismes|ables|istes)$/ );
+	let a2Index = word.search( /(atrice|ateur|ation|atrices|ateurs|ations)$/ );
+	let a3Index = word.search( /(logie|logies)$/ );
+	let a4Index = word.search( /(usion|ution|usions|utions)$/ );
+	let a5Index = word.search( /(ence|ences)$/ );
+	let a6Index = word.search( /(ement|ements)$/ );
+	let a7Index = word.search( /(ité|ités)$/ );
+	let a8Index = word.search( /(if|ive|ifs|ives)$/ );
+	let a9Index = word.search( /(eaux)$/ );
+	let a10Index = word.search( /(aux)$/ );
+	let a11Index = word.search( /(euse|euses)$/ );
+	let a12Index = word.search( /[^aeiouyâàëéêèïîôûù](issement|issements)$/ );
+	let a13Index = word.search( /(amment)$/ );
+	let a14Index = word.search( /(emment)$/ );
+	let a15Index = word.search( /[aeiouyâàëéêèïîôûù](ment|ments)$/ );
 
 	if ( a1Index !== -1 && a1Index >= r2Index ) {
 		word = word.substring( 0, a1Index );
 	} else if ( a2Index !== -1 && a2Index >= r2Index ) {
 		word = word.substring( 0, a2Index );
-		var a2Index2 = word.search( /(ic)$/ );
+		let a2Index2 = word.search( /(ic)$/ );
 
 		if ( a2Index2 !== -1 && a2Index2 >= r2Index ) {
 			// If preceded by ic, delete if in R2
@@ -156,7 +156,7 @@ export default function stem( word ) {
 				word = word.replace( /(at)$/, "" );
 			}
 		} else if ( word.search( /(eus)$/ ) !== -1 ) {
-			var a6Index2 = word.search( /(eus)$/ );
+			let a6Index2 = word.search( /(eus)$/ );
 			if ( a6Index2 >= r2Index ) {
 				word = word.substring( 0, a6Index2 );
 			} else if ( a6Index2 >= r1Index ) {
@@ -174,14 +174,14 @@ export default function stem( word ) {
 		word = word.substring( 0, a7Index );
 		if ( word.search( /(abil)$/ ) !== -1 ) {
 			// If preceded by abil, delete if in R2, else replace by abl, otherwise
-			var a7Index2 = word.search( /(abil)$/ );
+			let a7Index2 = word.search( /(abil)$/ );
 			if ( a7Index2 >= r2Index ) {
 				word = word.substring( 0, a7Index2 );
 			} else {
 				word = word.substring( 0, a7Index2 ) + "abl";
 			}
 		} else if ( word.search( /(ic)$/ ) !== -1 ) {
-			var a7Index3 = word.search( /(ic)$/ );
+			let a7Index3 = word.search( /(ic)$/ );
 			if ( a7Index3 !== -1 && a7Index3 >= r2Index ) {
 				// If preceded by ic, delete if in R2
 				word = word.substring( 0, a7Index3 );
@@ -207,7 +207,7 @@ export default function stem( word ) {
 	} else if ( a10Index >= r1Index ) {
 		word = word.replace( /(aux)/, "al" );
 	} else if ( a11Index !== -1 ) {
-		var a11Index2 = word.search( /(euse|euses)$/ );
+		let a11Index2 = word.search( /(euse|euses)$/ );
 		if ( a11Index2 >= r2Index ) {
 			word = word.substring( 0, a11Index2 );
 		} else if ( a11Index2 >= r1Index ) {
@@ -225,11 +225,11 @@ export default function stem( word ) {
 	}
 
 	/* Step 2a: Verb suffixes beginning i*/
-	var wordStep1 = word;
-	var step2aDone = false;
+	let wordStep1 = word;
+	let step2aDone = false;
 	if ( oriWord === word.toLowerCase() || oriWord.search( /(amment|emment|ment|ments)$/ ) !== -1 ) {
 		step2aDone = true;
-		var b1Regex = /([^aeiouyâàëéêèïîôûù])(îmes|ît|îtes|i|ie|ies|ir|ira|irai|iraIent|irais|irait|iras|irent|irez|iriez|irions|irons|iront|is|issaIent|issais|issait|issant|issante|issantes|issants|isse|issent|isses|issez|issiez|issions|issons|it)$/i;
+		let b1Regex = /([^aeiouyâàëéêèïîôûù])(îmes|ît|îtes|i|ie|ies|ir|ira|irai|iraIent|irais|irait|iras|irent|irez|iriez|irions|irons|iront|is|issaIent|issais|issait|issant|issante|issantes|issants|isse|issent|isses|issez|issiez|issions|issons|it)$/i;
 		if ( word.search( b1Regex ) >= rvIndex ) {
 			word = word.replace( b1Regex, "$1" );
 		}
@@ -240,15 +240,15 @@ export default function stem( word ) {
 		if ( word.search( /(ions)$/ ) >= r2Index ) {
 			word = word.replace( /(ions)$/, "" );
 		} else {
-			var b2Regex = /(é|ée|ées|és|èrent|er|era|erai|eraIent|erais|erait|eras|erez|eriez|erions|erons|eront|ez|iez)$/i;
+			let b2Regex = /(é|ée|ées|és|èrent|er|era|erai|eraIent|erais|erait|eras|erez|eriez|erions|erons|eront|ez|iez)$/i;
 			if ( word.search( b2Regex ) >= rvIndex ) {
 				word = word.replace( b2Regex, "" );
 			} else {
-				var b3Regex = /e(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
+				let b3Regex = /e(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
 				if ( word.search( b3Regex ) >= rvIndex ) {
 					word = word.replace( b3Regex, "" );
 				} else {
-					var b3Regex2 = /(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
+					let b3Regex2 = /(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
 					if ( word.search( b3Regex2 ) >= rvIndex ) {
 						word = word.replace( b3Regex2, "" );
 					}
@@ -259,7 +259,7 @@ export default function stem( word ) {
 
 	if ( oriWord !== word.toLowerCase() ) {
 		/* Step 3 */
-		var rep = "";
+		let rep = "";
 		if ( word.search( /Y$/ ) !== -1 ) {
 			word = word.replace( /Y$/, "i" );
 		} else if ( word.search( /ç$/ ) !== -1 ) {
@@ -271,11 +271,11 @@ export default function stem( word ) {
 		if ( word.search( /([^aiouès])s$/ ) >= rvIndex ) {
 			word = word.replace( /([^aiouès])s$/, "$1" );
 		}
-		var e1Index = word.search( /ion$/ );
+		let e1Index = word.search( /ion$/ );
 		if ( e1Index >= r2Index && word.search( /[st]ion$/ ) >= rvIndex ) {
 			word = word.substring( 0, e1Index );
 		} else {
-			var e2Index = word.search( /(ier|ière|Ier|Ière)$/ );
+			let e2Index = word.search( /(ier|ière|Ier|Ière)$/ );
 			if ( e2Index !== -1 && e2Index >= rvIndex ) {
 				word = word.substring( 0, e2Index ) + "i";
 			} else {
