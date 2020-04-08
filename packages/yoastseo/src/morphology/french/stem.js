@@ -116,7 +116,7 @@ export default function stem( word ) {
 	var a4Index = word.search( /(usion|ution|usions|utions)$/ );
 	var a5Index = word.search( /(ence|ences)$/ );
 	var a6Index = word.search( /(ement|ements)$/ );
-	var a7Index = word.search( /(itÃ©|itÃ©s)$/ );
+	var a7Index = word.search( /(ité|ités)$/ );
 	var a8Index = word.search( /(if|ive|ifs|ives)$/ );
 	var a9Index = word.search( /(eaux)$/ );
 	var a10Index = word.search( /(aux)$/ );
