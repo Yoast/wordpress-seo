@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * Indexable_Postmeta_Watcher class
  */
-class Indexable_Postmeta_Watcher implements Integration_Interface {
+class Indexable_Post_Meta_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
@@ -31,13 +31,6 @@ class Indexable_Postmeta_Watcher implements Integration_Interface {
 	protected $post_watcher;
 
 	/**
-	 * The meta prefix length.
-	 *
-	 * @var int
-	 */
-	protected $meta_prefix_length;
-
-	/**
 	 * An array of post IDs that need to be updated.
 	 *
 	 * @var array
@@ -51,8 +44,6 @@ class Indexable_Postmeta_Watcher implements Integration_Interface {
 	 */
 	public function __construct( Indexable_Post_Watcher $post_watcher ) {
 		$this->post_watcher = $post_watcher;
-		// Set it once so we don't have to constantly call strlen.
-		$this->meta_prefix_length = \strlen( WPSEO_Meta::$meta_prefix );
 	}
 
 	/**
@@ -86,7 +77,7 @@ class Indexable_Postmeta_Watcher implements Integration_Interface {
 	 */
 	public function add_post_id( $meta_id, $post_id, $meta_key ) {
 		// Only register changes to our own meta.
-		if ( \substr( $meta_key, 0, $this->meta_prefix_length ) !== WPSEO_Meta::$meta_prefix ) {
+		if ( \strpos( $meta_key, WPSEO_Meta::$meta_prefix ) !== 0 ) {
 			return;
 		}
 

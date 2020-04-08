@@ -11,21 +11,21 @@ use Mockery;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Postmeta_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Indexable_Postmeta_Watcher_Test.
+ * Class Indexable_Post_Meta_Watcher_Test.
  *
  * @group indexables
  * @group integrations
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Postmeta_Watcher_Test
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher_Test
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Postmeta_Watcher_Test extends TestCase {
+class Indexable_Post_Meta_Watcher_Test extends TestCase {
 
 	/**
 	 * The post watcher.
@@ -37,7 +37,7 @@ class Indexable_Postmeta_Watcher_Test extends TestCase {
 	/**
 	 * The test instance.
 	 *
-	 * @var Indexable_Postmeta_Watcher
+	 * @var Indexable_Post_Meta_Watcher
 	 */
 	protected $instance;
 
@@ -47,7 +47,7 @@ class Indexable_Postmeta_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->post_watcher = Mockery::mock( Indexable_Post_Watcher::class );
-		$this->instance     = new Indexable_Postmeta_Watcher( $this->post_watcher );
+		$this->instance     = new Indexable_Post_Meta_Watcher( $this->post_watcher );
 	}
 
 	/**
