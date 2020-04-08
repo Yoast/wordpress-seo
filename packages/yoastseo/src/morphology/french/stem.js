@@ -1,3 +1,5 @@
+/* eslint-disable max-statements, complexity */
+
 /*
  * MIT License
  *
@@ -51,6 +53,59 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+
+/**
+ * Determines R1, R2 and RV.
+ *
+ * @param {string} word The word for which to determine the R regions.
+ *
+ * @returns {[number]} The R1, R2 and RV.
+ */
+const determineRs = function( word ) {
+	let rvIndex = -1;
+	if ( word.search( /^(par|col|tap)/ ) !== -1 || word.search( /^[aeiouyâàëéêèïîôûù]{2}/ ) !== -1 ) {
+		rvIndex = 3;
+	} else {
+		rvIndex = word.substring( 1 ).search( /[aeiouyâàëéêèïîôûù]/ );
+		if ( rvIndex === -1 ) {
+			rvIndex = word.length;
+		} else {
+			// +2 is to supplement the substring(1) used to find rvIndex
+			rvIndex += 2;
+		}
+	}
+
+	//    R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
+	//    R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel
+	let r1Index = word.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
+	let r1 = "";
+	if ( r1Index === -1 ) {
+		r1Index = word.length;
+	} else {
+		r1Index += 2;
+		r1 = word.substring( r1Index );
+	}
+
+	let r2Index = -1;
+	if ( r1Index !== -1 ) {
+		r2Index = r1.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
+		if ( r2Index === -1 ) {
+			r2Index = word.length;
+		} else {
+			r2Index += 2;
+			r2Index += r1Index;
+		}
+	}
+	if ( r1Index !== -1 && r1Index < 3 ) {
+		r1Index = 3;
+	}
+
+	return [
+		r1Index,
+		r2Index,
+		rvIndex,
+	];
+};
 
 /**
  * Removes or normalizes standard suffixes.
@@ -179,60 +234,95 @@ const processStandardSuffixes = function( word, r1Index, r2Index, rvIndex ) {
 
 	return word;
 };
-
 /**
- * Determines R1, R2 and RV.
+ * Removes verb suffixes starting with i.
  *
- * @param {string} word The word for which to determine the R regions.
+ * @param {string}  word                            The word for which to remove suffixes.
+ * @param {string}  originalWord                    The unprocessed word.
+ * @param {boolean} step2aDone                      Whether step 2a was done.
+ * @param {number}  rvIndex                         The start index of RV.
  *
- * @returns {[number]} The R1, R2 and RV.
+ * @returns {{step2aDone: boolean, word: string}}   The word and information about whether the conditions for step 2a were met.
  */
-const determineRs = function( word ) {
-	let rvIndex = -1;
-	if ( word.search( /^(par|col|tap)/ ) !== -1 || word.search( /^[aeiouyâàëéêèïîôûù]{2}/ ) !== -1 ) {
-		rvIndex = 3;
-	} else {
-		rvIndex = word.substring( 1 ).search( /[aeiouyâàëéêèïîôûù]/ );
-		if ( rvIndex === -1 ) {
-			rvIndex = word.length;
-		} else {
-			// +2 is to supplement the substring(1) used to find rvIndex
-			rvIndex += 2;
+const removeVerbSuffixesStartingWithI = function( word, originalWord, step2aDone, rvIndex ) {
+	if ( originalWord === word.toLowerCase() || originalWord.search( /(amment|emment|ment|ments)$/ ) !== -1 ) {
+		step2aDone = true;
+		// eslint-disable-next-line max-len
+		const b1Regex = /([^aeiouyâàëéêèïîôûù])(îmes|ît|îtes|i|ie|ies|ir|ira|irai|iraIent|irais|irait|iras|irent|irez|iriez|irions|irons|iront|is|issaIent|issais|issait|issant|issante|issantes|issants|isse|issent|isses|issez|issiez|issions|issons|it)$/i;
+		if ( word.search( b1Regex ) >= rvIndex ) {
+			word = word.replace( b1Regex, "$1" );
 		}
 	}
 
-	//    R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
-	//    R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel
-	let r1Index = word.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
-	let r1 = "";
-	if ( r1Index === -1 ) {
-		r1Index = word.length;
-	} else {
-		r1Index += 2;
-		r1 = word.substring( r1Index );
-	}
-
-	let r2Index = -1;
-	if ( r1Index !== -1 ) {
-		r2Index = r1.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
-		if ( r2Index === -1 ) {
-			r2Index = word.length;
-		} else {
-			r2Index += 2;
-			r2Index += r1Index;
-		}
-	}
-	if ( r1Index !== -1 && r1Index < 3 ) {
-		r1Index = 3;
-	}
-
-	return [
-		r1Index,
-		r2Index,
-		rvIndex,
-	];
+	return { word, step2aDone };
 };
-
+/**
+ * Removes other verb suffixes.
+ *
+ * @param {string}  word                            The word for which to remove suffixes.
+ * @param {boolean} step2aDone                      Whether step 2a was done.
+ * @param {string}  wordAfterStep1                  The word after step 1 was done.
+ * @param {number}  r2Index                         The start index of R2.
+ * @param {number}  rvIndex                         The start index of RV.
+ *
+ * @returns {string}                                The word after other verb suffixes were removed.
+ */
+const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex ) {
+	if ( step2aDone && wordAfterStep1 === word ) {
+		if ( word.search( /(ions)$/ ) >= r2Index ) {
+			word = word.replace( /(ions)$/, "" );
+		} else {
+			const b2Regex = /(é|ée|ées|és|èrent|er|era|erai|eraIent|erais|erait|eras|erez|eriez|erions|erons|eront|ez|iez)$/i;
+			if ( word.search( b2Regex ) >= rvIndex ) {
+				word = word.replace( b2Regex, "" );
+			} else {
+				const b3Regex = /e(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
+				if ( word.search( b3Regex ) >= rvIndex ) {
+					word = word.replace( b3Regex, "" );
+				} else {
+					const b3Regex2 = /(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
+					// eslint-disable-next-line max-depth
+					if ( word.search( b3Regex2 ) >= rvIndex ) {
+						word = word.replace( b3Regex2, "" );
+					}
+				}
+			}
+		}
+	}
+	return word;
+};
+/**
+ * Removes residual suffixes.
+ *
+ * @param {string}  word                            The word for which to remove residual suffixes.
+ * @param {number}  rvIndex                         The start index of RV.
+ * @param {number}  r2Index                         The start index of R2.
+ *
+ * @returns {string}                                The word after residual suffixes were removed.
+ */
+const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
+	// If the word ends s, not preceded by a, i, o, u, è or s, delete it.
+	if ( word.search( /([^aiouès])s$/ ) >= rvIndex ) {
+		word = word.replace( /([^aiouès])s$/, "$1" );
+	}
+	const e1Index = word.search( /ion$/ );
+	if ( e1Index >= r2Index && word.search( /[st]ion$/ ) >= rvIndex ) {
+		word = word.substring( 0, e1Index );
+	} else {
+		const e2Index = word.search( /(ier|ière|Ier|Ière)$/ );
+		if ( e2Index !== -1 && e2Index >= rvIndex ) {
+			word = word.substring( 0, e2Index ) + "i";
+		} else {
+			if ( word.search( /e$/ ) >= rvIndex ) {
+				// Delete last e.
+				word = word.replace( /e$/, "" );
+			} else if ( word.search( /guë$/ ) >= rvIndex ) {
+				word = word.replace( /guë$/, "gu" );
+			}
+		}
+	}
+	return word;
+};
 /**
  * Stems French words.
  *
@@ -242,7 +332,7 @@ const determineRs = function( word ) {
  */
 export default function stem( word ) {
 	word = word.toLowerCase();
-	const oriWord = word;
+	const originalWord = word;
 
 	// Have to perform first, as after the operation, capital U is not treated as a vowel
 	word = word.replace( /qu/g, "qU" );
@@ -263,69 +353,27 @@ export default function stem( word ) {
 	 * Standard suffix removal
 	 */
 	word = processStandardSuffixes( word, r1Index, r2Index, rvIndex );
+	const wordAfterStep1 = word;
 
 	/*
 	 *Step 2a:
 	 * Verb suffixes beginning with "i"
 	 */
-	const wordStep1 = word;
+
+
 	let step2aDone = false;
-	if ( oriWord === word.toLowerCase() || oriWord.search( /(amment|emment|ment|ments)$/ ) !== -1 ) {
-		step2aDone = true;
-		// eslint-disable-next-line max-len
-		const b1Regex = /([^aeiouyâàëéêèïîôûù])(îmes|ît|îtes|i|ie|ies|ir|ira|irai|iraIent|irais|irait|iras|irent|irez|iriez|irions|irons|iront|is|issaIent|issais|issait|issant|issante|issantes|issants|isse|issent|isses|issez|issiez|issions|issons|it)$/i;
-		if ( word.search( b1Regex ) >= rvIndex ) {
-			word = word.replace( b1Regex, "$1" );
-		}
-	}
+	word = removeVerbSuffixesStartingWithI( word, originalWord, step2aDone, rvIndex ).word;
+	step2aDone = removeVerbSuffixesStartingWithI( word, originalWord, step2aDone, rvIndex ).step2aDone;
 
 	/*
 	 * Step 2b:
 	 * Other verb suffixes
 	 */
-	if ( step2aDone && wordStep1 === word ) {
-		if ( word.search( /(ions)$/ ) >= r2Index ) {
-			word = word.replace( /(ions)$/, "" );
-		} else {
-			const b2Regex = /(é|ée|ées|és|èrent|er|era|erai|eraIent|erais|erait|eras|erez|eriez|erions|erons|eront|ez|iez)$/i;
-			if ( word.search( b2Regex ) >= rvIndex ) {
-				word = word.replace( b2Regex, "" );
-			} else {
-				const b3Regex = /e(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
-				if ( word.search( b3Regex ) >= rvIndex ) {
-					word = word.replace( b3Regex, "" );
-				} else {
-					const b3Regex2 = /(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
-					if ( word.search( b3Regex2 ) >= rvIndex ) {
-						word = word.replace( b3Regex2, "" );
-					}
-				}
-			}
-		}
-	}
+	word = removeOtherVerbSuffixes( word, step2aDone, wordAfterStep1, r2Index, rvIndex );
 
-	if ( oriWord === word.toLowerCase() ) {
+	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4 */
-		// If the word ends s, not preceded by a, i, o, u, è or s, delete it.
-		if ( word.search( /([^aiouès])s$/ ) >= rvIndex ) {
-			word = word.replace( /([^aiouès])s$/, "$1" );
-		}
-		const e1Index = word.search( /ion$/ );
-		if ( e1Index >= r2Index && word.search( /[st]ion$/ ) >= rvIndex ) {
-			word = word.substring( 0, e1Index );
-		} else {
-			const e2Index = word.search( /(ier|ière|Ier|Ière)$/ );
-			if ( e2Index !== -1 && e2Index >= rvIndex ) {
-				word = word.substring( 0, e2Index ) + "i";
-			} else {
-				if ( word.search( /e$/ ) >= rvIndex ) {
-					// Delete last e.
-					word = word.replace( /e$/, "" );
-				} else if ( word.search( /guë$/ ) >= rvIndex ) {
-					word = word.replace( /guë$/, "gu" );
-				}
-			}
-		}
+		word = removeResidualSuffixes( word, rvIndex, r2Index );
 	} else {
 		/*
 		 * Step 3 (only needs to be executed if step 4 isn't executed)
@@ -339,7 +387,7 @@ export default function stem( word ) {
 	}
 
 	/* Step 5: Undouble */
-	// word = word.replace( /(en|on|et|el|eil)(n|t|l)$/,"$1" );
+	// Word = word.replace( /(en|on|et|el|eil)(n|t|l)$/,"$1" );
 	word = word.replace( /(en|on)(n)$/, "$1" );
 	word = word.replace( /(ett)$/, "et" );
 	word = word.replace( /(el|eil)(l)$/, "$1" );
