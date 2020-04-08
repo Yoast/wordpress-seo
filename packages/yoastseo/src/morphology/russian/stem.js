@@ -91,7 +91,7 @@ const findRegions = function( word ) {
  * Removes the endings from the word.
  *
  * @param {string}          word	The word to check.
- * @param {string|string[]} regex	The regex or an array of regexes to match.
+ * @param {string|string[]} regex	The regex or a pair of regexes to match.
  * @param {int}             region	The word region
  *
  * @returns {boolean}	Whether the word ends in one of the endings or not.
@@ -100,15 +100,17 @@ const removeEndings = function( word, regex, region ) {
 	const prefix = word.substr( 0, region );
 	const ending = word.substr( prefix.length );
 
+	let currentRegex;
+
 	if ( Array.isArray( regex ) ) {
-		const currentRegex = new RegExp( "/.+[ая]" + regex[ 0 ] + "/ui" );
+		currentRegex = new RegExp( "/.+[ая]" + regex[ 0 ] + "/ui" );
 		if ( currentRegex.test( ending ) ) {
 			word = prefix + ending.replace( currentRegex, "" );
 			return true;
 		}
 	}
 
-	const currentRegex = new RegExp( "/.+[ая]" + regex[ 1 ] + "/ui" );
+	currentRegex = new RegExp( "/.+[ая]" + regex[ 1 ] + "/ui" );
 	if ( currentRegex.test( ending ) ) {
 		word = prefix + ending.replace( currentRegex, "" );
 		return true;
@@ -127,39 +129,38 @@ const removeEndings = function( word, regex, region ) {
 export default function stem( word ) {
 	const [ rv, r2 ] = findRegions( word );
 
-	// Step 1: Найти окончание PERFECTIVE GERUND. Если оно существует – удалить его и завершить этот шаг.
+	// Step 1: Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
 	if ( ! removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv ) ) {
-		// Иначе, удаляем окончание REFLEXIVE (если оно существует).
+		// If there is no PERFECTIVE GERUND ending than try removing a REFLEXIVE ending.
 		removeEndings( word, regexReflexives, rv );
 
-		// Затем в следующем порядке пробуем удалить окончания: ADJECTIVAL, VERB, NOUN. Как только одно из них найдено – шаг завершается.
+		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the stem is finalized.
 		if ( ! (
-				removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
-				removeEndings( word, regexAdjective, rv )
-			)
-		) {
+			removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv ) ||
+			removeEndings( word, regexAdjective, rv )
+		) ) {
 			if ( ! removeEndings( word, [ regexVerb1, regexVerb2 ], rv ) ) {
 				removeEndings( word, regexNoun, rv );
 			}
 		}
 	}
 
-	// Step 2: Если слово оканчивается на и – удаляем и.
+	// Step 2: If the word ends in "и", remove it.
 	removeEndings( word, regexI, rv );
 
-	// Step 3: Если в R2 найдется окончание DERIVATIONAL – удаляем его.
+	// Step 3: If the R2 ends in a DERIVATIONAL ending, remove it.
 	removeEndings( word, regexDerivational, r2 );
 
-	// Step 4: Возможен один из трех вариантов:
-	// 1. Если слово оканчивается на нн – удаляем последнюю букву.
+	// Step 4: There can be one of three options:
+	// 1. If the word ends in нн, remove the last letter.
 	if ( removeEndings( word, regexNN, rv ) ) {
 		word += "н";
 	}
 
-	// 2. Если слово оканчивается на SUPERLATIVE – удаляем его и снова удаляем последнюю букву, если слово оканчивается на нн.
+	// 2. If the word ends in a SUPERLATIVE ending, remove it and then again the last letter if the word ends in "нн".
 	removeEndings( word, regexSuperlative, rv );
 
-	// 3. Если слово оканчивается на ь – удаляем его.
+	// 3. If the word ends in "ь", remove it.
 	removeEndings( word, regexSoftSign, rv );
 
 	return word;
