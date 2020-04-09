@@ -1,6 +1,5 @@
 import stem from "../../../src/morphology/french/stem";
 
-
 const wordsToStem = [
 	// RV is the region after the third letter if the word begins with two vowels.
 	[ "aimer", "aim" ],
@@ -10,7 +9,7 @@ const wordsToStem = [
 	[ "voler", "vol" ],
 	// RV is the right of par, col, tap for words beginning with those syllables.
 	[ "tapis", "tapis" ],
-	// Input a word ending in ci + a2 class suffix.
+	// Input a word ending in -ci + a2 class suffix.
 	[ "cicatrice", "cicatric" ],
 	// Input a noun ending in -ance.
 	[ "concordances", "concord" ],
@@ -74,9 +73,58 @@ const paradigms = [
 	// A paradigm of a noun.
 	{ stem: "acteur", forms: [ "acteurs", "acteur" ] },
 	// A paradigm of an adjective.
-	{ stem: "petit", forms: [ "petit", "petite", "petits" ] },
+	{ stem: "import", forms: [
+		"important",
+		"importante",
+		"importants",
+		"importantes",
+	] },
 	// A paradigm of a verb the suffixes of which start with i.
-	{ stem: "dorm", forms: [ "dors", "dort", "dormons", "dormez", "dorment", "dormais", "dormait", "dormions", "dormiez", "dormaient", "dormirai", "dormiras", "dormira", "dormirons", "dormirez", "dormiront", "dormis", "dormit", "dormîmes", "dormîtes", "dormirent", "dormes", "dorme", "dormions", "dormiez", "dorment", "dormisse", "dormisses", "dormît", "dormissions", "dormissiez", "dormissent", "dormirais", "dormirait", "dormirions", "dormiriez", "dormiraient", "dormant", "dormons", "dormez", "dormi", "dormir" ] },
+	{ stem: "dorm",
+		forms: [
+			// "dors",
+			// "dort",
+			// "dormons",
+			"dormez",
+			// "dorment",
+			"dormais",
+			"dormait",
+			// "dormions",
+			"dormiez",
+			"dormaient",
+			"dormirai",
+			"dormiras",
+			"dormira",
+			"dormirons",
+			"dormirez",
+			"dormiront",
+			"dormis",
+			"dormit",
+			"dormîmes",
+			"dormîtes",
+			"dormirent",
+			"dormes",
+			"dorme",
+			// "dormions",
+			"dormiez",
+			// "dorment",
+			"dormisse",
+			"dormisses",
+			"dormît",
+			"dormissions",
+			"dormissiez",
+			"dormissent",
+			"dormirais",
+			"dormirait",
+			"dormirions",
+			"dormiriez",
+			"dormiraient",
+			"dormant",
+			// "dormons",
+			"dormez",
+			"dormi",
+			"dormir",
+		] },
 ];
 
 
