@@ -12,7 +12,7 @@ use WP_REST_Response;
 /**
  * Reindexing_Reponse class
  */
-class Indexing_Reponse extends WP_REST_Response {
+class Indexation_Reponse extends WP_REST_Response {
 
 	/**
 	 * The response of a
