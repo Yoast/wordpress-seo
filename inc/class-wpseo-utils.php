@@ -1098,6 +1098,9 @@ SVG;
 		return $network_active;
 	}
 
+	/**
+	 * Gets the type of the current post.
+	 */
 	public static function get_post_type() {
 		global $post;
 
@@ -1111,6 +1114,9 @@ SVG;
 		return '';
 	}
 
+	/**
+	 * Gets the type of the current page.
+	 */
 	public static function get_page_type() {
 		global $pagenow;
 		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ) {
@@ -1135,8 +1141,8 @@ SVG;
 		$post_type_object = get_post_type_object( $post_type );
 
 		$label_array = [
-			'label'         => $page_type === 'post' ? $post_type_object->label : $taxonomy_labels->name,
-			'labelSingular' => $page_type === 'post' ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
+			'label'         => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
+			'labelSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
 		];
 
 		$wpseo_admin_l10n = [
