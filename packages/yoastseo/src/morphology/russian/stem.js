@@ -29,7 +29,7 @@ const regexAdjective = "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|�
 const regexParticiple1 = "(ем|нн|вш|ющ|щ)";
 const regexParticiple2 = "(ивш|ывш|ующ)";
 const regexReflexives = "(ся|сь)$";
-const regexVerb1 = "(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ть|ешь|нно)$";
+const regexVerb1 = "(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ость|ть|ешь|нно)$";
 const regexVerb2 = "(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|ю)$";
 const regexNoun = "(а|ев|ов|ие|ье|е|ьё|иями|ями|ами|еи|ии|и|ией|ей|ой|ий|й|иям|ям|ием|ем|ам|ом|о|у|ах|иях|ях|ы|ь|ию|ью|ю|ия|ья|я)$";
 const regexSuperlative = "(ейш|ейше)$";
@@ -103,14 +103,18 @@ const removeEndings = function( word, regex, region ) {
 	let currentRegex;
 
 	if ( Array.isArray( regex ) ) {
-		currentRegex = new RegExp( "." + regex[ 0 ], "ui" );
+		currentRegex = new RegExp( regex[ 0 ], "i" );
+
 		if ( currentRegex.test( ending ) ) {
 			word = prefix + ending.replace( currentRegex, "" );
 			return word;
 		}
+
+		currentRegex = new RegExp( regex[ 1 ], "i" );
+	} else {
+		currentRegex = new RegExp( regex, "i" );
 	}
 
-	currentRegex = new RegExp( "." + regex[ 1 ], "ui" );
 	if ( currentRegex.test( ending ) ) {
 		word = prefix + ending.replace( currentRegex, "" );
 		return word;
@@ -120,16 +124,15 @@ const removeEndings = function( word, regex, region ) {
 };
 
 /**
- * Stems russian words.
+ * Removes inflectional suffixes from the word.
  *
- * @param {string} word	The word to stem.
+ * @param {string} word	The word to check.
+ * @param {int}    rv	The word rv region
  *
- * @returns {string}	The stemmed word.
+ * @returns {string}	The word after inflectional suffixes were removed.
  */
-export default function stem( word ) {
-	const [ rv, r2 ] = findRegions( word );
-
-	// Step 1: Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
+const removeInflectionalSuffixes = function( word, rv ) {
+	// Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
 	const removeGerundSuffixes = removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv );
 
 	if ( removeGerundSuffixes ) {
@@ -161,11 +164,29 @@ export default function stem( word ) {
 			}
 		}
 	}
+
+	return word;
+};
+
+/**
+ * Stems russian words.
+ *
+ * @param {string} word	The word to stem.
+ *
+ * @returns {string}	The stemmed word.
+ */
+export default function stem( word ) {
+	const [ rv, r2 ] = findRegions( word );
+
+	// Step 1: Remove inflectional suffixes if they are present in the word.
+	word = removeInflectionalSuffixes( word, rv );
+
 	// Step 2: If the word ends in "и", remove it.
 	const removeIEnding = removeEndings( word, regexI, rv );
 	if ( removeIEnding ) {
 		word = removeIEnding;
 	}
+
 	// Step 3: If the R2 ends in a DERIVATIONAL ending, remove it.
 	const removeDerivationalSuffixes = removeEndings( word, regexDerivational, r2 );
 	if ( removeDerivationalSuffixes ) {
