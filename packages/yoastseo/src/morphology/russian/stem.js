@@ -50,13 +50,13 @@ const isVowel = function( char ) {
 };
 
 /**
- * Determines the region of the word.
+ * Determines the RV region of the word.
  *
  * @param {string} word	The word checked.
  *
- * @returns {int[]} The array of RV and R2.
+ * @returns {int} The RV region index.
  */
-const findRegions = function( word ) {
+const findRvRegion = function( word ) {
 	let rv = 0;
 	let state = 0;
 	const wordLength = word.length;
@@ -78,13 +78,13 @@ const findRegions = function( word ) {
 				break;
 			case 2:
 				if ( isVowel( prevChar ) && isVowel( char ) ) {
-					return [ rv, i + 1 ];
+					return rv;
 				}
 				break;
 		}
 	}
 
-	return [ rv, 0 ];
+	return rv;
 };
 
 /**
@@ -116,7 +116,6 @@ const removeEndings = function( word, regex, region ) {
 	}
 
 	if ( currentRegex.test( ending ) ) {
-		//console.log("currentRegex", currentRegex, "prefix", prefix, "ending", ending);
 		word = prefix + ending.replace( currentRegex, "" );
 		return word;
 	}
@@ -177,7 +176,7 @@ const removeInflectionalSuffixes = function( word, rv ) {
  * @returns {string}	The stemmed word.
  */
 export default function stem( word ) {
-	const [ rv, r2 ] = findRegions( word );
+	const rv = findRvRegion( word );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
 	word = removeInflectionalSuffixes( word, rv );
