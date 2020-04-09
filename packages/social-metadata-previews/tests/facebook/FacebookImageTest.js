@@ -39,11 +39,16 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a portrait image", () => {
-		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
-			mode: "portrait",
-			height: 600,
-			width: 300,
-		} ) );
+		determineImageProperties.handleImage.mockReturnValueOnce(
+			{
+				imageProperties: {
+					mode: "portrait",
+					height: 600,
+					width: 300,
+				},
+				status: "loaded",
+			}
+		);
 		const component = renderer.create(
 			<FacebookImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" />
 		);
@@ -53,11 +58,16 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a landscape image", () => {
-		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
-			mode: "landscape",
-			height: 300,
-			width: 600,
-		} ) );
+		determineImageProperties.handleImage.mockReturnValueOnce(
+			{
+				imageProperties: {
+					mode: "landscape",
+					height: 300,
+					width: 600,
+				},
+				status: "loaded",
+			}
+		);
 		const component = renderer.create(
 			<FacebookImage src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png" />
 		);
@@ -67,11 +77,16 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a square image", () => {
-		determineImageProperties.handleImage.mockReturnValueOnce( Promise.resolve( {
-			mode: "square",
-			height: 300,
-			width: 300,
-		} ) );
+		determineImageProperties.handleImage.mockReturnValueOnce(
+			{
+				imageProperties: {
+					mode: "square",
+					height: 300,
+					width: 300,
+				},
+				status: "loaded",
+			}
+		);
 		const component = renderer.create(
 			<FacebookImage src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png" />
 		);
@@ -81,11 +96,16 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a too small image", () => {
-		determineImageProperties.handleImage.mockReturnValue( Promise.resolve( {
-			mode: "square",
-			height: 100,
-			width: 100,
-		} ) );
+		determineImageProperties.handleImage.mockReturnValue(
+			{
+				imageProperties: {
+					mode: "square",
+					height: 100,
+					width: 100,
+				},
+				status: "loaded",
+			}
+		);
 		const component = renderer.create(
 			<FacebookImage src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png" />
 		);
@@ -95,7 +115,10 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a faulty image", () => {
-		determineImageProperties.handleImage.mockReturnValueOnce( Promise.reject() );
+		determineImageProperties.handleImage.mockReturnValueOnce( {
+			imageProperties: null,
+			status: "errored",
+		} );
 
 		const component = renderer.create(
 			<FacebookImage src="thisisnoimage" />
