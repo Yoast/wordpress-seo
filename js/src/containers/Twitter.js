@@ -76,8 +76,8 @@ export default compose( [
 			description: getTwitterDescription(),
 			title: getTwitterTitle(),
 			imageWarnings: data.warnings,
-			authorName: getSiteName(),
-			siteName: getAuthorName(),
+			authorName: getAuthorName(),
+			siteName: getSiteName(),
 			alt: data.alt,
 		};
 	} ),
