@@ -6,6 +6,12 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.0.0 April 23rd, 2020
+### Added
+* Adds CSS through JavaScript imports for button, checkbox, data-model, field-group, inputs, modal, radiobutton, select and toggle.
+* Adds GenerateId, FieldGroup, TextArea and TextInput components.
+* Adds a CSS test stub.
+
 ## 1.0.0 April 14th, 2020
 ### Added
 * Adds CSS through JavaScript imports for button, checkbox, data-model, field-group, inputs, modal, radiobutton, select and toggle.
