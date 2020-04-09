@@ -7,12 +7,8 @@ import styled from "styled-components";
 import TwitterSiteName from "./TwitterSiteName";
 import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
-import { default as NoCaretTitle } from "./TwitterTitle";
-import { default as NoCaretDescription } from "./TwitterDescription";
-import { withCaretStyle } from "../../../social-metadata-forms/src/SocialMetadataPreviewForm.js";
-
-const TwitterTitle = withCaretStyle( NoCaretTitle, true );
-const TwitterDescription = withCaretStyle( NoCaretDescription, true );
+import TwitterTitle from "./TwitterTitle";
+import TwitterDescription from "./TwitterDescription";
 
 const TwitterPreviewWrapper = styled.div`
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
@@ -92,8 +88,6 @@ class TwitterPreview extends Component {
 			title,
 			description,
 			siteName,
-			activeField,
-			hoveredField,
 		} = this.props;
 
 		const Wrapper = isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
@@ -107,16 +101,12 @@ class TwitterPreview extends Component {
 					onImageClick={ this.props.onImageClick }
 					onMouseEnter={ this.onImageEnter }
 					onMouseLeave={ this.onLeave }
-					isActive={ activeField === "image" }
-					isHovered={ hoveredField === "image" }
 				/>
 				<TwitterTextWrapper>
 					<TwitterTitle
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectTitle }
-						isActive={ activeField === "title" }
-						isHovered={ hoveredField === "title" }
 					>
 						{ title }
 					</TwitterTitle>
@@ -124,8 +114,6 @@ class TwitterPreview extends Component {
 						onMouseEnter={ this.onDescriptionEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectDescription }
-						isActive={ activeField === "description" }
-						isHovered={ hoveredField === "description" }
 					>
 						{ description }
 					</TwitterDescription>
@@ -148,16 +136,12 @@ TwitterPreview.propTypes = {
 	onSelect: PropTypes.func,
 	onImageClick: PropTypes.func,
 	onMouseHover: PropTypes.func,
-	activeField: PropTypes.string,
-	hoveredField: PropTypes.string,
 };
 
 TwitterPreview.defaultProps = {
 	description: "",
 	alt: "",
 	image: "",
-	activeField: "",
-	hoveredField: "",
 	onSelect: () => {},
 	onImageClick: () => {},
 	onMouseHover: () => {},

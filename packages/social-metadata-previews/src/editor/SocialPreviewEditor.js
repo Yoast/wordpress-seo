@@ -135,9 +135,7 @@ class SocialPreviewEditor extends Component {
 			<React.Fragment>
 				<this.SocialPreview
 					onMouseHover={ this.setHoveredField }
-					hoveredField={ this.state.hoveredField }
 					onSelect={ this.setActiveField }
-					activeField={ this.state.activeField }
 					onImageClick={ onSelectImageClick }
 					siteName={ siteName }
 					title={ title }

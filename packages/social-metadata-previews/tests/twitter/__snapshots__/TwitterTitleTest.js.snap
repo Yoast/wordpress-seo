@@ -10,6 +10,7 @@ exports[`TwitterTitle matches the snapshot by default 1`] = `
   margin-top: 0;
   margin-bottom: 2px;
   color: rgb(20,23,26);
+  cursor: pointer;
 }
 
 <p
