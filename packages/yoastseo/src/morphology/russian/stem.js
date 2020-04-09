@@ -25,19 +25,17 @@
  */
 
 const vowels = [ "а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я" ];
-const regexPerfectiveGerunds1 = "(в|вши|вшись)$";
-const regexPerfectiveGerunds2 = "(ив|ивши|ившись|ыв|ывши|ывшись)$";
+const regexPerfectiveGerunds1 = "(вши|вшись)$";
+const regexPerfectiveGerunds2 = "(ив|ивши|ившись|ыв|ывши|авшись|ав|авши|авшись)$";
 const regexAdjective = "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$";
-const regexParticiple1 = "(ем|нн|вш|ющ|щ)";
-const regexParticiple2 = "(ивш|ывш|ующ)";
+const regexParticiple = "(ивш|авш|ывш|увш|евш|ующ|ем|нн|вш|ющ|щ)";
 const regexReflexives = "(ся|сь)$";
-const regexVerb1 = "(ла|на|ете|йте|ли|й|л|ем|н|ло|но|ет|ют|ны|ость|ть|ешь|нно)$";
-const regexVerb2 = "(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|ю)$";
-const regexNoun = "(а|ев|ов|ие|ье|е|ьё|иями|ями|ами|еи|ии|и|ией|ей|ой|ий|й|иям|ям|ием|ем|ам|ом|о|у|ах|иях|ях|ы|ь|ию|ью|ю|ия|ья|я)$";
+const regexVerb1 = "(ла|на|ете|([аеоую]?)йте|ли|уй|й|л|ем|н|ло|но|ет|ют|ны|(^ос)ть|ешь|нно)$";
+const regexVerb2 = "(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|(^ость)ю)$";
+const regexNoun = "(а|ев|ов|в|ие|ье|е|ьё|иями|((ост)?)ями|ами|еи|ии|((ост)?)и|ией|((ост)?)ей|ой|ий|й|иям|((ост)?)ям|ием|ем|ам|ом|" +
+	"о|у|ах|иях|((ост)?)ях|ы|((ост)?)ь|ию|((ост)?)ью|ю|ия|ья|я)$";
 const regexSuperlative = "(ейш|ейше)$";
-const regexDerivational = "(ост|ость)$";
 const regexI = "и$";
-const regexNN = "нн$";
 const regexSoftSign = "ь$";
 
 /**
@@ -118,6 +116,7 @@ const removeEndings = function( word, regex, region ) {
 	}
 
 	if ( currentRegex.test( ending ) ) {
+		//console.log("currentRegex", currentRegex, "prefix", prefix, "ending", ending);
 		word = prefix + ending.replace( currentRegex, "" );
 		return word;
 	}
@@ -147,7 +146,7 @@ const removeInflectionalSuffixes = function( word, rv ) {
 			word = removeReflexiveSuffixes;
 		}
 		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the step is finalized.
-		const removeParticipleSuffixes = removeEndings( word, [ regexParticiple1 + regexAdjective, regexParticiple2 + regexAdjective ], rv );
+		const removeParticipleSuffixes = removeEndings( word, regexParticiple + regexAdjective, rv );
 		const removeAdjectiveSuffixes = removeEndings( word, regexAdjective, rv );
 
 		if ( removeParticipleSuffixes ) {
@@ -189,17 +188,10 @@ export default function stem( word ) {
 		word = removeIEnding;
 	}
 
-	// Step 3: If the R2 ends in a DERIVATIONAL ending, remove it.
-	const removeDerivationalSuffixes = removeEndings( word, regexDerivational, r2 );
-	if ( removeDerivationalSuffixes ) {
-		word = removeDerivationalSuffixes;
-	}
-
-	// Step 4: There can be one of three options:
+	// Step 3: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
-	const removeNNEnding = removeEndings( word, regexNN, rv );
-	if ( removeNNEnding ) {
-		word += "н";
+	if ( word.endsWith( "нн" ) ) {
+		word = word.substr( 0, word.length - 1 );
 	}
 
 	// 2. If the word ends in a SUPERLATIVE ending, remove it and then again the last letter if the word ends in "нн".
