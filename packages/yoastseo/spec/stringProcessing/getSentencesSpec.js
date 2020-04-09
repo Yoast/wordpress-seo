@@ -344,3 +344,122 @@ describe( "Get sentences from text", function() {
 		testGetSentences( testCases );
 	} );
 } );
+
+describe( "Get sentences from texts that have been processed for the keyphrase distribution assessment", function() {
+	const paragraph1 = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet semper sem, id faucibus massa.</p>\n";
+
+	const paragraph2 = "<p>Nam sit amet eros faucibus, malesuada purus at, mollis libero. Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+	const listWordsLowerCaseProcessed =
+		" apple " +
+		" pear " +
+		" mango ";
+
+	const listWordsUpperCaseProcessed =
+		" Apple " +
+		" Pear " +
+		" Mango ";
+
+	const listNestedProcessed =
+		" jonagold " +
+		" golden delicious " +
+		" pear " +
+		" mango ";
+
+	const listSentencesProcessed =
+		" This sentence is about an apple. " +
+		" This sentence is about a pear. " +
+		" This sentence is about a mango. ";
+
+
+
+	it( "parses merged list items containing single words as one sentence", function() {
+		const testCases = [
+			{
+				input: listWordsLowerCaseProcessed,
+				expected: [ "apple  pear  mango" ],
+			},
+			{
+				input: listWordsUpperCaseProcessed,
+				expected: [ "Apple  Pear  Mango" ],
+			},
+			{
+				input: listNestedProcessed,
+				expected: [ "jonagold  golden delicious  pear  mango" ],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "parses merged list items containing sentences as multiple sentences", function() {
+		const testCases = [
+			{
+				input: listSentencesProcessed,
+				expected: [
+					"This sentence is about an apple.",
+					"This sentence is about a pear.",
+					"This sentence is about a mango.",
+				],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses merged list items containing single lower-case words and surrounding test", function() {
+		const testCases = [
+			{
+				input: paragraph1 + listWordsLowerCaseProcessed + paragraph2,
+				expected: [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+					"In sit amet semper sem, id faucibus massa.",
+					"apple  pear  mango",
+					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
+					"Praesent at ante sit amet elit sollicitudin lobortis."
+				]
+				,
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses merged list items containing single upper-case words and surrounding test", function() {
+		const testCases = [
+			{
+				input: paragraph1 + listWordsUpperCaseProcessed + paragraph2,
+				expected: [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+					"In sit amet semper sem, id faucibus massa.",
+					"Apple  Pear  Mango",
+					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
+					"Praesent at ante sit amet elit sollicitudin lobortis."
+				]
+				,
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses merged list items containing sentences and surrounding text", function() {
+		const testCases = [
+			{
+				input: paragraph1 + listSentencesProcessed + paragraph2,
+				expected: [
+					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+					"In sit amet semper sem, id faucibus massa.",
+					"This sentence is about an apple.",
+					"This sentence is about a pear.",
+					"This sentence is about a mango.",
+					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
+					"Praesent at ante sit amet elit sollicitudin lobortis.",
+				]
+				,
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+} );
