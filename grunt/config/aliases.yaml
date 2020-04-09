@@ -1,7 +1,10 @@
 # Grunt aliases
 ---
 'build':
-  - 'build-default'
+  - 'build:js'
+  - 'build:css'
+  - 'build:images'
+  - 'build:i18n'
 
 # Build JavaScript from assets to production
 'build:js':
@@ -9,11 +12,11 @@
   - 'copy:js-dependencies'
   - 'webpack:buildDev'
 
-# Build CSS from SCSS to production
+# Build CSS for development
 'build:css':
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
-  - 'sass:build'
+  - 'copy:css-files'
   - 'postcss:build'
   - 'rtlcss:build'
 
@@ -138,12 +141,20 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
-  - 'build:css'
   - 'release:js'
+  - 'release:css'
   - 'build:i18n'
 'release:js':
   - 'copy:js-dependencies'
   - 'webpack:buildProd'
+
+# Build CSS for production
+'release:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'copy:css-files'
+  - 'postcss:release'
+  - 'rtlcss:build'
 
 'deploy:master':
   - 'update-version'

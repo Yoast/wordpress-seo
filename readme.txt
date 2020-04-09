@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 13.1
+Requires at least: 5.3
+Tested up to: 5.4
+Stable tag: 13.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -131,16 +131,16 @@ The sitemap index and individual sitemaps are updated automatically as you add o
 
 It is straightforward to add your website to Google Search Console. 
 1. Create a Google Search Console account and login into your account.
-1. Click ‘Add a property’ under the search drop-down.
-1. Enter your website URL in the box and click ‘Continue’.
-1. Click the arrow next to ‘HTML tag’ to expand the option.
-1. Copy the meta tag.
-1. Log in to your WordPress website.
-1. Click on ‘SEO’ in the dashboard.
-1. Click on ‘General’.
-1. Click on the ‘Webmaster Tools’ tab.
-1. Paste the code in the Google field and click ‘Save Changes’.
-1. Go back to Google Search Console and click ‘Verify’.
+2. Click ‘Add a property’ under the search drop-down.
+3. Enter your website URL in the box and click ‘Continue’.
+4. Click the arrow next to ‘HTML tag’ to expand the option.
+5. Copy the meta tag.
+6. Log in to your WordPress website.
+7. Click on ‘SEO’ in the dashboard.
+8. Click on ‘General’.
+9. Click on the ‘Webmaster Tools’ tab.
+10. Paste the code in the Google field and click ‘Save Changes’.
+11. Go back to Google Search Console and click ‘Verify’.
 
 If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
@@ -148,18 +148,18 @@ If you want more details steps, please visit [our article on our knowledge base]
 
 The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
-To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 ```
 <?php
-*if* ( function_exists(‘yoast_breadcrumb’) ) {
-  yoast_breadcrumb( ‘<p id=“breadcrumbs”>’,’</p>’ );
+if ( function_exists( 'yoast_breadcrumb' ) ) {
+    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 }
 ?>
 ```
 
-Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php`at the very end.
+Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php` at the very end.
 
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
@@ -209,45 +209,47 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.2 =
-Release Date: March 3rd, 2020
+= 14.0 =
+Release Date: April 28th, 2020
 
 Bugfixes:
 
-* Removes "Check Headers" from the page analysis, as it is no longer available. [#14382](https://github.com/Yoast/wordpress-seo/pull/14382)
+* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
+* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
+* Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
+* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
+* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
+* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
+* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
 
 Enhancements:
 
-* Adds the capability to view Site Health to the SEO Manager role. [#14314](https://github.com/Yoast/wordpress-seo/pull/14314)
-* Improves the usability of the Ryte indexability Site Health check. [#14339](https://github.com/Yoast/wordpress-seo/pull/14339)
-* Adds error handling for the Ryte indexability status request. [#14372](https://github.com/Yoast/wordpress-seo/pull/14372)
-* Improves the copy for the "cannot be indexed" case of the Ryte indexability Site Health check. [#14336](https://github.com/Yoast/wordpress-seo/pull/14336)
-* Adds a cURL version test to Site Health. [#14149](https://github.com/Yoast/wordpress-seo/pull/14149)
-* Makes sure the Paging comments Site Health check is listed in the Passed tests when it passes. [#14102](https://github.com/Yoast/wordpress-seo/pull/14102)
-* Adds the "Yoast signature" at the bottom of the Site Health checks. [#14210](https://github.com/Yoast/wordpress-seo/pull/14210)
-* Removes remnants of the tagline notice in the Notification Center. [#14373](https://github.com/Yoast/wordpress-seo/pull/14373)
-* Moves the postname in the permalink notification from the SEO Dashboard to Site Health. [#14120](https://github.com/Yoast/wordpress-seo/pull/14120)
-* Moves the Ryte indexability notification and widget from the SEO dashboard to Site Health. [#14123](https://github.com/Yoast/wordpress-seo/pull/14123)
-* Moves the default tagline notification from the SEO Dashboard to Site Health. [#14117](https://github.com/Yoast/wordpress-seo/pull/14117)
-* Adds an ID to the FAQ sections in the front-end output. [#14334](https://github.com/Yoast/wordpress-seo/pull/14334)
-
-= 13.1 =
-Release Date: February 18th, 2020
-
-Yoast SEO 13.1 is out today! In this plugin, you’ll find several fixes and enhancements, mostly focused at improving our Schema.org structured data implementation. Learn more about the latest versions of Yoast SEO in [our 13.1 release post](https://yoa.st/release-13-1)!
-
-Bugfixes:
-
-* Fixes a bug where the HowTo schema name was incorrectly set to the page title.
-* Fixes a bug where the "force rewrite titles" option would remove the title tag in svg tags. Props to [stodorovic](https://github.com/stodorovic)
-
-Enhancements:
-
-* Sets the Schema HowTo name and Article headline to the post title with a fallback to "No title".
-* Adds the `inLanguage` property to the schema CreativeWork pieces.
-* Removes a duplicate directory from the composer autoload classmap configuration. Props to [szepeviktor](https://github.com/szepeviktor)
-* Improves the copy for the paginated comments Site Health check.
+* No longer outputs the `og:type` meta tag on 404 pages.
+* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
+* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
+* No longer outputs an `og:updated_time` as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
+* No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
+* Strips all tags from text fields in the schema output.
+* Adds `Term hierarchy` as a taxonomy snippet variable.
+* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
+* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
+* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
+* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
 
 Other:
+* Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Prevents integrations relying on the deprecated WPSEO_OpenGraph_Image class from creating Type Errors with the latest version of Yoast SEO.
 
-* Removes the Search Console item from the admin menu and the toolbar menu.
+= 13.5 =
+Release Date: April 14th, 2020
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
+* Fixes a bug where .xsl site map files would not be cached correctly.
+
+Other:
+* Sets minimum supported WordPress version to 5.3.
+
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

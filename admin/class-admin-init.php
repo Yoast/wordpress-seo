@@ -105,7 +105,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Add an alert if the blog is not publicly visible.
+	 * Add a notification if the blog is not publicly visible.
 	 */
 	public function blog_public_notice() {
 
@@ -438,6 +438,22 @@ class WPSEO_Admin_Init {
 		$deprecated_filters = [
 			'wpseo_genesis_force_adjacent_rel_home' => [
 				'version'     => '9.4',
+				'alternative' => null,
+			],
+			'wpseo_opengraph'                       => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter'                         => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter_taxonomy_image'          => [
+				'version'     => '14.0',
+				'alternative' => null,
+			],
+			'wpseo_twitter_metatag_key'             => [
+				'version'     => '14.0',
 				'alternative' => null,
 			],
 		];

@@ -28,44 +28,49 @@ abstract class TestCase extends BaseTestCase {
 		Monkey\Functions\stubs(
 			[
 				// Null makes it so the function returns its first argument.
-				'esc_attr'            => null,
-				'esc_html'            => null,
-				'esc_textarea'        => null,
-				'__'                  => null,
-				'_n'                  => function ( $single, $plural, $number ) {
+				'esc_attr'             => null,
+				'esc_html'             => null,
+				'esc_textarea'         => null,
+				'__'                   => null,
+				'_n'                   => function ( $single, $plural, $number ) {
 					if ( $number === 1 ) {
 						return $single;
 					}
 
 					return $plural;
 				},
-				'_x'                  => null,
-				'esc_html__'          => null,
-				'esc_html_x'          => null,
-				'esc_attr_x'          => null,
-				'esc_url'             => null,
-				'esc_url_raw'         => null,
-				'sanitize_text_field' => null,
-				'is_admin'            => false,
-				'is_multisite'        => false,
-				'wp_kses_post'        => null,
-				'site_url'            => 'https://www.example.org',
-				'wp_json_encode'      => function ( $data, $options = 0, $depth = 512 ) {
+				'_x'                   => null,
+				'esc_html__'           => null,
+				'esc_html_x'           => null,
+				'esc_attr_x'           => null,
+				'esc_url'              => null,
+				'esc_url_raw'          => null,
+				'sanitize_text_field'  => null,
+				'is_admin'             => false,
+				'is_multisite'         => false,
+				'wp_kses_post'         => null,
+				'site_url'             => 'https://www.example.org',
+				'wp_json_encode'       => function ( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
-				'wp_slash'            => null,
-				'wp_unslash'          => function ( $value ) {
+				'wp_slash'             => null,
+				'wp_unslash'           => function ( $value ) {
 					return \is_string( $value ) ? \stripslashes( $value ) : $value;
 				},
-				'absint'              => function ( $value ) {
+				'absint'               => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'          => null,
-				'number_format_i18n'  => null,
-				'wp_parse_args'       => function ( $settings, $defaults ) {
+				'mysql2date'           => function ( $format, $date ) {
+					return $date;
+				},
+				'number_format_i18n'   => null,
+				'wp_parse_args'        => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},
-				'wp_strip_all_tags'   => function ( $string, $remove_breaks = false ) {
+				'user_trailingslashit' => function( $string ) {
+					return \trailingslashit( $string );
+				},
+				'wp_strip_all_tags'    => function ( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
 					$string = \strip_tags( $string );
 
@@ -75,10 +80,12 @@ abstract class TestCase extends BaseTestCase {
 
 					return \trim( $string );
 				},
-				'get_bloginfo'        => function ( $show ) {
+				'get_bloginfo'         => function ( $show ) {
 					switch ( $show ) {
 						case 'charset':
 							return 'UTF-8';
+						case 'language':
+							return 'English';
 					}
 					return $show;
 				},

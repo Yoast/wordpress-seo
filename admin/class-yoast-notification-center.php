@@ -424,7 +424,7 @@ class Yoast_Notification_Center {
 		}
 
 		if ( $notification->is_persistent() && $resolve ) {
-			$this->resolved++;
+			++$this->resolved;
 			$this->clear_dismissal( $notification );
 		}
 

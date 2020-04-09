@@ -32,6 +32,7 @@ phpdoc.dist.xml export-ignore
 phpmd.xml export-ignore
 phpunit.xml export-ignore
 phpunit.xml.dist export-ignore
+ruckusing.conf.php export-ignore
 README.md export-ignore
 renovate.json export-ignore
 yoast_meta.md
