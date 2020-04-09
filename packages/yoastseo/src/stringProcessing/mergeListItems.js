@@ -1,4 +1,4 @@
-export default function( text ) {
+export function mergeListItems( text ) {
 
 	return text;
 };

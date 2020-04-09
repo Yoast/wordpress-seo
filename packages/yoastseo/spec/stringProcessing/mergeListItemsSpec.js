@@ -1,4 +1,4 @@
-import mergeListItems from "../../src/stringProcessing/mergeListItems";
+import { mergeListItems } from "../../src/stringProcessing/mergeListItems";
 
 describe.skip( "A test for merging list items in texts for the purpuse of making the keyphrase distribution assessment" +
 	"less sensitive to lists", function() {
