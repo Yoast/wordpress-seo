@@ -819,7 +819,7 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'The object type is post, and all other conditionals are false.',
+				'message'        => 'There is no image, and breadcrumbs are not enabled.',
 			],
 			[
 				'values_to_test' => [
@@ -845,7 +845,7 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'The object type is post, and the post has an image.',
+				'message'        => 'There is an image, but breadcrumbs are not enabled.',
 			],
 			[
 				'values_to_test' => [
@@ -871,7 +871,7 @@ class WebPage_Test extends TestCase {
 						],
 					],
 				],
-				'message'        => 'The object type is post, and breadcrumbs are enabled.',
+				'message'        => 'There no image, but breadcrumbs are enabled.',
 			],
 		];
 	}
