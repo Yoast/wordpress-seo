@@ -362,7 +362,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_true() {
-		$this->meta_tags_context->site_represents     = true;
+		$this->meta_tags_context->site_represents = true;
 
 		$this->meta_tags_context->indexable = (Object) [
 			'object_type'     => 'post',
@@ -450,7 +450,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_false() {
-		$this->meta_tags_context->site_represents     = false;
+		$this->meta_tags_context->site_represents = false;
 
 		$this->meta_tags_context->indexable = (Object) [
 			'object_type'     => 'post',
@@ -544,7 +544,7 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_description_not_empty() {
-		$this->meta_tags_context->description         = 'the-description';
+		$this->meta_tags_context->description = 'the-description';
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -748,7 +748,7 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is needed when the conditional is true.
+	 * Tests is_needed when the conditional is true.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -762,7 +762,7 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is needed for a system page (but not a 404 page).
+	 * Tests is_needed for a system page (but not a 404 page).
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
@@ -776,7 +776,7 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is needed for a system page / 404 page.
+	 * Tests is_needed for a system page / 404 page.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_needed
