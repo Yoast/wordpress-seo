@@ -22,7 +22,7 @@ const initialState = {
 		type: null,
 		height: null,
 		width: null,
-		url: null,
+		url: "",
 		id: null,
 	},
 };
@@ -54,7 +54,7 @@ function socialPreview( state = initialState, action ) {
 				type: null,
 				height: null,
 				width: null,
-				url: null,
+				url: "",
 				id: null,
 			} };
 	  default:
