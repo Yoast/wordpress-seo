@@ -10,6 +10,7 @@ exports[`FacebookDescription matches the snapshot by default 1`] = `
   text-overflow: ellipsis;
   margin: 3px 0 0 0;
   display: -webkit-box;
+  cursor: pointer;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;

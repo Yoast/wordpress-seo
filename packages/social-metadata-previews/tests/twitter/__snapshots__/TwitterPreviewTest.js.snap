@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TwitterPreview matches the snapshot 1`] = `
-.c7 {
+.c5 {
   text-transform: lowercase;
   color: #8899a6;
   white-space: nowrap;
@@ -22,7 +22,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   align-items: flex-end;
 }
 
-.c8 {
+.c6 {
   height: 1.25em;
   max-width: 100%;
   margin-right: 2px;
@@ -78,7 +78,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   min-width: 0px;
 }
 
-.c5 {
+.c3 {
   line-height: 18px;
   min-height: 18px;
   white-space: nowrap;
@@ -87,9 +87,10 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   margin-top: 0;
   margin-bottom: 2px;
   color: rgb(20,23,26);
+  cursor: pointer;
 }
 
-.c6 {
+.c4 {
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
@@ -97,30 +98,9 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   margin: 0 0 2px;
   color: rgb(101,119,134);
   display: -webkit-box;
+  cursor: pointer;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.c3 {
-  position: relative;
-}
-
-.c4 {
-  display: none;
-}
-
-.c4::before {
-  position: absolute;
-  top: -2px;
-  left: -35px;
-  width: 24px;
-  height: 24px;
-  background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  color: #ccc;
-  background-size: 24px;
-  background-repeat: no-repeat;
-  background-position: center;
-  content: "";
 }
 
 .c0 {
@@ -164,41 +144,27 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   <div
     className="c2"
   >
-    <div
+    <p
       className="c3"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
     >
-      <div
-        className="c4"
-      />
-      <p
-        className="c5"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-      >
-        YoastCon Workshops • Yoast
-      </p>
-    </div>
-    <div
-      className="c3"
+      YoastCon Workshops • Yoast
+    </p>
+    <p
+      className="c4"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
     >
-      <div
-        className="c4"
-      />
-      <p
-        className="c6"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-      >
-        
-      </p>
-    </div>
+      
+    </p>
     <div
-      className="c7"
+      className="c5"
     >
       <svg
-        className="c8"
+        className="c6"
         viewBox="0 0 24 24"
       >
         <g>

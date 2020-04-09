@@ -17,6 +17,7 @@ const TwitterDescription = styled.p`
 	margin: 0 0 2px;
 	color: rgb(101, 119, 134);
 	display: -webkit-box;
+	cursor: pointer;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 `;

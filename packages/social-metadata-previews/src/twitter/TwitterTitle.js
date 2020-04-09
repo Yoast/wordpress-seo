@@ -13,6 +13,7 @@ const TwitterTitle = styled.p`
 	margin-top: 0;
 	margin-bottom: 2px;
 	color: rgb(20, 23, 26);
+	cursor: pointer;
 `;
 
 export default TwitterTitle;

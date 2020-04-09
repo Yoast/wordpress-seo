@@ -6,12 +6,8 @@ import styled from "styled-components";
 /* Internal dependencies */
 import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
 import FacebookImage from "./FacebookImage";
-import { default as NoCaretTitle } from "./FacebookTitle";
-import { default as NoCaretDescription } from "./FacebookDescription";
-import { withCaretStyle } from "../../../social-metadata-forms/src/SocialMetadataPreviewForm.js";
-
-const FacebookTitle = withCaretStyle( NoCaretTitle, true );
-const FacebookDescription = withCaretStyle( NoCaretDescription, true );
+import FacebookTitle from "./FacebookTitle";
+import FacebookDescription from "./FacebookDescription";
 
 /**
  * Determines the height depending on the mode.
@@ -145,8 +141,6 @@ class FacebookPreview extends Component {
 					onImageClick={ this.props.onImageClick }
 					onMouseEnter={ this.onImageEnter }
 					onMouseLeave={ this.onLeave }
-					isActive={ this.props.activeField === "image" }
-					isHovered={ this.props.hoveredField === "image" }
 				/>
 				<OuterTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
@@ -158,8 +152,6 @@ class FacebookPreview extends Component {
 						onMouseEnter={ this.onTitleEnter }
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectTitle }
-						isActive={ this.props.activeField === "title" }
-						isHovered={ this.props.hoveredField === "title" }
 					>
 						{ this.props.title }
 					</FacebookTitle>
@@ -168,8 +160,6 @@ class FacebookPreview extends Component {
 						onMouseLeave={ this.onLeave }
 						onClick={ this.onSelectDescription }
 						mode={ imageMode }
-						isActive={ this.props.activeField === "description" }
-						isHovered={ this.props.hoveredField === "description" }
 					>
 						{ this.props.description }
 					</FacebookDescription>
@@ -189,8 +179,6 @@ FacebookPreview.propTypes = {
 	onSelect: PropTypes.func,
 	onImageClick: PropTypes.func,
 	onMouseHover: PropTypes.func,
-	activeField: PropTypes.string,
-	hoveredField: PropTypes.string,
 };
 
 FacebookPreview.defaultProps = {
@@ -198,8 +186,6 @@ FacebookPreview.defaultProps = {
 	description: "",
 	alt: "",
 	image: "",
-	activeField: "",
-	hoveredField: "",
 	onSelect: () => {},
 	onImageClick: () => {},
 	onMouseHover: () => {},

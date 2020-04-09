@@ -27,7 +27,7 @@ const Caret = styled.div`
 	::before {
 		position: absolute;
 		top: -2px;
-		${ getDirectionalStyle( "left", "right" ) }: ${ ( props ) => props.inPreview ? "-35px" : "-25px" };
+		${ getDirectionalStyle( "left", "right" ) }: -25px;
 		width: 24px;
 		height: 24px;
 		background-image: url(
@@ -47,28 +47,25 @@ const Caret = styled.div`
 Caret.propTypes = {
 	isActive: PropTypes.bool,
 	isHovered: PropTypes.bool,
-	inPreview: PropTypes.bool,
 };
 
 Caret.defaultProps = {
 	isActive: false,
 	isHovered: false,
-	inPreview: false,
 };
 
 /**
  * Adds Caret to a component.
  * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
- * @param {bool} inPreview Whether or not the component is in a social preview.
  *
  * @returns {React.Element} A component with added Caret.
  */
-export const withCaretStyle = ( WithoutCaretComponent, inPreview = false ) => {
+export const withCaretStyle = ( WithoutCaretComponent ) => {
 	return function ComponentWithCaret( props ) {
 		return (
 			<CaretContainer>
 				{ /* eslint-disable-next-line react/prop-types */ }
-				<Caret isActive={ props.isActive } isHovered={ props.isHovered } inPreview={ inPreview } />
+				<Caret isActive={ props.isActive } isHovered={ props.isHovered } />
 				<WithoutCaretComponent { ...props } />
 			</CaretContainer>
 		);

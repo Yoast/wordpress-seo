@@ -40,6 +40,7 @@ const FacebookDescription = styled.p`
 	text-overflow: ellipsis;
 	margin: 3px 0 0 0;
 	display: -webkit-box;
+	cursor: pointer;
 	-webkit-line-clamp: ${ props => determineClamp( props.mode ) };
 	-webkit-box-orient: vertical;  
 	overflow: hidden;
