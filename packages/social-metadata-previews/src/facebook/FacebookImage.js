@@ -75,19 +75,15 @@ class FacebookImage extends Component {
 	 *
 	 * @returns {void}
 	 */
-	handleFacebookImage() {
-		handleImage( this.props.src, this.socialMedium )
-			.then(
-				( newState ) => {
-					this.setState( newState );
-					this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
-				} )
-			.catch(
-				( errorState ) => {
-					this.setState( errorState );
-					this.props.onImageLoaded( "landscape" );
-				}
-			);
+	async handleFacebookImage() {
+		try {
+			const newState = await handleImage( this.props.src, this.socialMedium );
+			this.setState( newState );
+			this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
+		} catch ( error ) {
+			this.setState( error );
+			this.props.onImageLoaded( "landscape" );
+		}
 	}
 
 	/**
@@ -168,12 +164,13 @@ class FacebookImage extends Component {
 }
 
 FacebookImage.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
+	src: "",
 	alt: "",
 	onImageLoaded: () => {},
 };

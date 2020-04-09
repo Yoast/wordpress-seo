@@ -108,8 +108,12 @@ export default class TwitterImage extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	handleTwitterImage() {
-		handleImage( this.props.src, this.socialMedium ).then( ( newState ) => this.setState( newState ) );
+	async handleTwitterImage() {
+		if ( this.props.src === null ) {
+			return;
+		}
+		const newState = await handleImage( this.props.src, this.socialMedium );
+		this.setState( newState );
 	}
 
 	/**
@@ -163,11 +167,12 @@ export default class TwitterImage extends React.Component {
 }
 
 TwitterImage.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	isLarge: PropTypes.bool.isRequired,
 	alt: PropTypes.string,
 };
 
 TwitterImage.defaultProps = {
+	src: "",
 	alt: "",
 };
