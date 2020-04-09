@@ -20,6 +20,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * https://github.com/neonxp/Stemmer/blob/master/src/NXP/Stemmer.php
  */
 
 const vowels = [ "а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я" ];
