@@ -7,14 +7,14 @@
 
 namespace Yoast\WP\SEO\Actions\Indexing;
 
-interface Indexing_Action_Interface {
+interface Indexation_Action_Interface {
 
 	/**
 	 * Returns the total number of unindexed objects.
 	 *
 	 * @return int The number of unindexed objects.
 	 */
-	public function count();
+	public function get_total_unindexed();
 
 	/**
 	 * Index a number of objects.

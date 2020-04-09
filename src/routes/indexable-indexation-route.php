@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 /**
  * Indexable_Reindexing_Route class
  */
-class Indexable_Indexing_Route implements Route_Interface {
+class Indexable_Indexation_Route implements Route_Interface {
 	use No_Conditionals;
 
 	/**

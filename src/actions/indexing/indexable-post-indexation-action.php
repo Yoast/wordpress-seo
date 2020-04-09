@@ -16,7 +16,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 /**
  * Indexable_Reindex_Action class
  */
-class Indexable_Post_Indexing_Action implements Indexing_Action_Interface {
+class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
 	 * The post type helper
@@ -57,7 +57,7 @@ class Indexable_Post_Indexing_Action implements Indexing_Action_Interface {
 	 *
 	 * @return int The amount of unindexed posts.
 	 */
-	public function count() {
+	public function get_total_unindexed() {
 		$query = $this->get_query( true );
 
 		return $this->wpdb->get_var( $query );
