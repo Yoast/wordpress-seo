@@ -94,22 +94,25 @@ class WebPage_Test extends TestCase {
 		$this->instance->set_id_helper( $this->id );
 
 		// Set some values that are used in multiple tests.
-		$this->meta_tags_context->schema_page_type = 'WebPage';
-		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
-		$this->meta_tags_context->title            = 'the-title';
-		$this->meta_tags_context->description      = '';
-		$this->meta_tags_context->site_url         = 'https://example.com/';
-		$this->meta_tags_context->post             = (Object) [
+		$this->meta_tags_context->schema_page_type    = 'WebPage';
+		$this->meta_tags_context->canonical           = 'https://example.com/the-post/';
+		$this->meta_tags_context->title               = 'the-title';
+		$this->meta_tags_context->description         = '';
+		$this->meta_tags_context->site_url            = 'https://example.com/';
+		$this->meta_tags_context->has_image           = false;
+		$this->meta_tags_context->breadcrumbs_enabled = false;
+		$this->meta_tags_context->post                = (Object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
 		];
-		$this->meta_tags_context->indexable        = (Object) [
+		$this->meta_tags_context->indexable           = (Object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
-		$this->id->webpage_hash                    = '#webpage';
-		$this->id->website_hash                    = '#website';
+
+		$this->id->webpage_hash = '#webpage';
+		$this->id->website_hash = '#website';
 	}
 
 	/**
@@ -195,9 +198,6 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
-
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->with( 'the-title' )
@@ -278,8 +278,6 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_on_front_page_site_represents_reference() {
-		$this->meta_tags_context->has_image                 = false;
-		$this->meta_tags_context->breadcrumbs_enabled       = false;
 		$this->meta_tags_context->site_represents_reference = [ '@id' => $this->meta_tags_context->site_url . '#organization' ];
 
 		$this->html
@@ -364,8 +362,6 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_true() {
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->meta_tags_context->site_represents     = true;
 
 		$this->meta_tags_context->indexable = (Object) [
@@ -454,8 +450,6 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_object_post_site_represents_false() {
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->meta_tags_context->site_represents     = false;
 
 		$this->meta_tags_context->indexable = (Object) [
@@ -550,8 +544,6 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_description_not_empty() {
-		$this->meta_tags_context->has_image           = false;
-		$this->meta_tags_context->breadcrumbs_enabled = false;
 		$this->meta_tags_context->description         = 'the-description';
 
 		$this->html
@@ -642,7 +634,6 @@ class WebPage_Test extends TestCase {
 	 */
 	public function test_generate_object_type_home_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
-		$this->meta_tags_context->has_image        = false;
 		$this->meta_tags_context->indexable        = (Object) [
 			'object_type' => 'home-page',
 		];
@@ -696,7 +687,6 @@ class WebPage_Test extends TestCase {
 	 */
 	public function test_generate_home_static_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
-		$this->meta_tags_context->has_image        = false;
 
 		$this->html
 			->expects( 'smart_strip_tags' )
