@@ -17,14 +17,14 @@ use Yoast\WP\SEO\Routes\Responses\Indexation_Response;
  */
 class Indexable_Indexation_Route implements Route_Interface {
 
+	use No_Conditionals;
+
 	/**
 	 * The posts route constant.
 	 *
 	 * @var string
 	 */
 	const POSTS_ROUTE = 'indexation/posts';
-
-	use No_Conditionals;
 
 	/**
 	 * The post indexation action.
