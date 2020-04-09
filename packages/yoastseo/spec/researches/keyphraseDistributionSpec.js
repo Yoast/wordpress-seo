@@ -429,24 +429,19 @@ describe( "Test for the research", function() {
 
 	it.skip( "doesn't returned a skewed result when there is a list with many single-word list items - " +
 		"a list with single words should not be treated differently than if that list were a long string of words", function() {
-		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit. In sit amet semper sem, id faucibus massa.</p>\n";
+		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+			"In sit amet semper sem, id faucibus massa.</p>\n";
 
-		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero. Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
 
-		const list = "<ul>\n" +
-			"<li>apple</li>\n" +
-			"<li>pear</li>\n" +
-			"<li>mango</li>\n" +
-			"<li>kiwi</li>\n" +
-			"<li>papaya</li>\n" +
-			"<li>pineapple</li>\n" +
-			"<li>banana</li>\n" +
-			"</ul>";
+		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 
-		const words = "apple pear mango kiwi papaya pineapple banana";
+		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
+		const fruitString = fruits.join( " " );
 
 		const paperWithList = new Paper(
-			paragraphWithKeyphrase1 + list + paragraphWithKeyphrase2,
+			paragraphWithKeyphrase1 + fruitList + paragraphWithKeyphrase2,
 			{
 				locale: "en_EN",
 				keyword: "keyphrase",
@@ -454,7 +449,52 @@ describe( "Test for the research", function() {
 		);
 
 		const paperWithWords = new Paper(
-			paragraphWithKeyphrase1 + words + paragraphWithKeyphrase2,
+			paragraphWithKeyphrase1 + fruitString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a list of sentences as it does for a string of sentences", function() {
+		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+			"In sit amet semper sem, id faucibus massa.</p>\n";
+
+		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+		const fruitStatements = [
+			"This is an apple.",
+			"This is a pear.",
+			"This is a mango.",
+			"This is a kiwi.",
+			"This is a papaya.",
+			"This is a pineapple.",
+			"This is a banana." ];
+
+		const fruitStatementList = "<ul>\n" + fruitStatements.map( fruitStatement => "<li>" + fruitStatement + "</li>\n" ).join( "" ) + "</ul>";
+		const fruitStatementString = fruitStatements.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + fruitStatementList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + fruitStatementString + paragraphWithKeyphrase2,
 			{
 				locale: "en_EN",
 				keyword: "keyphrase",
