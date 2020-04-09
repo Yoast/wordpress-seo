@@ -38,6 +38,8 @@ class Url_Presenter_Test extends TestCase {
 		$this->instance     = new Url_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -50,7 +52,7 @@ class Url_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_url = 'www.example.com';
 
 		$expected = '<meta property="og:url" content="www.example.com" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -63,7 +65,7 @@ class Url_Presenter_Test extends TestCase {
 	public function test_present_empty_url() {
 		$this->presentation->open_graph_url = '';
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -81,7 +83,7 @@ class Url_Presenter_Test extends TestCase {
 			->andReturn( 'www.example.com' );
 
 		$expected = '<meta property="og:url" content="www.example.com" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

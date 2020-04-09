@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\Article;
-use Yoast\WP\SEO\Tests\Doubles\Article_Double;
+use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Article_Double;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -89,28 +89,30 @@ class Article_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->id                      = Mockery::mock( ID_Helper::class );
-		$this->id->article_hash        = '#article-hash';
-		$this->id->webpage_hash        = '#webpage-hash';
-		$this->id->primary_image_hash  = '#primary-image-hash';
 		$this->article                 = Mockery::mock( Article_Helper::class );
 		$this->date                    = Mockery::mock( Date_Helper::class );
 		$this->html                    = Mockery::mock( HTML_Helper::class );
 		$this->post                    = Mockery::mock( Post_Helper::class );
 		$this->language                = Mockery::mock( Language_Helper::class );
-		$this->instance                = Mockery::mock( Article_Double::class, [
-			$this->article,
-			$this->date,
-			$this->html,
-			$this->post,
-			$this->language,
-		] )
+		$this->instance                = Mockery::mock( Article_Double::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->context_mock            = new Meta_Tags_Context();
 		$this->context_mock->indexable = new Indexable();
 		$this->context_mock->post      = new stdClass();
 		$this->context_mock->id        = 5;
-		$this->instance->set_id_helper( $this->id );
+
+		$this->instance->context = $this->context_mock;
+		$this->instance->helpers = (object) [
+			'date'   => $this->date,
+			'post'   => $this->post,
+			'schema' => (object) [
+				'article'  => $this->article,
+				'id'       => $this->id,
+				'html'     => $this->html,
+				'language' => $this->language,
+			]
+		];
 
 		return parent::setUp();
 	}
@@ -118,7 +120,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests the if needed method.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -129,28 +130,26 @@ class Article_Test extends TestCase {
 
 		$this->article->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
 
-		$this->assertTrue( $this->instance->is_needed( $this->context_mock ) );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article-hash' );
+		$this->assertTrue( $this->instance->is_needed() );
+		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article' );
 	}
 
 	/**
 	 * Tests the if needed method with no post.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_post() {
 		$this->context_mock->indexable->object_type = 'home-page';
 		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
 	/**
 	 * Tests the if needed method with no article post type.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_article_post_type() {
@@ -161,14 +160,13 @@ class Article_Test extends TestCase {
 
 		$this->article->expects( 'is_article_post_type' )->with( 'not-article' )->andReturn( false );
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
 	/**
 	 * Tests the if needed method when the site doesn't represent a person or organization.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_no_site_represents() {
@@ -176,7 +174,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents        = false;
 		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
-		$this->assertFalse( $this->instance->is_needed( $this->context_mock ) );
+		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
@@ -187,7 +185,6 @@ class Article_Test extends TestCase {
 	 * @param boolean $expected_value The expected generated article schema.
 	 * @param string  $message        The message to show in case a test fails.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_image
 	 * @covers ::add_keywords
@@ -245,7 +242,7 @@ class Article_Test extends TestCase {
 
 		$this->instance
 			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_keywords'], 'keywords', 'post_tag', $this->context_mock )
+			->with( $values_to_test['data_for_add_keywords'], 'keywords', 'post_tag' )
 			->once()
 			->andReturn( $values_to_test['data_for_add_keywords'] += [ 'keywords' => 'Tag1,Tag2' ] );
 
@@ -256,7 +253,7 @@ class Article_Test extends TestCase {
 
 		$this->instance
 			->expects( 'add_terms' )
-			->with( $values_to_test['data_for_add_sections'], 'articleSection', 'category', $this->context_mock )
+			->with( $values_to_test['data_for_add_sections'], 'articleSection', 'category' )
 			->once()
 			->andReturn( $values_to_test['data_for_add_sections'] += [ 'articleSection' => 'Category1' ] );
 
@@ -273,7 +270,7 @@ class Article_Test extends TestCase {
 			->with( $this->context_mock->post->post_type, 'comments' )
 			->andReturn( $values_to_test['mock_value_post_type_supports'] );
 
-		$this->assertEquals( $expected_value, $this->instance->generate( $this->context_mock ), $message );
+		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
 	}
 
 	/**
@@ -302,7 +299,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1, 'keywords' => 'Tag1,Tag2' ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -322,7 +319,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1 ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -342,7 +339,7 @@ class Article_Test extends TestCase {
 
 		$expected_value = [ 'data1' => 1 ];
 
-		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag', $this->context_mock ) );
+		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}
 
 	/**
@@ -359,42 +356,42 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
 				'expected_value' =>
 					[
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 						'articleSection'   => 'Category1',
 						'inLanguage'       => 'language',
@@ -417,28 +414,28 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'publisher'        => true,
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'publisher'        => true,
 						'keywords'         => 'Tag1,Tag2',
 					],
@@ -446,15 +443,15 @@ class Article_Test extends TestCase {
 				'expected_value' =>
 					[
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 						'articleSection'   => 'Category1',
 						'inLanguage'       => 'language',
@@ -478,42 +475,42 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'open',
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
 				'expected_value' =>
 					[
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 						'articleSection'   => 'Category1',
 						'inLanguage'       => 'language',
@@ -527,42 +524,42 @@ class Article_Test extends TestCase {
 					'post_comment_status'           => 'closed',
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 					],
 					'data_for_add_sections'         => [
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
 				'expected_value' =>
 					[
 						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article-hash',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage-hash' ],
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
 						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primary-image-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 						'headline'         => 'the-title',
 						'datePublished'    => '2345-12-12 12:12:12',
 						'dateModified'     => '2345-12-12 23:23:23',
 						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage-hash' ],
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 						'keywords'         => 'Tag1,Tag2',
 						'articleSection'   => 'Category1',
 						'inLanguage'       => 'language',

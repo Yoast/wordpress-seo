@@ -37,6 +37,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 		$this->instance     = new Article_Modified_Time_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
 
 		return parent::setUp();
 	}
@@ -50,7 +51,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_article_modified_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:modified_time" content="2019-10-08T12:26:31+00:00" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -63,7 +64,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	public function test_present_empty_modified_time() {
 		$this->presentation->open_graph_article_modified_time = '';
 
-		$actual   = $this->instance->present( $this->presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}

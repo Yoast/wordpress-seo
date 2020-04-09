@@ -49,10 +49,14 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->options = Mockery::mock( Options_Helper::class );
 
-		$this->instance     = Mockery::mock( Breadcrumbs_Presenter::class, [ $this->options ] )
+		$this->instance     = Mockery::mock( Breadcrumbs_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-		$this->presentation = new Indexable_Presentation();
+
+		$this->instance->helpers = (object) [
+			'options' => $this->options,
+		];
+		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		return parent::setUp();
 	}
@@ -117,7 +121,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_with_prefix,
-			$this->instance->present( $this->presentation ) );
+			$this->instance->present() );
 	}
 
 	/**
@@ -130,7 +134,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->presentation->breadcrumbs = $breadcrumb;
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -143,7 +147,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->presentation->breadcrumbs = $breadcrumb;
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -174,7 +178,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 			->withNoArgs()
 			->andReturn( ' » ' );
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -235,7 +239,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_without_prefix,
-			$this->instance->present( $this->presentation ) );
+			$this->instance->present() );
 	}
 
 	/**

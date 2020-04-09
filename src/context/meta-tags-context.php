@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Context;
 use WP_Block_Parser_Block;
 use WP_Post;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
@@ -23,25 +24,25 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Meta_Tags_Context
  *
- * @property string      canonical
- * @property string      title
- * @property string      description
- * @property string      id
- * @property string      site_name
- * @property string      wordpress_site_name
- * @property string      site_url
- * @property string      company_name
- * @property int         company_logo_id
- * @property int         site_user_id
- * @property string      site_represents
- * @property array|false site_represents_reference
- * @property bool        breadcrumbs_enabled
+ * @property string      $canonical
+ * @property string      $title
+ * @property string      $description
+ * @property string      $id
+ * @property string      $site_name
+ * @property string      $wordpress_site_name
+ * @property string      $site_url
+ * @property string      $company_name
+ * @property int         $company_logo_id
+ * @property int         $site_user_id
+ * @property string      $site_represents
+ * @property array|false $site_represents_reference
+ * @property bool        $breadcrumbs_enabled
  * @property string      schema_page_type
- * @property string      main_schema_id
- * @property bool        open_graph_enabled
- * @property string      open_graph_publisher
- * @property string      twitter_card
- * @property string      page_type
+ * @property string      $main_schema_id
+ * @property bool        $open_graph_enabled
+ * @property string      $open_graph_publisher
+ * @property string      $twitter_card
+ * @property string      $page_type
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -309,7 +310,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return [ '@id' => $this->id_helper->get_user_schema_id( $this->site_user_id, $this ) ];
 		}
 		if ( $this->site_represents === 'company' ) {
-			return [ '@id' => $this->site_url . $this->id_helper->organization_hash ];
+			return [ '@id' => $this->site_url . Schema_IDs::ORGANIZATION_HASH ];
 		}
 
 		return false;
@@ -370,8 +371,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_schema_page_type() {
 		switch ( $this->indexable->object_type ) {
-			case 'search-result':
-				$type = 'SearchResultsPage';
+			case 'system-page':
+				switch ( $this->indexable->object_sub_type ) {
+					case 'search-result':
+						$type = 'SearchResultsPage';
+						break;
+					default:
+						$type = 'WebPage';
+				}
 				break;
 			case 'user':
 				$type = [ 'ProfilePage', 'WebPage' ];
@@ -400,7 +407,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * The main schema id.
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . $this->id_helper->webpage_hash;
+		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
 	}
 }
 

@@ -15,7 +15,8 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '14.0-indexables-RC2' );
+define( 'WPSEO_VERSION', '14.0-RC3' );
+
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -23,6 +24,11 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
+}
+
+if ( ! extension_loaded( 'pdo_mysql' ) ) {
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-polyfill.php';
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-statement-polyfill.php';
 }
 
 /*
@@ -642,19 +648,26 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
 /**
  * Instantiate the different social classes on the frontend.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
 
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
+
+/**
+ * Aliasses added in order to keep compatibility with Yoast SEO: Local.
+ */
+class_alias( '\Yoast\WP\SEO\Initializers\Initializer_Interface', '\Yoast\WP\SEO\WordPress\Initializer' );
+class_alias( '\Yoast\WP\SEO\Loadable_Interface', '\Yoast\WP\SEO\WordPress\Loadable' );
+class_alias( '\Yoast\WP\SEO\Integrations\Integration_Interface', '\Yoast\WP\SEO\WordPress\Integration' );

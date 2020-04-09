@@ -1,5 +1,9 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
+
+use Brain\Monkey\Filters;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -100,23 +104,23 @@ class Author_Test extends TestCase {
 		$this->image        = Mockery::mock( Image_Helper::class );
 		$this->schema_image = Mockery::mock( Schema\Image_Helper::class );
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
-
-		$constructor_args = [
-			$this->article,
-			$this->image,
-			$this->schema_image,
-			$this->html,
-		];
-
-		$this->instance = Mockery::mock( Author::class, $constructor_args )
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
-
-		$this->id = Mockery::mock( Schema\ID_Helper::class );
-
-		$this->instance->set_id_helper( $this->id );
+		$this->id           = Mockery::mock( Schema\ID_Helper::class );
 
 		$this->meta_tags_context = new Meta_Tags_Context();
+
+		$this->instance = Mockery::mock( Author::class )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'image'  => $this->image,
+			'schema' => (object) [
+				'article' => $this->article,
+				'id'      => $this->id,
+				'image'   => $this->schema_image,
+				'html'    => $this->html,
+			]
+		];
 	}
 
 	/**
@@ -130,10 +134,8 @@ class Author_Test extends TestCase {
 
 		$this->instance->expects( 'build_person_data' )
 			->once()
-			->with( $user_id, $this->meta_tags_context )
+			->with( $user_id )
 			->andReturn( $this->person_data );
-
-		$this->id->webpage_hash = '#webpage';
 
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
@@ -147,9 +149,9 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertArrayHasKey( 'mainEntityOfPage', $actual );
 		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/#webpage' ], $actual['mainEntityOfPage'] );
@@ -166,10 +168,8 @@ class Author_Test extends TestCase {
 
 		$this->instance->expects( 'build_person_data' )
 			->once()
-			->with( $user_id, $this->meta_tags_context )
+			->with( $user_id )
 			->andReturn( $this->person_data );
-
-		$this->id->webpage_hash = '#webpage';
 
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
@@ -183,11 +183,46 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertSame( $this->person_data, $actual );
+	}
+
+
+	/**
+	 * Tests that the author Schema piece is not output
+	 * on non-user archives and non-posts.
+	 *
+	 * @covers ::generate
+	 * @covers ::is_needed
+	 */
+	public function test_is_not_shown_when_filter_does_not_output_valid_user_id() {
+		$user_id = 123;
+
+		$this->instance->expects( 'build_person_data' )
+			->never();
+
+		// Set up the context with values.
+		$this->meta_tags_context->post = (Object) [
+			'post_author' => $user_id,
+		];
+
+		$this->meta_tags_context->indexable = (Object) [
+			'object_type' => 'post',
+			'object_id'   => 1234,
+		];
+
+		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
+
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
+			->with( $user_id )
+			->andReturn( 'not_a_valid_user_id' );
+
+		$actual = $this->instance->generate();
+
+		$this->assertFalse( $actual );
 	}
 
 	/**
@@ -196,8 +231,6 @@ class Author_Test extends TestCase {
 	 * @covers ::generate
 	 */
 	public function test_not_generate_when_user_id_cannot_be_defined() {
-		$this->id->webpage_hash = '#webpage';
-
 		// Set up the context with values.
 		$this->meta_tags_context->post = (Object) [
 			'post_author' => false,
@@ -210,9 +243,9 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
-		$actual = $this->instance->generate( $this->meta_tags_context );
+		$actual = $this->instance->generate();
 
 		$this->assertFalse( $actual );
 	}
@@ -234,7 +267,7 @@ class Author_Test extends TestCase {
 			'object_id'   => $user_id,
 		];
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -265,7 +298,7 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->site_represents = 'person';
 		$this->meta_tags_context->site_user_id    = $user_id;
 
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -295,7 +328,7 @@ class Author_Test extends TestCase {
 		$this->meta_tags_context->site_represents = 'organization';
 		$this->meta_tags_context->site_user_id    = $user_id;
 
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
@@ -321,6 +354,6 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context->site_user_id = $other_user_id;
 
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 }

@@ -9,9 +9,8 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * Class Open_Graph_OEmbed.
@@ -19,18 +18,25 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Open_Graph_OEmbed implements Integration_Interface {
 
 	/**
-	 * The meta helper.
+	 * The meta surface.
 	 *
-	 * @var Meta_Helper
+	 * @var Meta_Surface
 	 */
 	private $meta;
 
 	/**
-	 * The image helper.
+	 * The oEmbed data.
 	 *
-	 * @var Image_Helper
+	 * @var array
 	 */
-	private $image;
+	private $data;
+
+	/**
+	 * The post ID for the current post.
+	 *
+	 * @var int
+	 */
+	private $post_id;
 
 	/**
 	 * @inheritDoc
@@ -49,14 +55,10 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	/**
 	 * Open_Graph_OEmbed constructor.
 	 *
-	 * @codeCoverageIgnore It only sets dependencies
-	 *
-	 * @param Meta_Helper  $meta  The meta helper.
-	 * @param Image_Helper $image The image helper.
+	 * @param Meta_Surface $meta  The meta surface.
 	 */
-	public function __construct( Meta_Helper $meta, Image_Helper $image ) {
+	public function __construct( Meta_Surface $meta ) {
 		$this->meta  = $meta;
-		$this->image = $image;
 	}
 
 	/**
@@ -68,112 +70,66 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * @param array    $data The oEmbed data.
 	 * @param \WP_Post $post The current Post object.
 	 *
-	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
-	 *
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
+	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
 	 */
 	public function set_oembed_data( $data, $post ) {
 		// Data to be returned.
-		$filter_data = $data;
+		$this->data    = $data;
+		$this->post_id = $post->ID;
 
-		$filter_data = $this->set_title( $filter_data, $post->ID );
-		$filter_data = $this->set_image( $filter_data, $post->ID );
+		$this->set_title();
+		$this->set_description();
+		$this->set_image();
 
-		return $filter_data;
+		return $this->data;
 	}
 
 	/**
-	 * Sets the title if it has been configured.
-	 *
-	 * @param array $data    The data.
-	 * @param int   $post_id The post id.
-	 *
-	 * @return array The modified data array.
+	 * Sets the OpenGraph title if configured.
 	 */
-	protected function set_title( array $data, $post_id ) {
-		$opengraph_title = $this->meta->get_value( 'opengraph-title', $post_id );
+	protected function set_title() {
+		$opengraph_title = $this->meta->for_post( $this->post_id )->open_graph_title;
 
 		if ( ! empty( $opengraph_title ) ) {
-			$data['title'] = $opengraph_title;
+			$this->data['title'] = $opengraph_title;
 		}
+	}
 
-		return $data;
+	/**
+	 * Sets the OpenGraph description if configured.
+	 */
+	protected function set_description() {
+		$opengraph_description = $this->meta->for_post( $this->post_id )->open_graph_description;
+
+		if ( ! empty( $opengraph_description ) ) {
+			$this->data['description'] = $opengraph_description;
+		}
 	}
 
 	/**
 	 * Sets the image if it has been configured.
-	 *
-	 * @param array $data    The data.
-	 * @param int   $post_id The post id.
-	 *
-	 * @return array The modified data array.
 	 */
-	protected function set_image( array $data, $post_id ) {
-		$image = $this->get_image( $post_id );
+	protected function set_image() {
+		$images = $this->meta->for_post( $this->post_id )->open_graph_images;
+		$image  = reset( $images );
 
 		if ( empty( $image ) ) {
-			return $data;
+			return;
 		}
 
-		// Update the oEmbed data.
-		$data['thumbnail_url'] = $image['url'];
-
-		if ( empty( $image['id'] ) ) {
-			return $data;
+		if ( ! isset( $image['url'] ) ) {
+			return;
 		}
 
-		$data = $this->set_image_meta_data( $data, $image['id'] );
+		$this->data['thumbnail_url'] = $image['url'];
 
-		return $data;
-	}
-
-	/**
-	 * Determines which image details we should use.
-	 *
-	 * @param int $post_id The post id.
-	 *
-	 * @return array The image details to use.
-	 */
-	protected function get_image( $post_id ) {
-		$image_id = $this->meta->get_value( 'opengraph-image-id', $post_id );
-		if ( $image_id ) {
-			return [
-				'id'  => $image_id,
-				'url' => $this->image->get_attachment_image_source( $image_id ),
-			];
+		if ( isset( $image['width'] ) ) {
+			$this->data['thumbnail_width'] = $image['width'];
 		}
 
-		$image = $this->meta->get_value( 'opengraph-image', $post_id );
-		if ( $image ) {
-			return [
-				'id'  => $this->image->get_attachment_by_url( $image ),
-				'url' => $image,
-			];
+		if ( isset( $image['height'] ) ) {
+			$this->data['thumbnail_height'] = $image['height'];
 		}
-
-		return [];
-	}
-
-	/**
-	 * Retrieves the height and width for the given image.
-	 *
-	 * @param array $data     The data.
-	 * @param int   $image_id The image id.
-	 *
-	 * @return array The modified data array.
-	 */
-	protected function set_image_meta_data( array $data, $image_id ) {
-		// Gets the image's info from it's ID.
-		$image_info = \wp_get_attachment_metadata( $image_id );
-
-		if ( ! empty( $image_info['height'] ) ) {
-			$data['thumbnail_height'] = $image_info['height'];
-		}
-
-		if ( ! empty( $image_info['width'] ) ) {
-			$data['thumbnail_width'] = $image_info['width'];
-		}
-
-		return $data;
 	}
 }

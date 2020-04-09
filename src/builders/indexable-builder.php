@@ -72,6 +72,13 @@ class Indexable_Builder {
 	private $hierarchy_builder;
 
 	/**
+	 * The primary term builder
+	 *
+	 * @var Primary_Term_Builder
+	 */
+	private $primary_term_builder;
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -89,6 +96,7 @@ class Indexable_Builder {
 	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
+	 * @param Primary_Term_Builder                $primary_term_builder      The primary term builder for creating primary terms for posts.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -98,7 +106,8 @@ class Indexable_Builder {
 		Indexable_Post_Type_Archive_Builder $post_type_archive_builder,
 		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
-		Indexable_Hierarchy_Builder $hierarchy_builder
+		Indexable_Hierarchy_Builder $hierarchy_builder,
+		Primary_Term_Builder $primary_term_builder
 	) {
 		$this->author_builder            = $author_builder;
 		$this->post_builder              = $post_builder;
@@ -108,6 +117,7 @@ class Indexable_Builder {
 		$this->date_archive_builder      = $date_archive_builder;
 		$this->system_page_builder       = $system_page_builder;
 		$this->hierarchy_builder         = $hierarchy_builder;
+		$this->primary_term_builder      = $primary_term_builder;
 	}
 
 	/**
@@ -139,6 +149,7 @@ class Indexable_Builder {
 		switch ( $object_type ) {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
+				$this->primary_term_builder->build( $object_id );
 				break;
 			case 'user':
 				$indexable = $this->author_builder->build( $object_id, $indexable );

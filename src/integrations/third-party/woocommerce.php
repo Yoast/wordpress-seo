@@ -43,8 +43,6 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * WooCommerce constructor.
 	 *
-	 * @codeCoverageIgnore It only sets dependencies.
-	 *
 	 * @param Options_Helper     $options      The options helper.
 	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
 	 */
@@ -74,11 +72,7 @@ class WooCommerce implements Integration_Interface {
 			return $page_id;
 		}
 
-		if ( ! function_exists( 'wc_get_page_id' ) ) {
-			return -1;
-		}
-
-		return wc_get_page_id( 'shop' );
+		return $this->get_shop_page_id();
 	}
 
 	/**
@@ -98,9 +92,18 @@ class WooCommerce implements Integration_Interface {
 			return $title;
 		}
 
-		$post_type_archive_title = $this->get_product_template( 'title-ptarchive-product' );
-		if ( $post_type_archive_title ) {
-			return $post_type_archive_title;
+		if ( ! \is_archive() ) {
+			return $title;
+		}
+
+		$shop_page_id = $this->get_shop_page_id();
+		if ( $shop_page_id === -1 ) {
+			return $title;
+		}
+
+		$product_template_title = $this->get_product_template( 'title-product', $shop_page_id );
+		if ( $product_template_title ) {
+			return $product_template_title;
 		}
 
 		return $title;
@@ -123,9 +126,18 @@ class WooCommerce implements Integration_Interface {
 			return $description;
 		}
 
-		$post_type_archive_description = $this->get_product_template( 'metadesc-ptarchive-product' );
-		if ( $post_type_archive_description ) {
-			return $post_type_archive_description;
+		if ( ! \is_archive() ) {
+			return $description;
+		}
+
+		$shop_page_id = $this->get_shop_page_id();
+		if ( $shop_page_id === -1 ) {
+			return $description;
+		}
+
+		$product_template_description = $this->get_product_template( 'metadesc-product', $shop_page_id );
+		if ( $product_template_description ) {
+			return $product_template_description;
 		}
 
 		return $description;
@@ -134,27 +146,45 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * Checks if the current page is a WooCommerce shop page.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @return bool True when the page is a shop page.
 	 */
 	protected function is_shop_page() {
-		return \is_shop() && ! \is_search();
+		if ( ! \is_shop() ) {
+			return false;
+		}
+
+		if ( \is_search() ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Uses template for the given option name and replace the replacement variables on it.
 	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $option_name The option name to get the template for.
+	 * @param string $option_name  The option name to get the template for.
+	 * @param string $shop_page_id The page id to retrieve template for.
 	 *
 	 * @return string The rendered value.
 	 */
-	protected function get_product_template( $option_name ) {
-		$template          = $this->options->get( $option_name );
-		$product_post_type = \get_post_type_object( 'product' );
+	protected function get_product_template( $option_name, $shop_page_id ) {
+		$template = $this->options->get( $option_name );
+		$page     = \get_post( $shop_page_id );
 
-		return $this->replace_vars->replace( $template, $product_post_type );
+		return $this->replace_vars->replace( $template, $page );
+	}
+
+	/**
+	 * Returns the id of the set WooCommerce shop page.
+	 *
+	 * @return int The ID of the set page.
+	 */
+	protected function get_shop_page_id() {
+		if ( ! function_exists( 'wc_get_page_id' ) ) {
+			return -1;
+		}
+
+		return \wc_get_page_id( 'shop' );
 	}
 }

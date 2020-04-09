@@ -8,47 +8,38 @@
 namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Generators\Generator_Interface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class Abstract_Schema_Piece
  */
-abstract class Abstract_Schema_Piece implements Generator_Interface {
+abstract class Abstract_Schema_Piece {
 
 	/**
-	 * The ID helper.
+	 * The meta tags context.
 	 *
-	 * @var ID_Helper
+	 * @var Meta_Tags_Context
 	 */
-	protected $id;
+	public $context;
 
 	/**
-	 * Sets the ID helper.
+	 * The helpers surface
 	 *
-	 * @required
-	 *
-	 * @param ID_Helper $id A helper to retrieve Schema ID's.
+	 * @var Helpers_Surface
 	 */
-	public function set_id_helper( ID_Helper $id ) {
-		$this->id = $id;
-	}
+	public $helpers;
 
 	/**
 	 * Generates the schema piece.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return mixed
 	 */
-	abstract public function generate( Meta_Tags_Context $context );
+	abstract public function generate();
 
 	/**
 	 * Determines whether the schema piece is needed.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return bool
 	 */
-	abstract public function is_needed( Meta_Tags_Context $context );
+	abstract public function is_needed();
 }

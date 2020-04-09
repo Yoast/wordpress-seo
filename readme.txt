@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
+Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 14.0-indexables-RC2
+Stable tag: 13.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,42 +209,48 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 13.3 =
-Release Date: March 17th, 2020
-
-Enhancements:
-
-* Makes sure encoded urls are human readable in forms and output.
-* Adds a `potentialAction` entity to the `WebPage` and `Article` Schema pieces.
+= 14.0 =
+Release Date: April 28th, 2020
 
 Bugfixes:
 
-* Allows percent-encoding in canonical field. Props to [stodorovic](https://github.com/stodorovic).
-* Compares URL percent-encoding as case insensitive. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
+* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
+* Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
+* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
+* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
+* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
+* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
+
+Enhancements:
+
+* No longer outputs the `og:type` meta tag on 404 pages.
+* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
+* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
+* No longer outputs an `og:updated_time` as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
+* No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
+* Strips all tags from text fields in the schema output.
+* Adds `Term hierarchy` as a taxonomy snippet variable.
+* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
+* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
+* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
+* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
 
 Other:
+* Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
+* Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
 
-* Changes cURL Health Check to `critical` instead of `recommended`.
-* Prevents additional sanitation if the URL is already properly encoded. Props to [stodorovic](https://github.com/stodorovic).
-* Requires an absolute path in the URL. If the scheme/host doesn't exist and the path isn't valid then returns an empty string. Props to [stodorovic](https://github.com/stodorovic).
-* Forces percent-encoding of URLs before saving to the database. Props to [stodorovic](https://github.com/stodorovic).
-
-= 13.2 =
-Release Date: March 3rd, 2020
-
-In Yoast SEO 13.2, you’ll find a number of checks moved to the WordPress Site Health tool. Site Health was introduced in WordPress 5.2 as a way to help site owners and managers get a sense of how their site is doing, technically speaking. Find out more about these changes in [our 13.2 release post](https://yoa.st/release-13-2)!
-
-Enhancements:
-
-* Adds the capability to view Site Health to the SEO Manager role.
-* Adds a cURL minimal version check to Site Health.
-* Moves the "The postname is present in your permalink"-notification from the SEO Dashboard to Site Health.
-* Moves the "You are using the default WordPress tagline"-notification from the SEO Dashboard to Site Health.
-* Moves the "Your site is indexable"-notification and widget from the SEO dashboard to Site Health.
-* Improves the usability of the "Your site is indexable" Site Health check.
-* Adds error handling for the "Your site is indexable" status request.
-* Adds an ID to the FAQ sections in the Schema output.
+= 13.5 =
+Release Date: April 14th, 2020
 
 Bugfixes:
 
-* Removes the "Check headers"-tool from the Yoast Admin bar menu, as it is no longer available.
+* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
+* Fixes a bug where .xsl site map files would not be cached correctly.
+
+Other:
+* Sets minimum supported WordPress version to 5.3.
+
+= Earlier versions =
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

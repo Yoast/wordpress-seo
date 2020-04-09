@@ -7,6 +7,9 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Models\Indexable_Hierarchy;
 use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
@@ -15,6 +18,24 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Hierarchy_Repository {
+
+	/**
+	 * Represents the indexable hierarchy builder.
+	 *
+	 * @var Indexable_Hierarchy_Builder
+	 */
+	protected $builder;
+
+	/**
+	 * Sets the hierarchy builder.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Hierarchy_Builder $builder The indexable hierarchy builder.
+	 */
+	public function set_builder( Indexable_Hierarchy_Builder $builder ) {
+		$this->builder = $builder;
+	}
 
 	/**
 	 * Removes all ancestors for an indexable.
@@ -44,6 +65,32 @@ class Indexable_Hierarchy_Repository {
 		] );
 		$hierarchy->save();
 		return $hierarchy;
+	}
+
+	/**
+	 * Retrieves the ancestors. Create them when empty.
+	 *
+	 * @param Indexable $indexable The indexable to get the ancestors for.
+	 *
+	 * @return Indexable_Hierarchy[] The ancestors.
+	 */
+	public function find_ancestors( Indexable $indexable ) {
+		$ancestors = $this->query()
+			->where( 'indexable_id', $indexable->id )
+			->order_by_desc( 'depth' )
+			->find_many();
+
+		if ( ! empty( $ancestors ) ) {
+			return $ancestors;
+		}
+
+		$indexable = $this->builder->build( $indexable );
+		$ancestors = $this->query()
+			->where( 'indexable_id', $indexable->id )
+			->order_by_desc( 'depth' )
+			->find_many();
+
+		return $ancestors;
 	}
 
 	/**

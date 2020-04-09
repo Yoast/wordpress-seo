@@ -97,6 +97,25 @@ class Indexable extends Yoast_Model {
 	];
 
 	/**
+	 * Which columns contain int values.
+	 *
+	 * @var array
+	 */
+	protected $int_columns = [
+		'id',
+		'object_id',
+		'author_id',
+		'post_parent',
+		'content_score',
+		'primary_focus_keyword_score',
+		'readability_score',
+		'link_count',
+		'incoming_link_count',
+		'number_of_pages',
+		'prominent_words_version',
+	];
+
+	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]

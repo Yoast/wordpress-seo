@@ -38,6 +38,8 @@ class Locale_Presenter_Test extends TestCase {
 		$this->instance     = new Locale_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -50,7 +52,7 @@ class Locale_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_locale = 'nl_BE';
 
 		$expected = '<meta property="og:locale" content="nl_BE" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -70,7 +72,7 @@ class Locale_Presenter_Test extends TestCase {
 			->andReturn( 'nl_BE' );
 
 		$expected = '<meta property="og:locale" content="nl_BE" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

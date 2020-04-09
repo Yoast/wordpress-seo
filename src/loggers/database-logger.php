@@ -61,10 +61,13 @@ class Database_Logger implements Integration_Interface {
 	 * @return void
 	 */
 	public function log_output() {
+		$content_type = $this->get_content_type();
+
 		if (
-			\wp_doing_ajax()  ||
+			\wp_doing_ajax() ||
 			( defined( 'WP_CLI' ) && WP_CLI ) ||
-			( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
+			( stripos( $content_type, 'text/html' ) === false && $content_type !== '' )
 		) {
 			return;
 		}
@@ -77,6 +80,22 @@ class Database_Logger implements Integration_Interface {
 		$this->log_wpdb_queries();
 
 		echo '-->', PHP_EOL;
+	}
+
+	/**
+	 * Get the content type from the return header.
+	 *
+	 * @return string The return header if any, empty string if not.
+	 */
+	private function get_content_type() {
+		$headers = headers_list();
+		foreach ( $headers as $header ) {
+			if ( stripos( $header, 'Content-Type:' ) !== false ) {
+				return (string) preg_replace( '/^Content-Type:\s*(.*)/', '$1', $header );
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -134,6 +153,7 @@ class Database_Logger implements Integration_Interface {
 				echo '    ', $query[2], PHP_EOL;
 				$i ++;
 			}
+
 			return;
 		}
 		$this->header( 'WPDB Queries' );

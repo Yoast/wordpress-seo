@@ -44,14 +44,14 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = new Indexable_Presentation();
+		$presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = 'https://permalink/post/2';
 		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://permalink/post/2" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -62,14 +62,14 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_empty() {
-		$presentation = new Indexable_Presentation();
+		$presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = '';
 		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -80,12 +80,12 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_when_robots_is_noindex() {
-		$presentation = new Indexable_Presentation();
+		$presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = 'https://permalink/post/2';
 		$presentation->robots   = [ 'noindex' ];
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_filter() {
-		$presentation = new Indexable_Presentation();
+		$presentation = $this->instance->presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = 'https://permalink/post/2';
 		$presentation->robots   = [];
@@ -107,7 +107,7 @@ class Rel_Prev_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://filtered" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 }

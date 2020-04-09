@@ -158,7 +158,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )->twice()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
@@ -197,6 +197,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$grand_parent_indexable->id          = 3;
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 3;
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2 )
+			->andReturn( true );
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 3 ] );
 		Monkey\Functions\expect( 'get_term' )->once()->with( 3, 'tag' )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 0 ] );

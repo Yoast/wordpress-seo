@@ -10,8 +10,6 @@ namespace Yoast\WP\SEO\Tests\Generators;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Generators\Schema_Generator;
-use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
@@ -20,15 +18,9 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Generators\Schema\Organization;
-use Yoast\WP\SEO\Generators\Schema\Person;
-use Yoast\WP\SEO\Generators\Schema\Website;
-use Yoast\WP\SEO\Generators\Schema\Main_Image;
-use Yoast\WP\SEO\Generators\Schema\WebPage;
-use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
-use Yoast\WP\SEO\Generators\Schema\Article;
-use Yoast\WP\SEO\Generators\Schema\Author;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
-use Yoast\WP\SEO\Generators\Schema\HowTo;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class Schema_Generator_Test
@@ -97,45 +89,22 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->id                     = Mockery::mock( ID_Helper::class );
 		$this->current_page           = Mockery::mock( Current_Page_Helper::class )->makePartial();
-		$this->organization_generator = Mockery::mock( Organization::class )->makePartial();
 
 		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
-		$language   = Mockery::mock( Language_Helper::class )->makePartial();
 
-		$website = Mockery::mock( Website::class, [
-			Mockery::mock( Options_Helper::class )->makePartial(),
-			$this->html,
-			$language,
-		] )->makePartial();
-		$website->set_id_helper( $this->id );
+		$helpers = Mockery::mock( Helpers_Surface::class );
 
-		$webpage = Mockery::mock( WebPage::class, [
-			$this->current_page,
-			$this->html,
-			Mockery::mock( Date_Helper::class )->makePartial(),
-			$language,
-
-		] )->makePartial();
-		$webpage->set_id_helper( $this->id );
-
-		$this->faq = Mockery::mock( FAQ::class, [ $this->html, $language ] )->makePartial();
+		$helpers->current_page = $this->current_page;
+		$helpers->options      = Mockery::mock( Options_Helper::class )->makePartial();
+		$helpers->schema       = (object) [
+			'id'       => $this->id,
+			'html'     => $this->html,
+			'language' => Mockery::mock( Language_Helper::class )->makePartial(),
+		];
 
 		$this->instance = Mockery::mock(
 			Schema_Generator::class,
-			[
-				$this->id,
-				$this->current_page,
-				$this->organization_generator,
-				Mockery::mock( Person::class )->makePartial(),
-				$website,
-				Mockery::mock( Main_Image::class )->makePartial(),
-				$webpage,
-				Mockery::mock( Breadcrumb::class, [ $this->current_page ] )->makePartial(),
-				Mockery::mock( Article::class )->makePartial(),
-				Mockery::mock( Author::class )->makePartial(),
-				$this->faq,
-				Mockery::mock( HowTo::class )->makePartial(),
-			]
+			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->context            = Mockery::mock( Meta_Tags_Context::class )->makePartial();
@@ -212,9 +181,11 @@ class Schema_Generator_Test extends TestCase {
 						'name' => '',
 						'description' => 'description',
 						'potentialAction' => [
-							'@type' => 'SearchAction',
-							'target' => '?s={search_term_string}',
-							'query-input' => 'required name=search_term_string',
+							[
+								'@type' => 'SearchAction',
+								'target' => '?s={search_term_string}',
+								'query-input' => 'required name=search_term_string',
+							],
 						],
 						'inLanguage' => 'English',
 					],
@@ -260,7 +231,7 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
 
-		Monkey\Filters\expectApplied( 'wpseo_schema_needs_' . strtolower( get_class( $this->faq ) ) )
+		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq' )
 			->with( true );
 
 		$this->assertEquals(
@@ -277,21 +248,12 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_generator_have_identifier() {
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->twice()
-			->andReturnTrue();
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->andReturnTrue();
-
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->times( 3 )
-			->andReturnArg( 0 );
-
-		$this->faq->identifier = 'faq_block';
+		$piece = new FAQ();
+		$piece->identifier = 'faq_block';
+		$this->instance
+			->expects( 'get_graph_pieces' )
+			->with( $this->context )
+			->andReturn( [ $piece ] );
 
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
@@ -299,10 +261,7 @@ class Schema_Generator_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_schema_needs_faq_block' )
 			->with( true );
 
-		$this->assertEquals(
-			$this->get_expected_schema(),
-			$this->instance->generate( $this->context )
-		);
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -324,13 +283,8 @@ class Schema_Generator_Test extends TestCase {
 
 		$this->html
 			->expects( 'smart_strip_tags' )
-			->times( 2 )
+			->times( 3 )
 			->andReturnArg( 0 );
-
-		$this->faq
-			->expects( 'generate' )
-			->with( $this->context )
-			->andReturn( 'schema' );
 
 		$this->assertEquals(
 			[
@@ -343,9 +297,11 @@ class Schema_Generator_Test extends TestCase {
 						'name'            => '',
 						'description'     => 'description',
 						'potentialAction' => [
-							'@type'       => 'SearchAction',
-							'target'      => '?s={search_term_string}',
-							'query-input' => 'required name=search_term_string',
+							[
+								'@type'       => 'SearchAction',
+								'target'      => '?s={search_term_string}',
+								'query-input' => 'required name=search_term_string',
+							],
 						],
 						'inLanguage'      => 'English',
 					],
@@ -367,6 +323,26 @@ class Schema_Generator_Test extends TestCase {
 							],
 						],
 					],
+					[
+						'@type'            => 'ItemList',
+						'mainEntityOfPage' => [ '@id' => null ],
+						'numberOfItems'    => 1,
+						'itemListElement'  => [ [ '@id' => '#id-1' ] ]
+					],
+					[
+						'@type'          => 'Question',
+						'@id'            => '#id-1',
+						'position'       => 0,
+						'url'            => '#id-1',
+						'name'           => 'This is a question',
+						'answerCount'    => 1,
+						'acceptedAnswer' => [
+							'@type'      => 'Answer',
+							'text'       => 'This is an answer',
+							'inLanguage' => 'English',
+						],
+						'inLanguage' => 'English',
+					]
 				],
 			],
 			$this->instance->generate( $this->context )
@@ -389,9 +365,11 @@ class Schema_Generator_Test extends TestCase {
 					'name'            => '',
 					'description'     => 'description',
 					'potentialAction' => [
-						'@type'       => 'SearchAction',
-						'target'      => '?s={search_term_string}',
-						'query-input' => 'required name=search_term_string',
+						[
+							'@type'       => 'SearchAction',
+							'target'      => '?s={search_term_string}',
+							'query-input' => 'required name=search_term_string',
+						],
 					],
 					'inLanguage'      => 'English',
 				],

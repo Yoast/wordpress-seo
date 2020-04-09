@@ -55,11 +55,16 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Meta_Description_Presenter( $this->string );
-		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->instance = new Meta_Description_Presenter();
+		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers = (object) [
+			'string' => $this->string,
+		];
 
 		$this->indexable_presentation         = new Indexable_Presentation();
 		$this->indexable_presentation->source = [];
+
+		$this->instance->presentation = $this->indexable_presentation;
 
 		return parent::setUp();
 	}
@@ -93,7 +98,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 
 		$output = '<meta name="description" content="the_meta_description" />';
 
-		$this->assertEquals( $output, $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEquals( $output, $this->instance->present() );
 	}
 
 	/**
@@ -122,7 +127,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->with( 'wpseo_manage_options' )
 			->andReturn( false );
 
-		$this->assertEmpty( $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -154,6 +159,6 @@ class Meta_Description_Presenter_Test extends TestCase {
 
 		$notice = '<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [SEO - Search Appearance] menu and set up a template. -->';
 
-		$this->assertEquals( $notice, $this->instance->present( $this->indexable_presentation ) );
+		$this->assertEquals( $notice, $this->instance->present() );
 	}
 }

@@ -69,8 +69,6 @@ class Indexing_Controls implements Integration_Interface {
 	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
 	 * to follow the links in the object at the URL.
 	 *
-	 * @since 1.1.7
-	 *
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */
 	public function noindex_robots() {

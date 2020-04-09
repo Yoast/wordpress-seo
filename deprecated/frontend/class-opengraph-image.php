@@ -7,12 +7,12 @@
 
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
-_deprecated_file( basename( __FILE__ ), 'WPSEO xx.x' );
+_deprecated_file( basename( __FILE__ ), 'WPSEO 14.0' );
 
 /**
  * Class WPSEO_OpenGraph_Image.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  */
 class WPSEO_OpenGraph_Image extends Images {
 
@@ -26,13 +26,13 @@ class WPSEO_OpenGraph_Image extends Images {
 	/**
 	 * Constructor.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @param null|string     $image     Optional. The Image to use.
 	 * @param WPSEO_OpenGraph $opengraph Optional. The OpenGraph object.
 	 */
 	public function __construct( $image = null, WPSEO_OpenGraph $opengraph = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 }
