@@ -76,8 +76,8 @@ export default compose( [
 			description: getFacebookDescription(),
 			title: getFacebookTitle(),
 			imageWarnings: data.warnings,
-			authorName: getSiteName(),
-			siteName: getAuthorName(),
+			authorName: getAuthorName(),
+			siteName: getSiteName(),
 			alt: data.alt,
 		};
 	} ),
