@@ -6,7 +6,6 @@ use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
-use PhpParser\Node\Expr\Cast\Object_;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
@@ -210,7 +209,7 @@ class Author_Test extends TestCase {
 		$object_id       = 1234;
 		$user_data       = (object) [
 			'display_name' => $this->person_data['name'],
-			'user_email'   => 'bla@example.org'
+			'user_email'   => 'bla@example.org',
 		];
 
 		$this->instance->context->site_represents = 'person';
@@ -249,7 +248,7 @@ class Author_Test extends TestCase {
 			[
 				'facebook'  => 'https://facebook.example.org/admin',
 				'instagram' => 'https://instagram.example.org/admin',
-				'linkedin'  => 'https://linkedin.example.org/admin'
+				'linkedin'  => 'https://linkedin.example.org/admin',
 			]
 		);
 
