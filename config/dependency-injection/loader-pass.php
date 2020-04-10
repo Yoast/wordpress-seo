@@ -10,11 +10,10 @@ namespace Yoast\WP\SEO\Dependency_Injection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
-use Yoast\WP\SEO\Conditionals\Conditional;
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
-use Yoast\WP\SEO\WordPress\Initializer;
-use Yoast\WP\SEO\WordPress\Integration;
 
 /**
  * A pass is a step in the compilation process of the container.
@@ -36,10 +35,7 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		$loader_definition = $container->getDefinition( Loader::class );
-		$loader_definition->setArgument( 0, new Reference( 'service_container' ) );
-		$loader_definition->setPublic( true );
-
-		$definitions = $container->getDefinitions();
+		$definitions       = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
 			$this->process_definition( $definition, $loader_definition );
@@ -55,18 +51,16 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
-		if ( \is_subclass_of( $class, Initializer::class ) ) {
+		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
-			$definition->setPublic( true );
 		}
 
-		if ( \is_subclass_of( $class, Integration::class ) ) {
+		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
-			$definition->setPublic( true );
 		}
 
-		if ( \is_subclass_of( $class, Conditional::class ) ) {
-			$definition->setPublic( true );
+		if ( \is_subclass_of( $class, Command_Interface::class ) ) {
+			$loader_definition->addMethodCall( 'register_command', [ $class ] );
 		}
 	}
 }

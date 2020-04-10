@@ -308,7 +308,6 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
 
@@ -690,7 +689,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
 		}
@@ -902,7 +901,10 @@ class WPSEO_Utils {
 	public static function is_development_mode() {
 		$development_mode = false;
 
-		if ( defined( 'WPSEO_DEBUG' ) ) {
+		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' ) {
+			$development_mode = true;
+		}
+		elseif ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
 		}
 		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
@@ -979,7 +981,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
-		return <<<SVG
+		return <<<'SVG'
 <svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
 	 role="img" aria-hidden="true" focusable="false"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
@@ -1168,44 +1170,37 @@ SVG;
 	}
 
 	/**
-	 * Returns the home url with the following modifications:
+	 * Returns the unfiltered home URL.
 	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 * In case of a multisite setup we return the network_home_url.
-	 * In case of no multisite setup we return the home_url while overriding the WPML filter.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return string The home url.
 	 */
-	public static function get_home_url() {
-		// Add a new filter to undo WPML's changing of home url.
-		add_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10, 2 );
-
-		$url = home_url();
-
-		// If the plugin is network activated, use the network home URL.
-		if ( self::is_plugin_network_active() ) {
-			$url = network_home_url();
-		}
-
-		remove_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10 );
-
-		return $url;
-	}
 
 	/**
-	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter.
+	 * Returns the unfiltered home URL.
+	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
+	 * In case of a multisite setup we return the network_home_url.
+	 *
+	 * @return string The home url.
 	 *
 	 * @codeCoverageIgnore
-	 *
-	 * @param string $home_url The url altered by WPML. Unused.
-	 * @param string $url      The url that isn't altered by WPML.
-	 *
-	 * @return string The original url.
 	 */
-	public static function wpml_get_home_url( $home_url, $url ) {
-		return $url;
+	public static function get_home_url() {
+
+		/**
+		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
+		 */
+		do_action( 'wpseo_home_url' );
+
+		// If the plugin is network-activated, use the network home URL.
+		if ( self::is_plugin_network_active() ) {
+			return network_home_url();
+		}
+
+		return home_url();
 	}
 
 	/**

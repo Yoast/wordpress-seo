@@ -500,7 +500,7 @@ class WPSEO_Sitemaps {
 					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 					GROUP BY post_type
-					ORDER BY post_modified_gmt DESC
+					ORDER BY date DESC
 				";
 
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {

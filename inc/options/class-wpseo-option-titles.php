@@ -27,8 +27,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var array
 	 */
 	protected $defaults = [
-		// Non-form fields, set via (ajax) function.
-		'title_test'                    => 0,
 		// Form fields.
 		'forcerewritetitle'             => false,
 		'separator'                     => 'sc-dash',
@@ -126,8 +124,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var array
 	 */
 	public $ms_exclude = [
-		/* Theme dependent. */
-		'title_test',
 		'forcerewritetitle',
 	];
 
@@ -489,7 +485,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_or_person_user_id':
 				case 'company_logo_id':
 				case 'person_logo_id':
-				case 'title_test': /* Integer field - not in form. */
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
