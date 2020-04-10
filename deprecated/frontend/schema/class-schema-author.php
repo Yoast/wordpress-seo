@@ -26,6 +26,13 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 	protected $image_hash = Schema_IDs::AUTHOR_LOGO_HASH;
 
 	/**
+	 * The Schema type we use for this class.
+	 *
+	 * @var string[]
+	 */
+	protected $type = [ 'Person' ];
+
+	/**
 	 * WPSEO_Schema_Author constructor.
 	 *
 	 * @param null $context The context. No longer used but present for BC.
