@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Indexable_Post_Builder_Double;
+use Yoast\WP\SEO\Tests\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

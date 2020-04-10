@@ -66,7 +66,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
-		if ( $this->options->get( 'breadcrumbs-home' ) !== '' ) {
+		$breadcrumbs_home = $this->options->get( 'breadcrumbs-home' );
+		if ( $breadcrumbs_home !== '' ) {
 			$front_page_id = $this->current_page->get_front_page_id();
 			if ( $front_page_id === 0 ) {
 				$static_ancestors[] = $this->repository->find_for_home_page();
@@ -78,6 +79,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$page_for_posts = \get_option( 'page_for_posts' );
 		if ( $this->should_have_blog_crumb( $page_for_posts ) ) {
 			$static_ancestors[] = $this->repository->find_by_id_and_type( $page_for_posts, 'post' );
+		}
+		if (
+			$context->indexable->object_type === 'post'
+			&& $context->indexable->object_sub_type !== 'post'
+			&& $context->indexable->object_sub_type !== 'page'
+		) {
+			$static_ancestors[] = $this->repository->find_for_post_type_archive( $context->indexable->object_sub_type );
 		}
 
 		// Get all ancestors of the indexable and append itself to get all indexables in the full crumb.
@@ -102,6 +110,10 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			}
 			return $crumb;
 		}, $indexables );
+
+		if ( $breadcrumbs_home !== '' ) {
+			$crumbs[0]['text'] = $breadcrumbs_home;
+		}
 
 		/**
 		 * Filter: 'wpseo_breadcrumb_links' - Allow the developer to filter the Yoast SEO breadcrumb links, add to them, change order, etc.

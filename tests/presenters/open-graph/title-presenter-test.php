@@ -24,7 +24,7 @@ class Title_Presenter_Test extends TestCase {
 	 *
 	 * @var Indexable_Presentation
 	 */
-	protected $indexable_presentation;
+	protected $presentation;
 
 	/**
 	 * The title presenter instance.
@@ -56,11 +56,16 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->instance               = new Title_Presenter();
+		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers      = (object) [
+			'string' => $this->string,
+		];
 
-		$this->indexable_presentation         = new Indexable_Presentation();
-		$this->indexable_presentation->source = [];
+		$this->presentation         = new Indexable_Presentation();
+		$this->presentation->source = [];
+
+		$this->instance->presentation = $this->presentation;
 
 		$this->string
 			->expects( 'strip_all_tags' )
@@ -77,7 +82,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->indexable_presentation->open_graph_title = 'example_title';
+		$this->presentation->open_graph_title = 'example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -86,7 +91,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<meta property="og:title" content="example_title" />';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -97,7 +102,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_title_is_empty() {
-		$this->indexable_presentation->open_graph_title = '';
+		$this->presentation->open_graph_title = '';
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -105,7 +110,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}
@@ -117,7 +122,7 @@ class Title_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->indexable_presentation->open_graph_title = 'example_title';
+		$this->presentation->open_graph_title = 'example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -127,11 +132,11 @@ class Title_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_title' )
 			->once()
-			->with( 'example_title', $this->indexable_presentation )
+			->with( 'example_title', $this->presentation )
 			->andReturn( 'exampletitle' );
 
 		$expected = '<meta property="og:title" content="exampletitle" />';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

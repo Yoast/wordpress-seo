@@ -7,27 +7,26 @@
 
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class FB_App_ID_Presenter
  */
-class FB_App_ID_Presenter extends Abstract_Indexable_Presenter {
+class FB_App_ID_Presenter extends Abstract_Indexable_Tag_Presenter {
+
 	/**
-	 * Returns the Facebook app ID tag.
+	 * The tag format including placeholders.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
-	 * @return string The Facebook app ID tag.
+	 * @var string
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$fb_app_id = $presentation->open_graph_fb_app_id;
+	protected $tag_format = '<meta property="fb:app_id" content="%s" />';
 
-		if ( $fb_app_id !== '' ) {
-			return \sprintf( '<meta property="fb:app_id" content="%s" />', \esc_attr( $fb_app_id ) );
-		}
-
-		return '';
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
+		return $this->presentation->open_graph_fb_app_id;
 	}
 }

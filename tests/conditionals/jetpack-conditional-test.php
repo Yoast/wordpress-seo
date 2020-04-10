@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Jetpack_Conditional
  */
 class Jetpack_Conditional_Test extends TestCase {
+
 	/**
 	 * The breadcrumbs enabled conditional.
 	 *

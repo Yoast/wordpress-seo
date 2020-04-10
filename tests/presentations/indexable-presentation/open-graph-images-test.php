@@ -52,5 +52,4 @@ class Open_Graph_Images_Test extends TestCase {
 
 		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_open_graph_images() );
 	}
-
 }

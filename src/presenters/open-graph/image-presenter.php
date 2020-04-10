@@ -29,18 +29,10 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the image for a post.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string The image tag.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$images = [];
-
-		foreach ( $presentation->open_graph_images as $open_graph_image ) {
-			$images[] = $this->filter( $open_graph_image, $presentation );
-		}
-
-		$images = \array_filter( $images );
+	public function present() {
+		$images = $this->get();
 
 		if ( empty( $images ) ) {
 			return '';
@@ -65,14 +57,28 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		$images = [];
+
+		foreach ( $this->presentation->open_graph_images as $open_graph_image ) {
+			$images[] = $this->filter( $open_graph_image );
+		}
+
+		return \array_filter( $images );
+	}
+
+	/**
 	 * Run the image content through the `wpseo_opengraph_image` filter.
 	 *
-	 * @param array                  $image        The image.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param array $image The image.
 	 *
 	 * @return array The filtered image.
 	 */
-	protected function filter( $image, Indexable_Presentation $presentation ) {
+	protected function filter( $image ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the Open Graph image.
 		 *
@@ -80,7 +86,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $presentation ) );
+		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $this->presentation ) );
 		if ( ! empty( $image_url ) && \is_string( $image_url ) ) {
 			$image['url'] = $image_url;
 		}

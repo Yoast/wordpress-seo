@@ -308,7 +308,6 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
 
@@ -690,7 +689,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
 		}
@@ -982,7 +981,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
-		return <<<SVG
+		return <<<'SVG'
 <svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
 	 role="img" aria-hidden="true" focusable="false"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
@@ -1197,7 +1196,7 @@ SVG;
 		do_action( 'wpseo_home_url' );
 
 		// If the plugin is network-activated, use the network home URL.
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
+		if ( self::is_plugin_network_active() ) {
 			return network_home_url();
 		}
 

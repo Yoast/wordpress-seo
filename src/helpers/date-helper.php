@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-
 /**
  * Class Date_Helper
  */

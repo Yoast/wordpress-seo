@@ -7,8 +7,12 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Adds customizations to the front end for breadcrumbs.
@@ -23,21 +27,35 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	private $presenter;
 
 	/**
-	 * Breadcrumbs_Integration constructor.
+	 * The meta tags context memoizer.
 	 *
-	 * @param Breadcrumbs_Presenter $presenter The breadcrumbs presenter.
-	 *
-	 * @codeCoverageIgnore
+	 * @var Meta_Tags_Context_Memoizer
 	 */
-	public function __construct( Breadcrumbs_Presenter $presenter ) {
-		$this->presenter = $presenter;
+	private $context_memoizer;
+
+	/**
+	 * Breadcrumbs integration constructor.
+	 *
+	 * @param Helpers_Surface            $helpers          The helpers.
+	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer The meta tags context memoizer.
+	 */
+	public function __construct(
+		Helpers_Surface $helpers,
+		WPSEO_Replace_Vars $replace_vars,
+		Meta_Tags_Context_Memoizer $context_memoizer
+	) {
+		$this->context_memoizer        = $context_memoizer;
+		$this->presenter               = new Breadcrumbs_Presenter();
+		$this->presenter->helpers      = $helpers;
+		$this->presenter->replace_vars = $replace_vars;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Breadcrumbs_Enabled_Conditional::class ];
+		return [ Breadcrumbs_Enabled_Conditional::class, Migrations_Conditional::class ];
 	}
 
 	/**
@@ -52,11 +70,10 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * Renders the breadcrumbs.
 	 *
 	 * @return string The rendered breadcrumbs.
-	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	public function render() {
-		$indexable_presentation = YoastSEO()->current_page->get_presentation();
+		$this->presenter->presentation = $this->context_memoizer->for_current_page()->presentation;
 
-		return $this->presenter->present( $indexable_presentation );
+		return $this->presenter->present();
 	}
 }

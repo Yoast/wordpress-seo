@@ -36,8 +36,9 @@ class Image_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = new Image_Presenter();
-		$this->presentation = new Indexable_Presentation();
+		$this->instance               = new Image_Presenter();
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		parent::setUp();
 
@@ -53,7 +54,7 @@ class Image_Presenter_Test extends TestCase {
 		$this->presentation->twitter_image = 'relative_image.jpg';
 
 		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -66,7 +67,7 @@ class Image_Presenter_Test extends TestCase {
 	public function test_present_empty_image() {
 		$this->presentation->twitter_image = '';
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -85,7 +86,7 @@ class Image_Presenter_Test extends TestCase {
 			->andReturn( 'relative_image.jpg' );
 
 		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

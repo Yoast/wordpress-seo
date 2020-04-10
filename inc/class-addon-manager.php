@@ -258,10 +258,9 @@ class WPSEO_Addon_Manager {
 			'homepage'      => $subscription->product->store_url,
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
-			'sections'      =>
-				[
-					'changelog' => $subscription->product->changelog,
-				],
+			'sections'      => [
+				'changelog' => $subscription->product->changelog,
+			],
 		];
 	}
 

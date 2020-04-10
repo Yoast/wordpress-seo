@@ -233,6 +233,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @dataProvider sanitize_url_provider
 	 *
 	 * @covers WPSEO_Utils::sanitize_url
+	 *
+	 * @param string $expected        Expected function outcome.
+	 * @param string $url_to_sanitize Input to pass to the function under test.
 	 */
 	public function test_sanitize_url( $expected, $url_to_sanitize ) {
 		$this->assertEquals( $expected, WPSEO_Utils::sanitize_url( $url_to_sanitize ) );
@@ -254,7 +257,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 				'expected'        => 'https://example.com/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d9%84%da%af%d8%b1%d8%a7%d9%85-%d8%b3%d8%a6%d9%88',
 				'url_to_sanitize' => 'https://example.com/گروه-تلگرام-سئو',
 			],
-			// https://github.com/Yoast/wordpress-seo/issues/7664.
+			// Related issue: https://github.com/Yoast/wordpress-seo/issues/7664.
 			'invalid_url'                    => [
 				'expected'        => '',
 				'url_to_sanitize' => 'WordPress',

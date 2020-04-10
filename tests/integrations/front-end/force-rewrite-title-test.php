@@ -132,7 +132,7 @@ class Force_Rewrite_Title_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
-		$expected_output = '<!-- This site is optimized with the Yoast SEO plugin v1.0 -->';
+		$expected_output  = '<!-- This site is optimized with the Yoast SEO plugin v1.0 -->';
 		$expected_output .= '<meta rel="yoast" value="meta" />';
 		$expected_output .= '<!-- / Yoast SEO plugin. -->';
 

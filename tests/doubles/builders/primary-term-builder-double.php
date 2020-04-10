@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles;
+namespace Yoast\WP\SEO\Tests\Doubles\Builders;
 
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 
@@ -8,6 +8,7 @@ use Yoast\WP\SEO\Builders\Primary_Term_Builder;
  * Class Primary_Term_Builder_Double
  */
 class Primary_Term_Builder_Double extends Primary_Term_Builder {
+
 	/**
 	 * @inheritDoc
 	 */

@@ -43,10 +43,11 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$indexable_presentation = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$indexable_presentation            = $this->instance->presentation;
 		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
-		$actual = $this->instance->present( $indexable_presentation );
+		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two, three" />';
 
 		$this->assertEquals( $actual, $expected );
@@ -59,7 +60,8 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$indexable_presentation = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$indexable_presentation            = $this->instance->presentation;
 		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
 		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
@@ -67,7 +69,7 @@ class Googlebot_Presenter_Test extends TestCase {
 			->with( 'one, two, three', $indexable_presentation )
 			->andReturn( 'one, two' );
 
-		$actual = $this->instance->present( $indexable_presentation );
+		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two" />';
 
 		$this->assertEquals( $actual, $expected );
@@ -79,9 +81,10 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$indexable_presentation = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$indexable_presentation            = $this->instance->presentation;
 		$indexable_presentation->googlebot = [];
 
-		$this->assertEmpty( $this->instance->present( $indexable_presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 }

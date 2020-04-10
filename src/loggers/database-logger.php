@@ -15,6 +15,7 @@ use YoastSEO_Vendor\ORM;
  * Class Database_Logger
  */
 class Database_Logger implements Integration_Interface {
+
 	/**
 	 * Private array of queries used for logging.
 	 *
@@ -64,10 +65,10 @@ class Database_Logger implements Integration_Interface {
 		$content_type = $this->get_content_type();
 
 		if (
-			\wp_doing_ajax() ||
-			( defined( 'WP_CLI' ) && WP_CLI ) ||
-			( defined( 'REST_REQUEST' ) && REST_REQUEST ) ||
-			( stripos( $content_type, 'text/html' ) === false && $content_type !== '' )
+			\wp_doing_ajax()
+			|| ( defined( 'WP_CLI' ) && WP_CLI )
+			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+			|| ( stripos( $content_type, 'text/html' ) === false && $content_type !== '' )
 		) {
 			return;
 		}
@@ -134,7 +135,7 @@ class Database_Logger implements Integration_Interface {
 		$i = 1;
 		foreach ( $this->query_log as $query ) {
 			echo $i, ': "', $query['query'], '" in ', round( $query['time'], 5 ), PHP_EOL;
-			$i ++;
+			++$i;
 		}
 	}
 
@@ -151,7 +152,7 @@ class Database_Logger implements Integration_Interface {
 			foreach ( $wpdb->queries as $query ) {
 				echo $i, ': "', trim( $query[0] ), '" in ', round( $query[1], 5 ), PHP_EOL;
 				echo '    ', $query[2], PHP_EOL;
-				$i ++;
+				++$i;
 			}
 
 			return;

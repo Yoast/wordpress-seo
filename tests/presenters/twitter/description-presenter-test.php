@@ -36,8 +36,8 @@ class Description_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance = new Description_Presenter();
-		$this->instance->set_replace_vars( $this->replace_vars );
+		$this->instance               = new Description_Presenter();
+		$this->instance->replace_vars = $this->replace_vars;
 
 		return parent::setUp();
 	}
@@ -49,7 +49,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation                      = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
 		$presentation->source              = [];
 		$presentation->twitter_description = 'This is the twitter description';
 
@@ -59,7 +60,7 @@ class Description_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:description" content="This is the twitter description" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -70,7 +71,8 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_description() {
-		$presentation                      = new Indexable_Presentation();
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
 		$presentation->source              = [];
 		$presentation->twitter_description = '';
 
@@ -78,7 +80,6 @@ class Description_Presenter_Test extends TestCase {
 			->expects( 'replace' )
 			->andReturn( '' );
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
-
 }

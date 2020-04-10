@@ -2,6 +2,11 @@
 engines:
   csslint:
     enabled: true
+    checks:
+      order-alphabetical:
+        enabled: false
+      adjoining-classes:
+        enabled: false
   duplication:
     enabled: true
     config:

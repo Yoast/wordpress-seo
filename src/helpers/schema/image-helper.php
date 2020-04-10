@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
  * @package Yoast\WP\SEO\Helpers\Schema
  */
 class Image_Helper {
+
 	/**
 	 * The HTML helper.
 	 *
