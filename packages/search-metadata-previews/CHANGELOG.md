@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.2.0 April 23rd, 2020
+### Added
+* Adds a CSS test stub.
+
 ## 1.16.0 January 20th, 2020
 ### Changed
 * Enhances the Snippet Editor's Mode Switcher component by using radio buttons.

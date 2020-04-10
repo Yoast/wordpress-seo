@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.71.0",
+  "version": "1.73.0-rc.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -103,7 +103,9 @@
     ],
     "testPathIgnorePatterns": [
       "/spec/specHelpers/*",
-      "/spec/fullTextTests/testTexts"
+      "/spec/fullTextTests/testTexts",
+      "/spec/morphology/spanish/stemmerCoverage/generateStems.js",
+      "/spec/morphology/spanish/stemmerCoverage/goldStandardStems.json"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"

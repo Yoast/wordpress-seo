@@ -21,31 +21,30 @@
 	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
 
 	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='toggle.css' type='text/css' media='all'/>
 
 </head>
 <body>
 <form>
-	<div class="yoast-field-group">
 
-		<label class="yoast-field-group__title">Label name</label>
-		<a class="yoast-field-group__help" target="_blank" aria-expanded="false" href="https://yoast.com">
-				<span class="yoast-field-group__help-icon" aria-hidden="true">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true"
-						 focusable="false"><defs/><path
-							d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"/></svg>
+	<div class="yoast-toggle__item">
+		<div class="yoast-toggle__item-title">
+			<span class="yoast-toggle__item-title">SEO analysis</span>
+			<a class="yoast-field-group__help" target="_blank" href="">
+				<span class="yoast-field-group__help-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="16" height="16" role="img" aria-hidden="true" focusable="false"><path d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"></path></svg>
 				</span>
-			<span class="screen-reader-text">Tell what this link does.</span>
-		</a>
-		<div class="yoast-field-group__toggle">
-			<label>Setting for something</label>
-			<div class=""
-				<input type="checkbox" id="toggle-off" name="toggle-name" value="off" checked="checked">
-				<span state="toggle-off">Off</span>
-				<a></a>
-				<span state="toggle-on">On</span>
+				<span class="screen-reader-text">Learn how the SEO analysis can help you rank.</span>
+			</a>
+		</div>
 
-			</div>
+		<div class="yoast-toggle">
+			<input type="checkbox" aria-labelledby="keyword_analysis_active-label" id="keyword_analysis_active" name="wpseo[keyword_analysis_active]" value="on" checked="checked">
+			<span class="yoast-toggle--inactive">Off</span>
+			<label class="yoast-toggle__switch" for="keyword_analysis_active"></label>
+			<span class="yoast-toggle--active">On</span>
+
 		</div>
 	</div>
 

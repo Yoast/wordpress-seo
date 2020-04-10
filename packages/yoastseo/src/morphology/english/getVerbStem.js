@@ -167,7 +167,7 @@ const endsWithIng = function( word ) {
 	const vowelCount = ( word.match( vowelRegex ) || [] ).length;
 
 	// Consider only words that have at least one more vowel besides "i" in "ing" (otherwise, words like "ping" are being treated as verb forms).
-	if ( vowelCount > 1 ) {
+	if ( vowelCount > 1 && word.length > 4 ) {
 		return word.substring( word.length - 3, word.length ) === "ing";
 	}
 	return false;
