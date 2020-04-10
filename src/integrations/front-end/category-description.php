@@ -27,6 +27,7 @@ class Category_Description implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_filter( 'category_description', [ $this, 'add_shortcode_support' ] );
+		add_filter( 'term_description', [ $this, 'add_shortcode_support' ] );
 	}
 
 	/**
