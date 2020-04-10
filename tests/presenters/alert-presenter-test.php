@@ -8,9 +8,9 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \WPSEO_Alert
+ * @coversDefaultClass \Alert_Presenter
  */
-class WPSEO_Alert_Test extends TestCase {
+class Alert_Presenter_Test extends TestCase {
 
 	/**
 	 * Test when the Alert is of type 'error'.
@@ -21,7 +21,7 @@ class WPSEO_Alert_Test extends TestCase {
 	function test_error_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
-		$test = new \WPSEO_Alert(\WPSEO_Alert::ERROR, 'content' );
+		$test = new \Alert_Presenter(\Alert_Presenter::ERROR, 'content' );
 
 		$expected = '<div class="wpseo-alert wpseo-alert__error">'
 			. '<span><img class="icon" src="images/alert-error-icon.svg""></span>'
@@ -42,7 +42,7 @@ class WPSEO_Alert_Test extends TestCase {
 	 */
 	function test_info_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
-		$test = new \WPSEO_Alert(\WPSEO_Alert::INFO, 'content' );
+		$test = new \Alert_Presenter(\Alert_Presenter::INFO, 'content' );
 
 		$expected = '<div class="wpseo-alert wpseo-alert__info">'
 			. '<span><img class="icon" src="images/alert-info-icon.svg""></span>'
@@ -63,7 +63,7 @@ class WPSEO_Alert_Test extends TestCase {
 	 */
 	function test_success_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
-		$test = new \WPSEO_Alert(\WPSEO_Alert::SUCCESS, 'content' );
+		$test = new \Alert_Presenter(\Alert_Presenter::SUCCESS, 'content' );
 
 		$expected = '<div class="wpseo-alert wpseo-alert__success">'
 			. '<span><img class="icon" src="images/alert-success-icon.svg""></span>'
@@ -84,7 +84,7 @@ class WPSEO_Alert_Test extends TestCase {
 	 */
 	function test_warning_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
-		$test = new \WPSEO_Alert(\WPSEO_Alert::WARNING, 'content' );
+		$test = new \Alert_Presenter(\Alert_Presenter::WARNING, 'content' );
 
 		$expected = '<div class="wpseo-alert wpseo-alert__warning">'
 			. '<span><img class="icon" src="images/alert-warning-icon.svg""></span>'

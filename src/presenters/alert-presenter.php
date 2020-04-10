@@ -8,7 +8,7 @@
 /**
  * Represents the class for Alerts.
  */
-class WPSEO_Alert {
+class Alert_Presenter {
 
 	/**
 	 * Alert type.
@@ -55,7 +55,7 @@ class WPSEO_Alert {
 	private $content = '';
 
 	/**
-	 * WPSEO_Alert constructor.
+	 * Alert_Presenter constructor.
 	 *
 	 * @param string $type Type of the Alert (error/info/success/warning).
 	 * @param string $content Content of the Alert.

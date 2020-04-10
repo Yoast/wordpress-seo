@@ -101,7 +101,7 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
-		echo new WPSEO_Alert( WPSEO_Alert::WARNING, $content );
+		echo new Alert_Presenter( Alert_Presenter::WARNING, $content );
 
 		echo '</div></div>';
 	}

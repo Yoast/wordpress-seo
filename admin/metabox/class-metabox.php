@@ -126,7 +126,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'</a>'
 		);
 
-		echo new WPSEO_Alert( WPSEO_Alert::WARNING, $content );
+		echo new Alert_Presenter( Alert_Presenter::WARNING, $content );
 	}
 
 	/**
