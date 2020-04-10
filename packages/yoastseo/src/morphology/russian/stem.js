@@ -138,7 +138,7 @@ const removeInflectionalSuffixes = function( word, rv ) {
 	if ( removeGerundSuffixes ) {
 		word = removeGerundSuffixes;
 	} else {
-		// If there is no PERFECTIVE GERUND ending than try removing a REFLEXIVE ending.
+		// If there is no PERFECTIVE GERUND ending then try removing a REFLEXIVE ending.
 		const removeReflexiveSuffixes = removeEndings( word, regexReflexives, rv );
 
 		if ( removeReflexiveSuffixes ) {
@@ -198,6 +198,7 @@ export default function stem( word ) {
 	if ( removeSuperlativeSuffixes ) {
 		word = removeSuperlativeSuffixes;
 	}
+
 	// 3. If the word ends in "ь", remove it.
 	const removeSoftSignEnding = removeEndings( word, regexSoftSign, rv );
 	if ( removeSoftSignEnding ) {

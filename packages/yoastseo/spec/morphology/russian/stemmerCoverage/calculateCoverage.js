@@ -4,7 +4,7 @@ import goldStandard from "./goldStandardStems.json";
 
 const coverageThreshold = 0.8;
 
-describe( "Calculate coverage for the Spanish stemmer", () => {
+describe( "Calculate coverage for the Russian stemmer", () => {
 	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ] ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
