@@ -9,13 +9,9 @@ import { Fragment } from "react";
 import { Alert } from "@yoast/components";
 
 /**
- * Helper function to check whether the current object refers to a post or a taxonomy.
- *
- * @returns {boolean} true if post, false if taxonomy.
+ * Boolean to check whether the current object refers to a post or a taxonomy.
  */
-const isPost = () => {
-	return window.wpseoAdminL10n.postType === "post";
-};
+const isPost = window.wpseoAdminL10n.postType === "post";
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
@@ -25,7 +21,7 @@ const isPost = () => {
  */
 const getNoIndexOptions = () => {
 	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
-	if ( isPost() ) {
+	if ( isPost ) {
 		return [
 			{
 				name: sprintf(
@@ -35,8 +31,8 @@ const getNoIndexOptions = () => {
 				),
 				value: "0",
 			},
-			{ name: __( "Yes", "wordpress-seo" ), value: "1" },
-			{ name: __( "No", "wordpress-seo" ), value: "2" },
+			{ name: __( "No", "wordpress-seo" ), value: "1" },
+			{ name: __( "Yes", "wordpress-seo" ), value: "2" },
 		];
 	}
 	return [
@@ -60,7 +56,7 @@ const getNoIndexOptions = () => {
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+	const hiddenInputId = isPost ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
 	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
 		{
@@ -98,7 +94,7 @@ const MetaRobotsNoFollow = () => {
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <RadioButtonGroup
-		options={ [ { value: "Yes", label: "Yes" }, { value: "No", label: "No" } ] }
+		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
 			__( "Should search engines follow links on this %s", "wordpress-seo" ),
 			window.wpseoAdminL10n.labelSingular,
@@ -138,7 +134,7 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#wpseo_bctitle";
+	const hiddenInputId = isPost ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
@@ -156,7 +152,7 @@ const BreadCrumbsTitle = () => {
  * @returns {Component} The canonical URL component.
  */
 const CanonicalURL = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#wpseo_canonical";
+	const hiddenInputId = isPost ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
@@ -182,8 +178,8 @@ class AdvancedSettings extends Component {
 		return (
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
-				{ isPost() && <MetaRobotsNoFollow /> }
-				{ isPost() && <MetaRobotsAdvanced /> }
+				{ isPost && <MetaRobotsNoFollow /> }
+				{ isPost && <MetaRobotsAdvanced /> }
 				{
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}

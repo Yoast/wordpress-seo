@@ -145,11 +145,6 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				}
 				break;
 			case 'hidden':
-				if ( $field_name === 'wpseo_noindex' || $field_name === 'w\pseo_bctitle' || $field_name === 'wpseo_canonical' ) {
-					$field .= '<input name="' . $field_name . '" id="' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
-					break;
-				}
-
 				$field .= '<input name="' . $field_name . '" id="hidden_' . $field_name . '" type="hidden" value="' . esc_attr( $field_value ) . '" />';
 				break;
 		}
