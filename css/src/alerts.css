@@ -1,4 +1,4 @@
-.wpseo-alert {
+.alert {
 	display: flex;
 	align-items: baseline;
 	position: relative;
@@ -9,29 +9,29 @@
 	line-height: 1.5;
 	margin: 16px 0;
 }
-.wpseo-alert__error {
+.alert__error {
 	color: #8f1919;
 	background: #f9dcdc;
 }
-.wpseo-alert__info {
+.alert__info {
 	color: #00468f;
 	background: #cce5ff;
 }
-.wpseo-alert__success {
+.alert__success {
 	color: #395315;
 	background: #e2f2cc;
 }
-.wpseo-alert__warning {
+.alert__warning {
 	color: #674e00;
 	background: #fff3cd;
 }
-.wpseo-alert img.icon {
+.alert .icon {
 	display: block;
 	margin-right: 8px;
 	height: 14px;
 	width: 14px;
 	max-width: none;
 }
-.wpseo-alert a {
+.alert a {
 	color: #004973;
 }

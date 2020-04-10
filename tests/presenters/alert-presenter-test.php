@@ -23,7 +23,7 @@ class Alert_Presenter_Test extends TestCase {
 
 		$test = new \Alert_Presenter(\Alert_Presenter::ERROR, 'content' );
 
-		$expected = '<div class="wpseo-alert wpseo-alert__error">'
+		$expected = '<div class="alert alert__error">'
 			. '<span><img class="icon" src="images/alert-error-icon.svg""></span>'
 			. '<span>content</span>'
 			. '</div>';
@@ -44,7 +44,7 @@ class Alert_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new \Alert_Presenter(\Alert_Presenter::INFO, 'content' );
 
-		$expected = '<div class="wpseo-alert wpseo-alert__info">'
+		$expected = '<div class="alert alert__info">'
 			. '<span><img class="icon" src="images/alert-info-icon.svg""></span>'
 			. '<span>content</span>'
 			. '</div>';
@@ -65,7 +65,7 @@ class Alert_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new \Alert_Presenter(\Alert_Presenter::SUCCESS, 'content' );
 
-		$expected = '<div class="wpseo-alert wpseo-alert__success">'
+		$expected = '<div class="alert alert__success">'
 			. '<span><img class="icon" src="images/alert-success-icon.svg""></span>'
 			. '<span>content</span>'
 			. '</div>';
@@ -86,7 +86,7 @@ class Alert_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new \Alert_Presenter(\Alert_Presenter::WARNING, 'content' );
 
-		$expected = '<div class="wpseo-alert wpseo-alert__warning">'
+		$expected = '<div class="alert alert__warning">'
 			. '<span><img class="icon" src="images/alert-warning-icon.svg""></span>'
 			. '<span>content</span>'
 			. '</div>';

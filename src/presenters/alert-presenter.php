@@ -89,7 +89,7 @@ class Alert_Presenter {
 	 * @return string The styled Alert
 	 */
 	private function render() {
-		$out  = '<div class="wpseo-alert wpseo-alert__' . $this->type . '">';
+		$out  = '<div class="alert alert__' . $this->type . '">';
 
 		$out .= '<span>';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
