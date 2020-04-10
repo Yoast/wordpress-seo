@@ -44,9 +44,12 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
-		if ( ! $this->is_blog_public() ) {
-			add_action( 'admin_notices', [ $this, 'blog_public_site_wide_notice' ] );
-		}
+		/*
+		 * The `admin_notices` hook fires on single site admin pages vs.
+		 * `network_admin_notices` which fires on multisite admin and
+		 * `user_admin_notices` which fires on network user admin pagss.
+		 */
+		add_action( 'admin_notices', [ $this, 'discourage_search_engines_enabled_notice' ] );
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
@@ -388,11 +391,11 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Check if the site is set to be publicly visible.
+	 * Checks whether the site is set to be indexed by search engines.
 	 *
 	 * @return bool
 	 */
-	private function is_blog_public() {
+	private function is_site_public() {
 		return (string) get_option( 'blog_public' ) === '1';
 	}
 
@@ -482,32 +485,47 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Displays a site wide admin notice when the blog is set to private.
+	 * Determines whether and where the "blog not public" notice should be displayed.
+	 *
+	 * @return bool Whether the "blog not public" notice should be displayed.
 	 */
-	public function blog_public_site_wide_notice() {
-		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
-			return;
-		}
+	private function should_display_discourage_search_engines_enabled_notice() {
+		return (
+			! $this->is_site_public()
+			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
+			&& WPSEO_Options::get( 'ignore_blog_public_notification', false ) === false
+			&& (
+				$this->on_wpseo_admin_page()
+				|| in_array( $this->pagenow, [
+					'index.php',
+					'plugins.php',
+					'update-core.php',
+				], true )
+			)
+		);
+	}
 
-		if ( ! WPSEO_Capability_Utils::current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( WPSEO_Options::get( 'ignore_blog_public_notification', false ) === true ) {
+	/**
+	 * Displays an admin notice when WordPress is set to discourage search engines from indexing the site.
+	 *
+	 * @return void
+	 */
+	public function discourage_search_engines_enabled_notice() {
+		if ( ! $this->should_display_discourage_search_engines_enabled_notice() ) {
 			return;
 		}
 
 		printf(
 			'<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" id="robotsmessage-dismiss-button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
-			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
+			esc_html__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
 			sprintf(
 				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
-				__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
+				esc_html__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
 				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
 				'</a>'
 			),
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
+			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
 		);
 	}
 
