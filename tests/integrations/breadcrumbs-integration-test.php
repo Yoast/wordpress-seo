@@ -2,14 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
-use \Mockery;
+use Mockery;
 use Brain\Monkey;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
-use Yoast\WP\SEO\Surfaces\Current_Page_Surface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -36,14 +39,24 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	protected $presenter;
 
 	/**
+	 * The meta tags context memoizer.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	protected $context_memoizer;
+
+	/**
 	 * Set up the class which will be tested.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->presenter = Mockery::mock( Breadcrumbs_Presenter::class );
-
-		$this->instance = new Breadcrumbs_Integration( $this->presenter );
+		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->instance         = new Breadcrumbs_Integration(
+			Mockery::mock( Helpers_Surface::class ),
+			Mockery::mock( WPSEO_Replace_Vars::class ),
+			$this->context_memoizer
+		);
 	}
 
 	/**
@@ -52,7 +65,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Breadcrumbs_Enabled_Conditional::class ], Breadcrumbs_Integration::get_conditionals() );
+		$this->assertEquals( [ Breadcrumbs_Enabled_Conditional::class, Migrations_Conditional::class ], Breadcrumbs_Integration::get_conditionals() );
 	}
 
 	/**
@@ -61,24 +74,13 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::render
 	 */
 	public function test_render() {
-		$current_page_surface   = Mockery::mock( Current_Page_Surface::class );
-		$indexable_presentation = Mockery::mock( Indexable_Presentation::class );
+		$indexable_presentation              = Mockery::mock( Indexable_Presentation::class );
+		$indexable_presentation->breadcrumbs = [];
 
-		$current_page_surface
-			->expects( 'get_presentation' )
-			->andReturn( $indexable_presentation );
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->andReturn( (object) [ 'presentation' => $indexable_presentation ] );
 
-		$mock = Mockery::mock( Main::class );
-		$mock->current_page = $current_page_surface;
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( $mock );
-
-		$this->presenter
-			->expects( 'present' )
-			->once()
-			->with( $indexable_presentation )
-			->andReturn( 'breadcrumbs html' );
-
-		$this->assertEquals( 'breadcrumbs html', $this->instance->render() );
+		$this->assertEquals( '', $this->instance->render() );
 	}
 }

@@ -1,9 +1,12 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
+
+use Brain\Monkey\Filters;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
-
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Tests\Mocks\Author;
@@ -17,6 +20,7 @@ use Yoast\WP\SEO\Tests\Mocks\Author;
  * @coversDefaultClass \Yoast\WP\SEO\Generators\Schema\Author
  */
 class Author_Test extends TestCase {
+
 	/**
 	 * Holds the Schema ID helper.
 	 *
@@ -107,6 +111,7 @@ class Author_Test extends TestCase {
 		$this->instance = Mockery::mock( Author::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
+
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [
 			'image'  => $this->image,
@@ -115,7 +120,7 @@ class Author_Test extends TestCase {
 				'id'      => $this->id,
 				'image'   => $this->schema_image,
 				'html'    => $this->html,
-			]
+			],
 		];
 	}
 
@@ -134,18 +139,18 @@ class Author_Test extends TestCase {
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'user',
 			'object_id'   => $user_id,
 		];
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
 		$actual = $this->instance->generate();
 
@@ -168,24 +173,23 @@ class Author_Test extends TestCase {
 			->andReturn( $this->person_data );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
 		$actual = $this->instance->generate();
 
 		$this->assertSame( $this->person_data, $actual );
 	}
-
 
 	/**
 	 * Tests that the author Schema piece is not output
@@ -201,18 +205,18 @@ class Author_Test extends TestCase {
 			->never();
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' )
+		Filters\expectApplied( 'wpseo_schema_person_user_id' )
 			->with( $user_id )
 			->andReturn( 'not_a_valid_user_id' );
 
@@ -228,18 +232,18 @@ class Author_Test extends TestCase {
 	 */
 	public function test_not_generate_when_user_id_cannot_be_defined() {
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => false,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'post',
 			'object_id'   => 1234,
 		];
 
 		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_schema_person_user_id' );
+		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
 		$actual = $this->instance->generate();
 
@@ -254,11 +258,11 @@ class Author_Test extends TestCase {
 	public function test_is_shown_when_on_author_page() {
 		$user_id = 123;
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type' => 'user',
 			'object_id'   => $user_id,
 		];
@@ -282,11 +286,11 @@ class Author_Test extends TestCase {
 			->andReturn( true );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => $object_sub_type,
 		];
@@ -312,11 +316,11 @@ class Author_Test extends TestCase {
 			->andReturn( true );
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => $object_sub_type,
 		];
@@ -339,11 +343,11 @@ class Author_Test extends TestCase {
 		$object_sub_type = null;
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'home-page',
 			'object_sub_type' => $object_sub_type,
 		];

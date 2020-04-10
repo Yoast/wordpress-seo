@@ -105,7 +105,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Add an alert if the blog is not publicly visible.
+	 * Add a notification if the blog is not publicly visible.
 	 */
 	public function blog_public_notice() {
 

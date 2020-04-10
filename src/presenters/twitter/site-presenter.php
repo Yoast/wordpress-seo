@@ -8,35 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Site_Presenter
  */
-class Site_Presenter extends Abstract_Indexable_Presenter {
+class Site_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the Twitter site.
+	 * The tag format including placeholders.
 	 *
-	 * @return string The Twitter site tag.
+	 * @var string
 	 */
-	public function present() {
-		$twitter_site = $this->filter();
-		$twitter_site = $this->get_twitter_id( $twitter_site );
-
-		if ( \is_string( $twitter_site ) && $twitter_site !== '' ) {
-			return \sprintf( '<meta name="twitter:site" content="%s" />', \esc_attr( '@' . $twitter_site ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta name="twitter:site" content="%s" />';
 
 	/**
 	 * Run the Twitter site through the `wpseo_twitter_site` filter.
 	 *
 	 * @return string The filtered Twitter site.
 	 */
-	private function filter() {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO.
 		 *
@@ -44,7 +35,14 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_twitter_site', $this->presentation->twitter_site, $this->presentation );
+		$twitter_site = \apply_filters( 'wpseo_twitter_site', $this->presentation->twitter_site, $this->presentation );
+		$twitter_site = $this->get_twitter_id( $twitter_site );
+
+		if ( ! \is_string( $twitter_site ) || $twitter_site === '' ) {
+			return '';
+		}
+
+		return '@' . $twitter_site;
 	}
 
 	/**

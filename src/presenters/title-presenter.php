@@ -12,39 +12,29 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Title_Presenter
  */
-class Title_Presenter extends Abstract_Indexable_Presenter {
+class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the document title.
+	 * The tag format including placeholders.
 	 *
-	 * @param bool $output_title_tag Optional. Whether or not to output the title with the title tag (`<title>`) included. Defaults to true.
-	 *
-	 * @return string The document title tag.
+	 * @var string
 	 */
-	public function present( $output_title_tag = true ) {
+	protected $tag_format = '<title>%s</title>';
+
+	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'html';
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string The raw value.
+	 */
+	public function get() {
 		$title = $this->replace_vars( $this->presentation->title );
-		$title = $this->filter( $title );
-		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
-		$title = \trim( $title );
-
-		if ( \is_string( $title ) && $title !== '' ) {
-			if ( $output_title_tag ) {
-				return '<title>' . \esc_html( $title ) . '</title>';
-			}
-			return \esc_html( $title );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Run the document title through the `wpseo_title` filter.
-	 *
-	 * @param string $title The document title to filter.
-	 *
-	 * @return string $title The filtered document title.
-	 */
-	private function filter( $title ) {
 		/**
 		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO generated title.
 		 *
@@ -52,6 +42,8 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_title', $title, $this->presentation );
+		$title = \apply_filters( 'wpseo_title', $title, $this->presentation );
+		$title = $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
+		return \trim( $title );
 	}
 }

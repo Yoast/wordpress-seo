@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '14.0-RC2' );
+define( 'WPSEO_VERSION', '14.0-RC3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -24,6 +24,11 @@ if ( ! defined( 'WPSEO_PATH' ) ) {
 
 if ( ! defined( 'WPSEO_BASENAME' ) ) {
 	define( 'WPSEO_BASENAME', plugin_basename( WPSEO_FILE ) );
+}
+
+if ( ! extension_loaded( 'pdo_mysql' ) ) {
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-polyfill.php';
+	require_once WPSEO_PATH . 'polyfills/pdo/pdo-mysqli-statement-polyfill.php';
 }
 
 /*
@@ -357,7 +362,7 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
 	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
@@ -456,7 +461,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	if ( is_admin() ) {
 
-		new Yoast_Alerts();
+		new Yoast_Notifications();
 
 		$yoast_addon_manager = new WPSEO_Addon_Manager();
 		$yoast_addon_manager->register_hooks();

@@ -32,5 +32,4 @@ class Twitter_Creator_Test extends TestCase {
 	public function test_generate_twitter_creator() {
 		$this->assertEquals( '', $this->instance->generate_twitter_creator() );
 	}
-
 }

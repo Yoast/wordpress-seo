@@ -98,7 +98,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_no_parents() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -116,12 +116,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_post_parents() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'post';
 		$parent_indexable->object_id   = 2;
@@ -145,15 +145,15 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_primary_term_parents() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$primary_term = new Primary_Term();
+		$primary_term          = new Primary_Term();
 		$primary_term->term_id = 2;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
@@ -180,20 +180,20 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_many_primary_term_parents() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$primary_term = new Primary_Term();
+		$primary_term          = new Primary_Term();
 		$primary_term->term_id = 2;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		$grand_parent_indexable = new Indexable();
+		$grand_parent_indexable              = new Indexable();
 		$grand_parent_indexable->id          = 3;
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 3;
@@ -228,12 +228,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_term_parent() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
@@ -251,7 +251,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
 		$this->instance->build( $indexable );
@@ -263,17 +263,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_deepest_term_parent() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 3;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 3;
 
-		$grand_parent_indexable = new Indexable();
+		$grand_parent_indexable              = new Indexable();
 		$grand_parent_indexable->id          = 4;
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 4;
@@ -307,12 +307,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_term() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'term';
 		$indexable->object_id   = 1;
 
-		$parent_indexable = new Indexable();
+		$parent_indexable              = new Indexable();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;

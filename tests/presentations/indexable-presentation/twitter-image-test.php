@@ -93,7 +93,7 @@ class Twitter_Image_Test extends TestCase {
 						'url' => 'twitter_image.jpg',
 					],
 				],
-				'expected'       => 'twitter_image.jpg',
+				'expected'        => 'twitter_image.jpg',
 			],
 			[
 				'image_source'    => 'featured-image',
@@ -102,7 +102,7 @@ class Twitter_Image_Test extends TestCase {
 						'url' => 'twitter_image.jpg',
 					],
 				],
-				'expected'       => 'twitter_image.jpg',
+				'expected'        => 'twitter_image.jpg',
 			],
 			[
 				'image_source'    => 'featured-image',
@@ -111,6 +111,7 @@ class Twitter_Image_Test extends TestCase {
 			],
 		];
 	}
+
 	/**
 	 * Provides data to the image provider, with Open Graph enabled.
 	 *

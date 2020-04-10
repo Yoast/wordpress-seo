@@ -28,7 +28,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 		}
 
 		if ( ! $this->is_my_yoast_api_reachable() && $this->is_recent_curl_version() ) {
-			$this->label          = sprintf(
+			$this->label = sprintf(
 				/* translators: %1$s expands to 'my.yoast.com'. */
 				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
 				'my.yoast.com'
@@ -49,7 +49,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 
 		// Note: as of January 2020, the most recent cURL version is 7.67.0.
 		if ( ! $this->is_my_yoast_api_reachable() && ! $this->is_recent_curl_version() ) {
-			$this->label          = sprintf(
+			$this->label = sprintf(
 				/* translators: %1$s expands to 'my.yoast.com'. */
 				esc_html__( 'Your site can not connect to %1$s', 'wordpress-seo' ),
 				'my.yoast.com'
@@ -67,7 +67,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 			return;
 		}
 
-		$this->label          = sprintf(
+		$this->label = sprintf(
 			/* translators: %1$s expands to 'my.yoast.com'. */
 			esc_html__( 'Your site can connect to %1$s', 'wordpress-seo' ),
 			'my.yoast.com'

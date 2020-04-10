@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Config;
 
 use wpdb;
 use Yoast\WP\SEO\Config\Dependency_Management;
+use Yoast\WP\SEO\Initializers\Database_Setup;
 use Yoast\WP\SEO\Loggers\Migration_Logger;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use YoastSEO_Vendor\Ruckusing_Task_Manager;
@@ -41,17 +42,31 @@ class Ruckusing_Framework {
 	protected $migration_logger;
 
 	/**
+	 * The database setup object.
+	 *
+	 * @var \Yoast\WP\SEO\Initializers\Database_Setup
+	 */
+	protected $database_setup;
+
+	/**
 	 * Ruckusing_Framework constructor.
 	 *
 	 * @param \wpdb                                      $wpdb                  The wpdb instance.
 	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management The dependency management checker.
 	 * @param \Yoast\WP\SEO\Loggers\Migration_Logger     $migration_logger      The migration logger, extends the
 	 *                                                                          Ruckusing logger.
+	 * @param \Yoast\WP\SEO\Initializers\Database_Setup  $database_setup        The database setup object.
 	 */
-	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
+	public function __construct(
+		wpdb $wpdb,
+		Dependency_Management $dependency_management,
+		Migration_Logger $migration_logger,
+		Database_Setup $database_setup
+	) {
 		$this->wpdb                  = $wpdb;
 		$this->dependency_management = $dependency_management;
 		$this->migration_logger      = $migration_logger;
+		$this->database_setup        = $database_setup;
 	}
 
 	/**
@@ -104,12 +119,14 @@ class Ruckusing_Framework {
 	 * @return array The configuration
 	 */
 	public function get_configuration( $migrations_table_name, $migrations_directory ) {
+		$config = $this->database_setup->get_database_config();
+
 		return [
 			'db'             => [
 				'production' => [
 					'type'                      => 'mysql',
-					'host'                      => \DB_HOST,
-					'port'                      => 3306,
+					'host'                      => $config['host'],
+					'port'                      => $config['port'],
 					'database'                  => \DB_NAME,
 					'user'                      => \DB_USER,
 					'password'                  => \DB_PASSWORD,

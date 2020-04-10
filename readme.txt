@@ -210,16 +210,17 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 14.0 =
-Release Date: April 14th, 2020
+Release Date: April 28th, 2020
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer `WP_Post` due to filtering.
 * Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
 * Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
 * Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
 * Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
 * Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
+* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
+* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
 
 Enhancements:
 
@@ -230,20 +231,25 @@ Enhancements:
 * No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
 * Strips all tags from text fields in the schema output.
 * Adds `Term hierarchy` as a taxonomy snippet variable.
-* Uses the Gravatar image as a fallback for user archive's `og:image` and `twitter:image`.
+* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
+* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
+* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
+* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
 
 Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
+* Prevents integrations relying on the deprecated WPSEO_OpenGraph_Image class from creating Type Errors with the latest version of Yoast SEO.
 
-= 13.4 =
-Release Date: March 31st, 2020
-
-In Yoast SEO 9.0, we launched an innovative new way to analyze your English language text using word forms. In Yoast SEO 10.1, we added word form support for the German language. Today, we’re glad to announce word form support for Dutch. You can read why this is such an awesome addition in [our 13.4 release post](https://yoa.st/release-13-4)!
+= 13.5 =
+Release Date: April 14th, 2020
 
 Bugfixes:
 
-* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
-* Fixes a bug where form fields were validated inconsistently.
+* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
+* Fixes a bug where .xsl site map files would not be cached correctly.
+
+Other:
+* Sets minimum supported WordPress version to 5.3.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

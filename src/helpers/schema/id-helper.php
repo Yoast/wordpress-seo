@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
  * Schema utility functions.
  */
 class ID_Helper {
+
 	/**
 	 * Retrieve a users Schema ID.
 	 *

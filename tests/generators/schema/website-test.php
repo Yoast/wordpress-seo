@@ -78,7 +78,7 @@ class Website_Test extends TestCase {
 				'id'       => new ID_Helper(),
 				'language' => $this->language,
 				'html'     => $this->html,
-			]
+			],
 		];
 	}
 

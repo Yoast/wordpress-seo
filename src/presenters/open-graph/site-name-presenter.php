@@ -8,36 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Site_Name_Presenter
  */
-class Site_Name_Presenter extends Abstract_Indexable_Presenter {
+class Site_Name_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the site name.
+	 * The tag format including placeholders.
 	 *
-	 * @return string The title tag.
+	 * @var string
 	 */
-	public function present() {
-		$site_name = $this->filter( $this->presentation->open_graph_site_name );
-
-		if ( \is_string( $site_name ) && $site_name !== '' ) {
-			return \sprintf( '<meta property="og:site_name" content="%s" />', \esc_attr( $site_name ) );
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta property="og:site_name" content="%s" />';
 
 	/**
 	 * Runs the site name through the `wpseo_opengraph_site_name` filter.
 	 *
-	 * @param string $site_name The site_name to filter.
-	 *
 	 * @return string $site_name The filtered site_name.
 	 */
-	private function filter( $site_name ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the Yoast SEO generated Open Graph site name.
 		 *
@@ -45,6 +35,6 @@ class Site_Name_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_opengraph_site_name', $site_name, $this->presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_opengraph_site_name', $this->presentation->open_graph_site_name, $this->presentation ) );
 	}
 }

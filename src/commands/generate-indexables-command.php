@@ -51,7 +51,7 @@ class Generate_Indexables_Command implements Command_Interface {
 	) {
 		$this->post_watcher = $post_watcher;
 		$this->term_watcher = $term_watcher;
-		$this->wpdb = $wpdb;
+		$this->wpdb         = $wpdb;
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Generate_Indexables_Command implements Command_Interface {
 				$progress->tick();
 			}
 
-			$page += 1;
+			++$page;
 		}
 
 		$progress->finish();
@@ -132,7 +132,7 @@ class Generate_Indexables_Command implements Command_Interface {
 				$progress->tick();
 			}
 
-			$page += 1;
+			++$page;
 		}
 
 		$progress->finish();

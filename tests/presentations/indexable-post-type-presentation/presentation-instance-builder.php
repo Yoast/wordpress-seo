@@ -73,11 +73,11 @@ trait Presentation_Instance_Builder {
 	protected function set_instance() {
 		$this->indexable = new Indexable();
 
-		$this->post_type   = Mockery::mock( Post_Type_Helper::class );
-		$this->post        = Mockery::mock( Post_Helper::class );
-		$this->context     = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->date        = Mockery::mock( Date_Helper::class );
-		$this->pagination  = Mockery::mock( Pagination_Helper::class );
+		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
+		$this->post       = Mockery::mock( Post_Helper::class );
+		$this->context    = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->date       = Mockery::mock( Date_Helper::class );
+		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,

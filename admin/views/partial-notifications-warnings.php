@@ -4,18 +4,18 @@
  *
  * @package WPSEO\Admin
  *
- * @uses    array $alerts_data
+ * @uses    array $notifications_data
  */
 
 $type     = 'warnings';
 $dashicon = 'flag';
 
-$active    = $alerts_data['warnings']['active'];
-$dismissed = $alerts_data['warnings']['dismissed'];
+$active    = $notifications_data['warnings']['active'];
+$dismissed = $notifications_data['warnings']['dismissed'];
 
-$active_total    = count( $alerts_data['warnings']['active'] );
-$dismissed_total = count( $alerts_data['warnings']['dismissed'] );
-$total           = $alerts_data['metrics']['warnings'];
+$active_total    = count( $notifications_data['warnings']['active'] );
+$dismissed_total = count( $notifications_data['warnings']['dismissed'] );
+$total           = $notifications_data['metrics']['warnings'];
 
 $i18n_title              = __( 'Notifications', 'wordpress-seo' );
 $i18n_issues             = '';
@@ -26,4 +26,4 @@ $i18n_muted_issues_title = sprintf(
 	$dismissed_total
 );
 
-require WPSEO_PATH . 'admin/views/partial-alerts-template.php';
+require WPSEO_PATH . 'admin/views/partial-notifications-template.php';

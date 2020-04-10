@@ -55,13 +55,14 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The breadcrumbs HTML.
 	 */
 	public function present() {
-		if ( ! is_array( $this->presentation->breadcrumbs ) || empty( $this->presentation->breadcrumbs ) ) {
+		$breadcrumbs = $this->get();
+		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
 		$links = [];
-		$total = \count( $this->presentation->breadcrumbs );
-		foreach ( $this->presentation->breadcrumbs as $index => $breadcrumb ) {
+		$total = \count( $breadcrumbs );
+		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$links[ $index ] = $this->crumb_to_link( $breadcrumb, $index, $total );
 		}
 
@@ -83,6 +84,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->breadcrumbs;
 	}
 
 	/**
@@ -132,15 +142,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		if (
-			$index < ( $total - 1 ) &&
-			isset( $breadcrumb['url'] ) &&
-			\is_string( $breadcrumb['url'] ) &&
-			! empty( $breadcrumb['url'] )
+			$index < ( $total - 1 )
+			&& isset( $breadcrumb['url'] )
+			&& \is_string( $breadcrumb['url'] )
+			&& ! empty( $breadcrumb['url'] )
 		) {
 			// If it's not the last element and we have a url.
-			$link       .= '<' . $this->get_element() . '>';
+			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link       .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -153,7 +163,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// This is the last element, now close all previous elements.
 			while ( $index > 0 ) {
 				$link .= '</' . $this->get_element() . '>';
-				$index--;
+				--$index;
 			}
 		}
 		else {

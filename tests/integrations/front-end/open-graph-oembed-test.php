@@ -244,7 +244,7 @@ class Open_Graph_OEmbed_Test extends TestCase {
 			->andReturn(
 				[
 					'height' => 500,
-					'width' => 500,
+					'width'  => 500,
 				]
 			);
 

@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $wpseo_rss_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'RSS feed settings', 'wordpress-seo' ),
-	dirname( __FILE__ ) . '/paper-content/rss-content.php',
+	__DIR__ . '/paper-content/rss-content.php',
 	[
 		'help_text' => new WPSEO_Admin_Help_Panel(
 			'search-appearance-rss',

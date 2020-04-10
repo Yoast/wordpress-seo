@@ -87,8 +87,8 @@ class Schema_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->id                     = Mockery::mock( ID_Helper::class );
-		$this->current_page           = Mockery::mock( Current_Page_Helper::class )->makePartial();
+		$this->id           = Mockery::mock( ID_Helper::class );
+		$this->current_page = Mockery::mock( Current_Page_Helper::class )->makePartial();
 
 		$this->html = Mockery::mock( HTML_Helper::class )->makePartial();
 
@@ -175,28 +175,28 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type' => 'WebSite',
-						'@id'   => '#website',
-						'url'   => null,
-						'name' => '',
-						'description' => 'description',
+						'@type'           => 'WebSite',
+						'@id'             => '#website',
+						'url'             => null,
+						'name'            => '',
+						'description'     => 'description',
 						'potentialAction' => [
 							[
-								'@type' => 'SearchAction',
-								'target' => '?s={search_term_string}',
+								'@type'       => 'SearchAction',
+								'target'      => '?s={search_term_string}',
 								'query-input' => 'required name=search_term_string',
 							],
 						],
-						'inLanguage' => 'English',
+						'inLanguage'      => 'English',
 					],
 					[
 						'@id'   => '#website',
 					],
 					[
 						[
-							'@type' => 'ReadAction',
+							'@type'  => 'ReadAction',
 							'target' => [
-								null
+								null,
 							],
 						],
 					],
@@ -248,7 +248,7 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_generator_have_identifier() {
-		$piece = new FAQ();
+		$piece             = new FAQ();
 		$piece->identifier = 'faq_block';
 		$this->instance
 			->expects( 'get_graph_pieces' )
@@ -318,7 +318,7 @@ class Schema_Generator_Test extends TestCase {
 							[
 								'@type'  => 'ReadAction',
 								'target' => [
-									null
+									null,
 								],
 							],
 						],
@@ -327,7 +327,7 @@ class Schema_Generator_Test extends TestCase {
 						'@type'            => 'ItemList',
 						'mainEntityOfPage' => [ '@id' => null ],
 						'numberOfItems'    => 1,
-						'itemListElement'  => [ [ '@id' => '#id-1' ] ]
+						'itemListElement'  => [ [ '@id' => '#id-1' ] ],
 					],
 					[
 						'@type'          => 'Question',
@@ -341,8 +341,8 @@ class Schema_Generator_Test extends TestCase {
 							'text'       => 'This is an answer',
 							'inLanguage' => 'English',
 						],
-						'inLanguage' => 'English',
-					]
+						'inLanguage'     => 'English',
+					],
 				],
 			],
 			$this->instance->generate( $this->context )
@@ -386,7 +386,7 @@ class Schema_Generator_Test extends TestCase {
 						[
 							'@type'  => 'ReadAction',
 							'target' => [
-								null
+								null,
 							],
 						],
 					],
