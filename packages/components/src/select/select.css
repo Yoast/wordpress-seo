@@ -11,7 +11,7 @@
     -moz-appearance: none;
     width: 100%;
     font-size: var(--font-size-default);
-    padding: 10px 8px 11px;
+    padding: 5px 8px;
     background-color: white;
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
     background-position: right 15px center;
@@ -23,20 +23,24 @@
     position: relative;
     max-width: 300px;
     display: block;
+    min-height: 2.8em;
 }
 
 .select2-container.select2-container--default {
     background-image: none;
     padding: 0 8px;
+    max-width: 100%;
 }
 
 .select2-container--default.select2-container--open:not(.select2) {
     max-width: 0;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.yoast-field-group .select2-container--default.select2-container--focus .select2-selection--multiple,
+.yoast-field-group .select2-container--default .select2-selection--multiple {
     outline: inherit;
     border: 0;
+    background-color: transparent;
 }
 
 .select2-container--default .select2-selection {
@@ -48,11 +52,11 @@
     display: flex;
     align-items: center;
     margin: 0;
-    padding: 0;
+    padding: 0 5px 4px;
     list-style: none;
 }
 
-.select2-container--default .select2-selection .select2-selection__choice {
+.yoast-field-group .select2-container--default .select2-selection .select2-selection__choice {
     background-color: var(--color-primary);
     border: 0;
     border-radius: 12px;
@@ -60,13 +64,13 @@
     padding-top: 0;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 0;
+    margin-top: 8px;
     margin-right: 8px;
     line-height: 1.7;
     font-weight: 500;
 }
 
-.select2-container--default .select2-selection .select2-selection__choice__remove {
+.yoast-field-group .select2-container--default .select2-selection .select2-selection__choice__remove {
     margin-right: 8px;
     color: var(--color-white);
 }
