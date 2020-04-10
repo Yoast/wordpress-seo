@@ -63,7 +63,16 @@ class WPSEO_Alert {
 	public function __construct( $type, $content ) {
 		$this->type = $type;
 		$this->content = $content;
+		$this->enqueue_assets();
 	}
+
+   	/**
+	* Enqueue assets.
+	*/
+   	public function enqueue_assets() {
+	   	$asset_manager = new WPSEO_Admin_Asset_Manager();
+	   	$asset_manager->enqueue_style('alert');
+   	}
 
 	/**
 	 * Adds string (view) behaviour to the Alert.
