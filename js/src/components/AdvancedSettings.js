@@ -8,8 +8,41 @@ import { Fragment } from "react";
 import RadioButtons from "./RadioButtons";
 import { Alert } from "@yoast/components";
 
-// Define where the data comes from. This makes it easier to change the data object in the future.
-const dataObject = window.wpseoAdminL10n;
+/**
+ * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
+ * options that can be used to populate a select field.
+ *
+ * @return Array Returns an array of options for the noIndex setting.
+ */
+const getNoIndexOptions = () => {
+	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
+	if ( isPost() ) {
+		return [
+			{
+				name: sprintf(
+					__( "Default for %s, currently: %s", "wordpress-seo" ),
+					window.wpseoAdminL10n.label,
+					noIndex,
+				),
+				value: "0",
+			},
+			{ name: __( "Yes", "wordpress-seo" ), value: "1" },
+			{ name: __( "No", "wordpress-seo" ), value: "2" },
+		];
+	}
+	return [
+		{
+			name: sprintf(
+				__( "Default for %s, currently: %s", "wordpress-seo" ),
+				window.wpseoAdminL10n.label,
+				noIndex,
+			),
+			value: "default",
+		},
+		{ name: __( "Yes", "wordpress-seo" ), value: "index" },
+		{ name: __( "No", "wordpress-seo" ), value: "noindex" },
+	];
+};
 
 /**
  * Functional component for the Meta Robots No-Index option.
@@ -17,38 +50,26 @@ const dataObject = window.wpseoAdminL10n;
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
-	const noIndex = dataObject.noIndex ? "No" : "Yes";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	return <Fragment>
 		{
-			dataObject.privateBlog &&
+			window.wpseoAdminL10n.privateBlog &&
 			<Alert type="warning">
-				{ __( 'Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) }
+				{ __( "Even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect.", "wordpress-seo" ) }
 			</Alert>
 		}
 		<label htmlFor="yoast_wpseo_meta-robots-noindex-react">
 			{
 				sprintf(
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					dataObject.labelSingular,
+					window.wpseoAdminL10n.labelSingular,
 				)
 			}
 		</label>
 		<SingleSelect
 			componentId={ "yoast_wpseo_meta-robots-noindex-react" }
 			hiddenInputId={ hiddenInputId }
-			options={ [
-				{
-					name: sprintf(
-						__( "Default for %s, currently: %s", "wordpress-seo" ),
-						dataObject.label,
-						noIndex,
-					),
-					value: "0",
-				},
-				{ name: __( "Yes", "wordpress-seo" ), value: "1" },
-				{ name: __( "No", "wordpress-seo" ), value: "2" },
-			] }
+			options={ getNoIndexOptions() }
 		/>
 	</Fragment>;
 };
@@ -64,7 +85,7 @@ const MetaRobotsNoFollow = () => {
 			{
 				sprintf(
 					__( "Should search engines follow links on this %s", "wordpress-seo" ),
-					dataObject.labelSingular,
+					window.wpseoAdminL10n.labelSingular,
 				)
 			}
 		</label>
@@ -179,7 +200,7 @@ const CanonicalURL = () => {
  * @return {boolean} true if post, false if taxonomy.
  */
 const isPost = () => {
-	return dataObject.postType === "post";
+	return window.wpseoAdminL10n.postType === "post";
 };
 
 /**
@@ -195,10 +216,10 @@ class AdvancedSettings extends Component {
 		return (
 			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
-				{ isPost() && <MetaRobotsNoFollow/> }
+				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }
 				{
-					! dataObject.breadcrumbsDisabled && <BreadCrumbsTitle />
+					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
 			</Collapsible>

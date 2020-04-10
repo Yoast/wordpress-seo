@@ -1,8 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CompanyInfoMissing matches the snapshot 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 16px;
+  color: #674e00;
+  background: #fff3cd;
+  margin-bottom: 20px;
+}
+
+.c2 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.c2 a {
+  color: #004973;
+}
+
+.c1 {
+  margin-top: 0.125rem;
+  margin-right: 8px;
+}
+
 <div
-  className="Alert__AlertContainer-sc-13lb81i-0 lfexDP"
+  className="c0"
 >
   <svg
     aria-hidden={true}
@@ -19,7 +53,7 @@ exports[`CompanyInfoMissing matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="Alert__AlertContent-sc-13lb81i-1 jJuGwm"
+    className="c2"
   >
     Testing.
   </div>
