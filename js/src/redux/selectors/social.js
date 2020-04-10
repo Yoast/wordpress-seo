@@ -22,7 +22,7 @@ const getDescriptionFallback = state => state.analysisData.snippet.description;
 
 /**
  * Gets the fallback image from:
- * state.settings.socialPreviews.siteWideImage
+ * state.settings.socialPreviews.sitewideImage
  * or
  * state.snippetEditor.data.snippetPreviewImageURL.
  *
