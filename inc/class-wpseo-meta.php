@@ -142,7 +142,7 @@ class WPSEO_Meta {
 		],
 		'advanced' => [
 			'meta-robots-noindex'  => [
-				'type'          => 'select',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '0', // = post-type default.
 				'options'       => [
@@ -152,7 +152,7 @@ class WPSEO_Meta {
 				],
 			],
 			'meta-robots-nofollow' => [
-				'type'          => 'radio',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '0', // = follow.
 				'options'       => [
@@ -161,7 +161,7 @@ class WPSEO_Meta {
 				],
 			],
 			'meta-robots-adv'      => [
-				'type'          => 'multiselect',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
@@ -172,13 +172,13 @@ class WPSEO_Meta {
 				],
 			],
 			'bctitle'              => [
-				'type'          => 'text',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			],
 			'canonical'            => [
-				'type'          => 'url',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
