@@ -338,6 +338,18 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Function to get the labels for the current taxonomy.
+	 *
+	 * @return object
+	 */
+	public static function get_labels(){
+		$term = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+		$taxonomy = get_taxonomy( $term );
+
+		return $taxonomy->labels;
+	}
+
+	/**
 	 * Retrieves a template.
 	 * Check if metabox for current taxonomy should be displayed.
 	 *
