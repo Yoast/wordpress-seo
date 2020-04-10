@@ -22,7 +22,7 @@ class Generate_Source_Test extends TestCase {
 		parent::setUp();
 
 		$this->set_instance();
-		$this->indexable->object_id = 11;
+		$this->indexable->object_id       = 11;
 		$this->indexable->object_sub_type = 'Object subtype';
 	}
 

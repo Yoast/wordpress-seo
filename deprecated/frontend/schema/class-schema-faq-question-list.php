@@ -37,6 +37,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	 */
 	public function generate() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
-		return array();
+
+		return [];
 	}
 }

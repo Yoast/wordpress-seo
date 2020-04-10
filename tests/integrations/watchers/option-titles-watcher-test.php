@@ -128,7 +128,7 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::delete_ancestors
 	 */
 	public function test_check_option_with_ancestors_being_removed() {
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -186,7 +186,7 @@ class Option_Titles_Watcher_Test extends TestCase {
 	 * @covers ::delete_ancestors
 	 */
 	public function test_check_option_with_ancestors_not_being_removed() {
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Generators;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -77,7 +78,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 			Open_Graph_Image_Helper::class,
 			[ $this->url, $this->image ]
 		);
-		$this->image_container        = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
+		$this->image_container  = Mockery::mock( Images::class, [ $this->image, $this->url ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Open_Graph_Image_Generator::class,
@@ -86,12 +87,56 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->instance
 			->expects( 'get_image_container' )
-			->once()
+			->twice()
 			->andReturn( $this->image_container );
 
 		$this->indexable          = new Indexable();
 		$this->context            = Mockery::mock( Meta_Tags_Context::class );
 		$this->context->indexable = $this->indexable;
+	}
+
+	/**
+	 * Tests the open_graph_image_id set for an indexable where the `wpseo_add_opengraph_images_filter` filter throws an error.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_from_indexable
+	 */
+	public function test_generate_with_wpseo_add_opengraph_images_filter_throws_an_exception() {
+		$this->indexable->open_graph_image_id = 1337;
+
+		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_images' )
+			->andThrow( new \Error( 'Something went wrong' ) );
+
+		$this->instance->expects( 'add_from_default' )->andReturnNull();
+
+		$this->image_container
+			->expects( 'add_image_by_id' )
+			->once()
+			->with( 1337 );
+
+		$this->instance->generate( $this->context );
+	}
+
+	/**
+	 * Tests the open_graph_image_id set for an indexable where the `wpseo_add_opengraph_additional_images` filter throws an error.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_from_indexable
+	 */
+	public function test_generate_with_wpseo_add_opengraph_additional_images_filter_throws_an_exception() {
+		$this->indexable->open_graph_image_id = 1337;
+
+		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_additional_images' )
+			->andThrow( new \Error( 'Something went wrong' ) );
+
+		$this->instance->expects( 'add_from_default' )->andReturnNull();
+
+		$this->image_container
+			->expects( 'add_image_by_id' )
+			->once()
+			->with( 1337 );
+
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -140,7 +185,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_image_url_from_indexable_with_open_graph_image_meta() {
 		$this->indexable->open_graph_image      = 'image.jpg';
-		$this->indexable->open_graph_image_meta = json_encode( [
+		$this->indexable->open_graph_image_meta = wp_json_encode( [
 			'height' => 1024,
 			'width'  => 2048,
 		] );
@@ -162,168 +207,6 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the image for a specific object type which isn't unknown to us.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 */
-	public function test_generate_for_object_type_for_unknown_type() {
-		$this->indexable->object_type = 'unknown';
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnTrue();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the image for a specific object in the case we already have found images.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 */
-	public function test_generate_for_object_type_when_having_images_already() {
-		$this->indexable->object_type = 'post';
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnTrue();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the attachment image for an attachment that isn't one.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_attachment
-	 */
-	public function test_generate_with_attachment_no_being_an_attachment() {
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_sub_type = 'attachment';
-
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
-			->once()
-			->andReturn( false );
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnFalse();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Test getting the attachment image.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_attachment
-	 */
-	public function test_generate_with_attachment() {
-		$this->indexable->object_type     = 'post';
-		$this->indexable->object_sub_type = 'attachment';
-		$this->indexable->object_id       = 1337;
-
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
-			->once()
-			->andReturn( true );
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image_container
-			->expects( 'add_image_by_id' )
-			->once()
-			->with( 1337 );
-
-		$this->image_container
-			->expects( 'has_images' )
-			->once()
-			->andReturnFalse();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests getting the featured image id for a post.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_post_type
-	 */
-	public function test_with_featured_image_id() {
-		$this->indexable->object_type = 'post';
-		$this->indexable->object_id   = 1337;
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image
-			->expects( 'get_featured_image_id' )
-			->once()
-			->with( 1337 )
-			->andReturn( 1 );
-
-		$this->image_container
-			->expects( 'add_image_by_id' )
-			->once()
-			->with( 1 )
-			->andReturnNull();
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
-	 * Tests the situation where the content image is used.
-	 *
-	 * @covers ::generate
-	 * @covers ::add_for_object_type
-	 * @covers ::add_for_post_type
-	 */
-	public function test_with_content_image() {
-		$this->indexable->object_type = 'post';
-		$this->indexable->object_id   = 1337;
-
-		$this->instance->expects( 'add_from_indexable' )->andReturnNull();
-		$this->instance->expects( 'add_from_default' )->andReturnNull();
-
-		$this->image
-			->expects( 'get_featured_image_id' )
-			->once()
-			->with( 1337 )
-			->andReturnFalse();
-
-		$this->image
-			->expects( 'get_post_content_image' )
-			->once()
-			->with( 1337 )
-			->andReturn( 'image.jpg' );
-
-		$this->image_container
-			->expects( 'add_image_by_url' )
-			->with( 'image.jpg' )
-			->andReturnNull();
-
-
-		$this->instance->generate( $this->context );
-	}
-
-	/**
 	 * Tests the situation where the default Open Graph image id is given.
 	 *
 	 * @covers ::generate
@@ -334,7 +217,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnFalse();
 
 		$this->options
@@ -362,7 +245,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnFalse();
 
 		$this->options
@@ -396,7 +279,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 
 		$this->image_container
 			->expects( 'has_images' )
-			->times( 2 )
+			->once()
 			->andReturnTrue();
 
 		$this->instance->generate( $this->context );

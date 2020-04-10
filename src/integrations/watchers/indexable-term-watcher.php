@@ -19,13 +19,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Term_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
-	}
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -45,6 +38,13 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 * @var Site_Helper
 	 */
 	protected $site;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Term_Watcher constructor.

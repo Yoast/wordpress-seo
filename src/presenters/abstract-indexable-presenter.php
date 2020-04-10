@@ -44,7 +44,14 @@ abstract class Abstract_Indexable_Presenter {
 	 *
 	 * @return string The template.
 	 */
-	public abstract function present();
+	abstract public function present();
+
+	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return string|array The raw value.
+	 */
+	abstract public function get();
 
 	/**
 	 * Replace replacement variables in a string.

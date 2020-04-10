@@ -1,9 +1,11 @@
 <?php
-namespace Yoast\WP\SEO\Tests\Mocks;
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Mocks
+ */
 
-use WP_Block_Parser_Block;
-use WP_Post;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Mocks;
 
 /**
  * Class Meta_Tags_Context

@@ -5,11 +5,15 @@
  * @package Yoast\WP\SEO\Tests\Generators\Schema
  */
 
+namespace Yoast\WP\SEO\Tests\Generators\Schema;
+
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
+use Mockery;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Person;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
@@ -64,9 +68,10 @@ class Person_Test extends TestCase {
 		$this->instance->helpers            = (object) [
 			'image'  => Mockery::mock( Image_Helper::class ),
 			'schema' => (object) [
-				'id'    => Mockery::mock( ID_Helper::class ),
-				'image' => Mockery::mock( Schema_Image_Helper::class ),
-				'html'  => Mockery::mock( HTML_Helper::class ),
+				'article' => Mockery::mock( Article_Helper::class ),
+				'id'      => Mockery::mock( ID_Helper::class ),
+				'image'   => Mockery::mock( Schema_Image_Helper::class ),
+				'html'    => Mockery::mock( HTML_Helper::class ),
 			],
 		];
 	}
@@ -358,10 +363,10 @@ class Person_Test extends TestCase {
 		];
 
 		$expected = [
-			'@type' => [ 'Person', 'Organization' ],
-			'@id'   => 'person_id',
-			'name'  => 'John Doe',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'@type'  => [ 'Person', 'Organization' ],
+			'@id'    => 'person_id',
+			'name'   => 'John Doe',
+			'logo'   => [ '@id' => 'https://example.com/#personlogo' ],
 			'sameAs' => [
 				'https://example.com/social/facebook',
 				'https://example.com/social/wiki',
@@ -384,6 +389,7 @@ class Person_Test extends TestCase {
 	 * Tests whether the person Schema piece is shown when the site represents a person.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::site_represents_current_author
 	 */
 	public function test_is_shown_when_site_represents_person() {
 		$this->instance->context->site_represents = 'person';
@@ -395,9 +401,10 @@ class Person_Test extends TestCase {
 	 * Tests whether the person Schema piece is shown on author archive pages.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::site_represents_current_author
 	 */
 	public function test_is_shown_on_author_archive_pages() {
-		$this->instance->context->indexable = (Object) [
+		$this->instance->context->indexable = (object) [
 			'object_type' => 'user',
 		];
 
@@ -405,15 +412,37 @@ class Person_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is not needed.
+	 * Tests is not needed when the site represents an organization.
 	 *
 	 * @covers ::is_needed
+	 * @covers ::site_represents_current_author
 	 */
-	public function test_is_not_needed() {
+	public function test_is_not_needed_site_represents_organization() {
 		$this->instance->context->site_represents        = 'organization';
 		$this->instance->context->indexable->object_type = 'post';
 
-		$this->assertFalse( $this->instance->is_needed( $this->instance->context ) );
+		$this->assertFalse( $this->instance->is_needed() );
+	}
+
+	/**
+	 * Tests is not needed on a post with the same author as the site represents.
+	 *
+	 * @covers ::is_needed
+	 * @covers ::site_represents_current_author
+	 */
+	public function test_is_not_needed_post_with_same_author_as_site_represents() {
+		$this->instance->context->site_represents            = 'person';
+		$this->instance->context->site_user_id               = 1;
+		$this->instance->context->indexable->author_id       = 1;
+		$this->instance->context->indexable->object_type     = 'post';
+		$this->instance->context->indexable->object_sub_type = 'post';
+
+		$this->instance->helpers->schema->article
+			->expects( 'is_article_post_type' )
+			->with( $this->instance->context->indexable->object_sub_type )
+			->andReturn( true );
+
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
@@ -530,7 +559,7 @@ class Person_Test extends TestCase {
 			'height'     => 128,
 			'caption'    => 'Person image',
 		];
-		$avatar_url = $image_schema['url'];
+		$avatar_url   = $image_schema['url'];
 
 		switch ( $scenario ) {
 			case 'empty_avatar_url':

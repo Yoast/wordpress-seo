@@ -184,14 +184,13 @@ class HowTo_Test extends TestCase {
 				'language' => $this->language,
 				'image'    => $this->image,
 				'html'     => $this->html,
-			]
+			],
 		];
 	}
 
 	/**
 	 * Tests whether the how to Schema piece is needed.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -209,7 +208,6 @@ class HowTo_Test extends TestCase {
 	/**
 	 * Test the happy path: a HowTo with a duration, including a step with a title and a description.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_steps
 	 * @covers ::add_duration
@@ -225,7 +223,6 @@ class HowTo_Test extends TestCase {
 	 * Tests that a condensed how-to step is generated, with the block's name as the text,
 	 * when no text is available.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_steps
 	 */
@@ -250,7 +247,6 @@ class HowTo_Test extends TestCase {
 	 * Tests that no Schema step is output when a step is empty
 	 * (e.g. it does not contain a description, name and image).
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_steps
 	 */
@@ -273,7 +269,6 @@ class HowTo_Test extends TestCase {
 	/**
 	 * Tests that an image Schema piece is output when a step has an image.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_steps
 	 * @covers ::add_step_image
@@ -330,7 +325,6 @@ class HowTo_Test extends TestCase {
 	 * Tests that no duration is output in the How-to Schema
 	 * when no duration information is available on the block.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_duration
 	 */
@@ -351,7 +345,6 @@ class HowTo_Test extends TestCase {
 	 * Tests that a condensed how-to step is generated, with the block's text as the text,
 	 * when no name is available.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_steps
 	 */

@@ -72,7 +72,7 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
-		$indexable->is_public = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
+		$indexable->is_public         = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
 
 		$this->reset_social_images( $indexable );
 
@@ -184,6 +184,14 @@ class Indexable_Term_Builder {
 	 * @return array|bool False when not found, array with data when found.
 	 */
 	protected function find_alternative_image( Indexable $indexable ) {
+		$content_image = $this->image->get_term_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
+			];
+		}
+
 		return false;
 	}
 }

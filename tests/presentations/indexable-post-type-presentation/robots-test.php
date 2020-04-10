@@ -43,9 +43,9 @@ class Robots_Test extends TestCase {
 			->andReturn( 'published' );
 
 		$this->post_type->expects( 'is_indexable' )
-							   ->once()
-							   ->with( 'post' )
-							   ->andReturn( true );
+			->once()
+			->with( 'post' )
+			->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [

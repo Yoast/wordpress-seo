@@ -157,7 +157,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$this->instance->build_indexable( 1 );
 	}
 
-
 	/**
 	 * Tests the build indexable function on a multisite with a switch between the sites.
 	 *

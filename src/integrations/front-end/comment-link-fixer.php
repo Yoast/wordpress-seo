@@ -44,7 +44,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @codeCoverageIgnore It only sets depedencies.
 	 *
 	 * @param Redirect_Helper $redirect The redirect helper.
-	 * @param Robots_Helper   $robots The robots helper.
+	 * @param Robots_Helper   $robots   The robots helper.
 	 */
 	public function __construct(
 		Redirect_Helper $redirect, Robots_Helper $robots

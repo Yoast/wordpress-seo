@@ -128,7 +128,7 @@ class Images {
 			$image = [ 'url' => $image ];
 		}
 
-		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] )  ) {
+		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
 			return;
 		}
 
