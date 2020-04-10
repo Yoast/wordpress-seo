@@ -14,9 +14,6 @@
  */
 $notifications_data = Yoast_Notifications::get_template_variables();
 
-$notifier = new WPSEO_Configuration_Notifier();
-$notifier->listen();
-
 $wpseo_contributors_phrase = sprintf(
 /* translators: %1$s expands to Yoast SEO */
 	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
@@ -27,11 +24,9 @@ $wpseo_contributors_phrase = sprintf(
 
 	<div class="tab-block">
 
-		<?php echo $notifier->notify(); ?>
-
-	<div class="yoast-paper">
-		<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
-	</div>
+		<div class="yoast-paper">
+			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
+		</div>
 
 	<div class="yoast-paper">
 		<?php require WPSEO_PATH . 'admin/views/partial-notifications-warnings.php'; ?>
