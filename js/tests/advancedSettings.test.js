@@ -2,16 +2,17 @@ import React, { Fragment } from "react";
 import renderer from "react-test-renderer";
 import AdvancedSettings from "../src/components/AdvancedSettings";
 
+window.wpseoAdminL10n = {
+	noIndex: "No",
+	privateBlog: true,
+	labelSingular: "Post",
+	label: "Posts",
+	postType: "post",
+	breadcrumbsDisabled: false,
+};
+
 describe( "Advanced Settings", () => {
 	it( "should render if all data is present", () => {
-		global.window.wpseoAdminL10n = {
-			noIndex: "No",
-			privateBlog: true,
-			labelSingular: "Post",
-			label: "Posts",
-			postType: "post",
-			breadcrumbsDisabled: false,
-		};
 		const component = renderer.create(
 			<Fragment>
 				<input type="hidden" id="yoast_wpseo_meta-robots-noindex" value="0" />
