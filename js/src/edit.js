@@ -9,7 +9,6 @@ import {
 	get,
 	pickBy,
 } from "lodash-es";
-import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -68,8 +67,6 @@ class Edit {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerPlugin();
-
-		this.blogNotPublicNotice();
 
 		this._data = this._initializeData();
 
@@ -230,75 +227,6 @@ class Edit {
 	 */
 	getData() {
 		return this._data;
-	}
-
-	/**
-	 * Determines whether the notice for the site not public should be rendered.
-	 *
-	 * @returns {boolean} Whether the notice should be rendered.
-	 */
-	shouldRenderBlogNotPublicNotice() {
-		const wpData = get( window, "wp.data" );
-		const isBlogPublic = this._localizedData.isBlogPublic;
-		const isBlogPublicNoticeDismissed = this._localizedData.isBlogPublicNoticeDismissed;
-
-		return (
-			isGutenbergDataAvailable() &&
-			wpData.dispatch( "core/notices" ) !== null &&
-			( ! isBlogPublic && isBlogPublicNoticeDismissed === "0" )
-		);
-	}
-
-	/**
-	 * Displays a notice if the site is not public.
-	 *
-	 * @returns {void}
-	 */
-	blogNotPublicNotice() {
-		if ( ! this.shouldRenderBlogNotPublicNotice() ) {
-			return;
-		}
-
-		const dispatchCoreNotices = window.wp.data.dispatch( "core/notices" );
-		const noticeId = "WPSEO_BLOG_PUBLIC_NOTICE_ID";
-		/*
-		 * This Edit class is initialized when the Post and Term analysis are
-		 * initialized on DOM ready. Thus, it's safe to use `getElementById`.
-		 * Notice that this button is the one printed out in the hidden PHP notice.
-		 */
-		const nonceButton = document.getElementById( "robotsmessage-dismiss-button" );
-		const hasNonce = nonceButton && nonceButton.hasAttribute( "data-nonce" );
-
-		const message = sprintf(
-			/* translators: 1: Strong start tag, 2: Strong closing tag, 3: Link start tag to the Reading Settings page, 4: Link closing tag. */
-			__( "%1$sHuge SEO Issue: You're blocking access to robots.%2$s If you want search engines to show " +
-				"this site in their results, you must %3$sgo to your Reading Settings%4$s and uncheck the box " +
-				"for Search Engine Visibility.", "wordpress-seo" ),
-			"<strong>",
-			"</strong>",
-			"<a href='" + this._localizedData.readingSettingsLink + "'>",
-			"</a>"
-		);
-
-		const noticeActions = hasNonce && window.wpseoSetIgnore ? [
-			{
-				label: __( "I don't want this site to show in the search results.", "wordpress-seo" ),
-				onClick: () => {
-					window.wpseoSetIgnore( "blog_public_notification", "fakeElementToHide", nonceButton.getAttribute( "data-nonce" ) );
-					dispatchCoreNotices.removeNotice( noticeId );
-				},
-				noDefaultClasses: true,
-				className: "yoast-blog-public-notification__dismiss is-link",
-			},
-		] : [];
-
-		dispatchCoreNotices.createErrorNotice( message, {
-			id: noticeId,
-			actions: noticeActions,
-			__unstableHTML: true,
-			isDismissible: false,
-			className: "yoast-blog-public-notification",
-		} );
 	}
 }
 
