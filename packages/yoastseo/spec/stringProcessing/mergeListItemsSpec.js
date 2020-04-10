@@ -115,6 +115,34 @@ describe.skip( "A test for merging list items in texts for the purpuse of making
 		" pear " +
 		" mango ";
 
+	const ulParagraphs =
+		"<ul>\n" +
+		"<li><p>This is step 1a of an instruction. This is step 1b of an instrunction.</p></li>\n" +
+		"<li><p>This is step 2a. This is step 2b.</p></li>\n" +
+		"<li><p>This is step 3a. This is step 3b.</p></li>\n" +
+		"<li><p>This is step 4a. This is step 4b.</p></li>\n" +
+		"</ul>";
+
+	const listParagraphsProcessed =
+		" This is step 1a of an instruction. This is step 1b of an instrunction. " +
+		" This is step 2a. This is step 2b. " +
+		" This is step 3a. This is step 3b. " +
+		" This is step 4a. This is step 4b. ";
+
+	const ulParagraphsAndSentences =
+		"<ul>\n" +
+		"<li><p>This is step 1a of an instruction. This is step 1b of an instrunction.</p></li>\n" +
+		"<li>This is the short step 2.</li>\n" +
+		"<li>This is the short step 3.</li>\n" +
+		"<li><p>This is step 4a. This is step 4b.</p></li>\n" +
+		"</ul>";
+
+	const listParagraphsAndSentencesProcessed =
+		" This is step 1a of an instruction. This is step 1b of an instruction. " +
+		" This is the short step 2. " +
+		" This is the short step 3. " +
+		" This is step 4a. This is step 4b. ";
+
 	it( "should remove ul/ol tags, li tags and line breaks within a list and add a space before and after each list item -" +
 		"list with lower-case single words", function() {
 		expect( mergeListItems( ulWordsLowerCase ) ).toEqual( listWordsLowerCaseProcessed );
@@ -140,8 +168,15 @@ describe.skip( "A test for merging list items in texts for the purpuse of making
 	} );
 
 	it( "should replace original lists with a processed list in a text", function() {
-		expect( mergeListItems( paragraph1 + ulWordsLowerCase + paragraph2 ) ).toEqual(
-			paragraph1 +  listWordsLowerCaseProcessed + paragraph2
+		expect( mergeListItems( paragraph1 + ulWordsLowerCase + paragraph2 ) ).toEqual( listParagraphsProcessed );
+	} );
+
+	it( "should correctly process lists consisting of paragraphs", function() {
+		expect( mergeListItems( ulParagraphs ) ).toEqual( paragraph1 +  listWordsLowerCaseProcessed + paragraph2
 		);
+	} );
+
+	it( "should correctly process mixed lists consisting of paragraphs and sentences", function() {
+		expect( mergeListItems( ulParagraphsAndSentences ) ).toEqual( listParagraphsAndSentencesProcessed );
 	} );
 } );

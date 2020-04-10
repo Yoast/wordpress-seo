@@ -371,7 +371,17 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 		" This sentence is about a pear. " +
 		" This sentence is about a mango. ";
 
+	const listParagraphsProcessed =
+		" This is step 1a of an instruction. This is step 1b of an instruction. " +
+		" This is step 2a. This is step 2b. " +
+		" This is step 3a. This is step 3b. " +
+		" This is step 4a. This is step 4b. ";
 
+	const listParagraphsAndSentencesProcessed =
+		" This is step 1a of an instruction. This is step 1b of an instruction. " +
+		" This is the short step 2. " +
+		" This is the short step 3. " +
+		" This is step 4a. This is step 4b. ";
 
 	it( "parses merged list items containing single words as one sentence", function() {
 		const testCases = [
@@ -457,6 +467,45 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"Praesent at ante sit amet elit sollicitudin lobortis.",
 				]
 				,
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses merged list items containing paragraphs", function() {
+		const testCases = [
+			{
+				input: listParagraphsProcessed,
+				expected: [
+					"This is step 1a of an instruction.",
+					"This is step 1b of an instruction.",
+					"This is step 2a.",
+					"This is step 2b.",
+					"This is step 3a.",
+					"This is step 3b.",
+					"This is step 4a.",
+					"This is step 4b.",
+				]
+				,
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses merged list items containing paragraphs and sentences", function() {
+		const testCases = [
+			{
+				input: listParagraphsAndSentencesProcessed,
+				expected: [
+					"This is step 1a of an instruction.",
+					"This is step 1b of an instruction.",
+					"This is the short step 2.",
+					"This is the short step 3.",
+					"This is step 4a.",
+					"This is step 4b.",
+				],
 			},
 		];
 

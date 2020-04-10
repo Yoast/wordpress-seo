@@ -511,4 +511,91 @@ describe( "Test for the research", function() {
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 
+	it( "returns the same result for a list of paragraphs as it does for a string of paragraphs", function() {
+		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+			"In sit amet semper sem, id faucibus massa.</p>\n";
+
+		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+		const paragraphs = [
+			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
+			"<p>This is step 2a. This is step 2b.</p>",
+			"<p>This is step 3a. This is step 3b.</p>",
+			"<p>This is step 4a. This is step 4b.</p>",
+		];
+
+		const paragraphsList = "<ul>\n" + paragraphs.map( paragraph => "<li>" + paragraph + "</li>\n" ).join( "" ) + "</ul>";
+		const paragraphsString = paragraphs.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + paragraphsList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + paragraphsString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a mixed list of paragraphs and sentences as it does for a string of paragraphs and sentences", function() {
+		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+			"In sit amet semper sem, id faucibus massa.</p>\n";
+
+		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+		const paragraphsAndSentences = [
+			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
+			"This is the short step 2.",
+			"This is the short step 3.",
+			"<p>This is step 4a. This is step 4b.</p>",
+		];
+
+		const paragraphsAndSentencesList = "<ul>\n" + paragraphsAndSentences.map( item => "<li>" + item + "</li>\n" ).join( "" ) + "</ul>";
+		const paragraphsAndSentencesString = paragraphsAndSentences.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + paragraphsAndSentencesList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + paragraphsAndSentencesString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+
 } );
