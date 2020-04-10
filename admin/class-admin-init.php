@@ -46,8 +46,8 @@ class WPSEO_Admin_Init {
 
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
-		 * `network_admin_notices` which fires on multisite admin and
-		 * `user_admin_notices` which fires on network user admin pagss.
+		 * `network_admin_notices` which fires on multisite admin pages and
+		 * `user_admin_notices` which fires on multisite user admin pagss.
 		 */
 		add_action( 'admin_notices', [ $this, 'discourage_search_engines_enabled_notice' ] );
 
@@ -633,10 +633,10 @@ class WPSEO_Admin_Init {
 	/**
 	 * Add an alert if the blog is not publicly visible.
 	 *
-	 * @deprecated 13.5
+	 * @deprecated 14.1
 	 * @codeCoverageIgnore
 	 */
 	public function blog_public_notice() {
-		_deprecated_function( __METHOD__, 'WPSEO 13.5' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 	}
 }
