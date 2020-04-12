@@ -93,6 +93,8 @@ To query for the site configuration data you can query from the root.
       baiduVerify
     }
     schema {
+      companyName
+      companyOrPerson
       companyLogo {
         mediaItemUrl
       }
