@@ -43,7 +43,7 @@ class WPSEO_Custom_Fields {
 		$limit  = apply_filters( 'postmeta_form_limit', 30 );
 		$sql    = "SELECT DISTINCT meta_key
 			FROM $wpdb->postmeta
-			WHERE meta_key BETWEEN '_' AND '_z' AND SUBSTRING(meta_key, 1, 1) != '_'
+			WHERE meta_key NOT BETWEEN '_' AND '_z' AND SUBSTRING(meta_key, 1, 1) != '_'
 			LIMIT %d";
 		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $limit ) );
 
