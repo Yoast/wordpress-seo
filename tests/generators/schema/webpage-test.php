@@ -85,13 +85,18 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
-		$this->instance = new WebPage(
-			$this->current_page,
-			$this->html,
-			$this->date,
-			$this->language
-		);
-		$this->instance->set_id_helper( $this->id );
+		$this->instance          = Mockery::mock( Webpage::class )
+			->makePartial();
+		$this->instance->context = $this->meta_tags_context;
+		$this->instance->helpers = (object) [
+			'current_page' => $this->current_page,
+			'date'         => $this->date,
+			'schema'       => (object) [
+				'html'     => $this->html,
+				'id'       => $this->id,
+				'language' => $this->language,
+			]
+		];
 
 		// Set some values that are used in multiple tests.
 		$this->meta_tags_context->schema_page_type    = 'WebPage';
@@ -118,7 +123,6 @@ class WebPage_Test extends TestCase {
 	/**
 	 * Tests generate in various scenarios with a provider.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_image
 	 * @covers ::add_breadcrumbs
@@ -186,13 +190,12 @@ class WebPage_Test extends TestCase {
 			->once()
 			->andReturn( [ $this->meta_tags_context->canonical ] );
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ), $message );
+		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
 
 	/**
 	 * Tests generate on the front case when the site isn't set to represent anything.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
@@ -266,13 +269,12 @@ class WebPage_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate on the front page when the site represents an organization.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
@@ -349,13 +351,12 @@ class WebPage_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate for posts when site_represents is set to true.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_author
 	 * @covers ::add_breadcrumbs
@@ -437,13 +438,12 @@ class WebPage_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate for posts when site_represents is set to false.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_author
 	 * @covers ::add_breadcrumbs
@@ -532,13 +532,12 @@ class WebPage_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate when the description is not empty.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
@@ -621,13 +620,12 @@ class WebPage_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate when the object type is home page.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
@@ -674,13 +672,12 @@ class WebPage_Test extends TestCase {
 			'inLanguage' => 'the-language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests generate for a static homepage.
 	 *
-	 * @covers ::__construct
 	 * @covers ::generate
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
@@ -744,13 +741,12 @@ class WebPage_Test extends TestCase {
 			'inLanguage'    => 'the-language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate( $this->meta_tags_context ) );
+		$this->assertEquals( $expected, $this->instance->generate() );
 	}
 
 	/**
 	 * Tests is_needed when the conditional is true.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed() {
@@ -758,13 +754,12 @@ class WebPage_Test extends TestCase {
 			'object_type'     => 'user',
 			'object_sub_type' => '',
 		];
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
 	 * Tests is_needed for a system page (but not a 404 page).
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_system_page() {
@@ -772,13 +767,12 @@ class WebPage_Test extends TestCase {
 			'object_type'     => 'system_page',
 			'object_sub_type' => '',
 		];
-		$this->assertTrue( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertTrue( $this->instance->is_needed() );
 	}
 
 	/**
 	 * Tests is_needed for a system page / 404 page.
 	 *
-	 * @covers ::__construct
 	 * @covers ::is_needed
 	 */
 	public function test_is_needed_system_page_404() {
@@ -786,7 +780,7 @@ class WebPage_Test extends TestCase {
 			'object_type'     => 'system-page',
 			'object_sub_type' => '404',
 		];
-		$this->assertFalse( $this->instance->is_needed( $this->meta_tags_context ) );
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**
