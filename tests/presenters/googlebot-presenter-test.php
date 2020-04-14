@@ -64,14 +64,14 @@ class Googlebot_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns an empty string because of robots no index.
+	 * Tests whether the presenter returns an empty string because of robots noindex.
 	 *
 	 * @covers ::present
 	 */
 	public function test_present_with_robots_set_to_no_index() {
 		$this->presentation->robots = [ 'index' => 'noindex' ];
 
-		$this->assertEquals( '', $this->instance->present() );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval the raw value.
+	 * Tests retrieval of the raw value.
 	 *
 	 * @covers ::get
 	 */
