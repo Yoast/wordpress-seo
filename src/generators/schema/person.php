@@ -44,6 +44,11 @@ class Person extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
+		// Using an author piece instead.
+		if ( $this->site_represents_current_author() ) {
+			return false;
+		}
+
 		return $this->context->site_represents === 'person' || $this->context->indexable->object_type === 'user';
 	}
 
@@ -241,5 +246,28 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Checks the site is represented by the same person as this indexable.
+	 *
+	 * @return bool True when the site is represented by the same person as this indexable.
+	 */
+	protected function site_represents_current_author() {
+		// Can only be the case when the site represents a user.
+		if ( $this->context->site_represents !== 'person' ) {
+			return false;
+		}
+
+		// Article post from the same user as the site represents.
+		if (
+			$this->context->indexable->object_type === 'post' &&
+			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+		) {
+			return $this->context->site_user_id === $this->context->indexable->author_id;
+		}
+
+		// Author archive from the same user as the site represents.
+		return $this->context->indexable->object_type === 'user' && $this->context->site_user_id === $this->context->indexable->object_id;
 	}
 }
