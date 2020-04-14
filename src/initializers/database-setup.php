@@ -81,6 +81,9 @@ class Database_Setup implements Initializer_Interface {
 		if ( empty( $port ) ) {
 			$port = 3306;
 		}
+		if ( empty( $socket ) ) {
+			$socket = ini_get( 'mysqli.default_socket' );
+		}
 
 		return [
 			'host'   => $host,

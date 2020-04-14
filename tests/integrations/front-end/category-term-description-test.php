@@ -9,24 +9,24 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Integrations\Front_End\Category_Description;
+use Yoast\WP\SEO\Integrations\Front_End\Category_Term_Description;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Category_Description
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Category_Term_Description
  * @covers ::<!public>
  *
  * @group integrations
  * @group front-end
  */
-class Category_Description_Test extends TestCase {
+class Category_Term_Description_Test extends TestCase {
 
 	/**
 	 * The test instance.
 	 *
-	 * @var Category_Description
+	 * @var Category_Term_Description
 	 */
 	private $instance;
 
@@ -36,7 +36,7 @@ class Category_Description_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Category_Description();
+		$this->instance = new Category_Term_Description();
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Category_Description_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Front_End_Conditional::class ],
-			Category_Description::get_conditionals()
+			Category_Term_Description::get_conditionals()
 		);
 	}
 
@@ -60,6 +60,7 @@ class Category_Description_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertTrue( Monkey\Filters\has( 'category_description', [ $this->instance, 'add_shortcode_support' ] ) );
+		$this->assertTrue( Monkey\Filters\has( 'term_description', [ $this->instance, 'add_shortcode_support' ] ) );
 	}
 
 	/**

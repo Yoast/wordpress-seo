@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
@@ -43,6 +44,13 @@ class Breadcrumb_Test extends TestCase {
 	private $id;
 
 	/**
+	 * Holds the html helper mock instance.
+	 *
+	 * @var Mockery\MockInterface|HTML_Helper
+	 */
+	private $html;
+
+	/**
 	 * Holds the meta tags context mock instance.
 	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context
@@ -57,6 +65,7 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
 		$this->id           = Mockery::mock( ID_Helper::class );
+		$this->html         = Mockery::mock( HTML_Helper::class );
 
 		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context::class );
 		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
@@ -69,8 +78,9 @@ class Breadcrumb_Test extends TestCase {
 		$this->instance->helpers = (object) [
 			'current_page' => $this->current_page,
 			'schema'       => (object) [
-				'id' => $this->id,
-			]
+				'id'   => $this->id,
+				'html' => $this->html,
+			],
 		];
 	}
 
@@ -367,6 +377,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Page title' )->andReturn( 'Page title' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
