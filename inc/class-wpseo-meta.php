@@ -416,7 +416,7 @@ class WPSEO_Meta {
 				break;
 
 
-			case ( $field_def['type'] === 'url' ):
+			case ( $field_def['type'] === 'url' || $meta_key === self::$meta_prefix . 'canonical' ):
 				// Validate as url(-part).
 				$url = WPSEO_Utils::sanitize_url( $meta_value );
 				if ( $url !== '' ) {
