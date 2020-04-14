@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Mockery;
+use Brain\Monkey;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
@@ -126,6 +127,8 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_get_ancestors_one_ancestor_that_has_ancestor_id_found() {
 		$indexable = Mockery::mock( Indexable::class );
 
+		$indexable->permalink = 'https://example.org/post';
+
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
 			->once()
@@ -136,20 +139,7 @@ class Indexable_Repository_Test extends TestCase {
 				],
 			] );
 
-		$orm_object = Mockery::mock()->makePartial();
-		$orm_object
-			->expects( 'where_in' )
-			->with( 'id', [ 1 ] )
-			->andReturn( $orm_object );
-
-		$orm_object
-			->expects( 'order_by_expr' )
-			->with( 'FIELD(id,1)' )
-			->andReturn( $orm_object );
-
-		$orm_object
-			->expects( 'find_many' )
-			->andReturn( [ $indexable ] );
+		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
@@ -164,6 +154,8 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_get_ancestors_with_multple_ancestors() {
 		$indexable = Mockery::mock( Indexable::class );
 
+		$indexable->permalink = 'https://example.org/post';
+
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
 			->once()
@@ -177,23 +169,131 @@ class Indexable_Repository_Test extends TestCase {
 				],
 			] );
 
-		$orm_object = Mockery::mock()->makePartial();
-		$orm_object
-			->expects( 'where_in' )
-			->with( 'id', [ 1, 2 ] )
-			->andReturn( $orm_object );
-
-		$orm_object
-			->expects( 'order_by_expr' )
-			->with( 'FIELD(id,1,2)' )
-			->andReturn( $orm_object );
-		$orm_object
-			->expects( 'find_many' )
-			->andReturn( [ $indexable ] );
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+	}
+
+	/**
+	 * Tests that retrieving the ancestors of an indexable ensures
+	 * that the permalink of each ancestor is available.
+	 */
+	public function test_get_ancestors_ensures_permalink() {
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->expects( 'save' )->once();
+
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [
+				(object) [
+					'ancestor_id' => 1,
+				],
+				(object) [
+					'ancestor_id' => 2,
+				],
+			] );
+
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		$this->mock_current_page_helper( 'simple_page' );
+
+		$permalink = 'https://example.org/permalink';
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturn( $permalink );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $indexable->permalink );
+	}
+
+	/**
+	 * Tests that retrieving the ancestors of an indexable ensures
+	 * that the permalink of each ancestor is available.
+	 */
+	public function test_get_ancestors_one_ancestor_ensures_permalink() {
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->expects( 'save' )->once();
+
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [
+				(object) [
+					'ancestor_id' => 1,
+				],
+			] );
+
+		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
+
+		$this->mock_current_page_helper( 'simple_page' );
+
+		$permalink = 'https://example.org/permalink';
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturn( $permalink );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $indexable->permalink );
+	}
+
+	/**
+	 * Mocks the current page helper.
+	 *
+	 * @param string $kind_of_page The kind of page ('simple_page', 'home_static_page' '404' etc.)
+	 */
+	private function mock_current_page_helper( $kind_of_page ) {
+		$methods = [
+			'is_simple_page',
+			'is_home_static_page',
+			'is_static_posts_page',
+			'is_home_posts_page',
+			'is_term_archive',
+			'is_search_result',
+			'is_post_type_archive',
+			'is_author_archive',
+			'is_date_archive',
+			'is_404'
+		];
+
+		$expectations = \array_fill_keys( $methods, false );
+		$expectations[ 'is_' . $kind_of_page ] = true;
+
+		$this->current_page->shouldReceive( $expectations );
+	}
+
+	/**
+	 * Mocks the ORM object.
+	 *
+	 * @param array $indexable_ids The list of indexable IDs to expect to be retrieved.
+	 * @param array $indexables    The list of indexables to expect to be retrieved.
+	 *
+	 * @return Mockery\Mock The mocked ORM object.
+	 */
+	private function mock_orm( $indexable_ids, $indexables ) {
+		$orm_object = Mockery::mock()->makePartial();
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'id', $indexable_ids )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'order_by_expr' )
+			->with( 'FIELD(id,' . \implode( ',',  $indexable_ids ) . ')' )
+			->andReturn( $orm_object );
+		$orm_object
+			->expects( 'find_many' )
+			->andReturn( $indexables );
+
+		return $orm_object;
 	}
 
 	/**
