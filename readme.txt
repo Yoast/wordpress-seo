@@ -246,7 +246,7 @@ Other:
 = 13.5 =
 Release Date: April 14th, 2020
 
-While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. In this release, we’re adding word form support for a new language: Spanish. Spanish joins, Dutch, German and English, and we’re working on more languages. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
+While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
 
 Bugfixes:
 
