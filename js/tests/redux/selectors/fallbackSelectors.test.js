@@ -1,10 +1,6 @@
-import { default as socialSelectors } from "../../../src/redux/selectors/social";
+import selectors from "../../../src/redux/selectors/social";
 
-const {
-	getTitleFallback,
-	getDescriptionFallback,
-	getImageFallback,
-} = socialSelectors;
+const { getDescriptionFallback, getTitleFallback, getImageFallback } = selectors;
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
