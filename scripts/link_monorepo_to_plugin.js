@@ -6,6 +6,7 @@ const execSync = require( "child_process" ).execSync;
 
 const AUTO_CHECKOUT = process.env.AUTO_CHECKOUT_MONOREPO_BRANCH;
 const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
+const MONOREPO_BRANCH_OVERRIDE = process.env.MONOREPO_BRANCH_OVERRIDE;
 
 let monorepoLocation;
 
@@ -191,7 +192,7 @@ log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
 log( "Fetching branches of the monorepo." );
 execMonorepoNoOutput( "git fetch" );
 if ( AUTO_CHECKOUT ) {
-	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
+	const monorepoBranch = checkoutMonorepoBranch( MONOREPO_BRANCH_OVERRIDE || TRAVIS_BRANCH );
 	log( "Checking out " + monorepoBranch + " on the monorepo." );
 }
 
