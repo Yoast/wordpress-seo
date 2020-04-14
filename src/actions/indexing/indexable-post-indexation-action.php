@@ -60,7 +60,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	public function get_total_unindexed() {
 		$query = $this->get_query( true );
 
-		return $this->wpdb->get_var( $query );
+		return (int) $this->wpdb->get_var( $query );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		 *
 		 * @api int The maximum number of posts indexed.
 		 */
-		$limit = \apply_filters( 'wpseo_post_indexing_limit', 25 );
+		$limit = \apply_filters( 'wpseo_post_indexation_limit', 25 );
 
 		if ( ! \is_int( $limit ) || $limit < 1 ) {
 			$limit = 25;
@@ -85,7 +85,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( $post_id, 'post' );
+			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
 		}
 		return $indexables;
 	}
@@ -104,18 +104,18 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$indexable_table   = Yoast_Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
-		$select = 'posts.id';
+		$select = 'posts.ID';
 		if ( $count ) {
-			$select = 'COUNT(posts.id)';
+			$select = 'COUNT(posts.ID)';
 		}
-		$limit = '';
+		$limit_query = '';
 		if ( ! $count ) {
-			$limit = 'LIMIT %d';
+			$limit_query = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts} AS post
+		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts} AS posts
             WHERE posts.id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND posts.post_type IN ($placeholders)
-            $limit", $replacements );
+            $limit_query", $replacements );
 	}
 }

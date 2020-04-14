@@ -7,15 +7,15 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Routes\Responses\Indexation_Response;
 
 /**
  * Indexable_Reindexing_Route class
  */
-class Indexable_Indexation_Route implements Route_Interface {
+class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
 	use No_Conditionals;
 
@@ -58,12 +58,13 @@ class Indexable_Indexation_Route implements Route_Interface {
 	/**
 	 * Indexes a number of unindexed posts.
 	 *
-	 * @return Indexation_Response The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function index_posts() {
 		$indexables = $this->post_indexation_action->index();
+		$next_url   = empty( $indexables ) ? false : \rest_url( Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE );
 
-		return new Indexation_Response( $indexables, \rest_url( Main::API_V1_NAMESPACE . self::POSTS_ROUTE ) );
+		return $this->respond_with( $indexables, $next_url );
 	}
 
 	/**
