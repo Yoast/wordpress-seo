@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 13.4
+Stable tag: 13.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -221,6 +221,7 @@ Bugfixes:
 * Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
 * Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
 * Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
+* Fixes a bug where the embedding of posts on LinkedIn was broken, by using the OpenGraph data to power the core oEmbed feature.
 
 Enhancements:
 
@@ -237,6 +238,7 @@ Enhancements:
 * Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
 
 Other:
+
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
 * Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
 * Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
@@ -244,12 +246,15 @@ Other:
 = 13.5 =
 Release Date: April 14th, 2020
 
+While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
+
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
 * Fixes a bug where .xsl site map files would not be cached correctly.
 
 Other:
+
 * Sets minimum supported WordPress version to 5.3.
 
 = Earlier versions =
