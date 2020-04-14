@@ -8,11 +8,11 @@ const singleWords = [ "ahányszor", "ahelyett", "ahelyt", "ahogy", "ahol", "ahon
 	"és", "eszerint", "ezért", "feltétlenül", "főként", "főleg", "ha", "habár", "hanem", "hányszor", "harmadjára",
 	"hasonlóképpen", "hát", "hirtelen", "hirtelenjében", "hiszen", "hogy", "hogyha", "hol", "holott", "honnan",
 	"hová", "így", "illetőleg", "illetve", "immár", "is", "jóllehet", "kár", "kétségtelenül", "kiváltképp",
-	"következésképpen", "maga", "máskülönben", "másodsorban", "meg", "mégis", "megkérdőjelezhetetlenül",
+	"következésképpen", "legfőképp", "maga", "máskülönben", "másodsorban", "meg", "mégis", "megkérdőjelezhetetlenül",
 	"megkérdőjelezhetően", "mégpedig", "mégsem", "mennél", "mennyiszer", "merre", "mert", "merthogy", "midőn",
-	"mielőtt", "míg", "mihelyt", "miként", "miképp", "mikor", "mikorra", "mindamellett", "mindazáltal", "mindazonáltal",
+	"mielőtt", "míg", "mihelyt", "miként", "miképp", "mikor", "mikorra", "mindamellett", "mindazáltal", "mindazonáltal", "mindenekelőtt",
 	"minél", "mint", "mintha", "minthogy", "mióta", "mire", "miután", "mivel", "mivelhogy", "nahát", "nehogy", "noha",
-	"nos", "óh", "összehasonlításképp", "összehasonlításképpen", "pedig", "plusz", "s", "sajna", "satöbbi", "se", "sem",
+	"nos", "óh", "összehasonlításképp", "összehasonlításképpen", "pedig", "például", "plusz", "s", "sajna", "satöbbi", "se", "sem",
 	"sőt", "szintén", "tehát", "továbbá", "tudniillik", "úgy", "ugyan", "ugyanis", "úgyhogy", "vagy", "vagyis",
 	"valamennyi", "valamint", "valóban", "végezetül", "végül", "végülis", "viszont" ];
 
