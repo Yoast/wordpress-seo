@@ -1178,8 +1178,8 @@ SVG;
 		$post_type_object = get_post_type_object( $post_type );
 
 		$label_array = [
-			'label'         => $page_type === 'post' ? $post_type_object->label : $taxonomy_labels->name,
-			'labelSingular' => $page_type === 'post' ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
+			'label'         => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
+			'labelSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
 		];
 
 		$wpseo_admin_l10n = [
