@@ -20,7 +20,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The googlebot output tag.
 	 */
 	public function present() {
-		if ( $this->presentation->model->is_robots_noindex === true ) {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
 			return '';
 		}
 

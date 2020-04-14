@@ -21,13 +21,6 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Googlebot_Presenter_Test extends TestCase {
 
 	/**
-	 * Represents the indexable.
-	 *
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
 	 * Represents the indexable presentation.
 	 *
 	 * @var Indexable_Presentation
@@ -51,10 +44,7 @@ class Googlebot_Presenter_Test extends TestCase {
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
-		$this->indexable           = new Indexable();
-		$this->presentation        = Mockery::mock( Indexable_Presentation::class );
-		$this->presentation->model = $this->indexable;
-
+		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;
 	}
 
@@ -65,6 +55,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->robots    = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two, three" />';
@@ -78,7 +69,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_robots_set_to_no_index() {
-		$this->indexable->is_robots_noindex = true;
+		$this->presentation->robots = [ 'index' => 'noindex' ];
 
 		$this->assertEquals( '', $this->instance->present() );
 	}
@@ -91,6 +82,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	 */
 	public function test_present_filter() {
 		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->robots    = [];
 
 		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
 			->once()
@@ -110,7 +102,19 @@ class Googlebot_Presenter_Test extends TestCase {
 	 */
 	public function test_present_empty() {
 		$this->presentation->googlebot = [];
+		$this->presentation->robots    = [];
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests retrieval the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+
+		$this->assertEquals( [ 'one', 'two', 'three' ], $this->instance->get() );
 	}
 }
