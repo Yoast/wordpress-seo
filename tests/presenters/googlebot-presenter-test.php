@@ -73,7 +73,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct meta tag.
+	 * Tests whether the presenter returns an empty string because of robots no index.
 	 *
 	 * @covers ::present
 	 */
