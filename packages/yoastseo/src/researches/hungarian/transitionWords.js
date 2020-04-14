@@ -16,7 +16,7 @@ const singleWords = [ "ahányszor", "ahelyett", "ahelyt", "ahogy", "ahol", "ahon
 	"satöbbi", "se", "sem", "sőt", "szintén", "tagadhatatlanul", "tehát", "továbbá", "tudniillik", "úgy", "ugyan", "ugyanis",
 	"úgyhogy", "vagy", "vagyis", "valamennyi", "valamint", "valóban", "végezetül", "végül", "végülis", "viszont" ];
 
-<<<<<<< HEAD
+
 const multipleWords =  [ "a továbbiakban", "abba hogy", "abban hogy", "abból hogy", "addig amíg", "addig hogy", "addig míg", "afelé hogy",
 	"ahelyett hogy", "ahhoz hogy", "ahogy fent látható", "ahogy írtam", "ahogy megmutattam", "ahogy megjegyeztem", "akként hogy",
 	"akkorra hogy", "amiatt hogy", "amellett hogy", "amint azt megjegyeztük", "amint csak", "amint láthatjuk", "anélkül hogy",
@@ -31,18 +31,6 @@ const multipleWords =  [ "a továbbiakban", "abba hogy", "abban hogy", "abból h
 	"más szóval", "más szavakkal", "másképpen fogalmazva", "még akkor is", "még ha", "mert különben", "mert tény hogy", "mind mind",
 	"mindaddig, amíg", "mindenek előtt", "mindezek után", "mint sem", "mint sem hogy", "nem is beszélve", "nem különben", "nem úgy mint", "oda hogy",
 	"oly módon hogy", "sem hogy", "szem előtt tartva", "tény hogy", "úgy hogy", "úgy mint", "ugyanazon okból", "ugyanolyan okból" ];
-=======
-const multipleWords =  [ "abba hogy", "abban hogy", "abból hogy", "addig amíg", "addig hogy", "addig míg", "afelé hogy",
-	"ahelyett hogy", "ahhoz hogy", "akként hogy", "akkorra hogy", "amiatt hogy", "amellett hogy", "amint csak",
-	"anélkül hogy", "annak okáért", "annyi hogy", "annyi mint", "annyira hogy", "annyira mint", "arra hogy",
-	"arra hogy", "arról hogy", "attól fogva hogy", "attól hogy", "avégett hogy", "avégre hogy", "az ellen hogy",
-	"az iránt hogy", "azelőtt hogy", "azért hogy", "azért hogy", "azok után", "azon hogy", "azonkívül hogy",
-	"azóta hogy", "aztán pedig", "azután hogy", "azzal a feltétellel, hogy", "azzal hogy", "ennek folytán", "ha csak", "ha egyébként", "ha egyszer",
-	"ha egyszer", "ha is", "ha különben", "ha ugyan", "hogy sem", "hogy sem mint", "hol hol", "holott pedig",
-	"igaz hogy", "így tehát", "még akkor is", "még ha", "mert különben", "mert tény hogy", "mind mind", "mindenek előtt",
-	"mindezek után", "mint sem", "mint sem hogy", "nem úgy mint", "oda hogy", "oly módon hogy", "sem hogy", "tény hogy",
-	"úgy hogy", "úgy mint" ];
->>>>>>> 8c709fc05bb902406812fae1ba8fcc12b306a46f
 
 /**
  * Returns an list with transition words to be used by the assessments.
