@@ -49,7 +49,7 @@ class WPSEO_Admin_Init {
 		 * `network_admin_notices` which fires on multisite admin pages and
 		 * `user_admin_notices` which fires on multisite user admin pagss.
 		 */
-		add_action( 'admin_notices', [ $this, 'discourage_search_engines_enabled_notice' ] );
+		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
@@ -391,12 +391,12 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Checks whether the site is set to be indexed by search engines.
+	 * Checks whether search engines are discouraged from indexing the site.
 	 *
-	 * @return bool
+	 * @return bool Whether search engines are discouraged from indexing the site.
 	 */
-	private function is_site_public() {
-		return (string) get_option( 'blog_public' ) === '1';
+	private function are_search_engines_discouraged() {
+		return (string) get_option( 'blog_public' ) === '0';
 	}
 
 	/**
@@ -485,15 +485,15 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determines whether and where the "blog not public" notice should be displayed.
+	 * Determines whether and where the "search engines discouraged" admin notice should be displayed.
 	 *
-	 * @return bool Whether the "blog not public" notice should be displayed.
+	 * @return bool Whether the "search engines discouraged" admin notice should be displayed.
 	 */
-	private function should_display_discourage_search_engines_enabled_notice() {
+	private function should_display_search_engines_discouraged_notice() {
 		return (
-			! $this->is_site_public()
+			$this->are_search_engines_discouraged()
 			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
-			&& WPSEO_Options::get( 'ignore_blog_public_notification', false ) === false
+			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
 			&& (
 				$this->on_wpseo_admin_page()
 				|| in_array( $this->pagenow, [
@@ -510,8 +510,8 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return void
 	 */
-	public function discourage_search_engines_enabled_notice() {
-		if ( ! $this->should_display_discourage_search_engines_enabled_notice() ) {
+	public function search_engines_discouraged_notice() {
+		if ( ! $this->should_display_search_engines_discouraged_notice() ) {
 			return;
 		}
 

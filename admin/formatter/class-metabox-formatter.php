@@ -48,32 +48,29 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return [
-			'language'                    => WPSEO_Language_Utils::get_site_language_name(),
-			'settings_link'               => $this->get_settings_link(),
-			'search_url'                  => '',
-			'post_edit_url'               => '',
-			'base_url'                    => '',
-			'contentTab'                  => __( 'Readability', 'wordpress-seo' ),
-			'keywordTab'                  => __( 'Keyphrase:', 'wordpress-seo' ),
-			'removeKeyword'               => __( 'Remove keyphrase', 'wordpress-seo' ),
-			'contentLocale'               => get_locale(),
-			'userLocale'                  => WPSEO_Language_Utils::get_user_locale(),
-			'translations'                => $this->get_translations(),
-			'keyword_usage'               => [],
-			'title_template'              => '',
-			'metadesc_template'           => '',
-			'contentAnalysisActive'       => $analysis_readability->is_enabled() ? 1 : 0,
-			'keywordAnalysisActive'       => $analysis_seo->is_enabled() ? 1 : 0,
-			'cornerstoneActive'           => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
-			'isBlogPublic'                => (string) get_option( 'blog_public' ) === '1',
-			'isBlogPublicNoticeDismissed' => WPSEO_Options::get( 'ignore_blog_public_notification', false ) ? 1 : 0,
-			'readingSettingsLink'         => $this->get_reading_settings_link(),
-			'intl'                        => $this->get_content_analysis_component_translations(),
-			'isRtl'                       => is_rtl(),
-			'isPremium'                   => WPSEO_Utils::is_yoast_seo_premium(),
-			'addKeywordUpsell'            => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive'   => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
-			'siteIconUrl'                 => get_site_icon_url(),
+			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
+			'settings_link'             => $this->get_settings_link(),
+			'search_url'                => '',
+			'post_edit_url'             => '',
+			'base_url'                  => '',
+			'contentTab'                => __( 'Readability', 'wordpress-seo' ),
+			'keywordTab'                => __( 'Keyphrase:', 'wordpress-seo' ),
+			'removeKeyword'             => __( 'Remove keyphrase', 'wordpress-seo' ),
+			'contentLocale'             => get_locale(),
+			'userLocale'                => WPSEO_Language_Utils::get_user_locale(),
+			'translations'              => $this->get_translations(),
+			'keyword_usage'             => [],
+			'title_template'            => '',
+			'metadesc_template'         => '',
+			'contentAnalysisActive'     => $analysis_readability->is_enabled() ? 1 : 0,
+			'keywordAnalysisActive'     => $analysis_seo->is_enabled() ? 1 : 0,
+			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
+			'intl'                      => $this->get_content_analysis_component_translations(),
+			'isRtl'                     => is_rtl(),
+			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
+			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
+			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
+			'siteIconUrl'               => get_site_icon_url(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -159,20 +156,6 @@ class WPSEO_Metabox_Formatter {
 	private function get_settings_link() {
 		if ( current_user_can( 'manage_options' ) ) {
 			return esc_url( admin_url( 'options-general.php' ) );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Returns a link to the Reading Settings page, if the user has the right capabilities.
-	 * Returns an empty string otherwise.
-	 *
-	 * @return string The Reading Settings link.
-	 */
-	private function get_reading_settings_link() {
-		if ( current_user_can( 'manage_options' ) ) {
-			return esc_url( admin_url( 'options-reading.php' ) );
 		}
 
 		return '';

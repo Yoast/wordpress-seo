@@ -26,30 +26,30 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
-		'ms_defaults_set'                 => false,
-		'ignore_blog_public_notification' => false,
+		'ms_defaults_set'                          => false,
+		'ignore_search_engines_discouraged_notice' => false,
 		// Non-form field, should only be set via validation routine.
-		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
+		'version'                                     => '', // Leave default as empty to ensure activation/upgrade works.
 
 		// Form fields.
-		'disableadvanced_meta'            => true,
-		'ryte_indexability'               => true,
-		'baiduverify'                     => '', // Text field.
-		'googleverify'                    => '', // Text field.
-		'msverify'                        => '', // Text field.
-		'yandexverify'                    => '',
-		'site_type'                       => '', // List of options.
-		'has_multiple_authors'            => '',
-		'environment_type'                => '',
-		'content_analysis_active'         => true,
-		'keyword_analysis_active'         => true,
-		'enable_admin_bar_menu'           => true,
-		'enable_cornerstone_content'      => true,
-		'enable_xml_sitemap'              => true,
-		'enable_text_link_counter'        => true,
-		'show_onboarding_notice'          => false,
-		'first_activated_on'              => false,
-		'myyoast-oauth'                   => [
+		'disableadvanced_meta'                     => true,
+		'ryte_indexability'                        => true,
+		'baiduverify'                              => '', // Text field.
+		'googleverify'                             => '', // Text field.
+		'msverify'                                 => '', // Text field.
+		'yandexverify'                             => '',
+		'site_type'                                => '', // List of options.
+		'has_multiple_authors'                     => '',
+		'environment_type'                         => '',
+		'content_analysis_active'                  => true,
+		'keyword_analysis_active'                  => true,
+		'enable_admin_bar_menu'                    => true,
+		'enable_cornerstone_content'               => true,
+		'enable_xml_sitemap'                       => true,
+		'enable_text_link_counter'                 => true,
+		'show_onboarding_notice'                   => false,
+		'first_activated_on'                       => false,
+		'myyoast-oauth'                            => [
 			'config'        => [
 				'clientId' => null,
 				'secret'   => null,
@@ -64,7 +64,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @var array
 	 */
 	public $ms_exclude = [
-		'ignore_blog_public_notification',
+		'ignore_search_engines_discouraged_notice',
 		/* Privacy. */
 		'baiduverify',
 		'googleverify',
@@ -243,7 +243,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * Boolean dismiss warnings - not fields - may not be in form
 				 * (and don't need to be either as long as the default is false).
 				 */
-				case 'ignore_blog_public_notification':
+				case 'ignore_search_engines_discouraged_notice':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -392,7 +392,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		// Deal with value change from text string to boolean.
 		$value_change = [
-			'ignore_blog_public_notification',
+			'ignore_search_engines_discouraged_notice',
 		];
 
 		foreach ( $value_change as $key ) {

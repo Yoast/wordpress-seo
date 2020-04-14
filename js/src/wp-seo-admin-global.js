@@ -106,9 +106,9 @@
 			} );
 		} );
 
-		// Dismiss the "block not public" site-wide admin notice.
+		// Dismiss the "search engines discouraged" admin notice.
 		jQuery( "#robotsmessage button" ).on( "click", function() {
-			wpseoSetIgnore( "blog_public_notification", "robotsmessage", jQuery( this ).data( "nonce" ) );
+			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) );
 		} );
 	} );
 
