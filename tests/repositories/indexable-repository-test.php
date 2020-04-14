@@ -183,6 +183,7 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_get_ancestors_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable::class );
 		$indexable->expects( 'save' )->once();
+		$indexable->object_type = 'post';
 
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
@@ -198,8 +199,6 @@ class Indexable_Repository_Test extends TestCase {
 			] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
-
-		$this->mock_current_page_helper( 'simple_page' );
 
 		$permalink = 'https://example.org/permalink';
 
@@ -219,6 +218,7 @@ class Indexable_Repository_Test extends TestCase {
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable::class );
 		$indexable->expects( 'save' )->once();
+		$indexable->object_type = 'post';
 
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
@@ -232,8 +232,6 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
-		$this->mock_current_page_helper( 'simple_page' );
-
 		$permalink = 'https://example.org/permalink';
 
 		Monkey\Functions\expect( 'get_permalink' )
@@ -243,31 +241,6 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 		$this->assertEquals( $permalink, $indexable->permalink );
-	}
-
-	/**
-	 * Mocks the current page helper.
-	 *
-	 * @param string $kind_of_page The kind of page ('simple_page', 'home_static_page' '404' etc.)
-	 */
-	private function mock_current_page_helper( $kind_of_page ) {
-		$methods = [
-			'is_simple_page',
-			'is_home_static_page',
-			'is_static_posts_page',
-			'is_home_posts_page',
-			'is_term_archive',
-			'is_search_result',
-			'is_post_type_archive',
-			'is_author_archive',
-			'is_date_archive',
-			'is_404'
-		];
-
-		$expectations = \array_fill_keys( $methods, false );
-		$expectations[ 'is_' . $kind_of_page ] = true;
-
-		$this->current_page->shouldReceive( $expectations );
 	}
 
 	/**

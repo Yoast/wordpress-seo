@@ -384,19 +384,18 @@ class Indexable_Repository {
 	 */
 	protected function get_permalink_for_indexable( Indexable $indexable ) {
 		switch ( true ) {
-			case $this->current_page->is_simple_page():
-			case $this->current_page->is_home_static_page():
-			case $this->current_page->is_home_posts_page():
+			case $indexable->object_type === 'post':
+			case $indexable->object_type === 'home-page':
 				return get_permalink( $indexable->object_id );
-			case $this->current_page->is_term_archive():
+			case $indexable->object_type === 'term':
 				$term = get_term( $indexable->object_id );
 
 				return get_term_link( $term, $term->taxonomy );
-			case $this->current_page->is_search_result():
+			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
 				return get_search_link();
-			case $this->current_page->is_post_type_archive():
+			case $indexable->object_type === 'post-type-archive':
 				return get_post_type_archive_link( $indexable->object_sub_type );
-			case $this->current_page->is_author_archive():
+			case $indexable->object_type === 'user':
 				return get_author_posts_url( $indexable->object_id );
 		}
 
