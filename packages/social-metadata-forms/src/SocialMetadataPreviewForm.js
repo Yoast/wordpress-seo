@@ -235,7 +235,6 @@ SocialMetadataPreviewForm.propTypes = {
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
 	onSelect: PropTypes.func,
-	isPremium: PropTypes.bool,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
