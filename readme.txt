@@ -220,6 +220,7 @@ Bugfixes:
 * Fixes a bug where .xsl site map files would not be cached correctly.
 
 Other:
+
 * Sets minimum supported WordPress version to 5.3.
 
 = 13.4 =
