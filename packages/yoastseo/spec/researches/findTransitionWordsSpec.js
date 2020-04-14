@@ -407,9 +407,23 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
+	it( "returns 1 when a transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: például
+		mockPaper = new Paper( "például növekedési arány és szaporodásbiológia szempontjából.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
 	it( "returns 1 when a two-part transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: ahogy, akkor
 		mockPaper = new Paper( "Csak később, ahogy felnőttem, akkor kezdődött a sok baj.", { locale: "hu_HU" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+	it( "returns 1 when a multiple transition word is found in a sentence (Hungarian)", function() {
+		// Transition word: azzal a feltétellel, hogy
+		mockPaper = new Paper( "Azzal a feltétellel, hogy én forgathatom a kést.", { locale: "hu_HU" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
