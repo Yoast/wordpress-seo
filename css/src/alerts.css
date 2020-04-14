@@ -9,22 +9,27 @@
 	line-height: 1.5;
 	margin: 16px 0;
 }
+
 .alert__error {
 	color: #8f1919;
 	background: #f9dcdc;
 }
+
 .alert__info {
 	color: #00468f;
 	background: #cce5ff;
 }
+
 .alert__success {
 	color: #395315;
 	background: #e2f2cc;
 }
+
 .alert__warning {
 	color: #674e00;
 	background: #fff3cd;
 }
+
 .alert .icon {
 	display: block;
 	margin-right: 8px;
@@ -32,6 +37,7 @@
 	width: 14px;
 	max-width: none;
 }
+
 .alert a {
 	color: #004973;
 }

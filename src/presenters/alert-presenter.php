@@ -57,7 +57,7 @@ class Alert_Presenter {
 	/**
 	 * Alert_Presenter constructor.
 	 *
-	 * @param string $type Type of the Alert (error/info/success/warning).
+	 * @param string $type 	  Type of the Alert (error/info/success/warning).
 	 * @param string $content Content of the Alert.
 	 */
 	public function __construct( $type, $content ) {
@@ -77,7 +77,7 @@ class Alert_Presenter {
 	/**
 	 * Adds string (view) behaviour to the Alert.
 	 *
-	 * @return string
+	 * @return string The rendered Alert.
 	 */
 	public function __toString() {
 		return $this->render();
@@ -86,14 +86,14 @@ class Alert_Presenter {
 	/**
 	 * Renders the Alert as a styled string.
 	 *
-	 * @return string The styled Alert
+	 * @return string The styled Alert.
 	 */
 	private function render() {
 		$out  = '<div class="alert alert__' . $this->type . '">';
 
 		$out .= '<span>';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
-		$out .= '<img class="icon" src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file ) . '"">';
+		$out .= '<img class="icon" src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file ) . '" alt=""/>';
 		$out .= '</span>';
 
 		$out .= '<span>' . $this->content . '</span>';
