@@ -16,6 +16,7 @@ class WPSEO_Utils {
 	 * Whether the PHP filter extension is enabled.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var bool $has_filters
 	 */
 	public static $has_filters;
@@ -24,6 +25,7 @@ class WPSEO_Utils {
 	 * Notifications to be shown in the JavaScript console.
 	 *
 	 * @since 3.3.2
+	 *
 	 * @var array
 	 */
 	protected static $console_notifications = [];
@@ -31,8 +33,9 @@ class WPSEO_Utils {
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
-	 * @return boolean
 	 * @since 1.8.0
+	 *
+	 * @return boolean
 	 */
 	public static function grant_access() {
 		// @todo Add deprecation warning.
@@ -51,10 +54,12 @@ class WPSEO_Utils {
 
 	/**
 	 * Check whether file editing is allowed for the .htaccess and robots.txt files.
+	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
-	 * @return bool
 	 * @since 1.8.0
+	 *
+	 * @return bool
 	 */
 	public static function allow_system_file_edit() {
 		$allowed = true;
@@ -76,8 +81,9 @@ class WPSEO_Utils {
 	/**
 	 * Check if the web server is running on Apache.
 	 *
-	 * @return bool
 	 * @since 1.8.0
+	 *
+	 * @return bool
 	 */
 	public static function is_apache() {
 		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
@@ -92,8 +98,9 @@ class WPSEO_Utils {
 	/**
 	 * Check if the web server is running on Nginx.
 	 *
-	 * @return bool
 	 * @since 1.8.0
+	 *
+	 * @return bool
 	 */
 	public static function is_nginx() {
 		if ( ! isset( $_SERVER['SERVER_SOFTWARE'] ) ) {
@@ -108,11 +115,11 @@ class WPSEO_Utils {
 	/**
 	 * Register a notification to be shown in the JavaScript console.
 	 *
+	 * @since 3.3.2
+	 *
 	 * @param string $identifier    Notification identifier.
 	 * @param string $message       Message to be shown.
 	 * @param bool   $one_time_only Only show once (if added multiple times).
-	 *
-	 * @since 3.3.2
 	 */
 	public static function javascript_console_notification( $identifier, $message, $one_time_only = false ) {
 		static $registered_hook;
@@ -151,10 +158,11 @@ class WPSEO_Utils {
 	/**
 	 * Check whether a url is relative.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param string $url URL string to check.
 	 *
 	 * @return bool
-	 * @since 1.8.0
 	 */
 	public static function is_url_relative( $url ) {
 		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
@@ -163,8 +171,9 @@ class WPSEO_Utils {
 	/**
 	 * List all the available user roles.
 	 *
-	 * @return array $roles
 	 * @since 1.8.0
+	 *
+	 * @return array $roles
 	 */
 	public static function get_roles() {
 		global $wp_roles;
@@ -180,12 +189,14 @@ class WPSEO_Utils {
 
 	/**
 	 * Standardize whitespace in a string.
+	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
+	 *
+	 * @since 1.8.0
 	 *
 	 * @param string $string String input to standardize.
 	 *
 	 * @return string
-	 * @since 1.8.0
 	 */
 	public static function standardize_whitespace( $string ) {
 		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
@@ -195,10 +206,11 @@ class WPSEO_Utils {
 	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
 	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param string $text Input string that might contain shortcodes.
 	 *
 	 * @return string $text String without shortcodes.
-	 * @since 1.8.0
 	 */
 	public static function strip_shortcode( $text ) {
 		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
@@ -208,10 +220,11 @@ class WPSEO_Utils {
 	 * Recursively trim whitespace round a string value or of string values within an array.
 	 * Only trims strings to avoid typecasting a variable (to string).
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param mixed $value Value to trim or array of values to trim.
 	 *
 	 * @return mixed Trimmed value or array of trimmed values.
-	 * @since 1.8.0
 	 */
 	public static function trim_recursive( $value ) {
 		if ( is_string( $value ) ) {
@@ -227,11 +240,12 @@ class WPSEO_Utils {
 	/**
 	 * Translates a decimal analysis score into a textual one.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param int  $val       The decimal score to translate.
 	 * @param bool $css_value Whether to return the i18n translated score or the CSS class value.
 	 *
 	 * @return string
-	 * @since 1.8.0
 	 */
 	public static function translate_score( $val, $css_value = true ) {
 		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
@@ -246,13 +260,16 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @link  https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
+	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
+	 *
 	 * Sanitize a string from user input or from the db.
+	 *
 	 * - Check for invalid UTF-8;
 	 * - Convert single < characters to entity;
 	 * - Strip all tags;
 	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
+	 *
 	 * @since 1.8.0
 	 *
 	 * @param string $value String value to sanitize.
@@ -286,10 +303,10 @@ class WPSEO_Utils {
 		/**
 		 * Filter a sanitized text field string.
 		 *
+		 * @since WP 2.9.0
+		 *
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
-		 *
-		 * @since WP 2.9.0
 		 */
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
@@ -298,12 +315,12 @@ class WPSEO_Utils {
 	 * Sanitize a url for saving to the database.
 	 * Not to be confused with the old native WP function.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param string $value             String URL value to sanitize.
 	 * @param array  $allowed_protocols Optional set of allowed protocols.
 	 *
 	 * @return string
-	 * @since 1.8.0
-	 * @todo  [JRF => whomever] Check/improve url verification.
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 
@@ -386,10 +403,11 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as boolean.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param mixed $value Value to validate.
 	 *
 	 * @return bool
-	 * @since 1.8.0
 	 */
 	public static function validate_bool( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -407,10 +425,11 @@ class WPSEO_Utils {
 	/**
 	 * Cast a value to bool.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param mixed $value Value to cast.
 	 *
 	 * @return bool
-	 * @since 1.8.0
 	 */
 	public static function emulate_filter_bool( $value ) {
 		$true  = [
@@ -470,10 +489,11 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as integer.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param mixed $value Value to validate.
 	 *
 	 * @return int|bool Int or false in case of failure to convert to int.
-	 * @since 1.8.0
 	 */
 	public static function validate_int( $value ) {
 		if ( ! isset( self::$has_filters ) ) {
@@ -491,10 +511,11 @@ class WPSEO_Utils {
 	/**
 	 * Cast a value to integer.
 	 *
+	 * @since 1.8.0
+	 *
 	 * @param mixed $value Value to cast.
 	 *
 	 * @return int|bool
-	 * @since 1.8.0
 	 */
 	public static function emulate_filter_int( $value ) {
 		if ( is_int( $value ) ) {
@@ -564,9 +585,11 @@ class WPSEO_Utils {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
-	 * @link  http://floating-point-gui.de/
-	 * @link  http://php.net/language.types.float.php See the big red warning.
+	 * @link http://floating-point-gui.de/
+	 * @link http://php.net/language.types.float.php See the big red warning.
+	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
+	 *
 	 * @since 1.5.0
 	 * @since 1.8.0 Moved from stand-alone function to this class.
 	 *
@@ -693,10 +716,11 @@ class WPSEO_Utils {
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param string $string String input to trim.
 	 *
 	 * @return string
-	 * @since 2.0.0
 	 */
 	public static function trim_nbsp_from_string( $string ) {
 		$find   = [ '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) ];
@@ -709,10 +733,11 @@ class WPSEO_Utils {
 	/**
 	 * Check if a string is a valid datetime.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
 	 * @return bool
-	 * @since 2.0.0
 	 */
 	public static function is_valid_datetime( $datetime ) {
 		static $date_helper;
@@ -726,12 +751,14 @@ class WPSEO_Utils {
 
 	/**
 	 * Format the URL to be sure it is okay for using as a redirect url.
+	 *
 	 * This method will parse the URL and combine them in one string.
+	 *
+	 * @since 2.3.0
 	 *
 	 * @param string $url URL string.
 	 *
 	 * @return mixed
-	 * @since 2.3.0
 	 */
 	public static function format_url( $url ) {
 		$parsed_url = wp_parse_url( $url );
@@ -757,10 +784,11 @@ class WPSEO_Utils {
 	/**
 	 * Get plugin name from file.
 	 *
+	 * @since 2.3.3
+	 *
 	 * @param string $plugin Plugin path relative to plugins directory.
 	 *
 	 * @return string|bool
-	 * @since 2.3.3
 	 */
 	public static function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
@@ -775,8 +803,9 @@ class WPSEO_Utils {
 	/**
 	 * Retrieves the sitename.
 	 *
-	 * @return string
 	 * @since 3.0.0
+	 *
+	 * @return string
 	 */
 	public static function get_site_name() {
 		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
@@ -785,8 +814,9 @@ class WPSEO_Utils {
 	/**
 	 * Retrieves the title separator.
 	 *
-	 * @return string
 	 * @since 3.0.0
+	 *
+	 * @return string
 	 */
 	public static function get_title_separator() {
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
@@ -812,8 +842,9 @@ class WPSEO_Utils {
 	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
-	 * @return bool
 	 * @since 3.0.0
+	 *
+	 * @return bool
 	 */
 	public static function is_yoast_seo_page() {
 		static $is_yoast_seo;
@@ -829,10 +860,11 @@ class WPSEO_Utils {
 	/**
 	 * Check if the current opened page belongs to Yoast SEO Free.
 	 *
+	 * @since 3.3.0
+	 *
 	 * @param string $current_page The current page the user is on.
 	 *
 	 * @return bool
-	 * @since 3.3.0
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
 		$yoast_seo_free_pages = [
@@ -859,10 +891,12 @@ class WPSEO_Utils {
 
 	/**
 	 * Determine if Yoast SEO is in development mode?
+	 *
 	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
 	 *
-	 * @return bool
 	 * @since 3.0.0
+	 *
+	 * @return bool
 	 */
 	public static function is_development_mode() {
 		$development_mode = false;
@@ -880,9 +914,9 @@ class WPSEO_Utils {
 		/**
 		 * Filter the Yoast SEO development mode.
 		 *
-		 * @param bool $development_mode Is Yoast SEOs development mode active.
-		 *
 		 * @since 3.0
+		 *
+		 * @param bool $development_mode Is Yoast SEOs development mode active.
 		 */
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
@@ -890,11 +924,12 @@ class WPSEO_Utils {
 	/**
 	 * Retrieve home URL with proper trailing slash.
 	 *
+	 * @since 3.3.0
+	 *
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
 	 *
 	 * @return string Home URL with optional path, appropriately slashed if not.
-	 * @since 3.3.0
 	 */
 	public static function home_url( $path = '', $scheme = null ) {
 
@@ -924,10 +959,11 @@ class WPSEO_Utils {
 	/**
 	 * Returns a base64 URL for the svg for use in the menu.
 	 *
+	 * @since 3.3.0
+	 *
 	 * @param bool $base64 Whether or not to return base64'd output.
 	 *
 	 * @return string
-	 * @since 3.3.0
 	 */
 	public static function get_icon_svg( $base64 = true ) {
 		$svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" style="fill:#82878c" viewBox="0 0 512 512" role="img" aria-hidden="true" focusable="false"><g><g><g><g><path d="M203.6,395c6.8-17.4,6.8-36.6,0-54l-79.4-204h70.9l47.7,149.4l74.8-207.6H116.4c-41.8,0-76,34.2-76,76V357c0,41.8,34.2,76,76,76H173C189,424.1,197.6,410.3,203.6,395z"/></g><g><path d="M471.6,154.8c0-41.8-34.2-76-76-76h-3L285.7,365c-9.6,26.7-19.4,49.3-30.3,68h216.2V154.8z"/></g></g><path stroke-width="2.974" stroke-miterlimit="10" d="M338,1.3l-93.3,259.1l-42.1-131.9h-89.1l83.8,215.2c6,15.5,6,32.5,0,48c-7.4,19-19,37.3-53,41.9l-7.2,1v76h8.3c81.7,0,118.9-57.2,149.6-142.9L431.6,1.3H338z M279.4,362c-32.9,92-67.6,128.7-125.7,131.8v-45c37.5-7.5,51.3-31,59.1-51.1c7.5-19.3,7.5-40.7,0-60l-75-192.7h52.8l53.3,166.8l105.9-294h58.1L279.4,362z"/></g></g></svg>';
@@ -994,15 +1030,16 @@ SVG;
 	/**
 	 * Checks if the WP-REST-API is available.
 	 *
+	 * @since 3.6
+	 * @since 3.7 Introduced the $minimum_version parameter.
+	 *
 	 * @param string $minimum_version The minimum version the API should be.
 	 *
 	 * @return bool Returns true if the API is available.
-	 * @since 3.6
-	 * @since 3.7 Introduced the $minimum_version parameter.
 	 */
 	public static function is_api_available( $minimum_version = '2.0' ) {
 		return ( defined( 'REST_API_VERSION' )
-		         && version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
+			&& version_compare( REST_API_VERSION, $minimum_version, '>=' ) );
 	}
 
 	/**
@@ -1093,7 +1130,7 @@ SVG;
 
 		// Consider MU plugins and network-activated plugins as network-active.
 		$network_active = strpos( wp_normalize_path( WPSEO_FILE ), wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
-		                  || in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
+			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
 
 		return $network_active;
 	}
@@ -1141,8 +1178,8 @@ SVG;
 		$post_type_object = get_post_type_object( $post_type );
 
 		$label_array = [
-			'label'         => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
-			'labelSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
+			'label'         => $page_type === 'post' ? $post_type_object->label : $taxonomy_labels->name,
+			'labelSingular' => $page_type === 'post' ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
 		];
 
 		$wpseo_admin_l10n = [
@@ -1165,6 +1202,7 @@ SVG;
 
 	/**
 	 * Retrieves the analysis worker log level. Defaults to errors only.
+	 *
 	 * Uses bool YOAST_SEO_DEBUG as flag to enable logging. Off equals ERROR.
 	 * Uses string YOAST_SEO_DEBUG_ANALYSIS_WORKER as log level for the Analysis
 	 * Worker. Defaults to INFO.
@@ -1181,10 +1219,20 @@ SVG;
 	}
 
 	/**
-	 * Returns the home url with the following modifications:
+	 * Returns the unfiltered home URL.
+	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 * In case of a multisite setup we return the network_home_url.
 	 *
-	 * @codeCoverageIgnore
+	 * @return string The home url.
+	 */
+
+	/**
+	 * Returns the unfiltered home URL.
+	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
+	 * In case of a multisite setup we return the network_home_url.
+	 *
 	 * @return string The home url.
 	 *
 	 * @codeCoverageIgnore
@@ -1208,6 +1256,7 @@ SVG;
 	 * Checks if the current installation supports MyYoast access tokens.
 	 *
 	 * @codeCoverageIgnore
+	 *
 	 * @return bool True if access_tokens are supported.
 	 */
 	public static function has_access_token_support() {
@@ -1253,7 +1302,6 @@ SVG;
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Escaping happens in WPSEO_Utils::schema_tag, which should be whitelisted.
 		echo self::schema_tag( $graph, $class );
-
 		return true;
 	}
 
@@ -1274,7 +1322,6 @@ SVG;
 			'@context' => 'https://schema.org',
 			'@graph'   => $graph,
 		];
-
 		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 
@@ -1282,8 +1329,8 @@ SVG;
 	 * Extends the allowed post tags with accessibility-related attributes.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.
-	 *
 	 * @codeCoverageIgnore
+	 *
 	 * @return array The allowed tags including post tags, input tags and select tags.
 	 */
 	public static function extend_kses_post_with_a11y( $allowed_post_tags ) {
@@ -1324,8 +1371,8 @@ SVG;
 	 * Extends the allowed post tags with input, select and option tags.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.
-	 *
 	 * @codeCoverageIgnore
+	 *
 	 * @return array The allowed tags including post tags, input tags, select tags and option tags.
 	 */
 	public static function extend_kses_post_with_forms( $allowed_post_tags ) {
@@ -1333,7 +1380,7 @@ SVG;
 
 		if ( isset( $input_tags ) === false ) {
 			$input_tags = [
-				'input'  => [
+				'input' => [
 					'accept'          => true,
 					'accesskey'       => true,
 					'align'           => true,
@@ -1449,31 +1496,35 @@ SVG;
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
 	 *
+	 * @see WPSEO_Language_Utils::get_language()
+	 *
+	 * @deprecated 9.5
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $locale The locale to get the language of.
 	 *
 	 * @return string The language part of the locale.
-	 * @see        WPSEO_Language_Utils::get_language()
-	 * @deprecated 9.5
-	 * @codeCoverageIgnore
 	 */
 	public static function get_language( $locale ) {
 		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_language' );
-
 		return WPSEO_Language_Utils::get_language( $locale );
 	}
 
 	/**
 	 * Returns the user locale for the language to be used in the admin.
+	 *
 	 * WordPress 4.7 introduced the ability for users to specify an Admin language
 	 * different from the language used on the front end. This checks if the feature
 	 * is available and returns the user's language, with a fallback to the site's language.
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
-	 * @return string The locale.
+	 * @see WPSEO_Language_Utils::get_user_locale()
+	 *
 	 * @deprecated 9.5
 	 * @codeCoverageIgnore
-	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 *
+	 * @return string The locale.
 	 */
 	public static function get_user_locale() {
 		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_user_locale' );
