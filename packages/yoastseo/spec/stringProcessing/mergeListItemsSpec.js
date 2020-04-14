@@ -143,6 +143,56 @@ describe.skip( "A test for merging list items in texts for the purpuse of making
 		" This is the short step 3. " +
 		" <p>This is step 4a. This is step 4b.</p> ";
 
+	const realWordULExample1 = "<p>Besides all of these great developments, you really should use the block editor" +
+		" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
+		" the block editor:</p><ul><li>You will be able to build layouts that you can’t make in TinyMCE." +
+		" Most of the stuff we did for our" +
+		"<a href=\"https://developer.yoast.com/digital-storytelling-in-the-age-of-blocks/\">recent digital story</a>" +
+		" required <em>no coding</em>. Plugins like <a href=\"https:\//wordpress.org/plugins/grids/\">Grids</a> " +
+		"make it even easier to make very smooth designs.</li><li>You can make FAQs and HowTo’s that’ll look awesome " +
+		"in search results. <span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO " +
+		"advantage that is unmatched. For instance, check out our free" +
+		" <a href=\"https://yoast.com/how-to-build-an-faq-page/\">FAQ</a> and" +
+		" <a href=\"https://yoast.com/wordpress/plugins/seo/howto-schema-content-block/\">How-to</a> blocks." +
+		"</span></li><li>Simple things like images next to paragraphs and other things that could be painful " +
+		"in TinyMCE have become so much better in Gutenberg. Want multiple columns? You can have them, like that, " +
+		"without extra coding.</li><li>Speaking of things you couldn’t do without plugins before: you can now embed" +
+		" tables in your content, just by adding a table block. No plugins required.</li><li>Creating custom blocks" +
+		" is relatively simple, and allows people to do 90% of the custom things they would do with plugins in the " +
+		"past, but easier. It becomes even easier when you use a plugin like " +
+		"<a href=\"https://www.advancedcustomfields.com/pro/\">ACF Pro</a> or <a href=\"https://getblocklab.com\">" +
+		"Block Lab</a> to build those custom blocks.</li><li>Custom blocks, or blocks you’ve added with plugins, " +
+		"can be easily found by users just by clicking the + sign in the editor. Shortcodes, in the classic editor, " +
+		"didn’t have such a discovery method.</li><li>Re-usable blocks allow you to easily create content you can " +
+		"re-use across posts or pages, see this" +
+		" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
+		"tutorial on WP Beginner</a>.</li></ul><p>There are many more nice features; please share yours in the comments!</p>";
+
+	const realWordULExample1Processed = "<p>Besides all of these great developments, you really should use the block editor" +
+		" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
+		" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
+		" Most of the stuff we did for our" +
+		"<a href=\"https://developer.yoast.com/digital-storytelling-in-the-age-of-blocks/\">recent digital story</a>" +
+		" required <em>no coding</em>. Plugins like <a href=\"https:\//wordpress.org/plugins/grids/\">Grids</a> " +
+		"make it even easier to make very smooth designs.  You can make FAQs and HowTo’s that’ll look awesome " +
+		"in search results. <span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO " +
+		"advantage that is unmatched. For instance, check out our free" +
+		" <a href=\"https://yoast.com/how-to-build-an-faq-page/\">FAQ</a> and" +
+		" <a href=\"https://yoast.com/wordpress/plugins/seo/howto-schema-content-block/\">How-to</a> blocks." +
+		"</span>  Simple things like images next to paragraphs and other things that could be painful " +
+		"in TinyMCE have become so much better in Gutenberg. Want multiple columns? You can have them, like that, " +
+		"without extra coding.  Speaking of things you couldn’t do without plugins before: you can now embed" +
+		" tables in your content, just by adding a table block. No plugins required.  Creating custom blocks" +
+		" is relatively simple, and allows people to do 90% of the custom things they would do with plugins in the " +
+		"past, but easier. It becomes even easier when you use a plugin like " +
+		"<a href=\"https://www.advancedcustomfields.com/pro/\">ACF Pro</a> or <a href=\"https://getblocklab.com\">" +
+		"Block Lab</a> to build those custom blocks.  Custom blocks, or blocks you’ve added with plugins, " +
+		"can be easily found by users just by clicking the + sign in the editor. Shortcodes, in the classic editor, " +
+		"didn’t have such a discovery method.  Re-usable blocks allow you to easily create content you can " +
+		"re-use across posts or pages, see this" +
+		" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
+		"tutorial on WP Beginner</a>. <p>There are many more nice features; please share yours in the comments!</p>";
+
 	it( "should remove ul/ol tags, li tags and line breaks within a list and add a space before and after each list item -" +
 		"list with lower-case single words", function() {
 		expect( mergeListItems( ulWordsLowerCase ) ).toEqual( listWordsLowerCaseProcessed );
@@ -178,5 +228,9 @@ describe.skip( "A test for merging list items in texts for the purpuse of making
 
 	it( "should correctly process mixed lists consisting of paragraphs and sentences", function() {
 		expect( mergeListItems( ulParagraphsAndSentences ) ).toEqual( listParagraphsAndSentencesProcessed );
+	} );
+
+	it( "should correctly process a real world example list including various html tags", function() {
+		expect( mergeListItems( realWordULExample1 ) ).toEqual( realWordULExample1Processed );
 	} );
 } );
