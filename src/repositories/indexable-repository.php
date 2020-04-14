@@ -7,10 +7,8 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Cassandra\Index;
 use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
