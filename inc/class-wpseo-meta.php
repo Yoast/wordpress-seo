@@ -411,7 +411,7 @@ class WPSEO_Meta {
 				break;
 
 
-			case ( $field_def['type'] === 'multiselect' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
+			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'meta-robots-adv' ):
 				$clean = self::validate_meta_robots_adv( $meta_value );
 				break;
 
@@ -442,6 +442,13 @@ class WPSEO_Meta {
 				 */
 				if ( $meta_value === 'true' ) {
 					$clean = '1';
+				}
+				break;
+
+			case ( $field_def['type'] === 'hidden' && isset( $field_def['options'] ) ):
+				// Only allow value if it's one of the predefined options.
+				if ( isset( $field_def['options'][ $meta_value ] ) ) {
+					$clean = $meta_value;
 				}
 				break;
 
