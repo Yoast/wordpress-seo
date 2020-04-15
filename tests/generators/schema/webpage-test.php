@@ -4,12 +4,12 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Generators\Schema\WebPage;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Generators\Schema\WebPage;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -95,7 +95,7 @@ class WebPage_Test extends TestCase {
 				'html'     => $this->html,
 				'id'       => $this->id,
 				'language' => $this->language,
-			]
+			],
 		];
 
 		// Set some values that are used in multiple tests.
@@ -106,12 +106,12 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context->site_url            = 'https://example.com/';
 		$this->meta_tags_context->has_image           = false;
 		$this->meta_tags_context->breadcrumbs_enabled = false;
-		$this->meta_tags_context->post                = (Object) [
+		$this->meta_tags_context->post                = (object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
 			'post_author'       => 'the_author',
 		];
-		$this->meta_tags_context->indexable           = (Object) [
+		$this->meta_tags_context->indexable           = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'page',
 		];
@@ -173,7 +173,7 @@ class WebPage_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
+			->andReturnUsing( function ( $data ) {
 				$data['inLanguage'] = 'the-language';
 
 				return $data;
@@ -217,7 +217,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
@@ -236,7 +237,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -276,7 +278,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -312,7 +315,7 @@ class WebPage_Test extends TestCase {
 	public function test_generate_object_post_site_represents_true() {
 		$this->meta_tags_context->site_represents = true;
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'post',
 		];
@@ -323,7 +326,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -358,7 +362,7 @@ class WebPage_Test extends TestCase {
 	public function test_generate_object_post_site_represents_false() {
 		$this->meta_tags_context->site_represents = false;
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => 'post',
 			'object_sub_type' => 'post',
 		];
@@ -369,7 +373,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$this->id
 			->expects( 'get_user_schema_id' )
@@ -416,7 +421,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			1 );
+			1
+		);
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -456,7 +462,7 @@ class WebPage_Test extends TestCase {
 	 */
 	public function test_generate_object_type_home_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
-		$this->meta_tags_context->indexable        = (Object) [
+		$this->meta_tags_context->indexable        = (object) [
 			'object_type' => 'home-page',
 		];
 
@@ -466,7 +472,8 @@ class WebPage_Test extends TestCase {
 			0,
 			0,
 			0,
-			0 );
+			0
+		);
 
 		$expected = [
 			'@type'      => 'CollectionPage',
@@ -498,7 +505,8 @@ class WebPage_Test extends TestCase {
 			1,
 			1,
 			1,
-			0 );
+			0
+		);
 
 		$expected = [
 			'@type'         => 'CollectionPage',
@@ -529,7 +537,7 @@ class WebPage_Test extends TestCase {
 	 * @param string $message         The message to show in case a test fails.
 	 */
 	public function test_is_needed( $object_type, $object_sub_type, $expected, $message ) {
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => $object_type,
 			'object_sub_type' => $object_sub_type,
 		];
