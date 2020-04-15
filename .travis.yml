@@ -190,13 +190,15 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+        $HOME
         pwd
         ls -lah
         cd /tmp/javascript
         git checkout test-nvmrc
         nvm install
         nvm use
-        cd ../../Yoast/wordpress-seo
+        $HOME
+        cd Yoast/wordpress-seo
         pwd
         yarn link-monorepo
         nvm use $TRAVIS_NODE_VERSION
