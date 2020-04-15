@@ -190,8 +190,10 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+        nvm install
         nvm use
         yarn link-monorepo
+        nvm use $TRAVIS_NODE_VERSION
       fi
     fi
   - phpenv rehash
