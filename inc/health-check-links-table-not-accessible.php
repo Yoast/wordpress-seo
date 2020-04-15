@@ -21,11 +21,11 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
-		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
+		if ( ! $this->is_text_link_counter_enabled() ) {
 			return;
 		}
 
-		if ( WPSEO_Link_Table_Accessible::is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible() ) {
+		if ( $this->are_tables_accessible() ) {
 			$this->label           = esc_html__( 'The text link counter is working as expected', 'wordpress-seo' );
 			$this->status          = self::STATUS_GOOD;
 			$this->badge['color']  = 'blue';
@@ -55,5 +55,23 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15o' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+	}
+
+	/**
+	 * Checks whether the text link counter feature is enabled.
+	 *
+	 * @return bool Whether the text link counter feature is enabled.
+	 */
+	protected function is_text_link_counter_enabled() {
+		return WPSEO_Options::get( 'enable_text_link_counter' );
+	}
+
+	/**
+	 * Checks whether the SEO links and SEO meta database tables exist.
+	 *
+	 * @return bool Whether the SEO links and SEO meta database tables exist.
+	 */
+	protected function are_tables_accessible() {
+		return WPSEO_Link_Table_Accessible::is_accessible() && WPSEO_Meta_Table_Accessible::is_accessible();
 	}
 }
