@@ -115,7 +115,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 
 		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts} AS posts
-            WHERE posts.id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND posts.post_type IN ($placeholders)
+            WHERE posts.ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND posts.post_type IN ($placeholders)
             $limit_query", $replacements );
 	}
 }
