@@ -2,10 +2,10 @@
 /**
  * Reindexation action for indexables
  *
- * @package Yoast\WP\SEO\Actions\Indexing
+ * @package Yoast\WP\SEO\Actions\Indexation
  */
 
-namespace Yoast\WP\SEO\Actions\Indexing;
+namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
