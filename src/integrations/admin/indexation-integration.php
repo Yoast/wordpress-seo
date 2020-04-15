@@ -75,7 +75,7 @@ class Indexation_Integration implements Integration_Interface {
 			'restApi' => [
 				'root'      => \esc_url_raw( rest_url() ),
 				'endpoints' => [
-					'posts' => Main::API_V1_NAMESPACE . '/' . Indexable_Indexation_Route::POSTS_ROUTE,
+					'posts' => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],

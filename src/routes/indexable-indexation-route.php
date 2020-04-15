@@ -27,6 +27,13 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	const POSTS_ROUTE = 'indexation/posts';
 
 	/**
+	 * The full posts route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_POSTS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE;
+
+	/**
 	 * The post indexation action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -61,7 +68,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	public function index_posts() {
 		$indexables = $this->post_indexation_action->index();
-		$next_url   = empty( $indexables ) ? false : \rest_url( Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE );
+		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_POSTS_ROUTE );
 
 		return $this->respond_with( $indexables, $next_url );
 	}
