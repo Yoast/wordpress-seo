@@ -520,39 +520,20 @@ class WebPage_Test extends TestCase {
 	 * Tests is_needed when the conditional is true.
 	 *
 	 * @covers ::is_needed
-	 */
-	public function test_is_needed() {
-		$this->meta_tags_context->indexable = (Object) [
-			'object_type'     => 'user',
-			'object_sub_type' => '',
-		];
-		$this->assertTrue( $this->instance->is_needed() );
-	}
-
-	/**
-	 * Tests is_needed for a system page (but not a 404 page).
 	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_needed_system_page() {
-		$this->meta_tags_context->indexable = (Object) [
-			'object_type'     => 'system_page',
-			'object_sub_type' => '',
-		];
-		$this->assertTrue( $this->instance->is_needed() );
-	}
-
-	/**
-	 * Tests is_needed for a system page / 404 page.
+	 * @dataProvider provider_for_is_needed
 	 *
-	 * @covers ::is_needed
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object subtype.
+	 * @param bool   $expected        Whether is_needed returns true or false.
+	 * @param string $message         The message to show in case a test fails.
 	 */
-	public function test_is_needed_system_page_404() {
+	public function test_is_needed( $object_type, $object_sub_type, $expected, $message ) {
 		$this->meta_tags_context->indexable = (Object) [
-			'object_type'     => 'system-page',
-			'object_sub_type' => '404',
+			'object_type'     => $object_type,
+			'object_sub_type' => $object_sub_type,
 		];
-		$this->assertFalse( $this->instance->is_needed() );
+		$this->assertEquals( $expected, $this->instance->is_needed(), $message );
 	}
 
 	/**
@@ -638,6 +619,34 @@ class WebPage_Test extends TestCase {
 					],
 				],
 				'message'        => 'There no image, but breadcrumbs are enabled.',
+			],
+		];
+	}
+
+	/**
+	 * Provides data to the is_needed test.
+	 *
+	 * @return array The data to use.
+	 */
+	public function provider_for_is_needed() {
+		return [
+			[
+				'object_type'     => 'user',
+				'object_sub_type' => '',
+				'expected'        => true,
+				'message'         => 'Tests is_needed when the conditional is true.',
+			],
+			[
+				'object_type'     => 'system_page',
+				'object_sub_type' => '',
+				'expected'        => true,
+				'message'         => 'Tests is_needed for a system page (but not a 404 page).',
+			],
+			[
+				'object_type'     => 'system_page',
+				'object_sub_type' => '404',
+				'expected'        => false,
+				'message'         => 'Tests is_needed for a system page / 404 page.',
 			],
 		];
 	}
