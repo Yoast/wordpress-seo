@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Indexation_Modal_Presenter class
+ * Indexation_Modal_Presenter class.
  */
 class Indexation_Modal_Presenter extends Abstract_Presenter {
 
@@ -31,9 +31,9 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * Presents the modal
+	 * Presents the modal.
 	 *
-	 * @return string
+	 * @return string The modal HTML.
 	 */
 	public function present() {
 		$blocks = [];

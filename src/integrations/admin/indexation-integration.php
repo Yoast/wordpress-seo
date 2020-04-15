@@ -72,7 +72,7 @@ class Indexation_Integration implements Integration_Interface {
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
 			'restApi' => [
-				'root'      => \esc_url_raw( rest_url() ),
+				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
 					'posts' => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 				],
@@ -119,6 +119,7 @@ class Indexation_Integration implements Integration_Interface {
 		if ( \is_null( $this->total_unindexed ) ) {
 			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
 		}
+
 		return $this->total_unindexed;
 	}
 }

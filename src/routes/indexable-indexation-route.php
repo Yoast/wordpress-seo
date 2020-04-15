@@ -1,6 +1,6 @@
 <?php
 /**
- * Reindexation route for indexables
+ * Reindexation route for indexables.
  *
  * @package Yoast\WP\SEO\Routes\Routes
  */
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
 /**
- * Indexable_Reindexing_Route class
+ * Indexable_Reindexing_Route class.
  */
 class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
@@ -42,7 +42,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
 
 	/**
-	 * Indexable_Indexation_Route constructor
+	 * Indexable_Indexation_Route constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action $post_indexation_action The post indexation action.
 	 */

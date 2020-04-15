@@ -1,15 +1,13 @@
 /* global yoastIndexationData, jQuery, tb_remove */
-
-const settings = yoastIndexationData;
-
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
 
+const settings = yoastIndexationData;
+
 ( ( $ ) => {
 	let indexationInProgress = false;
-	let indexationCompleted  = false;
-	const indexationActions  = {};
+	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
 	window.yoast.registerIndexationAction = ( endpoint, action ) => {
@@ -17,12 +15,12 @@ import ProgressBar from "./ui/progressBar";
 	};
 
 	/**
-     * Does an indexation request.
-     *
-     * @param {string} url The url of the indexation that should be done.
-     *
-     * @returns {Promise} The request promise.
-     */
+	 * Does an indexation request.
+	 *
+	 * @param {string} url The url of the indexation that should be done.
+	 *
+	 * @returns {Promise} The request promise.
+	 */
 	async function doIndexationRequest( url ) {
 		const response = await fetch( url, {
 			method: "POST",
@@ -34,13 +32,13 @@ import ProgressBar from "./ui/progressBar";
 	}
 
 	/**
-     * Does the indexation of a given endpoint
-     *
-     * @param {string}      endpoint    The endpoint.
-     * @param {ProgressBar} progressBar The progress bar.
-     *
-     * @returns {Promise} The indexation promise.
-     */
+	 * Does the indexation of a given endpoint
+	 *
+	 * @param {string}      endpoint    The endpoint.
+	 * @param {ProgressBar} progressBar The progress bar.
+	 *
+	 * @returns {Promise} The indexation promise.
+	 */
 	async function doIndexation( endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
@@ -55,12 +53,12 @@ import ProgressBar from "./ui/progressBar";
 	}
 
 	/**
-     * Starts the indexation.
-     *
-     * @param {ProgressBar} progressBar The progress bar.
-     *
-     * @returns {Promise} The indexation promise.
-     */
+	 * Starts the indexation.
+	 *
+	 * @param {ProgressBar} progressBar The progress bar.
+	 *
+	 * @returns {Promise} The indexation promise.
+	 */
 	async function startIndexation( progressBar ) {
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
 			await doIndexation( endpoint, progressBar );
@@ -79,7 +77,6 @@ import ProgressBar from "./ui/progressBar";
 
 					tb_remove();
 					indexationInProgress = false;
-					indexationCompleted  = true;
 				} );
 				indexationInProgress = true;
 			}

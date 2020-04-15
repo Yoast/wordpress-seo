@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Presenters\Admin;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
- * Indexation_List_Item_Presenter class
+ * Indexation_List_Item_Presenter class.
  */
 class Indexation_List_Item_Presenter extends Abstract_Presenter {
 
@@ -31,11 +31,12 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Presents the list item for the tools menu.
+	 *
+	 * @return string The list item HTML.
 	 */
 	public function present() {
-
-		$output = '<li><strong>' . esc_html__( 'Content indexation', 'wordpress-seo' ) . '</strong><br/>';
+		$output = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Content indexation', 'wordpress-seo' ) );
 
 		if ( $this->total_unindexed === 0 ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_already_indexed` is considered a safe method.

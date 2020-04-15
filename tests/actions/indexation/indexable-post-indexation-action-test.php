@@ -70,9 +70,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_query
 	 */
 	public function test_get_total_unindexed() {
-		$expected_query = 'SELECT COUNT(ID) FROM wp_posts
-            WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
-            ';
+		$limit_placeholder = '';
+		$expected_query    = "
+			SELECT COUNT(ID)
+			FROM wp_posts
+			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
+			$limit_placeholder
+		";
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type' ] )->andReturn( 'query' );
@@ -89,9 +93,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_query
 	 */
 	public function test_index() {
-		$expected_query = 'SELECT ID FROM wp_posts
-            WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
-            LIMIT %d';
+		$expected_query = '
+			SELECT ID
+			FROM wp_posts
+			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
+			LIMIT %d
+		';
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type', 25 ] )->andReturn( 'query' );

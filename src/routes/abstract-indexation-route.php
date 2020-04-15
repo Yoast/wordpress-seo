@@ -1,6 +1,6 @@
 <?php
 /**
- * Reindexation route for indexables
+ * Reindexation route for indexables.
  *
  * @package Yoast\WP\SEO\Routes\Routes
  */
@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_REST_Response;
 
 /**
- * Abstract_Indexation_Route class
+ * Abstract_Indexation_Route class.
  */
 abstract class Abstract_Indexation_Route implements Route_Interface {
 

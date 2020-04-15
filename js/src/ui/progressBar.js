@@ -6,8 +6,8 @@ export default class ProgressBar {
 	 * The constructor.
 	 *
 	 * @param {number} total              The total amount of items.
-     * @param {string} countElement       Selector for the count element.
-     * @param {string} progressBarElement Select for the progress bar element.
+	 * @param {string} countElement       Selector for the count element.
+	 * @param {string} progressBarElement Select for the progress bar element.
 	 */
 	constructor( total, countElement, progressBarElement ) {
 		this.element = jQuery( countElement );

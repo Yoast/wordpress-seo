@@ -33,7 +33,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	protected $builder;
 
 	/**
-	 * The wpdb instance.
+	 * The WordPress database instance.
 	 *
 	 * @var wpdb
 	 */
@@ -43,8 +43,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * Indexable_Post_Indexing_Action constructor
 	 *
 	 * @param Post_Type_Helper  $post_type_helper The post type helper.
-	 * @param Indexable_Builder $builder       The indexable builder.
-	 * @param wpdb              $wpdb             The wpdb instance.
+	 * @param Indexable_Builder $builder          The indexable builder.
+	 * @param wpdb              $wpdb             The WordPress database instance.
 	 */
 	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Builder $builder, wpdb $wpdb ) {
 		$this->post_type_helper = $post_type_helper;
@@ -55,12 +55,17 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * The total number of unindexed posts.
 	 *
-	 * @return int The amount of unindexed posts.
+	 * @return int|false The amount of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed() {
 		$query = $this->get_query( true );
 
-		return (int) $this->wpdb->get_var( $query );
+		$result = $this->wpdb->get_var( $query );
+
+		if ( \is_null( $result ) ) {
+			return false;
+		}
+		return (int) $result;
 	}
 
 	/**
@@ -87,6 +92,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		foreach ( $post_ids as $post_id ) {
 			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
 		}
+
 		return $indexables;
 	}
 
@@ -110,12 +116,15 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		}
 		$limit_query = '';
 		if ( ! $count ) {
-			$limit_query = 'LIMIT %d';
+			$limit_query    = 'LIMIT %d';
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts}
-            WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND post_type IN ($placeholders)
-            $limit_query", $replacements );
+		return $this->wpdb->prepare( "
+			SELECT $select
+			FROM {$this->wpdb->posts}
+			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND post_type IN ($placeholders)
+			$limit_query
+		", $replacements );
 	}
 }
