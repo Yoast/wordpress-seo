@@ -94,4 +94,3 @@ export const setSocialPreviewImage = ( image, platform ) => {
 export const clearSocialPreviewImage = ( platform ) => {
 	return { type: CLEAR_SOCIAL_IMAGE, platform };
 };
-

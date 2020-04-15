@@ -9,7 +9,7 @@ import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import {
-	determineImageProperties,
+	handleImage,
 	FACEBOOK_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
@@ -65,28 +65,48 @@ class FacebookImage extends Component {
 			imageProperties: null,
 			status: "loading",
 		};
+		this.socialMedium = "Facebook";
+		this.handleFacebookImage = this.handleFacebookImage.bind( this );
+		this.setState = this.setState.bind( this );
+	}
+
+	/**
+	 * Handles setting the handled image properties on the state.
+	 *
+	 * @returns {void}
+	 */
+	async handleFacebookImage() {
+		try {
+			const newState = await handleImage( this.props.src, this.socialMedium );
+			this.setState( newState );
+			this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
+		} catch ( error ) {
+			this.setState( error );
+			this.props.onImageLoaded( "landscape" );
+		}
+	}
+
+	/**
+	 * React Lifecycle method that is called after the component updates.
+	 *
+	 * @param {Object} prevProps The props.
+	 *
+	 * @returns {Object} The new props.
+	 */
+	componentDidUpdate( prevProps ) {
+		// Only perform calculations on the image if the src has actually changed.
+		if ( prevProps.src !== this.props.src ) {
+			this.handleFacebookImage();
+		}
 	}
 
 	/**
 	 * After the component has mounted, determine the properties of the FacebookImage.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @returns {void}
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
-			this.props.onImageLoaded( imageProperties.mode );
-
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
-			} );
-		} ).catch( () => {
-			this.props.onImageLoaded( "landscape" );
-			this.setState( {
-				imageProperties: null,
-				status: "errored",
-			} );
-		} );
+		this.handleFacebookImage();
 	}
 
 	/**
@@ -144,12 +164,13 @@ class FacebookImage extends Component {
 }
 
 FacebookImage.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
+	src: "",
 	alt: "",
 	onImageLoaded: () => {},
 };

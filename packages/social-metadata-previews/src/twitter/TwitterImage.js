@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import {
-	determineImageProperties,
+	handleImage,
 	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
@@ -97,25 +97,46 @@ export default class TwitterImage extends React.Component {
 			imageProperties: null,
 			status: "loading",
 		};
+
+		this.socialMedium = "Twitter";
+		this.handleTwitterImage = this.handleTwitterImage.bind( this );
+		this.setState = this.setState.bind( this );
+	}
+
+	/**
+	 * Handles setting the handled image properties on the state.
+	 *
+	 * @returns {void}
+	 */
+	async handleTwitterImage() {
+		if ( this.props.src === null ) {
+			return;
+		}
+		const newState = await handleImage( this.props.src, this.socialMedium );
+		this.setState( newState );
+	}
+
+	/**
+	 * React Lifecycle method that is called after the component updates.
+	 *
+	 * @param {Object} prevProps The props.
+	 *
+	 * @returns {Object} The new props.
+	 */
+	componentDidUpdate( prevProps ) {
+		// Only perform calculations on the image if the src has actually changed.
+		if ( prevProps.src !== this.props.src ) {
+			this.handleTwitterImage();
+		}
 	}
 
 	/**
 	 * After the component has mounted, determine the properties of the TwitterImage.
 	 *
-	 * @returns {Promise} Resolves when there are image properties.
+	 * @returns {void}
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
-			} );
-		} ).catch( () => {
-			this.setState( {
-				imageProperties: null,
-				status: "errored",
-			} );
-		} );
+		this.handleTwitterImage();
 	}
 
 	/**
@@ -146,11 +167,12 @@ export default class TwitterImage extends React.Component {
 }
 
 TwitterImage.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	isLarge: PropTypes.bool.isRequired,
 	alt: PropTypes.string,
 };
 
 TwitterImage.defaultProps = {
+	src: "",
 	alt: "",
 };
