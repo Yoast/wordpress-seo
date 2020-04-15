@@ -121,6 +121,76 @@ class WebPage_Test extends TestCase {
 	}
 
 	/**
+	 * Sets up the tests that cover the generate function.
+	 *
+	 * @param bool   $is_front_page                          Whether the current page is a front page.
+	 * @param string $schema_page_type                       The Schema page type.
+	 * @param int    $calls_to_format_with_post_date_gmt     The number of function calls to 'format' with
+	 *                                                       'post_date_gmt' as argument.
+	 * @param int    $calls_to_format_with_post_modified_gmt The number of function calls to 'format' with
+	 *                                                       'post_modified_gmt' as argument.
+	 * @param int    $calls_to_is_home_static_page           The number of function calls to 'is_home_static_page'.
+	 * @param int    $calls_to_filter                        The number of calls to the
+	 *                                                       'wpseo_schema_webpage_potential_action_target' filter.
+	 */
+	public function setup_generate_test(
+		$is_front_page,
+		$schema_page_type,
+		$calls_to_format_with_post_date_gmt,
+		$calls_to_format_with_post_modified_gmt,
+		$calls_to_is_home_static_page,
+		$calls_to_filter
+	) {
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'the-title' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->current_page
+			->expects( 'is_front_page' )
+			->once()
+			->withNoArgs()
+			->andReturn( $is_front_page );
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_date_gmt )
+			->times( $calls_to_format_with_post_date_gmt )
+			->andReturn( $this->meta_tags_context->post->post_date_gmt );
+
+		$this->date
+			->expects( 'format' )
+			->with( $this->meta_tags_context->post->post_modified_gmt )
+			->times( $calls_to_format_with_post_modified_gmt )
+			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+
+		$this->current_page
+			->expects( 'is_home_static_page' )
+			->times( $calls_to_is_home_static_page )
+			->withNoArgs()
+			->andReturnFalse();
+
+		$this->language->expects( 'add_piece_language' )
+			->once()
+			->andReturnUsing( function( $data ) {
+				$data['inLanguage'] = 'the-language';
+
+				return $data;
+			} );
+
+		$this->meta_tags_context
+			->expects( 'generate_schema_page_type' )
+			->once()
+			->andReturn( $schema_page_type );
+
+		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
+			->with( [ $this->meta_tags_context->canonical ] )
+			->times( $calls_to_filter )
+			->andReturn( [ $this->meta_tags_context->canonical ] );
+	}
+
+	/**
 	 * Tests generate in various scenarios with a provider.
 	 *
 	 * @covers ::generate
@@ -141,54 +211,13 @@ class WebPage_Test extends TestCase {
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
+		$this->setup_generate_test(
+			false,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$this->assertEquals( $expected, $this->instance->generate(), $message );
 	}
@@ -201,54 +230,13 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_potential_action
 	 */
 	public function test_generate_on_front_page_site_does_not_represents_reference() {
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
+		$this->setup_generate_test(
+			true,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -282,54 +270,13 @@ class WebPage_Test extends TestCase {
 	public function test_generate_on_front_page_site_represents_reference() {
 		$this->meta_tags_context->site_represents_reference = [ '@id' => $this->meta_tags_context->site_url . '#organization' ];
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnTrue();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
+		$this->setup_generate_test(
+			true,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -370,54 +317,13 @@ class WebPage_Test extends TestCase {
 			'object_sub_type' => 'post',
 		];
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
+		$this->setup_generate_test(
+			false,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -457,60 +363,19 @@ class WebPage_Test extends TestCase {
 			'object_sub_type' => 'post',
 		];
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+		$this->setup_generate_test(
+			false,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$this->id
 			->expects( 'get_user_schema_id' )
 			->with( $this->meta_tags_context->post->post_author, $this->meta_tags_context )
 			->once()
 			->andReturn( 'the-user-schema-id' );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -545,60 +410,19 @@ class WebPage_Test extends TestCase {
 	public function test_generate_description_not_empty() {
 		$this->meta_tags_context->description = 'the-description';
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
+		$this->setup_generate_test(
+			false,
+			'WebPage',
+			1,
+			1,
+			1,
+			1 );
 
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->with( 'the-description' )
 			->once()
 			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->withNoArgs()
-			->once()
-			->andReturn( 'WebPage' );
-
-		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
-			->with( [ $this->meta_tags_context->canonical ] )
-			->once()
-			->andReturn( [ $this->meta_tags_context->canonical ] );
 
 		$expected = [
 			'@type'           => 'WebPage',
@@ -636,30 +460,13 @@ class WebPage_Test extends TestCase {
 			'object_type' => 'home-page',
 		];
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->once()
-			->andReturn( 'CollectionPage' );
+		$this->setup_generate_test(
+			false,
+			'CollectionPage',
+			0,
+			0,
+			0,
+			0 );
 
 		$expected = [
 			'@type'      => 'CollectionPage',
@@ -685,48 +492,13 @@ class WebPage_Test extends TestCase {
 	public function test_generate_home_static_page() {
 		$this->meta_tags_context->schema_page_type = 'CollectionPage';
 
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->with( 'the-title' )
-			->once()
-			->andReturnArg( 0 );
-
-		$this->current_page
-			->expects( 'is_front_page' )
-			->once()
-			->withNoArgs()
-			->andReturnFalse();
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_date_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_date_gmt );
-
-		$this->date
-			->expects( 'format' )
-			->with( $this->meta_tags_context->post->post_modified_gmt )
-			->once()
-			->andReturn( $this->meta_tags_context->post->post_modified_gmt );
-
-		$this->current_page
-			->expects( 'is_home_static_page' )
-			->withNoArgs()
-			->once()
-			->andReturnTrue();
-
-		$this->language->expects( 'add_piece_language' )
-			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'the-language';
-
-				return $data;
-			} );
-
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->once()
-			->andReturn( 'CollectionPage' );
+		$this->setup_generate_test(
+			false,
+			'CollectionPage',
+			1,
+			1,
+			1,
+			0 );
 
 		$expected = [
 			'@type'         => 'CollectionPage',
