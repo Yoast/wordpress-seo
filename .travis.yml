@@ -192,7 +192,7 @@ before_script:
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
         cd /tmp/javascript
         pwd
-        ls
+        ls -lah
         nvm install
         nvm use
         cd ../../
