@@ -197,8 +197,8 @@ before_script:
         git checkout test-nvmrc
         nvm install
         nvm use
-        $HOME
-        cd Yoast/wordpress-seo
+        cd $HOME
+        cd build/Yoast/wordpress-seo
         pwd
         yarn link-monorepo
         nvm use $TRAVIS_NODE_VERSION
