@@ -190,8 +190,6 @@ before_script:
       if [[ -z "$PLUGIN_TAGS" ]]; then
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
-        pwd
-        ls
         cd /tmp/javascript
         pwd
         ls
