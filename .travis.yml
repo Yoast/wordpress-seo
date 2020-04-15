@@ -191,7 +191,7 @@ before_script:
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
         cd /tmp/javascript
-        git checkout $TRAVIS_BRANCH
+        git checkout test-nvmrc
         nvm install
         nvm use
         cd $HOME/build/Yoast/wordpress-seo
