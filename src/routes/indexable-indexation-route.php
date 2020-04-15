@@ -40,7 +40,6 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_Post_Indexation_Action $post_indexation_action The post indexation action.
 	 */
 	public function __construct( Indexable_Post_Indexation_Action $post_indexation_action ) {
-
 		$this->post_indexation_action = $post_indexation_action;
 	}
 

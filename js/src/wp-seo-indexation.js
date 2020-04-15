@@ -45,7 +45,6 @@ import ProgressBar from "./ui/progressBar";
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
 		while ( url !== false ) {
-			console.log( "Doing indexation for " + endpoint );
 			const response = await doIndexationRequest( url );
 			if ( indexationActions[ endpoint ] ) {
 				await indexationActions[ endpoint ]( response.objects );
@@ -63,11 +62,9 @@ import ProgressBar from "./ui/progressBar";
      * @returns {Promise} The indexation promise.
      */
 	async function startIndexation( progressBar ) {
-		console.log( "Starting indexation" );
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
 			await doIndexation( endpoint, progressBar );
 		}
-		console.log( "Finished indexation" );
 	}
 
 	$( () => {
