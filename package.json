@@ -34,5 +34,9 @@
     "lerna-publish": "lerna publish --contents dist --yes from-git",
     "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git",
     "list-deps": "node ./scripts/list-dependencies.js"
+  },
+  "resolutions": {
+    "node-sass": "4.12.0",
+    "**/node-sass": "4.12.0"
   }
 }
