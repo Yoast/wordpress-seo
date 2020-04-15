@@ -391,6 +391,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				break;
 			default:
 				$type = 'WebPage';
+				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
+					$type = 'CollectionPage';
+				}
 		}
 
 		/**
