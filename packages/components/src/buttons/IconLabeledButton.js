@@ -7,7 +7,7 @@ import omit from "lodash/omit";
 
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
-import { SvgIcon } from "@yoast/components";
+import SvgIcon from "../SvgIcon";
 
 // Internal dependencies.
 import { addActiveStyle, addFocusStyle, addHoverStyle } from "./Button";

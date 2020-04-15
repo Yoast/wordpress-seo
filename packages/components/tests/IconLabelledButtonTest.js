@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { IconLabeledButton } from "../src/index";
+import IconLabeledButton from "../src/buttons/IconLabeledButton";
 
 test( "the IconLabelledButton matches the snapshot", () => {
 	const component = renderer.create(
