@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Brain\Monkey;
 use Exception;
 use Mockery;
-use Symfony\Component\DependencyInjection\Tests\Compiler\I;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
