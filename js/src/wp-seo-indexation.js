@@ -77,6 +77,12 @@ const settings = yoastIndexationData;
 
 					tb_remove();
 					indexationInProgress = false;
+				} ).catch( error => {
+					console.error( error );
+					a11ySpeak( settings.l10n.calculationFailed );
+					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
+
+					tb_remove();
 				} );
 				indexationInProgress = true;
 			}

@@ -84,10 +84,12 @@ class Indexation_Integration implements Integration_Interface {
 			],
 			'message' => [
 				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! All your site\'s content has been indexed.', 'wordpress-seo' ),
+				'indexingFailed'    => __( 'Something went wrong indexing the content of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
 				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
 				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
+				'calculationFailed'     => __( 'Calculation failed, please try again later.', 'wordpress-seo' ),
 			],
 		];
 
