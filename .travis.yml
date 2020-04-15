@@ -191,6 +191,7 @@ before_script:
         git clone https://github.com/yoast/javascript /tmp/javascript
         echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
         cd /tmp/javascript
+        git checkout test-nvmrc
         pwd
         ls -lah
         nvm install
