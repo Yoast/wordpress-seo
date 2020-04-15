@@ -1,6 +1,6 @@
 <?php
 /**
- * Reindexation action for indexables
+ * Reindexation action for indexables.
  *
  * @package Yoast\WP\SEO\Actions\Indexation
  */
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
- * Indexable_Reindex_Action class
+ * Indexable_Reindex_Action class.
  */
 class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 

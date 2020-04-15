@@ -71,6 +71,10 @@ class Indexation_Integration implements Integration_Interface {
 
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
+			'ids'     => [
+				'count'    => '#yoast-indexation-current-count',
+				'progress' => '#yoast-indexation-progress-bar',
+			],
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [

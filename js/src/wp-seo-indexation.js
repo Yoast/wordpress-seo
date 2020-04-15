@@ -44,7 +44,7 @@ const settings = yoastIndexationData;
 
 		while ( url !== false ) {
 			const response = await doIndexationRequest( url );
-			if ( indexationActions[ endpoint ] ) {
+			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
 			}
 			progressBar.update( response.objects.length );
@@ -69,7 +69,7 @@ const settings = yoastIndexationData;
 		$( ".yoast-js-run-indexation--all " ).on( "click", function() {
 			if ( indexationInProgress === false ) {
 				a11ySpeak( settings.l10n.calculationInProgress );
-				const progressBar = new ProgressBar( settings.amount, "#yoast-indexation-current-count", "#yoast-indexation-progress-bar" );
+				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 				startIndexation( progressBar ).then( () => {
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );

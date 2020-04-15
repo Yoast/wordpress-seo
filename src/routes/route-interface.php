@@ -1,6 +1,6 @@
 <?php
 /**
- * Reindexation route for indexables
+ * Route interface.
  *
  * @package Yoast\YoastSEO\ORM\Routes
  */
