@@ -196,7 +196,7 @@ before_script:
         ls -lah
         nvm install
         nvm use
-        cd ../../
+        cd ../..
         pwd
         yarn link-monorepo
         nvm use $TRAVIS_NODE_VERSION
