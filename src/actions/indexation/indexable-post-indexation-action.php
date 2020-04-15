@@ -104,9 +104,9 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		$indexable_table   = Yoast_Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
-		$select = 'posts.ID';
+		$select = 'ID';
 		if ( $count ) {
-			$select = 'COUNT(posts.ID)';
+			$select = 'COUNT(ID)';
 		}
 		$limit_query = '';
 		if ( ! $count ) {
@@ -114,8 +114,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts} AS posts
-            WHERE posts.ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND posts.post_type IN ($placeholders)
+		return $this->wpdb->prepare( "SELECT $select FROM {$this->wpdb->posts}
+            WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND post_type IN ($placeholders)
             $limit_query", $replacements );
 	}
 }
