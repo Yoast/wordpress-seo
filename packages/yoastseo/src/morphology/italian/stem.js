@@ -119,7 +119,7 @@ function vowelMarking( word ) {
  *
  * @param   {string}       word                         The word for which Rs have to be determined.
  *
- *  @returns {{r2: number, rv: number, r1: number}}     R1, R2 and RV in the word.
+ * @returns {{r2: number, rv: number, r1: number}}     R1, R2 and RV in the word.
  */
 const determineRs = function( word ) {
 	let r1 = word.length;
@@ -252,7 +252,7 @@ const removeVerbSuffixes = function( word, rvText ) {
 		"evano", "evate", "iremo", "irete", "irono", "ivamo", "ivano", "ivate", "ammo", "ando", "asse", "assi", "emmo", "enda", "ende",
 		"endi", "endo", "erai", "Yamo", "iamo", "immo", "irai", "irei", "isca", "isce", "isci", "isco", "erei", "uti", "uto", "ita",
 		"ite", "iti", "ito", "iva", "ivi", "ivo", "ono", "uta", "ute", "ano", "are", "ata", "ate", "ati", "ato", "ava", "avi", "avo",
-		"erà", "ere", "erò", "ete", "eva", "evi", "evo", "irà", "ire", "irò", "ar", "ir" ];
+		"erà", "ere", "erò", "ete", "eva", "evi", "evo", "irà", "ire", "irò", "ar", "ir", "ai" ];
 	let suf = "";
 	if ( ( suf = endsinArr( rvText, verbSuffixes ) ) !== "" ) {
 		word = word.slice( 0, -suf.length );
