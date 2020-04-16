@@ -66,26 +66,49 @@ const settings = yoastIndexationData;
 	}
 
 	$( () => {
-		$( ".yoast-js-run-indexation--all " ).on( "click", function() {
+		$( "#yoast-open-indexation" ).on( "click", function() {
+			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
+			// So we temporarily revert that change as we do want to have custom height and width.
+			// @see https://core.trac.wordpress.org/ticket/27473
+			const old_tb_position = window.tb_position;
+			window.tb_position = () => {
+				jQuery( "#TB_window" ).css( {
+					marginLeft: "-" + parseInt( ( TB_WIDTH / 2 ), 10 ) + "px", width: TB_WIDTH + "px",
+					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
+				} );
+			};
+			tb_show( this.innerText, "#TB_inline?width=600&height=175&inlineId=yoast-indexation-wrapper", false );
+			window.tb_position = old_tb_position;
+
 			if ( indexationInProgress === false ) {
 				a11ySpeak( settings.l10n.calculationInProgress );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 				startIndexation( progressBar ).then( () => {
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );
-					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
+					$( "#yoast-indexation-warning" )
+						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
+						.addClass( "notice-success" )
+						.removeClass( "notice-warning" );
 
 					tb_remove();
 					indexationInProgress = false;
 				} ).catch( error => {
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
-					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
+					$( "#yoast-indexation-warning" )
+						.html( "<p>" + settings.message.indexingFailed + "</p>" )
+						.addClass( "notice-error" )
+						.removeClass( "notice-warning" );
 
 					tb_remove();
 				} );
 				indexationInProgress = true;
 			}
+		} );
+
+		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
+			wpseoSetIgnore( "indexation_warning", "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
 		} );
 	} );
 } )( jQuery );
