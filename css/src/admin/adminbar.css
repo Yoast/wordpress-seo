@@ -1,4 +1,4 @@
-@import url(../src/score_icon.css);
+@import url(../editor/score_icon.css);
 .adminbar-seo-score {
   margin: 10px 0 0 4px !important;
 }
@@ -25,6 +25,7 @@
   padding: 1px 7px 1px 6px !important;
   border-radius: 50%;
   color: white;
+  margin-left: 6px;
 }
 
 #wpadminbar .yoast-logo.svg {
