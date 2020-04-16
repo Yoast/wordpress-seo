@@ -120,7 +120,7 @@ class Meta_Tags_Context_Test extends TestCase {
 					'object_type'     => 'system-page',
 					'object_sub_type' => 'search-result',
 				],
-				'expected'  => 'SearchResultsPage',
+				'expected'  => [ 'CollectionPage', 'SearchResultsPage' ],
 				'message'   => 'Tests with an indexable for the search results page.',
 			],
 			[

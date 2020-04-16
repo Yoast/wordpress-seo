@@ -374,7 +374,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'system-page':
 				switch ( $this->indexable->object_sub_type ) {
 					case 'search-result':
-						$type = 'SearchResultsPage';
+						$type = [ 'CollectionPage', 'SearchResultsPage' ];
 						break;
 					default:
 						$type = 'WebPage';
