@@ -581,12 +581,12 @@ class WPSEO_Admin_Init {
 	/**
 	 * Handles the notifiers for the dashboard page.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function handle_notifications() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 	}
 }

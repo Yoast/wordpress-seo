@@ -8,7 +8,7 @@
 /**
  * Represents the logic for showing the post type archive notification.
  *
- * @deprecated xx.x
+ * @deprecated 14.1
  */
 class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Notification {
 
@@ -22,26 +22,26 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	/**
 	 * Sets the notification identifier.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 		$this->notification_identifier = 'post-type-archive-notification';
 	}
 
 	/**
 	 * Returns the notification.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.1
 	 * @codeCoverageIgnore
 	 *
 	 * @return Yoast_Notification The notification for the notification center.
 	 */
 	protected function get_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 
 		return null;
 	}

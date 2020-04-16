@@ -53,6 +53,7 @@ class WPSEO_Upgrade {
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
 			'13.2-RC0'  => 'upgrade_132',
+			'14.1-RC0'	=> 'upgrade_141',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -729,9 +730,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the xx.x upgrade.
+	 * Performs the 14.1 upgrade.
 	 */
-	private function upgrade_xxx() {
+	private function upgrade_141() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
 	}
 
