@@ -40,7 +40,6 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	private $post_indexation_action;
 
-
 	/**
 	 * Indexable_Indexation_Route constructor.
 	 *

@@ -13,14 +13,14 @@ namespace Yoast\WP\SEO\Presenters;
 abstract class Abstract_Presenter {
 
 	/**
-	 * Return the output as string.
+	 * Returns the output as string.
 	 *
 	 * @return string The output.
 	 */
 	abstract public function present();
 
 	/**
-	 * Return the output as string.
+	 * Returns the output as string.
 	 *
 	 * @return string The output.
 	 */
