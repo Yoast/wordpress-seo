@@ -645,13 +645,13 @@ class WebPage_Test extends TestCase {
 				'message'         => 'Tests is_needed when the conditional is true.',
 			],
 			[
-				'object_type'     => 'system_page',
+				'object_type'     => 'system-page',
 				'object_sub_type' => '',
 				'expected'        => true,
 				'message'         => 'Tests is_needed for a system page (but not a 404 page).',
 			],
 			[
-				'object_type'     => 'system_page',
+				'object_type'     => 'system-page',
 				'object_sub_type' => '404',
 				'expected'        => false,
 				'message'         => 'Tests is_needed for a system page / 404 page.',
