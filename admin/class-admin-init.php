@@ -37,7 +37,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
-		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -189,44 +188,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
-	 */
-	public function recalculate_notice() {
-		// Just a return, because we want to temporary disable this notice (#3998 and #4532).
-		return;
-
-		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-			update_option( 'wpseo_dismiss_recalculate', '1' );
-
-			return;
-		}
-
-		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			return;
-		}
-
-		if ( $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
-			return;
-		}
-
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				sprintf(
-					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
-					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
-					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
-					'</a>'
-				),
-				[
-					'type'  => 'updated yoast-dismissible',
-					'id'    => 'wpseo-dismiss-recalculate',
-					'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
-				]
-			)
-		);
-	}
-
-	/**
 	 * Creates an unsupported PHP version notification in the notification center.
 	 *
 	 * @return void
@@ -257,17 +218,6 @@ class WPSEO_Admin_Init {
 
 		// Strip the patch version and convert to a float.
 		return (float) $wp_version_latest;
-	}
-
-	/**
-	 * Check if the user has dismissed the given notice (by $notice_name).
-	 *
-	 * @param string $notice_name The name of the notice that might be dismissed.
-	 *
-	 * @return bool
-	 */
-	private function is_site_notice_dismissed( $notice_name ) {
-		return get_option( $notice_name, true ) === '1';
 	}
 
 	/**
