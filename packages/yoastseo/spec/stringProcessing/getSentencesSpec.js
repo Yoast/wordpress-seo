@@ -559,7 +559,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"You can make these pages in WordPress: Add the `[woocommerce_cart]",
 					"` shortcode to the cart page Add the `[woocommerce_checkout]",
 					"` shortcode to the checkout page Place the `[woocommerce_my_account]",
-					"` shortcode to the account page"],
+					"` shortcode to the account page" ],
 			},
 		];
 
