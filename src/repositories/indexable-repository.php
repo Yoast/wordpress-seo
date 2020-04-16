@@ -367,8 +367,8 @@ class Indexable_Repository {
 	 *
 	 * @param Indexable $indexable The indexable.
 	 */
-	protected function ensure_permalink( Indexable $indexable ) {
-		if ( $indexable->permalink === null ) {
+	protected function ensure_permalink( $indexable ) {
+		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
 			$indexable->save();
 		}
@@ -382,7 +382,7 @@ class Indexable_Repository {
 	 *
 	 * @return string|null The permalink.
 	 */
-	protected function get_permalink_for_indexable( Indexable $indexable ) {
+	protected function get_permalink_for_indexable( $indexable ) {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
 			case $indexable->object_type === 'home-page':
