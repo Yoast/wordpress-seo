@@ -427,14 +427,14 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "doesn't returned a skewed result when there is a list with many single-word list items - " +
+	const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+		"In sit amet semper sem, id faucibus massa.</p>\n";
+
+	const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+		"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+	it( "doesn't return a skewed result when there is a list with many single-word list items - " +
 		"a list with single words should not be treated differently than if that list were a long string of words", function() {
-		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
-			"In sit amet semper sem, id faucibus massa.</p>\n";
-
-		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
-			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
-
 		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
 
 		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
@@ -467,12 +467,6 @@ describe( "Test for the research", function() {
 	} );
 
 	it( "returns the same result for a list of sentences as it does for a string of sentences", function() {
-		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
-			"In sit amet semper sem, id faucibus massa.</p>\n";
-
-		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
-			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
-
 		const fruitStatements = [
 			"This is an apple.",
 			"This is a pear.",
@@ -512,12 +506,6 @@ describe( "Test for the research", function() {
 	} );
 
 	it( "returns the same result for a list of paragraphs as it does for a string of paragraphs", function() {
-		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
-			"In sit amet semper sem, id faucibus massa.</p>\n";
-
-		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
-			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
-
 		const paragraphs = [
 			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
 			"<p>This is step 2a. This is step 2b.</p>",
@@ -555,12 +543,6 @@ describe( "Test for the research", function() {
 	} );
 
 	it( "returns the same result for a mixed list of paragraphs and sentences as it does for a string of paragraphs and sentences", function() {
-		const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
-			"In sit amet semper sem, id faucibus massa.</p>\n";
-
-		const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
-			"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
-
 		const paragraphsAndSentences = [
 			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
 			"This is the short step 2.",
@@ -597,8 +579,8 @@ describe( "Test for the research", function() {
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 
-	it( "returns the same result for a a real world example list including various html tags as it does for a string " +
-		"version of that list", function() {
+	it( "returns the same result for a a real world example list including various html tags as it does for version of that" +
+		"text where all lists have been manually removed", function() {
 		const realWordULExample1NoLists = "<p>Besides all of these great developments, you really should use the block editor" +
 			" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
 			" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
@@ -650,8 +632,8 @@ describe( "Test for the research", function() {
 			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 
-	it( "returns the same result for a a real world example with nested lists as it does for a string version of that same text" +
-		"version of that list", function() {
+	it( "returns the same result for a a real world example with nested lists as it does for a string version of that" +
+		"text where all lists have been manually removed", function() {
 		const realWordULExample2NoLists = " On the <strong>General</strong> tab: Make sure your store address is " +
 			"correct and that you’ve limited selling to your country and location  Enable or disable tax calculation if" +
 			" needed  Enable or disable the use of coupon codes if needed  Pick the correct currency " +
@@ -676,7 +658,7 @@ describe( "Test for the research", function() {
 			realWorldULExample2,
 			{
 				locale: "en_EN",
-				keyword: "block editor",
+				keyword: "shop",
 			}
 		);
 
@@ -684,7 +666,7 @@ describe( "Test for the research", function() {
 			realWordULExample2NoLists,
 			{
 				locale: "en_EN",
-				keyword: "block editor",
+				keyword: "shop",
 			}
 		);
 

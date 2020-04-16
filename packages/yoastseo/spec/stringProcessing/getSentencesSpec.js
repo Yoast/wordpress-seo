@@ -1,5 +1,17 @@
 import getSentences from "../../src/stringProcessing/getSentences.js";
-import { realWorldULExample1Processed, realWorldULExample2Processed } from "../stringProcessing/mergeListItemsSpec";
+
+import {
+	paragraph1,
+	paragraph2,
+	listWordsLowerCaseProcessed,
+	realWorldULExample1Processed,
+	realWorldULExample2Processed,
+	listWordsUpperCaseProcessed,
+	listNestedProcessed,
+	listSentencesProcessed,
+	listParagraphsProcessed,
+	listParagraphsAndSentencesProcessed,
+} from "../stringProcessing/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
 
@@ -338,7 +350,7 @@ describe( "Get sentences from text", function() {
 			},
 			{
 				input: "Hey 40 < 50. However, 40 > 50.",
-				expected: [ "Hey 40 < 50.",  "However, 40 > 50." ],
+				expected: [ "Hey 40 < 50.", "However, 40 > 50." ],
 			},
 		];
 
@@ -347,56 +359,19 @@ describe( "Get sentences from text", function() {
 } );
 
 describe( "Get sentences from texts that have been processed for the keyphrase distribution assessment", function() {
-	const paragraph1 = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sit amet semper sem, id faucibus massa.</p>\n";
-
-	const paragraph2 = "<p>Nam sit amet eros faucibus, malesuada purus at, mollis libero. Praesent at ante sit amet elit sollicitudin lobortis.</p>";
-
-	const listWordsLowerCaseProcessed =
-		" apple " +
-		" pear " +
-		" mango ";
-
-	const listWordsUpperCaseProcessed =
-		" Apple " +
-		" Pear " +
-		" Mango ";
-
-	const listNestedProcessed =
-		" jonagold " +
-		" golden delicious " +
-		" pear " +
-		" mango ";
-
-	const listSentencesProcessed =
-		" This sentence is about an apple. " +
-		" This sentence is about a pear. " +
-		" This sentence is about a mango. ";
-
-	const listParagraphsProcessed =
-		" <p>This is step 1a of an instruction. This is step 1b of an instruction.</p> " +
-		" <p>This is step 2a. This is step 2b.</p> " +
-		" <p>This is step 3a. This is step 3b.</p> " +
-		" <p>This is step 4a. This is step 4b.</p> ";
-
-	const listParagraphsAndSentencesProcessed =
-		" <p>This is step 1a of an instruction. This is step 1b of an instruction.</p> " +
-		" This is the short step 2. " +
-		" This is the short step 3. " +
-		" <p>This is step 4a. This is step 4b.</p> ";
-
 	it( "parses merged list items containing single words as one sentence", function() {
 		const testCases = [
 			{
 				input: listWordsLowerCaseProcessed,
-				expected: [ "apple  pear  mango" ],
+				expected: [ "apple pear mango" ],
 			},
 			{
 				input: listWordsUpperCaseProcessed,
-				expected: [ "Apple  Pear  Mango" ],
+				expected: [ "Apple Pear Mango" ],
 			},
 			{
 				input: listNestedProcessed,
-				expected: [ "jonagold  golden delicious  pear  mango" ],
+				expected: [ "jonagold golden delicious pear mango" ],
 			},
 		];
 
@@ -425,7 +400,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 				expected: [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 					"In sit amet semper sem, id faucibus massa.",
-					"apple  pear  mango",
+					"apple pear mango",
 					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
 					"Praesent at ante sit amet elit sollicitudin lobortis.",
 				]
@@ -443,7 +418,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 				expected: [
 					"Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 					"In sit amet semper sem, id faucibus massa.",
-					"Apple  Pear  Mango",
+					"Apple Pear Mango",
 					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
 					"Praesent at ante sit amet elit sollicitudin lobortis.",
 				]

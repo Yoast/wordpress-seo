@@ -50,7 +50,7 @@ const ulWordsUpperCase = "<ul>\n" +
 	"<li>Mango</li>\n" +
 	"</ul>";
 
-const ulWordsUpperCaseProcessed =
+const listWordsUpperCaseProcessed =
 	" Apple " +
 	"Pear " +
 	"Mango ";
@@ -242,7 +242,7 @@ describe( "A test for merging list items in texts for the purpuse of making the 
 	} );
 
 	it( "should correctly process lists consisting of words starting with upper case letters", function() {
-		expect( mergeListItems( ulWordsUpperCase ) ).toEqual( ulWordsUpperCaseProcessed );
+		expect( mergeListItems( ulWordsUpperCase ) ).toEqual( listWordsUpperCaseProcessed );
 	} );
 
 	it( "should correctly process lists consisting of sentences", function() {
@@ -275,6 +275,14 @@ describe( "A test for merging list items in texts for the purpuse of making the 
 } );
 
 export {
+	paragraph1,
+	paragraph2,
+	listWordsLowerCaseProcessed,
+	listWordsUpperCaseProcessed,
+	listNestedProcessed,
+	listSentencesProcessed,
+	listParagraphsProcessed,
+	listParagraphsAndSentencesProcessed,
 	realWorldULExample1,
 	realWorldULExample2,
 	realWorldULExample1Processed,
