@@ -212,14 +212,10 @@ const stemResidualSuffixes = function( word, rvText ) {
 	const suf13 = findMatchingEndingInArray( rvText, [ "ie", "ié", "iê" ] );
 	const suf14 = findMatchingEndingInArray( rvText, [ "e", "é", "ê" ] );
 
-	if ( word.endsWith( "gue" ) || word.endsWith( "gué" ) || word.endsWith( "guê" ) ) {
-		if ( suf12 !== "" ) {
-			word = word.slice( 0, -suf12.length );
-		}
-	} else if ( word.endsWith( "cie" ) || word.endsWith( "cié" ) || word.endsWith( "ciê" ) ) {
-		if ( suf13 !== "" ) {
-			word = word.slice( 0, -suf13.length );
-		}
+	if ( ( word.endsWith( "gue" ) || word.endsWith( "gué" ) || word.endsWith( "guê" ) ) && ( suf12 !== "" ) ) {
+		word = word.slice( 0, -suf12.length );
+	} else if ( ( word.endsWith( "cie" ) || word.endsWith( "cié" ) || word.endsWith( "ciê" ) ) && ( suf13 !== "" ) ) {
+		word = word.slice( 0, -suf13.length );
 	} else if ( suf14 !== "" ) {
 		word = word.slice( 0, -suf14.length );
 	} else if ( word.endsWith( "ç" ) ) {
@@ -239,15 +235,15 @@ const stemResidualSuffixes = function( word, rvText ) {
 export default function stem( word ) {
 	word.toLowerCase();
 
-	const length = word.length;
-	if ( length < 2 ) {
-		return word;
-	}
-
 	// Nasal vowels should be treated as a vowel followed by a consonant.
 	const nasalVowels = [ "ã", "õ" ];
 	const nasalVowelsReplacement = [ "a~", "o~" ];
 	word = replaceCharacters( word, nasalVowels, nasalVowelsReplacement  );
+
+	const length = word.length;
+	if ( length < 2 ) {
+		return word;
+	}
 
 	let r1 = length;
 	let r2 = length;
@@ -318,11 +314,13 @@ export default function stem( word ) {
 	if ( wordAfterStep1 !== word || wordAfterStep2 !== word ) {
 		if ( word.endsWith( "ci" ) && endsIn( rvText, "i" ) ) {
 			word = word.slice( 0, -1 );
+			rvText = word.slice( rv );
 		}
 	} else {
 		const suf11 = findMatchingEndingInArray( rvText, [ "os", "a", "i", "o", "á", "í", "ó" ] );
 		if ( suf11 !== "" ) {
 			word = word.slice( 0, -suf11.length );
+			rvText = word.slice( rv );
 		}
 	}
 
