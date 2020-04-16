@@ -388,7 +388,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 		" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
 		" Most of the stuff we did for our" +
 		"<a href=\"https://developer.yoast.com/digital-storytelling-in-the-age-of-blocks/\">recent digital story</a>" +
-		" required <em>no coding</em>. Plugins like <a href=\"https:\//wordpress.org/plugins/grids/\">Grids</a> " +
+		" required <em>no coding</em>. Plugins like <a href=\"https://wordpress.org/plugins/grids/\">Grids</a> " +
 		"make it even easier to make very smooth designs.  You can make FAQs and HowTo’s that’ll look awesome " +
 		"in search results. <span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO " +
 		"advantage that is unmatched. For instance, check out our free" +
@@ -451,7 +451,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"In sit amet semper sem, id faucibus massa.",
 					"apple  pear  mango",
 					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
-					"Praesent at ante sit amet elit sollicitudin lobortis."
+					"Praesent at ante sit amet elit sollicitudin lobortis.",
 				]
 				,
 			},
@@ -469,7 +469,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"In sit amet semper sem, id faucibus massa.",
 					"Apple  Pear  Mango",
 					"Nam sit amet eros faucibus, malesuada purus at, mollis libero.",
-					"Praesent at ante sit amet elit sollicitudin lobortis."
+					"Praesent at ante sit amet elit sollicitudin lobortis.",
 				]
 				,
 			},
