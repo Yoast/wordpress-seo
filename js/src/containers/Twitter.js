@@ -38,6 +38,7 @@ media.on( "select", () => {
 		width,
 		url,
 		id,
+		alt,
 	} = selected.attributes;
 	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
 		bytes: filesizeInBytes,
@@ -46,6 +47,7 @@ media.on( "select", () => {
 		id,
 		width,
 		height,
+		alt,
 	}, "twitter" );
 	imageIdInput.value = id;
 	imageUrlInput.value = url;
@@ -60,6 +62,8 @@ export default compose( [
 			getImageFallback,
 			getRecommendedReplaceVars,
 			getReplaceVars,
+			getSiteName,
+			getAuthorName,
 		} = select( "yoast-seo/editor" );
 
 		const data = getTwitterData();
@@ -73,6 +77,9 @@ export default compose( [
 			description: getTwitterDescription(),
 			title: getTwitterTitle(),
 			imageWarnings: data.warnings,
+			authorName: getAuthorName(),
+			siteName: getSiteName(),
+			alt: data.alt,
 		};
 	} ),
 
