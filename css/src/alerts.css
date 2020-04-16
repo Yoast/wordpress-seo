@@ -1,36 +1,34 @@
-.alert {
+.yoast-alert {
 	display: flex;
 	align-items: baseline;
-	position: relative;
 	padding: 16px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	font-size: 14px;
-	font-weight: 400;
 	line-height: 1.5;
 	margin: 16px 0;
 }
 
-.alert__error {
+.yoast-alert--error {
 	color: #8f1919;
 	background: #f9dcdc;
 }
 
-.alert__info {
+.yoast-alert--info {
 	color: #00468f;
 	background: #cce5ff;
 }
 
-.alert__success {
+.yoast-alert--success {
 	color: #395315;
 	background: #e2f2cc;
 }
 
-.alert__warning {
+.yoast-alert--warning {
 	color: #674e00;
 	background: #fff3cd;
 }
 
-.alert .icon {
+.yoast-alert .icon {
 	display: block;
 	margin-right: 8px;
 	height: 14px;
@@ -38,6 +36,6 @@
 	max-width: none;
 }
 
-.alert a {
+.yoast-alert a {
 	color: #004973;
 }

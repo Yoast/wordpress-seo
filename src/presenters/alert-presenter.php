@@ -80,16 +80,16 @@ class Alert_Presenter {
 	 * @return string The rendered Alert.
 	 */
 	public function __toString() {
-		return $this->render();
+		return $this->present();
 	}
 
 	/**
-	 * Renders the Alert as a styled string.
+	 * Presents the Alert.
 	 *
 	 * @return string The styled Alert.
 	 */
-	private function render() {
-		$out  = '<div class="alert alert__' . $this->type . '">';
+	public function present() {
+		$out  = '<div class="yoast-alert yoast-alert--' . $this->type . '">';
 
 		$out .= '<span>';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
