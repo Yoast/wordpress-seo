@@ -729,6 +729,13 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the xx.x upgrade.
+	 */
+	private function upgrade_xxx() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
+	}
+
+	/**
 	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
 	 *
 	 * @return void

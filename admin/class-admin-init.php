@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
-		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
 		$health_checks = [
@@ -57,44 +56,12 @@ class WPSEO_Admin_Init {
 			$health_check->register_test();
 		}
 
-		$listeners   = [];
-		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-
-		/**
-		 * Listener interface classes.
-		 *
-		 * @var WPSEO_Listener $listener
-		 */
-		foreach ( $listeners as $listener ) {
-			$listener->listen();
-		}
-
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
 		$this->load_plugin_suggestions();
-	}
-
-	/**
-	 * Handles the notifiers for the dashboard page.
-	 *
-	 * @return void
-	 */
-	public function handle_notifications() {
-		/**
-		 * Notification handlers.
-		 *
-		 * @var WPSEO_Notification_Handler[] $handlers
-		 */
-		$handlers   = [];
-		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-
-		$notification_center = Yoast_Notification_Center::get();
-		foreach ( $handlers as $handler ) {
-			$handler->handle( $notification_center );
-		}
 	}
 
 	/**
@@ -608,5 +575,18 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
+	}
+
+
+	/**
+	 * Handles the notifiers for the dashboard page.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function handle_notifications() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 }
