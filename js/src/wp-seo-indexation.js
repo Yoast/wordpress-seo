@@ -1,4 +1,4 @@
-/* global yoastIndexationData, jQuery, tb_remove */
+/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
@@ -69,7 +69,9 @@ const settings = yoastIndexationData;
 		$( "#yoast-open-indexation" ).on( "click", function() {
 			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
 			// So we temporarily revert that change as we do want to have custom height and width.
+			// Eslint is disabled as these have to use the correct names.
 			// @see https://core.trac.wordpress.org/ticket/27473
+			/* eslint-disable camelcase */
 			const old_tb_position = window.tb_position;
 			window.tb_position = () => {
 				jQuery( "#TB_window" ).css( {
@@ -79,6 +81,7 @@ const settings = yoastIndexationData;
 			};
 			tb_show( this.innerText, "#TB_inline?width=600&height=175&inlineId=yoast-indexation-wrapper", false );
 			window.tb_position = old_tb_position;
+			/* eslint-enable camelcase */
 
 			if ( indexationInProgress === false ) {
 				a11ySpeak( settings.l10n.calculationInProgress );

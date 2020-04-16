@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Conditional that is only met when in the admin.
+ * Conditional that is only met when in the admin dashboard, update or Yoast SEO pages.
  */
 class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 
