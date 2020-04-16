@@ -11,9 +11,9 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Adds support for shortcodes to category descriptions.
+ * Adds support for shortcodes to category and term descriptions.
  */
-class Category_Description implements Integration_Interface {
+class Category_Term_Description implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
@@ -27,10 +27,11 @@ class Category_Description implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_filter( 'category_description', [ $this, 'add_shortcode_support' ] );
+		add_filter( 'term_description', [ $this, 'add_shortcode_support' ] );
 	}
 
 	/**
-	 * Adds shortcode support to category descriptions.
+	 * Adds shortcode support to category and term descriptions.
 	 *
 	 * This methods wrap in output buffering to prevent shortcodes that echo stuff
 	 * instead of return from breaking things.

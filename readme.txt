@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 13.4.1
+Stable tag: 13.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,6 +245,8 @@ Other:
 
 = 13.5 =
 Release Date: April 14th, 2020
+
+While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
 
 Bugfixes:
 
