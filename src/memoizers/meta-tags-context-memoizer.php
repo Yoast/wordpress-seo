@@ -123,7 +123,7 @@ class Meta_Tags_Context_Memoizer {
 				$blocks = $this->blocks->get_all_blocks_from_content( $post->post_content );
 			}
 
-			$context               = $this->context_prototype->of( [
+			$context = $this->context_prototype->of( [
 				'indexable' => $indexable,
 				'blocks'    => $blocks,
 				'post'      => $post,
