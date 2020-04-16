@@ -26,26 +26,24 @@ $wpseo_contributors_phrase = sprintf(
 ?>
 
 <div class="tab-block">
-	<div class="yoast-notifications">
+	<?php echo $notifier->notify(); ?>
 
-		<?php echo $notifier->notify(); ?>
-
-		<div class="yoast-paper">
-			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
-		</div>
-
-		<div class="yoast-paper">
-			<?php require WPSEO_PATH . 'admin/views/partial-notifications-warnings.php'; ?>
-		</div>
+	<div class="yoast-paper">
+		<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
 	</div>
 
-	<div class="tab-block">
-		<h3><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h3>
-		<p>
-			<span class="dashicons dashicons-groups"></span>
-			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
-		</p>
+	<div class="yoast-paper">
+		<?php require WPSEO_PATH . 'admin/views/partial-notifications-warnings.php'; ?>
 	</div>
+</div>
+
+<div class="tab-block">
+	<h3><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h3>
+	<p>
+		<span class="dashicons dashicons-groups"></span>
+		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
+	</p>
+</div>
 
 <?php
 
