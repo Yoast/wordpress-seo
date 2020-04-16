@@ -1,7 +1,7 @@
 import React  from "react";
 import styled from "styled-components";
 
-import SocialPreviewEditor from "@yoast/social-metadata-previews/src/editor/SocialPreviewEditor";
+import { SocialPreviewEditor } from "@yoast/social-metadata-previews";
 const Container = styled.div`
 	background-color: white;
 	padding: 16px;

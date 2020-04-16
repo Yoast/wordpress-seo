@@ -79,10 +79,10 @@ class SocialPreviewEditor extends Component {
 		switch ( field ) {
 			case "title":
 				this.titleEditorRef.focus();
-				return;
+				break;
 			case "description":
 				this.descriptionEditorRef.focus();
-				return;
+				break;
 		}
 	}
 
@@ -91,7 +91,7 @@ class SocialPreviewEditor extends Component {
 	 * Used by child components to communicate with this focus managing component.
 	 * This component can then call the .focus() function on the passed refs.
 	 *
-	 * @param {String} field The field belonging to the editor that belongs to the ref.
+	 * @param {string} field The field belonging to the editor that belongs to the ref.
 	 * @param {*} ref A ref to an editor.
 	 *
 	 * @returns {void}
@@ -100,10 +100,10 @@ class SocialPreviewEditor extends Component {
 		switch ( field ) {
 			case "title":
 				this.titleEditorRef = ref;
-				return;
+				break;
 			case "description":
 				this.descriptionEditorRef = ref;
-				return;
+				break;
 		}
 	}
 

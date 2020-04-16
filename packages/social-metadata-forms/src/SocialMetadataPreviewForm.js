@@ -62,11 +62,23 @@ Caret.defaultProps = {
  */
 export const withCaretStyle = ( WithoutCaretComponent ) => {
 	return function ComponentWithCaret( props ) {
+		// Define function props.
+		ComponentWithCaret.propTypes = {
+			isActive: PropTypes.bool.isRequired,
+			isHovered: PropTypes.bool.isRequired,
+		};
+
+		// Destructure the props.
+		const {
+			isActive,
+			isHovered,
+			...withoutCaretProps
+		} = props;
+
 		return (
 			<CaretContainer>
-				{ /* eslint-disable-next-line react/prop-types */ }
-				<Caret isActive={ props.isActive } isHovered={ props.isHovered } />
-				<WithoutCaretComponent { ...props } />
+				<Caret isActive={ isActive } isHovered={ isHovered } />
+				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
 		);
 	};

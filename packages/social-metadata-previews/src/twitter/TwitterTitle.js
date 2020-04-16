@@ -1,7 +1,7 @@
 /* External dependencies */
 import styled from "styled-components";
 
-// Used to sure the element also has a height when empty by setting min-height equal to line-height.
+// Used to make sure the element also has a height when empty by setting min-height equal to line-height.
 const height = "18px";
 
 const TwitterTitle = styled.p`

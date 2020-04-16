@@ -21,7 +21,7 @@ const determineClamp = ( mode ) => {
 	}
 };
 
-// Used to sure the element also has a height when empty by setting min-height equal to line-height.
+// Used to make sure the element also has a height when empty by setting min-height equal to line-height.
 const height = "16px";
 
 /**

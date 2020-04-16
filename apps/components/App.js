@@ -145,7 +145,7 @@ class App extends React.Component {
 		super();
 
 		this.state = {
-			activeComponent: ( localStorage.getItem( "active-component" ) || "buttons" ),
+			activeComponent: localStorage.getItem( "active-component" ) || "buttons",
 			isRtl: false,
 		};
 		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );
