@@ -151,7 +151,7 @@ class Indexable_Repository_Test extends TestCase {
 	 *
 	 * @covers ::get_ancestors
 	 */
-	public function test_get_ancestors_with_multple_ancestors() {
+	public function test_get_ancestors_with_multiple_ancestors() {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$indexable->permalink = 'https://example.org/post';
@@ -213,7 +213,7 @@ class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
-	 * that the permalink of each ancestor is available.
+	 * that the permalink of each ancestor is available when there is only one ancestor.
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
 		$indexable = Mockery::mock( Indexable::class );
