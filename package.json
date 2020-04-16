@@ -139,5 +139,8 @@
   ],
   "yoast": {
     "pluginVersion": "14.0-RC4"
+  },
+  "resolutions": {
+    "**/fsevents": "1.2.9"
   }
 }
