@@ -14,12 +14,12 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
- * Indexable_Reindex_Action class.
+ * Indexable_Post_Indexation_Action class.
  */
 class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
-	 * The post type helper
+	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
 	 */
