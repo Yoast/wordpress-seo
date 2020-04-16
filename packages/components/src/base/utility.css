@@ -12,6 +12,16 @@
     word-wrap: normal !important;
 }
 
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
 @media (max-width: 782px ) {
     .yoast-show-on-mobile {
         display: initial !important;
