@@ -12,12 +12,6 @@
 	padding: 16px;
 }
 
-.yoast-paper .yoast-close {
-	position: absolute;
-	right: 15px;
-	top: 15px;
-}
-
 .yoast-paper__item {
 	display: flex;
 }

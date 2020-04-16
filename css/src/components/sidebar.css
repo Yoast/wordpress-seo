@@ -10,7 +10,7 @@
 
 .yoast-main {
 	margin-right: 24px;
-	flex: 1;
+	flex-grow: 1;
 }
 
 .yoast .yoast-sidebar__heading {
