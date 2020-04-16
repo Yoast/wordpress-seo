@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
@@ -34,6 +35,20 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	const FULL_POSTS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POSTS_ROUTE;
 
 	/**
+	 * The terms route constant.
+	 *
+	 * @var string
+	 */
+	const TERMS_ROUTE = 'indexation/terms';
+
+	/**
+	 * The full terms route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_TERMS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERMS_ROUTE;
+
+	/**
 	 * The post indexation action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -41,12 +56,21 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	private $post_indexation_action;
 
 	/**
+	 * The term indexation action.
+	 *
+	 * @var Indexable_Term_Indexation_Action
+	 */
+	private $term_indexation_action;
+
+	/**
 	 * Indexable_Indexation_Route constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action $post_indexation_action The post indexation action.
+	 * @param Indexable_Term_Indexation_Action $term_indexation_action The term indexation action.
 	 */
-	public function __construct( Indexable_Post_Indexation_Action $post_indexation_action ) {
+	public function __construct( Indexable_Post_Indexation_Action $post_indexation_action, Indexable_Term_Indexation_Action $term_indexation_action ) {
 		$this->post_indexation_action = $post_indexation_action;
+		$this->term_indexation_action = $term_indexation_action;
 	}
 
 	/**
@@ -56,6 +80,11 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'index_posts' ],
+			'permission_callback' => [ $this, 'can_index' ],
+		] );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'index_terms' ],
 			'permission_callback' => [ $this, 'can_index' ],
 		] );
 	}
@@ -68,6 +97,18 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	public function index_posts() {
 		$indexables = $this->post_indexation_action->index();
 		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_POSTS_ROUTE );
+
+		return $this->respond_with( $indexables, $next_url );
+	}
+
+	/**
+	 * Indexes a number of unindexed terms.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function index_terms() {
+		$indexables = $this->term_indexation_action->index();
+		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_TERMS_ROUTE );
 
 		return $this->respond_with( $indexables, $next_url );
 	}
