@@ -7,7 +7,7 @@ import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark";
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import { realWordULExample1 } from "../stringProcessing/mergeListItemsSpec";
+import { realWorldULExample1, realWorldULExample2 } from "../stringProcessing/mergeListItemsSpec";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -599,7 +599,7 @@ describe( "Test for the research", function() {
 
 	it( "returns the same result for a a real world example list including various html tags as it does for a string " +
 		"version of that list", function() {
-		const realWordULExampleNoLists = "<p>Besides all of these great developments, you really should use the block editor" +
+		const realWordULExample1NoLists = "<p>Besides all of these great developments, you really should use the block editor" +
 			" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
 			" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
 			" Most of the stuff we did for our" +
@@ -625,7 +625,7 @@ describe( "Test for the research", function() {
 			"tutorial on WP Beginner</a>. <p>There are many more nice features; please share yours in the comments!</p>";
 
 		const paperWithList = new Paper(
-			realWordULExample1,
+			realWorldULExample1,
 			{
 				locale: "en_EN",
 				keyword: "block editor",
@@ -633,7 +633,55 @@ describe( "Test for the research", function() {
 		);
 
 		const paperWithWords = new Paper(
-			realWordULExampleNoLists,
+			realWordULExample1NoLists,
+			{
+				locale: "en_EN",
+				keyword: "block editor",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a a real world example with nested lists as it does for a string version of that same text" +
+		"version of that list", function() {
+		const realWordULExample2NoLists = " On the <strong>General</strong> tab: Make sure your store address is " +
+			"correct and that you’ve limited selling to your country and location  Enable or disable tax calculation if" +
+			" needed  Enable or disable the use of coupon codes if needed  Pick the correct currency " +
+			"  On the <strong>Product</strong> tab: Select the page where you want the shop to appear " +
+			" Want users to leave reviews on your product? Activate that option here " +
+			" On Inventory: Disable stock management unless you need it  " +
+			" On the <strong>Payments</strong> tab: Pick an easy payment option, like cash on delivery or bank" +
+			" transfer  If needed, you can add more complex payment providers like PayPal  " +
+			" On the <strong>Accounts</strong> tab: Allow guest checkout " +
+			" Allow account creation if needed  Select the Privacy policy " +
+			" Review the other options on this page carefully, you may need them " +
+			"  On the <strong>Emails</strong> tab: Check the different email templates and activate" +
+			" the ones you want to use. For every email, change the text to match what you want to say " +
+			" Scroll down to check the sender options  Also adapt the email template to fit your brand " +
+			"  Skip the <strong>Integrations</strong> tab  On the <strong>Advanced</strong> tab:" +
+			" Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions." +
+			" You can make these pages in WordPress: Add the `[woocommerce_cart]` shortcode to the cart page " +
+			" Add the `[woocommerce_checkout]` shortcode to the checkout page  Place the " +
+			"`[woocommerce_my_account]`  shortcode to the account page   ";
+
+		const paperWithList = new Paper(
+			realWorldULExample2,
+			{
+				locale: "en_EN",
+				keyword: "block editor",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			realWordULExample2NoLists,
 			{
 				locale: "en_EN",
 				keyword: "block editor",

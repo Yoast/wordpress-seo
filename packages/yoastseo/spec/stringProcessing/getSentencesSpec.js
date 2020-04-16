@@ -1,4 +1,5 @@
 import getSentences from "../../src/stringProcessing/getSentences.js";
+import { realWorldULExample1Processed, realWorldULExample2Processed } from "../stringProcessing/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
 
@@ -383,31 +384,6 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 		" This is the short step 3. " +
 		" <p>This is step 4a. This is step 4b.</p> ";
 
-	const realWordULExample1Processed = "<p>Besides all of these great developments, you really should use the block editor" +
-		" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
-		" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
-		" Most of the stuff we did for our" +
-		"<a href=\"https://developer.yoast.com/digital-storytelling-in-the-age-of-blocks/\">recent digital story</a>" +
-		" required <em>no coding</em>. Plugins like <a href=\"https://wordpress.org/plugins/grids/\">Grids</a> " +
-		"make it even easier to make very smooth designs.  You can make FAQs and HowTo’s that’ll look awesome " +
-		"in search results. <span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO " +
-		"advantage that is unmatched. For instance, check out our free" +
-		" <a href=\"https://yoast.com/how-to-build-an-faq-page/\">FAQ</a> and" +
-		" <a href=\"https://yoast.com/wordpress/plugins/seo/howto-schema-content-block/\">How-to</a> blocks." +
-		"</span>  Simple things like images next to paragraphs and other things that could be painful " +
-		"in TinyMCE have become so much better in Gutenberg. Want multiple columns? You can have them, like that, " +
-		"without extra coding.  Speaking of things you couldn’t do without plugins before: you can now embed" +
-		" tables in your content, just by adding a table block. No plugins required.  Creating custom blocks" +
-		" is relatively simple, and allows people to do 90% of the custom things they would do with plugins in the " +
-		"past, but easier. It becomes even easier when you use a plugin like " +
-		"<a href=\"https://www.advancedcustomfields.com/pro/\">ACF Pro</a> or <a href=\"https://getblocklab.com\">" +
-		"Block Lab</a> to build those custom blocks.  Custom blocks, or blocks you’ve added with plugins, " +
-		"can be easily found by users just by clicking the + sign in the editor. Shortcodes, in the classic editor, " +
-		"didn’t have such a discovery method.  Re-usable blocks allow you to easily create content you can " +
-		"re-use across posts or pages, see this" +
-		" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
-		"tutorial on WP Beginner</a>. <p>There are many more nice features; please share yours in the comments!</p>";
-
 	it( "parses merged list items containing single words as one sentence", function() {
 		const testCases = [
 			{
@@ -540,7 +516,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 	it( "correctly parses a processed real world example list including various html tags", function() {
 		const testCases = [
 			{
-				input: realWordULExample1Processed,
+				input: realWorldULExample1Processed,
 				expected: [
 					"Besides all of these great developments, you really should use the block editor now and stop using the classic editor.",
 					"Let me give you an overview of simple and clear reasons.",
@@ -551,7 +527,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"You can make FAQs and HowTo’s that’ll look awesome in search results.",
 					"<span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO advantage that is unmatched.",
 					"For instance, check out our free <a href=\"https://yoast.com/how-to-build-an-faq-page/\">FAQ</a> and <a href=\"https://yoast.com/wordpress/plugins/seo/howto-schema-content-block/\">How-to</a> blocks.",
-					"</span>  Simple things like images next to paragraphs and other things that could be painful in TinyMCE have become so much better in Gutenberg.",
+					"</span> Simple things like images next to paragraphs and other things that could be painful in TinyMCE have become so much better in Gutenberg.",
 					"Want multiple columns?",
 					"You can have them, like that, without extra coding.",
 					"Speaking of things you couldn’t do without plugins before: you can now embed tables in your content, just by adding a table block.",
@@ -564,6 +540,26 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"There are many more nice features;",
 					"please share yours in the comments!",
 				],
+			},
+		];
+
+		testGetSentences( testCases );
+	} );
+
+	it( "correctly parses a processed real world example with nested lists; please note: since some list items in this example " +
+		"don't end with a full stop, these get incorrectly merged into one sentence with the following list item." +
+		"This might lead to false positives when matching keyphrases.", function() {
+		const testCases = [
+			{
+				input: realWorldULExample2Processed,
+				expected: [
+					"On the <strong>General</strong> tab: Make sure your store address is correct and that you’ve limited selling to your country and location Enable or disable tax calculation if needed Enable or disable the use of coupon codes if needed Pick the correct currency On the <strong>Product</strong> tab: Select the page where you want the shop to appear Want users to leave reviews on your product?",
+					"Activate that option here On Inventory: Disable stock management unless you need it On the <strong>Payments</strong> tab: Pick an easy payment option, like cash on delivery or bank transfer If needed, you can add more complex payment providers like PayPal On the <strong>Accounts</strong> tab: Allow guest checkout Allow account creation if needed Select the Privacy policy Review the other options on this page carefully, you may need them On the <strong>Emails</strong> tab: Check the different email templates and activate the ones you want to use.",
+					"For every email, change the text to match what you want to say Scroll down to check the sender options Also adapt the email template to fit your brand Skip the <strong>Integrations</strong> tab On the <strong>Advanced</strong> tab: Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions.",
+					"You can make these pages in WordPress: Add the `[woocommerce_cart]",
+					"` shortcode to the cart page Add the `[woocommerce_checkout]",
+					"` shortcode to the checkout page Place the `[woocommerce_my_account]",
+					"` shortcode to the account page"],
 			},
 		];
 

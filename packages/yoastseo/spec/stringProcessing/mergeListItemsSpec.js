@@ -140,7 +140,7 @@ const listParagraphsAndSentencesProcessed =
 	"This is the short step 3. " +
 	"<p>This is step 4a. This is step 4b.</p> ";
 
-const realWordULExample1 = "<p>Besides all of these great developments, you really should use the block editor" +
+const realWorldULExample1 = "<p>Besides all of these great developments, you really should use the block editor" +
 	" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
 	" the block editor:</p><ul><li>You will be able to build layouts that you can’t make in TinyMCE." +
 	" Most of the stuff we did for our" +
@@ -165,7 +165,7 @@ const realWordULExample1 = "<p>Besides all of these great developments, you real
 	" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
 	"tutorial on WP Beginner</a>.</li></ul><p>There are many more nice features; please share yours in the comments!</p>";
 
-const realWordULExample1Processed = "<p>Besides all of these great developments, you really should use the block editor" +
+const realWorldULExample1Processed = "<p>Besides all of these great developments, you really should use the block editor" +
 	" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
 	" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
 	" Most of the stuff we did for our" +
@@ -190,6 +190,45 @@ const realWordULExample1Processed = "<p>Besides all of these great developments,
 	" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
 	"tutorial on WP Beginner</a>. <p>There are many more nice features; please share yours in the comments!</p>";
 
+const realWorldULExample2 = "<ul><li>On the <strong>General</strong> tab:<ul><li>Make sure your store address is " +
+	"correct and that you’ve limited selling to your country and location</li><li>Enable or disable tax calculation if" +
+	" needed</li><li>Enable or disable the use of coupon codes if needed</li><li>Pick the correct currency</li></ul>" +
+	"</li><li>On the <strong>Product</strong> tab:<ul><li>Select the page where you want the shop to appear</li>" +
+	"<li>Want users to leave reviews on your product? Activate that option here</li>" +
+	"<li>On Inventory: Disable stock management unless you need it</li></ul></li>" +
+	"<li>On the <strong>Payments</strong> tab:<ul><li>Pick an easy payment option, like cash on delivery or bank" +
+	" transfer</li><li>If needed, you can add more complex payment providers like PayPal</li></ul></li>" +
+	"<li>On the <strong>Accounts</strong> tab:<ul><li>Allow guest checkout</li>" +
+	"<li>Allow account creation if needed</li><li>Select the Privacy policy</li>" +
+	"<li>Review the other options on this page carefully, you may need them</li></ul>" +
+	"</li><li>On the <strong>Emails</strong> tab:<ul><li>Check the different email templates and activate" +
+	" the ones you want to use. For every email, change the text to match what you want to say</li>" +
+	"<li>Scroll down to check the sender options</li><li>Also adapt the email template to fit your brand</li>" +
+	"</ul></li><li>Skip the <strong>Integrations</strong> tab</li><li>On the <strong>Advanced</strong> tab:" +
+	"<ul><li>Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions." +
+	" You can make these pages in WordPress:<ul><li>Add the `[woocommerce_cart]` shortcode to the cart page</li>" +
+	"<li>Add the `[woocommerce_checkout]` shortcode to the checkout page</li><li>Place the " +
+	"`[woocommerce_my_account]`  shortcode to the account page</li></ul></li></ul></li></ul>";
+
+const realWorldULExample2Processed = " On the <strong>General</strong> tab: Make sure your store address is " +
+	"correct and that you’ve limited selling to your country and location Enable or disable tax calculation if" +
+	" needed Enable or disable the use of coupon codes if needed Pick the correct currency" +
+	" On the <strong>Product</strong> tab: Select the page where you want the shop to appear" +
+	" Want users to leave reviews on your product? Activate that option here" +
+	" On Inventory: Disable stock management unless you need it" +
+	" On the <strong>Payments</strong> tab: Pick an easy payment option, like cash on delivery or bank" +
+	" transfer If needed, you can add more complex payment providers like PayPal" +
+	" On the <strong>Accounts</strong> tab: Allow guest checkout" +
+	" Allow account creation if needed Select the Privacy policy" +
+	" Review the other options on this page carefully, you may need them" +
+	" On the <strong>Emails</strong> tab: Check the different email templates and activate" +
+	" the ones you want to use. For every email, change the text to match what you want to say" +
+	" Scroll down to check the sender options Also adapt the email template to fit your brand" +
+	" Skip the <strong>Integrations</strong> tab On the <strong>Advanced</strong> tab:" +
+	" Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions." +
+	" You can make these pages in WordPress: Add the `[woocommerce_cart]` shortcode to the cart page" +
+	" Add the `[woocommerce_checkout]` shortcode to the checkout page Place the " +
+	"`[woocommerce_my_account]` shortcode to the account page ";
 
 describe( "A test for merging list items in texts for the purpuse of making the keyphrase distribution assessment" +
 	"less sensitive to lists", function() {
@@ -230,10 +269,14 @@ describe( "A test for merging list items in texts for the purpuse of making the 
 	} );
 
 	it( "should correctly process a real world example list including various html tags", function() {
-		expect( mergeListItems( realWordULExample1 ) ).toEqual( realWordULExample1Processed );
+		expect( mergeListItems( realWorldULExample1 ) ).toEqual( realWorldULExample1Processed );
+		expect( mergeListItems( realWorldULExample2 ) ).toEqual( realWorldULExample2Processed );
 	} );
 } );
 
 export {
-	realWordULExample1,
+	realWorldULExample1,
+	realWorldULExample2,
+	realWorldULExample1Processed,
+	realWorldULExample2Processed,
 };
