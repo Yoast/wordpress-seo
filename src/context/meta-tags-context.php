@@ -381,7 +381,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				}
 				break;
 			case 'user':
-				$type = [ 'ProfilePage', 'WebPage' ];
+				$type = 'ProfilePage';
 				break;
 			case 'home-page':
 			case 'date-archive':

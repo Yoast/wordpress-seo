@@ -135,7 +135,7 @@ class Meta_Tags_Context_Test extends TestCase {
 				'indexable' => [
 					'object_type' => 'user',
 				],
-				'expected'  => [ 'ProfilePage', 'WebPage' ],
+				'expected'  => 'ProfilePage',
 				'message'   => 'Tests with an indexable for the author page.',
 			],
 			[
