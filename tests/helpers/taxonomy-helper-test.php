@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Brain\Monkey;
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
@@ -79,12 +79,40 @@ class Taxonomy_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the WordPress function is called with the expected parameters.
+	 *
+	 * @covers ::get_public_taxonomies
+	 */
+	public function test_get_public_taxonomies() {
+		Functions\expect( 'get_taxonomies' )
+			->once()
+			->with( [ 'public' => true ], 'names' )
+			->andReturn( [] );
+
+		$this->instance->get_public_taxonomies();
+	}
+
+	/**
+	 * Tests that the WordPress function is called with the expected parameters.
+	 *
+	 * @covers ::get_public_taxonomies
+	 */
+	public function test_get_public_taxonomies_with_objects() {
+		Functions\expect( 'get_taxonomies' )
+			->once()
+			->with( [ 'public' => true ], 'objects' )
+			->andReturn( [] );
+
+		$this->instance->get_public_taxonomies( 'objects' );
+	}
+
+	/**
 	 * Tests the retrieval of the term description
 	 *
 	 * @covers ::get_term_description
 	 */
 	public function test_get_term_description() {
-		Monkey\Functions\expect( 'term_description' )
+		Functions\expect( 'term_description' )
 			->once()
 			->with( 1337 )
 			->andReturn( 'Term description' );
