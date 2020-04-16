@@ -9,7 +9,7 @@ import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import {
-	determineImageProperties,
+	handleImage,
 	FACEBOOK_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
@@ -65,6 +65,39 @@ class FacebookImage extends Component {
 			imageProperties: null,
 			status: "loading",
 		};
+		this.socialMedium = "Facebook";
+		this.handleFacebookImage = this.handleFacebookImage.bind( this );
+		this.setState = this.setState.bind( this );
+	}
+
+	/**
+	 * Handles setting the handled image properties on the state.
+	 *
+	 * @returns {void}
+	 */
+	async handleFacebookImage() {
+		try {
+			const newState = await handleImage( this.props.src, this.socialMedium );
+			this.setState( newState );
+			this.props.onImageLoaded( newState.imageProperties.mode || "landscape" );
+		} catch ( error ) {
+			this.setState( error );
+			this.props.onImageLoaded( "landscape" );
+		}
+	}
+
+	/**
+	 * React Lifecycle method that is called after the component updates.
+	 *
+	 * @param {Object} prevProps The props.
+	 *
+	 * @returns {Object} The new props.
+	 */
+	componentDidUpdate( prevProps ) {
+		// Only perform calculations on the image if the src has actually changed.
+		if ( prevProps.src !== this.props.src ) {
+			this.handleFacebookImage();
+		}
 	}
 
 	/**
@@ -74,43 +107,8 @@ class FacebookImage extends Component {
 	 *
 	 * @returns {void}
 	 */
-	determineImageProperties( src ) {
-		determineImageProperties( src, "Facebook" ).then( ( imageProperties ) => {
-			this.props.onImageLoaded( imageProperties.mode );
-
-			this.setState( {
-				imageProperties: imageProperties,
-				status: "loaded",
-			} );
-		} ).catch( () => {
-			this.props.onImageLoaded( "landscape" );
-			this.setState( {
-				imageProperties: null,
-				status: "errored",
-			} );
-		} );
-	}
-
-	/**
-	 * After the component has mounted, determine the properties of the FacebookImage.
-	 *
-	 * @returns {void}
-	 */
 	componentDidMount() {
-		this.determineImageProperties( this.props.src );
-	}
-
-	/**
-	 * After the image has been updated, determine the properties of the FacebookImage.
-	 *
-	 * @param {Object} prevProps The previous properties.
-	 *
-	 * @returns {void}
-	 */
-	componentDidUpdate( prevProps ) {
-		if ( prevProps.src !== this.props.src ) {
-			this.determineImageProperties( this.props.src );
-		}
+		this.handleFacebookImage();
 	}
 
 	/**

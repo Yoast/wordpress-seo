@@ -211,21 +211,44 @@ export function calculateImageDimensions( expectedDimensions, originalDimensions
  *
  * @returns {Promise} The promise of the imageProperties.
  */
-export function determineImageProperties( src, socialMedium ) {
-	return retrieveOriginalImageDimensions( src ).then( ( originalDimensions ) => {
-		// Determine what image mode should be used.
-		const imageMode = determineImageMode( socialMedium, originalDimensions );
+export async function determineImageProperties( src, socialMedium ) {
+	const originalDimensions = await retrieveOriginalImageDimensions( src );
 
-		// Retrieve the image sizes, depending on the social medium.
-		const expectedDimensions = retrieveExpectedDimensions( socialMedium );
+	// Determine what image mode should be used.
+	const imageMode = determineImageMode( socialMedium, originalDimensions );
 
-		// Calculate the image dimensions for the specific image.
-		const imageDimensions = calculateImageDimensions( expectedDimensions, originalDimensions, imageMode );
+	// Retrieve the image sizes, depending on the social medium.
+	const expectedDimensions = retrieveExpectedDimensions( socialMedium );
 
+	// Calculate the image dimensions for the specific image.
+	const imageDimensions = calculateImageDimensions( expectedDimensions, originalDimensions, imageMode );
+
+	return {
+		mode: imageMode,
+		height: imageDimensions.height,
+		width: imageDimensions.width,
+	};
+}
+
+/**
+ * Wraps the determined image properties in a neat object.
+ *
+ * @param {String} src          The image URL.
+ * @param {String} socialMedium Twitter or Facebook.
+ *
+ * @returns {Object} An object the Image components can handle.
+ */
+export async function handleImage( src, socialMedium ) {
+	try {
+		const imageProperties = await determineImageProperties( src, socialMedium );
 		return {
-			mode: imageMode,
-			height: imageDimensions.height,
-			width: imageDimensions.width,
+			imageProperties: imageProperties,
+			status: "loaded",
 		};
-	} );
+	} catch ( error ) {
+		return {
+			imageProperties: null,
+			status: "errored",
+		};
+	}
 }
