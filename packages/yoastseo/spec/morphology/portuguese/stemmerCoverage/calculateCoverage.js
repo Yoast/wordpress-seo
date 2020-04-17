@@ -14,6 +14,5 @@ describe( "Calculate coverage for the Portuguese stemmer", () => {
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 		console.log( "The current coverage of the Portuguese stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
-		console.log( errors );
 	} );
 } );
