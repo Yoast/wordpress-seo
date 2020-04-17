@@ -21,15 +21,17 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		return \sprintf(
-			'<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>%1$s</strong> %2$s</p></div>',
+			'<div id="yoast-indexation-warning" class="notice notice-warning"><p>%s</p></div>',
 			\sprintf(
-				/* translators: 1: Link start tag to open the indexation modal, 2: Link closing tag. */
-				\esc_html__( 'Yoast SEO needs to index your site to have the best performance. Please %1$sindex your site now%2$s.', 'wordpress-seo' ),
-				'<button type="button" id="yoast-open-indexation" class="button-link">',
-				'</button>'
-			),
-			\sprintf(
-				\esc_html__( 'Or %1$sdismiss this warning%2$s.', 'wordpress-seo' ),
+				/* translators: 1: Strong start tag, 2: Strong closing tag, 3: Button start tag to open the indexation modal, 4: Button closing tag, 5: Button start tag to dismiss the warning, 6: Button closing tag. */
+				\esc_html__( '%1$sNEW:%2$s Yoast SEO can speed up your website! Please %3$sclick here%4$s to run our indexing process. Or %5$sdismiss this warning%6$s.', 'wordpress-seo' ),
+				'<strong>',
+				'</strong>',
+				\sprintf(
+					'<button type="button" id="yoast-open-indexation" class="button-link" data-title="%s">',
+					\__( 'Your content is being indexed', 'wordpress-seo' )
+				),
+				'</button>',
 				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="' . \esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '">',
 				'</button>'
 			)
