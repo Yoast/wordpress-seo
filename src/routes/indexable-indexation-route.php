@@ -54,14 +54,14 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 *
 	 * @var string
 	 */
-	const POST_TYPE_ARCHIVE_ROUTE = 'indexation/post-type-archive';
+	const POST_TYPE_ARCHIVES_ROUTE = 'indexation/post-type-archives';
 
 	/**
 	 * The full terms route constant.
 	 *
 	 * @var string
 	 */
-	const FULL_POST_TYPE_ARCHIVE_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_TYPE_ARCHIVE_ROUTE;
+	const FULL_POST_TYPE_ARCHIVES_ROUTE = Main::API_V1_NAMESPACE . '/' . self::POST_TYPE_ARCHIVES_ROUTE;
 
 	/**
 	 * The post indexation action.
@@ -115,7 +115,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 			'callback'            => [ $this, 'index_terms' ],
 			'permission_callback' => [ $this, 'can_index' ],
 		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_ARCHIVE_ROUTE, [
+		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_ARCHIVES_ROUTE, [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'index_post_type_archives' ],
 			'permission_callback' => [ $this, 'can_index' ],
@@ -153,7 +153,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 */
 	public function index_post_type_archives() {
 		$indexables = $this->post_type_archive_indexation_action->index();
-		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_POST_TYPE_ARCHIVE_ROUTE );
+		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_POST_TYPE_ARCHIVES_ROUTE );
 
 		return $this->respond_with( $indexables, $next_url );
 	}
