@@ -234,7 +234,12 @@ class Meta_Surface {
 		}
 		$url = \site_url( $url_parts['path'] );
 
-		$indexable = $this->repository->find_by_permalink( $url );
+		if ( $this->is_date_archive_url( $url ) ) {
+			$indexable = $this->repository->find_for_date_archive();
+		}
+		else {
+			$indexable = $this->repository->find_by_permalink( $url );
+		}
 
 		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.
 		if ( ! $indexable ) {
@@ -268,6 +273,9 @@ class Meta_Surface {
 			case 'post-type-archive':
 				$page_type = 'Post_Type_Archive';
 				break;
+			case 'date-archive':
+				$page_type = 'Date_Archive';
+				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
 					$page_type = 'Search_Result_Page';
@@ -285,13 +293,38 @@ class Meta_Surface {
 	}
 
 	/**
+	 * Checks if a given URL is a date archive URL.
+	 *
+	 * @param string $url The url.
+	 *
+	 * @return boolean
+	 */
+	protected function is_date_archive_url( $url ) {
+		$path = \wp_parse_url( $url, PHP_URL_PATH );
+		$path = \ltrim( $path, '/' );
+
+		global $wp_rewrite;
+
+		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE );
+		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );
+
+		foreach ( (array) $date_rewrite as $match => $query ) {
+			if ( preg_match( "#^$match#", $path ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Creates a new meta value object
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return Meta The meta value
 	 */
-	private function build_meta( Meta_Tags_Context $context ) {
+	protected function build_meta( Meta_Tags_Context $context ) {
 		return new Meta( $context, $this->container );
 	}
 }
