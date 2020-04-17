@@ -99,13 +99,17 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 *
 	 * @return array The list of post types for which no indexable for its archive page has been made yet.
 	 */
-	protected function get_unindexed_post_type_archives( $limit = false ) {
+	private function get_unindexed_post_type_archives( $limit = false ) {
 		$post_types_with_archive_pages = $this->get_post_types_with_archive_pages();
 		$indexed_post_types            = $this->get_indexed_post_type_archives();
 
 		$unindexed_post_types = \array_diff( $post_types_with_archive_pages, $indexed_post_types );
 
-		return \array_slice( $unindexed_post_types, $limit );
+		if ( $limit ) {
+			return \array_slice( $unindexed_post_types, 0, $limit );
+		}
+
+		return $unindexed_post_types;
 	}
 
 	/**
@@ -113,7 +117,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 *
 	 * @return array The list of names of all post types that have archive pages.
 	 */
-	protected function get_post_types_with_archive_pages() {
+	private function get_post_types_with_archive_pages() {
 		// We only want to index archive pages of public post types that have them.
 		$public_post_types       = $this->post_type->get_public_post_types( 'object' );
 		$post_types_with_archive = \array_filter( $public_post_types, [ $this, 'is_post_type_with_archive' ] );
@@ -128,11 +132,11 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	}
 
 	/**
-	 * Retrieves the
+	 * Retrieves the list of post type names for which an archive indexable exists.
 	 *
 	 * @return array The list of names of post types with unindexed archive pages.
 	 */
-	protected function get_indexed_post_type_archives() {
+	private function get_indexed_post_type_archives() {
 		$post_type_archive_indexables = $this->repository->find_all_with_type( 'post-type-archive' );
 
 		// We only need the post type names, not the objects.
@@ -151,7 +155,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 *
 	 * @return bool If the given post type has an archive page.
 	 */
-	protected function is_post_type_with_archive( $post_type ) {
+	private function is_post_type_with_archive( $post_type ) {
 		return $this->post_type->has_archive( $post_type );
 	}
 }
