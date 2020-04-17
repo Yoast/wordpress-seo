@@ -56,19 +56,18 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		$indexables           = [];
 		$indexables_to_create = $this->query();
 
-		if ( \in_array( '404', $indexables_to_create, true ) ) {
+		if ( isset( $indexables_to_create['404'] ) ) {
 			$indexables[] = $this->indexable_builder->build_for_system_page( '404' );
 		}
 
-		if ( \in_array( 'search', $indexables_to_create, true ) ) {
+		if ( isset( $indexables_to_create['search'] ) ) {
 			$indexables[] = $this->indexable_builder->build_for_system_page( 'search' );
 		}
 
-		if ( \in_array( 'date_archive', $indexables_to_create, true ) ) {
+		if ( isset( $indexables_to_create['date_archive'] ) ) {
 			$indexables[] = $this->indexable_builder->build_for_date_archive();
 		}
-
-		if ( \in_array( 'home_page', $indexables_to_create, true ) ) {
+		if ( isset( $indexables_to_create['home_page'] ) ) {
 			$indexables[] = $this->indexable_builder->build_for_home_page();
 		}
 
@@ -83,21 +82,21 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	private function query() {
 		$indexables_to_create = [];
 		if ( ! $this->indexable_repository->find_for_system_page( '404', false ) ) {
-			$indexables_to_create[] = '404';
+			$indexables_to_create['404'] = true;
 		}
 
 		if ( ! $this->indexable_repository->find_for_system_page( 'search', false ) ) {
-			$indexables_to_create[] = 'search';
+			$indexables_to_create['search'] = true;
 		}
 
 		if ( ! $this->indexable_repository->find_for_date_archive( false ) ) {
-			$indexables_to_create[] = 'date_archive';
+			$indexables_to_create['date_archive'] = true;
 		}
 
 		$need_home_page_indexable = ( (int) \get_option( 'page_on_front' ) === 0 && \get_option( 'show_on_front' ) === 'posts' );
 
 		if ( $need_home_page_indexable && ! $this->indexable_repository->find_for_home_page( false ) ) {
-			$indexables_to_create[] = 'home_page';
+			$indexables_to_create['home_page'] = true;
 		}
 
 		return $indexables_to_create;
