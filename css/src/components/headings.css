@@ -9,7 +9,7 @@ body.yoast {
 }
 
 .wrap {
-	margin: 2.3em 2.3em 0;
+	margin: 32px 32px 0;
 	font-size: var(--font-size-default);
 	color: var(--color-default);
 	line-height: 1.5;
@@ -49,3 +49,6 @@ body.yoast {
 	font-size: 1em;
 }
 
+.yoast .update-nag{
+	margin-left: 32px;
+}

@@ -12,30 +12,6 @@
 	padding: 16px;
 }
 
-.yoast-paper .yoast-close {
-	position: absolute;
-	right: 15px;
-	top: 15px;
-}
-
-.yoast-paper__configuration-wizard {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-}
-
-.yoast-paper__configuration-wizard-content {
-	flex: 1;
-}
-
-.yoast-paper__configuration-wizard img {
-	flex-shrink: 1;
-	width: 80px;
-	margin-left: auto;
-	margin-right: 42px;
-	margin-top: 12px;
-}
-
 .yoast-paper__item {
 	display: flex;
 }
