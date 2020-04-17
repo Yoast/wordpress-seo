@@ -27,6 +27,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'ms_defaults_set'                 => false,
+		'ignore_indexation_warning'       => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 
