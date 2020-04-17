@@ -27,24 +27,24 @@ import { findMatchingEndingInArray } from "../morphoHelpers/findMatchingEndingIn
 /**
  * Checks whether the character is a vowel.
  *
- * @param {string}	c	The character to check.
+ * @param {string}	character	The character to check.
  *
  * @returns {boolean}	Whether the character is a vowel.
  */
-const isVowel = function( c ) {
+const isVowel = function( character ) {
 	const regex = /[aeiouáéíóúâêô]/gi;
 
-	return regex.test( c );
+	return regex.test( character );
 };
 
 /**
  * Finds the first vowel in a string after the specified index and returns the index of the character following that vowel
  * (if found).
  *
- * @param {string}	word	The word to check.
- * @param {number}	start	The index at which the search for a vowel should begin.
+ * @param {string}	word	    The word to check.
+ * @param {number}	[start=0]   The index at which the search for a vowel should begin.
  *
- * @returns {number|*} The index of the character following the found vowel.
+ * @returns {number} The index of the character following the found vowel. If this is not found, the length of the word.
  */
 const nextVowelPosition = function( word, start = 0 ) {
 	const length = word.length;
@@ -62,10 +62,10 @@ const nextVowelPosition = function( word, start = 0 ) {
  * Finds the first consonant in a string after the specified index and returns the index of the character following that
  * consonant (if found).
  *
- * @param {string}	word	The word to check.
- * @param {number}	start	The index at which the search for a consonant should begin.
+ * @param {string}	word	    The word to check.
+ * @param {number}	[start=0]	The index at which the search for a consonant should begin.
  *
- * @returns {number|*} The index of the character following the found consonant.
+ * @returns {number} The index of the character following the found consonant. If this is not found, the length of the word.
  */
 const nextConsonantPosition = function( word, start = 0 ) {
 	const length = word.length;
@@ -97,25 +97,10 @@ const replaceCharacters = function( word, charactersToReplace, replacements ) {
 };
 
 /**
- * Checks whether a string ends with a specified suffix.
- *
- * @param {string}	string	The string to check.
- * @param {string}	suffix	The suffix to search for.
- * @returns {boolean}	Whether the string ends with the suffix.
- */
-const endsIn = function( string, suffix ) {
-	if ( string.length < suffix.length ) {
-		return false;
-	}
-
-	return ( string.slice( -suffix.length ) === suffix );
-};
-
-/**
  * Looks for the longest suffix in each group and removes it if it is found within the specified region (R1, R2 or RV).
  * Once a suffix is found and removed, stops searching further.
  *
- * For some of the suffixes group, replaces the suffix with another string after removing it (e.g. -logia is replaced with
+ * For some of the suffix groups, replaces the suffix with another string after removing it (e.g. -logia is replaced with
  * -log).
  *
  * @param {string}	word	The word to check.
@@ -249,7 +234,7 @@ export default function stem( word ) {
 	let r2 = length;
 	let rv = length;
 
-	/**
+	/*
 	 * R1 is the region after the first non-vowel following a vowel, or is the null region at the end of the word if
 	 * there is no such non-vowel.
 	 */
@@ -259,7 +244,7 @@ export default function stem( word ) {
 		}
 	}
 
-	/**
+	/*
 	 * R2 is the region after the first non-vowel following a vowel in R1, or is the null region at the end of the
 	 * word if there is no such non-vowel.
 	 */
@@ -269,7 +254,7 @@ export default function stem( word ) {
 		}
 	}
 
-	/**
+	/*
 	 * If the second letter is a consonant, RV is the region after the next following vowel. If the first two letters are
 	 * vowels, RV is the region after the next consonant, and otherwise (consonant-vowel case) RV is the region after the
 	 * third letter. But RV is the end of the word if these positions cannot be found.
@@ -312,7 +297,7 @@ export default function stem( word ) {
 	 * removed in one of the previous steps, remove -os, -a, -i, -o, -á, í, or ó if in RV.
 	 */
 	if ( wordAfterStep1 !== word || wordAfterStep2 !== word ) {
-		if ( word.endsWith( "ci" ) && endsIn( rvText, "i" ) ) {
+		if ( word.endsWith( "ci" ) && rvText.endsWith( "i" ) ) {
 			word = word.slice( 0, -1 );
 			rvText = word.slice( rv );
 		}
