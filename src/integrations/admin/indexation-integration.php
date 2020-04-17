@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
@@ -52,6 +53,13 @@ class Indexation_Integration implements Integration_Interface {
 	protected $term_indexation;
 
 	/**
+	 * The post type archive indexation action.
+	 *
+	 * @var Indexable_Post_Type_Archive_Indexation_Action
+	 */
+	protected $post_type_archive_indexation;
+
+	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -61,31 +69,32 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Indexation_Integration constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action $post_indexation The post indexation action.
-	 * @param Indexable_Term_Indexation_Action $term_indexation The term indexation action.
-	 * @param Options_Helper                   $options_helper  The options helper.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
+	 * @param Options_Helper                                $options_helper               The options helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
+		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Options_Helper $options_helper
 	) {
-		$this->post_indexation = $post_indexation;
-		$this->term_indexation = $term_indexation;
-		$this->options_helper  = $options_helper;
+		$this->post_indexation              = $post_indexation;
+		$this->term_indexation              = $term_indexation;
+		$this->post_type_archive_indexation = $post_type_archive_indexation;
+		$this->options_helper               = $options_helper;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) !== false || $this->get_total_unindexed() === 0 ) {
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) !== false ) {
 			return;
 		}
 
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ], 10 );
-		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
-		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 	}
 
 	/**
@@ -94,6 +103,15 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		// We aren't able to determine whether or not anything needs to happen at register_hooks as post types aren't registered yet.
+		// So we do most of our add_action calls here.
+		if ( $this->get_total_unindexed() === 0 ) {
+			return;
+		}
+
+		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'indexation' );
 		$asset_manager->enqueue_style( 'admin-css' );
@@ -109,6 +127,7 @@ class Indexation_Integration implements Integration_Interface {
 				'endpoints' => [
 					'posts' => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 					'terms' => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'users' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
@@ -155,6 +174,7 @@ class Indexation_Integration implements Integration_Interface {
 		if ( \is_null( $this->total_unindexed ) ) {
 			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
+			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
 		}
 
 		return $this->total_unindexed;
