@@ -25,7 +25,7 @@ class Indexables_Head_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const HEAD_FOR_URL_ROUTE = 'indexables/get_head_for_url';
+	const HEAD_FOR_URL_ROUTE = 'get_head';
 
 	/**
 	 * The full posts route constant.
@@ -56,21 +56,41 @@ class Indexables_Head_Route implements Route_Interface {
 	public function register_routes() {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::HEAD_FOR_URL_ROUTE, [
 			'methods'  => 'GET',
-			'callback' => [ $this, 'get_head_for_url' ],
+			'callback' => [ $this, 'get_head' ],
+			'args'     => [
+				'url' => [
+					'validate_callback' => [ $this, 'is_valid_url' ],
+					'required'          => true,
+				],
+			],
 		] );
 	}
 
 	/**
 	 * Gets the head of a page for a given URL.
 	 *
-	 * @param WP_REST_Request $request The request.
+	 * @param WP_REST_Request $request The request. This request should have a url param set.
 	 *
 	 * @return WP_REST_Response The response.
 	 */
-	public function get_head_for_url( WP_REST_Request $request ) {
+	public function get_head( WP_REST_Request $request ) {
 		$url  = \esc_url_raw( $request['url'] );
 		$data = $this->head_action->for_url( $url );
 
 		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Checks if a url is a valid url.
+	 *
+	 * @param string $url The url to check.
+	 *
+	 * @return boolean Whether or not the url is valid.
+	 */
+	public function is_valid_url( $url ) {
+		if ( \filter_var( $url, FILTER_VALIDATE_URL ) === false ) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -7,12 +7,11 @@
 
 namespace Yoast\WP\SEO\Surfaces;
 
-use Exception;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,20 +35,29 @@ class Meta_Surface {
 	private $repository;
 
 	/**
+	 * @var WP_Rewrite_Wrapper
+	 */
+	private $wp_rewrite_wrapper;
+
+
+	/**
 	 * Meta_Surface constructor.
 	 *
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
+	 * @param WP_Rewrite_Wrapper         $wp_rewrite_wrapper   The WP rewrite wrapper.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		WP_Rewrite_Wrapper $wp_rewrite_wrapper
 	) {
-		$this->container        = $container;
-		$this->context_memoizer = $context_memoizer;
-		$this->repository       = $indexable_repository;
+		$this->container          = $container;
+		$this->context_memoizer   = $context_memoizer;
+		$this->repository         = $indexable_repository;
+		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
 	}
 
 	/**
@@ -303,8 +311,7 @@ class Meta_Surface {
 		$path = \wp_parse_url( $url, PHP_URL_PATH );
 		$path = \ltrim( $path, '/' );
 
-		global $wp_rewrite;
-
+		$wp_rewrite   = $this->wp_rewrite_wrapper->get();
 		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE );
 		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );
 
