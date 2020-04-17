@@ -120,7 +120,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	private function get_post_types_with_archive_pages() {
 		// We only want to index archive pages of public post types that have them.
 		$public_post_types       = $this->post_type->get_public_post_types( 'object' );
-		$post_types_with_archive = \array_filter( $public_post_types, [ $this, 'is_post_type_with_archive' ] );
+		$post_types_with_archive = \array_filter( $public_post_types, [ $this->post_type, 'has_archive' ] );
 
 		// We only need the post type names, not the objects.
 		$post_types = [];
@@ -146,16 +146,5 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		}
 
 		return $indexed_post_types;
-	}
-
-	/**
-	 * Checks whether the given post type has an archive page or not.
-	 *
-	 * @param WP_Post_Type $post_type The post type to check.
-	 *
-	 * @return bool If the given post type has an archive page.
-	 */
-	private function is_post_type_with_archive( $post_type ) {
-		return $this->post_type->has_archive( $post_type );
 	}
 }

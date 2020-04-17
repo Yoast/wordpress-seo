@@ -82,7 +82,6 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
-	 * @covers ::is_post_type_with_archive
 	 */
 	public function test_get_total_unindexed() {
 		$public_post_types = [
@@ -115,7 +114,6 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
-	 * @covers ::is_post_type_with_archive
 	 */
 	public function test_index() {
 		$public_post_types = [
@@ -155,7 +153,6 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
-	 * @covers ::is_post_type_with_archive
 	 */
 	public function test_index_when_limit_is_set_to_a_negative_number() {
 		$public_post_types = [
@@ -195,7 +192,6 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
-	 * @covers ::is_post_type_with_archive
 	 */
 	public function test_index_when_limit_is_not_an_integer() {
 		$public_post_types = [
