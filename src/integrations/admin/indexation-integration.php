@@ -136,9 +136,10 @@ class Indexation_Integration implements Integration_Interface {
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
-					'posts' => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-					'terms' => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-					'general' => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
