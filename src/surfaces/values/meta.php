@@ -12,6 +12,8 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -122,6 +124,12 @@ class Meta {
 	 */
 	public function get_head() {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
+
+		if ( $this->context->page_type === 'Date_Archive' ) {
+			$presenters = \array_filter( $presenters, function ( $presenter ) {
+				return ! \is_a( $presenter, Rel_Next_Presenter::class ) && ! \is_a( $presenter, Rel_Prev_Presenter::class );
+			} );
+		}
 
 		$output = '';
 
