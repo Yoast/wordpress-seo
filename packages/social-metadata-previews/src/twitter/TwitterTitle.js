@@ -1,34 +1,19 @@
 /* External dependencies */
-import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const TwitterTitleWrapper = styled.p`
-	line-height: 18px;
+// Used to make sure the element also has a height when empty by setting min-height equal to line-height.
+const height = "18px";
+
+const TwitterTitle = styled.p`
+	line-height: ${ height };
+	min-height : ${ height };
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin-top: 0;
 	margin-bottom: 2px;
 	color: rgb(20, 23, 26);
+	cursor: pointer;
 `;
-
-/**
- * Renders a TwitterTitle component.
- *
- * @param {object} props                    The props.
- * @param {string} props.title              The title.
- *
- * @returns {React.Element} The rendered element.
- */
-const TwitterTitle = ( props ) =>
-	<TwitterTitleWrapper>
-		{ props.title }
-	</TwitterTitleWrapper>
-;
-
-TwitterTitle.propTypes = {
-	title: PropTypes.string.isRequired,
-};
 
 export default TwitterTitle;

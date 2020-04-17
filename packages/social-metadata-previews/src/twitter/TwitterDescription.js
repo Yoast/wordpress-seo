@@ -1,7 +1,5 @@
 /* External dependencies */
-import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /**
  * Renders a TwitterDescription component.
@@ -11,32 +9,17 @@ import PropTypes from "prop-types";
  *
  * @returns {React.Component} The rendered element.
  */
-const TwitterDescriptionText = styled.p`
+const TwitterDescription = styled.p`
 	max-height: 55px;
+	min-height: 20px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	margin: 0 0 2px;
 	color: rgb(101, 119, 134);
 	display: -webkit-box;
+	cursor: pointer;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 `;
-
-/**
- * Component that contains the twitter description text.
- *
- * @param {object} props The properties passed to the component.
- *
- * @returns {React.Element} The TwitterDescription component.
- */
-const TwitterDescription = ( props ) =>
-	<TwitterDescriptionText>
-		{ props.description }
-	</TwitterDescriptionText>
-;
-
-TwitterDescription.propTypes = {
-	description: PropTypes.string.isRequired,
-};
 
 export default TwitterDescription;

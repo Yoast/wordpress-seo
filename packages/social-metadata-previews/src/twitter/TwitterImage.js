@@ -25,6 +25,7 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 			height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 			width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
 			${ border ? "border-bottom: 1px solid #E1E8ED;" : "" }
+			border-radius: 14px 14px 0 0;
 			`
 		);
 	}
@@ -32,6 +33,7 @@ const injectCardDependentStyles = ( isLarge, border = true ) => {
 		`
 		width: ${ TWITTER_IMAGE_SIZES.squareWidth }px;
 		${ border ? "border-right: 1px solid #E1E8ED;" : "" }
+		border-radius: 14px 0 0 14px;
 		`
 	);
 };
@@ -149,13 +151,21 @@ export default class TwitterImage extends React.Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
-			return <PlaceholderImage isLarge={ this.props.isLarge }>
+			return <PlaceholderImage
+				isLarge={ this.props.isLarge }
+				onClick={ this.props.onImageClick }
+				onMouseEnter={ this.props.onMouseEnter }
+				onMouseLeave={ this.props.onMouseLeave }
+			>
 				{ __( "Select image", "yoast-components" ) }
 			</PlaceholderImage>;
 		}
 
 		return <TwitterImageContainer
 			isLarge={ this.props.isLarge }
+			onClick={ this.props.onImageClick }
+			onMouseEnter={ this.props.onMouseEnter }
+			onMouseLeave={ this.props.onMouseLeave }
 		>
 			<StyledImage
 				src={ this.props.src }
@@ -167,12 +177,18 @@ export default class TwitterImage extends React.Component {
 }
 
 TwitterImage.propTypes = {
-	src: PropTypes.string,
 	isLarge: PropTypes.bool.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
+	onImageClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 TwitterImage.defaultProps = {
 	src: "",
 	alt: "",
+	onMouseEnter: () => {},
+	onImageClick: () => {},
+	onMouseLeave: () => {},
 };

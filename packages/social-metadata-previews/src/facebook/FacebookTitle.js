@@ -1,14 +1,16 @@
 /* External dependencies */
-import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const FacebookTitleWrapper = styled.span`
+// Used to make sure the element also has a height when empty by setting min-height equal to line-height.
+const height = "20px";
+
+const FacebookTitle = styled.span`
+	line-height: ${ height };
+	min-height : ${ height };
 	color: #1d2129;
 	font-weight: 600;
 	overflow: hidden;
 	font-size: 16px;
-	line-height: 20px;
 	margin: 0;
 	letter-spacing: normal;
 	white-space: normal;
@@ -16,27 +18,8 @@ const FacebookTitleWrapper = styled.span`
 	cursor: pointer;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;  
+	-webkit-box-orient: vertical;
 	overflow: hidden;
 `;
-
-/**
- * Renders a FacebookTitle component.
- *
- * @param {object} props The props.
- *
- * @returns {React.Element} The rendered element.
- */
-const FacebookTitle = ( props ) => {
-	return (
-		<FacebookTitleWrapper>
-			{ props.title }
-		</FacebookTitleWrapper>
-	);
-};
-
-FacebookTitle.propTypes = {
-	title: PropTypes.string.isRequired,
-};
 
 export default FacebookTitle;

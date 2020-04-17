@@ -101,7 +101,9 @@ class FacebookImage extends Component {
 	}
 
 	/**
-	 * After the component has mounted, determine the properties of the FacebookImage.
+	 * Determine the image properties and set them in state.
+	 *
+	 * @param {string} src The image source URL.
 	 *
 	 * @returns {void}
 	 */
@@ -145,14 +147,23 @@ class FacebookImage extends Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" || status === "errored" ) {
-			return <PlaceholderImage>
-				{ __( "Select image", "yoast-components" ) }
-			</PlaceholderImage>;
+			return (
+				<PlaceholderImage
+					onClick={ this.props.onImageClick }
+					onMouseEnter={ this.props.onMouseEnter }
+					onMouseLeave={ this.props.onMouseLeave }
+				>
+					{ __( "Select image", "yoast-components" ) }
+				</PlaceholderImage>
+			);
 		}
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <FacebookImageContainer
 			dimensions={ containerDimensions }
+			onMouseEnter={ this.props.onMouseEnter }
+			onMouseLeave={ this.props.onMouseLeave }
+			onClick={ this.props.onImageClick }
 		>
 			<StyledImage
 				src={ this.props.src }
@@ -167,12 +178,18 @@ FacebookImage.propTypes = {
 	src: PropTypes.string,
 	alt: PropTypes.string,
 	onImageLoaded: PropTypes.func,
+	onImageClick: PropTypes.func,
+	onMouseEnter: PropTypes.func,
+	onMouseLeave: PropTypes.func,
 };
 
 FacebookImage.defaultProps = {
 	src: "",
 	alt: "",
 	onImageLoaded: () => {},
+	onImageClick: () => {},
+	onMouseEnter: () => {},
+	onMouseLeave: () => {},
 };
 
 export default FacebookImage;

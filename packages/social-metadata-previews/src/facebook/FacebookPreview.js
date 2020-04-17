@@ -60,7 +60,6 @@ const FacebookPreviewWrapper = styled.div`
 	display: flex;
 	flex-direction: ${ props => props.mode === "landscape" ? "column" : "row" };
 	background-color: #f2f3f5;
-	overflow: hidden;
 	width: 527px;
 	height: ${ props => determineWrapperHeight( props.mode ) };
 `;
@@ -102,7 +101,16 @@ class FacebookPreview extends Component {
 			imageMode: null,
 		};
 		this.onImageLoaded = this.onImageLoaded.bind( this );
-		this.setState = this.setState.bind( this );
+
+		// Binding fields to onMouseHover to prevent arrow functions in JSX props.
+		this.onImageEnter = this.props.onMouseHover.bind( this, "image" );
+		this.onTitleEnter = this.props.onMouseHover.bind( this, "title" );
+		this.onDescriptionEnter = this.props.onMouseHover.bind( this, "description" );
+		this.onLeave = this.props.onMouseHover.bind( this, "" );
+
+		// Binding fields to onSelect to prevent arrow functions in JSX props. Image field is handled in onImageClick function.
+		this.onSelectTitle = this.props.onSelect.bind( this, "title" );
+		this.onSelectDescription = this.props.onSelect.bind( this, "description" );
 	}
 
 	/**
@@ -130,6 +138,9 @@ class FacebookPreview extends Component {
 					src={ this.props.image }
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
+					onImageClick={ this.props.onImageClick }
+					onMouseEnter={ this.onImageEnter }
+					onMouseLeave={ this.onLeave }
 				/>
 				<FacebookTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
@@ -137,8 +148,19 @@ class FacebookPreview extends Component {
 						authorName={ this.props.authorName }
 						mode={ imageMode }
 					/>
-					<FacebookTitle title={ this.props.title } />
-					<FacebookDescription mode={ imageMode }>
+					<FacebookTitle
+						onMouseEnter={ this.onTitleEnter }
+						onMouseLeave={ this.onLeave }
+						onClick={ this.onSelectTitle }
+					>
+						{ this.props.title }
+					</FacebookTitle>
+					<FacebookDescription
+						onMouseEnter={ this.onDescriptionEnter }
+						onMouseLeave={ this.onLeave }
+						onClick={ this.onSelectDescription }
+						mode={ imageMode }
+					>
 						{ this.props.description }
 					</FacebookDescription>
 				</FacebookTextWrapper>
@@ -154,6 +176,9 @@ FacebookPreview.propTypes = {
 	description: PropTypes.string,
 	image: PropTypes.string,
 	alt: PropTypes.string,
+	onSelect: PropTypes.func,
+	onImageClick: PropTypes.func,
+	onMouseHover: PropTypes.func,
 };
 
 FacebookPreview.defaultProps = {
@@ -161,6 +186,9 @@ FacebookPreview.defaultProps = {
 	description: "",
 	alt: "",
 	image: "",
+	onSelect: () => {},
+	onImageClick: () => {},
+	onMouseHover: () => {},
 };
 
 export default FacebookPreview;
