@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
@@ -49,6 +50,20 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	const FULL_TERMS_ROUTE = Main::API_V1_NAMESPACE . '/' . self::TERMS_ROUTE;
 
 	/**
+	 * The general route constant.
+	 *
+	 * @var string
+	 */
+	const GENERAL_ROUTE = 'indexation/general';
+
+	/**
+	 * The full general route constant.
+	 *
+	 * @var string
+	 */
+	const FULL_GENERAL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::GENERAL_ROUTE;
+
+	/**
 	 * The post indexation action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -63,14 +78,23 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	private $term_indexation_action;
 
 	/**
+	 * Represents the general indexation action.
+	 *
+	 * @var Indexable_General_Indexation_Action
+	 */
+	private $general_indexation_action;
+
+	/**
 	 * Indexable_Indexation_Route constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action $post_indexation_action The post indexation action.
-	 * @param Indexable_Term_Indexation_Action $term_indexation_action The term indexation action.
+	 * @param Indexable_Post_Indexation_Action    $post_indexation_action    The post indexation action.
+	 * @param Indexable_Term_Indexation_Action    $term_indexation_action    The term indexation action.
+	 * @param Indexable_General_Indexation_Action $general_indexation_action The general indexation action.
 	 */
-	public function __construct( Indexable_Post_Indexation_Action $post_indexation_action, Indexable_Term_Indexation_Action $term_indexation_action ) {
-		$this->post_indexation_action = $post_indexation_action;
-		$this->term_indexation_action = $term_indexation_action;
+	public function __construct( Indexable_Post_Indexation_Action $post_indexation_action, Indexable_Term_Indexation_Action $term_indexation_action, Indexable_General_Indexation_Action $general_indexation_action ) {
+		$this->post_indexation_action    = $post_indexation_action;
+		$this->term_indexation_action    = $term_indexation_action;
+		$this->general_indexation_action = $general_indexation_action;
 	}
 
 	/**
@@ -85,6 +109,11 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'index_terms' ],
+			'permission_callback' => [ $this, 'can_index' ],
+		] );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::GENERAL_ROUTE, [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'index_general' ],
 			'permission_callback' => [ $this, 'can_index' ],
 		] );
 	}
@@ -109,6 +138,18 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	public function index_terms() {
 		$indexables = $this->term_indexation_action->index();
 		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_TERMS_ROUTE );
+
+		return $this->respond_with( $indexables, $next_url );
+	}
+
+	/**
+	 * Indexes a number of unindexed general items.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function index_general() {
+		$indexables = $this->general_indexation_action->index();
+		$next_url   = empty( $indexables ) ? false : \rest_url( self::FULL_GENERAL_ROUTE );
 
 		return $this->respond_with( $indexables, $next_url );
 	}
