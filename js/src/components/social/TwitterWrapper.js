@@ -3,7 +3,7 @@ import { Slot } from "@wordpress/components";
 
 import SocialForm from "../social/SocialForm";
 
-const isPremium = !! window.wpseoPostScraperL10n.isPremium;
+const isPremium = !! window.wpseoScriptData.metabox.isPremium;
 const socialMediumName = "Twitter";
 
 /**
