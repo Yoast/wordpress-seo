@@ -1,4 +1,6 @@
-import { getDescriptionFallback, getTitleFallback, getImageFallback } from "../../../src/redux/selectors/fallbackSelectors";
+import selectors from "../../../src/redux/selectors/social";
+
+const { getDescriptionFallback, getTitleFallback, getImageFallback } = selectors;
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
@@ -10,7 +12,7 @@ const testState = {
 	},
 	settings: {
 		socialPreviews: {
-			siteWideImage: "side-wide.png",
+			sitewideImage: "side-wide.png",
 		},
 	},
 	snippetEditor: {
@@ -49,12 +51,12 @@ describe( getImageFallback, () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns the site wide image as a fallback", () => {
+	it( "returns the featured image as a fallback", () => {
 		const state = {
 			 ...testState,
 			settings: {
 				socialPreviews: {
-					siteWideImage: "",
+					sitewideImage: "",
 				},
 			},
 		};

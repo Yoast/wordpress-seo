@@ -38,8 +38,7 @@ class Image_Utils_Test extends TestCase {
 	 */
 	public function test_get_first_content_image_for_term() {
 
-		$term_descr =
-			'<p>This is a term description. It has several images:</p>
+		$term_descr = '<p>This is a term description. It has several images:</p>
 			<img src=""/>
 			<img src="https://example.com/media/first_image.jpg"/>
 			<img src="https://example.com/media/second_image.jpg"/>

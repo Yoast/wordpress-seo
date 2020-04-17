@@ -14,18 +14,18 @@
 class WPSEO_Admin_Asset_Manager {
 
 	/**
-	 * Class that manages the assets' location.
-	 *
-	 * @var WPSEO_Admin_Asset_Location
-	 */
-	protected $asset_location;
-
-	/**
 	 * Prefix for naming the assets.
 	 *
 	 * @var string
 	 */
 	const PREFIX = 'yoast-seo-';
+
+	/**
+	 * Class that manages the assets' location.
+	 *
+	 * @var WPSEO_Admin_Asset_Location
+	 */
+	protected $asset_location;
 
 	/**
 	 * Prefix for naming the assets.
@@ -251,12 +251,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => [
+				'name'      => 'admin-global-script',
+				'src'       => 'wp-seo-admin-global-' . $flat_version,
+				'deps'      => [
 					'jquery',
 					self::PREFIX . 'commons',
 				],
+				'in_footer' => false,
 			],
 			[
 				'name'      => 'post-edit',
@@ -500,8 +501,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wpseo-dismissible-' . $flat_version,
 			],
 			[
-				'name' => 'alerts',
-				'src'  => 'alerts-' . $flat_version,
+				'name' => 'notifications',
+				'src'  => 'notifications-' . $flat_version,
 			],
 			[
 				'name' => 'edit-page',

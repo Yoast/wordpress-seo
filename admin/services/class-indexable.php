@@ -72,7 +72,6 @@ class WPSEO_Indexable_Service {
 
 		if ( $object_type === 'term' ) {
 			return new WPSEO_Indexable_Service_Term_Provider();
-
 		}
 
 		throw WPSEO_Invalid_Argument_Exception::invalid_callable_parameter( $object_type, 'provider' );
