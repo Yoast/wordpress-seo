@@ -4,6 +4,7 @@ use Mockery\MockInterface;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -96,7 +97,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			[
 				'name'        => 'posts',
 				'has_archive' => false,
-			]
+			],
 		];
 
 		$indexed_post_types = [ 'books' ];
@@ -110,7 +111,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	/**
 	 * Tests the index method.
 	 *
-     * @covers ::index
+	 * @covers ::index
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
@@ -128,7 +129,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			[
 				'name'        => 'posts',
 				'has_archive' => false,
-			]
+			],
 		];
 
 		$indexed_post_types   = [ 'movies' ];
@@ -167,7 +168,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			[
 				'name'        => 'posts',
 				'has_archive' => false,
-			]
+			],
 		];
 
 		$indexed_post_types   = [ 'movies' ];
@@ -206,7 +207,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			[
 				'name'        => 'posts',
 				'has_archive' => false,
-			]
+			],
 		];
 
 		$indexed_post_types   = [ 'movies' ];
@@ -251,16 +252,16 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @param array $post_types The post types for which to return indexables.
 	 */
 	private function set_expectations_for_repository( $post_types ) {
-		$indexables = [];
-		foreach ( $post_types as $post_type ) {
-			$indexable                  = Mockery::mock( Indexable::class );
-			$indexable->object_sub_type = $post_type;
-			$indexables[]               = $indexable;
-		}
+		$results = \array_map( function( $post_type ) {
+			return [ 'object_sub_type' => $post_type ];
+		}, $post_types );
 
-		$this->repository->expects( 'find_all_with_type' )
-		                 ->with( 'post-type-archive' )
-		                 ->andReturn( $indexables );
+		$query_mock = Mockery::mock( ORMWrapper::class );
+		$query_mock->expects( 'select' )->once()->with( 'object_sub_type' )->andReturn( $query_mock );
+		$query_mock->expects( 'where' )->once()->with( 'object_type', 'post-type-archive' )->andReturn( $query_mock );
+		$query_mock->expects( 'find_array' )->once()->andReturn( $results );
+
+		$this->repository->expects( 'query' )->once()->andReturn( $query_mock );
 	}
 
 	/**
