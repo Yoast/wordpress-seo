@@ -9,9 +9,9 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * Indexable_Reindexing_Route class.
@@ -35,19 +35,19 @@ class Indexables_Head_Route implements Route_Interface {
 	const FULL_HEAD_FOR_URL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::HEAD_FOR_URL_ROUTE;
 
 	/**
-	 * The meta surface.
+	 * The head action.
 	 *
-	 * @var Meta_Surface
+	 * @var Indexable_Head_Action
 	 */
-	private $meta_surface;
+	private $head_action;
 
 	/**
 	 * Indexable_Indexation_Route constructor.
 	 *
-	 * @param Meta_Surface $meta_surface The meta surface.
+	 * @param Indexable_Head_Action $head_action The head action.
 	 */
-	public function __construct( Meta_Surface $meta_surface ) {
-		$this->meta_surface = $meta_surface;
+	public function __construct( Indexable_Head_Action $head_action ) {
+		$this->head_action = $head_action;
 	}
 
 	/**
@@ -55,8 +55,8 @@ class Indexables_Head_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::HEAD_FOR_URL_ROUTE, [
-			'methods'             => 'GET',
-			'callback'            => [ $this, 'get_head_for_url' ],
+			'methods'  => 'GET',
+			'callback' => [ $this, 'get_head_for_url' ],
 		] );
 	}
 
@@ -69,13 +69,8 @@ class Indexables_Head_Route implements Route_Interface {
 	 */
 	public function get_head_for_url( WP_REST_Request $request ) {
 		$url  = \esc_url_raw( $request['url'] );
-		$meta = $this->meta_surface->for_url( $url );
+		$data = $this->head_action->for_url( $url );
 
-		if ( $meta === false ) {
-			$meta = $this->meta_surface->for_404();
-			return new WP_REST_Response( [ 'head' => $meta->get_head(), 'found' => false ], 404 );
-		}
-
-		return new WP_REST_Response( [ 'head' => $meta->get_head(), 'found' => true ] );
+		return new WP_REST_Response( $data, $data->status );
 	}
 }
