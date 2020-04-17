@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WP_Post_Type;
 use WPSEO_Post_Type;
 
 /**
