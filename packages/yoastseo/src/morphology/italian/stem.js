@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+/* eslint-disable complexity */
 /*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,8 +26,7 @@ THE SOFTWARE.
  * @returns {boolean}                      True if the letter is a vowel.
  */
 function isVowel( letter ) {
-	return ( letter === "a" || letter === "e" || letter === "i" || letter === "o" || letter === "u" || letter === "à" ||
-		letter === "è" || letter === "ì" || letter === "ò" || letter === "ù" );
+	return [ "a", "e", "i", "o", "u", "à", "è", "ì", "ò", "ù" ].includes( letter );
 }
 
 /**
@@ -36,16 +35,18 @@ function isVowel( letter ) {
  * @param {string}   word           The word to be checked.
  * @param {number}   start          The position of the word where you start checking.
  *
- * @returns {string} number         The next position in a word that is a vowel, or the final position if no vowel is found.
+ * @returns {number}                 The next position in a word that is a vowel, or the final position if no vowel is found.
  */
 function getNextVowelPos( word, start ) {
 	start = start + 1;
 	const length = word.length;
+
 	for ( let i = start; i < length; i++ ) {
 		if ( isVowel( word[ i ] ) ) {
 			return i;
 		}
 	}
+
 	return length;
 }
 
@@ -59,11 +60,13 @@ function getNextVowelPos( word, start ) {
  */
 function getNextConsonantPos( word, start ) {
 	const length = word.length;
+
 	for ( let i = start; i < length; i++ ) {
 		if ( ! isVowel( word[ i ] ) ) {
 			return i;
 		}
 	}
+
 	return length;
 }
 
@@ -72,6 +75,7 @@ function getNextConsonantPos( word, start ) {
  *
  * @param {string}       word           The word that has to be checked.
  * @param {string[]}     suffixes       The suffixes that have to be checked.
+ *
  * @returns {string}                    The suffix that the word ends in or an empty string if the word does not end in any of the suffixes.
  */
 function endsinArr( word, suffixes ) {
@@ -80,6 +84,7 @@ function endsinArr( word, suffixes ) {
 			return suffixes[ i ];
 		}
 	}
+
 	return "";
 }
 
@@ -107,11 +112,26 @@ function replaceAcute( word ) {
  *  @returns {string}                        The word with either i or u turned into upper case.
  */
 function vowelMarking( word ) {
-	function replacer( match, p1, p2, p3 ) {
-		return p1 + p2.toUpperCase() + p3;
-	}
+	return word.replace(
+		/([aeiou])(i|u)([aeiou])/g,
+		( match, p1, p2, p3 ) => p1 + p2.toUpperCase() + p3
+	);
+}
 
-	return word.replace( /([aeiou])(i|u)([aeiou])/g, replacer );
+/**
+ * Pre-process the word for stemming by setting it to lower case and replacing some letters.
+ *
+ * @param {string}  word    The word to pre-process.
+ *
+ * @returns {string} The pre-processed word.
+ */
+function preProcess( word ) {
+	word = word.toLowerCase();
+	word = replaceAcute( word );
+	word = word.replace( /qu/g, "qU" );
+	word = vowelMarking( word );
+
+	return word;
 }
 
 /**
@@ -125,6 +145,7 @@ const determineRs = function( word ) {
 	let r1 = word.length;
 	let r2 = word.length;
 	let rv = word.length;
+
 	// R1 is the region after the first non-vowel following a vowel,
 	for ( let i = 0; i < word.length - 1 && r1 === word.length; i++ ) {
 		if ( isVowel( word[ i ] ) && ! isVowel( word[ i + 1 ] ) ) {
@@ -154,6 +175,7 @@ const determineRs = function( word ) {
 			rv = 3;
 		}
 	}
+
 	return { r1, r2, rv };
 };
 
@@ -187,6 +209,21 @@ const removePronounSuffixes = function( word, rvText ) {
 };
 
 /**
+ * A group of standard suffixes, the word region in which they might occur and an optional replacement value.
+ *
+ * @param {string[]}    suffixes            The suffixes.
+ * @param {string}      region              The word region in which the suffixes should be searched.
+ * @param {string}      [replacement=""]    The optional replacement value.
+ *
+ * @constructor
+ */
+function StandardSuffixGroup( suffixes, region, replacement = "" ) {
+	this.suffixes = suffixes;
+	this.region = region;
+	this.replacement = replacement;
+}
+
+/**
  * Removes standard suffixes.
  *
  * @param   {string}       word                         The word from which standard suffixes have to be removed.
@@ -197,44 +234,30 @@ const removePronounSuffixes = function( word, rvText ) {
  * @returns {string}                                    The word without standard suffixes.
  */
 const removeStandardSuffixes = function( word, r2Text, r1Text, rvText ) {
-	let suf = "";
-	const mixedSuffixes1 = [ "atrice", "atrici", "abile", "abili", "ibile", "ibili", "mente", "ante", "anti",
-		"anza", "anze", "iche", "ichi", "ismo", "ismi", "ista", "iste", "isti", "istà",
-		"istè", "istì", "ico", "ici", "ica", "ice", "oso", "osi", "osa", "ose" ];
+	const suffixGroups = [
+		new StandardSuffixGroup( [ "ativamente", "abilamente", "ivamente", "osamente", "icamente" ], r2Text ),
+		new StandardSuffixGroup( [ "icazione", "icazioni", "icatore", "icatori", "azione", "azioni", "atore", "atori" ], r2Text ),
+		new StandardSuffixGroup( [ "logia", "logie" ], r2Text, "log" ),
+		new StandardSuffixGroup( [ "uzione", "uzioni", "usione", "usioni" ], r2Text, "u" ),
+		new StandardSuffixGroup( [ "enza", "enze" ], r2Text, "ente" ),
+		new StandardSuffixGroup( [ "amento", "amenti", "imento", "imenti" ], rvText ),
+		new StandardSuffixGroup( [ "amente" ], r1Text ),
+		new StandardSuffixGroup( [ "atrice", "atrici", "abile", "abili", "ibile", "ibili", "mente", "ante", "anti",
+			"anza", "anze", "iche", "ichi", "ismo", "ismi", "ista", "iste", "isti", "istà",
+			"istè", "istì", "ico", "ici", "ica", "ice", "oso", "osi", "osa", "ose" ], r2Text ),
+		new StandardSuffixGroup( [ "abilità", "icità", "ività", "ità" ], r2Text ),
+		new StandardSuffixGroup( [ "icativa", "icativo", "icativi", "icative", "ativa",
+			"ativo", "ativi", "ative", "iva", "ivo", "ivi", "ive" ], r2Text ),
+	];
 
-	const mixedSuffixes2 = [ "icativa", "icativo", "icativi", "icative", "ativa",
-		"ativo", "ativi", "ative", "iva", "ivo", "ivi", "ive" ];
+	for ( const suffixGroup of suffixGroups ) {
+		const foundSuffix = endsinArr( suffixGroup.region, suffixGroup.suffixes );
 
-	if ( ( suf = endsinArr( r2Text, [ "ativamente", "abilamente", "ivamente", "osamente", "icamente" ] ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r2Text, [ "icazione", "icazioni", "icatore", "icatori", "azione", "azioni", "atore", "atori" ] ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r2Text, [ "logia", "logie" ] ) ) !== "" ) {
-		// Replace with log.
-		word = word.slice( 0, -suf.length ) + "log";
-	} else if ( ( suf = endsinArr( r2Text, [ "uzione", "uzioni", "usione", "usioni" ] ) ) !== "" ) {
-		// Replace with u.
-		word = word.slice( 0, -suf.length ) + "u";
-	} else if ( ( suf = endsinArr( r2Text, [ "enza", "enze" ] ) ) !== "" ) {
-		// Replace with ente.
-		word = word.slice( 0, -suf.length ) + "ente";
-	} else if ( ( suf = endsinArr( rvText, [ "amento", "amenti", "imento", "imenti" ] ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r1Text, [ "amente" ] ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r2Text, mixedSuffixes1 ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r2Text, [ "abilità", "icità", "ività", "ità" ] ) ) !== "" ) {
-		// Delete suffix.
-		word = word.slice( 0, -suf.length );
-	} else if ( ( suf = endsinArr( r2Text, mixedSuffixes2 ) ) !== "" ) {
-		word = word.slice( 0, -suf.length );
+		if ( foundSuffix ) {
+			return word.slice( 0, -foundSuffix.length ) + suffixGroup.replacement;
+		}
 	}
+
 	return word;
 };
 
@@ -253,10 +276,13 @@ const removeVerbSuffixes = function( word, rvText ) {
 		"endi", "endo", "erai", "Yamo", "iamo", "immo", "irai", "irei", "isca", "isce", "isci", "isco", "erei", "uti", "uto", "ita",
 		"ite", "iti", "ito", "iva", "ivi", "ivo", "ono", "uta", "ute", "ano", "are", "ata", "ate", "ati", "ato", "ava", "avi", "avo",
 		"erà", "ere", "erò", "ete", "eva", "evi", "evo", "irà", "ire", "irò", "ar", "ir", "ai" ];
-	let suf = "";
-	if ( ( suf = endsinArr( rvText, verbSuffixes ) ) !== "" ) {
-		word = word.slice( 0, -suf.length );
+
+	const foundSuffix  = endsinArr( rvText, verbSuffixes );
+
+	if ( foundSuffix ) {
+		word = word.slice( 0, -foundSuffix.length );
 	}
+
 	return word;
 };
 
@@ -268,11 +294,7 @@ const removeVerbSuffixes = function( word, rvText ) {
  * @returns {string}               The stemmed word.
  */
 export default function stem( word ) {
-	// Pre-processing.
-	word = word.toLowerCase();
-	word = replaceAcute( word );
-	word = word.replace( /qu/g, "qU" );
-	word = vowelMarking( word );
+	word = preProcess( word );
 
 	// Don't stem words that consist of less than 3 letters.
 	if ( word.length < 3 ) {
@@ -280,9 +302,7 @@ export default function stem( word ) {
 	}
 
 	// Determines r1 ,r2, rv.
-	const r1 = determineRs( word ).r1;
-	const r2 = determineRs( word ).r2;
-	const rv = determineRs( word ).rv;
+	const { r1, r2, rv } = determineRs( word );
 
 	// Determiners the content of r1, r2, and rv.
 	let r1Text = word.substring( r1 );
@@ -292,7 +312,6 @@ export default function stem( word ) {
 	const originalWord = word;
 
 	// Step 0: Attached pronoun removal.
-
 	word = removePronounSuffixes( word, rvText );
 
 	if ( word !== originalWord ) {
@@ -310,12 +329,9 @@ export default function stem( word ) {
 		rvText = word.substring( rv );
 	}
 
-
 	const wordAfter1 = word;
 
-	// Step 2:  Verb suffixes removal.
-
-
+	// Step 2:  Verb suffix removal.
 	if ( wordAfter0 === wordAfter1 ) {
 		word = removeVerbSuffixes( word, rvText );
 	 }
@@ -323,19 +339,21 @@ export default function stem( word ) {
 	rvText = word.substring( rv );
 
 	// Always do step 3.
-	let suf = "";
-	if ( ( suf = endsinArr( rvText, [ "ia", "ie", "ii", "io", "ià", "iè", "iì", "iò", "a", "e", "i", "o", "à", "è", "ì", "ò" ] ) ) !== "" ) {
-		word = word.slice( 0, -suf.length );
+	let foundSuffix = "";
+
+	if ( ( foundSuffix = endsinArr( rvText, [ "ia", "ie", "ii", "io", "ià", "iè", "iì", "iò", "a", "e", "i", "o", "à", "è", "ì", "ò" ] ) ) !== "" ) {
+		word = word.slice( 0, -foundSuffix.length );
 	}
 
 	rvText = word.substring( rv );
 
-	if ( ( suf = endsinArr( rvText, [ "ch" ] ) ) !== "" ) {
+	if ( ( foundSuffix = endsinArr( rvText, [ "ch" ] ) ) !== "" ) {
 		// Replace with c.
-		word = word.slice( 0, -suf.length ) + "c";
-	} else if ( ( suf = endsinArr( rvText, [ "gh" ] ) ) !== "" ) {
+		word = word.slice( 0, -foundSuffix.length ) + "c";
+	} else if ( ( foundSuffix = endsinArr( rvText, [ "gh" ] ) ) !== "" ) {
 		// Replace with g.
-		word = word.slice( 0, -suf.length ) + "g";
+		word = word.slice( 0, -foundSuffix.length ) + "g";
 	}
+
 	return word.toLowerCase();
 }
