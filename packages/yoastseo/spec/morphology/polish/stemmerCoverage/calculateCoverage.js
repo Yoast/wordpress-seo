@@ -13,6 +13,6 @@ describe( "Calculate coverage for the Polish stemmer", () => {
 		const coverage = ( stemsComparison.length - errors.length ) / stemsComparison.length;
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
-		console.log( "The current coverage of the French stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
+		console.log( "The current coverage of the Polish stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
 	} );
 } );
