@@ -82,7 +82,6 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	 */
 	private function query() {
 		$indexables_to_create = [];
-		// Create a misc indexation action for system pages ( 404 and search ), date archive and home page ( if not a post ) indexables and add it to the route and integration.
 		if ( ! $this->indexable_repository->find_for_system_page( '404', false ) ) {
 			$indexables_to_create[] = '404';
 		}
