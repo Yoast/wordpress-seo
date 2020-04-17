@@ -123,7 +123,7 @@ YoastReplaceVarPlugin.prototype.registerReplacements = function() {
  * @returns {void}
  */
 YoastReplaceVarPlugin.prototype.registerEvents = function() {
-	const currentScope = wpseoScriptData.analysis.plugins.replaceVars.replace.scope;
+	const currentScope = wpseoScriptData.analysis.plugins.replaceVars.scope;
 
 	if ( currentScope === "post" ) {
 		// Set events for each taxonomy box.
