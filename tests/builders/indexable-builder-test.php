@@ -142,7 +142,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a post with having no indexable for the author yet.
+	 * Test building an indexable for a post when having no indexable for the author yet.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -213,7 +213,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for a post with already having an indexable for the author.
+	 * Test building an indexable for a post when already having an indexable for the author.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -289,7 +289,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for an term.
+	 * Test building an indexable for a term.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -323,7 +323,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable for unknown type.
+	 * Test building an indexable for an unknown type.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -337,7 +337,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable the homepage.
+	 * Test building an indexable for the homepage.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -366,7 +366,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable the date archive.
+	 * Test building an indexable for the date archive.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -391,7 +391,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable the post type archive.
+	 * Test building an indexable for the post type archive.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
@@ -420,7 +420,7 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Test building an indexable a system page.
+	 * Test building an indexable for a system page.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
