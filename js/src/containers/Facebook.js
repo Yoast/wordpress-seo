@@ -6,51 +6,53 @@ import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 
-const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
-const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
-const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
-const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
+jQuery( document ).ready( function() {
+	const titleInput = document.getElementById( "yoast_wpseo_opengraph-title" );
+	const descriptionInput = document.getElementById( "yoast_wpseo_opengraph-description" );
+	const imageIdInput = document.getElementById( "yoast_wpseo_opengraph-image-id" );
+	const imageUrlInput = document.getElementById( "yoast_wpseo_opengraph-image" );
 
-/**
- * Sets the data from the hidden fields to the store.
- *
- * @returns {void}
- */
-const dispatchHiddenFieldValues = () => {
-	wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "facebook" ) );
-	wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
-	wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
-	wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
-};
+	/**
+	 * Sets the data from the hidden fields to the store.
+	 *
+	 * @returns {void}
+	 */
+	const dispatchHiddenFieldValues = () => {
+		wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "facebook" ) );
+		wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "facebook" ) );
+		wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "facebook" ) );
+		wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "facebook" ) );
+	};
 
-dispatchHiddenFieldValues();
+	dispatchHiddenFieldValues();
 
-// Make the media library accessible.
-const media = window.wp.media();
+	// Make the media library accessible.
+	const media = window.wp.media();
 
-// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-media.on( "select", () => {
-	const selected = media.state().get( "selection" ).first();
-	const {
-		filesizeInBytes,
-		subtype,
-		height,
-		width,
-		url,
-		id,
-		alt,
-	} = selected.attributes;
-	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
-		bytes: filesizeInBytes,
-		type: subtype,
-		url,
-		id,
-		width,
-		height,
-		alt,
-	}, "facebook" );
-	imageIdInput.value = id;
-	imageUrlInput.value = url;
+	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
+	media.on( "select", () => {
+		const selected = media.state().get( "selection" ).first();
+		const {
+			filesizeInBytes,
+			subtype,
+			height,
+			width,
+			url,
+			id,
+			alt,
+		} = selected.attributes;
+		window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
+			bytes: filesizeInBytes,
+			type: subtype,
+			url,
+			id,
+			width,
+			height,
+			alt,
+		}, "facebook" );
+		imageIdInput.value = id;
+		imageUrlInput.value = url;
+	} );
 } );
 
 export default compose( [

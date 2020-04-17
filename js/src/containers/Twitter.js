@@ -6,51 +6,54 @@ import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 
-const titleInput = document.getElementById( "yoast_wpseo_twitter-title" );
-const descriptionInput = document.getElementById( "yoast_wpseo_twitter-description" );
-const imageIdInput = document.getElementById( "yoast_wpseo_twitter-image-id" );
-const imageUrlInput = document.getElementById( "yoast_wpseo_twitter-image" );
 
-/**
- * Sets the data from the hidden fields to the store.
- *
- * @returns {void}
- */
-const dispatchHiddenFieldValues = () => {
-	wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "twitter" ) );
-	wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "twitter" ) );
-	wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "twitter" ) );
-	wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "twitter" ) );
-};
+jQuery( document ).ready( function() {
+	const titleInput = document.getElementById( "yoast_wpseo_twitter-title" );
+	const descriptionInput = document.getElementById( "yoast_wpseo_twitter-description" );
+	const imageIdInput = document.getElementById( "yoast_wpseo_twitter-image-id" );
+	const imageUrlInput = document.getElementById( "yoast_wpseo_twitter-image" );
 
-dispatchHiddenFieldValues();
+	/**
+	 * Sets the data from the hidden fields to the store.
+	 *
+	 * @returns {void}
+	 */
+	const dispatchHiddenFieldValues = () => {
+		wpDataDispatch( actions.setSocialPreviewTitle( titleInput.value, "twitter" ) );
+		wpDataDispatch( actions.setSocialPreviewDescription( descriptionInput.innerText, "twitter" ) );
+		wpDataDispatch( actions.setSocialPreviewImageUrl( imageUrlInput.value, "twitter" ) );
+		wpDataDispatch( actions.setSocialPreviewImageId( imageIdInput.value, "twitter" ) );
+	};
 
-// Make the media library accessible.
-const media = window.wp.media();
+	dispatchHiddenFieldValues();
 
-// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-media.on( "select", () => {
-	const selected = media.state().get( "selection" ).first();
-	const {
-		filesizeInBytes,
-		subtype,
-		height,
-		width,
-		url,
-		id,
-		alt,
-	} = selected.attributes;
-	window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
-		bytes: filesizeInBytes,
-		type: subtype,
-		url,
-		id,
-		width,
-		height,
-		alt,
-	}, "twitter" );
-	imageIdInput.value = id;
-	imageUrlInput.value = url;
+	// Make the media library accessible.
+	const media = window.wp.media();
+
+	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
+	media.on( "select", () => {
+		const selected = media.state().get( "selection" ).first();
+		const {
+			filesizeInBytes,
+			subtype,
+			height,
+			width,
+			url,
+			id,
+			alt,
+		} = selected.attributes;
+		window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
+			bytes: filesizeInBytes,
+			type: subtype,
+			url,
+			id,
+			width,
+			height,
+			alt,
+		}, "twitter" );
+		imageIdInput.value = id;
+		imageUrlInput.value = url;
+	} );
 } );
 
 export default compose( [
