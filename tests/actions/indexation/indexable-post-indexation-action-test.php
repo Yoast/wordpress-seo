@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
+use Brain\Monkey\Filters;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -11,28 +12,31 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Indexable_Post_Indexation_Action_Test class
  *
- * @coversDefaultClass Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action
+ * @group actions
+ * @group indexation
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action
  */
 class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 	/**
 	 * The post type helper mock.
 	 *
-	 * @var Post_Type_Helper
+	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type_helper;
 
 	/**
-	 * The builder mock
+	 * The builder mock.
 	 *
-	 * @var Indexable_Builder
+	 * @var Indexable_Builder|Mockery\MockInterface
 	 */
 	protected $builder;
 
 	/**
 	 * The wpdb mock.
 	 *
-	 * @var wpdb
+	 * @var \wpdb|Mockery\MockInterface
 	 */
 	protected $wpdb;
 
@@ -79,10 +83,27 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		";
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
-		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type' ] )->andReturn( 'query' );
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'public_post_type' ] )
+			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get total unindexed method when the query fails.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 */
+	public function test_get_total_unindexed_failed_query() {
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
+		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
+
+		$this->assertFalse( $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -100,8 +121,29 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			LIMIT %d
 		';
 
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
+
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type', 25 ] )->andReturn( 'query' );
+		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
+
+		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'post' );
+		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 3, 'post' );
+		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 8, 'post' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the filter fallback when not returning an integer.
+	 *
+	 * @covers ::index
+	 */
+	public function test_index_with_limit_filter_no_int() {
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 'not an integer' );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
 		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'post' );

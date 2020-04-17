@@ -7,10 +7,8 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Cassandra\Index;
 use Psr\Log\LoggerInterface;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -150,7 +148,7 @@ class Indexable_Repository {
 			->where( 'object_type', $object_type )
 			->find_many();
 
-		return $indexables;
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
 
 	/**
@@ -173,7 +171,7 @@ class Indexable_Repository {
 			->where( 'object_sub_type', $object_sub_type )
 			->find_many();
 
-		return $indexables;
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
 
 	/**
@@ -195,7 +193,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_home_page();
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -217,7 +215,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_date_archive();
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -243,7 +241,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -269,7 +267,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -291,7 +289,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -330,7 +328,7 @@ class Indexable_Repository {
 			}
 		}
 
-		return $indexables;
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
 
 	/**
@@ -347,18 +345,60 @@ class Indexable_Repository {
 			return [];
 		}
 
-		$indexables = [];
+		$indexable_ids = [];
 		foreach ( $ancestors as $ancestor ) {
-			$indexables[] = $ancestor->ancestor_id;
+			$indexable_ids[] = $ancestor->ancestor_id;
 		}
 
-		if ( $indexables[0] === 0 && \count( $indexables ) === 1 ) {
+		if ( $indexable_ids[0] === 0 && \count( $indexable_ids ) === 1 ) {
 			return [];
 		}
 
-		return $this->query()
-			->where_in( 'id', $indexables )
-			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexables ) . ')' )
-			->find_many();
+		$indexables = $this->query()
+						   ->where_in( 'id', $indexable_ids )
+						   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+						   ->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
+	 * Ensures that the given indexable has a permalink.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 */
+	protected function ensure_permalink( $indexable ) {
+		if ( $indexable && $indexable->permalink === null ) {
+			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the permalink for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string|null The permalink.
+	 */
+	protected function get_permalink_for_indexable( $indexable ) {
+		switch ( true ) {
+			case $indexable->object_type === 'post':
+			case $indexable->object_type === 'home-page':
+				return get_permalink( $indexable->object_id );
+			case $indexable->object_type === 'term':
+				$term = get_term( $indexable->object_id );
+
+				return get_term_link( $term, $term->taxonomy );
+			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
+				return get_search_link();
+			case $indexable->object_type === 'post-type-archive':
+				return get_post_type_archive_link( $indexable->object_sub_type );
+			case $indexable->object_type === 'user':
+				return get_author_posts_url( $indexable->object_id );
+		}
+
+		return null;
 	}
 }

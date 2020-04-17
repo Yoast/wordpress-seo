@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -44,6 +45,13 @@ class Indexation_Integration implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * The term indexation action.
+	 *
+	 * @var Indexable_Term_Indexation_Action
+	 */
+	protected $term_indexation;
+
+	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -54,13 +62,16 @@ class Indexation_Integration implements Integration_Interface {
 	 * Indexation_Integration constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action $post_indexation The post indexation action.
+	 * @param Indexable_Term_Indexation_Action $term_indexation The term indexation action.
 	 * @param Options_Helper                   $options_helper  The options helper.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
+		Indexable_Term_Indexation_Action $term_indexation,
 		Options_Helper $options_helper
 	) {
 		$this->post_indexation = $post_indexation;
+		$this->term_indexation = $term_indexation;
 		$this->options_helper  = $options_helper;
 	}
 
@@ -97,6 +108,7 @@ class Indexation_Integration implements Integration_Interface {
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
 					'posts' => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'terms' => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
@@ -142,6 +154,7 @@ class Indexation_Integration implements Integration_Interface {
 	protected function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
 			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
+			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 		}
 
 		return $this->total_unindexed;
