@@ -83,6 +83,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->post_indexation    = $post_indexation;
 		$this->term_indexation    = $term_indexation;
 		$this->general_indexation = $general_indexation;
+		$this->options_helper     = $options_helper;
 	}
 
 	/**
