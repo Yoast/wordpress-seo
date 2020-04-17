@@ -32,7 +32,7 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 			$this->description     = sprintf(
 				/* translators: 1: Link to the Yoast SEO blog, 2: Link closing tag. */
 				esc_html__( 'The text link counter helps you improve your site structure. %1$sFind out how the text link counter can enhance your SEO%2$s.', 'wordpress-seo' ),
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/2aj' ) . '" target="_blank">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3zw' ) . '" target="_blank">',
 				WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 			);
 
@@ -52,7 +52,7 @@ class WPSEO_Health_Check_Link_Table_Not_Accessible extends WPSEO_Health_Check {
 		$this->actions = sprintf(
 			/* translators: 1: Link to the Yoast knowledge base, 2: Link closing tag. */
 			esc_html__( '%1$sFind out how to solve this problem on our knowledge base%2$s.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15o' ) . '" target="_blank">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3zv' ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 	}
