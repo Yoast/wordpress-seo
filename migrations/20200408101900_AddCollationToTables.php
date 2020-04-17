@@ -32,7 +32,7 @@ class AddCollationToTables extends Ruckusing_Migration_Base {
 		];
 
 		foreach ( $tables as $table ) {
-			$this->query( $wpdb->prepare( 'ALTER TABLE ' . $table . ' CONVERT TO ' . str_replace( 'DEFAULT ', '', $charset_collate ) ) );
+			$this->query( 'ALTER TABLE ' . $table . ' CONVERT TO ' . str_replace( 'DEFAULT ', '', $charset_collate ) );
 		}
 	}
 

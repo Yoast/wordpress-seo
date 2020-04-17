@@ -45,8 +45,8 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		// Object information.
 		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
-		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 191 ] );
-		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'object_type', 'string', [ 'null' => false, 'limit' => 32 ] );
+		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 32 ] );
 
 		// Ownership.
 		$indexable_table->column( 'author_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
