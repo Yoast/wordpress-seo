@@ -56,4 +56,13 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 
 		return '';
 	}
+
+	/**
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
+	 */
+	public function generate_open_graph_type() {
+		return 'article';
+	}
 }
