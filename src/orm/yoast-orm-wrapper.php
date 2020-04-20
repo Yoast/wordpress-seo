@@ -7,8 +7,10 @@
 
 namespace Yoast\WP\SEO\ORM;
 
+use Exception;
 use PDO;
 use Yoast\WP\Polyfills\PDO\PDO_MySQLi_Polyfill;
+use Yoast\WP\SEO\Initializers\Migration_Runner;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -211,6 +213,28 @@ class ORMWrapper extends ORM {
 			}
 
 			self::set_db( $db, $connection_name );
+		}
+	}
+
+	/**
+	 * Internal helper method for executing statments. Logs queries, and
+	 * stores statement object in ::_last_statment, accessible publicly
+	 * through ::get_last_statement()
+	 *
+	 * @param string $query           The query.
+	 * @param array  $parameters      An array of parameters to be bound in to the query.
+	 * @param string $connection_name Which connection to use.
+	 *
+	 * @return bool Response of PDOStatement::execute().
+	 */
+	protected static function _execute( $query, $parameters = [], $connection_name = self::DEFAULT_CONNECTION ) {
+		try {
+			return parent::_execute( $query, $parameters, $connection_name );
+		} catch ( Exception $exception ) {
+			// If the query fails run the migrations and try again.
+			// Action is intentionally undocumented and should not be used by third-parties.
+			\do_action( '_yoast_run_migrations' );
+			return parent::_execute( $query, $parameters, $connection_name );
 		}
 	}
 }

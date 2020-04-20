@@ -83,6 +83,7 @@ class Migration_Runner implements Initializer_Interface {
 	 */
 	public function initialize() {
 		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		\add_action( '_yoast_run_migrations', [ $this, 'initialize' ] );
 	}
 
 	/**
