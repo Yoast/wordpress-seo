@@ -71,6 +71,7 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::query
+	 * @covers ::get_limit
 	 */
 	public function test_index() {
 		$this->set_query();
