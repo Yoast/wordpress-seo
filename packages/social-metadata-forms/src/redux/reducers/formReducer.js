@@ -16,7 +16,7 @@ import {
 const initialState = {
 	title: "",
 	description: "",
-	errors: [],
+	warnings: [],
 	image: {
 		bytes: null,
 		type: null,
@@ -24,6 +24,7 @@ const initialState = {
 		width: null,
 		url: "",
 		id: null,
+		alt: "",
 	},
 };
 

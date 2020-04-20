@@ -120,7 +120,8 @@ class SocialPreviewEditor extends Component {
 			onRemoveImageClick,
 			socialMediumName,
 			imageWarnings,
-			siteName,
+			siteUrl,
+			authorName,
 			description,
 			image,
 			alt,
@@ -137,7 +138,8 @@ class SocialPreviewEditor extends Component {
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
 					onImageClick={ onSelectImageClick }
-					siteName={ siteName }
+					siteUrl={ siteUrl }
+					authorName={ authorName }
 					title={ title }
 					description={ description }
 					image={ image }
@@ -182,6 +184,7 @@ SocialPreviewEditor.propTypes = {
 	imageWarnings: PropTypes.array,
 	isLarge: PropTypes.bool,
 	siteName: PropTypes.string,
+	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 };
@@ -194,6 +197,7 @@ SocialPreviewEditor.defaultProps = {
 	isLarge: true,
 	siteName: "",
 	alt: "",
+	authorName: "",
 };
 
 export default SocialPreviewEditor;

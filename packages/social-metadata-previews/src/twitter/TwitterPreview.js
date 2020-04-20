@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import TwitterSiteName from "./TwitterSiteName";
+import TwitterSiteUrl from "./TwitterSiteUrl";
 import TwitterImage from "../twitter/TwitterImage";
 import TwitterTextWrapper from "./TwitterTextWrapper";
 import TwitterTitle from "./TwitterTitle";
@@ -87,7 +87,7 @@ class TwitterPreview extends Component {
 			alt,
 			title,
 			description,
-			siteName,
+			siteUrl,
 		} = this.props;
 
 		const Wrapper = isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
@@ -117,8 +117,8 @@ class TwitterPreview extends Component {
 					>
 						{ description }
 					</TwitterDescription>
-					<TwitterSiteName
-						siteName={ siteName }
+					<TwitterSiteUrl
+						siteUrl={ siteUrl }
 					/>
 				</TwitterTextWrapper>
 			</Wrapper>
@@ -127,7 +127,7 @@ class TwitterPreview extends Component {
 }
 
 TwitterPreview.propTypes = {
-	siteName: PropTypes.string.isRequired,
+	siteUrl: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
 	isLarge: PropTypes.bool,

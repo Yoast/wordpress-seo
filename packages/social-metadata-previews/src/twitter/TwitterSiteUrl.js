@@ -4,9 +4,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 /**
- * Paragraph that contains the TwitterSiteName and the icon.
+ * Paragraph that contains the TwitterSiteUrl and the icon.
  */
-const TwitterSiteNameWrapper = styled.div`
+const TwitterSiteUrlWrapper = styled.div`
 	text-transform: lowercase;
 	color: #8899a6;
 	white-space: nowrap;
@@ -51,23 +51,23 @@ const LinkIcon = () =>
 /* eslint-enable max-len */
 
 /**
- * Renders a TwitterSiteName component.
+ * Renders a TwitterSiteUrl component.
  *
  * @param {object} props The props.
  *
  * @returns {React.Element} The rendered element.
  */
-const TwitterSiteName = ( props ) => {
+const TwitterSiteUrl = ( props ) => {
 	return (
-		<TwitterSiteNameWrapper>
+		<TwitterSiteUrlWrapper>
 			<LinkIcon />
-			<span>{ props.siteName }</span>
-		</TwitterSiteNameWrapper>
+			<span>{ props.siteUrl }</span>
+		</TwitterSiteUrlWrapper>
 	);
 };
 
-TwitterSiteName.propTypes = {
-	siteName: PropTypes.string.isRequired,
+TwitterSiteUrl.propTypes = {
+	siteUrl: PropTypes.string.isRequired,
 };
 
-export default TwitterSiteName;
+export default TwitterSiteUrl;
