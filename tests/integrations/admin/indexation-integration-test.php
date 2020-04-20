@@ -281,6 +281,9 @@ class Indexation_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'esc_js' )
 			->andReturnFirstArg();
 
+		Monkey\Functions\expect( 'esc_attr__' )
+			->andReturnFirstArg();
+
 		// Mock WP nonce.
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->once()
