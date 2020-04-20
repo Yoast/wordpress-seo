@@ -32,7 +32,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 					\__( 'Your content is being indexed', 'wordpress-seo' )
 				),
 				'</button>',
-				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="' . \esc_js( wp_create_nonce( 'wpseo-ignore' ) ) . '">',
+				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="' . \esc_js( \wp_create_nonce( 'wpseo-ignore' ) ) . '">',
 				'</button>'
 			)
 		);
