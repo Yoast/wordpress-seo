@@ -19,6 +19,7 @@ class Indexation_Modal_Presenter_Test extends TestCase {
 	/**
 	 * Tests the output with unindexed objects.
 	 *
+	 * @covers ::__construct
 	 * @covers ::present
 	 */
 	public function test_present() {
@@ -31,6 +32,7 @@ class Indexation_Modal_Presenter_Test extends TestCase {
 	/**
 	 * Tests the output without unindexed objects.
 	 *
+	 * @covers ::__construct
 	 * @covers ::present
 	 */
 	public function test_present_without_unindexed() {
