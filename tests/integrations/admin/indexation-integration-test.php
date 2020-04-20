@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 
 use Mockery;
 use Brain\Monkey;
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -67,6 +68,13 @@ class Indexation_Integration_Test extends TestCase {
 	 */
 	private $options;
 
+	/**
+	 * Holds the admin asset manager mock.
+	 *
+	 * @var Mockery\MockInterface|WPSEO_Admin_Asset_Manager
+	 */
+	private $asset_manager;
+
 
 	/**
 	 * @inheritDoc
@@ -77,13 +85,15 @@ class Indexation_Integration_Test extends TestCase {
 		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->options                      = Mockery::mock( Options_Helper::class );
+		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 
 		$this->instance = new Indexation_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
-			$this->options
+			$this->options,
+			$this->asset_manager
 		);
 	}
 
