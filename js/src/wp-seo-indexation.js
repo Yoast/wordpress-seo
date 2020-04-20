@@ -7,6 +7,7 @@ const settings = yoastIndexationData;
 
 ( ( $ ) => {
 	let indexationInProgress = false;
+	let stoppedIndexation = false;
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
@@ -42,7 +43,7 @@ const settings = yoastIndexationData;
 	async function doIndexation( endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
-		while ( url !== false ) {
+		while ( ! stoppedIndexation && url !== false ) {
 			const response = await doIndexationRequest( url );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
@@ -84,9 +85,17 @@ const settings = yoastIndexationData;
 			/* eslint-enable camelcase */
 
 			if ( indexationInProgress === false ) {
+				stoppedIndexation = false;
+				indexationInProgress = true;
+
 				a11ySpeak( settings.l10n.calculationInProgress );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
+
 				startIndexation( progressBar ).then( () => {
+					if ( stoppedIndexation ) {
+						return;
+					}
+
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );
 					$( "#yoast-indexation-warning" )
@@ -106,8 +115,13 @@ const settings = yoastIndexationData;
 
 					tb_remove();
 				} );
-				indexationInProgress = true;
 			}
+		} );
+
+		$( "#yoast-indexation-stop" ).on( "click", () => {
+			stoppedIndexation = true;
+			tb_remove();
+			window.location.reload();
 		} );
 
 		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
