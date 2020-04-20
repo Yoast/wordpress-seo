@@ -98,11 +98,8 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the indexation is only loaded when:
-	 *  - on a Yoast page in the admin.
-	 *  - on the plugin page.
-	 *  - on the dashboard.
-	 *  - on the WordPress upgrade page.
+	 * Tests that the get conditionals method returns
+	 * the right conditionals.
 	 *
 	 * @covers ::get_conditionals
 	 */
@@ -115,26 +112,26 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the necessary scripts and styles are loaded
-	 * when the warning should be shown on screen.
+	 * Tests that the right hooks are registered when the indexation
+	 * warning is not ignored.
 	 *
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_when_warning_is_not_ignored() {
 		// Warning is not ignored.
-		$this->options->expects( 'get' )
-		              ->with( 'ignore_indexation_warning', false )
-		              ->andReturn( false );
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturn( false );
 
-		// The scripts and/or styles should be enqueued.
+		// The admin_enqueue_scripts should be hooked into.
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
 
 		$this->instance->register_hooks();
 	}
 
 	/**
-	 * Tests that the necessary scripts and styles are loaded
-	 * when the warning should be shown on screen.
+	 * Tests that no hooks are registered when the warning is ignored.
 	 *
 	 * @covers ::register_hooks
 	 */
@@ -178,7 +175,7 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->with( 'admin-css' );
 
-		// The warning and modal should be rendered.
+		// We should hook into the admin footer and admin notices hook.
 		Monkey\Actions\expectAdded( 'admin_footer' );
 		Monkey\Actions\expectAdded( 'admin_notices' );
 
@@ -275,6 +272,7 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_warning
 	 */
 	public function test_render_indexation_warning() {
+		// Mock i18n and string escape functions.
 		Monkey\Functions\expect( 'esc_html__' )
 			->andReturnFirstArg();
 
@@ -300,9 +298,11 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_modal
 	 */
 	public function test_render_indexation_modal() {
+		// Expect a thickbox to be added for the modal.
 		Monkey\Functions\expect( 'add_thickbox' )
 			->once();
 
+		// Mock i18n and string escape functions.
 		Monkey\Functions\expect( 'esc_html__' )
 			->andReturnFirstArg();
 
@@ -324,7 +324,7 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the object gets the right properties when constructed.
+	 * Tests that the `Indexation_Integration` object gets the right properties when constructed.
 	 *
 	 * @covers ::__construct
 	 */
