@@ -75,6 +75,14 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
+		// This matches the maximum amount of indexables created by this action.
+		return 4;
+	}
+
+	/**
 	 * Check which indexables already exists and return the values of the ones to create.
 	 *
 	 * @return array The indexable types to create.

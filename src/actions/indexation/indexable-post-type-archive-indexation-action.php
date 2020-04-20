@@ -71,6 +71,20 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
+		$unindexed_post_type_archives = $this->get_unindexed_post_type_archives( $this->get_limit() );
+
+		$indexables = [];
+		foreach ( $unindexed_post_type_archives as $post_type_archive ) {
+			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
+		}
+
+		return $indexables;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
 		/**
 		 * Filter 'wpseo_post_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
 		 *
@@ -82,14 +96,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			$limit = 25;
 		}
 
-		$unindexed_post_type_archives = $this->get_unindexed_post_type_archives( $limit );
-
-		$indexables = [];
-		foreach ( $unindexed_post_type_archives as $post_type_archive ) {
-			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
-		}
-
-		return $indexables;
+		return $limit;
 	}
 
 	/**

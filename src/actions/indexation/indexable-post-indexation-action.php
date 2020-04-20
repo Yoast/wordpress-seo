@@ -74,6 +74,21 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
+		$query    = $this->get_query( false, $this->get_limit() );
+		$post_ids = $this->wpdb->get_col( $query );
+
+		$indexables = [];
+		foreach ( $post_ids as $post_id ) {
+			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
+		}
+
+		return $indexables;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
 		/**
 		 * Filter 'wpseo_post_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
 		 *
@@ -85,15 +100,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			$limit = 25;
 		}
 
-		$query    = $this->get_query( false, $limit );
-		$post_ids = $this->wpdb->get_col( $query );
-
-		$indexables = [];
-		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
-		}
-
-		return $indexables;
+		return $limit;
 	}
 
 	/**
