@@ -75,7 +75,6 @@ class Indexation_Integration_Test extends TestCase {
 	 */
 	private $asset_manager;
 
-
 	/**
 	 * @inheritDoc
 	 */
@@ -336,6 +335,11 @@ class Indexation_Integration_Test extends TestCase {
 		$this->assertAttributeSame( $this->options, 'options_helper', $this->instance );
 	}
 
+	/**
+	 * Sets the expectations for the get_total_unindexed methods of the indexation actions.
+	 *
+	 * @param array $total_unindexed_per_action Array mapping each indexable action to the number of unindexed objects of this type.
+	 */
 	private function set_total_unindexed_expectations( $total_unindexed_per_action ) {
 		$this->post_type_archive_indexation
 			->expects( 'get_total_unindexed' )

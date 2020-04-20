@@ -193,7 +193,7 @@ class Indexation_Integration implements Integration_Interface {
 	 */
 	protected function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
+			$this->total_unindexed  = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
