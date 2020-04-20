@@ -1,14 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
-.c4 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
 .c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
@@ -23,6 +15,14 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   white-space: nowrap;
   margin: 0;
   position: static;
+}
+
+.c4 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
 }
 
 .c1 {
@@ -177,14 +177,6 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
-.c4 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
 .c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
@@ -199,6 +191,14 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   white-space: nowrap;
   margin: 0;
   position: static;
+}
+
+.c4 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
 }
 
 .c1 {
@@ -353,14 +353,6 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
-.c4 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
 .c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
@@ -375,6 +367,14 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   white-space: nowrap;
   margin: 0;
   position: static;
+}
+
+.c4 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
 }
 
 .c1 {
@@ -529,14 +529,6 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
-.c4 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
 .c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
@@ -551,6 +543,14 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   white-space: nowrap;
   margin: 0;
   position: static;
+}
+
+.c4 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
 }
 
 .c1 {
@@ -705,14 +705,6 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 `;
 
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
-.c4 {
-  color: #606770;
-  font-size: 12px;
-  line-height: 11px;
-  text-transform: uppercase;
-  overflow: hidden;
-}
-
 .c3 {
   color: #606770;
   -webkit-flex-shrink: 0;
@@ -727,6 +719,14 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   white-space: nowrap;
   margin: 0;
   position: static;
+}
+
+.c4 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
 }
 
 .c1 {

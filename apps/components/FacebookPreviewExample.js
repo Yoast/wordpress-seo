@@ -22,7 +22,7 @@ const FacebookPreviewExample = () => {
 		<FacebookPreviewExampleContainer backgroundColor="transparent">
 			<h2>FacebookPreview Landscape</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				authorName="John Doe"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
@@ -30,7 +30,7 @@ const FacebookPreviewExample = () => {
 			/>
 			<h2>FacebookPreview Landscape very large image</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title={
 					"A very long title. A very long title. A very long title. A very long title. " +
 					"A very long title. A very long title. A very long title. A very long title. " +
@@ -57,7 +57,7 @@ const FacebookPreviewExample = () => {
 			/>
 			<h2>FacebookPreview Portrait</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				authorName="John Doe"
 				title="YoastCon Workshops"
 				description="<h1>Some description with words. And some <strong>HTML</strong> that will get stripped.</h1>"
@@ -65,35 +65,35 @@ const FacebookPreviewExample = () => {
 			/>
 			<h2>FacebookPreview Portrait very tall image</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title="YoastCon Workshops"
 				description=""
 				image="https://yoast.com/app/uploads/2019/02/vertical-300x580.jpg"
 			/>
 			<h2>FacebookPreview Square</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 				image="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
 			/>
 			<h2>FacebookPreview image too small</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 				image="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
 			/>
 			<h2>FacebookPreview faulty image</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 				image="thisisnoimage"
 			/>
 			<h2>FacebookPreview no image</h2>
 			<FacebookPreview
-				siteName="SiteName.com"
+				siteUrl="siteUrl.com"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 			/>
