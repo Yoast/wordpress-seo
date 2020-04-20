@@ -183,7 +183,7 @@ SocialPreviewEditor.propTypes = {
 	isPremium: PropTypes.bool,
 	imageWarnings: PropTypes.array,
 	isLarge: PropTypes.bool,
-	siteName: PropTypes.string,
+	siteUrl: PropTypes.string,
 	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
@@ -195,7 +195,7 @@ SocialPreviewEditor.defaultProps = {
 	replacementVariables: [],
 	isPremium: false,
 	isLarge: true,
-	siteName: "",
+	siteUrl: "",
 	alt: "",
 	authorName: "",
 };
