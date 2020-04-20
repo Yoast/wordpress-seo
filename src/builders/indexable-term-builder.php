@@ -65,6 +65,7 @@ class Indexable_Term_Builder {
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;
+		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -72,7 +73,7 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
-		$indexable->is_public = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
+		$indexable->is_public         = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
 
 		$this->reset_social_images( $indexable );
 
