@@ -81,7 +81,7 @@ class Index_Command implements Command_Interface {
 	 * @return array
 	 */
 	public function get_config() {
-		return [ 'shortdesc' => __( 'Indexes all your content to ensure the best performance.', 'wordpress-seo' ) ];
+		return [ 'shortdesc' => \__( 'Indexes all your content to ensure the best performance.', 'wordpress-seo' ) ];
 	}
 
 	/**
