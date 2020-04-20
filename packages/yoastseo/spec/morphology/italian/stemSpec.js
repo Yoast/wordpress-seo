@@ -68,7 +68,7 @@ const paradigms = [
 			"imparare",
 			"imparante",
 			"imparato",
-			"imparando"
+			"imparando",
 		],
 	},
 	// A verb paradigm in ere.
