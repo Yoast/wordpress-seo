@@ -733,9 +733,9 @@ class WPSEO_Upgrade {
 	 * Performs the 14.1 upgrade.
 	 */
 	private function upgrade_141() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-recalculate' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
 	}
-
 
 	/**
 	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
