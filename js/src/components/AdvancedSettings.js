@@ -22,33 +22,37 @@ const isPost = () => window.wpseoAdminL10n.postType === "post";
  * @returns {void} Array Returns an array of options for the noIndex setting.
  */
 const getNoIndexOptions = () => {
-	const noIndex = window.wpseoAdminL10n.noIndex ? "No" : "Yes";
+	const translatedNo = __( "No", "wordpress-seo" );
+	const translatedYes = __( "Yes", "wordpress-seo" );
+	const noIndex = window.wpseoAdminL10n.noIndex ? translatedNo : translatedYes;
+
 	if ( isPost() ) {
 		return [
 			{
 				name: sprintf(
+					/* Translators: %s translates to the Post Label in plural form, %s translates to "yes" or "no" */
 					__( "Default for %s, currently: %s", "wordpress-seo" ),
 					window.wpseoAdminL10n.postTypeNamePlural,
 					noIndex,
 				),
 				value: "0",
 			},
-			{ name: __( "No", "wordpress-seo" ), value: "1" },
-			{ name: __( "Yes", "wordpress-seo" ), value: "2" },
+			{ name: translatedNo, value: "1" },
+			{ name: translatedYes, value: "2" },
 		];
 	}
 	return [
 		{
-			/* Translator: %s translates to the Post Label, %s translates to the indexOption */
 			name: sprintf(
+				/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
 				__( "Default for %s, currently: %s", "wordpress-seo" ),
 				window.wpseoAdminL10n.postTypeNamePlural,
 				noIndex,
 			),
 			value: "default",
 		},
-		{ name: __( "Yes", "wordpress-seo" ), value: "index" },
-		{ name: __( "No", "wordpress-seo" ), value: "noindex" },
+		{ name: translatedYes, value: "index" },
+		{ name: translatedNo, value: "noindex" },
 	];
 };
 
@@ -74,6 +78,7 @@ const MetaRobotsNoIndex = () => {
 		<Select
 			label={
 				sprintf(
+					/* Translators: %s translates to the Post Label in singular form */
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
 					window.wpseoAdminL10n.postTypeNameSingular,
 				) }
@@ -98,6 +103,7 @@ const MetaRobotsNoFollow = () => {
 	return <RadioButtonGroup
 		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
+			/* Translators: %s translates to the Post Label in singular form */
 			__( "Should search engines follow links on this %s", "wordpress-seo" ),
 			window.wpseoAdminL10n.postTypeNameSingular,
 		) }
