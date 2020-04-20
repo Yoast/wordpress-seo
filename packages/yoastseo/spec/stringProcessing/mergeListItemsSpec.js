@@ -12,11 +12,11 @@ const ulWordsLowerCase =
 	"</ul>";
 
 const olWordsLowerCase =
-	"<ul>\n" +
+	"<ol>\n" +
 	"<li>apple</li>\n" +
 	"<li>pear</li>\n" +
 	"<li>mango</li>\n" +
-	"</ul>";
+	"</ol>";
 
 const olWithOLAttributes =
 	"<ol type=\"I\">\n" +
@@ -230,7 +230,7 @@ const realWorldULExample2Processed = " On the <strong>General</strong> tab: Make
 	" Add the `[woocommerce_checkout]` shortcode to the checkout page Place the " +
 	"`[woocommerce_my_account]` shortcode to the account page ";
 
-describe( "A test for merging list items in texts for the purpuse of making the keyphrase distribution assessment" +
+describe( "A test for merging list items in texts for the purpose of making the keyphrase distribution assessment" +
 	"less sensitive to lists", function() {
 	it( "should remove ul/ol tags, li tags and line breaks within a list and add a space before and after each list item -" +
 		"list with lower-case single words", function() {

@@ -393,7 +393,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 		testGetSentences( testCases );
 	} );
 
-	it( "correctly parses merged list items containing single lower-case words and surrounding test", function() {
+	it( "correctly parses merged list items containing single lower-case words and surrounding text", function() {
 		const testCases = [
 			{
 				input: paragraph1 + listWordsLowerCaseProcessed + paragraph2,
@@ -411,7 +411,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 		testGetSentences( testCases );
 	} );
 
-	it( "correctly parses merged list items containing single upper-case words and surrounding test", function() {
+	it( "correctly parses merged list items containing single upper-case words and surrounding text", function() {
 		const testCases = [
 			{
 				input: paragraph1 + listWordsUpperCaseProcessed + paragraph2,
