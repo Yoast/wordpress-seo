@@ -48,13 +48,15 @@ const getNoIndexOptions = () => {
 				__( "Default for %s, currently: %s", "wordpress-seo" ),
 				window.wpseoAdminL10n.postTypeNamePlural,
 				noIndex,
-			),
+				),
 			value: "default",
 		},
 		{ name: translatedYes, value: "index" },
 		{ name: translatedNo, value: "noindex" },
 	];
 };
+
+const metaRobotsNoIndexOptions = getNoIndexOptions();
 
 /**
  * Functional component for the Meta Robots No-Index option.
@@ -85,7 +87,7 @@ const MetaRobotsNoIndex = () => {
 			onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
 			id={ "yoast_wpseo_meta-robots-noindex-react" }
-			options={ getNoIndexOptions() }
+			options={ metaRobotsNoIndexOptions }
 			selected={ value }
 		/>
 	</Fragment>;
