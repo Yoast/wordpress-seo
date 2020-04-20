@@ -3,7 +3,7 @@
 }
 
 .yoast-field-group__textarea,
-.yoast-field-group__inputfield {
+input.yoast-field-group__inputfield {
     width: 100%;
     font-size: var(--font-size-default);
     padding: 8px;
@@ -11,6 +11,11 @@
     border: var(--border-default);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    border-radius: 0px;
+}
+
+.yoast-field-group__inputfield--upload {
+    margin-bottom: 8px;
 }
 
 .yoast-field-group__inputfield {
