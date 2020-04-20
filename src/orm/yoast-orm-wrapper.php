@@ -217,24 +217,18 @@ class ORMWrapper extends ORM {
 	}
 
 	/**
-	 * Internal helper method for executing statments. Logs queries, and
-	 * stores statement object in ::_last_statment, accessible publicly
-	 * through ::get_last_statement()
-	 *
-	 * @param string $query           The query.
-	 * @param array  $parameters      An array of parameters to be bound in to the query.
-	 * @param string $connection_name Which connection to use.
-	 *
-	 * @return bool Response of PDOStatement::execute().
+	 * Execute the SELECT query that has been built up by chaining methods
+	 * on this class. Return an array of rows as associative arrays.
 	 */
-	protected static function _execute( $query, $parameters = [], $connection_name = self::DEFAULT_CONNECTION ) {
+	protected function _run() {
 		try {
-			return parent::_execute( $query, $parameters, $connection_name );
+			return parent::_run();
 		} catch ( Exception $exception ) {
 			// If the query fails run the migrations and try again.
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
-			return parent::_execute( $query, $parameters, $connection_name );
+			$this->_reset_idiorm_state();
+			return parent::_run();
 		}
 	}
 }
