@@ -80,7 +80,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation The general indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 */
 	public function __construct(
@@ -160,6 +160,8 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Renders the indexation list item.
 	 *
+	 * @codeCoverageIgnore It echos the indexation warning.
+	 *
 	 * @return void
 	 */
 	public function render_indexation_warning() {
@@ -168,6 +170,8 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the indexation modal.
+	 *
+	 * @codeCoverageIgnore It echos the indexation modal.
 	 *
 	 * @return void
 	 */
