@@ -169,8 +169,6 @@ class Indexation_Integration implements Integration_Interface {
 	/**
 	 * Renders the indexation list item.
 	 *
-	 * @codeCoverageIgnore It echos the indexation warning.
-	 *
 	 * @return void
 	 */
 	public function render_indexation_warning() {
@@ -179,8 +177,6 @@ class Indexation_Integration implements Integration_Interface {
 
 	/**
 	 * Renders the indexation modal.
-	 *
-	 * @codeCoverageIgnore It echos the indexation modal.
 	 *
 	 * @return void
 	 */

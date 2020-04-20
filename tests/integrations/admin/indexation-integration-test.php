@@ -270,6 +270,60 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the indexation warning is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_warning
+	 */
+	public function test_render_indexation_warning() {
+		Monkey\Functions\expect( 'esc_html__' )
+			->andReturnFirstArg();
+
+		Monkey\Functions\expect( '__' )
+			->andReturnFirstArg();
+
+		Monkey\Functions\expect( 'esc_js' )
+			->andReturnFirstArg();
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		$this->expectOutputString( '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>' );
+
+		$this->instance->render_indexation_warning();
+	}
+
+	/**
+	 * Tests that the indexation modal is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_modal
+	 */
+	public function test_render_indexation_modal() {
+		Monkey\Functions\expect( 'add_thickbox' )
+			->once();
+
+		Monkey\Functions\expect( 'esc_html__' )
+			->andReturnFirstArg();
+
+		Monkey\Functions\expect( 'esc_html' )
+			->andReturnFirstArg();
+
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>' );
+
+		$this->instance->render_indexation_modal();
+	}
+
+	/**
 	 * Tests that the object gets the right properties when constructed.
 	 *
 	 * @covers ::__construct
