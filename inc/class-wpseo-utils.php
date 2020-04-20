@@ -1137,6 +1137,8 @@ SVG;
 
 	/**
 	 * Gets the type of the current post.
+	 * 
+	 * @return string The post type, or an empty string.
 	 */
 	public static function get_post_type() {
 		global $post;
@@ -1153,6 +1155,8 @@ SVG;
 
 	/**
 	 * Gets the type of the current page.
+	 * 
+	 * @return string Returns 'post' if the current page is a post edit page. Taxonomy in other cases.
 	 */
 	public static function get_page_type() {
 		global $pagenow;
@@ -1177,19 +1181,14 @@ SVG;
 		/* Adjust the no-index text strings based on the post type. */
 		$post_type_object = get_post_type_object( $post_type );
 
-		$label_array = [
-			'label'         => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
-			'labelSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
-		];
-
 		$wpseo_admin_l10n = [
-			'displayAdvancedTab'  => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) === false,
-			'noIndex'             => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
-			'postType'            => get_post_type(),
-			'label'               => $label_array['label'],
-			'labelSingular'       => $label_array['labelSingular'],
-			'breadcrumbsDisabled' => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
-			'privateBlog'         => ( (string) get_option( 'blog_public' ) ) === '0',
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) === false,
+			'noIndex'              => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
+			'postType'             => get_post_type(),
+			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
+			'postTypeNameSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
+			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );

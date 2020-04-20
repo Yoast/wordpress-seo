@@ -5,7 +5,7 @@ import AdvancedSettings from "../src/components/AdvancedSettings";
 window.wpseoAdminL10n = {
 	noIndex: "No",
 	privateBlog: true,
-	labelSingular: "Post",
+	postTypeNameSingular: "Post",
 	label: "Posts",
 	postType: "post",
 	breadcrumbsDisabled: false,

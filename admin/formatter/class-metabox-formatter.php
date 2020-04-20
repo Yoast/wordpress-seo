@@ -72,7 +72,6 @@ class WPSEO_Metabox_Formatter {
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
 
-
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *

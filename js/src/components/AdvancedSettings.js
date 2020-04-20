@@ -28,7 +28,7 @@ const getNoIndexOptions = () => {
 			{
 				name: sprintf(
 					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					window.wpseoAdminL10n.label,
+					window.wpseoAdminL10n.postTypeNamePlural,
 					noIndex,
 				),
 				value: "0",
@@ -42,7 +42,7 @@ const getNoIndexOptions = () => {
 			/* Translator: %s translates to the Post Label, %s translates to the indexOption */
 			name: sprintf(
 				__( "Default for %s, currently: %s", "wordpress-seo" ),
-				window.wpseoAdminL10n.label,
+				window.wpseoAdminL10n.postTypeNamePlural,
 				noIndex,
 			),
 			value: "default",
@@ -58,7 +58,7 @@ const getNoIndexOptions = () => {
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
 		{
@@ -75,7 +75,7 @@ const MetaRobotsNoIndex = () => {
 			label={
 				sprintf(
 					__( "Allow search engines to show this %s in search results?", "wordpress-seo" ),
-					window.wpseoAdminL10n.labelSingular,
+					window.wpseoAdminL10n.postTypeNameSingular,
 				) }
 			onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 			name={ "yoast_wpseo_meta-robots-noindex-react" }
@@ -99,7 +99,7 @@ const MetaRobotsNoFollow = () => {
 		options={ [ { value: "0", label: "Yes" }, { value: "1", label: "No" } ] }
 		label={ sprintf(
 			__( "Should search engines follow links on this %s", "wordpress-seo" ),
-			window.wpseoAdminL10n.labelSingular,
+			window.wpseoAdminL10n.postTypeNameSingular,
 		) }
 		groupName="yoast_wpseo_meta-robots-nofollow-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
