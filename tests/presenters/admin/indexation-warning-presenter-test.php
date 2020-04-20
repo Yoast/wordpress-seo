@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexation_Warning_Presenter_Test extends TestCase {
 
 	/**
-	 * Tests the presentation of the warning.
+	 * Tests the presenter of the warning.
 	 *
 	 * @covers ::present
 	 */
