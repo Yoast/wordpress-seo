@@ -58,7 +58,7 @@ const getNoIndexOptions = () => {
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
 	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
 		{
