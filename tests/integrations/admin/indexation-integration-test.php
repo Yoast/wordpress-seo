@@ -151,6 +151,97 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that scripts and styles are enqueued and the modal
+	 * is rendered when there is something to index.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		// The warning and modal should be rendered.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+		Monkey\Actions\expectAdded( 'admin_notices' );
+
+		// Mock i18n and string escape functions.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		Monkey\Functions\expect( 'esc_url_raw' )
+			->with( 'https://example.org/wp-ajax/' )
+			->andReturnFirstArg();
+
+		Monkey\Functions\expect( 'esc_html__' )
+			->andReturnFirstArg();
+
+		Monkey\Functions\expect( '__' )
+			->andReturnFirstArg();
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		$expected_data = [
+			'amount'  => 40,
+			'ids'     => [
+				'count'    => '#yoast-indexation-current-count',
+				'progress' => '#yoast-indexation-progress-bar',
+			],
+			'restApi' => [
+				'root'      => 'https://example.org/wp-ajax/',
+				'endpoints' =>
+					[
+						'posts'    => 'yoast/v1/indexation/posts',
+						'terms'    => 'yoast/v1/indexation/terms',
+						'archives' => 'yoast/v1/indexation/post-type-archives',
+						'general'  => 'yoast/v1/indexation/general',
+					],
+				'nonce'     => 'nonce',
+			],
+			'message' => [
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! All your site\'s content has been indexed.',
+				'indexingFailed'    => 'Something went wrong indexing the content of your site. Please try again later.',
+			],
+			'l10n'    => [
+				'calculationInProgress' => 'Calculation in progress...',
+				'calculationCompleted'  => 'Calculation completed.',
+				'calculationFailed'     => 'Calculation failed, please try again later.',
+			],
+		];
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$expected_data
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
 	 * Tests that scripts and styles are not enqueued when there is
 	 * nothing to index.
 	 *
