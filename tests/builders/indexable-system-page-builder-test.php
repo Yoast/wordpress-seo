@@ -39,6 +39,9 @@ class Indexable_System_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
 
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
 		$builder = new Indexable_System_Page_Builder( $options_mock );
 		$builder->build( 'search-result', $indexable_mock );
 	}
