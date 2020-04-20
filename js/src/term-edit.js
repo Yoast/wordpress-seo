@@ -4,7 +4,7 @@ import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 
 // Backwards compatibility globals.
-window.wpseoTermScraperL10n = wpseoScriptData.metabox;
+window.wpseoTermScraperL10n = window.wpseoScriptData.metabox;
 
 initAdmin( jQuery );
 initTabs( jQuery );
