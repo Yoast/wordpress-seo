@@ -91,10 +91,10 @@ class Index_Command implements Command_Interface {
 	 */
 	public function execute() {
 		$indexation_actions = [
-			'Posts' => $this->post_indexation_action,
-			'Terms' => $this->term_indexation_action,
-			'Post type archives' => $this->post_type_archive_indexation_action,
-			'General objects' => $this->general_indexation_action,
+			'posts' => $this->post_indexation_action,
+			'terms' => $this->term_indexation_action,
+			'post type archives' => $this->post_type_archive_indexation_action,
+			'general objects' => $this->general_indexation_action,
 		];
 
 		foreach ( $indexation_actions as $name => $indexation_action ) {

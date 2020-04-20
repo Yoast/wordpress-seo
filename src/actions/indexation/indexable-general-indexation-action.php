@@ -61,7 +61,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		}
 
 		if ( isset( $indexables_to_create['search'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_system_page( 'search' );
+			$indexables[] = $this->indexable_builder->build_for_system_page( 'search-result' );
 		}
 
 		if ( isset( $indexables_to_create['date_archive'] ) ) {
