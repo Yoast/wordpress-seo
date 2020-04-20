@@ -206,11 +206,12 @@ class Yoast_Form {
 		if ( $attr['aria_label'] !== '' ) {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
-
+		echo '<div class="yoast-field-group__title">';
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
+		echo '</div>';
 	}
 
 	/**
@@ -558,15 +559,16 @@ class Yoast_Form {
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
 
-		echo '<span>';
+		echo '<div class="yoast-field-group">';
 			echo '<input',
-				' class="textinput"',
+				' class="textinput yoast-field-group__inputfield yoast-field-group__inputfield--upload"',
 				' id="wpseo_', $var_esc, '"',
 				' type="text" size="36"',
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
-				' /> ';
+				' /> ',
+				' <br />';
 			echo '<input',
 				' id="wpseo_', $var_esc, '_button"',
 				' class="wpseo_image_upload_button yoast-button yoast-button--secondary"',
@@ -587,7 +589,7 @@ class Yoast_Form {
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
 				' value="', esc_attr( $id_value ), '"',
 				' />';
-		echo '</span>';
+		echo '</div>';
 		echo '<br class="clear"/>';
 	}
 
