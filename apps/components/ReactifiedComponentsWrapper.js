@@ -3,6 +3,7 @@ import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
+import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 import Toggle from "@yoast/components/src/toggle/Toggle";
 
 /**
@@ -52,7 +53,7 @@ const ReactifiedComponentsWrapper = () => {
 				options={ [
 					{
 						label: "Fancy label",
-						id: "fancy-checkbox"
+						id: "fancy-checkbox",
 					},
 					{
 						label: "option with id 1",
@@ -106,6 +107,34 @@ const ReactifiedComponentsWrapper = () => {
 				label="Vertical radiobutton group"
 				vertical={ true }
 				groupName="group2"
+			/>
+			<MultiSelect
+				label="This is a styled multiselect"
+				id="my-awesome-multiselect"
+				name="my-selection"
+				options={
+					[
+						{ name: "option 1", value: "opt1" },
+						{ name: "option 2", value: "opt2" },
+						{ name: "option 3", value: "opt3" },
+						{ name: "option 4", value: "opt4" },
+					]
+				}
+				selected={ [ "opt1", "opt3" ] }
+			/>
+			<Select
+				label="This is a styled select"
+				id="my-awesome-multiselect"
+				name="my-selection"
+				options={
+					[
+						{ name: "option 1", value: "opt1" },
+						{ name: "option 2", value: "opt2" },
+						{ name: "option 3", value: "opt3" },
+						{ name: "option 4", value: "opt4" },
+					]
+				}
+				selected={ "opt1" }
 			/>
 			<Toggle
 				label="React Toggle"
