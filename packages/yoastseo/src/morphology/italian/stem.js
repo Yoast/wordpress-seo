@@ -235,7 +235,7 @@ function StandardSuffixGroup( suffixes, region, replacement = "" ) {
  */
 const removeStandardSuffixes = function( word, r2Text, r1Text, rvText ) {
 	const suffixGroups = [
-		new StandardSuffixGroup( [ "ativamente", "abilamente", "ivamente", "osamente", "icamente" ], r2Text ),
+		new StandardSuffixGroup( [ "ativamente", "ivamente", "osamente", "icamente" ], r2Text ),
 		new StandardSuffixGroup( [ "icazione", "icazioni", "icatore", "icatori", "azione", "azioni", "atore", "atori" ], r2Text ),
 		new StandardSuffixGroup( [ "logia", "logie" ], r2Text, "log" ),
 		new StandardSuffixGroup( [ "uzione", "uzioni", "usione", "usioni" ], r2Text, "u" ),
