@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presenters
  * @group indexation
+ * @group test
  */
 class Indexation_Warning_Presenter_Test extends TestCase {
 
@@ -25,10 +26,6 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		Monkey\Functions\expect( 'esc_js' )
-			->with( '123456789' )
-			->andReturnFirstArg();
-
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wpseo-ignore' )
 			->andReturn( 123456789 );

@@ -35,7 +35,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 				'</button>',
 				\sprintf(
 					'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-					\esc_js( wp_create_nonce( 'wpseo-ignore' ) )
+					\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
 				),
 				'</button>'
 			)
