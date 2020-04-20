@@ -77,16 +77,22 @@ const findSuffix = function( word, suffixStep, r1Index ) {
  */
 const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemModification, morphologyDataNL ) {
 	if ( stemModification === "hedenToHeid" ) {
-		return modifyStem( word, morphologyDataNL.stemming.stemModifications.hedenToHeid );
+		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.hedenToHeid );
 	}
 	word = word.substring( 0, suffixIndex );
 	if ( stemModification === "changeIedtoId" ) {
-		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
+		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
-		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions,
-		morphologyDataNL.verbs.compoundVerbsPrefixes ) ) {
-		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
+		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.inkToIng );
+	} else if (
+		stemModification === "vowelDoubling" &&
+		isVowelDoublingAllowed(
+			word,
+			morphologyDataNL.regularStemmer.stemModifications.exceptionsStemModifications,
+			morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes
+		)
+	) {
+		return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.doubleVowel );
 	}
 	return word;
 };
@@ -143,17 +149,17 @@ export default function detectAndStemSuffixes( word, morphologyDataNL ) {
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
 	 */
-	word = modifyStem( word, morphologyDataNL.stemming.stemModifications.IAndYToUppercase );
+	word = modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.IAndYToUppercase );
 
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
 
 	// Import the suffixes from all three steps.
-	const suffixSteps = morphologyDataNL.stemming.suffixes;
+	const suffixSteps = morphologyDataNL.regularStemmer.suffixes;
 
 	// Run through the three steps of possible de-suffixation.
 	word = findAndDeleteSuffixes( word, suffixSteps, r1Index, morphologyDataNL );
 
 	// Do final modifications to the stem.
-	return modifyStem( word, morphologyDataNL.stemming.stemModifications.finalChanges );
+	return modifyStem( word, morphologyDataNL.regularStemmer.stemModifications.finalChanges );
 }
