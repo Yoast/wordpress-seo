@@ -1,36 +1,52 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ */
 
 namespace Yoast\WP\SEO\Tests\Presenters\Admin;
 
-use Brain\Monkey\Functions;
+use Brain\Monkey;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Indexation_Warning_Presenter_Test.
- *
- * @group presenters
- * @group admin
+ * Class Indexation_Warning_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter
- * @covers ::<!public>
+ *
+ * @group presenters
+ * @group indexation
  */
 class Indexation_Warning_Presenter_Test extends TestCase {
 
 	/**
-	 * Tests the output.
+	 * Tests the presenter of the warning.
 	 *
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$instance = new Indexation_Warning_Presenter();
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>';
+		Monkey\Functions\expect( 'esc_js' )
+			->with( '123456789' )
+			->andReturnFirstArg();
 
-		Functions\expect( 'wp_create_nonce' )
-			->once()
+		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wpseo-ignore' )
-			->andReturn( 'nonce' );
+			->andReturn( 123456789 );
 
-		$this->assertSame( $expected, $instance->present() );
+		Monkey\Functions\expect( 'esc_attr__' )
+			->with( 'Your content is being indexed', 'wordpress-seo' )
+			->andReturnFirstArg();
+
+		$presenter = new Indexation_Warning_Presenter();
+
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-warning"><p>';
+		$expected .= '<strong>NEW:</strong> Yoast SEO can speed up your website! Please ';
+		$expected .= '<button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> ';
+		$expected .= 'to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="123456789">';
+		$expected .= 'dismiss this warning</button>.</p></div>';
+
+		$this->assertEquals( $expected, $presenter->present() );
 	}
+
+
 }
