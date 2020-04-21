@@ -207,10 +207,12 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
+		echo '<div class="yoast-field-group__title">';
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
+		echo '</div>';
 	}
 
 	/**
@@ -466,7 +468,6 @@ class Yoast_Form {
 		}
 
 		if ( $show_label ) {
-			echo '<div class="yoast-field-group__title">';
 			$this->label(
 				$label,
 				[
@@ -475,7 +476,6 @@ class Yoast_Form {
 
 				]
 			);
-			echo '</div>';
 		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
