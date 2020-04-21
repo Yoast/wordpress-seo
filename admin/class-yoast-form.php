@@ -567,11 +567,10 @@ class Yoast_Form {
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
-				' /> ',
-				' <br />';
+				' /> ';
 			echo '<input',
 				' id="wpseo_', $var_esc, '_button"',
-				' class="wpseo_image_upload_button yoast-button yoast-button--secondary"',
+				' class="wpseo_image_upload_button yoast-button yoast-button--secondary yoast-button--upload"',
 				' type="button"',
 				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
