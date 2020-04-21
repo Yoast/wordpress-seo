@@ -123,7 +123,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 		// There should not be a description.
 		$this->assertNotContains( '<p id="wpseo_fieldname-desc"', $output );
 
-		// There should be an aria-describedby pointing to the description.
+		// There should be an aria-describedby pointing to the (non-existing) description.
 		$this->assertNotContains( 'aria-describedby="wpseo_fieldname-desc"', $output );
 	}
 
