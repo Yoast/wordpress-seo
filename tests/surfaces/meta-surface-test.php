@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -63,6 +64,11 @@ class Meta_Surface_Test extends TestCase {
 	protected $indexable;
 
 	/**
+	 * @var WP_Rewrite_Wrapper
+	 */
+	private $wp_rewrite_wrapper;
+
+	/**
 	 * The instance
 	 *
 	 * @var Meta_Surface
@@ -75,16 +81,18 @@ class Meta_Surface_Test extends TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		$this->container        = Mockery::mock( ContainerInterface::class );
-		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->repository       = Mockery::mock( Indexable_Repository::class );
-		$this->context          = Mockery::mock( Meta_Tags_Context::class );
-		$this->indexable        = Mockery::mock( Indexable::class );
+		$this->container          = Mockery::mock( ContainerInterface::class );
+		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->context            = Mockery::mock( Meta_Tags_Context::class );
+		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
+		$this->indexable          = Mockery::mock( Indexable::class );
 
 		$this->instance = new Meta_Surface(
 			$this->container,
 			$this->context_memoizer,
-			$this->repository
+			$this->repository,
+			$this->wp_rewrite_wrapper
 		);
 
 		$this->context->presentation = (object) [ 'test' => 'succeeds' ];
@@ -386,10 +394,15 @@ class Meta_Surface_Test extends TestCase {
 	 * @dataProvider for_url_provider
 	 */
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
+		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
+
 		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'url' )->andReturn( [ 'host' => 'host', 'path' => 'path' ] );
 		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'https://www.example.org', PHP_URL_HOST )->andReturn( 'host' );
 		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
 		$this->repository->expects( 'find_by_permalink' )->once()->with( 'https://www.example.org' )->andReturn( $this->indexable );
+		$this->wp_rewrite_wrapper->expects( 'get' )->once()->andReturn( $wp_rewrite );
+		$wp_rewrite->expects( 'get_date_permastruct' )->once()->andReturn( 'date_permastruct' );
+		$wp_rewrite->expects( 'generate_rewrite_rules' )->once()->with( 'date_permastruct', EP_DATE )->andReturn( [] );
 		$this->indexable->object_type     = $object_type;
 		$this->indexable->object_id       = $object_id;
 		$this->indexable->object_sub_type = $object_sub_type;

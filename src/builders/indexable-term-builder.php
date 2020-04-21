@@ -65,6 +65,7 @@ class Indexable_Term_Builder {
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;
+		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),

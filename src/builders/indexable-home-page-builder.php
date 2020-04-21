@@ -56,6 +56,7 @@ class Indexable_Home_Page_Builder {
 		$indexable->title            = $this->options->get( 'title-home-wpseo' );
 		$indexable->breadcrumb_title = $this->options->get( 'breadcrumbs-home' );
 		$indexable->permalink        = $this->url->home();
+		$indexable->blog_id          = \get_current_blog_id();
 		$indexable->description      = $this->options->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );

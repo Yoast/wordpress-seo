@@ -18,4 +18,5 @@ class Primary_Term extends \Yoast\WP\SEO\Models\Primary_Term {
 	public $term_id;
 
 	public $taxonomy;
+	public $blog_id;
 }
