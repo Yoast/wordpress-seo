@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
+use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -100,7 +101,40 @@ class Index_Command_Test extends TestCase {
 		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 4 );
 
-		$this->instance->execute();
+		$this->instance->index();
+	}
+
+	public function test_execute_multisite() {
+		Monkey\Functions\expect( 'get_sites' )->once()->with( [
+			'fields'   => 'ids',
+			'spam'     => 0,
+			'deleted'  => 0,
+			'archived' => 0,
+		] )->andReturn( [ 1, 2 ] );
+		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 1 );
+		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 2 );
+		Monkey\Functions\expect( 'restore_current_blog' )->times( 2 );
+
+		$indexation_actions = [
+			$this->post_indexation_action,
+			$this->term_indexation_action,
+			$this->post_type_archive_indexation_action,
+			$this->general_indexation_action,
+		];
+
+		foreach ( $indexation_actions as $indexation_action ) {
+			$indexation_action->expects( 'get_total_unindexed' )->times( 2 )->andReturn( 30 );
+			$indexation_action->expects( 'get_limit' )->times( 2 )->andReturn( 25 );
+			$indexation_action->expects( 'index' )->times( 4 )->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ), \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+		}
+
+		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )->times( 8 )->with( Mockery::type( 'string' ), 30 )->andReturn( $progress_bar_mock );
+		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 25 );
+		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 5 );
+		$progress_bar_mock->expects( 'finish' )->times( 8 );
+
+		$this->instance->index( null, [ 'network' => true ] );
 	}
 
 	/**
@@ -108,18 +142,7 @@ class Index_Command_Test extends TestCase {
 	 *
 	 * @covers ::get_name
 	 */
-	public function test_get_name() {
-		$this->assertEquals( 'yoast index', $this->instance->get_name() );
-	}
-
-    /**
-	 * Tests the get_config function.
-	 *
-	 * @covers ::get_config
-	 */
-	public function test_get_config() {
-		Monkey\Functions\expect( '__' )->once()->with( 'Indexes all your content to ensure the best performance.', 'wordpress-seo' )->andReturn( 'string' );
-
-		$this->assertEquals( [ 'shortdesc' => 'string' ], $this->instance->get_config() );
+	public function test_get_namespace() {
+		$this->assertEquals( Main::WP_CLI_NAMESPACE, Index_Command::get_namespace() );
 	}
 }

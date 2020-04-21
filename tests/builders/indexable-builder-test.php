@@ -21,8 +21,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Indexable_Builder_Test.
  *
- * @group   indexables
- * @group   builders
+ * @group indexables
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  * @covers ::<!public>

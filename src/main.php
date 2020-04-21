@@ -37,6 +37,13 @@ class Main {
 	const API_V1_NAMESPACE = 'yoast/v1';
 
 	/**
+	 * The WP CIL namespace constant.
+	 *
+	 * @var string
+	 */
+	const WP_CLI_NAMESPACE = 'yoast';
+
+	/**
 	 * The DI container.
 	 *
 	 * @var Cached_Container|null

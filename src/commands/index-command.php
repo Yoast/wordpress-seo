@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
+use Yoast\WP\SEO\Main;
 
 /**
  * Command to generate indexables for all posts and terms.
@@ -67,29 +68,57 @@ class Index_Command implements Command_Interface {
 	}
 
 	/**
-	 * Returns the name of this command.
-	 *
-	 * @return string
+	 * @inheritDoc
 	 */
-	public function get_name() {
-		return 'yoast index';
+	public static function get_namespace() {
+		return Main::WP_CLI_NAMESPACE;
 	}
 
 	/**
-	 * Returns the configuration of this command.
+	 * Indexes all your content to ensure the best performance.
 	 *
-	 * @return array
-	 */
-	public function get_config() {
-		return [ 'shortdesc' => \__( 'Indexes all your content to ensure the best performance.', 'wordpress-seo' ) ];
-	}
-
-	/**
-	 * Executes this command.
+	 * ## OPTIONS
+	 *
+	 * [--network]
+	 * : Perform the indexation on all sites within the network.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp yoast index
+	 *
+	 * @when after_wp_load
+	 *
+	 * @param array $args       The arguments.
+	 * @param array $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
-	public function execute() {
+	public function index( $args = null, $assoc_args = null ) {
+		if ( ! isset( $assoc_args['network'] ) ) {
+			$this->run_indexation_actions();
+			return;
+		}
+
+		$blog_ids = \get_sites( [
+			'fields'   => 'ids',
+			'spam'     => 0,
+			'deleted'  => 0,
+			'archived' => 0,
+		] );
+
+		foreach ( $blog_ids as $blog_id ) {
+			\switch_to_blog( $blog_id );
+			$this->run_indexation_actions();
+			\restore_current_blog();
+		}
+	}
+
+	/**
+	 * Runs all indexation actions.
+	 *
+	 * @return void
+	 */
+	protected function run_indexation_actions() {
 		$indexation_actions = [
 			'posts' => $this->post_indexation_action,
 			'terms' => $this->term_indexation_action,
