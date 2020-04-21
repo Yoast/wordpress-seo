@@ -15,7 +15,6 @@ function mapStateToProps( state, ownProps ) {
 		// Because this value is initiated as an empty string.
 		displayAdvancedTab: !! window.wpseoAdminL10n.displayAdvancedTab,
 	};
-	console.log( "metabox container: ", settings.displayAdvancedTab );
 	return {
 		settings,
 		store: ownProps.store,
