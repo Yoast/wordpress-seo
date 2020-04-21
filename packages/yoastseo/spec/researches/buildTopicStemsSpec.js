@@ -31,13 +31,28 @@ describe( "A test for building stems for an array of words", function() {
 		);
 	} );
 
-	it( "returns all (content) words if there is no morphological analyzer for this language yet", function() {
+	it( "returns all (content) words for a language that has a morphological analyzer, but no morphology data is available" +
+		"(e.g., when running Free)", function() {
 		const forms = buildStems( "Como hacer guacamole como los mexicanos", "es", false );
 		expect( forms ).toEqual(
 			new TopicPhrase(
 				[
 					new StemOriginalPair( "guacamole", "guacamole" ),
 					new StemOriginalPair( "mexicanos", "mexicanos" ),
+				],
+				false
+			)
+		);
+	} );
+
+	it( "returns all words if there are no function words and no morphological analyzer for this language", function() {
+		const forms = buildStems( "Ek gaan stap.", "af", false );
+		expect( forms ).toEqual(
+			new TopicPhrase(
+				[
+					new StemOriginalPair( "ek", "Ek" ),
+					new StemOriginalPair( "gaan", "gaan" ),
+					new StemOriginalPair( "stap", "stap" ),
 				],
 				false
 			)
@@ -191,40 +206,48 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		expect( collectStems( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
-	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; for Dutch (no morphologyData available)", function() {
-		const keyword = "Ik ga wandelen";
-		// const synonyms = "\"Tu ne vas pas te promener\", Tu vas voir un film, Et lui il va travailler dur.";
-		const synonyms = "";
-		const language = "nl";
+	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; " +
+		"for a language without morphology and function words", function() {
+		const keyword = "Ek gaan stap.";
+		const synonyms = "\"Ek gaan nie stap nie\", Jy gaan 'n film kyk, En hy sal hard werk.";
+		const language = "af";
 
 		const expectedResult = {
 			keyphraseStems: new TopicPhrase(
 				[
-					new StemOriginalPair( "promener", "promener" ),
+					new StemOriginalPair( "ek", "Ek" ),
+					new StemOriginalPair( "gaan", "gaan" ),
+					new StemOriginalPair( "stap", "stap" ),
 				],
 				false
 			),
 			synonymsStems: [
-			// 	new TopicPhrase(
-			// 		[
-			// 			new StemOriginalPair( "Tu ne vas pas te promener", "Tu ne vas pas te promener" ),
-			// 		],
-			// 		true
-			// 	),
-			// 	new TopicPhrase(
-			// 		[
-			// 			new StemOriginalPair( "voir", "voir" ),
-			// 			new StemOriginalPair( "film", "film" ),
-			// 		],
-			// 		false
-			// 	),
-			// 	new TopicPhrase(
-			// 		[
-			// 			new StemOriginalPair( "travailler", "travailler" ),
-			// 			new StemOriginalPair( "dur", "dur" ),
-			// 		],
-			// 		false
-			// 	),
+				new TopicPhrase(
+					[
+						new StemOriginalPair( "Ek gaan nie stap nie", "Ek gaan nie stap nie" ),
+					],
+					true
+				),
+				new TopicPhrase(
+					[
+						new StemOriginalPair( "jy", "Jy" ),
+						new StemOriginalPair( "gaan", "gaan" ),
+						new StemOriginalPair( "n", "n" ),
+						new StemOriginalPair( "film", "film" ),
+						new StemOriginalPair( "kyk", "kyk" ),
+					],
+					false
+				),
+				new TopicPhrase(
+					[
+						new StemOriginalPair( "en", "En" ),
+						new StemOriginalPair( "hy", "hy" ),
+						new StemOriginalPair( "sal", "sal" ),
+						new StemOriginalPair( "hard", "hard" ),
+						new StemOriginalPair( "werk", "werk" ),
+					],
+					false
+				),
 			],
 		};
 		expect( collectStems( keyword, synonyms, language, {} ) ).toEqual( expectedResult );
