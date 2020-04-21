@@ -5,7 +5,7 @@ import sampleVocabulary from "./sampleVocabulary.json";
 
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "it" );
 
-describe( "Generate stems for Polish words", () => {
+describe( "Generate stems for Italian words", () => {
 	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word ) ] );
 
 	console.log( JSON.stringify( corpusWithStems ) );

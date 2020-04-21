@@ -188,6 +188,10 @@ const wordsToStem = [
 	[ "arrossì", "arross" ],
 	//  Input a verb form ending in -ò
 	[ "articolò", "articol" ],
+	//  A suffix (-ativo in the example) does not get stemmed if not found in the right region.
+	[ "nativo", "nat" ],
+	//  Returns the word if no suffixes are found.
+	[ "alcol", "alcol" ],
 ];
 
 const paradigms = [
@@ -341,7 +345,7 @@ const paradigms = [
 			"dormendo",
 		],
 	},
-	// A verb paradigm with a pronun ending.
+	// A verb paradigm with a pronoun ending.
 	{   stem: "port",
 		forms: [
 			"portarglieli",
