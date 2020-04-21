@@ -147,13 +147,6 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::get_image_by_id
 	 */
 	public function test_get_image_by_id_with_best_attachment_variation() {
-		$image_params = [
-			'min_width'  => 200,
-			'max_width'  => 2000,
-			'min_height' => 200,
-			'max_height' => 2000,
-		];
-
 		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
@@ -162,7 +155,7 @@ class Image_Helper_Test extends TestCase {
 
 		$this->image
 			->expects( 'get_best_attachment_variation' )
-			->with( 1337, $image_params )
+			->with( 1337 )
 			->once()
 			->andReturn( 'image.jpg' );
 
