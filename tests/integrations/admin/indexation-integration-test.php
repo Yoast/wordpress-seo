@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Admin
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 
@@ -94,6 +99,8 @@ class Indexation_Integration_Test extends TestCase {
 			$this->options,
 			$this->asset_manager
 		);
+
+		parent::setUp();
 	}
 
 	/**
@@ -178,20 +185,10 @@ class Indexation_Integration_Test extends TestCase {
 		Monkey\Actions\expectAdded( 'admin_footer' );
 		Monkey\Actions\expectAdded( 'admin_notices' );
 
-		// Mock i18n and string escape functions.
+		// Mock retrieval of the REST URL.
 		Monkey\Functions\expect( 'rest_url' )
 			->once()
 			->andReturn( 'https://example.org/wp-ajax/' );
-
-		Monkey\Functions\expect( 'esc_url_raw' )
-			->with( 'https://example.org/wp-ajax/' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( 'esc_html__' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( '__' )
-			->andReturnFirstArg();
 
 		// Mock WP nonce.
 		Monkey\Functions\expect( 'wp_create_nonce' )
@@ -271,19 +268,6 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_warning
 	 */
 	public function test_render_indexation_warning() {
-		// Mock i18n and string escape functions.
-		Monkey\Functions\expect( 'esc_html__' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( '__' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( 'esc_js' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( 'esc_attr__' )
-			->andReturnFirstArg();
-
 		// Mock WP nonce.
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->once()
@@ -303,13 +287,6 @@ class Indexation_Integration_Test extends TestCase {
 		// Expect a thickbox to be added for the modal.
 		Monkey\Functions\expect( 'add_thickbox' )
 			->once();
-
-		// Mock i18n and string escape functions.
-		Monkey\Functions\expect( 'esc_html__' )
-			->andReturnFirstArg();
-
-		Monkey\Functions\expect( 'esc_html' )
-			->andReturnFirstArg();
 
 		$this->set_total_unindexed_expectations(
 			[
