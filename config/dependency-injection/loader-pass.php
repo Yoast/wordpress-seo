@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Loader;
+use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * A pass is a step in the compilation process of the container.
@@ -57,6 +58,10 @@ class Loader_Pass implements CompilerPassInterface {
 
 		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+		}
+
+		if ( \is_subclass_of( $class, Route_Interface::class ) ) {
+			$loader_definition->addMethodCall( 'register_route', [ $class ] );
 		}
 
 		if ( \is_subclass_of( $class, Command_Interface::class ) ) {

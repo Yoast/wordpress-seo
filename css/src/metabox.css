@@ -544,14 +544,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 /**
- * Traffic light in publish box
- */
-#wpseo-score {
-  float: left;
-  margin: 0 5px 0 -5px;
-}
-
-/**
 * Content and SEO score in publish bar
 */
 .yoast-seo-score .yoast-logo.svg {

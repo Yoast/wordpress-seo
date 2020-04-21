@@ -39,4 +39,15 @@ class Post_Type_Helper {
 	public function get_public_post_types( $output = 'names' ) {
 		return \get_post_types( [ 'public' => true ], $output );
 	}
+
+	/**
+	 * Checks if the post type with the given name has an archive page.
+	 *
+	 * @param WP_Post_Type $post_type The name of the post type to check.
+	 *
+	 * @return bool True when the post type has an archive page.
+	 */
+	public function has_archive( $post_type ) {
+		return WPSEO_Post_Type::has_archive( $post_type );
+	}
 }

@@ -94,6 +94,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'is_robots_noindex' )->andReturn( true );
 		$indexable_mock->orm->expects( 'set' )->once()->with( 'is_public', false );
 
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
 		$image            = Mockery::mock( Image_Helper::class );
 		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
 		$twitter_image    = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );

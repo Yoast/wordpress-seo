@@ -211,6 +211,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 		$this->indexable->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$this->indexable->orm->expects( 'set' )->with( 'blog_id', 1 );
+
 		$this->seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
 			(object) [
 				'internal_link_count' => 5,
