@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
+use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Routes\Indexables_Head_Route;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -55,6 +56,20 @@ class Indexables_Head_Route_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( Indexable_Head_Action::class, 'head_action', $this->instance );
+	}
+
+	/**
+	 * Tests the retrieval of the conditionals.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[
+				Headless_Rest_Endpoints_Enabled_Conditional::class
+			],
+			Indexables_Head_Route::get_conditionals()
+		);
 	}
 
 	/**

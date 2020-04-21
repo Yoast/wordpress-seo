@@ -150,6 +150,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * Tests the indexation of the posts.
 	 *
 	 * @covers ::index_posts
+	 * @covers ::run_indexation_action
 	 */
 	public function test_index_posts() {
 		$this->post_indexation_action
@@ -174,6 +175,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * Tests the indexation of the terms.
 	 *
 	 * @covers ::index_terms
+	 * @covers ::run_indexation_action
 	 */
 	public function test_index_terms() {
 		$this->term_indexation_action
@@ -198,6 +200,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * Tests the indexation of the post type archives.
 	 *
 	 * @covers ::index_post_type_archives
+	 * @covers ::run_indexation_action
 	 */
 	public function test_index_post_type_archives() {
 		$this->post_type_archive_indexation_action
@@ -222,12 +225,14 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * Tests the indexation of the general indexables.
 	 *
 	 * @covers ::index_general
+	 * @covers ::run_indexation_action
 	 */
 	public function test_index_general() {
 		$this->general_indexation_action
 			->expects( 'get_limit' )
 			->once()
 			->andReturn( 25 );
+
 		$this->general_indexation_action
 			->expects( 'index' )
 			->once()
