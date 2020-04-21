@@ -1146,7 +1146,7 @@ SVG;
 		if ( isset( $post->post_type ) ) {
 			return $post->post_type;
 		}
-		elseif ( ! isset( $post->post_type ) && isset( $_GET['post_type'] ) ) {
+		elseif ( isset( $_GET['post_type'] ) ) {
 			return sanitize_text_field( $_GET['post_type'] );
 		}
 
