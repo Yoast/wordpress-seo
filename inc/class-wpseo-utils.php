@@ -1184,7 +1184,7 @@ SVG;
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && !! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => !! WPSEO_Options::get( 'noindex-' . $post_type, false ),
-			'postType'             => get_post_type(),
+			'isPostType'             => !! get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
 			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),

@@ -13,7 +13,7 @@ import { Alert } from "@yoast/components";
  *
  * @returns {boolean} true if it is a post, false otherwise.
  */
-const isPost = () => window.wpseoAdminL10n.postType === "post";
+const isPost = () => window.wpseoAdminL10n.isPostType;
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
