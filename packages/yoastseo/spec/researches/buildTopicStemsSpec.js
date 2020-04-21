@@ -191,10 +191,11 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 		expect( collectStems( keyword, synonyms, language, morphologyDataEN.en ) ).toEqual( expectedResult );
 	} );
 
-	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; for French (no morphology yet)", function() {
-		const keyword = "Je vais me promener";
-		const synonyms = "\"Tu ne vas pas te promener\", Tu vas voir un film, Et lui il va travailler dur.";
-		const language = "fr";
+	it( "returns the exact matches if the input strings are embedded in quotation marks and separate words if not; for Dutch (no morphologyData available)", function() {
+		const keyword = "Ik ga wandelen";
+		// const synonyms = "\"Tu ne vas pas te promener\", Tu vas voir un film, Et lui il va travailler dur.";
+		const synonyms = "";
+		const language = "nl";
 
 		const expectedResult = {
 			keyphraseStems: new TopicPhrase(
@@ -204,26 +205,26 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 				false
 			),
 			synonymsStems: [
-				new TopicPhrase(
-					[
-						new StemOriginalPair( "Tu ne vas pas te promener", "Tu ne vas pas te promener" ),
-					],
-					true
-				),
-				new TopicPhrase(
-					[
-						new StemOriginalPair( "voir", "voir" ),
-						new StemOriginalPair( "film", "film" ),
-					],
-					false
-				),
-				new TopicPhrase(
-					[
-						new StemOriginalPair( "travailler", "travailler" ),
-						new StemOriginalPair( "dur", "dur" ),
-					],
-					false
-				),
+			// 	new TopicPhrase(
+			// 		[
+			// 			new StemOriginalPair( "Tu ne vas pas te promener", "Tu ne vas pas te promener" ),
+			// 		],
+			// 		true
+			// 	),
+			// 	new TopicPhrase(
+			// 		[
+			// 			new StemOriginalPair( "voir", "voir" ),
+			// 			new StemOriginalPair( "film", "film" ),
+			// 		],
+			// 		false
+			// 	),
+			// 	new TopicPhrase(
+			// 		[
+			// 			new StemOriginalPair( "travailler", "travailler" ),
+			// 			new StemOriginalPair( "dur", "dur" ),
+			// 		],
+			// 		false
+			// 	),
 			],
 		};
 		expect( collectStems( keyword, synonyms, language, {} ) ).toEqual( expectedResult );
