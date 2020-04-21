@@ -232,8 +232,6 @@ class Image_Helper {
 	 * @param int   $attachment_id The attachment id.
 	 * @param array $image_params  The image parameters to get dimensions for.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
 	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {

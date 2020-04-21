@@ -416,4 +416,176 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals( '', $this->instance->get_attachment_image_url( 1337, 'full' ) );
 	}
+
+	/**
+	 * Tests the get_best_attachment_variation method.
+	 *
+	 * @covers ::get_best_attachment_variation
+	 */
+	public function test_get_best_attachment_variation() {
+		$attachment_id = 1;
+		$image_params  = [
+			'min_width'  => 200,
+			'min_height' => 200,
+			'max_width'  => 2000,
+			'max_height' => 2000,
+		];
+
+		$attachment_metadata  = [
+			'width'    => 500,
+			'height'   => 500,
+			'id'       => 7,
+			'pixels'   => 18602,
+			'type'     => 'image/png',
+			'filesize' => 40000
+		];
+		$attachment_image_url = 'http://basic.wordpress.test/wp-content/uploads/2020/04/image.png';
+		$attached_file        = '/var/www/html/wp-content/uploads/2020/04/image.png';
+		$alt_tag              = 'An alt tag.';
+
+		// WP attachment (image) function expectations.
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->with( $attachment_id )
+			->andReturn( $attachment_metadata );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->with( $attachment_id )
+			->andReturn( $attachment_image_url );
+
+		Monkey\Functions\expect( 'get_attached_file' )
+			->with( $attachment_id )
+			->andReturn( $attached_file );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( $attachment_id, '_wp_attachment_image_alt', true )
+			->andReturn( $alt_tag );
+
+		Monkey\Functions\expect( 'image_get_intermediate_size' )
+			->with( $attachment_id, 'large' )
+			->andReturn( false );
+
+		$expected = [
+			'width'    => 500,
+			'height'   => 500,
+			'url'      => 'http://basic.wordpress.test/wp-content/uploads/2020/04/image.png',
+			'path'     => '/var/www/html/wp-content/uploads/2020/04/image.png',
+			'size'     => 'full',
+			'id'       => 1,
+			'alt'      => 'An alt tag.',
+			'pixels'   => 250000,
+			'type'     => 'image/png',
+			'filesize' => 40000,
+		];
+
+		$this->assertEquals( $expected, $this->instance->get_best_attachment_variation( 1, $image_params ) );
+	}
+
+
+	/**
+	 * Tests the get_best_attachment_variation method when no image params are provided.
+	 *
+	 * @covers ::get_best_attachment_variation
+	 */
+	public function test_get_best_attachment_variation_no_image_params() {
+		$attachment_id = 1;
+
+		$attachment_metadata  = [
+			'width'    => 500,
+			'height'   => 500,
+			'id'       => 7,
+			'pixels'   => 18602,
+			'type'     => 'image/png',
+			'filesize' => 40000
+		];
+		$attachment_image_url = 'http://basic.wordpress.test/wp-content/uploads/2020/04/image.png';
+		$attached_file        = '/var/www/html/wp-content/uploads/2020/04/image.png';
+		$alt_tag              = 'An alt tag.';
+
+		// WP attachment (image) function expectations.
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->with( $attachment_id )
+			->andReturn( $attachment_metadata );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->with( $attachment_id )
+			->andReturn( $attachment_image_url );
+
+		Monkey\Functions\expect( 'get_attached_file' )
+			->with( $attachment_id )
+			->andReturn( $attached_file );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( $attachment_id, '_wp_attachment_image_alt', true )
+			->andReturn( $alt_tag );
+
+		Monkey\Functions\expect( 'image_get_intermediate_size' )
+			->with( $attachment_id, 'large' )
+			->andReturn( false );
+
+		$expected = [
+			'width'    => 500,
+			'height'   => 500,
+			'url'      => 'http://basic.wordpress.test/wp-content/uploads/2020/04/image.png',
+			'path'     => '/var/www/html/wp-content/uploads/2020/04/image.png',
+			'size'     => 'full',
+			'id'       => 1,
+			'alt'      => 'An alt tag.',
+			'pixels'   => 250000,
+			'type'     => 'image/png',
+			'filesize' => 40000,
+		];
+
+		$this->assertEquals( $expected, $this->instance->get_best_attachment_variation( 1 ) );
+	}
+
+	/**
+	 * Tests the get_best_attachment_variation method when no image params are provided.
+	 *
+	 * @covers ::get_best_attachment_variation
+	 */
+	public function test_get_best_attachment_variation_returns_false_when_no_variations() {
+		$attachment_id = 1;
+		$image_params  = [
+			'min_width'  => 200,
+			'min_height' => 200,
+			'max_width'  => 2000,
+			'max_height' => 2000,
+		];
+
+		// Small image.
+		$attachment_metadata  = [
+			'width'    => 100,
+			'height'   => 500,
+			'id'       => 7,
+			'pixels'   => 18602,
+			'type'     => 'image/png',
+			'filesize' => 40000
+		];
+		$attachment_image_url = 'http://basic.wordpress.test/wp-content/uploads/2020/04/image.png';
+		$attached_file        = '/var/www/html/wp-content/uploads/2020/04/image.png';
+		$alt_tag              = 'An alt tag.';
+
+		// WP attachment (image) function expectations.
+		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
+			->with( $attachment_id )
+			->andReturn( $attachment_metadata );
+
+		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
+			->with( $attachment_id )
+			->andReturn( $attachment_image_url );
+
+		Monkey\Functions\expect( 'get_attached_file' )
+			->with( $attachment_id )
+			->andReturn( $attached_file );
+
+		Monkey\Functions\expect( 'get_post_meta' )
+			->with( $attachment_id, '_wp_attachment_image_alt', true )
+			->andReturn( $alt_tag );
+
+		Monkey\Functions\expect( 'image_get_intermediate_size' )
+			->with( $attachment_id, 'large' )
+			->andReturn( false );
+
+		$this->assertEquals( false, $this->instance->get_best_attachment_variation( 1, $image_params ) );
+	}
 }
