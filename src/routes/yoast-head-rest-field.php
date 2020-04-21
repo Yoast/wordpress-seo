@@ -46,7 +46,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 *
 	 * @var Indexable_Head_Action
 	 */
-	private $head_action;
+	protected $head_action;
 
 	/**
 	 * Yoast_Head_REST_Field constructor.
