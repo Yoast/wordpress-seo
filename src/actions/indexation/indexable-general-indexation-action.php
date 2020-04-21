@@ -61,7 +61,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		}
 
 		if ( isset( $indexables_to_create['search'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_system_page( 'search' );
+			$indexables[] = $this->indexable_builder->build_for_system_page( 'search-result' );
 		}
 
 		if ( isset( $indexables_to_create['date_archive'] ) ) {
@@ -75,6 +75,14 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
+		// This matches the maximum amount of indexables created by this action.
+		return 4;
+	}
+
+	/**
 	 * Check which indexables already exists and return the values of the ones to create.
 	 *
 	 * @return array The indexable types to create.
@@ -85,7 +93,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 			$indexables_to_create['404'] = true;
 		}
 
-		if ( ! $this->indexable_repository->find_for_system_page( 'search', false ) ) {
+		if ( ! $this->indexable_repository->find_for_system_page( 'search-result', false ) ) {
 			$indexables_to_create['search'] = true;
 		}
 

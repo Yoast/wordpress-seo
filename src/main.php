@@ -2,17 +2,17 @@
 /**
  * Yoast SEO Plugin File.
  *
- * @package Yoast\YoastSEO\Loaders
+ * @package Yoast\WP\SEO
  */
 
 namespace Yoast\WP\SEO;
 
 use Exception;
-use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 use Yoast\WP\SEO\Generated\Cached_Container;
 use Yoast\WP\SEO\Surfaces\Classes_Surface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -23,9 +23,9 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 /**
  * Class Main
  *
- * @property Classes_Surface      $classes      The classes surface.
- * @property Meta_Surface         $meta         The meta surface.
- * @property Helpers_Surface      $helpers      The helpers surface.
+ * @property Classes_Surface $classes      The classes surface.
+ * @property Meta_Surface    $meta         The meta surface.
+ * @property Helpers_Surface $helpers      The helpers surface.
  */
 class Main {
 
@@ -35,6 +35,13 @@ class Main {
 	 * @var string
 	 */
 	const API_V1_NAMESPACE = 'yoast/v1';
+
+	/**
+	 * The WP CLI namespace constant.
+	 *
+	 * @var string
+	 */
+	const WP_CLI_NAMESPACE = 'yoast';
 
 	/**
 	 * The DI container.
@@ -49,15 +56,15 @@ class Main {
 	 * @var string[]
 	 */
 	private $surfaces = [
-		'classes'      => Classes_Surface::class,
-		'meta'         => Meta_Surface::class,
-		'helpers'      => Helpers_Surface::class,
+		'classes' => Classes_Surface::class,
+		'meta'    => Meta_Surface::class,
+		'helpers' => Helpers_Surface::class,
 	];
 
 	/**
 	 * Loads the plugin.
 	 *
-	 * @throws \Exception If loading fails and YOAST_ENVIRONMENT is development.
+	 * @throws Exception If loading fails and YOAST_ENVIRONMENT is development.
 	 */
 	public function load() {
 		if ( $this->container ) {
@@ -86,8 +93,9 @@ class Main {
 	 *
 	 * @param string $property The property to retrieve.
 	 *
-	 * @return string The value of the property.
 	 * @throws Exception When the property doesn't exist.
+	 *
+	 * @return string The value of the property.
 	 */
 	public function __get( $property ) {
 		if ( isset( $this->{$property} ) ) {
@@ -112,9 +120,9 @@ class Main {
 	/**
 	 * Loads the DI container.
 	 *
-	 * @return null|Cached_Container The DI container.
+	 * @throws Exception If something goes wrong generating the DI container.
 	 *
-	 * @throws \Exception If something goes wrong generating the DI container.
+	 * @return null|Cached_Container The DI container.
 	 */
 	private function get_container() {
 		if ( $this->is_development() && \class_exists( '\Yoast\WP\SEO\Dependency_Injection\Container_Compiler' ) ) {

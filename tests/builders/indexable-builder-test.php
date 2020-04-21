@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Builders
+ */
 
 namespace Yoast\WP\SEO\Tests\Builders;
 
@@ -21,8 +26,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Indexable_Builder_Test.
  *
- * @group   indexables
- * @group   builders
+ * @group indexables
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Builder
  * @covers ::<!public>
@@ -151,7 +156,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable::class );
 		$indexable->author_id = 1999;
 
 		$indexable
@@ -222,7 +227,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_author_indexable_found() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable::class );
 		$indexable->author_id = 1999;
 
 		$indexable
