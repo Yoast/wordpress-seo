@@ -11,13 +11,14 @@ describe( "TextInput", () => {
 				type="text"
 				name="textInput"
 				label="Heya"
+				linkTo="linkTo"
 			/>
 		);
 
 		const result = renderer.getRenderOutput();
 
 		expect( result.props.label ).toBe( "Heya" );
-		expect( result.props.linkTo ).toBe( "https://yoast.com" );
+		expect( result.props.linkTo ).toBe( "linkTo" );
 		expect( result.props.children.props.name ).toBe( "textInput" );
 		expect( result.props.children.props.defaultValue ).toBe( "" );
 	} );
@@ -31,7 +32,6 @@ describe( "TextInput", () => {
 
 		const result = renderer.getRenderOutput();
 
-		expect( result.props.linkTo ).toBe( "https://yoast.com" );
 		expect( result.props.children.props.name ).toBe( "" );
 		expect( result.props.children.props.type ).toBe( "text" );
 		expect( result.props.children.props.defaultValue ).toBe( "" );
