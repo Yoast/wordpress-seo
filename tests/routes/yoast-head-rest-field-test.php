@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
+use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Routes\Yoast_Head_REST_Field;
@@ -66,6 +67,15 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			$this->taxonomy_helper,
 			$this->head_action
 		);
+	}
+
+	/**
+	 * Tests the get conditionals function.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals( [ Headless_Rest_Endpoints_Enabled_Conditional::class ], Yoast_Head_REST_Field::get_conditionals() );
 	}
 
 	/**
