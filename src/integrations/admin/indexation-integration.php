@@ -68,6 +68,13 @@ class Indexation_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
+	 * Represents tha admin asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -80,21 +87,24 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation The general indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->options_helper               = $options_helper;
+		$this->asset_manager                = $asset_manager;
 	}
 
 	/**
@@ -123,9 +133,8 @@ class Indexation_Integration implements Integration_Interface {
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
 		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'indexation' );
-		$asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_script( 'indexation' );
+		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
