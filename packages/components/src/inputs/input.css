@@ -2,8 +2,8 @@
     --color-placeholder: #707070;
 }
 
-.yoast-field-group__textarea,
-input.yoast-field-group__inputfield {
+.yoast-field-group .yoast-field-group__textarea,
+.yoast-field-group .yoast-field-group__inputfield {
     width: 100%;
     font-size: var(--font-size-default);
     padding: 8px;

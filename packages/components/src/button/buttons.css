@@ -36,6 +36,10 @@
   border: 1px solid rgba(0,0,0, 0.2);
 }
 
+.yoast .yoast-button--upload{
+  margin-right:22px;
+}
+
 /* Close button for modals or papers */
 .yoast-close {
   display: flex;
