@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 /**
  * Class Abstract_Indexable_Presenter
  */
-abstract class Abstract_Indexable_Presenter {
+abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 
 	/**
 	 * The WPSEO Replace Vars object.
@@ -36,15 +36,6 @@ abstract class Abstract_Indexable_Presenter {
 	 * @var Helpers_Surface
 	 */
 	public $helpers;
-
-	/**
-	 * Presents a presentation.
-	 *
-	 * @codeCoverageIgnore There is nothing to test.
-	 *
-	 * @return string The template.
-	 */
-	abstract public function present();
 
 	/**
 	 * Gets the raw value of a presentation.
