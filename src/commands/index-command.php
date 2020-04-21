@@ -2,7 +2,7 @@
 /**
  * Command to generate indexables for all posts and terms.
  *
- * @package Yoast\YoastSEO\Commands
+ * @package Yoast\WP\SEO\Commands
  */
 
 namespace Yoast\WP\SEO\Commands;
@@ -50,10 +50,14 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Generate_Indexables_Command constructor.
 	 *
-	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation action.
-	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation action.
+	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
+	 *                                                                                           action.
+	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation
+	 *                                                                                           action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive
+	 *                                                                                           indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation
+	 *                                                                                           action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
@@ -96,6 +100,7 @@ class Index_Command implements Command_Interface {
 	public function index( $args = null, $assoc_args = null ) {
 		if ( ! isset( $assoc_args['network'] ) ) {
 			$this->run_indexation_actions();
+
 			return;
 		}
 
@@ -120,10 +125,10 @@ class Index_Command implements Command_Interface {
 	 */
 	protected function run_indexation_actions() {
 		$indexation_actions = [
-			'posts' => $this->post_indexation_action,
-			'terms' => $this->term_indexation_action,
+			'posts'              => $this->post_indexation_action,
+			'terms'              => $this->term_indexation_action,
 			'post type archives' => $this->post_type_archive_indexation_action,
-			'general objects' => $this->general_indexation_action,
+			'general objects'    => $this->general_indexation_action,
 		];
 
 		foreach ( $indexation_actions as $name => $indexation_action ) {
@@ -146,7 +151,7 @@ class Index_Command implements Command_Interface {
 			$progress = \WP_CLI\Utils\make_progress_bar( 'Indexing ' . $name, $total );
 			do {
 				$indexables = $indexation_action->index();
-				$count = \count( $indexables );
+				$count      = \count( $indexables );
 				$progress->tick( $count );
 			} while ( $count >= $limit );
 			$progress->finish();

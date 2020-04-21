@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Commands
+ */
 
 namespace Yoast\WP\SEO\Tests\Commands;
 
@@ -15,8 +20,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Index_Command_Test.
  *
- * @group indexables
- * @group builders
+ * @group commands
  *
  * @coversDefaultClass \Yoast\WP\SEO\Commands\Index_Command
  * @covers ::<!public>
@@ -78,7 +82,7 @@ class Index_Command_Test extends TestCase {
 	/**
 	 * Tests the execute function.
 	 *
-	 * @covers ::execute
+	 * @covers ::index
 	 * @covers ::run_indexation_action
 	 */
 	public function test_execute() {
@@ -92,11 +96,16 @@ class Index_Command_Test extends TestCase {
 		foreach ( $indexation_actions as $indexation_action ) {
 			$indexation_action->expects( 'get_total_unindexed' )->once()->andReturn( 30 );
 			$indexation_action->expects( 'get_limit' )->once()->andReturn( 25 );
-			$indexation_action->expects( 'index' )->times( 2 )->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+			$indexation_action->expects( 'index' )
+				->times( 2 )
+				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
-		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )->times( 4 )->with( Mockery::type( 'string' ), 30 )->andReturn( $progress_bar_mock );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
+			->times( 4 )
+			->with( Mockery::type( 'string' ), 30 )
+			->andReturn( $progress_bar_mock );
 		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 4 );
@@ -104,6 +113,12 @@ class Index_Command_Test extends TestCase {
 		$this->instance->index();
 	}
 
+	/**
+	 * Tests the execute function on multisite.
+	 *
+	 * @covers ::index
+	 * @covers ::run_indexation_action
+	 */
 	public function test_execute_multisite() {
 		Monkey\Functions\expect( 'get_sites' )->once()->with( [
 			'fields'   => 'ids',
@@ -125,11 +140,21 @@ class Index_Command_Test extends TestCase {
 		foreach ( $indexation_actions as $indexation_action ) {
 			$indexation_action->expects( 'get_total_unindexed' )->times( 2 )->andReturn( 30 );
 			$indexation_action->expects( 'get_limit' )->times( 2 )->andReturn( 25 );
-			$indexation_action->expects( 'index' )->times( 4 )->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ), \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+			$indexation_action->expects( 'index' )
+				->times( 4 )
+				->andReturn(
+					\array_fill( 0, 25, true ),
+					\array_fill( 0, 5, true ),
+					\array_fill( 0, 25, true ),
+					\array_fill( 0, 5, true )
+				);
 		}
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
-		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )->times( 8 )->with( Mockery::type( 'string' ), 30 )->andReturn( $progress_bar_mock );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
+			->times( 8 )
+			->with( Mockery::type( 'string' ), 30 )
+			->andReturn( $progress_bar_mock );
 		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 25 );
 		$progress_bar_mock->expects( 'tick' )->times( 8 )->with( 5 );
 		$progress_bar_mock->expects( 'finish' )->times( 8 );
@@ -140,7 +165,7 @@ class Index_Command_Test extends TestCase {
 	/**
 	 * Tests the get_name function.
 	 *
-	 * @covers ::get_name
+	 * @covers ::get_namespace
 	 */
 	public function test_get_namespace() {
 		$this->assertEquals( Main::WP_CLI_NAMESPACE, Index_Command::get_namespace() );

@@ -2,7 +2,7 @@
 /**
  * WP CLI command interface definition.
  *
- * @package Yoast\YoastSEO\WordPress
+ * @package Yoast\WP\SEO\Commands
  */
 
 namespace Yoast\WP\SEO\Commands;
