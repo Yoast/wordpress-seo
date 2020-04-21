@@ -21,6 +21,15 @@ const getTitleFallback = state => state.analysisData.snippet.title;
 const getDescriptionFallback = state => state.analysisData.snippet.description;
 
 /**
+ * Gets the site base URL from the analysisdata state. Then cuts it after the first "/".
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The authorName
+ */
+export const getSiteUrl = state => state.analysisData.snippet.url.split( "/" )[ 0 ];
+
+/**
  * Gets the fallback image from:
  * state.settings.socialPreviews.sitewideImage
  * or
@@ -37,4 +46,5 @@ export default {
 	getTitleFallback,
 	getImageFallback,
 	getDescriptionFallback,
+	getSiteUrl,
 };

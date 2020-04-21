@@ -62,7 +62,7 @@ export default compose( [
 			getImageFallback,
 			getRecommendedReplaceVars,
 			getReplaceVars,
-			getSiteName,
+			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
 
@@ -78,8 +78,7 @@ export default compose( [
 			title: getFacebookTitle(),
 			imageWarnings: data.warnings,
 			authorName: getAuthorName(),
-			siteName: getSiteName(),
-			alt: data.alt,
+			siteUrl: getSiteUrl(),
 		};
 	} ),
 
