@@ -733,6 +733,19 @@ class WPSEO_Upgrade {
 	 * Performs the 14.1 upgrade.
 	 */
 	private function upgrade_141() {
+		/*
+		 * These notifications are retrieved from storage on the `init` hook with
+		 * priority 1. We need to remove them after the're retrieved.
+		 */
+		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
+	}
+
+	/**
+	 * Removes notifications from the Notification center for the 14.1 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_notifications_for_141() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-links-table-not-accessible' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
 	}
