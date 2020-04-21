@@ -30,10 +30,6 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 			->with( 'wpseo-ignore' )
 			->andReturn( 123456789 );
 
-		Monkey\Functions\expect( 'esc_attr__' )
-			->with( 'Your content is being indexed', 'wordpress-seo' )
-			->andReturnFirstArg();
-
 		$presenter = new Indexation_Warning_Presenter();
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-warning"><p>';
