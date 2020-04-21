@@ -22,12 +22,16 @@ const isPost = () => window.wpseoAdminL10n.postType === "post";
  * @returns {void} Array Returns an array of options for the noIndex setting.
  */
 const getNoIndexOptions = () => {
+	if ( this.options ) {
+		return this.options;
+	}
+
 	const translatedNo = __( "No", "wordpress-seo" );
 	const translatedYes = __( "Yes", "wordpress-seo" );
 	const noIndex = window.wpseoAdminL10n.noIndex ? translatedNo : translatedYes;
 
 	if ( isPost() ) {
-		return [
+		this.options = [
 			{
 				name: sprintf(
 					/* Translators: %s translates to the Post Label in plural form, %s translates to "yes" or "no" */
@@ -40,23 +44,25 @@ const getNoIndexOptions = () => {
 			{ name: translatedNo, value: "1" },
 			{ name: translatedYes, value: "2" },
 		];
-	}
-	return [
-		{
-			name: sprintf(
-				/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
-				__( "Default for %s, currently: %s", "wordpress-seo" ),
-				window.wpseoAdminL10n.postTypeNamePlural,
-				noIndex,
+	} else {
+		this.options = [
+			{
+				name: sprintf(
+					/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
+					__( "Default for %s, currently: %s", "wordpress-seo" ),
+					window.wpseoAdminL10n.postTypeNamePlural,
+					noIndex,
 				),
-			value: "default",
-		},
-		{ name: translatedYes, value: "index" },
-		{ name: translatedNo, value: "noindex" },
-	];
+				value: "default",
+			},
+			{ name: translatedYes, value: "index" },
+			{ name: translatedNo, value: "noindex" },
+		];
+	}
+
+	return this.options;
 };
 
-const metaRobotsNoIndexOptions = getNoIndexOptions();
 
 /**
  * Functional component for the Meta Robots No-Index option.
@@ -65,6 +71,7 @@ const metaRobotsNoIndexOptions = getNoIndexOptions();
  */
 const MetaRobotsNoIndex = () => {
 	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#wpseo_noindex";
+	const metaRobotsNoIndexOptions = getNoIndexOptions();
 	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
 		{

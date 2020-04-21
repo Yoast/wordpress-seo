@@ -1,15 +1,15 @@
-import React, { Fragment } from "react";
-import renderer from "react-test-renderer";
-import AdvancedSettings from "../src/components/AdvancedSettings";
-
 window.wpseoAdminL10n = {
-	noIndex: "No",
+	noIndex: true,
 	privateBlog: true,
 	postTypeNameSingular: "Post",
 	label: "Posts",
 	postType: "post",
 	breadcrumbsDisabled: false,
 };
+
+import React, { Fragment } from "react";
+import renderer from "react-test-renderer";
+import AdvancedSettings from "../src/components/AdvancedSettings";
 
 describe( "Advanced Settings", () => {
 	it( "should render if all data is present", () => {
