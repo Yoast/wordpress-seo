@@ -112,6 +112,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Tests the index method.
 	 *
 	 * @covers ::index
+	 * @covers ::get_limit
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
@@ -151,6 +152,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Tests that the index method when the limit is set to a negative number.
 	 *
 	 * @covers ::index
+	 * @covers ::get_limit
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives
@@ -190,6 +192,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * Tests that the index method when the limit is set to a negative number.
 	 *
 	 * @covers ::index
+	 * @covers ::get_limit
 	 * @covers ::get_unindexed_post_type_archives
 	 * @covers ::get_post_types_with_archive_pages
 	 * @covers ::get_indexed_post_type_archives

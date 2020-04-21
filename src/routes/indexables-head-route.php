@@ -10,15 +10,13 @@ namespace Yoast\WP\SEO\Routes;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Main;
 
 /**
  * Indexable_Reindexing_Route class.
  */
 class Indexables_Head_Route implements Route_Interface {
-
-	use No_Conditionals;
 
 	/**
 	 * The posts route constant.
@@ -48,6 +46,13 @@ class Indexables_Head_Route implements Route_Interface {
 	 */
 	public function __construct( Indexable_Head_Action $head_action ) {
 		$this->head_action = $head_action;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
 	}
 
 	/**

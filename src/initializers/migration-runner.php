@@ -82,6 +82,19 @@ class Migration_Runner implements Initializer_Interface {
 	 * @return void
 	 */
 	public function initialize() {
+		$this->run_free_migrations();
+		// The below actions is used for when queries fail, this may happen in a multisite environment when switch_to_blog is used.
+		\add_action( '_yoast_run_migrations', [ $this, 'run_free_migrations' ] );
+	}
+
+	/**
+	 * Runs the free migrations.
+	 *
+	 * @throws \Exception When a migration errored.
+	 *
+	 * @return void
+	 */
+	public function run_free_migrations() {
 		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
 	}
 

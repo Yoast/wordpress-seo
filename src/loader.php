@@ -124,10 +124,10 @@ class Loader {
 	 * @return void
 	 */
 	protected function load_commands() {
-		foreach ( $this->commands as $command ) {
-			$command = $this->container->get( $command );
+		foreach ( $this->commands as $class ) {
+			$command = $this->container->get( $class );
 
-			\WP_CLI::add_command( $command->get_name(), [ $command, 'execute' ], $command->get_config() );
+			\WP_CLI::add_command( $class::get_namespace(), $command );
 		}
 	}
 
