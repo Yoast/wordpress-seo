@@ -144,7 +144,7 @@ class FacebookPreview extends Component {
 				/>
 				<FacebookTextWrapper mode={ imageMode }>
 					<FacebookSiteAndAuthorNames
-						siteName={ this.props.siteName }
+						siteUrl={ this.props.siteUrl }
 						authorName={ this.props.authorName }
 						mode={ imageMode }
 					/>
@@ -170,7 +170,7 @@ class FacebookPreview extends Component {
 }
 
 FacebookPreview.propTypes = {
-	siteName: PropTypes.string.isRequired,
+	siteUrl: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	authorName: PropTypes.string,
 	description: PropTypes.string,

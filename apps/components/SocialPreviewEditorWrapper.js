@@ -60,7 +60,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onTitleChange={ this.setTitle }
 					description={ this.state.description }
 					onDescriptionChange={ this.setDescription }
-					siteName="Site name"
+					siteUrl="some.site.com"
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
 					image={ this.state.image }
@@ -79,7 +79,7 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onTitleChange={ this.setTitle }
 					description={ this.state.description }
 					onDescriptionChange={ this.setDescription }
-					siteName="Site name"
+					siteUrl="some.site.com"
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
 					isLarge={ this.state.isLarge }

@@ -12,7 +12,7 @@ describe( "TwitterPreview", () => {
 				image="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
 				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
-				siteName="yoast.com"
+				siteUrl="yoast.com"
 				isLarge={ false }
 			/>
 		);

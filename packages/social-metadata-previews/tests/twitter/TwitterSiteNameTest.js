@@ -3,12 +3,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import TwitterSiteName from "../../src/twitter/TwitterSiteName";
+import TwitterSiteUrl from "../../src/twitter/TwitterSiteUrl";
 
-describe( "TwitterSiteName", () => {
+describe( "TwitterSiteUrl", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<TwitterSiteName siteName="sitename.com" />
+			<TwitterSiteUrl siteUrl="sitename.com" />
 		);
 
 		const tree = component.toJSON();

@@ -6,7 +6,7 @@ const initialState = {
 	facebook: {
 		title: "",
 		description: "",
-		errors: [],
+		warnings: [],
 		image: {
 			bytes: null,
 			type: null,
@@ -14,12 +14,13 @@ const initialState = {
 			width: null,
 			url: "",
 			id: null,
+			alt: "",
 		},
 	},
 	twitter: {
 		title: "",
 		description: "",
-		errors: [],
+		warnings: [],
 		image: {
 			bytes: null,
 			type: null,
@@ -27,6 +28,7 @@ const initialState = {
 			width: null,
 			url: "",
 			id: null,
+			alt: "",
 		},
 	},
 };
@@ -133,6 +135,7 @@ describe( socialReducer, () => {
 				width: null,
 				url: "",
 				id: null,
+				alt: "",
 			},
 		};
 

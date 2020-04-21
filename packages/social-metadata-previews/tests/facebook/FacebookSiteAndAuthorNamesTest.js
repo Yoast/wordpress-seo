@@ -8,7 +8,7 @@ import FacebookSiteAndAuthorNames from "../../src/facebook/FacebookSiteAndAuthor
 describe( "FacebookSiteAndAuthorNames", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<FacebookSiteAndAuthorNames siteName="sitename.com" authorName="John Doe" />
+			<FacebookSiteAndAuthorNames siteUrl="sitename.com" authorName="John Doe" />
 		);
 
 		const tree = component.toJSON();
@@ -17,7 +17,7 @@ describe( "FacebookSiteAndAuthorNames", () => {
 
 	it( "does not contain the author name when no author name was given", () => {
 		const component = renderer.create(
-			<FacebookSiteAndAuthorNames siteName="sitename.com" />
+			<FacebookSiteAndAuthorNames siteUrl="sitename.com" />
 		);
 
 		const tree = component.toJSON();
