@@ -31,13 +31,14 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	<?php
 
 	foreach ( $feature_toggles as $feature ) {
-		$yform->toggle_switch(
+		$yform->light_switch(
 			$feature->setting,
+			$feature->name,
 			[
-				'off' => __( 'Off', 'wordpress-seo' ),
-				'on'  => __( 'On', 'wordpress-seo' ),
+				__( 'Off', 'wordpress-seo' ),
+				__( 'On', 'wordpress-seo' ),
 			],
-			'<strong>' . $feature->name . '</strong> ' . new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
 		);
 	}
 	?>

@@ -133,7 +133,7 @@ class Yoast_Form {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
 			echo '<div id="wpseo-submit-container">';
 
-			submit_button( __( 'Save changes', 'wordpress-seo' ) );
+			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
 
 			$settings_changed_listener->show_success_message();
 			echo '</div>';
@@ -301,20 +301,13 @@ class Yoast_Form {
 	 * @param string $var     The variable within the option to create the checkbox for.
 	 * @param string $label   The label element text for the checkbox.
 	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
-	 * @param bool   $reverse Reverse order of buttons (default true).
 	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
-	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
-	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false ) {
+	public function light_switch( $var, $label, $buttons = [], $help = '' ) {
 		$val = WPSEO_Options::get( $var, false );
 
 		if ( $val === true ) {
 			$val = 'on';
-		}
-
-
-		if ( $reverse ) {
-			$class .= ' switch-yoast-seo-reverse';
 		}
 
 		if ( empty( $buttons ) ) {
@@ -660,7 +653,8 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
-		echo '<fieldset id="', $var_esc, '" class="yoast-toggle__item"><div class="yoast-toggle__item-title"><legend>', $label, '</legend>', $help, '</div>';
+		echo '<div class="switch-container">';
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, ' ', $help, '</legend>';
 
 		echo $this->get_disabled_note( $var );
 		echo '<div class="yoast-toggle">';
@@ -680,9 +674,7 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
-		echo '<div class="yoast-toggle__switch"></div>';
-
-		echo '</div></fieldset>' . PHP_EOL . PHP_EOL;
+		echo '</div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
