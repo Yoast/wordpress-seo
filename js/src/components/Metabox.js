@@ -91,7 +91,7 @@ export default function Metabox( { settings, store, theme } ) {
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 40 }>
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 40 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -99,7 +99,7 @@ export default function Metabox( { settings, store, theme } ) {
 					>
 						<AdvancedSettings />
 					</TopLevelProviders>
-				</SidebarItem>
+				</SidebarItem> }
 			</Fill>
 		</Fragment>
 	);

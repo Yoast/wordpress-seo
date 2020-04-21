@@ -186,7 +186,7 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			<Collapsible id={ "yoast-cornerstone-collapsible" } title={ __( "Advanced", "wordpress-seo" ) }>
+			<Collapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
 				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }

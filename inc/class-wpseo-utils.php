@@ -1182,7 +1182,7 @@ SVG;
 		$post_type_object = get_post_type_object( $post_type );
 
 		$wpseo_admin_l10n = [
-			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && WPSEO_Options::get( 'disableadvanced_meta' ) === false,
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && !! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => WPSEO_Options::get( 'noindex-' . $post_type, false ) === true,
 			'postType'             => get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
