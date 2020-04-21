@@ -22,6 +22,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 	 */
 	private $instance;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setUp() {
 		$this->instance = new Yoast_Admin_And_Dashboard_Conditional();
 	}

@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
@@ -17,9 +17,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
-
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Indexation_Integration_Test
@@ -113,7 +112,7 @@ class Indexation_Integration_Test extends TestCase {
 		$conditionals = Indexation_Integration::get_conditionals();
 		$this->assertEquals( [
 			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class
+			Yoast_Admin_And_Dashboard_Conditional::class,
 		], $conditionals );
 	}
 
@@ -144,8 +143,8 @@ class Indexation_Integration_Test extends TestCase {
 	public function test_register_hooks_when_warning_is_ignored() {
 		// Warning is ignored.
 		$this->options->expects( 'get' )
-		              ->with( 'ignore_indexation_warning', false )
-		              ->andReturn( true );
+			->with( 'ignore_indexation_warning', false )
+			->andReturn( true );
 
 		// The scripts and/or styles should not be enqueued.
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->never();
@@ -318,7 +317,8 @@ class Indexation_Integration_Test extends TestCase {
 	/**
 	 * Sets the expectations for the get_total_unindexed methods of the indexation actions.
 	 *
-	 * @param array $total_unindexed_per_action Array mapping each indexable action to the number of unindexed objects of this type.
+	 * @param array $total_unindexed_per_action Array mapping each indexable action to the number of unindexed objects
+	 *                                          of this type.
 	 */
 	private function set_total_unindexed_expectations( $total_unindexed_per_action ) {
 		$this->post_type_archive_indexation
