@@ -53,12 +53,15 @@ class Migration_Runner_Test extends TestCase {
 	 * Tests that initialize runs migrations.
 	 *
 	 * @covers ::initialize
+	 * @covers ::run_free_migrations
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
 		$instance->expects( 'run_migrations' )->once()->with( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
 
 		$instance->initialize();
+
+		$this->assertTrue( \has_action( '_yoast_run_migrations', [ $instance, 'run_free_migrations' ] ) );
 	}
 
 	/**
