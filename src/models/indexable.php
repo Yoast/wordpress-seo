@@ -69,6 +69,14 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property boolean $is_protected
  * @property string  $post_status
  * @property boolean $has_public_posts
+ *
+ * @property int     $blog_id
+ *
+ * @property string  $language
+ * @property string  $region
+ *
+ * @property string  $schema_page_type
+ * @property string  $schema_article_type
  */
 class Indexable extends Yoast_Model {
 
@@ -113,6 +121,7 @@ class Indexable extends Yoast_Model {
 		'incoming_link_count',
 		'number_of_pages',
 		'prominent_words_version',
+		'blog_id',
 	];
 
 	/**

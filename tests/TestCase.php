@@ -39,19 +39,19 @@ abstract class TestCase extends BaseTestCase {
 
 					return $plural;
 				},
-				'_x'                  => null,
-				'esc_html__'          => null,
-				'esc_html_x'          => null,
-				'esc_attr_x'          => null,
-				'esc_url'             => null,
-				'esc_url_raw'         => null,
-				'esc_js'              => null,
-				'sanitize_text_field' => null,
-				'is_admin'            => false,
-				'is_multisite'        => false,
-				'wp_kses_post'        => null,
-				'site_url'            => 'https://www.example.org',
-				'wp_json_encode'      => function ( $data, $options = 0, $depth = 512 ) {
+				'_x'                   => null,
+				'esc_html__'           => null,
+				'esc_html_x'           => null,
+				'esc_attr_x'           => null,
+				'esc_url'              => null,
+				'esc_url_raw'          => null,
+				'esc_js'               => null,
+				'sanitize_text_field'  => null,
+				'is_admin'             => false,
+				'is_multisite'         => false,
+				'wp_kses_post'         => null,
+				'site_url'             => 'https://www.example.org',
+				'wp_json_encode'       => function ( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'            => null,
@@ -88,6 +88,7 @@ abstract class TestCase extends BaseTestCase {
 						case 'language':
 							return 'English';
 					}
+
 					return $show;
 				},
 			]
