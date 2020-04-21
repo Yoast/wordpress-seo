@@ -35,16 +35,93 @@ class Indexable_Head_Action {
 	 *
 	 * @param string $url The url to get the head for.
 	 *
-	 * @return object Object with head and found properties.
+	 * @return object Object with head and status properties.
 	 */
 	public function for_url( $url ) {
 		$meta = $this->meta_surface->for_url( $url );
 
 		if ( $meta === false ) {
-			$meta = $this->meta_surface->for_404();
-			return (object) [ 'head' => $meta->get_head(), 'status' => 404 ];
+			return $this->for_404();
 		}
 
 		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
+	 * Retrieves the head for a post.
+	 *
+	 * @param int $id The id.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_post( $id ) {
+		$meta = $this->meta_surface->for_post( $id );
+
+		if ( $meta === false ) {
+			return $this->for_404();
+		}
+
+		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
+	 * Retrieves the head for a term.
+	 *
+	 * @param int $id The id.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_term( $id ) {
+		$meta = $this->meta_surface->for_term( $id );
+
+		if ( $meta === false ) {
+			return $this->for_404();
+		}
+
+		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
+	 * Retrieves the head for an author.
+	 *
+	 * @param int $id The id.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_author( $id ) {
+		$meta = $this->meta_surface->for_author( $id );
+
+		if ( $meta === false ) {
+			return $this->for_404();
+		}
+
+		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
+	 * Retrieves the head for a post type archive.
+	 *
+	 * @param int $type The id.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_post_type_archive( $type ) {
+		$meta = $this->meta_surface->for_post_type_archive( $type );
+
+		if ( $meta === false ) {
+			return $this->for_404();
+		}
+
+		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
+	 * Retrieves the head for the 404 page. Always sets the status to 404.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_404() {
+		$meta = $this->meta_surface->for_404();
+		return (object) [ 'head' => $meta->get_head(), 'status' => 404 ];
 	}
 }
