@@ -238,7 +238,9 @@ class Image_Helper {
 	 */
 	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
-		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
+		if ( $image_params ) {
+			$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
+		}
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
