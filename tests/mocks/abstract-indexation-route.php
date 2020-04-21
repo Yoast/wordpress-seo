@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Mocks
+ */
 
 namespace Yoast\WP\SEO\Tests\Mocks;
 

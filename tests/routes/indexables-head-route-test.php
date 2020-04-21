@@ -10,11 +10,6 @@ namespace Yoast\WP\SEO\Tests\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 use Yoast\WP\SEO\Routes\Indexables_Head_Route;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -73,8 +68,8 @@ class Indexables_Head_Route_Test extends TestCase {
 				'yoast/v1',
 				'get_head',
 				[
-					'methods'             => 'GET',
-					'callback'            => [ $this->instance, 'get_head' ],
+					'methods'  => 'GET',
+					'callback' => [ $this->instance, 'get_head' ],
 					'args'     => [
 						'url' => [
 							'validate_callback' => [ $this->instance, 'is_valid_url' ],
@@ -108,7 +103,7 @@ class Indexables_Head_Route_Test extends TestCase {
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
-		$this->assertInstanceOf( 'WP_REST_Response',  $this->instance->get_head( $request ) );
+		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_head( $request ) );
 	}
 
 	/**
