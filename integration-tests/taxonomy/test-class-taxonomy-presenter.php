@@ -55,7 +55,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( '<label for="wpseo_fieldname">test field</label>', $output );
 
 		// There should be help link.
-		$this->assertContains( '<a class="yoast-field-group__help"', $output );
+		$this->assertContains( '<a class="yoast-help"', $output );
 
 		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
 		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/>', $output );
@@ -85,7 +85,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertNotContains( '<label', $output );
 
 		// There should be help link.
-		$this->assertContains( '<a class="yoast-field-group__help"', $output );
+		$this->assertContains( '<a class="yoast-help"', $output );
 
 		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
 		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/>', $output );
@@ -115,7 +115,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 		$this->assertContains( '<label for="wpseo_fieldname">test field</label>', $output );
 
 		// There should be help link.
-		$this->assertContains( '<a class="yoast-field-group__help"', $output );
+		$this->assertContains( '<a class="yoast-help"', $output );
 
 		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
 		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"', $output );
