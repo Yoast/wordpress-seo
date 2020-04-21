@@ -153,9 +153,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 */
 	public function test_index_posts() {
 		$this->post_indexation_action
+			->expects( 'get_limit' )
+			->once()
+			->andReturn( 25 );
+		$this->post_indexation_action
 			->expects( 'index' )
 			->once()
-			->andReturn( [ 123 ] );
+			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
 			->with( 'yoast/v1/indexation/posts' )
@@ -173,9 +177,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 */
 	public function test_index_terms() {
 		$this->term_indexation_action
+			->expects( 'get_limit' )
+			->once()
+			->andReturn( 25 );
+		$this->term_indexation_action
 			->expects( 'index' )
 			->once()
-			->andReturn( [ 123 ] );
+			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
 			->with( 'yoast/v1/indexation/terms' )
@@ -193,9 +201,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 */
 	public function test_index_post_type_archives() {
 		$this->post_type_archive_indexation_action
+			->expects( 'get_limit' )
+			->once()
+			->andReturn( 25 );
+		$this->post_type_archive_indexation_action
 			->expects( 'index' )
 			->once()
-			->andReturn( [ 123 ] );
+			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
 			->with( 'yoast/v1/indexation/post-type-archives' )
@@ -213,9 +225,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 */
 	public function test_index_general() {
 		$this->general_indexation_action
+			->expects( 'get_limit' )
+			->once()
+			->andReturn( 25 );
+		$this->general_indexation_action
 			->expects( 'index' )
 			->once()
-			->andReturn( [ 123 ] );
+			->andReturn( \array_fill( 0, 25, true ) );
 
 		Monkey\Functions\expect( 'rest_url' )
 			->with( 'yoast/v1/indexation/general' )
