@@ -225,6 +225,7 @@ Bugfixes:
 
 Enhancements:
 
+* Adds a new tool to the `SEO` -> `Tools` page to create indexables for all posts.
 * No longer outputs the `og:type` meta tag on 404 pages.
 * No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
 * No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.

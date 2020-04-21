@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
