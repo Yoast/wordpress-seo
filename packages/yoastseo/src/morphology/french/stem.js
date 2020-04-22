@@ -121,22 +121,23 @@ const determineRs = function( word ) {
  *
  * @returns {string} The word with standard suffixes removed or normalized.
  */
-const processStandardSuffixes = function( word, r1Index, r2Index, rvIndex ) {
-	const a1Index = word.search( /(ance|iqUe|isme|able|iste|eux|ances|iqUes|ismes|ables|istes)$/ ),
-		a2Index = word.search( /(atrice|ateur|ation|atrices|ateurs|ations)$/ ),
-		a3Index = word.search( /(logie|logies)$/ ),
-		a4Index = word.search( /(usion|ution|usions|utions)$/ ),
-		a5Index = word.search( /(ence|ences)$/ ),
-		a6Index = word.search( /(ement|ements)$/ ),
-		a7Index = word.search( /(ité|ités)$/ ),
-		a8Index = word.search( /(if|ive|ifs|ives)$/ ),
-		a9Index = word.search( /(eaux)$/ ),
-		a10Index = word.search( /(aux)$/ ),
-		a11Index = word.search( /(euse|euses)$/ ),
-		a12Index = word.search( /[^aeiouyâàëéêèïîôûù](issement|issements)$/ ),
-		a13Index = word.search( /(amment)$/ ),
-		a14Index = word.search( /(emment)$/ ),
-		a15Index = word.search( /[aeiouyâàëéêèïîôûù](ment|ments)$/ );
+const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index, rvIndex ) {
+	const standardSuffixData = morphologyData.standardSuffixes;
+	const a1Index = word.search( new RegExp( standardSuffixData.standardSuffixes1 ) ),
+		a2Index = word.search( new RegExp( standardSuffixData.standardSuffixes2 ) ),
+		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3 ) ),
+		a4Index = word.search( new RegExp( standardSuffixData.standardSuffixes4 ) ),
+		a5Index = word.search( new RegExp( standardSuffixData.standardSuffixes5 ) ),
+		a6Index = word.search( new RegExp( standardSuffixData.standardSuffixes6 ) ),
+		a7Index = word.search( new RegExp( standardSuffixData.standardSuffixes7 ) ),
+		a8Index = word.search( new RegExp( standardSuffixData.standardSuffixes8 ) ),
+		a9Index = word.search( new RegExp( standardSuffixData.standardSuffixes9 ) ),
+		a10Index = word.search( new RegExp( standardSuffixData.standardSuffixes10 ) ),
+		a11Index = word.search( new RegExp( standardSuffixData.standardSuffixes11 ) ),
+		a12Index = word.search( new RegExp( standardSuffixData.standardSuffixes12 ) ),
+		a13Index = word.search( new RegExp( standardSuffixData.standardSuffixes13 ) ),
+		a14Index = word.search( new RegExp( standardSuffixData.standardSuffixes14 ) ),
+		a15Index = word.search( new RegExp( standardSuffixData.standardSuffixes15 ) );
 
 	if ( a1Index !== -1 && a1Index >= r2Index ) {
 		word = word.substring( 0, a1Index );
@@ -351,7 +352,7 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
  *
  * @returns {string} The stemmed word.
  */
-export default function stem( word ) {
+export default function stem( word, morpoholgyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
 
@@ -373,7 +374,7 @@ export default function stem( word ) {
 	 * Step 1:
 	 * Remove standard suffixes
 	 */
-	word = processStandardSuffixes( word, r1Index, r2Index, rvIndex );
+	word = processStandardSuffixes( word, morpoholgyData, r1Index, r2Index, rvIndex );
 	const wordAfterStep1 = word;
 
 	/*
