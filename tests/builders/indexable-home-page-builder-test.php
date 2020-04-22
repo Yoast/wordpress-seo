@@ -35,7 +35,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	private $indexable_mock;
 
 	/**
-	 * Options helper mock
+	 * Options helper mock.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */

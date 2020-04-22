@@ -81,6 +81,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 	/**
 	 * Tests the formatting of the indexable data.
 	 *
+	 * @covers ::__construct
 	 * @covers ::build
 	 */
 	public function test_build() {
@@ -146,8 +147,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 	/**
 	 * Tests the formatting of the indexable data with undefined author meta data.
 	 *
+	 * @covers ::__construct
 	 * @covers ::build
 	 */
+	public function test_build_with_undefined_author_meta() {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( '' );
