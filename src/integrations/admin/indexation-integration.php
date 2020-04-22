@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
@@ -111,10 +112,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) !== false ) {
-			return;
-		}
-
+		\add_action( 'wpseo_tools_overview_list_items', [ $this, 'render_indexation_list_item' ], 10 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ], 10 );
 	}
 
@@ -131,7 +129,9 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
-		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
@@ -167,7 +167,7 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the indexation list item.
+	 * Renders the indexation warning.
 	 *
 	 * @return void
 	 */
@@ -184,6 +184,15 @@ class Indexation_Integration implements Integration_Interface {
 		\add_thickbox();
 
 		echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+	}
+
+	/**
+	 * Renders the indexation list item.
+	 *
+	 * @return void
+	 */
+	public function render_indexation_list_item() {
+		echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 	}
 
 	/**

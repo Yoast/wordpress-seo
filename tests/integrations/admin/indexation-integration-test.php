@@ -117,37 +117,13 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the right hooks are registered when the indexation
-	 * warning is not ignored.
+	 * Tests the register hooks function.
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_when_warning_is_not_ignored() {
-		// Warning is not ignored.
-		$this->options
-			->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturn( false );
-
-		// The admin_enqueue_scripts should be hooked into.
+	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
-
-		$this->instance->register_hooks();
-	}
-
-	/**
-	 * Tests that no hooks are registered when the warning is ignored.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks_when_warning_is_ignored() {
-		// Warning is ignored.
-		$this->options->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturn( true );
-
-		// The scripts and/or styles should not be enqueued.
-		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->never();
+		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
 
 		$this->instance->register_hooks();
 	}
@@ -157,8 +133,10 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
+	 *
+	 * @dataProvider ignore_warning_provider
 	 */
-	public function test_enqueue_scripts() {
+	public function test_enqueue_scripts( $ignore_warning ) {
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -168,6 +146,15 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 10,
 			]
 		);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturn( $ignore_warning );
+
+		if ( ! $ignore_warning ) {
+			Monkey\Actions\expectAdded( 'admin_notices' );
+		}
 
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
@@ -182,7 +169,6 @@ class Indexation_Integration_Test extends TestCase {
 
 		// We should hook into the admin footer and admin notices hook.
 		Monkey\Actions\expectAdded( 'admin_footer' );
-		Monkey\Actions\expectAdded( 'admin_notices' );
 
 		// Mock retrieval of the REST URL.
 		Monkey\Functions\expect( 'rest_url' )
@@ -234,6 +220,18 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Returns whether or not the warning is ignored.
+	 *
+	 * @return array The possible values.
+	 */
+	public function ignore_warning_provider() {
+		return [
+			[ true ],
+			[ false ],
+		];
+	}
+
+	/**
 	 * Tests that scripts and styles are not enqueued when there is
 	 * nothing to index.
 	 *
@@ -272,7 +270,7 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
-		$this->expectOutputString( '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>' );
+		$this->expectOutputString( '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" class="button-link yoast-open-indexation" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>' );
 
 		$this->instance->render_indexation_warning();
 	}
@@ -299,6 +297,26 @@ class Indexation_Integration_Test extends TestCase {
 		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>' );
 
 		$this->instance->render_indexation_modal();
+	}
+
+	/**
+	 * Tests that the indexation list item is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_list_item
+	 */
+	public function test_render_indexation_list_item() {
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->expectOutputString( '<li><strong>Content indexation</strong><br/><span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Your content is being indexed">Index your content</button></span></li>' );
+
+		$this->instance->render_indexation_list_item();
 	}
 
 	/**

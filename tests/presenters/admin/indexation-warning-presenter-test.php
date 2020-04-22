@@ -34,7 +34,7 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-warning"><p>';
 		$expected .= '<strong>NEW:</strong> Yoast SEO can speed up your website! Please ';
-		$expected .= '<button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> ';
+		$expected .= '<button type="button" class="button-link yoast-open-indexation" data-title="Your content is being indexed">click here</button> ';
 		$expected .= 'to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="123456789">';
 		$expected .= 'dismiss this warning</button>.</p></div>';
 
