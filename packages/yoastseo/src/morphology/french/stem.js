@@ -123,7 +123,7 @@ const determineRs = function( word ) {
  * @returns {string} The word with standard suffixes removed or normalized.
  */
 const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index, rvIndex ) {
-	const standardSuffixData = morphologyData.standardSuffixes;
+	const standardSuffixData = morphologyData.regularStemmer.standardSuffixes;
 	const a1Index = word.search( new RegExp( standardSuffixData.standardSuffixes1 ) ),
 		a2Index = word.search( new RegExp( standardSuffixData.standardSuffixes2 ) ),
 		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3 ) ),
