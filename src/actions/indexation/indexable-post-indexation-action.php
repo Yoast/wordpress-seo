@@ -90,7 +90,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_post_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 * Filter 'wpseo_post_indexation_limit' - Allow filtering the amount of posts indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of posts indexed.
 		 */

@@ -91,7 +91,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_term_indexing_limit' - Allow filtering the amount of terms indexed during each indexing pass.
+		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the amount of terms indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of terms indexed.
 		 */
