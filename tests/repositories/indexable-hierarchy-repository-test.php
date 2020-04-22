@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
-use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\ORM\ORMWrapper;
@@ -185,9 +184,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
 		$hierarchy->depth        = 1;
-		$hierarchy->blog_id      = 1;
-
-		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
 		$hierarchy->expects( 'save' )->once();
 
@@ -199,7 +195,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 				'indexable_id' => 1,
 				'ancestor_id'  => 2,
 				'depth'        => 1,
-				'blog_id'      => 1,
 			] )
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );

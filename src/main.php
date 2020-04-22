@@ -30,13 +30,6 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 class Main {
 
 	/**
-	 * The API namespace constant.
-	 *
-	 * @var string
-	 */
-	const API_V1_NAMESPACE = 'yoast/v1';
-
-	/**
 	 * The DI container.
 	 *
 	 * @var Cached_Container|null

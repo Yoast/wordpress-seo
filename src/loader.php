@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO;
 
+use Yoast\WP\SEO\Commands\Command_Interface;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,28 +19,21 @@ class Loader {
 	/**
 	 * The registered integrations.
 	 *
-	 * @var string[]
+	 * @var Integration_Interface[]
 	 */
 	protected $integrations = [];
 
 	/**
-	 * The registered integrations.
+	 * The registered initializers.
 	 *
-	 * @var string[]
+	 * @var Integration_Interface[]
 	 */
 	protected $initializers = [];
 
 	/**
-	 * The registered routes.
-	 *
-	 * @var string[]
-	 */
-	protected $routes = [];
-
-	/**
 	 * The registered commands.
 	 *
-	 * @var string[]
+	 * @var Command_Interface[]
 	 */
 	protected $commands = [];
 
@@ -81,17 +76,6 @@ class Loader {
 	}
 
 	/**
-	 * Registers a route.
-	 *
-	 * @param string $class The class name of the route to be loaded.
-	 *
-	 * @return void
-	 */
-	public function register_route( $class ) {
-		$this->routes[] = $class;
-	}
-
-	/**
 	 * Registers a command.
 	 *
 	 * @param string $class The class name of the command to be loaded.
@@ -110,8 +94,6 @@ class Loader {
 	public function load() {
 		$this->load_initializers();
 		$this->load_integrations();
-
-		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$this->load_commands();
@@ -158,21 +140,6 @@ class Loader {
 			}
 
 			$this->container->get( $class )->register_hooks();
-		}
-	}
-
-	/**
-	 * Loads all registered routes if their conditionals are met.
-	 *
-	 * @return void
-	 */
-	public function load_routes() {
-		foreach ( $this->routes as $class ) {
-			if ( ! $this->conditionals_are_met( $class ) ) {
-				continue;
-			}
-
-			$this->container->get( $class )->register_routes();
 		}
 	}
 

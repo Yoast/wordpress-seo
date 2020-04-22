@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
+use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
@@ -93,7 +94,6 @@ class Primary_Term_Builder {
 		$primary_term->term_id  = $term_id;
 		$primary_term->post_id  = $post_id;
 		$primary_term->taxonomy = $taxonomy;
-		$primary_term->blog_id  = \get_current_blog_id();
 		$primary_term->save();
 	}
 }

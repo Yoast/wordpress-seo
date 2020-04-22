@@ -46,7 +46,7 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 			'string',
 			[
 				'null'  => false,
-				'limit' => 32,
+				'limit' => 191,
 			]
 		);
 

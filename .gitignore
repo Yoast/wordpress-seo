@@ -17,7 +17,6 @@ local.properties
 *.launch
 .cproject
 .buildpath
-.vscode
 nbproject/
 node_modules/
 bower_components/
