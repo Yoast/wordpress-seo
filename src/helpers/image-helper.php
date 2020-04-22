@@ -229,7 +229,7 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @param int   $attachment_id The attachment id.
+	 * @param int $attachment_id The attachment id.
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
