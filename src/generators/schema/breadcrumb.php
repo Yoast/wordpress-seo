@@ -122,7 +122,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			$breadcrumb['url'] = $this->context->canonical;
 		}
 		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['text'] = $this->context->title;
+			$breadcrumb['text'] = $this->helpers->schema->html->smart_strip_tags( $this->context->title );
 		}
 
 		return $breadcrumb;

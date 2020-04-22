@@ -150,6 +150,12 @@ class Indexable_Builder {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
 				$this->primary_term_builder->build( $object_id );
+
+				$author = $this->indexable_repository->find_by_id_and_type( $indexable->author_id, 'user', false );
+				if ( ! $author ) {
+					$this->build_for_id_and_type( $indexable->author_id, 'user' );
+				}
+
 				break;
 			case 'user':
 				$indexable = $this->author_builder->build( $object_id, $indexable );

@@ -284,11 +284,11 @@ class WPSEO_Replace_Vars {
 		if ( ! empty( $this->args->ID ) ) {
 			$cat = $this->get_terms( $this->args->ID, 'category' );
 			if ( $cat !== '' ) {
-				$replacement = $cat;
+				return $cat;
 			}
 		}
 
-		if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
+		if ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) {
 			$replacement = $this->args->cat_name;
 		}
 
@@ -391,7 +391,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_parent_title() {
 		$replacement = null;
 
-		if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
+		if ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) {
 			if ( isset( $GLOBALS['post']->post_parent ) && $GLOBALS['post']->post_parent !== 0 ) {
 				$replacement = get_the_title( $GLOBALS['post']->post_parent );
 			}
@@ -408,11 +408,9 @@ class WPSEO_Replace_Vars {
 	private function retrieve_searchphrase() {
 		$replacement = null;
 
-		if ( ! isset( $replacement ) ) {
-			$search = get_query_var( 's' );
-			if ( $search !== '' ) {
-				$replacement = esc_html( $search );
-			}
+		$search = get_query_var( 's' );
+		if ( $search !== '' ) {
+			$replacement = esc_html( $search );
 		}
 
 		return $replacement;
@@ -429,6 +427,9 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the site's tag line / description for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
 	 *
 	 * @return string|null
 	 */
@@ -447,6 +448,9 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the site's name for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
 	 *
 	 * @return string|null
 	 */
@@ -773,6 +777,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current date for use as replacement string.
 	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
 	 * @return string The formatted current date.
 	 */
 	private function retrieve_currentdate() {
@@ -787,6 +794,9 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current day for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
 	 *
 	 * @return string The current day.
 	 */
@@ -803,6 +813,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current month for use as replacement string.
 	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
 	 * @return string The current month.
 	 */
 	private function retrieve_currentmonth() {
@@ -818,6 +831,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the current time for use as replacement string.
 	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
+	 *
 	 * @return string The formatted current time.
 	 */
 	private function retrieve_currenttime() {
@@ -832,6 +848,9 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the current year for use as replacement string.
+	 *
+	 * The `$replacement` variable is static because it doesn't change depending
+	 * on the context. See https://github.com/Yoast/wordpress-seo/pull/1172#issuecomment-46019482.
 	 *
 	 * @return string The current year.
 	 */
@@ -1201,76 +1220,6 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the custom field names as an array.
-	 *
-	 * @link WordPress core: wp-admin/includes/template.php. Reused query from it.
-	 *
-	 * @return array The custom fields.
-	 */
-	private function get_custom_fields() {
-		global $wpdb;
-
-		/**
-		 * Filters the number of custom fields to retrieve for the drop-down
-		 * in the Custom Fields meta box.
-		 *
-		 * @since 2.1.0
-		 *
-		 * @param int $limit Number of custom fields to retrieve. Default 30.
-		 */
-		$limit  = apply_filters( 'postmeta_form_limit', 30 );
-		$sql    = "SELECT DISTINCT meta_key
-			FROM $wpdb->postmeta
-			WHERE meta_key NOT BETWEEN '_' AND '_z'
-			HAVING meta_key NOT LIKE %s
-			ORDER BY meta_key
-			LIMIT %d";
-		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
-
-		if ( is_array( $fields ) ) {
-			return array_map( [ $this, 'add_custom_field_prefix' ], $fields );
-		}
-
-		return [];
-	}
-
-	/**
-	 * Adds the cf_ prefix to a field.
-	 *
-	 * @param string $field The field to prefix.
-	 *
-	 * @return string The prefixed field.
-	 */
-	private function add_custom_field_prefix( $field ) {
-		return 'cf_' . $field;
-	}
-
-	/**
-	 * Gets the names of the custom taxonomies, prepends 'ct_' and 'ct_desc', and returns them in an array.
-	 *
-	 * @return array The custom taxonomy prefixed names.
-	 */
-	private function get_custom_taxonomies() {
-		$args              = [
-			'public'   => true,
-			'_builtin' => false,
-		];
-		$output            = 'names';
-		$operator          = 'and';
-		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
-
-		if ( is_array( $custom_taxonomies ) ) {
-			$ct_replace_vars = [];
-			foreach ( $custom_taxonomies as $custom_taxonomy ) {
-				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
-			}
-			return $ct_replace_vars;
-		}
-
-		return [];
-	}
-
-	/**
 	 * Set/translate the help texts for the WPSEO standard basic variables.
 	 */
 	private static function set_basic_help_texts() {
@@ -1437,7 +1386,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_term_hierarchy() {
 		$replacement = null;
 
-		if ( ! isset( $replacement ) && isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+		if ( isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
 			$hierarchy = $this->get_term_hierarchy();
 
 			if ( $hierarchy !== '' ) {

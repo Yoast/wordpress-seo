@@ -125,7 +125,7 @@ class Indexable_Hierarchy_Builder {
 			return;
 		}
 
-		if ( $post->post_parent !== 0 ) {
+		if ( $post->post_parent !== 0 && $this->post->get_post( $post->post_parent ) !== null ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );

@@ -128,6 +128,7 @@ class Indexable_Post_Builder {
 		$indexable->is_protected     = $post->post_password !== '';
 		$indexable->is_public        = $this->is_public( $indexable );
 		$indexable->has_public_posts = $this->has_public_posts( $indexable );
+		$indexable->blog_id         = \get_current_blog_id();
 
 		return $indexable;
 	}

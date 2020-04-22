@@ -93,12 +93,6 @@ class Meta_Tags_Context_Memoizer {
 		if ( ! isset( $this->cache['current_page'] ) ) {
 			$indexable = $this->repository->for_current_page();
 			$page_type = $this->current_page->get_page_type();
-
-			if ( $indexable->permalink === null ) {
-				$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
-				$indexable->save();
-			}
-
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 		}
 
@@ -123,7 +117,7 @@ class Meta_Tags_Context_Memoizer {
 				$blocks = $this->blocks->get_all_blocks_from_content( $post->post_content );
 			}
 
-			$context               = $this->context_prototype->of( [
+			$context = $this->context_prototype->of( [
 				'indexable' => $indexable,
 				'blocks'    => $blocks,
 				'post'      => $post,
@@ -153,33 +147,5 @@ class Meta_Tags_Context_Memoizer {
 			return;
 		}
 		$this->cache = [];
-	}
-
-	/**
-	 * Retrieves the permalink for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string|null The permalink.
-	 */
-	protected function get_permalink_for_indexable( Indexable $indexable ) {
-		switch ( true ) {
-			case $this->current_page->is_simple_page():
-			case $this->current_page->is_home_static_page():
-			case $this->current_page->is_home_posts_page():
-				return get_permalink( $indexable->object_id );
-			case $this->current_page->is_term_archive():
-				$term = get_term( $indexable->object_id );
-
-				return get_term_link( $term, $term->taxonomy );
-			case $this->current_page->is_search_result():
-				return get_search_link();
-			case $this->current_page->is_post_type_archive():
-				return get_post_type_archive_link( $indexable->object_sub_type );
-			case $this->current_page->is_author_archive():
-				return get_author_posts_url( $indexable->object_id );
-		}
-
-		return null;
 	}
 }

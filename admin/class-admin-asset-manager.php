@@ -438,6 +438,17 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
+				'name' => 'indexation',
+				'src'  => 'wp-seo-indexation-' . $flat_version,
+				'deps' => [
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+					self::PREFIX . 'admin-global-script',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
 				'name' => 'edit-page-script',
 				'src'  => 'wp-seo-edit-page-' . $flat_version,
 				'deps' => [

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Context;
 
+use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Replace_Vars;
@@ -89,19 +90,123 @@ class Meta_Tags_Context_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the page type for author archives is correctly typed as a 'ProfilePage' and a 'WebPage'.
+	 * Tests the generation of the schema page type.
+	 *
+	 * @param array        $indexable The indexable data.
+	 * @param string|array $expected  The expected value.
+	 * @param string       $message   Message to show when test fails.
+	 *
+	 * @dataProvider generate_schema_page_type_provider
 	 *
 	 * @covers ::generate_schema_page_type
 	 */
-	public function test_generate_schema_page_type_author_archive() {
-		$this->instance->indexable = (object) [
-			'object_type' => 'user',
+	public function test_generate_schema_page_type( array $indexable, $expected, $message ) {
+		$this->instance->indexable = (object) $indexable;
+
+		Filters\expectApplied( 'wpseo_schema_webpage_type' )->with( $expected );
+
+		$this->assertSame( $expected, $this->instance->generate_schema_page_type(), $message );
+	}
+
+	/**
+	 * Provides data for the generate schema page type test.
+	 *
+	 * @return array Test data to use.
+	 */
+	public function generate_schema_page_type_provider() {
+		return [
+			[
+				'indexable' => [
+					'object_type'     => 'system-page',
+					'object_sub_type' => 'search-result',
+				],
+				'expected'  => [ 'CollectionPage', 'SearchResultsPage' ],
+				'message'   => 'Tests with an indexable for the search results page.',
+			],
+			[
+				'indexable' => [
+					'object_type'     => 'system-page',
+					'object_sub_type' => '404',
+				],
+				'expected'  => 'WebPage',
+				'message'   => 'Tests with an indexable for the 404 page.',
+			],
+			[
+				'indexable' => [
+					'object_type' => 'user',
+				],
+				'expected'  => 'ProfilePage',
+				'message'   => 'Tests with an indexable for the author page.',
+			],
+			[
+				'indexable' => [
+					'object_type' => 'home-page',
+				],
+				'expected'  => 'CollectionPage',
+				'message'   => 'Tests with an indexable for the home page.',
+			],
+			[
+				'indexable' => [
+					'object_type' => 'date-archive',
+				],
+				'expected'  => 'CollectionPage',
+				'message'   => 'Tests with an indexable for a date archive.',
+			],
+			[
+				'indexable' => [
+					'object_type' => 'term',
+				],
+				'expected'  => 'CollectionPage',
+				'message'   => 'Tests with an indexable for a term archive.',
+			],
+			[
+				'indexable' => [
+					'object_type' => 'post-type-archive',
+				],
+				'expected'  => 'CollectionPage',
+				'message'   => 'Tests with an indexable for a post type archive.',
+			],
 		];
+	}
+
+	/**
+	 * Tests the page type for a page set as the post page.
+	 *
+	 * @covers ::generate_schema_page_type
+	 */
+	public function test_generate_schema_page_type_with_page_for_posts() {
+		$this->instance->indexable = (object) [
+			'object_id'   => 1337,
+			'object_type' => 'post',
+		];
+
+		Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->andReturn( 1337 );
 
 		$actual = $this->instance->generate_schema_page_type();
 
-		$this->assertContains( 'WebPage', $actual );
-		$this->assertContains( 'ProfilePage', $actual );
+		$this->assertSame( 'CollectionPage', $actual );
+	}
+
+	/**
+	 * Tests the page type for a post.
+	 *
+	 * @covers ::generate_schema_page_type
+	 */
+	public function test_generate_schema_page_for_a_post() {
+		$this->instance->indexable = (object) [
+			'object_id'   => 1337,
+			'object_type' => 'post',
+		];
+
+		Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->andReturn( 1338 );
+
+		$actual = $this->instance->generate_schema_page_type();
+
+		$this->assertSame( 'WebPage', $actual );
 	}
 
 	/**
