@@ -1,6 +1,6 @@
 <?php
 /**
- * Reindexation route for indexables.
+ * Head route for indexables.
  *
  * @package Yoast\WP\SEO\Routes\Routes
  */

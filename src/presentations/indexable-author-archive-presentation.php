@@ -134,4 +134,11 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	public function generate_open_graph_type() {
 		return 'profile';
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_source() {
+		return [ 'post_author' => $this->model->object_id ];
+	}
 }
