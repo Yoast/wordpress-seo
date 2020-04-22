@@ -44,10 +44,11 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 		else {
 			$output .= \sprintf(
 				'<span id="yoast-indexation">' .
-					'<button type="button" class="button yoast-open-indexation">' .
-						'%1$s' .
+					'<button type="button" class="button yoast-open-indexation" data-title="%1$s">' .
+						'%2$s' .
 					'</button>' .
 				'</span>',
+				\esc_attr__( 'Your content is being indexed', 'wordpress-seo' ),
 				\esc_html__( 'Index your content', 'wordpress-seo' )
 			);
 		}

@@ -314,7 +314,7 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<li><strong>Content indexation</strong><br/><span id="yoast-indexation"><button type="button" class="button yoast-open-indexation">Index your content</button></span></li>' );
+		$this->expectOutputString( '<li><strong>Content indexation</strong><br/><span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Your content is being indexed">Index your content</button></span></li>' );
 
 		$this->instance->render_indexation_list_item();
 	}
