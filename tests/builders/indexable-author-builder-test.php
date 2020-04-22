@@ -112,6 +112,35 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$builder->build( 1, $this->indexable_mock );
 	}
 
+	/**
+	 * Tests the formatting of the indexable data when there is no alternative image for the social image.
+	 *
+	 * @covers ::__construct
+	 * @covers ::build
+	 */
+	public function test_build_without_alternative_image() {
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
+		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
+
+		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image' );
+		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image_id' );
+		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'open_graph_image_source' );
+		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'twitter_image' );
+		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image_id' );
+		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'object_id' );
+
+		Monkey\Functions\expect( 'get_avatar_url' )
+			->once()
+			->with( $this->indexable_mock->object_id, [ 'size' => 500, 'scheme' => 'https', ] )
+			->andReturn( '' );
+
+		$builder = new Indexable_Author_Builder( $this->author_archive );
+		$builder->build( 1, $this->indexable_mock );
 	}
 
 	/**
