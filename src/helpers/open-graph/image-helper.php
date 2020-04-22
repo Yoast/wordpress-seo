@@ -30,18 +30,6 @@ class Image_Helper {
 	private $image;
 
 	/**
-	 * The parameters we have for Facebook images.
-	 *
-	 * @var array
-	 */
-	private $image_params = [
-		'min_width'  => 200,
-		'max_width'  => 2000,
-		'min_height' => 200,
-		'max_height' => 2000,
-	];
-
-	/**
 	 * Image_Helper constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -119,6 +107,6 @@ class Image_Helper {
 			return $this->image->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image->get_best_attachment_variation( $attachment_id, $this->image_params );
+		return $this->image->get_best_attachment_variation( $attachment_id );
 	}
 }
