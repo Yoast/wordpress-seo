@@ -241,7 +241,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_googlebot() {
-		return $this->generate_opt_in();
+		return $this->generate_snippet_opt_in();
 	}
 
 	/**
@@ -250,7 +250,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value with opt-in snippets.
 	 */
 	public function generate_bingbot() {
-		return $this->generate_opt_in();
+		return $this->generate_snippet_opt_in();
 	}
 
 	/**
@@ -258,7 +258,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return array The googlebot value.
 	 */
-	private function generate_opt_in() {
+	private function generate_snippet_opt_in() {
 		if ( isset( $this->robots['index'] ) && $this->robots['index'] === 'noindex' ) {
 			return [];
 		}
