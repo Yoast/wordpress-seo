@@ -40,6 +40,7 @@ class Alert_Presenter {
 
 	/**
 	 * The type of the Alert.
+	 *
 	 * Can be: "error", "info", "success" or "warning".
 	 * Controls the colours and icon of the Alert.
 	 *
@@ -57,7 +58,7 @@ class Alert_Presenter {
 	/**
 	 * Alert_Presenter constructor.
 	 *
-	 * @param string $type 	  Type of the Alert (error/info/success/warning).
+	 * @param string $type    Type of the Alert (error/info/success/warning).
 	 * @param string $content Content of the Alert.
 	 */
 	public function __construct( $type, $content ) {
@@ -67,7 +68,7 @@ class Alert_Presenter {
 	}
 
 	/**
-	 * Enqueue assets.
+	 * Enqueues assets.
 	 */
 	public function enqueue_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -89,11 +90,11 @@ class Alert_Presenter {
 	 * @return string The styled Alert.
 	 */
 	public function present() {
-		$out  = '<div class="yoast-alert yoast-alert--' . $this->type . '">';
-
-		$out .= '<span>';
 		$icon_file = 'images/alert-' . $this->type . '-icon.svg';
-		$out .= '<img class="icon" src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file ) . '" alt=""/>';
+
+		$out  = '<div class="yoast-alert yoast-alert--' . $this->type . '">';
+		$out .= '<span>';
+		$out .= '<img class="yoast-alert__icon" src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . $icon_file ) . '" alt="" />';
 		$out .= '</span>';
 
 		$out .= '<span>' . $this->content . '</span>';
@@ -101,5 +102,4 @@ class Alert_Presenter {
 
 		return $out;
 	}
-
 }

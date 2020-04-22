@@ -28,7 +28,7 @@
 	background: #fff3cd;
 }
 
-.yoast-alert .icon {
+.yoast-alert__icon {
 	display: block;
 	margin-right: 8px;
 	height: 14px;

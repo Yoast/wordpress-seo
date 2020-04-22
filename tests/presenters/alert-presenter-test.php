@@ -9,6 +9,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Unit Test Class.
  *
  * @coversDefaultClass \Alert_Presenter
+ *
+ * @group presenters
  */
 class Alert_Presenter_Test extends TestCase {
 
@@ -23,7 +25,7 @@ class Alert_Presenter_Test extends TestCase {
 		$test = new \Alert_Presenter(\Alert_Presenter::ERROR, 'content' );
 
 		$expected = '<div class="yoast-alert yoast-alert--error">'
-			. '<span><img class="icon" src="images/alert-error-icon.svg" alt=""/></span>'
+			. '<span><img class="yoast-alert__icon" src="images/alert-error-icon.svg" alt="" /></span>'
 			. '<span>content</span>'
 			. '</div>';
 
@@ -43,7 +45,7 @@ class Alert_Presenter_Test extends TestCase {
 		$test = new \Alert_Presenter(\Alert_Presenter::INFO, 'content' );
 
 		$expected = '<div class="yoast-alert yoast-alert--info">'
-			. '<span><img class="icon" src="images/alert-info-icon.svg" alt=""/></span>'
+			. '<span><img class="yoast-alert__icon" src="images/alert-info-icon.svg" alt="" /></span>'
 			. '<span>content</span>'
 			. '</div>';
 
@@ -63,7 +65,7 @@ class Alert_Presenter_Test extends TestCase {
 		$test = new \Alert_Presenter(\Alert_Presenter::SUCCESS, 'content' );
 
 		$expected = '<div class="yoast-alert yoast-alert--success">'
-			. '<span><img class="icon" src="images/alert-success-icon.svg" alt=""/></span>'
+			. '<span><img class="yoast-alert__icon" src="images/alert-success-icon.svg" alt="" /></span>'
 			. '<span>content</span>'
 			. '</div>';
 
@@ -83,7 +85,7 @@ class Alert_Presenter_Test extends TestCase {
 		$test = new \Alert_Presenter(\Alert_Presenter::WARNING, 'content' );
 
 		$expected = '<div class="yoast-alert yoast-alert--warning">'
-			. '<span><img class="icon" src="images/alert-warning-icon.svg" alt=""/></span>'
+			. '<span><img class="yoast-alert__icon" src="images/alert-warning-icon.svg" alt="" /></span>'
 			. '<span>content</span>'
 			. '</div>';
 
@@ -95,4 +97,3 @@ class Alert_Presenter_Test extends TestCase {
 
 
 }
-
