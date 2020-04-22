@@ -25,7 +25,8 @@ module.exports = {
 			{
 				expand: true,
 				cwd: "css/src",
-				src: [ "**/**.css", "!to-be-removed/**.css", "!admin/all.css" ], // TO DO: remove the exclude when ready
+				// TO DO: remove the exclude when ready
+				src: [ "**/**.css", "!to-be-removed/**.css", "!admin/all.css" ],
 				flatten: true,
 				dest: "css/dist/",
 				rename: ( dest, src ) => {
