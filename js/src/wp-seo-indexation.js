@@ -67,7 +67,7 @@ const settings = yoastIndexationData;
 	}
 
 	$( () => {
-		$( "#yoast-open-indexation" ).on( "click", function() {
+		$( ".yoast-open-indexation" ).on( "click", function() {
 			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
 			// So we temporarily revert that change as we do want to have custom height and width.
 			// Eslint is disabled as these have to use the correct names.
@@ -102,6 +102,7 @@ const settings = yoastIndexationData;
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
+					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
@@ -112,6 +113,7 @@ const settings = yoastIndexationData;
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
+					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );

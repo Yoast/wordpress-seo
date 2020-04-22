@@ -29,7 +29,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 				'</strong>',
 				'Yoast SEO',
 				\sprintf(
-					'<button type="button" id="yoast-open-indexation" class="button-link" data-title="%s">',
+					'<button type="button" class="button-link yoast-open-indexation" data-title="%s">',
 					\esc_attr__( 'Your content is being indexed', 'wordpress-seo' )
 				),
 				'</button>',
