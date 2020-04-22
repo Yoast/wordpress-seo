@@ -559,7 +559,7 @@ class Yoast_Form {
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
 
-		echo '<div class="yoast-field-group yoast-field-group--upload">';
+		echo '<div class="yoast-field-group yoast-field-group__upload">';
 			echo '<input',
 				' class="textinput yoast-field-group__inputfield"',
 				' id="wpseo_', $var_esc, '"',
