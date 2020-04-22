@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Class that handles the edit boxes on taxonomy edit pages.
  */

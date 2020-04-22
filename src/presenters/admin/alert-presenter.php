@@ -2,13 +2,17 @@
 /**
  * Presenter class for Alert boxes.
  *
- * @package Yoast\YoastSEO\Presenters
+ * @package Yoast\YoastSEO\Presenters\Admin
  */
+
+namespace Yoast\WP\SEO\Presenters\Admin;
+
+use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
  * Represents the class for Alerts.
  */
-class Alert_Presenter {
+class Alert_Presenter extends Abstract_Presenter {
 
 	/**
 	 * Alert type.
@@ -56,32 +60,27 @@ class Alert_Presenter {
 	private $content = '';
 
 	/**
+	 * An instance of the WPSEO_Admin_Asset_Manager class.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * Alert_Presenter constructor.
 	 *
 	 * @param string $type    Type of the Alert (error/info/success/warning).
 	 * @param string $content Content of the Alert.
 	 */
 	public function __construct( $type, $content ) {
-		$this->type = $type;
+		$this->type    = $type;
 		$this->content = $content;
-		$this->enqueue_assets();
-	}
 
-	/**
-	 * Enqueues assets.
-	 */
-	public function enqueue_assets() {
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'alert' );
-	}
+		if ( ! $this->asset_manager ) {
+			$this->asset_manager = new \WPSEO_Admin_Asset_Manager();
+		}
 
-	/**
-	 * Adds string (view) behaviour to the Alert.
-	 *
-	 * @return string The rendered Alert.
-	 */
-	public function __toString() {
-		return $this->present();
+		$this->asset_manager->enqueue_style( 'alert' );
 	}
 
 	/**
