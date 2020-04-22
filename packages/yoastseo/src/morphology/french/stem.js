@@ -114,10 +114,11 @@ const determineRs = function( word ) {
 /**
  * Removes or normalizes standard suffixes.
  *
- * @param {string}  word        The word for which to remove suffixes.
- * @param {number}  r1Index     The start index of R1.
- * @param {number}  r2Index     The start index of R2.
- * @param {number}  rvIndex     The start index of RV.
+ * @param {string} word             The word for which to remove suffixes.
+ * @param {Object} morphologyData   The French morphology data.
+ * @param {number} r1Index          The start index of R1.
+ * @param {number} r2Index          The start index of R2.
+ * @param {number} rvIndex          The start index of RV.
  *
  * @returns {string} The word with standard suffixes removed or normalized.
  */
@@ -348,11 +349,12 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
 /**
  * Stems French words.
  *
- * @param {string} word     The word to stem.
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The French morphology data.
  *
  * @returns {string} The stemmed word.
  */
-export default function stem( word, morpoholgyData ) {
+export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
 
@@ -374,7 +376,7 @@ export default function stem( word, morpoholgyData ) {
 	 * Step 1:
 	 * Remove standard suffixes
 	 */
-	word = processStandardSuffixes( word, morpoholgyData, r1Index, r2Index, rvIndex );
+	word = processStandardSuffixes( word, morphologyData, r1Index, r2Index, rvIndex );
 	const wordAfterStep1 = word;
 
 	/*
