@@ -249,6 +249,7 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 
 	return word;
 };
+
 /**
  * Removes verb suffixes starting with i.
  *
@@ -261,12 +262,13 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
  */
 const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, morphologyData ) {
 	let step2aDone = false;
-	if ( originalWord === word.toLowerCase() || originalWord.search( /(amment|emment|ment|ments)$/ ) !== -1 ) {
+	const mentSuffixes = new RegExp( morphologyData.regularStemmer.mentSuffixes );
+	if ( originalWord === word.toLowerCase() || originalWord.search( mentSuffixes ) !== -1 ) {
 		step2aDone = true;
 		// eslint-disable-next-line max-len
-		const b1Regex = new RegExp( morphologyData.regularStemmer.verbSuffixesWithIBeginning );
-		if ( word.search( b1Regex ) >= rvIndex ) {
-			word = word.replace( b1Regex, "$1" );
+		const b1Regex = morphologyData.regularStemmer.verbSuffixesWithIBeginning;
+		if ( word.search( new RegExp( b1Regex[ 0 ] ) ) >= rvIndex ) {
+			word = word.replace( new RegExp( b1Regex[ 0 ] ), b1Regex[ 1 ] );
 		}
 	}
 
@@ -287,24 +289,24 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, m
  */
 const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, morphologyData ) {
 	if ( step2aDone && wordAfterStep1 === word ) {
-		const suffixIons = new RegExp( morphologyData.regularStemmer.otherVerbSuffixes.ionsSuffix );
-		if ( word.search( suffixIons ) >= r2Index ) {
-			word = word.replace( suffixIons, "" );
+		const suffixIons = morphologyData.regularStemmer.otherVerbSuffixes.ionsSuffix;
+		if ( word.search( new RegExp( suffixIons[ 0 ] ) ) >= r2Index ) {
+			word = word.replace( new RegExp( suffixIons[ 0 ] ), suffixIons[ 1 ] );
 		} else {
-			const b2Regex = new RegExp( morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes1 );
+			const b2Regex = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes1;
 
-			if ( word.search( b2Regex ) >= rvIndex ) {
-				word = word.replace( b2Regex, "" );
+			if ( word.search( new RegExp( b2Regex[ 0 ] ) ) >= rvIndex ) {
+				word = word.replace( new RegExp( b2Regex[ 0 ] ),  b2Regex[ 1 ] );
 			} else {
-				const b3Regex = new RegExp( morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes2 );
+				const b3Regex = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes2;
 
-				if ( word.search( b3Regex ) >= rvIndex ) {
-					word = word.replace( b3Regex, "" );
+				if ( word.search( new RegExp( b3Regex[ 0 ] ) ) >= rvIndex ) {
+					word = word.replace( new RegExp( b3Regex[ 0 ] ), b3Regex[ 1 ] );
 				} else {
-					const b3Regex2 = new RegExp( morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes3 );
+					const b3Regex2 = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes3;
 					// eslint-disable-next-line max-depth
-					if ( word.search( b3Regex2 ) >= rvIndex ) {
-						word = word.replace( b3Regex2, "" );
+					if ( word.search( new RegExp( b3Regex2[ 0 ] ) ) >= rvIndex ) {
+						word = word.replace( new RegExp( b3Regex2[ 0 ] ), b3Regex2[ 1 ] );
 					}
 				}
 			}
@@ -313,6 +315,7 @@ const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2In
 
 	return word;
 };
+
 /**
  * Removes residual suffixes.
  *
@@ -352,6 +355,7 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index, morphologyDataR
 
 	return word;
 };
+
 /**
  * Stems French words.
  *
@@ -369,12 +373,13 @@ export default function stem( word, morphologyData ) {
 	const step4Regex = morphologyData.regularStemmer.preProcessingStepsRegexes.step4Regex;
 	const step5Regex = morphologyData.regularStemmer.preProcessingStepsRegexes.step5Regex;
 
+
 	// Pre-processing steps
-	word = word.replace( step1Regex[ 0 ], step1Regex[ 1 ] );
-	word = word.replace( step2Regex[ 0 ], step2Regex[ 1 ] );
-	word = word.replace( step3Regex[ 0 ], step3Regex[ 1 ] );
-	word = word.replace( step4Regex[ 0 ], step4Regex[ 1 ] );
-	word = word.replace( step5Regex[ 0 ], step5Regex[ 1 ] );
+	word = word.replace( new RegExp( step1Regex[ 0 ] ), step1Regex[ 1 ] );
+	word = word.replace( new RegExp( step2Regex[ 0 ] ), step2Regex[ 1 ] );
+	word = word.replace( new RegExp( step3Regex[ 0 ] ), step3Regex[ 1 ] );
+	word = word.replace( new RegExp( step4Regex[ 0 ] ), step4Regex[ 1 ] );
+	word = word.replace( new RegExp( step5Regex[ 0 ] ), step5Regex[ 1 ] );
 
 	// Determine R1, R2 & RV regions.
 	const [
@@ -423,14 +428,19 @@ export default function stem( word, morphologyData ) {
 	/* Step 5:
 	 * Undouble final consonants
 	 */
-	word = word.replace( /(en|on)(n)$/, "$1" );
-	word = word.replace( /(ett)$/, "et" );
-	word = word.replace( /(el|eil)(l)$/, "$1" );
+	const consonantUndoublingStep1 = morphologyData.regularStemmer.finalConsonantUndoubling.undoublingStep1;
+	const consonantUndoublingStep2 = morphologyData.regularStemmer.finalConsonantUndoubling.undoublingStep2;
+	const consonantUndoublingStep3 = morphologyData.regularStemmer.finalConsonantUndoubling.undoublingStep3;
+
+	word = word.replace( new RegExp( consonantUndoublingStep1[ 0 ] ), consonantUndoublingStep1[ 1 ] );
+	word = word.replace( new RegExp( consonantUndoublingStep2[ 0 ] ), consonantUndoublingStep2[ 1 ] );
+	word = word.replace( new RegExp( consonantUndoublingStep3[ 0 ] ), consonantUndoublingStep3[ 1 ] );
 
 	/* Step 6:
 	 * Un-accent
 	 */
-	word = word.replace( /[éè]([^aeiouyâàëéêèïîôûù]+)$/, "e$1" );
+	const unaccentE = morphologyData.regularStemmer.unaccentERegex;
+	word = word.replace( new RegExp( unaccentE[ 0 ] ), unaccentE[ 1 ] );
 	word = word.toLowerCase();
 
 	return word;
