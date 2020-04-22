@@ -5,20 +5,20 @@ namespace Yoast\WP\SEO\Tests\Presenters;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Googlebot_Presenter;
+use Yoast\WP\SEO\Presenters\Bingbot_Presenter;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Googlebot_Presenter_Test
+ * Class Bingbot_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Bingbot_Presenter
  *
  * @group presenters
  *
  * @package Yoast\WP\SEO\Tests\Presenters
  */
-class Googlebot_Presenter_Test extends TestCase {
+class Bingbot_Presenter_Test extends TestCase {
 
 	/**
 	 * Represents the indexable presentation.
@@ -28,9 +28,9 @@ class Googlebot_Presenter_Test extends TestCase {
 	protected $presentation;
 
 	/**
-	 * The Googlebot presenter instance.
+	 * The Bingbot presenter instance.
 	 *
-	 * @var Googlebot_Presenter
+	 * @var Bingbot_Presenter
 	 */
 	private $instance;
 
@@ -40,9 +40,9 @@ class Googlebot_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Googlebot_Presenter::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$this->instance = Mockery::mock( Bingbot_Presenter::class )
+								 ->makePartial()
+								 ->shouldAllowMockingProtectedMethods();
 
 		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;
@@ -54,11 +54,11 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
 		$this->presentation->robots    = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="googlebot" content="index, one, two, three" />';
+		$expected = '<meta name="bingbot" content="index, one, two, three" />';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -75,22 +75,22 @@ class Googlebot_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_googlebot` filter is applied.
+	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_bingbot` filter is applied.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
 		$this->presentation->robots    = [];
 
-		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
+		Monkey\Filters\expectApplied( 'wpseo_bingbot' )
 			->once()
 			->with( 'one, two, three', $this->presentation )
 			->andReturn( 'one, two' );
 
 		$actual = $this->instance->present();
-		$expected = '<meta name="googlebot" content="one, two" />';
+		$expected = '<meta name="bingbot" content="one, two" />';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -101,7 +101,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$this->presentation->googlebot = [];
+		$this->presentation->bingbot = [];
 		$this->presentation->robots    = [];
 
 		$this->assertEmpty( $this->instance->present() );
@@ -113,7 +113,7 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_get() {
-		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
 
 		$this->assertEquals( [ 'one', 'two', 'three' ], $this->instance->get() );
 	}
