@@ -58,7 +58,7 @@ class Bingbot_Presenter_Test extends TestCase {
 		$this->presentation->robots    = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="bingbot" content="index, one, two, three" />';
+		$expected = '<meta name="bingbot" content="one, two, three" />';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -69,7 +69,8 @@ class Bingbot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_robots_set_to_no_index() {
-		$this->presentation->robots = [ 'index' => 'noindex' ];
+		$this->presentation->bingbot = [];
+		$this->presentation->robots  = [ 'index' => 'noindex' ];
 
 		$this->assertEmpty( $this->instance->present() );
 	}
@@ -102,7 +103,7 @@ class Bingbot_Presenter_Test extends TestCase {
 	 */
 	public function test_present_empty() {
 		$this->presentation->bingbot = [];
-		$this->presentation->robots    = [];
+		$this->presentation->robots  = [];
 
 		$this->assertEmpty( $this->instance->present() );
 	}

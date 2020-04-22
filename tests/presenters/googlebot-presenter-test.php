@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
  *
- * @group presenters
+ * @group   presenters
  *
  * @package Yoast\WP\SEO\Tests\Presenters
  */
@@ -35,14 +35,19 @@ class Googlebot_Presenter_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * @var array
+	 */
+	private $googlebot;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Googlebot_Presenter::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+								 ->makePartial()
+								 ->shouldAllowMockingProtectedMethods();
 
 		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;
@@ -58,7 +63,7 @@ class Googlebot_Presenter_Test extends TestCase {
 		$this->presentation->robots    = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="googlebot" content="index, one, two, three" />';
+		$expected = '<meta name="googlebot" content="one, two, three" />';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -69,7 +74,8 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_robots_set_to_no_index() {
-		$this->presentation->robots = [ 'index' => 'noindex' ];
+		$this->presentation->googlebot = [];
+		$this->presentation->robots    = [ 'index' => 'noindex' ];
 
 		$this->assertEmpty( $this->instance->present() );
 	}
@@ -89,7 +95,7 @@ class Googlebot_Presenter_Test extends TestCase {
 			->with( 'one, two, three', $this->presentation )
 			->andReturn( 'one, two' );
 
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two" />';
 
 		$this->assertEquals( $expected, $actual );

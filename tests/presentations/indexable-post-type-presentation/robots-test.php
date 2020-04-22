@@ -83,9 +83,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -115,9 +112,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );
