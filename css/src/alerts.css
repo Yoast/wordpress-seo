@@ -1,6 +1,6 @@
 .yoast-alert {
 	display: flex;
-	align-items: baseline;
+	align-items: flex-start;
 	padding: 16px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	font-size: 14px;
@@ -31,9 +31,10 @@
 /* Needs higher specificity than a Gutenberg ruleset selector. */
 .yoast-alert__icon.yoast-alert__icon {
 	display: block;
+	margin-top: 0.125rem;
 	margin-right: 8px;
-	height: 14px;
-	width: 14px;
+	height: 16px;
+	width: 16px;
 	max-width: none;
 }
 
