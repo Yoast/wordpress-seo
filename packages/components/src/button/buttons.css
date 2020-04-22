@@ -36,7 +36,7 @@
   border: 1px solid rgba(0,0,0, 0.2);
 }
 
-.yoast-field-group--upload .yoast-button{
+.yoast-field-group__upload .yoast-button {
   margin-right:24px;
 }
 
