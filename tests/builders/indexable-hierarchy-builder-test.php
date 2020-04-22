@@ -96,6 +96,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with no parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
 	 */
 	public function test_no_parents() {
 		$indexable = new Indexable();
@@ -114,6 +116,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with post parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
 	 */
 	public function test_post_parents() {
 		$indexable = new Indexable();
@@ -142,6 +146,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with term parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_term_parents
 	 */
 	public function test_primary_term_parents() {
 		$indexable = new Indexable();
@@ -177,6 +185,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with many term parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_term_parents
 	 */
 	public function test_many_primary_term_parents() {
 		$indexable = new Indexable();
@@ -225,6 +237,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with term parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
 	 */
 	public function test_term_parent() {
 		$indexable = new Indexable();
@@ -260,6 +277,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with term parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
 	 */
 	public function test_deepest_term_parent() {
 		$indexable = new Indexable();
@@ -304,6 +326,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a term with term parents.
 	 *
 	 * @covers ::build
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
 	 */
 	public function test_term() {
 		$indexable = new Indexable();
