@@ -74,7 +74,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the request comes from an IE 11 browser.
 	 */
 	public static function is_internet_explorer() {
-		return true;
 		if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 			return false;
 		}
