@@ -89,6 +89,8 @@ const MetaRobotsNoIndex = () => {
 			id={ "yoast_wpseo_meta-robots-noindex-react" }
 			options={ metaRobotsNoIndexOptions }
 			selected={ value }
+			linkTo={ "https://yoa.st/allow-search-engines" }
+			linkText={ __( "Learn more about the no-index setting on our help page.", "wordpress-seo" ) }
 		/>
 	</Fragment>;
 };
@@ -112,6 +114,8 @@ const MetaRobotsNoFollow = () => {
 		groupName="yoast_wpseo_meta-robots-nofollow-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		selected={ value }
+		linkTo={ "https://yoa.st/follow-links" }
+		linkText={ __( "Learn more about the no-follow setting on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
@@ -135,6 +139,8 @@ const MetaRobotsAdvanced = () => {
 			{ name: __( "No Snippet", "wordpress-seo" ), value: "nosnippet" },
 		] }
 		selected={ value.split( "," ) }
+		linkTo={ "https://yoa.st/meta-robots-advanced" }
+		linkText={ __( "Learn more about advanced meta robots settings on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
@@ -153,6 +159,8 @@ const BreadCrumbsTitle = () => {
 		name="yoast_wpseo_bctitle-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		value={ value }
+		linkTo={ "https://yoa.st/breadcrumbs-title" }
+		linkText={ __( "Learn more about the breadcrumbs title setting on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
@@ -171,6 +179,8 @@ const CanonicalURL = () => {
 		name="yoast_wpseo_canonical-react"
 		onChange={ curryUpdateToHiddenInput( hiddenInputId ) }
 		value={ value }
+		linkTo={ "https://yoa.st/canonical-url" }
+		linkText={ __( "Learn more about canonical URLs on our help page.", "wordpress-seo" ) }
 	/>;
 };
 
