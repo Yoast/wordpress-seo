@@ -141,7 +141,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		WPSEO_Meta::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
-
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
 		/* translators: %s expands to the post type name. */
@@ -391,18 +390,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$html_after = '';
 
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			$advanced_collapsible = new WPSEO_Paper_Presenter(
-				__( 'Advanced', 'wordpress-seo' ),
-				null,
-				[
-					'collapsible' => true,
-					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
-					'content'     => $this->get_tab_content( 'advanced' ),
-					'paper_id'    => 'collapsible-advanced-settings',
-				]
-			);
-
-			$html_after = '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>';
+			$html_after = $this->get_tab_content( 'advanced' );
 		}
 
 		/**
