@@ -73,9 +73,10 @@ export default class Toggle extends React.Component {
 						defaultChecked={ selected === onText }
 						disabled={ disabled }
 						onChange={ this.onChangeHandler }
+						className="yoast-toggle__checkbox"
 					/>
+					<span className="yoast-toggle__switch"></span>
 					<span className="yoast-toggle--inactive">{ offText }</span>
-					<label className="yoast-toggle__switch" htmlFor={ id } id={ `${ id }-label` } />
 					<span className="yoast-toggle--active">{ onText }</span>
 				</div>
 			</FieldGroup>
