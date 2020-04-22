@@ -116,6 +116,21 @@ class Indexable_Head_Action {
 	}
 
 	/**
+	 * Retrieves the head for the posts page.
+	 *
+	 * @return object Object with head and status properties.
+	 */
+	public function for_posts_page() {
+		$meta = $this->meta_surface->for_posts_page();
+
+		if ( $meta === false ) {
+			return $this->for_404();
+		}
+
+		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+	}
+
+	/**
 	 * Retrieves the head for the 404 page. Always sets the status to 404.
 	 *
 	 * @return object Object with head and status properties.

@@ -162,7 +162,15 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 * @return string The head.
 	 */
 	public function for_post_type_archive( $params ) {
-		$obj = $this->head_action->for_post_type_archive( $params['slug'] );
+		if ( $params['slug'] === 'post' ) {
+			$obj = $this->head_action->for_posts_page();
+		}
+		elseif ( ! $this->post_type_helper->has_archive( $params['slug'] ) ) {
+			return null;
+		}
+		else {
+			$obj = $this->head_action->for_post_type_archive( $params['slug'] );
+		}
 
 		if ( $obj->status === 404 ) {
 			return null;

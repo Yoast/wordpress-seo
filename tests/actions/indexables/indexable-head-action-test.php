@@ -87,6 +87,30 @@ class Indexable_Head_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieval for a url that has meta.
+	 *
+	 * @covers ::for_posts_page
+	 */
+	public function test_retrieving_meta_for_posts_page() {
+		$meta = Mockery::mock();
+		$meta
+			->expects( 'get_head' )
+			->andReturn( 'this is the head' );
+
+		$this->meta_surface
+			->expects( 'for_posts_page' )
+			->andReturn( $meta );
+
+		$this->assertEquals(
+			(object) [
+				'head'   => 'this is the head',
+				'status' => 200,
+			],
+			$this->instance->for_posts_page()
+		);
+	}
+
+	/**
 	 * Tests retrieval for a url that has no meta data.
 	 *
 	 * @covers ::for_url
@@ -118,6 +142,34 @@ class Indexable_Head_Action_Test extends TestCase {
 				'status' => 404,
 			],
 			$this->instance->{$method}( $input )
+		);
+	}
+
+	/**
+	 * Tests retrieval for a url that has no meta data.
+	 *
+	 * @covers ::for_posts_page
+	 */
+	public function test_retrieving_meta_for_posts_page_with_meta_not_found() {
+		$meta = Mockery::mock();
+		$meta
+			->expects( 'get_head' )
+			->andReturn( 'this is the 404 head' );
+
+		$this->meta_surface
+			->expects( 'for_posts_page' )
+			->andReturnFalse();
+
+		$this->meta_surface
+			->expects( 'for_404' )
+			->andReturn( $meta );
+
+		$this->assertEquals(
+			(object) [
+				'head'   => 'this is the 404 head',
+				'status' => 404,
+			],
+			$this->instance->for_posts_page()
 		);
 	}
 

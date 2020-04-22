@@ -146,7 +146,40 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->with( $input )
 			->andReturn( (object) [ 'status' => 200, 'head' => 'this is the head' ] );
 
+		if ( $method === 'for_post_type_archive' ) {
+			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
+		}
+
 		$this->assertEquals( 'this is the head', $this->instance->{$method}( $params ) );
+	}
+
+	/**
+	 * Tests adding the yoast_head property for the posts page.
+
+	 * @covers ::for_post_type_archive
+	 *
+	 * @dataProvider method_provider
+	 */
+	public function test_adding_yoast_head_to_posts_page() {
+		$this->head_action
+			->expects( 'for_posts_page' )
+			->once()
+			->andReturn( (object) [ 'status' => 200, 'head' => 'this is the head' ] );
+
+		$this->assertEquals( 'this is the head', $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );
+	}
+
+	/**
+	 * Tests adding the yoast_head property for the posts page.
+
+	 * @covers ::for_post_type_archive
+	 *
+	 * @dataProvider method_provider
+	 */
+	public function test_adding_yoast_head_to_post_type_without_archive() {
+		$this->post_type_helper->expects( 'has_archive' )->with( 'no-archive' )->andReturnFalse();
+
+		$this->assertNull( $this->instance->for_post_type_archive( [ 'slug' => 'no-archive' ] ) );
 	}
 
 	/**
@@ -166,7 +199,27 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->with( $input )
 			->andReturn( (object) [ 'status' => 404, 'head' => 'this is the 404 head' ] );
 
+		if ( $method === 'for_post_type_archive' ) {
+			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
+		}
+
 		$this->assertNull( $this->instance->{$method}( $params ) );
+	}
+
+	/**
+	 * Tests adding the yoast_head property for the posts page.
+
+	 * @covers ::for_post_type_archive
+	 *
+	 * @dataProvider method_provider
+	 */
+	public function test_adding_yoast_head_to_posts_page_with_404() {
+		$this->head_action
+			->expects( 'for_posts_page' )
+			->once()
+			->andReturn( (object) [ 'status' => 404, 'head' => 'this is the 404 head' ] );
+
+		$this->assertNull( $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );
 	}
 
 	/**
