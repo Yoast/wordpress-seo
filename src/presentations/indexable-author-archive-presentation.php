@@ -125,7 +125,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $robots;
 		}
 
-		return $robots;
+		return \array_filter( $robots );
 	}
 
 	/**

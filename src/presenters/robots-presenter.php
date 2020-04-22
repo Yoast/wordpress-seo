@@ -20,7 +20,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The robots output tag.
 	 */
 	public function present() {
-		$robots = \implode( ',', $this->get() );
+		$robots = \implode( ', ', $this->get() );
 		$robots = $this->filter( $robots, $this->presentation );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
@@ -36,8 +36,7 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	 * @return array The raw value.
 	 */
 	public function get() {
-		$robots = \array_filter( $this->presentation->robots );
-		return $this->remove_defaults( $robots );
+		return $this->presentation->robots;
 	}
 
 	/**
@@ -56,21 +55,5 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
 		return (string) \apply_filters( 'wpseo_robots', $robots, $this->presentation );
-	}
-
-	/**
-	 * If robots index and follow are set, they can be excluded because they are default values.
-	 *
-	 * @param array $robots The robots to remove defaults from.
-	 *
-	 * @return array The robots with the removed defaults.
-	 */
-	private function remove_defaults( array $robots ) {
-		if ( ! empty( $robots['index'] ) && $robots['index'] === 'index' &&
-		     ! empty( $robots['follow'] ) && $robots['follow'] === 'follow' ) {
-			unset( $robots['index'], $robots['follow'] );
-		}
-
-		return $robots;
 	}
 }
