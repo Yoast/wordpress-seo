@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Builders;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
@@ -159,6 +160,8 @@ class Primary_Term_Builder_Test extends TestCase {
 		$primary_term = Mockery::mock( Primary_Term::class );
 		$primary_term->expects( 'save' )->once();
 
+		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+
 		$this->repository
 			->expects( 'find_by_post_id_and_taxonomy' )
 			->once()
@@ -175,6 +178,7 @@ class Primary_Term_Builder_Test extends TestCase {
 		$this->assertEquals( 1337, $primary_term->term_id );
 		$this->assertEquals( 1, $primary_term->post_id );
 		$this->assertEquals( 'category', $primary_term->taxonomy );
+		$this->assertEquals( 1, $primary_term->blog_id );
 	}
 
 	/**

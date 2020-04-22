@@ -62,8 +62,10 @@ class Indexable_Hierarchy_Repository {
 			'indexable_id' => $indexable_id,
 			'ancestor_id'  => $ancestor_id,
 			'depth'        => $depth,
+			'blog_id'      => \get_current_blog_id(),
 		] );
 		$hierarchy->save();
+
 		return $hierarchy;
 	}
 

@@ -225,6 +225,7 @@ Bugfixes:
 
 Enhancements:
 
+* Adds a new tool to the `SEO` -> `Tools` page to create indexables for all posts.
 * No longer outputs the `og:type` meta tag on 404 pages.
 * No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
 * No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
@@ -242,6 +243,8 @@ Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
 * Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
 * Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
+* Adds a notification to the dashboard, plugins page, updates page and the Yoast pages that appears when your content hasn’t been fully indexed yet.
+* [Developer only feature] Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an url. This endpoint takes a single paramter, `url` which should be the absolute url of the page to get the head for.
 
 = 13.5 =
 Release Date: April 14th, 2020
