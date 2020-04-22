@@ -254,7 +254,6 @@ Other:
      * `wpseo_post_types_reset_permalinks`, which enables the filtering of the post types to reset permalinks for.
      * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
 * No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
-* Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
 * Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
 
 = 13.5 =
