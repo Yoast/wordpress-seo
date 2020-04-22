@@ -292,6 +292,64 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building the hierarchy of a post with term parents, where the terms are not an array.
+	 *
+	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 */
+	public function test_term_parent_where_terms_not_array() {
+		$indexable = new Indexable();
+		$indexable->id          = 1;
+		$indexable->object_type = 'post';
+		$indexable->object_id   = 1;
+
+		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( 'string-not-array' );
+		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
+
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+
+		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
+			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+		);
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
+	 * Tests building the hierarchy of a post with term parents, where the terms are empty.
+	 *
+	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 */
+	public function test_term_parent_where_terms_empty() {
+		$indexable = new Indexable();
+		$indexable->id          = 1;
+		$indexable->object_type = 'post';
+		$indexable->object_id   = 1;
+
+		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn();
+		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
+
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+
+		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
+			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+		);
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
 	 * @covers ::build
