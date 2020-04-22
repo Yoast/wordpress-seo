@@ -126,18 +126,18 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 	const standardSuffixData = morphologyData.regularStemmer.standardSuffixes;
 	const a1Index = word.search( new RegExp( standardSuffixData.standardSuffixes1 ) ),
 		a2Index = word.search( new RegExp( standardSuffixData.standardSuffixes2 ) ),
-		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3 ) ),
-		a4Index = word.search( new RegExp( standardSuffixData.standardSuffixes4 ) ),
+		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3[ 0 ] ) ),
+		a4Index = word.search( new RegExp( standardSuffixData.standardSuffixes4[ 0 ] ) ),
 		a5Index = word.search( new RegExp( standardSuffixData.standardSuffixes5 ) ),
 		a6Index = word.search( new RegExp( standardSuffixData.standardSuffixes6 ) ),
 		a7Index = word.search( new RegExp( standardSuffixData.standardSuffixes7 ) ),
 		a8Index = word.search( new RegExp( standardSuffixData.standardSuffixes8 ) ),
-		a9Index = word.search( new RegExp( standardSuffixData.standardSuffixes9 ) ),
-		a10Index = word.search( new RegExp( standardSuffixData.standardSuffixes10 ) ),
+		a9Index = word.search( new RegExp( standardSuffixData.standardSuffixes9[ 0 ] ) ),
+		a10Index = word.search( new RegExp( standardSuffixData.standardSuffixes10[ 0 ] ) ),
 		a11Index = word.search( new RegExp( standardSuffixData.standardSuffixes11 ) ),
 		a12Index = word.search( new RegExp( standardSuffixData.standardSuffixes12 ) ),
-		a13Index = word.search( new RegExp( standardSuffixData.standardSuffixes13 ) ),
-		a14Index = word.search( new RegExp( standardSuffixData.standardSuffixes14 ) ),
+		a13Index = word.search( new RegExp( standardSuffixData.standardSuffixes13[ 0 ] ) ),
+		a14Index = word.search( new RegExp( standardSuffixData.standardSuffixes14[ 0 ] ) ),
 		a15Index = word.search( new RegExp( standardSuffixData.standardSuffixes15 ) );
 
 	if ( a1Index !== -1 && a1Index >= r2Index ) {
@@ -155,10 +155,10 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 		}
 	} else if ( a3Index !== -1 && a3Index >= r2Index ) {
 		// Replace with log if in R2
-		word = word.replace( /(logie|logies)$/, "log" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes3[ 0 ] ), standardSuffixData.standardSuffixes3[ 1 ] );
 	} else if ( a4Index !== -1 && a4Index >= r2Index ) {
 		// Replace with u if in R2
-		word = word.replace( /(usion|ution|usions|utions)$/, "u" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes4[ 0 ] ),  standardSuffixData.standardSuffixes4[ 1 ]  );
 	} else if ( a5Index !== -1 && a5Index >= r2Index ) {
 		// Replace with ent if in R2
 		word = word.replace( /(ence|ences)$/, "ent" );
@@ -225,9 +225,9 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 			}
 		}
 	} else if ( a9Index !== -1 ) {
-		word = word.replace( /(eaux)/, "eau" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes9[ 0 ] ), standardSuffixData.standardSuffixes9[ 1 ] );
 	} else if ( a10Index >= r1Index ) {
-		word = word.replace( /(aux)/, "al" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes10[ 0 ] ), standardSuffixData.standardSuffixes10[ 1 ] );
 	} else if ( a11Index !== -1 ) {
 		const a11Index2 = word.search( /(euse|euses)$/ );
 
@@ -240,9 +240,9 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 		// +1- amendment to non-vowel
 		word = word.substring( 0, a12Index + 1 );
 	} else if ( a13Index !== -1 && a13Index >= rvIndex ) {
-		word = word.replace( /(amment)$/, "ant" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes13[ 0 ] ), standardSuffixData.standardSuffixes13[ 1 ]  );
 	} else if ( a14Index !== -1 && a14Index >= rvIndex ) {
-		word = word.replace( /(emment)$/, "ent" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes14[ 0 ] ), standardSuffixData.standardSuffixes14[ 1 ] );
 	} else if ( a15Index !== -1 && a15Index >= rvIndex ) {
 		word = word.substring( 0, a15Index + 1 );
 	}
