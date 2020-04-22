@@ -79,6 +79,17 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertAttributeInstanceOf( Post_Type_Helper::class, 'post_type_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Taxonomy_Helper::class, 'taxonomy_helper', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Head_Action::class, 'head_action', $this->instance );
+	}
+
+	/**
 	 * Tests the register routes function.
 	 *
 	 * @covers ::register_routes
@@ -92,7 +103,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 		$this->taxonomy_helper
 			->expects( 'get_public_taxonomies' )
 			->once()
-			->andReturn( [ 'taxonomy' ] );
+			->andReturn( [ 'taxonomy', 'post_tag' ] );
 
 		Monkey\Functions\expect( 'register_rest_field' )
 			->once()
@@ -106,6 +117,14 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->once()
 			->with(
 				'taxonomy',
+				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
+				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
+			);
+
+		Monkey\Functions\expect( 'register_rest_field' )
+			->once()
+			->with(
+				'tag',
 				Yoast_Head_REST_Field::YOAST_HEAD_FIELD_NAME,
 				[ 'get_callback' => [ $this->instance, 'for_term' ] ]
 			);
@@ -138,6 +157,10 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
+	 *
+	 * @param string $method The method to test.
+	 * @param array  $params The arguments to use.
+	 * @param mixed  $input  The input for the head_action.
 	 */
 	public function test_adding_yoast_head( $method, $params, $input ) {
 		$this->head_action
@@ -191,6 +214,10 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
+	 *
+	 * @param string $method The method to test.
+	 * @param array  $params The arguments to use.
+	 * @param mixed  $input  The input for the head_action.
 	 */
 	public function test_adding_yoast_head_with_404( $method, $params, $input ) {
 		$this->head_action

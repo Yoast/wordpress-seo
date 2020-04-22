@@ -65,6 +65,9 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
+	 *
+	 * @param string     $method The method to call.
+	 * @param string|int $input  The data to pass.
 	 */
 	public function test_retrieving_meta( $method, $input ) {
 		$meta = Mockery::mock();
@@ -118,8 +121,12 @@ class Indexable_Head_Action_Test extends TestCase {
 	 * @covers ::for_term
 	 * @covers ::for_author
 	 * @covers ::for_post_type_archive
+	 * @covers ::for_404
 	 *
 	 * @dataProvider method_provider
+	 *
+	 * @param string     $method The method to call.
+	 * @param string|int $input  The data to pass.
 	 */
 	public function test_retrieving_meta_with_meta_not_found( $method, $input ) {
 		$meta = Mockery::mock();
