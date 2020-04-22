@@ -93,7 +93,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building the hierarchy of a post with no parents.
+	 * Tests building the hierarchy of a post where the post parent is set to 0.
 	 *
 	 * @covers ::build
 	 * @covers ::add_ancestors_for_post
@@ -108,6 +108,24 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
+	 * Tests building the hierarchy of a post where the post parent is not set.
+	 *
+	 * @covers ::build
+	 * @covers ::add_ancestors_for_post
+	 */
+	public function test_parents_not_set() {
+		$indexable = new Indexable();
+		$indexable->id          = 1;
+		$indexable->object_type = 'post';
+		$indexable->object_id   = 1;
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
 
 		$this->instance->build( $indexable );
 	}
