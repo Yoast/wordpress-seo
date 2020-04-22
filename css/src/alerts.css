@@ -28,7 +28,8 @@
 	background: #fff3cd;
 }
 
-.yoast-alert__icon {
+/* Needs higher specificity than a Gutenberg ruleset selector. */
+.yoast-alert__icon.yoast-alert__icon {
 	display: block;
 	margin-right: 8px;
 	height: 14px;
