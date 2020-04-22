@@ -2,8 +2,8 @@
     --color-placeholder: #707070;
 }
 
-.yoast-field-group .yoast-field-group__textarea,
-.yoast-field-group .yoast-field-group__inputfield {
+.yoast .yoast-field-group__textarea,
+.yoast .yoast-field-group__inputfield {
     width: 100%;
     font-size: var(--font-size-default);
     padding: 8px;
@@ -14,7 +14,7 @@
     border-radius: 0px;
 }
 
-.yoast-field-group__inputfield--upload {
+.yoast-field-group--upload .yoast-field-group__inputfield {
     margin-bottom: 8px;
 }
 
