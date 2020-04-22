@@ -230,17 +230,13 @@ class Image_Helper {
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
 	 * @param int   $attachment_id The attachment id.
-	 * @param array $image_params  The image parameters to get dimensions for.
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
-	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
+	public function get_best_attachment_variation( $attachment_id ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
-		if ( $image_params ) {
-			$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
-		}
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
