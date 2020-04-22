@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import stem from "../../../../src/morphology/french/stem";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
+
+const morphologyDataFR = getMorphologyData( "fr" ).fr;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the French stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ] ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataFR ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
