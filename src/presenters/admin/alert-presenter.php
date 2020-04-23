@@ -15,32 +15,11 @@ use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 class Alert_Presenter extends Abstract_Presenter {
 
 	/**
-	 * Alert type.
+	 * Content of the Alert.
 	 *
 	 * @var string
 	 */
-	const ERROR = 'error';
-
-	/**
-	 * Alert type.
-	 *
-	 * @var string
-	 */
-	const INFO = 'info';
-
-	/**
-	 * Alert type.
-	 *
-	 * @var string
-	 */
-	const SUCCESS = 'success';
-
-	/**
-	 * Alert type.
-	 *
-	 * @var string
-	 */
-	const WARNING = 'warning';
+	private $content = '';
 
 	/**
 	 * The type of the Alert.
@@ -50,14 +29,7 @@ class Alert_Presenter extends Abstract_Presenter {
 	 *
 	 * @var string
 	 */
-	private $type = '';
-
-	/**
-	 * Content of the Alert.
-	 *
-	 * @var string
-	 */
-	private $content = '';
+	private $type;
 
 	/**
 	 * An instance of the WPSEO_Admin_Asset_Manager class.
@@ -69,12 +41,12 @@ class Alert_Presenter extends Abstract_Presenter {
 	/**
 	 * Alert_Presenter constructor.
 	 *
-	 * @param string $type    Type of the Alert (error/info/success/warning).
 	 * @param string $content Content of the Alert.
+	 * @param string $type    Type of the Alert (error/info/success/warning), default is warning.
 	 */
-	public function __construct( $type, $content ) {
-		$this->type    = $type;
+	public function __construct( $content, $type = 'warning' ) {
 		$this->content = $content;
+		$this->type    = $type;
 
 		if ( ! $this->asset_manager ) {
 			$this->asset_manager = new \WPSEO_Admin_Asset_Manager();
