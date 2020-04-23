@@ -43,8 +43,6 @@ class Marker_Open_Presenter_Test extends TestCase {
 		);
 	}
 
-
-
 	/**
 	 * Tests the presentation of the close debug marker.
 	 *
@@ -67,4 +65,14 @@ class Marker_Open_Presenter_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests the get method.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$instance = new Marker_Open_Presenter();
+
+		$this->assertSame( '', $instance->get() );
+	}
 }

@@ -68,4 +68,15 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 
 		$this->assertEmpty( $actual );
 	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->open_graph_article_published_time = '2019-10-08T12:26:31+00:00';
+
+		$this->assertSame( '2019-10-08T12:26:31+00:00', $this->instance->get() );
+	}
 }

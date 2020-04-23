@@ -27,14 +27,24 @@ class Robots_Presenter_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * Represents the presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Robots_Presenter::class )
+		$this->presentation = new Indexable_Presentation();
+		$this->instance     = Mockery::mock( Robots_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -43,8 +53,7 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
+		$this->presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',
 		];
@@ -62,15 +71,14 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
+		$this->presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',
 		];
 
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index, nofollow', $indexable_presentation )
+			->with( 'index, nofollow', $this->presentation )
 			->andReturn( 'noindex' );
 
 		$actual   = $this->instance->present();
@@ -85,9 +93,25 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [];
+		$this->presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->robots = [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		];
+
+		$this->assertSame( [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		], $this->instance->get() );
 	}
 }

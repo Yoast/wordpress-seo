@@ -68,4 +68,15 @@ class FB_App_ID_Presenter_Test extends TestCase {
 
 		$this->assertEmpty( $actual );
 	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->open_graph_fb_app_id = '12345';
+
+		$this->assertSame( '12345', $this->instance->get() );
+	}
 }
