@@ -27,9 +27,9 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 			'Yoast SEO'
 		);
 		$support = \sprintf(
-			/* translators: %1$s: link to knowledge base article about solving table issue. %2$s: is anchor closing. */
-			esc_html__( 'Please read the following %1$sknowledge base article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15o' ) . '">',
+			/* translators: %1$s: link to help article about solving table issue. %2$s: is anchor closing. */
+			esc_html__( 'Please read %1$sthis help article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">',
 			'</a>'
 		);
 
