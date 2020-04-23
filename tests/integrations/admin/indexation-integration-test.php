@@ -24,8 +24,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Indexation_Integration_Test
  *
- * @group actions
- * @group indexables
+ * @group integrations
+ * @group indexation
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexation_Integration
  */
