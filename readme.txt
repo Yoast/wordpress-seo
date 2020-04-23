@@ -243,6 +243,8 @@ Other:
 * Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
 * Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
 * Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
+* Adds a notification to the dashboard, plugins page, updates page and the Yoast pages that appears when your content hasn’t been fully indexed yet.
+* [Developer only feature] Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an url. This endpoint takes a single paramter, `url` which should be the absolute url of the page to get the head for.
 
 = 13.5 =
 Release Date: April 14th, 2020

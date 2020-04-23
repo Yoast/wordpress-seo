@@ -134,8 +134,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'post' )->andReturn( $parent_indexable );
 
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'post_parent' => 2, 'post_type' => 'post' ] );
-		$this->post->expects( 'get_post' )->once()->with( 2 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
-
+		$this->post->expects( 'get_post' )->twice()->with( 2 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
 		$this->instance->build( $indexable );
 	}
 

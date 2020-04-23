@@ -16,6 +16,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int    $post_id  Post ID.
  * @property int    $term_id  Term ID.
  * @property string $taxonomy Taxonomy.
+ * @property int    $blog_id  Blog ID.
  *
  * @property string $created_at
  * @property string $updated_at
@@ -38,5 +39,6 @@ class Primary_Term extends Yoast_Model {
 		'id',
 		'post_id',
 		'term_id',
+		'blog_id',
 	];
 }

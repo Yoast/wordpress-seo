@@ -54,6 +54,7 @@ class Indexable_System_Page_Builder {
 		$indexable->object_sub_type   = $object_sub_type;
 		$indexable->title             = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ] );
 		$indexable->is_robots_noindex = true;
+		$indexable->blog_id           = \get_current_blog_id();
 
 		return $indexable;
 	}
