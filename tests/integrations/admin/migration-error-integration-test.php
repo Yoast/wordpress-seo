@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Migration_Error_Presenter_Test
+ * Class Migration_Error_Integration_Test
  *
  * @group integrations
  * @group migrations
