@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Slot } from "@wordpress/components";
+import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 
-const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 const socialMediumName = "Twitter";
 
 /**
@@ -15,15 +15,18 @@ const socialMediumName = "Twitter";
  * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
+	useEffect( () => {
+		props.loadTwitterPreviewData();
+	}, [] );
+
 	const richProps = {
 		...props,
-		isPremium,
 		socialMediumName,
 	};
 	return (
 		<Fragment>
 			{
-				isPremium
+				props.isPremium
 					? <Slot
 						name="YoastTwitterPremium"
 						fillProps={ richProps }
@@ -35,3 +38,8 @@ const TwitterWrapper = ( props ) => {
 };
 
 export default TwitterWrapper;
+
+TwitterWrapper.propTypes = {
+	isPremium: PropTypes.bool.isRequired,
+	loadTwitterPreviewData: PropTypes.func.isRequired,
+};

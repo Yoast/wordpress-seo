@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Slot } from "@wordpress/components";
+import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 
-const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 const socialMediumName = "Facebook";
 
 /**
@@ -15,16 +15,19 @@ const socialMediumName = "Facebook";
  * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
+	useEffect( () => {
+		props.loadFacebookPreviewData();
+	}, [] );
+
 	const richProps = {
 		...props,
 		socialMediumName,
-		isPremium,
 	};
 
 	return (
 		<Fragment>
 			{
-				isPremium
+				props.isPremium
 					? <Slot
 						name="YoastFacebookPremium"
 						fillProps={ richProps }
@@ -33,6 +36,11 @@ const FacebookWrapper = ( props ) => {
 			}
 		</Fragment>
 	);
+};
+
+FacebookWrapper.propTypes = {
+	loadFacebookPreviewData: PropTypes.func.isRequired,
+	isPremium: PropTypes.bool.isRequired,
 };
 
 export default FacebookWrapper;
