@@ -156,7 +156,6 @@ class SocialMetadataPreviewForm extends Component {
 			description,
 			onTitleChange,
 			onDescriptionChange,
-			imageSelected,
 			hoveredField,
 			activeField,
 			isPremium,
@@ -165,6 +164,8 @@ class SocialMetadataPreviewForm extends Component {
 			imageWarnings,
 			imageUrl,
 		} = this.props;
+
+		const imageSelected = !! imageUrl;
 
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
 		const imageSelectTitle = sprintf( __( "%s image", "yoast-components" ), socialMediumName );
@@ -242,7 +243,6 @@ SocialMetadataPreviewForm.propTypes = {
 	description: PropTypes.string.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
-	imageSelected: PropTypes.bool.isRequired,
 	isPremium: PropTypes.bool,
 	hoveredField: PropTypes.string,
 	activeField: PropTypes.string,
