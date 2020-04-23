@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.12.0 May 11th, 2020
+### Added
+* Adds a file that can be used to modify hidden inputs.
+
 ## 0.3.0 May 27th, 2019
 
 ### Added
