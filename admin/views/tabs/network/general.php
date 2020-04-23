@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<div class="tab-block yoast-modal__section">';
+echo '<div class="tab-block">';
 echo '<h2>General</h2>';
 
 /*

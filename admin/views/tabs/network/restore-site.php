@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<div class="tab-block yoast-modal__section">';
+echo '<div class="tab-block">';
 echo '<h2>Restore site</h2>';
 
 echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
@@ -32,6 +32,6 @@ else {
 }
 
 wp_nonce_field( 'wpseo-network-restore', 'restore_site_nonce', false );
-echo '<button type="submit" name="action" value="' . esc_attr( Yoast_Network_Admin::RESTORE_SITE_ACTION ) . '" class="button button yoast-button yoast-button--primary">' . esc_html__( 'Restore site to defaults', 'wordpress-seo' ) . '</button>';
+echo '<button type="submit" name="action" value="' . esc_attr( Yoast_Network_Admin::RESTORE_SITE_ACTION ) . '" class="yoast-button yoast-button--primary">' . esc_html__( 'Restore site to defaults', 'wordpress-seo' ) . '</button>';
 
 echo '</div>';
