@@ -1,6 +1,8 @@
 <?php
 /**
  * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Presenters\Admin
  */
 
 namespace Yoast\WP\SEO\Tests\Presenters\Admin;
@@ -16,7 +18,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presenters
  * @group indexation
- * @group test
  */
 class Indexation_Warning_Presenter_Test extends TestCase {
 
