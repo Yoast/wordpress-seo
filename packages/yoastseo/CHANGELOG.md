@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 2.1.0 May 11th, 2020
+## 1.74.0 May 11th, 2020
 ### Added
 * Adds French to the list of languages for which we have morphology support.
 * Adds word forms support for French in a beta version.
