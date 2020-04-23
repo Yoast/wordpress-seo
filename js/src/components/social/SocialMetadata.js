@@ -3,8 +3,8 @@ import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
 
 /* Internal dependencies */
-import FacebookContainer from "../../containers/Facebook";
-import TwitterContainer from "../../containers/Twitter";
+import FacebookContainer from "../../containers/FacebookEditor";
+import TwitterContainer from "../../containers/TwitterEditor";
 
 /**
  * Component that renders the social metadata collapsibles.
