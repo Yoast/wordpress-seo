@@ -198,13 +198,13 @@ class Indexation_Integration_Test extends TestCase {
 				'nonce'     => 'nonce',
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! All your site\'s content has been indexed.',
-				'indexingFailed'    => 'Something went wrong indexing the content of your site. Please try again later.',
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! You\'ve sped up your site.',
+				'indexingFailed'    => 'Something went wrong while optimizing the SEO data of your site. Please try again later.',
 			],
 			'l10n'    => [
-				'calculationInProgress' => 'Calculation in progress...',
-				'calculationCompleted'  => 'Calculation completed.',
-				'calculationFailed'     => 'Calculation failed, please try again later.',
+				'calculationInProgress' => 'Optimization in progress...',
+				'calculationCompleted'  => 'Optimization completed.',
+				'calculationFailed'     => 'Optimization failed, please try again later.',
 			],
 		];
 
@@ -270,7 +270,13 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
-		$this->expectOutputString( '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" class="button-link yoast-open-indexation" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>' );
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected .= '<strong>NEW:</strong> Yoast SEO can now store your site’s SEO data in a smarter way!</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation">Click here to speed up your site now</button>';
+		$expected .= '<p>Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">hide this notice</button> ';
+		$expected .= '(everything will continue to function as normal).</p></div>';
+
+		$this->expectOutputString( $expected );
 
 		$this->instance->render_indexation_warning();
 	}
