@@ -749,6 +749,7 @@ class WPSEO_Upgrade {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-recalculate' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-links-table-not-accessible' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
 	}
 
 	/**
