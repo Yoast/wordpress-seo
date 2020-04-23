@@ -10,7 +10,14 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 * Adds CSS through JavaScript imports for button, checkbox, data-model, field-group, inputs, modal, radiobutton, select and toggle.
 * Adds GenerateId, FieldGroup, TextArea and TextInput components.
+* Adds CSS for the primary, secondary and buy buttons.
 * Adds a CSS test stub.
+
+### Changed
+* Updates the styling of the multiselect.
+
+### Fixed
+* Changes the HTML for the modal to improve the accessibility.
 
 ## 1.0.0 April 14th, 2020
 ### Added
