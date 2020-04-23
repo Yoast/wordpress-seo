@@ -240,6 +240,7 @@ Enhancements:
 Other:
 
 * Deprecates the `wpseo_twitter_taxonomy_image` and `wpseo_twitter_metatag_key` filters.
+* Deprecates the `wp_seo_get_bc_ancestors` filter. Developers should use the `wpseo_breadcrumb_links` filter instead to add and/or replace breadcrumbs.
 * Deprecates the `wpseo_opengraph` and `wpseo_twitter` actions.
 * Adds the following filters:
      * `wpseo_debug_markers`, which allows users to disable the debug markers.
