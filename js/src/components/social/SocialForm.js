@@ -9,23 +9,14 @@ import SocialUpsell from "./SocialUpsell";
  *
  * @returns {Component} The SocialForm Component.
  */
-const SocialForm = ( props ) => {
-	const {
-		image,
-		...otherProps
-	} = props;
-
-	return (
-		<Fragment>
-			<SocialUpsell socialMediumName={ props.socialMediumName } />
-			<SocialMetadataPreviewForm
-				imageSelected={ !! image.url || !! image.fallback }
-				imageUrl={ image.url || image.fallbackUrl || null }
-				{ ...otherProps }
-			/>
-		</Fragment>
-	);
-};
+const SocialForm = ( props ) => (
+	<Fragment>
+		<SocialUpsell socialMediumName={ props.socialMediumName } />
+		<SocialMetadataPreviewForm
+			{ ...props }
+		/>
+	</Fragment>
+);
 
 /**
  * Adds validation for the properties.
@@ -37,12 +28,13 @@ SocialForm.propTypes = {
 	onRemoveImageClick: PropTypes.func.isRequired,
 	onDescriptionChange: PropTypes.func.isRequired,
 	onTitleChange: PropTypes.func.isRequired,
-	image: PropTypes.object.isRequired,
 	isPremium: PropTypes.bool.isRequired,
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
 	description: PropTypes.string,
 	title: PropTypes.string,
 	imageWarnings: PropTypes.array,
+	imageUrl: PropTypes.string.isRequired,
+	imageFallbackUrl: PropTypes.string.isRequired,
 };
 
 SocialForm.defaultProps = {
