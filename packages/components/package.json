@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "1.1.0",
+  "version": "2.0.0-rc.0",
   "description": "Yoast Components",
   "main": "src/index.js",
   "private": false,
@@ -19,7 +19,10 @@
   "jest": {
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/jest/CSSStub.js"
+    }
   },
   "dependencies": {
     "@wordpress/a11y": "^1.1.3",

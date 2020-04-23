@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.2.0 April 23rd, 2020
+### Added
+* Adds a CSS test stub.
+
 ## 1.11.0 January 6th, 2020
 ### Other
 * Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
