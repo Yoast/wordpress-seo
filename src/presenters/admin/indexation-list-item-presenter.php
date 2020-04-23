@@ -36,10 +36,10 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
-		$output = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Content indexation', 'wordpress-seo' ) );
+		$output = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Speeding up your site', 'wordpress-seo' ) );
 
 		if ( $this->total_unindexed === 0 ) {
-			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! All your site\'s content has been indexed.', 'wordpress-seo' );
+			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
 		}
 		else {
 			$output .= \sprintf(
@@ -48,8 +48,8 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 						'%2$s' .
 					'</button>' .
 				'</span>',
-				\esc_attr__( 'Your content is being indexed', 'wordpress-seo' ),
-				\esc_html__( 'Index your content', 'wordpress-seo' )
+				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
+				\esc_html__( 'Speed up your site', 'wordpress-seo' )
 			);
 		}
 

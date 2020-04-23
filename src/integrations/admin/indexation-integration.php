@@ -153,13 +153,13 @@ class Indexation_Integration implements Integration_Interface {
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! All your site\'s content has been indexed.', 'wordpress-seo' ),
-				'indexingFailed'    => __( 'Something went wrong indexing the content of your site. Please try again later.', 'wordpress-seo' ),
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
+				'indexingFailed'    => __( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
-				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
-				'calculationFailed'     => __( 'Calculation failed, please try again later.', 'wordpress-seo' ),
+				'calculationInProgress' => __( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => __( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => __( 'Optimization failed, please try again later.', 'wordpress-seo' ),
 			],
 		];
 
