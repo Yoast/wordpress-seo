@@ -1,8 +1,8 @@
 import Collapsible from "./SidebarCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
-import { MultiSelect, Select } from "@yoast/components/src/select/Select";
-import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
-import TextInput from "@yoast/components/src/inputs/TextInput";
+import { MultiSelect, Select } from "@yoast/components";
+import { RadioButtonGroup } from "@yoast/components";
+import { TextInput } from "@yoast/components";
 import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
 import { Component } from "@wordpress/element";
 import { Fragment } from "react";
