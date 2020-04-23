@@ -226,7 +226,8 @@ Bugfixes:
 Enhancements:
 
 * Adds a notification that appears when your content hasn't been fully indexed yet.
-* Adds a button to the `SEO > Tools` page to create indexables for all posts.
+* Adds a button to the SEO > Tools  page to index all your content.
+* Adds a feature toggle to disable the headless REST routes.
 * No longer outputs the `og:type` meta tag on 404 pages.
 * No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
 * No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
@@ -236,6 +237,7 @@ Enhancements:
 * Adds `Term hierarchy` as a taxonomy snippet variable.
 * Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
 * Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
+* Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
 
 Other:
 
@@ -256,6 +258,7 @@ Other:
      * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
 * No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
 * Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
+* Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
 
 = 13.5 =
 Release Date: April 14th, 2020
