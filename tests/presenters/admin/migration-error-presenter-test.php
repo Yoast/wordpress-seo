@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Indexation_Warning_Presenter_Test
+ * Class Migration_Error_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter
  *
