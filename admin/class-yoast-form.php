@@ -575,7 +575,7 @@ class Yoast_Form {
 				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
-				' /> ';
+				' />';
 			echo '<input',
 				' class="yoast-remove"',
 				' type="button"',
