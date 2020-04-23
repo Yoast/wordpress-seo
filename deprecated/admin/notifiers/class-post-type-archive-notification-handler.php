@@ -29,7 +29,6 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
-		$this->notification_identifier = 'post-type-archive-notification';
 	}
 
 	/**
