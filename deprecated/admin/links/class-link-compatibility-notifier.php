@@ -43,7 +43,7 @@ class WPSEO_Link_Compatibility_Notifier {
 	 */
 	protected function get_notification() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.1' );
-		
+
 		return null;
 	}
 }

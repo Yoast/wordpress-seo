@@ -20,6 +20,19 @@ module.exports = {
 			},
 		],
 	},
+	"css-files": {
+		files: [
+			{
+				expand: true,
+				cwd: "css/src",
+				src: [ "**.css" ],
+				dest: "css/dist/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( ".css", "-<%= pluginVersionSlug %>.css" );
+				},
+			},
+		],
+	},
 	"json-translations": {
 		files: [
 			{
@@ -101,6 +114,7 @@ module.exports = {
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",
+					"polyfills/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
 					"vendor_prefixed/dependencies-prefixed.txt",

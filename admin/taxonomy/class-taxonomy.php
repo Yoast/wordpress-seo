@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Class that handles the edit boxes on taxonomy edit pages.
  */
@@ -82,6 +84,8 @@ class WPSEO_Taxonomy {
 
 	/**
 	 * Renders the content for the internet explorer metabox.
+	 *
+	 * @return void
 	 */
 	private function show_internet_explorer_notice() {
 		$product_title = 'Yoast SEO';
@@ -91,22 +95,18 @@ class WPSEO_Taxonomy {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
-
 		echo '<div class="inside">';
-		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
-		echo '<span class="icon">';
-		echo '<svg xmlns="http://www.w3.org/2000/svg" fill="#674E00" height="14px" width="14px" viewBox="0 0 576 512" role="img" aria-hidden="true" focusable="false"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg>';
-		echo '</span>';
-		echo '<div style="float: left">';
-		printf(
-			/* translators: 1: link to Firefox website; 2: link to Chrome website; 3: link to Edge website; 4: link close tag. */
+
+		$content = sprintf(
+			/* translators: 1: Link start tag to the Firefox website, 2: Link start tag to the Chrome website, 3: Link start tag to the Edge website, 4: Link closing tag. */
 			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
 			'<a href="https://www.mozilla.org/firefox/new/">',
-			'<a href="https://www.google.com/intl/nl/chrome/">',
+			'<a href="https://www.google.com/chrome/">',
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
-		echo '</div></div>';
+		echo new Alert_Presenter( $content );
+
 		echo '</div></div>';
 	}
 
@@ -125,11 +125,12 @@ class WPSEO_Taxonomy {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
+		$asset_manager->enqueue_style( 'monorepo' );
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
-			self::is_term_edit( $pagenow ) &&
-			! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+			self::is_term_edit( $pagenow )
+			&& ! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
@@ -337,6 +338,18 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Function to get the labels for the current taxonomy.
+	 *
+	 * @return object Labels for the current taxonomy.
+	 */
+	public static function get_labels() {
+		$term = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+		$taxonomy = get_taxonomy( $term );
+
+		return $taxonomy->labels;
+	}
+
+	/**
 	 * Retrieves a template.
 	 * Check if metabox for current taxonomy should be displayed.
 	 *
@@ -377,6 +390,7 @@ class WPSEO_Taxonomy {
 			'page',
 			'term_title',
 			'term_description',
+			'term_hierarchy',
 			'category_description',
 			'tag_description',
 			'searchphrase',
@@ -434,9 +448,8 @@ class WPSEO_Taxonomy {
 	 * @return string Content with shortcodes filtered out.
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0', 'WPSEO_Frontend::custom_category_descriptions_add_shortcode_support' );
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
 
-		$frontend = WPSEO_Frontend::get_instance();
-		return $frontend->custom_category_descriptions_add_shortcode_support( $desc );
+		return '';
 	}
 }

@@ -73,7 +73,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			return false;
 		}
 
-		if ( '0' === get_option( 'blog_public' ) ) {
+		if ( get_option( 'blog_public' ) === '0' ) {
 			return false;
 		}
 
@@ -114,7 +114,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'%s<br><br>%s',
 			sprintf(
 				/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
-				esc_html( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
+				esc_html__( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
 				'Ryte',
 				'Yoast SEO'
 			),
@@ -148,14 +148,14 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_CRITICAL;
 		$this->badge['color'] = 'red';
 
-		$this->description  = sprintf(
+		$this->description = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
 			esc_html__( '%1$s offers a free indexability check for %2$s users and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo' ),
 			'Ryte',
 			'Yoast SEO'
 		);
 
-		$this->actions  = sprintf(
+		$this->actions = sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
 			esc_html__( '%1$sRead more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) ) . '" target="_blank">',
@@ -172,7 +172,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function unknown_indexability_response() {
-		$this->label          = sprintf(
+		$this->label = sprintf(
 			/* translators: %1$s: Expands to 'Ryte'. */
 			esc_html__( '%1$s cannot determine whether your site can be found by search engines', 'wordpress-seo' ),
 			'Ryte'

@@ -22,7 +22,7 @@ require_once rtrim( $_tests_dir, '/' ) . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/wp-seo.php';
+	require dirname( __DIR__ ) . '/wp-seo.php';
 }
 
 /**
@@ -37,7 +37,7 @@ function _manually_load_plugin() {
  * @return string
  */
 function _plugins_url( $url, $path, $plugin ) {
-	$plugin_dir = dirname( dirname( __FILE__ ) );
+	$plugin_dir = dirname( __DIR__ );
 	if ( $plugin === $plugin_dir . '/wp-seo.php' ) {
 		$url = str_replace( dirname( $plugin_dir ), '', $url );
 	}
@@ -51,6 +51,9 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 // Overwrite the plugin URL to not include the full path.
 tests_add_filter( 'plugins_url', '_plugins_url', 10, 3 );
 
+// Make sure the tests never register as being in development mode.
+tests_add_filter( 'yoast_seo_development_mode', '__return_false' );
+
 /* *****[ Yoast SEO specific configuration ]***** */
 
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
@@ -61,11 +64,11 @@ if ( ! defined( 'YOAST_SEO_INDEXABLES' ) ) {
 	define( 'YOAST_SEO_INDEXABLES', true );
 }
 
-if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
+if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== __DIR__ . '/' ) {
 	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
 	exit( 1 ); // Exit with error code, to make the build fail.
 }
-define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
+define( 'WPSEO_TESTS_PATH', __DIR__ . '/' );
 
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
