@@ -214,25 +214,8 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-		$message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
-		$message .= '<br/>';
-		$message .= sprintf(
-			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the starting tag of the link to the wizard, %3$s resolves to the closing link tag */
-			__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
-			'</a>'
-		);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
+		$note = new Wizard_Notification();
+		$notification = $note->get_notification(1);
 
 		return $notification;
 	}
