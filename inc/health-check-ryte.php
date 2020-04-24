@@ -193,10 +193,10 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->description .= '<br />';
 
 		$alert_content = sprintf(
-			/* translators: %1$s: Expands to 'Ryte', %2$s: Opening tag to the Yoast knowledge base, %3$s: Link closing tag. */
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Link start tag to the Yoast knowledge base, %3$s: Link closing tag. */
 			esc_html__( 'As the indexability status of your website can only be fetched from %1$s every 15 seconds,
-					a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,
-					%2$sread more about troubleshooting search engine visibility%3$s.', 'wordpress-seo' ),
+			a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,
+			%2$sread more about troubleshooting search engine visibility%3$s.', 'wordpress-seo' ),
 			'Ryte',
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
