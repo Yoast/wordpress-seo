@@ -13,6 +13,8 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import HelpLink from "./HelpLink";
 import { LocationConsumer } from "../contexts/location";
+import LanguageFeedbackLink from "../LanguageFeedbackLink";
+import { Fragment } from "react";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;
@@ -50,17 +52,20 @@ class KeywordInput extends Component {
 	render() {
 		return <LocationConsumer>
 			{ context => (
-				<KeywordInputContainer>
-					<KeywordInputComponent
-						id={ `focus-keyword-input-${ context }` }
-						onChange={ this.props.onFocusKeywordChange }
-						keyword={ this.props.keyword }
-						label={ __( "Focus keyphrase", "wordpress-seo" ) }
-						helpLink={ KeywordInput.renderHelpLink() }
-						onBlurKeyword={ this.props.onBlurKeyword }
-						onFocusKeyword={ this.props.onFocusKeyword }
-					/>
-				</KeywordInputContainer>
+				<Fragment>
+					<KeywordInputContainer>
+						<KeywordInputComponent
+							id={ `focus-keyword-input-${ context }` }
+							onChange={ this.props.onFocusKeywordChange }
+							keyword={ this.props.keyword }
+							label={ __( "Focus keyphrase", "wordpress-seo" ) }
+							helpLink={ KeywordInput.renderHelpLink() }
+							onBlurKeyword={ this.props.onBlurKeyword }
+							onFocusKeyword={ this.props.onFocusKeyword }
+						/>
+						<LanguageFeedbackLink />
+					</KeywordInputContainer>
+				</Fragment>
 			) }
 		</LocationConsumer>;
 	}
