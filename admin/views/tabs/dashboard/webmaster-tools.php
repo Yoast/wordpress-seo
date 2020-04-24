@@ -17,7 +17,7 @@ $webmaster_tools_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yn',
 	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' )
 );
-
+echo '<div class="tab-block yoast-feature">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help . '</h2>';
 
 $msverify_link = 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
@@ -33,7 +33,7 @@ $googleverify_link = add_query_arg(
 );
 
 $yform->textinput( 'baiduverify', __( 'Baidu verification code', 'wordpress-seo' ) );
-echo '<p class="desc label">';
+echo '<p>';
 printf(
 	/* translators: %1$s expands to a link start tag to the Baidu Webmaster Tools site add page, %2$s is the link closing tag. */
 	esc_html__( 'Get your Baidu verification code in %1$sBaidu Webmaster Tools%2$s.', 'wordpress-seo' ),
@@ -48,7 +48,7 @@ printf(
 echo '</p>';
 
 $yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ) );
-echo '<p class="desc label">';
+echo '<p>';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Bing verification code in %1$sBing Webmaster Tools%2$s.', 'wordpress-seo' ),
@@ -58,7 +58,7 @@ printf(
 echo '</p>';
 
 $yform->textinput( 'googleverify', __( 'Google verification code', 'wordpress-seo' ) );
-echo '<p class="desc label">';
+echo '<p>';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Google verification code in %1$sGoogle Search Console%2$s.', 'wordpress-seo' ),
@@ -68,7 +68,7 @@ printf(
 echo '</p>';
 
 $yform->textinput( 'yandexverify', __( 'Yandex verification code', 'wordpress-seo' ) );
-echo '<p class="desc label">';
+echo '<p>';
 printf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Yandex verification code in %1$sYandex Webmaster Tools%2$s.', 'wordpress-seo' ),
@@ -76,3 +76,4 @@ printf(
 	'</a>'
 );
 echo '</p>';
+echo '</div>';

@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
+echo '<div class="tab-block yoast-feature">';
 $social_profiles_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yo',
 	__( 'Learn more about your social profiles settings', 'wordpress-seo' )
@@ -103,3 +103,4 @@ if ( $company_or_person === 'company' ) {
 }
 
 do_action( 'wpseo_admin_other_section' );
+echo '</div>';
