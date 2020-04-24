@@ -190,7 +190,7 @@ export default function stem( word, morphologyData ) {
 
 	// Step 3: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
-	if ( word.endsWith( "нн" ) ) {
+	if ( word.endsWith( morphologyData.externalStemmer.doubleN ) ) {
 		word = word.substr( 0, word.length - 1 );
 	}
 
