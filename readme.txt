@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.0 =
 Release Date: April 28th, 2020
 
+Today is a special day. Today, a project we’ve been working on for a year sees the light of day. Yoast SEO 14.0 rewrites the playbook on how a WordPress SEO plugin can work. Thanks to an approach we call indexables, we bring you a much faster experience and a new foundation that helps us get ready for an exciting future! Read more about this release in [our release post](https://yoa.st/release-14-0)!
+
 Bugfixes:
 
 * Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
