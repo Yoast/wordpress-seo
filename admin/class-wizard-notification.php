@@ -1,8 +1,16 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ * @since   14.1
+ */
 
+/**
+ * Class for handling the different types of wizard notifications
+ */
+class Wizard_Notification {
 
-class Wizard_Notification
-{
 
 	/**
 	 * Admin page identifier.
@@ -13,32 +21,21 @@ class Wizard_Notification
 
 
 	/**
-	 * Gets the notification.
+	 * Gets the notification string.
 	 *
-	 * @return Yoast_Notification
+	 * @param string $state Describes the state of the message that should be returned.
+	 * @return string
 	 */
-	public function get_notification($state) {
+	public function get_notification_message( $state ) {
+		/*
+		 * We divide the wizard notification in 3 different categories:
+		 * start - The wizard has not been started and the notification is a call to action to open it
+		 * continue - The wizard has been opened but has not been finished, the notification is a call to action to open it
+		 * finish - The wizard has been finished and the notification hints that you can reopen it to change some settings with a call to action
+		 */
 
-		$message = $this->set_notification($state);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		return $notification;
-	}
-
-	private function set_notification($state)
-	{
-
-		switch ($state) {
-			case 0:
+		switch ( $state ) {
+			case 'start':
 				$message  = __( 'Get started quickly with the configuration wizard!', 'wordpress-seo' );
 				$message .= '<br/>';
 				$message .= sprintf(
@@ -49,7 +46,7 @@ class Wizard_Notification
 					'</a>'
 				);
 				return $message;
-			case 1:
+			case 'continue':
 				$message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
 				$message .= '<br/>';
 				$message .= sprintf(
@@ -60,7 +57,7 @@ class Wizard_Notification
 					'</a>'
 				);
 				return $message;
-			case 2:
+			case 'finish':
 				$message  = __( 'You have successfully completed the notification wizard, good job!', 'wordpress-seo' );
 				$message .= '<br/>';
 				$message .= sprintf(
@@ -73,6 +70,5 @@ class Wizard_Notification
 				return $message;
 		}
 	}
-
 
 }

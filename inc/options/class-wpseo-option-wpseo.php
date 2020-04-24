@@ -47,6 +47,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_xml_sitemap'              => true,
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
+		'started_configuration_wizard'    => false,
 		'first_activated_on'              => false,
 		'myyoast-oauth'                   => [
 			'config'        => [

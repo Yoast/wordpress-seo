@@ -26,6 +26,7 @@ class WPSEO_Configuration_Page {
 		}
 
 		if ( $this->should_add_notification() ) {
+			WPSEO_Options::set( 'started_configuration_wizard', true );
 			$this->add_notification();
 		}
 
@@ -215,7 +216,7 @@ class WPSEO_Configuration_Page {
 	 */
 	private static function get_notification() {
 		$note = new Wizard_Notification();
-		$notification = $note->get_notification(1);
+		$notification = $note->get_notification( 1 );
 
 		return $notification;
 	}
