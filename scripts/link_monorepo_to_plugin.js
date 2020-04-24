@@ -200,7 +200,9 @@ try {
 	execMonorepoNoOutput( "git pull 2>/dev/null" );
 } catch ( error ) {
 	// No remote is specified.
-	warning( "git could not pull changes from the remote repo.\nIf you are working on a local version of the javascript branch, this is expected behaviour.\nContinuing..." )
+	warning(
+		"git could not pull changes from the remote repo.\nIf you are working on a local version of the javascript branch, this is expected behaviour.\nContinuing..."
+	)
 }
 
 log( "Unlinking previously linked Yoast packages from Yarn." );
@@ -212,6 +214,8 @@ execMonorepoNoOutput( "yarn install" );
 log( "Linking all monorepo packages." );
 execMonorepoNoOutput( "yarn link-all" );
 
+const isPremium = fs.existsSync( "premium" );
+
 const packages = execMonorepo( "ls packages" ).toString().split( "\n" ).filter( value => value !== "" );
 packages.forEach( ( yoastPackage ) => {
 	try {
@@ -219,6 +223,16 @@ packages.forEach( ( yoastPackage ) => {
 	} catch ( e ) {
 		if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
 			log( `Package @yoast/${ yoastPackage } could not be linked.` );
+		}
+	}
+
+	if ( isPremium ) {
+		try {
+			execSync( `yarn link @yoast/${ yoastPackage }`, { ...NO_OUTPUT, cwd: "premium" } );
+		} catch ( e ) {
+			if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
+				log( `Package @yoast/${ yoastPackage } could not be linked.` );
+			}
 		}
 	}
 } );
