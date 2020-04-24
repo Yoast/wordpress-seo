@@ -238,6 +238,7 @@ Enhancements:
 * Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
 * Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
 * Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
+* No longer removes the default robots meta values.
 
 Other:
 
