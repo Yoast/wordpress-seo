@@ -6,6 +6,8 @@ import domReady from "@wordpress/dom-ready";
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 
+const isPremium = window.wpseoAdminL10n.isPremium;
+
 /**
  * Container that holds the media object.
  *
@@ -72,6 +74,7 @@ export default compose( [
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			alt: getTwitterAlt(),
+			isPremium: !! isPremium,
 		};
 	} ),
 

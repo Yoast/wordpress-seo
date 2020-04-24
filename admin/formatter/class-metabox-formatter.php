@@ -70,7 +70,6 @@ class WPSEO_Metabox_Formatter {
 			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                      => $this->get_content_analysis_component_translations(),
 			'isRtl'                     => is_rtl(),
-			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
