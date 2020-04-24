@@ -26,4 +26,11 @@ interface Indexation_Action_Interface {
 	 * @return array The reindexed objects.
 	 */
 	public function index();
+
+	/**
+	 * Returns the number of objects that will be indexed in a single indexation pass.
+	 *
+	 * @return int The limit.
+	 */
+	public function get_limit();
 }

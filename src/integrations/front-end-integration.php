@@ -69,6 +69,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Meta_Description',
 		'Robots',
 		'Googlebot',
+		'Bingbot',
 	];
 
 	/**

@@ -51,7 +51,7 @@ class Robots_Presenter_Test extends TestCase {
 		];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="index,nofollow" />';
+		$expected = '<meta name="robots" content="index, nofollow" />';
 
 		$this->assertEquals( $actual, $expected );
 	}
@@ -72,13 +72,13 @@ class Robots_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index,nofollow', $indexable_presentation )
+			->with( 'index, nofollow', $indexable_presentation )
 			->andReturn( 'noindex' );
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="robots" content="noindex" />';
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -92,29 +92,5 @@ class Robots_Presenter_Test extends TestCase {
 		$indexable_presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present() );
-	}
-
-	/**
-	 * Tests if the default and null values are removed from the robots options array.
-	 *
-	 * @covers ::present
-	 * @covers ::remove_defaults
-	 */
-	public function test_present_with_filtering_default_and_null_values() {
-		$this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation       = $this->instance->presentation;
-
-		$indexable_presentation->robots = [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'noimageindex' => 'noimageindex',
-			'nosnippet'    => null,
-			'noarchive'    => null,
-		];
-
-		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="noimageindex" />';
-
-		$this->assertEquals( $actual, $expected );
 	}
 }

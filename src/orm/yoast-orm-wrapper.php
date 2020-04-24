@@ -7,8 +7,10 @@
 
 namespace Yoast\WP\SEO\ORM;
 
+use Exception;
 use PDO;
 use Yoast\WP\Polyfills\PDO\PDO_MySQLi_Polyfill;
+use Yoast\WP\SEO\Initializers\Migration_Runner;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -211,6 +213,22 @@ class ORMWrapper extends ORM {
 			}
 
 			self::set_db( $db, $connection_name );
+		}
+	}
+
+	/**
+	 * Execute the SELECT query that has been built up by chaining methods
+	 * on this class. Return an array of rows as associative arrays.
+	 */
+	protected function _run() {
+		try {
+			return parent::_run();
+		} catch ( Exception $exception ) {
+			// If the query fails run the migrations and try again.
+			// Action is intentionally undocumented and should not be used by third-parties.
+			\do_action( '_yoast_run_migrations' );
+			$this->_reset_idiorm_state();
+			return parent::_run();
 		}
 	}
 }

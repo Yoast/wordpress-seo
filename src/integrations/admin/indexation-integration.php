@@ -13,9 +13,11 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
@@ -29,7 +31,11 @@ class Indexation_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Yoast_Admin_And_Dashboard_Conditional::class ];
+		return [
+			Admin_Conditional::class,
+			Yoast_Admin_And_Dashboard_Conditional::class,
+			Migrations_Conditional::class,
+		];
 	}
 
 	/**
@@ -68,6 +74,13 @@ class Indexation_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
+	 * Represents tha admin asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * The total amount of unindexed objects.
 	 *
 	 * @var int
@@ -80,31 +93,31 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation The general indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
+	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
 		$this->options_helper               = $options_helper;
+		$this->asset_manager                = $asset_manager;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) !== false ) {
-			return;
-		}
-
+		\add_action( 'wpseo_tools_overview_list_items', [ $this, 'render_indexation_list_item' ], 10 );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ], 10 );
 	}
 
@@ -121,11 +134,12 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
-		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+		}
 
-		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_script( 'indexation' );
-		$asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_script( 'indexation' );
+		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		$data = [
 			'amount'  => $this->get_total_unindexed(),
@@ -144,13 +158,13 @@ class Indexation_Integration implements Integration_Interface {
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! All your site\'s content has been indexed.', 'wordpress-seo' ),
-				'indexingFailed'    => __( 'Something went wrong indexing the content of your site. Please try again later.', 'wordpress-seo' ),
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
+				'indexingFailed'    => __( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
-				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
-				'calculationFailed'     => __( 'Calculation failed, please try again later.', 'wordpress-seo' ),
+				'calculationInProgress' => __( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => __( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => __( 'Optimization failed, please try again later.', 'wordpress-seo' ),
 			],
 		];
 
@@ -158,7 +172,7 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Renders the indexation list item.
+	 * Renders the indexation warning.
 	 *
 	 * @return void
 	 */
@@ -175,6 +189,15 @@ class Indexation_Integration implements Integration_Interface {
 		\add_thickbox();
 
 		echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+	}
+
+	/**
+	 * Renders the indexation list item.
+	 *
+	 * @return void
+	 */
+	public function render_indexation_list_item() {
+		echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 	}
 
 	/**

@@ -75,8 +75,23 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return Indexable[] The created indexables.
 	 */
 	public function index() {
+		$query    = $this->get_query( false, $this->get_limit() );
+		$term_ids = $this->wpdb->get_col( $query );
+
+		$indexables = [];
+		foreach ( $term_ids as $term_id ) {
+			$indexables[] = $this->builder->build_for_id_and_type( (int) $term_id, 'term' );
+		}
+
+		return $indexables;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
 		/**
-		 * Filter 'wpseo_term_indexing_limit' - Allow filtering the amount of terms indexed during each indexing pass.
+		 * Filter 'wpseo_term_indexation_limit' - Allow filtering the amount of terms indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of terms indexed.
 		 */
@@ -86,15 +101,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$limit = 25;
 		}
 
-		$query    = $this->get_query( false, $limit );
-		$term_ids = $this->wpdb->get_col( $query );
-
-		$indexables = [];
-		foreach ( $term_ids as $term_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $term_id, 'term' );
-		}
-
-		return $indexables;
+		return $limit;
 	}
 
 	/**

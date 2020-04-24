@@ -28,11 +28,11 @@ abstract class TestCase extends BaseTestCase {
 		Monkey\Functions\stubs(
 			[
 				// Null makes it so the function returns its first argument.
-				'esc_attr'             => null,
-				'esc_html'             => null,
-				'esc_textarea'         => null,
-				'__'                   => null,
-				'_n'                   => function( $single, $plural, $number ) {
+				'esc_attr'            => null,
+				'esc_html'            => null,
+				'esc_textarea'        => null,
+				'__'                  => null,
+				'_n'                  => function( $single, $plural, $number ) {
 					if ( $number === 1 ) {
 						return $single;
 					}
@@ -42,6 +42,7 @@ abstract class TestCase extends BaseTestCase {
 				'_x'                   => null,
 				'esc_html__'           => null,
 				'esc_html_x'           => null,
+				'esc_attr__'           => null,
 				'esc_attr_x'           => null,
 				'esc_url'              => null,
 				'esc_url_raw'          => null,
@@ -54,24 +55,24 @@ abstract class TestCase extends BaseTestCase {
 				'wp_json_encode'       => function( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
-				'wp_slash'             => null,
-				'wp_unslash'           => function( $value ) {
+				'wp_slash'            => null,
+				'wp_unslash'          => function( $value ) {
 					return \is_string( $value ) ? \stripslashes( $value ) : $value;
 				},
-				'absint'               => function( $value ) {
+				'absint'              => function( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'           => function( $format, $date ) {
+				'mysql2date'          => function( $format, $date ) {
 					return $date;
 				},
-				'number_format_i18n'   => null,
-				'wp_parse_args'        => function( $settings, $defaults ) {
+				'number_format_i18n'  => null,
+				'wp_parse_args'       => function( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},
 				'user_trailingslashit' => function( $string ) {
 					return \trailingslashit( $string );
 				},
-				'wp_strip_all_tags'    => function( $string, $remove_breaks = false ) {
+				'wp_strip_all_tags'   => function( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
 					$string = \strip_tags( $string );
 

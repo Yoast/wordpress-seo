@@ -34,6 +34,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		// Form fields.
 		'disableadvanced_meta'                     => true,
+		'enable_headless_rest_endpoints'  => true,
 		'ryte_indexability'                        => true,
 		'baiduverify'                              => '', // Text field.
 		'googleverify'                             => '', // Text field.
@@ -308,6 +309,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				/*
 				 * Covers:
 				 *  'disableadvanced_meta'
+				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 */
 				default:

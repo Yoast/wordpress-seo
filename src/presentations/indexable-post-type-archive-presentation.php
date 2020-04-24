@@ -55,4 +55,11 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 
 		return $title;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_source() {
+		return [ 'post_type' => $this->model->object_sub_type ];
+	}
 }

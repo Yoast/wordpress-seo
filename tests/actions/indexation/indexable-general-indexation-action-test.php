@@ -66,11 +66,21 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the limit
+	 *
+	 * @covers ::get_limit
+	 */
+	public function test_get_limit() {
+		$this->assertEquals( 4, $this->instance->get_limit() );
+	}
+
+	/**
 	 * Tests the indexing of the general indexables.
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::query
+	 * @covers ::get_limit
 	 */
 	public function test_index() {
 		$this->set_query();
@@ -82,7 +92,7 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 
 		$this->indexable_builder
 			->expects( 'build_for_system_page' )
-			->with( 'search' )
+			->with( 'search-result' )
 			->andReturn( 'search' );
 
 		$this->indexable_builder
@@ -109,7 +119,7 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_for_system_page' )
 			->once()
-			->with( 'search', false )
+			->with( 'search-result', false )
 			->andReturnFalse();
 
 		$this->indexable_repository

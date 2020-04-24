@@ -216,35 +216,49 @@ Bugfixes:
 
 * Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
 * Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
-* Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
+* Fixes a bug where no `title` meta tag would be output when no post or page-specific title was specified.
 * Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
 * Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
-* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
+* Fixes a bug where the Help Scout beacon was aligned to the right on settings pages on installations with a right-to-left language.
 * Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
-* Fixes a bug where the embedding of posts on LinkedIn was broken, by using the OpenGraph data to power the core oEmbed feature.
+* Fixes a bug where the embedding of posts on LinkedIn was broken.
 
 Enhancements:
 
-* Adds a new tool to the `SEO` -> `Tools` page to create indexables for all posts.
+* Adds a notification that appears when your content hasn't been fully indexed yet.
+* Adds a button to the SEO > Tools  page to index all your content.
+* Adds a feature toggle to disable the headless REST routes.
 * No longer outputs the `og:type` meta tag on 404 pages.
-* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
+* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
 * No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
-* No longer outputs an `og:updated_time` as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
-* No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
-* Strips all tags from text fields in the schema output.
+* No longer outputs an `og:updated_time` meta tag as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
+* No longer outputs an `og:image:secure_url` meta tag as it was the same as `og:image` and all Open Graph consumers seem to prefer that.
+* Strips all HTML tags from text fields in the schema output.
 * Adds `Term hierarchy` as a taxonomy snippet variable.
 * Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
-* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
-* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
-* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
+* Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
+* Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
 
 Other:
 
-* Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
-* Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
-* Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
-* Adds a notification to the dashboard, plugins page, updates page and the Yoast pages that appears when your content hasn’t been fully indexed yet.
-* [Developer only feature] Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an url. This endpoint takes a single paramter, `url` which should be the absolute url of the page to get the head for.
+* Deprecates the `wpseo_twitter_taxonomy_image` and `wpseo_twitter_metatag_key` filters.
+* Deprecates the `wp_seo_get_bc_ancestors` filter. Developers should use the `wpseo_breadcrumb_links` filter instead to add and/or replace breadcrumbs.
+* Deprecates the `wpseo_opengraph` and `wpseo_twitter` actions.
+* Adds the following filters:
+     * `wpseo_debug_markers`, which allows users to disable the debug markers.
+     * `wpseo_frontend_presenter_classes`, which enables the filtering of presenters.
+     * `wpseo_frontend_presenters`, which enables the filtering of presenter instances.
+     * `wpseo_googlebot`, which enables the filtering of the googlebot meta output.
+     * `wpseo_og_article_publisher`, which enables the filtering of the article publisher’s Facebook URL.
+     * `wpseo_og_locale`, which enables the filtering of the Open Graph locale.
+     * `wpseo_post_indexation_limit`, which enables the filtering of the amount of posts indexed during each indexing pass.
+     * `wpseo_post_type_archive_indexation_limit`, which enables the filtering of the amount of post type archives indexed during each indexing pass.
+     * `wpseo_term_indexation_limit`, which enables the filtering of the amount of terms indexed during each indexing pass.
+     * `wpseo_post_types_reset_permalinks`, which enables the filtering of the post types to reset permalinks for.
+     * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
+* No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
+* Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
+* Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
 
 = 13.5 =
 Release Date: April 14th, 2020

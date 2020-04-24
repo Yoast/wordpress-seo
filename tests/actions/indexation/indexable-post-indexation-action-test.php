@@ -112,6 +112,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::index
 	 * @covers ::get_query
+	 * @covers ::get_limit
 	 */
 	public function test_index() {
 		$expected_query = '
@@ -138,6 +139,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * Tests the filter fallback when not returning an integer.
 	 *
 	 * @covers ::index
+	 * @covers ::get_limit
 	 */
 	public function test_index_with_limit_filter_no_int() {
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 'not an integer' );

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\WordPress;
 
+use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 
 /**
@@ -33,5 +34,14 @@ class Wrapper {
 	 */
 	public static function get_replace_vars() {
 		return new WPSEO_Replace_Vars();
+	}
+
+	/**
+	 * Factory function for the admin asset manager.
+	 *
+	 * @return WPSEO_Admin_Asset_Manager The admin asset manager.
+	 */
+	public static function get_admin_asset_manager() {
+		return new WPSEO_Admin_Asset_Manager();
 	}
 }
