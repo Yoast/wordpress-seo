@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
-import ErrorWithUrl from "../../internal/ErrorWithUrl";
-import ErrorBoundary from "../../internal/ErrorBoundary";
+import ErrorWithUrl from "../internal/ErrorWithUrl";
+import ErrorBoundary from "../internal/ErrorBoundary";
 
 // Import required CSS.
 import "./select.css";
