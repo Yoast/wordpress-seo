@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import stem from "../../../../src/morphology/russian/stem";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
+
+const morphologyDataRU= getMorphologyData( "ru" ).ru;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Russian stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ] ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataRU ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
