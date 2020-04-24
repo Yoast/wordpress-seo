@@ -1,6 +1,6 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
@@ -37,7 +37,7 @@ domReady( () => {
 			id,
 			alt,
 		} = selected.attributes;
-		window.wp.data.dispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
+		wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
 			bytes: filesizeInBytes,
 			type: subtype,
 			url,
@@ -47,6 +47,7 @@ domReady( () => {
 			alt,
 		} );
 	} );
+	wpDataDispatch( "yoast-seo/editor" ).loadTwitterPreviewData();
 } );
 
 export default compose( [
@@ -83,7 +84,6 @@ export default compose( [
 			setTwitterPreviewTitle,
 			setTwitterPreviewDescription,
 			clearTwitterPreviewImage,
-			loadTwitterPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
@@ -93,7 +93,6 @@ export default compose( [
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,
-			loadTwitterPreviewData,
 		};
 	} ),
 ] )( TwitterWrapper );

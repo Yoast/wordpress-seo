@@ -1,6 +1,6 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
@@ -37,7 +37,7 @@ domReady( () => {
 			id,
 			alt,
 		} = selected.attributes;
-		window.wp.data.dispatch( "yoast-seo/editor" ).setSocialPreviewImage( {
+		wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
 			bytes: filesizeInBytes,
 			type: subtype,
 			url,
@@ -47,6 +47,7 @@ domReady( () => {
 			alt,
 		} );
 	} );
+	wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
 } );
 
 export default compose( [
@@ -83,7 +84,6 @@ export default compose( [
 			setFacebookPreviewTitle,
 			setFacebookPreviewDescription,
 			clearFacebookPreviewImage,
-			loadFacebookPreviewData,
 		} = dispatch( "yoast-seo/editor" );
 		return {
 			onSelectImageClick: () => {
@@ -92,7 +92,6 @@ export default compose( [
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
 			onTitleChange: setFacebookPreviewTitle,
-			loadFacebookPreviewData,
 		};
 	} ),
 ] )( FacebookWrapper );

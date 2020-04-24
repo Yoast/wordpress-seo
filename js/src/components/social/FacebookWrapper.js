@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
@@ -15,10 +15,6 @@ const socialMediumName = "Facebook";
  * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
-	useEffect( () => {
-		props.loadFacebookPreviewData();
-	}, [] );
-
 	const richProps = {
 		...props,
 		socialMediumName,
@@ -39,7 +35,6 @@ const FacebookWrapper = ( props ) => {
 };
 
 FacebookWrapper.propTypes = {
-	loadFacebookPreviewData: PropTypes.func.isRequired,
 	isPremium: PropTypes.bool.isRequired,
 };
 

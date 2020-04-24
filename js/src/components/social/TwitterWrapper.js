@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
@@ -15,10 +15,6 @@ const socialMediumName = "Twitter";
  * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
-	useEffect( () => {
-		props.loadTwitterPreviewData();
-	}, [] );
-
 	const richProps = {
 		...props,
 		socialMediumName,
@@ -41,5 +37,4 @@ export default TwitterWrapper;
 
 TwitterWrapper.propTypes = {
 	isPremium: PropTypes.bool.isRequired,
-	loadTwitterPreviewData: PropTypes.func.isRequired,
 };
