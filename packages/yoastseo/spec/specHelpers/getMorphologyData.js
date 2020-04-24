@@ -3,7 +3,7 @@ import de from "../../premium-configuration/data/morphologyData-de-v5.json";
 import nl from "../../premium-configuration/data/morphologyData-nl-v5.json";
 import es from "../../premium-configuration/data/morphologyData-es-v5.json";
 import fr from "../../premium-configuration/data/morphologyData-fr-v5.json";
-
+import pl from "../../premium-configuration/data/morphologyData-pl-v6.json";
 
 const morphologyData = {
 	en,
@@ -11,6 +11,7 @@ const morphologyData = {
 	nl,
 	es,
 	fr,
+	pl,
 };
 
 /**

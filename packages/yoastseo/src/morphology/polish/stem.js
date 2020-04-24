@@ -20,167 +20,6 @@
  * SOFTWARE.
  */
 
-const diminutiveSuffixes = {
-	suffixes1: {
-		wordEndings: [ "eczek", "eczka", "eczki", "iczek", "iczka", "iczki", "iszek", "iszka", "iszki", "aszek", "aszki",
-			"aszka", "uszek", "uszka", "uszki", "aczek", "aczka", "aczki" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 5,
-	},
-	suffixes2: {
-		wordEndings: [ "ątko", "unio", "usia" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 4,
-	},
-	suffixes3: {
-		wordEndings: [ "enek", "enka", "enki", "enką", "ejek", "ejka", "ejki", "ejką", "erek", "erki" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 2,
-	},
-	suffixes4: {
-		wordEndings: [ "ek", "ak", "ka", "ko", "uś" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 2,
-	},
-};
-
-const verbSuffixes = {
-	suffixes1: {
-		wordEndings: [ "łybyście", "libyście" ],
-		wordShouldBeLongerThan: 10,
-		suffixLength: 8,
-	},
-	suffixes2: {
-		wordEndings: [ "łybyśmy", "libyśmy" ],
-		wordShouldBeLongerThan: 9,
-		suffixLength: 7,
-	},
-	suffixes3: {
-		wordEndings: [ "liście", "łyśmy", "liśmy" ],
-		wordShouldBeLongerThan: 8,
-		suffixLength: 6,
-	},
-	suffixes4: {
-		wordEndings: [ "łabym", "łabyś" ],
-		wordShouldBeLongerThan: 7,
-		suffixLength: 5,
-	},
-	suffixes5: {
-		wordEndings: [ "łyby", "liby", "łaby", "łszy", "wszy" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 4,
-	},
-	suffixes6: {
-		wordEndings: [ "bym", "byś", "esz", "asz", "cie", "eść", "eźć", "aść", "łem", "łam", "łeś", "amy", "emy", "ała", "iła" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 3,
-	},
-	suffixes7: {
-		wordEndings: [ "łby" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 3,
-	},
-	suffixes8: {
-		wordEndings: [ "esz", "asz", "eść", "aść", "ać", "em", "am", "ał", "ił", "ić", "ąc", "eć" ],
-		wordShouldBeLongerThan: 3,
-		suffixLength: 2,
-	},
-	suffixes9: {
-		wordEndings: [ "aj" ],
-		wordShouldBeLongerThan: 3,
-		suffixLength: 1,
-	},
-};
-
-const nounSuffixes = {
-	suffixes1: {
-		wordEndings: [ "zacja", "zacją", "zacji" ],
-		wordShouldBeLongerThan: 7,
-		suffixLength: 4,
-	},
-	suffixes2: {
-		wordEndings: [ "acja", "acji", "acją", "tach", "anie", "enie", "eniu", "aniu" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 4,
-	},
-	suffixes3: {
-		wordEndings: [ "tyka" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 2,
-	},
-	suffixes4: {
-		wordEndings: [ "nia", "niu", "cia", "ciu" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 3,
-	},
-	suffixes5: {
-		wordEndings: [ "cji", "cja", "cją", "ce", "ta" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 2,
-	},
-	suffixes6: {
-		wordEndings: [ "ów", "om" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 2,
-	},
-	suffixes7: {
-		wordEndings: [ "ami", "ach" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 3,
-	},
-};
-
-const adjectiveAndAdverbSuffixes = {
-	suffixes1: {
-		wordEndings: [ "ejszych", "ejszego", "owszych", "owszego" ],
-		wordShouldBeLongerThan: 9,
-		suffixLength: 7,
-	},
-	suffixes2: {
-		wordEndings: [ "cznych", "ejszej", "owszej", "cznego" ],
-		wordShouldBeLongerThan: 8,
-		suffixLength: 6,
-	},
-	suffixes3: {
-		wordEndings: [ "szych", "ejsze", "ejszy", "ejsza", "ejszą", "owsze", "owszy", "owsza", "owszą", "cznej" ],
-		wordShouldBeLongerThan: 7,
-		suffixLength: 5,
-	},
-	suffixes4: {
-		wordEndings: [ "sze", "szy", "sza", "owy", "owa", "owe", "ych", "ego" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 3,
-	},
-	suffixes5: {
-		wordEndings: [ "czny", "czna", "czne" ],
-		wordShouldBeLongerThan: 6,
-		suffixLength: 4,
-	},
-	suffixes6: {
-		wordEndings: [ "ej" ],
-		wordShouldBeLongerThan: 5,
-		suffixLength: 2,
-	},
-	suffixes7: {
-		wordEndings: [ "nie", "wie", "rze" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 2,
-	},
-};
-
-const generalSuffixes = {
-	suffixes1: {
-		wordEndings: [ "ia", "ie" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 2,
-	},
-	suffixes2: {
-		wordEndings: [ "u", "ą", "i", "a", "ę", "y", "ł" ],
-		wordShouldBeLongerThan: 4,
-		suffixLength: 1,
-	},
-};
-
 /**
  * Loops through an array of word endings and returns the longest ending that was matched at the end of the word.
  *
@@ -262,15 +101,17 @@ const findSuffixInClassAndStem = function( word, suffixClass ) {
  * Stems adjective and adverb suffixes. After stemming the suffixes, looks for the superlative prefix 'naj' and stems it
  * as well if found. For example, in 'najsilniejsze', first the 'ejsze' is stemmed and then the 'naj'.
  *
- * @param {string}  word    The word to stem.
- * @returns {string}        The word with removed adjective/adverb suffixes
+ * @param {string}  word                The word to stem.
+ * @param {Object}  morphologyData      The Polish morphology data file.
+ *
+ * @returns {string} The word with removed adjective/adverb suffixes
  */
-const stemAdjectivesAndAdverbs = function( word ) {
-	const stemmedWord = findSuffixInClassAndStem( word, adjectiveAndAdverbSuffixes );
+const stemAdjectivesAndAdverbs = function( word, morphologyData ) {
+	const stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.adjectiveAndAdverbSuffixes );
 
 	if ( stemmedWord ) {
 		// Remove superlative prefix if found
-		if ( word.startsWith( "naj" ) ) {
+		if ( word.startsWith( morphologyData.externalStemmer.superlativePrefix ) ) {
 			return stemmedWord.slice( 3 );
 		}
 		return stemmedWord;
@@ -280,10 +121,12 @@ const stemAdjectivesAndAdverbs = function( word ) {
 /**
  * Stems Polish words.
  *
- * @param {string}      word    The word to stem.
- * @returns {string}            The stemmed word.
+ * @param {string}  word                The word to stem.
+ * @param {Object}  morphologyData      The Polish morphology data file.
+ *
+ * @returns {string} The stemmed word.
  */
-export default function stem( word ) {
+export default function stem( word, morphologyData ) {
 	word.toLowerCase();
 
 	// If the word is three characters long or shorter, the stem should be the same as the word.
@@ -295,18 +138,18 @@ export default function stem( word ) {
 	 * Go through diminutive, noun, verb, and adjective stemming steps. If a suffix (and optional prefix in case of adjectives/adverbs)
 	 *  is found, delete it and stop searching further.
 	 */
-	let stemmedWord = findSuffixInClassAndStem( word, diminutiveSuffixes );
+	let stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.diminutiveSuffixes );
 
 	if ( ! stemmedWord ) {
-		stemmedWord = findSuffixInClassAndStem( word, nounSuffixes );
+		stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.nounSuffixes );
 	}
 
 	if ( ! stemmedWord ) {
-		stemmedWord = findSuffixInClassAndStem( word, verbSuffixes );
+		stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.verbSuffixes );
 	}
 
 	if ( ! stemmedWord ) {
-		stemmedWord = stemAdjectivesAndAdverbs( word );
+		stemmedWord = stemAdjectivesAndAdverbs( word, morphologyData );
 	}
 
 	// If the word was stemmed in any of the previous steps, replace the word with the stem.
@@ -315,7 +158,7 @@ export default function stem( word ) {
 	}
 
 	// Find and stem general suffixes
-	stemmedWord = findSuffixInClassAndStem( word, generalSuffixes );
+	stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.generalSuffixes );
 
 	if ( stemmedWord ) {
 		return stemmedWord;
@@ -323,5 +166,3 @@ export default function stem( word ) {
 
 	return word;
 }
-
-
