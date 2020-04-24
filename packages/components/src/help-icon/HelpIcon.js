@@ -16,8 +16,8 @@ export const helpIconProps = {
  * Default props for the HelpIcon.
  */
 export const helpIconDefaultProps = {
-	linkTo: "https://yoast.com",
-	linkText: "Tell me what this link does",
+	linkTo: "",
+	linkText: "",
 };
 
 /**
