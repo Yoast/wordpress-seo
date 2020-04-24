@@ -1173,20 +1173,18 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$taxonomy_labels = WPSEO_Taxonomy::get_labels();
-
 		$post_type = WPSEO_Utils::get_post_type();
 		$page_type = WPSEO_Utils::get_page_type();
 
 		/* Adjust the no-index text strings based on the post type. */
-		$post_type_object = get_post_type_object( $post_type );
+		$label_object = ( $page_type === 'post' ) ? get_post_type_object( $post_type ) : WPSEO_Taxonomy::get_labels();
 
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && ! ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => ! ! WPSEO_Options::get( 'noindex-' . $post_type, false ),
 			'isPostType'           => ! ! get_post_type(),
-			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $post_type_object->label : $taxonomy_labels->name,
-			'postTypeNameSingular' => ( $page_type === 'post' ) ? $post_type_object->labels->singular_name : $taxonomy_labels->singular_name,
+			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
+			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
 			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
