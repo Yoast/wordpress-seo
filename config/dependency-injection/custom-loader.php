@@ -100,7 +100,7 @@ class Custom_Loader extends PhpFileLoader {
 		foreach ( $interfaces as $interface ) {
 			if ( ! empty( $singly_implemented[ $interface ] ) ) {
 				$this->container->setAlias( $interface, $singly_implemented[ $interface ] )
-								->setPublic( false );
+					->setPublic( false );
 			}
 		}
 	}

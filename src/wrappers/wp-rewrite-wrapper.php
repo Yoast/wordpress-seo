@@ -13,6 +13,7 @@ use WP_Rewrite;
  * Class WP_Rewrite_Wrapper
  */
 class WP_Rewrite_Wrapper {
+
 	/**
 	 * Returns the global WP_Rewrite_Wrapper object.
 	 *

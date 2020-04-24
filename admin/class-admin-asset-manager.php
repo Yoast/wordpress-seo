@@ -14,18 +14,18 @@
 class WPSEO_Admin_Asset_Manager {
 
 	/**
-	 * Class that manages the assets' location.
-	 *
-	 * @var WPSEO_Admin_Asset_Location
-	 */
-	protected $asset_location;
-
-	/**
 	 * Prefix for naming the assets.
 	 *
 	 * @var string
 	 */
 	const PREFIX = 'yoast-seo-';
+
+	/**
+	 * Class that manages the assets' location.
+	 *
+	 * @var WPSEO_Admin_Asset_Location
+	 */
+	protected $asset_location;
 
 	/**
 	 * Prefix for naming the assets.
@@ -578,7 +578,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wpseo-dismissible-' . $flat_version,
 			],
 			[
-				'name' => 'alerts',
+				'name' => 'notifications',
+				'src'  => 'notifications-' . $flat_version,
+			],
+			[
+				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
 			[
@@ -643,14 +647,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 			],
-
-			/*
-			 * Temporarily commented out to prevent unwanted monorepo styles seeping through.
-			 * [
-			 * 	'name' => 'monorepo',
-			 * 	'src'  => 'monorepo-' . $flat_version,
-			 * ],
-			 */
+			[
+				'name' => 'monorepo',
+				'src'  => 'monorepo-' . $flat_version,
+			],
 			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,

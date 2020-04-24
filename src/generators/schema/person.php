@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
  * Returns schema Person data.
  */
 class Person extends Abstract_Schema_Piece {
+
 	/**
 	 * Array of the social profiles we display for a Person.
 	 *

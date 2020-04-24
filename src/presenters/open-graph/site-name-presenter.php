@@ -35,6 +35,6 @@ class Site_Name_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_opengraph_site_name',  $this->presentation->open_graph_site_name, $this->presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_opengraph_site_name', $this->presentation->open_graph_site_name, $this->presentation ) );
 	}
 }

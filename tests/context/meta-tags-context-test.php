@@ -101,7 +101,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type( array $indexable, $expected, $message ) {
-		$this->instance->indexable = (Object) $indexable;
+		$this->instance->indexable = (object) $indexable;
 
 		Filters\expectApplied( 'wpseo_schema_webpage_type' )->with( $expected );
 
@@ -175,7 +175,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_type_with_page_for_posts() {
-		$this->instance->indexable = (Object) [
+		$this->instance->indexable = (object) [
 			'object_id'   => 1337,
 			'object_type' => 'post',
 		];
@@ -195,7 +195,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	 * @covers ::generate_schema_page_type
 	 */
 	public function test_generate_schema_page_for_a_post() {
-		$this->instance->indexable = (Object) [
+		$this->instance->indexable = (object) [
 			'object_id'   => 1337,
 			'object_type' => 'post',
 		];

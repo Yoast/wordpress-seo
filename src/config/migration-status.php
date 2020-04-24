@@ -121,7 +121,7 @@ class Migration_Status {
 	 * @return bool Whether or not the migration was succesfully locked.
 	 */
 	public function lock_migration( $name ) {
-		$migration_status = $this->get_migration_status( $name );
+		$migration_status         = $this->get_migration_status( $name );
 		$migration_status['lock'] = strtotime( 'now' );
 
 		return $this->set_migration_status( $name, $migration_status );

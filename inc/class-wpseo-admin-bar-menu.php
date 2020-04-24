@@ -158,10 +158,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score        = '';
-		$settings_url = '';
-		$counter      = '';
-		$alert_popup  = '';
+		$score        		 = '';
+		$settings_url 		 = '';
+		$counter      		 = '';
+		$notification_popup  = '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -180,13 +180,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		if ( empty( $score ) && ! is_network_admin() && $can_manage_options ) {
-			$counter     = $this->get_notification_counter();
-			$alert_popup = $this->get_notification_alert_popup();
+			$counter     		= $this->get_notification_counter();
+			$notification_popup = $this->get_notification_popup();
 		}
 
 		$admin_bar_menu_args = [
 			'id'    => self::MENU_IDENTIFIER,
-			'title' => $title . $score . $counter . $alert_popup,
+			'title' => $title . $score . $counter . $notification_popup,
 			'href'  => $settings_url,
 			'meta'  => [ 'tabindex' => ! empty( $settings_url ) ? false : '0' ],
 		];
@@ -645,11 +645,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Gets the notification alert popup if in a valid context.
+	 * Gets the notification popup if in a valid context.
 	 *
-	 * @return string Notification alert popup markup, or empty string if not available.
+	 * @return string Notification popup markup, or empty string if not available.
 	 */
-	protected function get_notification_alert_popup() {
+	protected function get_notification_popup() {
 		$notification_center     = Yoast_Notification_Center::get();
 		$new_notifications       = $notification_center->get_new_notifications();
 		$new_notifications_count = count( $new_notifications );

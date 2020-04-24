@@ -184,6 +184,8 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );

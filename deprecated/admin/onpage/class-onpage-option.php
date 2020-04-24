@@ -14,7 +14,7 @@ _deprecated_file( __FILE__, 'WPSEO 13.2' );
  * @deprecated 13.2
  * @codeCoverageIgnore
  */
-class WPSEO_OnPage_Option extends WPSEO_Ryte_Option  {
+class WPSEO_OnPage_Option extends WPSEO_Ryte_Option {
 
 	/**
 	 * Setting the object by setting the properties.
@@ -25,5 +25,4 @@ class WPSEO_OnPage_Option extends WPSEO_Ryte_Option  {
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.2', WPSEO_Ryte_Option::class );
 	}
-
 }

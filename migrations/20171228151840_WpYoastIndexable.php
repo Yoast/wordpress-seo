@@ -99,7 +99,7 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		// Open-Graph.
 		$indexable_table->column( 'open_graph_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'open_graph_description', 'mediumtext', [ 'null' => true ] );
-		$indexable_table->column( 'open_graph_image',  'mediumtext', [ 'null' => true ] );
+		$indexable_table->column( 'open_graph_image', 'mediumtext', [ 'null' => true ] );
 		$indexable_table->column( 'open_graph_image_id', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'open_graph_image_source', 'string', [ 'null' => true, 'limit' => 191 ] );
 		$indexable_table->column( 'open_graph_image_meta', 'text', [ 'null' => true ] );

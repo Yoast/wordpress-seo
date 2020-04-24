@@ -148,7 +148,7 @@ class Pagination_Helper_Test extends TestCase {
 	 * @covers ::get_number_of_archive_pages
 	 */
 	public function test_get_number_of_archive_pages() {
-		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query                = Mockery::mock( 'WP_Query' );
 		$wp_query->max_num_pages = '6';
 
 		$this->wp_query_wrapper

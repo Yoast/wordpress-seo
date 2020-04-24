@@ -84,7 +84,7 @@ class Post_Helper {
 			return $post_title;
 		}
 
-		return  __( 'No title', 'wordpress-seo' );
+		return __( 'No title', 'wordpress-seo' );
 	}
 
 	/**

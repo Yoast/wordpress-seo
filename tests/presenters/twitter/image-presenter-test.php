@@ -36,8 +36,9 @@ class Image_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = new Image_Presenter();
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance               = new Image_Presenter();
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		parent::setUp();
 

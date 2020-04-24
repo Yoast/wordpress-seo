@@ -104,7 +104,6 @@ class Image_Presenter_Test extends TestCase {
 		$this->assertEquals( [ 'url' => 'filtered_image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
 	}
 
-
 	/**
 	 * Tests the retrieval of the raw value.
 	 *

@@ -125,9 +125,9 @@ class Indexable_Repository {
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->query()
-					->where( 'permalink_hash', $permalink_hash )
-					->where( 'permalink', $permalink )
-					->find_one();
+			->where( 'permalink_hash', $permalink_hash )
+			->where( 'permalink', $permalink )
+			->find_one();
 	}
 
 	/**
@@ -233,9 +233,9 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'post-type-archive' )
-						  ->where( 'object_sub_type', $post_type )
-						  ->find_one();
+			->where( 'object_type', 'post-type-archive' )
+			->where( 'object_sub_type', $post_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
@@ -259,9 +259,9 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'system-page' )
-						  ->where( 'object_sub_type', $object_sub_type )
-						  ->find_one();
+			->where( 'object_type', 'system-page' )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
@@ -281,9 +281,9 @@ class Indexable_Repository {
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->query()
-						  ->where( 'object_id', $object_id )
-						  ->where( 'object_type', $object_type )
-						  ->find_one();
+			->where( 'object_id', $object_id )
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
@@ -308,9 +308,9 @@ class Indexable_Repository {
 		 * @var Indexable[] $indexables
 		 */
 		$indexables = $this->query()
-						   ->where_in( 'object_id', $object_ids )
-						   ->where( 'object_type', $object_type )
-						   ->find_many();
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
 
 		if ( $auto_create ) {
 			$indexables_available = [];

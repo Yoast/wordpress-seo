@@ -5,6 +5,8 @@
  * @package WPSEO\Internals
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * Represents the health check for Ryte.
  */
@@ -73,7 +75,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			return false;
 		}
 
-		if ( '0' === get_option( 'blog_public' ) ) {
+		if ( get_option( 'blog_public' ) === '0' ) {
 			return false;
 		}
 
@@ -114,7 +116,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'%s<br><br>%s',
 			sprintf(
 				/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
-				esc_html( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
+				esc_html__( '%1$s offers a free indexability check for %2$s users. The request to %1$s to check whether your site can be found by search engines failed due to an error.', 'wordpress-seo' ),
 				'Ryte',
 				'Yoast SEO'
 			),
@@ -148,14 +150,14 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_CRITICAL;
 		$this->badge['color'] = 'red';
 
-		$this->description  = sprintf(
+		$this->description = sprintf(
 			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
 			esc_html__( '%1$s offers a free indexability check for %2$s users and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo' ),
 			'Ryte',
 			'Yoast SEO'
 		);
 
-		$this->actions  = sprintf(
+		$this->actions = sprintf(
 			/* translators: %1$s: Opening tag of the link to the Yoast knowledge base, %2$s: Link closing tag. */
 			esc_html__( '%1$sRead more about troubleshooting search engine visibility.%2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) ) . '" target="_blank">',
@@ -172,7 +174,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	protected function unknown_indexability_response() {
-		$this->label          = sprintf(
+		$this->label = sprintf(
 			/* translators: %1$s: Expands to 'Ryte'. */
 			esc_html__( '%1$s cannot determine whether your site can be found by search engines', 'wordpress-seo' ),
 			'Ryte'
@@ -181,15 +183,26 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->badge['color'] = 'red';
 
 		$this->description = sprintf(
-			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO', %3$s: Opening tag to the Yoast knowledge base, %4$s: Link closing tag. */
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
 			esc_html__( '%1$s offers a free indexability check for %2$s users and right now it has trouble determining
 			whether search engines can find your site. This could have several (legitimate) reasons and is not a problem
-			in itself. If this is a live site, %3$sit is recommended that you figure out why the %1$s check failed.%4$s', 'wordpress-seo' ),
+			in itself. If this is a live site, it is recommended that you figure out why the %1$s check failed.', 'wordpress-seo' ),
 			'Ryte',
-			'Yoast SEO',
+			'Yoast SEO'
+		);
+		$this->description .= '<br />';
+
+		$alert_content = sprintf(
+			/* translators: %1$s: Expands to 'Ryte', %2$s: Link start tag to the Yoast knowledge base, %3$s: Link closing tag. */
+			esc_html__( 'As the indexability status of your website can only be fetched from %1$s every 15 seconds,
+			a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,
+			%2$sread more about troubleshooting search engine visibility%3$s.', 'wordpress-seo' ),
+			'Ryte',
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		$alert = new Alert_Presenter( $alert_content, 'info' );
+		$this->description .= $alert->present();
 
 		$this->add_ryte_link();
 	}

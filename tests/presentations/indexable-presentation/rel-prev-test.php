@@ -26,7 +26,7 @@ class Rel_Prev_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * ::covers generate_rel_prev
+	 * @covers ::generate_rel_prev
 	 */
 	public function test_generate_rel_prev_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_rel_prev() );

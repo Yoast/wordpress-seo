@@ -59,6 +59,4 @@ class Product_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'Yoast SEO plugin', $this->instance->get_name() );
 	}
-
-
 }

@@ -34,7 +34,7 @@ class Marker_Close_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_debug_markers' )->andReturn( true );
 
-		$instance = new Marker_Close_Presenter();
+		$instance          = new Marker_Close_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product,
 		];
@@ -56,7 +56,7 @@ class Marker_Close_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_debug_markers' )->andReturn( false );
 
-		$instance = new Marker_Close_Presenter();
+		$instance          = new Marker_Close_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product,
 		];

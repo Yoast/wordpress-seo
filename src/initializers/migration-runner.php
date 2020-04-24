@@ -19,15 +19,6 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
 class Migration_Runner implements Initializer_Interface {
 
 	/**
-	 * Retrieves the conditionals for the migrations.
-	 *
-	 * @return array The conditionals.
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
-
-	/**
 	 * The Ruckusing framework runner.
 	 *
 	 * @var Ruckusing_Framework
@@ -54,6 +45,15 @@ class Migration_Runner implements Initializer_Interface {
 	 * @var Database_Setup
 	 */
 	protected $database_setup;
+
+	/**
+	 * Retrieves the conditionals for the migrations.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [];
+	}
 
 	/**
 	 * Migrations constructor.

@@ -35,15 +35,19 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
-		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
-		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
+
+		/*
+		 * The `admin_notices` hook fires on single site admin pages vs.
+		 * `network_admin_notices` which fires on multisite admin pages and
+		 * `user_admin_notices` which fires on multisite user admin pagss.
+		 */
+		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
@@ -51,22 +55,11 @@ class WPSEO_Admin_Init {
 			new WPSEO_Health_Check_Default_Tagline(),
 			new WPSEO_Health_Check_Postname_Permalink(),
 			new WPSEO_Health_Check_Curl_Version(),
+			new WPSEO_Health_Check_Link_Table_Not_Accessible,
 		];
 
 		foreach ( $health_checks as $health_check ) {
 			$health_check->register_test();
-		}
-
-		$listeners   = [];
-		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-
-		/**
-		 * Listener interface classes.
-		 *
-		 * @var WPSEO_Listener $listener
-		 */
-		foreach ( $listeners as $listener ) {
-			$listener->listen();
 		}
 
 		$this->load_meta_boxes();
@@ -78,61 +71,10 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Handles the notifiers for the dashboard page.
-	 *
-	 * @return void
-	 */
-	public function handle_notifications() {
-		/**
-		 * Notification handlers.
-		 *
-		 * @var WPSEO_Notification_Handler[] $handlers
-		 */
-		$handlers   = [];
-		$handlers[] = new WPSEO_Post_Type_Archive_Notification_Handler();
-
-		$notification_center = Yoast_Notification_Center::get();
-		foreach ( $handlers as $handler ) {
-			$handler->handle( $notification_center );
-		}
-	}
-
-	/**
 	 * Enqueue our styling for dismissible yoast notifications.
 	 */
 	public function enqueue_dismissible() {
 		$this->asset_manager->enqueue_style( 'dismissible' );
-	}
-
-	/**
-	 * Add an alert if the blog is not publicly visible.
-	 */
-	public function blog_public_notice() {
-
-		$info_message  = '<strong>' . __( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ) . '</strong> ';
-		$info_message .= sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the reading settings, %1$s resolves to the closing tag for the link */
-			__( 'You must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-blog-public-notice',
-			'priority'     => 1.0,
-			'capabilities' => 'wpseo_manage_options',
-		];
-
-		$notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		if ( ! $this->is_blog_public() ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
 	}
 
 	/**
@@ -189,44 +131,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
-	 */
-	public function recalculate_notice() {
-		// Just a return, because we want to temporary disable this notice (#3998 and #4532).
-		return;
-
-		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-			update_option( 'wpseo_dismiss_recalculate', '1' );
-
-			return;
-		}
-
-		if ( ! WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ) ) {
-			return;
-		}
-
-		if ( $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
-			return;
-		}
-
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification(
-				sprintf(
-					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
-					__( 'We\'ve updated our SEO score algorithm. %1$sRecalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
-					'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
-					'</a>'
-				),
-				[
-					'type'  => 'updated yoast-dismissible',
-					'id'    => 'wpseo-dismiss-recalculate',
-					'nonce' => wp_create_nonce( 'wpseo-dismiss-recalculate' ),
-				]
-			)
-		);
-	}
-
-	/**
 	 * Creates an unsupported PHP version notification in the notification center.
 	 *
 	 * @return void
@@ -257,17 +161,6 @@ class WPSEO_Admin_Init {
 
 		// Strip the patch version and convert to a float.
 		return (float) $wp_version_latest;
-	}
-
-	/**
-	 * Check if the user has dismissed the given notice (by $notice_name).
-	 *
-	 * @param string $notice_name The name of the notice that might be dismissed.
-	 *
-	 * @return bool
-	 */
-	private function is_site_notice_dismissed( $notice_name ) {
-		return get_option( $notice_name, true ) === '1';
 	}
 
 	/**
@@ -416,12 +309,12 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Check if the site is set to be publicly visible.
+	 * Checks whether search engines are discouraged from indexing the site.
 	 *
-	 * @return bool
+	 * @return bool Whether search engines are discouraged from indexing the site.
 	 */
-	private function is_blog_public() {
-		return (string) get_option( 'blog_public' ) === '1';
+	private function are_search_engines_discouraged() {
+		return (string) get_option( 'blog_public' ) === '0';
 	}
 
 	/**
@@ -511,6 +404,51 @@ class WPSEO_Admin_Init {
 				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
 			);
 		}
+	}
+
+	/**
+	 * Determines whether and where the "search engines discouraged" admin notice should be displayed.
+	 *
+	 * @return bool Whether the "search engines discouraged" admin notice should be displayed.
+	 */
+	private function should_display_search_engines_discouraged_notice() {
+		return (
+			$this->are_search_engines_discouraged()
+			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
+			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
+			&& (
+				$this->on_wpseo_admin_page()
+				|| in_array( $this->pagenow, [
+					'index.php',
+					'plugins.php',
+					'update-core.php',
+				], true )
+			)
+		);
+	}
+
+	/**
+	 * Displays an admin notice when WordPress is set to discourage search engines from indexing the site.
+	 *
+	 * @return void
+	 */
+	public function search_engines_discouraged_notice() {
+		if ( ! $this->should_display_search_engines_discouraged_notice() ) {
+			return;
+		}
+
+		printf(
+			'<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" id="robotsmessage-dismiss-button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
+			esc_html__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
+				esc_html__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
+				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
+				'</a>'
+			),
+			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
+			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
+		);
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -612,5 +550,27 @@ class WPSEO_Admin_Init {
 	 */
 	public function permalink_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO 13.2' );
+	}
+
+	/**
+	 * Add an alert if the blog is not publicly visible.
+	 *
+	 * @deprecated 14.1
+	 * @codeCoverageIgnore
+	 */
+	public function blog_public_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
+	}
+
+	/**
+	 * Handles the notifiers for the dashboard page.
+	 *
+	 * @deprecated 14.1
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function handle_notifications() {
+		_deprecated_function( __METHOD__, 'WPSEO 14.1' );
 	}
 }

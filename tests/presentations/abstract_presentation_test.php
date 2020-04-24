@@ -39,6 +39,7 @@ class Abstract_Presentation_Test extends TestCase {
 			'property_1' => 'value_1',
 			'property_2' => 'value_2',
 		];
+
 		$model_presentation = $this->instance->of( $data );
 
 		$this->assertEquals( 'value_1', $model_presentation->property_1 );
@@ -88,7 +89,7 @@ class Abstract_Presentation_Test extends TestCase {
 	 */
 	public function test_get_throws_exception_when_accessing_property_on_prototype() {
 		$this->instance->expects( 'is_prototype' )
-					   ->andReturnFalse();
+			->andReturnFalse();
 
 		$this->instance->non_existing_property;
 	}

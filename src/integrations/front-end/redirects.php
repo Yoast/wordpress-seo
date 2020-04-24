@@ -110,7 +110,6 @@ class Redirects implements Integration_Interface {
 		$this->redirect->do_redirect( $redirect, 301 );
 	}
 
-
 	/**
 	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
 	 */

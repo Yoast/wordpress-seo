@@ -1,7 +1,6 @@
 /* Browser:true */
-/* global wpseoSelect2Locale */
 
-( function( $ ) {
+( function() {
 	/**
 	 * Focuses and triggers a click on a tab element.
 	 *
@@ -231,17 +230,6 @@
 	/* eslint-disable-next-line camelcase */
 	window.wpseo_init_tabs = wpseoInitTabs;
 
-	/**
-	 * @summary Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		// Select2 for Yoast SEO Metabox Advanced tab
-		$( "#yoast_wpseo_meta-robots-noindex" ).select2( { width: "100%", language: wpseoSelect2Locale } );
-		$( "#yoast_wpseo_meta-robots-adv" ).select2( { width: "100%", language: wpseoSelect2Locale } );
-	}
-
 	jQuery( document ).ready( function() {
 		// Set up the first tab and panel within the main tabs.
 		jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
@@ -253,7 +241,5 @@
 		window.wpseo_init_tabs();
 
 		wpseoAriaTabsInit();
-
-		initSelect2();
 	} );
 }( jQuery ) );

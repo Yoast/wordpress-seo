@@ -42,7 +42,7 @@ class Open_Graph_Article_Published_Time_Test extends TestCase {
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );
 
-		$actual = $this->instance->generate_open_graph_article_published_time();
+		$actual   = $this->instance->generate_open_graph_article_published_time();
 		$expected = '2019-10-08T12:26:31+00:00';
 
 		$this->assertEquals( $expected, $actual );
@@ -94,7 +94,7 @@ class Open_Graph_Article_Published_Time_Test extends TestCase {
 			->andReturn( true );
 
 
-		$actual = $this->instance->generate_open_graph_article_published_time();
+		$actual   = $this->instance->generate_open_graph_article_published_time();
 		$expected = '2019-10-08T12:26:31+00:00';
 		$this->assertEquals( $expected, $actual );
 	}

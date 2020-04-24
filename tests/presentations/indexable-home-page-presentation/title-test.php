@@ -49,5 +49,4 @@ class Title_Test extends TestCase {
 
 		$this->assertEquals( 'The homepage title', $this->instance->generate_title() );
 	}
-
 }
