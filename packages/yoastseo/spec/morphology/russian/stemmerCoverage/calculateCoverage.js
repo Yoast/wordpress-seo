@@ -3,7 +3,7 @@ import stem from "../../../../src/morphology/russian/stem";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
 
-const morphologyDataRU= getMorphologyData( "ru" ).ru;
+const morphologyDataRU = getMorphologyData( "ru" ).ru;
 
 const coverageThreshold = 0.8;
 
