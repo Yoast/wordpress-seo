@@ -23,7 +23,6 @@ const wordsToStem = [
 	// Words that are on the exact match sub-list of words that should not be stemmed (3-12)
 	[ "loft", "loft" ],
 	[ "rijst", "rijst" ],
-	[ "akte", "akte" ],
 	// Words that are on the list of words with full forms (1-12)
 	// Words that are on the verb sub-list of full forms exception list (1-12)
 	[ "aanbevelen", "aanbeveel" ],
@@ -144,15 +143,16 @@ const wordsToStem = [
 	// Word that ends in -te/-ten with -t being part of the stem and the stem ends in t/d (4i-13)
 	[ "taarten", "taart" ],
 	// Word that is in adjective exception list and gets suffix -er/-ere and the stem ends in t/d (6-13)
-	// [ "harder", "hard" ],
+	[ "harder", "hard" ],
 	[ "absurdere", "absurd" ],
-	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem ends in t/d (7-13)
-	[ "ingrediëntje", "ingrediën" ],
+	// Word that gets suffix -je and is in doNotStemTOrD list (7-13)
+	[ "ingrediëntje", "ingrediënt" ],
 	// Word that gets suffix -tje/-etje and is in removeSuffixFromFullForms list and the stem does not end in -t/-d (7-12)
-	[ "garagetje", "garag" ],
-	[ "parkeergaragetje", "parkeergarag" ],
 	[ "taxietje", "taxi" ],
 	[ "watertaxietje", "watertaxi" ],
+	// Word that gets suffix -etje and the stem is in the exception list with two stems.
+	[ "garagetje", "garaag" ],
+	[ "parkeergaragetje", "parkeergaraag" ],
 	// Noun that is in the ending match stemJeAndOnePrecedingVowel list and the stem does not end in -t/-d (8-12)
 	[ "dramaatje", "drama" ],
 	[ "cameraatje", "camera" ],
@@ -181,6 +181,7 @@ const wordsToStem = [
 	[ "beklimmen", "beklim" ],
 	 // Word that gets suffix -en and is in getVowelDoubling list and does not end in t/d (9di-12)
 	[ "nivelleren", "nivelleer" ],
+	[ "verafgoden", "verafgood" ],
 	// Word that gets suffix -en and is in noVowelOrConsonantDoubling list and is in noun exception list (9dii-10)
 	[ "vaten", "vat" ],
 	 // Word that gets suffix -en and is in noVowelOrConsonantDoubling list and is in verb exception list (9dii-11)
@@ -362,9 +363,11 @@ const wordsToStem = [
 	// Words in -eau that get -s in plural
 	[ "niveaus", "niveau" ],
 	[ "niveau", "niveau" ],
-	// Words in -é that get -s in plural
+	// Words in -é that get -s in plural and -tje/-tjes in diminutive forms
 	[ "maté", "maté" ],
 	[ "matés", "maté" ],
+	[ "souffleetje", "soufflé" ],
+	[ "plisseetje", "plissé" ],
 	// Words in -ou that get -s in plural
 	[ "bijou", "bijou" ],
 	[ "bijous", "bijou" ],
@@ -405,11 +408,50 @@ const wordsToStem = [
 	[ "aangenaam", "aangenaam" ],
 	[ "gelukkig", "gelukkig" ],
 	[ "aardbei", "aardbei" ],
+	// A noun ending in -e which gets diminutive suffix -tje/-tjes.
+	[ "aspergetje", "asperg" ],
+	[ "aspergetjes", "asperg" ],
+	// A word ending in -e
+	[ "asperge", "asperg" ],
+	/*
+	 * A noun with diminutive suffix -tje in which undergoes vowel doubling before adding the suffix -tje/-tjes
+	 * and the stem is in the exception list with two stems (9-11)
+	 */
+	[ "dynamootje", "dynamo" ],
+	[ "dynamootjes", "dynamo" ],
+	[ "dramaatje", "drama" ],
+	[ "cameraatje", "camera" ],
+	[ "studentjes", "student" ],
 	// Words that are in the list of doNotStemTOrD in which the t/d is part of the stem and should not be stemmed.
 	[ "abonnement", "abonnement" ],
 	[ "communicatiedienst", "communicatiedienst" ],
 	[ "botermarkt", "botermarkt" ],
 	[ "rijafstand", "rijafstand" ],
+	// Nouns ending in -e and are in the list of exception with two stems
+	[ "etiologieën", "etiologie" ],
+	[ "etiologietjes", "etiologie" ],
+	[ "verjaardagscadeautje", "verjaardagscadeau" ],
+	// Nouns ending in -e that get suffix -s, -es will be stemmed and apply stem modification after suffix deletion
+	[ "gazelles", "gazel" ],
+	[ "hoeves", "hoef" ],
+	[ "finales", "finaal" ],
+	// Adjectives ending in -er which get adjective suffixes and is in exception list removeSuffixesFromFullForms
+	[ "bittere", "bitter" ],
+	[ "lekkers", "lekker" ],
+	[ "lekkerdere", "lekker" ],
+	[ "lekkere", "lekker" ],
+	// Adjectives ending in -st which get adjective suffixes and is in exception list removeSuffixesFromFullForms
+	[ "beheerstste", "beheerst" ],
+	[ "geruste", "gerust" ],
+	// Adjectives ending in -s which get superlative suffix -t/-te and is in exception list
+	[ "precieste", "precies" ],
+	[ "preciest", "precies" ],
+	[ "trotste", "trots" ],
+	// Plural nouns ending in -ors which should have -or stemmed
+	[ "alligators", "alligator" ],
+	[ "tenors", "tenor" ],
+	// A word that can be both a noun and a verb, which gets stemmed as a noun (to 'bad', not 'bid')
+	[ "baden", "bad" ],
 ];
 
 describe( "Test for determining unique stem for Dutch words", () => {

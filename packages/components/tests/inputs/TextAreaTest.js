@@ -10,7 +10,6 @@ describe( "TextArea", () => {
 		const result = renderer.getRenderOutput();
 
 		expect( result ).toBeDefined();
-		expect( result.props.linkTo ).toBe( "https://yoast.com" );
 	} );
 
 	it( "should render based on provided props", () => {
