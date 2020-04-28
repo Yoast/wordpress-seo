@@ -120,7 +120,11 @@ class Indexable_Repository {
 				break;
 		}
 
-		return $indexable || $this->query()->create( [ 'object_type' => 'unknown' ] );
+		if ( $indexable === false ) {
+			return $this->query()->create( [ 'object_type' => 'unknown' ] );
+		}
+
+		return $indexable;
 	}
 	/**
 	 * Retrieves an indexable by its permalink.
