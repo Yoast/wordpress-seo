@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataModel should render with only the required props 1`] = `
+<ul
+  className="yoast-data-model"
+>
+  <li
+    style={
+      Object {
+        "--width": "60%",
+      }
+    }
+  >
+    test
+    <span>
+      60
+    </span>
+  </li>
+</ul>
+`;
