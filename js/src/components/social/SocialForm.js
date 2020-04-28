@@ -30,11 +30,11 @@ SocialForm.propTypes = {
 	onTitleChange: PropTypes.func.isRequired,
 	isPremium: PropTypes.bool.isRequired,
 	socialMediumName: PropTypes.oneOf( [ "Twitter", "Facebook" ] ).isRequired,
+	imageUrl: PropTypes.string.isRequired,
+	imageFallbackUrl: PropTypes.string.isRequired,
 	description: PropTypes.string,
 	title: PropTypes.string,
 	imageWarnings: PropTypes.array,
-	imageUrl: PropTypes.string.isRequired,
-	imageFallbackUrl: PropTypes.string.isRequired,
 };
 
 SocialForm.defaultProps = {
