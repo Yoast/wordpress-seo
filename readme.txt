@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 13.5
+Stable tag: 14.0
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.0 =
 Release Date: April 28th, 2020
 
+Today is a special day. Today, a project we’ve been working on for a year sees the light of day. Yoast SEO 14.0 rewrites the playbook on how a WordPress SEO plugin can work. Thanks to an approach we call indexables, we bring you a much faster experience and a new foundation that helps us get ready for an exciting future! Read more about this release in [our release post](https://yoa.st/release-14-0)!
+
 Bugfixes:
 
 * Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
@@ -226,7 +228,8 @@ Bugfixes:
 Enhancements:
 
 * Adds a notification that appears when your content hasn't been fully indexed yet.
-* Adds a button to the `SEO > Tools` page to create indexables for all posts.
+* Adds a button to the SEO > Tools  page to index all your content.
+* Adds a feature toggle to disable the headless REST routes.
 * No longer outputs the `og:type` meta tag on 404 pages.
 * No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
 * No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
@@ -236,10 +239,13 @@ Enhancements:
 * Adds `Term hierarchy` as a taxonomy snippet variable.
 * Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
 * Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
+* Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
+* No longer removes the default robots meta values.
 
 Other:
 
 * Deprecates the `wpseo_twitter_taxonomy_image` and `wpseo_twitter_metatag_key` filters.
+* Deprecates the `wp_seo_get_bc_ancestors` filter. Developers should use the `wpseo_breadcrumb_links` filter instead to add and/or replace breadcrumbs.
 * Deprecates the `wpseo_opengraph` and `wpseo_twitter` actions.
 * Adds the following filters:
      * `wpseo_debug_markers`, which allows users to disable the debug markers.
@@ -255,6 +261,7 @@ Other:
      * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
 * No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
 * Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
+* Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
 
 = 13.5 =
 Release Date: April 14th, 2020
