@@ -5,12 +5,26 @@ import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
-import wpMediaHelper from "../helpers/wpMediaHelper";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
 
+/**
+ * Container that holds the media object.
+ *
+ * @returns {void}
+ */
+const TwitterContainer = () => {};
+
+TwitterContainer.getMedia = () => {
+	if ( ! TwitterContainer.media ) {
+		TwitterContainer.media = window.wp.media();
+	}
+
+	return TwitterContainer.media;
+};
+
 domReady( () => {
-	const media = wpMediaHelper.media;
+	const media = TwitterContainer.getMedia();
 	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
@@ -60,7 +74,7 @@ export default compose( [
 
 		return {
 			onSelectImageClick: () => {
-				wpMediaHelper.media.open();
+				TwitterContainer.media.open();
 			},
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
