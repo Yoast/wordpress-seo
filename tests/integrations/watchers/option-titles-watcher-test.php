@@ -136,15 +136,15 @@ class Option_Titles_Watcher_Test extends TestCase {
 			->once()
 			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
-				WHERE indexable_id IN( 
-					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( %s )	
+				WHERE indexable_id IN(
+					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( %s )
 				)",
 				[ 'post' ]
 			)
 			->andReturn( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
-				WHERE indexable_id IN( 
-					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )	
+				WHERE indexable_id IN(
+					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )
 				)" );
 
 		$wpdb
@@ -152,8 +152,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 			->once()
 			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
-				WHERE indexable_id IN( 
-					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )	
+				WHERE indexable_id IN(
+					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( 'post' )
 				)"
 			)
 			->andReturn( 2 );
@@ -194,8 +194,8 @@ class Option_Titles_Watcher_Test extends TestCase {
 			->once()
 			->with( "
 				DELETE FROM `wp_yoast_indexable_hierarchy`
-				WHERE indexable_id IN( 
-					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( %s )	
+				WHERE indexable_id IN(
+					SELECT id FROM `wp_yoast_indexable` WHERE object_type = 'post' AND object_sub_type IN( %s )
 				)",
 				[ 'post' ]
 			)
