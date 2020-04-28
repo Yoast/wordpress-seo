@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Redirect_Helper
@@ -115,16 +115,16 @@ class Post_Helper {
 	 * @return bool Whether the update was successful.
 	 */
 	public function update_has_public_posts_on_attachments( $post_parent, $has_public_posts ) {
-		$orm_wrapper = Yoast_Model::of_type( 'Indexable' );
+		$orm_wrapper = Model::of_type( 'Indexable' );
 
 		// Debatable way to get the table name in an update format.
 		$query = $orm_wrapper->set( 'has_public_posts', $has_public_posts )->get_update_sql();
-		$query = str_replace( 'WHERE `id` = ?', '', $query );
+		$query = str_replace( 'WHERE `id` = %s', '', $query );
 
 		// Execute a raw query here to be able to find & set in one, i.e. more performant.
 		return $orm_wrapper
 			->raw_execute(
-				$query . 'WHERE `object_type` = \'post\' AND `object_sub_type` = \'attachment\' AND `post_status` = \'inherit\' AND `post_parent` = ?',
+				$query . 'WHERE `object_type` = \'post\' AND `object_sub_type` = \'attachment\' AND `post_status` = \'inherit\' AND `post_parent` = %s',
 				[ $has_public_posts, $post_parent ]
 			);
 	}

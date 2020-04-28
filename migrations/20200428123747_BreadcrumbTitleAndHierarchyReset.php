@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -38,7 +38,7 @@ class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
 	 * @return string The table name to use.
 	 */
 	protected function get_indexable_table_name() {
-		return Yoast_Model::get_table_name( 'Indexable' );
+		return Model::get_table_name( 'Indexable' );
 	}
 
 	/**
@@ -47,6 +47,6 @@ class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
 	 * @return string The table name to use.
 	 */
 	protected function get_indexable_hierarchy_table_name() {
-		return Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		return Model::get_table_name( 'Indexable_Hierarchy' );
 	}
 }
