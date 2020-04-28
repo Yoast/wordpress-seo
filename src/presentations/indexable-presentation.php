@@ -238,6 +238,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	protected function filter_robots( $robots ) {
 		$robots_string = \implode( ', ', $robots );
+
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
 		 *
@@ -282,7 +283,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The googlebot value.
 	 */
 	private function generate_snippet_opt_in() {
-		if ( isset( $this->robots['index'] ) && $this->robots['index'] === 'noindex' ) {
+		if ( in_array( 'noindex', $this->robots, true ) ) {
 			return [];
 		}
 
