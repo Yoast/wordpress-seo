@@ -5,27 +5,13 @@ import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
+import wpMediaHelper from "../helpers/wpMediaHelper";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
 
-/**
- * Container that holds the media object.
- *
- * @returns {void}
- */
-const FacebookContainer = () => {};
-
-FacebookContainer.getMedia = () => {
-	if ( ! FacebookContainer.media ) {
-		FacebookContainer.media = window.wp.media();
-	}
-
-	return FacebookContainer.media;
-};
-
 // Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 domReady( () => {
-	const media = FacebookContainer.getMedia();
+	const media = wpMediaHelper.media;
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
 		const {
@@ -87,7 +73,7 @@ export default compose( [
 		} = dispatch( "yoast-seo/editor" );
 		return {
 			onSelectImageClick: () => {
-				FacebookContainer.getMedia().open();
+				wpMediaHelper.media.open();
 			},
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,
