@@ -128,9 +128,12 @@ class SocialPreviewEditor extends Component {
 			title,
 			replacementVariables,
 			recommendedReplacementVariables,
+			applyReplacementVariables,
 			isPremium,
 			isLarge,
 		} = this.props;
+
+		const replacedVars = applyReplacementVariables( { title, description } );
 
 		return (
 			<React.Fragment>
@@ -140,8 +143,8 @@ class SocialPreviewEditor extends Component {
 					onImageClick={ onSelectImageClick }
 					siteUrl={ siteUrl }
 					authorName={ authorName }
-					title={ title }
-					description={ description }
+					title={ replacedVars.title }
+					description={ replacedVars.description }
 					image={ image }
 					alt={ alt }
 					isLarge={ isLarge }
@@ -187,6 +190,7 @@ SocialPreviewEditor.propTypes = {
 	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
+	applyReplacementVariables: PropTypes.func,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -198,6 +202,7 @@ SocialPreviewEditor.defaultProps = {
 	siteUrl: "",
 	alt: "",
 	authorName: "",
+	applyReplacementVariables: data => data,
 };
 
 export default SocialPreviewEditor;
