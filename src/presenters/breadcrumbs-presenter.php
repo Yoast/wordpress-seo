@@ -76,7 +76,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$output = '<' . $this->get_wrapper() . $this->get_id() . $this->get_class() . '>' . $output . '</' . $this->get_wrapper() . '>';
-		$output = $this->filter( $output, $this->presentation );
+		$output = $this->filter( $output );
 
 		$prefix = $this->helpers->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
@@ -120,10 +120,6 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *                          'text'                  => (string) link text.
 	 *                          'url'                   => (string) link url.
 	 *                          (optional) 'title'      => (string) link title attribute text.
-	 *                          (optional) 'allow_html' => (bool) whether to (not) escape html in the link text.
-	 *                          'allow_html' prevents html stripping from the text strings set in the WPSEO -> Internal Links options page.
-	 *                          We never set 'title' or 'allow_html' ourselves but they could be set by users through the
-	 *                          'wpseo_breadcrumb_links' and 'wpseo_breadcrumb_single_link_info' filters.
 	 * @param int   $index      Index for the current breadcrumb.
 	 * @param int   $total      The total number of breadcrumbs.
 	 *
@@ -137,9 +133,6 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$text = \trim( $breadcrumb['text'] );
-		if ( ! isset( $breadcrumb['allow_html'] ) || $breadcrumb['allow_html'] !== true ) {
-			$text = \esc_html( $text );
-		}
 
 		if (
 			$index < ( $total - 1 ) &&
