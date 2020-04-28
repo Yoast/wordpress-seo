@@ -63,8 +63,6 @@ class ORM implements \ArrayAccess {
 	// --- INSTANCE PROPERTIES --- //
 	// --------------------------- //
 	/**
-<<<<<<< Updated upstream
-=======
 	 * The wrapped find_one and find_many classes will return an instance or
 	 * instances of this class.
 	 *
@@ -72,7 +70,6 @@ class ORM implements \ArrayAccess {
 	 */
 	protected $class_name;
 	/**
->>>>>>> Stashed changes
 	 * The name of the table the current ORM instance is associated with.
 	 *
 	 * @var string
@@ -102,179 +99,121 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Are we using the default result column or have these been manually changed?
-<<<<<<< Updated upstream
 	 *
 	 * @var boolean
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_using_default_result_columns = \true;
 
 	/**
 	 * Join sources
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_join_sources = [];
 
 	/**
 	 * Should the query include a DISTINCT keyword?
-<<<<<<< Updated upstream
 	 *
 	 * @var boolean
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_distinct = \false;
 
 	/**
 	 * Is this a raw query?
-<<<<<<< Updated upstream
 	 *
 	 * @var boolean
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_is_raw_query = \false;
 
 	/**
 	 * The raw query
-<<<<<<< Updated upstream
 	 *
 	 * @var string
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_raw_query = '';
 
 	/**
 	 * The raw query parameters
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_raw_parameters = [];
 
 	/**
 	 * Array of WHERE clauses
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_where_conditions = [];
 
 	/**
 	 * LIMIT
-<<<<<<< Updated upstream
 	 *
 	 * @var int
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_limit = null;
 
 	/**
 	 * OFFSET
-<<<<<<< Updated upstream
 	 *
 	 * @var int
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_offset = null;
 
 	/**
 	 * ORDER BY
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_order_by = [];
 
 	/**
 	 * GROUP BY
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_group_by = [];
 
 	/**
 	 * HAVING
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_having_conditions = [];
 
 	/**
 	 * The data for a hydrated instance of the class
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_data = [];
 
 	/**
-<<<<<<< Updated upstream
 	 * lifetime of the object
 	 *
 	 * @var array
-=======
-	 * Fields that have been modified during the
-	 */
-	/**
-	 * lifetime of the object
->>>>>>> Stashed changes
 	 */
 	protected $_dirty_fields = [];
 
 	/**
 	 * Fields that are to be inserted in the DB raw
-<<<<<<< Updated upstream
 	 *
 	 * @var array
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_expr_fields = [];
 
 	/**
 	 * Is this a new object (has create() been called)?
-<<<<<<< Updated upstream
 	 *
 	 * @var boolean
-=======
->>>>>>> Stashed changes
 	 */
 	protected $_is_new = \false;
 
 	/**
 	 * Name of the column to use as the primary key for
-<<<<<<< Updated upstream
 	 * this instance only. Overrides the config settings.
 	 *
 	 * @var string
-=======
-	 */
-	/**
-	 * this instance only. Overrides the config settings.
->>>>>>> Stashed changes
 	 */
 	protected $_instance_id_column = null;
 	// ---------------------- //
@@ -339,15 +278,13 @@ class ORM implements \ArrayAccess {
 	 * Use the ORM::for_table factory method instead.
 	 *
 	 * @param string $table_name
-	 * @param array $data
+	 * @param array  $data
 	 */
 	protected function __construct( $table_name, $data = [] ) {
 		$this->_table_name = $table_name;
 		$this->_data       = $data;
 	}
 
-<<<<<<< Updated upstream
-=======
 	/**
 	 * Set the name of the class which the wrapped methods should return
 	 * instances of.
@@ -360,7 +297,6 @@ class ORM implements \ArrayAccess {
 		$this->class_name = $class_name;
 	}
 
->>>>>>> Stashed changes
 	/**
 	 * Create a new, empty instance of the class. Used
 	 * to add a new row to your database. May optionally
@@ -462,11 +398,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param ORM $orm The ORM used by model.
 	 *
-<<<<<<< Updated upstream
 	 * @return bool|Model Instance of the model class.
-=======
-	 * @return bool|\Yoast\WP\SEO\ORM\Model Instance of the model class.
->>>>>>> Stashed changes
 	 */
 	protected function create_model_instance( $orm ) {
 		if ( $orm === false ) {
@@ -476,11 +408,7 @@ class ORM implements \ArrayAccess {
 		/**
 		 * An instance of Model is being made.
 		 *
-<<<<<<< Updated upstream
 		 * @var Model $model
-=======
-		 * @var \Yoast\WP\SEO\ORM\Model $model
->>>>>>> Stashed changes
 		 */
 		$model = new $this->class_name();
 		$model->set_orm( $orm );
@@ -713,7 +641,7 @@ class ORM implements \ArrayAccess {
 	 * query. This defaults to '*'. The second optional argument is
 	 * the alias to return the column as.
 	 *
-	 * @param string $column
+	 * @param string      $column
 	 * @param null|string $alias
 	 *
 	 * @return ORM
@@ -863,7 +791,7 @@ class ORM implements \ArrayAccess {
 	 * @param string $join_operator
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -893,7 +821,7 @@ class ORM implements \ArrayAccess {
 	 * @param string $table
 	 * @param string $constraint
 	 * @param string $table_alias
-	 * @param array $parameters
+	 * @param array  $parameters
 	 *
 	 * @return ORM
 	 */
@@ -921,7 +849,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -934,7 +862,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -947,7 +875,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -960,7 +888,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -973,7 +901,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param string $table
 	 * @param string $constraint
-	 * @param null $table_alias
+	 * @param null   $table_alias
 	 *
 	 * @return ORM
 	 */
@@ -985,7 +913,7 @@ class ORM implements \ArrayAccess {
 	 * Internal method to add a HAVING condition to the query
 	 *
 	 * @param string $fragment
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return ORM
 	 */
@@ -1034,7 +962,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param $operator
 	 *
 	 * @return ORM
@@ -1054,7 +982,7 @@ class ORM implements \ArrayAccess {
 	 * Internal method to add a WHERE condition to the query
 	 *
 	 * @param string $fragment
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return ORM
 	 */
@@ -1103,7 +1031,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param $operator
 	 *
 	 * @return ORM
@@ -1124,7 +1052,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param       $type
 	 * @param string $fragment
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return ORM
 	 */
@@ -1135,7 +1063,7 @@ class ORM implements \ArrayAccess {
 		}
 		\array_push( $this->{$conditions_class_property_name}, [
 			self::CONDITION_FRAGMENT => $fragment,
-			self::CONDITION_VALUES   => $values
+			self::CONDITION_VALUES   => $values,
 		] );
 
 		return $this;
@@ -1168,14 +1096,9 @@ class ORM implements \ArrayAccess {
 				}
 				$key = "{$table}.{$key}";
 			}
-<<<<<<< Updated upstream
-			$key    = $result->_quote_identifier( $key );
-			$result = $result->_add_condition( $type, "{$key} {$separator} ?", $val );
-=======
 			$key = $result->_quote_identifier( $key );
 			$placeholder = '%s';
 			$result = $result->_add_condition( $type, "{$key} {$separator} {$placeholder}", $val );
->>>>>>> Stashed changes
 		}
 
 		return $result;
@@ -1252,7 +1175,7 @@ class ORM implements \ArrayAccess {
 	 * added for each element. In this case, $value is ignored.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1265,7 +1188,7 @@ class ORM implements \ArrayAccess {
 	 * Can be used if preferred.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1277,7 +1200,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE column != value clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1329,13 +1252,8 @@ class ORM implements \ArrayAccess {
 					$query[] = 'AND';
 				}
 				$query[] = $this->_quote_identifier( $key );
-<<<<<<< Updated upstream
-				$data[]  = $item;
-				$query[] = $op . ' ?';
-=======
 				$data[] = $item;
 				$query[] = $op . '%s';
->>>>>>> Stashed changes
 			}
 		}
 		$query[] = '))';
@@ -1361,7 +1279,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE ... LIKE clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1373,7 +1291,7 @@ class ORM implements \ArrayAccess {
 	 * Add where WHERE ... NOT LIKE clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1385,7 +1303,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE ... > clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1397,7 +1315,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE ... < clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1409,7 +1327,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE ... >= clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1421,7 +1339,7 @@ class ORM implements \ArrayAccess {
 	 * Add a WHERE ... <= clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1481,7 +1399,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array $parameters
+	 * @param array  $parameters
 	 *
 	 * @return ORM
 	 */
@@ -1514,7 +1432,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY clause to the query
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param $ordering
 	 *
 	 * @return ORM
@@ -1598,7 +1516,7 @@ class ORM implements \ArrayAccess {
 	 * added for each element. In this case, $value is ignored.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1611,7 +1529,7 @@ class ORM implements \ArrayAccess {
 	 * Can be used if preferred.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1623,7 +1541,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING column != value clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1649,7 +1567,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... LIKE clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1661,7 +1579,7 @@ class ORM implements \ArrayAccess {
 	 * Add where HAVING ... NOT LIKE clause to your query.
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1673,7 +1591,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... > clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1685,7 +1603,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... < clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1697,7 +1615,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... >= clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1709,7 +1627,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... <= clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $value
+	 * @param null   $value
 	 *
 	 * @return ORM
 	 */
@@ -1721,7 +1639,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... IN clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $values
+	 * @param null   $values
 	 *
 	 * @return ORM
 	 */
@@ -1733,7 +1651,7 @@ class ORM implements \ArrayAccess {
 	 * Add a HAVING ... NOT IN clause to your query
 	 *
 	 * @param string $column_name
-	 * @param null $values
+	 * @param null   $values
 	 *
 	 * @return ORM
 	 */
@@ -1769,7 +1687,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array $parameters
+	 * @param array  $parameters
 	 *
 	 * @return ORM
 	 */
@@ -1801,7 +1719,7 @@ class ORM implements \ArrayAccess {
 			$this->_build_having(),
 			$this->_build_order_by(),
 			$this->_build_limit(),
-			$this->_build_offset()
+			$this->_build_offset(),
 		] );
 	}
 
@@ -2318,7 +2236,7 @@ class ORM implements \ArrayAccess {
 		$query = $this->_join_if_not_empty( ' ', [
 			'DELETE FROM',
 			$this->_quote_identifier( $this->_table_name ),
-			$this->_build_where()
+			$this->_build_where(),
 		] );
 
 		return self::_execute( $query, $this->_values );
