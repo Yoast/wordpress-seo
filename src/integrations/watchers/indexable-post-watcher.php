@@ -183,8 +183,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
-			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
-			$indexable->save();
+			$this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
