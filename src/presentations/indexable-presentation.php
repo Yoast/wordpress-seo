@@ -237,7 +237,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The filtered meta robots values.
 	 */
 	protected function filter_robots( $robots ) {
-		$robots_str = \implode( ', ', $robots );
+		$robots_string = \implode( ', ', $robots );
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
 		 *
@@ -245,14 +245,16 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_str, $this->presentation );
+		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
 		if ( is_string( $robots_filtered ) ) {
 			return \array_filter( explode( ', ', $robots_filtered ) );
 		}
+
 		if ( ! $robots_filtered ) {
 			return [];
 		}
+
 		return \array_filter( $robots );
 	}
 
