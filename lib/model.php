@@ -66,7 +66,7 @@ class Model {
 	/**
 	 * The ORM instance used by this model instance to communicate with the database.
 	 *
-	 * @var \YoastSEO_Vendor\ORM $orm
+	 * @var ORM $orm
 	 */
 	public $orm;
 
@@ -486,7 +486,7 @@ class Model {
 	/**
 	 * Set the wrapped ORM instance associated with this Model instance.
 	 *
-	 * @param \YoastSEO_Vendor\ORM $orm The ORM instance to set.
+	 * @param ORM $orm The ORM instance to set.
 	 *
 	 * @return void
 	 */
