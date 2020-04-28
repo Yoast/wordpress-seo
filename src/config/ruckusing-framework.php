@@ -142,7 +142,7 @@ class Ruckusing_Framework {
 			// This needs to be set but is not used.
 		];
 
-		if ( $this->wpdb->charset ) {
+		if ( ! empty( $this->wpdb->charset ) ) {
 			$ruckusing_config['db']['production']['charset'] = $this->wpdb->charset;
 		}
 
