@@ -221,10 +221,62 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
+		$robots = $this->get_base_robots();
+
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Gets the base robots value.
+	 *
+	 * @return array The base robots value.
+	 */
+	protected function get_base_robots() {
 		return [
 			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
 		];
+	}
+
+	/**
+	 * Run the robots output content through the `wpseo_robots` filter.
+	 *
+	 * @param array $robots The meta robots values to filter.
+	 *
+	 * @return array The filtered meta robots values.
+	 */
+	protected function filter_robots( $robots ) {
+		$robots_string = \implode( ', ', $robots );
+
+		/**
+		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
+		 *
+		 * @api string $robots The meta robots directives to be echoed.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
+
+		if ( is_string( $robots_filtered ) ) {
+			$robots_values = \explode( ', ', $robots_filtered );
+			$robots_new    = [];
+
+			foreach ( $robots_values as $value ) {
+				$key = $value;
+				if ( \strpos( $key, 'no' ) === 0 ) {
+					$key = \substr( $value, 2 );
+				}
+				$robots_new[ $key ] = $value;
+			}
+
+			return \array_filter( $robots_new );
+		}
+
+		if ( ! $robots_filtered ) {
+			return [];
+		}
+
+		return \array_filter( $robots );
 	}
 
 	/**
@@ -251,7 +303,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The googlebot value.
 	 */
 	private function generate_snippet_opt_in() {
-		if ( isset( $this->robots['index'] ) && $this->robots['index'] === 'noindex' ) {
+		if ( in_array( 'noindex', $this->robots, true ) ) {
 			return [];
 		}
 

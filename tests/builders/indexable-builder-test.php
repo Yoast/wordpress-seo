@@ -452,4 +452,20 @@ class Indexable_Builder_Test extends TestCase {
 
 		$this->assertSame( $indexable, $this->instance->build_for_system_page( 'sub-type', $indexable ) );
 	}
+
+	/**
+	 * Tests that build returns false when a build returns false.
+	 *
+	 * @covers ::build_for_id_and_type
+	 */
+	public function test_build_for_id_and_type_returns_false() {
+		$indexable = Mockery::mock( Indexable::class );
+
+		$this->term_builder->expects( 'build' )
+			->once()
+			->with( 1, $indexable )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->build_for_id_and_type( 1, 'term', $indexable ) );
+	}
 }

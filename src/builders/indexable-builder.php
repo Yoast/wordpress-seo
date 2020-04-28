@@ -138,9 +138,7 @@ class Indexable_Builder {
 	 * @param string         $object_type The indexable object type.
 	 * @param Indexable|bool $indexable   Optional. An existing indexable to overwrite.
 	 *
-	 * @return bool|Indexable Instance of indexable.
-	 *
-	 * @throws \Exception If the object_id could not be found.
+	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
 		$indexable        = $this->ensure_indexable( $indexable );
@@ -165,6 +163,11 @@ class Indexable_Builder {
 				break;
 			default:
 				return $indexable;
+		}
+
+		// Something went wrong building, nothing to do.
+		if ( $indexable === false ) {
+			return false;
 		}
 
 		$this->save_indexable( $indexable, $indexable_before );
