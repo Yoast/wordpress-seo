@@ -85,7 +85,18 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
  *
  * @returns {React.Component} The ImageSelect component with a title, optional warnings and an image selection button.
  */
-const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageClick, imageUrl, isPremium, onMouseEnter, onMouseLeave } ) =>
+const ImageSelect = ( {
+	title,
+	warnings,
+	onClick,
+	imageSelected,
+	onRemoveImageClick,
+	imageUrl,
+	imageFallbackUrl,
+	isPremium,
+	onMouseEnter,
+	onMouseLeave,
+} ) =>
 	<div
 		onMouseEnter={ onMouseEnter }
 		onMouseLeave={ onMouseLeave }
@@ -102,7 +113,7 @@ const ImageSelect = ( { title, warnings, onClick, imageSelected, onRemoveImageCl
 		{
 			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick )
 				:	<ColumnWrapper>
-					<UrlInputField disabled={ "disabled" } value={ imageUrl } />
+					<UrlInputField disabled={ "disabled" } value={ imageUrl || imageFallbackUrl } />
 					<RowWrapper>
 						{ renderButtons( onClick, imageSelected, onRemoveImageClick ) }
 					</RowWrapper>
@@ -119,6 +130,7 @@ ImageSelect.propTypes = {
 	onRemoveImageClick: PropTypes.func,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
@@ -128,6 +140,7 @@ ImageSelect.defaultProps = {
 	onClick: () => {},
 	warnings: [],
 	imageUrl: "",
+	imageFallbackUrl: "",
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };
