@@ -16,16 +16,16 @@ describe( "Returns true if a word has the same ending as one of the entries in a
 		expect( checkIfWordEndingIsOnExceptionList( "huisarts", [ "huis", "keuken" ] ) ).toEqual( false );
 	} );
 	it( "Returns true if a word is on the verb exception list", () => {
-		expect( checkIfWordIsOnVerbExceptionList( "zien", [ "zien", "doen" ], morphologyDataNL.verbs.compoundVerbsPrefixes ) ).toEqual( true );
+		expect( checkIfWordIsOnVerbExceptionList( "zien", [ "zien", "doen" ], morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ).toEqual( true );
 	} );
 	it( "Returns true if a word has an inseparable verb prefix, and after removing the prefix the word is found on the verb exception list", () => {
-		expect( checkIfWordIsOnVerbExceptionList( "bezien", [ "zien", "doen" ], morphologyDataNL.verbs.compoundVerbsPrefixes ) ).toEqual( true );
+		expect( checkIfWordIsOnVerbExceptionList( "bezien", [ "zien", "doen" ], morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ).toEqual( true );
 	} );
 	it( "Returns true if a word has an separable verb prefix, and after removing the prefix the word is found on the verb exception list", () => {
-		expect( checkIfWordIsOnVerbExceptionList( "uitzien", [ "zien", "doen" ], morphologyDataNL.verbs.compoundVerbsPrefixes ) ).toEqual( true );
+		expect( checkIfWordIsOnVerbExceptionList( "uitzien", [ "zien", "doen" ], morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ).toEqual( true );
 	} );
 	it( "Returns false if a word ends with an entry from the verb exception list, but the rest of the word is not a verb prefix", () => {
-		expect( checkIfWordIsOnVerbExceptionList( "onvoorzien", [ "zien", "doen" ], morphologyDataNL.verbs.compoundVerbsPrefixes ) ).toEqual( false );
+		expect( checkIfWordIsOnVerbExceptionList( "onvoorzien", [ "zien", "doen" ], morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ).toEqual( false );
 	} );
 	it( "Returns the canonical stem if a word is in the array list with two stems", () => {
 		expect( checkExceptionListWithTwoStems( [ [ "glas", "glaas" ], [ "vat", "vaat" ] ], "glaas" ) ).toEqual( "glas" );
