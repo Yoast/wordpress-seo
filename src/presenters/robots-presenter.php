@@ -21,7 +21,6 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present() {
 		$robots = \implode( ', ', $this->get() );
-		$robots = $this->filter( $robots );
 
 		if ( \is_string( $robots ) && $robots !== '' ) {
 			return \sprintf( '<meta name="robots" content="%s" />', \esc_attr( $robots ) );
@@ -39,21 +38,4 @@ class Robots_Presenter extends Abstract_Indexable_Presenter {
 		return $this->presentation->robots;
 	}
 
-	/**
-	 * Run the robots output content through the `wpseo_robots` filter.
-	 *
-	 * @param string $robots The meta robots output to filter.
-	 *
-	 * @return string The filtered meta robots output.
-	 */
-	private function filter( $robots ) {
-		/**
-		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
-		 *
-		 * @api string $robots The meta robots directives to be echoed.
-		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
-		 */
-		return (string) \apply_filters( 'wpseo_robots', $robots, $this->presentation );
-	}
 }

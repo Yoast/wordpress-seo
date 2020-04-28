@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
  * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Breadcrumbs implements Initializer_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * Instance of this class.
@@ -59,13 +61,6 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 * @var WPSEO_Replace_Vars
 	 */
 	protected $replace_vars;
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Front_End_Conditional::class ];
-	}
 
 	/**
 	 * WPSEO_Breadcrumbs constructor.

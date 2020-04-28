@@ -209,6 +209,26 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0.1 =
+Release Date: April 28th, 2020
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when a breadcrumb title was too long.
+* Fixes a bug where a fatal error would be thrown when `DB_CHARSET` was not defined.
+* Fixes a bug where a fatal error would be thrown when breadcrumbs were rendered in the admin.
+* Fixes a bug where a fatal error would be thrown when the Yoast migrations table did not have a primary key.
+* Fixes a bug where a fatal exception would be thrown when building an indexable failed.
+* Fixes a bug where the order of the breadcrumbs was incorrect when more than 3 nested taxonomies were used.
+* Fixes a bug where HTML tags would no longer be allowed in the breadcrumbs.
+* Fixes a bug where no title would be shown in the Yoast indexation status modal.
+* Fixes a bug where changes made through the `wpseo_robots` filter would not be shown in the googlebot and bingbot meta tag output.
+
+Other:
+
+* With Yoast SEO 14.0 and higher, the pdo extension for PHP is required. This extension is included with PHP by default, but could be turned off. Please make sure it is turned on before updating.
+* Yoast SEO needs to have the right to create a database index. If you have restricted the creation of database indexes on your setup, please make sure to temporarily allow Yoast SEO to create indexes before updating.
+
 = 14.0 =
 Release Date: April 28th, 2020
 

@@ -190,7 +190,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
 		$this->repository->expects( 'create_for_id_and_type' )->never();
@@ -287,7 +286,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
 		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
