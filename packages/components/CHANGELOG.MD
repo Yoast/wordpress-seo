@@ -6,11 +6,38 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.1.0 May 11th, 2020
+### Added
+* Makes the MultiSelect, Select, RadioButtonGroup, and TextInput available by exporting them from the root.
+* Adds colors and icons used in various components.
+* Adds HTML and CSS for new title separator component.
+* Adds a separate `HelpIcon`.
+* Adds an interactive text color to the base colors.
+* Adds the Toggle component.
+* Adds a new CheckboxGroup component.
+
+### Changed
+* Shows the HelpIcon next to a label only if a link (`linkTo`) is provided.
+* Updates the HTML of checkbox, input, radiobutton, select and toggle to make styling easier.
+* Changes styling for select components.
+* Makes select2 full width.
+
+### Fixed
+* Fixes a bug where loading the styles from the monorepo would not include styles for the `HelpIcon`.
+* Removes some global CSS rules.
+
 ## 2.0.0 April 23rd, 2020
 ### Added
 * Adds CSS through JavaScript imports for button, checkbox, data-model, field-group, inputs, modal, radiobutton, select and toggle.
 * Adds GenerateId, FieldGroup, TextArea and TextInput components.
+* Adds CSS for the primary, secondary and buy buttons.
 * Adds a CSS test stub.
+
+### Changed
+* Updates the styling of the multiselect.
+
+### Fixed
+* Changes the HTML for the modal to improve the accessibility.
 
 ## 1.0.0 April 14th, 2020
 ### Added
