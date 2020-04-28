@@ -7,9 +7,25 @@
 
 namespace Yoast\WP\Lib;
 
+use YoastSEO_Vendor\Ruckusing_Adapter_ColumnDefinition;
 use YoastSEO_Vendor\Ruckusing_Adapter_Interface;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
+use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition;
 use YoastSEO_Vendor\Ruckusing_Exception;
+use YoastSEO_Vendor\Ruckusing_Util_Naming;
+
+use const YoastSEO_Vendor\MYSQL_MAX_IDENTIFIER_LENGTH;
+use const YoastSEO_Vendor\SQL_ALTER;
+use const YoastSEO_Vendor\SQL_CREATE;
+use const YoastSEO_Vendor\SQL_DELETE;
+use const YoastSEO_Vendor\SQL_DROP;
+use const YoastSEO_Vendor\SQL_INSERT;
+use const YoastSEO_Vendor\SQL_RENAME;
+use const YoastSEO_Vendor\SQL_SELECT;
+use const YoastSEO_Vendor\SQL_SET;
+use const YoastSEO_Vendor\SQL_SHOW;
+use const YoastSEO_Vendor\SQL_UNKNOWN_QUERY_TYPE;
+use const YoastSEO_Vendor\SQL_UPDATE;
 
 /**
  * Ruckusing_Adapter
@@ -136,7 +152,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	 * @return string
 	 */
 	public function column_definition( $column_name, $type, $options = null ) {
-		$col = new \YoastSEO_Vendor\Ruckusing_Adapter_ColumnDefinition( $this, $column_name, $type, $options );
+		$col = new Ruckusing_Adapter_ColumnDefinition( $this, $column_name, $type, $options );
 		return $col->__toString();
 	}
 	// -------- DATABASE LEVEL OPERATIONS
@@ -259,7 +275,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 
 		$query_type = $this->determine_query_type( $query );
 		$data = [];
-		if ( $query_type == \YoastSEO_Vendor\SQL_SELECT || $query_type == \YoastSEO_Vendor\SQL_SHOW ) {
+		if ( $query_type == SQL_SELECT || $query_type == SQL_SHOW ) {
 			$data = $wpdb->get_results( $query, ARRAY_A );
 			if ( $this->isError( $data ) ) {
 				throw new Ruckusing_Exception( \sprintf( "Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, $wpdb->last_error ), Ruckusing_Exception::QUERY_ERROR );
@@ -271,7 +287,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 			if ( $this->isError( $res ) ) {
 				throw new Ruckusing_Exception( \sprintf( "Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, $wpdb->last_error ), Ruckusing_Exception::QUERY_ERROR );
 			}
-			if ( $query_type == \YoastSEO_Vendor\SQL_INSERT ) {
+			if ( $query_type == SQL_INSERT ) {
 				return $wpdb->insert_id;
 			}
 			return true;
@@ -303,7 +319,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		global $wpdb;
 
 		$query_type = $this->determine_query_type( $query );
-		if ( $query_type == \YoastSEO_Vendor\SQL_SELECT || $query_type == \YoastSEO_Vendor\SQL_SHOW ) {
+		if ( $query_type == SQL_SELECT || $query_type == SQL_SHOW ) {
 			$res = $wpdb->query( $query );
 			if ( $this->isError( $res ) ) {
 				throw new Ruckusing_Exception( \sprintf( "Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, $wpdb->last_error ), Ruckusing_Exception::QUERY_ERROR );
@@ -355,7 +371,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	 * @return bool|Ruckusing_Adapter_MySQL_TableDefinition
 	 */
 	public function create_table( $table_name, $options = [] ) {
-		return new \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition( $this, $table_name, $options );
+		return new Ruckusing_Adapter_MySQL_TableDefinition( $this, $table_name, $options );
 	}
 	/**
 	 * Escape a string for mysql
@@ -577,9 +593,9 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		} else {
-			$index_name = \YoastSEO_Vendor\Ruckusing_Util_Naming::index_name( $table_name, $column_name );
+			$index_name = Ruckusing_Util_Naming::index_name( $table_name, $column_name );
 		}
-		if ( \strlen( $index_name ) > \YoastSEO_Vendor\MYSQL_MAX_IDENTIFIER_LENGTH ) {
+		if ( \strlen( $index_name ) > MYSQL_MAX_IDENTIFIER_LENGTH ) {
 			$msg = 'The auto-generated index name is too long for MySQL (max is 64 chars). ';
 			$msg .= "Considering using 'name' option parameter to specify a custom name for this index.";
 			$msg .= ' Note: you will also need to specify';
@@ -619,7 +635,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		} else {
-			$index_name = \YoastSEO_Vendor\Ruckusing_Util_Naming::index_name( $table_name, $column_name );
+			$index_name = Ruckusing_Util_Naming::index_name( $table_name, $column_name );
 		}
 		$sql = \sprintf( 'DROP INDEX %s ON %s', $this->identifier( $index_name ), $this->identifier( $table_name ) );
 		return $this->execute_ddl( $sql );
@@ -691,7 +707,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		} else {
-			$index_name = \YoastSEO_Vendor\Ruckusing_Util_Naming::index_name( $table_name, $column_name );
+			$index_name = Ruckusing_Util_Naming::index_name( $table_name, $column_name );
 		}
 		$indexes = $this->indexes( $table_name );
 		foreach ( $indexes as $idx ) {
@@ -968,27 +984,27 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		$type = $match[0];
 		switch ( $type ) {
 			case 'select':
-				return \YoastSEO_Vendor\SQL_SELECT;
+				return SQL_SELECT;
 			case 'update':
-				return \YoastSEO_Vendor\SQL_UPDATE;
+				return SQL_UPDATE;
 			case 'delete':
-				return \YoastSEO_Vendor\SQL_DELETE;
+				return SQL_DELETE;
 			case 'insert':
-				return \YoastSEO_Vendor\SQL_INSERT;
+				return SQL_INSERT;
 			case 'alter':
-				return \YoastSEO_Vendor\SQL_ALTER;
+				return SQL_ALTER;
 			case 'drop':
-				return \YoastSEO_Vendor\SQL_DROP;
+				return SQL_DROP;
 			case 'create':
-				return \YoastSEO_Vendor\SQL_CREATE;
+				return SQL_CREATE;
 			case 'show':
-				return \YoastSEO_Vendor\SQL_SHOW;
+				return SQL_SHOW;
 			case 'rename':
-				return \YoastSEO_Vendor\SQL_RENAME;
+				return SQL_RENAME;
 			case 'set':
-				return \YoastSEO_Vendor\SQL_SET;
+				return SQL_SET;
 			default:
-				return \YoastSEO_Vendor\SQL_UNKNOWN_QUERY_TYPE;
+				return SQL_UNKNOWN_QUERY_TYPE;
 		}
 	}
 	/**
@@ -1000,7 +1016,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	 * @return boolean
 	 */
 	private function is_select( $query_type ) {
-		if ( $query_type == \YoastSEO_Vendor\SQL_SELECT ) {
+		if ( $query_type == SQL_SELECT ) {
 			return true;
 		}
 		return false;
