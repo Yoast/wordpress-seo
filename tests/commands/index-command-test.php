@@ -163,17 +163,32 @@ class Index_Command_Test extends TestCase {
 			->expects( 'confirm' )
 			->with( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
 
-		$wpdb              = Mockery::mock();
-		$wpdb->prefix      = 'wp_';
-		$GLOBALS[ 'wpdb' ] = $wpdb;
+		$wpdb            = Mockery::mock();
+		$wpdb->prefix    = 'wp_';
+		$GLOBALS['wpdb'] = $wpdb;
 
 		$wpdb
 			->expects( 'query' )
+			->once()
 			->with( 'TRUNCATE TABLE wp_yoast_indexable' );
 
 		$wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( 'TRUNCATE TABLE %s', 'wp_yoast_indexable' )
+			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable' );
+
+		$wpdb
 			->expects( 'query' )
+			->once()
 			->with( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+
+		$wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( 'TRUNCATE TABLE %s', 'wp_yoast_indexable_hierarchy' )
+			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
 
 		$this->instance->index( null, [ 'reindex' => true ] );
 	}

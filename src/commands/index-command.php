@@ -117,13 +117,15 @@ class Index_Command implements Command_Interface {
 
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
-			$this->run_indexation_actions( isset($assoc_args['reindex'] ) );
+			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
 			\restore_current_blog();
 		}
 	}
 
 	/**
 	 * Runs all indexation actions.
+	 *
+	 * @param bool $reindex True when all indexables should be indexed again.
 	 *
 	 * @return void
 	 */
@@ -173,8 +175,17 @@ class Index_Command implements Command_Interface {
 	protected function clear() {
 		global $wpdb;
 
-		$wpdb->query( 'TRUNCATE TABLE ' . Yoast_Model::get_table_name( 'Indexable' ) );
-		$wpdb->query( 'TRUNCATE TABLE ' . Yoast_Model::get_table_name( 'Indexable_Hierarchy' ) );
-
+		$wpdb->query(
+			$wpdb->prepare(
+				'TRUNCATE TABLE %s',
+				Yoast_Model::get_table_name( 'Indexable' )
+			)
+		);
+		$wpdb->query(
+			$wpdb->prepare(
+				'TRUNCATE TABLE %s',
+				Yoast_Model::get_table_name( 'Indexable_Hierarchy' )
+			)
+		);
 	}
 }
