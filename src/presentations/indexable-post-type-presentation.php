@@ -303,7 +303,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return \array_filter( $robots );
+		return $this->filter_robots( $robots );
 	}
 
 	/**

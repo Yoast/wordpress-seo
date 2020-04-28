@@ -221,10 +221,39 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
-		return [
+		$robots = [
 			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
 		];
+
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Run the robots output content through the `wpseo_robots` filter.
+	 *
+	 * @param array $robots The meta robots values to filter.
+	 *
+	 * @return array The filtered meta robots values.
+	 */
+	protected function filter_robots( $robots ) {
+		$robots_str = \implode( ', ', $robots );
+		/**
+		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
+		 *
+		 * @api string $robots The meta robots directives to be echoed.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_str, $this->presentation );
+
+		if ( is_string( $robots_filtered ) ) {
+			return \array_filter( explode( ', ', $robots_filtered ) );
+		}
+		if ( ! $robots_filtered ) {
+			return [];
+		}
+		return \array_filter( $robots );
 	}
 
 	/**

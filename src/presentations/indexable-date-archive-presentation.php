@@ -54,7 +54,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			$robots['index'] = 'noindex';
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**

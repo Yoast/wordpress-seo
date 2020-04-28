@@ -130,7 +130,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
 
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
 		/**
@@ -148,7 +148,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			$robots['index'] = ( $this->model->is_robots_noindex ) ? 'noindex' : 'index';
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**

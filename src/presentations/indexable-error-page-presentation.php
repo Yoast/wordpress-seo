@@ -20,7 +20,7 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 
 		$robots['index'] = 'noindex';
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
