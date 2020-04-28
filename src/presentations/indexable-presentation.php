@@ -261,7 +261,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			$robots_values = \explode( ', ', $robots_filtered );
 			$robots_new    = [];
 
-			foreach( $robots_values as $value ) {
+			foreach ( $robots_values as $value ) {
 				$key = $value;
 				if ( \strpos( $key, 'no' ) === 0 ) {
 					$key = \substr( $value, 2 );
