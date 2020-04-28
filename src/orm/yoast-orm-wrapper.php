@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\ORM;
 use Exception;
 use PDO;
 use Yoast\WP\Polyfills\PDO\PDO_MySQLi_Polyfill;
-use Yoast\WP\SEO\Initializers\Migration_Runner;
+use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -228,7 +228,25 @@ class ORMWrapper extends ORM {
 			// Action is intentionally undocumented and should not be used by third-parties.
 			\do_action( '_yoast_run_migrations' );
 			$this->_reset_idiorm_state();
-			return parent::_run();
+
+			try {
+				return parent::_run();
+			} catch ( Exception $another_exception ) {
+				// If the query fails again, show the migration error.
+				$this->show_migration_error_once();
+			}
+		}
+	}
+
+	/**
+	 * Shows the migration error once and only once.
+	 */
+	protected function show_migration_error_once() {
+		static $already_shown = false;
+
+		if ( ! $already_shown ) {
+			$already_shown = true;
+			echo new Migration_Error_Presenter();
 		}
 	}
 }
