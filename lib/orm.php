@@ -232,12 +232,13 @@ class ORM implements \ArrayAccess {
 	 * Useful for queries that can't be accomplished through Idiorm,
 	 * particularly those using engine-specific features.
 	 *
+	 * @example raw_execute('SELECT `name`, AVG(`order`) FROM `customer` GROUP BY `name` HAVING AVG(`order`) > 10')
+	 * @example raw_execute('INSERT OR REPLACE INTO `widget` (`id`, `name`) SELECT `id`, `name` FROM `other_table`')
+	 *
 	 * @param string $query           The raw SQL query
 	 * @param array  $parameters      Optional bound parameters
 	 *
 	 * @return bool Success
-	 * @example raw_execute('SELECT `name`, AVG(`order`) FROM `customer` GROUP BY `name` HAVING AVG(`order`) > 10')
-	 * @example raw_execute('INSERT OR REPLACE INTO `widget` (`id`, `name`) SELECT `id`, `name` FROM `other_table`')
 	 */
 	public static function raw_execute( $query, $parameters = [] ) {
 		return self::_execute( $query, $parameters );
@@ -268,6 +269,9 @@ class ORM implements \ArrayAccess {
 	/**
 	 * "Private" constructor; shouldn't be called directly.
 	 * Use the ORM::for_table factory method instead.
+	 *
+	 * @param string $table_name
+	 * @param array $data
 	 */
 	protected function __construct( $table_name, $data = [] ) {
 		$this->_table_name = $table_name;
@@ -281,6 +285,10 @@ class ORM implements \ArrayAccess {
 	 * the instance. If so, all fields will be flagged as
 	 * dirty so all will be saved to the database when
 	 * save() is called.
+	 *
+	 * @param null $data
+	 *
+	 * @return bool|Model|ORM
 	 */
 	public function create( $data = null ) {
 		$this->_is_new = \true;
@@ -298,6 +306,10 @@ class ORM implements \ArrayAccess {
 	 * This is mostly useful for libraries built on top of Idiorm, and will
 	 * not normally be used in manually built queries. If you don't know why
 	 * you would want to use this, you should probably just ignore it.
+	 *
+	 * @param $id_column
+	 *
+	 * @return ORM
 	 */
 	public function use_id_column( $id_column ) {
 		$this->_instance_id_column = $id_column;
@@ -308,6 +320,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Create an ORM instance from the given row (an associative
 	 * array of data fetched from the database)
+	 *
+	 * @param $row
+	 *
+	 * @return bool|Model
 	 */
 	protected function _create_instance_from_row( $row ) {
 		$instance = self::for_table( $this->_table_name );
@@ -325,6 +341,10 @@ class ORM implements \ArrayAccess {
 	 * As a shortcut, you may supply an ID as a parameter
 	 * to this method. This will perform a primary key
 	 * lookup on the table.
+	 *
+	 * @param null $id
+	 *
+	 * @return bool|Model
 	 */
 	public function find_one( $id = null ) {
 		if ( ! \is_null( $id ) ) {
@@ -392,6 +412,10 @@ class ORM implements \ArrayAccess {
 	 * Tell the ORM that you wish to execute a COUNT query.
 	 * Will return an integer representing the number of
 	 * rows returned.
+	 *
+	 * @param string $column
+	 *
+	 * @return float|int
 	 */
 	public function count( $column = '*' ) {
 		return $this->_call_aggregate_db_function( __FUNCTION__, $column );
@@ -400,6 +424,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Tell the ORM that you wish to execute a MAX query.
 	 * Will return the max value of the choosen column.
+	 *
+	 * @param string $column
+	 *
+	 * @return float|int
 	 */
 	public function max( $column ) {
 		return $this->_call_aggregate_db_function( __FUNCTION__, $column );
@@ -408,6 +436,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Tell the ORM that you wish to execute a MIN query.
 	 * Will return the min value of the choosen column.
+	 *
+	 * @param string $column
+	 *
+	 * @return float|int
 	 */
 	public function min( $column ) {
 		return $this->_call_aggregate_db_function( __FUNCTION__, $column );
@@ -416,6 +448,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Tell the ORM that you wish to execute a AVG query.
 	 * Will return the average value of the choosen column.
+	 *
+	 * @param string $column
+	 *
+	 * @return float|int
 	 */
 	public function avg( $column ) {
 		return $this->_call_aggregate_db_function( __FUNCTION__, $column );
@@ -424,6 +460,10 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Tell the ORM that you wish to execute a SUM query.
 	 * Will return the sum of the choosen column.
+	 *
+	 * @param string $column
+	 *
+	 * @return float|int
 	 */
 	public function sum( $column ) {
 		return $this->_call_aggregate_db_function( __FUNCTION__, $column );
@@ -485,6 +525,10 @@ class ORM implements \ArrayAccess {
 	 * instance of the class from an associative array of data.
 	 * This will usually be called only from inside the class,
 	 * but it's public in case you need to call it directly.
+	 *
+	 * @param array $data
+	 *
+	 * @return ORM
 	 */
 	public function hydrate( $data = [] ) {
 		$this->_data = $data;
@@ -508,6 +552,11 @@ class ORM implements \ArrayAccess {
 	 * used, the parameters should be an array of values which will
 	 * be bound to the placeholders in the query. If this method
 	 * is called, all other query building methods will be ignored.
+	 *
+	 * @param       $query
+	 * @param array $parameters
+	 *
+	 * @return ORM
 	 */
 	public function raw_query( $query, $parameters = [] ) {
 		$this->_is_raw_query   = \true;
@@ -519,6 +568,10 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Add an alias for the main table to be used in SELECT queries
+	 *
+	 * @param $alias
+	 *
+	 * @return ORM
 	 */
 	public function table_alias( $alias ) {
 		$this->_table_alias = $alias;
@@ -530,6 +583,11 @@ class ORM implements \ArrayAccess {
 	 * Internal method to add an unquoted expression to the set
 	 * of columns returned by the SELECT query. The second optional
 	 * argument is the alias to return the expression as.
+	 *
+	 * @param      $expr
+	 * @param null|string $alias
+	 *
+	 * @return ORM
 	 */
 	protected function _add_result_column( $expr, $alias = null ) {
 		if ( ! \is_null( $alias ) ) {
@@ -548,6 +606,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Counts the number of columns that belong to the primary
 	 * key and their value is null.
+	 *
+	 * @return int
 	 */
 	public function count_null_id_columns() {
 		if ( \is_array( $this->_get_id_column_name() ) ) {
@@ -561,6 +621,11 @@ class ORM implements \ArrayAccess {
 	 * Add a column to the list of columns returned by the SELECT
 	 * query. This defaults to '*'. The second optional argument is
 	 * the alias to return the column as.
+	 *
+	 * @param string $column
+	 * @param null|string $alias
+	 *
+	 * @return ORM
 	 */
 	public function select( $column, $alias = null ) {
 		$column = $this->_quote_identifier( $column );
@@ -572,6 +637,11 @@ class ORM implements \ArrayAccess {
 	 * Add an unquoted expression to the list of columns returned
 	 * by the SELECT query. The second optional argument is
 	 * the alias to return the column as.
+	 *
+	 * @param      $expr
+	 * @param null|string $alias
+	 *
+	 * @return ORM
 	 */
 	public function select_expr( $expr, $alias = null ) {
 		return $this->_add_result_column( $expr, $alias );
@@ -585,11 +655,11 @@ class ORM implements \ArrayAccess {
 	 * Note that the alias must not be numeric - if you want a
 	 * numeric alias then prepend it with some alpha chars. eg. a1
 	 *
-	 * @return ORM
 	 * @example select_many('column', 'column2', 'column3');
 	 * @example select_many(array('column', 'column2', 'column3'), 'column4', 'column5');
-	 *
 	 * @example select_many(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5');
+	 *
+	 * @return ORM
 	 */
 	public function select_many() {
 		$columns = \func_get_args();
@@ -614,11 +684,11 @@ class ORM implements \ArrayAccess {
 	 * Note that the alias must not be numeric - if you want a
 	 * numeric alias then prepend it with some alpha chars. eg. a1
 	 *
-	 * @return ORM
 	 * @example select_many_expr('column', 'column2', 'column3')
 	 * @example select_many_expr(array('column', 'column2', 'column3'), 'column4', 'column5')
-	 *
 	 * @example select_many_expr(array('alias' => 'column', 'column2', 'alias2' => 'column3'), 'column4', 'column5')
+	 *
+	 * @return ORM
 	 */
 	public function select_many_expr() {
 		$columns = \func_get_args();
@@ -668,6 +738,8 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Add a DISTINCT keyword before the list of columns in the SELECT query
+	 *
+	 * @return ORM
 	 */
 	public function distinct() {
 		$this->_distinct = \true;
@@ -696,6 +768,13 @@ class ORM implements \ArrayAccess {
 	 * ON `user`.`id` = `profile`.`user_id`
 	 *
 	 * The final (optional) argument specifies an alias for the joined table.
+	 *
+	 * @param string $join_operator
+	 * @param string $table
+	 * @param string $constraint
+	 * @param null $table_alias
+	 *
+	 * @return ORM
 	 */
 	protected function _add_join_source( $join_operator, $table, $constraint, $table_alias = null ) {
 		$join_operator = \trim( "{$join_operator} JOIN" );
@@ -720,9 +799,9 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a RAW JOIN source to the query
 	 *
-	 * @param       $table
-	 * @param       $constraint
-	 * @param       $table_alias
+	 * @param string $table
+	 * @param string $constraint
+	 * @param string $table_alias
 	 * @param array $parameters
 	 *
 	 * @return ORM
@@ -749,8 +828,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a simple JOIN source to the query
 	 *
-	 * @param      $table
-	 * @param      $constraint
+	 * @param string $table
+	 * @param string $constraint
 	 * @param null $table_alias
 	 *
 	 * @return ORM
@@ -762,8 +841,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an INNER JOIN souce to the query
 	 *
-	 * @param      $table
-	 * @param      $constraint
+	 * @param string $table
+	 * @param string $constraint
 	 * @param null $table_alias
 	 *
 	 * @return ORM
@@ -775,8 +854,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a LEFT OUTER JOIN souce to the query
 	 *
-	 * @param      $table
-	 * @param      $constraint
+	 * @param string $table
+	 * @param string $constraint
 	 * @param null $table_alias
 	 *
 	 * @return ORM
@@ -788,8 +867,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an RIGHT OUTER JOIN souce to the query
 	 *
-	 * @param      $table
-	 * @param      $constraint
+	 * @param string $table
+	 * @param string $constraint
 	 * @param null $table_alias
 	 *
 	 * @return ORM
@@ -801,8 +880,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an FULL OUTER JOIN souce to the query
 	 *
-	 * @param      $table
-	 * @param      $constraint
+	 * @param string $table
+	 * @param string $constraint
 	 * @param null $table_alias
 	 *
 	 * @return ORM
@@ -814,7 +893,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING condition to the query
 	 *
-	 * @param       $fragment
+	 * @param string $fragment
 	 * @param array $values
 	 *
 	 * @return ORM
@@ -826,8 +905,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING condition to the query
 	 *
-	 * @param $column_name
-	 * @param $separator
+	 * @param string $column_name
+	 * @param string $separator
 	 * @param $value
 	 *
 	 * @return ORM
@@ -839,8 +918,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING clause with multiple values (like IN and NOT IN)
 	 *
-	 * @param $column_name
-	 * @param $separator
+	 * @param string $column_name
+	 * @param string $separator
 	 * @param $values
 	 *
 	 * @return ORM
@@ -864,7 +943,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 * @param $operator
 	 *
 	 * @return ORM
@@ -883,7 +962,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a WHERE condition to the query
 	 *
-	 * @param       $fragment
+	 * @param string $fragment
 	 * @param array $values
 	 *
 	 * @return ORM
@@ -895,8 +974,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a WHERE condition to the query
 	 *
-	 * @param $column_name
-	 * @param $separator
+	 * @param string $column_name
+	 * @param string $separator
 	 * @param $value
 	 *
 	 * @return ORM
@@ -908,8 +987,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE clause with multiple values (like IN and NOT IN)
 	 *
-	 * @param $column_name
-	 * @param $separator
+	 * @param string $column_name
+	 * @param string $separator
 	 * @param $values
 	 *
 	 * @return ORM
@@ -933,7 +1012,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 * @param $operator
 	 *
 	 * @return ORM
@@ -953,7 +1032,7 @@ class ORM implements \ArrayAccess {
 	 * Internal method to add a HAVING or WHERE condition to the query
 	 *
 	 * @param       $type
-	 * @param       $fragment
+	 * @param string $fragment
 	 * @param array $values
 	 *
 	 * @return ORM
@@ -980,8 +1059,8 @@ class ORM implements \ArrayAccess {
 	 * If column_name is an associative array, it will add a condition for each column
 	 *
 	 * @param $type
-	 * @param $column_name
-	 * @param $separator
+	 * @param string $column_name
+	 * @param string $separator
 	 * @param $value
 	 *
 	 * @return ORM
@@ -1075,7 +1154,7 @@ class ORM implements \ArrayAccess {
 	 * If you use an array in $column_name, a new clause will be
 	 * added for each element. In this case, $value is ignored.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1088,7 +1167,7 @@ class ORM implements \ArrayAccess {
 	 * More explicitly named version of for the where() method.
 	 * Can be used if preferred.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1100,7 +1179,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE column != value clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1179,7 +1258,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... LIKE clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1191,7 +1270,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add where WHERE ... NOT LIKE clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1203,7 +1282,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... > clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1215,7 +1294,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... < clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1227,7 +1306,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... >= clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1239,7 +1318,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... <= clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1251,7 +1330,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... IN clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 * @param $values
 	 *
 	 * @return ORM
@@ -1263,7 +1342,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE ... NOT IN clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 * @param $values
 	 *
 	 * @return ORM
@@ -1275,7 +1354,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE column IS NULL clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1286,7 +1365,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE column IS NOT NULL clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1333,7 +1412,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY clause to the query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 * @param $ordering
 	 *
 	 * @return ORM
@@ -1348,7 +1427,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY column DESC clause
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1359,7 +1438,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY column ASC clause
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1383,7 +1462,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a column to the list of columns to GROUP BY
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1416,7 +1495,7 @@ class ORM implements \ArrayAccess {
 	 * If you use an array in $column_name, a new clause will be
 	 * added for each element. In this case, $value is ignored.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1429,7 +1508,7 @@ class ORM implements \ArrayAccess {
 	 * More explicitly named version of for the having() method.
 	 * Can be used if preferred.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1441,7 +1520,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING column != value clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1467,7 +1546,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... LIKE clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1479,7 +1558,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add where HAVING ... NOT LIKE clause to your query.
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1491,7 +1570,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... > clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1503,7 +1582,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... < clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1515,7 +1594,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... >= clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1527,7 +1606,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... <= clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $value
 	 *
 	 * @return ORM
@@ -1539,7 +1618,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... IN clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $values
 	 *
 	 * @return ORM
@@ -1551,7 +1630,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING ... NOT IN clause to your query
 	 *
-	 * @param      $column_name
+	 * @param string $column_name
 	 * @param null $values
 	 *
 	 * @return ORM
@@ -1563,7 +1642,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING column IS NULL clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
@@ -1574,7 +1653,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a HAVING column IS NOT NULL clause to your query
 	 *
-	 * @param $column_name
+	 * @param string $column_name
 	 *
 	 * @return ORM
 	 */
