@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Presenters\Robots_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class WPSEO_Frontend
@@ -41,6 +42,13 @@ class WPSEO_Frontend implements Initializer_Interface {
 	private $replace_vars;
 
 	/**
+	 * The helpers surface.
+	 *
+	 * @var Helpers_Surface
+	 */
+	private $helpers;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function initialize() {
@@ -58,14 +66,17 @@ class WPSEO_Frontend implements Initializer_Interface {
 	 * WPSEO_Breadcrumbs constructor.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer The context memoizer.
-	 * @param \WPSEO_Replace_Vars        $replace_vars     The replace vars helper.
+	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
+	 * @param Helpers_Surface            $helpers          The helpers surface.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		WPSEO_Replace_Vars $replace_vars
+		WPSEO_Replace_Vars $replace_vars,
+		Helpers_Surface $helpers
 	) {
 		$this->context_memoizer = $context_memoizer;
 		$this->replace_vars     = $replace_vars;
+		$this->helpers          = $helpers;
 	}
 
 	/**
@@ -121,9 +132,11 @@ class WPSEO_Frontend implements Initializer_Interface {
 			return $context->presentation->canonical;
 		}
 
-		$canonical_presenter = new Canonical_Presenter();
-		$canonical_presenter->presentation = $context->presentation;
-		echo $canonical_presenter->present();
+		$presenter = new Canonical_Presenter();
+		$presenter->presentation = $context->presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
+		echo $presenter->present();
 	}
 
 	/**
@@ -148,6 +161,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 		$context   = $this->context_memoizer->for_current_page();
 		$presenter = new Robots_Presenter();
 		$presenter->presentation = $context->presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
 		echo $presenter->present();
 	}
 
@@ -230,10 +245,14 @@ class WPSEO_Frontend implements Initializer_Interface {
 
 		$rel_prev_presenter = new Rel_Prev_Presenter();
 		$rel_prev_presenter->presentation = $context->presentation;
+		$rel_prev_presenter->helpers      = $this->helpers;
+		$rel_prev_presenter->replace_vars = $this->replace_vars;
 		echo $rel_prev_presenter->present();
 
 		$rel_next_presenter = new Rel_Next_Presenter();
 		$rel_next_presenter->presentation = $context->presentation;
+		$rel_next_presenter->helpers      = $this->helpers;
+		$rel_next_presenter->replace_vars = $this->replace_vars;
 		echo $rel_next_presenter->present();
 	}
 
@@ -255,6 +274,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 
 		$presenter = new Meta_Description_Presenter();
 		$presenter->presentation = $context->presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
 		$presenter->present();
 	}
 }
