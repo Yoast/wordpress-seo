@@ -23,19 +23,19 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	 */
 	private $_name = 'MySQL';
 	/**
-	 * tables
+	 * Tables
 	 *
 	 * @var array
 	 */
 	private $_tables = [];
 	/**
-	 * tables_loaded
+	 * Tables_loaded
 	 *
 	 * @var boolean
 	 */
 	private $_tables_loaded = false;
 	/**
-	 * version
+	 * Version
 	 *
 	 * @var string
 	 */
@@ -48,21 +48,22 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	private $_in_trx = false;
 	/**
 	 * Creates an instance of Ruckusing_Adapter.
-     *
-     * @param string $migrations_table_name The migrations table name.
+	 *
+	 * @param array $config The configuration.
 	 *
 	 * @return Ruckusing_Adapter
 	 */
-	public function __construct( $db ) {
-        $this->set_dsn( $db );
-    }
+	public function __construct( $config ) {
+		$this->set_dsn( $config );
+	}
 	/**
 	 * Get the current db name
 	 *
 	 * @return string
 	 */
 	public function get_database_name() {
-		return $this->db_info['database'];
+		global $wpdb;
+		return $wpdb->dbname;
 	}
 	/**
 	 * Check support for migrations
@@ -119,7 +120,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	/**
 	 * Quote a table name string
 	 *
-	 * @param string $str table name
+	 * @param string $str table name.
 	 * @return string
 	 */
 	public function quote_table( $str ) {
@@ -128,9 +129,9 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	/**
 	 * Column definition
 	 *
-	 * @param string $column_name the column name
-	 * @param string $type        the type of the column
-	 * @param array  $options     column options
+	 * @param string $column_name The column name.
+	 * @param string $type        The type of the column.
+	 * @param array  $options     Column options.
 	 *
 	 * @return string
 	 */
@@ -142,7 +143,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	/**
 	 * Check if a db exists
 	 *
-	 * @param string $db the db name
+	 * @param string $db The db name.
 	 *
 	 * @return boolean
 	 */
