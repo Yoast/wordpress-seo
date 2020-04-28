@@ -136,7 +136,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable() {
 		$indexable = Mockery::mock( Indexable::class );
-		$indexable->expects( 'save' )->once();
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )
@@ -183,7 +182,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 */
 	public function test_build_does_not_exist() {
 		$indexable = Mockery::mock( Indexable::class );
-		$indexable->expects( 'save' )->once();
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )
@@ -200,31 +198,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->once()
 			->with( 1, 'term', false )
 			->andReturn( $indexable );
-
-		$this->instance->build_indexable( 1 );
-	}
-
-	/**
-	 * Tests the build indexable functionality with an exception being thrown.
-	 *
-	 * @covers ::build_indexable
-	 */
-	public function test_build_with_an_exception_thrown() {
-		$this->site
-			->expects( 'is_multisite_and_switched' )
-			->andReturnFalse();
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1, 'term', false )
-			->andReturn( false );
-
-		$this->builder
-			->expects( 'build_for_id_and_type' )
-			->once()
-			->with( 1, 'term', false )
-			->andThrow( Exception::class );
 
 		$this->instance->build_indexable( 1 );
 	}

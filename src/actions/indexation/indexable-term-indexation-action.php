@@ -80,7 +80,10 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $term_ids as $term_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $term_id, 'term' );
+			$indexable = $this->builder->build_for_id_and_type( (int) $term_id, 'term' );
+			if ( $indexable !== false ) {
+				$indexables[] = $indexable;
+			}
 		}
 
 		return $indexables;

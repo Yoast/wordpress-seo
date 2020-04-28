@@ -79,7 +79,10 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
+			$indexable = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
+			if ( $indexable !== false ) {
+				$indexables[] = $indexable;
+			}
 		}
 
 		return $indexables;
