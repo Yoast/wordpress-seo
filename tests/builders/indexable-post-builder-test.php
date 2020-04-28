@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Tests\Builders;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Builders\Indexable_Post_Builder_Double;
@@ -145,7 +145,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
 		$this->indexable      = Mockery::mock( Indexable::class );
-		$this->indexable->orm = Mockery::mock( ORMWrapper::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
 		$this->indexable->orm->expects( 'set' )->with( 'object_id', 1 );
 		$this->indexable->orm->expects( 'set' )->with( 'object_type', 'post' );
 		$this->indexable->orm->expects( 'set' )->with( 'object_sub_type', 'post' );

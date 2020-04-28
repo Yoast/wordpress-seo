@@ -46,13 +46,6 @@ class Model {
 	public static $auto_prefix_models = '\Yoast\WP\SEO\Models\\';
 
 	/**
-	 * Set a logger to use for all models.
-	 *
-	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface $logger
-	 */
-	public static $logger;
-
-	/**
 	 * Set true to to ignore namespace information when computing table names
 	 * from class names.
 	 *
