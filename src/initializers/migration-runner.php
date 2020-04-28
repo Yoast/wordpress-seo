@@ -11,7 +11,7 @@ use Exception;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Loggers\Logger;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Triggers database migrations and handles results.
@@ -96,7 +96,7 @@ class Migration_Runner implements Initializer_Interface {
 	 * @return void
 	 */
 	public function run_free_migrations() {
-		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
 	}
 
 	/**

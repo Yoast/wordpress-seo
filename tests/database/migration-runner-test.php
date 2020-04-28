@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Config\Ruckusing_Framework;
 use Yoast\WP\SEO\Initializers\Database_Setup;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Initializers\Migration_Runner;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Tests\TestCase;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition;
@@ -57,7 +57,7 @@ class Migration_Runner_Test extends TestCase {
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
-		$instance->expects( 'run_migrations' )->once()->with( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		$instance->expects( 'run_migrations' )->once()->with( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
 
 		$instance->initialize();
 

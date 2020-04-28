@@ -53,7 +53,8 @@
 			"deprecated/",
 			"cli/",
 			"vendor_prefixed/",
-			"src/"
+			"src/",
+			"lib/"
 		]
 	},
 	"autoload-dev": {

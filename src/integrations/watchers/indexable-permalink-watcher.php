@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
@@ -159,7 +159,7 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		}
 
 		Wrapper::get_wpdb()->update(
-			Yoast_Model::get_table_name( 'Indexable' ),
+			Model::get_table_name( 'Indexable' ),
 			[
 				'permalink' => null,
 			],

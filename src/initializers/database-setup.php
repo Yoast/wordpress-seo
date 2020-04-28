@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Initializers;
 use wpdb;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Loggers\Logger;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\ORM;
 use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 
@@ -49,12 +49,8 @@ class Database_Setup implements Initializer_Interface {
 	 * Initializes the database setup.
 	 */
 	public function initialize() {
-		ORM::configure( $this->get_connection_string() );
-		ORM::configure( 'username', \DB_USER );
-		ORM::configure( 'password', \DB_PASSWORD );
-
-		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\SEO\\Models\\';
-		Yoast_Model::$logger             = $this->logger;
+		Model::$auto_prefix_models = '\\Yoast\\WP\\SEO\\Models\\';
+		Model::$logger             = $this->logger;
 	}
 
 	/**

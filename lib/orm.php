@@ -63,6 +63,16 @@ class ORM implements \ArrayAccess {
 	// --- INSTANCE PROPERTIES --- //
 	// --------------------------- //
 	/**
+<<<<<<< Updated upstream
+=======
+	 * The wrapped find_one and find_many classes will return an instance or
+	 * instances of this class.
+	 *
+	 * @var string
+	 */
+	protected $class_name;
+	/**
+>>>>>>> Stashed changes
 	 * The name of the table the current ORM instance is associated with.
 	 *
 	 * @var string
@@ -92,121 +102,179 @@ class ORM implements \ArrayAccess {
 
 	/**
 	 * Are we using the default result column or have these been manually changed?
+<<<<<<< Updated upstream
 	 *
 	 * @var boolean
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_using_default_result_columns = \true;
 
 	/**
 	 * Join sources
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_join_sources = [];
 
 	/**
 	 * Should the query include a DISTINCT keyword?
+<<<<<<< Updated upstream
 	 *
 	 * @var boolean
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_distinct = \false;
 
 	/**
 	 * Is this a raw query?
+<<<<<<< Updated upstream
 	 *
 	 * @var boolean
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_is_raw_query = \false;
 
 	/**
 	 * The raw query
+<<<<<<< Updated upstream
 	 *
 	 * @var string
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_raw_query = '';
 
 	/**
 	 * The raw query parameters
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_raw_parameters = [];
 
 	/**
 	 * Array of WHERE clauses
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_where_conditions = [];
 
 	/**
 	 * LIMIT
+<<<<<<< Updated upstream
 	 *
 	 * @var int
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_limit = null;
 
 	/**
 	 * OFFSET
+<<<<<<< Updated upstream
 	 *
 	 * @var int
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_offset = null;
 
 	/**
 	 * ORDER BY
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_order_by = [];
 
 	/**
 	 * GROUP BY
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_group_by = [];
 
 	/**
 	 * HAVING
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_having_conditions = [];
 
 	/**
 	 * The data for a hydrated instance of the class
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_data = [];
 
 	/**
+<<<<<<< Updated upstream
 	 * lifetime of the object
 	 *
 	 * @var array
+=======
+	 * Fields that have been modified during the
+	 */
+	/**
+	 * lifetime of the object
+>>>>>>> Stashed changes
 	 */
 	protected $_dirty_fields = [];
 
 	/**
 	 * Fields that are to be inserted in the DB raw
+<<<<<<< Updated upstream
 	 *
 	 * @var array
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_expr_fields = [];
 
 	/**
 	 * Is this a new object (has create() been called)?
+<<<<<<< Updated upstream
 	 *
 	 * @var boolean
+=======
+>>>>>>> Stashed changes
 	 */
 	protected $_is_new = \false;
 
 	/**
 	 * Name of the column to use as the primary key for
+<<<<<<< Updated upstream
 	 * this instance only. Overrides the config settings.
 	 *
 	 * @var string
+=======
+	 */
+	/**
+	 * this instance only. Overrides the config settings.
+>>>>>>> Stashed changes
 	 */
 	protected $_instance_id_column = null;
 	// ---------------------- //
@@ -278,6 +346,21 @@ class ORM implements \ArrayAccess {
 		$this->_data       = $data;
 	}
 
+<<<<<<< Updated upstream
+=======
+	/**
+	 * Set the name of the class which the wrapped methods should return
+	 * instances of.
+	 *
+	 * @param string $class_name The classname to set.
+	 *
+	 * @return void
+	 */
+	public function set_class_name( $class_name ) {
+		$this->class_name = $class_name;
+	}
+
+>>>>>>> Stashed changes
 	/**
 	 * Create a new, empty instance of the class. Used
 	 * to add a new row to your database. May optionally
@@ -367,7 +450,7 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @return array
 	 */
-	protected function find_many() {
+	public function find_many() {
 		$rows = $this->_run();
 
 		return \array_map( [ $this, '_create_instance_from_row' ], $rows );
@@ -379,7 +462,11 @@ class ORM implements \ArrayAccess {
 	 *
 	 * @param ORM $orm The ORM used by model.
 	 *
+<<<<<<< Updated upstream
 	 * @return bool|Model Instance of the model class.
+=======
+	 * @return bool|\Yoast\WP\SEO\ORM\Model Instance of the model class.
+>>>>>>> Stashed changes
 	 */
 	protected function create_model_instance( $orm ) {
 		if ( $orm === false ) {
@@ -387,9 +474,13 @@ class ORM implements \ArrayAccess {
 		}
 
 		/**
-		 * An instance of Yoast_Model is being made.
+		 * An instance of Model is being made.
 		 *
+<<<<<<< Updated upstream
 		 * @var Model $model
+=======
+		 * @var \Yoast\WP\SEO\ORM\Model $model
+>>>>>>> Stashed changes
 		 */
 		$model = new $this->class_name();
 		$model->set_orm( $orm );
@@ -1077,8 +1168,14 @@ class ORM implements \ArrayAccess {
 				}
 				$key = "{$table}.{$key}";
 			}
+<<<<<<< Updated upstream
 			$key    = $result->_quote_identifier( $key );
 			$result = $result->_add_condition( $type, "{$key} {$separator} ?", $val );
+=======
+			$key = $result->_quote_identifier( $key );
+			$placeholder = '%s';
+			$result = $result->_add_condition( $type, "{$key} {$separator} {$placeholder}", $val );
+>>>>>>> Stashed changes
 		}
 
 		return $result;
@@ -1100,7 +1197,7 @@ class ORM implements \ArrayAccess {
 				if ( \array_key_exists( $key, $this->_expr_fields ) ) {
 					$db_fields[] = $value;
 				} else {
-					$db_fields[] = '?';
+					$db_fields[] = '%s';
 				}
 			}
 
@@ -1232,8 +1329,13 @@ class ORM implements \ArrayAccess {
 					$query[] = 'AND';
 				}
 				$query[] = $this->_quote_identifier( $key );
+<<<<<<< Updated upstream
 				$data[]  = $item;
 				$query[] = $op . ' ?';
+=======
+				$data[] = $item;
+				$query[] = $op . '%s';
+>>>>>>> Stashed changes
 			}
 		}
 		$query[] = '))';
@@ -1924,7 +2026,11 @@ class ORM implements \ArrayAccess {
 			return false;
 		}
 
-		return $wpdb->last_result;
+		$rows = [];
+		foreach ( $wpdb->last_result as $row ) {
+			$rows[] = \get_object_vars( $row );
+		}
+		return $rows;
 	}
 
 	/**
@@ -2155,7 +2261,7 @@ class ORM implements \ArrayAccess {
 				$query[] = 'AND';
 			}
 			$query[] = $this->_quote_identifier( $key );
-			$query[] = '= ?';
+			$query[] = '= %s';
 		}
 	}
 
@@ -2168,7 +2274,7 @@ class ORM implements \ArrayAccess {
 		$field_list = [];
 		foreach ( $this->_dirty_fields as $key => $value ) {
 			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
-				$value = '?';
+				$value = '%s';
 			}
 			$field_list[] = "{$this->_quote_identifier($key)} = {$value}";
 		}

@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Primary_Term_Repository
@@ -24,7 +24,7 @@ class Primary_Term_Repository {
 	 * @return ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Primary_Term' );
+		return Model::of_type( 'Primary_Term' );
 	}
 
 	/**
