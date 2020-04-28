@@ -10,6 +10,7 @@ namespace Yoast\WP\Lib;
 use YoastSEO_Vendor\Ruckusing_Exception;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use YoastSEO_Vendor\Ruckusing_Task_Manager;
+use YoastSEO_Vendor\Ruckusing_Util_Migrator;
 
 /**
  * Ruckusing
@@ -149,9 +150,11 @@ class Ruckusing_Framework_Runner extends Ruckusing_FrameworkRunner {
 				throw new Ruckusing_Exception( \sprintf( 'No module %s migration_dir set in config', $key ), Ruckusing_Exception::INVALID_CONFIG );
 			}
 			$migration_dir = $this->_config['migrations_dir'][ $key ] . \DIRECTORY_SEPARATOR;
-		} elseif ( \is_array( $this->_config['migrations_dir'] ) ) {
+		}
+		elseif ( \is_array( $this->_config['migrations_dir'] ) ) {
 			$migration_dir = $this->_config['migrations_dir']['default'] . \DIRECTORY_SEPARATOR;
-		} else {
+		}
+		else {
 			$migration_dir = $this->_config['migrations_dir'] . \DIRECTORY_SEPARATOR;
 		}
 		if ( \array_key_exists( 'directory', $this->_config['db'][ $this->_env ] ) ) {
@@ -237,7 +240,7 @@ class Ruckusing_Framework_Runner extends Ruckusing_FrameworkRunner {
 		// only create the table if it doesnt already exist
 		$this->_adapter->create_schema_version_table();
 		// insert all existing records into our new table
-		$migrator_util = new \YoastSEO_Vendor\Ruckusing_Util_Migrator( $this->_adapter );
+		$migrator_util = new Ruckusing_Util_Migrator( $this->_adapter );
 		$files = $migrator_util->get_migration_files( $this->migrations_directories(), 'up' );
 		foreach ( $files as $file ) {
 			if ( (int) $file['version'] >= \PHP_INT_MAX ) {
