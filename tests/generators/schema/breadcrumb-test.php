@@ -110,6 +110,18 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -169,6 +181,12 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
 
 		$actual = $this->instance->generate();
 
@@ -245,6 +263,24 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Page title' )
+			->once()
+			->andReturnArg( 0 );
+
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -316,6 +352,18 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -377,7 +425,8 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
-		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Page title' )->andReturn( 'Page title' );
+		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Home' )->andReturn( 'Home' );
+		$this->html->expects( 'smart_strip_tags' )->twice()->with( 'Page title' )->andReturn( 'Page title' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
