@@ -87,8 +87,8 @@ class Ruckusing_Framework_Runner extends Ruckusing_FrameworkRunner {
 	 * @return Ruckusing_FrameworkRunner
 	 */
 	public function __construct( $config, $argv ) {
-		\set_error_handler( [ 'Ruckusing_Exception', 'errorHandler' ], \E_ALL );
-		\set_exception_handler( [ 'Ruckusing_Exception', 'exceptionHandler' ] );
+		\set_error_handler( [ Ruckusing_Exception::class, 'errorHandler' ], \E_ALL );
+		\set_exception_handler( [ Ruckusing_Exception::class, 'exceptionHandler' ] );
 		// Parse arguments.
 		$this->parse_args( $argv );
 		// Set config variables.
