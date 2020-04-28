@@ -417,11 +417,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an exception.
+	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an false.
 	 *
 	 * @covers ::has_public_posts
 	 */
-	public function test_has_public_posts_attachment_with_post_parent_exception() {
+	public function test_has_public_posts_attachment_with_post_parent_false() {
 		$this->indexable->object_sub_type = 'attachment';
 		$this->indexable->post_parent     = 1;
 		$this->indexable->post_status     = 'inherit';
@@ -432,7 +432,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )
 			->once()
 			->with( 1, 'post' )
-			->andThrows( Exception::class );
+			->andReturn( false );
 
 		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
 	}
