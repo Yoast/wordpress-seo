@@ -26,6 +26,8 @@ input[type=checkbox].yoast-toggle__checkbox {
 	box-shadow: none;
 	border: 0;
 	background-color: transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 
 input[type=checkbox].yoast-toggle__checkbox:checked::before {
