@@ -24,7 +24,12 @@ class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
 	 * Migration down.
 	 */
 	public function down() {
-		$this->change_column( $this->get_indexable_table_name(), 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$this->change_column(
+			$this->get_indexable_table_name(),
+			'breadcrumb_title',
+			'string',
+			[ 'null' => true, 'limit' => 191 ]
+		);
 	}
 
 	/**

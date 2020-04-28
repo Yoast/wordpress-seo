@@ -137,7 +137,7 @@ class Migration_Runner implements Initializer_Interface {
 			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
 			// Run this before calling the framework runner so it doesn't create it's own.
 			if ( ! $adapter->has_table( $migrations_table_name ) ) {
-				$table = $adapter->create_table( $migrations_table_name, [ 'id' => false ] );
+				$table = $adapter->create_table( $migrations_table_name );
 				$table->column( 'version', 'string', [ 'limit' => 191 ] );
 				$table->finish();
 				$adapter->add_index( $migrations_table_name, 'version', [ 'unique' => true ] );

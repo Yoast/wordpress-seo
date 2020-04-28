@@ -115,7 +115,7 @@ class Migration_Runner_Test extends TestCase {
 		$framework_mock->expects( 'get_framework_task_manager' )->once()->with( $adapter_mock, 'table', 'dir' )->andReturn( $task_manager_mock );
 		$runner_mock->expects( 'get_adapter' )->once()->andReturn( $adapter_mock );
 		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( false );
-		$adapter_mock->expects( 'create_table' )->once()->with( 'table', [ 'id' => false ] )->andReturn( $table_mock );
+		$adapter_mock->expects( 'create_table' )->once()->with( 'table' )->andReturn( $table_mock );
 		$adapter_mock->expects( 'add_index' )->once()->with( 'table', 'version', [ 'unique' => true ] );
 		$table_mock->expects( 'column' )->once()->with( 'version', 'string', [ 'limit' => 191 ] );
 		$table_mock->expects( 'finish' )->once();
