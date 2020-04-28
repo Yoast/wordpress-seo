@@ -70,15 +70,13 @@ class Indexable_Post_Builder {
 	 * @param int       $post_id   The post ID to use.
 	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @throws Exception If the post could not be found.
-	 *
-	 * @return Indexable The extended indexable.
+	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */
 	public function build( $post_id, $indexable ) {
 		$post = $this->post->get_post( $post_id );
 
 		if ( $post === null ) {
-			throw new Exception( 'Post could not be found.' );
+			return false;
 		}
 
 		$indexable->object_id       = $post_id;
