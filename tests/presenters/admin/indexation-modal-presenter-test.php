@@ -37,7 +37,7 @@ class Indexation_Modal_Presenter_Test extends TestCase {
 	 */
 	public function test_present_without_unindexed() {
 		$instance = new Indexation_Modal_Presenter( 0 );
-		$expected = '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><p>All your content is already indexed, there is no need to index them again.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>';
+		$expected = '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><p>All your content is already indexed, there is no need to index it again.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>';
 
 		$this->assertSame( $expected, $instance->present() );
 	}

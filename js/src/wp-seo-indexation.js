@@ -33,7 +33,7 @@ const settings = yoastIndexationData;
 	}
 
 	/**
-	 * Does the indexation of a given endpoint
+	 * Does the indexation of a given endpoint.
 	 *
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
