@@ -265,6 +265,6 @@ class Indexable_Hierarchy_Builder {
 			$parents[] = $term;
 		}
 
-		return array_reverse( $parents );
+		return $parents;
 	}
 }
