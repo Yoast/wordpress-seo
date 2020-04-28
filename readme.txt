@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 14.0
+Stable tag: 14.0.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -226,7 +226,6 @@ Bugfixes:
 
 Other:
 
-* With Yoast SEO 14.0 and higher, the pdo extension for PHP is required. This extension is included with PHP by default, but could be turned off. Please make sure it is turned on before updating.
 * Yoast SEO needs to have the right to create a database index. If you have restricted the creation of database indexes on your setup, please make sure to temporarily allow Yoast SEO to create indexes before updating.
 
 = 14.0 =
