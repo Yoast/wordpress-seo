@@ -102,7 +102,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				'@type' => 'WebPage',
 				'@id'   => $breadcrumb['url'],
 				'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
-				'name'  => $breadcrumb['text'],
+				'name'  => $this->helpers->schema->html->smart_strip_tags( $breadcrumb['text'] ),
 			],
 		];
 	}

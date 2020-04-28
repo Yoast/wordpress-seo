@@ -137,4 +137,58 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$builder->build( 1, $indexable_mock );
 	}
+
+	/**
+	 * Tests that build returns false when no term was returned.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_term_null() {
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( null );
+
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+
+		$this->assertFalse( $builder->build( 1, false ) );
+	}
+
+	/**
+	 * Tests that build returns false when the term is a WP error.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_term_error() {
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( Mockery::mock( '\WP_Error' ) );
+
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+
+		$this->assertFalse( $builder->build( 1, false ) );
+	}
+
+	/**
+	 * Tests that build returns false when the term link is a WP error.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_term_link_error() {
+		$term = (object) [ 'taxonomy' => 'tax' ];
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+		Monkey\Functions\expect( 'get_term_link' )
+			->once()
+			->with( $term, 'tax' )
+			->andReturn( Mockery::mock( '\WP_Error' ) );
+
+		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
+
+		$this->assertFalse( $builder->build( 1, false ) );
+	}
 }

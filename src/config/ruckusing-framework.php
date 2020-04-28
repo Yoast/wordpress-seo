@@ -121,7 +121,7 @@ class Ruckusing_Framework {
 	public function get_configuration( $migrations_table_name, $migrations_directory ) {
 		$config = $this->database_setup->get_database_config();
 
-		return [
+		$ruckusing_config = [
 			'db'             => [
 				'production' => [
 					'type'                      => 'mysql',
@@ -130,7 +130,6 @@ class Ruckusing_Framework {
 					'database'                  => \DB_NAME,
 					'user'                      => \DB_USER,
 					'password'                  => \DB_PASSWORD,
-					'charset'                   => $this->wpdb->charset,
 					'directory'                 => '', // This needs to be set, to use the migrations folder as base folder.
 					'schema_version_table_name' => $migrations_table_name,
 				],
@@ -142,6 +141,12 @@ class Ruckusing_Framework {
 			'log_dir'        => true,
 			// This needs to be set but is not used.
 		];
+
+		if ( ! empty( $this->wpdb->charset ) ) {
+			$ruckusing_config['db']['production']['charset'] = $this->wpdb->charset;
+		}
+
+		return $ruckusing_config;
 	}
 
 	/**
