@@ -387,7 +387,11 @@ class ORM implements \ArrayAccess {
 	 * @return array
 	 */
 	public function find_many() {
-		$rows = $this->_run();
+        $rows = $this->_run();
+
+        if ( $rows === false ) {
+            return [];
+        }
 
 		return \array_map( [ $this, '_create_instance_from_row' ], $rows );
 	}
