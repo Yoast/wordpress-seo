@@ -436,4 +436,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
 	}
+
+	/**
+	 * Tests that build returns false when no term was returned.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_term_null() {
+		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
+
+		$this->assertFalse( $this->instance->build( 1, false ) );
+	}
 }
