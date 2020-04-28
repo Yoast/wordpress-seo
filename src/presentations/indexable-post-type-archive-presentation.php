@@ -33,7 +33,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		if ( $this->options->get( 'noindex-ptarchive-' . $this->model->object_sub_type, false ) ) {
 			$robots['index'] = 'noindex';

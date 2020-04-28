@@ -49,11 +49,11 @@ class Robots_Test extends TestCase {
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'nosnippet'    => 'nosnippet',
-			'noarchive'    => 'noarchive',
-			'noimageindex' => 'noimageindex',
+			'index'      => 'index',
+			'follow'     => 'follow',
+			'snippet'    => 'nosnippet',
+			'archive'    => 'noarchive',
+			'imageindex' => 'noimageindex',
 		];
 
 		$this->assertEquals( $expected, $actual );

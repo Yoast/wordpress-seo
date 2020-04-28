@@ -221,12 +221,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
-		$robots = [
+		$robots = $this->get_base_robots();
+
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Gets the base robots value.
+	 *
+	 * @return array The base robots value.
+	 */
+	protected function get_base_robots() {
+		return [
 			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
 		];
-
-		return $this->filter_robots( $robots );
 	}
 
 	/**
@@ -248,7 +257,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
 
 		if ( is_string( $robots_filtered ) ) {
-			return \array_filter( explode( ', ', $robots_filtered ) );
+			$robots_values = \explode( ', ', $robots_filtered );
+			$robots_new    = [];
+
+			foreach( $robots_values as $value ) {
+				$key = $value;
+				if ( \strpos( $key, 'no' ) === 0 ) {
+					$key = \substr( $value, 2 );
+				}
+				$robots_new[ $key ] = $value;
+			}
+
+			return \array_filter( $robots_new );
 		}
 
 		if ( ! $robots_filtered ) {

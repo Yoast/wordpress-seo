@@ -48,7 +48,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		if ( $this->options->get( 'noindex-archive-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
