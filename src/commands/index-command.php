@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Command to generate indexables for all posts and terms.
@@ -86,6 +87,9 @@ class Index_Command implements Command_Interface {
 	 * [--network]
 	 * : Perform the indexation on all sites within the network.
 	 *
+	 * [--reindex]
+	 * : Removes all existing indexables.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp yoast index
@@ -99,7 +103,7 @@ class Index_Command implements Command_Interface {
 	 */
 	public function index( $args = null, $assoc_args = null ) {
 		if ( ! isset( $assoc_args['network'] ) ) {
-			$this->run_indexation_actions();
+			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
 
 			return;
 		}
@@ -113,7 +117,7 @@ class Index_Command implements Command_Interface {
 
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
-			$this->run_indexation_actions();
+			$this->run_indexation_actions( isset($assoc_args['reindex'] ) );
 			\restore_current_blog();
 		}
 	}
@@ -123,7 +127,12 @@ class Index_Command implements Command_Interface {
 	 *
 	 * @return void
 	 */
-	protected function run_indexation_actions() {
+	protected function run_indexation_actions( $reindex ) {
+		if ( $reindex ) {
+			\WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+			$this->clear();
+		}
+
 		$indexation_actions = [
 			'posts'              => $this->post_indexation_action,
 			'terms'              => $this->term_indexation_action,
@@ -137,7 +146,7 @@ class Index_Command implements Command_Interface {
 	}
 
 	/**
-	 * Runs an indextion action.
+	 * Runs an indexation action.
 	 *
 	 * @param string                      $name              The name of the object to be indexed.
 	 * @param Indexation_Action_Interface $indexation_action The indexation action.
@@ -156,5 +165,16 @@ class Index_Command implements Command_Interface {
 			} while ( $count >= $limit );
 			$progress->finish();
 		}
+	}
+
+	/**
+	 * Clears the database related to the indexables.
+	 */
+	protected function clear() {
+		global $wpdb;
+
+		$wpdb->query( 'TRUNCATE TABLE ' . Yoast_Model::get_table_name( 'Indexable' ) );
+		$wpdb->query( 'TRUNCATE TABLE ' . Yoast_Model::get_table_name( 'Indexable_Hierarchy' ) );
+
 	}
 }
