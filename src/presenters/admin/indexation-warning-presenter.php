@@ -32,7 +32,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			\sprintf(
 				/* translators: 1: Button start tag to open the indexation modal, 2: Button closing tag. */
 				\esc_html__( '%1$sClick here to speed up your site now%2$s', 'wordpress-seo' ),
-				'<button type="button" class="button yoast-open-indexation">',
+				\sprintf( '<button type="button" class="button yoast-open-indexation" data-title="%s">',
+					\esc_html__( "Yoast indexation status", 'wordpress_seo' ) ),
 				'</button>'
 			),
 			\sprintf(
