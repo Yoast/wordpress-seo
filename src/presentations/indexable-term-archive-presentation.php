@@ -122,7 +122,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		/**
 		 * If its a multiple terms archive page return a noindex.
@@ -130,7 +130,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
 
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
 		/**
@@ -148,7 +148,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			$robots['index'] = ( $this->model->is_robots_noindex ) ? 'noindex' : 'index';
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
