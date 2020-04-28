@@ -34,8 +34,14 @@
 	margin-bottom: 24px;
 }
 
-::placeholder,
-::-webkit-input-placeholder,
+/* Edge. */
 ::-ms-input-placeholder {
 	color: var(--color-placeholder);
+}
+
+/* Modern browsers. */
+::placeholder {
+	color: var(--color-placeholder);
+	/* Specific for Firefox. */
+	opacity: 1;
 }
