@@ -88,30 +88,31 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function for_current_page() {
+		$indexable = false;
+
 		switch ( true ) {
 			case $this->current_page->is_simple_page():
-				return $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
 			case $this->current_page->is_home_static_page():
-				return $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
 			case $this->current_page->is_home_posts_page():
-				return $this->find_for_home_page();
+				$indexable = $this->find_for_home_page();
 			case $this->current_page->is_term_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
 			case $this->current_page->is_date_archive():
-				return $this->find_for_date_archive();
+				$indexable = $this->find_for_date_archive();
 			case $this->current_page->is_search_result():
-				return $this->find_for_system_page( 'search-result' );
+				$indexable = $this->find_for_system_page( 'search-result' );
 			case $this->current_page->is_post_type_archive():
-				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				$indexable = $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
 			case $this->current_page->is_author_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
 			case $this->current_page->is_404():
-				return $this->find_for_system_page( '404' );
+				$indexable = $this->find_for_system_page( '404' );
 		}
 
-		return $this->query()->create( [ 'object_type' => 'unknown' ] );
+		return $indexable || $this->query()->create( [ 'object_type' => 'unknown' ] );
 	}
-
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *
@@ -370,6 +371,8 @@ class Indexable_Repository {
 	 * Ensures that the given indexable has a permalink.
 	 *
 	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool|Indexable The indexable.
 	 */
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {

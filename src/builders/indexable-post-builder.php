@@ -204,13 +204,12 @@ class Indexable_Post_Builder {
 		}
 
 		// The post parent should be public.
-		try {
-			$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
-		} catch ( Exception $exception ) {
-			return false;
+		$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
+		if ( $post_parent_indexable !== false ) {
+			return $post_parent_indexable->is_public;
 		}
 
-		return $post_parent_indexable->is_public;
+		return false;
 	}
 
 	/**
