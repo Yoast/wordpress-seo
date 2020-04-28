@@ -28,16 +28,16 @@ const checkStrongVerbExceptionList = function( strongVerbsLists, stemmedWord ) {
  * If the stem after prefix deletion is in the verb exception list, only return the first stem from the stem set and attach back the prefix.
  * E.g. words to check: verhielp, stem set: help, hielp, geholp -> the stem returned would be "verhelp".
  *
- * @param  {Object} morphologyDataVerbs The Dutch verbs data.
- * @param  {string} stemmedWord The word to check.
+ * @param  {Object} morphologyDataNL 	The Dutch morphology data file.
+ * @param  {string} stemmedWord 		The word to check.
  *
  * @returns {string} The unique stem.
  */
-const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord ) {
-	const prefixes = flattenSortLength( morphologyDataVerbs.compoundVerbsPrefixes );
+const findStemOnVerbExceptionList = function( morphologyDataNL, stemmedWord ) {
+	const prefixes = flattenSortLength( morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes );
 	// Check whether the inputted stem is started with one of the separable compound prefixes
 	let foundPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
-	const doNotStemPrefix = morphologyDataVerbs.strongAndIrregularVerbs.doNotStemPrefix;
+	const doNotStemPrefix = morphologyDataNL.stemExceptions.stemmingExceptionsWithMultipleStems.strongAndIrregularVerbs.doNotStemPrefix;
 	const doNotStemPrefixException = doNotStemPrefix.find( exception => stemmedWord.endsWith( exception ) );
 	let stemmedWordWithoutPrefix = "";
 
@@ -57,10 +57,11 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 			foundPrefix = null;
 		}
 	}
+
+	const strongVerbExceptions = morphologyDataNL.stemExceptions.stemmingExceptionsWithMultipleStems.strongAndIrregularVerbs.strongVerbStems;
 	// Find stem strong verbs lists.
-	const strongVerbsExceptionLists = [ morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.irregularStrongVerbs,
-		morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.regularStrongVerbs,
-		morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.bothRegularAndIrregularStrongVerbs,
+	const strongVerbsExceptionLists = [ strongVerbExceptions.irregularStrongVerbs, strongVerbExceptions.regularStrongVerbs,
+		strongVerbExceptions.bothRegularAndIrregularStrongVerbs,
 	];
 	for ( let i = 0; i < strongVerbsExceptionLists.length; i++ ) {
 		const checkIfWordIsException =  checkStrongVerbExceptionList( strongVerbsExceptionLists[ i ], stemmedWord );
@@ -87,17 +88,18 @@ export function determineStem( word, morphologyDataNL ) {
 	const stemmedWord = stem( word, morphologyDataNL );
 
 	// Check whether the stemmed word is on an exception list of words with multiple stems. If it is, return the canonical stem.
-	let stemFromExceptionList = checkExceptionListWithTwoStems( morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems, stemmedWord );
+	let stemFromExceptionList = checkExceptionListWithTwoStems(
+		morphologyDataNL.stemExceptions.stemmingExceptionsWithMultipleStems.stemmingExceptionsWithTwoStems, stemmedWord );
 	if ( stemFromExceptionList ) {
 		return stemFromExceptionList;
 	}
-	stemFromExceptionList = findStemOnVerbExceptionList( morphologyDataNL.verbs, stemmedWord );
+	stemFromExceptionList = findStemOnVerbExceptionList( morphologyDataNL, stemmedWord );
 	if ( stemFromExceptionList ) {
 		return stemFromExceptionList;
 	}
 
 	// If the stemmed word ends in -t or -d, check whether it should be stemmed further, and return the stem with or without the -t/d.
-	const ambiguousEndings = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tAndDEndings;
+	const ambiguousEndings = morphologyDataNL.ambiguousTAndDEndings.tAndDEndings;
 	for ( const ending of ambiguousEndings ) {
 		if ( stemmedWord.endsWith( ending ) ) {
 			const stemmedWordWithoutTOrD = stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word );

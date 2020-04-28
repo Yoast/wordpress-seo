@@ -22,10 +22,10 @@ const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children }
 		<div className="yoast-field-group">
 			<div className="yoast-field-group__title">
 				<label htmlFor={ htmlFor }>{ label }</label>
-				<HelpIcon
+				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
 					linkText={ linkText }
-				/>
+				/> }
 			</div>
 			{ description !== ""  && <p className="description" id="yoast_unique_description_id">{ description }</p> }
 			{ children }

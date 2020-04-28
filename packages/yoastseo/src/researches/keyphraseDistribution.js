@@ -1,4 +1,5 @@
 import getSentences from "../stringProcessing/getSentences";
+import { mergeListItems } from "../stringProcessing/mergeListItems";
 import { findWordFormsInString } from "./findKeywordFormsInString";
 import { max, uniq as unique } from "lodash-es";
 import { zipWith } from "lodash-es";
@@ -185,7 +186,9 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale ) {
  * @returns {Object} The scores of topic relevance per portion of text and an array of all word forms to highlight.
  */
 const keyphraseDistributionResearcher = function( paper, researcher ) {
-	const sentences = getSentences( paper.getText() );
+	let text = paper.getText();
+	text = mergeListItems( text );
+	const sentences = getSentences( text );
 	const topicForms = researcher.getResearch( "morphology" );
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
