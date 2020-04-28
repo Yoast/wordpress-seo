@@ -206,6 +206,13 @@ class WooCommerce implements Integration_Interface {
 		return \wc_get_page_id( 'shop' );
 	}
 
+	/**
+	 * Ensures a presentation is available.
+	 *
+	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 *
+	 * @return Indexable_Presentation The presentation, taken from the current page if the input was invalid.
+	 */
 	protected function ensure_presentation( $presentation ) {
 		if ( \is_a( $presentation, Indexable_Presentation::class ) ) {
 			return $presentation;
