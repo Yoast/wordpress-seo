@@ -107,7 +107,7 @@ class Database_Setup implements Initializer_Interface {
 		if ( ! empty( $config['socket'] ) ) {
 			$connection_string .= 'unix_socket=' . $config['socket'] . ';';
 		}
-		if ( ! empty( \DB_CHARSET ) ) {
+		if ( \defined( 'DB_CHARSET' ) && ! empty( \DB_CHARSET ) ) {
 			$connection_string .= 'charset=' . \DB_CHARSET . ';';
 		}
 		return $connection_string;
