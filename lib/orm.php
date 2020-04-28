@@ -2277,7 +2277,7 @@ class ORM implements \ArrayAccess {
 	 */
 	public function offsetSet( $key, $value ) {
 		if ( \is_null( $key ) ) {
-			throw new \InvalidArgumentException( 'You must specify a key/array index.' );
+			return;
 		}
 		$this->set( $key, $value );
 	}

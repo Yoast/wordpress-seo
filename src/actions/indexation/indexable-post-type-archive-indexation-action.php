@@ -150,7 +150,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			->find_array();
 
 		return \array_map( function( $result ) {
-			return $result->object_sub_type;
+			return $result['object_sub_type'];
 		}, $results );
 	}
 }
