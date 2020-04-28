@@ -7,6 +7,10 @@
 
 namespace Yoast\WP\SEO\ORM;
 
+use Exception;
+use PDO;
+use Yoast\WP\Polyfills\PDO\PDO_MySQLi_Polyfill;
+use Yoast\WP\SEO\Initializers\Migration_Runner;
 use YoastSEO_Vendor\ORM;
 
 /**
@@ -92,11 +96,6 @@ class ORMWrapper extends ORM {
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
-
-		if ( self::$repositories[ $table_name ] ) {
-			return new self::$repositories[ $table_name ]( $table_name, [], $connection_name );
-		}
-
 		return new static( $table_name, [], $connection_name );
 	}
 
@@ -161,5 +160,75 @@ class ORMWrapper extends ORM {
 	 */
 	public function create( $data = null ) {
 		return $this->create_model_instance( parent::create( $data ) );
+	}
+
+	/**
+	 * Returns the select query as SQL.
+	 *
+	 * @return string The select query in SQL.
+	 */
+	public function get_sql() {
+		return $this->_build_select();
+	}
+
+	/**
+	 * Returns the update query as SQL.
+	 *
+	 * @return string The update query in SQL.
+	 */
+	public function get_update_sql() {
+		return $this->_build_update();
+	}
+
+	/**
+	 * Set up the database connection used by the class
+	 *
+	 * @param string $connection_name Which connection to use.
+	 */
+	protected static function _setup_db( $connection_name = self::DEFAULT_CONNECTION ) {
+		if (
+			! array_key_exists( $connection_name, self::$_db ) ||
+			! is_object( self::$_db[ $connection_name ] )
+		) {
+			self::_setup_db_config( $connection_name );
+
+			if ( extension_loaded( 'pdo_mysql' ) ) {
+				// @codingStandardsIgnoreStart -- Reason: This is part of a well-tested library.
+				$db = new PDO(
+					self::$_config[ $connection_name ]['connection_string'],
+					self::$_config[ $connection_name ]['username'],
+					self::$_config[ $connection_name ]['password'],
+					self::$_config[ $connection_name ]['driver_options']
+				);
+				$db->setAttribute( PDO::ATTR_ERRMODE, self::$_config[ $connection_name ]['error_mode'] );
+				// @codingStandardsIgnoreEnd -- Reason: This is part of a well-tested library.
+			}
+			else {
+				$db = new PDO_MySQLi_Polyfill(
+					self::$_config[ $connection_name ]['connection_string'],
+					self::$_config[ $connection_name ]['username'],
+					self::$_config[ $connection_name ]['password'],
+					self::$_config[ $connection_name ]['driver_options']
+				);
+			}
+
+			self::set_db( $db, $connection_name );
+		}
+	}
+
+	/**
+	 * Execute the SELECT query that has been built up by chaining methods
+	 * on this class. Return an array of rows as associative arrays.
+	 */
+	protected function _run() {
+		try {
+			return parent::_run();
+		} catch ( Exception $exception ) {
+			// If the query fails run the migrations and try again.
+			// Action is intentionally undocumented and should not be used by third-parties.
+			\do_action( '_yoast_run_migrations' );
+			$this->_reset_idiorm_state();
+			return parent::_run();
+		}
 	}
 }

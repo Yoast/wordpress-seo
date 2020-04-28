@@ -39,18 +39,20 @@ abstract class TestCase extends BaseTestCase {
 
 					return $plural;
 				},
-				'_x'                  => null,
-				'esc_html__'          => null,
-				'esc_html_x'          => null,
-				'esc_attr_x'          => null,
-				'esc_url'             => null,
-				'esc_url_raw'         => null,
-				'sanitize_text_field' => null,
-				'is_admin'            => false,
-				'is_multisite'        => false,
-				'wp_kses_post'        => null,
-				'site_url'            => 'https://www.example.org',
-				'wp_json_encode'      => function ( $data, $options = 0, $depth = 512 ) {
+				'_x'                   => null,
+				'esc_html__'           => null,
+				'esc_html_x'           => null,
+				'esc_attr__'           => null,
+				'esc_attr_x'           => null,
+				'esc_url'              => null,
+				'esc_url_raw'          => null,
+				'esc_js'               => null,
+				'sanitize_text_field'  => null,
+				'is_admin'             => false,
+				'is_multisite'         => false,
+				'wp_kses_post'         => null,
+				'site_url'             => 'https://www.example.org',
+				'wp_json_encode'       => function ( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'            => null,
@@ -60,10 +62,15 @@ abstract class TestCase extends BaseTestCase {
 				'absint'              => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'          => null,
+				'mysql2date'          => function ( $format, $date ) {
+					return $date;
+				},
 				'number_format_i18n'  => null,
 				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
+				},
+				'user_trailingslashit' => function( $string ) {
+					return \trailingslashit( $string );
 				},
 				'wp_strip_all_tags'   => function ( $string, $remove_breaks = false ) {
 					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
@@ -79,7 +86,10 @@ abstract class TestCase extends BaseTestCase {
 					switch ( $show ) {
 						case 'charset':
 							return 'UTF-8';
+						case 'language':
+							return 'English';
 					}
+
 					return $show;
 				},
 			]

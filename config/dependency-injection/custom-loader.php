@@ -106,31 +106,6 @@ class Custom_Loader extends PhpFileLoader {
 	}
 
 	/**
-	 * Registers a definition in the container with its instanceof-conditionals.
-	 *
-	 * @param string                                            $id         The ID of the definition.
-	 * @param \Symfony\Component\DependencyInjection\Definition $definition The definition.
-	 *
-	 * @throws InvalidArgumentException If invalid arguments were supplied.
-	 *
-	 * @return void
-	 */
-	protected function setDefinition( $id, Definition $definition ) {
-		$this->container->removeBindings( $id );
-
-		// @codingStandardsIgnoreLine WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar This is from an inherited class not abiding by that standard.
-		if ( $this->isLoadingInstanceof ) {
-			if ( ! $definition instanceof ChildDefinition ) {
-				throw new InvalidArgumentException( \sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
-			}
-			$this->instanceof[ $id ] = $definition;
-		}
-		else {
-			$this->container->setDefinition( $id, ( $definition instanceof ChildDefinition ) ? $definition : $definition->setInstanceofConditionals( $this->instanceof ) );
-		}
-	}
-
-	/**
 	 * Finds classes based on a given pattern and exclude pattern.
 	 *
 	 * @param string $namespace The namespace prefix of classes in the scanned directory.

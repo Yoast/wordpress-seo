@@ -214,11 +214,11 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 			[ 'custom_post_type', [ 'sitename', 'title', 'sep' ] ],
 
 			// Taxonomies.
-			[ 'category', [ 'sitename', 'term_title', 'sep' ] ],
+			[ 'category', [ 'sitename', 'term_title', 'sep', 'term_hierarchy' ] ],
 			[ 'post_tag', [ 'sitename', 'term_title', 'sep' ] ],
 			[ 'post_format', [ 'sitename', 'term_title', 'sep', 'page' ] ],
 			// Custom taxonomy.
-			[ 'term-in-custom-taxomomy', [ 'sitename', 'term_title', 'sep' ] ],
+			[ 'term-in-custom-taxomomy', [ 'sitename', 'term_title', 'sep', 'term_hierarchy' ] ],
 
 			// Settings - archive pages.
 			[ 'author_archive', [ 'sitename', 'title', 'sep', 'page' ] ],

@@ -8,23 +8,28 @@
 namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use WPSEO_Admin_Asset_Manager;
+use WPSEO_Breadcrumbs;
+use WPSEO_Frontend;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\WordPress\Wrapper;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
 
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
-$container->register( 'wp_query', 'WP_Query' )->setFactory( [ Wrapper::class, 'get_wp_query' ] );
 
-// Model repository factory functions.
-$container->register( Indexable_Repository::class, Indexable_Repository::class )->setFactory( [ Indexable_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( Primary_Term_Repository::class, Primary_Term_Repository::class )->setFactory( [ Primary_Term_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Meta_Repository::class, SEO_Meta_Repository::class )->setFactory( [ SEO_Meta_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )->setFactory( [ SEO_Links_Repository::class, 'get_instance' ] )->setAutowired( true );
+// Legacy classes.
+$container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] )->setPublic( true );
+$container->register( WPSEO_Admin_Asset_Manager::class, WPSEO_Admin_Asset_Manager::class )->setFactory( [ Wrapper::class, 'get_admin_asset_manager' ] )->setPublic( true );
+
+// Backwards-compatibility classes in the global namespace.
+$container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
+$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
+
+// The container itself.
+$container->setAlias( ContainerInterface::class, 'service_container' );
 
 $excluded_files = [
 	'main.php',
@@ -36,6 +41,9 @@ $excluded_directories = [
 	'wordpress',
 	'generated',
 	'orm',
+	'backwards-compatibility',
+	'surfaces/values',
+	'presenters',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
@@ -45,7 +53,7 @@ $base_definition = new Definition();
 $base_definition
 	->setAutowired( true )
 	->setAutoconfigured( true )
-	->setPublic( false );
+	->setPublic( true );
 
 /* @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader */
 $loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );

@@ -1194,76 +1194,6 @@ class WPSEO_Replace_Vars {
 	}
 
 	/**
-	 * Retrieves the custom field names as an array.
-	 *
-	 * @link WordPress core: wp-admin/includes/template.php. Reused query from it.
-	 *
-	 * @return array The custom fields.
-	 */
-	private function get_custom_fields() {
-		global $wpdb;
-
-		/**
-		 * Filters the number of custom fields to retrieve for the drop-down
-		 * in the Custom Fields meta box.
-		 *
-		 * @since 2.1.0
-		 *
-		 * @param int $limit Number of custom fields to retrieve. Default 30.
-		 */
-		$limit  = apply_filters( 'postmeta_form_limit', 30 );
-		$sql    = "SELECT DISTINCT meta_key
-			FROM $wpdb->postmeta
-			WHERE meta_key NOT BETWEEN '_' AND '_z'
-			HAVING meta_key NOT LIKE %s
-			ORDER BY meta_key
-			LIMIT %d";
-		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
-
-		if ( is_array( $fields ) ) {
-			return array_map( [ $this, 'add_custom_field_prefix' ], $fields );
-		}
-
-		return [];
-	}
-
-	/**
-	 * Adds the cf_ prefix to a field.
-	 *
-	 * @param string $field The field to prefix.
-	 *
-	 * @return string The prefixed field.
-	 */
-	private function add_custom_field_prefix( $field ) {
-		return 'cf_' . $field;
-	}
-
-	/**
-	 * Gets the names of the custom taxonomies, prepends 'ct_' and 'ct_desc', and returns them in an array.
-	 *
-	 * @return array The custom taxonomy prefixed names.
-	 */
-	private function get_custom_taxonomies() {
-		$args              = [
-			'public'   => true,
-			'_builtin' => false,
-		];
-		$output            = 'names';
-		$operator          = 'and';
-		$custom_taxonomies = get_taxonomies( $args, $output, $operator );
-
-		if ( is_array( $custom_taxonomies ) ) {
-			$ct_replace_vars = [];
-			foreach ( $custom_taxonomies as $custom_taxonomy ) {
-				array_push( $ct_replace_vars, 'ct_' . $custom_taxonomy, 'ct_desc_' . $custom_taxonomy );
-			}
-			return $ct_replace_vars;
-		}
-
-		return [];
-	}
-
-	/**
 	 * Set/translate the help texts for the WPSEO standard basic variables.
 	 */
 	private static function set_basic_help_texts() {
@@ -1292,6 +1222,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description', 'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
+			new WPSEO_Replacement_Variable( 'term_hierarchy', __( 'Term hierarchy', 'wordpress-seo' ), __( 'Replaced with the term ancestors hierarchy', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), $separator_description ),
 		];
 
@@ -1394,5 +1325,49 @@ class WPSEO_Replace_Vars {
 		 * @api    string    $taxonomy  The taxonomy of the terms.
 		 */
 		return apply_filters( 'wpseo_terms', $output, $taxonomy );
+	}
+
+	/**
+	 * Gets a taxonomy term hierarchy including the term to get the parents for.
+	 *
+	 * @return string
+	 */
+	private function get_term_hierarchy() {
+		if ( ! is_taxonomy_hierarchical( $this->args->taxonomy ) ) {
+			return '';
+		}
+
+		$separator = ' ' . $this->retrieve_sep() . ' ';
+
+		$args = [
+			'format'    => 'name',
+			'separator' => $separator,
+			'link'      => false,
+			'inclusive' => true,
+		];
+
+		return rtrim(
+			get_term_parents_list( $this->args->term_id, $this->args->taxonomy, $args ),
+			$separator
+		);
+	}
+
+	/**
+	 * Retrieves the term ancestors hierarchy.
+	 *
+	 * @return string|null The term ancestors hierarchy.
+	 */
+	private function retrieve_term_hierarchy() {
+		$replacement = null;
+
+		if ( ! isset( $replacement ) && isset( $this->args->term_id ) && ! empty( $this->args->taxonomy ) ) {
+			$hierarchy = $this->get_term_hierarchy();
+
+			if ( $hierarchy !== '' ) {
+				$replacement = esc_html( $hierarchy );
+			}
+		}
+
+		return $replacement;
 	}
 } /* End of class WPSEO_Replace_Vars */

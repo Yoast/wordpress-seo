@@ -209,10 +209,64 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0 =
+Release Date: April 28th, 2020
+
+Today is a special day. Today, a project we’ve been working on for a year sees the light of day. Yoast SEO 14.0 rewrites the playbook on how a WordPress SEO plugin can work. Thanks to an approach we call indexables, we bring you a much faster experience and a new foundation that helps us get ready for an exciting future! Read more about this release in [our release post](https://yoa.st/release-14-0)!
+
+Bugfixes:
+
+* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
+* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
+* Fixes a bug where no `title` meta tag would be output when no post or page-specific title was specified.
+* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
+* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
+* Fixes a bug where the Help Scout beacon was aligned to the right on settings pages on installations with a right-to-left language.
+* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
+* Fixes a bug where the embedding of posts on LinkedIn was broken.
+
+Enhancements:
+
+* Adds a notification that appears when your content hasn't been fully indexed yet.
+* Adds a button to the SEO > Tools  page to index all your content.
+* Adds a feature toggle to disable the headless REST routes.
+* No longer outputs the `og:type` meta tag on 404 pages.
+* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
+* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
+* No longer outputs an `og:updated_time` meta tag as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
+* No longer outputs an `og:image:secure_url` meta tag as it was the same as `og:image` and all Open Graph consumers seem to prefer that.
+* Strips all HTML tags from text fields in the schema output.
+* Adds `Term hierarchy` as a taxonomy snippet variable.
+* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
+* Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
+* Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
+* No longer removes the default robots meta values.
+
+Other:
+
+* Deprecates the `wpseo_twitter_taxonomy_image` and `wpseo_twitter_metatag_key` filters.
+* Deprecates the `wp_seo_get_bc_ancestors` filter. Developers should use the `wpseo_breadcrumb_links` filter instead to add and/or replace breadcrumbs.
+* Deprecates the `wpseo_opengraph` and `wpseo_twitter` actions.
+* Adds the following filters:
+     * `wpseo_debug_markers`, which allows users to disable the debug markers.
+     * `wpseo_frontend_presenter_classes`, which enables the filtering of presenters.
+     * `wpseo_frontend_presenters`, which enables the filtering of presenter instances.
+     * `wpseo_googlebot`, which enables the filtering of the googlebot meta output.
+     * `wpseo_og_article_publisher`, which enables the filtering of the article publisher’s Facebook URL.
+     * `wpseo_og_locale`, which enables the filtering of the Open Graph locale.
+     * `wpseo_post_indexation_limit`, which enables the filtering of the amount of posts indexed during each indexing pass.
+     * `wpseo_post_type_archive_indexation_limit`, which enables the filtering of the amount of post type archives indexed during each indexing pass.
+     * `wpseo_term_indexation_limit`, which enables the filtering of the amount of terms indexed during each indexing pass.
+     * `wpseo_post_types_reset_permalinks`, which enables the filtering of the post types to reset permalinks for.
+     * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
+* No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
+* Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
+* Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
+
 = 13.5 =
 Release Date: April 14th, 2020
 
-While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. In this release, we’re adding word form support for a new language: Spanish. Spanish joins, Dutch, German and English, and we’re working on more languages. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
+While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
 
 Bugfixes:
 
@@ -222,16 +276,6 @@ Bugfixes:
 Other:
 
 * Sets minimum supported WordPress version to 5.3.
-
-= 13.4 =
-Release Date: March 31st, 2020
-
-In Yoast SEO 9.0, we launched an innovative new way to analyze your English language text using word forms. In Yoast SEO 10.1, we added word form support for the German language. Today, we’re glad to announce word form support for Dutch. You can read why this is such an awesome addition in [our 13.4 release post](https://yoa.st/release-13-4)!
-
-Bugfixes:
-
-* Fixes a bug where the host part of URLs could contain reserved characters, like spaces and brackets. Props to [stodorovic](https://github.com/stodorovic)
-* Fixes a bug where form fields were validated inconsistently.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

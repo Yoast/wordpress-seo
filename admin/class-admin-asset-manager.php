@@ -267,12 +267,13 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-' . $flat_version,
-				'deps' => [
+				'name'      => 'admin-global-script',
+				'src'       => 'wp-seo-admin-global-' . $flat_version,
+				'deps'      => [
 					'jquery',
 					self::PREFIX . 'commons',
 				],
+				'in_footer' => false,
 			],
 			[
 				'name'      => 'metabox',
@@ -433,6 +434,17 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'indexation',
+				'src'  => 'wp-seo-indexation-' . $flat_version,
+				'deps' => [
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+					self::PREFIX . 'admin-global-script',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -631,6 +643,14 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 			],
+
+			/*
+			 * Temporarily commented out to prevent unwanted monorepo styles seeping through.
+			 * [
+			 * 	'name' => 'monorepo',
+			 * 	'src'  => 'monorepo-' . $flat_version,
+			 * ],
+			 */
 			[
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
