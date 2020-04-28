@@ -34,13 +34,6 @@ class Wizard_Notification {
 		 * finish - The wizard has been finished and the notification hints that you can reopen it to change some settings with a call to action
 		 */
 
-		/*
-		 * We divide the wizard notification in 3 different categories:
-		 * 0 - The wizard has not been started and the notification is a call to action to open it
-		 * 1 - The wizard has been opened but has not been finished, the notification is a call to action to open it
-		 * 2 - The wizard has been finished and the notification hints that you can reopen it to change some settings with a call to action
-		 */
-
 		switch ( $state ) {
 			case 'start':
 				$message  = __( 'Get started quickly with the configuration wizard!', 'wordpress-seo' );

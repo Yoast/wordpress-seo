@@ -216,7 +216,16 @@ class WPSEO_Configuration_Page {
 	 */
 	private static function get_notification() {
 		$note = new Wizard_Notification();
-		$notification = $note->get_notification( 1 );
+		$message = $note->get_notification_message( 'continue' );
+		$notification = new Yoast_Notification(
+			$message,
+			[
+				'type'         => Yoast_Notification::WARNING,
+				'id'           => 'wpseo-dismiss-onboarding-notice',
+				'capabilities' => 'wpseo_manage_options',
+				'priority'     => 0.8,
+			]
+		);
 
 		return $notification;
 	}
