@@ -19,7 +19,7 @@ return [
 			'password' => '',
 		],
 	],
-	'migrations_dir' => [ 'default' => __DIR__ . '/migrations' ],
+	'migrations_dir' => [ 'default' => __DIR__ . '/config/migrations' ],
 	'db_dir'         => __DIR__ . '/db',
 	'log_dir'        => __DIR__ . '/logs',
 	'ruckusing_base' => __DIR__ . '/vendor/ruckusing/ruckusing-migrations/',
