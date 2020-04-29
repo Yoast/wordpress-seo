@@ -215,8 +215,8 @@ class WPSEO_Configuration_Page {
 	 * @return Yoast_Notification
 	 */
 	private static function get_notification() {
-		$note = new Wizard_Notification();
-		$message = $note->get_notification_message( 'continue' );
+		$note         = new Wizard_Notification();
+		$message      = $note->get_notification_message( 'continue' );
 		$notification = new Yoast_Notification(
 			$message,
 			[

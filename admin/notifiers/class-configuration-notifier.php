@@ -11,7 +11,7 @@
 class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 
 	/**
-	 * Option name use to determine whether the notice has been dismissed.
+	 * Option name used to determine whether the notice has been dismissed.
 	 *
 	 * @var string
 	 */
@@ -47,14 +47,16 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		if ( ! $this->show_notification() ) {
 			return $this->re_run_notification();
 		}
-		if (	WPSEO_Options::get( 'started_configuration_wizard' ) ) {
+
+		if ( WPSEO_Options::get( 'started_configuration_wizard' ) ) {
 			return $this->continue_notification();
 		}
+
 		return $this->first_time_notification();
 	}
 
 	/**
-	 * Listens to an argument in the request URL. When triggered just set the notification to dismissed.
+	 * Listens to an argument in the request URL. When triggered just sets the notification to dismissed.
 	 *
 	 * @return void
 	 */
@@ -108,8 +110,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return Yoast_Notification
 	 */
 	private function re_run_notification() {
-		$note = new Wizard_Notification();
-		$message = $note->get_notification_message( 'finish' );
+		$note         = new Wizard_Notification();
+		$message      = $note->get_notification_message( 'finish' );
 		$notification = new Yoast_Notification(
 			$message,
 			[
@@ -131,8 +133,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return Yoast_Notification
 	 */
 	private function first_time_notification() {
-		$note = new Wizard_Notification();
-		$message = $note->get_notification_message( 'start' );
+		$note         = new Wizard_Notification();
+		$message      = $note->get_notification_message( 'start' );
 		$notification = new Yoast_Notification(
 			$message,
 			[
@@ -154,8 +156,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return Yoast_Notification
 	 */
 	private function continue_notification() {
-		$note = new Wizard_Notification();
-		$message = $note->get_notification_message( 'continue' );
+		$note         = new Wizard_Notification();
+		$message      = $note->get_notification_message( 'continue' );
 		$notification = new Yoast_Notification(
 			$message,
 			[
@@ -170,5 +172,4 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification_center->add_notification( $notification );
 		return $message;
 	}
-
 }

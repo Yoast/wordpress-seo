@@ -18,7 +18,7 @@ $notifier = new WPSEO_Configuration_Notifier();
 $notifier->listen();
 $notifier->notify();
 $wpseo_contributors_phrase = sprintf(
-/* translators: %1$s expands to Yoast SEO */
+	/* translators: %1$s expands to Yoast SEO */
 	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
 	'Yoast SEO'
 );

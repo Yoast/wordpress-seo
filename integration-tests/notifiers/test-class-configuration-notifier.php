@@ -6,7 +6,9 @@
  */
 
 /**
- * Unit Test Class.
+ * Unit Test Class
+ *
+ * @group notifiers
  */
 class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 
