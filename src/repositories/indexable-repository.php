@@ -121,7 +121,7 @@ class Indexable_Repository {
 		}
 
 		if ( $indexable === false ) {
-			return $this->query()->create( [ 'object_type' => 'unknown' ] );
+			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
 		}
 
 		return $indexable;
