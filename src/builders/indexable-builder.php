@@ -148,7 +148,7 @@ class Indexable_Builder {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
 				if ( $indexable === false ) {
-					return false;
+					break;
 				}
 
 				$this->primary_term_builder->build( $object_id );
