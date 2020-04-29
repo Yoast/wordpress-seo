@@ -14,7 +14,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo '<div class="tab-block">';
-echo '<h2>Restore site</h2>';
+printf(
+	/* translators: 1: h2 open tag; 2: h2 close tag. */
+	esc_html__( '%1$sRestore site%2$s', 'wordpress-seo' ),
+	'<h2>',
+	'</h2>'
+);
 
 echo '<p>' . esc_html__( 'Using this form you can reset a site to the default SEO settings.', 'wordpress-seo' ) . '</p>';
 

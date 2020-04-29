@@ -27,19 +27,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		);
 
 		foreach ( $feature_toggles as $feature ) {
-			$help_text = esc_html( $feature->label );
-			if ( ! empty( $feature->extra ) ) {
-				$help_text .= ' ' . $feature->extra;
-			}
-			if ( ! empty( $feature->read_more_label ) ) {
-				$help_text .= ' ';
-				$help_text .= sprintf(
-					'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-					esc_url( WPSEO_Shortlinker::get( $feature->read_more_url ) ),
-					esc_html( $feature->read_more_label )
-				);
-			}
-
 			$feature_help = new WPSEO_Admin_Help_Button(
 				$feature->read_more_url,
 				/* translators: %s expands to a feature's name */
@@ -49,10 +36,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$yform->toggle_switch(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 				[
-					'on'  => __( 'Allow Control', 'wordpress-seo' ),
-					'off' => __( 'Disable', 'wordpress-seo' ),
+					'on'  => esc_html__( 'Allow Control', 'wordpress-seo' ),
+					'off' => esc_html__( 'Disable', 'wordpress-seo' ),
 				],
-				'<strong>' . $feature->name . '</strong>',
+				'<strong>' . esc_html( $feature->name ) . '</strong>',
 				$feature_help
 			);
 		}

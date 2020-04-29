@@ -87,16 +87,13 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 }
 
 if ( is_multisite() ) {
-
 	$action_url = network_admin_url( 'admin.php?page=wpseo_files' );
 	$yform->admin_header( false, 'wpseo_ms' );
-
 }
 else {
-
 	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
 }
-;
+
 if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
 }
@@ -152,7 +149,7 @@ else {
 			'robots.txt'
 		);
 		echo '</em></p>';
-		echo '<textarea class="yoast-field-group__textarea" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
+		echo '<textarea class="yoast-field-group__textarea code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 	}
 	else {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtform">';
@@ -166,7 +163,7 @@ else {
 		);
 		echo '</label>';
 		echo '</div>';
-		echo '<textarea class="yoast-field-group__textarea rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
+		echo '<textarea class="yoast-field-group__textarea code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 		printf(
 			'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submitrobots" value="%s" /></p>',
 			sprintf(
@@ -205,7 +202,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 				'.htaccess'
 			);
 			echo '</em></p>';
-			echo '<textarea class="yoast-field-group__textarea" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
+			echo '<textarea class="yoast-field-group__textarea code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
 		}
 		else {
 			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
@@ -219,7 +216,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			);
 			echo '</label>';
 			echo '</div>';
-			echo '<textarea class="yoast-field-group__textarea" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
+			echo '<textarea class="yoast-field-group__textarea code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
 			printf(
 				'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submithtaccess" value="%s" /></p>',
 				sprintf(
