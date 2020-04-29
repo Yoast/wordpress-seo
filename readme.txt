@@ -217,6 +217,9 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown when titles were more than 191 characters long.
 * Fixes a bug where a fatal error would be thrown that could occur on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
 * Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
+* Fixes a bug where a boolean variable was accessed as an object resulting in a non-object property retrieval notice.
+* Fixes a bug where a double breadcrumb was shown on home pages.
+* Fixes a bug where a fatal error would occur in the robots helper when disallowing search engines from indexing your site.
 * Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
 
 = 14.0.1 =
