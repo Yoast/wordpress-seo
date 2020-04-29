@@ -198,10 +198,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		// Update the author indexable's has public posts value.
 		try {
 			$author_indexable = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
-			if ( $author_indexable === false ) {
-				return;
-			}
-
 			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
 			$author_indexable->save();
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.

@@ -74,7 +74,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			}
 			else {
 				$static_ancestor = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
-				if ( $static_ancestor !== false ) {
+				if ( $static_ancestor->post_status !== 'unindexed' ) {
 					$static_ancestors[] = $static_ancestor;
 				}
 			}
@@ -82,7 +82,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$page_for_posts = \get_option( 'page_for_posts' );
 		if ( $this->should_have_blog_crumb( $page_for_posts ) ) {
 			$static_ancestor = $this->repository->find_by_id_and_type( $page_for_posts, 'post' );
-			if ( $static_ancestor !== false ) {
+			if ( $static_ancestor->post_status !== 'unindexed' ) {
 				$static_ancestors[] = $static_ancestor;
 			}
 		}

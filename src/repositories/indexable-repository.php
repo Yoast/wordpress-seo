@@ -335,14 +335,7 @@ class Indexable_Repository {
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
-				if ( $indexable === false ) {
-					continue;
-				}
-
-				$indexable->save();
-
-				$indexables[] = $indexable;
+				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
 		}
 
