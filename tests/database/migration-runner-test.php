@@ -57,7 +57,7 @@ class Migration_Runner_Test extends TestCase {
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
-		$instance->expects( 'run_migrations' )->once()->with( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		$instance->expects( 'run_migrations' )->once()->with( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'config/migrations' );
 
 		$instance->initialize();
 
