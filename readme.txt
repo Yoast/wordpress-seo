@@ -214,10 +214,10 @@ Release Date: April 29th, 2020
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown when titles were more than 191 characters long. [#14960](https://github.com/Yoast/wordpress-seo/pull/14960)
-* Fixes a bug where a fatal error would be thrown that could occur on WooCommerce installations when the `wpseo_metadesc` fitler was called with only 1 argument. [#14958](https://github.com/Yoast/wordpress-seo/pull/14958)
-* Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description. [#14957](https://github.com/Yoast/wordpress-seo/pull/14957)
-* Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen. [#14959](https://github.com/Yoast/wordpress-seo/pull/14959)
+* Fixes a bug where a fatal error would be thrown when titles were more than 191 characters long.
+* Fixes a bug where a fatal error would be thrown that could occur on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
+* Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
+* Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
 
 = 14.0.1 =
 Release Date: April 28th, 2020
