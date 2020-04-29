@@ -126,7 +126,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->with( $front_page_id, 'post' )
 				->andReturn( $this->indexable );
 		}
-		else {
+		else if ( $scenario !== 'on-home-page' ) {
 			$this->repository
 				->expects( 'find_for_home_page' )
 				->once()
@@ -155,15 +155,29 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			->with( $this->indexable )
 			->andReturn( $this->get_ancestors() );
 
+		if ( $scenario !== 'on-home-page' ) {
+			$this->current_page
+				->expects( 'get_front_page_id' )
+				->once()
+				->andReturn( $front_page_id );
+		}
+
+		$page_type       = 'Post_Type';
+		$first_link_text = 'post-type';
+		if ( $scenario === 'on-home-page' ) {
+			$page_type       = 'Home_Page';
+			$first_link_text = 'home';
+		}
 		$this->current_page
-			->expects( 'get_front_page_id' )
+			->expects( 'get_page_type' )
 			->once()
-			->andReturn( $front_page_id );
+			->andReturn( $page_type );
+
 
 		$expected = [
 			[
 				'url'       => 'https://example.com/post-type',
-				'text'      => 'post-type',
+				'text'      => $first_link_text,
 				'ptarchive' => 'post',
 			],
 			[

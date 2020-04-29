@@ -9,10 +9,10 @@ namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Mockery;
 use Brain\Monkey;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
@@ -284,6 +284,6 @@ class Indexable_Repository_Test extends TestCase {
 		$query = $this->instance->query();
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
-		$this->assertInstanceOf( ORMWrapper::class, $query );
+		$this->assertInstanceOf( ORM::class, $query );
 	}
 }
