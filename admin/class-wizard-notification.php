@@ -55,7 +55,7 @@ class Wizard_Notification {
 				);
 				return $message;
 			case 'finish':
-				$message  = esc_html__( 'You have successfully completed the notification wizard, good job!', 'wordpress-seo' );
+				$message  = esc_html__( 'You have successfully completed the configuration wizard, good job!', 'wordpress-seo' );
 				$message .= '<br/>';
 				$message .= sprintf(
 					/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */

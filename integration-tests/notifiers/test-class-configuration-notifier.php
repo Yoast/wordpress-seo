@@ -44,7 +44,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_notify_when_completed_wizard() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
 		$notifier = new WPSEO_Configuration_Notifier();
-		$this->assertEquals( 'You have successfully completed the notification wizard, good job!<br/>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="' . get_site_url() . '/wp-admin/admin.php?page=wpseo_configurator">reopen the configuration wizard</a>.', $notifier->notify() );
+		$this->assertEquals( 'You have successfully completed the configuration wizard, good job!<br/>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="' . get_site_url() . '/wp-admin/admin.php?page=wpseo_configurator">reopen the configuration wizard</a>.', $notifier->notify() );
 	}
 
 	/**
