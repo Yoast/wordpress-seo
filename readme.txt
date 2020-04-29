@@ -214,15 +214,18 @@ Release Date: April 29th, 2020
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown when titles were more than 191 characters long.
-* Fixes a bug where a fatal error would be thrown that could occur on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
+* Fixes a bug where a fatal error would be thrown when a title contained more than 191 characters.
+* Fixes a bug where a fatal error would be thrown when a focus keyphrase contained more than 191 characters.
+* Fixes a bug where a fatal error would be thrown when search engines were disallowed from indexing the site.
+* Fixes a bug where a fatal error would be thrown on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
 * Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
-* Fixes a bug where a boolean variable was accessed as an object resulting in a non-object property retrieval notice.
-* Fixes a bug where a double breadcrumb was shown on home pages.
-* Fixes a bug where a fatal error would occur in the robots helper when disallowing search engines from indexing your site.
-* Fixes a bug where a trailing slash was added to permalinks, when the permalink structure was not configured to have one.
-* Fixes a bug where a fatal error would be thrown when a primary focus keyword is more than 191 characters long.
-* Fixes a bug where the indexation could continue indefinitely.
+* Fixes a bug where a non-object property retrieval notice would be thrown when the site's content was being indexed.
+* Fixes a bug where a trailing slash would be added to canonical URLs, even when the permalink structure settings didn't contain that trailing slash.
+* Fixes a bug where a double breadcrumb would be shown on home pages.
+* Fixes a bug where the indexation would continue indefinitely under specific circumstances.
+
+Other:
+
 * Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
 
 = 14.0.1 =
