@@ -138,6 +138,6 @@
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.0.2"
+    "pluginVersion": "14.1-RC1"
   }
 }
