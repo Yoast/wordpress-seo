@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import stem from "../../../../src/morphology/italian/stem";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
+
+const morphologyDataIT = getMorphologyData( "it" ).it;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Italian stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ] ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataIT ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
