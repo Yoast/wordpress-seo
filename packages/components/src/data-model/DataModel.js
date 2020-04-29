@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { __, sprintf } from "@wordpress/i18n";
 
 import "./data-model.css";
 
@@ -9,7 +10,7 @@ import "./data-model.css";
 const dataItemProps = {
 	width: PropTypes.number.isRequired,
 	name: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	number: PropTypes.number.isRequired,
 };
 
 /**
@@ -19,9 +20,20 @@ const dataItemProps = {
  *
  * @returns {HTMLElement} A list item.
  */
-const DataItem = ( props ) => (
-	<li key={ props.name + "_dataItem" } style={ { "--width": `${ props.width}%` } }>{ props.name }<span>{ props.label }</span></li>
-);
+const DataItem = ( props ) => {
+	/* Translators: %d expands to number of occurrences. */
+	const screenReaderText = sprintf( __( "%d occurrences", "yoast-components" ), props.number );
+	return (
+		<li
+			key={ props.name + "_dataItem" }
+			style={ { "--width": `${ props.width}%` } }
+		>
+			{ props.name }
+			<span>{ props.number }</span>
+			<span className="screen-reader-text">{ screenReaderText }</span>
+		</li>
+	);
+};
 
 DataItem.propTypes = dataItemProps;
 
@@ -33,7 +45,10 @@ DataItem.propTypes = dataItemProps;
  * @returns {HTMLElement} A <ul> with <li> items.
  */
 const DataModel = ( props ) => (
-	<ul className="yoast-data-model">
+	<ul
+		className="yoast-data-model"
+		aria-label={ __( "Prominent words", "yoast-components" ) }
+	>
 		{ props.items.map( DataItem ) }
 	</ul>
 );
