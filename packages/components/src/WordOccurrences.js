@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { __, sprintf } from "@wordpress/i18n";
 import DataModel from "./data-model/DataModel.js";
 
 /**
