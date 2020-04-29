@@ -44,7 +44,6 @@ export default compose( [
 			getFacebookImageUrl,
 			getImageFallback,
 			getFacebookWarnings,
-			getFacebookAlt,
 			getRecommendedReplaceVars,
 			getReplaceVars,
 			getSiteUrl,
@@ -60,7 +59,6 @@ export default compose( [
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			alt: getFacebookAlt(),
 			isPremium: !! isPremium,
 		};
 	} ),

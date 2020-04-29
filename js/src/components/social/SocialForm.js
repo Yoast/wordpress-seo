@@ -39,8 +39,8 @@ SocialForm.propTypes = {
 
 SocialForm.defaultProps = {
 	imageWarnings: [],
-	title: null,
-	description: null,
+	title: "",
+	description: "",
 };
 
 export default SocialForm;
