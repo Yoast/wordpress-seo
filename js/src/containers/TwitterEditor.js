@@ -14,23 +14,9 @@ domReady( () => {
 	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
-		const {
-			filesizeInBytes,
-			subtype,
-			height,
-			width,
-			url,
-			id,
-			alt,
-		} = selected.attributes;
 		wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
-			bytes: filesizeInBytes,
-			type: subtype,
-			url,
-			id,
-			width,
-			height,
-			alt,
+			url: selected.attributes.url,
+			id: selected.attributes.id,
 		} );
 	} );
 	wpDataDispatch( "yoast-seo/editor" ).loadTwitterPreviewData();
@@ -42,9 +28,9 @@ export default compose( [
 			getTwitterDescription,
 			getTwitterTitle,
 			getTwitterImageUrl,
-			getImageFallback,
 			getTwitterWarnings,
-			getTwitterAlt,
+			getTwitterImageType,
+			getImageFallback,
 			getRecommendedReplaceVars,
 			getReplaceVars,
 			getSiteUrl,
@@ -60,8 +46,8 @@ export default compose( [
 			imageWarnings: getTwitterWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			alt: getTwitterAlt(),
 			isPremium: !! isPremium,
+			isLarge: getTwitterImageType(),
 		};
 	} ),
 

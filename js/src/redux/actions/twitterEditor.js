@@ -2,9 +2,6 @@ import TwitterFields from "../../helpers/fields/TwitterFields";
 
 export const SET_TWITTER_TITLE = "SET_TWITTER_TITLE";
 export const SET_TWITTER_DESCRIPTION = "SET_TWITTER_DESCRIPTION";
-export const SET_TWITTER_IMAGE_URL = "SET_TWITTER_IMAGE_URL";
-export const SET_TWITTER_IMAGE_TYPE = "SET_TWITTER_IMAGE_TYPE";
-export const SET_TWITTER_IMAGE_ID = "SET_TWITTER_IMAGE_ID";
 export const SET_TWITTER_IMAGE = "SET_TWITTER_IMAGE";
 export const CLEAR_TWITTER_IMAGE = "CLEAR_TWITTER_IMAGE";
 export const LOAD_TWITTER_PREVIEW = "LOAD_TWITTER_PREVIEW";
@@ -31,41 +28,6 @@ export const setTwitterPreviewTitle = ( title ) => {
 export const setTwitterPreviewDescription = ( description ) => {
 	TwitterFields.description = description;
 	return { type: SET_TWITTER_DESCRIPTION, description };
-};
-
-/**
- * An action creator for setting the socialPreview image.
- *
- * @param {String} imageUrl The image url.
- *
- * @returns {Object} The action object.
- */
-export const setTwitterPreviewImageUrl = ( imageUrl ) => {
-	TwitterFields.imageUrl = imageUrl;
-	return { type: SET_TWITTER_IMAGE_URL, imageUrl };
-};
-
-/**
- * An action creator for setting the socialPreview imageType.
- *
- * @param {String} imageType The image type.
- *
- * @returns {Object} The action object.
- */
-export const setTwitterPreviewImageType = ( imageType ) => {
-	return { type: SET_TWITTER_IMAGE_TYPE, imageType };
-};
-
-/**
- * An action creator for setting the socialPreview imageId.
- *
- * @param {number} imageId The image id.
- *
- * @returns {Object} The action object.
- */
-export const setTwitterPreviewImageId = ( imageId ) => {
-	TwitterFields.imageId = imageId;
-	return { type: SET_TWITTER_IMAGE_ID, imageId };
 };
 
 /**

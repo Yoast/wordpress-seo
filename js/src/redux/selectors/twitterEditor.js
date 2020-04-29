@@ -34,7 +34,7 @@ export const getTwitterImageUrl = state => get( state, "social.twitter.image.url
  *
  * @returns {String} Twitter image type.
  */
-export const getTwitterImageType = state => get( state, "social.twitter.image.type", "" );
+export const getTwitterImageType = state => get( state, "social.twitter.image.type", true );
 
 /**
  * Gets the Twitter image src from the state.
@@ -53,12 +53,3 @@ export const getTwitterImageSrc = state => get( state, "twitterEditor.image.src"
  * @returns {String} Twitter warnings.
  */
 export const getTwitterWarnings = state => get( state, "twitterEditor.warnings", [] );
-
-/**
- * Gets the Twitter image alt text from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Twitter image alt text.
- */
-export const getTwitterAlt = state => get( state, "twitterEditor.alt", "" );

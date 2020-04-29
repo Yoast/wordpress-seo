@@ -2,9 +2,6 @@ import {
 	LOAD_TWITTER_PREVIEW,
 	SET_TWITTER_TITLE,
 	SET_TWITTER_DESCRIPTION,
-	SET_TWITTER_IMAGE_URL,
-	SET_TWITTER_IMAGE_TYPE,
-	SET_TWITTER_IMAGE_ID,
 	SET_TWITTER_IMAGE,
 	CLEAR_TWITTER_IMAGE,
 } from "../actions/twitterEditor";
@@ -17,16 +14,11 @@ const initialState = {
 	description: "",
 	errors: [],
 	image: {
-		bytes: null,
-		type: null,
-		height: null,
-		width: null,
 		url: "",
-		id: null,
+		id: "",
 	},
 };
 
-/* eslint-disable complexity */
 /**
  * A reducer for the TwitterPreview object.
  *
@@ -45,25 +37,14 @@ const twitterReducer = ( state = initialState, action ) => {
 			return { ...state, description: action.description };
 		case SET_TWITTER_IMAGE :
 			return { ...state, image: { ...action.image } };
-		case SET_TWITTER_IMAGE_URL :
-			return { ...state, image: { ...state.image, url: action.imageUrl } };
-		case SET_TWITTER_IMAGE_TYPE :
-			return { ...state, image: { ...state.image, type: action.imageType } };
-		case SET_TWITTER_IMAGE_ID :
-			return { ...state, image: { ...state.image, id: action.imageId } };
 		case CLEAR_TWITTER_IMAGE :
 			return { ...state, image: {
-				bytes: null,
-				type: null,
-				height: null,
-				width: null,
 				url: "",
-				id: null,
+				id: "",
 			} };
 	  default:
 			return state;
 	}
 };
-/* eslint-enable complexity */
 
 export default twitterReducer;

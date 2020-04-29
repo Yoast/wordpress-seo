@@ -28,15 +28,6 @@ export const getFacebookDescription = state => get( state, "facebookEditor.descr
 export const getFacebookImageUrl = state => get( state, "facebookEditor.image.url" );
 
 /**
- * Gets the facebook image type from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Facebook image type.
- */
-export const getFacebookImageType = state => get( state, "facebookEditor.image.type", "" );
-
-/**
  * Gets the facebook image src from the state.
  *
  * @param {Object} state The state.
@@ -53,12 +44,3 @@ export const getFacebookImageSrc = state => get( state, "facebookEditor.image.sr
  * @returns {String} Facebook warnings.
  */
 export const getFacebookWarnings = state => get( state, "facebookEditor.warnings", [] );
-
-/**
- * Gets the Facebook image alt text from the state.
- *
- * @param {Object} state The state.
- *
- * @returns {String} Facebook image alt text.
- */
-export const getFacebookAlt = state => get( state, "facebookEditor.alt", "" );

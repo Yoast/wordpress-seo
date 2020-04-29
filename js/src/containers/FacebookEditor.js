@@ -14,23 +14,9 @@ domReady( () => {
 	const media = wpMediaHelper.media;
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
-		const {
-			filesizeInBytes,
-			subtype,
-			height,
-			width,
-			url,
-			id,
-			alt,
-		} = selected.attributes;
 		wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-			bytes: filesizeInBytes,
-			type: subtype,
-			url,
-			id,
-			width,
-			height,
-			alt,
+			url: selected.attribute.url,
+			id: selected.attributes.id,
 		} );
 	} );
 	wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
