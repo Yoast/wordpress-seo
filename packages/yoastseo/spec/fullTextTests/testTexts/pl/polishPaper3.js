@@ -74,8 +74,8 @@ const expectedResults = {
 	},
 	titleKeyword: {
 		isApplicable: true,
-		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"Nazwa i historia Koranu\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>Try to use the exact match of your keyphrase in the SEO title</a>.",
+		score: 6,
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
