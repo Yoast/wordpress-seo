@@ -8,9 +8,9 @@
 namespace Yoast\WP\SEO\Initializers;
 
 use Exception;
-use Yoast\WP\SEO\Config\Ruckusing_Framework;
-use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Config\Ruckusing_Framework;
 
 /**
  * Triggers database migrations and handles results.
@@ -57,9 +57,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
-	 * @return void
 	 * @throws \Exception When a migration errored.
 	 *
+	 * @return void
 	 */
 	public function initialize() {
 		$this->run_free_migrations();
@@ -70,9 +70,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
-	 * @return void
 	 * @throws \Exception When a migration errored.
 	 *
+	 * @return void
 	 */
 	public function run_free_migrations() {
 		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );

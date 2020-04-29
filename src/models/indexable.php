@@ -153,8 +153,14 @@ class Indexable extends Model {
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$permalink_structure = get_option( 'permalink_structure' );
+			if ( substr( $permalink_structure , -1, 1 ) === '/' ) {
+				$this->permalink = \trailingslashit( $this->permalink );
+			}
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
+		}
+		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
 		return parent::save();

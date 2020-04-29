@@ -135,7 +135,6 @@ module.exports = {
 					"!vendor_prefixed/ruckusing/config/**",
 					"!vendor_prefixed/ruckusing/tests/**",
 					"!vendor_prefixed/ruckusing/ruckus.php",
-					"!vendor_prefixed/j4mie/idiorm/demo.php",
 					"!**/composer.json",
 					"!**/README.md",
 				],
