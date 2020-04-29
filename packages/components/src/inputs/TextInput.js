@@ -25,6 +25,19 @@ export const inputTypes = [
 ];
 
 /**
+ * Handles the onChange event.
+ *
+ * @param {func} onChange The onChange function.
+ *
+ * @returns {func} Function that call the onChange function with event.target.value.
+ */
+const onChangeHandler = onChange => {
+	return event => {
+		onChange( event.target.value );
+	};
+};
+
+/**
  * Renders a input field of type text for use in our forms.
  *
  * @param {object} props The props required for rendering the component.
@@ -52,7 +65,7 @@ const TextInput = ( props ) => {
 				min={ props.min }
 				max={ props.max }
 				step={ props.step }
-				onChange={ props.onChange }
+				onChange={ onChangeHandler( props.onChange ) }
 			/>
 		</FieldGroup>
 	);

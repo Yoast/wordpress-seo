@@ -1,19 +1,19 @@
 import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers.js";
 
 /**
- * Checks whether the word is on any of the sub-lists of the noVowelOrConsonantDoublingList (ending match, exact match,
+ * Checks whether the word is on any of the sub-lists of the noVowelDoublingList (ending match, exact match,
  * and verbs) and returns true if it is.
  *
  * @param {string}	word							The word to check.
- * @param {Object}	noVowelOrConsonantDoublingList	The list of stems that should not have the vowel doubled.
+ * @param {Object}	noVowelDoublingList	The list of stems that should not have the vowel doubled.
  * @param {Object}	compoundVerbPrefixes			The list of inseparable and separable verb prefixes.
  *
  * @returns {boolean} Whether the word was found on one of the lists
  */
-const checkIfWordIsOnNoVowelDoublingList = function( word, noVowelOrConsonantDoublingList, compoundVerbPrefixes ) {
-	if ( checkIfWordEndingIsOnExceptionList( word, noVowelOrConsonantDoublingList.endingMatch ) ||
-		checkIfWordIsOnVerbExceptionList( word, noVowelOrConsonantDoublingList.verbs, compoundVerbPrefixes ) ||
-		noVowelOrConsonantDoublingList.exactMatch.includes( word ) ) {
+const checkIfWordIsOnNoVowelDoublingList = function( word, noVowelDoublingList, compoundVerbPrefixes ) {
+	if ( checkIfWordEndingIsOnExceptionList( word, noVowelDoublingList.endingMatch ) ||
+		checkIfWordIsOnVerbExceptionList( word, noVowelDoublingList.verbs, compoundVerbPrefixes ) ||
+		noVowelDoublingList.exactMatch.includes( word ) ) {
 		return true;
 	}
 };
@@ -74,10 +74,10 @@ export function isVowelDoublingAllowed( word, morphologyDataNLStemmingExceptions
 	// Check whether the word is on the list of verbs which should have the vowel doubled (exception to third check)
 	const firstCheck = checkIfWordIsOnVerbExceptionList( word, morphologyDataNLStemmingExceptions.getVowelDoubling, morphologyDataNLVerbPrefixes );
 	// Check whether the word is on the list of words which should NOT have the vowel doubled
-	const secondCheck = checkIfWordIsOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling,
+	const secondCheck = checkIfWordIsOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling,
 		morphologyDataNLVerbPrefixes );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
-	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
 
 	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 }
