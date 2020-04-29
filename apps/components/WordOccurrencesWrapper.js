@@ -61,7 +61,7 @@ const RelevantWordInputRow = ( props ) => {
 		props.onChange( event.target.value, "_stem", props.index );
 	}
 	function changeOccurrences( event ) {
-		props.onChange( parseInt( event.target.value ), "_occurrences", props.index );
+		props.onChange( parseInt( event.target.value, 10 ), "_occurrences", props.index );
 	}
 	function onDeleteClick(){
 		props.onDeleteClick( props.index );
