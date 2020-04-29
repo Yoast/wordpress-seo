@@ -44,24 +44,24 @@ describe( "A test for building stems for an array of words", function() {
 		);
 	} );
 
-	it( "returns all (content) words if there is no morphological analyzer for this language yet and takes care of apostrophe variations", function() {
-		expect( buildStems( "слово'слово", "ru", {} ) ).toEqual(
+	it( "returns all (content) words if there is no morphological analyzer for this language (i.e., Free situation) and takes care of apostrophe variations", function() {
+		expect( buildStems( "слово'слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово'слово" ) ], false )
 		);
 
-		expect( buildStems( "слово‘слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово‘слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово‘слово" ) ], false )
 		);
 
-		expect( buildStems( "слово‛слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово‛слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово‛слово" ) ], false )
 		);
 
-		expect( buildStems( "слово’слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово’слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово’слово" ) ], false )
 		);
 
-		expect( buildStems( "слово`слово", "ru", {} ) ).toEqual(
+		expect( buildStems( "слово`слово", "ru", false ) ).toEqual(
 			new TopicPhrase( [ new StemOriginalPair( "слово'слово", "слово`слово" ) ], false )
 		);
 	} );
