@@ -265,6 +265,47 @@ class Indexable_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Test building an indexable for a post with having the post builder return false.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build_for_id_and_type
+	 * @covers ::ensure_indexable
+	 */
+	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
+		$indexable = Mockery::mock( Indexable::class );
+
+		$this->post_builder
+			->expects( 'build' )
+			->once()
+			->with( 1337, $indexable )
+			->andReturnFalse();
+
+		$this->primary_term_builder
+			->expects( 'build' )
+			->never();
+
+		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable->post_status = 'unindexed';
+		$fake_indexable
+			->expects( 'save' )
+			->once();
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturn( $this->indexable_repository );
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [ 'object_id' => 1337, 'object_type' => 'post', 'post_status' => 'unindexed' ] )
+			->andReturn( $fake_indexable );
+
+		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
+	}
+
+	/**
 	 * Test building an indexable for an author.
 	 *
 	 * @covers ::__construct
