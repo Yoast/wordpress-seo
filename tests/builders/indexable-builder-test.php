@@ -458,7 +458,7 @@ class Indexable_Builder_Test extends TestCase {
 	 *
 	 * @covers ::build_for_id_and_type
 	 */
-	public function test_build_for_id_and_type_returns_false() {
+	public function test_build_for_id_and_type_returns_fake_indexable() {
 		$indexable = Mockery::mock( Indexable::class );
 
 		$this->term_builder->expects( 'build' )
@@ -466,6 +466,23 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1, $indexable )
 			->andReturn( false );
 
-		$this->assertFalse( $this->instance->build_for_id_and_type( 1, 'term', $indexable ) );
+		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable->post_status = 'unindexed';
+		$fake_indexable
+			->expects( 'save' )
+			->once();
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->once()
+			->andReturn( $this->indexable_repository );
+
+		$this->indexable_repository
+			->expects( 'create' )
+			->once()
+			->with( [ 'object_id' => 1, 'object_type' => 'term', 'post_status' => 'unindexed' ] )
+			->andReturn( $fake_indexable );
+
+		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $indexable ) );
 	}
 }
