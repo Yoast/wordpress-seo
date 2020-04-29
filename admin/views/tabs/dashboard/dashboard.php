@@ -25,10 +25,9 @@ $wpseo_contributors_phrase = sprintf(
 
 ?>
 
-<div class="tab-block">
-	<div class="yoast-notifications">
+	<div class="tab-block">
 
-		<div class="yoast-container yoast-container__error">
+		<div class="yoast-paper">
 			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
 		</div>
 
