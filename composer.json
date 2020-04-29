@@ -26,7 +26,6 @@
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
-		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
@@ -53,7 +52,8 @@
 			"deprecated/",
 			"cli/",
 			"vendor_prefixed/",
-			"src/"
+			"src/",
+			"lib/"
 		]
 	},
 	"autoload-dev": {

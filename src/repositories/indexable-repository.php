@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
@@ -77,7 +77,7 @@ class Indexable_Repository {
 	 * @return ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Indexable' );
+		return Model::of_type( 'Indexable' );
 	}
 
 	/**

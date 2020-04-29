@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class SEO_Meta_Repository
@@ -23,7 +23,7 @@ class SEO_Meta_Repository {
 	 * @return ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'SEO_Meta' );
+		return Model::of_type( 'SEO_Meta' );
 	}
 
 	/**

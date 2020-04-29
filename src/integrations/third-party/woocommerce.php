@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -34,6 +35,13 @@ class WooCommerce implements Integration_Interface {
 	private $replace_vars;
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	protected $context_memoizer;
+
+	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -43,12 +51,18 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * WooCommerce constructor.
 	 *
-	 * @param Options_Helper     $options      The options helper.
-	 * @param WPSEO_Replace_Vars $replace_vars The replace vars helper.
+	 * @param Options_Helper             $options          The options helper.
+	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer The meta tags context memoizer.
 	 */
-	public function __construct( Options_Helper $options, WPSEO_Replace_Vars $replace_vars ) {
-		$this->options      = $options;
-		$this->replace_vars = $replace_vars;
+	public function __construct(
+		Options_Helper $options,
+		WPSEO_Replace_Vars $replace_vars,
+		Meta_Tags_Context_Memoizer $context_memoizer
+	) {
+		$this->options          = $options;
+		$this->replace_vars     = $replace_vars;
+		$this->context_memoizer = $context_memoizer;
 	}
 
 	/**
@@ -83,7 +97,9 @@ class WooCommerce implements Integration_Interface {
 	 *
 	 * @return string The title to use.
 	 */
-	public function title( $title, Indexable_Presentation $presentation ) {
+	public function title( $title, $presentation = null ) {
+		$presentation = $this->ensure_presentation( $presentation );
+
 		if ( $presentation->model->title ) {
 			return $title;
 		}
@@ -117,7 +133,9 @@ class WooCommerce implements Integration_Interface {
 	 *
 	 * @return string The description to use.
 	 */
-	public function description( $description, Indexable_Presentation $presentation ) {
+	public function description( $description, $presentation = null ) {
+		$presentation = $this->ensure_presentation( $presentation );
+
 		if ( $presentation->model->description ) {
 			return $description;
 		}
@@ -186,5 +204,21 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		return \wc_get_page_id( 'shop' );
+	}
+
+	/**
+	 * Ensures a presentation is available.
+	 *
+	 * @param Indexable_Presentation $presentation The indexable presentation.
+	 *
+	 * @return Indexable_Presentation The presentation, taken from the current page if the input was invalid.
+	 */
+	protected function ensure_presentation( $presentation ) {
+		if ( \is_a( $presentation, Indexable_Presentation::class ) ) {
+			return $presentation;
+		}
+
+		$context = $this->context_memoizer->for_current_page();
+		return $context->presentation;
 	}
 }
