@@ -29,7 +29,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 				'</strong>',
 				'Yoast SEO'
 			),
-			\__( 'Don\'t worry: this won\'t have to be done after each update.', 'wordpress-seo' ),
+			\esc_html__( 'Don\'t worry: this won\'t have to be done after each update.', 'wordpress-seo' ),
 			\sprintf(
 				/* translators: 1: Button start tag to open the indexation modal, 2: Button closing tag. */
 				\esc_html__( '%1$sClick here to speed up your site now%2$s', 'wordpress-seo' ),
