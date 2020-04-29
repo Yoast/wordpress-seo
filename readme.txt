@@ -220,6 +220,9 @@ Bugfixes:
 * Fixes a bug where a boolean variable was accessed as an object resulting in a non-object property retrieval notice.
 * Fixes a bug where a double breadcrumb was shown on home pages.
 * Fixes a bug where a fatal error would occur in the robots helper when disallowing search engines from indexing your site.
+* Fixes a bug where a trailing slash was added to permalinks, when the permalink structure was not configured to have one.
+* Fixes a bug where a fatal error would be thrown when a primary focus keyword is more than 191 characters long.
+* Fixes a bug where the indexation could continue indefinitely.
 * Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
 
 = 14.0.1 =
