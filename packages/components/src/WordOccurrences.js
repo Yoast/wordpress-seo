@@ -4,34 +4,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import DataModel from "./data-model/DataModel.js";
 
 /**
- * A list item containing a word and its occurrence, with a gradient background reflecting the relative occurrence.
- *
- * @constructor
- *
- * @param   {Object} word        The word.
- * @param   {number} occurrences The word's occurrence.
- * @param   {string} width       A string indicating the percentage of the bar that should be coloured purple.
- * @returns {JSX}                The list item.
- */
-const WordBar = ( { word, occurrence, width } ) => {
-	return (
-		<li
-			style={ { "--width": `${ width }%` } }
-		>
-			{ word }
-			<span aria-hidden={ true }>{ occurrence }</span>
-			<span className="screen-reader-text">{ sprintf( __( "%d occurrences", "yoast-components" ), occurrence ) }</span>
-		</li>
-	);
-};
-
-WordBar.propTypes = {
-	word: PropTypes.string.isRequired,
-	occurrence: PropTypes.number.isRequired,
-	width: PropTypes.string.isRequired,
-};
-
-/**
  * The WordOccurrences list, that contains words, their occurrence, and bars reflecting their relative occurrence.
  *
  * @returns {ReactElement} The list of words, their occurrences, and bars.
