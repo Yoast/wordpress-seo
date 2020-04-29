@@ -273,7 +273,8 @@ class Indexation_Integration_Test extends TestCase {
 			->andReturn( 'nonce' );
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<strong>NEW:</strong> Yoast SEO can now store your site’s SEO data in a smarter way!</p>';
+		$expected .= '<strong>NEW:</strong> Yoast SEO can now store your site’s SEO data in a smarter way!<br/>';
+		$expected .= 'Don\'t worry: this won\'t have to be done after each update.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="Yoast indexation status">Click here to speed up your site now</button>';
 		$expected .= '<p>Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">hide this notice</button> ';
 		$expected .= '(everything will continue to function as normal).</p></div>';

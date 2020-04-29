@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -56,7 +56,7 @@ class AddColumnsToIndexables extends Ruckusing_Migration_Base {
 	 * @return string The Indexable table name.
 	 */
 	protected function get_indexable_table() {
-		return Yoast_Model::get_table_name( 'Indexable' );
+		return Model::get_table_name( 'Indexable' );
 	}
 
 	/**
@@ -67,8 +67,8 @@ class AddColumnsToIndexables extends Ruckusing_Migration_Base {
 	protected function get_tables() {
 		return [
 			$this->get_indexable_table(),
-			Yoast_Model::get_table_name( 'Indexable_Hierarchy' ),
-			Yoast_Model::get_table_name( 'Primary_Term' ),
+			Model::get_table_name( 'Indexable_Hierarchy' ),
+			Model::get_table_name( 'Primary_Term' ),
 		];
 	}
 }

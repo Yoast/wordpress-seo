@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -25,10 +25,10 @@ class AddCollationToTables extends Ruckusing_Migration_Base {
 		}
 
 		$tables = [
-			Yoast_Model::get_table_name( 'migrations' ),
-			Yoast_Model::get_table_name( 'Indexable' ),
-			Yoast_Model::get_table_name( 'Indexable_Hierarchy' ),
-			Yoast_Model::get_table_name( 'Primary_Term' ),
+			Model::get_table_name( 'migrations' ),
+			Model::get_table_name( 'Indexable' ),
+			Model::get_table_name( 'Indexable_Hierarchy' ),
+			Model::get_table_name( 'Primary_Term' ),
 		];
 
 		foreach ( $tables as $table ) {

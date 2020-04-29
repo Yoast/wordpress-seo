@@ -209,6 +209,28 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0.2 =
+Release Date: April 29th, 2020
+
+Because we’ve changed the underlying framework of our Indexables technology, we’ve chosen to rebuild the table. This means you will have to go through the indexing process again. We’re sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexation on the server](https://yoa.st/wp-cli-index).
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when a title contained more than 191 characters.
+* Fixes a bug where a fatal error would be thrown when a focus keyphrase contained more than 191 characters.
+* Fixes a bug where a fatal error would be thrown when search engines were disallowed from indexing the site.
+* Fixes a bug where a fatal error would be thrown on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
+* Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
+* Fixes a bug where a fatal error would be thrown when `WPSEO_Frontend` or `WPSEO_Breadcrumbs` was called before the `init` action.
+* Fixes a bug where a non-object property retrieval notice would be thrown when the site's content was being indexed.
+* Fixes a bug where a trailing slash would be added to canonical URLs and some `rel="prev"` URLs, even when the permalink structure settings didn't contain that trailing slash.
+* Fixes a bug where a double breadcrumb would be shown on home pages.
+* Fixes a bug where the indexation would continue indefinitely under specific circumstances.
+
+Other:
+
+* Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
+
 = 14.0.1 =
 Release Date: April 28th, 2020
 

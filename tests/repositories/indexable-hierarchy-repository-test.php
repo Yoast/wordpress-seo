@@ -9,8 +9,8 @@ namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -222,6 +222,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$query = $this->instance->query();
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
-		$this->assertInstanceOf( ORMWrapper::class, $query );
+		$this->assertInstanceOf( ORM::class, $query );
 	}
 }

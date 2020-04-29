@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
@@ -77,7 +77,7 @@ class Indexable_Repository {
 	 * @return ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Indexable' );
+		return Model::of_type( 'Indexable' );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Indexable_Repository {
 		}
 
 		if ( $indexable === false ) {
-			return $this->query()->create( [ 'object_type' => 'unknown' ] );
+			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
 		}
 
 		return $indexable;
@@ -335,14 +335,7 @@ class Indexable_Repository {
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
-				if ( $indexable === false ) {
-					continue;
-				}
-
-				$indexable->save();
-
-				$indexables[] = $indexable;
+				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
 		}
 

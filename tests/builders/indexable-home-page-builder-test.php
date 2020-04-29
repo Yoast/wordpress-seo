@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -11,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -103,7 +103,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		// Setup the Indexable mock and its ORM layer.
 		$this->indexable_mock      = Mockery::mock( Indexable::class );
-		$this->indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$this->indexable_mock->orm = Mockery::mock( ORM::class );
 
 		// Mock Indexable ORM setters.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_type', 'home-page' );

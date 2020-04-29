@@ -9,27 +9,23 @@ use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
- * BreadcrumbTitleAndHierarchyReset
+ * TruncateIndexableTables
  */
-class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
+class TruncateIndexableTables extends Ruckusing_Migration_Base {
+
 	/**
 	 * Migration up.
 	 */
 	public function up() {
-		$this->change_column( $this->get_indexable_table_name(), 'breadcrumb_title', 'text', [ 'null' => true ] );
-		$this->query( 'DELETE FROM ' . $this->get_indexable_hierarchy_table_name() );
+		$this->query( 'TRUNCATE TABLE ' . $this->get_indexable_table_name() );
+		$this->query( 'TRUNCATE TABLE ' . $this->get_indexable_hierarchy_table_name() );
 	}
 
 	/**
 	 * Migration down.
 	 */
 	public function down() {
-		$this->change_column(
-			$this->get_indexable_table_name(),
-			'breadcrumb_title',
-			'string',
-			[ 'null' => true, 'limit' => 191 ]
-		);
+		// Nothing to do.
 	}
 
 	/**

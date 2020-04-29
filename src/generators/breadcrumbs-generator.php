@@ -67,14 +67,14 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
 		$breadcrumbs_home = $this->options->get( 'breadcrumbs-home' );
-		if ( $breadcrumbs_home !== '' ) {
+		if ( $breadcrumbs_home !== '' && ! in_array( $this->current_page->get_page_type(), [ 'Home_Page', 'Static_Home_Page' ], true ) ) {
 			$front_page_id = $this->current_page->get_front_page_id();
 			if ( $front_page_id === 0 ) {
 				$static_ancestors[] = $this->repository->find_for_home_page();
 			}
 			else {
 				$static_ancestor = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
-				if ( $static_ancestor !== false ) {
+				if ( $static_ancestor->post_status !== 'unindexed' ) {
 					$static_ancestors[] = $static_ancestor;
 				}
 			}
@@ -82,7 +82,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$page_for_posts = \get_option( 'page_for_posts' );
 		if ( $this->should_have_blog_crumb( $page_for_posts ) ) {
 			$static_ancestor = $this->repository->find_by_id_and_type( $page_for_posts, 'post' );
-			if ( $static_ancestor !== false ) {
+			if ( $static_ancestor->post_status !== 'unindexed' ) {
 				$static_ancestors[] = $static_ancestor;
 			}
 		}
