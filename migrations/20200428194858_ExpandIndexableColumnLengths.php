@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -66,6 +66,6 @@ class ExpandIndexableColumnLengths extends Ruckusing_Migration_Base {
 	 * @return string The table name to use.
 	 */
 	protected function get_table_name() {
-		return Yoast_Model::get_table_name( 'Indexable' );
+		return Model::get_table_name( 'Indexable' );
 	}
 }
