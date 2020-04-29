@@ -150,47 +150,47 @@ const ReactifiedComponentsWrapper = () => {
 					{
 						width: 100,
 						name: "brand",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 77,
 						name: "strategie",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 45,
 						name: "tip",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 35,
 						name: "logo",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 30,
 						name: "name",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 20,
 						name: "SEO",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 10,
 						name: "people",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 5,
 						name: "image",
-						label: "66",
+						number: 66,
 					},
 					{
 						width: 1,
 						name: "post",
-						label: "66",
+						number: 66,
 					},
 				] }
 			/>
