@@ -83,7 +83,8 @@ class TwitterPreview extends Component {
 	render() {
 		const {
 			isLarge,
-			image,
+			imageUrl,
+			imageFallbackUrl,
 			alt,
 			title,
 			description,
@@ -95,7 +96,7 @@ class TwitterPreview extends Component {
 		return (
 			<Wrapper>
 				<TwitterImage
-					src={ image }
+					src={ imageUrl || imageFallbackUrl }
 					alt={ alt }
 					isLarge={ isLarge }
 					onImageClick={ this.props.onImageClick }
@@ -131,7 +132,8 @@ TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
 	isLarge: PropTypes.bool,
-	image: PropTypes.string,
+	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	alt: PropTypes.string,
 	onSelect: PropTypes.func,
 	onImageClick: PropTypes.func,
@@ -141,7 +143,8 @@ TwitterPreview.propTypes = {
 TwitterPreview.defaultProps = {
 	description: "",
 	alt: "",
-	image: "",
+	imageUrl: "",
+	imageFallbackUrl: "",
 	onSelect: () => {},
 	onImageClick: () => {},
 	onMouseHover: () => {},
