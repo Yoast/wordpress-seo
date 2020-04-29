@@ -60,8 +60,6 @@ The commands have been placed in `composer.json` and can be run using: `composer
 Prefixing
 
 ### prefix modules
-* [x] j4mie/paris
-* [x] j4mie/idiorm
 * [x] ruckusing/ruckusing-migrations
 
 
