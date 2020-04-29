@@ -221,6 +221,7 @@ Bugfixes:
 * Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
 * Fixes a bug where a non-object property retrieval notice would be thrown when the site's content was being indexed.
 * Fixes a bug where a trailing slash would be added to canonical URLs, even when the permalink structure settings didn't contain that trailing slash.
+* Fixes a bug where a trailing slash would be added to `rel="prev"` and `rel="next"` URLs, even when the permalink structure settings didn't contain that trailing slash.
 * Fixes a bug where a double breadcrumb would be shown on home pages.
 * Fixes a bug where the indexation would continue indefinitely under specific circumstances.
 
