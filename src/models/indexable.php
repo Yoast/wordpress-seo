@@ -153,7 +153,10 @@ class Indexable extends Model {
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$permalink_structure = get_option( 'permalink_structure' );
+			if ( substr( $permalink_structure , -1, 1 ) === '/' ) {
+				$this->permalink = \trailingslashit( $this->permalink );
+			}
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
 		}
 
