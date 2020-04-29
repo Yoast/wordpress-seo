@@ -5,7 +5,6 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Canonical_Presenter;
 use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
@@ -19,7 +18,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
  *
  * @codeCoverageIgnore Because of deprecation.
  */
-class WPSEO_Frontend implements Initializer_Interface {
+class WPSEO_Frontend {
 	/**
 	 * Instance of this class.
 	 *
@@ -49,34 +48,12 @@ class WPSEO_Frontend implements Initializer_Interface {
 	private $helpers;
 
 	/**
-	 * @inheritDoc
+	 * WPSEO_Frontend constructor.
 	 */
-	public function initialize() {
-		self::$instance = $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
-
-	/**
-	 * WPSEO_Breadcrumbs constructor.
-	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer The context memoizer.
-	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
-	 * @param Helpers_Surface            $helpers          The helpers surface.
-	 */
-	public function __construct(
-		Meta_Tags_Context_Memoizer $context_memoizer,
-		WPSEO_Replace_Vars $replace_vars,
-		Helpers_Surface $helpers
-	) {
-		$this->context_memoizer = $context_memoizer;
-		$this->replace_vars     = $replace_vars;
-		$this->helpers          = $helpers;
+	public function __construct() {
+		$this->context_memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->replace_vars     = YoastSEO()->classes->get( WPSEO_Replace_Vars::class );
+		$this->helpers          = YoastSEO()->classes->get( Helpers_Surface::class );
 	}
 
 	/**
@@ -112,6 +89,10 @@ class WPSEO_Frontend implements Initializer_Interface {
 	 * @return static The instance.
 	 */
 	public static function get_instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
 		return self::$instance;
 	}
 
