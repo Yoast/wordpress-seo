@@ -312,7 +312,7 @@ class ORM implements \ArrayAccess {
 	public function create( $data = null ) {
 		$this->_is_new = true;
 		if ( ! \is_null( $data ) ) {
-			return $this->hydrate( $data )->force_all_dirty();
+			$this->hydrate( $data )->force_all_dirty();
 		}
 
 		return $this->create_model_instance( $this );
