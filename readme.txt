@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 14.0.2-RC1
+Stable tag: 14.0.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -208,6 +208,16 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 14.0.2 =
+Release Date: April 29th, 2020
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when titles were more than 191 characters long.
+* Fixes a bug where a fatal error would be thrown that could occur on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
+* Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
+* Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
 
 = 14.0.1 =
 Release Date: April 28th, 2020
