@@ -148,7 +148,7 @@ class Indexable_Builder {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
 				if ( $indexable === false ) {
-					return false;
+					break;
 				}
 
 				$this->primary_term_builder->build( $object_id );
@@ -169,14 +169,18 @@ class Indexable_Builder {
 				return $indexable;
 		}
 
-		// Something went wrong building, nothing to do.
+		// Something went wrong building, create a false indexable.
 		if ( $indexable === false ) {
-			return false;
+			$indexable = $this->indexable_repository->query()->create( [
+				'object_id'   => $object_id,
+				'object_type' => $object_type,
+				'post_status' => 'unindexed',
+			] );
 		}
 
 		$this->save_indexable( $indexable, $indexable_before );
 
-		if ( in_array( $object_type, [ 'post', 'term' ], true ) ) {
+		if ( in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
 			$this->hierarchy_builder->build( $indexable );
 		}
 
