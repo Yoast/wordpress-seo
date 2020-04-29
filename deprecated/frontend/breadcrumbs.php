@@ -80,7 +80,7 @@ class WPSEO_Breadcrumbs {
 		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
-		$output       = $before . self::$instance->render() . $after;
+		$output       = $before . self::get_instance()->render() . $after;
 
 		if ( $display === true ) {
 			echo $output;
