@@ -1,5 +1,4 @@
-import { checkIfWordEndingIsOnExceptionList, checkExceptionListWithTwoStems,
-	checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
+import { checkIfWordEndingIsOnExceptionList, checkIfWordIsOnVerbExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
 import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFullForms";
@@ -15,38 +14,22 @@ import checkExceptionsWithFullForms from "../morphoHelpers/checkExceptionsWithFu
  * @returns {boolean}	Whether one of the conditions returns true or not.
  */
 const checkIfTorDIsUnambiguous = function( morphologyDataNL, stemmedWord, word ) {
-	const wordsNotToBeStemmed = morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions;
-	const adjectivesEndingInRd = morphologyDataNL.stemming.stemExceptions.adjectivesEndInRD;
-	const wordsEndingInTOrDExceptionList = morphologyDataNL.stemming.stemExceptions.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
+	const wordsNotToBeStemmed = morphologyDataNL.stemExceptions.wordsNotToBeStemmedExceptions;
+	const adjectivesEndingInRd = morphologyDataNL.stemExceptions.removeSuffixesFromFullForms[ 1 ].forms;
+	const wordsEndingInTOrDExceptionList = morphologyDataNL.ambiguousTAndDEndings.tOrDArePartOfStem.doNotStemTOrD;
 
 	// Run the checks below. If one of the conditions returns true, return the stem.
 	if ( detectAndStemRegularParticiple( morphologyDataNL, word ) ||
 		 generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) ||
-		 checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.verbs.compoundVerbsPrefixes ) ||
+		 checkIfWordIsOnVerbExceptionList( word, wordsNotToBeStemmed.verbs, morphologyDataNL.pastParticipleStemmer.compoundVerbsPrefixes ) ||
 		 checkIfWordEndingIsOnExceptionList( word, wordsNotToBeStemmed.endingMatch ) ||
 		 wordsNotToBeStemmed.exactMatch.includes( word ) ||
 		 adjectivesEndingInRd.includes( stemmedWord ) ||
 		 checkExceptionsWithFullForms( morphologyDataNL, word ) ||
 		 stemmedWord.endsWith( "heid" ) ||
-		 wordsEndingInTOrDExceptionList.includes( stemmedWord ) ) {
+		 checkIfWordEndingIsOnExceptionList( stemmedWord, wordsEndingInTOrDExceptionList )
+	) {
 		return true;
-	}
-};
-
-/**
- * Checks if the word after t/d deletion is in the noun exception list. If it is, return the correct stem.
- *
- * @param {Object}  morphologyDataNL	The Dutch morphology data.
- * @param {string}	stemmedWord			The stemmed word.
- * @returns {string} The correct stem from noun exception list.
- */
-const checkIfWordIsInNounException = function( morphologyDataNL, stemmedWord ) {
-	// Check if after t/d deletion, the word is in noun exception list.
-	const nounExceptionList = morphologyDataNL.nouns.exceptions.nounExceptionWithTwoStems;
-	const checkIfWordIsInNounExceptionList = checkExceptionListWithTwoStems( nounExceptionList, stemmedWord );
-	// If it is, return the correct stem.
-	if ( checkIfWordIsInNounExceptionList ) {
-		return checkIfWordIsInNounExceptionList;
 	}
 };
 
@@ -68,10 +51,5 @@ export function stemTOrDFromEndOfWord( morphologyDataNL, stemmedWord, word ) {
 		return null;
 	}
 	// If none of the conditions above is true, stem the t/d from the word.
-	stemmedWord = stemmedWord.slice( 0, -1 );
-	if ( checkIfWordIsInNounException( morphologyDataNL, stemmedWord ) ) {
-		return checkIfWordIsInNounException( morphologyDataNL, stemmedWord );
-	}
-	// If it was not in the noun exception list, return the stem without t/d.
-	return stemmedWord;
+	return stemmedWord.slice( 0, -1 );
 }
