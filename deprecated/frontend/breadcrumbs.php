@@ -5,8 +5,6 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -16,9 +14,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
  *
  * @codeCoverageIgnore Because of deprecation.
  */
-class WPSEO_Breadcrumbs implements Initializer_Interface {
-
-	use No_Conditionals;
+class WPSEO_Breadcrumbs {
 
 	/**
 	 * Instance of this class.
@@ -64,26 +60,11 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 
 	/**
 	 * WPSEO_Breadcrumbs constructor.
-	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer The context memoizer.
-	 * @param Helpers_Surface            $helpers          The helpers surface.
-	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
 	 */
-	public function __construct(
-		Meta_Tags_Context_Memoizer $context_memoizer,
-		Helpers_Surface $helpers,
-		WPSEO_Replace_Vars $replace_vars
-	) {
-		$this->context_memoizer = $context_memoizer;
-		$this->helpers          = $helpers;
-		$this->replace_vars     = $replace_vars;
-	}
-
-	/**
-	 * We use an initializer so the static functions will work right as our plugin is loaded just as they normally would.
-	 */
-	public function initialize() {
-		self::$instance = $this;
+	public function __construct() {
+		$this->context_memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->helpers          = YoastSEO()->classes->get( Helpers_Surface::class );
+		$this->replace_vars     = YoastSEO()->classes->get( WPSEO_Replace_Vars::class );
 	}
 
 	/**
@@ -99,7 +80,7 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 		// Remember the last used before/after for use in case the object goes __toString().
 		self::$before = $before;
 		self::$after  = $after;
-		$output       = $before . self::$instance->render() . $after;
+		$output       = $before . self::get_instance()->render() . $after;
 
 		if ( $display === true ) {
 			echo $output;
@@ -122,9 +103,13 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	/**
 	 * Retrieves an instance of the class.
 	 *
-	 * @return WPSEO_Breadcrumbs The instance.
+	 * @return static The instance.
 	 */
 	public static function get_instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
 		return self::$instance;
 	}
 
