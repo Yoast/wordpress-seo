@@ -209,6 +209,22 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.1 =
+Release Date: May 12th, 2020
+
+Bugfixes:
+
+* Fixes a bug where the help text about the Yoast Columns would appear in post overviews without Yoast Columns. Props [glebkema](https://github.com/glebkema).
+
+Enhancements:
+
+* Moves the text link counter notification from the SEO Dashboard to the WordPress' Site Health. 
+* Makes the "You're blocking access to robots" notification site-wide.
+* Improves the copy for the "cannot fetch" response of the Ryte health check.
+* Removes the notification containing the message that you should check your post type archive settings when these are possibly reset to their defaults in Yoast SEO 7.7 or 7.8.
+* Reimplements the Advanced Settings tab in React.
+* Improves the ordering of items in XML sitemaps to match SQL standards. Props to [rafaelbernard](https://github.com/rafaelbernard).
+
 = 14.0.2 =
 Release Date: April 29th, 2020
 
@@ -303,20 +319,6 @@ Other:
 * No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
 * Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
 * Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
-
-= 13.5 =
-Release Date: April 14th, 2020
-
-While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
-* Fixes a bug where .xsl site map files would not be cached correctly.
-
-Other:
-
-* Sets minimum supported WordPress version to 5.3.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
