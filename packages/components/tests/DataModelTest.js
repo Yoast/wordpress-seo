@@ -9,7 +9,7 @@ describe( "DataModel", () => {
 			items={ [ {
 				name: "test",
 				width: 60,
-				label: "60",
+				number: 60,
 			} ] }
 		/> );
 		const tree = component.toJSON();
