@@ -18,6 +18,15 @@ use Yoast\WP\Lib\Model;
 class Migration_Runner implements Initializer_Interface {
 
 	/**
+	 * Retrieves the conditionals for the migrations.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [];
+	}
+
+	/**
 	 * The Ruckusing framework runner.
 	 *
 	 * @var Ruckusing_Framework
@@ -48,9 +57,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
+	 * @return void
 	 * @throws \Exception When a migration errored.
 	 *
-	 * @return void
 	 */
 	public function initialize() {
 		$this->run_free_migrations();
@@ -61,9 +70,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
+	 * @return void
 	 * @throws \Exception When a migration errored.
 	 *
-	 * @return void
 	 */
 	public function run_free_migrations() {
 		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
