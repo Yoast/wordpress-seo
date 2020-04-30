@@ -15,7 +15,6 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\ORM\Yoast_Model;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

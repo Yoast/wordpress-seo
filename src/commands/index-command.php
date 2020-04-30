@@ -7,13 +7,13 @@
 
 namespace Yoast\WP\SEO\Commands;
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Command to generate indexables for all posts and terms.
@@ -178,13 +178,13 @@ class Index_Command implements Command_Interface {
 		$wpdb->query(
 			$wpdb->prepare(
 				'TRUNCATE TABLE %s',
-				Yoast_Model::get_table_name( 'Indexable' )
+				Model::get_table_name( 'Indexable' )
 			)
 		);
 		$wpdb->query(
 			$wpdb->prepare(
 				'TRUNCATE TABLE %s',
-				Yoast_Model::get_table_name( 'Indexable_Hierarchy' )
+				Model::get_table_name( 'Indexable_Hierarchy' )
 			)
 		);
 	}
