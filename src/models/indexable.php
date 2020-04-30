@@ -149,7 +149,7 @@ class Indexable extends Model {
 	/**
 	 * Enhances the save method.
 	 *
-	 * @return boolean True on succes.
+	 * @return boolean True on success.
 	 */
 	public function save() {
 		if ( $this->permalink ) {

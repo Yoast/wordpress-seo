@@ -30,7 +30,7 @@ class Indexable_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * Set up the class which will be tested.
+	 * Sets up the class which will be tested.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -102,7 +102,7 @@ class Indexable_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get extension.
+	 * Tests get_extension.
 	 *
 	 * @covers ::get_extension
 	 */
@@ -111,7 +111,7 @@ class Indexable_Test extends TestCase {
 	}
 
 	/**
-	 * Tests get extension via has_one.
+	 * Tests get_extension via has_one.
 	 *
 	 * @covers ::get_extension
 	 */
