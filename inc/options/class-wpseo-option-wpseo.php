@@ -30,8 +30,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
 		// Non-form field, should only be set via validation routine.
-		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
-
+		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
+		'previous_version'                => '',
 		// Form fields.
 		'disableadvanced_meta'                     => true,
 		'enable_headless_rest_endpoints'  => true,
@@ -231,6 +231,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			switch ( $key ) {
 				case 'version':
 					$clean[ $key ] = WPSEO_VERSION;
+					break;
+				case 'previous_version':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
 					break;
 
 				/* Verification strings. */
