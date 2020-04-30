@@ -93,9 +93,15 @@ class WooCommerce implements Integration_Interface {
 	 * @return Indexable[] The indexables to be shown in the breadcrumbs, with the shop page added.
 	 */
 	public function add_shop_to_breadcrumbs( $indexables ) {
+		$shop_page_id = $this->get_shop_page_id();
+
+		if ( $shop_page_id < 1 ) {
+			return $indexables;
+		}
+
 		foreach ( $indexables as $index => $indexable ) {
 			if ( $indexable->object_type === 'post-type-archive' && $indexable->object_sub_type === 'product' ) {
-				$indexables[ $index ] = $this->repository->find_by_id_and_type( $this->get_shop_page_id(), 'post' );
+				$indexables[ $index ] = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
 			}
 		}
 
@@ -141,7 +147,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === -1 ) {
+		if ( $shop_page_id < 1 ) {
 			return $title;
 		}
 
@@ -177,7 +183,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === -1 ) {
+		if ( $shop_page_id < 1 ) {
 			return $description;
 		}
 
