@@ -207,10 +207,12 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
+		echo '<div class="yoast-field-group__title">';
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
+		echo '</div>';
 	}
 
 	/**
@@ -460,7 +462,7 @@ class Yoast_Form {
 	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 */
 	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true ) {
-
+		echo '<div class="yoast-field-group">';
 		if ( empty( $select_options ) ) {
 			return;
 		}
@@ -498,7 +500,7 @@ class Yoast_Form {
 		echo $wrapper_start_tag;
 		$select->output_html();
 		echo $wrapper_end_tag;
-		echo '<br class="clear"/>';
+		echo '</div>';
 	}
 
 	/**

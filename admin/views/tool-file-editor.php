@@ -97,8 +97,8 @@ else {
 if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
 }
-
 // N.B.: "robots.txt" is a fixed file name and should not be translatable.
+echo '<div class="yoast-field-group">';
 echo '<h2>robots.txt</h2>';
 
 if ( ! file_exists( $robots_file ) ) {
@@ -114,7 +114,7 @@ if ( ! file_exists( $robots_file ) ) {
 		echo '</p>';
 
 		printf(
-			'<input type="submit" class="button" name="create_robots" value="%s">',
+			'<input type="submit" class="yoast-button yoast-button--primary" name="create_robots" value="%s">',
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Create %s file', 'wordpress-seo' ),
@@ -149,11 +149,12 @@ else {
 			'robots.txt'
 		);
 		echo '</em></p>';
-		echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
+		echo '<textarea class="yoast-field-group__textarea code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 	}
 	else {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtform">';
 		wp_nonce_field( 'wpseo-robotstxt', '_wpnonce', true, true );
+		echo '<div class="yoast-field-group__title">';
 		echo '<label for="robotsnew" class="yoast-inline-label">';
 		printf(
 			/* translators: %s expands to robots.txt. */
@@ -161,9 +162,10 @@ else {
 			'robots.txt'
 		);
 		echo '</label>';
-		echo '<textarea class="large-text code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
+		echo '</div>';
+		echo '<textarea class="yoast-field-group__textarea code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 		printf(
-			'<div class="submit"><input class="button" type="submit" name="submitrobots" value="%s" /></div>',
+			'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submitrobots" value="%s" /></p>',
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
@@ -173,6 +175,7 @@ else {
 		echo '</form>';
 	}
 }
+echo '</div>';
 if ( ! WPSEO_Utils::is_nginx() ) {
 
 	echo '<h2>';
@@ -199,11 +202,12 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 				'.htaccess'
 			);
 			echo '</em></p>';
-			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
+			echo '<textarea class="yoast-field-group__textarea code" disabled="disabled" rows="15" name="robotsnew">', esc_textarea( $contentht ), '</textarea><br/>';
 		}
 		else {
 			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
 			wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
+			echo '<div class="yoast-field-group__title">';
 			echo '<label for="htaccessnew" class="yoast-inline-label">';
 			printf(
 				/* translators: %s expands to ".htaccess". */
@@ -211,9 +215,10 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 				'.htaccess'
 			);
 			echo '</label>';
-			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
+			echo '</div>';
+			echo '<textarea class="yoast-field-group__textarea code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
 			printf(
-				'<div class="submit"><input class="button" type="submit" name="submithtaccess" value="%s" /></div>',
+				'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submithtaccess" value="%s" /></p>',
 				sprintf(
 					/* translators: %s expands to ".htaccess". */
 					esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
