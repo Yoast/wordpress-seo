@@ -2,7 +2,7 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
@@ -17,8 +17,6 @@ use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Repository {
 

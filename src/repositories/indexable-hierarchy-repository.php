@@ -2,7 +2,7 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
@@ -15,8 +15,6 @@ use Yoast\WP\SEO\Models\Indexable_Hierarchy;
 
 /**
  * Class Indexable_Hierarchy_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Hierarchy_Repository {
 

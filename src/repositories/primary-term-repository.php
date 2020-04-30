@@ -2,7 +2,7 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Models\Primary_Term;
 
 /**
  * Class Primary_Term_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Primary_Term_Repository {
 
