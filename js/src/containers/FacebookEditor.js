@@ -2,12 +2,11 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { get } from "lodash-es";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 
-const isPremium = get( window, [ "wpseoAdminL10n.isPremium" ], false );
+const isPremium = window.wpseoAdminL10n.isPremium;
 
 /**
  * Container that holds the media object.
