@@ -18,31 +18,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+import { createSingleRuleFromMorphologyData, createRulesFromMorphologyData } from "../morphoHelpers/createRulesFromMorphologyData";
+
 /**
  * Determines whether a letter is a vowel.
  *
- * @param {string} letter                  The letter that has to be checked.
+ * @param {string} letter           The letter that has to be checked.
+ * @param {Object} morphologyData   The Italian morphology data file.
  *
- * @returns {boolean}                      True if the letter is a vowel.
+ * @returns {boolean} True if the letter is a vowel.
  */
-function isVowel( letter ) {
-	return [ "a", "e", "i", "o", "u", "à", "è", "ì", "ò", "ù" ].includes( letter );
+function isVowel( letter, morphologyData ) {
+	return morphologyData.externalStemmer.vowels.includes( letter );
 }
 
 /**
  * Determines the next position in a word that is a vowel.
  *
- * @param {string}   word           The word to be checked.
- * @param {number}   start          The position of the word where you start checking.
+ * @param {string}  word            The word to be checked.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {number}  start           The position of the word where you start checking.
  *
- * @returns {number}                 The next position in a word that is a vowel, or the final position if no vowel is found.
+ * @returns {number} The next position in a word that is a vowel, or the final position if no vowel is found.
  */
-function getNextVowelPos( word, start ) {
+function getNextVowelPos( word, morphologyData, start ) {
 	start = start + 1;
 	const length = word.length;
 
 	for ( let i = start; i < length; i++ ) {
-		if ( isVowel( word[ i ] ) ) {
+		if ( isVowel( word[ i ], morphologyData ) ) {
 			return i;
 		}
 	}
@@ -53,16 +57,17 @@ function getNextVowelPos( word, start ) {
 /**
  * Determines the next position in a word that is a consonant.
  *
- * @param {string}   word           The word that has to be checked.
- * @param {number}   start          The position of the word where you start checking.
+ * @param {string}  word            The word that has to be checked.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {number}  start           The position of the word where you start checking.
  *
- * @returns {number}                The next position in a word that is a consonant, or the final position if no consonant is found.
+ * @returns {number} The next position in a word that is a consonant, or the final position if no consonant is found.
  */
-function getNextConsonantPos( word, start ) {
+function getNextConsonantPos( word, morphologyData, start ) {
 	const length = word.length;
 
 	for ( let i = start; i < length; i++ ) {
-		if ( ! isVowel( word[ i ] ) ) {
+		if ( ! isVowel( word[ i ], morphologyData ) ) {
 			return i;
 		}
 	}
@@ -91,29 +96,35 @@ function endsinArr( word, suffixes ) {
 /**
  * Turns acute accents into grave ones.
  *
- * @param   {string}       word              The word that has to be checked.
+ * @param {string}  word            The word that has to be checked.
+ * @param {Object}  morphologyData  The Italian morphology data file.
  *
- * @returns {string}                         The word with acute accents replaced by grave ones.
+ * @returns {string} The word with acute accents (e.g. é) replaced by grave ones (e.g. è).
  */
-function replaceAcute( word ) {
-	word = word.replace( /á/gi, "à" );
-	word = word.replace( /é/gi, "è" );
-	word = word.replace( /í/gi, "ì" );
-	word = word.replace( /ó/gi, "ò" );
-	word = word.replace( /ú/gi, "ù" );
+function replaceAcute( word, morphologyData ) {
+	const acuteReplacements = createRulesFromMorphologyData(
+		morphologyData.externalStemmer.preProcessing.acuteReplacements,
+		"gi"
+	);
+
+	for ( const acuteReplacement of acuteReplacements ) {
+		word = word.replace( acuteReplacement.reg, acuteReplacement.repl );
+	}
+
 	return word;
 }
 
 /**
  * Turns an i or u in between vowels into upper case.
  *
- * @param   {string}       word              The word that has to be checked.
+ * @param {string}  word            The word that has to be checked.
+ * @param {Object}  morphologyData  The Italian morphology data file.
  *
- *  @returns {string}                        The word with either i or u turned into upper case.
+ *  @returns {string} The word with either i or u turned into upper case.
  */
-function vowelMarking( word ) {
+function vowelMarking( word, morphologyData ) {
 	return word.replace(
-		/([aeiou])(i|u)([aeiou])/g,
+		new RegExp( morphologyData.externalStemmer.preProcessing.vowelMarking, "g" ),
 		( match, p1, p2, p3 ) => p1 + p2.toUpperCase() + p3
 	);
 }
@@ -121,15 +132,20 @@ function vowelMarking( word ) {
 /**
  * Pre-process the word for stemming by setting it to lower case and replacing some letters.
  *
- * @param {string}  word    The word to pre-process.
+ * @param {string} word            The word to pre-process.
+ * @param {Object} morphologyData  The Italian morphology data file.
  *
  * @returns {string} The pre-processed word.
  */
-function preProcess( word ) {
+function preProcess( word, morphologyData ) {
 	word = word.toLowerCase();
-	word = replaceAcute( word );
-	word = word.replace( /qu/g, "qU" );
-	word = vowelMarking( word );
+	word = replaceAcute( word, morphologyData );
+	const quReplacement = createSingleRuleFromMorphologyData(
+		morphologyData.externalStemmer.preProcessing.quReplacement,
+		"g"
+	);
+	word = word.replace( quReplacement.reg, quReplacement.repl );
+	word = vowelMarking( word, morphologyData );
 
 	return word;
 }
@@ -137,36 +153,37 @@ function preProcess( word ) {
 /**
  * Determines R1, R2 and RV in the word.
  *
- * @param   {string}       word                         The word for which Rs have to be determined.
+ * @param {string}  word            The word for which Rs have to be determined.
+ * @param {Object}  morphologyData  The Italian morphology data file.
  *
- * @returns {{r2: number, rv: number, r1: number}}     R1, R2 and RV in the word.
+ * @returns {{r2: number, rv: number, r1: number}} R1, R2 and RV in the word.
  */
-const determineRs = function( word ) {
+const determineRs = function( word, morphologyData ) {
 	let r1 = word.length;
 	let r2 = word.length;
 	let rv = word.length;
 
 	// R1 is the region after the first non-vowel following a vowel,
 	for ( let i = 0; i < word.length - 1 && r1 === word.length; i++ ) {
-		if ( isVowel( word[ i ] ) && ! isVowel( word[ i + 1 ] ) ) {
+		if ( isVowel( word[ i ], morphologyData ) && ! isVowel( word[ i + 1 ], morphologyData ) ) {
 			r1 = i + 2;
 		}
 	}
 
 	// R2 is the region after the first non-vowel following a vowel in R1
 	for ( let i = r1; i < word.length - 1 && r2 === word.length; i++ ) {
-		if ( isVowel( word[ i ] ) && ! isVowel( word[ i + 1 ] ) ) {
+		if ( isVowel( word[ i ], morphologyData ) && ! isVowel( word[ i + 1 ], morphologyData ) ) {
 			r2 = i + 2;
 		}
 	}
 
 	if ( word.length > 3 ) {
-		if ( ! isVowel( word[ 1 ] ) ) {
+		if ( ! isVowel( word[ 1 ], morphologyData ) ) {
 			// If the second letter is a consonant, RV is the region after the next following vowel.
-			rv = getNextVowelPos( word, 1 ) + 1;
-		} else if ( isVowel( word[ 0 ] ) && isVowel( word[ 1 ] ) ) {
+			rv = getNextVowelPos( word, morphologyData, 1 ) + 1;
+		} else if ( isVowel( word[ 0 ], morphologyData ) && isVowel( word[ 1 ], morphologyData ) ) {
 			// Or if the first two letters are vowels, RV is the region after the next consonant.
-			rv = getNextConsonantPos( word, 2 ) + 1;
+			rv = getNextConsonantPos( word, morphologyData, 2 ) + 1;
 		} else {
 			/*
 			 * Otherwise (consonant-vowel case) RV is the region after the third letter.
@@ -182,76 +199,55 @@ const determineRs = function( word ) {
 /**
  * Removes pronoun suffixes.
  *
- * @param   {string}       word                         The word from which suffixes have to be removed.
- * @param   {string}       rvText                       The content of the RV.
- * @returns {string}                                    The word without pronoun suffixes.
+ * @param {string}  word            The word from which suffixes have to be removed.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {string}  rvText          The content of the RV.
+ *
+ * @returns {string} The word without pronoun suffixes.
  */
-const removePronounSuffixes = function( word, rvText ) {
-	const pronounSuffixes = [ "glieli", "glielo", "gliene", "gliela", "gliele", "sene", "tene", "cela", "cele", "celi", "celo",
-		"cene", "vela", "vele", "veli", "velo", "vene", "mela", "mele", "meli", "melo", "mene", "tela", "tele", "teli",
-		"telo", "gli", "ci", "la", "le", "li", "lo", "mi", "ne", "si", "ti", "vi" ];
-	const pronounSuffixesPre1 = [ "ando", "endo" ];
-	const pronounSuffixesPre2 = [ "ar", "er", "ir" ];
-	const suf = endsinArr( word, pronounSuffixes );
+const removePronounSuffixes = function( word, morphologyData, rvText ) {
+	const foundSuffix = endsinArr( word, morphologyData.externalStemmer.pronounSuffixes.suffixes, );
 
-	if ( suf !== "" ) {
-		const foundSuffixPre1 = endsinArr( rvText.slice( 0, -suf.length ), pronounSuffixesPre1 );
-		const foundSuffixPre2 = endsinArr( rvText.slice( 0, -suf.length ), pronounSuffixesPre2 );
+	if ( foundSuffix !== "" ) {
+		const foundSuffixPre1 = endsinArr(
+			rvText.slice( 0, -foundSuffix.length ),
+			morphologyData.externalStemmer.pronounSuffixes.preSuffixesGerund
+		);
+		const foundSuffixPre2 = endsinArr(
+			rvText.slice( 0, -foundSuffix.length ),
+			morphologyData.externalStemmer.pronounSuffixes.preSuffixesInfinitive
+		);
 
 		if ( foundSuffixPre1 !== "" ) {
-			word = word.slice( 0, -suf.length );
+			word = word.slice( 0, -foundSuffix.length );
 		}
 		if ( foundSuffixPre2 !== "" ) {
-			word = word.slice( 0, -suf.length ) + "e";
+			word = word.slice( 0, -foundSuffix.length ) + morphologyData.externalStemmer.pronounSuffixes.infinitiveCompletion;
 		}
 	}
 	return word;
 };
 
 /**
- * A group of standard suffixes, the word region in which they might occur and an optional replacement value.
- *
- * @param {string[]}    suffixes            The suffixes.
- * @param {string}      region              The word region in which the suffixes should be searched.
- * @param {string}      [replacement=""]    The optional replacement value.
- *
- * @constructor
- */
-function StandardSuffixGroup( suffixes, region, replacement = "" ) {
-	this.suffixes = suffixes;
-	this.region = region;
-	this.replacement = replacement;
-}
-
-/**
  * Removes standard suffixes.
  *
- * @param   {string}       word                         The word from which standard suffixes have to be removed.
- * @param   {string}       r2Text                       The content of the R2.
- * @param   {string}       r1Text                       The content of the R1.
- * @param   {string}       rvText                       The content of the RV.
+ * @param {string}  word            The word from which standard suffixes have to be removed.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {string}  r2Text          The content of the R2.
+ * @param {string}  r1Text          The content of the R1.
+ * @param {string}  rvText          The content of the RV.
  *
- * @returns {string}                                    The word without standard suffixes.
+ * @returns {string} The word without standard suffixes.
  */
-const removeStandardSuffixes = function( word, r2Text, r1Text, rvText ) {
-	const suffixGroups = [
-		new StandardSuffixGroup( [ "ativamente", "ivamente", "osamente", "icamente" ], r2Text ),
-		new StandardSuffixGroup( [ "icazione", "icazioni", "icatore", "icatori", "azione", "azioni", "atore", "atori" ], r2Text ),
-		new StandardSuffixGroup( [ "logia", "logie" ], r2Text, "log" ),
-		new StandardSuffixGroup( [ "uzione", "uzioni", "usione", "usioni" ], r2Text, "u" ),
-		new StandardSuffixGroup( [ "enza", "enze" ], r2Text, "ente" ),
-		new StandardSuffixGroup( [ "amento", "amenti", "imento", "imenti" ], rvText ),
-		new StandardSuffixGroup( [ "amente" ], r1Text ),
-		new StandardSuffixGroup( [ "atrice", "atrici", "abile", "abili", "ibile", "ibili", "mente", "ante", "anti",
-			"anza", "anze", "iche", "ichi", "ismo", "ismi", "ista", "iste", "isti", "istà",
-			"istè", "istì", "ico", "ici", "ica", "ice", "oso", "osi", "osa", "ose" ], r2Text ),
-		new StandardSuffixGroup( [ "abilità", "icità", "ività", "ità" ], r2Text ),
-		new StandardSuffixGroup( [ "icativa", "icativo", "icativi", "icative", "ativa",
-			"ativo", "ativi", "ative", "iva", "ivo", "ivi", "ive" ], r2Text ),
-	];
+const removeStandardSuffixes = function( word, morphologyData, r2Text, r1Text, rvText ) {
+	const regions = {
+		r1: r1Text,
+		r2: r2Text,
+		rv: rvText,
+	};
 
-	for ( const suffixGroup of suffixGroups ) {
-		const foundSuffix = endsinArr( suffixGroup.region, suffixGroup.suffixes );
+	for ( const suffixGroup of morphologyData.externalStemmer.standardSuffixes ) {
+		const foundSuffix = endsinArr( regions[ suffixGroup.region ], suffixGroup.suffixes );
 
 		if ( foundSuffix ) {
 			return word.slice( 0, -foundSuffix.length ) + suffixGroup.replacement;
@@ -264,20 +260,14 @@ const removeStandardSuffixes = function( word, r2Text, r1Text, rvText ) {
 /**
  *  Removes verb suffixes.
  *
- * @param   {string}       word                         The word from which verb suffixes have to be removed.
- * @param   {string}       rvText                       The content of the RV.
+ * @param {string}  word            The word from which verb suffixes have to be removed.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {string}  rvText          The content of the RV.
  *
- * @returns {string}                                    The word without verb suffixes.
+ * @returns {string} The word without verb suffixes.
  */
-const removeVerbSuffixes = function( word, rvText ) {
-	const verbSuffixes = [ "erebbero", "irebbero", "assero", "assimo", "eranno", "erebbe", "eremmo", "ereste", "eresti", "essero", "iranno", "irebbe",
-		"iremmo", "ireste", "iresti", "iscano", "iscono", "issero", "arono", "avamo", "avano", "avate", "eremo", "erete", "erono", "evamo",
-		"evano", "evate", "iremo", "irete", "irono", "ivamo", "ivano", "ivate", "ammo", "ando", "asse", "assi", "emmo", "enda", "ende",
-		"endi", "endo", "erai", "Yamo", "iamo", "immo", "irai", "irei", "isca", "isce", "isci", "isco", "erei", "uti", "uto", "ita",
-		"ite", "iti", "ito", "iva", "ivi", "ivo", "ono", "uta", "ute", "ano", "are", "ata", "ate", "ati", "ato", "ava", "avi", "avo",
-		"erà", "ere", "erò", "ete", "eva", "evi", "evo", "irà", "ire", "irò", "ar", "ir", "ai" ];
-
-	const foundSuffix  = endsinArr( rvText, verbSuffixes );
+const removeVerbSuffixes = function( word, morphologyData, rvText ) {
+	const foundSuffix  = endsinArr( rvText, morphologyData.externalStemmer.verbSuffixes );
 
 	if ( foundSuffix ) {
 		word = word.slice( 0, -foundSuffix.length );
@@ -287,14 +277,37 @@ const removeVerbSuffixes = function( word, rvText ) {
 };
 
 /**
+ * Normalizes digraphs ch/gh to c/g.
+ *
+ * @param {string}  word    The word to normalize.
+ * @param {Object}  morphologyData  The Italian morphology data file.
+ * @param {string}  rvText          The content of the RV.
+ *
+ * @returns {string} The normalized word.
+ */
+const normalizeDigraphs = function( word, morphologyData, rvText ) {
+	const digraphCh = morphologyData.externalStemmer.digraphNormalization.digraphCh;
+	const digraphGh = morphologyData.externalStemmer.digraphNormalization.digraphGh;
+
+	if ( ( rvText.endsWith( digraphCh[ 0 ] ) ) ) {
+		word = word.slice( 0, -digraphGh[ 0 ].length ) + digraphCh[ 1 ];
+	} else if ( ( rvText.endsWith( digraphGh[ 0 ] ) ) ) {
+		word = word.slice( 0, -digraphGh[ 0 ].length ) + digraphGh[ 1 ];
+	}
+
+	return word;
+};
+
+/**
  * Stems Italian words.
  *
- * @param {string} word            The word to stem.
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Italian morphology data file.
  *
  * @returns {string}               The stemmed word.
  */
-export default function stem( word ) {
-	word = preProcess( word );
+export default function stem( word, morphologyData ) {
+	word = preProcess( word, morphologyData );
 
 	// Don't stem words that consist of less than 3 letters.
 	if ( word.length < 3 ) {
@@ -302,7 +315,7 @@ export default function stem( word ) {
 	}
 
 	// Determines r1 ,r2, rv.
-	const { r1, r2, rv } = determineRs( word );
+	const { r1, r2, rv } = determineRs( word, morphologyData );
 
 	// Determiners the content of r1, r2, and rv.
 	let r1Text = word.substring( r1 );
@@ -312,7 +325,7 @@ export default function stem( word ) {
 	const originalWord = word;
 
 	// Step 0: Attached pronoun removal.
-	word = removePronounSuffixes( word, rvText );
+	word = removePronounSuffixes( word, morphologyData, rvText );
 
 	if ( word !== originalWord ) {
 		r1Text = word.substring( r1 );
@@ -323,7 +336,7 @@ export default function stem( word ) {
 	const wordAfter0 = word;
 
 	// Step 1:  Standard suffix removal.
-	word = removeStandardSuffixes( word, r2Text, r1Text, rvText );
+	word = removeStandardSuffixes( word, morphologyData, r2Text, r1Text, rvText );
 
 	if ( word !== wordAfter0 ) {
 		rvText = word.substring( rv );
@@ -333,7 +346,7 @@ export default function stem( word ) {
 
 	// Step 2:  Verb suffix removal.
 	if ( wordAfter0 === wordAfter1 ) {
-		word = removeVerbSuffixes( word, rvText );
+		word = removeVerbSuffixes( word, morphologyData, rvText );
 	 }
 
 	rvText = word.substring( rv );
@@ -341,19 +354,15 @@ export default function stem( word ) {
 	// Always do step 3.
 	let foundSuffix = "";
 
-	if ( ( foundSuffix = endsinArr( rvText, [ "ia", "ie", "ii", "io", "ià", "iè", "iì", "iò", "a", "e", "i", "o", "à", "è", "ì", "ò" ] ) ) !== "" ) {
+	// Remove general suffixes.
+	if ( ( foundSuffix = endsinArr( rvText, morphologyData.externalStemmer.generalSuffixes ) ) !== "" ) {
 		word = word.slice( 0, -foundSuffix.length );
 	}
 
 	rvText = word.substring( rv );
 
-	if ( ( foundSuffix = endsinArr( rvText, [ "ch" ] ) ) !== "" ) {
-		// Replace with c.
-		word = word.slice( 0, -foundSuffix.length ) + "c";
-	} else if ( ( foundSuffix = endsinArr( rvText, [ "gh" ] ) ) !== "" ) {
-		// Replace with g.
-		word = word.slice( 0, -foundSuffix.length ) + "g";
-	}
+	// Normalize digraphs ch/gh.
+	word = normalizeDigraphs( word, morphologyData, rvText );
 
 	return word.toLowerCase();
 }
