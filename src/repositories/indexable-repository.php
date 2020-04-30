@@ -8,11 +8,11 @@
 namespace Yoast\WP\SEO\Repositories;
 
 use Psr\Log\LoggerInterface;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\Lib\Model;
 
 /**
@@ -74,7 +74,7 @@ class Indexable_Repository {
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return ORMWrapper
+	 * @return ORM
 	 */
 	public function query() {
 		return Model::of_type( 'Indexable' );
