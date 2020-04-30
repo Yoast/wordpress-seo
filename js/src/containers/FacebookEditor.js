@@ -2,9 +2,12 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
+
+const isPremium = get( window, [ "wpseoAdminL10n.isPremium" ], false );
 
 /**
  * Container that holds the media object.
@@ -13,7 +16,7 @@ import FacebookWrapper from "../components/social/FacebookWrapper";
  */
 const MediaWrapper = () => {};
 
-MediaWrapper.getMedia = () => {
+MediaWrapper.get = () => {
 	if ( ! MediaWrapper.media ) {
 		MediaWrapper.media = window.wp.media();
 	}
@@ -23,11 +26,11 @@ MediaWrapper.getMedia = () => {
 
 // Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 domReady( () => {
-	const media = MediaWrapper.getMedia();
+	const media = MediaWrapper.get();
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
 		wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-			url: selected.attribute.url,
+			url: selected.attributes.url,
 			id: selected.attributes.id,
 		} );
 	} );
@@ -35,7 +38,7 @@ domReady( () => {
 } );
 
 export default compose( [
-	withSelect( ( select, ownProps ) => {
+	withSelect( select => {
 		const {
 			getFacebookDescription,
 			getFacebookTitle,
@@ -57,7 +60,7 @@ export default compose( [
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! ownProps.isPremium,
+			isPremium: !! isPremium,
 		};
 	} ),
 
@@ -69,7 +72,7 @@ export default compose( [
 		} = dispatch( "yoast-seo/editor" );
 		return {
 			onSelectImageClick: () => {
-				MediaWrapper.getMedia().open();
+				MediaWrapper.get().open();
 			},
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,

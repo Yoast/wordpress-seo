@@ -2,9 +2,12 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
+
+const isPremium = get( window, [ "wpseoAdminL10n.isPremium" ], false );
 
 /**
  * Container that holds the media object.
@@ -13,7 +16,7 @@ import TwitterWrapper from "../components/social/TwitterWrapper";
  */
 const MediaWrapper = () => {};
 
-MediaWrapper.getMedia = () => {
+MediaWrapper.get = () => {
 	if ( ! MediaWrapper.media ) {
 		MediaWrapper.media = window.wp.media();
 	}
@@ -22,7 +25,7 @@ MediaWrapper.getMedia = () => {
 };
 
 domReady( () => {
-	const media = MediaWrapper.getMedia();
+	const media = MediaWrapper.get();
 	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
@@ -35,7 +38,7 @@ domReady( () => {
 } );
 
 export default compose( [
-	withSelect( ( select, ownProps ) => {
+	withSelect( select => {
 		const {
 			getTwitterDescription,
 			getTwitterTitle,
@@ -58,7 +61,7 @@ export default compose( [
 			imageWarnings: getTwitterWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! ownProps.isPremium,
+			isPremium: !! isPremium,
 			isLarge: getTwitterImageType(),
 		};
 	} ),
@@ -72,7 +75,7 @@ export default compose( [
 
 		return {
 			onSelectImageClick: () => {
-				MediaWrapper.media.open();
+				MediaWrapper.get().open();
 			},
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
