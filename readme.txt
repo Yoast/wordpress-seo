@@ -209,6 +209,17 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0.3 =
+Release Date: April 30th, 2020
+
+Bugfixes:
+
+* Fixes a bug where running the migrations could cause fatal errors on sites where plugins are installed remotely. Some remote plugin installers don't remove files that are removed in an update. Since our migration runner goes through all migrations on the server, this could lead to fatal errors.
+
+Enhancements:
+
+* Adds a missing index to the new indexables table. Props to [@pagelypete](https://github.com/pagelypete).
+
 = 14.0.2 =
 Release Date: April 29th, 2020
 
