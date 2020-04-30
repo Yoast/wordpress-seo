@@ -24,39 +24,28 @@
  * https://github.com/neonxp/Stemmer/blob/master/src/NXP/Stemmer.php
  */
 
-const vowels = [ "а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я" ];
-const regexPerfectiveGerunds1 = "(вши|вшись)$";
-const regexPerfectiveGerunds2 = "(ив|ивши|ившись|ыв|ывши|авшись|ав|авши|авшись)$";
-const regexAdjective = "(ее|ие|ые|ое|ими|ыми|ей|ий|ый|ой|ем|им|ым|ом|его|ого|ему|ому|их|ых|ую|юю|ая|яя|ою|ею)$";
-const regexParticiple = "(ивш|авш|ывш|увш|евш|ующ|ем|нн|вш|ющ|щ)";
-const regexReflexives = "(ся|сь)$";
-const regexVerb1 = "(ла|на|ете|([аеоую]?)йте|ли|уй|й|л|ем|н|ло|но|ет|ют|ны|(^ос)ть|ешь|нно)$";
-const regexVerb2 = "(ила|ыла|ена|ейте|уйте|ите|или|ыли|ей|уй|ил|ыл|им|ым|ен|ило|ыло|ено|ят|ует|уют|ит|ыт|ены|ить|ыть|ишь|ую|(^ость)ю)$";
-const regexNoun = "(а|ев|ов|в|ие|ье|е|ьё|иями|((ост)?)ями|ами|еи|ии|((ост)?)и|ией|((ост)?)ей|ой|ий|й|иям|((ост)?)ям|ием|ем|ам|ом|" +
-	"о|у|ах|иях|((ост)?)ях|ы|((ост)?)ь|ию|((ост)?)ью|ю|ия|ья|я)$";
-const regexSuperlative = "(ейш|ейше)$";
-const regexI = "и$";
-const regexSoftSign = "ь$";
-
 /**
  * Checks if the input character is a Russian vowel.
  *
- * @param {string} char The character to be checked.
+ * @param {string} char             The character to be checked.
+ * @param {Object} morphologyData   The Russian morphology data.
  *
  * @returns {boolean} Whether the input character is a Russian vowel.
  */
-const isVowel = function( char ) {
-	return vowels.includes( char );
+const isVowel = function( char, morphologyData ) {
+	return morphologyData.externalStemmer.vowels.includes( char );
 };
 
 /**
  * Determines the RV region of the word.
  *
- * @param {string} word	The word checked.
+ * @param {string} word             The word checked.
+ * @param {Object} morphologyData   The Russian morphology data.
+
  *
  * @returns {int} The RV region index.
  */
-const findRvRegion = function( word ) {
+const findRvRegion = function( word, morphologyData ) {
 	let rv = 0;
 	let state = 0;
 	const wordLength = word.length;
@@ -66,18 +55,18 @@ const findRvRegion = function( word ) {
 		const char = word.substring( i, i + 1 );
 		switch ( state ) {
 			case 0:
-				if ( isVowel( char ) ) {
+				if ( isVowel( char, morphologyData ) ) {
 					rv = i + 1;
 					state = 1;
 				}
 				break;
 			case 1:
-				if ( isVowel( prevChar ) && isVowel( char ) ) {
+				if ( isVowel( prevChar, morphologyData ) && isVowel( char, morphologyData ) ) {
 					state = 2;
 				}
 				break;
 			case 2:
-				if ( isVowel( prevChar ) && isVowel( char ) ) {
+				if ( isVowel( prevChar, morphologyData ) && isVowel( char, morphologyData ) ) {
 					return rv;
 				}
 				break;
@@ -126,26 +115,33 @@ const removeEndings = function( word, regex, region ) {
 /**
  * Removes inflectional suffixes from the word.
  *
- * @param {string} word	The word to check.
- * @param {int}    rv	The word rv region
+ * @param {string} word             The word to check.
+ * @param {Object} morphologyData   The Russian morphology data.
+ * @param {int}    rv               The word rv region.
  *
  * @returns {string}	The word after inflectional suffixes were removed.
  */
-const removeInflectionalSuffixes = function( word, rv ) {
+const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
 	// Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
-	const removeGerundSuffixes = removeEndings( word, [ regexPerfectiveGerunds1, regexPerfectiveGerunds2 ], rv );
+	const removeGerundSuffixes = removeEndings(
+		word,
+		[ morphologyData.externalStemmer.regexPerfectiveGerunds1, morphologyData.externalStemmer.regexPerfectiveGerunds2 ],
+		rv
+	);
 
 	if ( removeGerundSuffixes ) {
 		word = removeGerundSuffixes;
 	} else {
 		// If there is no PERFECTIVE GERUND ending then try removing a REFLEXIVE ending.
-		const removeReflexiveSuffixes = removeEndings( word, regexReflexives, rv );
+		const removeReflexiveSuffixes = removeEndings( word, morphologyData.externalStemmer.regexReflexives, rv );
 
 		if ( removeReflexiveSuffixes ) {
 			word = removeReflexiveSuffixes;
 		}
+
 		// Try to remove following endings (in this order): ADJECTIVAL, VERB, NOUN. If one of them is found the step is finalized.
-		const removeParticipleSuffixes = removeEndings( word, regexParticiple + regexAdjective, rv );
+		const regexAdjective = morphologyData.externalStemmer.regexAdjective;
+		const removeParticipleSuffixes = removeEndings( word, morphologyData.externalStemmer.regexParticiple + regexAdjective, rv );
 		const removeAdjectiveSuffixes = removeEndings( word, regexAdjective, rv );
 
 		if ( removeParticipleSuffixes ) {
@@ -153,11 +149,15 @@ const removeInflectionalSuffixes = function( word, rv ) {
 		} else if ( removeAdjectiveSuffixes ) {
 			word = removeAdjectiveSuffixes;
 		} else {
-			const removeVerbalSuffixes = removeEndings( word, [ regexVerb1, regexVerb2 ], rv );
+			const removeVerbalSuffixes = removeEndings(
+				word,
+				[ morphologyData.externalStemmer.regexVerb1, morphologyData.externalStemmer.regexVerb2 ],
+				rv
+			);
 			if ( removeVerbalSuffixes ) {
 				word = removeVerbalSuffixes;
 			} else {
-				const removeNounSuffixes = removeEndings( word, regexNoun, rv );
+				const removeNounSuffixes = removeEndings( word, morphologyData.externalStemmer.regexNoun, rv );
 				if ( removeNounSuffixes ) {
 					word = removeNounSuffixes;
 				}
@@ -171,36 +171,37 @@ const removeInflectionalSuffixes = function( word, rv ) {
 /**
  * Stems russian words.
  *
- * @param {string} word	The word to stem.
+ * @param {string} word             The word to stem.
+ * @param {Object} morphologyData   The Russian morphology data.
  *
  * @returns {string}	The stemmed word.
  */
-export default function stem( word ) {
-	const rv = findRvRegion( word );
+export default function stem( word, morphologyData ) {
+	const rv = findRvRegion( word, morphologyData );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
-	word = removeInflectionalSuffixes( word, rv );
+	word = removeInflectionalSuffixes( word, morphologyData, rv );
 
 	// Step 2: If the word ends in "и", remove it.
-	const removeIEnding = removeEndings( word, regexI, rv );
+	const removeIEnding = removeEndings( word, morphologyData.externalStemmer.regexI, rv );
 	if ( removeIEnding ) {
 		word = removeIEnding;
 	}
 
 	// Step 3: There can be one of three options:
 	// 1. If the word ends in нн, remove the last letter.
-	if ( word.endsWith( "нн" ) ) {
+	if ( word.endsWith( morphologyData.externalStemmer.doubleN ) ) {
 		word = word.substr( 0, word.length - 1 );
 	}
 
 	// 2. If the word ends in a SUPERLATIVE ending, remove it and then again the last letter if the word ends in "нн".
-	const removeSuperlativeSuffixes = removeEndings( word, regexSuperlative, rv );
+	const removeSuperlativeSuffixes = removeEndings( word, morphologyData.externalStemmer.regexSuperlative, rv );
 	if ( removeSuperlativeSuffixes ) {
 		word = removeSuperlativeSuffixes;
 	}
 
 	// 3. If the word ends in "ь", remove it.
-	const removeSoftSignEnding = removeEndings( word, regexSoftSign, rv );
+	const removeSoftSignEnding = removeEndings( word, morphologyData.externalStemmer.regexSoftSign, rv );
 	if ( removeSoftSignEnding ) {
 		word = removeSoftSignEnding;
 	}

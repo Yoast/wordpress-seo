@@ -1,4 +1,7 @@
 import stem from "../../../src/morphology/russian/stem";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+const morphologyDataRU = getMorphologyData( "ru" ).ru;
 
 // The first word in each array is the word, the second one is the expected stem.
 
@@ -46,7 +49,7 @@ describe( "Test for stemming Russian words", () => {
 		const wordPairToCheck = wordsToStem[ i ];
 		const wordToStem = wordPairToCheck[ 0 ];
 		const expectedStem = wordPairToCheck[ 1 ];
-		const realStem = stem( wordToStem );
+		const realStem = stem( wordToStem, morphologyDataRU );
 		it( "stems the word " + wordToStem + " and gets the stem " + realStem, () => {
 			expect( realStem ).toBe( expectedStem );
 		} );
