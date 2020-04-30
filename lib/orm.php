@@ -264,6 +264,9 @@ class ORM implements \ArrayAccess {
 		 */
 		global $wpdb;
 
+		$parameters = \array_filter( $parameters, function ( $parameter ) {
+			return $parameter !== null;
+		} );
 		$query = $wpdb->prepare( $query, $parameters );
 
 		return $wpdb->query( $query );
@@ -1098,7 +1101,7 @@ class ORM implements \ArrayAccess {
 				$key = "{$table}.{$key}";
 			}
 			$key         = $result->_quote_identifier( $key );
-			$placeholder = '%s';
+			$placeholder = ( $val === null ) ? 'NULL' : '%s';
 			$result      = $result->_add_condition( $type, "{$key} {$separator} {$placeholder}", $val );
 		}
 
@@ -1121,7 +1124,7 @@ class ORM implements \ArrayAccess {
 				if ( \array_key_exists( $key, $this->_expr_fields ) ) {
 					$db_fields[] = $value;
 				} else {
-					$db_fields[] = '%s';
+					$db_fields[] = ( $value === null ) ? 'NULL' : '%s';
 				}
 			}
 
@@ -1260,7 +1263,7 @@ class ORM implements \ArrayAccess {
 				}
 				$query[] = $this->_quote_identifier( $key );
 				$data[]  = $item;
-				$query[] = $op . '%s';
+				$query[] = $op . ( ( $item === null ) ? 'NULL' : '%s' );
 			}
 		}
 		$query[] = '))';
@@ -2209,7 +2212,7 @@ class ORM implements \ArrayAccess {
 		$field_list = [];
 		foreach ( $this->_dirty_fields as $key => $value ) {
 			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
-				$value = '%s';
+				$value = ( $value === NULL ) ? 'NULL' : '%s';
 			}
 			$field_list[] = "{$this->_quote_identifier($key)} = {$value}";
 		}
