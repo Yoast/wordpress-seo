@@ -7,13 +7,15 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-$yform->toggle_switch(
+$yform->light_switch(
 	'disable-date',
+	__( 'Date archives', 'wordpress-seo' ),
 	[
-		'off' => __( 'Enabled', 'wordpress-seo' ),
-		'on'  => __( 'Disabled', 'wordpress-seo' ),
+		__( 'Enabled', 'wordpress-seo' ),
+		__( 'Disabled', 'wordpress-seo' ),
 	],
-	__( 'Date archives', 'wordpress-seo' )
+	false,
+	true
 );
 
 ?>

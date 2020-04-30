@@ -17,22 +17,28 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
-<div class="yoast-measure">
+<div class="yoast-feature">
+	<p>
+		<?php
+		printf(
+			/* translators: %1$s expands to Yoast SEO */
+			esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		?>
+	</p>
+
 	<?php
-	echo sprintf(
-		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
-		'Yoast SEO'
-	);
 
 	foreach ( $feature_toggles as $feature ) {
-		$yform->toggle_switch(
+		$yform->light_switch(
 			$feature->setting,
+			$feature->name,
 			[
-				'on'  => __( 'On', 'wordpress-seo' ),
-				'off' => __( 'Off', 'wordpress-seo' ),
+				__( 'Off', 'wordpress-seo' ),
+				__( 'On', 'wordpress-seo' ),
 			],
-			'<strong>' . $feature->name . '</strong> ' . new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
 		);
 	}
 	?>
