@@ -53,7 +53,7 @@ class WPSEO_Upgrade {
 			'12.4-RC0'   => 'upgrade_124',
 			'12.8-RC0'   => 'upgrade_128',
 			'13.2-RC0'   => 'upgrade_132',
-			'14.0.2-RC0' => 'upgrade_1402'
+			'14.0.3-RC0' => 'upgrade_1403'
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -730,9 +730,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Perform the 14.0.2 upgrade.
+	 * Perform the 14.0.3 upgrade.
 	 */
-	private function upgrade_1402() {
+	private function upgrade_1403() {
 		global $wpdb;
 		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_indexable' );
 
@@ -850,7 +850,7 @@ class WPSEO_Upgrade {
 	private function migrate_woocommerce_archive_setting_to_shop_page() {
 		$shop_page_id = wc_get_page_id( 'shop' );
 
-		if ( $shop_page_id === - 1 ) {
+		if ( $shop_page_id === -1 ) {
 			return;
 		}
 
