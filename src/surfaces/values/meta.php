@@ -133,8 +133,10 @@ class Meta {
 
 		$output = '';
 
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 		foreach ( $presenters as $presenter ) {
-			$presenter->presentation = $this->context->presentation;
+			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 			$presenter_output = $presenter->present();
@@ -156,7 +158,10 @@ class Meta {
 	 * @throws Exception If an invalid property is accessed.
 	 */
 	public function __get( $name ) {
-		if ( ! isset( $this->context->presentation->{$name} ) ) {
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+
+		if ( ! isset( $presentation->{$name} ) ) {
 			if ( isset( $this->context->{$name} ) ) {
 				$this->{$name} = $this->context->{$name};
 				return $this->{$name};
@@ -182,13 +187,13 @@ class Meta {
 			 * @var Abstract_Indexable_Presenter
 			 */
 			$presenter               = new $presenter_class();
-			$presenter->presentation = $this->context->presentation;
+			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 			$value                   = $presenter->get();
 		}
 		else {
-			$value = $this->context->presentation->{$name};
+			$value = $presentation->{$name};
 		}
 
 		$this->{$name} = $value;

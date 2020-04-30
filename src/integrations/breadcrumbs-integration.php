@@ -72,7 +72,10 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * @return string The rendered breadcrumbs.
 	 */
 	public function render() {
-		$this->presenter->presentation = $this->context_memoizer->for_current_page()->presentation;
+		$context = $this->context_memoizer->for_current_page();
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
+		$this->presenter->presentation = $presentation;
 
 		return $this->presenter->present();
 	}
