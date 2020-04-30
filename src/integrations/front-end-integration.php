@@ -224,7 +224,8 @@ class Front_End_Integration implements Integration_Interface {
 		$context = $this->context_memoizer->for_current_page();
 
 		$title_presenter               = new Title_Presenter();
-		$title_presenter->presentation = $context->presentation;
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$title_presenter->presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$title_presenter->replace_vars = $this->replace_vars;
 		$title_presenter->helpers      = $this->helpers;
 
@@ -253,9 +254,17 @@ class Front_End_Integration implements Integration_Interface {
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
 		$presenters = $this->get_presenters( $context->page_type );
+
+		/**
+		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
+		 *
+		 * @api Indexable_Presention The indexable presentation.
+		 */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
+
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
-			$presenter->presentation = $context->presentation;
+			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 			$output = $presenter->present();
