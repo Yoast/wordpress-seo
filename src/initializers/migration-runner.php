@@ -71,7 +71,7 @@ class Migration_Runner implements Initializer_Interface {
 	 * @throws \Exception When a migration errored.
 	 */
 	public function run_free_migrations() {
-		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'src/config/migrations' );
 	}
 
 	/**

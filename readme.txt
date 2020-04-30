@@ -209,6 +209,24 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0.3 =
+Release Date: April 30th, 2020
+
+Bugfixes:
+
+* Fixes a bug where running the migrations could cause fatal errors on sites where plugins are installed remotely. Some remote plugin installers don't remove files that are removed in an update. Since our migration runner goes through all migrations on the server, this could lead to fatal errors.
+* Fixes a bug where the `pre_get_document_title filter` could be skipped when other plugins were using this filter as well.
+* Fixes a bug where an error would be thrown when the name of an indexable table had been converted to a different case.
+* Fixes a bug where a taxonomy parent would not be present in the breadcrumbs even though it was set in the breadcrumbs settings.
+
+Enhancements:
+
+* Adds a missing index to the new indexables table. Props to [@pagelypete](https://github.com/pagelypete).
+
+Other:
+
+* Adds the wpseo_frontend_presentation filter that can be used by third-party plugins to easily alter all our meta output with 1 single filter.
+
 = 14.0.2 =
 Release Date: April 29th, 2020
 

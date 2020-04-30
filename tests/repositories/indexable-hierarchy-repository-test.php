@@ -208,7 +208,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the query method returns an instance of the ORMWrapper class that
+	 * Tests if the query method returns an instance of the ORM class that
 	 * represents the Indexable_Hierarchy.
 	 *
 	 * @covers ::query
