@@ -109,6 +109,10 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
 	 */
 	protected function finish_up( $previous_version = null ) {
 		if ( $previous_version ) {
