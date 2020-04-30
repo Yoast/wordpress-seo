@@ -170,6 +170,10 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_shop_page_id
 	 */
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
+		// Sets the stubs.
+		Monkey\Functions\expect( 'wc_get_page_id' )
+			->andReturn( -1 );
+
 		$this->instance
 			->expects( 'is_shop_page' )
 			->once()
