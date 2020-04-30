@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FieldGroup, { FieldGroupProps, FieldGroupDefaultProps } from "../field-group/FieldGroup";
-import ErrorWithUrl from "../../internal/ErrorWithUrl";
-import ErrorBoundary from "../../internal/ErrorBoundary";
+import ErrorWithUrl from "../internal/ErrorWithUrl";
+import ErrorBoundary from "../internal/ErrorBoundary";
 
 // Import required CSS.
 import "./select.css";
@@ -71,7 +71,7 @@ class MultiSelect extends React.Component {
 	 */
 	componentDidMount() {
 		this.select2 = jQuery( `#${ this.props.id }` );
-		this.select2.select2();
+		this.select2.select2( { width: "100%" } );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
