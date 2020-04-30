@@ -158,10 +158,6 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return bool Whether or not a blog crumb should be added.
 	 */
 	protected function should_have_blog_crumb( $page_for_posts, $context ) {
-		if ( $this->options->get( 'breadcrumbs-display-blog-page' ) !== true ) {
-			return false;
-		}
-
 		// When there is no page configured as blog page.
 		if ( \get_option( 'show_on_front' ) !== 'page' || ! $page_for_posts ) {
 			return false;
@@ -170,6 +166,10 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		if ( $context->indexable->object_type === 'term' ) {
 			$parent = $this->get_taxonomy_post_type_parent( $context->indexable->object_sub_type );
 			return $parent === 'post';
+		}
+
+		if ( $this->options->get( 'breadcrumbs-display-blog-page' ) !== true ) {
+			return false;
 		}
 
 		// When the current page is the home page, searchpage or isn't a singular post.
