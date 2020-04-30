@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
@@ -142,7 +141,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === - 1 ) {
+		if ( $shop_page_id === -1 ) {
 			return $title;
 		}
 
@@ -178,7 +177,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === - 1 ) {
+		if ( $shop_page_id === -1 ) {
 			return $description;
 		}
 
@@ -229,7 +228,7 @@ class WooCommerce implements Integration_Interface {
 	 */
 	protected function get_shop_page_id() {
 		if ( ! function_exists( 'wc_get_page_id' ) ) {
-			return - 1;
+			return -1;
 		}
 
 		return \wc_get_page_id( 'shop' );
