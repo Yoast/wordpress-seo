@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -37,7 +37,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post_type_archive_link' )->with( 'my-post-type' )->andReturn( 'https://permalink' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'post-type-archive' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'my-post-type' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'my_post_type_title' );
