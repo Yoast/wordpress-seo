@@ -305,16 +305,13 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		$wpdb->last_error         = '';
 		$wpdb->suppress_errors    = true;
 
-		$wpdb->query( "SELECT * FROM $tbl LIMIT 1" );
-		if ( $wpdb->last_error !== '' ) {
-			// Restore the last error, as this is not truly an error and we don't want to alarm people.
-			$wpdb->last_error      = $previous_last_error;
-			$wpdb->suppress_errors = $previous_suppress_errors;
+		$result = $wpdb->query( "SELECT * FROM $tbl LIMIT 1" );
 
-			return false;
-		}
+		// Restore the last error, as this is not truly an error and we don't want to alarm people.
+		$wpdb->last_error      = $previous_last_error;
+		$wpdb->suppress_errors = $previous_suppress_errors;
 
-		return true;
+		return $result !== false;
 	}
 
 	/**
