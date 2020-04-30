@@ -73,6 +73,10 @@ class Title_Presenter_Test extends TestCase {
 			->andReturnUsing( function ( $string ) {
 				return $string;
 			} );
+
+		Monkey\Functions\expect( 'wp_get_document_title' )->andReturnUsing( function() {
+			return $this->instance->get_title();
+		} );
 	}
 
 	/**
