@@ -733,9 +733,6 @@ class WPSEO_Upgrade {
 	 * Perform the 14.0.3 upgrade.
 	 */
 	private function upgrade_1403() {
-		global $wpdb;
-		$wpdb->query( 'TRUNCATE TABLE ' . $wpdb->prefix . 'yoast_indexable' );
-
 		WPSEO_Options::set( 'ignore_indexation_warning', false );
 	}
 
