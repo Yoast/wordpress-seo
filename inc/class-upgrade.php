@@ -78,7 +78,7 @@ class WPSEO_Upgrade {
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 
-		$this->finish_up();
+		$this->finish_up( $version );
 	}
 
 	/**
@@ -109,8 +109,15 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
 	 */
-	protected function finish_up() {
+	protected function finish_up( $previous_version = null ) {
+		if ( $previous_version ) {
+			WPSEO_Options::set( 'previous_version', $previous_version );
+		}
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
 		// Just flush rewrites, always, to at least make them work after an upgrade.

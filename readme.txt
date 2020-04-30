@@ -209,6 +209,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.0.4 =
+Release Date: April 30th, 2020
+
+Bugfixes:
+
+* Fixes a bug where robots meta values defaulted to 0 instead of null because of a [bug in WPDB](https://core.trac.wordpress.org/ticket/12819). This could result in incorrect values for `noindex`, `nofollow` , `noarchive`, `noimageindex` and/or `nosnippet`. In order to purge the wrong data, we need to truncate our tables again. This means you will have to go through the indexing process again. We’re very sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexation on the server](https://yoa.st/wp-cli-index).
+
 = 14.0.3 =
 Release Date: April 30th, 2020
 
