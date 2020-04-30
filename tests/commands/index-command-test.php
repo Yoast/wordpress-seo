@@ -174,7 +174,7 @@ class Index_Command_Test extends TestCase {
 		$wpdb
 			->expects( 'prepare' )
 			->once()
-			->with( 'TRUNCATE TABLE %s', 'wp_yoast_indexable' )
+			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable' )
 			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable' );
 
 		$wpdb
@@ -186,7 +186,7 @@ class Index_Command_Test extends TestCase {
 		$wpdb
 			->expects( 'prepare' )
 			->once()
-			->with( 'TRUNCATE TABLE %s', 'wp_yoast_indexable_hierarchy' )
+			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable_hierarchy' )
 			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
 
 		$this->instance->index( null, [ 'reindex' => true ] );
