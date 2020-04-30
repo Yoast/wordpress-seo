@@ -80,7 +80,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			}
 		}
 		$page_for_posts = \get_option( 'page_for_posts' );
-		if ( $this->should_have_blog_crumb( $page_for_posts ) ) {
+		if ( $this->should_have_blog_crumb( $page_for_posts, $context ) ) {
 			$static_ancestor = $this->repository->find_by_id_and_type( $page_for_posts, 'post' );
 			if ( $static_ancestor->post_status !== 'unindexed' ) {
 				$static_ancestors[] = $static_ancestor;
@@ -94,8 +94,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$static_ancestors[] = $this->repository->find_for_post_type_archive( $context->indexable->object_sub_type );
 		}
 		if ( $context->indexable->object_type === 'term' ) {
-			$parent = $this->options->get( 'taxonomy-' . $context->indexable->object_sub_type . '-ptparent' );
-			if ( ! empty( $parent ) && (string) $parent !== '0' && $parent !== 'post' ) {
+			$parent = $this->get_taxonomy_post_type_parent( $context->indexable->object_sub_type );
+			if ( $parent && $parent !== 'post' ) {
 				$static_ancestors[] = $this->repository->find_for_post_type_archive( $parent );
 			}
 		}
@@ -152,11 +152,12 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	/**
 	 * Returns whether or not a blog crumb should be added.
 	 *
-	 * @param int $page_for_posts The page for posts ID.
+	 * @param int               $page_for_posts The page for posts ID.
+	 * @param Meta_Tags_Context $context        The meta tags context.
 	 *
 	 * @return bool Whether or not a blog crumb should be added.
 	 */
-	protected function should_have_blog_crumb( $page_for_posts ) {
+	protected function should_have_blog_crumb( $page_for_posts, $context ) {
 		if ( $this->options->get( 'breadcrumbs-display-blog-page' ) !== true ) {
 			return false;
 		}
@@ -166,11 +167,33 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			return false;
 		}
 
+		if ( $context->indexable->object_type === 'term' ) {
+			$parent = $this->get_taxonomy_post_type_parent( $context->indexable->object_sub_type );
+			return $parent === 'post';
+		}
+
 		// When the current page is the home page, searchpage or isn't a singular post.
 		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns the post type parent of a given taxonomy.
+	 *
+	 * @param string $taxonomy The taxonomy.
+	 *
+	 * @return string|false The parent if it exists, false otherwise.
+	 */
+	protected function get_taxonomy_post_type_parent( $taxonomy ) {
+		$parent = $this->options->get( 'taxonomy-' . $taxonomy . '-ptparent' );
+
+		if ( empty( $parent ) || (string) $parent === '0' ) {
+			return false;
+		}
+
+		return $parent;
 	}
 }
