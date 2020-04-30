@@ -119,7 +119,7 @@ class Ruckusing_Framework {
 	 */
 	public function maybe_set_constant() {
 		$constant_name  = $this->dependency_management->prefixed_available() ? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' : 'RUCKUSING_BASE';
-		$constant_value = \WPSEO_PATH . 'migrations' . \DIRECTORY_SEPARATOR . 'ruckusing';
+		$constant_value = \WPSEO_PATH . 'src/config/migrations' . \DIRECTORY_SEPARATOR . 'ruckusing';
 
 		if ( \defined( $constant_name ) ) {
 			return \constant( $constant_name ) === $constant_value;
