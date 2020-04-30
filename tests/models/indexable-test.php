@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Models\Indexable
  *
+ * @group indexables
  * @group models
  */
 class Indexable_Test extends TestCase {
