@@ -1,9 +1,11 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
+
+## 5.2.0 April 23rd, 2020
+### Added
+* Adds a CSS test stub.
 
 ## 4.39.0 January 6th, 2019
 ### Other

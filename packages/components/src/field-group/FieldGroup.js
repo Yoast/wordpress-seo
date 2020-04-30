@@ -14,18 +14,20 @@ import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/Help
  * @param {string} linkText Screen-reader text that is added to the link.
  * @param {string} description Optional: a description where the input element is used for.
  * @param {array} children Children that are rendered in the FieldGroup.
+ * @param {string} wrapperClassName Optional: A classname for the FieldGroup's outer div. Default is "yoast-field-group".
+ * @param {string} titleClassName Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
-const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children } ) => {
+const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName } ) => {
 	return (
-		<div className="yoast-field-group">
-			<div className="yoast-field-group__title">
+		<div className={ wrapperClassName }>
+			<div className={ titleClassName }>
 				<label htmlFor={ htmlFor }>{ label }</label>
-				<HelpIcon
+				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
 					linkText={ linkText }
-				/>
+				/> }
 			</div>
 			{ description !== ""  && <p className="description" id="yoast_unique_description_id">{ description }</p> }
 			{ children }
@@ -40,6 +42,8 @@ export const FieldGroupProps = {
 	label: PropTypes.string.isRequired,
 	description: PropTypes.string,
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
+	wrapperClassName: PropTypes.string,
+	titleClassName: PropTypes.string,
 	...helpIconProps,
 };
 
@@ -49,6 +53,8 @@ export const FieldGroupProps = {
 export const FieldGroupDefaultProps = {
 	description: "",
 	children: [],
+	wrapperClassName: "yoast-field-group",
+	titleClassName: "yoast-field-group__title",
 	...helpIconDefaultProps,
 };
 

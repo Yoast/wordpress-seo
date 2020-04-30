@@ -7,7 +7,7 @@ import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark";
 import Researcher from "../../src/researcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-
+import { realWorldULExample1, realWorldULExample2 } from "../stringProcessing/mergeListItemsSpec";
 
 const morphologyData = getMorphologyData( "en" );
 
@@ -425,5 +425,258 @@ describe( "Test for the research", function() {
 			keyphraseDistributionScore: 100,
 			sentencesToHighlight: [],
 		} );
+	} );
+
+	const paragraphWithKeyphrase1 = "<p>Lorem ipsum keyphrase dolor sit amet, consectetur adipiscing elit." +
+		"In sit amet semper sem, id faucibus massa.</p>\n";
+
+	const paragraphWithKeyphrase2 = "<p>Nam sit keyphrase amet eros faucibus, malesuada purus at, mollis libero." +
+		"Praesent at ante sit amet elit sollicitudin lobortis.</p>";
+
+	it( "doesn't return a skewed result when there is a list with many single-word list items - " +
+		"a list with single words should not be treated differently than if that list were a long string of words", function() {
+		const fruits = [ "apple", "pear", "mango", "kiwi", "papaya", "pineapple", "banana" ];
+
+		const fruitList = "<ul>\n" + fruits.map( fruit => "<li>" + fruit + "</li>\n" ).join( "" ) + "</ul>";
+		const fruitString = fruits.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + fruitList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + fruitString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a list of sentences as it does for a string of sentences", function() {
+		const fruitStatements = [
+			"This is an apple.",
+			"This is a pear.",
+			"This is a mango.",
+			"This is a kiwi.",
+			"This is a papaya.",
+			"This is a pineapple.",
+			"This is a banana." ];
+
+		const fruitStatementList = "<ul>\n" + fruitStatements.map( fruitStatement => "<li>" + fruitStatement + "</li>\n" ).join( "" ) + "</ul>";
+		const fruitStatementString = fruitStatements.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + fruitStatementList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + fruitStatementString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a list of paragraphs as it does for a string of paragraphs", function() {
+		const paragraphs = [
+			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
+			"<p>This is step 2a. This is step 2b.</p>",
+			"<p>This is step 3a. This is step 3b.</p>",
+			"<p>This is step 4a. This is step 4b.</p>",
+		];
+
+		const paragraphsList = "<ul>\n" + paragraphs.map( paragraph => "<li>" + paragraph + "</li>\n" ).join( "" ) + "</ul>";
+		const paragraphsString = paragraphs.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + paragraphsList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + paragraphsString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a mixed list of paragraphs and sentences as it does for a string of paragraphs and sentences", function() {
+		const paragraphsAndSentences = [
+			"<p>This is step 1a of an instruction. This is step 1b of an instruction.</p>",
+			"This is the short step 2.",
+			"This is the short step 3.",
+			"<p>This is step 4a. This is step 4b.</p>",
+		];
+
+		const paragraphsAndSentencesList = "<ul>\n" + paragraphsAndSentences.map( item => "<li>" + item + "</li>\n" ).join( "" ) + "</ul>";
+		const paragraphsAndSentencesString = paragraphsAndSentences.join( " " );
+
+		const paperWithList = new Paper(
+			paragraphWithKeyphrase1 + paragraphsAndSentencesList + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			paragraphWithKeyphrase1 + paragraphsAndSentencesString + paragraphWithKeyphrase2,
+			{
+				locale: "en_EN",
+				keyword: "keyphrase",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a a real world example list including various html tags as it does for version of that" +
+		"text where all lists have been manually removed", function() {
+		const realWordULExample1NoLists = "<p>Besides all of these great developments, you really should use the block editor" +
+			" now and stop using the classic editor. Let me give you an overview of simple and clear reasons. With" +
+			" the block editor:</p> You will be able to build layouts that you can’t make in TinyMCE." +
+			" Most of the stuff we did for our" +
+			"<a href=\"https://developer.yoast.com/digital-storytelling-in-the-age-of-blocks/\">recent digital story</a>" +
+			" required <em>no coding</em>. Plugins like <a href=\"https://wordpress.org/plugins/grids/\">Grids</a> " +
+			"make it even easier to make very smooth designs.  You can make FAQs and HowTo’s that’ll look awesome " +
+			"in search results. <span style=\", sans-serif\">Our Yoast SEO Schema blocks are already providing an SEO " +
+			"advantage that is unmatched. For instance, check out our free" +
+			" <a href=\"https://yoast.com/how-to-build-an-faq-page/\">FAQ</a> and" +
+			" <a href=\"https://yoast.com/wordpress/plugins/seo/howto-schema-content-block/\">How-to</a> blocks." +
+			"</span>  Simple things like images next to paragraphs and other things that could be painful " +
+			"in TinyMCE have become so much better in Gutenberg. Want multiple columns? You can have them, like that, " +
+			"without extra coding.  Speaking of things you couldn’t do without plugins before: you can now embed" +
+			" tables in your content, just by adding a table block. No plugins required.  Creating custom blocks" +
+			" is relatively simple, and allows people to do 90% of the custom things they would do with plugins in the " +
+			"past, but easier. It becomes even easier when you use a plugin like " +
+			"<a href=\"https://www.advancedcustomfields.com/pro/\">ACF Pro</a> or <a href=\"https://getblocklab.com\">" +
+			"Block Lab</a> to build those custom blocks.  Custom blocks, or blocks you’ve added with plugins, " +
+			"can be easily found by users just by clicking the + sign in the editor. Shortcodes, in the classic editor, " +
+			"didn’t have such a discovery method.  Re-usable blocks allow you to easily create content you can " +
+			"re-use across posts or pages, see this" +
+			" <a href=\"https://www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice " +
+			"tutorial on WP Beginner</a>. <p>There are many more nice features; please share yours in the comments!</p>";
+
+		const paperWithList = new Paper(
+			realWorldULExample1,
+			{
+				locale: "en_EN",
+				keyword: "block editor",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			realWordULExample1NoLists,
+			{
+				locale: "en_EN",
+				keyword: "block editor",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
+	} );
+
+	it( "returns the same result for a a real world example with nested lists as it does for a string version of that" +
+		"text where all lists have been manually removed", function() {
+		const realWordULExample2NoLists = " On the <strong>General</strong> tab: Make sure your store address is " +
+			"correct and that you’ve limited selling to your country and location  Enable or disable tax calculation if" +
+			" needed  Enable or disable the use of coupon codes if needed  Pick the correct currency " +
+			"  On the <strong>Product</strong> tab: Select the page where you want the shop to appear " +
+			" Want users to leave reviews on your product? Activate that option here " +
+			" On Inventory: Disable stock management unless you need it  " +
+			" On the <strong>Payments</strong> tab: Pick an easy payment option, like cash on delivery or bank" +
+			" transfer  If needed, you can add more complex payment providers like PayPal  " +
+			" On the <strong>Accounts</strong> tab: Allow guest checkout " +
+			" Allow account creation if needed  Select the Privacy policy " +
+			" Review the other options on this page carefully, you may need them " +
+			"  On the <strong>Emails</strong> tab: Check the different email templates and activate" +
+			" the ones you want to use. For every email, change the text to match what you want to say " +
+			" Scroll down to check the sender options  Also adapt the email template to fit your brand " +
+			"  Skip the <strong>Integrations</strong> tab  On the <strong>Advanced</strong> tab:" +
+			" Map the essential pages for your shop, i.e. the cart, checkout, account page and terms and conditions." +
+			" You can make these pages in WordPress: Add the `[woocommerce_cart]` shortcode to the cart page " +
+			" Add the `[woocommerce_checkout]` shortcode to the checkout page  Place the " +
+			"`[woocommerce_my_account]`  shortcode to the account page   ";
+
+		const paperWithList = new Paper(
+			realWorldULExample2,
+			{
+				locale: "en_EN",
+				keyword: "shop",
+			}
+		);
+
+		const paperWithWords = new Paper(
+			realWordULExample2NoLists,
+			{
+				locale: "en_EN",
+				keyword: "shop",
+			}
+		);
+
+		const researcherListCondition = new Researcher( paperWithList );
+		researcherListCondition.addResearchData( "morphology", morphologyData );
+
+		const researcherWordsCondition = new Researcher( paperWithWords );
+		researcherWordsCondition.addResearchData( "morphology", morphologyData );
+
+		expect( keyphraseDistributionResearcher( paperWithList, researcherListCondition ).keyphraseDistributionScore ).toEqual(
+			keyphraseDistributionResearcher( paperWithWords, researcherWordsCondition ).keyphraseDistributionScore );
 	} );
 } );

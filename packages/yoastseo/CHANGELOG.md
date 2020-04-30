@@ -1,16 +1,26 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.72.0 April 14th, 2020
+## 1.74.0 May 11th, 2020
 ### Added
-* Adds word-form support for Spanish. [#602](https://github.com/Yoast/javascript/pull/602)
+* Adds French to the list of languages for which we have morphology support.
+* Adds word forms support for French in a beta version.
+
+### Changed
+* Improves the transition word assessment for Hungarian. Props to [@Zsoru](https://github.com/Zsoru).
+* Improves the way diminutive nouns are stemmed.
 
 ### Fixed
-* Fixes a bug where the text analysis would break if the text contains the word "Ying". [#600](https://github.com/Yoast/javascript/pull/600)
+* Makes sure that lists with single words don't skew the keyphrase distribution score.
+
+## 1.72.0 April 9th, 2020
+### Added
+* Adds word-form support for Spanish.
+
+### Fixed
+* Fixes a bug where the text analysis would break if the text contains the word "Ying".
 
 ## 1.71.0 March 30th, 2020
 ### Enhancements:
