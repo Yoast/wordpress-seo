@@ -7,6 +7,7 @@
 ## Please note version 14 of the Yoast Plugin is a major rewrite and will cause issues with this plugin
 I am working on an update and will release this ASAP, while you wait you can use version 13 of Yoast without issues.
 
+> When version v4 is released it will require vesrion v14 of the Yoast plugin to work.
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
