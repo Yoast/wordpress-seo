@@ -53,7 +53,7 @@ class WPSEO_Upgrade {
 			'12.4-RC0'   => 'upgrade_124',
 			'12.8-RC0'   => 'upgrade_128',
 			'13.2-RC0'   => 'upgrade_132',
-			'14.0.3-RC0' => 'upgrade_1403'
+			'14.0.3-RC0' => 'upgrade_1403',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
