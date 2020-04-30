@@ -215,6 +215,8 @@ Release Date: April 30th, 2020
 Bugfixes:
 
 * Fixes a bug where running the migrations could cause fatal errors on sites where plugins are installed remotely. Some remote plugin installers don't remove files that are removed in an update. Since our migration runner goes through all migrations on the server, this could lead to fatal errors.
+* Fixes a bug where the `pre_get_document_title filter` could be skipped when other plugins were using this filter as well.
+* Fixes a bug where an error would be thrown when the name of an indexable table had been converted to a different case.
 
 Enhancements:
 
