@@ -223,12 +223,11 @@ class ORM implements \ArrayAccess {
 	 * Factory method, return an instance of this class bound to the supplied
 	 * table name.
 	 *
-	 * A repeat of content in parent::for_table, so that created class is
-	 * ORMWrapper, not ORM.
+	 * A repeat of content in parent::for_table, so that created class is ORM.
 	 *
-	 * @param string $table_name Table name.      The table to create instance for.
+	 * @param string $table_name The table to create instance for.
 	 *
-	 * @return ORM Instance of the ORM wrapper.
+	 * @return ORM Instance of the ORM.
 	 */
 	public static function for_table( $table_name ) {
 		return new static( $table_name, [] );

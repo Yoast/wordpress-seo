@@ -2,20 +2,19 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Yoast\WP\Lib\Model;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\Indexable_Hierarchy;
-use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Hierarchy_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Hierarchy_Repository {
 
@@ -98,7 +97,7 @@ class Indexable_Hierarchy_Repository {
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\SEO\ORM\ORMWrapper
+	 * @return ORM
 	 */
 	public function query() {
 		return Model::of_type( 'Indexable_Hierarchy' );
