@@ -13,7 +13,9 @@ use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class WooCommerce
@@ -42,6 +44,11 @@ class WooCommerce implements Integration_Interface {
 	protected $context_memoizer;
 
 	/**
+	 * @var Indexable_Repository
+	 */
+	private $repository;
+
+	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -54,15 +61,18 @@ class WooCommerce implements Integration_Interface {
 	 * @param Options_Helper             $options          The options helper.
 	 * @param WPSEO_Replace_Vars         $replace_vars     The replace vars helper.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer The meta tags context memoizer.
+	 * @param Indexable_Repository       $repository       The indexable repository.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		WPSEO_Replace_Vars $replace_vars,
-		Meta_Tags_Context_Memoizer $context_memoizer
+		Meta_Tags_Context_Memoizer $context_memoizer,
+		Indexable_Repository $repository
 	) {
 		$this->options          = $options;
 		$this->replace_vars     = $replace_vars;
 		$this->context_memoizer = $context_memoizer;
+		$this->repository       = $repository;
 	}
 
 	/**
@@ -72,6 +82,30 @@ class WooCommerce implements Integration_Interface {
 		\add_filter( 'wpseo_frontend_page_type_simple_page_id', [ $this, 'get_page_id' ] );
 		\add_filter( 'wpseo_title', [ $this, 'title' ], 10, 2 );
 		\add_filter( 'wpseo_metadesc', [ $this, 'description' ], 10, 2 );
+		\add_filter( 'wpseo_breadcrumb_indexables', [ $this, 'add_shop_to_breadcrumbs' ] );
+	}
+
+	/**
+	 * Adds a breadcrumb for the shop page.
+	 *
+	 * @param Indexable[] $indexables The array with indexables.
+	 *
+	 * @return Indexable[] The indexables to be shown in the breadcrumbs, with the shop page added.
+	 */
+	public function add_shop_to_breadcrumbs( $indexables ) {
+		$shop_page_id = $this->get_shop_page_id();
+
+		if ( $shop_page_id < 1 ) {
+			return $indexables;
+		}
+
+		foreach ( $indexables as $index => $indexable ) {
+			if ( $indexable->object_type === 'post-type-archive' && $indexable->object_sub_type === 'product' ) {
+				$indexables[ $index ] = $this->repository->find_by_id_and_type( $shop_page_id, 'post' );
+			}
+		}
+
+		return $indexables;
 	}
 
 	/**
@@ -113,7 +147,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === -1 ) {
+		if ( $shop_page_id < 1 ) {
 			return $title;
 		}
 
@@ -149,7 +183,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$shop_page_id = $this->get_shop_page_id();
-		if ( $shop_page_id === -1 ) {
+		if ( $shop_page_id < 1 ) {
 			return $description;
 		}
 
@@ -219,6 +253,7 @@ class WooCommerce implements Integration_Interface {
 		}
 
 		$context = $this->context_memoizer->for_current_page();
+
 		return $context->presentation;
 	}
 }
