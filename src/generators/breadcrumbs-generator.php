@@ -93,6 +93,12 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		) {
 			$static_ancestors[] = $this->repository->find_for_post_type_archive( $context->indexable->object_sub_type );
 		}
+		if ( $context->indexable->object_type === 'term' ) {
+			$parent = $this->options->get( 'taxonomy-' . $context->indexable->object_sub_type . '-ptparent' );
+			if ( ! empty( $parent ) && (string) $parent !== '0' && $parent !== 'post' ) {
+				$static_ancestors[] = $this->repository->find_for_post_type_archive( $parent );
+			}
+		}
 
 		// Get all ancestors of the indexable and append itself to get all indexables in the full crumb.
 		$indexables   = $this->repository->get_ancestors( $context->indexable );
@@ -101,6 +107,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		if ( ! empty( $static_ancestors ) ) {
 			array_unshift( $indexables, ...$static_ancestors );
 		}
+
+		$indexables = \apply_filters( 'wpseo_breadcrumb_indexables', $indexables, $context );
 
 		$crumbs = array_map( function ( Indexable $ancestor ) {
 			$crumb = [
