@@ -6,26 +6,24 @@ import domReady from "@wordpress/dom-ready";
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
 
-const isPremium = window.wpseoAdminL10n.isPremium;
-
 /**
  * Container that holds the media object.
  *
  * @returns {void}
  */
-const FacebookContainer = () => {};
+const MediaWrapper = () => {};
 
-FacebookContainer.getMedia = () => {
-	if ( ! FacebookContainer.media ) {
-		FacebookContainer.media = window.wp.media();
+MediaWrapper.getMedia = () => {
+	if ( ! MediaWrapper.media ) {
+		MediaWrapper.media = window.wp.media();
 	}
 
-	return FacebookContainer.media;
+	return MediaWrapper.media;
 };
 
 // Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 domReady( () => {
-	const media = FacebookContainer.getMedia();
+	const media = MediaWrapper.getMedia();
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
 		wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
@@ -37,7 +35,7 @@ domReady( () => {
 } );
 
 export default compose( [
-	withSelect( select => {
+	withSelect( ( select, ownProps ) => {
 		const {
 			getFacebookDescription,
 			getFacebookTitle,
@@ -59,7 +57,7 @@ export default compose( [
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! isPremium,
+			isPremium: !! ownProps.isPremium,
 		};
 	} ),
 
@@ -71,7 +69,7 @@ export default compose( [
 		} = dispatch( "yoast-seo/editor" );
 		return {
 			onSelectImageClick: () => {
-				FacebookContainer.getMedia().open();
+				MediaWrapper.getMedia().open();
 			},
 			onRemoveImageClick: clearFacebookPreviewImage,
 			onDescriptionChange: setFacebookPreviewDescription,

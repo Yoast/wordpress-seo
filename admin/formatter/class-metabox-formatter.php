@@ -50,6 +50,8 @@ class WPSEO_Metabox_Formatter {
 		return [
 			'author_name'               => get_the_author_meta( 'display_name' ),
 			'site_name'                 => get_bloginfo( 'name' ),
+			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
+			'isPostType'                => WPSEO_Utils::get_page_type() === 'post',
 			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),

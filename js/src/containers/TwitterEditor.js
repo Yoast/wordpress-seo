@@ -6,25 +6,23 @@ import domReady from "@wordpress/dom-ready";
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 
-const isPremium = window.wpseoAdminL10n.isPremium;
-
 /**
  * Container that holds the media object.
  *
  * @returns {void}
  */
-const TwitterContainer = () => {};
+const MediaWrapper = () => {};
 
-TwitterContainer.getMedia = () => {
-	if ( ! TwitterContainer.media ) {
-		TwitterContainer.media = window.wp.media();
+MediaWrapper.getMedia = () => {
+	if ( ! MediaWrapper.media ) {
+		MediaWrapper.media = window.wp.media();
 	}
 
-	return TwitterContainer.media;
+	return MediaWrapper.media;
 };
 
 domReady( () => {
-	const media = TwitterContainer.getMedia();
+	const media = MediaWrapper.getMedia();
 	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 	media.on( "select", () => {
 		const selected = media.state().get( "selection" ).first();
@@ -37,7 +35,7 @@ domReady( () => {
 } );
 
 export default compose( [
-	withSelect( select => {
+	withSelect( ( select, ownProps ) => {
 		const {
 			getTwitterDescription,
 			getTwitterTitle,
@@ -60,7 +58,7 @@ export default compose( [
 			imageWarnings: getTwitterWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
-			isPremium: !! isPremium,
+			isPremium: !! ownProps.isPremium,
 			isLarge: getTwitterImageType(),
 		};
 	} ),
@@ -74,7 +72,7 @@ export default compose( [
 
 		return {
 			onSelectImageClick: () => {
-				TwitterContainer.media.open();
+				MediaWrapper.media.open();
 			},
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,

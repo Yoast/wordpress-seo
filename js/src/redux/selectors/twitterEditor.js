@@ -7,7 +7,7 @@ import { get } from "lodash";
  *
  * @returns {String} Twitter title.
  */
-export const getTwitterTitle = state => get( state, "social.twitter.title", "" );
+export const getTwitterTitle = state => get( state, "twitterEditor.title", "" );
 
 /**
  * Gets the twitter description from the state.
@@ -16,7 +16,7 @@ export const getTwitterTitle = state => get( state, "social.twitter.title", "" )
  *
  * @returns {String} Twitter description.
  */
-export const getTwitterDescription = state => get( state, "social.twitter.description", "" );
+export const getTwitterDescription = state => get( state, "twitterEditor.description", "" );
 
 /**
  * Gets the twitter image URL from the state.
@@ -25,7 +25,7 @@ export const getTwitterDescription = state => get( state, "social.twitter.descri
  *
  * @returns {String} Twitter image URL.
  */
-export const getTwitterImageUrl = state => get( state, "social.twitter.image.url", "" );
+export const getTwitterImageUrl = state => get( state, "twitterEditor.image.url", "" );
 
 /**
  * Gets the twitter image type from the state.
@@ -34,7 +34,7 @@ export const getTwitterImageUrl = state => get( state, "social.twitter.image.url
  *
  * @returns {String} Twitter image type.
  */
-export const getTwitterImageType = state => get( state, "social.twitter.image.type", true );
+export const getTwitterImageType = state => get( state, "twitterEditor.image.type", true );
 
 /**
  * Gets the Twitter image src from the state.

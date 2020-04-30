@@ -1138,7 +1138,7 @@ SVG;
 	/**
 	 * Gets the type of the current page.
 	 *
-	 * @return string Returns 'post' if the current page is a post edit page. Taxonomy in other cases.
+	 * @return string Returns 'post' if the current page is a post edit page, 'taxonomy' in other cases.
 	 */
 	public static function get_page_type() {
 		global $pagenow;
@@ -1155,10 +1155,7 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [
-			'isPremium' => WPSEO_Utils::is_yoast_seo_premium(),
-			'isPostType' => WPSEO_Utils::get_page_type() === 'post',
-		];
+		$wpseo_admin_l10n = [];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {
