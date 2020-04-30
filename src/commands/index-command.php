@@ -85,10 +85,10 @@ class Index_Command implements Command_Interface {
 	 * ## OPTIONS
 	 *
 	 * [--network]
-	 * : Perform the indexation on all sites within the network.
+	 * : Performs the indexation on all sites within the network.
 	 *
 	 * [--reindex]
-	 * : Removes all existing indexables.
+	 * : Removes all existing indexables and then reindexes them.
 	 *
 	 * ## EXAMPLES
 	 *

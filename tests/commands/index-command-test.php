@@ -242,7 +242,7 @@ class Index_Command_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the get_name function.
+	 * Tests the get_namespace function.
 	 *
 	 * @covers ::get_namespace
 	 */
