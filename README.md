@@ -9,6 +9,9 @@ I am working on an update and will release this ASAP, while you wait you can use
 
 > When version v4 is released it will require vesrion v14 of the Yoast plugin to work.
 
+Alpha release for use with Yoast 14 can be found here:
+https://github.com/ashhitch/wp-graphql-yoast-seo/releases/tag/v4.0.0Alpha
+
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
 > Using this plugin? I would love to see what you make with it. 😃 [@ash_hitchcock](https://twitter.com/ash_hitchcock)
