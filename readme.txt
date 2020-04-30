@@ -223,6 +223,10 @@ Enhancements:
 
 * Adds a missing index to the new indexables table. Props to [@pagelypete](https://github.com/pagelypete).
 
+Other:
+
+* Adds the wpseo_frontend_presentation filter that can be used by third-party plugins to easily alter all our meta output with 1 single filter.
+
 = 14.0.2 =
 Release Date: April 29th, 2020
 
