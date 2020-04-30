@@ -11,7 +11,7 @@ use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable_Post_Indexation_Action class.
@@ -114,7 +114,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	protected function get_query( $count, $limit = 1 ) {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
-		$indexable_table   = Yoast_Model::get_table_name( 'Indexable' );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
 		$select = 'ID';

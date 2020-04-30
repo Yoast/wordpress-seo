@@ -21,7 +21,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	public function present() {
 		return \sprintf(
-			'<div id="yoast-indexation-warning" class="notice notice-success"><p>%1$s</p>%2$s<p>%3$s</p></div>',
+			'<div id="yoast-indexation-warning" class="notice notice-success"><p>%1$s<br/>%2$s</p>%3$s<p>%4$s</p></div>',
 			\sprintf(
 				/* translators: 1: Strong start tag, 2: Strong closing tag, 3: Yoast SEO. */
 				\esc_html__( '%1$sNEW:%2$s %3$s can now store your site’s SEO data in a smarter way!', 'wordpress-seo' ),
@@ -29,10 +29,12 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 				'</strong>',
 				'Yoast SEO'
 			),
+			\esc_html__( 'Don\'t worry: this won\'t have to be done after each update.', 'wordpress-seo' ),
 			\sprintf(
 				/* translators: 1: Button start tag to open the indexation modal, 2: Button closing tag. */
 				\esc_html__( '%1$sClick here to speed up your site now%2$s', 'wordpress-seo' ),
-				'<button type="button" class="button yoast-open-indexation">',
+				\sprintf( '<button type="button" class="button yoast-open-indexation" data-title="%s">',
+					\esc_html__( 'Yoast indexation status', 'wordpress-seo' ) ),
 				'</button>'
 			),
 			\sprintf(

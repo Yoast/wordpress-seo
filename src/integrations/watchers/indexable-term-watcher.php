@@ -105,12 +105,6 @@ class Indexable_Term_Watcher implements Integration_Interface {
 		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		try {
-			$indexable = $this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
-		} catch ( \Exception $exception ) {
-			return;
-		}
-
-		$indexable->save();
+		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
 	}
 }

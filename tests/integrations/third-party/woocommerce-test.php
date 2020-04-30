@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -64,14 +65,22 @@ class WooCommerce_Test extends TestCase {
 	private $indexable;
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	protected $context_memoizer;
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->instance     = Mockery::mock( WooCommerce::class, [ $this->options, $this->replace_vars ] )
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->replace_vars     = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->instance         = Mockery::mock( WooCommerce::class, [ $this->options, $this->replace_vars, $this->context_memoizer ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 

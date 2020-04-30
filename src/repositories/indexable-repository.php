@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
@@ -77,7 +77,7 @@ class Indexable_Repository {
 	 * @return ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Indexable' );
+		return Model::of_type( 'Indexable' );
 	}
 
 	/**
@@ -88,30 +88,44 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function for_current_page() {
+		$indexable = false;
+
 		switch ( true ) {
 			case $this->current_page->is_simple_page():
-				return $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				break;
 			case $this->current_page->is_home_static_page():
-				return $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				break;
 			case $this->current_page->is_home_posts_page():
-				return $this->find_for_home_page();
+				$indexable = $this->find_for_home_page();
+				break;
 			case $this->current_page->is_term_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				break;
 			case $this->current_page->is_date_archive():
-				return $this->find_for_date_archive();
+				$indexable = $this->find_for_date_archive();
+				break;
 			case $this->current_page->is_search_result():
-				return $this->find_for_system_page( 'search-result' );
+				$indexable = $this->find_for_system_page( 'search-result' );
+				break;
 			case $this->current_page->is_post_type_archive():
-				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				$indexable = $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				break;
 			case $this->current_page->is_author_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				break;
 			case $this->current_page->is_404():
-				return $this->find_for_system_page( '404' );
+				$indexable = $this->find_for_system_page( '404' );
+				break;
 		}
 
-		return $this->query()->create( [ 'object_type' => 'unknown' ] );
-	}
+		if ( $indexable === false ) {
+			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
+		}
 
+		return $indexable;
+	}
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *
@@ -321,10 +335,7 @@ class Indexable_Repository {
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
-				$indexable->save();
-
-				$indexables[] = $indexable;
+				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
 		}
 
@@ -366,6 +377,8 @@ class Indexable_Repository {
 	 * Ensures that the given indexable has a permalink.
 	 *
 	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool|Indexable The indexable.
 	 */
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {

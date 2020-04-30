@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable table definition.
@@ -78,7 +78,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string  $schema_page_type
  * @property string  $schema_article_type
  */
-class Indexable extends Yoast_Model {
+class Indexable extends Model {
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -153,8 +153,14 @@ class Indexable extends Yoast_Model {
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$permalink_structure = get_option( 'permalink_structure' );
+			if ( substr( $permalink_structure , -1, 1 ) === '/' ) {
+				$this->permalink = \trailingslashit( $this->permalink );
+			}
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
+		}
+		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
 		return parent::save();

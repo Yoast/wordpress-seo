@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Repositories;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\Indexable_Hierarchy;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Hierarchy_Repository
@@ -55,7 +55,7 @@ class Indexable_Hierarchy_Repository {
 	 * @param int $ancestor_id  The ancestor id.
 	 * @param int $depth        The depth.
 	 *
-	 * @return bool|Yoast_Model
+	 * @return bool|Model
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
 		$hierarchy = $this->query()->create( [
@@ -101,6 +101,6 @@ class Indexable_Hierarchy_Repository {
 	 * @return \Yoast\WP\SEO\ORM\ORMWrapper
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Indexable_Hierarchy' );
+		return Model::of_type( 'Indexable_Hierarchy' );
 	}
 }

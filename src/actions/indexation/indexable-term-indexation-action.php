@@ -11,7 +11,7 @@ use wpdb;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable_Term_Indexation_Action class.
@@ -115,7 +115,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	protected function get_query( $count, $limit = 1 ) {
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
-		$indexable_table   = Yoast_Model::get_table_name( 'Indexable' );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
 		$select = 'term_id';

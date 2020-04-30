@@ -8,10 +8,8 @@
 namespace Yoast\WP\SEO\Config;
 
 use wpdb;
+use Yoast\WP\Lib\Ruckusing_Framework_Runner;
 use Yoast\WP\SEO\Config\Dependency_Management;
-use Yoast\WP\SEO\Initializers\Database_Setup;
-use Yoast\WP\SEO\Loggers\Migration_Logger;
-use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use YoastSEO_Vendor\Ruckusing_Task_Manager;
 use YoastSEO_Vendor\Task_Db_Migrate;
 
@@ -35,38 +33,17 @@ class Ruckusing_Framework {
 	protected $dependency_management;
 
 	/**
-	 * The migration logger object.
-	 *
-	 * @var \Yoast\WP\SEO\Loggers\Migration_Logger
-	 */
-	protected $migration_logger;
-
-	/**
-	 * The database setup object.
-	 *
-	 * @var \Yoast\WP\SEO\Initializers\Database_Setup
-	 */
-	protected $database_setup;
-
-	/**
 	 * Ruckusing_Framework constructor.
 	 *
 	 * @param \wpdb                                      $wpdb                  The wpdb instance.
 	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management The dependency management checker.
-	 * @param \Yoast\WP\SEO\Loggers\Migration_Logger     $migration_logger      The migration logger, extends the
-	 *                                                                          Ruckusing logger.
-	 * @param \Yoast\WP\SEO\Initializers\Database_Setup  $database_setup        The database setup object.
 	 */
 	public function __construct(
 		wpdb $wpdb,
-		Dependency_Management $dependency_management,
-		Migration_Logger $migration_logger,
-		Database_Setup $database_setup
+		Dependency_Management $dependency_management
 	) {
 		$this->wpdb                  = $wpdb;
 		$this->dependency_management = $dependency_management;
-		$this->migration_logger      = $migration_logger;
-		$this->database_setup        = $database_setup;
 	}
 
 	/**
@@ -75,13 +52,13 @@ class Ruckusing_Framework {
 	 * @param string $migrations_table_name The migrations table name.
 	 * @param string $migrations_directory  The migrations directory.
 	 *
-	 * @return \YoastSEO_Vendor\Ruckusing_FrameworkRunner The framework runner.
+	 * @return Ruckusing_Framework_Runner The framework runner.
 	 */
 	public function get_framework_runner( $migrations_table_name, $migrations_directory ) {
 		$this->maybe_set_constant();
 
 		$configuration = $this->get_configuration( $migrations_table_name, $migrations_directory );
-		$instance      = new Ruckusing_FrameworkRunner( $configuration, [ 'db:migrate', 'env=production' ], $this->migration_logger );
+		$instance      = new Ruckusing_Framework_Runner( $configuration, [ 'db:migrate', 'env=production' ] );
 
 		/*
 		 * As the Ruckusing_FrameworkRunner is setting its own error and exception handlers,
@@ -119,29 +96,20 @@ class Ruckusing_Framework {
 	 * @return array The configuration
 	 */
 	public function get_configuration( $migrations_table_name, $migrations_directory ) {
-		$config = $this->database_setup->get_database_config();
-
-		return [
+		$ruckusing_config = [
 			'db'             => [
 				'production' => [
-					'type'                      => 'mysql',
-					'host'                      => $config['host'],
-					'port'                      => $config['port'],
-					'database'                  => \DB_NAME,
-					'user'                      => \DB_USER,
-					'password'                  => \DB_PASSWORD,
-					'charset'                   => $this->wpdb->charset,
-					'directory'                 => '', // This needs to be set, to use the migrations folder as base folder.
 					'schema_version_table_name' => $migrations_table_name,
 				],
 			],
 			'migrations_dir' => [ 'default' => $migrations_directory ],
-			// This needs to be set but is not used.
-			'db_dir'         => true,
-			// This needs to be set but is not used.
-			'log_dir'        => true,
-			// This needs to be set but is not used.
 		];
+
+		if ( ! empty( $this->wpdb->charset ) ) {
+			$ruckusing_config['db']['production']['charset'] = $this->wpdb->charset;
+		}
+
+		return $ruckusing_config;
 	}
 
 	/**
