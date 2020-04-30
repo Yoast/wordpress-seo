@@ -14,12 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 echo '<div class="tab-block">';
-printf(
-	/* translators: 1: h2 open tag; 2: h2 close tag. */
-	esc_html__( '%1$sGeneral%2$s', 'wordpress-seo' ),
-	'<h2>',
-	'</h2>'
-);
+echo '<h2>' . esc_html__( 'General', 'wordpress-seo' ) . '</h2>';
 
 /*
  * {@internal Important: Make sure the options added to the array here are in line with the
@@ -59,8 +54,8 @@ else {
 
 echo '<p>';
 printf(
-	/* translators: 1: strong open tag; 2: strong close tag. */
-	esc_html__('%1$sTake note:%2$s Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new sites.', 'wordpress-seo' ),
+	/* translators: 1: Strong open tag, 2: Strong close tag. */
+	esc_html__( '%1$sTake note:%2$s Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new sites.', 'wordpress-seo' ),
 	'<strong>',
 	'</strong>'
 );
