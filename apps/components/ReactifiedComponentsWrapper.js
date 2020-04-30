@@ -5,6 +5,7 @@ import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
 import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup";
 import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 import Toggle from "@yoast/components/src/toggle/Toggle";
+import DataModel from "@yoast/components/src/data-model/DataModel";
 
 /**
  * Function that displays all the reactified components that we currently have.
@@ -143,6 +144,55 @@ const ReactifiedComponentsWrapper = () => {
 				name="toggle"
 				id="weird-id-that-is-unique"
 				onChange={ console.warn }
+			/>
+			<DataModel
+				items={ [
+					{
+						width: 100,
+						name: "brand",
+						number: 66,
+					},
+					{
+						width: 77,
+						name: "strategie",
+						number: 66,
+					},
+					{
+						width: 45,
+						name: "tip",
+						number: 66,
+					},
+					{
+						width: 35,
+						name: "logo",
+						number: 66,
+					},
+					{
+						width: 30,
+						name: "name",
+						number: 66,
+					},
+					{
+						width: 20,
+						name: "SEO",
+						number: 66,
+					},
+					{
+						width: 10,
+						name: "people",
+						number: 66,
+					},
+					{
+						width: 5,
+						name: "image",
+						number: 66,
+					},
+					{
+						width: 1,
+						name: "post",
+						number: 66,
+					},
+				] }
 			/>
 		</div>
 	);
