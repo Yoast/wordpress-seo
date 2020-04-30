@@ -92,7 +92,6 @@ const ImageSelect = ( {
 	imageSelected,
 	onRemoveImageClick,
 	imageUrl,
-	imageFallbackUrl,
 	isPremium,
 	onMouseEnter,
 	onMouseLeave,
@@ -113,7 +112,7 @@ const ImageSelect = ( {
 		{
 			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick )
 				:	<ColumnWrapper>
-					<UrlInputField disabled={ "disabled" } value={ imageUrl || imageFallbackUrl } />
+					<UrlInputField disabled={ "disabled" } value={ imageUrl } />
 					<RowWrapper>
 						{ renderButtons( onClick, imageSelected, onRemoveImageClick ) }
 					</RowWrapper>
@@ -130,7 +129,6 @@ ImageSelect.propTypes = {
 	onRemoveImageClick: PropTypes.func,
 	warnings: PropTypes.arrayOf( PropTypes.string ),
 	imageUrl: PropTypes.string,
-	imageFallbackUrl: PropTypes.string,
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
 };
@@ -140,7 +138,6 @@ ImageSelect.defaultProps = {
 	onClick: () => {},
 	warnings: [],
 	imageUrl: "",
-	imageFallbackUrl: "",
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},
 };

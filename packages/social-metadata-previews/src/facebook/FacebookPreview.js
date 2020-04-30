@@ -135,7 +135,7 @@ class FacebookPreview extends Component {
 		return (
 			<FacebookPreviewWrapper mode={ imageMode }>
 				<FacebookImage
-					src={ this.props.image }
+					src={ this.props.imageUrl || this.props.imageFallbackUrl }
 					alt={ this.props.alt }
 					onImageLoaded={ this.onImageLoaded }
 					onImageClick={ this.props.onImageClick }
@@ -174,7 +174,8 @@ FacebookPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	authorName: PropTypes.string,
 	description: PropTypes.string,
-	image: PropTypes.string,
+	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	alt: PropTypes.string,
 	onSelect: PropTypes.func,
 	onImageClick: PropTypes.func,
@@ -185,7 +186,8 @@ FacebookPreview.defaultProps = {
 	authorName: "",
 	description: "",
 	alt: "",
-	image: "",
+	imageUrl: "",
+	imageFallbackUrl: "",
 	onSelect: () => {},
 	onImageClick: () => {},
 	onMouseHover: () => {},

@@ -163,7 +163,6 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
-			imageFallbackUrl,
 		} = this.props;
 
 		const imageSelected = !! imageUrl;
@@ -181,7 +180,6 @@ class SocialMetadataPreviewForm extends Component {
 			socialMediumName
 		);
 
-
 		return (
 			<Fragment>
 				<ImageSelectWithCaret
@@ -195,7 +193,6 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
-					imageFallbackUrl={ imageFallbackUrl }
 					isPremium={ isPremium }
 				/>
 				<ReplacementVariableEditor
@@ -253,7 +250,6 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
-	imageFallbackUrl: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
 };
@@ -266,7 +262,6 @@ SocialMetadataPreviewForm.defaultProps = {
 	activeField: "",
 	onSelect: () => {},
 	imageUrl: "",
-	imageFallbackUrl: "",
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
