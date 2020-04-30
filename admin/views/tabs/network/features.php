@@ -30,14 +30,12 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	</p>
 
 	<?php
-
-
-		foreach ( $feature_toggles as $feature ) {
-			$feature_help = new WPSEO_Admin_Help_Button(
-				$feature->read_more_url,
-				/* translators: %s Expands to a feature's name. */
-				sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) )
-			);
+	foreach ( $feature_toggles as $feature ) {
+		$feature_help = new WPSEO_Admin_Help_Button(
+			$feature->read_more_url,
+			/* translators: %s Expands to a feature's name. */
+			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) )
+		);
 
 		$yform->toggle_switch(
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
