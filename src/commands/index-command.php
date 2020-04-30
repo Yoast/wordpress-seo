@@ -177,13 +177,13 @@ class Index_Command implements Command_Interface {
 
 		$wpdb->query(
 			$wpdb->prepare(
-				'TRUNCATE TABLE %s',
+				'TRUNCATE TABLE %1$s',
 				Model::get_table_name( 'Indexable' )
 			)
 		);
 		$wpdb->query(
 			$wpdb->prepare(
-				'TRUNCATE TABLE %s',
+				'TRUNCATE TABLE %1$s',
 				Model::get_table_name( 'Indexable_Hierarchy' )
 			)
 		);
