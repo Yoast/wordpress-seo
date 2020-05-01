@@ -150,7 +150,7 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#wpseo_bctitle";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
@@ -170,7 +170,7 @@ const BreadCrumbsTitle = () => {
  * @returns {Component} The canonical URL component.
  */
 const CanonicalURL = () => {
-	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#wpseo_canonical";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
