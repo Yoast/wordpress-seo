@@ -845,6 +845,81 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building the hierarchy of a post with term parents when no primary is set.
+	 *
+	 * @covers ::build
+	 */
+	public function test_primary_term_parents_with_no_primary_term_set() {
+		$indexable = $this->get_indexable( 1, 'post' );
+
+		$this->indexable_hierarchy_repository
+			->expects( 'clear_ancestors' )
+			->with( 1 )
+			->andReturnTrue();
+
+		$this->post
+			->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'post_types-post-maintax' )
+			->andReturn( 'tag' );
+
+		$this->primary_term_repository
+			->expects( 'find_by_post_id_and_taxonomy' )
+			->with( 1, 'tag', false )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_the_terms' )
+			->with( 1, 'tag' )
+			->andReturn(
+				[
+					(object) [
+						'term_id'    => 3,
+						'taxonomy'   => 'tag',
+						'parent'     => 4,
+						'term_order' => 2,
+					],
+					(object) [
+						'term_id'    => 2,
+						'taxonomy'   => 'tag',
+						'parent'     => 0,
+						'term_order' => 1,
+					],
+				]
+			);
+
+		Monkey\Functions\expect( 'get_term' )
+			->with( 4, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'    => 4,
+					'taxonomy'   => 'tag',
+					'parent'     => 0,
+					'term_order' => 1,
+				]
+			);
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->with( 3, 'term' )
+			->andReturn( $this->get_indexable( 3, 'term' ) );
+
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
 	 * Retrieves a parent indexable.
 	 *
 	 * @param string $id          The id to use.
