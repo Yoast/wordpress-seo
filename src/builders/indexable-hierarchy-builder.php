@@ -303,10 +303,18 @@ class Indexable_Hierarchy_Builder {
 	 */
 	private function is_invalid_ancestor( Indexable $ancestor, $indexable_id, $parents ) {
 		// Don't add ancestors if they're unindexed, already added or the same as the main object.
-		return (
-			$ancestor->post_status === 'unindexed' ||
-			\in_array( $ancestor->id, $parents, true ) ||
-			$ancestor->id === $indexable_id
-		);
+		if ( $ancestor->post_status === 'unindexed' ) {
+			return true;
+		}
+
+		if ( \in_array( $ancestor->id, $parents, true ) ) {
+			return true;
+		}
+
+		if ( $ancestor->id === $indexable_id ) {
+			return true;
+		}
+
+		return false;
 	}
 }
