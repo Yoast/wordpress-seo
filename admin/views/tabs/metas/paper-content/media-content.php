@@ -16,13 +16,15 @@ $view_utils                   = new Yoast_View_Utils();
 <?php
 
 $yoast_free_disable_attachments_texts = [
-	'on'  => __( 'Yes', 'wordpress-seo' ),
-	'off' => __( 'No', 'wordpress-seo' ),
+	__( 'Yes', 'wordpress-seo' ),
+	__( 'No', 'wordpress-seo' ),
 ];
-$yform->toggle_switch(
+$yform->light_switch(
 	'disable-attachment',
+	__( 'Redirect attachment URLs to the attachment itself?', 'wordpress-seo' ),
 	$yoast_free_disable_attachments_texts,
-	__( 'Redirect attachment URLs to the attachment itself?', 'wordpress-seo' )
+	false,
+	true
 );
 
 ?>
