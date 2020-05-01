@@ -43,7 +43,8 @@ class Robots_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether generate_robots calls the right functions of the robot helper and the filter return false.
+	 * Tests whether generate_robots calls the right functions of the robot helper,
+	 * using the wpseo_robots filter, with the filter returning false.
 	 *
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
@@ -59,7 +60,8 @@ class Robots_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether generate_robots calls the right functions of the robot helper with having the filter returning duplicate types.
+	 * Tests whether generate_robots calls the right functions of the robot helper,
+	 * using the wpseo_robots filter, with the filter returning duplicate types.
 	 *
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots
@@ -81,7 +83,8 @@ class Robots_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether generate_robots calls the right functions of the robot helper with using the wpseo_robots_array filter.
+	 * Tests whether generate_robots calls the right functions of the robot helper,
+	 * using the wpseo_robots_array filter.
 	 *
 	 * @covers ::generate_robots
 	 * @covers ::get_base_robots

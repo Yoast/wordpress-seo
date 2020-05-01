@@ -33,7 +33,7 @@ class Robots_Helper_Test extends TestCase {
 
 
 	/**
-	 * Tests setting 'index' to 'noindex' when the array contains empty values.
+	 * Tests setting 'index' to 'noindex' when 'index' is set to 'index'.
 	 *
 	 * @covers ::set_robots_no_index
 	 */
@@ -53,7 +53,7 @@ class Robots_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests setting 'index' to 'noindex' when the array contains empty values.
+	 * Tests setting 'index' to 'noindex' when a string is passed instead of an array.
 	 *
 	 * @covers ::set_robots_no_index
 	 */

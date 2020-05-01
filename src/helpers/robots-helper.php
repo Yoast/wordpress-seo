@@ -13,7 +13,7 @@ namespace Yoast\WP\SEO\Helpers;
 class Robots_Helper {
 
 	/**
-	 * Sets the robots index to no index.
+	 * Sets the robots index to noindex.
 	 *
 	 * @param array $robots The current robots value.
 	 *
