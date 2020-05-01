@@ -11,7 +11,6 @@ use WP_Post;
 use WP_Term;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -112,13 +111,14 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Adds ancestors for a post.
 	 *
-	 * @param int $indexable_id The indexable id, this is the id of the original indexable.
-	 * @param int $post_id      The post id, this is the id of the post currently being evaluated.
-	 * @param int $depth        The current depth.
+	 * @param int   $indexable_id The indexable id, this is the id of the original indexable.
+	 * @param int   $post_id      The post id, this is the id of the post currently being evaluated.
+	 * @param int   $depth        The current depth.
+	 * @param int[] $parents      The indexable IDs of all parents.
 	 *
 	 * @return void
 	 */
-	private function add_ancestors_for_post( $indexable_id, $post_id, $depth = 1 ) {
+	private function add_ancestors_for_post( $indexable_id, $post_id, $depth = 1, $parents = [] ) {
 		$post = $this->post->get_post( $post_id );
 
 		if ( ! isset( $post->post_parent ) ) {
@@ -127,12 +127,16 @@ class Indexable_Hierarchy_Builder {
 
 		if ( $post->post_parent !== 0 && $this->post->get_post( $post->post_parent ) !== null ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
-			if ( $ancestor->post_status === 'unindexed' ) {
+			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				return;
 			}
 
-			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
+			$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
+			if ( $ancestor_hierarchy === false ) {
+				return;
+			}
+			$parents[] = $ancestor->id;
+			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, ( $depth + 1 ), $parents );
 			return;
 		}
 
@@ -143,12 +147,16 @@ class Indexable_Hierarchy_Builder {
 		}
 
 		$ancestor = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
-		if ( $ancestor->post_status === 'unindexed' ) {
+		if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 			return;
 		}
 
-		$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
+		$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
+		if ( $ancestor_hierarchy === false ) {
+			return;
+		}
+		$parents[] = $ancestor->id;
+		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ), $parents );
 	}
 
 	/**
@@ -166,10 +174,14 @@ class Indexable_Hierarchy_Builder {
 
 		foreach ( $parents as $parent ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
-			if ( $ancestor->post_status === 'unindexed' ) {
+			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				continue;
 			}
-			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
+			$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
+			if ( $ancestor_hierarchy === false ) {
+				return;
+			}
+			$parents[] = $ancestor->id;
 			++$depth;
 		}
 	}
@@ -277,5 +289,23 @@ class Indexable_Hierarchy_Builder {
 		}
 
 		return $parents;
+	}
+
+	/**
+	 * Checks if an ancestor is valid to add.
+	 *
+	 * @param Indexable $ancestor     The ancestor to check.
+	 * @param int       $indexable_id The indexable id we're adding ancestors for.
+	 * @param int[]     $parents      The indexable ids of the parents already added.
+	 *
+	 * @return boolean
+	 */
+	private function is_invalid_ancestor( Indexable $ancestor, $indexable_id, $parents ) {
+		// Don't add ancestors if they're unindexed, already added or the same as the main object.
+		return (
+			$ancestor->post_status === 'unindexed' ||
+			\in_array( $ancestor->id, $parents, true ) ||
+			$ancestor->id === $indexable_id
+		);
 	}
 }
