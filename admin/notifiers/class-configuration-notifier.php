@@ -118,7 +118,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
 				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
+				'priority'     => 0.1,
 			]
 		);
 
@@ -141,7 +141,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
 				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
+				'priority'     => 1,
 			]
 		);
 
@@ -164,7 +164,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
 				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
+				'priority'     => 1,
 			]
 		);
 

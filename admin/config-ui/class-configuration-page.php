@@ -223,7 +223,7 @@ class WPSEO_Configuration_Page {
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
 				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
+				'priority'     => 1,
 			]
 		);
 
