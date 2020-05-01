@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-
 /**
  * Class Robots_Helper
  */
