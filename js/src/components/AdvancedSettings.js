@@ -9,9 +9,7 @@ import { Fragment } from "react";
 import { Alert } from "@yoast/components";
 
 /**
- * Function to check whether the current object refers to a post or a taxonomy.
- *
- * @returns {boolean} true if it is a post, false otherwise.
+ * Boolean that tells whether the current object refers to a post or a taxonomy.
  */
 const isPost = !! window.wpseoPostScraperL10n;
 
