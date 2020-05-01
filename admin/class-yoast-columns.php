@@ -24,28 +24,34 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 		$link_columns_present = $this->display_links();
 		$meta_columns_present = $this->display_meta_columns();
 
+		$meta_columns_help_text = '';
+		$link_columns_help_text = '';
+
 		$yoast_columns_intro = sprintf(
 			/* translators: %1$s: Yoast SEO */
 			__( '%1$s adds several columns to this page.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
-		$meta_columns_help_text = $meta_columns_present ? sprintf(
-			/* translators: %1$s: Link to article about content analysis, %2$s: Anchor closing */
-			__( 'We\'ve written an article about %1$show to use the SEO score and Readability score%2$s.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
-			'</a>'
-		) : "";
+		if ( $meta_columns_present ) {
+			$meta_columns_help_text = sprintf(
+				/* translators: %1$s: Link to article about content analysis, %2$s: Anchor closing */
+				__( 'We\'ve written an article about %1$show to use the SEO score and Readability score%2$s.', 'wordpress-seo' ),
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
+				'</a>'
+			);
+		}
 
-		$link_columns_help_text = $link_columns_present ? sprintf(
-			/* translators: %1$s: Link to article about text links, %2$s: Anchor closing tag, %3$s: Emphasis open tag, %4$s: Emphasis close tag */
-			__( 'The links columns show the number of articles on this site linking %3$sto%4$s this article and the number of URLs linked %3$sfrom%4$s this article. Learn more about %1$show to use these features to improve your internal linking%2$s, which greatly enhances your SEO.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
-			'</a>',
-			'<em>',
-			'</em>'
-		) : "";
-
+		if ( $link_columns_present ) {
+			$link_columns_help_text = sprintf(
+				/* translators: %1$s: Link to article about text links, %2$s: Anchor closing tag, %3$s: Emphasis open tag, %4$s: Emphasis close tag */
+				__( 'The links columns show the number of articles on this site linking %3$sto%4$s this article and the number of URLs linked %3$sfrom%4$s this article. Learn more about %1$show to use these features to improve your internal linking%2$s, which greatly enhances your SEO.', 'wordpress-seo' ),
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
+				'</a>',
+				'<em>',
+				'</em>'
+			);
+		};
 
 		if ( $link_columns_present || $meta_columns_present ) {
 			$screen = get_current_screen();
@@ -73,7 +79,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	/**
 	 * Whether or not we are showing link columns on this overview page.
 	 * This depends on the post being accessible or not.
-	 * 
+	 *
 	 * @return bool Whether or not the linking columns are shown
 	 */
 	private function display_links() {
@@ -82,7 +88,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 		if ( empty( $current_post_type ) ) {
 			return false;
 		}
-		
+
 		return WPSEO_Post_Type::is_post_type_accessible( $current_post_type );
 	}
 
