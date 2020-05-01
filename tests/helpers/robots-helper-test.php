@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Robots_Helper_Test extends TestCase {
 
 	/**
+	 * Represents the robots helper.
+	 *
 	 * @var Robots_Helper
 	 */
 	private $instance;
@@ -29,33 +31,24 @@ class Robots_Helper_Test extends TestCase {
 		$this->instance = new Robots_Helper();
 	}
 
+
 	/**
-	 * Tests setting 'index' to 'noindex' when 'index' is already set to 'noindex'.
+	 * Tests setting 'index' to 'noindex' when the array contains empty values.
 	 *
 	 * @covers ::set_robots_no_index
 	 */
-	public function test_set_robots_no_index_with_having_a_noindex_value() {
-		$presentation         = new Indexable_Presentation();
-		$presentation->robots = [ 'index' => 'noindex', 'follow' => 'follow' ];
-
+	public function test_set_robots_no_index() {
 		$this->assertEquals(
-			'noindex,follow',
-			$this->instance->set_robots_no_index( 'noindex,follow', $presentation )
-		);
-	}
-
-	/**
-	 * Tests setting 'index' to 'noindex' when 'index' is set to 'index'.
-	 *
-	 * @covers ::set_robots_no_index
-	 */
-	public function test_set_robots_no_index_when_already_set() {
-		$presentation         = new Indexable_Presentation();
-		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow' ];
-
-		$this->assertEquals(
-			'noindex,follow',
-			$this->instance->set_robots_no_index( 'index,follow', $presentation )
+			[
+				'index'  => 'noindex',
+				'follow' => 'follow',
+			],
+			$this->instance->set_robots_no_index(
+				[
+					'index'  => 'index',
+					'follow' => 'follow',
+				]
+			)
 		);
 	}
 
@@ -64,18 +57,17 @@ class Robots_Helper_Test extends TestCase {
 	 *
 	 * @covers ::set_robots_no_index
 	 */
-	public function test_set_robots_no_index_with_empty_value() {
-		$presentation         = new Indexable_Presentation();
-		$presentation->robots = [
-			'index'  => 'index',
-			'follow' => 'follow',
-			0        => '',
-			1        => '',
-		];
+	public function test_set_robots_no_index_string_given() {
+		Monkey\Functions\expect( '_deprecated_argument' )
+			->with(
+				Robots_Helper::class . '::set_robots_no_index',
+				'14.1',
+				'$robots has to be a key-value paired array.'
+			);
 
 		$this->assertEquals(
 			'noindex,follow',
-			$this->instance->set_robots_no_index( 'index,follow', $presentation )
+			$this->instance->set_robots_no_index( 'noindex,follow' )
 		);
 	}
 }

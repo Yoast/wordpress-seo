@@ -80,8 +80,6 @@ class Robots_Test extends TestCase {
 		);
 	}
 
-
-
 	/**
 	 * Tests whether generate_robots calls the right functions of the robot helper with using the wpseo_robots_array filter.
 	 *
