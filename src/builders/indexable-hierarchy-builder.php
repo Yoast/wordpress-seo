@@ -162,17 +162,18 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Adds ancestors for a term.
 	 *
-	 * @param int $indexable_id The indexable id, this is the id of the original indexable.
-	 * @param int $term_id      The term id, this is the id of the term currently being evaluated.
-	 * @param int $depth        The current depth.
+	 * @param int   $indexable_id The indexable id, this is the id of the original indexable.
+	 * @param int   $term_id      The term id, this is the id of the term currently being evaluated.
+	 * @param int   $depth        The current depth.
+	 * @param int[] $parents      The indexable IDs of all parents.
 	 *
 	 * @return void
 	 */
-	private function add_ancestors_for_term( $indexable_id, $term_id, $depth = 1 ) {
-		$term    = \get_term( $term_id );
-		$parents = $this->get_term_parents( $term );
+	private function add_ancestors_for_term( $indexable_id, $term_id, $depth = 1, $parents = [] ) {
+		$term         = \get_term( $term_id );
+		$term_parents = $this->get_term_parents( $term );
 
-		foreach ( $parents as $parent ) {
+		foreach ( $term_parents as $parent ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				continue;
