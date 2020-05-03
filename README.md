@@ -4,7 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/downloads)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
 [![Monthly Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/d/monthly)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
 
-## Please note version 14 of the Yoast Plugin is a major rewrite.
+## Please note version 14 of the Yoast Plugin is a major update.
 
 If you are stuck on version of Yoast before V14 then use vV3 of this plugin.
 
