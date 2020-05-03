@@ -4,13 +4,10 @@
 [![Total Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/downloads)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
 [![Monthly Downloads](https://poser.pugx.org/ashhitch/wp-graphql-yoast-seo/d/monthly)](https://packagist.org/packages/ashhitch/wp-graphql-yoast-seo)
 
-## Please note version 14 of the Yoast Plugin is a major rewrite and will cause issues with this plugin
-I am working on an update and will release this ASAP, while you wait you can use version 13 of Yoast without issues.
+## Please note version 14 of the Yoast Plugin is a major rewrite.
 
-> When version v4 is released it will require vesrion v14 of the Yoast plugin to work.
+If you are stuck on version of Yoast before V14 then use vV3 of this plugin.
 
-Alpha release for use with Yoast 14 can be found here:
-https://github.com/ashhitch/wp-graphql-yoast-seo/releases/tag/v4.0.0Alpha
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
@@ -43,9 +40,19 @@ This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-g
 composer require ashhitch/wp-graphql-yoast-seo
 ```
 
+## V4 breaking change
+
+Plugin now requires at least Yoast 14.0.0
+
+## V3 breaking change
+
+Image urls are now returned as `mediaItem` type.
+
+This applies to `twitterImage` and `opengraphImage`
+
 ## Usage
 
-To query for the Yoast Data as the seo object to your query:
+To query for the Yoast Data simply add the seo object to your query:
 
 ```
 {
@@ -55,12 +62,14 @@ To query for the Yoast Data as the seo object to your query:
         id
         title
         seo {
+          canonical
           title
           metaDesc
           focuskw
-          metaKeywords
           metaRobotsNoindex
           metaRobotsNofollow
+          opengraphAuthor
+          opengraphDescription
           opengraphTitle
           opengraphDescription
           opengraphImage {
@@ -74,16 +83,57 @@ To query for the Yoast Data as the seo object to your query:
             altText
             sourceUrl
             srcSet
-        }
+          }
+          breadcrumbs {
+            url
+            text
+          }
         }
       }
     }
   }
 
+
+  categories(first: 10) {
+    edges {
+      node {
+        id
+        seo {
+          canonical
+          title
+          metaDesc
+          focuskw
+          metaRobotsNoindex
+          metaRobotsNofollow
+          opengraphAuthor
+          opengraphDescription
+          opengraphTitle
+          opengraphDescription
+          opengraphImage {
+            altText
+            sourceUrl
+            srcSet
+          }
+          twitterTitle
+          twitterDescription
+          twitterImage {
+            altText
+            sourceUrl
+            srcSet
+          }
+          breadcrumbs {
+            url
+            text
+          }
+        }
+        name
+      }
+    }
+  }
 }
 
-```
 
+```
 
 To query for the site configuration data you can query from the root.
 
@@ -158,12 +208,6 @@ To query for the site configuration data you can query from the root.
   }
 }
 ```
-
-## V3 breaking change.
-
-Image urls are now returned as `mediaItem` type.
-
-This applies to `twitterImage` and `opengraphImage`
 
 ## Notes
 
