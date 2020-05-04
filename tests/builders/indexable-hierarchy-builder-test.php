@@ -111,6 +111,23 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building the hierarchy of a post with no parents set.
+	 *
+	 * @covers ::build
+	 */
+	public function test_no_post_parents_set() {
+		$indexable              = new Indexable();
+		$indexable->id          = 1;
+		$indexable->object_type = 'post';
+		$indexable->object_id   = 1;
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
 	 * Tests building the hierarchy of a post with post parents.
 	 *
 	 * @covers ::build
