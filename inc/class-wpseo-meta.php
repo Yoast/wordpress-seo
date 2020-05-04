@@ -6,6 +6,8 @@
  * @since   1.5.0
  */
 
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+
 /**
  * This class implements defaults and value validation for all WPSEO Post Meta values.
  *
@@ -944,39 +946,49 @@ class WPSEO_Meta {
 			return [];
 		}
 
-		$query = [
-			'meta_query'     => [
-				'relation' => 'OR',
-				[
-					'key'   => '_yoast_wpseo_focuskw',
-					'value' => $keyword,
-				],
-			],
-			'post__not_in'   => [ $post_id ],
-			'fields'         => 'ids',
-			'post_type'      => 'any',
+		/**
+		 * @var Indexable_Repository
+		 */
+		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
 
-			/*
-			 * We only need to return zero, one or two results:
-			 * - Zero: keyword hasn't been used before
-			 * - One: Keyword has been used once before
-			 * - Two or more: Keyword has been used twice before
-			 */
-			'posts_per_page' => 2,
-		];
+		$post_ids = $repository->query()
+			->select( 'object_id' )
+			->where( 'primary_focus_keyword', $keyword )
+			->where( 'object_type', 'post' )
+			->where_not_equal( 'object_id', $post_id )
+			->limit( 2 )
+			->find_array();
+		$post_ids = array_map( function ( $row ) {
+			return (int) $row['object_id'];
+		}, $post_ids );
 
 		// If Yoast SEO Premium is active, get the additional keywords as well.
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			$query['meta_query'][] = [
-				'key'     => '_yoast_wpseo_focuskeywords',
-				'value'   => sprintf( '"keyword":"%s"', $keyword ),
-				'compare' => 'LIKE',
+		if ( WPSEO_Utils::is_yoast_seo_premium() && count( $post_ids ) < 2 ) {
+			$query = [
+				'meta_query'     => [
+					[
+						'key'     => '_yoast_wpseo_focuskeywords',
+						'value'   => sprintf( '"keyword":"%s"', $keyword ),
+						'compare' => 'LIKE',
+					],
+				],
+				'post__not_in'   => [ $post_id ],
+				'fields'         => 'ids',
+				'post_type'      => 'any',
+
+				/*
+				 * We only need to return zero, one or two results:
+				 * - Zero: keyword hasn't been used before
+				 * - One: Keyword has been used once before
+				 * - Two or more: Keyword has been used twice before
+				 */
+				'posts_per_page' => 2,
 			];
+			$get_posts = new WP_Query( $query );
+			$post_ids  = array_merge( $post_ids, $get_posts->posts );
 		}
 
-		$get_posts = new WP_Query( $query );
-
-		return $get_posts->posts;
+		return $post_ids;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
