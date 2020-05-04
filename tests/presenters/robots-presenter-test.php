@@ -27,11 +27,11 @@ class Robots_Presenter_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Represents the presentation.
+	 * The indexable presentation.
 	 *
 	 * @var Indexable_Presentation
 	 */
-	protected $presentation;
+	private $presentation;
 
 	/**
 	 * Sets up the test class.
@@ -44,6 +44,7 @@ class Robots_Presenter_Test extends TestCase {
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
+		$this->presentation           = new Indexable_Presentation();
 		$this->instance->presentation = $this->presentation;
 	}
 
@@ -61,31 +62,9 @@ class Robots_Presenter_Test extends TestCase {
 		$actual   = $this->instance->present();
 		$expected = '<meta name="robots" content="index, nofollow" />';
 
-		$this->assertEquals( $actual, $expected );
-	}
-
-	/**
-	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_robots` filter is applied.
-	 *
-	 * @covers ::present
-	 * @covers ::filter
-	 */
-	public function test_present_filter() {
-		$this->presentation->robots = [
-			'index'  => 'index',
-			'follow' => 'nofollow',
-		];
-
-		Monkey\Filters\expectApplied( 'wpseo_robots' )
-			->once()
-			->with( 'index, nofollow', $this->presentation )
-			->andReturn( 'noindex' );
-
-		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="noindex" />';
-
 		$this->assertEquals( $expected, $actual );
 	}
+
 
 	/**
 	 * Tests the situation where the presentation is empty.

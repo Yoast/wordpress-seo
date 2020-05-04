@@ -127,6 +127,10 @@ class Indexable_Hierarchy_Builder {
 
 		if ( $post->post_parent !== 0 && $this->post->get_post( $post->post_parent ) !== null ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
+			if ( $ancestor->post_status === 'unindexed' ) {
+				return;
+			}
+
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
 			return;
@@ -139,6 +143,10 @@ class Indexable_Hierarchy_Builder {
 		}
 
 		$ancestor = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
+		if ( $ancestor->post_status === 'unindexed' ) {
+			return;
+		}
+
 		$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
 	}
@@ -158,6 +166,9 @@ class Indexable_Hierarchy_Builder {
 
 		foreach ( $parents as $parent ) {
 			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
+			if ( $ancestor->post_status === 'unindexed' ) {
+				continue;
+			}
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 			++$depth;
 		}
@@ -265,6 +276,6 @@ class Indexable_Hierarchy_Builder {
 			$parents[] = $term;
 		}
 
-		return array_reverse( $parents );
+		return $parents;
 	}
 }

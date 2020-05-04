@@ -2,7 +2,7 @@
 /**
  * Route interface.
  *
- * @package Yoast\YoastSEO\ORM\Routes
+ * @package Yoast\WP\SEO\Routes
  */
 
 namespace Yoast\WP\SEO\Routes;

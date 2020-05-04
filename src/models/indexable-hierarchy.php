@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable Hierarchy model definition.
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int $depth        The depth of the ancestry. 1 being a parent, 2 being a grandparent etc.
  * @property int $blog_id      Blog ID.
  */
-class Indexable_Hierarchy extends Yoast_Model {
+class Indexable_Hierarchy extends Model {
 
 	/**
 	 * Which columns contain int values.

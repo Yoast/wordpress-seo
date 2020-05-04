@@ -283,7 +283,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 		$robots = array_merge(
 			$robots,
 			[
@@ -303,7 +303,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return \array_filter( $robots );
+		return $this->filter_robots( $robots );
 	}
 
 	/**

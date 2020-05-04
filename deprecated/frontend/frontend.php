@@ -5,20 +5,20 @@
  * @package Yoast\YoastSEO\Backwards_Compatibility
  */
 
-use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Canonical_Presenter;
 use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Presenters\Robots_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class WPSEO_Frontend
  *
  * @codeCoverageIgnore Because of deprecation.
  */
-class WPSEO_Frontend implements Initializer_Interface {
+class WPSEO_Frontend {
 
 	/**
 	 * Instance of this class.
@@ -42,31 +42,19 @@ class WPSEO_Frontend implements Initializer_Interface {
 	private $replace_vars;
 
 	/**
-	 * @inheritDoc
-	 */
-	public function initialize() {
-		self::$instance = $this;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
-
-	/**
-	 * WPSEO_Breadcrumbs constructor.
+	 * The helpers surface.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer The context memoizer.
-	 * @param \WPSEO_Replace_Vars        $replace_vars     The replace vars helper.
+	 * @var Helpers_Surface
 	 */
-	public function __construct(
-		Meta_Tags_Context_Memoizer $context_memoizer,
-		WPSEO_Replace_Vars $replace_vars
-	) {
-		$this->context_memoizer = $context_memoizer;
-		$this->replace_vars     = $replace_vars;
+	private $helpers;
+
+	/**
+	 * WPSEO_Frontend constructor.
+	 */
+	public function __construct() {
+		$this->context_memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$this->replace_vars     = YoastSEO()->classes->get( WPSEO_Replace_Vars::class );
+		$this->helpers          = YoastSEO()->classes->get( Helpers_Surface::class );
 	}
 
 	/**
@@ -102,6 +90,10 @@ class WPSEO_Frontend implements Initializer_Interface {
 	 * @return static The instance.
 	 */
 	public static function get_instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
 		return self::$instance;
 	}
 
@@ -117,14 +109,17 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function canonical( $echo = true, $un_paged = false, $no_override = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
+		$presentation = $this->get_current_page_presentation();
 		if ( ! $echo ) {
-			return $context->presentation->canonical;
+			return $presentation->canonical;
 		}
 
-		$canonical_presenter               = new Canonical_Presenter();
-		$canonical_presenter->presentation = $context->presentation;
-		echo $canonical_presenter->present();
+		$presenter = new Canonical_Presenter();
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presenter->presentation = $presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
+		echo $presenter->present();
 	}
 
 	/**
@@ -135,9 +130,8 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function get_robots() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
-
-		return $context->presentation->robots;
+		$presentation = $this->get_current_page_presentation();
+		return $presentation->robots;
 	}
 
 	/**
@@ -146,9 +140,11 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function robots() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context                 = $this->context_memoizer->for_current_page();
+		$presentation            = $this->get_current_page_presentation();
 		$presenter               = new Robots_Presenter();
-		$presenter->presentation = $context->presentation;
+		$presenter->presentation = $presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
 		echo $presenter->present();
 	}
 
@@ -163,9 +159,9 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function robots_for_single_post( $robots, $post_id = 0 ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
+		$presentation = $this->get_current_page_presentation();
 
-		return $context->presentation->robots;
+		return $presentation->robots;
 	}
 
 	/**
@@ -178,10 +174,10 @@ class WPSEO_Frontend implements Initializer_Interface {
 	private function get_title( $object = null ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
-		$title   = $context->presentation->title;
+		$presentation = $this->get_current_page_presentation();
+		$title        = $presentation->title;
 
-		return $this->replace_vars->replace( $title, $context->presentation->source );
+		return $this->replace_vars->replace( $title, $presentation->source );
 	}
 
 	/**
@@ -227,14 +223,18 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function adjacent_rel_links() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
+		$presentation = $this->get_current_page_presentation();
 
 		$rel_prev_presenter               = new Rel_Prev_Presenter();
-		$rel_prev_presenter->presentation = $context->presentation;
+		$rel_prev_presenter->presentation = $presentation;
+		$rel_prev_presenter->helpers      = $this->helpers;
+		$rel_prev_presenter->replace_vars = $this->replace_vars;
 		echo $rel_prev_presenter->present();
 
 		$rel_next_presenter               = new Rel_Next_Presenter();
-		$rel_next_presenter->presentation = $context->presentation;
+		$rel_next_presenter->presentation = $presentation;
+		$rel_next_presenter->helpers      = $this->helpers;
+		$rel_next_presenter->replace_vars = $this->replace_vars;
 		echo $rel_next_presenter->present();
 	}
 
@@ -248,14 +248,27 @@ class WPSEO_Frontend implements Initializer_Interface {
 	public function metadesc( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$context = $this->context_memoizer->for_current_page();
+		$presentation = $this->get_current_page_presentation();
 
 		if ( ! $echo ) {
-			return $context->presentation->meta_description;
+			return $presentation->meta_description;
 		}
 
 		$presenter               = new Meta_Description_Presenter();
-		$presenter->presentation = $context->presentation;
+		$presenter->presentation = $presentation;
+		$presenter->helpers      = $this->helpers;
+		$presenter->replace_vars = $this->replace_vars;
 		$presenter->present();
+	}
+
+	/**
+	 * Returns the current page presentation.
+	 *
+	 * @return Indexable_Presentation The current page presentation.
+	 */
+	private function get_current_page_presentation() {
+		$context = $this->context_memoizer->for_current_page();
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		return \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 	}
 }
