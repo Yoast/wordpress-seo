@@ -1,6 +1,4 @@
-import selectors from "../../../src/redux/selectors/social";
-
-const { getDescriptionFallback, getTitleFallback, getImageFallback } = selectors;
+import { getDescriptionFallback, getTitleFallback, getImageFallback } from "../../../src/redux/selectors/fallbacks";
 
 // This mimics parts of the yoast-seo/editor store.
 const testState = {
@@ -56,7 +54,7 @@ describe( getImageFallback, () => {
 			 ...testState,
 			settings: {
 				socialPreviews: {
-					sitewideImage: "",
+					sitewideImage: undefined,
 				},
 			},
 		};

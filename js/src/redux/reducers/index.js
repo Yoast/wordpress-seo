@@ -1,6 +1,4 @@
 import { analysis } from "yoast-components";
-import { socialReducer } from "@yoast/social-metadata-forms";
-
 import activeMarker from "./activeMarker";
 import analysisDataReducer from "./analysisData";
 import isCornerstone from "./cornerstoneContent";
@@ -10,6 +8,8 @@ import preferences from "./preferences";
 import primaryTaxonomies from "./primaryTaxonomies";
 import isMarkerPaused from "./markerPauseStatus";
 import settings from "./settings";
+import facebookEditor from "./facebookEditor";
+import twitterEditor from "./twitterEditor";
 import snippetEditor from "./snippetEditor";
 import warning from "./warning";
 
@@ -24,7 +24,8 @@ export default {
 	primaryTaxonomies,
 	isMarkerPaused,
 	settings,
-	social: socialReducer,
+	facebookEditor,
+	twitterEditor,
 	snippetEditor,
 	warning,
 };
