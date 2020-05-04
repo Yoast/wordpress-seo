@@ -264,7 +264,7 @@ class ORM implements \ArrayAccess {
 		 */
 		global $wpdb;
 
-		$parameters = \array_filter( $parameters, function ( $parameter ) {
+		$parameters = \array_filter( $parameters, function( $parameter ) {
 			return $parameter !== null;
 		} );
 		if ( ! empty( $parameters ) ) {
@@ -968,7 +968,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string   $column_name
+	 * @param string $column_name
 	 * @param        $operator
 	 *
 	 * @return ORM
@@ -1037,7 +1037,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string   $column_name
+	 * @param string $column_name
 	 * @param        $operator
 	 *
 	 * @return ORM
@@ -1411,7 +1411,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array  $parameters
+	 * @param array $parameters
 	 *
 	 * @return ORM
 	 */
@@ -1448,7 +1448,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY clause to the query
 	 *
-	 * @param string   $column_name
+	 * @param string $column_name
 	 * @param        $ordering
 	 *
 	 * @return ORM
@@ -1703,7 +1703,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array  $parameters
+	 * @param array $parameters
 	 *
 	 * @return ORM
 	 */
