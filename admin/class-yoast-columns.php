@@ -23,7 +23,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	public function add_help_tab() {
 		$link_columns_present = $this->display_links();
 		$meta_columns_present = $this->display_meta_columns();
-		if ( ! ( $link_columns_present || $meta_columns_present ) ){
+		if ( ! ( $link_columns_present || $meta_columns_present ) ) {
 			return;
 		}
 
