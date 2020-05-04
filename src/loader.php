@@ -113,6 +113,9 @@ class Loader {
 		if ( ! did_action( 'init' ) ) {
 			add_action( 'init', [ $this, 'load_integrations' ] );
 		}
+		else {
+			$this->load_integrations();
+		}
 
 		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
