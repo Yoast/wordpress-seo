@@ -23,18 +23,18 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	public function add_help_tab() {
 		$link_columns_present = $this->display_links();
 		$meta_columns_present = $this->display_meta_columns();
+		if ( ! ( $link_columns_present || $meta_columns_present ) ){
+			return;
+		}
 
-		$meta_columns_help_text = '';
-		$link_columns_help_text = '';
-
-		$yoast_columns_intro = sprintf(
+		$help_tab_content = sprintf(
 			/* translators: %1$s: Yoast SEO */
 			__( '%1$s adds several columns to this page.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
 		if ( $meta_columns_present ) {
-			$meta_columns_help_text = sprintf(
+			$help_tab_content .= ' ' . sprintf(
 				/* translators: %1$s: Link to article about content analysis, %2$s: Anchor closing */
 				__( 'We\'ve written an article about %1$show to use the SEO score and Readability score%2$s.', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
@@ -43,7 +43,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 		}
 
 		if ( $link_columns_present ) {
-			$link_columns_help_text = sprintf(
+			$help_tab_content .= ' ' . sprintf(
 				/* translators: %1$s: Link to article about text links, %2$s: Anchor closing tag, %3$s: Emphasis open tag, %4$s: Emphasis close tag */
 				__( 'The links columns show the number of articles on this site linking %3$sto%4$s this article and the number of URLs linked %3$sfrom%4$s this article. Learn more about %1$show to use these features to improve your internal linking%2$s, which greatly enhances your SEO.', 'wordpress-seo' ),
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16p' ) . '">',
@@ -53,18 +53,16 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 			);
 		};
 
-		if ( $link_columns_present || $meta_columns_present ) {
-			$screen = get_current_screen();
-			$screen->add_help_tab(
-				[
-					/* translators: %s expands to Yoast */
-					'title'    => sprintf( __( '%s Columns', 'wordpress-seo' ), 'Yoast' ),
-					'id'       => 'yst-columns',
-					'content'  => '<p>' . $yoast_columns_intro . ' ' . $meta_columns_help_text . ' ' . $link_columns_help_text . '</p>',
-					'priority' => 15,
-				]
-			);
-		}
+		$screen = get_current_screen();
+		$screen->add_help_tab(
+			[
+				/* translators: %s expands to Yoast */
+				'title'    => sprintf( __( '%s Columns', 'wordpress-seo' ), 'Yoast' ),
+				'id'       => 'yst-columns',
+				'content'  => '<p>' . $help_tab_content . '</p>',
+				'priority' => 15,
+			]
+		);
 	}
 
 	/**
