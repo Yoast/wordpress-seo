@@ -42,7 +42,7 @@ class Loader_Test extends TestCase {
 	}
 
 	/**
-	 * Tests loading initializers before integrations.
+	 * Tests load_initializers with load_integrations set as a hook.
 	 *
 	 * @covers ::load
 	 */
