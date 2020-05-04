@@ -13,6 +13,7 @@ import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
 import Collapsible from "../SidebarCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
+import AdvancedSettings from "./AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 
 /**
@@ -87,6 +88,15 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					location={ "metabox" }
 				>
 					<CollapsibleCornerstone />
+				</TopLevelProviders>
+			</SidebarItem> }
+			{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 40 }>
+				<TopLevelProviders
+					store={ store }
+					theme={ theme }
+					location={ "metabox" }
+				>
+					<AdvancedSettings />
 				</TopLevelProviders>
 			</SidebarItem> }
 			<TopLevelProviders

@@ -126,7 +126,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->with( $front_page_id, 'post' )
 				->andReturn( $this->indexable );
 		}
-		else {
+		elseif ( $scenario !== 'on-home-page' ) {
 			$this->repository
 				->expects( 'find_for_home_page' )
 				->once()
@@ -155,15 +155,29 @@ class Breadcrumbs_Generator_Test extends TestCase {
 			->with( $this->indexable )
 			->andReturn( $this->get_ancestors() );
 
+		if ( $scenario !== 'on-home-page' ) {
+			$this->current_page
+				->expects( 'get_front_page_id' )
+				->once()
+				->andReturn( $front_page_id );
+		}
+
+		$page_type       = 'Post_Type';
+		$first_link_text = 'post-type';
+		if ( $scenario === 'on-home-page' ) {
+			$page_type       = 'Home_Page';
+			$first_link_text = 'home';
+		}
 		$this->current_page
-			->expects( 'get_front_page_id' )
+			->expects( 'get_page_type' )
 			->once()
-			->andReturn( $front_page_id );
+			->andReturn( $page_type );
+
 
 		$expected = [
 			[
 				'url'       => 'https://example.com/post-type',
-				'text'      => 'post-type',
+				'text'      => $first_link_text,
 				'ptarchive' => 'post',
 			],
 			[
@@ -260,18 +274,8 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 */
 	private function set_scenario( $scenario ) {
 		if ( $scenario === 'hide-blog-page' ) {
-			$this->options
-				->expects( 'get' )
-				->with( 'breadcrumbs-display-blog-page' )
-				->andReturnFalse();
-
 			return;
 		}
-
-		$this->options
-			->expects( 'get' )
-			->with( 'breadcrumbs-display-blog-page' )
-			->andReturnTrue();
 
 		if ( $scenario === 'show_posts_on_front' ) {
 			Monkey\Functions\expect( 'get_option' )
@@ -281,6 +285,14 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 			return;
 		}
+
+		if ( $scenario !== 'show_page_on_front' ) {
+			$this->options
+				->expects( 'get' )
+				->with( 'breadcrumbs-display-blog-page' )
+				->andReturnTrue();
+		}
+
 
 		if ( $scenario === 'show-custom-post-type' ) {
 			$this->indexable->object_sub_type = 'custom';

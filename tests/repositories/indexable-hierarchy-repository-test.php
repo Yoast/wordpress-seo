@@ -7,9 +7,10 @@
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
+use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -184,6 +185,9 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
 		$hierarchy->depth        = 1;
+		$hierarchy->blog_id      = 1;
+
+		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
 		$hierarchy->expects( 'save' )->once();
 
@@ -195,6 +199,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 				'indexable_id' => 1,
 				'ancestor_id'  => 2,
 				'depth'        => 1,
+				'blog_id'      => 1,
 			] )
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
@@ -203,7 +208,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the query method returns an instance of the ORMWrapper class that
+	 * Tests if the query method returns an instance of the ORM class that
 	 * represents the Indexable_Hierarchy.
 	 *
 	 * @covers ::query
@@ -217,6 +222,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$query = $this->instance->query();
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
-		$this->assertInstanceOf( ORMWrapper::class, $query );
+		$this->assertInstanceOf( ORM::class, $query );
 	}
 }

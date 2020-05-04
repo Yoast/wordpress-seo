@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable table definition.
@@ -69,8 +69,16 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property boolean $is_protected
  * @property string  $post_status
  * @property boolean $has_public_posts
+ *
+ * @property int     $blog_id
+ *
+ * @property string  $language
+ * @property string  $region
+ *
+ * @property string  $schema_page_type
+ * @property string  $schema_article_type
  */
-class Indexable extends Yoast_Model {
+class Indexable extends Model {
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -113,6 +121,7 @@ class Indexable extends Yoast_Model {
 		'incoming_link_count',
 		'number_of_pages',
 		'prominent_words_version',
+		'blog_id',
 	];
 
 	/**
@@ -140,12 +149,18 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Enhances the save method.
 	 *
-	 * @return boolean True on succes.
+	 * @return boolean True on success.
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$permalink_structure = \get_option( 'permalink_structure' );
+			if ( \substr( $permalink_structure , -1, 1 ) === '/' ) {
+				$this->permalink = \trailingslashit( $this->permalink );
+			}
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
+		}
+		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
 		return parent::save();

@@ -70,15 +70,13 @@ class Indexable_Post_Builder {
 	 * @param int       $post_id   The post ID to use.
 	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @throws Exception If the post could not be found.
-	 *
-	 * @return Indexable The extended indexable.
+	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */
 	public function build( $post_id, $indexable ) {
 		$post = $this->post->get_post( $post_id );
 
 		if ( $post === null ) {
-			throw new Exception( 'Post could not be found.' );
+			return false;
 		}
 
 		$indexable->object_id       = $post_id;
@@ -128,6 +126,7 @@ class Indexable_Post_Builder {
 		$indexable->is_protected     = $post->post_password !== '';
 		$indexable->is_public        = $this->is_public( $indexable );
 		$indexable->has_public_posts = $this->has_public_posts( $indexable );
+		$indexable->blog_id         = \get_current_blog_id();
 
 		return $indexable;
 	}
@@ -205,13 +204,12 @@ class Indexable_Post_Builder {
 		}
 
 		// The post parent should be public.
-		try {
-			$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
-		} catch ( Exception $exception ) {
-			return false;
+		$post_parent_indexable = $this->indexable_repository->find_by_id_and_type( $indexable->post_parent, 'post' );
+		if ( $post_parent_indexable !== false ) {
+			return $post_parent_indexable->is_public;
 		}
 
-		return $post_parent_indexable->is_public;
+		return false;
 	}
 
 	/**

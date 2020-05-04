@@ -4,11 +4,10 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -36,7 +35,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
@@ -75,6 +74,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
 
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
 			->andReturn( 'avatar_image.jpg' );
@@ -98,7 +100,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( '' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
@@ -136,6 +138,9 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'has_public_posts', true );
 
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()

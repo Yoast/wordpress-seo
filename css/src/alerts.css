@@ -1,0 +1,43 @@
+.yoast-alert {
+	display: flex;
+	align-items: flex-start;
+	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	line-height: 1.5;
+	margin: 16px 0;
+}
+
+.yoast-alert--error {
+	color: #8f1919;
+	background: #f9dcdc;
+}
+
+.yoast-alert--info {
+	color: #00468f;
+	background: #cce5ff;
+}
+
+.yoast-alert--success {
+	color: #395315;
+	background: #e2f2cc;
+}
+
+.yoast-alert--warning {
+	color: #674e00;
+	background: #fff3cd;
+}
+
+/* Needs higher specificity than a Gutenberg ruleset selector. */
+.yoast-alert__icon.yoast-alert__icon {
+	display: block;
+	margin-top: 0.125rem;
+	margin-right: 8px;
+	height: 16px;
+	width: 16px;
+	max-width: none;
+}
+
+.yoast-alert a {
+	color: #004973;
+}

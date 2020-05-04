@@ -4,11 +4,10 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -38,7 +37,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post_type_archive_link' )->with( 'my-post-type' )->andReturn( 'https://permalink' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'post-type-archive' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'my-post-type' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'my_post_type_title' );
@@ -48,6 +47,9 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'get' )->with( 'is_robots_noindex' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$builder = new Indexable_Post_Type_Archive_Builder( $options_mock );
 		$builder->build( 'my-post-type', $indexable_mock );

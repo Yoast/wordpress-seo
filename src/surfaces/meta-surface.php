@@ -7,12 +7,11 @@
 
 namespace Yoast\WP\SEO\Surfaces;
 
-use Exception;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,20 +35,29 @@ class Meta_Surface {
 	private $repository;
 
 	/**
+	 * @var WP_Rewrite_Wrapper
+	 */
+	private $wp_rewrite_wrapper;
+
+
+	/**
 	 * Meta_Surface constructor.
 	 *
 	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
+	 * @param WP_Rewrite_Wrapper         $wp_rewrite_wrapper   The WP rewrite wrapper.
 	 */
 	public function __construct(
 		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		WP_Rewrite_Wrapper $wp_rewrite_wrapper
 	) {
-		$this->container        = $container;
-		$this->context_memoizer = $context_memoizer;
-		$this->repository       = $indexable_repository;
+		$this->container          = $container;
+		$this->context_memoizer   = $context_memoizer;
+		$this->repository         = $indexable_repository;
+		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
 	}
 
 	/**
@@ -227,14 +235,20 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_url( $url ) {
-		$url_parts = \wp_parse_url( $url );
-		$site_host = \wp_parse_url( \site_url(), PHP_URL_HOST );
-		if ( $url_parts['host'] !== $site_host ) {
+		$url_parts  = \wp_parse_url( $url );
+		$site_parts = \wp_parse_url( \site_url() );
+		if ( $url_parts['host'] !== $site_parts['host'] ) {
 			return false;
 		}
-		$url = \site_url( $url_parts['path'] );
+		// Ensure the scheme is consistent with values in the DB.
+		$url = $site_parts['scheme'] . '://' . $url_parts['host'] . $url_parts['path'];
 
-		$indexable = $this->repository->find_by_permalink( $url );
+		if ( $this->is_date_archive_url( $url ) ) {
+			$indexable = $this->repository->find_for_date_archive();
+		}
+		else {
+			$indexable = $this->repository->find_by_permalink( $url );
+		}
 
 		// If we still don't have an indexable abort, the WP globals could be anything so we can't use the unknown indexable.
 		if ( ! $indexable ) {
@@ -268,6 +282,9 @@ class Meta_Surface {
 			case 'post-type-archive':
 				$page_type = 'Post_Type_Archive';
 				break;
+			case 'date-archive':
+				$page_type = 'Date_Archive';
+				break;
 			case 'system-page':
 				if ( $indexable->object_sub_type === 'search-result' ) {
 					$page_type = 'Search_Result_Page';
@@ -285,13 +302,37 @@ class Meta_Surface {
 	}
 
 	/**
+	 * Checks if a given URL is a date archive URL.
+	 *
+	 * @param string $url The url.
+	 *
+	 * @return boolean
+	 */
+	protected function is_date_archive_url( $url ) {
+		$path = \wp_parse_url( $url, PHP_URL_PATH );
+		$path = \ltrim( $path, '/' );
+
+		$wp_rewrite   = $this->wp_rewrite_wrapper->get();
+		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE );
+		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );
+
+		foreach ( (array) $date_rewrite as $match => $query ) {
+			if ( preg_match( "#^$match#", $path ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Creates a new meta value object
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return Meta The meta value
 	 */
-	private function build_meta( Meta_Tags_Context $context ) {
+	protected function build_meta( Meta_Tags_Context $context ) {
 		return new Meta( $context, $this->container );
 	}
 }

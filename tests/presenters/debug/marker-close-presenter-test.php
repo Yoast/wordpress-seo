@@ -66,4 +66,15 @@ class Marker_Close_Presenter_Test extends TestCase {
 			$instance->present()
 		);
 	}
+
+	/**
+	 * Tests the get method.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$instance = new Marker_Close_Presenter();
+
+		$this->assertSame( '', $instance->get() );
+	}
 }

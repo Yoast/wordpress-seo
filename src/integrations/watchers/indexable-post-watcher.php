@@ -183,8 +183,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
-			$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
-			$indexable->save();
+			$this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 			// Do nothing.
 		}
@@ -198,7 +197,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected function update_has_public_posts( $indexable ) {
 		// Update the author indexable's has public posts value.
 		try {
-			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
+			$author_indexable = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
 			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
 			$author_indexable->save();
 		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.

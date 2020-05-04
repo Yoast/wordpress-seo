@@ -38,25 +38,23 @@ class Indexable_Term_Builder {
 	 * @param int                            $term_id   ID of the term to save data for.
 	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @throws \Exception If the term could not be found.
-	 *
-	 * @return Indexable The extended indexable.
+	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */
 	public function build( $term_id, $indexable ) {
 		$term = \get_term( $term_id );
 
 		if ( $term === null ) {
-			throw new \Exception( 'Term could not be found.' );
+			return false;
 		}
 
 		if ( is_wp_error( $term ) ) {
-			throw new \Exception( \current( \array_keys( $term->errors ) ) );
+			return false;
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
 
 		if ( is_wp_error( $term_link ) ) {
-			throw new \Exception( \current( \array_keys( $term_link->errors ) ) );
+			return false;
 		}
 
 		$term_meta = $this->taxonomy->get_term_meta( $term );
@@ -65,6 +63,7 @@ class Indexable_Term_Builder {
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;
+		$indexable->blog_id         = \get_current_blog_id();
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),

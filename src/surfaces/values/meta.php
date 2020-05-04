@@ -12,6 +12,8 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
+use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -122,10 +124,18 @@ class Meta {
 	public function get_head() {
 		$presenters = $this->front_end->get_presenters( $this->context->page_type );
 
+		if ( $this->context->page_type === 'Date_Archive' ) {
+			$presenters = \array_filter( $presenters, function ( $presenter ) {
+				return ! \is_a( $presenter, Rel_Next_Presenter::class ) && ! \is_a( $presenter, Rel_Prev_Presenter::class );
+			} );
+		}
+
 		$output = '';
 
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
 		foreach ( $presenters as $presenter ) {
-			$presenter->presentation = $this->context->presentation;
+			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 
@@ -148,7 +158,10 @@ class Meta {
 	 * @throws Exception If an invalid property is accessed.
 	 */
 	public function __get( $name ) {
-		if ( ! isset( $this->context->presentation->{$name} ) ) {
+		/** This filter is documented in src/integrations/front-end-integration.php */
+		$presentation = \apply_filters( 'wpseo_frontend_presentation', $this->context->presentation, $this->context );
+
+		if ( ! isset( $presentation->{$name} ) ) {
 			if ( isset( $this->context->{$name} ) ) {
 				$this->{$name} = $this->context->{$name};
 				return $this->{$name};
@@ -174,13 +187,13 @@ class Meta {
 			 * @var Abstract_Indexable_Presenter
 			 */
 			$presenter               = new $presenter_class();
-			$presenter->presentation = $this->context->presentation;
+			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
 			$presenter->replace_vars = $this->replace_vars;
 			$value                   = $presenter->get();
 		}
 		else {
-			$value = $this->context->presentation->{$name};
+			$value = $presentation->{$name};
 		}
 
 		$this->{$name} = $value;

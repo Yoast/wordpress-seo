@@ -561,45 +561,6 @@ body.folded .wpseo-admin-submit-fixed {
   color: #008a00;
 }
 
-.yoast-alert-box {
-  display: flex;
-  align-items: baseline;
-  position: relative;
-  padding: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  margin: 16px 0;
-}
-
-.yoast-alert-box span.icon {
-  display: block;
-  margin-right: 8px;
-}
-
-.yoast-alert-box a {
-  color: #004973;
-  text-decoration: underline;
-}
-
-.yoast-alert-box__warning {
-  color: #674E00;
-  background: #FFF3CD;
-}
-
-.yoast-site-health__signature {
-  display: flex;
-  font-size: 12px;
-  line-height: 20px;
-  margin-top: 2em;
-  color: #707070;
-}
-
-.yoast-site-health__signature-icon, .yoast-site-health__inline-button.fetch-status {
-  margin-right: 8px;
-}
-
 .yoast-site-health__signature {
   display: flex;
   font-size: 12px;

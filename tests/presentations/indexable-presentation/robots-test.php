@@ -36,6 +36,6 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 }

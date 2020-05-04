@@ -135,17 +135,21 @@ class Migration_Status {
 	 * @return bool|array The status of the migration, false if no status exists.
 	 */
 	protected function get_migration_status( $name ) {
-		if ( ! isset( $this->migration_options[ $name ] ) ) {
+		$current_blog_id = \get_current_blog_id();
+		if ( ! isset( $this->migration_options[ $current_blog_id ][ $name ] ) ) {
 			$migration_status = \get_option( self::MIGRATION_OPTION_KEY . $name );
 
 			if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 				$migration_status = [ 'version' => '0.0' ];
 			}
 
-			$this->migration_options[ $name ] = $migration_status;
+			if ( ! isset( $this->migration_options[ $current_blog_id ] ) ) {
+				$this->migration_options[ $current_blog_id ] = [];
+			}
+			$this->migration_options[ $current_blog_id ][ $name ] = $migration_status;
 		}
 
-		return $this->migration_options[ $name ];
+		return $this->migration_options[ $current_blog_id ][ $name ];
 	}
 
 	/**

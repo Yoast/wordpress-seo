@@ -36,11 +36,10 @@ class Schema_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance = Mockery::mock( Schema_Presenter::class )
-			->makePartial();
+		$this->instance     = Mockery::mock( Schema_Presenter::class )->makePartial();
+		$this->presentation = new Indexable_Presentation();
 
-		$this->instance->presentation = new Indexable_Presentation();
-		$this->presentation           = $this->instance->presentation;
+		$this->instance->presentation = $this->presentation;
 
 		return parent::setUp();
 	}
@@ -113,5 +112,16 @@ class Schema_Presenter_Test extends TestCase {
 			->once();
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->schema = [ 'the_schema' ];
+
+		$this->assertSame( [ 'the_schema' ], $this->instance->get() );
 	}
 }

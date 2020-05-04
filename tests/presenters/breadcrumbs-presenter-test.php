@@ -660,4 +660,27 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		// Call it again to test that the element is not built again.
 		$this->assertEquals( 'span', $this->instance->get_element() );
 	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
+		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
+
+		$this->presentation->breadcrumbs =
+			[
+				$breadcrumb_1,
+				$breadcrumb_2,
+			];
+
+		$this->assertEquals(
+			[
+				$breadcrumb_1,
+				$breadcrumb_2,
+			],
+			$this->instance->get() );
+	}
 }

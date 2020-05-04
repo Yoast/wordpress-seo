@@ -379,15 +379,12 @@ class WPSEO_Admin {
 	protected function initialize_seo_links() {
 		$integrations = [];
 
-		$link_table_accessible_notifier = new WPSEO_Link_Table_Accessible_Notifier();
-
 		if ( ! WPSEO_Options::get( 'enable_text_link_counter' ) ) {
 			return $integrations;
 		}
 
 		$integrations[] = new WPSEO_Link_Cleanup_Transient();
 
-		// When the table doesn't exists, just add the notification and return early.
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
 			WPSEO_Link_Table_Accessible::cleanup();
 		}
@@ -397,12 +394,8 @@ class WPSEO_Admin {
 		}
 
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			$link_table_accessible_notifier->add_notification();
-
 			return $integrations;
 		}
-
-		$link_table_accessible_notifier->remove_notification();
 
 		$integrations[] = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );
 		$integrations[] = new WPSEO_Link_Reindex_Dashboard();

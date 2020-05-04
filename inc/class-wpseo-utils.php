@@ -1136,13 +1136,58 @@ SVG;
 	}
 
 	/**
+	 * Gets the type of the current post.
+	 *
+	 * @return string The post type, or an empty string.
+	 */
+	public static function get_post_type() {
+		global $post;
+
+		if ( isset( $post->post_type ) ) {
+			return $post->post_type;
+		}
+		elseif ( isset( $_GET['post_type'] ) ) {
+			return sanitize_text_field( $_GET['post_type'] );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the type of the current page.
+	 *
+	 * @return string Returns 'post' if the current page is a post edit page. Taxonomy in other cases.
+	 */
+	public static function get_page_type() {
+		global $pagenow;
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			return 'post';
+		}
+
+		return 'taxonomy';
+	}
+
+	/**
 	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
 	 *
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
+		$post_type = WPSEO_Utils::get_post_type();
+		$page_type = WPSEO_Utils::get_page_type();
+
+		/* Adjust the no-index text strings based on the post type. */
+		$label_object = ( $page_type === 'post' ) ? get_post_type_object( $post_type ) : WPSEO_Taxonomy::get_labels();
+
 		$wpseo_admin_l10n = [
-			'isPremium' => WPSEO_Utils::is_yoast_seo_premium(),
+			'isPremium'            => WPSEO_Utils::is_yoast_seo_premium(),
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && ! ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'noIndex'              => ! ! WPSEO_Options::get( 'noindex-' . $post_type, false ),
+			'isPostType'           => ! ! get_post_type(),
+			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
+			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
+			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
 		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
