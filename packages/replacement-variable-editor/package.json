@@ -45,6 +45,6 @@
     "@yoast/style-guide": "^0.11.1",
     "@yoast/helpers": "^0.12.0-rc.0",
     "@yoast/components": "^2.1.0-rc.0",
-    "yoastseo": "^1.73.0-rc.0"
+    "yoastseo": "^1.74.0-rc.0"
   }
 }
