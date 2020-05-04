@@ -1141,7 +1141,9 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [];
+		$wpseo_admin_l10n = [
+			'isPremium' => WPSEO_Utils::is_yoast_seo_premium(),
+		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {
