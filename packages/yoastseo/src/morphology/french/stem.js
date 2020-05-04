@@ -1,5 +1,5 @@
 /* eslint-disable max-statements, complexity */
-
+import { replaceRegex } from "../morphoHelpers/regexHelpers";
 /*
  * MIT License
  *
@@ -83,8 +83,8 @@ const determineRs = function( word, morphologyData ) {
 	 * R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 	 * R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel.
 	 */
-	const r1Regex = morphologyData.regularStemmer.r1Regex;
-	let r1Index = word.search( new RegExp( r1Regex ) );
+	const r1Regex = new RegExp( morphologyData.regularStemmer.r1Regex );
+	let r1Index = word.search( r1Regex );
 	let r1 = "";
 	if ( r1Index === -1 ) {
 		r1Index = word.length;
@@ -95,7 +95,7 @@ const determineRs = function( word, morphologyData ) {
 
 	let r2Index = -1;
 	if ( r1Index !== -1 ) {
-		r2Index = r1.search( new RegExp( r1Regex ) );
+		r2Index = r1.search( r1Regex );
 		if ( r2Index === -1 ) {
 			r2Index = word.length;
 		} else {
@@ -158,59 +158,60 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 		}
 	} else if ( a3Index !== -1 && a3Index >= r2Index ) {
 		// Replace with log if in R2
-		word = word.replace( new RegExp( standardSuffixData.standardSuffixes3[ 0 ] ), standardSuffixData.standardSuffixes3[ 1 ] );
+		word = word.slice( 0, a3Index ) + standardSuffixData.standardSuffixes3[ 1 ];
 	} else if ( a4Index !== -1 && a4Index >= r2Index ) {
 		// Replace with u if in R2
-		word = word.replace( new RegExp( standardSuffixData.standardSuffixes4[ 0 ] ),  standardSuffixData.standardSuffixes4[ 1 ]  );
+		word = word.slice( 0, a4Index ) + standardSuffixData.standardSuffixes4[ 1 ];
 	} else if ( a5Index !== -1 && a5Index >= r2Index ) {
 		// Replace with ent if in R2
-		word = word.replace(  new RegExp( standardSuffixData.standardSuffixes5[ 0 ] ), standardSuffixData.standardSuffixes5[ 1 ] );
+		word = word.slice( 0, a5Index ) + standardSuffixData.standardSuffixes5[ 1 ];
 	} else if ( a6Index !== -1 && a6Index >= rvIndex ) {
 		word = word.substring( 0, a6Index );
 
-		if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) ) >= r2Index ) {
-			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ), standardSuffixData.suffixesPrecedingChar2[ 1 ] );
+		const precedingCharacter2 =  word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) );
+		const a6Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar4[ 0 ] ) );
+		const precedingCharacter5 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar5[ 0 ] ) );
+		const precedingCharacter6 = word.search(  new RegExp( standardSuffixData.suffixesPrecedingChar6[ 0 ] ) );
+		if ( precedingCharacter2 >= r2Index ) {
+			word = word.slice( 0, precedingCharacter2 ) + standardSuffixData.suffixesPrecedingChar2[ 1 ];
 
-			if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ) ) >= r2Index ) {
-				word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ), standardSuffixData.suffixesPrecedingChar3[ 1 ]  );
+			const precedingCharacter3 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ) );
+			if ( precedingCharacter3 >= r2Index ) {
+				word = word.slice( 0, precedingCharacter3 ) + standardSuffixData.suffixesPrecedingChar3[ 1 ];
 			}
 		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar4[ 0 ] ) ) !== -1 ) {
-			const a6Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar4[ 0 ] ) );
-
 			if ( a6Index2 >= r2Index ) {
 				word = word.substring( 0, a6Index2 );
 			} else if ( a6Index2 >= r1Index ) {
 				word = word.substring( 0, a6Index2 ) + standardSuffixData.suffixesPrecedingChar4[ 1 ];
 			}
-		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar5[ 0 ] )  ) >= r2Index ) {
+		} else if ( precedingCharacter5 >= r2Index ) {
 			// If preceded by abl or iqU, delete if in R2
-			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar5[ 0 ] ), standardSuffixData.suffixesPrecedingChar5[ 1 ] );
-		} else if ( word.search(  new RegExp( standardSuffixData.suffixesPrecedingChar6[ 0 ] ) ) >= rvIndex ) {
+			word = word.slice( 0, precedingCharacter5 ) + standardSuffixData.suffixesPrecedingChar5[ 1 ];
+		} else if ( precedingCharacter6 >= rvIndex ) {
 			// If preceded by abl or iqU, delete if in R2
-			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar6[ 0 ] ), standardSuffixData.suffixesPrecedingChar6[ 1 ] );
+			word = word.slice( 0, precedingCharacter6 ) + standardSuffixData.suffixesPrecedingChar6[ 1 ];
 		}
 	} else if ( a7Index !== -1 && a7Index >= r2Index ) {
 		// Delete if in R2
 		word = word.substring( 0, a7Index );
 
-		if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar7[ 0 ] ) ) !== -1 ) {
+		const a7Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar7[ 0 ] ) );
+		const a7Index3 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) );
+		if ( a7Index2 !== -1 ) {
 			// If preceded by abil, delete if in R2, else replace by abl, otherwise
-			const a7Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar7[ 0 ] ) );
-
 			if ( a7Index2 >= r2Index ) {
 				word = word.substring( 0, a7Index2 );
 			} else {
 				word = word.substring( 0, a7Index2 ) + standardSuffixData.suffixesPrecedingChar7[ 1 ];
 			}
-		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) ) !== -1 ) {
-			const a7Index3 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) );
-
+		} else if ( a7Index3 !== -1 ) {
 			if ( a7Index3 !== -1 && a7Index3 >= r2Index ) {
 				// If preceded by ic, delete if in R2
 				word = word.substring( 0, a7Index3 );
 			} else {
 				// Else replace by iqU
-				word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ), standardSuffixData.suffixesPrecedingChar1[ 1 ]  );
+				word = word.substring( 0, a7Index3 ) + standardSuffixData.suffixesPrecedingChar1[ 1 ];
 			}
 		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) ) !== r2Index ) {
 			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ), standardSuffixData.suffixesPrecedingChar2[ 1 ] );
@@ -371,12 +372,7 @@ export default function stem( word, morphologyData ) {
 	const preProcessingSteps = morphologyData.regularStemmer.preProcessingStepsRegexes;
 
 	// Pre-processing steps
-	word = word.replace( new RegExp( preProcessingSteps.step1Regex[ 0 ] ), preProcessingSteps.step1Regex[ 1 ] );
-	word = word.replace( new RegExp( preProcessingSteps.step2Regex[ 0 ] ), preProcessingSteps.step2Regex[ 1 ] );
-	word = word.replace( new RegExp( preProcessingSteps.step3Regex[ 0 ] ), preProcessingSteps.step3Regex[ 1 ] );
-	word = word.replace( new RegExp( preProcessingSteps.step4Regex[ 0 ] ), preProcessingSteps.step4Regex[ 1 ] );
-	word = word.replace( new RegExp( preProcessingSteps.step5Regex[ 0 ] ), preProcessingSteps.step5Regex[ 1 ] );
-
+	word = replaceRegex( word, preProcessingSteps );
 	// Determine R1, R2 & RV regions.
 	const [
 		r1Index,
@@ -414,12 +410,12 @@ export default function stem( word, morphologyData ) {
 		 * Step 3 (only needs to be executed if step 4 isn't executed)
 		 * Replace final Y with i or final ç with c.
 		 */
-		const yEndingRegex = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.yEndingAndReplacement;
-		const softCEndingRegex = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.softCEndingAndReplacement;
-		if ( word.search( new RegExp( yEndingRegex[ 0 ] ) ) !== -1 ) {
-			word = word.replace( new RegExp( yEndingRegex[ 0 ] ), yEndingRegex[ 1 ]  );
-		} else if ( word.search( new RegExp( softCEndingRegex[ 0 ] ) ) !== -1 ) {
-			word = word.replace(   new RegExp( softCEndingRegex[ 0 ] ), softCEndingRegex[ 1 ] );
+		const yEnding = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.yEndingAndReplacement;
+		const softCEnding = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.softCEndingAndReplacement;
+		if ( word.endsWith( yEnding[ 0 ] ) ) {
+			word = word.slice( 0, -1 ) + yEnding[ 1 ];
+		} else if ( word.endsWith( softCEnding[ 0 ] ) ) {
+			word = word.slice( 0, -1 ) + softCEnding[ 1 ];
 		}
 	}
 
@@ -427,11 +423,7 @@ export default function stem( word, morphologyData ) {
 	 * Undouble final consonants
 	 */
 	const consonantUndoublingSteps = morphologyData.regularStemmer.finalConsonantUndoubling;
-
-	word = word.replace( new RegExp( consonantUndoublingSteps.undoublingStep1[ 0 ] ), consonantUndoublingSteps.undoublingStep1[ 1 ] );
-	word = word.replace( new RegExp( consonantUndoublingSteps.undoublingStep2[ 0 ] ), consonantUndoublingSteps.undoublingStep2[ 1 ] );
-	word = word.replace( new RegExp( consonantUndoublingSteps.undoublingStep3[ 0 ] ), consonantUndoublingSteps.undoublingStep3[ 1 ] );
-
+	word = replaceRegex( word, consonantUndoublingSteps );
 	/* Step 6:
 	 * Un-accent
 	 */
