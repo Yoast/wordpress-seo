@@ -6,6 +6,8 @@
 namespace Yoast\WP\SEO\Tests\Presenters\Admin;
 
 use Brain\Monkey;
+use Mockery;
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -19,12 +21,27 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Alert_Presenter_Test extends TestCase {
 
 	/**
+	 * Test constructor
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
+
+		$test = new Alert_Presenter( 'content', 'error' );
+
+		$this->assertAttributeSame( 'content', 'content',  $test );
+		$this->assertAttributeSame( 'error', 'type',  $test );
+
+		$this->assertAttributeInstanceOf( WPSEO_Admin_Asset_Manager::class, 'asset_manager', $test );
+	}
+
+	/**
 	 * Test when the Alert is of type 'error'.
 	 *
-	 * @covers ::__toString()
 	 * @covers ::present()
 	 */
-	function test_error_alert() {
+	public function test_error_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
 
 		$test = new Alert_Presenter( 'content', 'error' );
@@ -43,10 +60,9 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'info'.
 	 *
-	 * @covers ::__toString()
 	 * @covers ::present()
 	 */
-	function test_info_alert() {
+	public function test_info_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new Alert_Presenter( 'content', 'info' );
 
@@ -64,10 +80,9 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'success'.
 	 *
-	 * @covers ::__toString()
 	 * @covers ::present()
 	 */
-	function test_success_alert() {
+	public function test_success_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new Alert_Presenter( 'content', 'success' );
 
@@ -85,10 +100,9 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'warning'.
 	 *
-	 * @covers ::__toString()
 	 * @covers ::present()
 	 */
-	function test_warning_alert() {
+	public function test_warning_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new Alert_Presenter( 'content', 'warning' );
 
@@ -106,10 +120,9 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert has default type ('warning').
 	 *
-	 * @covers ::__toString()
 	 * @covers ::present()
 	 */
-	function test_default_alert() {
+	public function test_default_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
 		$test = new Alert_Presenter( 'content' );
 
@@ -123,6 +136,4 @@ class Alert_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $expected, (string) $test );
 	}
-
-
 }
