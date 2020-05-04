@@ -189,7 +189,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
-		$hierarchy->expects( 'save' )->once();
+		$hierarchy->expects( 'save' )->once()->andReturn( true );
 
 		$orm_object = Mockery::mock()->makePartial();
 
@@ -204,7 +204,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->assertSame( $hierarchy, $this->instance->add_ancestor( 1, 2, 1 ) );
+		$this->assertTrue( $this->instance->add_ancestor( 1, 2, 1 ) );
 	}
 
 	/**
