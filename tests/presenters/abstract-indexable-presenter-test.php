@@ -27,7 +27,7 @@ class Abstract_Indexable_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::replace_vars
 	 */
-	public function test_to_string() {
+	public function test_replace_vars() {
 		$replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$presentation = new Indexable_Presentation();
 		$instance     = Mockery::mock( Abstract_Indexable_Presenter::class )->makePartial();

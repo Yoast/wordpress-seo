@@ -662,7 +662,7 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the raw value
+	 * Tests the retrieval of the raw value.
 	 *
 	 * @covers ::get
 	 */

@@ -23,7 +23,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
-	 * @covers ::__construct()
+	 * @covers ::__construct
 	 */
 	public function test_construct() {
 		$instance = new Indexation_List_Item_Presenter( 12 );
@@ -33,7 +33,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 
 	/**
 	 *
-	 * Tests the case when here is nothing to index.
+	 * Tests the case when there is nothing to index.
 	 *
 	 * @covers ::present
 	 */
@@ -48,7 +48,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the case when here is something to index.
+	 * Tests the case when there is something to index.
 	 *
 	 * @covers ::present
 	 */
