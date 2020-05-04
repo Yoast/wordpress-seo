@@ -27,6 +27,12 @@ const initialRelevantWords = [
 	new ProminentWord( "linguïns", "linguïn", 5 ),
 ];
 
+/**
+ * A list to generate prominent words.
+ * @param {Object} props The props with relevant words
+ *
+ * @returns {React.Element} An inputlist.
+ */
 const RelevantWordInputList = ( props ) => {
 	return props.relevantWords.map(
 		( relevantWord, index ) => {
@@ -41,6 +47,12 @@ const RelevantWordInputList = ( props ) => {
 	);
 };
 
+/**
+ * A list item to generate prominent words.
+ * @param {Object} props The props with relevant words
+ *
+ * @returns {React.Element} An inputrow.
+ */
 const RelevantWordInputRow = ( props ) => {
 	function changeWord( event ) {
 		props.onChange( event.target.value, "_word", props.index );
@@ -49,7 +61,7 @@ const RelevantWordInputRow = ( props ) => {
 		props.onChange( event.target.value, "_stem", props.index );
 	}
 	function changeOccurrences( event ) {
-		props.onChange( event.target.value, "_occurrences", props.index );
+		props.onChange( parseInt( event.target.value, 10 ), "_occurrences", props.index );
 	}
 	function onDeleteClick(){
 		props.onDeleteClick( props.index );

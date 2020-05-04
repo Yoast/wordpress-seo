@@ -29,6 +29,7 @@
 .yoast-field-group select,
 .yoast-field-group__select select {
     line-height: 1.9;
+    padding-right: 40px;
 }
 
 .select2-container.select2-container--default {
