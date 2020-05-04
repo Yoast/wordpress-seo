@@ -293,26 +293,16 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, m
  */
 const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, morphologyData ) {
 	if ( step2aDone && wordAfterStep1 === word ) {
-		const suffixIons = morphologyData.regularStemmer.otherVerbSuffixes.ionsSuffix;
-		if ( word.search( new RegExp( suffixIons[ 0 ] ) ) >= r2Index ) {
-			word = word.replace( new RegExp( suffixIons[ 0 ] ), suffixIons[ 1 ] );
-		} else {
-			const b2Regex = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes1;
+		const otherVerbSuffixes = morphologyData.regularStemmer.otherVerbSuffixes;
+		const suffixIons = new RegExp( otherVerbSuffixes[ 0 ] );
+		if ( word.search( suffixIons ) >= r2Index ) {
+			return word.replace( suffixIons, "" );
+		}
 
-			if ( word.search( new RegExp( b2Regex[ 0 ] ) ) >= rvIndex ) {
-				word = word.replace( new RegExp( b2Regex[ 0 ] ),  b2Regex[ 1 ] );
-			} else {
-				const b3Regex = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes2;
-
-				if ( word.search( new RegExp( b3Regex[ 0 ] ) ) >= rvIndex ) {
-					word = word.replace( new RegExp( b3Regex[ 0 ] ), b3Regex[ 1 ] );
-				} else {
-					const b3Regex2 = morphologyData.regularStemmer.otherVerbSuffixes.otherVerbSuffixes3;
-					// eslint-disable-next-line max-depth
-					if ( word.search( new RegExp( b3Regex2[ 0 ] ) ) >= rvIndex ) {
-						word = word.replace( new RegExp( b3Regex2[ 0 ] ), b3Regex2[ 1 ] );
-					}
-				}
+		for ( let i = 1; i < otherVerbSuffixes.length; i++ ) {
+			const regex = new RegExp( otherVerbSuffixes[ i ] );
+			if ( word.search( regex ) >= rvIndex ) {
+				return word.replace( regex,  "" );
 			}
 		}
 	}
