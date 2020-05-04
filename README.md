@@ -211,7 +211,7 @@ To query for the site configuration data you can query from the root.
 
 ## Notes
 
-This can be used in production, however it is still under active development.
+This can be used in production, however it is still under active development, breaking changes will only be introduced with major version releases.
 
 ## Support
 
