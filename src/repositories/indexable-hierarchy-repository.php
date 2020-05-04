@@ -54,7 +54,7 @@ class Indexable_Hierarchy_Repository {
 	 * @param int $ancestor_id  The ancestor id.
 	 * @param int $depth        The depth.
 	 *
-	 * @return bool|Model
+	 * @return bool Whether or not the ancestor was added succesfully.
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
 		$hierarchy = $this->query()->create( [
@@ -63,9 +63,7 @@ class Indexable_Hierarchy_Repository {
 			'depth'        => $depth,
 			'blog_id'      => \get_current_blog_id(),
 		] );
-		$hierarchy->save();
-
-		return $hierarchy;
+		return $hierarchy->save();
 	}
 
 	/**
