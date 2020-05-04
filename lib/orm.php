@@ -267,7 +267,9 @@ class ORM implements \ArrayAccess {
 		$parameters = \array_filter( $parameters, function ( $parameter ) {
 			return $parameter !== null;
 		} );
-		$query = $wpdb->prepare( $query, $parameters );
+		if ( ! empty( $parameters ) ) {
+			$query = $wpdb->prepare( $query, $parameters );
+		}
 
 		return $wpdb->query( $query );
 	}
@@ -389,11 +391,11 @@ class ORM implements \ArrayAccess {
 	 * @return array
 	 */
 	public function find_many() {
-        $rows = $this->_run();
+		$rows = $this->_run();
 
-        if ( $rows === false ) {
-            return [];
-        }
+		if ( $rows === false ) {
+			return [];
+		}
 
 		return \array_map( [ $this, '_create_instance_from_row' ], $rows );
 	}
@@ -966,7 +968,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Internal method to add a HAVING clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param        $operator
 	 *
 	 * @return ORM
@@ -1035,7 +1037,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add a WHERE clause with no parameters(like IS NULL and IS NOT NULL)
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param        $operator
 	 *
 	 * @return ORM
@@ -1409,7 +1411,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array $parameters
+	 * @param array  $parameters
 	 *
 	 * @return ORM
 	 */
@@ -1446,7 +1448,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Add an ORDER BY clause to the query
 	 *
-	 * @param string $column_name
+	 * @param string   $column_name
 	 * @param        $ordering
 	 *
 	 * @return ORM
@@ -1701,7 +1703,7 @@ class ORM implements \ArrayAccess {
 	 * to the parameters supplied in the second argument.
 	 *
 	 * @param       $clause
-	 * @param array $parameters
+	 * @param array  $parameters
 	 *
 	 * @return ORM
 	 */
@@ -2212,7 +2214,7 @@ class ORM implements \ArrayAccess {
 		$field_list = [];
 		foreach ( $this->_dirty_fields as $key => $value ) {
 			if ( ! \array_key_exists( $key, $this->_expr_fields ) ) {
-				$value = ( $value === NULL ) ? 'NULL' : '%s';
+				$value = ( $value === null ) ? 'NULL' : '%s';
 			}
 			$field_list[] = "{$this->_quote_identifier($key)} = {$value}";
 		}

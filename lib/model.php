@@ -548,6 +548,15 @@ class Model implements JsonSerializable {
 	}
 
 	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return $this->orm->as_array();
+	}
+
+	/**
 	 * Magic isset method, allows isset($model->property) to work correctly.
 	 *
 	 * @param string $property The property to check.
