@@ -110,8 +110,8 @@ class Loader {
 	public function load() {
 		$this->load_initializers();
 
-		if ( ! did_action( 'init' ) ) {
-			add_action( 'init', [ $this, 'load_integrations' ] );
+		if ( ! \did_action( 'init' ) ) {
+			\add_action( 'init', [ $this, 'load_integrations' ] );
 		}
 		else {
 			$this->load_integrations();
