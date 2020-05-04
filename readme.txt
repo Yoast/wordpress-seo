@@ -224,6 +224,7 @@ Enhancements:
 * Removes the notification containing the message that you should check your post type archive settings when these are possibly reset to their defaults in Yoast SEO 7.7 or 7.8.
 * Reimplements the Advanced Settings tab in React.
 * Improves the ordering of items in XML sitemaps to match SQL standards. Props to [rafaelbernard](https://github.com/rafaelbernard).
+* Improves the transition word assessment for Hungarian. Props to [@Zsoru](https://github.com/Zsoru).
 
 = 14.0.4 =
 Release Date: April 30th, 2020

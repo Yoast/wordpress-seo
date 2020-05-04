@@ -7,38 +7,26 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-
 /**
  * Class Robots_Helper
  */
 class Robots_Helper {
 
 	/**
-	 * Sets the robots index to no index.
+	 * Sets the robots index to noindex.
 	 *
-	 * @param string                 $robots       The current robots value.
-	 * @param Indexable_Presentation $presentation Presentation.
+	 * @param array $robots The current robots value.
 	 *
-	 * @return string The altered robots string.
+	 * @return array The altered robots string.
 	 */
-	public function set_robots_no_index( $robots, Indexable_Presentation $presentation ) {
-		// When robots is null just return the default but with noindex: `noindex, follow`.
-		if ( ! \is_string( $robots ) ) {
-			return 'noindex, follow';
-		}
-
-		// Already noindex.
-		if ( \strpos( $robots, 'noindex' ) !== false ) {
+	public function set_robots_no_index( $robots ) {
+		if ( ! \is_array( $robots ) ) {
+			_deprecated_argument( __METHOD__, '14.1', '$robots has to be a key-value paired array.' );
 			return $robots;
 		}
 
-		// Replace index with noindex.
-		if ( \strpos( $robots, 'index' ) !== false ) {
-			return \str_replace( 'index', 'noindex', $robots );
-		}
+		$robots['index'] = 'noindex';
 
-		// Add noindex.
-		return 'noindex, ' . $robots;
+		return $robots;
 	}
 }

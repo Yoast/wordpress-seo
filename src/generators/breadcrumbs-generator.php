@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Generators\Generator_Interface;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -38,23 +39,33 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 *
 	 * @var Current_Page_Helper
 	 */
-	private $current_page;
+	private $current_page_helper;
+
+	/**
+	 * The post type helper
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
 
 	/**
 	 * Breadcrumbs_Generator constructor.
 	 *
-	 * @param Indexable_Repository $repository   The repository.
-	 * @param Options_Helper       $options      The options helper.
-	 * @param Current_Page_Helper  $current_page The current page helper.
+	 * @param Indexable_Repository $repository          The repository.
+	 * @param Options_Helper       $options             The options helper.
+	 * @param Current_Page_Helper  $current_page_helper The current page helper.
+	 * @param Post_Type_Helper     $post_type_helper    The post type helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Options_Helper $options,
-		Current_Page_Helper $current_page
+		Current_Page_Helper $current_page_helper,
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->repository   = $repository;
-		$this->options      = $options;
-		$this->current_page = $current_page;
+		$this->repository          = $repository;
+		$this->options             = $options;
+		$this->current_page_helper = $current_page_helper;
+		$this->post_type_helper    = $post_type_helper;
 	}
 
 	/**
@@ -67,8 +78,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
 		$breadcrumbs_home = $this->options->get( 'breadcrumbs-home' );
-		if ( $breadcrumbs_home !== '' && ! in_array( $this->current_page->get_page_type(), [ 'Home_Page', 'Static_Home_Page' ], true ) ) {
-			$front_page_id = $this->current_page->get_front_page_id();
+		if ( $breadcrumbs_home !== '' && ! in_array( $this->current_page_helper->get_page_type(), [ 'Home_Page', 'Static_Home_Page' ], true ) ) {
+			$front_page_id = $this->current_page_helper->get_front_page_id();
 			if ( $front_page_id === 0 ) {
 				$static_ancestors[] = $this->repository->find_for_home_page();
 			}
@@ -90,12 +101,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			$context->indexable->object_type === 'post'
 			&& $context->indexable->object_sub_type !== 'post'
 			&& $context->indexable->object_sub_type !== 'page'
+			&& $this->post_type_helper->has_archive( $context->indexable->object_sub_type )
 		) {
 			$static_ancestors[] = $this->repository->find_for_post_type_archive( $context->indexable->object_sub_type );
 		}
 		if ( $context->indexable->object_type === 'term' ) {
 			$parent = $this->get_taxonomy_post_type_parent( $context->indexable->object_sub_type );
-			if ( $parent && $parent !== 'post' ) {
+			if ( $parent && $parent !== 'post' && $this->post_type_helper->has_archive( $parent ) ) {
 				$static_ancestors[] = $this->repository->find_for_post_type_archive( $parent );
 			}
 		}
@@ -121,6 +133,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			}
 			if ( $ancestor->object_type === 'post-type-archive' ) {
 				$crumb['ptarchive'] = $ancestor->object_sub_type;
+			}
+			if ( $ancestor->object_type === 'system-page' && $ancestor->object_sub_type === 'search-result' ) {
+				$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' “' . \esc_html( \get_search_query() ) . '”';
 			}
 			return $crumb;
 		}, $indexables );

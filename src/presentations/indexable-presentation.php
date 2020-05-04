@@ -269,14 +269,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 				$robots_new[ $key ] = $value;
 			}
 
-			return \array_filter( $robots_new );
+			$robots = $robots_new;
 		}
 
 		if ( ! $robots_filtered ) {
 			return [];
 		}
 
-		return \array_filter( $robots );
+		/**
+		 * Filter: 'wpseo_robots_array' - Allows filtering of the meta robots output array of Yoast SEO.
+		 *
+		 * @api array $robots The meta robots directives to be used.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \apply_filters( 'wpseo_robots_array', \array_filter( $robots ), $this );
 	}
 
 	/**
