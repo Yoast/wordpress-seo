@@ -50,7 +50,7 @@ jobs:
              printf "No changes\n"
           else
              printf "Changes\n"
-             git commit -m "Automated deployment to update contributors.svg $(date '+%Y-%m-%d')" || exit 0
+             git commit -m "Automated deployment to update contributors.svg $(date '+%Y-%m-%d') image" || exit 0
              git push origin "${BRANCH_FROM}"
 
              # Absolutely must download specific sha of script
