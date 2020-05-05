@@ -229,7 +229,7 @@ module.exports = function( env ) {
 		{
 			...base,
 			entry: {
-				components: "./js/src/components.js",
+				components: "./js/src/externals/components.js",
 			},
 			output: {
 				path: path.resolve(),
@@ -274,7 +274,7 @@ module.exports = function( env ) {
 			},
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				analysis: "./js/src/analysis.js",
+				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
