@@ -1,12 +1,17 @@
 /* global wp */
-/* global wpseoFeaturedImageL10n */
+/* global wpseoScriptData */
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
 
-( function( $ ) {
+/**
+ * @summary Initializes the featured image integration.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
+export default function initFeaturedImageIntegration( $ ) {
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;

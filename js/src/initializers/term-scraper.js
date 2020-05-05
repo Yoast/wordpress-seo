@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin */
+/* global YoastSEO: true, wpseoScriptData */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
@@ -13,49 +13,55 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "./edit";
-import { termsTmceId } from "./wp-seo-tinymce";
-import Pluggable from "./Pluggable";
-import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
+import Edit from "../edit";
+import { termsTmceId } from "../wp-seo-tinymce";
+import Pluggable from "../Pluggable";
+import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
+import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 
 // UI dependencies.
-import { update as updateTrafficLight } from "./ui/trafficLight";
-import { update as updateAdminBar } from "./ui/adminBar";
+import { update as updateTrafficLight } from "../ui/trafficLight";
+import { update as updateAdminBar } from "../ui/adminBar";
 
 // Analysis dependencies.
-import { createAnalysisWorker, getAnalysisConfiguration } from "./analysis/worker";
-import refreshAnalysis, { initializationDone } from "./analysis/refreshAnalysis";
-import collectAnalysisData from "./analysis/collectAnalysisData";
-import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import getTranslations from "./analysis/getTranslations";
-import isKeywordAnalysisActive from "./analysis/isKeywordAnalysisActive";
-import isContentAnalysisActive from "./analysis/isContentAnalysisActive";
-import snippetEditorHelpers from "./analysis/snippetEditor";
-import TermDataCollector from "./analysis/TermDataCollector";
-import CustomAnalysisData from "./analysis/CustomAnalysisData";
-import getApplyMarks from "./analysis/getApplyMarks";
-import { refreshDelay } from "./analysis/constants";
-import handleWorkerError from "./analysis/handleWorkerError";
+import { createAnalysisWorker, getAnalysisConfiguration } from "../analysis/worker";
+import refreshAnalysis, { initializationDone } from "../analysis/refreshAnalysis";
+import collectAnalysisData from "../analysis/collectAnalysisData";
+import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getTranslations from "../analysis/getTranslations";
+import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import snippetEditorHelpers from "../analysis/snippetEditor";
+import TermDataCollector from "../analysis/TermDataCollector";
+import CustomAnalysisData from "../analysis/CustomAnalysisData";
+import getApplyMarks from "../analysis/getApplyMarks";
+import { refreshDelay } from "../analysis/constants";
+import handleWorkerError from "../analysis/handleWorkerError";
 
 // Redux dependencies.
-import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
-import { setFocusKeyword } from "./redux/actions/focusKeyword";
-import { setMarkerStatus } from "./redux/actions/markerButtons";
+import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
+import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
+import { setFocusKeyword } from "../redux/actions/focusKeyword";
+import { setMarkerStatus } from "../redux/actions/markerButtons";
 
 // Helper dependencies.
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
-} from "./helpers/classicEditor";
+} from "../helpers/classicEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 
-( function( $, window ) {
+/**
+ * @summary Initializes the term scraper script.
+ * @param {object} $ jQuery
+ * @returns {undefined}
+ */
+export default function initTermScraper( $ ) {
 	var app;
 
 	var termSlugInput;
@@ -223,9 +229,9 @@ window.yoastHideMarkers = true;
 		var args, termScraper, translations;
 
 		const editArgs = {
-			snippetEditorBaseUrl: wpseoTermScraperL10n.base_url,
-			replaceVars: wpseoReplaceVarsL10n.replace_vars,
-			recommendedReplaceVars: wpseoReplaceVarsL10n.recommended_replace_vars,
+			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
+			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
+			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 			classicEditorDataSettings: {
 				tinyMceId: termsTmceId,
 			},
@@ -248,7 +254,7 @@ window.yoastHideMarkers = true;
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 			},
-			locale: wpseoTermScraperL10n.contentLocale,
+			locale: wpseoScriptData.metabox.contentLocale,
 			contentAnalysisActive: isContentAnalysisActive(),
 			keywordAnalysisActive: isKeywordAnalysisActive(),
 			hasSnippetPreview: false,
@@ -369,7 +375,7 @@ window.yoastHideMarkers = true;
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoTermScraperL10n );
+		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
 		// Set the initial snippet editor data.
@@ -425,4 +431,4 @@ window.yoastHideMarkers = true;
 	}
 
 	jQuery( document ).ready( initializeTermAnalysis );
-}( jQuery, window ) );
+}
