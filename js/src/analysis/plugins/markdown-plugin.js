@@ -30,7 +30,7 @@ class YoastMarkdownPlugin {
 	 *
 	 * @param {string} content The content to parse.
 	 *
- 	 * @returns {string} The parsed content
+	 * @returns {string} The parsed content
 	 */
 	parseMarkdown( content ) {
 		return marked( content );
