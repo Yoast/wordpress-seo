@@ -10,7 +10,7 @@ import { isUndefined } from "lodash-es";
 function isContentAnalysisActive() {
 	var l10nObject = getL10nObject();
 
-	return ! isUndefined( l10nObject ) && l10nObject.contentAnalysisActive === "1";
+	return ! isUndefined( l10nObject ) && l10nObject.contentAnalysisActive === 1;
 }
 
 module.exports = isContentAnalysisActive;

@@ -1,4 +1,4 @@
-import "../src/wp-seo-shortcode-plugin";
+import "../src/analysis/plugins/shortcode-plugin";
 
 const { YoastShortcodePlugin } = window;
 const { removeUnknownShortCodes } = YoastShortcodePlugin.prototype;

@@ -79,7 +79,6 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->enqueue_assets();
 
 		$this->assertFalse( wp_style_is( 'wpseo-primary-category', 'registered' ) );
-		$this->assertFalse( wp_script_is( 'wpseo-primary-category', 'registered' ) );
 	}
 
 	/**
@@ -97,7 +96,6 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->enqueue_assets();
 
 		$this->assertFalse( wp_style_is( 'wpseo-primary-category', 'registered' ) );
-		$this->assertFalse( wp_script_is( 'wpseo-primary-category', 'registered' ) );
 	}
 
 	/**
@@ -133,7 +131,6 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->enqueue_assets();
 
 		$this->assertTrue( wp_style_is( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'registered' ) );
-		$this->assertTrue( wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'registered' ) );
 	}
 
 	/**

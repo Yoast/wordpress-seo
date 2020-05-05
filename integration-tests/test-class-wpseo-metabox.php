@@ -41,7 +41,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		// Call enqueue function.
 		self::$class_instance->enqueue();
 
-		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
+		$enqueued = wp_script_is( 'post-edit', 'enqueued' );
 		$this->assertFalse( $enqueued );
 	}
 
@@ -60,7 +60,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		// Call enqueue function.
 		self::$class_instance->enqueue();
 
-		$enqueued = wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'enqueued' );
+		$enqueued = wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'enqueued' );
 		$this->assertTrue( $enqueued );
 	}
 

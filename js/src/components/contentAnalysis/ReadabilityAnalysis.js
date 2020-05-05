@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
+/* global wpseoAdminL10n */
 /* External components */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
@@ -28,12 +28,7 @@ const ReadabilityResultsTabContainer = styled.div`
 	padding: 16px;
 `;
 
-let localizedData = {};
-if ( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
+const localizedData = window.wpseoScriptData.metabox || {};
 
 const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;

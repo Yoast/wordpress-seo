@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n */
+/* global wpseoScriptData */
 
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
@@ -30,7 +30,7 @@ class SettingsReplacementVariableEditors extends Component {
 		const {
 			editor_specific_replace_vars: editorSpecificReplaceVars = {},
 			shared_replace_vars: sharedReplaceVars,
-		} = wpseoReplaceVarsL10n;
+		} = wpseoScriptData.analysis.plugins.replaceVars;
 
 		const pageTypeSpecificReplaceVars = editorSpecificReplaceVars[ pageType ] || [];
 		const replaceVarNames = [ ...sharedReplaceVars, ...pageTypeSpecificReplaceVars ];
