@@ -77,6 +77,10 @@ To query for the Yoast Data simply add the seo object to your query:
             sourceUrl
             srcSet
           }
+          opengraphUrl
+          opengraphSiteName
+          opengraphPublishedTime
+          opengraphModifiedTime
           twitterTitle
           twitterDescription
           twitterImage {
@@ -151,6 +155,9 @@ To query for the site configuration data you can query from the root.
       baiduVerify
     }
     schema {
+      siteName
+      wordpressSiteName
+      siteUrl
       companyName
       companyOrPerson
       companyLogo {
