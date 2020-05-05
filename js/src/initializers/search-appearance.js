@@ -40,12 +40,12 @@ export default function initSearchAppearance() {
 			{
 				snippetEditor: {
 					replacementVariables: getDefaultReplacementVariables(),
-					recommendedReplacementVariables: wpseoReplaceVarsL10n.recommended_replace_vars,
+					recommendedReplacementVariables: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
 				},
 			},
 			configureEnhancers()
 		);
-		forEach( window.wpseoReplaceVarsL10n.replace_vars, replacementVariable => {
+		forEach( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars, replacementVariable => {
 			const name = replacementVariable.name.replace( / /g, "_" );
 
 			store.dispatch( updateReplacementVariable(
@@ -66,7 +66,7 @@ export default function initSearchAppearance() {
 	const store = configureStore();
 
 	const theme = {
-		isRtl: wpseoSearchAppearance.isRtl,
+		isRtl: wpseoScriptData.searchAppearance.isRtl,
 	};
 
 	const {
@@ -74,7 +74,7 @@ export default function initSearchAppearance() {
 		localSEOUpsellURL,
 		brushstrokeBackgroundURL,
 		knowledgeGraphCompanyInfoMissing,
-	} = wpseoSearchAppearance;
+	} = wpseoScriptData.searchAppearance;
 
 	render(
 		<Provider store={store}>
