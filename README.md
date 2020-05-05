@@ -6,7 +6,7 @@
 
 ## Please note version 14 of the Yoast Plugin is a major update.
 
-If you are stuck on version of Yoast before V14 then use vV3 of this plugin.
+If you are stuck on version of Yoast before V14 then use v3 of this plugin.
 
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
@@ -223,3 +223,8 @@ This can be used in production, however it is still under active development, br
 ## Support
 
 [Open an issue](https://github.com/ashhitch/wp-graphql-yoast-seo/issues)
+
+[Twitter: @ash_hitchcock](https://twitter.com/ash_hitchcock)
+
+## Contributors (PRs and Issues)
+![contributors.svg](./contributors.svg)
