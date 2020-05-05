@@ -11,7 +11,7 @@ import { Alert } from "@yoast/components";
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
  */
-const isPost = !! window.wpseoPostScraperL10n;
+const isPost = !! window.wpseoScriptData.isPost;
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of

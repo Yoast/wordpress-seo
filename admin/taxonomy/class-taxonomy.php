@@ -181,6 +181,7 @@ class WPSEO_Taxonomy {
 				],
 				'metabox' => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+				'isTerm' => true,
 			];
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoScriptData', $script_data );
 		}

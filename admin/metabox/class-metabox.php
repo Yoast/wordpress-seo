@@ -847,6 +847,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			],
 			'metabox' => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+			'isPost' => true,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
