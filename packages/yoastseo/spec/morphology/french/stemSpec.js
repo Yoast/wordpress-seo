@@ -60,8 +60,8 @@ const wordsToStem = [
 	[ "paresseuse", "paress" ],
 	[ "paresseuses", "paress" ],
 	// Input a noun ending in -issement.
-	[ "divertissement", "divertiss" ],
-	[ "divertissements", "divertiss" ],
+	[ "divertissement", "divert" ],
+	[ "divertissements", "divert" ],
 	// Input a noun ending in -amment.
 	[ "couramment", "cour" ],
 	// Input a noun ending in -emment.
