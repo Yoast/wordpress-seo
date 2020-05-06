@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use WP_Term;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
@@ -41,13 +42,9 @@ class Indexable_Term_Builder {
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */
 	public function build( $term_id, $indexable ) {
-		$term = \get_term( $term_id );
+		$term = WP_Term::get_instance( $term_id );
 
-		if ( $term === null ) {
-			return false;
-		}
-
-		if ( is_wp_error( $term ) ) {
+		if ( $term === null || is_wp_error( $term ) ) {
 			return false;
 		}
 

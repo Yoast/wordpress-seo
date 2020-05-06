@@ -39,7 +39,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build() {
 		$term = (object) [ 'taxonomy' => 'category', 'term_id' => 1 ];
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
+		$wp_term = Mockery::mock( 'alias:WP_Term' );
+		$wp_term->expects( 'get_instance' )->once()->with( 1 )->andReturn( $term );
+
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );
 		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
 
@@ -144,10 +146,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_term_null() {
-		Monkey\Functions\expect( 'get_term' )
-			->once()
-			->with( 1 )
-			->andReturn( null );
+		$wp_term = Mockery::mock( 'alias:WP_Term' );
+		$wp_term->expects( 'get_instance' )->once()->with( 1 )->andReturn( null );
 
 		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
 
@@ -160,10 +160,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_term_error() {
-		Monkey\Functions\expect( 'get_term' )
-			->once()
-			->with( 1 )
-			->andReturn( Mockery::mock( '\WP_Error' ) );
+		$wp_term = Mockery::mock( 'alias:WP_Term' );
+		$wp_term->expects( 'get_instance' )->once()->with( 1 )->andReturn( Mockery::mock( 'WP_Error' ) );
 
 		$builder = new Indexable_Term_Builder( Mockery::mock( Taxonomy_Helper::class ) );
 
@@ -178,10 +176,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	public function test_build_term_link_error() {
 		$term = (object) [ 'taxonomy' => 'tax' ];
 
-		Monkey\Functions\expect( 'get_term' )
-			->once()
-			->with( 1 )
-			->andReturn( $term );
+		$wp_term = Mockery::mock( 'alias:WP_Term' );
+		$wp_term->expects( 'get_instance' )->once()->with( 1 )->andReturn( $term );
 		Monkey\Functions\expect( 'get_term_link' )
 			->once()
 			->with( $term, 'tax' )
