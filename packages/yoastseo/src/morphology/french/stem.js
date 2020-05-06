@@ -58,18 +58,17 @@ import { replaceRegex } from "../morphoHelpers/regexHelpers";
  * Determines R1, R2 and RV.
  *
  * @param {string} word The word for which to determine the R regions.
- * @param {Object} morphologyData The French morphology data file.
+ * @param {Object} rIntervalsData The regexes that cover French RV and R1 intervals.
  *
  * @returns {[number]} The R1, R2 and RV.
  */
-const determineRs = function( word, morphologyData ) {
-	const rvRegexData = morphologyData.regularStemmer.rvRegexes;
+const determineRs = function( word, rIntervalsData ) {
 	let rvIndex = -1;
 
-	if ( word.search( new RegExp( rvRegexData.rvRegex1 ) ) !== -1 || word.search( new RegExp( rvRegexData.rvRegex2 ) ) !== -1 ) {
+	if ( word.search( new RegExp( rIntervalsData.rvRegex1 ) ) !== -1 || word.search( new RegExp( rIntervalsData.rvRegex2 ) ) !== -1 ) {
 		rvIndex = 3;
 	} else {
-		rvIndex = word.substring( 1 ).search( new RegExp( rvRegexData.rvRegex3 ) );
+		rvIndex = word.substring( 1 ).search( new RegExp( rIntervalsData.rvRegex3 ) );
 
 		if ( rvIndex === -1 ) {
 			rvIndex = word.length;
@@ -83,7 +82,7 @@ const determineRs = function( word, morphologyData ) {
 	 * R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 	 * R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel.
 	 */
-	const r1Regex = new RegExp( morphologyData.regularStemmer.r1Regex );
+	const r1Regex = new RegExp( rIntervalsData.r1Regex );
 	let r1Index = word.search( r1Regex );
 	let r1 = "";
 	if ( r1Index === -1 ) {
@@ -117,16 +116,15 @@ const determineRs = function( word, morphologyData ) {
 /**
  * Removes or normalizes standard suffixes.
  *
- * @param {string} word             The word for which to remove suffixes.
- * @param {Object} morphologyData   The French morphology data.
- * @param {number} r1Index          The start index of R1.
- * @param {number} r2Index          The start index of R2.
- * @param {number} rvIndex          The start index of RV.
+ * @param {string} word               The word for which to remove suffixes.
+ * @param {Object} standardSuffixData The French morphology data covering standard suffixes.
+ * @param {number} r1Index            The start index of R1.
+ * @param {number} r2Index            The start index of R2.
+ * @param {number} rvIndex            The start index of RV.
  *
  * @returns {string} The word with standard suffixes removed or normalized.
  */
-const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index, rvIndex ) {
-	const standardSuffixData = morphologyData.regularStemmer.standardSuffixes;
+const processStandardSuffixes = function( word, standardSuffixData, r1Index, r2Index, rvIndex ) {
 	const a1Index = word.search( new RegExp( standardSuffixData.standardSuffixes1 ) ),
 		a2Index = word.search( new RegExp( standardSuffixData.standardSuffixes2 ) ),
 		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3[ 0 ] ) ),
@@ -165,6 +163,9 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 	} else if ( a5Index !== -1 && a5Index >= r2Index ) {
 		// Replace with ent if in R2
 		word = word.slice( 0, a5Index ) + standardSuffixData.standardSuffixes5[ 1 ];
+	} else if ( a12Index !== -1 && a12Index >= r1Index ) {
+		// +1- amendment to non-vowel
+		word = word.substring( 0, a12Index + 1 );
 	} else if ( a6Index !== -1 && a6Index >= rvIndex ) {
 		word = word.substring( 0, a6Index );
 
@@ -240,9 +241,6 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 		} else if ( a11Index2 >= r1Index ) {
 			word = word.substring( 0, a11Index2 ) + standardSuffixData.standardSuffixes11[ 1 ];
 		}
-	} else if ( a12Index !== -1 && a12Index >= r1Index ) {
-		// +1- amendment to non-vowel
-		word = word.substring( 0, a12Index + 1 );
 	} else if ( a13Index !== -1 && a13Index >= rvIndex ) {
 		word = word.replace( new RegExp( standardSuffixData.standardSuffixes13[ 0 ] ), standardSuffixData.standardSuffixes13[ 1 ]  );
 	} else if ( a14Index !== -1 && a14Index >= rvIndex ) {
@@ -257,22 +255,21 @@ const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index
 /**
  * Removes verb suffixes starting with i.
  *
- * @param {string}  word                            The word for which to remove suffixes.
- * @param {string}  originalWord                    The unprocessed word.
- * @param {number}  rvIndex                         The start index of RV.
- * @param {Object} morphologyData                   The French morphology data.
+ * @param {string} word                       The word for which to remove suffixes.
+ * @param {string} originalWord               The unprocessed word.
+ * @param {number} rvIndex                    The start index of RV.
+ * @param {string} verbSuffixesWithIBeginning The French suffixes starting with I.
  *
  * @returns {{step2aDone: boolean, word: string}}   The word and information about whether the conditions for step 2a were met.
  */
-const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, morphologyData ) {
+const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, verbSuffixesWithIBeginning ) {
 	let step2aDone = false;
-	const mentSuffixes = new RegExp( morphologyData.regularStemmer.mentSuffixes );
-	if ( originalWord === word.toLowerCase() || originalWord.search( mentSuffixes ) !== -1 ) {
+	if ( originalWord === word.toLowerCase() || originalWord.endsWith( "ment" ) || originalWord.endsWith( "ments" ) ) {
 		step2aDone = true;
-		// eslint-disable-next-line max-len
-		const b1Regex = morphologyData.regularStemmer.verbSuffixesWithIBeginning;
-		if ( word.search( new RegExp( b1Regex[ 0 ] ) ) >= rvIndex ) {
-			word = word.replace( new RegExp( b1Regex[ 0 ] ), b1Regex[ 1 ] );
+
+		const b1Regex = new RegExp( verbSuffixesWithIBeginning[ 0 ] );
+		if ( word.search( b1Regex ) >= rvIndex ) {
+			word = word.replace( b1Regex, verbSuffixesWithIBeginning[ 1 ] );
 		}
 	}
 
@@ -282,18 +279,17 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, m
 /**
  * Removes other verb suffixes.
  *
- * @param {string}  word                            The word for which to remove suffixes.
- * @param {boolean} step2aDone                      Whether step 2a was done.
- * @param {string}  wordAfterStep1                  The word after step 1 was done.
- * @param {number}  r2Index                         The start index of R2.
- * @param {number}  rvIndex                         The start index of RV.
- * @param {Object} morphologyData                   The French morphology data.
+ * @param {string}  word              The word for which to remove suffixes.
+ * @param {boolean} step2aDone        Whether step 2a was done.
+ * @param {string}  wordAfterStep1    The word after step 1 was done.
+ * @param {number}  r2Index           The start index of R2.
+ * @param {number}  rvIndex           The start index of RV.
+ * @param {Object}  otherVerbSuffixes The French verbal suffixes that do not start with I.
  *
- * @returns {string}                                The word after other verb suffixes were removed.
+ * @returns {string} The word after other verb suffixes were removed.
  */
-const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, morphologyData ) {
+const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, otherVerbSuffixes ) {
 	if ( step2aDone && wordAfterStep1 === word ) {
-		const otherVerbSuffixes = morphologyData.regularStemmer.otherVerbSuffixes;
 		const suffixIons = new RegExp( otherVerbSuffixes[ 0 ] );
 		if ( word.search( suffixIons ) >= r2Index ) {
 			return word.replace( suffixIons, "" );
@@ -331,16 +327,20 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index, morphologyDataR
 	if ( e1Index >= r2Index && word.search( new RegExp( residualSuffixes.residualSuffix3 ) ) >= rvIndex ) {
 		word = word.substring( 0, e1Index );
 	} else {
-		const e2Index = word.search( new RegExp( residualSuffixes.residualSuffixes4[ 0 ] ) );
+		let e2Index = word.search( new RegExp( residualSuffixes.residualSuffixes4[ 0 ] ) );
 
-		if ( e2Index !== -1 && e2Index >= rvIndex ) {
+		if ( e2Index >= rvIndex ) {
 			word = word.substring( 0, e2Index ) + residualSuffixes.residualSuffixes4[ 1 ];
 		} else {
-			if ( word.search( new RegExp( residualSuffixes.residualSuffix5[ 0 ] ) ) >= rvIndex ) {
+			e2Index = word.search( new RegExp( residualSuffixes.residualSuffix5 ) );
+			if ( e2Index >= rvIndex ) {
 				// Delete last e.
-				word = word.replace( new RegExp( residualSuffixes.residualSuffix5[ 0 ] ), residualSuffixes.residualSuffix5[ 1 ] );
-			} else if ( word.search( new RegExp( residualSuffixes.residualSuffix6[ 0 ] ) ) >= rvIndex ) {
-				word = word.replace( new RegExp( residualSuffixes.residualSuffix6[ 0 ] ), residualSuffixes.residualSuffix6[ 1 ] );
+				word = word.substring( 0, e2Index );
+			} else {
+				e2Index = word.search( new RegExp( residualSuffixes.residualSuffix6[ 0 ] ) );
+				if ( e2Index >= rvIndex ) {
+					word = word.substring( 0, e2Index ) + residualSuffixes.residualSuffix6[ 1 ];
+				}
 			}
 		}
 	}
@@ -359,36 +359,49 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index, morphologyDataR
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
-	const preProcessingSteps = morphologyData.regularStemmer.preProcessingStepsRegexes;
 
 	// Pre-processing steps
-	word = replaceRegex( word, preProcessingSteps );
+	word = replaceRegex( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
+
 	// Determine R1, R2 & RV regions.
 	const [
 		r1Index,
 		r2Index,
 		rvIndex,
-	] = determineRs( word, morphologyData );
+	] = determineRs( word, morphologyData.regularStemmer.rIntervals );
 
 	/*
 	 * Step 1:
 	 * Remove standard suffixes
 	 */
-	word = processStandardSuffixes( word, morphologyData, r1Index, r2Index, rvIndex );
+	word = processStandardSuffixes( word, morphologyData.regularStemmer.standardSuffixes, r1Index, r2Index, rvIndex );
 	const wordAfterStep1 = word;
 
 	/*
 	 * Step 2a:
 	 * Stem verb suffixes beginning with "i"
 	 */
-	word = removeVerbSuffixesStartingWithI( word, originalWord, rvIndex, morphologyData ).word;
-	const step2aDone = removeVerbSuffixesStartingWithI( word, originalWord, rvIndex, morphologyData ).step2aDone;
+	const verbSuffixesStartingWithIRemoved = removeVerbSuffixesStartingWithI(
+		word,
+		originalWord,
+		rvIndex,
+		morphologyData.regularStemmer.verbSuffixesWithIBeginning
+	);
+	word = verbSuffixesStartingWithIRemoved.word;
+	const step2aDone = verbSuffixesStartingWithIRemoved.step2aDone;
 
 	/*
 	 * Step 2b:
 	 * Stem other verb suffixes
 	 */
-	word = removeOtherVerbSuffixes( word, step2aDone, wordAfterStep1, r2Index, rvIndex, morphologyData );
+	word = removeOtherVerbSuffixes(
+		word,
+		step2aDone,
+		wordAfterStep1,
+		r2Index,
+		rvIndex,
+		morphologyData.regularStemmer.otherVerbSuffixes
+	);
 
 	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4:
@@ -412,8 +425,8 @@ export default function stem( word, morphologyData ) {
 	/* Step 5:
 	 * Undouble final consonants
 	 */
-	const consonantUndoublingSteps = morphologyData.regularStemmer.finalConsonantUndoubling;
-	word = replaceRegex( word, consonantUndoublingSteps );
+	word = replaceRegex( word, morphologyData.regularStemmer.finalConsonantUndoubling );
+
 	/* Step 6:
 	 * Un-accent
 	 */
