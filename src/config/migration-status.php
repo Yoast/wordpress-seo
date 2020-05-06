@@ -164,6 +164,9 @@ class Migration_Status {
 		if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 			return false;
 		}
+		$current_blog_id = \get_current_blog_id();
+
+		$this->migration_options[ $current_blog_id ][ $name ] = $migration_status;
 
 		$this->migration_options[ $name ] = $migration_status;
 
