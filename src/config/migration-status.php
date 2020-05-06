@@ -166,9 +166,10 @@ class Migration_Status {
 		}
 		$current_blog_id = \get_current_blog_id();
 
+		if ( ! isset( $this->migration_options[ $current_blog_id ] ) ) {
+			$this->migration_options[ $current_blog_id ] = [];
+		}
 		$this->migration_options[ $current_blog_id ][ $name ] = $migration_status;
-
-		$this->migration_options[ $name ] = $migration_status;
 
 		return \update_option( self::MIGRATION_OPTION_KEY . $name, $migration_status );
 	}
