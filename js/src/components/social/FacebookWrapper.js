@@ -1,10 +1,18 @@
 import React, { Fragment } from "react";
 import { Slot } from "@wordpress/components";
+import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 
 const socialMediumName = "Facebook";
+
+/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+const descriptionPlaceholder  = sprintf(
+	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+	__( "Modify your %s description by editing it right here...", "yoast-components" ),
+	socialMediumName
+);
 
 /**
  * This wrapper is connected to the facebook container. So the data is connected to both components.
@@ -17,6 +25,7 @@ const socialMediumName = "Facebook";
 const FacebookWrapper = ( props ) => {
 	const richProps = {
 		...props,
+		descriptionPlaceholder,
 		socialMediumName,
 	};
 
