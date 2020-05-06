@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
-use WPSEO_Paper_Presenter;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
@@ -19,9 +18,10 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 	/**
 	 * Holds the migration error.
 	 *
-	 * @param int|false $time    The timestamp.
-	 * @param string    $version The Yoast SEO version.
-	 * @param string    $message The error message.
+	 * The array holds the following values if filled:
+	 * - int|false $time    The timestamp.
+	 * - string    $version The Yoast SEO version.
+	 * - string    $message The error message.
 	 *
 	 * @var array
 	 */
