@@ -104,17 +104,22 @@ class Migration_Error_Integration_Test extends TestCase {
 	 * @covers ::render_migration_error
 	 */
 	public function test_render_migration_error() {
+		$this->migration_status->expects( 'get_error' )
+			->once()
+			->with( 'free' )
+			->andReturn( [ 'message' => 'test error' ] );
+
 		Monkey\Functions\expect( 'add_query_arg' )
 			->andReturn( 'https://yoa.st/3-6' );
 
 		$expected  = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO was unable to create the database tables required and as such will not function correctly.</p>';
 		$expected .= '<p>Please read <a href="' . \WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
+		$expected .= '<details><summary>Show debug information</summary><p>test error</p></details>';
 		$expected .= '</div>';
 
 		$this->instance->render_migration_error();
 
 		$this->expectOutput( $expected );
 	}
-
 }
