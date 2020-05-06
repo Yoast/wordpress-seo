@@ -69,8 +69,17 @@ const wordsToStem = [
 	// Input a noun ending in -ment.
 	[ "clément", "clément" ],
 	[ "cléments", "clément" ],
-
-
+	// Words on the exception list with full forms.
+	[ "yeux", "œil" ],
+	[ "oeil", "œil" ],
+	[ "œil", "œil" ],
+	[ "ciels", "ciel" ],
+	[ "cieux", "ciel" ],
+	[ "fol", "fou" ],
+	// Words that have multiple stems.
+	[ "favorit", "favor" ],
+	[ "fraîch", "frais" ],
+	[ "fraich", "frais" ],
 ];
 
 const paradigms = [
