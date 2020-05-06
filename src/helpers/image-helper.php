@@ -287,7 +287,14 @@ class Image_Helper {
 			return $indexable->object_id;
 		}
 
-		return 0;
+		$post_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+
+		if ( $post_id !== 0 ) {
+			// Find the indexable, this triggers creating it so it can be found next time.
+			$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+		}
+
+		return $post_id;
 	}
 
 	/**
