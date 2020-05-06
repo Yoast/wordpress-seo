@@ -5,6 +5,8 @@
  * @package WPSEO\Internal
  */
 
+use Yoast\WP\Lib\Model;
+
 /**
  * This code handles the option upgrades.
  */
@@ -54,7 +56,7 @@ class WPSEO_Upgrade {
 			'12.8-RC0'   => 'upgrade_128',
 			'13.2-RC0'   => 'upgrade_132',
 			'14.0.3-RC0' => 'upgrade_1403',
-			'14.1-RC0'  => 'upgrade_141',
+			'14.1-RC0'   => 'upgrade_141',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -748,11 +750,23 @@ class WPSEO_Upgrade {
 	 * Performs the 14.1 upgrade.
 	 */
 	private function upgrade_141() {
+		global $wpdb;
+
 		/*
 		 * These notifications are retrieved from storage on the `init` hook with
 		 * priority 1. We need to remove them after they're retrieved.
 		 */
 		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
+
+		// Clean up indexables of private taxonomies.
+		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+		$placeholders       = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
+		$indexable_table    = Model::get_table_name( 'Indexable' );
+		$query              = $wpdb->prepare(
+			"DELETE FROM $indexable_table WHERE object_type = 'term' AND object_sub_type IN ($placeholders)",
+			$private_taxonomies
+		);
+		$wpdb->query( $query );
 	}
 
 	/**
