@@ -44,6 +44,7 @@ const wordpressExternals = {
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/url": "window.wp.url",
 	"@wordpress/dom-ready": "window.wp.domReady",
+	"@wordpress/a11y": "window.wp.a11y",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.

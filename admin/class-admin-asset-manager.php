@@ -454,6 +454,8 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
+					'wp-a11y',
+					'wp-dom-ready',
 				],
 			],
 			[
