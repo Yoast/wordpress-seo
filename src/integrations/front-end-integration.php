@@ -166,7 +166,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Migrations_Conditional::class ];
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**
