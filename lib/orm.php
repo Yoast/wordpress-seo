@@ -8,6 +8,7 @@
 namespace Yoast\WP\Lib;
 
 use wpdb;
+use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
  *
@@ -264,12 +265,21 @@ class ORM implements \ArrayAccess {
 		 */
 		global $wpdb;
 
+		$show_errors = $wpdb->show_errors;
+
+		if ( YoastSEO()->classes->get( Migration_Status::class )->get_error( 'free' ) ) {
+			$wpdb->show_errors = false;
+		}
+
 		$parameters = \array_filter( $parameters, function ( $parameter ) {
 			return $parameter !== null;
 		} );
-		$query = $wpdb->prepare( $query, $parameters );
+		$query  = $wpdb->prepare( $query, $parameters );
+		$result = $wpdb->query( $query );
 
-		return $wpdb->query( $query );
+		$wpdb->show_errors = $show_errors;
+
+		return $result;
 	}
 
 	// ------------------------ //
