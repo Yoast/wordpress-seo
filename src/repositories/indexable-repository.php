@@ -132,7 +132,6 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function find_by_permalink( $permalink ) {
-		$permalink      = \trailingslashit( $permalink );
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
@@ -397,17 +396,24 @@ class Indexable_Repository {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
 			case $indexable->object_type === 'home-page':
-				return get_permalink( $indexable->object_id );
+				if ( $indexable->object_sub_type === 'attachment' ) {
+					return \wp_get_attachment_url( $indexable->object_id );
+				}
+				return \get_permalink( $indexable->object_id );
 			case $indexable->object_type === 'term':
-				$term = get_term( $indexable->object_id );
+				$term = \get_term( $indexable->object_id );
 
-				return get_term_link( $term, $term->taxonomy );
+				if ( $term === null || \is_wp_error( $term ) ) {
+					return null;
+				}
+
+				return \get_term_link( $term, $term->taxonomy );
 			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return get_search_link();
+				return \get_search_link();
 			case $indexable->object_type === 'post-type-archive':
-				return get_post_type_archive_link( $indexable->object_sub_type );
+				return \get_post_type_archive_link( $indexable->object_sub_type );
 			case $indexable->object_type === 'user':
-				return get_author_posts_url( $indexable->object_id );
+				return \get_author_posts_url( $indexable->object_id );
 		}
 
 		return null;

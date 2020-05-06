@@ -82,7 +82,13 @@ class Indexable_Post_Builder {
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = $post->post_type;
-		$indexable->permalink       = \get_permalink( $post_id );
+		if ( $post->post_type !== 'attachment' ) {
+			$indexable->permalink = \get_permalink( $post_id );
+		}
+		else {
+			$indexable->permalink = \wp_get_attachment_url( $post_id );
+		}
+
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),

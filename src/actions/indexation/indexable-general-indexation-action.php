@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
