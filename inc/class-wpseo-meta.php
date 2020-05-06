@@ -936,7 +936,7 @@ class WPSEO_Meta {
 	 * Counts the total of all the keywords being used for posts except the given one.
 	 *
 	 * @param string  $keyword The keyword to be counted.
-	 * @param integer $post_id The is of the post to which the keyword belongs.
+	 * @param integer $post_id The id of the post to which the keyword belongs.
 	 *
 	 * @return array
 	 */
@@ -947,6 +947,8 @@ class WPSEO_Meta {
 		}
 
 		/**
+		 * The indexable repository.
+		 *
 		 * @var Indexable_Repository
 		 */
 		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
@@ -962,7 +964,12 @@ class WPSEO_Meta {
 			return (int) $row['object_id'];
 		}, $post_ids );
 
-		// If Yoast SEO Premium is active, get the additional keywords as well.
+		/*
+		 * If Yoast SEO Premium is active, get the additional keywords as well.
+		 * We only check for the additional keywords if we've not already found two.
+		 * In that case there's no use for an additional query as we already know
+		 * that the keyword has been used multiple times before.
+		 */
 		if ( WPSEO_Utils::is_yoast_seo_premium() && count( $post_ids ) < 2 ) {
 			$query = [
 				'meta_query'     => [
@@ -980,7 +987,7 @@ class WPSEO_Meta {
 				 * We only need to return zero, one or two results:
 				 * - Zero: keyword hasn't been used before
 				 * - One: Keyword has been used once before
-				 * - Two or more: Keyword has been used twice before
+				 * - Two or more: Keyword has been used twice or more before
 				 */
 				'posts_per_page' => 2,
 			];
