@@ -76,6 +76,7 @@ const wordsToStem = [
 	[ "ciels", "ciel" ],
 	[ "cieux", "ciel" ],
 	[ "fol", "fou" ],
+	[ "doucement", "doux" ],
 	// Words that have multiple stems.
 	[ "favorit", "favor" ],
 	[ "fraîch", "frais" ],
