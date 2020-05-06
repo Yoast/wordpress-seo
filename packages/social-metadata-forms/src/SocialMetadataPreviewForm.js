@@ -154,6 +154,7 @@ class SocialMetadataPreviewForm extends Component {
 			onRemoveImageClick,
 			title,
 			description,
+			descriptionPlaceholder,
 			onTitleChange,
 			onDescriptionChange,
 			hoveredField,
@@ -173,12 +174,6 @@ class SocialMetadataPreviewForm extends Component {
 		const titleEditorTitle = sprintf( __( "%s title", "yoast-components" ), socialMediumName );
 		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
 		const descEditorTitle = sprintf( __( "%s desciption", "yoast-components" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-		const descEditorPlaceholder  = sprintf(
-			/* Translators: %s expands to the social medium name, i.e. Faceboook. */
-			__( "Modify your %s description by editing it right here...", "yoast-components" ),
-			socialMediumName
-		);
 
 		return (
 			<Fragment>
@@ -214,7 +209,7 @@ class SocialMetadataPreviewForm extends Component {
 				<ReplacementVariableEditor
 					onChange={ onDescriptionChange }
 					content={ description }
-					placeholder={ descEditorPlaceholder }
+					placeholder={ descriptionPlaceholder }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
@@ -250,6 +245,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	descriptionPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
 };
@@ -262,6 +258,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	activeField: "",
 	onSelect: () => {},
 	imageUrl: "",
+	descriptionPlaceholder: "",
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
