@@ -43,17 +43,13 @@ class Indexable_Term_Builder {
 	public function build( $term_id, $indexable ) {
 		$term = \get_term( $term_id );
 
-		if ( $term === null ) {
-			return false;
-		}
-
-		if ( is_wp_error( $term ) ) {
+		if ( $term === null || \is_wp_error( $term ) ) {
 			return false;
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
 
-		if ( is_wp_error( $term_link ) ) {
+		if ( \is_wp_error( $term_link ) ) {
 			return false;
 		}
 
