@@ -44,7 +44,7 @@ class Indexable_Term_Builder {
 	public function build( $term_id, $indexable ) {
 		$term = WP_Term::get_instance( $term_id );
 
-		if ( $term === null || is_wp_error( $term ) ) {
+		if ( $term === null || \is_wp_error( $term ) ) {
 			return false;
 		}
 
