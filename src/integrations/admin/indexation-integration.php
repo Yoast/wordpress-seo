@@ -138,7 +138,7 @@ class Indexation_Integration implements Integration_Interface {
 		 *
 		 * @api int The maximum number of objects indexed.
 		 */
-		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 50 );
+		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 
 		if ( $this->get_total_unindexed() < $shutdown_limit ) {
 			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
