@@ -59,7 +59,7 @@ class Indexable_Term_Builder {
 
 		$term_meta = $this->taxonomy->get_term_meta( $term );
 
-		$indexable->object_id       = $term->term_id;
+		$indexable->object_id       = $term_id;
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;
