@@ -50,7 +50,7 @@ class Indexable_Term_Builder {
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
 
-		if ( is_wp_error( $term_link ) ) {
+		if ( \is_wp_error( $term_link ) ) {
 			return false;
 		}
 
