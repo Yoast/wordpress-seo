@@ -7,11 +7,6 @@
 	display: block;
 }
 
-.wpseotab .tab-block {
-	display: block;
-	margin: 30px 0;
-}
-
 .yoast-break {
 	border-bottom: 1px solid var(--color-border);
 	margin-bottom: 32px;
@@ -20,6 +15,7 @@
 .yoast-tabs {
 	font-size: 16px;
 	overflow: hidden;
+	margin-bottom: 32px;
 }
 
 .yoast-tabs__list {
