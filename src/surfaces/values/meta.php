@@ -210,4 +210,13 @@ class Meta {
 	public function __isset( $name ) {
 		return isset( $this->context->presentation->{$name} );
 	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'context' => $this->context ];
+	}
 }

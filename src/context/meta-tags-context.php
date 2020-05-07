@@ -412,6 +412,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
 	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'indexable' => $this->indexable, 'presentation' => $this->presentation ];
+	}
 }
 
 class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
