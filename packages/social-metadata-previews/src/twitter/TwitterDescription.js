@@ -13,6 +13,8 @@ const TwitterDescription = styled.p`
 	max-height: 55px;
 	min-height: 20px;
 	overflow: hidden;
+	font-size: 15px;
+	line-height: 20px;
 	text-overflow: ellipsis;
 	margin: 0 0 2px;
 	color: rgb(101, 119, 134);
