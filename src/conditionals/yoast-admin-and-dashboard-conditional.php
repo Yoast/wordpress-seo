@@ -19,7 +19,7 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 		global $pagenow;
 
 		// Do not output on plugin / theme installation pages or when wordpress is upgrading.
-		if ( ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || wp_installing() ) {
+		if ( ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || $this->on_plugin_or_theme_page() || wp_installing() ) {
 			return false;
 		}
 
@@ -32,5 +32,19 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 			'plugins.php',
 			'update-core.php',
 		], true );
+	}
+
+	/**
+	 * Checks if we are on a theme or plugin upgrade page.
+	 *
+	 * @return bool Whether we are on a theme or plugin upgrade page.
+	 */
+	private function on_plugin_or_theme_page() {
+		/*
+		 * IFRAME_REQUEST is not defined on these pages,
+		 * though these action pages do show when upgrading themes or plugins.
+		 */
+		$actions = [ 'do-theme-upgrade', 'do-plugin-upgrade' ];
+		return isset( $_GET['action'] ) && in_array( $_GET['action'], $actions, true );
 	}
 }
