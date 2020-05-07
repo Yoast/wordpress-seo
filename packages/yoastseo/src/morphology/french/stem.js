@@ -398,6 +398,14 @@ export default function stem( word, morphologyData ) {
 		return ifException;
 	}
 
+	// Check the exception list of words with plural suffix -x.
+	if ( word.endsWith( "x" ) ) {
+		const pluralsWithXSuffix = morphologyData.pluralsWithXSuffix;
+		if ( pluralsWithXSuffix.includes( word ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
+
 	// Pre-processing steps
 	word = word.replace( /qu/g, "qU" );
 	word = word.replace( /([aeiouyâàëéêèïîôûù])u([aeiouyâàëéêèïîôûù])/g, "$1U$2" );

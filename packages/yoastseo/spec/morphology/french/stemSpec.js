@@ -81,6 +81,11 @@ const wordsToStem = [
 	[ "favorit", "favor" ],
 	[ "fraîch", "frais" ],
 	[ "fraich", "frais" ],
+	// Words with the plural suffix -x.
+	[ "baux", "bau" ],
+	[ "feux", "feu" ],
+	[ "cailloux", "caillou" ],
+	[ "étaux", "étau" ],
 ];
 
 const paradigms = [
