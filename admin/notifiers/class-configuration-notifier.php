@@ -61,7 +61,6 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 *
 	 * @return void
 	 */
-
 	public function listen() {
 		if ( ! $this->show_notification() || ! $this->dismissal_is_triggered() ) {
 			return;
