@@ -550,7 +550,7 @@ class Yoast_Form {
 				' id="wpseo_', $var_esc, '_button"',
 				' class="wpseo_image_upload_button yoast-button yoast-button--secondary yoast-button--upload"',
 				' type="button"',
-				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
+				' value="', esc_attr__( 'Upload image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' />';
