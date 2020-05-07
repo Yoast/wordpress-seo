@@ -400,6 +400,14 @@ export default function stem( word, morphologyData ) {
 		return ifException;
 	}
 
+	// Check the exception list of words with plural suffix -x.
+	if ( word.endsWith( "x" ) ) {
+		const pluralsWithXSuffix = morphologyData.pluralsWithXSuffix;
+		if ( pluralsWithXSuffix.includes( word ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
+
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
