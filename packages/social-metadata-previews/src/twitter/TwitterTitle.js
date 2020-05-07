@@ -7,6 +7,7 @@ const height = "18px";
 const TwitterTitle = styled.p`
 	line-height: ${ height };
 	min-height : ${ height };
+	font-size: 15px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
