@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use WP_Post;
 use WP_Term;
+use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -97,15 +98,42 @@ class Indexable_Hierarchy_Builder {
 	public function build( Indexable $indexable ) {
 		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
 
+		$ancestors = [];
 		if ( $indexable->object_type === 'post' ) {
-			$this->add_ancestors_for_post( $indexable->id, $indexable->object_id );
+			$ancestors = $this->add_ancestors_for_post( $indexable->id, $indexable->object_id );
 		}
 
 		if ( $indexable->object_type === 'term' ) {
-			$this->add_ancestors_for_term( $indexable->id, $indexable->object_id );
+			$ancestors = $this->add_ancestors_for_term( $indexable->id, $indexable->object_id );
 		}
 
+		$indexable->ancestors = $this->save_ancestors( $ancestors, $indexable->id );
+
 		return $indexable;
+	}
+
+	/**
+	 * Saves the ancestors.
+	 *
+	 * @param Indexable[] $ancestors    The ancestors to save.
+	 * @param int         $indexable_id The indexable id.
+	 *
+	 * @return Indexable[] The ancestors.
+	 */
+	private function save_ancestors( $ancestors, $indexable_id ) {
+		$depth   = 1;
+		$parents = [];
+		foreach ( $ancestors as $ancestor ) {
+			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
+				return [];
+			}
+
+			$parents[] = $ancestor->id;
+
+			$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth++ );
+		}
+
+		return $ancestors;
 	}
 
 	/**
@@ -116,47 +144,43 @@ class Indexable_Hierarchy_Builder {
 	 * @param int   $depth        The current depth.
 	 * @param int[] $parents      The indexable IDs of all parents.
 	 *
-	 * @return void
+	 * @return Indexable[]
 	 */
-	private function add_ancestors_for_post( $indexable_id, $post_id, $depth = 1, $parents = [] ) {
+	private function add_ancestors_for_post( $indexable_id, $post_id, $parents = [] ) {
 		$post = $this->post->get_post( $post_id );
 
 		if ( ! isset( $post->post_parent ) ) {
-			return;
+			return [];
 		}
 
+		$ancestors = [];
+
 		if ( $post->post_parent !== 0 && $this->post->get_post( $post->post_parent ) !== null ) {
-			$ancestor = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
+			$ancestor    = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
-				return;
+				return [];
 			}
 
-			$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-			if ( $ancestor_hierarchy === false ) {
-				return;
-			}
-			$parents[] = $ancestor->id;
-			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, ( $depth + 1 ), $parents );
-			return;
+			$ancestors[] = $ancestor;
+			$parents[]   = $ancestor->id;
+
+			return array_merge( $ancestors, $this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, $parents ) );
 		}
 
 		$primary_term_id = $this->find_primary_term_id_for_post( $post );
 
 		if ( $primary_term_id === 0 ) {
-			return;
+			return $ancestors;
 		}
 
-		$ancestor = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
-		if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
-			return;
-		}
+		$ancestor    = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
+		$ancestors[] = $ancestor;
+		$parents[]   = $ancestor->id;
 
-		$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-		if ( $ancestor_hierarchy === false ) {
-			return;
-		}
-		$parents[] = $ancestor->id;
-		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ), $parents );
+		return array_merge(
+			$ancestors,
+			$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, $parents )
+		);
 	}
 
 	/**
@@ -164,27 +188,26 @@ class Indexable_Hierarchy_Builder {
 	 *
 	 * @param int   $indexable_id The indexable id, this is the id of the original indexable.
 	 * @param int   $term_id      The term id, this is the id of the term currently being evaluated.
-	 * @param int   $depth        The current depth.
 	 * @param int[] $parents      The indexable IDs of all parents.
 	 *
-	 * @return void
+	 * @return Indexable[]
 	 */
-	private function add_ancestors_for_term( $indexable_id, $term_id, $depth = 1, $parents = [] ) {
+	private function add_ancestors_for_term( $indexable_id, $term_id, $parents = [] ) {
 		$term         = \get_term( $term_id );
 		$term_parents = $this->get_term_parents( $term );
 
+		$ancestors = [];
 		foreach ( $term_parents as $parent ) {
-			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
+			$ancestor    = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				continue;
 			}
-			$ancestor_hierarchy = $this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
-			if ( $ancestor_hierarchy === false ) {
-				return;
-			}
-			$parents[] = $ancestor->id;
-			++$depth;
+
+			$ancestors[] = $ancestor;
+			$parents[]   = $ancestor->id;
 		}
+
+		return $ancestors;
 	}
 
 	/**
@@ -201,12 +224,13 @@ class Indexable_Hierarchy_Builder {
 			return 0;
 		}
 
-		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
+		$primary_term    = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
+		$primary_term_id = $primary_term ? $primary_term->term_id : get_post_meta( $post->ID, \WPSEO_Meta::$meta_prefix . 'primary_' . $main_taxonomy, true );
 
-		if ( $primary_term ) {
-			$term = \get_term( $primary_term->term_id );
+		if ( $primary_term_id ) {
+			$term = \get_term( $primary_term_id );
 			if ( $term !== null && ! \is_wp_error( $term ) ) {
-				return $primary_term->term_id;
+				return $primary_term_id;
 			}
 		}
 
@@ -307,11 +331,11 @@ class Indexable_Hierarchy_Builder {
 			return true;
 		}
 
-		if ( \in_array( $ancestor->id, $parents, true ) ) {
+		if ( $ancestor->id !== null && \in_array( $ancestor->id, $parents, true ) ) {
 			return true;
 		}
 
-		if ( $ancestor->id === $indexable_id ) {
+		if ( $ancestor->id !== null && $ancestor->id === $indexable_id ) {
 			return true;
 		}
 
