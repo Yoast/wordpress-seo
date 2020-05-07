@@ -13,50 +13,65 @@
 class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests whether the wizard notification returns the correct value when the wizard has not been started yet.
+	 * Tests whether the wizard notification calls the right function for the right notification - in this case the first time notification
 	 *
 	 * @covers WPSEO_Configuration_Notifier::notify
+	 * @covers WPSEO_Configuration_Notifier::first_time_notification
 	 */
 	public function test_notify_when_not_started_wizard() {
 		WPSEO_Options::set( 'show_onboarding_notice', true );
 		WPSEO_Options::set( 'started_configuration_wizard', false);
-		$notifier = new WPSEO_Configuration_Notifier();
-		$this->assertEquals( 'Get started quickly with the configuration wizard!<br/>We have detected that you have not started this wizard yet, so we recommend you to <a href="' . get_site_url() . '/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->notify() );
+
+		$instance = $this->getMockBuilder( 'WPSEO_Configuration_Notifier' )
+			->setMethods( [ 'first_time_notification' ] )
+			->getMock();
+
+		$instance->expects( $this->once() )->method( 'first_time_notification' );
+
+		$instance->notify();
+
 	}
 
 	/**
-	 * Tests whether the wizard notification returns the correct value when the wizard has not been started yet.
+	 * Tests whether the wizard notification calls the right function for the right notification - in this case the continue notification
 	 *
 	 * @covers WPSEO_Configuration_Notifier::notify
+	 * @covers WPSEO_Configuration_Notifier::continue_notification
 	 */
 	public function test_notify_when_started_wizard() {
 		WPSEO_Options::set( 'show_onboarding_notice', true );
 		WPSEO_Options::set( 'started_configuration_wizard', true);
-		$notifier = new WPSEO_Configuration_Notifier();
-		$this->assertEquals( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.<br/>We have detected that you have not finished this wizard yet, so we recommend you to <a href="' . get_site_url() . '/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->notify() );
+
+		$instance = $this->getMockBuilder( 'WPSEO_Configuration_Notifier' )
+			->setMethods( [ 'continue_notification' ] )
+			->getMock();
+
+		$instance->expects( $this->once() )->method( 'continue_notification' );
+
+		$instance->notify();
+
 	}
 
+
+
+
 	/**
-	 * Tests whether the wizard notification returns the correct value when the wizard has been completed.
+	 * Tests whether the wizard notification calls the right function for the right notification - in this case the rerun notification
 	 *
 	 * @covers WPSEO_Configuration_Notifier::notify
+	 * @covers WPSEO_Configuration_Notifier::re_run_notification
 	 */
 	public function test_notify_when_completed_wizard() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
-		$notifier = new WPSEO_Configuration_Notifier();
-		$this->assertEquals( 'You have successfully completed the configuration wizard, good job!<br/>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="' . get_site_url() . '/wp-admin/admin.php?page=wpseo_configurator">reopen the configuration wizard</a>.', $notifier->notify() );
-	}
 
-	/**
-	 * Tests the notify method when the Onboarding Wizard notice will be shown.
-	 *
-	 * @covers WPSEO_Configuration_Notifier::notify
-	 */
-	public function test_notify_when_onboarding_wizard_notice_will_be_shown() {
-		WPSEO_Options::set( 'show_onboarding_notice', true );
-		$notifier = new WPSEO_Configuration_Notifier();
+		$instance = $this->getMockBuilder( 'WPSEO_Configuration_Notifier' )
+			->setMethods( [ 're_run_notification' ] )
+			->getMock();
 
-		$this->assertNotEquals( '', $notifier->notify() );
+		$instance->expects( $this->once() )->method( 're_run_notification' );
+
+		$instance->notify();
+
 	}
 
 	/**

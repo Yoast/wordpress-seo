@@ -15,7 +15,7 @@
 $notifications_data = Yoast_Notifications::get_template_variables();
 
 $notifier = new WPSEO_Configuration_Notifier();
-$notifier->listen();
+//$notifier->listen();
 $notifier->notify();
 $wpseo_contributors_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
