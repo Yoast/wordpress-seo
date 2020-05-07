@@ -143,6 +143,8 @@ const ReactifiedComponentsWrapper = () => {
 				onText="on"
 				name="toggle"
 				id="weird-id-that-is-unique"
+				linkTo="https://yoast.com"
+				linkText="A helpful link!"
 				onChange={ console.warn }
 			/>
 			<DataModel

@@ -1,8 +1,8 @@
 import en from "../../premium-configuration/data/morphologyData-v3.json";
-import de from "../../premium-configuration/data/morphologyData-de-v5.json";
-import nl from "../../premium-configuration/data/morphologyData-nl-v5.json";
-import es from "../../premium-configuration/data/morphologyData-es-v5.json";
-import fr from "../../premium-configuration/data/morphologyData-fr-v5.json";
+import de from "../../premium-configuration/data/morphologyData-de-v6.json";
+import nl from "../../premium-configuration/data/morphologyData-nl-v6.json";
+import es from "../../premium-configuration/data/morphologyData-es-v6.json";
+import fr from "../../premium-configuration/data/morphologyData-fr-v6.json";
 import ru from "../../premium-configuration/data/morphologyData-ru-v6.json";
 
 
