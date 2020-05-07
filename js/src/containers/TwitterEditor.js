@@ -1,12 +1,24 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
+import { __, sprintf } from "@wordpress/i18n";
 import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
+
+const socialMediumName = "Twitter";
+
+const titlePlaceholder = window.wpseoPostScraperL10n ? window.wpseoPostScraperL10n.title_template : window.wpseoTermScraperL10n.title_template;
+
+/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+const descriptionPlaceholder  = sprintf(
+	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+	__( "Modify your %s description by editing it right here...", "yoast-components" ),
+	socialMediumName
+);
 
 /**
  * Container that holds the media object.
@@ -62,6 +74,9 @@ export default compose( [
 			siteUrl: getSiteUrl(),
 			isPremium: !! isPremium,
 			isLarge: getTwitterImageType(),
+			titlePlaceholder,
+			descriptionPlaceholder,
+			socialMediumName,
 		};
 	} ),
 
