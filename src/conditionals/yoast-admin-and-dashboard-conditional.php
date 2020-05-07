@@ -18,7 +18,8 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
-		if ( wp_installing() ) {
+		// Do not output on plugin / theme installation pages or when wordpress is upgrading.
+		if ( ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || wp_installing() ) {
 			return false;
 		}
 
