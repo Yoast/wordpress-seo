@@ -175,7 +175,7 @@ class Indexable extends Model {
 		if ( ! isset( $permalink_parts['path'] ) ) {
 			$permalink_parts['path'] = '/';
 		}
-		if ( \substr( $permalink_structure , -1, 1 ) === '/' && \strpos( $permalink_parts['path'], '.', -5 ) === false ) {
+		if ( \substr( $permalink_structure , -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
 			$permalink_parts['path'] = \trailingslashit( $permalink_parts['path'] );
 		}
 
