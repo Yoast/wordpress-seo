@@ -128,6 +128,7 @@ class SocialPreviewEditor extends Component {
 			imageFallbackUrl,
 			alt,
 			title,
+			titlePlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
 			applyReplacementVariables,
@@ -136,7 +137,7 @@ class SocialPreviewEditor extends Component {
 		} = this.props;
 
 		// Preset a title fallback for the preview if title is empty.
-		const previewTitle = title === "" ? "%%title%% %%sep%% %%sitename%%" : title;
+		const previewTitle = title === "" ? titlePlaceholder : title;
 
 		const replacedVars = applyReplacementVariables( { title: previewTitle, description } );
 		const previewDescription = replacedVars.description === "" ? descriptionPlaceholder : replacedVars.description;
@@ -198,6 +199,7 @@ SocialPreviewEditor.propTypes = {
 	isLarge: PropTypes.bool,
 	siteUrl: PropTypes.string,
 	descriptionPlaceholder: PropTypes.string,
+	titlePlaceholder: PropTypes.string,
 	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
@@ -212,6 +214,7 @@ SocialPreviewEditor.defaultProps = {
 	isLarge: true,
 	siteUrl: "",
 	descriptionPlaceholder: "",
+	titlePlaceholder: "",
 	alt: "",
 	authorName: "",
 	applyReplacementVariables: data => data,
