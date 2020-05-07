@@ -18,6 +18,10 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
+		if ( wp_installing() ) {
+			return false;
+		}
+
 		if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && strpos( $_GET['page'], 'wpseo' ) === 0 ) {
 			return true;
 		}
