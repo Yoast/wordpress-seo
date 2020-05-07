@@ -610,4 +610,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
 	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'model' => $this->model, 'context' => $this->context ];
+	}
 }

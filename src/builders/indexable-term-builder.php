@@ -43,23 +43,19 @@ class Indexable_Term_Builder {
 	public function build( $term_id, $indexable ) {
 		$term = \get_term( $term_id );
 
-		if ( $term === null ) {
-			return false;
-		}
-
-		if ( is_wp_error( $term ) ) {
+		if ( $term === null || \is_wp_error( $term ) ) {
 			return false;
 		}
 
 		$term_link = \get_term_link( $term, $term->taxonomy );
 
-		if ( is_wp_error( $term_link ) ) {
+		if ( \is_wp_error( $term_link ) ) {
 			return false;
 		}
 
 		$term_meta = $this->taxonomy->get_term_meta( $term );
 
-		$indexable->object_id       = $term->term_id;
+		$indexable->object_id       = $term_id;
 		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $term->taxonomy;
 		$indexable->permalink       = $term_link;

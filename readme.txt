@@ -218,8 +218,14 @@ Bugfixes:
 * Fixes a bug where an empty breadcrumb would be output when a taxonomy was set to have a post type archive in its breadcrumb when that post type didn't have an archive.
 * Fixes a bug where a part of the breadcrumb path was missing on search result pages.
 * Fixes a bug where an error would be thrown and the indexation could not be completed due to posts or terms having themselves as a parent or grandparent.
-* Fixes a bug where the SEO data for non-public terms and taxonomies was unnecessarily being indexed.
+* Fixes a bug where the SEO data was unnecessarily being indexed when a non-public term or taxonomy was being saved.
 * Fixes a bug where the SEO data of an object would be indexed twice during the indexation process when it was an ancestor of another object in the same REST request.
+* Fixes a bug where huge log files would be generated if PHP was configured to also log the arguments in debug backtraces.
+* Fixes a bug where the indexation would continue even though it had already indexed all objects.
+* Fixes a bug where term indexation would keep going on forever due to plugin conflicts.
+* Fixes a bug where primary terms of a custom taxonomy where not being reflected in the breadcrumb.
+* Fixes a bug where the URL in the schema breadcrumbs of search pages would be missing.
+* Fixes a bug where the `wpseo_remove_reply_to_com` filter was not working.
 
 Enhancements:
 
@@ -231,7 +237,13 @@ Enhancements:
 * Improves the ordering of items in XML sitemaps to match SQL standards. Props to [rafaelbernard](https://github.com/rafaelbernard).
 * Improves the transition word assessment for Hungarian. Props to [@Zsoru](https://github.com/Zsoru).
 * Adds the `--reindex` flag to the indexables WP CLI command to remove all existing indexables and then reindex all content.
-* Adds the `wpseo_robots_array` filter to enable the filtering of the the robots array used for the robots meta tag output.
+* Adds the `wpseo_robots_array` filter to enable the filtering of the robots array used for the robots meta tag output.
+* Adds the `wpseo_shutdown_indexation_limit` filter to enable the filtering of the number of objects that can remain unindexed. These remaining objects will automatically be indexed without needing any user interaction as a shutdown function.
+* Adds debug information to the error that is shown when Yoast SEO was unable to create the necessary database tables.
+
+Other
+
+* Deletes the unnecessarily created indexables of private taxonomies.
 
 = 14.0.4 =
 Release Date: April 30th, 2020
