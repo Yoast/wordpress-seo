@@ -631,6 +631,89 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Create a Title separator input field.
+	 *
+	 * @param string $var         The variable within the option to create the radio button for.
+	 * @param array  $values      The radio options to choose from.
+	 * @param string $legend      Optional. The legend to show for the field set, if any.
+	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
+	 *
+	 * @since 2.0
+	 */
+	public function title_separator( $var, $values, $legend = '', $legend_attr = [] ) {
+		if ( ! is_array( $values ) || $values === [] ) {
+			return;
+		}
+		$val = $this->get_field_value( $var, false );
+
+		$var_esc = esc_attr( $var );
+
+		echo '<div class="yoast-field-group__title-separator" id="' . $var_esc . '">';
+
+		if ( is_string( $legend ) && $legend !== '' ) {
+
+			$defaults = [
+				'id'    => '',
+				'class' => 'radiogroup',
+			];
+
+			$legend_attr = wp_parse_args( $legend_attr, $defaults );
+
+			$this->legend( $legend, $legend_attr );
+		}
+
+		foreach ( $values as $key => $value ) {
+			$label      = $value;
+			$aria_label = '';
+
+			if ( is_array( $value ) ) {
+				$label      = isset( $value['label'] ) ? $value['label'] : '';
+				$aria_label = isset( $value['aria_label'] ) ? $value['aria_label'] : '';
+			}
+
+			$key_esc = esc_attr( $key );
+			echo '<input type="radio" class="visually-hidden" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
+			$this->label_title_separator(
+				$label,
+				[
+					'for'        => $var_esc . '-' . $key_esc,
+					'class'      => 'radio',
+					'aria_label' => $aria_label,
+				]
+			);
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * Output a label element.
+	 *
+	 * @param string $text Label text string.
+	 * @param array  $attr HTML attributes set.
+	 *
+	 * @since 2.0
+	 */
+	public function label_title_separator( $text, $attr ) {
+		$defaults = [
+			'class'      => 'checkbox',
+			'close'      => true,
+			'for'        => '',
+			'aria_label' => '',
+		];
+
+		$attr       = wp_parse_args( $attr, $defaults );
+		$aria_label = '';
+		if ( $attr['aria_label'] !== '' ) {
+			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
+		}
+
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
+		if ( $attr['close'] ) {
+			echo '</label>';
+		}
+	}
+
+	/**
 	 * Create a toggle switch input field using two radio buttons.
 	 *
 	 * @param string $var    The variable within the option to create the radio buttons for.
