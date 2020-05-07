@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
+echo '<div class="tab-block yoast-feature">';
 echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
@@ -68,5 +68,5 @@ $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 	</p>
 </div>
 <?php
-
+echo '</div>';
 do_action( 'wpseo_admin_opengraph_section' );
