@@ -1,4 +1,5 @@
 /* eslint-disable max-statements, complexity */
+import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
 /*
  * MIT License
@@ -258,18 +259,18 @@ const processStandardSuffixes = function( word, standardSuffixData, r1Index, r2I
  * @param {string} word                       The word for which to remove suffixes.
  * @param {string} originalWord               The unprocessed word.
  * @param {number} rvIndex                    The start index of RV.
- * @param {string} verbSuffixesWithIBeginning The French suffixes starting with I.
+ * @param {string} verbSuffixesWithIBeginning Data for checking French suffixes starting with I.
  *
- * @returns {{step2aDone: boolean, word: string}}   The word and information about whether the conditions for step 2a were met.
+ * @returns {{step2aDone: boolean, word: string}} The word and information about whether the conditions for step 2a were met.
  */
 const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, verbSuffixesWithIBeginning ) {
 	let step2aDone = false;
-	if ( originalWord === word.toLowerCase() || originalWord.endsWith( "ment" ) || originalWord.endsWith( "ments" ) ) {
+	if ( originalWord === word.toLowerCase() || checkIfWordEndingIsOnExceptionList( originalWord, verbSuffixesWithIBeginning.exceptions ) ) {
 		step2aDone = true;
 
-		const b1Regex = new RegExp( verbSuffixesWithIBeginning[ 0 ] );
+		const b1Regex = new RegExp( verbSuffixesWithIBeginning.suffixes[ 0 ] );
 		if ( word.search( b1Regex ) >= rvIndex ) {
-			word = word.replace( b1Regex, verbSuffixesWithIBeginning[ 1 ] );
+			word = word.replace( b1Regex, verbSuffixesWithIBeginning.suffixes[ 1 ] );
 		}
 	}
 
