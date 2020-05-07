@@ -760,10 +760,8 @@ class WPSEO_Upgrade {
 		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
 
 		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
-		$show_errors = $wpdb->show_errors;
-		if ( YoastSEO()->classes->get( Migration_Status::class )->get_error( 'free' ) ) {
-			$wpdb->show_errors = false;
-		}
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
 
 		// Clean up indexables of private taxonomies.
 		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
