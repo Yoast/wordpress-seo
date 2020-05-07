@@ -8,6 +8,7 @@ const settings = yoastIndexationData;
 ( ( $ ) => {
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
+	let processed = 0;
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
@@ -43,12 +44,13 @@ const settings = yoastIndexationData;
 	async function doIndexation( endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
-		while ( ! stoppedIndexation && url !== false ) {
+		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
 			const response = await doIndexationRequest( url );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
 			}
 			progressBar.update( response.objects.length );
+			processed += response.objects.length;
 			url = response.next_url;
 		}
 	}
@@ -61,6 +63,7 @@ const settings = yoastIndexationData;
 	 * @returns {Promise} The indexation promise.
 	 */
 	async function startIndexation( progressBar ) {
+		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
 			await doIndexation( endpoint, progressBar );
 		}

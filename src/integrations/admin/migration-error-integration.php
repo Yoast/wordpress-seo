@@ -57,6 +57,6 @@ class Migration_Error_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_migration_error() {
-		echo new Migration_Error_Presenter();
+		echo new Migration_Error_Presenter( $this->migration_status->get_error( 'free' ) );
 	}
 }

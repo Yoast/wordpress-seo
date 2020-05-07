@@ -133,6 +133,18 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the amount of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
+
+		if ( $this->get_total_unindexed() < $shutdown_limit ) {
+			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
+			return;
+		}
+
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
 		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
@@ -198,6 +210,18 @@ class Indexation_Integration implements Integration_Interface {
 	 */
 	public function render_indexation_list_item() {
 		echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+	}
+
+	/**
+	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
+	 *
+	 * @return void
+	 */
+	public function shutdown_indexation() {
+		$this->post_indexation->index();
+		$this->term_indexation->index();
+		$this->general_indexation->index();
+		$this->post_type_archive_indexation->index();
 	}
 
 	/**
