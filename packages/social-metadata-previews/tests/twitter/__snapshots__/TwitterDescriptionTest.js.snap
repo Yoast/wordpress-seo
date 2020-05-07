@@ -5,6 +5,8 @@ exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
+  font-size: 15px;
+  line-height: 20px;
   text-overflow: ellipsis;
   margin: 0 0 2px;
   color: rgb(101,119,134);
@@ -24,6 +26,8 @@ exports[`TwitterDescription matches the snapshot for the summary with large imag
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
+  font-size: 15px;
+  line-height: 20px;
   text-overflow: ellipsis;
   margin: 0 0 2px;
   color: rgb(101,119,134);

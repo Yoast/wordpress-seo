@@ -81,6 +81,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
 .c3 {
   line-height: 18px;
   min-height: 18px;
+  font-size: 15px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -94,6 +95,8 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   max-height: 55px;
   min-height: 20px;
   overflow: hidden;
+  font-size: 15px;
+  line-height: 20px;
   text-overflow: ellipsis;
   margin: 0 0 2px;
   color: rgb(101,119,134);
