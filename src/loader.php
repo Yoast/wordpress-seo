@@ -109,7 +109,13 @@ class Loader {
 	 */
 	public function load() {
 		$this->load_initializers();
-		$this->load_integrations();
+
+		if ( ! \did_action( 'init' ) ) {
+			\add_action( 'init', [ $this, 'load_integrations' ] );
+		}
+		else {
+			$this->load_integrations();
+		}
 
 		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
@@ -151,7 +157,7 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	protected function load_integrations() {
+	public function load_integrations() {
 		foreach ( $this->integrations as $class ) {
 			if ( ! $this->conditionals_are_met( $class ) ) {
 				continue;
