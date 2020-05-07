@@ -346,6 +346,40 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
 
 	return word;
 };
+
+/**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	      The word to be checked.
+ * @param {Object} exceptions The list of full-form exceptions to be checked in.
+ *
+ * @returns {null|string} The canonical stem or null if nothing was found.
+ */
+const checkWordInFullFormExceptions = function( word, exceptions ) {
+	for ( const paradigm of exceptions ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
+};
+
+/**
+ * Check whether the stem is on the exception list of stems that belong to one word. If it is, returns the canonical stem.
+ *
+ * @param {string}	stemmedWord					The stemmed word.
+ * @param {Object}	stemsThatBelongToOneWord	The list of stems that belong to one word.
+ *
+ * @returns {null|string}	The canonical stem if word was found on the list.
+ */
+const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
+	for ( const paradigm of stemsThatBelongToOneWord.adjectives ) {
+		if ( paradigm.includes( stemmedWord ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+};
+
 /**
  * Stems French words.
  *
@@ -357,6 +391,12 @@ const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
+
+	// Check if the word is on an exception list for which all forms of a word and its stem are listed.
+	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
+	if ( ifException ) {
+		return ifException;
+	}
 
 	// Pre-processing steps
 	word = word.replace( /qu/g, "qU" );
@@ -421,6 +461,11 @@ export default function stem( word, morphologyData ) {
 	 */
 	word = word.replace( /[éè]([^aeiouyâàëéêèïîôûù]+)$/, "e$1" );
 	word = word.toLowerCase();
+
+	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
+	if ( canonicalStem ) {
+		return canonicalStem;
+	}
 
 	return word;
 }
