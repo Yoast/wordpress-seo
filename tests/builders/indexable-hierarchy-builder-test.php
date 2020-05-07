@@ -157,6 +157,59 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests building the hierarchy of a post with post parents that has no set id.
+	 *
+	 * @covers ::build
+	 */
+	public function test_post_parent_with_no_indexable_id_set() {
+		$indexable        = $this->get_indexable( 1, 'post' );
+		$parent_indexable = $this->get_indexable( 0, 'post' );
+		$parent_indexable->object_id = 2;
+
+		$this->indexable_hierarchy_repository
+			->expects( 'clear_ancestors' )
+			->with( 1 )
+			->andReturn( true );
+
+		$this->indexable_hierarchy_repository
+			->expects( 'add_ancestor' )
+			->with( 1, 0, 1 );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'post_types-post-maintax' )
+			->andReturn( '0' );
+
+		$this->indexable_repository
+			->expects( 'find_by_id_and_type' )
+			->with( 2, 'post' )
+			->andReturn( $parent_indexable );
+
+		$this->post
+			->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 2,
+					'post_type'   => 'post',
+				]
+			);
+		$this->post
+			->expects( 'get_post' )
+			->twice()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$this->instance->build( $indexable );
+	}
+
+	/**
 	 * Tests building the hierarchy of a post with post parents where the ancestor is unindexed.
 	 *
 	 * @covers ::build
