@@ -29,6 +29,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
+		'indexation_warning_hide_until'            => '0',
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                => '',

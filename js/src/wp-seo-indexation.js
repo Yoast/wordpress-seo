@@ -1,4 +1,4 @@
-/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore */
+/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, setWPOption */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
@@ -131,6 +131,12 @@ const settings = yoastIndexationData;
 
 		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
 			wpseoSetIgnore( "indexation_warning", "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
+		} );
+
+		$( "#yoast-indexation-reminder-button" ).on( "click", function() {
+			let date = new Date();
+			date = date.setDate( date.getDate() + 7 );
+			setWPOption( "indexation_warning_hide_until", date.toString(), "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
 		} );
 	} );
 } )( jQuery );

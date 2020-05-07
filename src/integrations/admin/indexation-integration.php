@@ -142,11 +142,12 @@ class Indexation_Integration implements Integration_Interface {
 
 		if ( $this->get_total_unindexed() < $shutdown_limit ) {
 			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
+
 			return;
 		}
 
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false ) {
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false && $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
 
@@ -189,7 +190,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter();
+		echo new Indexation_Warning_Presenter( $this->get_total_unindexed() );
 	}
 
 	/**
@@ -238,5 +239,16 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		return $this->total_unindexed;
+	}
+
+	/**
+	 * Returns if the indexation warning is temporarily hidden.
+	 *
+	 * @return bool True if hidden.
+	 */
+	protected function is_indexation_warning_hidden() {
+		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+
+		return ( $hide_until !== 0 && $hide_until >= \time() );
 	}
 }
