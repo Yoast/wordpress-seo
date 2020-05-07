@@ -1,5 +1,5 @@
 /* eslint-disable max-statements, complexity */
-import { replaceRegex } from "../morphoHelpers/regexHelpers";
+import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
 /*
  * MIT License
  *
@@ -400,7 +400,7 @@ export default function stem( word, morphologyData ) {
 	}
 
 	// Pre-processing steps
-	word = replaceRegex( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
+	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
 	// Determine R1, R2 & RV regions.
 	const [
@@ -464,7 +464,7 @@ export default function stem( word, morphologyData ) {
 	/* Step 5:
 	 * Undouble final consonants
 	 */
-	word = replaceRegex( word, morphologyData.regularStemmer.finalConsonantUndoubling );
+	word = applyAllReplacements( word, morphologyData.regularStemmer.finalConsonantUndoubling );
 
 	/* Step 6:
 	 * Un-accent

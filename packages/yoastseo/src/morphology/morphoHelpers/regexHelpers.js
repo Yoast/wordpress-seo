@@ -27,13 +27,14 @@ export function searchAndReplaceWithRegex( word, groupOfRegexAndReplacements ) {
 }
 
 /**
- * Loops through a nested array of regexes and replacements pairs, and applies all the replacements when all matches are found.
+ * Loops through a nested array of regexes and replacement pairs, and applies all replacements for which a match is found.
  *
- * @param {string} word                         The word that may need to be modified.
- * @param {string[]} listOfRegexAndReplacement  The array with the regexes and the replacements.
- * @returns {string}    The modifed stem.
+ * @param {string}      word                        The word that may need to be modified.
+ * @param {string[]}    listOfRegexAndReplacement   The array with the regexes and the replacements.
+ *
+ * @returns {string} The modified word.
  */
-export function replaceRegex( word, listOfRegexAndReplacement ) {
+export function applyAllReplacements( word, listOfRegexAndReplacement ) {
 	listOfRegexAndReplacement.forEach( function( setOfRegexAndReplacement ) {
 		word = word.replace( new RegExp( setOfRegexAndReplacement[ 0 ] ), setOfRegexAndReplacement[ 1 ] );
 	} );
