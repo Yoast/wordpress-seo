@@ -127,7 +127,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 					' /> ';
 				$field .= '<input' .
 					' id="' . esc_attr( $field_name ) . '_button"' .
-					' class="wpseo_image_remove_button button"' .
+					' class="yoast-js-remove-image button"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
 					' />';

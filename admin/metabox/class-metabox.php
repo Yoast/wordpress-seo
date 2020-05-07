@@ -638,7 +638,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
 					' /> ';
 				$content .= '<input' .
-					' class="wpseo_image_remove_button button"' .
+					' class="yoast-js-remove-image button"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
 					' />';
