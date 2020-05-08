@@ -117,6 +117,7 @@ class Index_Command implements Command_Interface {
 
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
+			\do_action( '_yoast_run_migrations' );
 			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
 			\restore_current_blog();
 		}
