@@ -138,6 +138,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 				$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' “' . \esc_html( \get_search_query() ) . '”';
 				$crumb['url']  = \get_search_link();
 			}
+			if ( $ancestor->object_type === 'system-page' && $ancestor->object_sub_type === '404' ) {
+				$crumb['text'] = $this->options->get( 'breadcrumbs-404crumb' );
+			}
 			return $crumb;
 		}, $indexables );
 
