@@ -773,6 +773,7 @@ class WPSEO_Upgrade {
 		);
 		$wpdb->query( $query );
 
+		// Reset the permalinks of the attachments in the indexable table.
 		$query = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
 		$wpdb->query( $query );
 
