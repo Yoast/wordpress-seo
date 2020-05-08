@@ -214,7 +214,7 @@ Release Date: May 12th, 2020
 
 Bugfixes:
 
-* Fixes a bug where the help text about the Yoast Columns would appear in post overviews without Yoast Columns. Props [glebkema](https://github.com/glebkema).
+* Fixes a bug where the help text about Yoast Columns would be shown in the Help Tab on post overviews when there were no Yoast Columns. Additionally, the help text has been refined to only show information about columns that are actually shown. Props to [glebkema](https://github.com/glebkema).
 * Fixes a bug where an empty breadcrumb would be output when a taxonomy was set to have a post type archive in its breadcrumb when that post type didn't have an archive.
 * Fixes a bug where a part of the breadcrumb path was missing on search result pages.
 * Fixes a bug where an error would be thrown and the indexation could not be completed due to posts or terms having themselves as a parent or grandparent.
@@ -226,6 +226,8 @@ Bugfixes:
 * Fixes a bug where primary terms of a custom taxonomy where not being reflected in the breadcrumb.
 * Fixes a bug where the URL in the schema breadcrumbs of search pages would be missing.
 * Fixes a bug where the `wpseo_remove_reply_to_com` filter was not working.
+* Fixes a bug where no metadata would be output on the frontend when the tables necessary for the indexables could not be created
+* Fixes a bug where the indexation notification would be shown on the WordPress updates page when updating themes or plugins.
 
 Enhancements:
 
@@ -240,6 +242,8 @@ Enhancements:
 * Adds the `wpseo_robots_array` filter to enable the filtering of the robots array used for the robots meta tag output.
 * Adds the `wpseo_shutdown_indexation_limit` filter to enable the filtering of the number of objects that can remain unindexed. These remaining objects will automatically be indexed without needing any user interaction as a shutdown function.
 * Adds debug information to the error that is shown when Yoast SEO was unable to create the necessary database tables.
+* Optimizes finding attachments by URL. This addresses a primary cause of higher server load issues occurring since 14.0.
+* Adds a warning to the metabox that is shown when a user enters a focus keyphrase that contains more than 191 characters.
 
 Other
 

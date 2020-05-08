@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
  * This code handles the option upgrades.
@@ -758,6 +759,10 @@ class WPSEO_Upgrade {
 		 */
 		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
 
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
 		// Clean up indexables of private taxonomies.
 		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
 		$placeholders       = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
@@ -767,6 +772,12 @@ class WPSEO_Upgrade {
 			$private_taxonomies
 		);
 		$wpdb->query( $query );
+
+		// Reset the permalinks of the attachments in the indexable table.
+		$query = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
 	}
 
 	/**
