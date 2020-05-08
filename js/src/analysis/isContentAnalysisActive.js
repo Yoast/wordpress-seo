@@ -1,6 +1,6 @@
 var getL10nObject = require( "./getL10nObject" );
 
-import { isUndefined } from "lodash-es";
+import { get } from "lodash-es";
 
 /**
  * Returns whether or not the content analysis is active
@@ -10,7 +10,7 @@ import { isUndefined } from "lodash-es";
 function isContentAnalysisActive() {
 	var l10nObject = getL10nObject();
 
-	return ! isUndefined( l10nObject ) && l10nObject.contentAnalysisActive === 1;
+	return get( l10nObject, "contentAnalysisActive", 0 ) === 1;
 }
 
 module.exports = isContentAnalysisActive;
