@@ -19,8 +19,14 @@ class Indexable_System_Page_Builder {
 	 * Mapping of object type to title option keys.
 	 */
 	const OPTION_MAPPING = [
-		'search-result' => 'title-search-wpseo',
-		'404'           => 'title-404-wpseo',
+		'search-result' => [
+			'title'            => 'title-search-wpseo',
+			'breadcrumb_title' => 'breadcrumbs-searchprefix',
+		],
+		'404'           => [
+			'title'            => 'title-404-wpseo',
+			'breadcrumb_title' => 'breadcrumbs-404crumb',
+		],
 	];
 
 	/**
@@ -52,7 +58,8 @@ class Indexable_System_Page_Builder {
 	public function build( $object_sub_type, Indexable $indexable ) {
 		$indexable->object_type       = 'system-page';
 		$indexable->object_sub_type   = $object_sub_type;
-		$indexable->title             = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ] );
+		$indexable->title             = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['title'] );
+		$indexable->breadcrumb_title  = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['breadcrumb_title'] );
 		$indexable->is_robots_noindex = true;
 		$indexable->blog_id           = \get_current_blog_id();
 
