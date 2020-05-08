@@ -8,7 +8,7 @@ import { get } from "lodash-es";
  * @returns {boolean} Whether or not the content analysis is active.
  */
 function isContentAnalysisActive() {
-	var l10nObject = getL10nObject();
+	const l10nObject = getL10nObject();
 
 	return get( l10nObject, "contentAnalysisActive", 0 ) === 1;
 }
