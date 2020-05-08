@@ -50,9 +50,6 @@ class WPSEO_Admin_Pages {
 	/**
 	 * Loads the required styles for the config page.
 	 */
-	/**
-	 * Loads the required styles for the config page.
-	 */
 	public function config_page_styles() {
 		wp_enqueue_style( 'dashboard' );
 		wp_enqueue_style( 'thickbox' );
