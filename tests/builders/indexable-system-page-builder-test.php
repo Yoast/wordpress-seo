@@ -31,12 +31,14 @@ class Indexable_System_Page_Builder_Test extends TestCase {
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );
 		$options_mock->expects( 'get' )->with( 'title-search-wpseo' )->andReturn( 'search_title' );
+		$options_mock->expects( 'get' )->with( 'breadcrumbs-searchprefix' )->andReturn( 'breadcrumb_title' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'system-page' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'search-result' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );
+		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
