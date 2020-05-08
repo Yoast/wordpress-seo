@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Image_Helper
@@ -27,6 +28,22 @@ class Image_Helper {
 	 * @var array
 	 */
 	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
+
+	/**
+	 * Represents the indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
+	 * Image_Helper constructor.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function __construct( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
+	}
 
 	/**
 	 * Determines whether or not the wanted attachment is considered valid.
@@ -253,12 +270,31 @@ class Image_Helper {
 	 *
 	 * @param string $url The URL to find the attachment for.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public function get_attachment_by_url( $url ) {
-		return WPSEO_Image_Utils::get_attachment_by_url( $url );
+		// Strip out the size part of an image URL.
+		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
+
+		// Don't try to do this for external URLs.
+		if ( strpos( $url, \get_site_url() ) !== 0 ) {
+			return 0;
+		}
+
+		$indexable = $this->indexable_repository->find_by_permalink( $url );
+
+		if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
+			return $indexable->object_id;
+		}
+
+		$post_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+
+		if ( $post_id !== 0 ) {
+			// Find the indexable, this triggers creating it so it can be found next time.
+			$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+		}
+
+		return $post_id;
 	}
 
 	/**
