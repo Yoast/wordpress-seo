@@ -274,7 +274,7 @@ class Image_Helper {
 	 */
 	public function get_attachment_by_url( $url ) {
 		// Strip out the size part of an image URL.
-		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
+		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
 		if ( strpos( $url, \get_site_url() ) !== 0 ) {
