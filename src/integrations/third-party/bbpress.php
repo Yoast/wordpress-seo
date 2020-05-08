@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -28,7 +27,7 @@ class BbPress implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Migrations_Conditional::class ];
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**

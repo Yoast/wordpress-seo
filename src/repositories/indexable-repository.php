@@ -349,6 +349,10 @@ class Indexable_Repository {
 	public function get_ancestors( Indexable $indexable ) {
 		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
 
+		if ( is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+		}
+
 		if ( empty( $ancestors ) ) {
 			return [];
 		}
