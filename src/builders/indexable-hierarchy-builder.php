@@ -125,7 +125,7 @@ class Indexable_Hierarchy_Builder {
 	 * @return void
 	 */
 	private function save_ancestors( $indexable ) {
-		$depth   = 1;
+		$depth = 1;
 		foreach ( $indexable->ancestors as $ancestor ) {
 			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth++ );
 		}
@@ -148,7 +148,7 @@ class Indexable_Hierarchy_Builder {
 		}
 
 		if ( $post->post_parent !== 0 && $this->post->get_post( $post->post_parent ) !== null ) {
-			$ancestor    = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
+			$ancestor = $this->indexable_repository->find_by_id_and_type( $post->post_parent, 'post' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				return;
 			}
@@ -156,6 +156,7 @@ class Indexable_Hierarchy_Builder {
 			$parents[ $this->get_indexable_id( $ancestor ) ] = $ancestor;
 
 			$this->add_ancestors_for_post( $indexable_id, $ancestor->object_id, $parents );
+
 			return;
 		}
 
@@ -189,7 +190,7 @@ class Indexable_Hierarchy_Builder {
 		$term_parents = $this->get_term_parents( $term );
 
 		foreach ( $term_parents as $parent ) {
-			$ancestor    = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
+			$ancestor = $this->indexable_repository->find_by_id_and_type( $parent->term_id, 'term' );
 			if ( $this->is_invalid_ancestor( $ancestor, $indexable_id, $parents ) ) {
 				continue;
 			}
@@ -341,6 +342,7 @@ class Indexable_Hierarchy_Builder {
 		if ( $indexable->id === 0 ) {
 			return "{$indexable->object_type}:{$indexable->object_id}";
 		}
+
 		return $indexable->id;
 	}
 
@@ -353,11 +355,12 @@ class Indexable_Hierarchy_Builder {
 	 * @return int The ID of the primary term.
 	 */
 	private function get_primary_term_id( $post_id, $main_taxonomy ) {
-		$primary_term    = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, $main_taxonomy, false );
+		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, $main_taxonomy, false );
 
 		if ( $primary_term ) {
 			return $primary_term->term_id;
 		}
+
 		return \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'primary_' . $main_taxonomy, true );
 	}
 }
