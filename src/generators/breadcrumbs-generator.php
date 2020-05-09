@@ -135,6 +135,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 				case 'post-type-archive':
 					$crumb = $this->get_post_type_archive_crumb( $crumb, $ancestor );
 					break;
+				case 'term':
+					$crumb = $this->get_term_crumb( $crumb, $ancestor );
+					break;
 				case 'system-page':
 					$crumb = $this->get_system_page_crumb( $crumb, $ancestor );
 					break;
@@ -197,6 +200,20 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	private function get_post_type_archive_crumb( $crumb, $ancestor ) {
 		$crumb['ptarchive'] = $ancestor->object_sub_type;
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified term crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_term_crumb( $crumb, $ancestor ) {
+		$crumb['term_id'] = $ancestor->object_id;
 
 		return $crumb;
 	}
