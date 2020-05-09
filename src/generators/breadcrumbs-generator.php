@@ -130,15 +130,20 @@ class Breadcrumbs_Generator implements Generator_Interface {
 
 			switch ( $ancestor->object_type ) {
 				case 'post':
-					return $this->get_post_crumb( $crumb, $ancestor );
+					$crumb = $this->get_post_crumb( $crumb, $ancestor );
+					break;
 				case 'post-type-archive':
-					return $this->get_post_type_archive_crumb( $crumb, $ancestor );
+					$crumb = $this->get_post_type_archive_crumb( $crumb, $ancestor );
+					break;
 				case 'system-page':
-					return $this->get_system_page_crumb( $crumb, $ancestor );
+					$crumb = $this->get_system_page_crumb( $crumb, $ancestor );
+					break;
 				case 'user':
-					return $this->get_user_crumb( $crumb, $ancestor );
+					$crumb = $this->get_user_crumb( $crumb, $ancestor );
+					break;
 				case 'date-archive':
-					return $this->get_date_archive_crumb( $crumb, $ancestor );
+					$crumb = $this->get_date_archive_crumb( $crumb, $ancestor );
+					break;
 			}
 
 			return $crumb;
