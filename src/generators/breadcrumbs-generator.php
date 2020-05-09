@@ -127,7 +127,6 @@ class Breadcrumbs_Generator implements Generator_Interface {
 				'url'  => $ancestor->permalink,
 				'text' => $ancestor->breadcrumb_title,
 			];
-
 			switch ( $ancestor->object_type ) {
 				case 'post':
 					$crumb = $this->get_post_crumb( $crumb, $ancestor );
@@ -148,7 +147,6 @@ class Breadcrumbs_Generator implements Generator_Interface {
 					$crumb = $this->get_date_archive_crumb( $crumb, $ancestor );
 					break;
 			}
-
 			return $crumb;
 		}, $indexables );
 
