@@ -225,7 +225,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_user_crumb( $crumb, $ancestor ) {
-		$display_name = get_the_author_meta( 'display_name', $ancestor->object_id );
+		$display_name = \get_the_author_meta( 'display_name', $ancestor->object_id );
 		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' “' . $display_name . '”';
 
 		return $crumb;
@@ -240,14 +240,16 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_date_archive_crumb( $crumb, $ancestor ) {
-		if ( is_day() ) {
-			$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' “' . esc_html( get_the_date() ) . '”';
+		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
+
+		if ( \is_day() ) {
+			$crumb['text'] = $prefix . ' “' . \esc_html( \get_the_date() ) . '”';
 		}
-		elseif ( is_month() ) {
-			$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' “' . esc_html( trim( single_month_title( ' ', false ) ) ) . '”';
+		elseif ( \is_month() ) {
+			$crumb['text'] = $prefix . ' “' . \esc_html( \trim( \single_month_title( ' ', false ) ) ) . '”';
 		}
-		elseif ( is_year() ) {
-			$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' “' . esc_html( get_query_var( 'year' ) ) . '”';
+		elseif ( \is_year() ) {
+			$crumb['text'] = $prefix . ' “' . \esc_html( \get_query_var( 'year' ) ) . '”';
 		}
 
 		return $crumb;
