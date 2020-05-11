@@ -751,13 +751,21 @@ class WPSEO_Upgrade {
 	 * Performs the 14.1 upgrade.
 	 */
 	private function upgrade_141() {
-		global $wpdb;
-
 		/*
 		 * These notifications are retrieved from storage on the `init` hook with
 		 * priority 1. We need to remove them after they're retrieved.
 		 */
 		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
+		add_action( 'init', [ $this, 'clean_up_private_taxonomies_for_141' ] );
+
+		$this->reset_permalinks_of_attachments_for_141();
+	}
+
+	/**
+	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
+	 */
+	public function clean_up_private_taxonomies_for_141() {
+		global $wpdb;
 
 		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
 		$show_errors       = $wpdb->show_errors;
@@ -775,6 +783,24 @@ class WPSEO_Upgrade {
 
 		// Reset the permalinks of the attachments in the indexable table.
 		$query = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Resets the permalinks of attachments to `null` in the indexable table for the upgrade routine to 14.1.
+	 */
+	private function reset_permalinks_of_attachments_for_141() {
+		global $wpdb;
+
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		// Reset the permalinks of the attachments in the indexable table.
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
 		$wpdb->query( $query );
 
 		$wpdb->show_errors = $show_errors;
