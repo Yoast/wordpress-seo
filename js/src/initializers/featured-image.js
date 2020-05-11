@@ -206,7 +206,7 @@ export default function initFeaturedImageIntegration( $ ) {
 			}
 		} );
 	} );
-};
+}
 
 /* eslint-disable */
 /* jshint ignore:start */

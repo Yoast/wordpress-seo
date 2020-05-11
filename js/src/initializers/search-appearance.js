@@ -23,7 +23,6 @@ import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
  * @returns {void}
  */
 export default function initSearchAppearance() {
-
 	setYoastComponentsL10n();
 	setWordPressSeoL10n();
 
@@ -77,26 +76,26 @@ export default function initSearchAppearance() {
 	} = wpseoScriptData.searchAppearance;
 
 	render(
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
+		<Provider store={ store }>
+			<ThemeProvider theme={ theme }>
 				<Fragment>
 					<SettingsReplacementVariableEditors
-						singleFieldElements={singleFieldElements}
-						editorElements={editorElements}
+						singleFieldElements={ singleFieldElements }
+						editorElements={ editorElements }
 					/>
-					<UserSelectPortal target="wpseo-person-selector"/>
+					<UserSelectPortal target="wpseo-person-selector" />
 					<CompanyInfoMissingPortal
 						target="knowledge-graph-company-warning"
-						message={knowledgeGraphCompanyInfoMissing.message}
-						link={knowledgeGraphCompanyInfoMissing.URL}
+						message={ knowledgeGraphCompanyInfoMissing.message }
+						link={ knowledgeGraphCompanyInfoMissing.URL }
 					/>
-					{showLocalSEOUpsell && (
+					{ showLocalSEOUpsell && (
 						<LocalSEOUpsellPortal
 							target="wpseo-local-seo-upsell"
-							url={localSEOUpsellURL}
-							backgroundUrl={brushstrokeBackgroundURL}
+							url={ localSEOUpsellURL }
+							backgroundUrl={ brushstrokeBackgroundURL }
 						/>
-					)}
+					) }
 				</Fragment>
 			</ThemeProvider>
 		</Provider>,

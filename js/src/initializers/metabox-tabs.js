@@ -1,5 +1,4 @@
 /* Browser:true */
-/* global wpseoScriptData */
 
 /**
  * @summary Initializes the metabox tabs script.

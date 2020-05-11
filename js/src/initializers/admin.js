@@ -102,15 +102,15 @@ export default function initAdmin( jQuery ) {
 	 */
 	function setWPOption( option, newval, hide, nonce ) {
 		jQuery.post( ajaxurl, {
-				action: "wpseo_set_option",
-				option: option,
-				newval: newval,
-				_wpnonce: nonce,
-			}, function( data ) {
-				if ( data ) {
-					jQuery( "#" + hide ).hide();
-				}
+			action: "wpseo_set_option",
+			option: option,
+			newval: newval,
+			_wpnonce: nonce,
+		}, function( data ) {
+			if ( data ) {
+				jQuery( "#" + hide ).hide();
 			}
+		}
 		);
 	}
 

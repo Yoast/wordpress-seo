@@ -63,11 +63,11 @@ export default function initAdminMedia( jQuery ) {
 				} );
 
 				wpseoCustomUploader.on( "select", function() {
-						var attachment = wpseoCustomUploader.state().get( "selection" ).first().toJSON();
+					var attachment = wpseoCustomUploader.state().get( "selection" ).first().toJSON();
 
-						$urlInput.val( attachment.url );
-						$idInput.val( attachment.id );
-					}
+					$urlInput.val( attachment.url );
+					$idInput.val( attachment.id );
+				}
 				);
 
 				const $uploadImageButton = $( element );
