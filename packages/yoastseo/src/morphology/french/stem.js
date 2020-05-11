@@ -400,6 +400,14 @@ export default function stem( word, morphologyData ) {
 		return ifException;
 	}
 
+	// Check if the word is on the exception list of words for which -s should not be stemmed.
+	if ( word.endsWith( "s" ) ) {
+		const sShouldNotBeStemmed = morphologyData.sShouldNotBeStemmed;
+		if ( sShouldNotBeStemmed.includes( word ) ) {
+			return word;
+		}
+	}
+
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
