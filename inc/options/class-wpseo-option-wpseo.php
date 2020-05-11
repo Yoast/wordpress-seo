@@ -29,7 +29,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
-		'indexation_warning_hide_until'            => '0',
+		'indexation_warning_hide_until'            => 0,
+		'indexation_started'                       => 0,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                => '',
@@ -284,6 +285,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 
 				case 'first_activated_on':
+				case 'indexation_started' :
+				case 'indexation_warning_hide_until' :
 					$clean[ $key ] = false;
 					if ( isset( $dirty[ $key ] ) ) {
 						if ( $dirty[ $key ] === false || WPSEO_Utils::validate_int( $dirty[ $key ] ) ) {
