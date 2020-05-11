@@ -773,6 +773,11 @@ class WPSEO_Upgrade {
 
 		// Clean up indexables of private taxonomies.
 		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+
+		if ( empty( $private_taxonomies ) ) {
+			return;
+		}
+
 		$placeholders       = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
 		$indexable_table    = Model::get_table_name( 'Indexable' );
 		$query              = $wpdb->prepare(
