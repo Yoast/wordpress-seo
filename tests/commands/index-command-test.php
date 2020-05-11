@@ -208,6 +208,7 @@ class Index_Command_Test extends TestCase {
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 1 );
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 2 );
 		Monkey\Functions\expect( 'restore_current_blog' )->times( 2 );
+		Monkey\Actions\expectDone( '_yoast_run_migrations' );
 
 		$indexation_actions = [
 			$this->post_indexation_action,
