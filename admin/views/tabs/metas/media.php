@@ -11,14 +11,4 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$wpseo_media_presenter = new WPSEO_Paper_Presenter(
-	esc_html__( 'Media & attachment URLs', 'wordpress-seo' ),
-	__DIR__ . '/paper-content/media-content.php',
-	[
-		'help_button' => new WPSEO_Admin_Help_Button( 'https://yoa.st/3yl', __( 'Learn more about the Media and attachment URLs setting', 'wordpress-seo' ) ),
-		'paper_id'    => 'settings-media-attachment-url',
-		'class'       => 'search-appearance',
-	]
-);
-
-echo $wpseo_media_presenter->get_output();
+require __DIR__ . '/paper-content/media-content.php';

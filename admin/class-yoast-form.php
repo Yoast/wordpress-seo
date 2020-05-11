@@ -387,6 +387,7 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function textarea( $var, $label, $attr = [] ) {
+		echo '<div class="yoast-field-group">';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class' => $attr,
@@ -408,7 +409,8 @@ class Yoast_Form {
 				'class' => 'textinput',
 			]
 		);
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="yoast-field-group__textarea ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea>';
+		echo '</div>';
 	}
 
 	/**

@@ -6,6 +6,7 @@
 	border: var(--border-default);
 	max-width: 600px;
 	position: relative;
+	box-sizing: border-box;
 }
 
 .yoast-paper--small {

@@ -12,7 +12,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Button(
 	__( 'Learn more about the knowledge graph setting', 'wordpress-seo' )
 );
 ?>
-<div class="tab-block">
+<div class="tab-block yoast-feature">
 	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help; ?></h2>
 	<?php
 	/**

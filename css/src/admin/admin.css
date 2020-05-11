@@ -1,0 +1,18 @@
+.collapsible-header .toggleable-container-icon {
+	float: right;
+	color: var(--color-default);
+	cursor: pointer;
+}
+
+.collapsible-header code {
+	font-size: 14px;
+	font-weight: 700;
+	border: var(--border-default);
+	color: var(--color-default);
+	padding: 5px;
+	margin: 0 2px;
+}
+
+.toggleable-container-hidden {
+	display: none;
+}
