@@ -28,7 +28,7 @@ const getNoIndexOptions = () => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to the Post Label in plural form, %s translates to "yes" or "no" */
+					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
 					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
 					window.wpseoAdminL10n.postTypeNamePlural,
@@ -42,7 +42,7 @@ const getNoIndexOptions = () => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
+				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
 				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
 				window.wpseoAdminL10n.postTypeNamePlural,
