@@ -226,7 +226,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	private function get_system_page_crumb( $crumb, $ancestor ) {
 		if ( $ancestor->object_sub_type === 'search-result' ) {
-			$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' “' . \esc_html( \get_search_query() ) . '”';
+			$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' ' . \esc_html( \get_search_query() );
 			$crumb['url']  = \get_search_link();
 		}
 		elseif ( $ancestor->object_sub_type === '404' ) {
@@ -246,7 +246,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 */
 	private function get_user_crumb( $crumb, $ancestor ) {
 		$display_name = \get_the_author_meta( 'display_name', $ancestor->object_id );
-		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' “' . $display_name . '”';
+		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name;
 
 		return $crumb;
 	}
@@ -263,13 +263,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
 
 		if ( \is_day() ) {
-			$crumb['text'] = $prefix . ' “' . \esc_html( \get_the_date() ) . '”';
+			$crumb['text'] = $prefix . ' ' . \esc_html( \get_the_date() );
 		}
 		elseif ( \is_month() ) {
-			$crumb['text'] = $prefix . ' “' . \esc_html( \trim( \single_month_title( ' ', false ) ) ) . '”';
+			$crumb['text'] = $prefix . ' ' . \esc_html( \trim( \single_month_title( ' ', false ) ) );
 		}
 		elseif ( \is_year() ) {
-			$crumb['text'] = $prefix . ' “' . \esc_html( \get_query_var( 'year' ) ) . '”';
+			$crumb['text'] = $prefix . ' ' . \esc_html( \get_query_var( 'year' ) );
 		}
 
 		return $crumb;
