@@ -53,7 +53,7 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_something_to_index() {
-		$instance = new Indexation_List_Item_Presenter( 12 );
+		$instance = new Indexation_List_Item_Presenter( 30 );
 
 		$expected  = '<li><strong>Speeding up your site</strong><br/>';
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
