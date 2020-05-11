@@ -33,8 +33,9 @@ class Migration_Error_Presenter_Test extends TestCase {
 			->andReturn( 'https://yoa.st/3-6' );
 
 		$expected  = '<div class="notice notice-error">';
-		$expected .= '<p>Yoast SEO was unable to create the database tables required and as such will not function correctly.</p>';
+		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
 		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
+		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
 		$expected .= '<details><summary>Show debug information</summary><p>test error</p></details>';
 		$expected .= '</div>';
 
