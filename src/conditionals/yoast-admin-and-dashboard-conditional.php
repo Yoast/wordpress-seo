@@ -44,7 +44,7 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 		 * IFRAME_REQUEST is not defined on these pages,
 		 * though these action pages do show when upgrading themes or plugins.
 		 */
-		$actions = [ 'do-theme-upgrade', 'do-plugin-upgrade', 'do-core-upgrade' ];
+		$actions = [ 'do-theme-upgrade', 'do-plugin-upgrade', 'do-core-upgrade', 'do-core-reinstall' ];
 		return isset( $_GET['action'] ) && in_array( $_GET['action'], $actions, true );
 	}
 }
