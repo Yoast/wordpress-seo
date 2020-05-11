@@ -123,10 +123,12 @@ class SocialPreviewEditor extends Component {
 			siteUrl,
 			authorName,
 			description,
+			descriptionPlaceholder,
 			imageUrl,
 			imageFallbackUrl,
 			alt,
 			title,
+			titlePlaceholder,
 			replacementVariables,
 			recommendedReplacementVariables,
 			applyReplacementVariables,
@@ -134,7 +136,11 @@ class SocialPreviewEditor extends Component {
 			isLarge,
 		} = this.props;
 
-		const replacedVars = applyReplacementVariables( { title, description } );
+		// Preset a title fallback for the preview if title is empty.
+		const previewTitle = title === "" ? titlePlaceholder : title;
+
+		const replacedVars = applyReplacementVariables( { title: previewTitle, description } );
+		const previewDescription = replacedVars.description === "" ? descriptionPlaceholder : replacedVars.description;
 
 		return (
 			<React.Fragment>
@@ -145,7 +151,7 @@ class SocialPreviewEditor extends Component {
 					siteUrl={ siteUrl }
 					authorName={ authorName }
 					title={ replacedVars.title }
-					description={ replacedVars.description }
+					description={ previewDescription }
 					imageUrl={ imageUrl }
 					imageFallbackUrl={ imageFallbackUrl }
 					alt={ alt }
@@ -161,6 +167,7 @@ class SocialPreviewEditor extends Component {
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }
+					descriptionPlaceholder={ descriptionPlaceholder }
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -191,6 +198,8 @@ SocialPreviewEditor.propTypes = {
 	imageWarnings: PropTypes.array,
 	isLarge: PropTypes.bool,
 	siteUrl: PropTypes.string,
+	descriptionPlaceholder: PropTypes.string,
+	titlePlaceholder: PropTypes.string,
 	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
@@ -204,6 +213,8 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	isLarge: true,
 	siteUrl: "",
+	descriptionPlaceholder: "",
+	titlePlaceholder: "",
 	alt: "",
 	authorName: "",
 	applyReplacementVariables: data => data,
