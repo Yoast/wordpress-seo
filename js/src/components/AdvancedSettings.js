@@ -29,9 +29,9 @@ const getNoIndexOptions = () => {
 			{
 				name: sprintf(
 					/* Translators: %s translates to the Post Label in plural form, %s translates to "yes" or "no" */
-					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					window.wpseoAdminL10n.postTypeNamePlural,
+					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
+					window.wpseoAdminL10n.postTypeNamePlural,
 				),
 				value: "0",
 			},
@@ -43,9 +43,9 @@ const getNoIndexOptions = () => {
 		{
 			name: sprintf(
 				/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
-				__( "Default for %s, currently: %s", "wordpress-seo" ),
-				window.wpseoAdminL10n.postTypeNamePlural,
+				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
+				window.wpseoAdminL10n.postTypeNamePlural,
 			),
 			value: "default",
 		},
