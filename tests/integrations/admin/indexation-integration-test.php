@@ -155,6 +155,18 @@ class Indexation_Integration_Test extends TestCase {
 			->andReturn( $ignore_warning );
 
 		if ( ! $ignore_warning ) {
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_started', 0 )
+				->andReturn( 0 );
+
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_warning_hide_until' )
+				->andReturn( 0 );
+		}
+
+		if ( ! $ignore_warning ) {
 			Monkey\Actions\expectAdded( 'admin_notices' );
 		}
 
@@ -192,10 +204,12 @@ class Indexation_Integration_Test extends TestCase {
 				'root'      => 'https://example.org/wp-ajax/',
 				'endpoints' =>
 					[
+						'prepare'  => 'yoast/v1/indexation/prepare',
 						'posts'    => 'yoast/v1/indexation/posts',
 						'terms'    => 'yoast/v1/indexation/terms',
 						'archives' => 'yoast/v1/indexation/post-type-archives',
 						'general'  => 'yoast/v1/indexation/general',
+						'complete' => 'yoast/v1/indexation/complete',
 					],
 				'nonce'     => 'nonce',
 			],
@@ -272,12 +286,21 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+
+		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<strong>NEW:</strong> Yoast SEO can now store your site’s SEO data in a smarter way!<br/>';
-		$expected .= 'Don\'t worry: this won\'t have to be done after each update.</p>';
-		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="Yoast indexation status">Click here to speed up your site now</button>';
-		$expected .= '<p>Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">hide this notice</button> ';
-		$expected .= '(everything will continue to function as normal).</p></div>';
+		$expected .= '<a href="" target="_blank" rel="noopener noreferrer">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<p>We estimate this will take less than a minute.</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexation status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
 
 		$this->expectOutputString( $expected );
 
