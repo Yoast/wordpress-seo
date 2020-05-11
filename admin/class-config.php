@@ -130,7 +130,7 @@ class WPSEO_Admin_Pages {
 		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
 		return [
-			'replace_vars'                 => $replace_vars,
+			'replace_vars'                 => $replace_vars_list,
 			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
 			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
