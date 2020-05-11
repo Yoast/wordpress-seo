@@ -7,7 +7,6 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -30,8 +29,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$options_mock = Mockery::mock( Options_Helper::class );
-
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
@@ -87,7 +84,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$author_archive = Mockery::mock( Author_Archive_Helper::class );
 		$author_archive->expects( 'author_has_public_posts' )->with( 1 )->andReturn( true );
 
-		$builder = new Indexable_Author_Builder( $author_archive, $options_mock );
+		$builder = new Indexable_Author_Builder( $author_archive );
 		$builder->build( 1, $indexable_mock );
 	}
 
@@ -97,8 +94,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build_with_undefined() {
-		$options_mock = Mockery::mock( Options_Helper::class );
-
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( '' );
@@ -154,7 +149,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$author_archive = Mockery::mock( Author_Archive_Helper::class );
 		$author_archive->expects( 'author_has_public_posts' )->with( 1 )->andReturn( true );
 
-		$builder = new Indexable_Author_Builder( $author_archive, $options_mock );
+		$builder = new Indexable_Author_Builder( $author_archive );
 		$builder->build( 1, $indexable_mock );
 	}
 }
