@@ -44,7 +44,9 @@ function wpseo_set_option() {
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 
 /**
- * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
+ * Sets an option in the database to hide the index warning for a week.
+ *
+ * This function is used in AJAX calls and dies on exit.
  */
 function wpseo_set_indexation_remind() {
 	if ( ! current_user_can( 'manage_options' ) ) {
