@@ -127,16 +127,25 @@ class Breadcrumbs_Generator implements Generator_Interface {
 				'url'  => $ancestor->permalink,
 				'text' => $ancestor->breadcrumb_title,
 			];
-
-			if ( $ancestor->object_type === 'post' ) {
-				$crumb['id'] = $ancestor->object_id;
-			}
-			if ( $ancestor->object_type === 'post-type-archive' ) {
-				$crumb['ptarchive'] = $ancestor->object_sub_type;
-			}
-			if ( $ancestor->object_type === 'system-page' && $ancestor->object_sub_type === 'search-result' ) {
-				$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' “' . \esc_html( \get_search_query() ) . '”';
-				$crumb['url']  = \get_search_link();
+			switch ( $ancestor->object_type ) {
+				case 'post':
+					$crumb = $this->get_post_crumb( $crumb, $ancestor );
+					break;
+				case 'post-type-archive':
+					$crumb = $this->get_post_type_archive_crumb( $crumb, $ancestor );
+					break;
+				case 'term':
+					$crumb = $this->get_term_crumb( $crumb, $ancestor );
+					break;
+				case 'system-page':
+					$crumb = $this->get_system_page_crumb( $crumb, $ancestor );
+					break;
+				case 'user':
+					$crumb = $this->get_user_crumb( $crumb, $ancestor );
+					break;
+				case 'date-archive':
+					$crumb = $this->get_date_archive_crumb( $crumb, $ancestor );
+					break;
 			}
 			return $crumb;
 		}, $indexables );
@@ -163,6 +172,107 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			 */
 			return apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $crumbs );
 		}, $crumbs, array_keys( $crumbs ) );
+	}
+
+	/**
+	 * Returns the modified post crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_post_crumb( $crumb, $ancestor ) {
+		$crumb['id'] = $ancestor->object_id;
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified post type crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_post_type_archive_crumb( $crumb, $ancestor ) {
+		$crumb['ptarchive'] = $ancestor->object_sub_type;
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified term crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_term_crumb( $crumb, $ancestor ) {
+		$crumb['term_id'] = $ancestor->object_id;
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified system page crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_system_page_crumb( $crumb, $ancestor ) {
+		if ( $ancestor->object_sub_type === 'search-result' ) {
+			$crumb['text'] = $this->options->get( 'breadcrumbs-searchprefix' ) . ' ' . \esc_html( \get_search_query() );
+			$crumb['url']  = \get_search_link();
+		}
+		elseif ( $ancestor->object_sub_type === '404' ) {
+			$crumb['text'] = $this->options->get( 'breadcrumbs-404crumb' );
+		}
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified user crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_user_crumb( $crumb, $ancestor ) {
+		$display_name = \get_the_author_meta( 'display_name', $ancestor->object_id );
+		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name;
+
+		return $crumb;
+	}
+
+	/**
+	 * Returns the modified date archive crumb.
+	 *
+	 * @param array     $crumb    The crumb.
+	 * @param Indexable $ancestor The indexable.
+	 *
+	 * @return array The crumb.
+	 */
+	private function get_date_archive_crumb( $crumb, $ancestor ) {
+		$prefix = $this->options->get( 'breadcrumbs-archiveprefix' );
+
+		if ( \is_day() ) {
+			$crumb['text'] = $prefix . ' ' . \esc_html( \get_the_date() );
+		}
+		elseif ( \is_month() ) {
+			$crumb['text'] = $prefix . ' ' . \esc_html( \trim( \single_month_title( ' ', false ) ) );
+		}
+		elseif ( \is_year() ) {
+			$crumb['text'] = $prefix . ' ' . \esc_html( \get_query_var( 'year' ) );
+		}
+
+		return $crumb;
 	}
 
 	/**
