@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.1 =
 Release Date: May 12th, 2020
 
+Despite weeks and weeks of testing Yoast SEO 14.0, there were still some people running into issues. In Yoast SEO 14.1, we’re improving things to help stabilize the plugin. Read more about those changes in [our release post](https://yoa.st/release-14-1)!
+
 Bugfixes:
 
 * Fixes a bug where the help text about Yoast Columns would be shown in the Help Tab on post overviews when there were no Yoast Columns. Additionally, the help text has been refined to only show information about columns that are actually shown. Props to [glebkema](https://github.com/glebkema).
@@ -228,6 +230,7 @@ Bugfixes:
 * Fixes a bug where the `wpseo_remove_reply_to_com` filter was not working.
 * Fixes a bug where no metadata would be output on the frontend when the tables necessary for the indexables could not be created
 * Fixes a bug where the indexation notification would be shown on the WordPress updates page when updating themes or plugins.
+* Fixes a bug where the `yoast index --network` WP CLI command would throw an error when the database migrations for one or more subsites on a multisite environment had not been run yet.
 
 Enhancements:
 
@@ -244,6 +247,7 @@ Enhancements:
 * Adds debug information to the error that is shown when Yoast SEO was unable to create the necessary database tables.
 * Optimizes finding attachments by URL. This addresses a primary cause of higher server load issues occurring since 14.0.
 * Adds a warning to the metabox that is shown when a user enters a focus keyphrase that contains more than 191 characters.
+* Makes the copy of the indexation setting in the advanced tab consistent between all contexts (post, page, category, etc.).
 
 Other
 

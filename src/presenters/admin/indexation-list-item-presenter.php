@@ -38,7 +38,14 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	public function present() {
 		$output = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Speeding up your site', 'wordpress-seo' ) );
 
-		if ( $this->total_unindexed === 0 ) {
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the amount of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
+
+		if ( $this->total_unindexed === 0 || $this->total_unindexed < $shutdown_limit ) {
 			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
 		}
 		else {
