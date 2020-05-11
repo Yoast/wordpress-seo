@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 
 import SocialForm from "../social/SocialForm";
 
-const socialMediumName = "Twitter";
-
 /**
  * This wrapper is connected to the twitter container. So the data is connected to both components.
  * isPremium checks if premium is available and if available it doesn't render the 'free' twitter Component.
@@ -15,19 +13,15 @@ const socialMediumName = "Twitter";
  * @returns {Component} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
-	const richProps = {
-		...props,
-		socialMediumName,
-	};
 	return (
 		<Fragment>
 			{
 				props.isPremium
 					? <Slot
 						name="YoastTwitterPremium"
-						fillProps={ richProps }
+						fillProps={ props }
 					/>
-					: <SocialForm { ...richProps } />
+					: <SocialForm { ...props } />
 			}
 		</Fragment>
 	);
