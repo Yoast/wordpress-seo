@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 import stem from "../../../../src/morphology/portuguese/stem";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import goldStandard from "./goldStandardStems.json";
+
+const morphologyDataPT = getMorphologyData( "pt" ).pt;
 
 const coverageThreshold = 0.8;
 
 describe( "Calculate coverage for the Portuguese stemmer", () => {
-	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ] ) ] );
+	const stemsComparison = goldStandard.stems.map( word => [ word[ 0 ], word[ 1 ], stem( word[ 0 ], morphologyDataPT ) ] );
 
 	const errors = stemsComparison.filter( word => word[ 1 ] !== word[ 2 ] );
 
