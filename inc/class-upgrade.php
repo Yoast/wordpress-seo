@@ -6,7 +6,6 @@
  */
 
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
  * This code handles the option upgrades.
