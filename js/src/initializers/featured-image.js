@@ -9,7 +9,7 @@ import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
 /**
  * @summary Initializes the featured image integration.
  * @param {object} $ jQuery
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initFeaturedImageIntegration( $ ) {
 	var featuredImagePlugin;

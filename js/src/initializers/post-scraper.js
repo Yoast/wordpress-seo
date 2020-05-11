@@ -64,7 +64,7 @@ setWordPressSeoL10n();
 /**
  * @summary Initializes the post scraper script.
  * @param {object} $ jQuery
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initPostScraper( $ ) {
 	/* eslint-disable-next-line */

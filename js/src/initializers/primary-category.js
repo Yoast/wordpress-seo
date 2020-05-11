@@ -15,8 +15,10 @@ const PLUGIN_NAMESPACE = "yoast-seo";
 
 /**
  * @summary Initializes the primary category integration.
+ *
  * @param {object} $ jQuery
- * @returns {undefined}
+ *
+ * @returns {void}
  */
 export default function initPrimaryCategory( $ ) {
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;

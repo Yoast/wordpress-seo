@@ -58,8 +58,10 @@ window.yoastHideMarkers = true;
 
 /**
  * @summary Initializes the term scraper script.
+ *
  * @param {object} $ jQuery
- * @returns {undefined}
+ *
+ * @returns {void}
  */
 export default function initTermScraper( $ ) {
 	var app;

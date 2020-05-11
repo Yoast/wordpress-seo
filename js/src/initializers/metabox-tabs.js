@@ -4,7 +4,7 @@
 /**
  * @summary Initializes the metabox tabs script.
  * @param {object} jQuery jQuery
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initTabs( jQuery ) {
 	/**

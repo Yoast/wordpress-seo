@@ -6,7 +6,7 @@ import { debounce } from "lodash-es";
 /**
  * @summary Initializes the admin script.
  * @param {object} jQuery jQuery
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initAdmin( jQuery ) {
 	/**

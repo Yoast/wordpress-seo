@@ -20,7 +20,7 @@ import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
 
 /**
  * @summary Initializes the search appearance settings script.
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initSearchAppearance() {
 

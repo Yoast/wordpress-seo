@@ -4,7 +4,7 @@
 /**
  * @summary Initializes the admin media script.
  * @param {object} jQuery jQuery
- * @returns {undefined}
+ * @returns {void}
  */
 export default function initAdminMedia( jQuery ) {
 // Taken and adapted from http://www.webmaster-source.com/2013/02/06/using-the-wordpress-3-5-media-uploader-in-your-plugin-or-theme/
