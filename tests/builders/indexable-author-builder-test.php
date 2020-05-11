@@ -31,7 +31,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );
-		$options_mock->expects( 'get' )->with( 'breadcrumbs-archiveprefix' )->andReturn( 'breadcrumb_title' );
 
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( 'title' );
@@ -45,7 +44,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
-		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nofollow', null );
@@ -100,7 +98,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 */
 	public function test_build_with_undefined() {
 		$options_mock = Mockery::mock( Options_Helper::class );
-		$options_mock->expects( 'get' )->with( 'breadcrumbs-archiveprefix' )->andReturn( '' );
 
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_title', 1 )->andReturn( '' );
@@ -114,7 +111,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );
-		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nofollow', null );
