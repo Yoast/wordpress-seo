@@ -1,5 +1,6 @@
 :root {
 	--color-default: #404040;
+	--color-default-darker: #303030;
 	--color-primary: #a4286a;
 	--color-secondary: #f7f7f7;
 	--color-white: #fff;
@@ -11,16 +12,22 @@
 	--color-button-upsell-hover: #F2AE01;
 	--color-dark: #303030;
 	--color-sale: #fec228;
-
+	--color-sale-darker: #feb601;
+	--color-border: rgba(0,0,0, 0.2);
 	--color-label: #303030;
 	--color-label-help: #707070;
-
-	--color-toggle-on: #303030;
-	--color-toggle-off: #707070;
+	--color-active: #6EA029;
+	--color-inactive: #DC3232;
+	--color-inactive-text: #707070;
+	--color-inactive-grey: #9E9E9E;
+	--color-inactive-grey-light: #f1f1f1;
+	--color-active-light: #B6CF94;
 
 	--transition-default: all 150ms ease-out;
 
 	--color-link : #006dac;
 
 	--color-border--default: rgba(0, 0, 0, 0.2);
+
+	--color-inactive-text: #707070;
 }

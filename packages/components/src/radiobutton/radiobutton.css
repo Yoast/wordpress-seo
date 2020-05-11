@@ -12,8 +12,6 @@
     margin-right: 16px;
 }
 
-
-.yoast input[type='radio'],
 .yoast-field-group__radiobutton input[type='radio'] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -29,12 +27,10 @@
     overflow: hidden;
     cursor: pointer;
 }
-.yoast input[type='radio']:checked,
 .yoast-field-group__radiobutton input[type='radio']:checked {
     border-color: var(--color-primary);
 }
 
-.yoast input[type='radio']:checked:after,
 .yoast-field-group__radiobutton input[type='radio']:checked:after {
     background: var(--color-primary);
     width: 10px;
