@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -28,14 +27,9 @@ class Indexable_Author_Builder {
 	 * Indexable_Author_Builder constructor.
 	 *
 	 * @param Author_Archive_Helper $author_archive The author archive helper.
-	 * @param Options_Helper        $options        The options helper.
 	 */
-	public function __construct(
-		Author_Archive_Helper $author_archive,
-		Options_Helper $options
-	) {
+	public function __construct( Author_Archive_Helper $author_archive ) {
 		$this->author_archive = $author_archive;
-		$this->options        = $options;
 	}
 
 	/**
@@ -54,7 +48,6 @@ class Indexable_Author_Builder {
 		$indexable->permalink              = \get_author_posts_url( $user_id );
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];
-		$indexable->breadcrumb_title       = $this->options->get( 'breadcrumbs-archiveprefix' );
 		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_noindex      = ( $meta_data['wpseo_noindex_author'] === 'on' );
 		$indexable->is_robots_nofollow     = null;
