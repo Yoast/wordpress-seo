@@ -7,13 +7,15 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-$yform->toggle_switch(
+$yform->light_switch(
 	'disable-author',
+	__( 'Author archives', 'wordpress-seo' ),
 	[
-		'off' => __( 'Enabled', 'wordpress-seo' ),
-		'on'  => __( 'Disabled', 'wordpress-seo' ),
+		__( 'Enabled', 'wordpress-seo' ),
+		__( 'Disabled', 'wordpress-seo' ),
 	],
-	__( 'Author archives', 'wordpress-seo' )
+	false,
+	true
 );
 
 ?>

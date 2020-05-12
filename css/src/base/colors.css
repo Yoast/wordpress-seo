@@ -1,6 +1,7 @@
 /** CSS selectors instead of SASS. */
 :root {
 	--color-default: #404040;
+	--color-default-darker: #303030;
 	--color-primary: #a4286a;
 	--color-secondary: #f7f7f7;
 	--color-white: #ffffff;
@@ -13,10 +14,16 @@
 	--color-active: #6EA029;
 	--color-inactive: #DC3232;
 	--color-link: #006DAC;
+	--color-inactive-text: #707070;
+	--color-inactive-grey: #9E9E9E;
+	--color-inactive-grey-light: #f1f1f1;
+	--color-active-light: #B6CF94;
 
 	--font-size-default: 14px;
 
 	--border-default: 1px solid var(--color-border);
 
 	--shadow-default: 0px 3px 6px rgba(0, 0, 0, 0.15);
+
+	--transition-default: all 150ms ease-out;
 }
