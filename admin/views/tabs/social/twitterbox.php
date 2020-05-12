@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
+echo '<div class="yoast-feature">';
 echo '<h2>' . esc_html__( 'Twitter settings', 'wordpress-seo' ) . '</h2>';
 
 printf(
@@ -30,5 +30,6 @@ echo '</p>';
 echo '<br />';
 
 $yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
+echo '</div>';
 
 do_action( 'wpseo_admin_twitter_section' );
