@@ -4,9 +4,6 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
-// Yoast dependencies.
-import { SvgIcon } from "@yoast/components";
-
 // Internal dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
 import {
