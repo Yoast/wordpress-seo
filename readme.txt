@@ -210,7 +210,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 14.1 =
-Release Date: May 12th, 2020
+Release Date: May 13th, 2020
 
 Despite weeks and weeks of testing Yoast SEO 14.0, there were still some people running into issues. In Yoast SEO 14.1, we’re improving things to help stabilize the plugin. Read more about those changes in [our release post](https://yoa.st/release-14-1)!
 
