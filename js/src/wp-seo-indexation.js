@@ -133,7 +133,7 @@ const settings = yoastIndexationData;
 			wpseoSetIgnore( "indexation_warning", "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
 		} );
 
-		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
+		$( "#yoast-indexation-remind-button" ).on( "click", function() {
 			const nonce = jQuery( this ).data( "nonce" );
 
 			jQuery.post(
