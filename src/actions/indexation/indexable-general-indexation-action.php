@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -23,21 +22,12 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	protected $indexable_repository;
 
 	/**
-	 * Represents the indexables builder.
-	 *
-	 * @var Indexable_Builder
-	 */
-	protected $indexable_builder;
-
-	/**
 	 * Indexable_General_Indexation_Action constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
-	 * @param Indexable_Builder    $indexable_builder    The indexables builder.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Indexable_Builder $indexable_builder ) {
+	public function __construct( Indexable_Repository $indexable_repository ) {
 		$this->indexable_repository = $indexable_repository;
-		$this->indexable_builder    = $indexable_builder;
 	}
 
 	/**
@@ -57,18 +47,18 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 		$indexables_to_create = $this->query();
 
 		if ( isset( $indexables_to_create['404'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_system_page( '404' );
+			$indexables[] = $this->indexable_repository->find_for_system_page( '404' );
 		}
 
 		if ( isset( $indexables_to_create['search'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_system_page( 'search-result' );
+			$indexables[] = $this->indexable_repository->find_for_system_page( 'search-result' );
 		}
 
 		if ( isset( $indexables_to_create['date_archive'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_date_archive();
+			$indexables[] = $this->indexable_repository->find_for_date_archive();
 		}
 		if ( isset( $indexables_to_create['home_page'] ) ) {
-			$indexables[] = $this->indexable_builder->build_for_home_page();
+			$indexables[] = $this->indexable_repository->find_for_home_page();
 		}
 
 		return $indexables;

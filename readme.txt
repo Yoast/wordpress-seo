@@ -212,9 +212,25 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.1 =
 Release Date: May 12th, 2020
 
+Despite weeks and weeks of testing Yoast SEO 14.0, there were still some people running into issues. In Yoast SEO 14.1, we’re improving things to help stabilize the plugin. Read more about those changes in [our release post](https://yoa.st/release-14-1)!
+
 Bugfixes:
 
-* Fixes a bug where the help text about the Yoast Columns would appear in post overviews without Yoast Columns. Props [glebkema](https://github.com/glebkema).
+* Fixes a bug where the help text about Yoast Columns would be shown in the Help Tab on post overviews when there were no Yoast Columns. Additionally, the help text has been refined to only show information about columns that are actually shown. Props to [glebkema](https://github.com/glebkema).
+* Fixes a bug where an empty breadcrumb would be output when a taxonomy was set to have a post type archive in its breadcrumb when that post type didn't have an archive.
+* Fixes a bug where a part of the breadcrumb path was missing on search result pages.
+* Fixes a bug where an error would be thrown and the indexation could not be completed due to posts or terms having themselves as a parent or grandparent.
+* Fixes a bug where the SEO data was unnecessarily being indexed when a non-public term or taxonomy was being saved.
+* Fixes a bug where the SEO data of an object would be indexed twice during the indexation process when it was an ancestor of another object in the same REST request.
+* Fixes a bug where huge log files would be generated if PHP was configured to also log the arguments in debug backtraces.
+* Fixes a bug where the indexation would continue even though it had already indexed all objects.
+* Fixes a bug where term indexation would keep going on forever due to plugin conflicts.
+* Fixes a bug where primary terms of a custom taxonomy where not being reflected in the breadcrumb.
+* Fixes a bug where the URL in the schema breadcrumbs of search pages would be missing.
+* Fixes a bug where the `wpseo_remove_reply_to_com` filter was not working.
+* Fixes a bug where no metadata would be output on the frontend when the tables necessary for the indexables could not be created
+* Fixes a bug where the indexation notification would be shown on the WordPress updates page when updating themes or plugins.
+* Fixes a bug where the `yoast index --network` WP CLI command would throw an error when the database migrations for one or more subsites on a multisite environment had not been run yet.
 
 Enhancements:
 
@@ -225,6 +241,17 @@ Enhancements:
 * Reimplements the Advanced Settings tab in React.
 * Improves the ordering of items in XML sitemaps to match SQL standards. Props to [rafaelbernard](https://github.com/rafaelbernard).
 * Improves the transition word assessment for Hungarian. Props to [@Zsoru](https://github.com/Zsoru).
+* Adds the `--reindex` flag to the indexables WP CLI command to remove all existing indexables and then reindex all content.
+* Adds the `wpseo_robots_array` filter to enable the filtering of the robots array used for the robots meta tag output.
+* Adds the `wpseo_shutdown_indexation_limit` filter to enable the filtering of the number of objects that can remain unindexed. These remaining objects will automatically be indexed without needing any user interaction as a shutdown function.
+* Adds debug information to the error that is shown when Yoast SEO was unable to create the necessary database tables.
+* Optimizes finding attachments by URL. This addresses a primary cause of higher server load issues occurring since 14.0.
+* Adds a warning to the metabox that is shown when a user enters a focus keyphrase that contains more than 191 characters.
+* Makes the copy of the indexation setting in the advanced tab consistent between all contexts (post, page, category, etc.).
+
+Other
+
+* Deletes the unnecessarily created indexables of private taxonomies.
 
 = 14.0.4 =
 Release Date: April 30th, 2020

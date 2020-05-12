@@ -182,6 +182,36 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the saving of a primary term, the happy path.
+	 *
+	 * @covers ::save_primary_term
+	 */
+	public function test_save_primary_term_of_custom_taxonomy() {
+		$primary_term = Mockery::mock( Primary_Term::class );
+		$primary_term->expects( 'save' )->once();
+
+		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+
+		$this->repository
+			->expects( 'find_by_post_id_and_taxonomy' )
+			->once()
+			->with( 1, 'custom', true )
+			->andReturn( $primary_term );
+
+		$this->meta
+			->expects( 'get_value' )
+			->with( 'primary_custom', 1 )
+			->andReturn( 1337 );
+
+		$this->instance->save_primary_term( 1, 'custom' );
+
+		$this->assertEquals( 1337, $primary_term->term_id );
+		$this->assertEquals( 1, $primary_term->post_id );
+		$this->assertEquals( 'custom', $primary_term->taxonomy );
+		$this->assertEquals( 1, $primary_term->blog_id );
+	}
+
+	/**
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term_with_no_term_selected() {

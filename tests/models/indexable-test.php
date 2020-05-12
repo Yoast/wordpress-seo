@@ -48,11 +48,19 @@ class Indexable_Test extends TestCase {
 	public function test_save() {
 		$permalink = 'https://example.com/';
 
+		Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com/' )
+			->andReturn( [ 'scheme' => 'https', 'host' => 'example.com' ] );
+
+		$this->instance->orm->expects( 'set' )
+			->once()
+			->with( 'permalink', $permalink );
 		$this->instance->orm->expects( 'set' )
 			->once()
 			->with( 'permalink_hash', \strlen( $permalink ) . ':' . \md5( $permalink ) );
 		// Once for going into the if-statement, then twice for the permalink_hash.
-		$this->instance->orm->expects( 'get' )->times( 3 )->with( 'permalink' )->andReturn( $permalink );
+		$this->instance->orm->expects( 'get' )->times( 4 )->with( 'permalink' )->andReturn( $permalink );
 		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
 		$this->instance->orm->expects( 'save' )->once();
 
@@ -72,6 +80,11 @@ class Indexable_Test extends TestCase {
 			->once()
 			->with( 'permalink_structure' )
 			->andReturn( '/%postname%/' );
+
+		Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com' )
+			->andReturn( [ 'scheme' => 'https', 'host' => 'example.com' ] );
 
 		$this->instance->orm->expects( 'set' )->once()->with( 'permalink', $permalink_slash );
 		$this->instance->orm->expects( 'set' )

@@ -9,13 +9,12 @@ namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\AMP;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * AMP integration test
+ * AMP integration test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\AMP
  * @covers ::<!public>
@@ -26,19 +25,22 @@ use Yoast\WP\SEO\Tests\TestCase;
 class AMP_Test extends TestCase {
 
 	/**
-	 * The AMP integration
+	 * The AMP integration.
 	 *
 	 * @var AMP
 	 */
 	protected $instance;
 
 	/**
-	 * The front end integration
+	 * The front end integration.
 	 *
 	 * @var Front_End_Integration
 	 */
 	protected $front_end;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -53,7 +55,7 @@ class AMP_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class, Migrations_Conditional::class ],
+			[ Front_End_Conditional::class ],
 			AMP::get_conditionals()
 		);
 	}

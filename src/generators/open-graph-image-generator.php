@@ -122,6 +122,11 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * @param Images    $image_container The image container.
 	 */
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
+		if ( $indexable->open_graph_image_id ) {
+			$image_container->add_image_by_id( $indexable->open_graph_image_id );
+			return;
+		}
+
 		if ( $indexable->open_graph_image ) {
 			$meta_data = [];
 			if ( $indexable->open_graph_image_meta && is_string( $indexable->open_graph_image_meta ) ) {
@@ -136,12 +141,6 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 					]
 				)
 			);
-
-			return;
-		}
-
-		if ( $indexable->open_graph_image_id ) {
-			$image_container->add_image_by_id( $indexable->open_graph_image_id );
 		}
 	}
 
