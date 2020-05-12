@@ -40,7 +40,11 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	public function test_present_with_nothing_to_index() {
 		$instance = new Indexation_List_Item_Presenter( 0 );
 
-		$expected  = '<li><strong>Speeding up your site</strong><br/>';
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected  = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
+		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span class="wpseo-checkmark-ok-icon"></span>Great, your site has been optimized!';
 		$expected .= '</li>';
 
@@ -55,10 +59,12 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	public function test_present_with_something_to_index() {
 		$instance = new Indexation_List_Item_Presenter( 30 );
 
-		$expected  = '<li><strong>Speeding up your site</strong><br/>';
-		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
-		$expected .= 'Speed up your site';
-		$expected .= '</button></span>';
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected  = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>. ';
+		$expected .= 'To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">Start processing and speed up your site now</button></span>';
 		$expected .= '</li>';
 
 		$this->assertSame( $expected, $instance->present() );
