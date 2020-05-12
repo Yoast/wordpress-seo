@@ -299,7 +299,7 @@ class Indexation_Integration_Test extends TestCase {
 		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
-		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexation status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>">Start processing and speed up your site now</button>';
 		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
 
 		$this->expectOutputString( $expected );
@@ -326,7 +326,7 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>' );
+		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexing</button></div>' );
 
 		$this->instance->render_indexation_modal();
 	}

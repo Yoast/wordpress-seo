@@ -65,7 +65,7 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 		return \sprintf(
 			'<div id="yoast-indexation-wrapper" class="hidden">%s<button id="yoast-indexation-stop" type="button" class="button">%s</button></div>',
 			\implode( '<hr />', $blocks ),
-			\esc_html( 'Stop indexation', 'wordpress-seo' )
+			\esc_html( 'Stop indexing', 'wordpress-seo' )
 		);
 	}
 }
