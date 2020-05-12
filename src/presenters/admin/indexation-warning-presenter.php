@@ -151,7 +151,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 				\esc_html__( 'Wait for a week or so, until %1$s automatically processes most of your content in the background. %2$sRemind me in a week.%3$s', 'wordpress-seo' ),
 				'Yoast SEO',
 				\sprintf(
-					'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
+					'<button type="button" id="yoast-indexation-remind-button" class="button-link hide-if-no-js" data-nonce="%s">',
 					\esc_js( \wp_create_nonce( 'wpseo-indexation-remind' ) )
 				),
 				'</button>'
@@ -180,9 +180,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	}
 
 	/**
-	 * Shows the indexation incomplete alert.
+	 * If the 'indexation is incomplete' warning should be shown or not.
 	 *
-	 * @return bool
+	 * @return bool `true` if the 'indexation is incomplete' warning should be shown, `false` if not.
 	 */
 	private function show_indexation_incomplete_alert() {
 		$indexation_started = $this->options_helper->get( 'indexation_started', 0 );
