@@ -38,7 +38,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	public function present() {
 		$output = \sprintf( '<li><strong>%s</strong>', \esc_html__( 'SEO Data', 'wordpress-seo' ) );
 		$output .= \sprintf(
-			'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>%3$s</p>',
+			'<p><a href="%1$s" target="_blank">%2$s</a>%3$s</p>',
 			\esc_url( \WPSEO_Shortlinker::get( 'https://yoa.st/3-y' ) ),
 			\sprintf(
 				/* translators: 1: Expands to Yoast SEO. */

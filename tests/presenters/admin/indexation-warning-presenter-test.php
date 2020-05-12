@@ -42,7 +42,7 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 		$presenter = new Indexation_Warning_Presenter( 12, $options );
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<a href="" target="_blank" rel="noopener noreferrer">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexation status</strong>">Start processing and speed up your site now</button>';

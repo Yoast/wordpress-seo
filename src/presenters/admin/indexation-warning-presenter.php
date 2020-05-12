@@ -80,7 +80,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	private function get_base_alert() {
 		$output = \sprintf(
-			'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></p>',
+			'<p><a href="%1$s" target="_blank">%2$s</a></p>',
 			\esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-y' ) ),
 			\sprintf(
 				/* translators: 1: Expands to Yoast SEO. */
@@ -113,7 +113,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	private function get_incomplete_indexation_alert() {
 		$output = \sprintf(
-			'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></p>',
+			'<p><a href="%1$s" target="_blank">%2$s</a></p>',
 			\esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-x' ) ),
 			\sprintf(
 			/* translators: 1: Expands to Yoast SEO. */
@@ -161,9 +161,9 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			$estimate .= \sprintf(
 			/* translators: 1: Link to article about indexation command, 2: Anchor closing tag, 3: Link to WP CLI. */
 				\esc_html__( '%1$sRun the indexation process on your server%2$s using %3$sWP CLI%2$s', 'wordpress-seo' ),
-				'<a href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-w ' ) ) . '" target="_blank" rel="noopener noreferrer">',
+				'<a href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-w ' ) ) . '" target="_blank">',
 				'</a>',
-				'<a href="https://wp-cli.org/" target="_blank" rel="noopener noreferrer">'
+				'<a href="https://wp-cli.org/" target="_blank">'
 			);
 			$estimate .= '</li>';
 			$estimate .= '</ul>';

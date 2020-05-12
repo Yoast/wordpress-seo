@@ -296,7 +296,7 @@ class Indexation_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<a href="" target="_blank" rel="noopener noreferrer">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexation status</strong>">Start processing and speed up your site now</button>';
@@ -349,7 +349,7 @@ class Indexation_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
 		$expected = '<li><strong>SEO Data</strong>';
-		$expected .= '<p><a href="" target="_blank" rel="noopener noreferrer">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
 		$expected .= 'Start processing and speed up your site now</button></span></li>';
