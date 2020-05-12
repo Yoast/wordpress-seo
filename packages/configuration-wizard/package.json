@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "2.3.0-rc.1",
+  "version": "2.4.0-rc.2",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -18,15 +18,15 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^2.1.0-rc.1",
-    "@yoast/helpers": "^0.12.0-rc.0",
-    "@yoast/style-guide": "^0.11.1",
+    "@yoast/components": "^2.2.0-rc.2",
+    "@yoast/helpers": "^0.12.1-rc.1",
+    "@yoast/style-guide": "^0.11.2-rc.1",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2-rc.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",

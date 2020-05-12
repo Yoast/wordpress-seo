@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.74.0-rc.0",
+  "version": "1.75.0-rc.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -29,7 +29,7 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2-rc.1",
     "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
@@ -41,7 +41,7 @@
     "babelify": "^8.0.0",
     "browserslist": "^4.7.3",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.16",
+    "eslint-config-yoast": "^5.0.17-rc.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
@@ -69,7 +69,7 @@
   },
   "dependencies": {
     "@wordpress/autop": "^2.0.2",
-    "@yoast/feature-flag": "^0.5.1",
+    "@yoast/feature-flag": "^0.5.2-rc.1",
     "htmlparser2": "^3.9.2",
     "jed": "^1.1.0",
     "lodash-es": "^4.17.10",

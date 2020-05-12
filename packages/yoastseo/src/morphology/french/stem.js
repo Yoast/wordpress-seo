@@ -1,5 +1,6 @@
 /* eslint-disable max-statements, complexity */
-
+import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
+import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
 /*
  * MIT License
  *
@@ -58,16 +59,17 @@
  * Determines R1, R2 and RV.
  *
  * @param {string} word The word for which to determine the R regions.
+ * @param {Object} rIntervalsData The regexes that cover French RV and R1 intervals.
  *
  * @returns {[number]} The R1, R2 and RV.
  */
-const determineRs = function( word ) {
+const determineRs = function( word, rIntervalsData ) {
 	let rvIndex = -1;
 
-	if ( word.search( /^(par|col|tap)/ ) !== -1 || word.search( /^[aeiouyâàëéêèïîôûù]{2}/ ) !== -1 ) {
+	if ( word.search( new RegExp( rIntervalsData.rvRegex1 ) ) !== -1 || word.search( new RegExp( rIntervalsData.rvRegex2 ) ) !== -1 ) {
 		rvIndex = 3;
 	} else {
-		rvIndex = word.substring( 1 ).search( /[aeiouyâàëéêèïîôûù]/ );
+		rvIndex = word.substring( 1 ).search( new RegExp( rIntervalsData.rvRegex3 ) );
 
 		if ( rvIndex === -1 ) {
 			rvIndex = word.length;
@@ -81,7 +83,8 @@ const determineRs = function( word ) {
 	 * R1 is the region after the first non-vowel following a vowel, or the end of the word if there is no such non-vowel.
 	 * R2 is the region after the first non-vowel following a vowel in R1, or the end of the word if there is no such non-vowel.
 	 */
-	let r1Index = word.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
+	const r1Regex = new RegExp( rIntervalsData.r1Regex );
+	let r1Index = word.search( r1Regex );
 	let r1 = "";
 	if ( r1Index === -1 ) {
 		r1Index = word.length;
@@ -92,7 +95,7 @@ const determineRs = function( word ) {
 
 	let r2Index = -1;
 	if ( r1Index !== -1 ) {
-		r2Index = r1.search( /[aeiouyâàëéêèïîôûù][^aeiouyâàëéêèïîôûù]/ );
+		r2Index = r1.search( r1Regex );
 		if ( r2Index === -1 ) {
 			r2Index = word.length;
 		} else {
@@ -114,159 +117,160 @@ const determineRs = function( word ) {
 /**
  * Removes or normalizes standard suffixes.
  *
- * @param {string} word             The word for which to remove suffixes.
- * @param {Object} morphologyData   The French morphology data.
- * @param {number} r1Index          The start index of R1.
- * @param {number} r2Index          The start index of R2.
- * @param {number} rvIndex          The start index of RV.
+ * @param {string} word               The word for which to remove suffixes.
+ * @param {Object} standardSuffixData The French morphology data covering standard suffixes.
+ * @param {number} r1Index            The start index of R1.
+ * @param {number} r2Index            The start index of R2.
+ * @param {number} rvIndex            The start index of RV.
  *
  * @returns {string} The word with standard suffixes removed or normalized.
  */
-const processStandardSuffixes = function( word, morphologyData, r1Index, r2Index, rvIndex ) {
-	const standardSuffixData = morphologyData.regularStemmer.standardSuffixes;
+const processStandardSuffixes = function( word, standardSuffixData, r1Index, r2Index, rvIndex ) {
 	const a1Index = word.search( new RegExp( standardSuffixData.standardSuffixes1 ) ),
 		a2Index = word.search( new RegExp( standardSuffixData.standardSuffixes2 ) ),
-		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3 ) ),
-		a4Index = word.search( new RegExp( standardSuffixData.standardSuffixes4 ) ),
-		a5Index = word.search( new RegExp( standardSuffixData.standardSuffixes5 ) ),
+		a3Index = word.search( new RegExp( standardSuffixData.standardSuffixes3[ 0 ] ) ),
+		a4Index = word.search( new RegExp( standardSuffixData.standardSuffixes4[ 0 ] ) ),
+		a5Index = word.search( new RegExp( standardSuffixData.standardSuffixes5[ 0 ] ) ),
 		a6Index = word.search( new RegExp( standardSuffixData.standardSuffixes6 ) ),
 		a7Index = word.search( new RegExp( standardSuffixData.standardSuffixes7 ) ),
 		a8Index = word.search( new RegExp( standardSuffixData.standardSuffixes8 ) ),
-		a9Index = word.search( new RegExp( standardSuffixData.standardSuffixes9 ) ),
-		a10Index = word.search( new RegExp( standardSuffixData.standardSuffixes10 ) ),
-		a11Index = word.search( new RegExp( standardSuffixData.standardSuffixes11 ) ),
+		a9Index = word.search( new RegExp( standardSuffixData.standardSuffixes9[ 0 ] ) ),
+		a10Index = word.search( new RegExp( standardSuffixData.standardSuffixes10[ 0 ] ) ),
+		a11Index = word.search( new RegExp( standardSuffixData.standardSuffixes11[ 0 ] ) ),
 		a12Index = word.search( new RegExp( standardSuffixData.standardSuffixes12 ) ),
-		a13Index = word.search( new RegExp( standardSuffixData.standardSuffixes13 ) ),
-		a14Index = word.search( new RegExp( standardSuffixData.standardSuffixes14 ) ),
+		a13Index = word.search( new RegExp( standardSuffixData.standardSuffixes13[ 0 ] ) ),
+		a14Index = word.search( new RegExp( standardSuffixData.standardSuffixes14[ 0 ] ) ),
 		a15Index = word.search( new RegExp( standardSuffixData.standardSuffixes15 ) );
 
 	if ( a1Index !== -1 && a1Index >= r2Index ) {
 		word = word.substring( 0, a1Index );
 	} else if ( a2Index !== -1 && a2Index >= r2Index ) {
 		word = word.substring( 0, a2Index );
-		const a2Index2 = word.search( /(ic)$/ );
+		const a2Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) );
 
 		if ( a2Index2 !== -1 && a2Index2 >= r2Index ) {
 			// If preceded by ic, delete if in R2
 			word = word.substring( 0, a2Index2 );
 		} else {
 			// Else replace by iqU
-			word = word.replace( /(ic)$/, "iqU" );
+			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ), standardSuffixData.suffixesPrecedingChar1[ 1 ] );
 		}
 	} else if ( a3Index !== -1 && a3Index >= r2Index ) {
 		// Replace with log if in R2
-		word = word.replace( /(logie|logies)$/, "log" );
+		word = word.slice( 0, a3Index ) + standardSuffixData.standardSuffixes3[ 1 ];
 	} else if ( a4Index !== -1 && a4Index >= r2Index ) {
 		// Replace with u if in R2
-		word = word.replace( /(usion|ution|usions|utions)$/, "u" );
+		word = word.slice( 0, a4Index ) + standardSuffixData.standardSuffixes4[ 1 ];
 	} else if ( a5Index !== -1 && a5Index >= r2Index ) {
 		// Replace with ent if in R2
-		word = word.replace( /(ence|ences)$/, "ent" );
+		word = word.slice( 0, a5Index ) + standardSuffixData.standardSuffixes5[ 1 ];
+	} else if ( a12Index !== -1 && a12Index >= r1Index ) {
+		// +1- amendment to non-vowel
+		word = word.substring( 0, a12Index + 1 );
 	} else if ( a6Index !== -1 && a6Index >= rvIndex ) {
 		word = word.substring( 0, a6Index );
 
-		if ( word.search( /(iv)$/ ) >= r2Index ) {
-			word = word.replace( /(iv)$/, "" );
+		const precedingCharacter2 =  word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) );
+		const a6Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar4[ 0 ] ) );
+		const precedingCharacter5 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar5[ 0 ] ) );
+		const precedingCharacter6 = word.search(  new RegExp( standardSuffixData.suffixesPrecedingChar6[ 0 ] ) );
+		if ( precedingCharacter2 >= r2Index ) {
+			word = word.slice( 0, precedingCharacter2 ) + standardSuffixData.suffixesPrecedingChar2[ 1 ];
 
-			if ( word.search( /(at)$/ ) >= r2Index ) {
-				word = word.replace( /(at)$/, "" );
+			const precedingCharacter3 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ) );
+			if ( precedingCharacter3 >= r2Index ) {
+				word = word.slice( 0, precedingCharacter3 ) + standardSuffixData.suffixesPrecedingChar3[ 1 ];
 			}
-		} else if ( word.search( /(eus)$/ ) !== -1 ) {
-			const a6Index2 = word.search( /(eus)$/ );
-
+		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar4[ 0 ] ) ) !== -1 ) {
 			if ( a6Index2 >= r2Index ) {
 				word = word.substring( 0, a6Index2 );
 			} else if ( a6Index2 >= r1Index ) {
-				word = word.substring( 0, a6Index2 ) + "eux";
+				word = word.substring( 0, a6Index2 ) + standardSuffixData.suffixesPrecedingChar4[ 1 ];
 			}
-		} else if ( word.search( /(abl|iqU)$/ ) >= r2Index ) {
+		} else if ( precedingCharacter5 >= r2Index ) {
 			// If preceded by abl or iqU, delete if in R2
-			word = word.replace( /(abl|iqU)$/, "" );
-		} else if ( word.search( /(ièr|Ièr)$/ ) >= rvIndex ) {
+			word = word.slice( 0, precedingCharacter5 ) + standardSuffixData.suffixesPrecedingChar5[ 1 ];
+		} else if ( precedingCharacter6 >= rvIndex ) {
 			// If preceded by abl or iqU, delete if in R2
-			word = word.replace( /(ièr|Ièr)$/, "i" );
+			word = word.slice( 0, precedingCharacter6 ) + standardSuffixData.suffixesPrecedingChar6[ 1 ];
 		}
 	} else if ( a7Index !== -1 && a7Index >= r2Index ) {
 		// Delete if in R2
 		word = word.substring( 0, a7Index );
 
-		if ( word.search( /(abil)$/ ) !== -1 ) {
+		const a7Index2 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar7[ 0 ] ) );
+		const a7Index3 = word.search( new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) );
+		if ( a7Index2 !== -1 ) {
 			// If preceded by abil, delete if in R2, else replace by abl, otherwise
-			const a7Index2 = word.search( /(abil)$/ );
-
 			if ( a7Index2 >= r2Index ) {
 				word = word.substring( 0, a7Index2 );
 			} else {
-				word = word.substring( 0, a7Index2 ) + "abl";
+				word = word.substring( 0, a7Index2 ) + standardSuffixData.suffixesPrecedingChar7[ 1 ];
 			}
-		} else if ( word.search( /(ic)$/ ) !== -1 ) {
-			const a7Index3 = word.search( /(ic)$/ );
-
+		} else if ( a7Index3 !== -1 ) {
 			if ( a7Index3 !== -1 && a7Index3 >= r2Index ) {
 				// If preceded by ic, delete if in R2
 				word = word.substring( 0, a7Index3 );
 			} else {
 				// Else replace by iqU
-				word = word.replace( /(ic)$/, "iqU" );
+				word = word.substring( 0, a7Index3 ) + standardSuffixData.suffixesPrecedingChar1[ 1 ];
 			}
-		} else if ( word.search( /(iv)$/ ) !== r2Index ) {
-			word = word.replace( /(iv)$/, "" );
+		} else if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ) ) !== r2Index ) {
+			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar2[ 0 ] ), standardSuffixData.suffixesPrecedingChar2[ 1 ] );
 		}
 	} else if ( a8Index !== -1 && a8Index >= r2Index ) {
 		word = word.substring( 0, a8Index );
 
-		if ( word.search( /(at)$/ ) >= r2Index ) {
-			word = word.replace( /(at)$/, "" );
+		if ( word.search( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ) ) >= r2Index ) {
+			word = word.replace( new RegExp( standardSuffixData.suffixesPrecedingChar3[ 0 ] ), standardSuffixData.suffixesPrecedingChar3[ 1 ] );
 
-			if ( word.search( /(ic)$/ ) >= r2Index ) {
-				word = word.replace( /(ic)$/, "" );
+			if ( word.search(  new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ) ) >= r2Index ) {
+				word = word.replace(  new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ), "" );
 			} else {
-				word = word.replace( /(ic)$/, "iqU" );
+				word = word.replace(  new RegExp( standardSuffixData.suffixesPrecedingChar1[ 0 ] ), standardSuffixData.suffixesPrecedingChar1[ 1 ] );
 			}
 		}
 	} else if ( a9Index !== -1 ) {
-		word = word.replace( /(eaux)/, "eau" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes9[ 0 ] ), standardSuffixData.standardSuffixes9[ 1 ] );
 	} else if ( a10Index >= r1Index ) {
-		word = word.replace( /(aux)/, "al" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes10[ 0 ] ), standardSuffixData.standardSuffixes10[ 1 ] );
 	} else if ( a11Index !== -1 ) {
-		const a11Index2 = word.search( /(euse|euses)$/ );
+		const a11Index2 = word.search( new RegExp( standardSuffixData.standardSuffixes11[ 0 ] ) );
 
 		if ( a11Index2 >= r2Index ) {
 			word = word.substring( 0, a11Index2 );
 		} else if ( a11Index2 >= r1Index ) {
-			word = word.substring( 0, a11Index2 ) + "eux";
+			word = word.substring( 0, a11Index2 ) + standardSuffixData.standardSuffixes11[ 1 ];
 		}
-	} else if ( a12Index !== -1 && a12Index >= r1Index ) {
-		// +1- amendment to non-vowel
-		word = word.substring( 0, a12Index + 1 );
 	} else if ( a13Index !== -1 && a13Index >= rvIndex ) {
-		word = word.replace( /(amment)$/, "ant" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes13[ 0 ] ), standardSuffixData.standardSuffixes13[ 1 ]  );
 	} else if ( a14Index !== -1 && a14Index >= rvIndex ) {
-		word = word.replace( /(emment)$/, "ent" );
+		word = word.replace( new RegExp( standardSuffixData.standardSuffixes14[ 0 ] ), standardSuffixData.standardSuffixes14[ 1 ] );
 	} else if ( a15Index !== -1 && a15Index >= rvIndex ) {
 		word = word.substring( 0, a15Index + 1 );
 	}
 
 	return word;
 };
+
 /**
  * Removes verb suffixes starting with i.
  *
- * @param {string}  word                            The word for which to remove suffixes.
- * @param {string}  originalWord                    The unprocessed word.
- * @param {number}  rvIndex                         The start index of RV.
+ * @param {string} word                       The word for which to remove suffixes.
+ * @param {string} originalWord               The unprocessed word.
+ * @param {number} rvIndex                    The start index of RV.
+ * @param {string} verbSuffixesWithIBeginning Data for checking French suffixes starting with I.
  *
- * @returns {{step2aDone: boolean, word: string}}   The word and information about whether the conditions for step 2a were met.
+ * @returns {{step2aDone: boolean, word: string}} The word and information about whether the conditions for step 2a were met.
  */
-const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex ) {
+const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, verbSuffixesWithIBeginning ) {
 	let step2aDone = false;
-	if ( originalWord === word.toLowerCase() || originalWord.search( /(amment|emment|ment|ments)$/ ) !== -1 ) {
+	if ( originalWord === word.toLowerCase() || checkIfWordEndingIsOnExceptionList( originalWord, verbSuffixesWithIBeginning.exceptions ) ) {
 		step2aDone = true;
-		// eslint-disable-next-line max-len
-		const b1Regex = /([^aeiouyâàëéêèïîôûù])(îmes|ît|îtes|i|ie|ies|ir|ira|irai|iraIent|irais|irait|iras|irent|irez|iriez|irions|irons|iront|is|issaIent|issais|issait|issant|issante|issantes|issants|isse|issent|isses|issez|issiez|issions|issons|it)$/i;
 
+		const b1Regex = new RegExp( verbSuffixesWithIBeginning.suffixes[ 0 ] );
 		if ( word.search( b1Regex ) >= rvIndex ) {
-			word = word.replace( b1Regex, "$1" );
+			word = word.replace( b1Regex, verbSuffixesWithIBeginning.suffixes[ 1 ] );
 		}
 	}
 
@@ -276,34 +280,67 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex ) 
 /**
  * Removes other verb suffixes.
  *
- * @param {string}  word                            The word for which to remove suffixes.
- * @param {boolean} step2aDone                      Whether step 2a was done.
- * @param {string}  wordAfterStep1                  The word after step 1 was done.
- * @param {number}  r2Index                         The start index of R2.
- * @param {number}  rvIndex                         The start index of RV.
+ * @param {string}  word              The word for which to remove suffixes.
+ * @param {boolean} step2aDone        Whether step 2a was done.
+ * @param {string}  wordAfterStep1    The word after step 1 was done.
+ * @param {number}  r2Index           The start index of R2.
+ * @param {number}  rvIndex           The start index of RV.
+ * @param {Object}  otherVerbSuffixes The French verbal suffixes that do not start with I.
  *
- * @returns {string}                                The word after other verb suffixes were removed.
+ * @returns {string} The word after other verb suffixes were removed.
  */
-const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex ) {
+const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, otherVerbSuffixes ) {
 	if ( step2aDone && wordAfterStep1 === word ) {
-		if ( word.search( /(ions)$/ ) >= r2Index ) {
-			word = word.replace( /(ions)$/, "" );
+		const suffixIons = new RegExp( otherVerbSuffixes[ 0 ] );
+		if ( word.search( suffixIons ) >= r2Index ) {
+			return word.replace( suffixIons, "" );
+		}
+
+		for ( let i = 1; i < otherVerbSuffixes.length; i++ ) {
+			const regex = new RegExp( otherVerbSuffixes[ i ] );
+			if ( word.search( regex ) >= rvIndex ) {
+				return word.replace( regex,  "" );
+			}
+		}
+	}
+
+	return word;
+};
+
+/**
+ * Removes residual suffixes.
+ *
+ * @param {string}  word                            The word for which to remove residual suffixes.
+ * @param {number}  rvIndex                         The start index of RV.
+ * @param {number}  r2Index                         The start index of R2.
+ * @param {Object}  morphologyDataRegularStemmer    The French morphology data.
+ *
+ * @returns {string}                                The word after residual suffixes were removed.
+ */
+const removeResidualSuffixes = function( word, rvIndex, r2Index, morphologyDataRegularStemmer ) {
+	const residualSuffixes = morphologyDataRegularStemmer.residualSuffixes;
+	if ( word.search( new RegExp( residualSuffixes.residualSuffixes1[ 0 ] ) ) >= rvIndex ) {
+		word = word.replace( new RegExp( residualSuffixes.residualSuffixes1[ 0 ] ), residualSuffixes.residualSuffixes1[ 1 ] );
+	}
+
+	const e1Index = word.search( new RegExp( residualSuffixes.residualSuffix2 ) );
+
+	if ( e1Index >= r2Index && word.search( new RegExp( residualSuffixes.residualSuffix3 ) ) >= rvIndex ) {
+		word = word.substring( 0, e1Index );
+	} else {
+		let e2Index = word.search( new RegExp( residualSuffixes.residualSuffixes4[ 0 ] ) );
+
+		if ( e2Index >= rvIndex ) {
+			word = word.substring( 0, e2Index ) + residualSuffixes.residualSuffixes4[ 1 ];
 		} else {
-			const b2Regex = /(é|ée|ées|és|èrent|er|era|erai|eraIent|erais|erait|eras|erez|eriez|erions|erons|eront|ez|iez)$/i;
-
-			if ( word.search( b2Regex ) >= rvIndex ) {
-				word = word.replace( b2Regex, "" );
+			e2Index = word.search( new RegExp( residualSuffixes.residualSuffix5 ) );
+			if ( e2Index >= rvIndex ) {
+				// Delete last e.
+				word = word.substring( 0, e2Index );
 			} else {
-				const b3Regex = /e(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
-
-				if ( word.search( b3Regex ) >= rvIndex ) {
-					word = word.replace( b3Regex, "" );
-				} else {
-					const b3Regex2 = /(âmes|ât|âtes|a|ai|aIent|ais|ait|ant|ante|antes|ants|as|asse|assent|asses|assiez|assions)$/i;
-					// eslint-disable-next-line max-depth
-					if ( word.search( b3Regex2 ) >= rvIndex ) {
-						word = word.replace( b3Regex2, "" );
-					}
+				e2Index = word.search( new RegExp( residualSuffixes.residualSuffix6[ 0 ] ) );
+				if ( e2Index >= rvIndex ) {
+					word = word.substring( 0, e2Index ) + residualSuffixes.residualSuffix6[ 1 ];
 				}
 			}
 		}
@@ -311,41 +348,40 @@ const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2In
 
 	return word;
 };
+
 /**
- * Removes residual suffixes.
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
  *
- * @param {string}  word                            The word for which to remove residual suffixes.
- * @param {number}  rvIndex                         The start index of RV.
- * @param {number}  r2Index                         The start index of R2.
+ * @param {string} word	      The word to be checked.
+ * @param {Object} exceptions The list of full-form exceptions to be checked in.
  *
- * @returns {string}                                The word after residual suffixes were removed.
+ * @returns {null|string} The canonical stem or null if nothing was found.
  */
-const removeResidualSuffixes = function( word, rvIndex, r2Index ) {
-	if ( word.search( /([^aiouès])s$/ ) >= rvIndex ) {
-		word = word.replace( /([^aiouès])s$/, "$1" );
-	}
-
-	const e1Index = word.search( /ion$/ );
-
-	if ( e1Index >= r2Index && word.search( /[st]ion$/ ) >= rvIndex ) {
-		word = word.substring( 0, e1Index );
-	} else {
-		const e2Index = word.search( /(ier|ière|Ier|Ière)$/ );
-
-		if ( e2Index !== -1 && e2Index >= rvIndex ) {
-			word = word.substring( 0, e2Index ) + "i";
-		} else {
-			if ( word.search( /e$/ ) >= rvIndex ) {
-				// Delete last e.
-				word = word.replace( /e$/, "" );
-			} else if ( word.search( /guë$/ ) >= rvIndex ) {
-				word = word.replace( /guë$/, "gu" );
-			}
+const checkWordInFullFormExceptions = function( word, exceptions ) {
+	for ( const paradigm of exceptions ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
 		}
 	}
-
-	return word;
+	return null;
 };
+
+/**
+ * Check whether the stem is on the exception list of stems that belong to one word. If it is, returns the canonical stem.
+ *
+ * @param {string}	stemmedWord					The stemmed word.
+ * @param {Object}	stemsThatBelongToOneWord	The list of stems that belong to one word.
+ *
+ * @returns {null|string}	The canonical stem if word was found on the list.
+ */
+const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
+	for ( const paradigm of stemsThatBelongToOneWord.adjectives ) {
+		if ( paradigm.includes( stemmedWord ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+};
+
 /**
  * Stems French words.
  *
@@ -358,69 +394,98 @@ export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
 
+	// Check if the word is on an exception list for which all forms of a word and its stem are listed.
+	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
+	if ( ifException ) {
+		return ifException;
+	}
+
+	// Check the exception list of words with plural suffix -x.
+	if ( word.endsWith( "x" ) ) {
+		const pluralsWithXSuffix = morphologyData.pluralsWithXSuffix;
+		if ( pluralsWithXSuffix.includes( word ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
+
 	// Pre-processing steps
-	word = word.replace( /qu/g, "qU" );
-	word = word.replace( /([aeiouyâàëéêèïîôûù])u([aeiouyâàëéêèïîôûù])/g, "$1U$2" );
-	word = word.replace( /([aeiouyâàëéêèïîôûù])i([aeiouyâàëéêèïîôûù])/g, "$1I$2" );
-	word = word.replace( /([aeiouyâàëéêèïîôûù])y/g, "$1Y" );
-	word = word.replace( /y([aeiouyâàëéêèïîôûù])/g, "Y$1" );
+	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
 	// Determine R1, R2 & RV regions.
 	const [
 		r1Index,
 		r2Index,
 		rvIndex,
-	] = determineRs( word );
+	] = determineRs( word, morphologyData.regularStemmer.rIntervals );
 
 	/*
 	 * Step 1:
 	 * Remove standard suffixes
 	 */
-	word = processStandardSuffixes( word, morphologyData, r1Index, r2Index, rvIndex );
+	word = processStandardSuffixes( word, morphologyData.regularStemmer.standardSuffixes, r1Index, r2Index, rvIndex );
 	const wordAfterStep1 = word;
 
 	/*
 	 * Step 2a:
 	 * Stem verb suffixes beginning with "i"
 	 */
-	word = removeVerbSuffixesStartingWithI( word, originalWord, rvIndex ).word;
-	const step2aDone = removeVerbSuffixesStartingWithI( word, originalWord, rvIndex ).step2aDone;
+	const verbSuffixesStartingWithIRemoved = removeVerbSuffixesStartingWithI(
+		word,
+		originalWord,
+		rvIndex,
+		morphologyData.regularStemmer.verbSuffixesWithIBeginning
+	);
+	word = verbSuffixesStartingWithIRemoved.word;
+	const step2aDone = verbSuffixesStartingWithIRemoved.step2aDone;
 
 	/*
 	 * Step 2b:
 	 * Stem other verb suffixes
 	 */
-	word = removeOtherVerbSuffixes( word, step2aDone, wordAfterStep1, r2Index, rvIndex );
+	word = removeOtherVerbSuffixes(
+		word,
+		step2aDone,
+		wordAfterStep1,
+		r2Index,
+		rvIndex,
+		morphologyData.regularStemmer.otherVerbSuffixes
+	);
 
 	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4:
 		 * Stem residual suffixes.
 		 */
-		word = removeResidualSuffixes( word, rvIndex, r2Index );
+		word = removeResidualSuffixes( word, rvIndex, r2Index, morphologyData.regularStemmer );
 	} else {
 		/*
 		 * Step 3 (only needs to be executed if step 4 isn't executed)
 		 * Replace final Y with i or final ç with c.
 		 */
-		if ( word.search( /Y$/ ) !== -1 ) {
-			word = word.replace( /Y$/, "i" );
-		} else if ( word.search( /ç$/ ) !== -1 ) {
-			word = word.replace( /ç$/, "c" );
+		const yEnding = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.yEndingAndReplacement;
+		const softCEnding = morphologyData.regularStemmer.yAndSoftCEndingAndReplacement.softCEndingAndReplacement;
+		if ( word.endsWith( yEnding[ 0 ] ) ) {
+			word = word.slice( 0, -1 ) + yEnding[ 1 ];
+		} else if ( word.endsWith( softCEnding[ 0 ] ) ) {
+			word = word.slice( 0, -1 ) + softCEnding[ 1 ];
 		}
 	}
 
 	/* Step 5:
 	 * Undouble final consonants
 	 */
-	word = word.replace( /(en|on)(n)$/, "$1" );
-	word = word.replace( /(ett)$/, "et" );
-	word = word.replace( /(el|eil)(l)$/, "$1" );
+	word = applyAllReplacements( word, morphologyData.regularStemmer.finalConsonantUndoubling );
 
 	/* Step 6:
 	 * Un-accent
 	 */
-	word = word.replace( /[éè]([^aeiouyâàëéêèïîôûù]+)$/, "e$1" );
+	const unaccentE = morphologyData.regularStemmer.unaccentERegex;
+	word = word.replace( new RegExp( unaccentE[ 0 ] ), unaccentE[ 1 ] );
 	word = word.toLowerCase();
+
+	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
+	if ( canonicalStem ) {
+		return canonicalStem;
+	}
 
 	return word;
 }

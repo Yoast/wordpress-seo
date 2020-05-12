@@ -3,7 +3,7 @@
   "private": true,
   "devDependencies": {
     "eslint": "^5.15.3",
-    "eslint-config-yoast": "^5.0.6",
+    "eslint-config-yoast": "^5.0.17-rc.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "json": "^9.0.6",
