@@ -346,7 +346,15 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<li><strong>Speeding up your site</strong><br/><span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">Speed up your site</button></span></li>' );
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank" rel="noopener noreferrer">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
+		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
+		$expected .= 'Start processing and speed up your site now</button></span></li>';
+
+		$this->expectOutputString( $expected );
 
 		$this->instance->render_indexation_list_item();
 	}
