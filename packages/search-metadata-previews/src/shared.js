@@ -175,4 +175,8 @@ export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
 	}
+
+	&:hover{
+		background: #d9d9d9;
+	}
 `;
