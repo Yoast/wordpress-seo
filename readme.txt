@@ -219,17 +219,17 @@ Bugfixes:
 * Fixes a bug where the help text about Yoast Columns would be shown in the Help Tab on post overviews when there were no Yoast Columns. Additionally, the help text has been refined to only show information about columns that are actually shown. Props to [glebkema](https://github.com/glebkema).
 * Fixes a bug where an empty breadcrumb would be output when a taxonomy was set to have a post type archive in its breadcrumb when that post type didn't have an archive.
 * Fixes a bug where a part of the breadcrumb path was missing on search result pages.
-* Fixes a bug where an error would be thrown and the indexation could not be completed due to posts or terms having themselves as a parent or grandparent.
+* Fixes a bug where an error would be thrown and indexing could not be completed due to posts or terms having themselves as a parent or grandparent.
 * Fixes a bug where the SEO data was unnecessarily being indexed when a non-public term or taxonomy was being saved.
-* Fixes a bug where the SEO data of an object would be indexed twice during the indexation process when it was an ancestor of another object in the same REST request.
+* Fixes a bug where the SEO data of an object would be indexed twice during the indexing process when it was an ancestor of another object in the same REST request.
 * Fixes a bug where huge log files would be generated if PHP was configured to also log the arguments in debug backtraces.
-* Fixes a bug where the indexation would continue even though it had already indexed all objects.
-* Fixes a bug where term indexation would keep going on forever due to plugin conflicts.
+* Fixes a bug where indexing would continue even though it had already indexed all objects.
+* Fixes a bug where term indexing would keep going on forever due to plugin conflicts.
 * Fixes a bug where primary terms of a custom taxonomy where not being reflected in the breadcrumb.
 * Fixes a bug where the URL in the schema breadcrumbs of search pages would be missing.
 * Fixes a bug where the `wpseo_remove_reply_to_com` filter was not working.
 * Fixes a bug where no metadata would be output on the frontend when the tables necessary for the indexables could not be created
-* Fixes a bug where the indexation notification would be shown on the WordPress updates page when updating themes or plugins.
+* Fixes a bug where the indexing notification would be shown on the WordPress updates page when updating themes or plugins.
 * Fixes a bug where the `yoast index --network` WP CLI command would throw an error when the database migrations for one or more subsites on a multisite environment had not been run yet.
 * Fixes a bug where no or incorrect breadcrumbs where shown for 404 pages, author archives and date archives. Props to [amitsidhpura](https://github.com/amitsidhpura).
 
@@ -248,7 +248,7 @@ Enhancements:
 * Adds debug information to the error that is shown when Yoast SEO was unable to create the necessary database tables.
 * Optimizes finding attachments by URL. This addresses a primary cause of higher server load issues occurring since 14.0.
 * Adds a warning to the metabox that is shown when a user enters a focus keyphrase that contains more than 191 characters.
-* Makes the copy of the indexation setting in the advanced tab consistent between all contexts (post, page, category, etc.).
+* Makes the copy of the indexing setting in the advanced tab consistent between all contexts (post, page, category, etc.).
 * Adds the `term_id` for terms in the object that can be filtered with the `wpseo_breadcrumb_links` and `wpseo_breadcrumb_single_link_info` filters. Props to [amitsidhpura](https://github.com/amitsidhpura).
 * Adds a time estimation to the indexing notification based on the amount of objects that need to be indexed.
 * Adds a button to the indexing notification to hide it for a week when more than 2500 objects need to be indexed.
@@ -263,7 +263,7 @@ Release Date: April 30th, 2020
 
 Bugfixes:
 
-* Fixes a bug where robots meta values defaulted to 0 instead of null because of a [bug in WPDB](https://core.trac.wordpress.org/ticket/12819). This could result in incorrect values for `noindex`, `nofollow` , `noarchive`, `noimageindex` and/or `nosnippet`. In order to purge the wrong data, we need to truncate our tables again. This means you will have to go through the indexing process again. We’re very sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexation on the server](https://yoa.st/wp-cli-index).
+* Fixes a bug where robots meta values defaulted to 0 instead of null because of a [bug in WPDB](https://core.trac.wordpress.org/ticket/12819). This could result in incorrect values for `noindex`, `nofollow` , `noarchive`, `noimageindex` and/or `nosnippet`. In order to purge the wrong data, we need to truncate our tables again. This means you will have to go through the indexing process again. We’re very sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexing on the server](https://yoa.st/wp-cli-index).
 
 = 14.0.3 =
 Release Date: April 30th, 2020
@@ -286,7 +286,7 @@ Other:
 = 14.0.2 =
 Release Date: April 29th, 2020
 
-Because we’ve changed the underlying framework of our Indexables technology, we’ve chosen to rebuild the table. This means you will have to go through the indexing process again. We’re sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexation on the server](https://yoa.st/wp-cli-index).
+Because we’ve changed the underlying framework of our Indexables technology, we’ve chosen to rebuild the table. This means you will have to go through the indexing process again. We’re sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexing on the server](https://yoa.st/wp-cli-index).
 
 Bugfixes:
 
@@ -299,7 +299,7 @@ Bugfixes:
 * Fixes a bug where a non-object property retrieval notice would be thrown when the site's content was being indexed.
 * Fixes a bug where a trailing slash would be added to canonical URLs and some `rel="prev"` URLs, even when the permalink structure settings didn't contain that trailing slash.
 * Fixes a bug where a double breadcrumb would be shown on home pages.
-* Fixes a bug where the indexation would continue indefinitely under specific circumstances.
+* Fixes a bug where indexing would continue indefinitely under specific circumstances.
 
 Other:
 
@@ -317,7 +317,7 @@ Bugfixes:
 * Fixes a bug where a fatal exception would be thrown when building an indexable failed.
 * Fixes a bug where the order of the breadcrumbs was incorrect when more than 3 nested taxonomies were used.
 * Fixes a bug where HTML tags would no longer be allowed in the breadcrumbs.
-* Fixes a bug where no title would be shown in the Yoast indexation status modal.
+* Fixes a bug where no title would be shown in the Yoast indexing status modal.
 * Fixes a bug where changes made through the `wpseo_robots` filter would not be shown in the googlebot and bingbot meta tag output.
 
 Other:
