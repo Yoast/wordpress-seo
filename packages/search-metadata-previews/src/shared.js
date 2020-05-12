@@ -169,7 +169,7 @@ export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
-	margin:0 0 3px;
+	margin:0 0 4px;
 
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;

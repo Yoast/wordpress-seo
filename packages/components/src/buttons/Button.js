@@ -30,7 +30,7 @@ export function addBaseStyle( component ) {
 		vertical-align: middle;
 		border-width: ${ `${ settings.borderWidth }px` };
 		border-style: solid;
-		margin: 0 0 4px;
+		margin: 0;
 		padding: ${ `${ settings.verticalPadding }px` } 10px;
 		border-radius: 3px;
 		cursor: pointer;
