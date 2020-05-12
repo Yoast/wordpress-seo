@@ -30,6 +30,18 @@ class Options_Helper {
 	}
 
 	/**
+	 * Sets a single field to the options.
+	 *
+	 * @param string $key   The key to set.
+	 * @param mixed  $value The value to set.
+	 *
+	 * @return mixed|null Returns value if found, $default if not.
+	 */
+	public function set( $key, $value ) {
+		return WPSEO_Options::set( $key, $value );
+	}
+
+	/**
 	 * Retrieves a default value from the option titles.
 	 *
 	 * @param string $option_titles_key The key of the option title you wish to get.

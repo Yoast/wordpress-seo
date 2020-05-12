@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -63,6 +64,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -72,12 +80,14 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->options_helper                      = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Indexation_Route(
 			$this->post_indexation_action,
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
-			$this->general_indexation_action
+			$this->general_indexation_action,
+			$this->options_helper
 		);
 	}
 
@@ -99,6 +109,28 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	 * @covers ::register_routes
 	 */
 	public function test_register_routes() {
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'indexation/prepare',
+				[
+					'methods'             => 'POST',
+					'callback'            => [ $this->instance, 'prepare' ],
+					'permission_callback' => [ $this->instance, 'can_index' ],
+				]
+			);
+
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'indexation/complete',
+				[
+					'methods'             => 'POST',
+					'callback'            => [ $this->instance, 'complete' ],
+					'permission_callback' => [ $this->instance, 'can_index' ],
+				]
+			);
+
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
