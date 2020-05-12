@@ -1178,8 +1178,8 @@ SVG;
 
 		/* Adjust the no-index text strings based on the post type. */
 		$label_object = ( $page_type === 'post' ) ? get_post_type_object( $post_type ) : WPSEO_Taxonomy::get_labels();
-		$no_index = ( $page_type === 'post' ) ? WPSEO_Options::get( 'noindex-' . $post_type, false ) : WPSEO_Options::get( 'noindex-tax-' . $label_object->name_admin_bar );
-		
+		$no_index = ( $page_type === 'post' ) ? WPSEO_Options::get( 'noindex-' . $post_type, false ) : WPSEO_Options::get( 'noindex-tax-' . strtolower( $label_object->name_admin_bar ), false );
+
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && ! ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => ! ! $no_index,
