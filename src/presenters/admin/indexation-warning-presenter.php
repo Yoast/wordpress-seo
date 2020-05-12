@@ -63,7 +63,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			\esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' ),
 			\sprintf(
 				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
-				\esc_js( \wp_create_nonce( 'wpseo-setoption' ) )
+				\esc_js( \wp_create_nonce( 'wpseo-ignore' ) )
 			),
 			'</button>'
 		);
