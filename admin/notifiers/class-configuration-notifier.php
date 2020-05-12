@@ -8,21 +8,7 @@
 /**
  * Represents the logic for showing the notification.
  */
-class WPSEO_Configuration_Notifier implements WPSEO_Listener {
-
-	/**
-	 * Option name used to determine whether the notice has been dismissed.
-	 *
-	 * @var string
-	 */
-	const META_NAME = 'wpseo-dismiss-configuration-notice';
-
-	/**
-	 * Default value.
-	 *
-	 * @var string
-	 */
-	const META_VALUE = 'yes';
+class WPSEO_Configuration_Notifier {
 
 	/**
 	 * Should the notification be shown.
@@ -56,45 +42,6 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$this->first_time_notification();
 	}
 
-	/**
-	 * Listens to an argument in the request URL. When triggered just sets the notification to dismissed.
-	 *
-	 * @return void
-	 */
-	public function listen() {
-		if ( ! $this->show_notification() || ! $this->dismissal_is_triggered() ) {
-			return;
-		}
-
-		$this->set_dismissed();
-	}
-
-	/**
-	 * Checks if the dismissal should be triggered.
-	 *
-	 * @return bool True when action has been triggered.
-	 */
-	protected function dismissal_is_triggered() {
-		return filter_input( INPUT_GET, 'dismiss_get_started' ) === '1';
-	}
-
-	/**
-	 * Checks if the current user has dismissed the notification.
-	 *
-	 * @return bool True when the notification has been dismissed.
-	 */
-	protected function is_dismissed() {
-		return get_user_meta( get_current_user_id(), self::META_NAME, true ) === self::META_VALUE;
-	}
-
-	/**
-	 * Sets the dismissed state for the current user.
-	 *
-	 * @return void
-	 */
-	protected function set_dismissed() {
-		update_user_meta( get_current_user_id(), self::META_NAME, self::META_VALUE );
-	}
 
 	/**
 	 * Checks if the notification should be shown.
@@ -102,7 +49,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return bool True when notification should be shown.
 	 */
 	protected function show_notification() {
-		return $this->show_notification && ! $this->is_dismissed();
+		return $this->show_notification;
 	}
 
 	/**
