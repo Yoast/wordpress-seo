@@ -33,8 +33,6 @@
 }
 
 .select2-container.select2-container--default {
-    background-image: none;
-    padding: 0 8px;
     max-width: 100%;
 }
 
@@ -43,10 +41,15 @@
 }
 
 .yoast-field-group .select2-container--default.select2-container--focus .select2-selection--multiple,
-.yoast-field-group .select2-container--default .select2-selection--multiple {
+.yoast-field-group .select2-container--default .select2-selection--multiple,
+.yoast-field-group .select2-container--default .select2-selection--single {
     outline: inherit;
     border: 0;
     background-color: transparent;
+}
+
+.yoast-field-group .select2-container--default .select2-selection--single .select2-selection__arrow {
+	display: none;
 }
 
 .select2-container--default .select2-selection {

@@ -65,7 +65,7 @@ export const InputContainer = styled.div.attrs( {
 } )`
 	flex: 0 1 100%;
 	border: 1px solid ${ ( props ) => props.isActive ? "#5b9dd9" : "#ddd" };
-	padding: 3px 5px;
+	padding: 7px 5px;
 	box-sizing: border-box;
 	box-shadow: ${ ( props ) => props.isActive ? "0 0 2px rgba(30,140,190,.8);" : "inset 0 1px 2px rgba(0,0,0,.07)" };
 	background-color: #fff;
@@ -126,7 +126,7 @@ export const TitleInputContainer = styled( InputContainer )`
 
 export const DescriptionInputContainer = styled( InputContainer )`
 	min-height: 72px;
-	padding: 2px 6px;
+	padding: 7px 6px;
 	line-height: 24px;
 
 	.public-DraftEditorPlaceholder-root {
@@ -143,7 +143,7 @@ export const FormSection = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	margin: 24px 0 0 0;
+	margin: 0 0 16px;
 `;
 
 export const StyledEditor = styled.section`
@@ -163,12 +163,13 @@ export const SimulatedLabel = styled.div`
 `;
 
 export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
-	box-shadow: none;
+	box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.1);
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	padding-left: 8px;
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
+	margin:0 0 3px;
 
 	& svg {
 		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;

@@ -30,7 +30,7 @@ export function addBaseStyle( component ) {
 		vertical-align: middle;
 		border-width: ${ `${ settings.borderWidth }px` };
 		border-style: solid;
-		margin: 0;
+		margin: 0 0 4px;
 		padding: ${ `${ settings.verticalPadding }px` } 10px;
 		border-radius: 3px;
 		cursor: pointer;
@@ -41,6 +41,7 @@ export function addBaseStyle( component ) {
 		text-align: ${ getDirectionalStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
+		transition: background-color 150ms ease-out 0s;
 
 		svg {
 			// Safari 10
@@ -93,7 +94,7 @@ export function addHoverStyle( component ) {
 		&:hover {
 			color: ${ props => props.hoverColor };
 			background-color: ${ props => props.hoverBackgroundColor };
-			border-color: ${ props => props.hoverBorderColor };
+			border-color: rgba(0, 0, 0, 0.2);
 		}
 	`;
 }

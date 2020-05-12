@@ -88,7 +88,6 @@ class ReplacementVariableEditor extends React.Component {
 		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ () => this.triggerReplacementVariableSuggestions() }
 		>
-			<SvgIcon icon="plus-circle" />
 			{ __( "Insert snippet variable", "yoast-components" ) }
 		</TriggerReplacementVariableSuggestionsButton>;
 
