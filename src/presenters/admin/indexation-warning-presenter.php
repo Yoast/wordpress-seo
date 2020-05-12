@@ -185,8 +185,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * @return bool `true` if the 'indexation is incomplete' warning should be shown, `false` if not.
 	 */
 	private function show_indexation_incomplete_alert() {
-		$indexation_started = $this->options_helper->get( 'indexation_started', 0 );
-		if ( $indexation_started === 0 ) {
+		$indexation_started = $this->options_helper->get( 'indexation_started', false );
+		if ( ! $indexation_started ) {
 			return false;
 		}
 
