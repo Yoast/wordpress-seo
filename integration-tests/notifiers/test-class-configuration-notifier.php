@@ -52,9 +52,6 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 
 	}
 
-
-
-
 	/**
 	 * Tests whether the wizard notification calls the right function for the right notification - in this case the rerun notification
 	 *
@@ -74,89 +71,4 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 
 	}
 
-	/**
-	 * Tests the listen method when the notification will be shown and dismissal trigger is on.
-	 *
-	 * @covers WPSEO_Configuration_Notifier::listen
-	 */
-	public function test_listen_when_notification_will_be_shown_and_dismissal_trigger_is_on() {
-		$notifier = $this
-			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
-			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
-			->getMock();
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'show_notification' )
-			->will( $this->returnValue( true ) );
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'dismissal_is_triggered' )
-			->will( $this->returnValue( true ) );
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'set_dismissed' );
-
-		$notifier->listen();
-	}
-
-	/**
-	 * Tests the listen method when the notification is not shown.
-	 *
-	 * @covers WPSEO_Configuration_Notifier::listen
-	 */
-	public function test_listen_when_notification_is_not_shown() {
-		$notifier = $this
-			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
-			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
-			->getMock();
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'show_notification' )
-			->will( $this->returnValue( false ) );
-
-		$notifier
-			->expects( $this->never() )
-			->method( 'dismissal_is_triggered' );
-
-		$notifier
-			->expects( $this->never() )
-			->method( 'set_dismissed' );
-
-		$notifier->listen();
-	}
-
-	/**
-	 * Tests the listen method when notification is shown, but the dismissed trigger isn't on.
-	 *
-	 * @covers WPSEO_Configuration_Notifier::listen
-	 */
-	public function test_listen_when_notification_is_show_but_trigger_is_not_on() {
-		$notifier = $this
-			->getMockBuilder( 'WPSEO_Configuration_Notifier' )
-			->setConstructorArgs( [ 'show_onboarding_notice' => true ] )
-			->setMethods( [ 'show_notification', 'dismissal_is_triggered', 'set_dismissed' ] )
-			->getMock();
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'show_notification' )
-			->will( $this->returnValue( true ) );
-
-		$notifier
-			->expects( $this->once() )
-			->method( 'dismissal_is_triggered' )
-			->will( $this->returnValue( false ) );
-
-		$notifier
-			->expects( $this->never() )
-			->method( 'set_dismissed' );
-
-		$notifier->listen();
-	}
 }
