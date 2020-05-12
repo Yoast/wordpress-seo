@@ -18,9 +18,18 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Creator_Presenter_Test extends TestCase {
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Creator_Presenter
 	 */
 	protected $instance;
+
+	/**
+	 * Represents the presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
 
 	/**
 	 * Setup of the tests.
@@ -28,7 +37,10 @@ class Creator_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Creator_Presenter();
+		$this->presentation = new Indexable_Presentation();
+		$this->instance     = new Creator_Presenter();
+
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -37,9 +49,7 @@ class Creator_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->instance->presentation  = new Indexable_Presentation();
-		$presentation                  = $this->instance->presentation;
-		$presentation->twitter_creator = '@TwitterHandle';
+		$this->presentation->twitter_creator = '@TwitterHandle';
 
 		$this->assertEquals(
 			'<meta name="twitter:creator" content="@TwitterHandle" />',
@@ -53,10 +63,19 @@ class Creator_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_empty_twitter_creator() {
-		$this->instance->presentation  = new Indexable_Presentation();
-		$presentation                  = $this->instance->presentation;
-		$presentation->twitter_creator = '';
+		$this->presentation->twitter_creator = '';
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->twitter_creator = '@TwitterHandle';
+
+		$this->assertSame( '@TwitterHandle', $this->instance->get() );
 	}
 }

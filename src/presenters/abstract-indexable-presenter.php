@@ -49,8 +49,6 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	 *
 	 * @param string $string The string.
 	 *
-	 * @codeCoverageIgnore Wrapper method.
-	 *
 	 * @return string The string with replacement variables replaced.
 	 */
 	protected function replace_vars( $string ) {

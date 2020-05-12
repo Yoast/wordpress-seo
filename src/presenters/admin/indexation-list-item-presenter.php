@@ -36,7 +36,21 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
-		$output = \sprintf( '<li><strong>%s</strong><br/>', \esc_html__( 'Speeding up your site', 'wordpress-seo' ) );
+		$output = \sprintf( '<li><strong>%s</strong>', \esc_html__( 'SEO Data', 'wordpress-seo' ) );
+		$output .= \sprintf(
+			'<p><a href="%1$s" target="_blank">%2$s</a>%3$s</p>',
+			\esc_url( \WPSEO_Shortlinker::get( 'https://yoa.st/3-z' ) ),
+			\sprintf(
+				/* translators: 1: Expands to Yoast SEO. */
+				\esc_html__( '%1$s creates and maintains an index of all of your site\'s SEO data in order to speed up your site', 'wordpress-seo' ),
+				'Yoast SEO'
+			),
+			\sprintf(
+				/* translators: 1: Expands to Yoast SEO. */
+				\esc_html__( '. To build your index, %1$s needs to process all of your content.', 'wordpress-seo' ),
+				'Yoast SEO'
+			)
+		);
 
 		/**
 		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the amount of objects that can be indexed during shutdown.
@@ -56,7 +70,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 					'</button>' .
 				'</span>',
 				\esc_attr__( 'Speeding up your site', 'wordpress-seo' ),
-				\esc_html__( 'Speed up your site', 'wordpress-seo' )
+				\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
 			);
 		}
 
