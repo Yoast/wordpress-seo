@@ -1178,7 +1178,7 @@ SVG;
 
 		/* Adjust the no-index text strings based on the post type. */
 		$label_object = ( $page_type === 'post' ) ? get_post_type_object( $post_type ) : WPSEO_Taxonomy::get_labels();
-		
+
 		$no_index = false;
 		if ( $page_type === 'post' ) {
 			$no_index = WPSEO_Options::get( 'noindex-' . $post_type, false );
