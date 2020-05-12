@@ -45,7 +45,7 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
-		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexation status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>">Start processing and speed up your site now</button>';
 		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="123456789">Hide this notice</button> ';
 		$expected .= '(everything will continue to function normally)</p></div>';
 

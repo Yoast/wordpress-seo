@@ -99,7 +99,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexation status', 'wordpress-seo' ), 'Yoast' ),
+			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
 			esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
 		);
 
@@ -128,7 +128,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexation status', 'wordpress-seo' ), 'Yoast' ),
+			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
 			esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
 		);
 
@@ -161,7 +161,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			$estimate .= \sprintf(
 			/* translators: 1: Link to article about indexation command, 2: Anchor closing tag, 3: Link to WP CLI. */
 				\esc_html__( '%1$sRun the indexation process on your server%2$s using %3$sWP CLI%2$s', 'wordpress-seo' ),
-				'<a href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-w ' ) ) . '" target="_blank">',
+				'<a href="' . \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3-w' ) ) . '" target="_blank">',
 				'</a>',
 				'<a href="https://wp-cli.org/" target="_blank">'
 			);
@@ -185,8 +185,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * @return bool `true` if the 'indexation is incomplete' warning should be shown, `false` if not.
 	 */
 	private function show_indexation_incomplete_alert() {
-		$indexation_started = $this->options_helper->get( 'indexation_started', 0 );
-		if ( $indexation_started === 0 ) {
+		$indexation_started = $this->options_helper->get( 'indexation_started', false );
+		if ( ! $indexation_started ) {
 			return false;
 		}
 
