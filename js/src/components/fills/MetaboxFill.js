@@ -100,6 +100,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 				</TopLevelProviders>
 			</SidebarItem> }
 			<TopLevelProviders
+				renderPriority={ -1 }
 				store={ store }
 				theme={ theme }
 				location={ "metabox" }
