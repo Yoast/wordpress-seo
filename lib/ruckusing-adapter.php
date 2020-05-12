@@ -749,6 +749,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 		else {
 			$index_name = Ruckusing_Util_Naming::index_name( $table_name, $column_name );
 		}
+		// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql -- Reason: This is a manual check without WPDB.
 		if ( \strlen( $index_name ) > MYSQL_MAX_IDENTIFIER_LENGTH ) {
 			$msg = 'The auto-generated index name is too long for MySQL (max is 64 chars). ';
 			$msg .= "Considering using 'name' option parameter to specify a custom name for this index.";
