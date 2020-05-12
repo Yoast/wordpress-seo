@@ -32,6 +32,8 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -56,7 +58,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -669,6 +671,8 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -693,7 +697,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -1234,6 +1238,8 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -1258,7 +1264,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -1871,6 +1877,8 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -1895,7 +1903,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -2508,6 +2516,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -2532,7 +2542,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -2981,6 +2991,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -3005,7 +3017,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -3454,6 +3466,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -3478,7 +3492,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
@@ -3997,6 +4011,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: background-color 150ms ease-out 0s;
+  transition: background-color 150ms ease-out 0s;
 }
 
 .c6:active {
@@ -4021,7 +4037,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 .c6:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: rgba(0,0,0,0.2);
 }
 
 .c6 svg {
