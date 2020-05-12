@@ -16,3 +16,13 @@
 .toggleable-container-hidden {
 	display: none;
 }
+
+
+.yoast-field-group__title code{
+	font-size: 13px;
+	font-weight: 700;
+	border: var(--border-default);
+	color: var(--color-default);
+	padding: 3px 5px;
+	margin: 0 2px;
+}
