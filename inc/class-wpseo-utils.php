@@ -1181,13 +1181,13 @@ SVG;
 
 		if ( $page_type === 'post' ) {
 			$label_object = get_post_type_object( $post_type );
-			$no_index = WPSEO_Options::get( 'noindex-' . $post_type, false );
+			$no_index     = WPSEO_Options::get( 'noindex-' . $post_type, false );
 		}
 		else {
 			$label_object = WPSEO_Taxonomy::get_labels();
 
 			$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
-			$no_index = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
+			$no_index      = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
 		}
 
 		$wpseo_admin_l10n = [
