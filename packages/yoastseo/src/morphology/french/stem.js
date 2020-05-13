@@ -286,17 +286,11 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, v
  * @param {number}  r2Index           The start index of R2.
  * @param {number}  rvIndex           The start index of RV.
  * @param {Object}  otherVerbSuffixes The French verbal suffixes that do not start with I.
- * @param {string[]}nonVerbsOnEnt     French nouns and adjectives that end in -ent and should not be stemmed based on verbal rules.
  *
  * @returns {string} The word after other verb suffixes were removed.
  */
-const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, otherVerbSuffixes, nonVerbsOnEnt ) {
+const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, otherVerbSuffixes ) {
 	if ( step2aDone && wordAfterStep1 === word ) {
-		// Check if the word is not in the exception list.
-		if ( nonVerbsOnEnt.includes( word ) || ( word.endsWith( "s" ) && nonVerbsOnEnt.includes( word.slice( 0, -1 ) ) ) ) {
-			return word;
-		}
-
 		const suffixIons = new RegExp( otherVerbSuffixes[ 0 ] );
 		if ( word.search( suffixIons ) >= r2Index ) {
 			return word.replace( suffixIons, "" );
@@ -414,6 +408,26 @@ export default function stem( word, morphologyData ) {
 		}
 	}
 
+	// Check if the word is on the exception list of words for which -s should not be stemmed.
+	if ( word.endsWith( "s" ) ) {
+		const sShouldNotBeStemmed = morphologyData.sShouldNotBeStemmed;
+		if ( sShouldNotBeStemmed.includes( word ) ) {
+			return word;
+		}
+	}
+
+	// Check if the word is on the exception list of words for which -ent should not be stemmed.
+	const nonVerbsOnEnt = morphologyData.nonVerbsOnEnt;
+	if ( word.endsWith( "ent" ) ) {
+		if ( nonVerbsOnEnt.includes( word ) ) {
+			return word;
+		}
+	}
+	if ( word.endsWith( "ents" ) ) {
+		if ( nonVerbsOnEnt.includes( word.slice( 0, -1 ) ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
@@ -428,12 +442,7 @@ export default function stem( word, morphologyData ) {
 	 * Step 1:
 	 * Remove standard suffixes
 	 */
-	const nonVerbsOnEnt = morphologyData.nonVerbsOnEnt;
-	const nonVerbOnEnt = nonVerbsOnEnt.includes( word ) || ( word.endsWith( "s" ) && nonVerbsOnEnt.includes( word.slice( 0, -1 ) ) );
-
-	if ( ! nonVerbOnEnt ) {
-		word = processStandardSuffixes( word, morphologyData.regularStemmer.standardSuffixes, r1Index, r2Index, rvIndex );
-	}
+	word = processStandardSuffixes( word, morphologyData.regularStemmer.standardSuffixes, r1Index, r2Index, rvIndex );
 	const wordAfterStep1 = word;
 
 	/*
@@ -453,15 +462,16 @@ export default function stem( word, morphologyData ) {
 	 * Step 2b:
 	 * Stem other verb suffixes
 	 */
-	word = removeOtherVerbSuffixes(
-		word,
-		step2aDone,
-		wordAfterStep1,
-		r2Index,
-		rvIndex,
-		morphologyData.regularStemmer.otherVerbSuffixes,
-		nonVerbsOnEnt
-	);
+	if ( ! nonVerbsOnEnt.includes( word ) ) {
+		word = removeOtherVerbSuffixes(
+			word,
+			step2aDone,
+			wordAfterStep1,
+			r2Index,
+			rvIndex,
+			morphologyData.regularStemmer.otherVerbSuffixes
+		);
+	}
 
 	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4:

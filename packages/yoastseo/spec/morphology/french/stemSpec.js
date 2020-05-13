@@ -12,7 +12,7 @@ const wordsToStem = [
 	// RV is the end of the word if the previous positions cannot be found.
 	[ "voler", "vol" ],
 	// RV is the right of par, col, tap for words beginning with those syllables.
-	[ "tapis", "tapis" ],
+	[ "tapis", "tapi" ],
 	// Input a word ending in -ci + a2 class suffix.
 	[ "cicatrice", "cicatric" ],
 	// Input a noun ending in -ance.
@@ -94,6 +94,14 @@ const wordsToStem = [
 	[ "feux", "feu" ],
 	[ "cailloux", "caillou" ],
 	[ "étaux", "étau" ],
+	// Plurals ending in -is/-os/-us.
+	[ "vrais", "vrai" ],
+	[ "numéros", "numéro" ],
+	[ "trous", "trou" ],
+	// Exceptions for which -is/-os/-us should not be stemmed.
+	[ "bis", "bis" ],
+	[ "diffus", "diffus" ],
+	[ "clos", "clos" ],
 ];
 
 const paradigms = [
