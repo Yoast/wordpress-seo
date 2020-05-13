@@ -128,6 +128,10 @@ export default class SentenceTokenizer {
 		return next;
 	}
 
+	isHebrewLetter( letter ) {
+		return /^[a-z\u0590-\u05fe]+$/i.test( letter );
+	}
+
 	/**
 	 * Checks if the sentenceBeginning beginning is a valid beginning.
 	 *
@@ -137,6 +141,7 @@ export default class SentenceTokenizer {
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return (
 			this.isCapitalLetter( sentenceBeginning ) ||
+			this.isHebrewLetter( sentenceBeginning ) ||
 			this.isNumber( sentenceBeginning ) ||
 			this.isQuotation( sentenceBeginning ) ||
 			this.isPunctuation( sentenceBeginning ) ||
