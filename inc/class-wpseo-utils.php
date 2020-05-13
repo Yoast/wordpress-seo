@@ -1176,15 +1176,17 @@ SVG;
 		$post_type = WPSEO_Utils::get_post_type();
 		$page_type = WPSEO_Utils::get_page_type();
 
-		/* Adjust the no-index text strings based on the post type. */
-		$label_object  = ( $page_type === 'post' ) ? get_post_type_object( $post_type ) : WPSEO_Taxonomy::get_labels();
-		$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+		$label_object = false;
+		$no_index     = false;
 
-		$no_index = false;
 		if ( $page_type === 'post' ) {
+			$label_object = get_post_type_object( $post_type );
 			$no_index = WPSEO_Options::get( 'noindex-' . $post_type, false );
 		}
 		else {
+			$label_object = WPSEO_Taxonomy::get_labels();
+
+			$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
 			$no_index = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
 		}
 
