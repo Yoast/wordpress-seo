@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group type-presenter
  */
 class Type_Presenter_Test extends TestCase {
+
 	/**
 	 * The indexable presentation.
 	 *
@@ -53,7 +54,7 @@ class Type_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_type = 'article';
 
 		$expected = '<meta property="og:type" content="article" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -87,7 +88,7 @@ class Type_Presenter_Test extends TestCase {
 			->andReturn( 'article' );
 
 		$expected = '<meta property="og:type" content="article" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

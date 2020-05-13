@@ -140,9 +140,9 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 0,
 		];
 
-		$indexable = Mockery::mock();
-		$indexable->id = 1;
-		$indexable->is_public = true;
+		$indexable              = Mockery::mock();
+		$indexable->id          = 1;
+		$indexable->is_public   = true;
 		$indexable->object_type = 'post';
 		$indexable->expects( 'delete' )->once();
 
@@ -303,8 +303,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable     = Mockery::mock( Indexable::class );
-		$updated_indexable = Mockery::mock( Indexable::class );
+		$old_indexable                  = Mockery::mock( Indexable::class );
+		$updated_indexable              = Mockery::mock( Indexable::class );
 		$updated_indexable->object_type = 'term';
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -459,7 +459,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable::class );
 		$indexable->is_public = false;
 		$indexable->expects( 'save' )->never();
 
@@ -581,5 +581,4 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			$this->instance->get_related_indexables( $post )
 		);
 	}
-
 }

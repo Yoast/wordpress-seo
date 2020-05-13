@@ -9,7 +9,7 @@
 date_default_timezone_set('UTC');
 
 return [
-	'db' => [
+	'db'             => [
 		'development' => [
 			'type'     => 'sqlite',
 			'database' => '',

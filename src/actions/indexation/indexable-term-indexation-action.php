@@ -8,10 +8,10 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Indexable_Term_Indexation_Action class.
@@ -26,11 +26,11 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	protected $taxonomy;
 
 	/**
-	 * The indexable builder.
+	 * The indexable repository.
 	 *
-	 * @var Indexable_Builder
+	 * @var Indexable_Repository
 	 */
-	protected $builder;
+	protected $repository;
 
 	/**
 	 * The WordPress database instance.
@@ -42,14 +42,14 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Indexable_Term_Indexation_Action constructor
 	 *
-	 * @param Taxonomy_Helper   $taxonomy The taxonomy helper.
-	 * @param Indexable_Builder $builder  The indexable builder.
-	 * @param wpdb              $wpdb     The WordPress database instance.
+	 * @param Taxonomy_Helper      $taxonomy   The taxonomy helper.
+	 * @param Indexable_Repository $repository The indexable repository.
+	 * @param wpdb                 $wpdb       The WordPress database instance.
 	 */
-	public function __construct( Taxonomy_Helper $taxonomy, Indexable_Builder $builder, wpdb $wpdb ) {
-		$this->taxonomy = $taxonomy;
-		$this->builder  = $builder;
-		$this->wpdb     = $wpdb;
+	public function __construct( Taxonomy_Helper $taxonomy, Indexable_Repository $repository, wpdb $wpdb ) {
+		$this->taxonomy   = $taxonomy;
+		$this->repository = $repository;
+		$this->wpdb       = $wpdb;
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $term_ids as $term_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $term_id, 'term' );
+			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
 
 		return $indexables;

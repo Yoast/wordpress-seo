@@ -58,7 +58,14 @@ class Presentation_Memoizer {
 				$presentation = $this->container->get( Indexable_Presentation::class );
 			}
 
-			$this->cache[ $indexable->id ] = $context->presentation = $presentation->of( [ 'model' => $indexable, 'context' => $context ] );
+			$context->presentation        = $presentation->of(
+				[
+					'model'   => $indexable,
+					'context' => $context,
+				]
+			);
+
+			$this->cache[ $indexable->id ] = $context->presentation;
 		}
 
 		return $this->cache[ $indexable->id ];

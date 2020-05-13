@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
@@ -133,8 +134,21 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
+		/**
+		 * Filter 'wpseo_shutdown_indexation_limit' - Allow filtering the amount of objects that can be indexed during shutdown.
+		 *
+		 * @api int The maximum number of objects indexed.
+		 */
+		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
+
+		if ( $this->get_total_unindexed() < $shutdown_limit ) {
+			\register_shutdown_function( [ $this, 'shutdown_indexation' ] );
+
+			return;
+		}
+
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
-		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === false ) {
+		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
 
@@ -150,10 +164,12 @@ class Indexation_Integration implements Integration_Interface {
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
+					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
 					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
 					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
 					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
@@ -177,7 +193,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter();
+		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
 	}
 
 	/**
@@ -201,6 +217,18 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
+	 *
+	 * @return void
+	 */
+	public function shutdown_indexation() {
+		$this->post_indexation->index();
+		$this->term_indexation->index();
+		$this->general_indexation->index();
+		$this->post_type_archive_indexation->index();
+	}
+
+	/**
 	 * Returns the total number of unindexed objects.
 	 *
 	 * @return int
@@ -214,5 +242,24 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		return $this->total_unindexed;
+	}
+
+	/**
+	 * Returns if the indexation warning is temporarily hidden.
+	 *
+	 * @return bool True if hidden.
+	 */
+	protected function is_indexation_warning_hidden() {
+		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === true ) {
+			return true;
+		}
+
+		// When the indexation is started, but not completed.
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( time() - MONTH_IN_SECONDS ) ) {
+			return true;
+		}
+
+		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+		return ( $hide_until !== 0 && $hide_until >= \time() );
 	}
 }

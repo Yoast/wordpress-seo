@@ -64,7 +64,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	public function test_present_empty_published_time() {
 		$this->presentation->open_graph_article_published_time = '';
 
-		$actual   = $this->instance->present();
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}

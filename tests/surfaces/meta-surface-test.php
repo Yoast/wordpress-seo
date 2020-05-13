@@ -81,12 +81,12 @@ class Meta_Surface_Test extends TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		$this->container = Mockery::mock( ContainerInterface::class );
-		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
-		$this->repository = Mockery::mock( Indexable_Repository::class );
-		$this->context = Mockery::mock( Meta_Tags_Context::class );
+		$this->container          = Mockery::mock( ContainerInterface::class );
+		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->repository         = Mockery::mock( Indexable_Repository::class );
+		$this->context            = Mockery::mock( Meta_Tags_Context::class );
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
-		$this->indexable = Mockery::mock( Indexable::class );
+		$this->indexable          = Mockery::mock( Indexable::class );
 
 		$this->instance = new Meta_Surface(
 			$this->container,

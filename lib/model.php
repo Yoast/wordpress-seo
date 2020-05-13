@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Lib;
 
+use JsonSerializable;
+
 /**
  * Make Model compatible with WordPress.
  *
@@ -15,9 +17,8 @@ namespace Yoast\WP\Lib;
  *
  * class Widget extends Model {
  * }
- *
  */
-class Model {
+class Model implements JsonSerializable {
 
 	/**
 	 * Default ID column for all models. Can be overridden by adding
@@ -535,6 +536,24 @@ class Model {
 	 */
 	public function __unset( $property ) {
 		$this->orm->__unset( $property );
+	}
+
+	/**
+	 * JSON serializer.
+	 *
+	 * @return array The data of this object.
+	 */
+	public function jsonSerialize() {
+		return $this->orm->as_array();
+	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return $this->orm->as_array();
 	}
 
 	/**

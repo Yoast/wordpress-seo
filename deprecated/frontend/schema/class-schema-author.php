@@ -116,8 +116,8 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return (
-			$this->context->indexable->object_type === 'post' &&
-			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+			$this->context->indexable->object_type === 'post'
+			&& $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
 		);
 	}
 

@@ -36,5 +36,4 @@ class Site_Helper {
 	public function is_multisite_and_switched() {
 		return is_multisite() && ms_is_switched();
 	}
-
 }

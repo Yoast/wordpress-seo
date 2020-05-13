@@ -80,6 +80,18 @@ class Index_Command_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the constructor.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct() {
+		$this->assertAttributeInstanceOf( Indexable_Post_Indexation_Action::class, 'post_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
+	}
+
+	/**
 	 * Tests the execute function.
 	 *
 	 * @covers ::index
@@ -114,6 +126,73 @@ class Index_Command_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the execute function.
+	 *
+	 * @covers ::index
+	 * @covers ::run_indexation_action
+	 * @covers ::clear
+	 */
+	public function test_execute_with_reindexing() {
+		$indexation_actions = [
+			$this->post_indexation_action,
+			$this->term_indexation_action,
+			$this->post_type_archive_indexation_action,
+			$this->general_indexation_action,
+		];
+
+		foreach ( $indexation_actions as $indexation_action ) {
+			$indexation_action->expects( 'get_total_unindexed' )->once()->andReturn( 30 );
+			$indexation_action->expects( 'get_limit' )->once()->andReturn( 25 );
+			$indexation_action->expects( 'index' )
+			                  ->times( 2 )
+			                  ->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+		}
+
+		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
+		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
+			->times( 4 )
+			->with( Mockery::type( 'string' ), 30 )
+			->andReturn( $progress_bar_mock );
+		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 25 );
+		$progress_bar_mock->expects( 'tick' )->times( 4 )->with( 5 );
+		$progress_bar_mock->expects( 'finish' )->times( 4 );
+
+		$cli = Mockery::mock( 'overload:WP_CLI' );
+		$cli
+			->expects( 'confirm' )
+			->with( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+
+		$wpdb            = Mockery::mock();
+		$wpdb->prefix    = 'wp_';
+		$GLOBALS['wpdb'] = $wpdb;
+
+		$wpdb
+			->expects( 'query' )
+			->once()
+			->with( 'TRUNCATE TABLE wp_yoast_indexable' );
+
+		$wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable' )
+			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable' );
+
+		$wpdb
+			->expects( 'query' )
+			->once()
+			->with( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+
+		$wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( 'TRUNCATE TABLE %1$s', 'wp_yoast_indexable_hierarchy' )
+			->andReturn( 'TRUNCATE TABLE wp_yoast_indexable_hierarchy' );
+
+		$this->instance->index( null, [ 'reindex' => true ] );
+	}
+
+	/**
 	 * Tests the execute function on multisite.
 	 *
 	 * @covers ::index
@@ -129,6 +208,7 @@ class Index_Command_Test extends TestCase {
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 1 );
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 2 );
 		Monkey\Functions\expect( 'restore_current_blog' )->times( 2 );
+		Monkey\Actions\expectDone( '_yoast_run_migrations' );
 
 		$indexation_actions = [
 			$this->post_indexation_action,
@@ -163,7 +243,7 @@ class Index_Command_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the get_name function.
+	 * Tests the get_namespace function.
 	 *
 	 * @covers ::get_namespace
 	 */

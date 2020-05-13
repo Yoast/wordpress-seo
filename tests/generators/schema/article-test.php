@@ -111,7 +111,7 @@ class Article_Test extends TestCase {
 				'id'       => $this->id,
 				'html'     => $this->html,
 				'language' => $this->language,
-			]
+			],
 		];
 
 		return parent::setUp();
@@ -276,8 +276,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests adding terms to the data array when the terms are a non-empty array.
 	 *
-	 * @param array $terms The terms.
-	 *
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_happy_path() {
@@ -305,8 +303,6 @@ class Article_Test extends TestCase {
 	/**
 	 * Tests adding terms to the data array when the terms are not an array.
 	 *
-	 * @param array $terms The terms.
-	 *
 	 * @covers ::add_terms
 	 */
 	public function test_add_terms_not_array() {
@@ -324,8 +320,6 @@ class Article_Test extends TestCase {
 
 	/**
 	 * Tests adding terms to the data array when the terms are an empty array.
-	 *
-	 * @param array $terms The terms.
 	 *
 	 * @covers ::add_terms
 	 */
@@ -380,31 +374,30 @@ class Article_Test extends TestCase {
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
-				'expected_value' =>
-					[
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'articleSection'   => 'Category1',
-						'inLanguage'       => 'language',
-						'potentialAction'  => [
-							[
-								'@type'  => 'CommentAction',
-								'name'   => 'Comment',
-								'target' => [
-									'https://permalink#respond',
-								],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'commentCount'     => 7,
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => 'Tag1,Tag2',
+					'articleSection'   => 'Category1',
+					'inLanguage'       => 'language',
+					'potentialAction'  => [
+						[
+							'@type'  => 'CommentAction',
+							'name'   => 'Comment',
+							'target' => [
+								'https://permalink#respond',
 							],
 						],
 					],
+				],
 				'message'        => 'The site is not set to represent a company/person.',
 			],
 			[
@@ -440,32 +433,31 @@ class Article_Test extends TestCase {
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
-				'expected_value' =>
-					[
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'articleSection'   => 'Category1',
-						'inLanguage'       => 'language',
-						'potentialAction'  => [
-							[
-								'@type'  => 'CommentAction',
-								'name'   => 'Comment',
-								'target' => [
-									'https://permalink#respond',
-								],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'commentCount'     => 7,
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => 'Tag1,Tag2',
+					'articleSection'   => 'Category1',
+					'inLanguage'       => 'language',
+					'potentialAction'  => [
+						[
+							'@type'  => 'CommentAction',
+							'name'   => 'Comment',
+							'target' => [
+								'https://permalink#respond',
 							],
 						],
-						'publisher'        => true,
 					],
+					'publisher'        => true,
+				],
 				'message'        => 'The site is set to represent a company/person.',
 			],
 			[
@@ -499,22 +491,21 @@ class Article_Test extends TestCase {
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
-				'expected_value' =>
-					[
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'articleSection'   => 'Category1',
-						'inLanguage'       => 'language',
-					],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'commentCount'     => 7,
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => 'Tag1,Tag2',
+					'articleSection'   => 'Category1',
+					'inLanguage'       => 'language',
+				],
 				'message'        => 'The post type does not support comments.',
 			],
 			[
@@ -548,22 +539,21 @@ class Article_Test extends TestCase {
 						'keywords'         => 'Tag1,Tag2',
 					],
 				],
-				'expected_value' =>
-					[
-						'@type'            => 'Article',
-						'@id'              => 'https://permalink#article',
-						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
-						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
-						'headline'         => 'the-title',
-						'datePublished'    => '2345-12-12 12:12:12',
-						'dateModified'     => '2345-12-12 23:23:23',
-						'commentCount'     => 7,
-						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
-						'keywords'         => 'Tag1,Tag2',
-						'articleSection'   => 'Category1',
-						'inLanguage'       => 'language',
-					],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
+					'commentCount'     => 7,
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => 'Tag1,Tag2',
+					'articleSection'   => 'Category1',
+					'inLanguage'       => 'language',
+				],
 				'message'        => 'The comment status for the post is set to closed.',
 			],
 		];

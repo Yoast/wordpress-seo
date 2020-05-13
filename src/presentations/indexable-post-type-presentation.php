@@ -59,7 +59,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		Post_Type_Helper $post_type,
 		Date_Helper $date,
 		Pagination_Helper $pagination,
-	    Post_Helper $post
+		Post_Helper $post
 	) {
 		$this->post_type  = $post_type;
 		$this->date       = $date;

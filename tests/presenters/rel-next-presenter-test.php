@@ -44,7 +44,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [];
@@ -62,7 +63,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_empty() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = '';
 		$presentation->robots   = [];
@@ -80,7 +82,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_when_robots_is_noindex() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [ 'noindex' ];
@@ -95,7 +98,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_filter() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [];

@@ -33,7 +33,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
-		 _deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo' );
 
 		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$this->context = $memoizer->for_current_page();
@@ -68,7 +68,7 @@ class WPSEO_Schema_HowTo extends HowTo implements WPSEO_Graph_Piece {
 	public function render( $graph, $block ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\HowTo::add_how_to' );
 
-		$this->counter++;
+		++$this->counter;
 		$this->add_how_to( $graph, $block, $this->counter );
 
 		return $graph;

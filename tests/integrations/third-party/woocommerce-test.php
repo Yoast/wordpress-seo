@@ -20,7 +20,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
-
 /**
  * Unit Test Class.
  *
@@ -270,66 +269,66 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function meta_value_provider() {
 		return [
-			'has_model_value'      => [
-				'expected'    => 'This is a value',
-				'model_value' => 'This is a value',
+			'has_model_value' => [
+				'expected'       => 'This is a value',
+				'model_value'    => 'This is a value',
 				'template_value' => '',
-				'stubs'       => [],
+				'stubs'          => [],
 			],
 			'is_not_on_shop_page'        => [
-				'expected'    => 'This is a value',
-				'model_value' => null,
+				'expected'       => 'This is a value',
+				'model_value'    => null,
 				'template_value' => '',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop' => false,
 				],
 			],
 			'is_shop_page_and_searching' => [
-				'expected'    => 'This is a value',
-				'model_value' => null,
+				'expected'       => 'This is a value',
+				'model_value'    => null,
 				'template_value' => '',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop'   => true,
 					'is_search' => true,
 				],
 			],
 			'is_not_archive'             => [
-				'expected'    => 'This is a value',
-				'model_value' => null,
+				'expected'       => 'This is a value',
+				'model_value'    => null,
 				'template_value' => '',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop'    => true,
 					'is_search'  => false,
 					'is_archive' => false,
 				],
 			],
-			'no_set_shop_page_id'             => [
-				'expected'    => 'This is a value',
-				'model_value' => null,
+			'no_set_shop_page_id' => [
+				'expected'       => 'This is a value',
+				'model_value'    => null,
 				'template_value' => '',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop'        => true,
 					'is_search'      => false,
 					'is_archive'     => true,
 					'wc_get_page_id' => -1,
 				],
 			],
-			'with_no_product_template'             => [
-				'expected'    => 'This is a value',
-				'model_value' => null,
+			'with_no_product_template' => [
+				'expected'       => 'This is a value',
+				'model_value'    => null,
 				'template_value' => '',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop'        => true,
 					'is_search'      => false,
 					'is_archive'     => true,
 					'wc_get_page_id' => 1337,
 				],
 			],
-			'with_product_template'             => [
-				'expected'    => 'The is a template value',
-				'model_value' => null,
+			'with_product_template' => [
+				'expected'       => 'The is a template value',
+				'model_value'    => null,
 				'template_value' => 'The is a template value',
-				'stubs'       => [
+				'stubs'          => [
 					'is_shop'        => true,
 					'is_search'      => false,
 					'is_archive'     => true,

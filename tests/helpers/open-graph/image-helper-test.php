@@ -141,6 +141,7 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
+
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *

@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
  * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Frontend {
+
 	/**
 	 * Instance of this class.
 	 *
@@ -207,7 +208,7 @@ class WPSEO_Frontend {
 	public function add_to_title( $sep, $seplocation, $title, $title_part ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		if ( 'right' === $seplocation ) {
+		if ( $seplocation === 'right' ) {
 			return $title . $sep . $title_part;
 		}
 
@@ -224,13 +225,13 @@ class WPSEO_Frontend {
 
 		$presentation = $this->get_current_page_presentation();
 
-		$rel_prev_presenter = new Rel_Prev_Presenter();
+		$rel_prev_presenter               = new Rel_Prev_Presenter();
 		$rel_prev_presenter->presentation = $presentation;
 		$rel_prev_presenter->helpers      = $this->helpers;
 		$rel_prev_presenter->replace_vars = $this->replace_vars;
 		echo $rel_prev_presenter->present();
 
-		$rel_next_presenter = new Rel_Next_Presenter();
+		$rel_next_presenter               = new Rel_Next_Presenter();
 		$rel_next_presenter->presentation = $presentation;
 		$rel_next_presenter->helpers      = $this->helpers;
 		$rel_next_presenter->replace_vars = $this->replace_vars;
@@ -253,7 +254,7 @@ class WPSEO_Frontend {
 			return $presentation->meta_description;
 		}
 
-		$presenter = new Meta_Description_Presenter();
+		$presenter               = new Meta_Description_Presenter();
 		$presenter->presentation = $presentation;
 		$presenter->helpers      = $this->helpers;
 		$presenter->replace_vars = $this->replace_vars;

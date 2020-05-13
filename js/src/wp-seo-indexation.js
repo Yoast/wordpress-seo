@@ -1,4 +1,4 @@
-/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore */
+/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
@@ -8,6 +8,7 @@ const settings = yoastIndexationData;
 ( ( $ ) => {
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
+	let processed = 0;
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
@@ -43,12 +44,13 @@ const settings = yoastIndexationData;
 	async function doIndexation( endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
-		while ( ! stoppedIndexation && url !== false ) {
+		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
 			const response = await doIndexationRequest( url );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
 			}
 			progressBar.update( response.objects.length );
+			processed += response.objects.length;
 			url = response.next_url;
 		}
 	}
@@ -61,6 +63,7 @@ const settings = yoastIndexationData;
 	 * @returns {Promise} The indexation promise.
 	 */
 	async function startIndexation( progressBar ) {
+		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
 			await doIndexation( endpoint, progressBar );
 		}
@@ -107,6 +110,9 @@ const settings = yoastIndexationData;
 					tb_remove();
 					indexationInProgress = false;
 				} ).catch( error => {
+					if ( stoppedIndexation ) {
+						return;
+					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( "#yoast-indexation-warning" )
@@ -128,6 +134,23 @@ const settings = yoastIndexationData;
 
 		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
 			wpseoSetIgnore( "indexation_warning", "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
+		} );
+
+		$( "#yoast-indexation-remind-button" ).on( "click", function() {
+			const nonce = jQuery( this ).data( "nonce" );
+
+			jQuery.post(
+				ajaxurl,
+				{
+					action: "wpseo_set_indexation_remind",
+					_wpnonce: nonce,
+				},
+				function( data ) {
+					if ( data ) {
+						jQuery( "#yoast-indexation-warning" ).hide();
+					}
+				}
+			);
 		} );
 	} );
 } )( jQuery );

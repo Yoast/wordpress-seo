@@ -135,15 +135,15 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		$text = \trim( $breadcrumb['text'] );
 
 		if (
-			$index < ( $total - 1 ) &&
-			isset( $breadcrumb['url'] ) &&
-			\is_string( $breadcrumb['url'] ) &&
-			! empty( $breadcrumb['url'] )
+			$index < ( $total - 1 )
+			&& isset( $breadcrumb['url'] )
+			&& \is_string( $breadcrumb['url'] )
+			&& ! empty( $breadcrumb['url'] )
 		) {
 			// If it's not the last element and we have a url.
-			$link       .= '<' . $this->get_element() . '>';
+			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link       .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -156,7 +156,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// This is the last element, now close all previous elements.
 			while ( $index > 0 ) {
 				$link .= '</' . $this->get_element() . '>';
-				$index--;
+				--$index;
 			}
 		}
 		else {

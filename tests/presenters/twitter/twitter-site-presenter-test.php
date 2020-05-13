@@ -39,8 +39,9 @@ class Site_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
-		$presentation->twitter_site = '@TwitterHandle';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_site   = '@TwitterHandle';
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@TwitterHandle" />',
@@ -54,8 +55,9 @@ class Site_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_empty_twitter_site() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
-		$presentation->twitter_site = '';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_site   = '';
 
 		$this->assertEmpty( $this->instance->present() );
 	}
@@ -67,8 +69,9 @@ class Site_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_filter() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
-		$presentation->twitter_site = '@TwitterHandle';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_site   = '@TwitterHandle';
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_site' )
 			->once()
@@ -88,8 +91,9 @@ class Site_Presenter_Test extends TestCase {
 	 * @covers ::get_twitter_id
 	 */
 	public function test_present_with_get_twitter_id_fixing_url_as_input() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
-		$presentation->twitter_site = 'http://twitter.com/TwitterHandle';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_site   = 'http://twitter.com/TwitterHandle';
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@TwitterHandle" />',
@@ -104,8 +108,9 @@ class Site_Presenter_Test extends TestCase {
 	 * @covers ::get_twitter_id
 	 */
 	public function test_present_with_get_twitter_id() {
-		$presentation = $this->instance->presentation = new Indexable_Presentation();
-		$presentation->twitter_site = 'http://twitter.com/';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_site   = 'http://twitter.com/';
 
 		$this->assertEmpty( $this->instance->present() );
 	}

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Conditionals;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -39,6 +40,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
 		// Specifically, we are on the wpseo_dashboard page.
 		$_GET['page'] = 'wpseo_dashboard';
 
@@ -57,6 +61,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'update-core.php';
 
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
 		$is_met = $this->instance->is_met();
 
 		$this->assertEquals( true, $is_met );
@@ -71,6 +78,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on the plugins page.
 		global $pagenow;
 		$pagenow = 'plugins.php';
+
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
 
 		$is_met = $this->instance->is_met();
 
@@ -87,6 +97,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'index.php';
 
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
 		$is_met = $this->instance->is_met();
 
 		$this->assertEquals( true, $is_met );
@@ -101,6 +114,9 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		// We are on the update core page.
 		global $pagenow;
 		$pagenow = 'some-other-page.php';
+
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
 
 		$is_met = $this->instance->is_met();
 
@@ -117,8 +133,118 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 		global $pagenow;
 		$pagenow = 'admin.php';
 
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
 		// But not on a Yoast admin page.
 		$_GET['page'] = 'other-page';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when WordPress is currently installing.
+	 *
+	 * @covers ::is_met
+	 */
+	public function test_is_not_met_when_wordpress_is_installing() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( true );
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the plugin upgrade page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_plugin_or_theme_page
+	 */
+	public function test_is_not_met_on_plugin_upgrade_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-plugin-upgrade';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the theme upgrade page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_plugin_or_theme_page
+	 */
+	public function test_is_not_met_on_theme_upgrade_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-theme-upgrade';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the wordpress upgrade page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_plugin_or_theme_page
+	 */
+	public function test_is_not_met_on_wordpress_upgrade_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-core-upgrade';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the wordpress reinstall page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_plugin_or_theme_page
+	 */
+	public function test_is_not_met_on_wordpress_reinstall_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-core-reinstall';
 
 		$is_met = $this->instance->is_met();
 

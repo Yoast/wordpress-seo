@@ -36,7 +36,7 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		$loader_definition = $container->getDefinition( Loader::class );
-		$definitions = $container->getDefinitions();
+		$definitions       = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
 			$this->process_definition( $definition, $loader_definition );

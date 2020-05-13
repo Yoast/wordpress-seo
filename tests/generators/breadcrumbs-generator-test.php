@@ -12,6 +12,7 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
@@ -49,6 +50,13 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	private $current_page;
 
 	/**
+	 * The post type helper
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Represents the options helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -75,10 +83,11 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->repository   = Mockery::mock( Indexable_Repository::class );
-		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-		$this->instance     = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->current_page     = Mockery::mock( Current_Page_Helper::class );
+		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->instance         = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper );
 
 		$this->indexable                   = Mockery::mock( Indexable::class );
 		$this->indexable->object_id        = 1;
@@ -99,11 +108,11 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	 *
 	 * @dataProvider generate_provider
 	 *
-	 * @param string $scenario           The scenario to test.
-	 * @param int    $page_for_posts     ID for page for posts option.
-	 * @param bool   $breadcrumb_home    Show the home breadcrumbs.
-	 * @param int    $front_page_id      The front page ID.
-	 * @param string $message            Message to show when test fails.
+	 * @param string $scenario        The scenario to test.
+	 * @param int    $page_for_posts  ID for page for posts option.
+	 * @param bool   $breadcrumb_home Show the home breadcrumbs.
+	 * @param int    $front_page_id   The front page ID.
+	 * @param string $message         Message to show when test fails.
 	 */
 	public function test_generate( $scenario, $page_for_posts, $breadcrumb_home, $front_page_id, $message ) {
 		$this->set_scenario( $scenario );
@@ -142,6 +151,12 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		}
 
 		if ( $scenario === 'show-custom-post-type' ) {
+			$this->post_type_helper
+				->expects( 'has_archive' )
+				->once()
+				->with( 'custom' )
+				->andReturnTrue();
+
 			$this->repository
 				->expects( 'find_for_post_type_archive' )
 				->once()
@@ -331,5 +346,4 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		return [ $post_type_indexable ];
 	}
-
 }

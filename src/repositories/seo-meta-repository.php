@@ -33,7 +33,7 @@ class SEO_Meta_Repository {
 	 */
 	public function find_by_post_id( $post_id ) {
 		return $this->query()
-					->where( 'object_id', $post_id )
-					->find_one();
+			->where( 'object_id', $post_id )
+			->find_one();
 	}
 }

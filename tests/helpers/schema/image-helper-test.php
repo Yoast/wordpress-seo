@@ -24,7 +24,6 @@ class Image_Helper_Test extends TestCase {
 	 * The instance to test.
 	 *
 	 * @var Image_Helper|Mockery\MockInterface
-	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	private $instance;
 

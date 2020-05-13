@@ -107,12 +107,12 @@ class Option_Titles_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		$wpdb             = Wrapper::get_wpdb();
-		$total            = \count( $post_types );
-		$placeholders     = \array_fill( 0, $total, '%s' );
-		$placeholders     = \implode( ', ', $placeholders );
-		$hierarchy_table  = Model::get_table_name( 'Indexable_Hierarchy' );
-		$indexable_table  = Model::get_table_name( 'Indexable' );
+		$wpdb            = Wrapper::get_wpdb();
+		$total           = \count( $post_types );
+		$placeholders    = \array_fill( 0, $total, '%s' );
+		$placeholders    = \implode( ', ', $placeholders );
+		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
+		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		$result = $wpdb->query(
 			$wpdb->prepare( "

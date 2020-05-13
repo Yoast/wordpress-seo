@@ -132,14 +132,13 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function find_by_permalink( $permalink ) {
-		$permalink      = \trailingslashit( $permalink );
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->query()
-					->where( 'permalink_hash', $permalink_hash )
-					->where( 'permalink', $permalink )
-					->find_one();
+			->where( 'permalink_hash', $permalink_hash )
+			->where( 'permalink', $permalink )
+			->find_one();
 	}
 
 	/**
@@ -245,9 +244,9 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'post-type-archive' )
-						  ->where( 'object_sub_type', $post_type )
-						  ->find_one();
+			->where( 'object_type', 'post-type-archive' )
+			->where( 'object_sub_type', $post_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
@@ -271,9 +270,9 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'system-page' )
-						  ->where( 'object_sub_type', $object_sub_type )
-						  ->find_one();
+			->where( 'object_type', 'system-page' )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
@@ -293,9 +292,9 @@ class Indexable_Repository {
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->query()
-						  ->where( 'object_id', $object_id )
-						  ->where( 'object_type', $object_type )
-						  ->find_one();
+			->where( 'object_id', $object_id )
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
@@ -320,9 +319,9 @@ class Indexable_Repository {
 		 * @var Indexable[] $indexables
 		 */
 		$indexables = $this->query()
-						   ->where_in( 'object_id', $object_ids )
-						   ->where( 'object_type', $object_type )
-						   ->find_many();
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
 
 		if ( $auto_create ) {
 			$indexables_available = [];
@@ -349,6 +348,10 @@ class Indexable_Repository {
 	 */
 	public function get_ancestors( Indexable $indexable ) {
 		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
+
+		if ( is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+		}
 
 		if ( empty( $ancestors ) ) {
 			return [];
@@ -397,17 +400,24 @@ class Indexable_Repository {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
 			case $indexable->object_type === 'home-page':
-				return get_permalink( $indexable->object_id );
+				if ( $indexable->object_sub_type === 'attachment' ) {
+					return \wp_get_attachment_url( $indexable->object_id );
+				}
+				return \get_permalink( $indexable->object_id );
 			case $indexable->object_type === 'term':
-				$term = get_term( $indexable->object_id );
+				$term = \get_term( $indexable->object_id );
 
-				return get_term_link( $term, $term->taxonomy );
+				if ( $term === null || \is_wp_error( $term ) ) {
+					return null;
+				}
+
+				return \get_term_link( $term, $term->taxonomy );
 			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return get_search_link();
+				return \get_search_link();
 			case $indexable->object_type === 'post-type-archive':
-				return get_post_type_archive_link( $indexable->object_sub_type );
+				return \get_post_type_archive_link( $indexable->object_sub_type );
 			case $indexable->object_type === 'user':
-				return get_author_posts_url( $indexable->object_id );
+				return \get_author_posts_url( $indexable->object_id );
 		}
 
 		return null;

@@ -14,14 +14,14 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
  */
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
 
+	use Archive_Adjacent;
+
 	/**
 	 * The pagination helper.
 	 *
 	 * @var Pagination_Helper
 	 */
 	protected $pagination;
-
-	use Archive_Adjacent;
 
 	/**
 	 * @inheritDoc

@@ -269,14 +269,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 				$robots_new[ $key ] = $value;
 			}
 
-			return \array_filter( $robots_new );
+			$robots = $robots_new;
 		}
 
 		if ( ! $robots_filtered ) {
 			return [];
 		}
 
-		return \array_filter( $robots );
+		/**
+		 * Filter: 'wpseo_robots_array' - Allows filtering of the meta robots output array of Yoast SEO.
+		 *
+		 * @api array $robots The meta robots directives to be used.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \apply_filters( 'wpseo_robots_array', \array_filter( $robots ), $this );
 	}
 
 	/**
@@ -558,13 +565,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_site() {
 		switch ( $this->context->site_represents ) {
-			case 'person' :
+			case 'person':
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
 					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
-			case 'company' :
+			case 'company':
 			default:
 				$twitter = $this->options->get( 'twitter_site' );
 				break;
@@ -602,5 +609,14 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
+	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'model' => $this->model, 'context' => $this->context ];
 	}
 }

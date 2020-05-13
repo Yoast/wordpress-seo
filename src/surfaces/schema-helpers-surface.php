@@ -57,6 +57,7 @@ class Schema_Helpers_Surface {
 		}
 		$helper = implode( '_', array_map( 'ucfirst', explode( '_', $helper ) ) );
 		$class  = "Yoast\WP\SEO\Helpers\Schema\\{$helper}_Helper";
+
 		return $this->container->get( $class );
 	}
 }
