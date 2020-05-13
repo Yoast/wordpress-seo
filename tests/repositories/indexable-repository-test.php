@@ -72,7 +72,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
-		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
+		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
 		$this->instance             = Mockery::mock( Indexable_Repository::class, [
 			$this->builder,
 			$this->current_page,
@@ -110,11 +110,11 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 0,
-				],
-			] );
+			->andReturn( [ 9 ] );
+
+		$orm_object = $this->mock_orm( [ 9 ], [] );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( [], $this->instance->get_ancestors( $indexable ) );
 	}
@@ -133,11 +133,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-			] );
+			->andReturn( [ 1 ] );
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
@@ -160,14 +156,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-				(object) [
-					'ancestor_id' => 2,
-				],
-			] );
+			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
@@ -189,14 +178,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-				(object) [
-					'ancestor_id' => 2,
-				],
-			] );
+			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
@@ -224,11 +206,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-			] );
+			->andReturn( [ 1 ] );
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
