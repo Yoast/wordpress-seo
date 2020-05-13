@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Lib\Migrations;
 
-use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_TableDefinition;
 use YoastSEO_Vendor\Ruckusing_Exception;
 use YoastSEO_Vendor\Ruckusing_Util_Naming;
 
@@ -319,10 +318,9 @@ class Adapter {
 	/**
 	 * Execute a query
 	 *
-	 * @param string $query query to run
+	 * @param string $query The query to run
 	 *
-	 * @return boolean
-	 * @throws Ruckusing_Exception
+	 * @return boolean Whether or not the query was performed succesfully.
 	 */
 	public function query( $query ) {
 		global $wpdb;
@@ -332,7 +330,7 @@ class Adapter {
 		if ( $query_type == SQL_SELECT || $query_type == SQL_SHOW ) {
 			$data = $wpdb->get_results( $query, ARRAY_A );
 			if ( $this->isError( $data ) ) {
-				throw new Ruckusing_Exception( \sprintf( "Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, $wpdb->last_error ), Ruckusing_Exception::QUERY_ERROR );
+				return false;
 			}
 
 			return $data;
@@ -340,7 +338,7 @@ class Adapter {
 			// INSERT, DELETE, etc...
 			$res = $wpdb->query( $query );
 			if ( $this->isError( $res ) ) {
-				throw new Ruckusing_Exception( \sprintf( "Error executing 'query' with:\n%s\n\nReason: %s\n\n", $query, $wpdb->last_error ), Ruckusing_Exception::QUERY_ERROR );
+				return false;
 			}
 			if ( $query_type == SQL_INSERT ) {
 				return $wpdb->insert_id;
@@ -393,7 +391,7 @@ class Adapter {
 	/**
 	 * Select all
 	 *
-	 * @param string $query query to run
+	 * @param string $query The query to run.
 	 *
 	 * @return array
 	 */
@@ -405,46 +403,42 @@ class Adapter {
 	 * Use this method for non-SELECT queries
 	 * Or anything where you dont necessarily expect a result string, e.g. DROPs, CREATEs, etc.
 	 *
-	 * @param string $ddl query to run
+	 * @param string $ddl The query to run.
 	 *
 	 * @return boolean
 	 */
 	public function execute_ddl( $ddl ) {
-		$result = $this->query( $ddl );
-
-		return true;
+		return $this->query( $ddl );
 	}
 
 	/**
 	 * Drop table
 	 *
-	 * @param string $tbl the table name
+	 * @param string $tbl The table name.
 	 *
-	 * @return boolean
+	 * @return boolean Whether or not the table was succesfully dropped.
 	 */
 	public function drop_table( $tbl ) {
 		$ddl    = \sprintf( 'DROP TABLE IF EXISTS %s', $this->identifier( $tbl ) );
-		$result = $this->query( $ddl );
-
-		return true;
+		return $this->query( $ddl );
 	}
 
 	/**
 	 * Create table
 	 *
-	 * @param string $table_name the table name
-	 * @param array  $options    the options
+	 * @param string $table_name The table name.
+	 * @param array  $options    The options.
 	 *
-	 * @return bool|Ruckusing_Adapter_MySQL_TableDefinition
+	 * @return bool|Table
 	 */
 	public function create_table( $table_name, $options = [] ) {
-		return new Ruckusing_Adapter_MySQL_TableDefinition( $this, $table_name, $options );
+		return new Table( $this, $table_name, $options );
 	}
 
 	/**
 	 * Escape a string for mysql
 	 *
-	 * @param string $str the string
+	 * @param string $str The string.
 	 *
 	 * @return string
 	 */

@@ -175,7 +175,7 @@ class Table {
 	 * @return boolean | string
 	 */
 	public function finish( $wants_sql = false ) {
-		if ( $this->_initialized == false ) {
+		if ( ! $this->_initialized ) {
 			throw new Exception( \sprintf( "Table Definition: '%s' has not been initialized", $this->_name ) );
 		}
 		$opt_str = '';
@@ -199,15 +199,14 @@ class Table {
 		$create_table_sql .= $this->keys() . $close_sql;
 		if ( $wants_sql ) {
 			return $create_table_sql;
-		} else {
-			return $this->_adapter->execute_ddl( $create_table_sql );
 		}
+		return $this->_adapter->execute_ddl( $create_table_sql );
 	}
-	// finish
+
 	/**
-	 * get all columns
+	 * Get SQL for all columns.
 	 *
-	 * @return string
+	 * @return string The SQL.
 	 */
 	private function columns_to_str() {
 		$str = '';
@@ -220,24 +219,15 @@ class Table {
 		return \join( ",\n", $fields );
 	}
 	/**
-	 * Init create sql
+	 * Init create sql statement.
 	 *
-	 * @param string $name
-	 * @param array  $options
-	 * @throws Exception
-	 * @throws Ruckusing_Exception
+	 * @param string $name    The name.
+	 * @param array  $options The options.
 	 */
 	private function init_sql( $name, $options ) {
-		// are we forcing table creation? If so, drop it first
-		if ( \array_key_exists( 'force', $options ) && $options['force'] == true ) {
-			try {
-				$this->_adapter->drop_table( $name );
-			} catch (Exception $e) {
-				if ( $e->getCode() != Exception::MISSING_TABLE ) {
-					throw $e;
-				}
-				// do nothing
-			}
+		// Are we forcing table creation? If so, drop it first.
+		if ( \array_key_exists( 'force', $options ) && $options['force'] === true ) {
+			$this->_adapter->drop_table( $name );
 		}
 		$temp = '';
 		if ( \array_key_exists( 'temporary', $options ) ) {
