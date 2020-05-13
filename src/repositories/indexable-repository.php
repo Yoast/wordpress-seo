@@ -347,19 +347,20 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable ) {
-		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
-
-		if ( is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+		// If we've already set ancestors on the indexable no need to get them again.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
 			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
 		}
 
-		if ( empty( $ancestors ) ) {
-			return [];
+		$indexable_ids = $this->hierarchy_repository->find_ancestors( $indexable );
+
+		// If we've set ancestors on the indexable because we had to build them to find them.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
 		}
 
-		$indexable_ids = [];
-		foreach ( $ancestors as $ancestor ) {
-			$indexable_ids[] = $ancestor->ancestor_id;
+		if ( empty( $indexable_ids ) ) {
+			return [];
 		}
 
 		if ( $indexable_ids[0] === 0 && \count( $indexable_ids ) === 1 ) {
