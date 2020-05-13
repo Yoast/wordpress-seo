@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
@@ -79,6 +80,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 	private $post;
 
 	/**
+	 * Holds the Logger instance.
+	 *
+	 * @var Logger|Mockery\MockInterface
+	 */
+	private $logger;
+
+	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
 	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
@@ -96,10 +104,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->open_graph_image     = Mockery::mock( Open_Graph_Image_Helper::class );
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
+		$this->logger               = Mockery::mock( Logger::class );
 
 		$this->instance = Mockery::mock( Indexable_Post_Builder_Double::class, [
 			$this->seo_meta_repository,
 			$this->post,
+			$this->logger,
 		] )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
@@ -446,5 +456,73 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
 
 		$this->assertFalse( $this->instance->build( 1, false ) );
+	}
+
+	/**
+	 * Tests that build's set_link_count logs the exception.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_set_link_count_log_exception() {
+		$this->indexable      = Mockery::mock( Indexable::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
+		$this->indexable->orm->expects( 'set' )->times( 43 );
+		$this->indexable->orm->expects( 'offsetExists' )->zeroOrMoreTimes()->andReturnTrue();
+		$this->indexable->orm->expects( 'get' )->times( 11 )->andReturnArg( 0 );
+
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_content'  => 'The content of the post',
+					'post_type'     => 'post',
+					'post_status'   => 'publish',
+					'post_password' => '',
+					'post_author'   => '1',
+					'post_parent'   => '0',
+				]
+			);
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->once()
+			->with( 1 )
+			->andReturn( 'https://example.com' );
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
+			[
+				'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
+				'_yoast_wpseo_linkdex'               => [ '100' ],
+				'_yoast_wpseo_is_cornerstone'        => [ '1' ],
+				'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
+				'_yoast_wpseo_meta-robots-adv'       => [ '' ],
+				'_yoast_wpseo_content_score'         => [ '50' ],
+				'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
+				'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
+				'_yoast_wpseo_title'                 => [ 'title' ],
+				'_yoast_wpseo_metadesc'              => [ 'description' ],
+				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
+				'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
+				'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
+				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
+				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+			]
+		);
+		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
+
+		$this->twitter_image->expects( 'get_by_id' )
+			->once()
+			->andReturnFalse();
+		$this->open_graph_image->expects( 'get_image_by_id' )
+			->once()
+			->andReturnFalse();
+
+		$this->seo_meta_repository->expects( 'find_by_post_id' )
+			->once()
+			->with( 1 )
+			->andThrows( new Exception( 'an error' ) );
+		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
+
+		$this->instance->build( 1, $this->indexable );
 	}
 }
