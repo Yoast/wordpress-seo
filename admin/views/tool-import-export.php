@@ -107,7 +107,7 @@ $tabs = [
 			 */
 			do_action( 'wpseo_import_tab_header' );
 		?>
-		<ul>
+		</ul>
 	</nav>
 
 <?php

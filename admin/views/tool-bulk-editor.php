@@ -124,7 +124,7 @@ $tabs = [
 			<li class="yoast-tabs__list-item">
 				<a class="yoast-tabs__list-item-link" id="description-tab" href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
 			</li>
-		<ul>
+		</ul>
 	</nav>
 
 	<?php wpseo_get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
