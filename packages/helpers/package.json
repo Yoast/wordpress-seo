@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.12.0-rc.0",
+  "version": "0.12.1-rc.1",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
@@ -31,7 +31,7 @@
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.2.1",
+    "@yoast/browserslist-config": "^1.2.2-rc.1",
     "browserslist": "^4.7.3",
     "jest-styled-components": "^5.0.1",
     "react-test-renderer": "^16.8.6",
