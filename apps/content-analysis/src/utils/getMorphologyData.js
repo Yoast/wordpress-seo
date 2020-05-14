@@ -6,7 +6,7 @@ let morphologyData = null;
  * @returns {Object} The morphology data, or an empty object if not available.
  */
 function loadLocalMorphologyData() {
-	let data, dataDe, dataNL, dataES, dataFR, dataRU = {};
+	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT = {};
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
@@ -21,11 +21,13 @@ function loadLocalMorphologyData() {
 		dataFR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-fr-v6.json" );
 		// eslint-disable-next-line global-require
 		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v6.json" );
+		// eslint-disable-next-line global-require
+		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v6.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
 
-	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU );
+	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT );
 }
 
 /**
