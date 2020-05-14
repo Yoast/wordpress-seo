@@ -449,6 +449,18 @@ export default function stem( word, morphologyData ) {
 		}
 	}
 
+	// Check if the word is on the exception list of words for which -ent should not be stemmed.
+	const nonVerbsOnEnt = morphologyData.nonVerbsOnEnt;
+	if ( word.endsWith( "ent" ) ) {
+		if ( nonVerbsOnEnt.includes( word ) ) {
+			return word;
+		}
+	}
+	if ( word.endsWith( "ents" ) ) {
+		if ( nonVerbsOnEnt.includes( word.slice( 0, -1 ) ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
@@ -483,14 +495,16 @@ export default function stem( word, morphologyData ) {
 	 * Step 2b:
 	 * Stem other verb suffixes
 	 */
-	word = removeOtherVerbSuffixes(
-		word,
-		step2aDone,
-		wordAfterStep1,
-		r2Index,
-		rvIndex,
-		morphologyData.regularStemmer.otherVerbSuffixes
-	);
+	if ( ! nonVerbsOnEnt.includes( word ) ) {
+		word = removeOtherVerbSuffixes(
+			word,
+			step2aDone,
+			wordAfterStep1,
+			r2Index,
+			rvIndex,
+			morphologyData.regularStemmer.otherVerbSuffixes
+		);
+	}
 
 	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4:
