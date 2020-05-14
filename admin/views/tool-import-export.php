@@ -101,6 +101,12 @@ $tabs = [
 			<a class="yoast-tabs__list-item-link" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo esc_html( $tab['label'] ); ?></a>
 			</li>
 		<?php endforeach; ?>
+		<?php
+			/**
+			 * Allow adding a custom import tab header.
+			 */
+			do_action( 'wpseo_import_tab_header' );
+		?>
 		<ul>
 	</nav>
 

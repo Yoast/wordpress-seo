@@ -118,11 +118,12 @@ $tabs = [
 
 	<nav class="yoast-tabs" id="wpseo-tabs">
 		<ul class="yoast-tabs__list">
-		<?php foreach ( $tabs as $identifier => $tab ) : ?>
 			<li class="yoast-tabs__list-item">
-			<a class="yoast-tabs__list-item-link" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo esc_html( $tab['label'] ); ?></a>
+				<a class="yoast-tabs__list-item-link" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
 			</li>
-		<?php endforeach; ?>
+			<li class="yoast-tabs__list-item">
+				<a class="yoast-tabs__list-item-link" id="description-tab" href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
+			</li>
 		<ul>
 	</nav>
 
