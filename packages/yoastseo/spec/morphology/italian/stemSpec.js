@@ -15,8 +15,13 @@ const wordsToStem = [
 	[ "finestra", "finestr" ],
 	// Input a short singular noun with stem structure VCC.
 	// [ "asso", "ass" ],
-	// Input a superlative.
-	// [ "bellissimo", "bell" ],
+	// Input an absolute superlative adjective.
+	[ "bellissimo", "bell" ],
+	[ "tristissima", "trist" ],
+	[ "tesissimi", "tes" ],
+	[ "ricchissime", "ricc" ],
+	// Input an absolute superlative adverb ending in -mente.
+	[ "fortissimamente", "fort" ],
 	// Input a diminutive.
 	// [ "casina", "cas" ],
 	// Input a short singular feminine adjective.
