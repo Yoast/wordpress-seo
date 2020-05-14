@@ -20,6 +20,8 @@ const wordsToStem = [
 	[ "tristissima", "trist" ],
 	[ "tesissimi", "tes" ],
 	[ "ricchissime", "ricc" ],
+	[ "decoratissimo", "decor" ],
+	[ "fornitissimo", "forn" ],
 	// Input an absolute superlative adverb ending in -mente.
 	[ "fortissimamente", "fort" ],
 	// Input a diminutive.

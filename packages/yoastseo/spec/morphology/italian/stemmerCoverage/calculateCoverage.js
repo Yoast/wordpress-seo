@@ -17,5 +17,6 @@ describe( "Calculate coverage for the Italian stemmer", () => {
 
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 		console.log( "The current coverage of the Italian stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
+		console.log( JSON.stringify( errors ) )
 	} );
 } );
