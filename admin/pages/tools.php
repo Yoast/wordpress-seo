@@ -37,8 +37,6 @@ if ( $tool_page === '' ) {
 		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
 	];
 
-	echo '<div class="yoast-break"></div>';
-
 	echo '<p>';
 	printf(
 		/* translators: %1$s expands to Yoast SEO */

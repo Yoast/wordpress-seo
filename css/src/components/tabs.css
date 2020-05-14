@@ -7,11 +7,6 @@
 	display: block;
 }
 
-.yoast-break {
-	border-bottom: 1px solid var(--color-border);
-	margin-bottom: 32px;
-}
-
 .yoast-tabs {
 	font-size: 16px;
 	overflow: hidden;
