@@ -31,16 +31,20 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 	action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-import' ) ); ?>"
 	method="post"
 	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
-	<?php wp_nonce_field( WPSEO_Import_Settings::NONCE_ACTION ); ?>
-	<label class="yoast-inline-label" for="settings-import">
-		<?php
-		printf(
-			/* translators: %s expands to Yoast SEO */
-			esc_html__( '%s settings to import:', 'wordpress-seo' ),
-			'Yoast SEO'
-		);
-		?>
-	</label><br />
-	<textarea id="settings-import" rows="10" cols="140" name="settings_import" aria-describedby="settings-import-desc"></textarea><br/>
+	<div class="yoast-field-group">
+		<?php wp_nonce_field( WPSEO_Import_Settings::NONCE_ACTION ); ?>
+		<div class="yoast-field-group__title">
+			<label class="yoast-inline-label" for="settings-import">
+				<?php
+				printf(
+					/* translators: %s expands to Yoast SEO */
+					esc_html__( '%s settings to import:', 'wordpress-seo' ),
+					'Yoast SEO'
+				);
+				?>
+			</label>
+		</div>
+		<textarea id="settings-import" rows="10" cols="140" name="settings_import" class="yoast-field-group__textarea" aria-describedby="settings-import-desc"></textarea>
+	</div>
 	<input type="submit" class="yoast-button yoast-button--primary" value="<?php esc_attr_e( 'Import settings', 'wordpress-seo' ); ?>"/>
 </form>
