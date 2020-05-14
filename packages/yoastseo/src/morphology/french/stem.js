@@ -383,6 +383,33 @@ const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
 };
 
 /**
+ * Checks whether the word is on the list of words which should be stemmed, even though the suffix would not be found in the
+ * required region. If the word is found on the list, the stem specified in that list is returned.
+ *
+ * @param {string}	word				The word to check.
+ * @param {Object}	shortWordsAndStems	The list to check.
+ *
+ * @returns {null|string} The stem or null if the word was not found on the list.
+ */
+const checkShortWordsExceptionList = function( word, shortWordsAndStems ) {
+	// First check whether the word is on the sub-list of words that cannot take an extra -s suffix.
+	for ( const wordStemPair of shortWordsAndStems.cannotTakeExtraSuffixS ) {
+		if ( wordStemPair[ 0 ] === word ) {
+			return wordStemPair[ 1 ];
+		}
+	}
+	// If the word was not found on the first sub-list, check the second sub-list of words that can take an extra -s suffix.
+	if ( word.endsWith( "s" ) ) {
+		word = word.slice( 0, -1 );
+	}
+	for ( const wordStemPair of shortWordsAndStems.canTakeExtraSuffixS ) {
+		if ( wordStemPair[ 0 ] === word ) {
+			return wordStemPair[ 1 ];
+		}
+	}
+};
+
+/**
  * Stems French words.
  *
  * @param {string} word             The word to stem.
@@ -393,6 +420,12 @@ const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
+
+	// Check if the word is on an exception list of words that should be stemmed even though the suffix is not in the required region.
+	const wordAfterShortWordsCheck = checkShortWordsExceptionList( word, morphologyData.shortWordsAndStems );
+	if ( wordAfterShortWordsCheck ) {
+		return wordAfterShortWordsCheck;
+	}
 
 	// Check if the word is on an exception list for which all forms of a word and its stem are listed.
 	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );

@@ -33,8 +33,8 @@ const wordsToStem = [
 	// Input a noun ending in -eux.
 	[ "bileux", "bileux" ],
 	// Input a noun ending in -atrice.
-	[ "curatrices", "curatric" ],
-	[ "curatrice", "curatric" ],
+	[ "curatrices", "cur" ],
+	[ "curatrice", "cur" ],
 	// Input a noun ending in -eur.
 	[ "acteurs", "acteur" ],
 	// Input a noun ending in -logie.
@@ -102,6 +102,13 @@ const wordsToStem = [
 	[ "bis", "bis" ],
 	[ "diffus", "diffus" ],
 	[ "clos", "clos" ],
+	// Short words that should be stemmed
+	[ "ardemment", "ardent" ],
+	[ "ours", "our" ],
+	[ "action", "act" ],
+	[ "actions", "act" ],
+	[ "âme", "âm" ],
+	[ "âmes", "âm" ],
 ];
 
 const paradigms = [
