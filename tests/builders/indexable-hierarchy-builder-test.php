@@ -475,8 +475,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_term' )->once()->with( 3, 'tag' )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 0 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
-		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
-		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 2 );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 2 );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( $primary_term );
 
@@ -556,8 +556,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
-		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 4, 1 );
-		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 2 );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 4, 2 );
+		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( false );
 

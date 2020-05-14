@@ -46,7 +46,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
-		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class )->makePartial();
+		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class );
 	}
 
 	/**
@@ -69,15 +69,16 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$indexable     = Mockery::mock( Indexable::class );
 		$indexable->id = 1;
 
-		$ancestors = [
-			(object) [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-			],
-		];
+		$ancestors = [ 2 ];
 
-		$orm_object = Mockery::mock()->makePartial();
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'ancestor_id' )
+			->andReturn( $orm_object );
+
 		$orm_object
 			->expects( 'where' )
 			->once()
@@ -91,9 +92,9 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->andReturn( $orm_object );
 
 		$orm_object
-			->expects( 'find_many' )
+			->expects( 'find_array' )
 			->once()
-			->andReturn( $ancestors );
+			->andReturn( [ [ 'ancestor_id' => 2 ] ] );
 
 		$this->instance
 			->expects( 'query' )
@@ -111,37 +112,42 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$indexable     = Mockery::mock( Indexable::class );
 		$indexable->id = 1;
 
-		$ancestors = [
-			(object) [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-			],
-		];
+		$parent_indexable     = Mockery::mock( Indexable::class );
+		$parent_indexable->id = 2;
+		$indexable->ancestors = [ $parent_indexable ];
 
-		$orm_object = Mockery::mock()->makePartial();
+		$ancestors = [ 2 ];
+
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'ancestor_id' )
+			->andReturn( $orm_object );
+
 		$orm_object
 			->expects( 'where' )
-			->twice()
+			->once()
 			->with( 'indexable_id', 1 )
 			->andReturn( $orm_object );
 
 		$orm_object
 			->expects( 'order_by_desc' )
-			->twice()
+			->once()
 			->with( 'depth' )
 			->andReturn( $orm_object );
 
 		$orm_object
-			->expects( 'find_many' )
-			->twice()
-			->andReturn( [], $ancestors );
+			->expects( 'find_array' )
+			->once()
+			->andReturn( [] );
 
 		$this->instance->set_builder( $this->builder );
 
 		$this->instance
 			->expects( 'query' )
-			->twice()
+			->once()
 			->andReturn( $orm_object );
 
 		$this->builder
