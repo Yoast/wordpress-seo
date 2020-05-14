@@ -4,9 +4,8 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 import filterFunctionWordsFromArray from "../../../../src/helpers/filterFunctionWordsFromArray.js";
 import sampleVocabulary from "../stemmerCoverage/sampleVocabulary.json";
 
-const morphologyDataFR = getMorphologyData( "fr" ).fr;
-
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "fr" );
+const morphologyDataFR = getMorphologyData( "fr" ).fr;
 
 describe( "Generate stems for French words", () => {
 	const corpusWithStems = wordsToStemWithoutFunctionWords.map( word => [ word, stem( word, morphologyDataFR ) ] );
