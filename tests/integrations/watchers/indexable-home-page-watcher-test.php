@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
@@ -14,6 +19,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Home_Page_Watcher_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
@@ -24,27 +30,35 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Home_Page_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the indexable repository.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
-	private $repository_mock;
+	private $repository;
 
 	/**
+	 * Represents the indexable builder.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
 	 */
-	private $builder_mock;
+	private $builder;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Home_Page_Watcher
 	 */
 	private $instance;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setUp() {
-		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
-		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
+		parent::setUp();
 
-		$this->instance = new Indexable_Home_Page_Watcher( $this->repository_mock, $this->builder_mock );
-
-		return parent::setUp();
+		$this->repository = Mockery::mock( Indexable_Repository::class );
+		$this->builder    = Mockery::mock( Indexable_Builder::class );
+		$this->instance   = new Indexable_Home_Page_Watcher( $this->repository, $this->builder );
 	}
 
 	/**
@@ -86,8 +100,17 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository_mock->expects( 'find_for_home_page' )->once()->with( false )->andReturn( $indexable_mock );
-		$this->builder_mock->expects( 'build_for_home_page' )->once()->with( $indexable_mock )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_for_home_page' )
+			->once()
+			->with( false )
+			->andReturn( $indexable_mock );
+
+		$this->builder
+			->expects( 'build_for_home_page' )
+			->once()
+			->with( $indexable_mock )
+			->andReturn( $indexable_mock );
 
 		$this->instance->check_option( [ 'title-home-wpseo' => 'bar' ], [ 'title-home-wpseo' => 'baz' ], 'wpseo_titles' );
 	}
@@ -115,8 +138,17 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository_mock->expects( 'find_for_home_page' )->once()->with( false )->andReturn( $indexable_mock );
-		$this->builder_mock->expects( 'build_for_home_page' )->once()->with( $indexable_mock )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_for_home_page' )
+			->once()
+			->with( false )
+			->andReturn( $indexable_mock );
+
+		$this->builder
+			->expects( 'build_for_home_page' )
+			->once()
+			->with( $indexable_mock )
+			->andReturn( $indexable_mock );
 
 		$this->instance->check_option( [ 'og_frontpage_desc' => 'bar' ], [ 'og_frontpage_desc' => 'baz' ], 'wpseo_social' );
 	}
@@ -143,8 +175,17 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository_mock->expects( 'find_for_home_page' )->once()->with( false )->andReturn( false );
-		$this->builder_mock->expects( 'build_for_home_page' )->once()->with( false )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_for_home_page' )
+			->once()
+			->with( false )
+			->andReturn( false );
+
+		$this->builder
+			->expects( 'build_for_home_page' )
+			->once()
+			->with( false )
+			->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable();
 	}

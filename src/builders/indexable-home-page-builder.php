@@ -14,29 +14,34 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
  * Formats the homepage meta to indexable format.
  */
 class Indexable_Home_Page_Builder {
+	use Indexable_Social_Image_Trait;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
 	 * Indexable_Home_Page_Builder constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 * @param Url_Helper     $url_helper     The url helper.
+	 * @param Options_Helper $options The options helper.
+	 * @param Url_Helper     $url     The url helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Url_Helper $url_helper
+		Options_Helper $options,
+		Url_Helper $url
 	) {
-		$this->options_helper = $options_helper;
-		$this->url_helper     = $url_helper;
+		$this->options = $options;
+		$this->url     = $url;
 	}
 
 	/**
@@ -48,20 +53,28 @@ class Indexable_Home_Page_Builder {
 	 */
 	public function build( $indexable ) {
 		$indexable->object_type      = 'home-page';
-		$indexable->title            = $this->options_helper->get( 'title-home-wpseo' );
-		$indexable->breadcrumb_title = $this->options_helper->get( 'breadcrumbs-home' );
-		$indexable->permalink        = $this->url_helper->home();
-		$indexable->description      = $this->options_helper->get( 'metadesc-home-wpseo' );
+		$indexable->title            = $this->options->get( 'title-home-wpseo' );
+		$indexable->breadcrumb_title = $this->options->get( 'breadcrumbs-home' );
+		$indexable->permalink        = $this->url->home();
+		$indexable->blog_id          = \get_current_blog_id();
+		$indexable->description      = $this->options->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );
 		}
 
 		$indexable->is_robots_noindex = \get_option( 'blog_public' ) === '0';
 
-		$indexable->og_title       = $this->options_helper->get( 'og_frontpage_title' );
-		$indexable->og_image       = $this->options_helper->get( 'og_frontpage_image' );
-		$indexable->og_image_id    = $this->options_helper->get( 'og_frontpage_image_id' );
-		$indexable->og_description = $this->options_helper->get( 'og_frontpage_desc' );
+		$indexable->open_graph_title       = $this->options->get( 'og_frontpage_title' );
+		$indexable->open_graph_image       = $this->options->get( 'og_frontpage_image' );
+		$indexable->open_graph_image_id    = $this->options->get( 'og_frontpage_image_id' );
+		$indexable->open_graph_description = $this->options->get( 'og_frontpage_desc' );
+
+		// When the image or image id is set.
+		if ( $indexable->open_graph_image || $indexable->open_graph_image_id ) {
+			$indexable->open_graph_image_source = 'set-by-user';
+
+			$this->set_open_graph_image_meta_data( $indexable );
+		}
 
 		return $indexable;
 	}

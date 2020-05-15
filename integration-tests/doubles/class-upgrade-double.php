@@ -1,5 +1,7 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests\Doubles
  */
 
@@ -27,7 +29,7 @@ class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 	}
 
 	/**
-	 * Retrieves the option value directly from the database.
+	 * Test double. Retrieves the option value directly from the database.
 	 *
 	 * @param string $option_name Option to retrieve.
 	 *
@@ -38,7 +40,7 @@ class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 	}
 
 	/**
-	 * Saves an option setting to where it should be stored.
+	 * Test double. Saves an option setting to where it should be stored.
 	 *
 	 * @param array       $source_data    The option containing the value to be migrated.
 	 * @param string      $source_setting Name of the key in the "from" option.
@@ -51,9 +53,13 @@ class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 	}
 
 	/**
-	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 * Test double. Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
 	 */
-	public function finish_up() {
-		parent::finish_up();
+	public function finish_up( $previous_version = null ) {
+		parent::finish_up( $previous_version );
 	}
 }

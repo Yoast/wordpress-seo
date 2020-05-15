@@ -26,7 +26,6 @@ class Indexing_Controls implements Integration_Interface {
 	protected $robots;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -34,7 +33,9 @@ class Indexing_Controls implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
+	 * The constructor.
+	 *
+	 * @codeCoverageIgnore Sets the dependencies.
 	 *
 	 * @param Robots_Helper $robots The robots helper.
 	 */
@@ -49,7 +50,7 @@ class Indexing_Controls implements Integration_Interface {
 	public function register_hooks() {
 		// The option `blog_public` is set in Settings > Reading > Search Engine Visibility.
 		if ( (string) \get_option( 'blog_public' ) === '0' ) {
-			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
+			\add_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] );
 		}
 
 		\add_action( 'template_redirect', [ $this, 'noindex_robots' ] );
@@ -67,8 +68,6 @@ class Indexing_Controls implements Integration_Interface {
 	/**
 	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
 	 * to follow the links in the object at the URL.
-	 *
-	 * @since 1.1.7
 	 *
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */

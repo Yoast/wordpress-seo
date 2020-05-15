@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
@@ -16,6 +17,22 @@ class Indexable_Author_Builder {
 	use Indexable_Social_Image_Trait;
 
 	/**
+	 * The author archive helper.
+	 *
+	 * @var Author_Archive_Helper
+	 */
+	private $author_archive;
+
+	/**
+	 * Indexable_Author_Builder constructor.
+	 *
+	 * @param Author_Archive_Helper $author_archive The author archive helper.
+	 */
+	public function __construct( Author_Archive_Helper $author_archive ) {
+		$this->author_archive = $author_archive;
+	}
+
+	/**
 	 * Formats the data.
 	 *
 	 * @param int       $user_id   The user to retrieve the indexable for.
@@ -23,7 +40,7 @@ class Indexable_Author_Builder {
 	 *
 	 * @return Indexable The extended indexable.
 	 */
-	public function build( $user_id, $indexable ) {
+	public function build( $user_id, Indexable $indexable ) {
 		$meta_data = $this->get_meta_data( $user_id );
 
 		$indexable->object_id              = $user_id;
@@ -37,6 +54,9 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
+		$indexable->is_public              = ( $indexable->is_robots_noindex ) ? false : null;
+		$indexable->has_public_posts       = $this->author_archive->author_has_public_posts( $user_id );
+		$indexable->blog_id                = \get_current_blog_id();
 
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );

@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Replace_Vars_Object_Test
+ * Class Generate_Source_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  */
-class Replace_Vars_Object_Test extends TestCase {
+class Generate_Source_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -26,9 +26,9 @@ class Replace_Vars_Object_Test extends TestCase {
 	/**
 	 * Tests whether an empty array is returned.
 	 *
-	 * @covers ::generate_replace_vars_object
+	 * @covers ::generate_source
 	 */
-	public function test_generate_replace_vars_object() {
-		$this->assertEquals( [], $this->instance->generate_replace_vars_object() );
+	public function test_generate_source() {
+		$this->assertEquals( [], $this->instance->generate_source() );
 	}
 }

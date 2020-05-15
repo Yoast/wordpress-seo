@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter;
@@ -12,16 +12,20 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Article_Published_Time_Presenter_Test extends TestCase {
 
 	/**
+	 * The article published time presenter instance.
+	 *
 	 * @var Article_Published_Time_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
@@ -33,6 +37,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 		$this->instance     = new Article_Published_Time_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
 
 		return parent::setUp();
 	}
@@ -43,10 +48,10 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_published_time = '2019-10-08T12:26:31+00:00';
+		$this->presentation->open_graph_article_published_time = '2019-10-08T12:26:31+00:00';
 
 		$expected = '<meta property="article:published_time" content="2019-10-08T12:26:31+00:00" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -57,10 +62,21 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_published_time() {
-		$this->presentation->og_article_published_time = '';
+		$this->presentation->open_graph_article_published_time = '';
 
-		$actual   = $this->instance->present( $this->presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->open_graph_article_published_time = '2019-10-08T12:26:31+00:00';
+
+		$this->assertSame( '2019-10-08T12:26:31+00:00', $this->instance->get() );
 	}
 }

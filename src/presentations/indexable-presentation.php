@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
-use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -17,99 +17,124 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Presentations\Generators\OG_Locale_Generator;
-use Yoast\WP\SEO\Presentations\Generators\Schema_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
+use Yoast\WP\SEO\Generators\Schema_Generator;
 
 /**
  * Class Indexable_Presentation
  *
- * @property string title
- * @property string meta_description
- * @property array  robots
- * @property array  googlebot
- * @property string canonical
- * @property string rel_next
- * @property string rel_prev
- * @property string og_type
- * @property string og_title
- * @property string og_description
- * @property array  og_images
- * @property string og_url
- * @property string og_site_name
- * @property string og_article_publisher
- * @property string og_article_author
- * @property string og_article_published_time
- * @property string og_article_modified_time
- * @property string og_locale
- * @property string og_fb_app_id
- * @property array  schema
- * @property string twitter_card
- * @property string twitter_title
- * @property string twitter_description
- * @property string twitter_image
- * @property string twitter_creator
- * @property string twitter_site
- * @property array  replace_vars_object
- * @property array  breadcrumbs
+ * @property string $title
+ * @property string $meta_description
+ * @property array  $robots
+ * @property array  $bingbot
+ * @property array  $googlebot
+ * @property string $canonical
+ * @property string $rel_next
+ * @property string $rel_prev
+ * @property string $open_graph_type
+ * @property string $open_graph_title
+ * @property string $open_graph_description
+ * @property array  $open_graph_images
+ * @property string $open_graph_url
+ * @property string $open_graph_site_name
+ * @property string $open_graph_article_publisher
+ * @property string $open_graph_article_author
+ * @property string $open_graph_article_published_time
+ * @property string $open_graph_article_modified_time
+ * @property string $open_graph_locale
+ * @property string $open_graph_fb_app_id
+ * @property array  $schema
+ * @property string $twitter_card
+ * @property string $twitter_title
+ * @property string $twitter_description
+ * @property string $twitter_image
+ * @property string $twitter_creator
+ * @property string $twitter_site
+ * @property array  $source
+ * @property array  $breadcrumbs
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
 	/**
+	 * The indexable.
+	 *
 	 * @var Indexable
 	 */
 	public $model;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	public $context;
 
 	/**
+	 * The Schema generator.
+	 *
 	 * @var Schema_Generator
 	 */
 	protected $schema_generator;
 
 	/**
-	 * @var OG_Image_Generator
+	 * The Open Graph image generator.
+	 *
+	 * @var Open_Graph_Image_Generator
 	 */
-	protected $og_image_generator;
+	protected $open_graph_image_generator;
 
 	/**
+	 * The Twitter image generator.
+	 *
 	 * @var Twitter_Image_Generator
 	 */
 	protected $twitter_image_generator;
 
 	/**
-	 * @var OG_Locale_Generator
+	 * The Open Graph locale generator.
+	 *
+	 * @var Open_Graph_Locale_Generator
 	 */
-	private $og_locale_generator;
+	private $open_graph_locale_generator;
 
 	/**
+	 * The breadcrumbs generator.
+	 *
 	 * @var Breadcrumbs_Generator
 	 */
 	private $breadcrumbs_generator;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
-	protected $options_helper;
+	protected $options;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
 
 	/**
+	 * The user helper.
+	 *
 	 * @var User_Helper
 	 */
 	protected $user;
@@ -119,24 +144,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Sets the generator dependencies.
 	 *
-	 * @param Schema_Generator        $schema_generator        The schema generator.
-	 * @param OG_Locale_Generator     $og_locale_generator     The OG locale generator.
-	 * @param OG_Image_Generator      $og_image_generator      The OG image generator.
-	 * @param Twitter_Image_Generator $twitter_image_generator The Twitter image generator.
-	 * @param Breadcrumbs_Generator   $breadcrumbs_generator   The breadcrumbs generator.
+	 * @param Schema_Generator            $schema_generator            The schema generator.
+	 * @param Open_Graph_Locale_Generator $open_graph_locale_generator The Open Graph locale generator.
+	 * @param Open_Graph_Image_Generator  $open_graph_image_generator  The Open Graph image generator.
+	 * @param Twitter_Image_Generator     $twitter_image_generator     The Twitter image generator.
+	 * @param Breadcrumbs_Generator       $breadcrumbs_generator       The breadcrumbs generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
-		OG_Locale_Generator $og_locale_generator,
-		OG_Image_Generator $og_image_generator,
+		Open_Graph_Locale_Generator $open_graph_locale_generator,
+		Open_Graph_Image_Generator $open_graph_image_generator,
 		Twitter_Image_Generator $twitter_image_generator,
 		Breadcrumbs_Generator $breadcrumbs_generator
 	) {
-		$this->schema_generator        = $schema_generator;
-		$this->og_locale_generator     = $og_locale_generator;
-		$this->og_image_generator      = $og_image_generator;
-		$this->twitter_image_generator = $twitter_image_generator;
-		$this->breadcrumbs_generator   = $breadcrumbs_generator;
+		$this->schema_generator            = $schema_generator;
+		$this->open_graph_locale_generator = $open_graph_locale_generator;
+		$this->open_graph_image_generator  = $open_graph_image_generator;
+		$this->twitter_image_generator     = $twitter_image_generator;
+		$this->breadcrumbs_generator       = $breadcrumbs_generator;
 	}
 
 	/**
@@ -144,24 +169,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Used by dependency injection container to inject the helpers.
 	 *
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Options_Helper      $options_helper      The options helper.
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Url_Helper          $url_helper          The URL helper.
-	 * @param User_Helper         $user                The user helper.
+	 * @param Image_Helper        $image        The image helper.
+	 * @param Options_Helper      $options      The options helper.
+	 * @param Current_Page_Helper $current_page The current page helper.
+	 * @param Url_Helper          $url          The URL helper.
+	 * @param User_Helper         $user         The user helper.
 	 */
 	public function set_helpers(
-		Image_Helper $image_helper,
-		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper,
-		Url_Helper $url_helper,
+		Image_Helper $image,
+		Options_Helper $options,
+		Current_Page_Helper $current_page,
+		Url_Helper $url,
 		User_Helper $user
 	) {
-		$this->image_helper   = $image_helper;
-		$this->options_helper = $options_helper;
-		$this->current_page   = $current_page_helper;
-		$this->url            = $url_helper;
-		$this->user           = $user;
+		$this->image        = $image;
+		$this->options      = $options;
+		$this->current_page = $current_page;
+		$this->url          = $url;
+		$this->user         = $user;
 	}
 
 	/**
@@ -196,6 +221,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
+		$robots = $this->get_base_robots();
+
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Gets the base robots value.
+	 *
+	 * @return array The base robots value.
+	 */
+	protected function get_base_robots() {
 		return [
 			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
@@ -203,12 +239,82 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the googlebot value.
+	 * Run the robots output content through the `wpseo_robots` filter.
+	 *
+	 * @param array $robots The meta robots values to filter.
+	 *
+	 * @return array The filtered meta robots values.
+	 */
+	protected function filter_robots( $robots ) {
+		$robots_string = \implode( ', ', $robots );
+
+		/**
+		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
+		 *
+		 * @api string $robots The meta robots directives to be echoed.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
+
+		if ( is_string( $robots_filtered ) ) {
+			$robots_values = \explode( ', ', $robots_filtered );
+			$robots_new    = [];
+
+			foreach ( $robots_values as $value ) {
+				$key = $value;
+				if ( \strpos( $key, 'no' ) === 0 ) {
+					$key = \substr( $value, 2 );
+				}
+				$robots_new[ $key ] = $value;
+			}
+
+			$robots = $robots_new;
+		}
+
+		if ( ! $robots_filtered ) {
+			return [];
+		}
+
+		/**
+		 * Filter: 'wpseo_robots_array' - Allows filtering of the meta robots output array of Yoast SEO.
+		 *
+		 * @api array $robots The meta robots directives to be used.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \apply_filters( 'wpseo_robots_array', \array_filter( $robots ), $this );
+	}
+
+	/**
+	 * Generates the robots value for the googlebot tag.
+	 *
+	 * @return array The robots value with opt-in snippets.
+	 */
+	public function generate_googlebot() {
+		return $this->generate_snippet_opt_in();
+	}
+
+	/**
+	 * Generates the value for the bingbot tag.
+	 *
+	 * @return array The robots value with opt-in snippets.
+	 */
+	public function generate_bingbot() {
+		return $this->generate_snippet_opt_in();
+	}
+
+	/**
+	 * Generates a snippet opt-in robots value.
 	 *
 	 * @return array The googlebot value.
 	 */
-	public function generate_googlebot() {
-		return [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ];
+	private function generate_snippet_opt_in() {
+		if ( in_array( 'noindex', $this->robots, true ) ) {
+			return [];
+		}
+
+		return \array_filter( \array_merge( $this->robots, [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ] ) );
 	}
 
 	/**
@@ -247,11 +353,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the og type.
+	 * Generates the Open Graph type.
 	 *
-	 * @return string The og type.
+	 * @return string The Open Graph type.
 	 */
-	public function generate_og_type() {
+	public function generate_open_graph_type() {
 		return 'website';
 	}
 
@@ -260,9 +366,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph title.
 	 */
-	public function generate_og_title() {
-		if ( $this->model->og_title ) {
-			return $this->model->og_title;
+	public function generate_open_graph_title() {
+		if ( $this->model->open_graph_title ) {
+			return $this->model->open_graph_title;
 		}
 
 		return $this->title;
@@ -273,9 +379,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph description.
 	 */
-	public function generate_og_description() {
-		if ( $this->model->og_description ) {
-			return $this->model->og_description;
+	public function generate_open_graph_description() {
+		if ( $this->model->open_graph_description ) {
+			return $this->model->open_graph_description;
 		}
 
 		return $this->meta_description;
@@ -286,12 +392,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return array The open graph images.
 	 */
-	public function generate_og_images() {
+	public function generate_open_graph_images() {
 		if ( $this->context->open_graph_enabled === false ) {
 			return [];
 		}
 
-		return $this->og_image_generator->generate( $this->context );
+		return $this->open_graph_image_generator->generate( $this->context );
 	}
 
 	/**
@@ -299,7 +405,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
@@ -312,7 +418,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article publisher.
 	 */
-	public function generate_og_article_publisher() {
+	public function generate_open_graph_article_publisher() {
 		return '';
 	}
 
@@ -321,7 +427,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article author.
 	 */
-	public function generate_og_article_author() {
+	public function generate_open_graph_article_author() {
 		return '';
 	}
 
@@ -330,7 +436,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article published time.
 	 */
-	public function generate_og_article_published_time() {
+	public function generate_open_graph_article_published_time() {
 		return '';
 	}
 
@@ -339,7 +445,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph article modified time.
 	 */
-	public function generate_og_article_modified_time() {
+	public function generate_open_graph_article_modified_time() {
 		return '';
 	}
 
@@ -348,8 +454,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph locale.
 	 */
-	public function generate_og_locale() {
-		return $this->og_locale_generator->generate( $this->context );
+	public function generate_open_graph_locale() {
+		return $this->open_graph_locale_generator->generate( $this->context );
 	}
 
 	/**
@@ -357,8 +463,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph Facebook app ID.
 	 */
-	public function generate_og_fb_app_id() {
-		return $this->options_helper->get( 'fbadminapp', '' );
+	public function generate_open_graph_fb_app_id() {
+		return $this->options->get( 'fbadminapp', '' );
 	}
 
 	/**
@@ -366,7 +472,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The open graph site name.
 	 */
-	public function generate_og_site_name() {
+	public function generate_open_graph_site_name() {
 		return $this->context->wordpress_site_name;
 	}
 
@@ -389,8 +495,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_title;
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->title ) {
@@ -410,8 +516,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_description;
+		if ( $this->open_graph_description && $this->context->open_graph_enabled === true ) {
+			return '';
 		}
 
 		if ( $this->meta_description ) {
@@ -428,15 +534,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_image() {
 		$images = $this->twitter_image_generator->generate( $this->context );
-		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
-			$images = $this->og_images;
+		$image  = \reset( $images );
+
+		// When there is an image set by the user.
+		if ( $image && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $image['url'];
 		}
 
-		if ( empty( $images ) ) {
+		// When there isn't a set image or there is a Open Graph image set.
+		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->open_graph_images ) ) {
 			return '';
 		}
-
-		$image = \reset( $images );
 
 		return $image['url'];
 	}
@@ -457,15 +565,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_site() {
 		switch ( $this->context->site_represents ) {
-			case 'person' :
+			case 'person':
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
-					$twitter = $this->options_helper->get( 'twitter_site' );
+					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
-			case 'company' :
+			case 'company':
 			default:
-				$twitter = $this->options_helper->get( 'twitter_site' );
+				$twitter = $this->options->get( 'twitter_site' );
 				break;
 		}
 
@@ -473,11 +581,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the replace vars object.
+	 * Generates the source.
 	 *
-	 * @return array The replace vars object.
+	 * @return array The source.
 	 */
-	public function generate_replace_vars_object() {
+	public function generate_source() {
 		return [];
 	}
 
@@ -485,6 +593,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the schema for the page.
 	 *
 	 * @return array The Schema object.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function generate_schema() {
 		return $this->schema_generator->generate( $this->context );
@@ -494,8 +604,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * Generates the breadcrumbs for the page.
 	 *
 	 * @return array The breadcrumbs.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
+	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [ 'model' => $this->model, 'context' => $this->context ];
 	}
 }

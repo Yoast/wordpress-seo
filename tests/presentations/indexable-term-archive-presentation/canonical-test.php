@@ -113,7 +113,7 @@ class Canonical_Test extends TestCase {
 	 * @param bool $is_multiple Optional. Determines if the WP query contains multiple terms or not.
 	 */
 	private function setup_multiple_terms_query( $is_multiple = false ) {
-		$this->instance->replace_vars_object = (object) [ 'taxonomy' => 'my-taxonomy' ];
+		$this->instance->source = (object) [ 'taxonomy' => 'my-taxonomy' ];
 
 		$terms = [];
 		if ( $is_multiple ) {

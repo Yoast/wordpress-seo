@@ -2,14 +2,12 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Article_Helper;
-use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema Article data.
@@ -17,44 +15,22 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
 class Article extends Abstract_Schema_Piece {
 
 	/**
-	 * @var Article_Helper
-	 */
-	private $article_helper;
-
-	/**
-	 * @var Date_Helper
-	 */
-	private $date_helper;
-
-	/**
-	 * Article constructor.
-	 *
-	 * @param Article_Helper $article_helper The article helper.
-	 * @param Date_Helper    $date_helper    The date helper.
-	 */
-	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper ) {
-		$this->article_helper = $article_helper;
-		$this->date_helper    = $date_helper;
-	}
-
-	/**
 	 * Determines whether or not a piece should be added to the graph.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
-	public function is_needed( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type !== 'post' ) {
+	public function is_needed() {
+		if ( $this->context->indexable->object_type !== 'post' ) {
 			return false;
 		}
 
-		if ( $context->site_represents === false ) {
+		if ( $this->context->site_represents === false ) {
 			return false;
 		}
 
-		if ( $this->article_helper->is_article_post_type( $context->indexable->object_sub_type ) ) {
-			$context->main_schema_id = $context->canonical . $this->id_helper->article_hash;
+		if ( $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type ) ) {
+			$this->context->main_schema_id = $this->context->canonical . Schema_IDs::ARTICLE_HASH;
+
 			return true;
 		}
 
@@ -64,31 +40,34 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Returns Article data.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return array $data Article data.
 	 */
-	public function generate( Meta_Tags_Context $context ) {
-		$comment_count = \get_comment_count( $context->id );
+	public function generate() {
+		$comment_count = \get_comment_count( $this->context->id );
 		$data          = [
 			'@type'            => 'Article',
-			'@id'              => $context->canonical . $this->id_helper->article_hash,
-			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
-			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
-			'headline'         => $context->title,
-			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
-			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
+			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
+			'isPartOf'         => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'author'           => [ '@id' => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ) ],
+			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
+			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
+			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
+			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
 		];
 
-		if ( $context->site_represents_reference ) {
-			$data['publisher'] = $context->site_represents_reference;
+		if ( $this->context->site_represents_reference ) {
+			$data['publisher'] = $this->context->site_represents_reference;
 		}
 
-		$data = $this->add_image( $data, $context );
-		$data = $this->add_keywords( $data, $context );
-		$data = $this->add_sections( $data, $context );
+		$data = $this->add_image( $data );
+		$data = $this->add_keywords( $data );
+		$data = $this->add_sections( $data );
+		$data = $this->helpers->schema->language->add_piece_language( $data );
+
+		if ( \post_type_supports( $this->context->post->post_type, 'comments' ) && $this->context->post->comment_status === 'open' ) {
+			$data = $this->add_potential_action( $data );
+		}
 
 		return $data;
 	}
@@ -96,59 +75,56 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Adds tags as keywords, if tags are assigned.
 	 *
-	 * @param array             $data    Article data.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array $data Article data.
 	 *
 	 * @return array $data Article data.
 	 */
-	private function add_keywords( $data, Meta_Tags_Context $context ) {
+	private function add_keywords( $data ) {
 		/**
 		 * Filter: 'wpseo_schema_article_keywords_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
 		 * @api string $taxonomy The chosen taxonomy.
 		 */
-		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
+		$taxonomy = \apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
-		return $this->add_terms( $data, 'keywords', $taxonomy, $context );
+		return $this->add_terms( $data, 'keywords', $taxonomy );
 	}
 
 	/**
 	 * Adds categories as sections, if categories are assigned.
 	 *
-	 * @param array             $data    Article data.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array $data Article data.
 	 *
 	 * @return array $data Article data.
 	 */
-	private function add_sections( $data, Meta_Tags_Context $context ) {
+	private function add_sections( $data ) {
 		/**
 		 * Filter: 'wpseo_schema_article_sections_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
 		 * @api string $taxonomy The chosen taxonomy.
 		 */
-		$taxonomy = apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
+		$taxonomy = \apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
 
-		return $this->add_terms( $data, 'articleSection', $taxonomy, $context );
+		return $this->add_terms( $data, 'articleSection', $taxonomy );
 	}
 
 	/**
 	 * Adds a term or multiple terms, comma separated, to a field.
 	 *
-	 * @param array             $data     Article data.
-	 * @param string            $key      The key in data to save the terms in.
-	 * @param string            $taxonomy The taxonomy to retrieve the terms from.
-	 * @param Meta_Tags_Context $context  The meta tags context.
+	 * @param array  $data     Article data.
+	 * @param string $key      The key in data to save the terms in.
+	 * @param string $taxonomy The taxonomy to retrieve the terms from.
 	 *
 	 * @return mixed array $data Article data.
 	 */
-	private function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
-		$terms = \get_the_terms( $context->id, $taxonomy );
+	protected function add_terms( $data, $key, $taxonomy ) {
+		$terms = \get_the_terms( $this->context->id, $taxonomy );
 
 		if ( ! \is_array( $terms ) ) {
 			return $data;
 		}
 
-		$terms = array_filter( $terms, function( $term ) {
+		$terms = \array_filter( $terms, function( $term ) {
 			// We are checking against the WordPress internal translation.
 			// @codingStandardsIgnoreLine
 			return $term->name !== __( 'Uncategorized' );
@@ -158,7 +134,7 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data[ $key ] = implode( ',', wp_list_pluck( $terms, 'name' ) );
+		$data[ $key ] = \implode( ',', \wp_list_pluck( $terms, 'name' ) );
 
 		return $data;
 	}
@@ -166,17 +142,40 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Adds an image node if the post has a featured image.
 	 *
-	 * @param array             $data    The Article data.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array $data The Article data.
 	 *
 	 * @return array $data The Article data.
 	 */
-	private function add_image( $data, Meta_Tags_Context $context ) {
-		if ( $context->has_image ) {
+	private function add_image( $data ) {
+		if ( $this->context->has_image ) {
 			$data['image'] = [
-				'@id' => $context->canonical . $this->id_helper->primary_image_hash,
+				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
 			];
 		}
+
+		return $data;
+	}
+
+	/**
+	 * Adds the potential action property to the Article Schema piece.
+	 *
+	 * @param array $data The Article data.
+	 *
+	 * @return array $data The Article data with the potential action added.
+	 */
+	private function add_potential_action( $data ) {
+		/**
+		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article potentialAction target.
+		 *
+		 * @api array $targets The URLs for the Article potentialAction target.
+		 */
+		$targets = \apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#respond' ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'CommentAction',
+			'name'   => 'Comment',
+			'target' => $targets,
+		];
 
 		return $data;
 	}

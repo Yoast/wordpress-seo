@@ -2,53 +2,44 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Presentations\Generators\Generator_Interface;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class Abstract_Schema_Piece
- *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
  */
-abstract class Abstract_Schema_Piece implements Generator_Interface {
+abstract class Abstract_Schema_Piece {
 
 	/**
-	 * @var ID_Helper
+	 * The meta tags context.
+	 *
+	 * @var Meta_Tags_Context
 	 */
-	protected $id_helper;
+	public $context;
 
 	/**
-	 * @required
+	 * The helpers surface
 	 *
-	 * Sets the ID helper.
-	 *
-	 * @param ID_Helper $id_helper A helper to retrieve Schema ID's.
+	 * @var Helpers_Surface
 	 */
-	public function set_id_helper( ID_Helper $id_helper ) {
-		$this->id_helper = $id_helper;
-	}
+	public $helpers;
 
 	/**
-	 * Generate the schema piece.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * Generates the schema piece.
 	 *
 	 * @return mixed
 	 */
-	abstract public function generate( Meta_Tags_Context $context );
+	abstract public function generate();
 
 	/**
-	 * Determine whether the schema piece is needed.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * Determines whether the schema piece is needed.
 	 *
 	 * @return bool
 	 */
-	abstract public function is_needed( Meta_Tags_Context $context );
+	abstract public function is_needed();
 }

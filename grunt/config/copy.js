@@ -20,6 +20,19 @@ module.exports = {
 			},
 		],
 	},
+	"css-files": {
+		files: [
+			{
+				expand: true,
+				cwd: "css/src",
+				src: [ "**.css" ],
+				dest: "css/dist/",
+				rename: ( dest, src ) => {
+					return dest + src.replace( ".css", "-<%= pluginVersionSlug %>.css" );
+				},
+			},
+		],
+	},
 	"json-translations": {
 		files: [
 			{
@@ -97,15 +110,16 @@ module.exports = {
 					"inc/**",
 					"cli/**",
 					"js/vendor/**/*.js",
-					"js/dist/**/*.min.js",
+					"js/dist/**/*.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",
+					"lib/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
 					"vendor_prefixed/dependencies-prefixed.txt",
-					"migrations/*.php",
-					"migrations/ruckusing/**/why",
+					"src/config/migrations/*.php",
+					"src/config/migrations/ruckusing/**/why",
 					"index.php",
 					"license.txt",
 					"readme.txt",
@@ -121,7 +135,6 @@ module.exports = {
 					"!vendor_prefixed/ruckusing/config/**",
 					"!vendor_prefixed/ruckusing/tests/**",
 					"!vendor_prefixed/ruckusing/ruckus.php",
-					"!vendor_prefixed/j4mie/idiorm/demo.php",
 					"!**/composer.json",
 					"!**/README.md",
 				],

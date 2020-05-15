@@ -35,17 +35,16 @@ class Meta_Description_Test extends TestCase {
 		$this->assertEquals( 'This is the meta description', $this->instance->generate_meta_description() );
 	}
 
-
 	/**
 	 * Tests the situation where the meta description is not set.
 	 *
 	 * @covers ::generate_meta_description
 	 */
 	public function test_without_meta_description() {
-		$this->indexable->description = null;
+		$this->indexable->description     = null;
 		$this->indexable->object_sub_type = 'post';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'metadesc-post' )

@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 class Current_Page_Helper {
 
 	/**
+	 * The WP Query wrapper.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $wp_query_wrapper;
@@ -23,6 +25,8 @@ class Current_Page_Helper {
 	 * Current_Page_Helper constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper
@@ -32,6 +36,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Returns the page type for the current request.
+	 *
+	 * @codeCoverageIgnore It just depends on other functions for its result.
 	 *
 	 * @return string Page type.
 	 */
@@ -96,6 +102,8 @@ class Current_Page_Helper {
 	/**
 	 * Returns the id of the currently opened author archive.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return int The id of the currently opened author archive.
 	 */
 	public function get_author_id() {
@@ -147,7 +155,8 @@ class Current_Page_Helper {
 	 * @return string The post type of the main query.
 	 */
 	public function get_queried_post_type() {
-		$post_type = $this->wp_query_wrapper->get_main_query()->get( 'post_type' );
+		$wp_query  = $this->wp_query_wrapper->get_main_query();
+		$post_type = $wp_query->get( 'post_type' );
 		if ( \is_array( $post_type ) ) {
 			$post_type = \reset( $post_type );
 		}
@@ -157,23 +166,21 @@ class Current_Page_Helper {
 
 	/**
 	 * Returns the permalink of the currently opened date archive.
+	 * If the permalink was cached, it returns this permalink.
+	 * If not, we call another function to get the permalink through wp_query.
 	 *
 	 * @return string The permalink of the currently opened date archive.
 	 */
 	public function get_date_archive_permalink() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
+		static $date_archive_permalink;
 
-		if ( $wp_query->is_day() ) {
-			return \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
-		}
-		if ( $wp_query->is_month() ) {
-			return \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
-		}
-		if ( $wp_query->is_year() ) {
-			return \get_year_link( $wp_query->get( 'year' ) );
+		if ( isset( $date_archive_permalink ) ) {
+			return $date_archive_permalink;
 		}
 
-		return '';
+		$date_archive_permalink = $this->get_non_cached_date_archive_permalink();
+
+		return $date_archive_permalink;
 	}
 
 	/**
@@ -192,7 +199,7 @@ class Current_Page_Helper {
 		 * Whether the static page's `Homepage` option is actually not set to a page.
 		 * Otherwise WordPress proceeds to handle the homepage as a `Your latest posts` page.
 		 */
-		if ( \get_option( 'page_on_front' ) === '0' ) {
+		if ( (int) \get_option( 'page_on_front' ) === 0 ) {
 			return true;
 		}
 
@@ -207,7 +214,15 @@ class Current_Page_Helper {
 	public function is_home_static_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
+		if ( ! $wp_query->is_front_page() ) {
+			return false;
+		}
+
+		if ( \get_option( 'show_on_front' ) !== 'page' ) {
+			return false;
+		}
+
+		return $wp_query->is_page( \get_option( 'page_on_front' ) );
 	}
 
 	/**
@@ -231,11 +246,17 @@ class Current_Page_Helper {
 	public function is_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_home && \get_option( 'show_on_front' ) === 'page' );
+		if ( ! $wp_query->is_home() ) {
+			return false;
+		}
+
+		return \get_option( 'show_on_front' ) === 'page';
 	}
 
 	/**
 	 * Determine whether this is a post type archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a post type archive.
 	 */
@@ -248,6 +269,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a term archive.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is a term archive.
 	 */
 	public function is_term_archive() {
@@ -258,6 +281,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Determine whether this is an attachment page.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an attachment page.
 	 */
@@ -270,6 +295,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an author archive.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is an author archive.
 	 */
 	public function is_author_archive() {
@@ -280,6 +307,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Determine whether this is an date archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an date archive.
 	 */
@@ -292,6 +321,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a search result.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is a search result.
 	 */
 	public function is_search_result() {
@@ -303,6 +334,8 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a 404 page.
 	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
+	 *
 	 * @return bool Whether nor not the current page is a 404 page.
 	 */
 	public function is_404() {
@@ -313,6 +346,8 @@ class Current_Page_Helper {
 
 	/**
 	 * Checks if the current page is the post format archive.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether or not the current page is the post format archive.
 	 */
@@ -328,24 +363,28 @@ class Current_Page_Helper {
 	 * @return bool Whether or not the current page is an archive page for multiple terms.
 	 */
 	public function is_multiple_terms_page() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
 		if ( ! $this->is_term_archive() ) {
 			return false;
 		}
 
-		$term          = $wp_query->get_queried_object();
-		$queried_terms = $wp_query->tax_query->queried_terms;
+		return $this->count_queried_terms() > 1;
+	}
 
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
-			return false;
-		}
-
-		return \count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	/**
+	 * Checks whether the current page is paged.
+	 *
+	 * @codeCoverageIgnore This method only calls a WordPress function.
+	 *
+	 * @return bool Whether the current page is paged.
+	 */
+	public function is_paged() {
+		return \is_paged();
 	}
 
 	/**
 	 * Checks if the current page is the front page.
+	 *
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether or not the current page is the front page.
 	 */
@@ -358,11 +397,53 @@ class Current_Page_Helper {
 	/**
 	 * Retrieves the current admin page.
 	 *
+	 * @codeCoverageIgnore It only wraps a global WordPress variable.
+	 *
 	 * @return string The current page.
 	 */
 	public function get_current_admin_page() {
 		global $pagenow;
 
 		return $pagenow;
+	}
+
+	/**
+	 * Returns the permalink of the currently opened date archive.
+	 *
+	 * @return string The permalink of the currently opened date archive.
+	 */
+	protected function get_non_cached_date_archive_permalink() {
+		$date_archive_permalink = '';
+		$wp_query               = $this->wp_query_wrapper->get_main_query();
+
+		if ( $wp_query->is_day() ) {
+			$date_archive_permalink = \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
+		}
+		if ( $wp_query->is_month() ) {
+			$date_archive_permalink = \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
+		}
+		if ( $wp_query->is_year() ) {
+			$date_archive_permalink = \get_year_link( $wp_query->get( 'year' ) );
+		}
+
+		return $date_archive_permalink;
+	}
+
+	/**
+	 * Counts the total amount of queried terms.
+	 *
+	 * @codeCoverageIgnore This relies too much on WordPress dependencies.
+	 *
+	 * @return int The amoumt of queried terms.
+	 */
+	protected function count_queried_terms() {
+		$wp_query      = $this->wp_query_wrapper->get_main_query();
+		$term          = $wp_query->get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return 0;
+		}
+
+		return \count( $queried_terms[ $term->taxonomy ]['terms'] );
 	}
 }

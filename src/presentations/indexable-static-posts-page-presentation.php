@@ -14,12 +14,14 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
  */
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
 
+	use Archive_Adjacent;
+
 	/**
+	 * The pagination helper.
+	 *
 	 * @var Pagination_Helper
 	 */
 	protected $pagination;
-
-	use Archive_Adjacent;
 
 	/**
 	 * @inheritDoc
@@ -43,7 +45,7 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
-		return $this->url->home();
+	public function generate_open_graph_url() {
+		return $this->model->permalink;
 	}
 }

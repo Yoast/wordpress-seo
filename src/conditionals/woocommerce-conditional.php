@@ -16,6 +16,6 @@ class WooCommerce_Conditional implements Conditional {
 	 * @inheritDoc
 	 */
 	public function is_met() {
-		return class_exists( 'WooCommerce' );
+		return \class_exists( 'WooCommerce' );
 	}
 }

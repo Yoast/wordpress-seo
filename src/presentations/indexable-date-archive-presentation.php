@@ -48,13 +48,13 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
-		if ( $this->options_helper->get( 'noindex-archive-wpseo', false ) ) {
+		if ( $this->options->get( 'noindex-archive-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
@@ -65,14 +65,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-archive-wpseo' );
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function generate_twitter_title() {
-		return $this->title;
+		return $this->options->get_title_default( 'title-archive-wpseo' );
 	}
 
 	/**
@@ -117,7 +110,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		return $this->current_page->get_date_archive_permalink();
 	}
 }

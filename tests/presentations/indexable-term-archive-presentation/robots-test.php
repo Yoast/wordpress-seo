@@ -32,18 +32,18 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( true );
@@ -54,7 +54,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -64,18 +64,18 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_not_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( false );
@@ -86,7 +86,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -97,18 +97,18 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_not_indexable_term_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( false );
@@ -121,7 +121,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -132,18 +132,18 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots_taxonomy_indexable_term_not_indexable() {
 		$this->instance
-			->expects( 'generate_replace_vars_object' )
+			->expects( 'generate_source' )
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
 			] );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( false );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->with( 'category' )
 			->andReturn( true );
@@ -156,7 +156,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -165,12 +165,12 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_multi_terms_page() {
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'is_multiple_terms_page' )
 			->once()
 			->andReturn( true );
 
-		$this->taxonomy_helper
+		$this->taxonomy
 			->expects( 'is_indexable' )
 			->never();
 
@@ -180,7 +180,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**

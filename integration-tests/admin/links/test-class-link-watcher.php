@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Link_Watcher
  */
 class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
@@ -39,7 +41,26 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test whether the given argument isn't a WP_Post.
+	 *
+	 * @see https://github.com/Yoast/wordpress-seo/issues/14616
+	 *
+	 * @covers ::save_post
+	 */
+	public function test_is_wrong_post_type() {
+		$processor = $this->get_processor();
+		$processor
+			->expects( $this->never() )
+			->method( 'process' );
+
+		$watcher = new WPSEO_Link_Watcher( $processor );
+		$watcher->save_post( 1, null );
+	}
+
+	/**
 	 * Test whether a post revision is correctly recognized as processable.
+	 *
+	 * @covers ::save_post
 	 */
 	public function test_is_processable_post_revision() {
 
@@ -63,7 +84,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Don't process trash posts.
 	 *
-	 * @covers WPSEO_Link_Watcher::save_post
+	 * @covers ::save_post
 	 */
 	public function test_skip_trash_posts() {
 
@@ -91,6 +112,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	 *
 	 * This should be processed, but will not be displayed.
 	 * See https://github.com/Yoast/wordpress-seo/pull/8068#issuecomment-338146035
+	 *
+	 * @covers ::save_post
 	 */
 	public function test_is_processable_draft() {
 
@@ -109,6 +132,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with a none public posttype.
+	 *
+	 * @covers ::save_post
 	 */
 	public function test_is_processable_none_public_posttype() {
 		register_post_type( 'hidden', [ 'public' => false ] );
@@ -128,6 +153,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with a post not containing content.
+	 *
+	 * @covers ::save_post
 	 */
 	public function test_is_processable_without_content() {
 
@@ -149,6 +176,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test with a post with content.
+	 *
+	 * @covers ::save_post
 	 */
 	public function test_is_processable_with_content() {
 
@@ -170,6 +199,8 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test deleting links when a post is deleted.
+	 *
+	 * @covers ::delete_post
 	 */
 	public function test_delete_post() {
 		$post = $this->factory->post->create_and_get(

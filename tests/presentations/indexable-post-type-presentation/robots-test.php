@@ -42,18 +42,18 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper->expects( 'is_indexable' )
-							   ->once()
-							   ->with( 'post' )
-							   ->andReturn( true );
+		$this->post_type->expects( 'is_indexable' )
+			->once()
+			->with( 'post' )
+			->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'nosnippet'    => 'nosnippet',
-			'noarchive'    => 'noarchive',
-			'noimageindex' => 'noimageindex',
+			'index'      => 'index',
+			'follow'     => 'follow',
+			'snippet'    => 'nosnippet',
+			'archive'    => 'noarchive',
+			'imageindex' => 'noimageindex',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -73,7 +73,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'private' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )
@@ -83,9 +83,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -105,7 +102,7 @@ class Robots_Test extends TestCase {
 			->with( 1337 )
 			->andReturn( 'published' );
 
-		$this->post_type_helper
+		$this->post_type
 			->expects( 'is_indexable' )
 			->once()
 			->with( 'post' )
@@ -115,9 +112,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );

@@ -2,55 +2,25 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Schema;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns ImageObject schema data.
- *
- * @since 11.5
  */
 class Main_Image extends Abstract_Schema_Piece {
 
 	/**
-	 * @var Image_Helper
-	 */
-	private $image_helper;
-
-	/**
-	 * @var Schema\Image_Helper
-	 */
-	private $schema_image_helper;
-
-	/**
-	 * Main_Image constructor.
-	 *
-	 * @param Image_Helper        $image_helper        The image helper.
-	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
-	 */
-	public function __construct(
-		Image_Helper $image_helper,
-		Schema\Image_Helper $schema_image_helper
-	) {
-		$this->image_helper        = $image_helper;
-		$this->schema_image_helper = $schema_image_helper;
-	}
-
-	/**
 	 * Determines whether or not a piece should be added to the graph.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
-	public function is_needed( Meta_Tags_Context $context ) {
-		return $context->indexable->object_type === 'post';
+	public function is_needed() {
+		return $this->context->indexable->object_type === 'post';
 	}
 
 	/**
@@ -58,24 +28,22 @@ class Main_Image extends Abstract_Schema_Piece {
 	 *
 	 * This can be either the featured image, or fall back to the first image in the content of the page.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return false|array $data Image Schema.
 	 */
-	public function generate( Meta_Tags_Context $context ) {
-		$image_id = $context->canonical . $this->id_helper->primary_image_hash;
+	public function generate() {
+		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
 
-		$image_schema = $this->get_featured_image( $context->id, $image_id );
+		$image_schema = $this->get_featured_image( $this->context->id, $image_id );
 
 		if ( $image_schema === null ) {
-			$image_schema = $this->get_first_content_image( $context->id, $image_id );
+			$image_schema = $this->get_first_content_image( $this->context->id, $image_id );
 		}
 
 		if ( $image_schema === null ) {
 			return false;
 		}
 
-		$context->has_image = true;
+		$this->context->has_image = true;
 
 		return $image_schema;
 	}
@@ -93,7 +61,7 @@ class Main_Image extends Abstract_Schema_Piece {
 			return null;
 		}
 
-		return $this->schema_image_helper->generate_from_attachment_id( $image_id, \get_post_thumbnail_id( $post_id ) );
+		return $this->helpers->schema->image->generate_from_attachment_id( $image_id, \get_post_thumbnail_id( $post_id ) );
 	}
 
 	/**
@@ -105,12 +73,12 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = $this->image_helper->get_post_content_image( $post_id );
+		$image_url = $this->helpers->image->get_post_content_image( $post_id );
 
-		if ( $image_url === null ) {
+		if ( $image_url === '' ) {
 			return null;
 		}
 
-		return $this->schema_image_helper->generate_from_url( $image_id, $image_url );
+		return $this->helpers->schema->image->generate_from_url( $image_id, $image_url );
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for OpenGraph images.
+ * A helper object for Open Graph images.
  *
  * @package \Yoast\WP\SEO\Helpers\Open_Graph
  */
@@ -16,38 +16,30 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Image_Helper {
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
-	private $url_helper;
+	private $url;
 
 	/**
+	 * The base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
-	private $image_helper;
-
-	/**
-	 * The parameters we have for Facebook images.
-	 *
-	 * @var array
-	 */
-	private $image_params = [
-		'min_width'  => 200,
-		'max_width'  => 2000,
-		'min_height' => 200,
-		'max_height' => 2000,
-	];
+	private $image;
 
 	/**
 	 * Image_Helper constructor.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Url_Helper        $url_helper   The url helper.
-	 * @param Base_Image_Helper $image_helper The image helper.
+	 * @param Url_Helper        $url   The url helper.
+	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Url_Helper $url_helper, Base_Image_Helper $image_helper ) {
-		$this->url_helper   = $url_helper;
-		$this->image_helper = $image_helper;
+	public function __construct( Url_Helper $url, Base_Image_Helper $image ) {
+		$this->url   = $url;
+		$this->image = $image;
 	}
 
 	/**
@@ -62,8 +54,8 @@ class Image_Helper {
 			return false;
 		}
 
-		$image_extension = $this->url_helper->get_extension_from_url( $image['url'] );
-		$is_valid        = $this->image_helper->is_extension_valid( $image_extension );
+		$image_extension = $this->url->get_extension_from_url( $image['url'] );
+		$is_valid        = $this->image->is_extension_valid( $image_extension );
 
 		/**
 		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
@@ -83,7 +75,7 @@ class Image_Helper {
 	public function get_override_image_size() {
 		/**
 		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
-		 * for OpenGraph sharing. If this filter is used, the defined size will always be
+		 * for Open Graph sharing. If this filter is used, the defined size will always be
 		 * used for the og:image. The image will still be rejected if it is too small.
 		 *
 		 * Only use this filter if you manually want to determine the best image size
@@ -99,22 +91,22 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the image url by a given attachment id.
+	 * Retrieves the image data by a given attachment id.
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
-	 * @return string|false The url when found, false when not.
+	 * @return array|false The image data when found, `false` when not.
 	 */
-	public function get_image_url_by_id( $attachment_id ) {
-		if ( ! $this->image_helper->is_valid_attachment( $attachment_id ) ) {
+	public function get_image_by_id( $attachment_id ) {
+		if ( ! $this->image->is_valid_attachment( $attachment_id ) ) {
 			return false;
 		}
 
 		$override_image_size = $this->get_override_image_size();
 		if ( $override_image_size ) {
-			return $this->image_helper->get_image( $attachment_id, $override_image_size );
+			return $this->image->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_best_attachment_variation( $attachment_id, $this->image_params );
+		return $this->image->get_best_attachment_variation( $attachment_id );
 	}
 }

@@ -16,18 +16,14 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Theme_Titles implements Integration_Interface {
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array The conditionals.
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_filter( 'thematic_doctitle', [ $this, 'title' ], 15 );
@@ -35,9 +31,9 @@ class Theme_Titles implements Integration_Interface {
 	}
 
 	/**
-	 * Filters the title for thematic_doctitle.
+	 * Filters the title for woo_title and the thematic_doctitle.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -48,7 +44,7 @@ class Theme_Titles implements Integration_Interface {
 	public function title( $title ) {
 		_deprecated_function(
 			__METHOD__,
-			'WPSEO xx.x',
+			'WPSEO 14.0',
 			esc_html__(
 				'a theme that has proper title-tag theme support, or adapt your theme to have that support',
 				'wordpress-seo'

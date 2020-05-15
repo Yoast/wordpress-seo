@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Twitter\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Brain\Monkey;
 use Mockery;
@@ -17,17 +17,24 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group twitter-title
  */
 class Title_Presenter_Test extends TestCase {
+
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $indexable_presentation;
 
 	/**
+	 * The title presenter instance.
+	 *
 	 * @var Title_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
@@ -36,11 +43,13 @@ class Title_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance = new Title_Presenter();
-		$this->indexable_presentation = new Indexable_Presentation();
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->instance               = new Title_Presenter();
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->indexable_presentation = $this->instance->presentation;
+		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
+
+		$this->instance->replace_vars         = $this->replace_vars;
+		$this->indexable_presentation->source = [];
 
 		return parent::setUp();
 	}
@@ -60,7 +69,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -78,7 +87,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual = $this->instance->present();
 		$this->assertEmpty( $actual );
 	}
 
@@ -103,7 +112,7 @@ class Title_Presenter_Test extends TestCase {
 			->andReturn( 'twitterexampletitle' );
 
 		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

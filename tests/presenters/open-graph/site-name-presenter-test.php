@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -13,16 +13,20 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Site_Name_Presenter_Test extends TestCase {
 
 	/**
+	 * The site name presenter instance.
+	 *
 	 * @var Site_Name_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
@@ -34,6 +38,8 @@ class Site_Name_Presenter_Test extends TestCase {
 		$this->instance     = new Site_Name_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
+		$this->instance->presentation = $this->presentation;
+
 		return parent::setUp();
 	}
 
@@ -43,10 +49,10 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_site_name = 'My Site';
+		$this->presentation->open_graph_site_name = 'My Site';
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -57,10 +63,10 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_site_name() {
-		$this->presentation->og_site_name = '';
+		$this->presentation->open_graph_site_name = '';
 
 		$expected = '';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -72,7 +78,7 @@ class Site_Name_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_site_name = 'My Site';
+		$this->presentation->open_graph_site_name = 'My Site';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_site_name' )
 			->once()
@@ -80,7 +86,7 @@ class Site_Name_Presenter_Test extends TestCase {
 			->andReturn( 'My Site' );
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

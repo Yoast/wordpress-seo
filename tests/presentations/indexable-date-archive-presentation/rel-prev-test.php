@@ -75,7 +75,7 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturn( 2 );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://example.com/2019/11/' );
@@ -107,7 +107,7 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/2019/11/page/2/' );
 
-		$this->current_page_helper
+		$this->current_page
 			->expects( 'get_date_archive_permalink' )
 			->once()
 			->andReturn( 'https://example.com/2019/11/' );

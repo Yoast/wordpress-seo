@@ -19,6 +19,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Description_Presenter_Test extends TestCase {
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
@@ -34,21 +36,22 @@ class Description_Presenter_Test extends TestCase {
 	public function setUp() {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance = new Description_Presenter();
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance               = new Description_Presenter();
+		$this->instance->replace_vars = $this->replace_vars;
 
 		return parent::setUp();
 	}
 
 	/**
-	 * Tests the presentation for a set twitter description.
+	 * Tests the presenter for a set twitter description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
+		$presentation->source              = [];
 		$presentation->twitter_description = 'This is the twitter description';
 
 		$this->replace_vars
@@ -57,26 +60,26 @@ class Description_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<meta name="twitter:description" content="This is the twitter description" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
 	/**
-	 * Tests the presentation of an empty description.
+	 * Tests the presenter of an empty description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_description() {
-		$presentation = new Indexable_Presentation();
-		$presentation->replace_vars_object = [];
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
+		$presentation->source              = [];
 		$presentation->twitter_description = '';
 
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturn( '' );
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
-
 }

@@ -15,11 +15,15 @@ use Exception;
 class Abstract_Presentation {
 
 	/**
+	 * The model.
+	 *
 	 * @var mixed
 	 */
 	public $model;
 
 	/**
+	 * Whether or not there is a presentation prototype.
+	 *
 	 * @var bool
 	 */
 	private $is_prototype = true;
@@ -34,7 +38,7 @@ class Abstract_Presentation {
 	 * @throws Exception If attempting to create a model presentation from another model presentation.
 	 */
 	public function of( $data ) {
-		if ( ! $this->is_prototype ) {
+		if ( ! $this->is_prototype() ) {
 			throw new Exception( 'Attempting to create a model presentation from another model presentation. Use the prototype presentation gained from DI instead.' );
 		}
 
@@ -57,7 +61,7 @@ class Abstract_Presentation {
 	 * @throws Exception If there is no generator for the property.
 	 */
 	public function __get( $name ) {
-		if ( $this->is_prototype ) {
+		if ( $this->is_prototype() ) {
 			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( $data ) to get a model presentation.' );
 		}
 		$generator = "generate_$name";
@@ -74,8 +78,21 @@ class Abstract_Presentation {
 	 * @param string $name The property to get.
 	 *
 	 * @return bool Whether or not there is a generator for the requested property.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function __isset( $name ) {
 		return method_exists( $this, "generate_$name" );
+	}
+
+	/**
+	 * Returns `true` if this class is a prototype.
+	 *
+	 * @return bool If this class is a prototype or not.
+	 *
+	 * @codeCoverageIgnore Wrapper method.
+	 */
+	protected function is_prototype() {
+		return $this->is_prototype;
 	}
 }

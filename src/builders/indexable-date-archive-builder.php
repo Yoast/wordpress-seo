@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the date archive meta to indexable format.
@@ -15,34 +16,37 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Indexable_Date_Archive_Builder {
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
 
 	/**
 	 * Indexable_Date_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper
+		Options_Helper $options
 	) {
-		$this->options_helper = $options_helper;
+		$this->options = $options;
 	}
 
 	/**
 	 * Formats the data.
 	 *
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
+	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 */
 	public function build( $indexable ) {
 		$indexable->object_type       = 'date-archive';
-		$indexable->title             = $this->options_helper->get( 'title-archive-wpseo' );
-		$indexable->breadcrumb_title  = $this->options_helper->get( 'breadcrumbs-archiveprefix' );
-		$indexable->description       = $this->options_helper->get( 'metadesc-archive-wpseo' );
-		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-archive-wpseo' );
+		$indexable->title             = $this->options->get( 'title-archive-wpseo' );
+		$indexable->description       = $this->options->get( 'metadesc-archive-wpseo' );
+		$indexable->is_robots_noindex = $this->options->get( 'noindex-archive-wpseo' );
+		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
+		$indexable->blog_id           = \get_current_blog_id();
 
 		return $indexable;
 	}

@@ -41,7 +41,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		return $this->options_helper->get( 'metadesc-home-wpseo' );
+		return $this->options->get( 'metadesc-home-wpseo' );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-home-wpseo' );
+		return $this->options->get_title_default( 'title-home-wpseo' );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		return $this->url->home();
 	}
 }

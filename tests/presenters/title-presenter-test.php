@@ -18,23 +18,32 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group title-presenter
  */
 class Title_Presenter_Test extends TestCase {
+
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $indexable_presentation;
 
 	/**
+	 * The title presenter instance.
+	 *
 	 * @var Title_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 
 	/**
-	 * @var Mockery\MockInterface
+	 * The string helper.
+	 *
+	 * @var String_Helper|Mockery\MockInterface
 	 */
 	protected $string;
 
@@ -47,11 +56,16 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Title_Presenter( $this->string );
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
+		$this->instance               = new Title_Presenter( $this->string );
+		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers      = (object) [
+			'string' => $this->string,
+		];
 
-		$this->indexable_presentation                      = new Indexable_Presentation();
-		$this->indexable_presentation->replace_vars_object = [];
+		$this->indexable_presentation         = new Indexable_Presentation();
+		$this->indexable_presentation->source = [];
+
+		$this->instance->presentation = $this->indexable_presentation;
 
 		$this->string
 			->expects( 'strip_all_tags' )
@@ -60,6 +74,10 @@ class Title_Presenter_Test extends TestCase {
 			->andReturnUsing( function ( $string ) {
 				return $string;
 			} );
+
+		Monkey\Functions\expect( 'wp_get_document_title' )->andReturnUsing( function() {
+			return $this->instance->get_title();
+		} );
 	}
 
 	/**
@@ -77,7 +95,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<title>example_title</title>';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -96,7 +114,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}
@@ -119,10 +137,10 @@ class Title_Presenter_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_title' )
 			->once()
 			->with( 'example_title', Mockery::type( Indexable_Presentation::class ) )
-			->andReturn( 'exampletitle' );
+			->andReturn( 'example_title' );
 
-		$expected = '<title>exampletitle</title>';
-		$actual   = $this->instance->present( $this->indexable_presentation );
+		$expected = '<title>example_title</title>';
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

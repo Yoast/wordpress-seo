@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
@@ -14,21 +14,27 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter
  *
  * @group presenters
- * @group opengraph
+ * @group open-graph
  */
 class Description_Presenter_Test extends TestCase {
 
 	/**
+	 * The description presenter instance.
+	 *
 	 * @var \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
@@ -43,8 +49,10 @@ class Description_Presenter_Test extends TestCase {
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance->set_replace_vars_helper( $this->replace_vars );
-		$this->presentation->replace_vars_object = [];
+		$this->instance->presentation = $this->presentation;
+		$this->instance->replace_vars = $this->replace_vars;
+
+		$this->presentation->source = [];
 
 		$this->replace_vars
 			->expects( 'replace' )
@@ -60,10 +68,10 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_description = 'My description';
+		$this->presentation->open_graph_description = 'My description';
 
 		$expected = '<meta property="og:description" content="My description" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -74,10 +82,10 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty_description() {
-		$this->presentation->og_description = '';
+		$this->presentation->open_graph_description = '';
 
 		$expected = '';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -89,7 +97,7 @@ class Description_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_description = 'My description';
+		$this->presentation->open_graph_description = 'My description';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_desc' )
 			->once()
@@ -97,7 +105,7 @@ class Description_Presenter_Test extends TestCase {
 			->andReturn( 'My filtered description' );
 
 		$expected = '<meta property="og:description" content="My filtered description" />';
-		$actual   = $this->instance->present( $this->presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

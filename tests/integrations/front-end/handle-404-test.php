@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Handle_404;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -22,6 +23,7 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * @group front-end
  */
 class Handle_404_Test extends TestCase {
+
 	/**
 	 * The wp query Wrapper helper.
 	 *
@@ -49,6 +51,29 @@ class Handle_404_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Handle_404::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertTrue( Monkey\Filters\has( 'pre_handle_404', [ $this->instance, 'handle_404' ] ) );
+	}
+
+	/**
 	 * Tests the handling of a 404 page for a non feed page.
 	 *
 	 * @covers ::handle_404
@@ -71,7 +96,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = new \stdClass();
+		$wp_query        = new \stdClass();
 		$wp_query->posts = true;
 
 		$this->query_wrapper
@@ -93,7 +118,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnTrue();
 
@@ -116,7 +141,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnFalse();
@@ -141,7 +166,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnTrue();
@@ -176,7 +201,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query = Mockery::mock();
+		$wp_query        = Mockery::mock();
 		$wp_query->posts = false;
 		$wp_query->expects( 'get_queried_object' )->once()->andReturnFalse();
 		$wp_query->expects( 'is_archive' )->once()->andReturnFalse();
@@ -233,5 +258,4 @@ class Handle_404_Test extends TestCase {
 
 		$this->assertTrue( $this->instance->handle_404( false ) );
 	}
-
 }

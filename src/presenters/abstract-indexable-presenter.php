@@ -9,46 +9,49 @@ namespace Yoast\WP\SEO\Presenters;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
  * Class Abstract_Indexable_Presenter
  */
-abstract class Abstract_Indexable_Presenter {
+abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 
 	/**
+	 * The WPSEO Replace Vars object.
+	 *
 	 * @var WPSEO_Replace_Vars
 	 */
-	protected $replace_vars_helper;
+	public $replace_vars;
 
 	/**
-	 * @required
+	 * The indexable presentation.
 	 *
-	 * Sets the replace vars helper, used by DI.
-	 *
-	 * @param \WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
+	 * @var Indexable_Presentation
 	 */
-	public function set_replace_vars_helper( WPSEO_Replace_Vars $replace_vars_helper ) {
-		$this->replace_vars_helper = $replace_vars_helper;
-	}
+	public $presentation;
 
 	/**
-	 * Presents a presentation.
+	 * The helpers surface
 	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
-	 *
-	 * @return string The template.
+	 * @var Helpers_Surface
 	 */
-	public abstract function present( Indexable_Presentation $presentation );
+	public $helpers;
 
 	/**
-	 * Replace replacement variables in the meta description.
+	 * Gets the raw value of a presentation.
 	 *
-	 * @param string                 $meta_description The meta description.
-	 * @param Indexable_Presentation $presentation     The presentation to present.
-	 *
-	 * @return string The meta description with replacement variables replaced.
+	 * @return string|array The raw value.
 	 */
-	protected function replace_vars( $meta_description, Indexable_Presentation $presentation ) {
-		return $this->replace_vars_helper->replace( $meta_description, $presentation->replace_vars_object );
+	abstract public function get();
+
+	/**
+	 * Replace replacement variables in a string.
+	 *
+	 * @param string $string The string.
+	 *
+	 * @return string The string with replacement variables replaced.
+	 */
+	protected function replace_vars( $string ) {
+		return $this->replace_vars->replace( $string, $this->presentation->source );
 	}
 }

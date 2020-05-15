@@ -24,7 +24,7 @@ class Twitter_Description_Test extends TestCase {
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
-	protected $option_helper;
+	protected $option;
 
 	/**
 	 * Does the setup for testing.
@@ -47,23 +47,36 @@ class Twitter_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter description is set, the OG description is set, and OG is enabled.
+	 * Tests the situation where no Twitter description is set, the Open Graph description is set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_generate_twitter_description_with_set_og_description_and_og_enabled() {
-		$this->context->open_graph_enabled = true;
-		$this->indexable->og_description   = 'OG description';
+	public function test_generate_twitter_description_with_set_open_graph_description_and_open_graph_enabled() {
+		$this->context->open_graph_enabled       = true;
+		$this->indexable->open_graph_description = 'Open Graph description';
 
-		$this->assertEquals( 'OG description', $this->instance->generate_twitter_description() );
+		$this->assertEquals( '', $this->instance->generate_twitter_description() );
 	}
 
 	/**
-	 * Tests the situation where no Twitter description is set, the OG description is set, and OG is disabled.
+	 * Tests the situation where no Twitter description is set, the Open Graph description isn't set, and Open Graph is enabled.
 	 *
 	 * @covers ::generate_twitter_description
 	 */
-	public function test_generate_twitter_description_with_set_og_description_and_og_disabled() {
+	public function test_generate_twitter_description_with_no_set_open_graph_description_and_open_graph_enabled() {
+		$this->context->open_graph_enabled      = true;
+		$this->instance->open_graph_description = '';
+		$this->indexable->description           = 'SEO description';
+
+		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter description is set, the Open Graph description is set, and Open Graph is disabled.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_set_open_graph_description_and_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
 		$this->indexable->description      = 'SEO description';
 
@@ -76,7 +89,8 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_meta_description() {
-		$this->indexable->description = 'Meta description';
+		$this->indexable->description           = 'Meta description';
+		$this->instance->open_graph_description = '';
 
 		$this->assertEquals( 'Meta description', $this->instance->generate_twitter_description() );
 	}

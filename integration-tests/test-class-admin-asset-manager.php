@@ -139,7 +139,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/js/dist/src' . WPSEO_CSSJS_SUFFIX . '.js', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/js/dist/src.js', $result->src );
 		$this->assertEquals( [ 'deps' ], $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( [ 'group' => 1 ], $result->extra );
@@ -165,28 +165,6 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		global $wp_scripts;
 
 		$this->assertTrue( isset( $wp_scripts->registered[ $prefix . 'handle' ] ) );
-	}
-
-	/**
-	 * Tests whether the registers_script function applies the suffix correctly.
-	 *
-	 * @covers WPSEO_Admin_Asset_Manager::register_script
-	 */
-	public function test_register_script_suffix() {
-		$asset_args = [
-			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
-			'src'    => 'src',
-			'suffix' => '.suffix',
-		];
-		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
-
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
-		// Use the WordPress internals to assert instead.
-		global $wp_scripts;
-
-		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
-
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js', $result->src );
 	}
 
 	/**
@@ -242,28 +220,6 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests whether the register_style applies the suffix correctly.
-	 *
-	 * @covers WPSEO_Admin_Asset_Manager::register_script
-	 */
-	public function test_register_style_suffix() {
-		$asset_args = [
-			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
-			'src'    => 'src',
-			'suffix' => '.suffix',
-		];
-		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
-
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
-		// Use the WordPress internals to assert instead.
-		global $wp_styles;
-
-		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
-
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/dist/src.suffix.css', $result->src );
-	}
-
-	/**
 	 * Tests whether register_scripts registers multiple scripts correctly.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_scripts
@@ -286,11 +242,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			],
 		];
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_script' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_script' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -332,11 +286,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			],
 		];
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_style' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_style' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->at( 0 ) )
@@ -362,11 +314,9 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_assets() {
 
-		$class_instance =
-			$this
-				->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
-				->setMethods( [ 'register_scripts', 'register_styles' ] )
-				->getMock();
+		$class_instance = $this->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods( [ 'register_scripts', 'register_styles' ] )
+			->getMock();
 
 		$class_instance
 			->expects( $this->once() )

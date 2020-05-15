@@ -55,7 +55,7 @@ class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( true, WPSEO_Options::get( 'enable_admin_bar_menu' ) );
 
-		$settings = <<<EO_DATA
+		$settings = <<<'EO_DATA'
 ; These are settings for the Yoast SEO plugin by Yoast.com
 
 [wpseo]
@@ -79,7 +79,7 @@ EO_DATA;
 			$this->markTestSkipped( 'Not possible in PHP 5.2' );
 		}
 
-		$settings = <<<EO_DATA
+		$settings = <<<'EO_DATA'
 Not a valid INI file format...
 EO_DATA;
 

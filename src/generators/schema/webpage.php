@@ -2,112 +2,73 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 use WP_Post;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
  * Returns schema WebPage data.
- *
- * @since 10.2
  */
 class WebPage extends Abstract_Schema_Piece {
 
 	/**
-	 * @var Current_Page_Helper
-	 */
-	private $current_page;
-
-	/**
-	 * @var HTML_Helper
-	 */
-	private $html_helper;
-
-	/**
-	 * @var Date_Helper
-	 */
-	private $date_helper;
-
-	/**
-	 * WebPage constructor.
-	 *
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param HTML_Helper         $html_helper         The HTML helper.
-	 * @param Date_Helper         $date_helper         The date helper.
-	 */
-	public function __construct(
-		Current_Page_Helper $current_page_helper,
-		HTML_Helper $html_helper,
-		Date_Helper $date_helper
-	) {
-		$this->current_page = $current_page_helper;
-		$this->html_helper  = $html_helper;
-		$this->date_helper  = $date_helper;
-	}
-
-	/**
 	 * Determines whether or not a piece should be added to the graph.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
-	public function is_needed( Meta_Tags_Context $context ) {
-		return $context->indexable->object_type !== 'error-page';
+	public function is_needed() {
+		return ! ( $this->context->indexable->object_type === 'system-page' && $this->context->indexable->object_sub_type === '404' );
 	}
 
 	/**
 	 * Returns WebPage schema data.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return array WebPage schema data.
 	 */
-	public function generate( Meta_Tags_Context $context ) {
+	public function generate() {
 		$data = [
-			'@type'      => $context->schema_page_type,
-			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
-			'url'        => $context->canonical,
-			'inLanguage' => \get_bloginfo( 'language' ),
-			'name'       => $context->title,
+			'@type'      => $this->context->schema_page_type,
+			'@id'        => $this->context->canonical . Schema_IDs::WEBPAGE_HASH,
+			'url'        => $this->context->canonical,
+			'name'       => $this->helpers->schema->html->smart_strip_tags( $this->context->title ),
 			'isPartOf'   => [
-				'@id' => $context->site_url . $this->id_helper->website_hash,
+				'@id' => $this->context->site_url . Schema_IDs::WEBSITE_HASH,
 			],
 		];
 
-		if ( \is_front_page() ) {
-			if ( $context->site_represents_reference ) {
-				$data['about'] = $context->site_represents_reference;
+		if ( $this->helpers->current_page->is_front_page() ) {
+			if ( $this->context->site_represents_reference ) {
+				$data['about'] = $this->context->site_represents_reference;
 			}
 		}
 
-		if ( $context->indexable->object_type === 'post' ) {
-			$this->add_image( $data, $context );
+		if ( $this->context->indexable->object_type === 'post' ) {
+			$this->add_image( $data );
 
-			$data['datePublished'] = $this->date_helper->format( $context->post->post_date_gmt );
-			$data['dateModified']  = $this->date_helper->format( $context->post->post_modified_gmt );
+			$data['datePublished'] = $this->helpers->date->format( $this->context->post->post_date_gmt );
+			$data['dateModified']  = $this->helpers->date->format( $this->context->post->post_modified_gmt );
 
-			if ( $context->indexable->object_sub_type === 'post' ) {
-				$data = $this->add_author( $data, $context->post, $context );
+			if ( $this->context->indexable->object_sub_type === 'post' ) {
+				$data = $this->add_author( $data, $this->context->post );
 			}
 		}
 
-		if ( ! empty( $context->description ) ) {
-			$data['description'] = $this->html_helper->sanitize( $context->description );
+		if ( ! empty( $this->context->description ) ) {
+			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $this->context->description );
 		}
 
-		if ( $this->add_breadcrumbs( $context ) ) {
+		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = [
-				'@id' => $context->canonical . $this->id_helper->breadcrumb_hash,
+				'@id' => $this->context->canonical . Schema_IDs::BREADCRUMB_HASH,
 			];
 		}
+
+		$data = $this->helpers->schema->language->add_piece_language( $data );
+		$data = $this->add_potential_action( $data );
 
 		return $data;
 	}
@@ -115,15 +76,14 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
-	 * @param array             $data    The WebPage schema.
-	 * @param WP_Post           $post    The post the context is representing.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array   $data The WebPage schema.
+	 * @param WP_Post $post The post the context is representing.
 	 *
 	 * @return array The WebPage schema.
 	 */
-	public function add_author( $data, $post, Meta_Tags_Context $context ) {
-		if ( $context->site_represents === false ) {
-			$data['author'] = [ '@id' => $this->id_helper->get_user_schema_id( $post->post_author, $context ) ];
+	public function add_author( $data, $post ) {
+		if ( $this->context->site_represents === false ) {
+			$data['author'] = [ '@id' => $this->helpers->schema->id->get_user_schema_id( $post->post_author, $this->context ) ];
 		}
 
 		return $data;
@@ -132,31 +92,55 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * If we have an image, make it the primary image of the page.
 	 *
-	 * @param array             $data    WebPage schema data.
-	 * @param Meta_Tags_Context $context The meta tags context.
+	 * @param array $data WebPage schema data.
 	 */
-	public function add_image( &$data, Meta_Tags_Context $context ) {
-		if ( $context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $context->canonical . $this->id_helper->primary_image_hash ];
+	public function add_image( &$data ) {
+		if ( $this->context->has_image ) {
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 		}
 	}
 
 	/**
 	 * Determine if we should add a breadcrumb attribute.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return bool
 	 */
-	private function add_breadcrumbs( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'home-page' || $this->current_page->is_home_static_page() ) {
+	private function add_breadcrumbs() {
+		if ( $this->context->indexable->object_type === 'home-page' || $this->helpers->current_page->is_home_static_page() ) {
 			return false;
 		}
 
-		if ( $context->breadcrumbs_enabled ) {
+		if ( $this->context->breadcrumbs_enabled ) {
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Adds the potential action property to the WebPage Schema piece.
+	 *
+	 * @param array $data The WebPage data.
+	 *
+	 * @return array $data The WebPage data with the potential action added.
+	 */
+	private function add_potential_action( $data ) {
+		if ( $this->context->generate_schema_page_type() !== 'WebPage' ) {
+			return $data;
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
+		 *
+		 * @api array $targets The URLs for the WebPage potentialAction target.
+		 */
+		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $this->context->canonical ] );
+
+		$data['potentialAction'][] = [
+			'@type'  => 'ReadAction',
+			'target' => $targets,
+		];
+
+		return $data;
 	}
 }

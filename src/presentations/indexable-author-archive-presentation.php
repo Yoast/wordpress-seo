@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Author_Archive_Presentation
@@ -17,33 +16,21 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;
 
 	/**
-	 * Holds the WP query wrapper instance.
-	 *
-	 * @var WP_Query_Wrapper
-	 */
-	protected $wp_query_wrapper;
-
-	/**
 	 * Holds the post type helper instance.
 	 *
 	 * @var Post_Type_Helper
 	 */
-	protected $post_type_helper;
+	protected $post_type;
 
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper $post_type The post type helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct(
-		WP_Query_Wrapper $wp_query_wrapper,
-		Post_Type_Helper $post_type_helper
-	) {
-		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->post_type_helper = $post_type_helper;
+	public function __construct( Post_Type_Helper $post_type ) {
+		$this->post_type = $post_type;
 	}
 
 	/**
@@ -75,19 +62,12 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		$option_titles_key = 'title-author-wpseo';
-		$title             = $this->options_helper->get( $option_titles_key );
+		$title             = $this->options->get( $option_titles_key );
 		if ( $title ) {
 			return $title;
 		}
 
-		return $this->options_helper->get_title_default( $option_titles_key );
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function generate_twitter_title() {
-		return $this->title;
+		return $this->options->get_title_default( $option_titles_key );
 	}
 
 	/**
@@ -99,52 +79,62 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		$option_titles_key = 'metadesc-author-wpseo';
-		$description       = $this->options_helper->get( $option_titles_key );
+		$description       = $this->options->get( $option_titles_key );
 		if ( $description ) {
 			return $description;
 		}
 
-		return $this->options_helper->get_title_default( $option_titles_key );
+		return $this->options->get_title_default( $option_titles_key );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		// Global option: "Show author archives in search results".
-		if ( $this->options_helper->get( 'noindex-author-wpseo', false ) ) {
+		if ( $this->options->get( 'noindex-author-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
-
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
-		$current_author = $this->wp_query_wrapper->get_query()->get_queried_object();
+		$current_author = \get_userdata( $this->model->object_id );
 
 		// Safety check. The call to `get_user_data` could return false (called in `get_queried_object`).
 		if ( $current_author === false ) {
 			$robots['index'] = 'noindex';
-
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
-		$public_post_types = $this->post_type_helper->get_public_post_types();
+		$public_post_types = $this->post_type->get_public_post_types();
 
 		// Global option: "Show archives for authors without posts in search results".
-		if ( $this->options_helper->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
+		if ( $this->options->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
 			$robots['index'] = 'noindex';
-
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
 		// User option: "Do not allow search engines to show this author's archives in search results".
 		if ( $this->user->get_meta( $current_author->ID, 'wpseo_noindex_author', true ) === 'on' ) {
 			$robots['index'] = 'noindex';
-
-			return $robots;
+			return $this->filter_robots( $robots );
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_open_graph_type() {
+		return 'profile';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_source() {
+		return [ 'post_author' => $this->model->object_id ];
 	}
 }

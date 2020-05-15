@@ -113,7 +113,7 @@ class Yoast_Feature_Toggles {
 			(object) [
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
-				'setting'         => 'onpage_indexability',
+				'setting'         => 'ryte_indexability',
 				'label'           => sprintf(
 					/* translators: 1: Ryte, 2: Yoast SEO */
 					__( '%1$s will check weekly if your site is still indexable by search engines and %2$s will notify you when this is not the case.', 'wordpress-seo' ),
@@ -142,6 +142,16 @@ class Yoast_Feature_Toggles {
 					__( 'Off', 'wordpress-seo' )
 				),
 				'order'   => 90,
+			],
+			(object) [
+				'name'    => __( 'REST API: Head endpoint', 'wordpress-seo' ),
+				'setting' => 'enable_headless_rest_endpoints',
+				'label'   => sprintf(
+					/* translators: 1: Yoast SEO */
+					__( 'This %1$s REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use %1$s for all their SEO meta output.', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'order'   => 100,
 			],
 		];
 

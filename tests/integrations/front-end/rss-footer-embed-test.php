@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Mockery;
 use Brain\Monkey;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\RSS_Footer_Embed;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -30,6 +31,8 @@ class RSS_Footer_Embed_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options;
@@ -44,6 +47,30 @@ class RSS_Footer_Embed_Test extends TestCase {
 			->shouldAllowMockingProtectedMethods();
 
 		parent::setUp();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			RSS_Footer_Embed::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertNotFalse( Monkey\Filters\has( 'the_content_feed', [ $this->instance, 'embed_rssfooter' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'the_excerpt_rss', [ $this->instance, 'embed_rssfooter_excerpt' ] ) );
 	}
 
 	/**
@@ -115,7 +142,7 @@ class RSS_Footer_Embed_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )->andReturn( $post );
 		Monkey\Functions\when( 'wpautop' )->returnArg( 1 );
-		Monkey\Filters\expectApplied( 'wpseo_nofollow_rss_links' )
+		Monkey\Filters\expectApplied( 'nofollow_rss_links' )
 			->with( true )
 			->once()
 			->andReturn( false );
@@ -169,7 +196,7 @@ class RSS_Footer_Embed_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )->andReturn( $post );
 		Monkey\Functions\when( 'wpautop' )->returnArg( 1 );
-		Monkey\Filters\expectApplied( 'wpseo_nofollow_rss_links' )
+		Monkey\Filters\expectApplied( 'nofollow_rss_links' )
 			->with( true )
 			->once()
 			->andReturn( true );
@@ -200,5 +227,4 @@ class RSS_Footer_Embed_Test extends TestCase {
 			$this->instance->embed_rssfooter_excerpt( 'No options set' )
 		);
 	}
-
 }

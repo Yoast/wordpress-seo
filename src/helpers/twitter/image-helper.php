@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 class Image_Helper {
 
 	/**
+	 * The base image helper.
+	 *
 	 * @var Base_Image_Helper
 	 */
 	private $image;
@@ -24,10 +26,10 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Base_Image_Helper $image_helper The image helper.
+	 * @param Base_Image_Helper $image The image helper.
 	 */
-	public function __construct( Base_Image_Helper $image_helper ) {
-		$this->image = $image_helper;
+	public function __construct( Base_Image_Helper $image ) {
+		$this->image = $image;
 	}
 
 	/**
@@ -46,6 +48,8 @@ class Image_Helper {
 
 	/**
 	 * Retrieves an image url by its id.
+	 *
+	 * @codeCoverageIgnore It is a wrapper method.
 	 *
 	 * @param int $image_id The image id.
 	 *

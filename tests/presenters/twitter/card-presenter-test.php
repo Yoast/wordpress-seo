@@ -38,12 +38,13 @@ class Card_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation               = new Indexable_Presentation();
-		$presentation->twitter_card = 'summary';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_card   = 'summary';
 
 		$this->assertEquals(
 			'<meta name="twitter:card" content="summary" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -54,10 +55,10 @@ class Card_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_creator() {
-		$presentation               = new Indexable_Presentation();
-		$presentation->twitter_card = '';
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_card   = '';
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
-
 }

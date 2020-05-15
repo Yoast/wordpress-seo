@@ -1,10 +1,17 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
@@ -14,6 +21,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Term_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
@@ -24,26 +32,43 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the indexable repository.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
-	private $repository_mock;
+	private $repository;
 
 	/**
+	 * Represents the indexable builder.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
 	 */
-	private $builder_mock;
+	private $builder;
 
 	/**
+	 * Represents the site helper.
+	 *
+	 * @var Mockery\MockInterface|Site_Helper
+	 */
+	private $site;
+
+	/**
+	 * Represents the instance we are testing.
+	 *
 	 * @var Indexable_Term_Watcher
 	 */
 	private $instance;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setUp() {
-		$this->repository_mock  = Mockery::mock( Indexable_Repository::class );
-		$this->builder_mock     = Mockery::mock( Indexable_Builder::class );
-		$this->instance         = new Indexable_Term_Watcher( $this->repository_mock, $this->builder_mock );
+		parent::setUp();
 
-		return parent::setUp();
+		$this->repository = Mockery::mock( Indexable_Repository::class );
+		$this->builder    = Mockery::mock( Indexable_Builder::class );
+		$this->site       = Mockery::mock( Site_Helper::class );
+		$this->instance   = new Indexable_Term_Watcher( $this->repository, $this->builder, $this->site );
 	}
 
 	/**
@@ -77,13 +102,16 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$id = 1;
-
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'delete' )->once();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
-		$this->instance->delete_indexable( $id );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'term', false )
+			->andReturn( $indexable_mock );
+
+		$this->instance->delete_indexable( 1 );
 	}
 
 	/**
@@ -92,9 +120,13 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable_does_not_exist() {
-		$id = 1;
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
-		$this->instance->delete_indexable( $id );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'term', false )
+			->andReturn( false );
+
+		$this->instance->delete_indexable( 1 );
 	}
 
 	/**
@@ -103,15 +135,133 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable() {
-		$id = 1;
+		$indexable = Mockery::mock( Indexable::class );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
-		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'term', $indexable_mock )->andReturn( $indexable_mock );
+		$term = (object) [ 'taxonomy' => 'tag' ];
 
-		$this->instance->build_indexable( $id );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnTrue();
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'term', false )
+			->andReturn( $indexable );
+
+		$this->builder
+			->expects( 'build_for_id_and_type' )
+			->once()
+			->with( 1, 'term', $indexable )
+			->andReturn( $indexable );
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_with_null_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturnNull();
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_error_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		$term = 'WP_Error';
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnTrue();
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_non_viewable_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		$term = (object) [ 'taxonomy' => 'tag' ];
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnFalse();
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function on a multisite with a switch between the sites.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_on_multisite_with_a_site_switch() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnTrue();
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->never()
+			->with( 1, 'term', false );
+
+		$this->instance->build_indexable( 1 );
 	}
 
 	/**
@@ -120,14 +270,41 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_does_not_exist() {
-		$id = 1;
+		$indexable = Mockery::mock( Indexable::class );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
-		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
+		$term = (object) [ 'taxonomy' => 'tag' ];
 
-		$this->instance->build_indexable( $id );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnTrue();
+
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( 1, 'term', false )
+			->andReturn( false );
+
+		$this->builder
+			->expects( 'build_for_id_and_type' )
+			->once()
+			->with( 1, 'term', false )
+			->andReturn( $indexable );
+
+		$this->instance->build_indexable( 1 );
 	}
 }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
@@ -7,15 +12,14 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
-use YoastSEO_Vendor\ORM;
 
 /**
- * Class Indexable_Author_Test.
+ * Class Indexable_Static_Home_Page_Watcher_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher
@@ -30,7 +34,7 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
-	private $repository_mock;
+	private $repository;
 
 	/**
 	 * The class instance.
@@ -45,8 +49,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
-		$this->instance        = new Indexable_Static_Home_Page_Watcher( $this->repository_mock );
+		$this->repository = Mockery::mock( Indexable_Repository::class );
+		$this->instance   = new Indexable_Static_Home_Page_Watcher( $this->repository );
 	}
 
 	/**
@@ -97,12 +101,14 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 		$indexable_new->permalink      = 'https://example.com/old-permalink';
 		$indexable_new->permalink_hash = 'https://example.com/old-permalink';
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )
+		$this->repository
+			->expects( 'find_by_id_and_type' )
 			->with( 1, 'post', false )
 			->once()
 			->andReturn( $indexable_old );
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )
+		$this->repository
+			->expects( 'find_by_id_and_type' )
 			->with( 2, 'post', false )
 			->once()
 			->andReturn( $indexable_new );
@@ -115,7 +121,7 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
-		$this->instance->update_static_homepage_permalink( "1", 2 );
+		$this->instance->update_static_homepage_permalink( '1', 2 );
 
 		$this->assertEquals( 'https://example.com/', $indexable_new->permalink );
 		$this->assertEquals( 'https://example.com/permalink/', $indexable_old->permalink );
@@ -137,7 +143,8 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 		$indexable_old->permalink      = 'https://example.com/';
 		$indexable_old->permalink_hash = 'https://example.com/';
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )
+		$this->repository
+			->expects( 'find_by_id_and_type' )
 			->with( 1, 'post', false )
 			->once()
 			->andReturn( $indexable_old );
@@ -146,8 +153,36 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 			->expects( 'save' )
 			->once();
 
-		$this->instance->update_static_homepage_permalink( "1", 0 );
+		$this->instance->update_static_homepage_permalink( '1', 0 );
 
 		$this->assertEquals( 'https://example.com/permalink/', $indexable_old->permalink );
+	}
+
+	/**
+	 * Tests the routine with having the same value for the old and the new value.
+	 *
+	 * @covers ::update_static_homepage_permalink
+	 */
+	public function test_update_page_on_front_no_value_change() {
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->never();
+
+		$this->instance->update_static_homepage_permalink( '1', 1 );
+	}
+
+	/**
+	 * Tests the routine with having the same value for the old and the new value.
+	 *
+	 * @covers ::update_static_homepage_permalink
+	 */
+	public function test_update_page_on_front_with_no_indexable_found() {
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->with( 1, 'post', false )
+			->once()
+			->andReturnFalse();
+
+		$this->instance->update_static_homepage_permalink( '1', 0 );
 	}
 }

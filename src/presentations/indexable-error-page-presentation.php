@@ -16,11 +16,11 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		$robots['index'] = 'noindex';
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
@@ -31,6 +31,6 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-404-wpseo' );
+		return $this->options->get_title_default( 'title-404-wpseo' );
 	}
 }

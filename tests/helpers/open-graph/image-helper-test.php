@@ -26,12 +26,12 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * @var Url_Helper
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * @var Base_Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * Setup.
@@ -39,14 +39,14 @@ class Image_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->image_helper = Mockery::mock( Base_Image_Helper::class )->makePartial();
+		$this->url   = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->image = Mockery::mock( Base_Image_Helper::class )->makePartial();
 
 		$this->instance = Mockery::mock(
 			Image_Helper::class,
 			[
-				$this->url_helper,
-				$this->image_helper,
+				$this->url,
+				$this->image,
 			]
 		)->makePartial();
 	}
@@ -66,13 +66,13 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::is_image_url_valid
 	 */
 	public function test_is_image_url_valid() {
-		$this->url_helper
+		$this->url
 			->expects( 'get_extension_from_url' )
 			->once()
 			->with( 'image.jpg' )
 			->andReturn( 'jpg' );
 
-		$this->image_helper
+		$this->image
 			->expects( 'is_extension_valid' )
 			->once()
 			->with( 'jpg' )
@@ -104,31 +104,31 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_for_invalid_attachment() {
-		$this->image_helper
+	public function test_get_image_by_id_for_invalid_attachment() {
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnFalse();
 
-		$this->assertFalse( $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertFalse( $this->instance->get_image_by_id( 1337 ) );
 	}
 
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_for_overridden_image_size() {
-		$this->image_helper
+	public function test_get_image_by_id_for_overridden_image_size() {
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnTrue();
 
-		$this->image_helper
+		$this->image
 			->expects( 'get_image' )
 			->with( 1337, 'full' )
 			->once()
@@ -139,30 +139,24 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 'full' );
 
-		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
+
 	/**
 	 * Tests retrieval of the overridden image size.
 	 *
-	 * @covers ::get_image_url_by_id
+	 * @covers ::get_image_by_id
 	 */
-	public function test_get_image_url_by_id_with_best_attachment_variation() {
-		$image_params = [
-			'min_width'  => 200,
-			'max_width'  => 2000,
-			'min_height' => 200,
-			'max_height' => 2000,
-		];
-
-		$this->image_helper
+	public function test_get_image_by_id_with_best_attachment_variation() {
+		$this->image
 			->expects( 'is_valid_attachment' )
 			->with( 1337 )
 			->once()
 			->andReturnTrue();
 
-		$this->image_helper
+		$this->image
 			->expects( 'get_best_attachment_variation' )
-			->with( 1337, $image_params )
+			->with( 1337 )
 			->once()
 			->andReturn( 'image.jpg' );
 
@@ -171,6 +165,6 @@ class Image_Helper_Test extends TestCase {
 			->once()
 			->andReturn( null );
 
-		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_by_id( 1337 ) );
 	}
 }

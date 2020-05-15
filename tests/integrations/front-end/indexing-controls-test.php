@@ -7,6 +7,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Indexing_Controls;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -44,6 +45,18 @@ class Indexing_Controls_Test extends TestCase {
 
 		$this->robots   = Mockery::mock( Robots_Helper::class );
 		$this->instance = Mockery::mock( Indexing_Controls::class )->makePartial()->shouldAllowMockingProtectedMethods();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Indexing_Controls::get_conditionals()
+		);
 	}
 
 	/**

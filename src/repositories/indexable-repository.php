@@ -2,42 +2,54 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Psr\Log\LoggerInterface;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
-use YoastSEO_Vendor\ORM;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Indexable_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Indexable_Repository {
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	private $builder;
 
 	/**
-	 * @var \Yoast\WP\SEO\Helpers\Current_Page_Helper
+	 * Represents the hierarchy repository.
+	 *
+	 * @var Indexable_Hierarchy_Repository
+	 */
+	protected $hierarchy_repository;
+
+	/**
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
 
 	/**
-	 * @var \Psr\Log\LoggerInterface
+	 * The logger object.
+	 *
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
 	/**
+	 * The WordPress database.
 	 * @var \wpdb
 	 */
 	protected $wpdb;
@@ -45,30 +57,33 @@ class Indexable_Repository {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Builder   $builder             The indexable builder.
-	 * @param Current_Page_Helper $current_page_helper The current post helper.
-	 * @param Logger              $logger              The logger.
-	 * @param \wpdb               $wpdb                The WordPress database instance.
+	 * @param Indexable_Builder              $builder              The indexable builder.
+	 * @param Current_Page_Helper            $current_page         The current post helper.
+	 * @param Logger                         $logger               The logger.
+	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
+	 * @param \wpdb                          $wpdb                 The WordPress database instance.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
-		Current_Page_Helper $current_page_helper,
+		Current_Page_Helper $current_page,
 		Logger $logger,
+		Indexable_Hierarchy_Repository $hierarchy_repository,
 		\wpdb $wpdb
 	) {
-		$this->builder      = $builder;
-		$this->current_page = $current_page_helper;
-		$this->logger       = $logger;
-		$this->wpdb         = $wpdb;
+		$this->builder              = $builder;
+		$this->current_page         = $current_page;
+		$this->logger               = $logger;
+		$this->hierarchy_repository = $hierarchy_repository;
+		$this->wpdb                 = $wpdb;
 	}
 
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return ORMWrapper
+	 * @return ORM
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Indexable' );
+		return Model::of_type( 'Indexable' );
 	}
 
 	/**
@@ -79,30 +94,44 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function for_current_page() {
+		$indexable = false;
+
 		switch ( true ) {
 			case $this->current_page->is_simple_page():
-				return $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				break;
 			case $this->current_page->is_home_static_page():
-				return $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				break;
 			case $this->current_page->is_home_posts_page():
-				return $this->find_for_home_page();
+				$indexable = $this->find_for_home_page();
+				break;
 			case $this->current_page->is_term_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				break;
 			case $this->current_page->is_date_archive():
-				return $this->find_for_date_archive();
+				$indexable = $this->find_for_date_archive();
+				break;
 			case $this->current_page->is_search_result():
-				return $this->find_for_system_page( 'search-result' );
+				$indexable = $this->find_for_system_page( 'search-result' );
+				break;
 			case $this->current_page->is_post_type_archive():
-				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				$indexable = $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				break;
 			case $this->current_page->is_author_archive():
-				return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				$indexable = $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				break;
 			case $this->current_page->is_404():
-				return $this->find_for_system_page( '404' );
+				$indexable = $this->find_for_system_page( '404' );
+				break;
 		}
 
-		return $this->query()->create( [ 'object_type' => 'unknown' ] );
-	}
+		if ( $indexable === false ) {
+			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
+		}
 
+		return $indexable;
+	}
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *
@@ -111,14 +140,57 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function find_by_permalink( $permalink ) {
-		$permalink      = \trailingslashit( $permalink );
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->query()
-					->where( 'permalink_hash', $permalink_hash )
-					->where( 'permalink', $permalink )
-					->find_one();
+			->where( 'permalink_hash', $permalink_hash )
+			->where( 'permalink', $permalink )
+			->find_one();
+	}
+
+	/**
+	 * Retrieves all the indexable instances of a certain object type.
+	 *
+	 * @param string $object_type The object type.
+	 *
+	 * @return Indexable[] The array with all the indexable instances of a certain object type.
+	 */
+	public function find_all_with_type( $object_type ) {
+		/**
+		 * The array with all the indexable instances of a certain object type.
+		 *
+		 * @var Indexable[] $indexables
+		 */
+		$indexables = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
+	 * Retrieves all the indexable instances of a certain object subtype.
+	 *
+	 * @param string $object_type     The object type.
+	 * @param string $object_sub_type The object subtype.
+	 *
+	 * @return Indexable[] The array with all the indexable instances of a certain object subtype.
+	 */
+	public function find_all_with_type_and_sub_type( $object_type, $object_sub_type ) {
+		/**
+		 * The array with all the indexable instances of a certain object type and subtype.
+		 *
+		 * @var Indexable[] $indexables
+		 */
+		$indexables = $this
+			->query()
+			->where( 'object_type', $object_type )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
 
 	/**
@@ -140,7 +212,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_home_page();
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -148,13 +220,13 @@ class Indexable_Repository {
 	 *
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|\Yoast\WP\SEO\Models\Indexable Instance of indexable.
+	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_for_date_archive( $auto_create = true ) {
 		/**
 		 * Indexable instance.
 		 *
-		 * @var \Yoast\WP\SEO\Models\Indexable $indexable
+		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 
@@ -162,7 +234,7 @@ class Indexable_Repository {
 			$indexable = $this->builder->build_for_date_archive();
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -180,15 +252,15 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'post-type-archive' )
-						  ->where( 'object_sub_type', $post_type )
-						  ->find_one();
+			->where( 'object_type', 'post-type-archive' )
+			->where( 'object_sub_type', $post_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_post_type_archive( $post_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -206,15 +278,15 @@ class Indexable_Repository {
 		 * @var Indexable $indexable
 		 */
 		$indexable = $this->query()
-						  ->where( 'object_type', 'system-page' )
-						  ->where( 'object_sub_type', $object_sub_type )
-						  ->find_one();
+			->where( 'object_type', 'system-page' )
+			->where( 'object_sub_type', $object_sub_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_system_page( $object_sub_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -228,15 +300,15 @@ class Indexable_Repository {
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->query()
-						  ->where( 'object_id', $object_id )
-						  ->where( 'object_type', $object_type )
-						  ->find_one();
+			->where( 'object_id', $object_id )
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
 		}
 
-		return $indexable;
+		return $this->ensure_permalink( $indexable );
 	}
 
 	/**
@@ -249,59 +321,115 @@ class Indexable_Repository {
 	 * @return Indexable[] An array of indexables.
 	 */
 	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		/**
+		 * Represents an array of indexable objects.
+		 *
+		 * @var Indexable[] $indexables
+		 */
 		$indexables = $this->query()
-						   ->where_in( 'object_id', $object_ids )
-						   ->where( 'object_type', $object_type )
-						   ->find_many();
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
 
 		if ( $auto_create ) {
-			$indexables_available = \array_column( $indexables, 'object_id' );
+			$indexables_available = [];
+			foreach ( $indexables as $indexable ) {
+				$indexables_available[] = $indexable->object_id;
+			}
+
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
-				$indexable = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
-				$indexable->save();
-
-				$indexables[] = $indexable;
+				$indexables[] = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 			}
 		}
 
-		return $indexables;
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
 
 	/**
-	 * Returns all ancestors of a given indexable. Optionally prepending a set of static ancestors.
+	 * Returns all ancestors of a given indexable.
 	 *
-	 * @param Indexable $indexable              The indexable to find the ancestors of.
-	 * @param array     $static_ancestor_wheres Optional. The where conditions by which to find static ancestors.
-	 *                                          Should be an array of arrays with the inner arrays containing find
-	 *                                          conditions.
+	 * @param Indexable $indexable The indexable to find the ancestors of.
 	 *
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
-	public function get_ancestors( Indexable $indexable, $static_ancestor_wheres = [] ) {
-		$hierarchy_table = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
-		$ancestor_query  = $this->query()
-								->table_alias( 'i' )
-								->select( 'i.*' )
-								->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
-								->where( 'ih.indexable_id', $indexable->id )
-								->order_by_desc( 'ih.depth' );
-
-		$ancestor_queries = [];
-		if ( ! empty( $static_ancestor_wheres ) ) {
-			$ancestor_queries = array_map( function ( $where ) {
-				return $this->query()->where( $where )->limit( 1 )->find_many();
-			}, $static_ancestor_wheres );
+	public function get_ancestors( Indexable $indexable ) {
+		// If we've already set ancestors on the indexable no need to get them again.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
 		}
 
-		$ancestor_queries[] = $ancestor_query->find_many();
+		$indexable_ids = $this->hierarchy_repository->find_ancestors( $indexable );
 
-		if ( empty( $ancestor_queries ) ) {
+		// If we've set ancestors on the indexable because we had to build them to find them.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+		}
+
+		if ( empty( $indexable_ids ) ) {
 			return [];
 		}
 
-		return array_merge( ...$ancestor_queries );
+		if ( $indexable_ids[0] === 0 && \count( $indexable_ids ) === 1 ) {
+			return [];
+		}
+
+		$indexables = $this->query()
+						   ->where_in( 'id', $indexable_ids )
+						   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+						   ->find_many();
+
+		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
+	}
+
+	/**
+	 * Ensures that the given indexable has a permalink.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return bool|Indexable The indexable.
+	 */
+	protected function ensure_permalink( $indexable ) {
+		if ( $indexable && $indexable->permalink === null ) {
+			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
+			$indexable->save();
+		}
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the permalink for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string|null The permalink.
+	 */
+	protected function get_permalink_for_indexable( $indexable ) {
+		switch ( true ) {
+			case $indexable->object_type === 'post':
+			case $indexable->object_type === 'home-page':
+				if ( $indexable->object_sub_type === 'attachment' ) {
+					return \wp_get_attachment_url( $indexable->object_id );
+				}
+				return \get_permalink( $indexable->object_id );
+			case $indexable->object_type === 'term':
+				$term = \get_term( $indexable->object_id );
+
+				if ( $term === null || \is_wp_error( $term ) ) {
+					return null;
+				}
+
+				return \get_term_link( $term, $term->taxonomy );
+			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
+				return \get_search_link();
+			case $indexable->object_type === 'post-type-archive':
+				return \get_post_type_archive_link( $indexable->object_sub_type );
+			case $indexable->object_type === 'user':
+				return \get_author_posts_url( $indexable->object_id );
+		}
+
+		return null;
 	}
 
 	/**

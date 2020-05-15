@@ -15,13 +15,15 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Handles intercepting requests.
  */
 class Handle_404 implements Integration_Interface {
+
 	/**
+	 * The WP Query wrapper.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $query_wrapper;
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -29,7 +31,6 @@ class Handle_404 implements Integration_Interface {
 	}
 
 	/**
-	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
@@ -39,7 +40,7 @@ class Handle_404 implements Integration_Interface {
 	/**
 	 * Handle_404 constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore Handles dependencies.
 	 *
 	 * @param WP_Query_Wrapper $query_wrapper The query wrapper.
 	 */
@@ -67,6 +68,7 @@ class Handle_404 implements Integration_Interface {
 
 		return true;
 	}
+
 	/**
 	 * If there are no posts in a feed, make it 404 instead of sending an empty RSS feed.
 	 *
@@ -92,12 +94,11 @@ class Handle_404 implements Integration_Interface {
 		return true;
 	}
 
-
 	/**
 	 * Sets the 404 status code.
 	 */
 	protected function set_404() {
-		$wp_query = $this->query_wrapper->get_query();
+		$wp_query          = $this->query_wrapper->get_query();
 		$wp_query->is_feed = false;
 		$wp_query->set_404();
 		$this->query_wrapper->set_query( $wp_query );

@@ -12,37 +12,32 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 /**
  * Class Abstract_Meta_Description_Presenter
  */
-class Canonical_Presenter extends Abstract_Indexable_Presenter {
+class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Returns the canonical for a post.
+	 * The tag format including placeholders.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
-	 * @return string The canonical tag.
+	 * @var string
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
-			return '';
-		}
+	protected $tag_format = '<link rel="canonical" href="%s" />';
 
-		$canonical = $this->filter( $presentation->canonical, $presentation );
-		if ( \is_string( $canonical ) && $canonical !== '' ) {
-			return \sprintf( '<link rel="canonical" href="%s" />', \esc_url( $canonical, null, 'other' ) );
-		}
-
-		return '';
-	}
+	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
 
 	/**
 	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
-	 * @param string                 $canonical    The canonical to filter.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
-	 *
 	 * @return string $canonical The filtered canonical.
 	 */
-	private function filter( $canonical, Indexable_Presentation $presentation ) {
+	public function get() {
+		if ( \in_array( 'noindex', $this->presentation->robots, true ) ) {
+			return '';
+		}
+
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO.
 		 *
@@ -50,6 +45,6 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) \trim( \apply_filters( 'wpseo_canonical', $canonical, $presentation ) );
+		return urldecode( (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) ) );
 	}
 }

@@ -17,10 +17,10 @@ class Url_Helper {
 	/**
 	 * Retrieve home URL with proper trailing slash.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
@@ -31,9 +31,9 @@ class Url_Helper {
 	/**
 	 * Check whether a url is relative.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string $url URL string to check.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return bool True when url is relative.
 	 */
@@ -45,6 +45,8 @@ class Url_Helper {
 	 * Gets the path from the passed URL.
 	 *
 	 * @param string $url The URL to get the path from.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */

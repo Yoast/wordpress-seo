@@ -14,15 +14,21 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter
  *
  * @group presenters
+ * @group open-graph
  * @group type-presenter
  */
 class Type_Presenter_Test extends TestCase {
-	/**
-	 * @var Indexable_Presentation
-	 */
-	protected $indexable_presentation;
 
 	/**
+	 * The indexable presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
+
+	/**
+	 * The type presenter instance.
+	 *
 	 * @var Type_Presenter
 	 */
 	protected $instance;
@@ -31,8 +37,10 @@ class Type_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance               = new Type_Presenter();
-		$this->indexable_presentation = new Indexable_Presentation();
+		$this->instance     = new Type_Presenter();
+		$this->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = $this->presentation;
 
 		return parent::setUp();
 	}
@@ -43,10 +51,10 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->indexable_presentation->og_type = 'article';
+		$this->presentation->open_graph_type = 'article';
 
 		$expected = '<meta property="og:type" content="article" />';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -57,9 +65,9 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_type_is_empty() {
-		$this->indexable_presentation->og_type = '';
+		$this->presentation->open_graph_type = '';
 
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual = $this->instance->present();
 
 		$this->assertEmpty( $actual );
 	}
@@ -72,15 +80,15 @@ class Type_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->indexable_presentation->og_type = 'website';
+		$this->presentation->open_graph_type = 'website';
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_type' )
 			->once()
-			->with( 'website', $this->indexable_presentation )
+			->with( 'website', $this->presentation )
 			->andReturn( 'article' );
 
 		$expected = '<meta property="og:type" content="article" />';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

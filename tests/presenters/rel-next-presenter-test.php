@@ -12,22 +12,24 @@ use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Rel_Next_Presenter_Test.
+ * Class Rel_Next_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Rel_Next_Presenter
  *
- * @group presentations
+ * @group presenters
  * @group rel-next
  */
 class Rel_Next_Presenter_Test extends TestCase {
 
 	/**
+	 * The rel next presenter instance.
+	 *
 	 * @var Rel_Next_Presenter|Mockery\MockInterface
 	 */
 	private $instance;
 
 	/**
-	 * Set up.
+	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -42,14 +44,15 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'<link rel="next" href="https://permalink/post/2" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -60,14 +63,15 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_empty() {
-		$presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = '';
 		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 
@@ -78,12 +82,13 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_when_robots_is_noindex() {
-		$presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [ 'noindex' ];
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -93,7 +98,8 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_with_filter() {
-		$presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
 		$presentation->rel_next = 'https://permalink/post/2';
 		$presentation->robots   = [];
@@ -105,7 +111,7 @@ class Rel_Next_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			'<link rel="next" href="https://filtered" />',
-			$this->instance->present( $presentation )
+			$this->instance->present()
 		);
 	}
 }

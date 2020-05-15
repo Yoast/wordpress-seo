@@ -43,16 +43,18 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
 
-		$this->post_type_helper
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()
 			->andReturn( 'The excerpt as description' );
+
+		$this->instance->open_graph_description = '';
 
 		$this->assertEquals( 'The excerpt as description', $this->instance->generate_twitter_description() );
 	}
@@ -62,13 +64,57 @@ class Twitter_Description_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_description
 	 */
+	public function test_with_term_description_with_open_graph_enabled_and_have_open_graph_description() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = true;
+
+		$this->instance
+			->expects( 'generate_open_graph_description' )
+			->once()
+			->andReturn( 'Open Graph Description' );
+
+		$this->assertEquals( '', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_with_term_description_with_open_graph_disbled_and_have_open_graph_description() {
+		$this->indexable->twitter_description = '';
+		$this->instance->meta_description     = '';
+		$this->context->open_graph_enabled    = false;
+
+		$this->instance
+			->expects( 'generate_open_graph_description' )
+			->once()
+			->andReturn( 'Open Graph Description' );
+
+		$this->post
+			->expects( 'get_the_excerpt' )
+			->with( $this->indexable->object_id )
+			->once()
+			->andReturn( 'The excerpt' );
+
+		$this->assertEquals( 'The excerpt', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where the meta description is given.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
 	public function test_with_no_term_description() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->andReturn( '' );
 
-		$this->post_type_helper
+		$this->instance->open_graph_description = '';
+
+		$this->post
 			->expects( 'get_the_excerpt' )
 			->with( $this->indexable->object_id )
 			->once()

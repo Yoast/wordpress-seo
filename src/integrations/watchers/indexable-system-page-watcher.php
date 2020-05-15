@@ -19,21 +19,25 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_System_Page_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
-	}
-
-	/**
+	 * The indexable repository.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var Indexable_Builder
 	 */
 	protected $builder;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Author_Watcher constructor.
@@ -47,7 +51,7 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
@@ -62,19 +66,21 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
-		foreach ( Indexable_System_Page_Builder::OPTION_MAPPING as $type => $option ) {
-			// If both values aren't set they haven't changed.
-			if ( ! isset( $old_value[ $option ] ) && ! isset( $new_value[ $option ] ) ) {
-				return;
-			}
+		foreach ( Indexable_System_Page_Builder::OPTION_MAPPING as $type => $options ) {
+			foreach ( $options as $option ) {
+				// If both values aren't set they haven't changed.
+				if ( ! isset( $old_value[ $option ] ) && ! isset( $new_value[ $option ] ) ) {
+					return;
+				}
 
-			// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
-			if (
-				! isset( $old_value[ $option ] ) ||
-				! isset( $new_value[ $option ] ) ||
-				$old_value[ $option ] !== $new_value[ $option ]
-			) {
-				$this->build_indexable( $type );
+				// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
+				if (
+					! isset( $old_value[ $option ] )
+					|| ! isset( $new_value[ $option ] )
+					|| $old_value[ $option ] !== $new_value[ $option ]
+				) {
+					$this->build_indexable( $type );
+				}
 			}
 		}
 	}

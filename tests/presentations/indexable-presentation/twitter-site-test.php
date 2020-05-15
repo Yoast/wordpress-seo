@@ -32,7 +32,7 @@ class Twitter_Site_Test extends TestCase {
 	public function test_generate_twitter_site_for_a_company() {
 		$this->context->site_represents = 'company';
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()
@@ -50,7 +50,7 @@ class Twitter_Site_Test extends TestCase {
 		$this->context->site_represents = 'person';
 		$this->context->site_user_id    = 1337;
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'twitter', 1337 )
 			->once()
@@ -68,13 +68,13 @@ class Twitter_Site_Test extends TestCase {
 		$this->context->site_represents = 'person';
 		$this->context->site_user_id    = 1337;
 
-		$this->user_helper
+		$this->user
 			->expects( 'get_the_author_meta' )
 			->with( 'twitter', 1337 )
 			->once()
 			->andReturn( '' );
 
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()
@@ -89,7 +89,7 @@ class Twitter_Site_Test extends TestCase {
 	 * @covers ::generate_twitter_site
 	 */
 	public function test_generate_twitter_site_the_default_scenario() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->with( 'twitter_site' )
 			->once()

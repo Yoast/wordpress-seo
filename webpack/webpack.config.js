@@ -4,10 +4,8 @@ const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
-const pkg = require( "../package.json" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
-
-const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
 const root = path.join( __dirname, "../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -63,6 +61,7 @@ const defaultAllowedHosts = [
 	"two.wordpress.test",
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
+	"basic.wordpress.test",
 ];
 
 let bundleAnalyzerPort = 8888;
@@ -119,8 +118,15 @@ function addBundleAnalyzer( plugins ) {
 	return plugins;
 }
 
-module.exports = function( env = { environment: "production" } ) {
+module.exports = function( env ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
+
+	if ( ! env.pluginVersion ) {
+		// eslint-disable-next-line global-require
+		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
+	}
+
+	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );
 
 	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
 	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );
@@ -129,13 +135,15 @@ module.exports = function( env = { environment: "production" } ) {
 	// Prepend the default allowed hosts.
 	allowedHosts = defaultAllowedHosts.concat( allowedHosts );
 
-	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
-	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
-
-	const outputFilename = mode === "development" ? outputFilenameUnminified : outputFilenameMinified;
+	const outputFilename = "[name]-" + pluginVersionSlug + ".js";
 
 	const plugins = [
 		new CaseSensitivePathsPlugin(),
+		new MiniCssExtractPlugin(
+			{
+				filename: "css/dist/monorepo-" + pluginVersionSlug + ".css",
+			}
+		),
 	];
 
 	const base = {
@@ -180,6 +188,13 @@ module.exports = function( env = { environment: "production" } ) {
 						},
 					],
 				},
+				{
+					test: /\.css$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+					],
+				},
 			],
 		},
 		externals,
@@ -215,6 +230,11 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				components: "./js/src/components.js",
 			},
+			output: {
+				path: path.resolve(),
+				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
+				jsonpFunction: "yoastWebpackJsonp",
+			},
 			externals: {
 				...externals,
 				...wordpressExternals,
@@ -231,7 +251,7 @@ module.exports = function( env = { environment: "production" } ) {
 			...base,
 			output: {
 				path: paths.jsDist,
-				filename: outputFilenameMinified,
+				filename: "[name]-" + pluginVersionSlug + ".js",
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {

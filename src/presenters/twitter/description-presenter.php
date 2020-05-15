@@ -8,40 +8,26 @@
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Description_Presenter
  */
-class Description_Presenter extends Abstract_Indexable_Presenter {
+class Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * Presents a presentation.
+	 * The tag format including placeholders.
 	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
-	 *
-	 * @return string The template.
+	 * @var string
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$twitter_description = $this->replace_vars( $presentation->twitter_description, $presentation );
-		$twitter_description = $this->filter( $twitter_description, $presentation );
-
-		if ( $twitter_description ) {
-			return '<meta name="twitter:description" content="' . \esc_attr( $twitter_description ) . '" />';
-		}
-
-		return '';
-	}
+	protected $tag_format = '<meta name="twitter:description" content="%s" />';
 
 	/**
-	 * Run the Twitter description through the `wpseo_twitter_description` filter.
-	 *
-	 * @param string                 $twitter_description The Twitter description to filter.
-	 * @param Indexable_Presentation $presentation        The presentation of an indexable.
+	 * Run the Twitter description through replace vars and the `wpseo_twitter_description` filter.
 	 *
 	 * @return string The filtered Twitter description.
 	 */
-	private function filter( $twitter_description, Indexable_Presentation $presentation ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO.
 		 *
@@ -49,6 +35,6 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_twitter_description', $twitter_description, $presentation );
+		return \apply_filters( 'wpseo_twitter_description', $this->replace_vars( $this->presentation->twitter_description ), $this->presentation );
 	}
 }

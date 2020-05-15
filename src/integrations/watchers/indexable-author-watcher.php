@@ -18,21 +18,25 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Author_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
-	}
-
-	/**
+	 * The indexable repository.
+	 *
 	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
+	 * The indexable builder.
+	 *
 	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
 	 */
 	protected $builder;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Author_Watcher constructor.
@@ -46,9 +50,10 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
+		\add_action( 'user_register', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
 	}
@@ -79,8 +84,6 @@ class Indexable_Author_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $user_id ) {
 		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
-		$indexable = $this->builder->build_for_id_and_type( $user_id, 'user', $indexable );
-
-		$indexable->save();
+		$this->builder->build_for_id_and_type( $user_id, 'user', $indexable );
 	}
 }

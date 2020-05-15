@@ -28,6 +28,14 @@ class Option_Social_Test extends TestCase {
 	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option_with_valid_data( $expected, $dirty, $clean, $old ) {
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => function ( $url ) {
+					return parse_url( $url );
+				},
+			]
+		);
+
 		$instance = new Option_Social_Double();
 
 		$this->assertEquals(
@@ -51,6 +59,14 @@ class Option_Social_Test extends TestCase {
 	 */
 	public function test_validate_option_with_invalid_data( $expected, $dirty, $clean, $old, $slug_name ) {
 		$message = "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.";
+
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => function ( $url ) {
+					return parse_url( $url );
+				},
+			]
+		);
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()

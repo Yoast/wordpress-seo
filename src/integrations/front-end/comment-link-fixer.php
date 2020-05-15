@@ -13,9 +13,7 @@ use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class WPSEO_Remove_Reply_To_Com.
- *
- * @since 7.0
+ * Class Comment_Link_Fixer.
  */
 class Comment_Link_Fixer implements Integration_Interface {
 
@@ -24,7 +22,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 *
 	 * @var Redirect_Helper
 	 */
-	protected $redirect_helper;
+	protected $redirect;
 
 	/**
 	 * The robots helper.
@@ -35,7 +33,6 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
-	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -44,16 +41,16 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Comment_Link_Fixer constructor.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only sets depedencies.
 	 *
-	 * @param Redirect_Helper $redirect_helper The redirect helper.
-	 * @param Robots_Helper   $robots The robots helper.
+	 * @param Redirect_Helper $redirect The redirect helper.
+	 * @param Robots_Helper   $robots   The robots helper.
 	 */
 	public function __construct(
-		Redirect_Helper $redirect_helper, Robots_Helper $robots
+		Redirect_Helper $redirect, Robots_Helper $robots
 	) {
-		$this->redirect_helper = $redirect_helper;
-		$this->robots          = $robots;
+		$this->redirect = $redirect;
+		$this->robots   = $robots;
 	}
 
 	/**
@@ -66,9 +63,20 @@ class Comment_Link_Fixer implements Integration_Interface {
 		}
 
 		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
-		if ( filter_input( INPUT_GET, 'replytocom' ) ) {
-			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
+		if ( $this->has_replytocom_parameter() ) {
+			\add_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] );
 		}
+	}
+
+	/**
+	 * Checks if the url contains the ?replytocom query parameter.
+	 *
+	 * @codeCoverageIgnore Wraps the filter input.
+	 *
+	 * @return string The value of replytocom.
+	 */
+	protected function has_replytocom_parameter() {
+		return filter_input( INPUT_GET, 'replytocom' );
 	}
 
 	/**
@@ -87,7 +95,6 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Redirects out the ?replytocom variables.
 	 *
-	 * @since 1.4.13
 	 * @return boolean True when redirect has been done.
 	 */
 	public function replytocom_redirect() {
@@ -103,7 +110,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 			}
 			$url .= '#comment-' . $hash;
 
-			$this->redirect_helper->do_safe_redirect( $url, 301 );
+			$this->redirect->do_safe_redirect( $url, 301 );
 
 			return true;
 		}
@@ -113,6 +120,8 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * Checks whether we can allow the feature that removes ?replytocom query parameters.
+	 *
+	 * @codeCoverageIgnore It just wraps a call to a filter.
 	 *
 	 * @return bool True to remove, false not to remove.
 	 */

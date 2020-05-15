@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO;
 
-use Yoast\WP\SEO\Commands\Command_Interface;
-use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -19,21 +17,28 @@ class Loader {
 	/**
 	 * The registered integrations.
 	 *
-	 * @var Integration_Interface[]
+	 * @var string[]
 	 */
 	protected $integrations = [];
 
 	/**
-	 * The registered initializers.
+	 * The registered integrations.
 	 *
-	 * @var Integration_Interface[]
+	 * @var string[]
 	 */
 	protected $initializers = [];
 
 	/**
+	 * The registered routes.
+	 *
+	 * @var string[]
+	 */
+	protected $routes = [];
+
+	/**
 	 * The registered commands.
 	 *
-	 * @var Command_Interface[]
+	 * @var string[]
 	 */
 	protected $commands = [];
 
@@ -51,7 +56,6 @@ class Loader {
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
-		add_filter( 'wpseo_get_class', [ $this->container, 'get' ] );
 	}
 
 	/**
@@ -77,6 +81,17 @@ class Loader {
 	}
 
 	/**
+	 * Registers a route.
+	 *
+	 * @param string $class The class name of the route to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_route( $class ) {
+		$this->routes[] = $class;
+	}
+
+	/**
 	 * Registers a command.
 	 *
 	 * @param string $class The class name of the command to be loaded.
@@ -94,7 +109,15 @@ class Loader {
 	 */
 	public function load() {
 		$this->load_initializers();
-		$this->load_integrations();
+
+		if ( ! \did_action( 'init' ) ) {
+			\add_action( 'init', [ $this, 'load_integrations' ] );
+		}
+		else {
+			$this->load_integrations();
+		}
+
+		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$this->load_commands();
@@ -107,10 +130,10 @@ class Loader {
 	 * @return void
 	 */
 	protected function load_commands() {
-		foreach ( $this->commands as $command ) {
-			$command = $this->container->get( $command );
+		foreach ( $this->commands as $class ) {
+			$command = $this->container->get( $class );
 
-			\WP_CLI::add_command( $command->get_name(), [ $command, 'execute' ], $command->get_config() );
+			\WP_CLI::add_command( $class::get_namespace(), $command );
 		}
 	}
 
@@ -134,7 +157,7 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	protected function load_integrations() {
+	public function load_integrations() {
 		foreach ( $this->integrations as $class ) {
 			if ( ! $this->conditionals_are_met( $class ) ) {
 				continue;
@@ -145,9 +168,24 @@ class Loader {
 	}
 
 	/**
+	 * Loads all registered routes if their conditionals are met.
+	 *
+	 * @return void
+	 */
+	public function load_routes() {
+		foreach ( $this->routes as $class ) {
+			if ( ! $this->conditionals_are_met( $class ) ) {
+				continue;
+			}
+
+			$this->container->get( $class )->register_routes();
+		}
+	}
+
+	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param Integration_Interface $class The class name of the integration.
+	 * @param Loadable_Interface $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */

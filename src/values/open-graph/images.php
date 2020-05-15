@@ -1,6 +1,6 @@
 <?php
 /**
- * Value object for the OpenGraph Images.
+ * Value object for the Open Graph Images.
  *
  * @package Yoast\WP\SEO\Values
  */
@@ -11,11 +11,13 @@ use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Values\Images as Base_Images;
 
 /**
- * Class WPSEO_OpenGraph_Image.
+ * Class Images.
  */
 class Images extends Base_Images {
 
 	/**
+	 * The Open Graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
@@ -27,7 +29,7 @@ class Images extends Base_Images {
 	 *
 	 * @codeCoverageIgnore - Is handled by DI-container.
 	 *
-	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for OpenGraph.
+	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for Open Graph.
 	 */
 	public function set_helpers( Open_Graph_Image_Helper $open_graph_image ) {
 		$this->open_graph_image = $open_graph_image;
@@ -52,7 +54,7 @@ class Images extends Base_Images {
 	 * @return void
 	 */
 	public function add_image_by_id( $image_id ) {
-		$attachment = $this->open_graph_image->get_image_url_by_id( $image_id );
+		$attachment = $this->open_graph_image->get_image_by_id( $image_id );
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );

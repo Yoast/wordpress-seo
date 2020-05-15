@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
@@ -51,36 +50,19 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	private $element;
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
-	 * Breadcrumbs_Presenter constructor.
-	 *
-	 * @param Options_Helper $options The options helper.
-	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
-	}
-
-	/**
 	 * Presents the breadcrumbs.
-	 *
-	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 *
 	 * @return string The breadcrumbs HTML.
 	 */
-	public function present( Indexable_Presentation $presentation ) {
-		if ( ! is_array( $presentation->breadcrumbs ) || empty( $presentation->breadcrumbs ) ) {
+	public function present() {
+		$breadcrumbs = $this->get();
+		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
 		$links = [];
-		$total = \count( $presentation->breadcrumbs );
-		foreach ( $presentation->breadcrumbs as $index => $breadcrumb ) {
+		$total = \count( $breadcrumbs );
+		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			$links[ $index ] = $this->crumb_to_link( $breadcrumb, $index, $total );
 		}
 
@@ -94,9 +76,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$output = '<' . $this->get_wrapper() . $this->get_id() . $this->get_class() . '>' . $output . '</' . $this->get_wrapper() . '>';
-		$output = $this->filter( $output, $presentation );
+		$output = $this->filter( $output );
 
-		$prefix = $this->options->get( 'breadcrumbs-prefix' );
+		$prefix = $this->helpers->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
 			$output = "\t" . $prefix . "\n" . $output;
 		}
@@ -105,40 +87,45 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
+	 * Gets the raw value of a presentation.
+	 *
+	 * @return array The raw value.
+	 */
+	public function get() {
+		return $this->presentation->breadcrumbs;
+	}
+
+	/**
 	 * Filters the output.
 	 *
-	 * @param string                 $output       The output.
-	 * @param Indexable_Presentation $presentation The presentation of an indexable.
+	 * @param string $output The HTML output.
 	 *
 	 * @return string The filtered output.
 	 */
-	private function filter( $output, Indexable_Presentation $presentation ) {
+	protected function filter( $output ) {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
-		 * @api string $unsigned HTML output.
+		 * @param Indexable_Presentation $this->presentation The presentation of an indexable.
 		 *
-		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 * @api string $output The HTML output.
 		 */
-		return \apply_filters( 'wpseo_breadcrumb_output', $output, $presentation );
+		return \apply_filters( 'wpseo_breadcrumb_output', $output, $this->presentation );
 	}
 
 	/**
 	 * Create a breadcrumb element string.
 	 *
 	 * @param array $breadcrumb Link info array containing the keys:
-	 *                   		'text'    => (string) link text.
-	 *                     		'url'    => (string) link url.
-	 *                    		(optional) 'title'         => (string) link title attribute text.
-	 *                    		(optional) 'allow_html'    => (bool) whether to (not) escape html in the link text.
-	 *                    		This prevents html stripping from the text strings set in the
-	 *                    		WPSEO -> Internal Links options page.
+	 *                          'text'                  => (string) link text.
+	 *                          'url'                   => (string) link url.
+	 *                          (optional) 'title'      => (string) link title attribute text.
 	 * @param int   $index      Index for the current breadcrumb.
-	 * @param int   $total      The total amount of breadcrumbs.
+	 * @param int   $total      The total number of breadcrumbs.
 	 *
 	 * @return string The breadcrumb link.
 	 */
-	private function crumb_to_link( $breadcrumb, $index, $total ) {
+	protected function crumb_to_link( $breadcrumb, $index, $total ) {
 		$link = '';
 
 		if ( ! isset( $breadcrumb['text'] ) || ! \is_string( $breadcrumb['text'] ) || empty( $breadcrumb['text'] ) ) {
@@ -146,25 +133,22 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$text = \trim( $breadcrumb['text'] );
-		if ( ! isset( $breadcrumb['allow_html'] ) || $breadcrumb['allow_html'] !== true ) {
-			$text = \esc_html( $text );
-		}
 
 		if (
-			$index < ( $total - 1 ) &&
-			isset( $breadcrumb['url'] ) &&
-			\is_string( $breadcrumb['url'] ) &&
-			! empty( $breadcrumb['url'] )
+			$index < ( $total - 1 )
+			&& isset( $breadcrumb['url'] )
+			&& \is_string( $breadcrumb['url'] )
+			&& ! empty( $breadcrumb['url'] )
 		) {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
-			$title_attr = isset( $breadcrumb['title'] ) ? 'title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '" ' . $title_attr . ' >' . $text . '</a>';
+			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
+			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
-		elseif ( $index === ( $total - 1) ) {
+		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
 			$inner_elm = 'span';
-			if ( $this->options->get( 'breadcrumbs-boldlast' ) === true ) {
+			if ( $this->helpers->options->get( 'breadcrumbs-boldlast' ) === true ) {
 				$inner_elm = 'strong';
 			}
 
@@ -172,7 +156,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			// This is the last element, now close all previous elements.
 			while ( $index > 0 ) {
 				$link .= '</' . $this->get_element() . '>';
-				$index--;
+				--$index;
 			}
 		}
 		else {
@@ -183,9 +167,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_breadcrumb_single_link' - Allow changing of each link being put out by the Yoast SEO breadcrumbs class.
 		 *
-		 * @api string $link_output The output string.
-		 *
 		 * @param array $link The link array.
+		 *
+		 * @api string $link_output The output string.
 		 */
 
 		return \apply_filters( 'wpseo_breadcrumb_single_link', $link, $breadcrumb );
@@ -196,7 +180,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The id attribute.
 	 */
-	private function get_id() {
+	protected function get_id() {
 		if ( ! $this->id ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
@@ -204,7 +188,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned ID to add to the wrapper element.
 			 */
 			$this->id = \apply_filters( 'wpseo_breadcrumb_output_id', '' );
-			if ( \is_string( $this->id ) && '' !== $this->id ) {
+			if ( ! \is_string( $this->id ) ) {
+				return '';
+			}
+
+			if ( $this->id !== '' ) {
 				$this->id = ' id="' . \esc_attr( $this->id ) . '"';
 			}
 		}
@@ -217,7 +205,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The class attribute.
 	 */
-	private function get_class() {
+	protected function get_class() {
 		if ( ! $this->class ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
@@ -225,7 +213,11 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			 * @api string $unsigned Class to add to the wrapper element.
 			 */
 			$this->class = \apply_filters( 'wpseo_breadcrumb_output_class', '' );
-			if ( \is_string( $this->class ) && '' !== $this->class ) {
+			if ( ! \is_string( $this->class ) ) {
+				return '';
+			}
+
+			if ( $this->class !== '' ) {
 				$this->class = ' class="' . \esc_attr( $this->class ) . '"';
 			}
 		}
@@ -238,7 +230,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The wrapper element name.
 	 */
-	private function get_wrapper() {
+	protected function get_wrapper() {
 		if ( ! $this->wrapper ) {
 			$this->wrapper = \apply_filters( 'wpseo_breadcrumb_output_wrapper', 'span' );
 			$this->wrapper = \tag_escape( $this->wrapper );
@@ -255,9 +247,9 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The separator.
 	 */
-	private function get_separator() {
+	protected function get_separator() {
 		if ( ! $this->separator ) {
-			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->options->get( 'breadcrumbs-sep' ) );
+			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->helpers->options->get( 'breadcrumbs-sep' ) );
 			$this->separator = ' ' . $this->separator . ' ';
 		}
 
@@ -269,7 +261,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return string The element to use.
 	 */
-	private function get_element() {
+	protected function get_element() {
 		if ( ! $this->element ) {
 			$this->element = \esc_attr( \apply_filters( 'wpseo_breadcrumb_single_link_wrapper', 'span' ) );
 		}

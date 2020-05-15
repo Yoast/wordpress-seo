@@ -41,7 +41,7 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_with_default_fallback() {
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-home-wpseo' )
@@ -49,5 +49,4 @@ class Title_Test extends TestCase {
 
 		$this->assertEquals( 'The homepage title', $this->instance->generate_title() );
 	}
-
 }

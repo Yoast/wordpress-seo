@@ -10,25 +10,25 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**
- * Class OG_Image_Generator_Test
+ * Class Images_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Values\Open_Graph\Images
  *
  * @group values
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Images_Test extends TestCase {
 
 	/**
 	 * @var Mockery\MockInterface|Open_Graph_Image_Helper
 	 */
-	protected $open_graph_image_helper;
+	protected $open_graph_image;
 
 	/**
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Images
@@ -38,7 +38,7 @@ class Images_Test extends TestCase {
 	/**
 	 * @var Url_Helper|Mockery\Mock
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * Setup the tests.
@@ -46,13 +46,14 @@ class Images_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image_helper            = Mockery::mock( Image_Helper::class )->makePartial();
-		$this->url_helper              = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->open_graph_image_helper = Mockery::mock(
-			Open_Graph_Image_Helper::class, [ new Url_Helper(), $this->image_helper ]
+		$this->image            = Mockery::mock( Image_Helper::class )->makePartial();
+		$this->url              = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->open_graph_image = Mockery::mock(
+			Open_Graph_Image_Helper::class, [ new Url_Helper(), $this->image ]
 		)->makePartial();
-		$this->instance = new Images( $this->image_helper, $this->url_helper );
-		$this->instance->set_helpers( $this->open_graph_image_helper );
+
+		$this->instance = new Images( $this->image, $this->url );
+		$this->instance->set_helpers( $this->open_graph_image );
 	}
 
 	/**
@@ -61,8 +62,8 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_id
 	 */
 	public function test_add_image_by_id() {
-		$this->open_graph_image_helper
-			->expects( 'get_image_url_by_id' )
+		$this->open_graph_image
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturn( 'image.jpg' );
@@ -85,8 +86,8 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_id
 	 */
 	public function test_add_image_by_id_no_image_found() {
-		$this->open_graph_image_helper
-			->expects( 'get_image_url_by_id' )
+		$this->open_graph_image
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturnFalse();
@@ -95,5 +96,4 @@ class Images_Test extends TestCase {
 
 		$this->assertEquals( [], $this->instance->get_images() );
 	}
-
 }

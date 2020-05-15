@@ -26,9 +26,11 @@ class Robots_Test extends TestCase {
 
 	/**
 	 * Tests whether generate_robots calls the right functions of the robot helper.
+	 *
+	 * @covers \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation::generate_robots
 	 */
 	public function test_generate_robots() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'noindex-archive-wpseo', false )
@@ -45,9 +47,11 @@ class Robots_Test extends TestCase {
 
 	/**
 	 * Tests whether generate_robots return noindex if archive indexation has been disabled.
+	 *
+	 * @covers \Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation::generate_robots
 	 */
 	public function test_generate_robots_date_archive_noindex() {
-		$this->options_helper
+		$this->options
 			->expects( 'get' )
 			->once()
 			->with( 'noindex-archive-wpseo', false )

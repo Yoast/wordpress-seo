@@ -16,11 +16,11 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		$robots['index'] = 'noindex';
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get_title_default( 'title-search-wpseo' );
+		return $this->options->get_title_default( 'title-search-wpseo' );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	 *
 	 * @return string The open graph url.
 	 */
-	public function generate_og_url() {
+	public function generate_open_graph_url() {
 		$search_query = \get_search_query();
 
 		// Regex catches case when /search/page/N without search term is itself mistaken for search term.
@@ -55,5 +55,14 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
+	 */
+	public function generate_open_graph_type() {
+		return 'article';
 	}
 }

@@ -7,14 +7,16 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Abstract class for indexable extensions.
  */
-abstract class Indexable_Extension extends Yoast_Model {
+abstract class Indexable_Extension extends Model {
 
 	/**
+	 * Holds the Indexable instance.
+	 *
 	 * @var \Yoast\WP\SEO\Models\Indexable
 	 */
 	protected $indexable = null;

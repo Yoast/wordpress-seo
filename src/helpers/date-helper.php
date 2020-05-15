@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-
 /**
  * Class Date_Helper
  */
@@ -22,6 +21,8 @@ class Date_Helper {
 
 	/**
 	 * Date_Helper constructor.
+	 *
+	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct() {
 		$this->date = new \WPSEO_Date_Helper();
@@ -36,6 +37,8 @@ class Date_Helper {
 	 * @param string $date      Date string to convert.
 	 * @param bool   $translate Whether the return date should be translated. Default false.
 	 *
+	 * @codeCoverageIgnore It just wraps an external function.
+	 *
 	 * @return string Formatted date string.
 	 */
 	public function mysql_date_to_w3c_format( $date, $translate = false ) {
@@ -47,6 +50,8 @@ class Date_Helper {
 	 *
 	 * @param string $date   String representing the date / time.
 	 * @param string $format The format that the passed date should be in.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return string The formatted date.
 	 */

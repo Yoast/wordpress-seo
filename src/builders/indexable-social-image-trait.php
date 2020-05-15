@@ -18,16 +18,22 @@ use Yoast\WP\SEO\Models\Indexable;
 trait Indexable_Social_Image_Trait {
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
+	 * The Open Graph image helper.
+	 *
 	 * @var Open_Graph_Image_Helper
 	 */
 	protected $open_graph_image;
 
 	/**
+	 * The Twitter image helper.
+	 *
 	 * @var Twitter_Image_Helper
 	 */
 	protected $twitter_image;
@@ -37,16 +43,16 @@ trait Indexable_Social_Image_Trait {
 	 *
 	 * @required
 	 *
-	 * @param Image_Helper            $image_helper     The image helper.
+	 * @param Image_Helper            $image            The image helper.
 	 * @param Open_Graph_Image_Helper $open_graph_image The Open Graph image helper.
 	 * @param Twitter_Image_Helper    $twitter_image    The Twitter image helper.
 	 */
 	public function set_social_image_helpers(
-		Image_Helper $image_helper,
+		Image_Helper $image,
 		Open_Graph_Image_Helper $open_graph_image,
 		Twitter_Image_Helper $twitter_image
 	) {
-		$this->image_helper     = $image_helper;
+		$this->image            = $image;
 		$this->open_graph_image = $open_graph_image;
 		$this->twitter_image    = $twitter_image;
 	}
@@ -59,11 +65,11 @@ trait Indexable_Social_Image_Trait {
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
 		if ( ! empty( $alternative_image['image_id'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image_id     = $alternative_image['image_id'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image_id     = $alternative_image['image_id'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 
-				$this->set_og_image_meta_data( $indexable );
+				$this->set_open_graph_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -74,9 +80,9 @@ trait Indexable_Social_Image_Trait {
 		}
 
 		if ( ! empty( $alternative_image['image'] ) ) {
-			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image        = $alternative_image['image'];
-				$indexable->og_image_source = $alternative_image['source'];
+			if ( ! $indexable->open_graph_image_source && ! $indexable->open_graph_image_id ) {
+				$indexable->open_graph_image        = $alternative_image['image'];
+				$indexable->open_graph_image_source = $alternative_image['source'];
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -87,20 +93,20 @@ trait Indexable_Social_Image_Trait {
 	}
 
 	/**
-	 * Sets the OG image meta data for an og image
+	 * Sets the Open Graph image meta data for an og image
 	 *
 	 * @param Indexable $indexable The indexable.
 	 */
-	protected function set_og_image_meta_data( Indexable $indexable ) {
-		if ( ! $indexable->og_image_id ) {
+	protected function set_open_graph_image_meta_data( Indexable $indexable ) {
+		if ( ! $indexable->open_graph_image_id ) {
 			return;
 		}
 
-		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+		$image = $this->open_graph_image->get_image_by_id( $indexable->open_graph_image_id );
 
 		if ( ! empty( $image ) ) {
-			$indexable->og_image      = $image['url'];
-			$indexable->og_image_meta = wp_json_encode( $image );
+			$indexable->open_graph_image      = $image['url'];
+			$indexable->open_graph_image_meta = wp_json_encode( $image );
 		}
 	}
 
@@ -111,10 +117,10 @@ trait Indexable_Social_Image_Trait {
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
 		// When the image or image id is set.
-		if ( $indexable->og_image || $indexable->og_image_id ) {
-			$indexable->og_image_source = 'set-by-user';
+		if ( $indexable->open_graph_image || $indexable->open_graph_image_id ) {
+			$indexable->open_graph_image_source = 'set-by-user';
 
-			$this->set_og_image_meta_data( $indexable );
+			$this->set_open_graph_image_meta_data( $indexable );
 		}
 
 		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {
@@ -126,7 +132,7 @@ trait Indexable_Social_Image_Trait {
 		}
 
 		// When image sources are set already.
-		if ( $indexable->og_image_source && $indexable->twitter_image_source ) {
+		if ( $indexable->open_graph_image_source && $indexable->twitter_image_source ) {
 			return;
 		}
 
@@ -142,10 +148,10 @@ trait Indexable_Social_Image_Trait {
 	 * @param Indexable $indexable The indexable to set images for.
 	 */
 	protected function reset_social_images( Indexable $indexable ) {
-		$indexable->og_image        = null;
-		$indexable->og_image_id     = null;
-		$indexable->og_image_source = null;
-		$indexable->og_image_meta   = null;
+		$indexable->open_graph_image        = null;
+		$indexable->open_graph_image_id     = null;
+		$indexable->open_graph_image_source = null;
+		$indexable->open_graph_image_meta   = null;
 
 		$indexable->twitter_image        = null;
 		$indexable->twitter_image_id     = null;

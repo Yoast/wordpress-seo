@@ -18,21 +18,24 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritdoc
+	 * The indexable repository.
+	 *
+	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
 	}
 
 	/**
-	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
-	 */
-	protected $repository;
-
-	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
 	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
+	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct( Indexable_Repository $repository ) {
@@ -40,7 +43,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_action( 'update_option_page_on_front', [ $this, 'update_static_homepage_permalink' ], 10, 2 );

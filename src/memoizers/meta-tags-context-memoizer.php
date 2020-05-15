@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Memoizers
  */
 
-namespace Yoast\WP\SEO\Memoizer;
+namespace Yoast\WP\SEO\Memoizers;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Blocks_Helper;
@@ -19,31 +19,43 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Meta_Tags_Context_Memoizer {
 
 	/**
+	 * The blocks helper.
+	 *
 	 * @var Blocks_Helper
 	 */
 	private $blocks;
 
 	/**
+	 * The current page helper.
+	 *
 	 * @var Current_Page_Helper
 	 */
 	private $current_page;
 
 	/**
+	 * The indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context
 	 */
 	private $context_prototype;
 
 	/**
+	 * The presentation memoizer.
+	 *
 	 * @var Presentation_Memoizer
 	 */
 	private $presentation_memoizer;
 
 	/**
+	 * The meta tags context.
+	 *
 	 * @var Meta_Tags_Context[]
 	 */
 	private $cache = [];
@@ -81,7 +93,6 @@ class Meta_Tags_Context_Memoizer {
 		if ( ! isset( $this->cache['current_page'] ) ) {
 			$indexable = $this->repository->for_current_page();
 			$page_type = $this->current_page->get_page_type();
-
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 		}
 
@@ -106,7 +117,7 @@ class Meta_Tags_Context_Memoizer {
 				$blocks = $this->blocks->get_all_blocks_from_content( $post->post_content );
 			}
 
-			$context               = $this->context_prototype->of( [
+			$context = $this->context_prototype->of( [
 				'indexable' => $indexable,
 				'blocks'    => $blocks,
 				'post'      => $post,

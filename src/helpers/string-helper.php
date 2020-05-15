@@ -17,6 +17,8 @@ class String_Helper {
 	 *
 	 * @param string $string The string to strip the tags from.
 	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
 	 * @return string The processed string.
 	 */
 	public function strip_all_tags( $string ) {

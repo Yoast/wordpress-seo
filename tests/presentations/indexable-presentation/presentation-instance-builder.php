@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\SEO\Generators\OG_Image_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
@@ -54,5 +54,4 @@ trait Presentation_Instance_Builder {
 
 		$this->context->indexable = $this->indexable;
 	}
-
 }

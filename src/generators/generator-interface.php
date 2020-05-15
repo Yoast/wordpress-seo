@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators
+ * @package Yoast\WP\SEO\Generators
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators;
+namespace Yoast\WP\SEO\Generators;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 

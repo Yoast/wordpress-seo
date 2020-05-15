@@ -23,4 +23,11 @@ class Indexable_Static_Home_Page_Presentation extends Indexable_Post_Type_Presen
 	protected function get_paginated_url( $url, $page ) {
 		return $this->pagination->get_paginated_url( $url, $page );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_open_graph_type() {
+		return 'website';
+	}
 }

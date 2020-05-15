@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\SEO\Config\Ruckusing_Framework;
+use Exception;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Config\Migration_Status;
-use Yoast\WP\SEO\Loggers\Logger;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\SEO\Config\Ruckusing_Framework;
 
 /**
  * Triggers database migrations and handles results.
@@ -34,13 +34,8 @@ class Migration_Runner implements Initializer_Interface {
 	protected $framework;
 
 	/**
-	 * The logger object.
+	 * The migration status.
 	 *
-	 * @var Logger
-	 */
-	protected $logger;
-
-	/**
 	 * @var Migration_Status
 	 */
 	protected $migration_status;
@@ -50,16 +45,13 @@ class Migration_Runner implements Initializer_Interface {
 	 *
 	 * @param Migration_Status    $migration_status The migration status.
 	 * @param Ruckusing_Framework $framework        The Ruckusing framework runner.
-	 * @param Logger              $logger           A PSR compatible logger.
 	 */
 	public function __construct(
 		Migration_Status $migration_status,
-		Ruckusing_Framework $framework,
-		Logger $logger
+		Ruckusing_Framework $framework
 	) {
 		$this->migration_status = $migration_status;
 		$this->framework        = $framework;
-		$this->logger           = $logger;
 	}
 
 	/**
@@ -70,7 +62,20 @@ class Migration_Runner implements Initializer_Interface {
 	 * @return void
 	 */
 	public function initialize() {
-		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
+		$this->run_free_migrations();
+		// The below actions is used for when queries fail, this may happen in a multisite environment when switch_to_blog is used.
+		\add_action( '_yoast_run_migrations', [ $this, 'run_free_migrations' ] );
+	}
+
+	/**
+	 * Runs the free migrations.
+	 *
+	 * @throws \Exception When a migration errored.
+	 *
+	 * @return void
+	 */
+	public function run_free_migrations() {
+		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'src/config/migrations' );
 	}
 
 	/**
@@ -105,7 +110,7 @@ class Migration_Runner implements Initializer_Interface {
 			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
 			// Run this before calling the framework runner so it doesn't create it's own.
 			if ( ! $adapter->has_table( $migrations_table_name ) ) {
-				$table = $adapter->create_table( $migrations_table_name, [ 'id' => false ] );
+				$table = $adapter->create_table( $migrations_table_name );
 				$table->column( 'version', 'string', [ 'limit' => 191 ] );
 				$table->finish();
 				$adapter->add_index( $migrations_table_name, 'version', [ 'unique' => true ] );
@@ -115,9 +120,7 @@ class Migration_Runner implements Initializer_Interface {
 			// determine the actual directory if the plugin is installed with composer.
 			$task_manager = $this->framework->get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory );
 			$task_manager->execute( $framework_runner, 'db:migrate', [] );
-		} catch ( \Exception $exception ) {
-			$this->logger->error( $exception->getMessage() );
-
+		} catch ( Exception $exception ) {
 			// Something went wrong...
 			$this->migration_status->set_error( $name, $exception->getMessage() );
 

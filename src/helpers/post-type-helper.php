@@ -15,23 +15,11 @@ use WPSEO_Post_Type;
 class Post_Type_Helper {
 
 	/**
-	 * @var String_Helper
-	 */
-	private $string;
-
-	/**
-	 * Taxonomy_Helper constructor.
-	 *
-	 * @param String_Helper $string The string helper.
-	 */
-	public function __construct( String_Helper $string ) {
-		$this->string = $string;
-	}
-
-	/**
 	 * Checks if the request post type is public and indexable.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @return bool True when post type is set to index.
 	 */
@@ -42,42 +30,28 @@ class Post_Type_Helper {
 	/**
 	 * Returns an array with the public post types.
 	 *
+	 * @param string $output The output type to use.
+	 *
+	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
 	 * @return array Array with all the public post_types.
 	 */
-	public function get_public_post_types() {
-		return \get_post_types( [ 'public' => true ] );
+	public function get_public_post_types( $output = 'names' ) {
+		return \get_post_types( [ 'public' => true ], $output );
 	}
 
 	/**
-	 * Removes all shortcode tags from the given content.
+	 * Checks if the post type with the given name has an archive page.
 	 *
-	 * @param string $content Content to remove all the shortcode tags from.
+	 * @param WP_Post_Type|string $post_type The name of the post type to check.
 	 *
-	 * @return string Content without shortcode tags.
+	 * @return bool True when the post type has an archive page.
 	 */
-	public function strip_shortcodes( $content ) {
-		return \strip_shortcodes( $content );
-	}
+	public function has_archive( $post_type ) {
+		if ( \is_string( $post_type ) ) {
+			$post_type = \get_post_type_object( $post_type );
+		}
 
-	/**
-	 * Retrieves the post excerpt (without tags).
-	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return string Post excerpt (without tags).
-	 */
-	public function get_the_excerpt( $post_id ) {
-		return $this->string->strip_all_tags( \get_the_excerpt( $post_id ) );
-	}
-
-	/**
-	 * Retrieves the post type of the current post.
-	 *
-	 * @param WP_Post $post The post.
-	 *
-	 * @return string|false          Post type on success, false on failure.
-	 */
-	public function get_post_type( $post = null ) {
-		return \get_post_type( $post );
+		return WPSEO_Post_Type::has_archive( $post_type );
 	}
 }

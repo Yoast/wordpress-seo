@@ -15,7 +15,8 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.7-indexables-RC2' );
+define( 'WPSEO_VERSION', '14.2-RC1' );
+
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -92,7 +93,7 @@ if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
  * Only use minified assets when we are in a production environment.
  */
 if ( ! defined( 'WPSEO_CSSJS_SUFFIX' ) ) {
-	define( 'WPSEO_CSSJS_SUFFIX', ( 'development' !== YOAST_ENVIRONMENT ) ? '.min' : '' );
+	define( 'WPSEO_CSSJS_SUFFIX', ( YOAST_ENVIRONMENT !== 'development' ) ? '.min' : '' );
 }
 
 /* ***************************** PLUGIN (DE-)ACTIVATION *************************** */
@@ -199,8 +200,8 @@ function _wpseo_activate() {
 	$notifier->manage_notification();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_onpage = new WPSEO_OnPage();
-	$wpseo_onpage->activate_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
 }
@@ -267,7 +268,7 @@ function wpseo_load_textdomain() {
 	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
 	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
 
-	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+	if ( stripos( $wpseo_path, $mu_path ) !== false ) {
 		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
 	}
 	else {
@@ -329,15 +330,15 @@ function wpseo_init() {
 	}
 
 	// Loading Ryte integration.
-	$wpseo_onpage = new WPSEO_OnPage();
-	$wpseo_onpage->register_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->register_hooks();
 
 	// When namespaces are not available, stop further execution.
 	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 		require_once WPSEO_PATH . 'src/functions.php';
 
 		// Initializes the Yoast indexables for the first time.
-		yoastseo();
+		YoastSEO();
 
 		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
 	}
@@ -356,12 +357,10 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
-	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
+	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
 	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
@@ -457,7 +456,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	if ( is_admin() ) {
 
-		new Yoast_Alerts();
+		new Yoast_Notifications();
 
 		$yoast_addon_manager = new WPSEO_Addon_Manager();
 		$yoast_addon_manager->register_hooks();
@@ -644,19 +643,26 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
 /**
  * Instantiate the different social classes on the frontend.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_head_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
 
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  * @codeCoverageIgnore
  */
 function wpseo_frontend_init() {
-	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 }
+
+/**
+ * Aliasses added in order to keep compatibility with Yoast SEO: Local.
+ */
+class_alias( '\Yoast\WP\SEO\Initializers\Initializer_Interface', '\Yoast\WP\SEO\WordPress\Initializer' );
+class_alias( '\Yoast\WP\SEO\Loadable_Interface', '\Yoast\WP\SEO\WordPress\Loadable' );
+class_alias( '\Yoast\WP\SEO\Integrations\Integration_Interface', '\Yoast\WP\SEO\WordPress\Integration' );

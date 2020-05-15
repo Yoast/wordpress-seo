@@ -43,7 +43,7 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_title_without_set_title() {
-		$this->options_helper
+		$this->options
 			->expects( 'get_title_default' )
 			->once()
 			->with( 'title-404-wpseo' )

@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class Image_Helper
@@ -15,18 +16,34 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
-	 * Image types that are supported by OpenGraph.
+	 * Image types that are supported by Open Graph.
 	 *
 	 * @var array
 	 */
 	protected static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png' ];
 
 	/**
-	 * Image extensions that are supported by OpenGraph.
+	 * Image extensions that are supported by Open Graph.
 	 *
 	 * @var array
 	 */
 	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
+
+	/**
+	 * Represents the indexables repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
+
+	/**
+	 * Image_Helper constructor.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function __construct( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
+	}
 
 	/**
 	 * Determines whether or not the wanted attachment is considered valid.
@@ -104,27 +121,6 @@ class Image_Helper {
 	}
 
 	/**
-	 * Gets the first image url of a gallery.
-	 *
-	 * @param int $post_id Post ID to use.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_gallery_image( $post_id ) {
-		$post = \get_post( $post_id );
-		if ( ! \has_shortcode( $post->post_content, 'gallery' ) ) {
-			return '';
-		}
-
-		$images = \get_post_gallery_images();
-		if ( empty( $images ) ) {
-			return '';
-		}
-
-		return \reset( $images );
-	}
-
-	/**
 	 * Gets the image url from the content.
 	 *
 	 * @param int $post_id The post id to extract the images from.
@@ -139,6 +135,27 @@ class Image_Helper {
 		}
 
 		return $image_url;
+	}
+
+	/**
+	 * Gets the first image url of a gallery.
+	 *
+	 * @param int $post_id Post ID to use.
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	public function get_gallery_image( $post_id ) {
+		$post = \get_post( $post_id );
+		if ( \strpos( $post->post_content, '[gallery' ) === false ) {
+			return '';
+		}
+
+		$images = \get_post_gallery_images( $post );
+		if ( empty( $images ) ) {
+			return '';
+		}
+
+		return \reset( $images );
 	}
 
 	/**
@@ -159,12 +176,66 @@ class Image_Helper {
 	}
 
 	/**
-	 * Find the right version of an image based on size.*
+	 * Retrieves the caption for an attachment.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return string The caption when found, empty string when no caption is found.
+	 */
+	public function get_caption( $attachment_id ) {
+		$caption = \wp_get_attachment_caption( $attachment_id );
+		if ( ! empty( $caption ) ) {
+			return $caption;
+		}
+
+		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+		if ( ! empty( $caption ) ) {
+			return $caption;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the attachment metadata.
+	 *
+	 * @param int $attachment_id Attachment ID.
+	 *
+	 * @return array The metadata, empty array when no metadata is found.
+	 */
+	public function get_metadata( $attachment_id ) {
+		$metadata = \wp_get_attachment_metadata( $attachment_id );
+		if ( ! $metadata || ! is_array( $metadata ) ) {
+			return [];
+		}
+
+		return $metadata;
+	}
+
+	/**
+	 * Retrieves the attachment image url.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          The size to get.
+	 *
+	 * @return string The url when found, empty string otherwise.
+	 */
+	public function get_attachment_image_url( $attachment_id, $size ) {
+		$url = \wp_get_attachment_image_url( $attachment_id, $size );
+		if ( ! $url ) {
+			return '';
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Find the right version of an image based on size.
 	 *
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
@@ -175,16 +246,14 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 * @param int $attachment_id The attachment id.
 	 *
-	 * @param int   $attachment_id The attachment id.
-	 * @param array $image_params  The image parameters to get dimensions for.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
-	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
+	public function get_best_attachment_variation( $attachment_id ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
-		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
@@ -199,14 +268,33 @@ class Image_Helper {
 	/**
 	 * Find an attachment ID for a given URL.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string $url The URL to find the attachment for.
 	 *
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public function get_attachment_by_url( $url ) {
-		return WPSEO_Image_Utils::get_attachment_by_url( $url );
+		// Strip out the size part of an image URL.
+		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
+
+		// Don't try to do this for external URLs.
+		if ( strpos( $url, \get_site_url() ) !== 0 ) {
+			return 0;
+		}
+
+		$indexable = $this->indexable_repository->find_by_permalink( $url );
+
+		if ( $indexable && $indexable->object_type === 'post' && $indexable->object_sub_type === 'attachment' ) {
+			return $indexable->object_id;
+		}
+
+		$post_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+
+		if ( $post_id !== 0 ) {
+			// Find the indexable, this triggers creating it so it can be found next time.
+			$this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+		}
+
+		return $post_id;
 	}
 
 	/**
@@ -215,9 +303,9 @@ class Image_Helper {
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
 	 * 0 is also a possibility when no ID is available.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return int|bool The attachment id, or false or 0 if no ID is available.
 	 */
@@ -228,15 +316,16 @@ class Image_Helper {
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @return string|null
 	 */
 	protected function get_first_usable_content_image_for_post( $post_id ) {
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
+
 	/**
 	 * Gets the term's first usable content image. Null if none is available.
 	 *

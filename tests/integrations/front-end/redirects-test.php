@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -75,6 +76,31 @@ class Redirects_Test extends TestCase {
 		$this->instance     = Mockery::mock( Redirects::class, [ $this->options, $this->meta, $this->current_page, $this->redirect ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
+	}
+
+	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Front_End_Conditional::class ],
+			Redirects::get_conditionals()
+		);
+	}
+
+	/**
+	 * Tests if the expected hooks are registered.
+	 *
+	 * @covers ::register_hooks
+	 */
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
+
+		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'archive_redirect' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'page_redirect' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'attachment_redirect' ] ) );
 	}
 
 	/**
@@ -199,7 +225,7 @@ class Redirects_Test extends TestCase {
 		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
-			->with( 'https://example.org/redirect' );
+			->with( 'https://example.org/redirect', 301 );
 
 		$this->instance->page_redirect();
 	}
@@ -297,9 +323,8 @@ class Redirects_Test extends TestCase {
 		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
-			->with( 'https://example.org/redirect' );
+			->with( 'https://example.org/redirect', 301 );
 
 		$this->instance->attachment_redirect();
 	}
-
 }

@@ -2,62 +2,30 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\SEO\Presentations\Generators\Schema
+ * @package Yoast\WP\SEO\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Presentations\Generators\Schema;
-
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Helpers\Article_Helper;
-use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+namespace Yoast\WP\SEO\Generators\Schema;
 
 /**
  * Returns schema FAQ data.
- *
- * @since 11.3
  */
 class FAQ extends Abstract_Schema_Piece {
 
 	/**
-	 * @var Article_Helper
-	 */
-	private $article_helper;
-
-	/**
-	 * @var HTML_Helper
-	 */
-	private $html_helper;
-
-	/**
-	 * Article constructor.
-	 *
-	 * @param Article_Helper $article_helper The article helper.
-	 * @param HTML_Helper    $html_helper    The HTML helper.
-	 */
-	public function __construct(
-		Article_Helper $article_helper,
-		HTML_Helper $html_helper
-	) {
-		$this->article_helper = $article_helper;
-		$this->html_helper    = $html_helper;
-	}
-
-	/**
 	 * Determines whether or not a piece should be added to the graph.
-	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
-	public function is_needed( Meta_Tags_Context $context ) {
-		if ( empty( $context->blocks['yoast/faq-block'] ) ) {
+	public function is_needed() {
+		if ( empty( $this->context->blocks['yoast/faq-block'] ) ) {
 			return false;
 		}
 
-		if ( ! \is_array( $context->schema_page_type ) ) {
-			$context->schema_page_type = [ $context->schema_page_type ];
+		if ( ! \is_array( $this->context->schema_page_type ) ) {
+			$this->context->schema_page_type = [ $this->context->schema_page_type ];
 		}
-		$context->schema_page_type[] = 'FAQPage';
+		$this->context->schema_page_type[] = 'FAQPage';
 
 		return true;
 	}
@@ -65,36 +33,30 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Render a list of questions, referencing them by ID.
 	 *
-	 * @param Meta_Tags_Context $context The meta tags context.
-	 *
 	 * @return array $data Our Schema graph.
 	 */
-	public function generate( Meta_Tags_Context $context ) {
-		$ids   = [];
-		$graph = [];
-		$number_of_blocks = count( $context->blocks['yoast/faq-block'] );
+	public function generate() {
+		$ids             = [];
+		$graph           = [];
 		$number_of_items = 0;
 
-		for ( $block_number = 0; $block_number < $number_of_blocks; $block_number++ ) {
-			foreach ( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] as $index => $question ) {
+		foreach ( $this->context->blocks['yoast/faq-block'] as $block ) {
+			foreach ( $block['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
-				$ids[]   = [ '@id' => $context->canonical . '#' . esc_attr( $question['id'] ) ];
-				$graph[] = $this->generate_question_block( $question, $index, $context );
-				$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
+				$ids[]   = [ '@id' => $this->context->canonical . '#' . esc_attr( $question['id'] ) ];
+				$graph[] = $this->generate_question_block( $question, $index );
+				++$number_of_items;
 			}
 		}
 
-		\array_unshift(
-			$graph,
-			[
-				'@type'            => 'ItemList',
-				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
-				'numberOfItems'    => $number_of_items,
-				'itemListElement'  => $ids,
-			]
-		);
+		\array_unshift( $graph, [
+			'@type'            => 'ItemList',
+			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
+			'numberOfItems'    => $number_of_items,
+			'itemListElement'  => $ids,
+		] );
 
 		return $graph;
 	}
@@ -102,26 +64,44 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Generate a Question piece.
 	 *
-	 * @param array             $question The question to generate schema for.
-	 * @param int               $position The position of the question.
-	 * @param Meta_Tags_Context $context  The meta tags context.
+	 * @param array $question The question to generate schema for.
+	 * @param int   $position The position of the question.
 	 *
 	 * @return array Schema.org Question piece.
 	 */
-	protected function generate_question_block( $question, $position, Meta_Tags_Context $context ) {
-		$url = $context->canonical . '#' . esc_attr( $question['id'] );
+	protected function generate_question_block( $question, $position ) {
+		$url = $this->context->canonical . '#' . esc_attr( $question['id'] );
 
-		return [
+		$data = [
 			'@type'          => 'Question',
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
-			'name'           => \strip_tags( $question['jsonQuestion'] ),
+			'name'           => $this->helpers->schema->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'acceptedAnswer' => [
-				'@type' => 'Answer',
-				'text'  => $this->html_helper->sanitize( $question['jsonAnswer'] ),
-			],
+			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
+
+		$data = $this->helpers->schema->language->add_piece_language( $data );
+
+		return $data;
+	}
+
+	/**
+	 * Adds the Questions `acceptedAnswer` property.
+	 *
+	 * @param array $question The question to add the acceptedAnswer to.
+	 *
+	 * @return array Schema.org Question piece.
+	 */
+	protected function add_accepted_answer_property( $question ) {
+		$data = [
+			'@type' => 'Answer',
+			'text'  => $this->helpers->schema->html->sanitize( $question['jsonAnswer'] ),
+		];
+
+		$data = $this->helpers->schema->language->add_piece_language( $data );
+
+		return $data;
 	}
 }

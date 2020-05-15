@@ -42,7 +42,7 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/js/tests/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(css|less)$": "<rootDir>/js/tests/__mocks__/styleMock.js",
       "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
     },
     "snapshotSerializers": [
@@ -51,11 +51,12 @@
     "testURL": "http://localhost/"
   },
   "devDependencies": {
+    "@slack/webhook": "^5.0.2",
     "@wordpress/babel-plugin-makepot": "^1.0.0",
     "@wordpress/babel-preset-default": "^1.1.3",
     "@wordpress/data": "^4.10.0",
     "@wordpress/element": "^2.9.0",
-    "@yoast/grunt-plugin-tasks": "^1.6.0",
+    "@yoast/grunt-plugin-tasks": "^1.6.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^18.0.0",
@@ -71,23 +72,31 @@
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "colors": "^1.4.0",
+    "copy-webpack-plugin": "^4.6.0",
     "cross-env": "^5.2.0",
+    "css-loader": "^3.4.2",
+    "dotenv": "^8.2.0",
     "envify": "^3.4.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
+    "grunt-git": "^1.0.14",
     "grunt-po2json": "^0.3.0",
+    "grunt-prompt": "^1.3.3",
     "grunt-webpack": "^3.1.3",
     "i18n-calypso": "^1.8.4",
     "jest": "^23.3.0",
     "jest-styled-components": "^6.3.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-fetch": "^2.6.0",
     "raf": "^3.4.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "readline-sync": "^1.4.9",
-    "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
+    "tmp": "^0.1.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
@@ -95,12 +104,12 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^0.12.0-rc.2",
-    "@yoast/components": "^0.12.0-rc.2",
-    "@yoast/configuration-wizard": "^1.11.0-rc.2",
-    "@yoast/helpers": "^0.10.0-rc.2",
-    "@yoast/search-metadata-previews": "^1.15.0-rc.2",
-    "@yoast/style-guide": "^0.10.0-rc.1",
+    "@yoast/analysis-report": "^1.4.0-rc.2",
+    "@yoast/components": "^2.2.0-rc.2",
+    "@yoast/configuration-wizard": "^2.4.0-rc.2",
+    "@yoast/helpers": "^0.12.1-rc.1",
+    "@yoast/search-metadata-previews": "^2.4.0-rc.2",
+    "@yoast/style-guide": "^0.11.2-rc.1",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -113,6 +122,7 @@
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
+    "postcss-import": "^12.0.1",
     "prop-types": "^15.5.10",
     "react-intl": "^2.4.0",
     "react-redux": "^5.0.6",
@@ -121,13 +131,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.39.0-rc.2",
-    "yoastseo": "^1.66.0-rc.1"
+    "yoast-components": "^5.4.0-rc.2",
+    "yoastseo": "^1.75.0-rc.1"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "12.7-indexables-RC2"
+    "pluginVersion": "14.2-RC1"
   }
 }

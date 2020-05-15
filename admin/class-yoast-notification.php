@@ -320,10 +320,10 @@ class Yoast_Notification {
 
 		// Default notification classes.
 		$classes = [
-			'yoast-alert',
+			'yoast-notification',
 		];
 
-		// Maintain WordPress visualisation of alerts when they are not persistent.
+		// Maintain WordPress visualisation of notifications when they are not persistent.
 		if ( ! $this->is_persistent() ) {
 			$classes[] = 'notice';
 			$classes[] = $this->get_type();
@@ -397,7 +397,7 @@ class Yoast_Notification {
 		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
 
 		// Set default capabilities when not supplied.
-		if ( empty( $options['capabilities'] ) || [] === $options['capabilities'] ) {
+		if ( empty( $options['capabilities'] ) || $options['capabilities'] === [] ) {
 			$options['capabilities'] = [ 'wpseo_manage_options' ];
 		}
 

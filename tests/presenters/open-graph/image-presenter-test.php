@@ -14,17 +14,21 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter
  *
  * @group presenters
- * @group opengraph
- * @group opengraph-image
+ * @group open-graph
+ * @group open-graph-image
  */
 class Image_Presenter_Test extends TestCase {
 
 	/**
+	 * The image presenter instance.
+	 *
 	 * @var Image_Presenter|Mockery\MockInterface
 	 */
 	protected $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
 	 * @var Indexable_Presentation
 	 */
 	protected $presentation;
@@ -37,6 +41,8 @@ class Image_Presenter_Test extends TestCase {
 
 		$this->instance     = Mockery::mock( Image_Presenter::class )->makePartial();
 		$this->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -45,9 +51,9 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_no_set_images() {
-		$this->presentation->og_images = [];
+		$this->presentation->open_graph_images = [];
 
-		$this->assertEmpty( $this->instance->present( $this->presentation ) );
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -62,11 +68,11 @@ class Image_Presenter_Test extends TestCase {
 			'height' => 100,
 		];
 
-		$this->presentation->og_images = [ $image ];
+		$this->presentation->open_graph_images = [ $image ];
 
 		$this->assertEquals(
-			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:secure_url" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
-			$this->instance->present( $this->presentation )
+			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
+			$this->instance->present()
 		);
 	}
 
@@ -98,5 +104,20 @@ class Image_Presenter_Test extends TestCase {
 		$this->assertEquals( [ 'url' => 'filtered_image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
 	}
 
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$image = [
+			'url'    => 'https://example.com/image.jpg',
+			'width'  => 100,
+			'height' => 100,
+		];
 
+		$this->presentation->open_graph_images = [ $image ];
+
+		$this->assertSame( [ $image ], $this->instance->get() );
+	}
 }

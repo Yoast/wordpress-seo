@@ -8,7 +8,7 @@
 /**
  * This code adds the OpenGraph output.
  *
- * @deprecated xx.x
+ * @deprecated 14.0
  */
 class WPSEO_OpenGraph {
 
@@ -17,27 +17,27 @@ class WPSEO_OpenGraph {
 	/**
 	 * Class constructor.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Main OpenGraph output.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 */
 	public function opengraph() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Internal function to output FB tags. This also adds an output filter to each bit of output based on the property.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $property Property attribute value.
@@ -46,16 +46,16 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function og_tag( $property, $content ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		/**
 		 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 		 *
-		 * @deprecated xx.x
+		 * @deprecated 14.0
 		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO xx.x');
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO 14.0');
 
 		return true;
 	}
@@ -92,7 +92,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -100,7 +100,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function url() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}
@@ -108,7 +108,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the SEO title as OpenGraph title.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -118,7 +118,7 @@ class WPSEO_OpenGraph {
 	 * @return string|boolean
 	 */
 	public function og_title( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}
@@ -126,7 +126,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the OpenGraph description, specific OG description first, if not, grabs the meta description.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @param bool $echo Whether to echo or return the description.
@@ -134,7 +134,7 @@ class WPSEO_OpenGraph {
 	 * @return string $ogdesc
 	 */
 	public function description( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return '';
 	}
@@ -142,7 +142,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the author's FB page.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
@@ -151,7 +151,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function article_author_facebook() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}
@@ -159,7 +159,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the website's FB page.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
@@ -168,7 +168,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function website_facebook() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}
@@ -176,7 +176,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the OpenGraph type.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @param boolean $echo Whether to echo or return the type.
@@ -184,7 +184,7 @@ class WPSEO_OpenGraph {
 	 * @return string $type
 	 */
 	public function type( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return '';
 	}
@@ -194,7 +194,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * Last update/compare with FB list done on 2015-03-16 by Rarst.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
@@ -205,7 +205,7 @@ class WPSEO_OpenGraph {
 	 * @return string $locale
 	 */
 	public function locale( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return '';
 	}
@@ -213,7 +213,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Filters the Facebook plugins metadata.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @param array $meta_tags The array to fix.
@@ -221,27 +221,27 @@ class WPSEO_OpenGraph {
 	 * @return array $meta_tags
 	 */
 	public function facebook_filter( $meta_tags ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		return array();
+		return [];
 	}
 
 	/**
 	 * Outputs the site name straight from the blog info.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function site_name() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Outputs the article publish and last modification date.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -249,7 +249,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean;
 	 */
 	public function publish_date() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return true;
 	}
@@ -257,33 +257,33 @@ class WPSEO_OpenGraph {
 	/**
 	 * Creates new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
-
+	 *
 	 * @param string|bool $image Optional. Image URL.
 	 *
 	 * @return void
 	 */
 	public function image( $image = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Outputs the Facebook app_id.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function app_id() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 	}
 
 	/**
 	 * Outputs the article tags as article:tag tags.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -291,7 +291,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function tags() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}
@@ -299,7 +299,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the article category as an article:section tag.
 	 *
-	 * @deprecated xx.x
+	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -307,7 +307,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean;
 	 */
 	public function category() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return false;
 	}

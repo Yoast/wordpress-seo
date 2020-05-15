@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 class Images {
 
 	/**
+	 * The image size.
+	 *
 	 * @var string
 	 */
 	public $image_size = 'full';
@@ -30,11 +32,15 @@ class Images {
 	protected $images = [];
 
 	/**
+	 * The image helper.
+	 *
 	 * @var Image_Helper
 	 */
 	protected $image;
 
 	/**
+	 * The URL helper.
+	 *
 	 * @var Url_Helper
 	 */
 	protected $url;
@@ -122,7 +128,7 @@ class Images {
 			$image = [ 'url' => $image ];
 		}
 
-		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] )  ) {
+		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
 			return;
 		}
 

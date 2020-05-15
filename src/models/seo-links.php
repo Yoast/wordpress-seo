@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Table definition for the SEO Meta table.
@@ -18,5 +18,16 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int    $target_post_id
  * @property string $type
  */
-class SEO_Links extends Yoast_Model {
+class SEO_Links extends Model {
+
+	/**
+	 * Which columns contain int values.
+	 *
+	 * @var array
+	 */
+	protected $int_columns = [
+		'id',
+		'post_id',
+		'target_post_id',
+	];
 }

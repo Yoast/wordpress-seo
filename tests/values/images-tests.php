@@ -20,7 +20,7 @@ class Images_Test extends TestCase {
 	/**
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * @var Images|Mockery\MockInterface
@@ -30,7 +30,7 @@ class Images_Test extends TestCase {
 	/**
 	 * @var Url_Helper|Mockery\Mock
 	 */
-	protected $url_helper;
+	protected $url;
 
 	/**
 	 * Setup the tests.
@@ -38,9 +38,9 @@ class Images_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image_helper = Mockery::mock( Image_Helper::class )->makePartial();
-		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance     = Mockery::mock( Images::class, [ $this->image_helper, $this->url_helper ] );
+		$this->image    = Mockery::mock( Image_Helper::class )->makePartial();
+		$this->url      = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->instance = Mockery::mock( Images::class, [ $this->image, $this->url ] );
 	}
 
 	/**
@@ -141,14 +141,14 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_url
 	 */
 	public function test_add_image_by_url() {
-		$this->image_helper
+		$this->image
 			->expects( 'get_attachment_by_url' )
 			->once()
 			->with( 'image.jpg' )
 			->andReturn( 1337 );
 
 		$this->instance
-			->expects( 'get_image_url_by_id' )
+			->expects( 'get_image_by_id' )
 			->once()
 			->with( 1337 )
 			->andReturn( 'image.jpg' );
@@ -162,7 +162,7 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_url
 	 */
 	public function test_add_image_by_url_with_no_attachment_found() {
-		$this->image_helper
+		$this->image
 			->expects( 'get_attachment_by_url' )
 			->once()
 			->with( 'image.jpg' )
@@ -177,7 +177,7 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_id
 	 */
 	public function test_add_image_by_id() {
-		$this->image_helper
+		$this->image
 			->expects( 'get_attachment_image_src' )
 			->once()
 			->with( 1337, 'full' )
@@ -201,7 +201,7 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image_by_id
 	 */
 	public function test_add_image_by_id_no_image_found() {
-		$this->image_helper
+		$this->image
 			->expects( 'get_attachment_image_src' )
 			->once()
 			->with( 1337, 'full' )

@@ -26,70 +26,125 @@ class Twitter_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the Twitter image is given.
+	 * Tests the situation where a user defined Twitter image is given.
 	 *
 	 * @covers ::generate_twitter_image
+	 *
+	 * @dataProvider twitter_image_provider
+	 *
+	 * @param string $image_source   Twitter image source.
+	 * @param array  $image_generate Return value of twitter image generator.
+	 * @param string $expected       Expected value.
 	 */
-	public function test_generate_twitter_image() {
-		$this->indexable->twitter_image = 'twitter_image.jpg';
+	public function test_generate_twitter_image( $image_source, $image_generate, $expected ) {
+		$this->indexable->twitter_image_source = $image_source;
+		$this->context->open_graph_enabled     = false;
 
 		$this->twitter_image_generator
 			->expects( 'generate' )
 			->once()
 			->with( $this->context )
-			->andReturn(
-				[
+			->andReturn( $image_generate );
+
+		$this->assertEquals( $expected, $this->instance->generate_twitter_image() );
+	}
+
+	/**
+	 * Tests the situation where a user defined Twitter image is given.
+	 *
+	 * @covers ::generate_twitter_image
+	 *
+	 * @dataProvider twitter_image_open_graph_fallback_provider
+	 *
+	 * @param string $image_source     Twitter image source.
+	 * @param array  $image_generate   Return value of twitter image generator.
+	 * @param string $open_graph_image Return value of Open Graph image generator.
+	 * @param string $expected         Expected value.
+	 */
+	public function test_generate_twitter_image_with_open_graph_fallback( $image_source, $image_generate, $open_graph_image, $expected ) {
+		$this->indexable->twitter_image_source = $image_source;
+		$this->context->open_graph_enabled     = true;
+
+		$this->twitter_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn( $image_generate );
+
+		$this->instance
+			->expects( 'generate_open_graph_images' )
+			->once()
+			->andReturn( $open_graph_image );
+
+		$this->assertEquals( $expected, $this->instance->generate_twitter_image() );
+	}
+
+	/**
+	 * Provides data to the image provider, with Open Graph disabled.
+	 *
+	 * @return array The data to provide.
+	 */
+	public function twitter_image_provider() {
+		return [
+			[
+				'image_source'    => 'set-by-user',
+				'generated_image' => [
 					'twitter_image.jpg' => [
 						'url' => 'twitter_image.jpg',
 					],
-				]
-			);
-
-		$this->assertEquals( 'twitter_image.jpg', $this->instance->generate_twitter_image() );
-	}
-
-	/**
-	 * Tests the situation where an empty value is returned and Open Graph is disabled.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_disabled() {
-		$this->context->open_graph_enabled = false;
-
-		$this->twitter_image_generator
-			->expects( 'generate' )
-			->once()
-			->with( $this->context )
-			->andReturn( [] );
-
-		$this->assertEmpty( $this->instance->generate_twitter_image() );
-	}
-
-	/**
-	 * Tests the situation where an empty value is returned and Open Graph is enabled and is giving
-	 * an image.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_enabled() {
-		$this->twitter_image_generator
-			->expects( 'generate' )
-			->once()
-			->with( $this->context )
-			->andReturn( [] );
-
-		$this->og_image_generator
-			->expects( 'generate' )
-			->once()
-			->with( $this->context )
-			->andReturn(
-				[
-					'og_image.jpg' => [
-						'url' => 'og_image.jpg',
+				],
+				'expected'        => 'twitter_image.jpg',
+			],
+			[
+				'image_source'    => 'featured-image',
+				'generated_image' => [
+					'twitter_image.jpg' => [
+						'url' => 'twitter_image.jpg',
 					],
-				]
-			);
+				],
+				'expected'        => 'twitter_image.jpg',
+			],
+			[
+				'image_source'    => 'featured-image',
+				'generated_image' => [],
+				'expected'        => '',
+			],
+		];
+	}
 
-		$this->assertEquals( 'og_image.jpg', $this->instance->generate_twitter_image() );
+	/**
+	 * Provides data to the image provider, with Open Graph enabled.
+	 *
+	 * @return array The data to provide.
+	 */
+	public function twitter_image_open_graph_fallback_provider() {
+		return [
+			[
+				'image_source'              => 'featured-image',
+				'generated_image'           => [
+					'twitter_image.jpg' => [
+						'url' => 'twitter_image.jpg',
+					],
+				],
+				'open_graph_generate_image' => 'open_graph_image.jpg',
+				'expected'                  => '',
+			],
+			[
+				'image_source'              => 'featured-image',
+				'generated_image'           => [
+					'twitter_image.jpg' => [
+						'url' => 'twitter_image.jpg',
+					],
+				],
+				'open_graph_generate_image' => '',
+				'expected'                  => 'twitter_image.jpg',
+			],
+			[
+				'image_source'              => 'featured-image',
+				'generated_image'           => [],
+				'open_graph_generate_image' => '',
+				'expected'                  => '',
+			],
+		];
 	}
 }

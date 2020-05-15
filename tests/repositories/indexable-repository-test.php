@@ -1,215 +1,267 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Repositories
+ */
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
 use Mockery;
+use Brain\Monkey;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
+use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
-use YoastSEO_Vendor\ORM;
 
 /**
+ * Class Indexable_Repository_Test.
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Repositories\Indexable_Repository
+ *
  * @group indexables
+ * @group repositories
  */
 class Indexable_Repository_Test extends TestCase {
 
 	/**
+	 * Represents the indexable builder.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Builder
+	 */
+	protected $builder;
+
+	/**
+	 * Represents the current page helper.
+	 *
+	 * @var Mockery\MockInterface|Current_Page_Helper
+	 */
+	protected $current_page;
+
+	/**
+	 * Represents the logger.
+	 *
+	 * @var Mockery\MockInterface|Logger
+	 */
+	protected $logger;
+
+	/**
+	 * Represents the indexable hierarchy repository.
+	 *
+	 * @var Mockery\Mock|Indexable_Hierarchy_Repository
+	 */
+	protected $hierarchy_repository;
+
+	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Repository
 	 */
-	protected $repository;
+	protected $instance;
 
 	/**
-	 * @var \PDO
+	 * @inheritDoc
 	 */
-	protected $db;
-
-	public function wpdbsetup() {
-
-		global $wpdb;
-
-		if ( !isset( $wpdb ) ) {
-			$wpdb = new \stdClass();
-		}
-
-		/*
-		 * This cannot be `prefix_` because a different test might mess it up.
-		 * That is the disadvantage of globals.
-		 */
-		$wpdb->prefix = 'prefix';
-	}
-
 	public function setUp() {
-		$this->wpdbsetup();
+		parent::setUp();
 
-		$wpdb = Mockery::mock( \wpdb::class );
-		$wpdb->prefix = 'custom_prefix_';
-
-		$this->repository = new Indexable_Repository(
-			Mockery::mock( Indexable_Builder::class ),
-			Mockery::mock( Current_Page_Helper::class ),
-			new Logger(),
-			$wpdb
-		);
-
-		$this->setUpPdoMock();
-
-		return parent::setUp();
+		$this->builder              = Mockery::mock( Indexable_Builder::class );
+		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
+		$this->logger               = Mockery::mock( Logger::class );
+		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->instance             = Mockery::mock( Indexable_Repository::class, [
+			$this->builder,
+			$this->current_page,
+			$this->logger,
+			$this->hierarchy_repository,
+		] )->makePartial();
 	}
 
 	/**
-	 * Sets up a mock of PDO
+	 * Tests retrieval of ancestors with nothing found.
 	 *
-	 * PDO is the database layer that the ORM uses. To test that the correct
-	 * commands are send to the database we mock the PDO layer in this method.
+	 * @covers ::get_ancestors
 	 */
-	public function setUpPdoMock() {
-		$this->db = Mockery::mock( \PDO::class );
+	public function test_get_ancestors_no_ancestors_found() {
+		$indexable = Mockery::mock( Indexable::class );
 
-		// This is necessary because the ORM calls getAttribute.
-		$this->db
-			->shouldReceive( 'getAttribute' )
-			->andReturnUsing( function( $key ) {
-				$map = [
-					\PDO::ATTR_DRIVER_NAME => 'mysql',
-				];
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [] );
 
-				return $map[ $key ];
-			} );
-
-		ORM::set_db( $this->db );
+		$this->assertSame( [], $this->instance->get_ancestors( $indexable ) );
 	}
 
-	public function expect_pdo_query( $expected_query, $expected_parameters, $return_rows ) {
-		$statement = Mockery::mock( \PDOStatement::class );
+	/**
+	 * Tests retrieval of ancestors with one ancestor with no ancestor id found.
+	 *
+	 * @covers ::get_ancestors
+	 */
+	public function test_get_ancestors_one_ancestor_that_has_no_ancestor_id_found() {
+		$indexable = Mockery::mock( Indexable::class );
 
-		foreach ( $expected_parameters as $index => $expected_parameter ) {
-			$statement->shouldReceive( 'bindParam' )
-			          ->once()
-			          ->with( Mockery::any(), $expected_parameter, Mockery::any() );
-		}
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 9 ] );
 
-		$statement->shouldReceive( 'execute' );
+		$orm_object = $this->mock_orm( [ 9 ], [] );
 
-		// Make sure the fetching ends at some point.
-		$return_rows[] = false;
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$statement->shouldReceive( 'fetch' )
-		          ->andReturnValues( $return_rows );
-
-		$this->db
-			->shouldReceive( 'prepare' )
-			->withArgs( function( $received_query ) use ( $expected_query ) {
-				// Strip all whitespace so the expected query in the tests can be more lenient with it's whitespace.
-				$received_query = preg_replace( '/\s+/', '', $received_query );
-				$expected_query = preg_replace( '/\s+/', '', $expected_query );
-
-				if ( $received_query !== $expected_query ) {
-					$this->fail(
-						"Didn't receive expected query" . PHP_EOL . PHP_EOL .
-						"Expected query: " . $expected_query . PHP_EOL .
-						"Received query: " . $received_query . PHP_EOL
-					);
-				}
-
-
-				return $received_query === $expected_query;
-			} )
-			->andReturn( $statement );
+		$this->assertSame( [], $this->instance->get_ancestors( $indexable ) );
 	}
 
-	public function test_count_posts_with_outdated_prominent_words() {
-		/*
-		 * Certain ORM changes can sometimes lead to a change in the query we intend to test.
-		 * To make sure it does not happen, we specify the query here,
-		 * where it cannot be influenced by other code.
-		 */
-		$expected_query = '
-			SELECT COUNT(*) AS `count` FROM `custom_prefix_posts` WHERE `ID` NOT IN (
-				SELECT `object_id` FROM prefixyoast_indexable
-				WHERE `prominent_words_version` = ?
-				AND `object_type` = \'post\'
-				AND `object_sub_type` IN ( ?,? )
-			) AND `post_status` IN (?, ?, ?, ?, ?) AND `post_type` IN (?, ?) LIMIT 1';
+	/**
+	 * Tests retrieval of ancestors with one found ancestor.
+	 *
+	 * @covers ::get_ancestors
+	 */
+	public function test_get_ancestors_one_ancestor_that_has_ancestor_id_found() {
+		$indexable = Mockery::mock( Indexable::class );
 
-		$expected_parameters = [
-			100,
-			'post_type1',
-			'post_type2',
-			'future',
-			'draft',
-			'pending',
-			'private',
-			'publish',
-			'post_type1',
-			'post_type2',
-		];
+		$indexable->permalink = 'https://example.org/post';
 
-		$return_rows = [
-			[ 'count' => 5 ],
-		];
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1 ] );
 
-		$this->expect_pdo_query(
-			$expected_query,
-			$expected_parameters,
-			$return_rows
-		);
+		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
-		$count = $this->repository->count_posts_with_outdated_prominent_words( 100, [ 'post_type1', 'post_type2' ] );
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->assertEquals( 5, $count );
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 	}
 
-	public function test_count_posts_with_outdated_prominent_words_no_post_types() {
-		$count = $this->repository->count_posts_with_outdated_prominent_words( 1, [] );
+	/**
+	 * Tests retrieval of ancestors with multiple ancestors found.
+	 *
+	 * @covers ::get_ancestors
+	 */
+	public function test_get_ancestors_with_multiple_ancestors() {
+		$indexable = Mockery::mock( Indexable::class );
 
-		$this->assertEquals( 0, $count );
+		$indexable->permalink = 'https://example.org/post';
+
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1, 2 ] );
+
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 	}
 
-	public function test_find_posts_with_outdated_prominent_words_no_post_types() {
-		$outdated_prominent_words = $this->repository->find_posts_with_outdated_prominent_words( 1, [] );
+	/**
+	 * Tests that retrieving the ancestors of an indexable ensures
+	 * that the permalink of each ancestor is available.
+	 */
+	public function test_get_ancestors_ensures_permalink() {
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->expects( 'save' )->once();
+		$indexable->object_type = 'post';
 
-		$this->assertEquals( [], $outdated_prominent_words );
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1, 2 ] );
+
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		$permalink = 'https://example.org/permalink';
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturn( $permalink );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $indexable->permalink );
 	}
 
-	public function test_find_posts_with_outdated_prominent_words_2_rows() {
-		// Putting the query here makes this test verify that we are doing the optimal query we intend.
-		// If the ORM has a change that changes this query, we want to verify we are still doing something we intend.
-		$expected_query = '
-			SELECT `ID` FROM `custom_prefix_posts` WHERE `ID` NOT IN (
-				SELECT `object_id` FROM prefixyoast_indexable
-				WHERE `prominent_words_version` = ?
-				AND `object_type` = \'post\'
-				AND `object_sub_type` IN ( ?,? )
-			) AND `post_status` IN (?, ?, ?, ?, ?) AND `post_type` IN (?, ?) LIMIT 25';
+	/**
+	 * Tests that retrieving the ancestors of an indexable ensures
+	 * that the permalink of each ancestor is available when there is only one ancestor.
+	 */
+	public function test_get_ancestors_one_ancestor_ensures_permalink() {
+		$indexable = Mockery::mock( Indexable::class );
+		$indexable->expects( 'save' )->once();
+		$indexable->object_type = 'post';
 
-		$expected_parameters = [
-			101,
-			'post_type1',
-			'post_type2',
-			'future',
-			'draft',
-			'pending',
-			'private',
-			'publish',
-			'post_type1',
-			'post_type2',
-		];
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1 ] );
 
-		$return_rows = [
-			[ 'ID' => 1 ],
-			[ 'ID' => 2 ],
-		];
+		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
-		$this->expect_pdo_query(
-			$expected_query,
-			$expected_parameters,
-			$return_rows
-		);
+		$permalink = 'https://example.org/permalink';
 
-		$ids = $this->repository->find_posts_with_outdated_prominent_words( 101, [ 'post_type1', 'post_type2' ], 25 );
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturn( $permalink );
 
-		$this->assertEquals( [ 1, 2 ], $ids );
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertEquals( $permalink, $indexable->permalink );
+	}
+
+	/**
+	 * Mocks the ORM object.
+	 *
+	 * @param array $indexable_ids The list of indexable IDs to expect to be retrieved.
+	 * @param array $indexables    The list of indexables to expect to be retrieved.
+	 *
+	 * @return Mockery\Mock The mocked ORM object.
+	 */
+	private function mock_orm( $indexable_ids, $indexables ) {
+		$orm_object = Mockery::mock()->makePartial();
+		$orm_object
+			->expects( 'where_in' )
+			->with( 'id', $indexable_ids )
+			->andReturn( $orm_object );
+
+		$orm_object
+			->expects( 'order_by_expr' )
+			->with( 'FIELD(id,' . \implode( ',',  $indexable_ids ) . ')' )
+			->andReturn( $orm_object );
+		$orm_object
+			->expects( 'find_many' )
+			->andReturn( $indexables );
+
+		return $orm_object;
+	}
+
+	/**
+	 * Tests if the query method returns an instance of the ORM class that
+	 * represents the Indexable.
+	 *
+	 * @covers ::query
+	 */
+	public function test_query() {
+		$wpdb         = Mockery::mock();
+		$wpdb->prefix = 'wp_';
+
+		$GLOBALS['wpdb'] = $wpdb;
+
+		$query = $this->instance->query();
+
+		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable', 'class_name', $query );
+		$this->assertInstanceOf( ORM::class, $query );
 	}
 }

@@ -1,9 +1,13 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Mockery;
-use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Models\Indexable;
@@ -15,6 +19,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * Class Indexable_Author_Test.
  *
  * @group indexables
+ * @group integrations
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher
@@ -25,26 +30,35 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Author_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the indexable repository.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
-	private $repository_mock;
+	private $repository;
 
 	/**
+	 * Represents the indexable builder.
+	 *
 	 * @var Mockery\MockInterface|Indexable_Builder
 	 */
-	private $builder_mock;
+	private $builder;
 
 	/**
+	 * Represents the instance to test.
+	 *
 	 * @var Indexable_Author_Watcher
 	 */
 	private $instance;
 
+	/**
+	 * @inheritDoc
+	 */
 	public function setUp() {
-		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
-		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
-		$this->instance        = new Indexable_Author_Watcher( $this->repository_mock, $this->builder_mock );
+		parent::setUp();
 
-		return parent::setUp();
+		$this->repository = Mockery::mock( Indexable_Repository::class );
+		$this->builder    = Mockery::mock( Indexable_Builder::class );
+		$this->instance   = new Indexable_Author_Watcher( $this->repository, $this->builder );
 	}
 
 	/**
@@ -83,7 +97,11 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'delete' )->once();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $id, 'user', false )
+			->andReturn( $indexable_mock );
 
 		$this->instance->delete_indexable( $id );
 	}
@@ -96,7 +114,11 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_delete_indexable_not_found() {
 		$id = 1;
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $id, 'user', false )
+			->andReturn( false );
 
 		$this->instance->delete_indexable( $id );
 	}
@@ -110,10 +132,18 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$id = 1;
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
-		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', $indexable_mock )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $id, 'user', false )
+			->andReturn( $indexable_mock );
+
+		$this->builder
+			->expects( 'build_for_id_and_type' )
+			->once()
+			->with( $id, 'user', $indexable_mock )
+			->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable( $id );
 	}
@@ -127,10 +157,18 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$id = 1;
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
-		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
-		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
+		$this->repository
+			->expects( 'find_by_id_and_type' )
+			->once()
+			->with( $id, 'user', false )
+			->andReturn( false );
+
+		$this->builder
+			->expects( 'build_for_id_and_type' )
+			->once()
+			->with( $id, 'user', false )
+			->andReturn( $indexable_mock );
 
 		$this->instance->build_indexable( $id );
 	}

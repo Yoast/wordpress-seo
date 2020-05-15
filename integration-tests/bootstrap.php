@@ -6,12 +6,12 @@
  */
 
 // Determine the WP_TEST_DIR.
-if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+if ( getenv( 'WP_TESTS_DIR' ) !== false ) {
 	$_tests_dir = getenv( 'WP_TESTS_DIR' );
 }
 
 // Fall back on the WP_DEVELOP_DIR environment variable.
-if ( empty( $_tests_dir ) && false !== getenv( 'WP_DEVELOP_DIR' ) ) {
+if ( empty( $_tests_dir ) && getenv( 'WP_DEVELOP_DIR' ) !== false ) {
 	$_tests_dir = rtrim( getenv( 'WP_DEVELOP_DIR' ), '/' ) . '/tests/phpunit';
 }
 
@@ -22,7 +22,7 @@ require_once rtrim( $_tests_dir, '/' ) . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/wp-seo.php';
+	require dirname( __DIR__ ) . '/wp-seo.php';
 }
 
 /**
@@ -37,7 +37,7 @@ function _manually_load_plugin() {
  * @return string
  */
 function _plugins_url( $url, $path, $plugin ) {
-	$plugin_dir = dirname( dirname( __FILE__ ) );
+	$plugin_dir = dirname( __DIR__ );
 	if ( $plugin === $plugin_dir . '/wp-seo.php' ) {
 		$url = str_replace( dirname( $plugin_dir ), '', $url );
 	}
@@ -64,11 +64,11 @@ if ( ! defined( 'YOAST_SEO_INDEXABLES' ) ) {
 	define( 'YOAST_SEO_INDEXABLES', true );
 }
 
-if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
+if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== __DIR__ . '/' ) {
 	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
 	exit( 1 ); // Exit with error code, to make the build fail.
 }
-define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
+define( 'WPSEO_TESTS_PATH', __DIR__ . '/' );
 
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';

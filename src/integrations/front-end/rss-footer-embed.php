@@ -24,11 +24,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return array The conditionals.
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -37,7 +33,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Sets the required helpers.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore It only handles dependencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -46,11 +42,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		add_filter( 'the_content_feed', [ $this, 'embed_rssfooter' ] );
@@ -125,8 +117,6 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Adds the RSS footer and/or header to an RSS feed item.
 	 *
-	 * @since 1.4.14
-	 *
 	 * @param string $content Feed item content.
 	 *
 	 * @return string The content to add.
@@ -190,14 +180,14 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 */
 	protected function get_link_template() {
 		/**
-		 * Filter: 'wpseo_nofollow_rss_links' - Allow the developer to determine whether or not to follow the links in
+		 * Filter: 'nofollow_rss_links' - Allow the developer to determine whether or not to follow the links in
 		 * the bits Yoast SEO adds to the RSS feed, defaults to true.
 		 *
 		 * @api bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
 		 *
 		 * @since 1.4.20
 		 */
-		if ( apply_filters( 'wpseo_nofollow_rss_links', true ) ) {
+		if ( apply_filters( 'nofollow_rss_links', true ) ) {
 			return '<a rel="nofollow" href="%1$s">%2$s</a>';
 		}
 

@@ -7,65 +7,41 @@
 
 namespace Yoast\WP\SEO\Presenters\Twitter;
 
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Tag_Presenter;
 
 /**
  * Class Image_Presenter
  */
-class Image_Presenter extends Abstract_Indexable_Presenter {
+class Image_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The url helper.
+	 * The tag format including placeholders.
 	 *
-	 * @var Url_Helper
+	 * @var string
 	 */
-	private $url_helper;
+	protected $tag_format = '<meta name="twitter:image" content="%s" />';
 
 	/**
-	 * Sets the url helper as dependency.
+	 * The method of escaping to use.
 	 *
-	 * @param Url_Helper $url_helper The url helper.
+	 * @var string
 	 */
-	public function __construct( Url_Helper $url_helper ) {
-		$this->url_helper = $url_helper;
-	}
-
-	/**
-	 * Presents a presentation.
-	 *
-	 * @param Indexable_Presentation $presentation The presentation to present.
-	 *
-	 * @return string The template.
-	 */
-	public function present( Indexable_Presentation $presentation ) {
-		$twitter_image = $this->filter( $presentation->twitter_image, $presentation );
-		$twitter_image = \esc_url( $twitter_image );
-
-		if ( \is_string( $twitter_image ) && $twitter_image !== '' ) {
-			return '<meta name="twitter:image" content="' . $twitter_image . '" />';
-		}
-
-		return '';
-	}
+	protected $escaping = 'attribute';
 
 	/**
 	 * Run the Twitter image value through the `wpseo_twitter_image` filter.
 	 *
-	 * @param string                 $twitter_image The Twitter image to filter.
-	 * @param Indexable_Presentation $presentation  The presentation of an indexable.
-	 *
 	 * @return string The filtered Twitter image.
 	 */
-	private function filter( $twitter_image, Indexable_Presentation $presentation ) {
+	public function get() {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
-		 * @api string $twitter_image Image URL string.
-		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 *
+		 * @api string $twitter_image Image URL string.
 		 */
-		return (string) \apply_filters( 'wpseo_twitter_image', $twitter_image, $presentation );
+		return (string) \apply_filters( 'wpseo_twitter_image', $this->presentation->twitter_image, $this->presentation );
 	}
 }
