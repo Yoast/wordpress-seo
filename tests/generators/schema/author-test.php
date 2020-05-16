@@ -217,11 +217,11 @@ class Author_Test extends TestCase {
 		$this->instance->context->site_represents = 'person';
 
 		// Set up the context with values.
-		$this->meta_tags_context->post = (Object) [
+		$this->meta_tags_context->post = (object) [
 			'post_author' => $user_id,
 		];
 
-		$this->meta_tags_context->indexable = (Object) [
+		$this->meta_tags_context->indexable = (object) [
 			'object_type'     => $object_type,
 			'object_sub_type' => $object_sub_type,
 			'object_id'       => $object_id,
