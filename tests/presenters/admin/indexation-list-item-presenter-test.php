@@ -32,7 +32,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 *
 	 * Tests the case when there is nothing to index.
 	 *
 	 * @covers ::present

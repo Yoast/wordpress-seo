@@ -178,7 +178,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * Tests adding the yoast_head property for the posts page.
-
+	 *
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
@@ -194,7 +194,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * Tests adding the yoast_head property for the posts page.
-
+	 *
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
@@ -235,7 +235,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 
 	/**
 	 * Tests adding the yoast_head property for the posts page.
-
+	 *
 	 * @covers ::for_post_type_archive
 	 *
 	 * @dataProvider method_provider
