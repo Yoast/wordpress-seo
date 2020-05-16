@@ -101,7 +101,7 @@ class Images_Test extends TestCase {
 	 * Tests adding an image with a boolean given as value.
 	 *
 	 * @covers ::add_image
-	 * @covers::has_images
+	 * @covers ::has_images
 	 * @covers ::get_images
 	 */
 	public function test_add_image_that_is_added_before() {
