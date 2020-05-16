@@ -208,7 +208,7 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the conditional is not met when on the wordpress upgrade page.
+	 * Tests that the conditional is not met when on the WordPress upgrade page.
 	 *
 	 * @covers ::is_met
 	 * @covers ::on_plugin_or_theme_page
@@ -230,7 +230,7 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the conditional is not met when on the wordpress reinstall page.
+	 * Tests that the conditional is not met when on the WordPress reinstall page.
 	 *
 	 * @covers ::is_met
 	 * @covers ::on_plugin_or_theme_page
