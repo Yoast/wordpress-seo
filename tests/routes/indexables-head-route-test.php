@@ -65,7 +65,7 @@ class Indexables_Head_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[
-				Headless_Rest_Endpoints_Enabled_Conditional::class
+				Headless_Rest_Endpoints_Enabled_Conditional::class,
 			],
 			Indexables_Head_Route::get_conditionals()
 		);
