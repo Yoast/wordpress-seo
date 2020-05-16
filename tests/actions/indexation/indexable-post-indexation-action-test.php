@@ -55,7 +55,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->repository          = Mockery::mock( Indexable_Repository::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
 

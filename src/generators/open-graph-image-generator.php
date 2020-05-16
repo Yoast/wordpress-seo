@@ -82,7 +82,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * @return array The images.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$image_container = $this->get_image_container();
+		$image_container        = $this->get_image_container();
 		$backup_image_container = $this->get_image_container();
 
 		try {
