@@ -32,11 +32,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexation_warning_hide_until'            => false,
 		'indexation_started'                       => false,
 		// Non-form field, should only be set via validation routine.
-		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
-		'previous_version'                => '',
+		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
+		'previous_version'                         => '',
 		// Form fields.
 		'disableadvanced_meta'                     => true,
-		'enable_headless_rest_endpoints'  => true,
+		'enable_headless_rest_endpoints'           => true,
 		'ryte_indexability'                        => true,
 		'baiduverify'                              => '', // Text field.
 		'googleverify'                             => '', // Text field.
