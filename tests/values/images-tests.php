@@ -98,7 +98,7 @@ class Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests adding an image with a boolean given as value.
+	 * Tests that a second image being added with the same name doesn't overwrite the first.
 	 *
 	 * @covers ::add_image
 	 * @covers ::has_images

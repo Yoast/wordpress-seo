@@ -208,7 +208,7 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the presents for an error page.
+	 * Tests retrieval of the presenters for an error page.
 	 *
 	 * @covers ::get_presenters
 	 * @covers ::get_needed_presenters
