@@ -1173,8 +1173,8 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$post_type = WPSEO_Utils::get_post_type();
-		$page_type = WPSEO_Utils::get_page_type();
+		$post_type = self::get_post_type();
+		$page_type = self::get_page_type();
 
 		$label_object = false;
 		$no_index     = false;
