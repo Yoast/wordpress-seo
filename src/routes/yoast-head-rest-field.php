@@ -27,13 +27,6 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	const YOAST_HEAD_FIELD_NAME = 'yoast_head';
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
-	}
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -53,6 +46,13 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 * @var Indexable_Head_Action
 	 */
 	protected $head_action;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * Yoast_Head_REST_Field constructor.
