@@ -357,7 +357,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$presenters = $this->get_all_presenters();
-		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ] ) ) {
+		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ], true ) ) {
 			$presenters = \array_merge( $presenters, $this->webmaster_verification_presenters );
 		}
 
