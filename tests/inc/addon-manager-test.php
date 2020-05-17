@@ -33,7 +33,7 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Mockery\Mock|\Yoast\WP\SEO\Tests\Doubles\Inc\Addon_Manager_Double
+	 * @var Mockery\Mock|Addon_Manager_Double
 	 */
 	protected $instance;
 

@@ -17,7 +17,7 @@ class Date_Helper {
 	/**
 	 * The date helper.
 	 *
-	 * @var \WPSEO_Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 

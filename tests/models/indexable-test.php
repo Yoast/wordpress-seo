@@ -26,7 +26,7 @@ class Indexable_Test extends TestCase {
 	/**
 	 * Holds the instance to test.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable_Double|\Mockery\MockInterface
+	 * @var Indexable_Double|Mockery\MockInterface
 	 */
 	protected $instance;
 

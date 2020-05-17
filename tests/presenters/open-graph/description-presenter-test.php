@@ -22,7 +22,7 @@ class Description_Presenter_Test extends TestCase {
 	/**
 	 * The description presenter instance.
 	 *
-	 * @var \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter
+	 * @var Description_Presenter
 	 */
 	protected $instance;
 
@@ -36,7 +36,7 @@ class Description_Presenter_Test extends TestCase {
 	/**
 	 * The WPSEO Replace Vars object.
 	 *
-	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
+	 * @var WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 

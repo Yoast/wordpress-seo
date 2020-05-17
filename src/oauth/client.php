@@ -55,7 +55,7 @@ class Client {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return \Yoast\WP\SEO\Oauth\Client Instance of this class.
+	 * @return Client Instance of this class.
 	 */
 	public static function get_instance() {
 		if ( static::$instance === null ) {
@@ -173,7 +173,7 @@ class Client {
 	/**
 	 * Returns an instance of the oAuth provider.
 	 *
-	 * @return \YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider The provider.
+	 * @return GenericProvider The provider.
 	 */
 	public function get_provider() {
 		return new GenericProvider(

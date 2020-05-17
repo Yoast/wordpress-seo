@@ -134,7 +134,7 @@ class Indexable extends Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]
+	 * @var Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -143,7 +143,7 @@ class Indexable extends Model {
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable_Extension|bool The extension.
+	 * @return Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $class_name ) {
 		if ( ! $this->loaded_extensions[ $class_name ] ) {

@@ -17,7 +17,7 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 	/**
 	 * The instance to test.
 	 *
-	 * @var Mockery\Mock|\WPSEO_Health_Check_Link_Table_Not_Accessible
+	 * @var Mockery\Mock|WPSEO_Health_Check_Link_Table_Not_Accessible
 	 */
 	private $instance;
 

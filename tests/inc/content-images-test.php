@@ -18,7 +18,7 @@ class Content_Images_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \WPSEO_Content_Images
+	 * @var WPSEO_Content_Images
 	 */
 	private $instance;
 

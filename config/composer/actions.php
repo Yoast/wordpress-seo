@@ -23,7 +23,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -55,7 +55,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */

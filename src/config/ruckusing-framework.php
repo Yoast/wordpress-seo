@@ -21,22 +21,22 @@ class Ruckusing_Framework {
 	/**
 	 * The database object.
 	 *
-	 * @var \wpdb
+	 * @var wpdb
 	 */
 	protected $wpdb;
 
 	/**
 	 * The dependency management checker.
 	 *
-	 * @var \Yoast\WP\SEO\Config\Dependency_Management
+	 * @var Dependency_Management
 	 */
 	protected $dependency_management;
 
 	/**
 	 * Ruckusing_Framework constructor.
 	 *
-	 * @param \wpdb                                      $wpdb                  The wpdb instance.
-	 * @param \Yoast\WP\SEO\Config\Dependency_Management $dependency_management The dependency management checker.
+	 * @param wpdb                  $wpdb                  The wpdb instance.
+	 * @param Dependency_Management $dependency_management The dependency management checker.
 	 */
 	public function __construct(
 		wpdb $wpdb,

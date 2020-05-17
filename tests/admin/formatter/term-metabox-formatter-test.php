@@ -19,7 +19,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Term_Metabox_Formatter_Double
+	 * @var Term_Metabox_Formatter_Double
 	 */
 	private $instance;
 

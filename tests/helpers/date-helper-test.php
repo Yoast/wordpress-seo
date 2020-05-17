@@ -18,7 +18,7 @@ class Date_Helper_Test extends TestCase {
 	/**
 	 * The date helper instance.
 	 *
-	 * @var \WPSEO_Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $instance;
 

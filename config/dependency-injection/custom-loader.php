@@ -25,7 +25,7 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
 	 */
 	public function __construct( ContainerBuilder $container ) {
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
@@ -57,12 +57,10 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\Definition $prototype A definition to use as template.
-	 * @param string                                            $namespace The namespace prefix of classes
-	 *                                                                     in the scanned directory.
-	 * @param string                                            $resource  The directory to look for classes,
-	 *                                                                     glob-patterns allowed.
-	 * @param string                                            $exclude   A globed path of files to exclude.
+	 * @param Definition $prototype A definition to use as template.
+	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string     $exclude   A globed path of files to exclude.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 *
