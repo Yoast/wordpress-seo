@@ -369,9 +369,9 @@ class Indexable_Repository {
 		}
 
 		$indexables = $this->query()
-						   ->where_in( 'id', $indexable_ids )
-						   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-						   ->find_many();
+			->where_in( 'id', $indexable_ids )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+			->find_many();
 
 		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}

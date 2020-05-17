@@ -238,7 +238,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object
 			->expects( 'order_by_expr' )
-			->with( 'FIELD(id,' . \implode( ',',  $indexable_ids ) . ')' )
+			->with( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
 			->andReturn( $orm_object );
 		$orm_object
 			->expects( 'find_many' )

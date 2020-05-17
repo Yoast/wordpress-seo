@@ -51,7 +51,7 @@ class Blocks_Helper_Test extends TestCase {
 	 */
 	public function test_get_all_blocks_from_post() {
 		$this->post
-			->expects('get_post' )
+			->expects( 'get_post' )
 			->once()
 			->with( 1337 )
 			->andReturn( (object) [

@@ -393,7 +393,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$primary_term = new Primary_Term();
 		$primary_term->term_id = 2;
 
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$parent_indexable = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -692,8 +692,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_term_with_ancestor_is_already_added() {
-		$indexable        = $this->get_indexable( 1,'term' );
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$indexable        = $this->get_indexable( 1, 'term' );
+		$parent_indexable = $this->get_indexable( 2, 'term' );
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()

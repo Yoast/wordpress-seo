@@ -48,7 +48,7 @@ class Loader_Test extends TestCase {
 	 */
 	public function test_loading_integrations_set_as_hook() {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
-		                      ->shouldAllowMockingProtectedMethods();
+			->shouldAllowMockingProtectedMethods();
 
 		Monkey\Functions\expect( 'did_action' )
 			->with( 'init' )

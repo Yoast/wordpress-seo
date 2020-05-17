@@ -55,7 +55,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO 14.0');
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO 14.0' );
 
 		return true;
 	}
