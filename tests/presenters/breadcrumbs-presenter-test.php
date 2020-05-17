@@ -122,7 +122,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_with_prefix,
-			$this->instance->present() );
+			$this->instance->present()
+		);
 	}
 
 	/**
@@ -238,7 +239,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$output_without_prefix,
-			$this->instance->present() );
+			$this->instance->present()
+		);
 	}
 
 	/**
@@ -259,7 +261,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+		);
 	}
 
 	/**
@@ -284,7 +287,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+		);
 	}
 
 	/**
@@ -305,7 +309,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 0, 2 )
+		);
 	}
 
 	/**
@@ -333,7 +338,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 )
+		);
 	}
 
 	/**
@@ -361,7 +367,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 1, 2 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 1, 2 )
+		);
 	}
 
 	/**
@@ -389,7 +396,8 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 
 		$this->assertEquals(
 			$link,
-			$this->instance->crumb_to_link( $breadcrumb, 3, 4 ) );
+			$this->instance->crumb_to_link( $breadcrumb, 3, 4 )
+		);
 	}
 
 	/**
@@ -670,17 +678,17 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
 		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
 
-		$this->presentation->breadcrumbs =
-			[
-				$breadcrumb_1,
-				$breadcrumb_2,
-			];
+		$this->presentation->breadcrumbs = [
+			$breadcrumb_1,
+			$breadcrumb_2,
+		];
 
 		$this->assertEquals(
 			[
 				$breadcrumb_1,
 				$breadcrumb_2,
 			],
-			$this->instance->get() );
+			$this->instance->get()
+		);
 	}
 }

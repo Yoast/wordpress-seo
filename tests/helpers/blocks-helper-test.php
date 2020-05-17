@@ -139,7 +139,8 @@ class Blocks_Helper_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->get_all_blocks_from_content( 'post content' ) );
+			$this->instance->get_all_blocks_from_content( 'post content' )
+		);
 	}
 
 	/**
