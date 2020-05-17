@@ -320,7 +320,6 @@ class Yoast_Notifications {
 		return $notification->get_type() === 'error';
 	}
 
-
 	/**
 	 * Deprecated: Filter out any non-warnings. Renamed to filter_warning_notifications
 	 *
@@ -334,7 +333,6 @@ class Yoast_Notifications {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 		return false;
 	}
-
 
 	/**
 	 * Filter out any non-warnings.

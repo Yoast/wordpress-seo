@@ -42,6 +42,5 @@ class Migration_Error_Presenter_Test extends TestCase {
 		$instance = new Migration_Error_Presenter( $migration_error );
 
 		$this->assertSame( $expected, $instance->present() );
-
 	}
 }

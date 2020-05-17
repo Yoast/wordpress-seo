@@ -124,6 +124,7 @@ class Indexable_Repository {
 
 		return $indexable;
 	}
+
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *

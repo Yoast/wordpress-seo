@@ -291,6 +291,4 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		return $indexable_mocks;
 	}
-
-
 }

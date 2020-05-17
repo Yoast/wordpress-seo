@@ -31,7 +31,6 @@ class Indexables_Head_Route_Test extends TestCase {
 	 */
 	protected $head_action;
 
-
 	/**
 	 * Represents the instance to test.
 	 *
