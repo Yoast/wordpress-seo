@@ -137,6 +137,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 *
 	 * @dataProvider ignore_warning_provider
+	 *
+	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
 	public function test_enqueue_scripts( $ignore_warning ) {
 		// Mock that 40 indexables should be indexed.

@@ -297,7 +297,7 @@ class Yoast_Notifications {
 	/**
 	 * Deprecated: Filter out any non-errors. Renamed to filter_error_notifications
 	 *
-	 * @param Yoast_Notification $notification $notification Notification to test.
+	 * @param Yoast_Notification $notification Notification to test.
 	 * @return bool
 	 * @deprecated 14.0
 	 *
@@ -324,7 +324,7 @@ class Yoast_Notifications {
 	/**
 	 * Deprecated: Filter out any non-warnings. Renamed to filter_warning_notifications
 	 *
-	 * @param Yoast_Notification $notification $notification Notification to test.
+	 * @param Yoast_Notification $notification Notification to test.
 	 * @return bool
 	 * @deprecated 14.0
 	 *

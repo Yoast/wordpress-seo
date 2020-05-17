@@ -39,7 +39,7 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'error'.
 	 *
-	 * @covers ::present()
+	 * @covers ::present
 	 */
 	public function test_error_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )->once();
@@ -60,7 +60,7 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'info'.
 	 *
-	 * @covers ::present()
+	 * @covers ::present
 	 */
 	public function test_info_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
@@ -80,7 +80,7 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'success'.
 	 *
-	 * @covers ::present()
+	 * @covers ::present
 	 */
 	public function test_success_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
@@ -100,7 +100,7 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert is of type 'warning'.
 	 *
-	 * @covers ::present()
+	 * @covers ::present
 	 */
 	public function test_warning_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
@@ -120,7 +120,7 @@ class Alert_Presenter_Test extends TestCase {
 	/**
 	 * Test when the Alert has default type ('warning').
 	 *
-	 * @covers ::present()
+	 * @covers ::present
 	 */
 	public function test_default_alert() {
 		Monkey\Functions\expect( 'wp_enqueue_style' );
