@@ -711,7 +711,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 2,
+					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 3,
 				]
@@ -722,7 +722,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 3,
+					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
 				]
