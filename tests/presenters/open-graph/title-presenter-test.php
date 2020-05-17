@@ -119,7 +119,7 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct title, when the `wpseo_opengraph_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_title = 'example_title';

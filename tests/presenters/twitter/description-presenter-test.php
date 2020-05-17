@@ -46,7 +46,7 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests the presenter for a set twitter description.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present() {
 		$this->instance->presentation      = new Indexable_Presentation();
@@ -68,7 +68,7 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests the presenter of an empty description.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_with_empty_twitter_description() {
 		$this->instance->presentation      = new Indexable_Presentation();

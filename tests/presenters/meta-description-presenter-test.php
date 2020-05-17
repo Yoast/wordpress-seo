@@ -73,7 +73,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 * Tests the presenter of the meta description.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_and_filter_happy_path() {
 		$this->indexable_presentation->meta_description = 'the_meta_description';
