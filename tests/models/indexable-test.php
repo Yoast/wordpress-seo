@@ -51,7 +51,12 @@ class Indexable_Test extends TestCase {
 		Functions\expect( 'wp_parse_url' )
 			->once()
 			->with( 'https://example.com/' )
-			->andReturn( [ 'scheme' => 'https', 'host' => 'example.com' ] );
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 
 		$this->instance->orm->expects( 'set' )
 			->once()
@@ -84,7 +89,12 @@ class Indexable_Test extends TestCase {
 		Functions\expect( 'wp_parse_url' )
 			->once()
 			->with( 'https://example.com' )
-			->andReturn( [ 'scheme' => 'https', 'host' => 'example.com' ] );
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 
 		$this->instance->orm->expects( 'set' )->once()->with( 'permalink', $permalink_slash );
 		$this->instance->orm->expects( 'set' )
