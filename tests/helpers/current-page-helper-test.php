@@ -326,9 +326,7 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->wp_query
 			->expects( 'get_queried_object' )
-			->andReturn( (object) [
-				'term_id' => 1,
-			] );
+			->andReturn( (object) [ 'term_id' => 1 ] );
 
 		Monkey\Functions\expect( 'is_wp_error' )
 			->once()
