@@ -285,7 +285,7 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->never();
 
-		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )
@@ -507,7 +507,7 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1, $indexable )
 			->andReturn( false );
 
-		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )

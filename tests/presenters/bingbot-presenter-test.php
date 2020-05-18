@@ -55,7 +55,7 @@ class Bingbot_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
-		$this->presentation->robots    = [ 'index' => 'index' ];
+		$this->presentation->robots  = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="bingbot" content="one, two, three" />';
@@ -83,14 +83,14 @@ class Bingbot_Presenter_Test extends TestCase {
 	 */
 	public function test_present_filter() {
 		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
-		$this->presentation->robots    = [];
+		$this->presentation->robots  = [];
 
 		Monkey\Filters\expectApplied( 'wpseo_bingbot' )
 			->once()
 			->with( 'one, two, three', $this->presentation )
 			->andReturn( 'one, two' );
 
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$expected = '<meta name="bingbot" content="one, two" />';
 
 		$this->assertEquals( $expected, $actual );

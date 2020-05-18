@@ -112,7 +112,7 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context = new Meta_Tags_Context();
 
-		$this->instance          = Mockery::mock( Author::class )
+		$this->instance = Mockery::mock( Author::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 

@@ -219,7 +219,8 @@ class Front_End_Integration implements Integration_Interface {
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
 
-		$title_presenter               = new Title_Presenter();
+		$title_presenter = new Title_Presenter();
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$title_presenter->presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$title_presenter->replace_vars = $this->replace_vars;

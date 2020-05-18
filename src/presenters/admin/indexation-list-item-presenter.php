@@ -36,7 +36,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 	 * @return string The list item HTML.
 	 */
 	public function present() {
-		$output = \sprintf( '<li><strong>%s</strong>', \esc_html__( 'SEO Data', 'wordpress-seo' ) );
+		$output  = \sprintf( '<li><strong>%s</strong>', \esc_html__( 'SEO Data', 'wordpress-seo' ) );
 		$output .= \sprintf(
 			'<p><a href="%1$s" target="_blank">%2$s</a>%3$s</p>',
 			\esc_url( \WPSEO_Shortlinker::get( 'https://yoa.st/3-z' ) ),

@@ -201,7 +201,8 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/onpagerequestfailed' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
-		$alert = new Alert_Presenter( $alert_content, 'info' );
+
+		$alert              = new Alert_Presenter( $alert_content, 'info' );
 		$this->description .= $alert->present();
 
 		$this->add_ryte_link();
