@@ -96,9 +96,13 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post where the post parent is set to 0.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
 	 */
 	public function test_no_parents() {
 		$indexable              = new Indexable();
@@ -116,7 +120,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post where the post parent is not set.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 */
 	public function test_parents_not_set() {
@@ -134,9 +141,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with post parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents() {
 		$indexable              = new Indexable();
@@ -164,7 +176,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with post parents that has no set id.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parent_with_no_indexable_id_set() {
 		$indexable                   = $this->get_indexable( 1, 'post' );
@@ -217,7 +236,13 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with post parents where the ancestor is unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_with_an_unindexed_ancestor() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -263,7 +288,13 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with post parents already been added.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_with_parent_already_added() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -312,7 +343,13 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with having the parent indexable being the main indexable.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_having_the_parent_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'post' );
@@ -355,11 +392,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::add_ancestors_for_term
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents() {
 		$indexable              = new Indexable();
@@ -394,7 +437,15 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents not unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents_and_term_is_unindexed() {
 		$indexable = $this->get_indexable( 1, 'post' );
@@ -454,11 +505,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with many term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::add_ancestors_for_term
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_many_primary_term_parents() {
 		$indexable              = new Indexable();
@@ -506,12 +563,18 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::add_ancestors_for_term
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::find_deepest_term_id
 	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent() {
 		$indexable              = new Indexable();
@@ -547,9 +610,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents, where the terms are not an array.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_not_array() {
 		$indexable = new Indexable();
@@ -577,9 +645,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents, where the terms are empty.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_empty() {
 		$indexable = new Indexable();
@@ -607,12 +680,18 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_post
 	 * @covers ::add_ancestors_for_term
 	 * @covers ::find_primary_term_id_for_post
 	 * @covers ::find_deepest_term_id
 	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_deepest_term_parent() {
 		$indexable              = new Indexable();
@@ -657,9 +736,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a term with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
 	 * @covers ::add_ancestors_for_term
 	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term() {
 		$indexable              = new Indexable();
@@ -684,9 +768,16 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building the hierarchy of a term with term parents which is unindex.
+	 * Tests building the hierarchy of a term with term parents which is unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_not_indexed() {
 		$indexable                     = $this->get_indexable( 1, 'term' );
@@ -731,7 +822,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a term with term parents which is the main object.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'term' );
@@ -774,7 +872,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a term with term parents which is already added.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_is_already_added() {
 		$indexable        = $this->get_indexable( 1, 'term' );
@@ -843,7 +948,18 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	/**
 	 * Tests building the hierarchy of a post with term parents when no primary is set.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );
