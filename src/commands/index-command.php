@@ -108,12 +108,13 @@ class Index_Command implements Command_Interface {
 			return;
 		}
 
-		$blog_ids = \get_sites( [
+		$criteria = [
 			'fields'   => 'ids',
 			'spam'     => 0,
 			'deleted'  => 0,
 			'archived' => 0,
-		] );
+		];
+		$blog_ids = \get_sites( $criteria );
 
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );

@@ -139,14 +139,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		/**
-		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
-		 *
-		 * @param Meta_Tags_Context $context An object with context variables.
-		 *
-		 * @api array $pieces The schema pieces.
-		 */
-		return \apply_filters( 'wpseo_schema_graph_pieces', [
+		$schema_pieces = [
 			new Schema\Organization(),
 			new Schema\Person(),
 			new Schema\Website(),
@@ -157,6 +150,15 @@ class Schema_Generator implements Generator_Interface {
 			new Schema\Author(),
 			new Schema\FAQ(),
 			new Schema\HowTo(),
-		], $context );
+		];
+
+		/**
+		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
+		 *
+		 * @param Meta_Tags_Context $context An object with context variables.
+		 *
+		 * @api array $pieces The schema pieces.
+		 */
+		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
 	}
 }

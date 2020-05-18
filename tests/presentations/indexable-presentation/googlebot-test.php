@@ -29,6 +29,14 @@ class Googlebot_Test extends TestCase {
 	 * @covers ::generate_googlebot
 	 */
 	public function test_generate_googlebot() {
-		$this->assertEquals( [ 'index' => 'index', 'follow' => 'follow', 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ], $this->instance->generate_googlebot() );
+		$expected = [
+			'index'  => 'index',
+			'follow' => 'follow',
+			'max-snippet:-1',
+			'max-image-preview:large',
+			'max-video-preview:-1',
+		];
+
+		$this->assertEquals( $expected, $this->instance->generate_googlebot() );
 	}
 }

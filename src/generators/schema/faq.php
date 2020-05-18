@@ -51,12 +51,13 @@ class FAQ extends Abstract_Schema_Piece {
 			}
 		}
 
-		\array_unshift( $graph, [
+		$extra_graph_entries = [
 			'@type'            => 'ItemList',
 			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
 			'numberOfItems'    => $number_of_items,
 			'itemListElement'  => $ids,
-		] );
+		];
+		\array_unshift( $graph, $extra_graph_entries );
 
 		return $graph;
 	}

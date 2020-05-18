@@ -27,11 +27,13 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 			return true;
 		}
 
-		return \in_array( $pagenow, [
+		$target_pages = [
 			'index.php',
 			'plugins.php',
 			'update-core.php',
-		], true );
+		];
+
+		return \in_array( $pagenow, $target_pages, true );
 	}
 
 	/**
