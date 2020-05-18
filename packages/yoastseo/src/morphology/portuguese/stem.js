@@ -249,7 +249,7 @@ export default function stem( word, morphologyData ) {
 	// Go through the first step of removing suffixes.
 	const wordAfterStep1 = stemStandardSuffixes( word, morphologyData.externalStemmer.standardSuffixes, r1Text, r2Text, rvText );
 
-	// If no suffixes were removed in the first step, search for an remove verb suffixes.
+	// If no suffixes were removed in the first step, search for and remove verb suffixes.
 	let wordAfterStep2 = "";
 
 	if ( word === wordAfterStep1 ) {

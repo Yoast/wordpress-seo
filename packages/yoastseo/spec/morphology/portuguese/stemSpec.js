@@ -15,6 +15,7 @@ const wordsToStem = [
 	[ "publicidade", "public" ],
 	[ "qualitativas", "qualit" ],
 	[ "roubalheiras", "roubalheir" ],
+	[ "aeronáutica", "aeronáut" ],
 	// Words with verb suffixes
 	[ "produziremos", "produz" ],
 	[ "proliferaram", "prolifer" ],
