@@ -631,6 +631,6 @@ YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
  */
 
 // Exposes the ReplaceVar class for functionality of plugins integrating.
-YoastReplaceVarPlugin.prototype.ReplaceVar = ReplaceVar;
+YoastReplaceVarPlugin.ReplaceVar = ReplaceVar;
 
 export default YoastReplaceVarPlugin;

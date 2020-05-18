@@ -61,6 +61,10 @@ import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 setYoastComponentsL10n();
 setWordPressSeoL10n();
 
+// Plugin class prototypes (not the instances) are being used by other plugins from the window.
+window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
+window.YoastShortcodePlugin = YoastShortcodePlugin;
+
 /**
  * @summary Initializes the post scraper script.
  * @param {object} $ jQuery
