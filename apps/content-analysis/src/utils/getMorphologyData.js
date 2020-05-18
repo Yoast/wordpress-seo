@@ -12,17 +12,17 @@ function loadLocalMorphologyData() {
 		// eslint-disable-next-line global-require
 		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-v3.json" );
 		// eslint-disable-next-line global-require
-		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v6.json" );
+		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v7.json" );
 		// eslint-disable-next-line global-require
-		dataNL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-nl-v6.json" );
+		dataNL = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-nl-v7.json" );
 		// eslint-disable-next-line global-require
-		dataES = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-es-v6.json" );
+		dataES = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-es-v7.json" );
 		// eslint-disable-next-line global-require
-		dataFR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-fr-v6.json" );
+		dataFR = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-fr-v7.json" );
 		// eslint-disable-next-line global-require
-		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v6.json" );
+		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v7.json" );
 		// eslint-disable-next-line global-require
-		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v6.json" );
+		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v7.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
