@@ -1019,4 +1019,4 @@ class WPSEO_Meta {
 		// @codingStandardsIgnoreLine
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
-} /* End of class */
+}

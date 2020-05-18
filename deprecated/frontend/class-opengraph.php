@@ -311,4 +311,4 @@ class WPSEO_OpenGraph {
 
 		return false;
 	}
-} /* End of class */
+}
