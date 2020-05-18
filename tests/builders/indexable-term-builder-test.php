@@ -37,7 +37,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$term = (object) [ 'taxonomy' => 'category', 'term_id' => 1 ];
+		$term = (object) [
+			'taxonomy' => 'category',
+			'term_id'  => 1,
+		];
 
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( $term );
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( $term, 'category' )->andReturn( 'https://example.org/category/1' );

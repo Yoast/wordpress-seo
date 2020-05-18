@@ -75,7 +75,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct publisher, when the `wpseo_og_article_publisher` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_article_publisher = 'https://example.com';

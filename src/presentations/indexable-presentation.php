@@ -617,6 +617,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array
 	 */
 	public function __debugInfo() {
-		return [ 'model' => $this->model, 'context' => $this->context ];
+		return [
+			'model'   => $this->model,
+			'context' => $this->context,
+		];
 	}
 }

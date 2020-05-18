@@ -85,7 +85,7 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
-		$this->instance          = Mockery::mock( Webpage::class )
+		$this->instance          = Mockery::mock( WebPage::class )
 			->makePartial();
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [

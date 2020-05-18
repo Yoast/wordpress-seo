@@ -65,7 +65,6 @@ class Robots_Presenter_Test extends TestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 
-
 	/**
 	 * Tests the situation where the presentation is empty.
 	 *

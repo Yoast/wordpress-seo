@@ -285,7 +285,7 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->never();
 
-		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )
@@ -299,7 +299,13 @@ class Indexable_Builder_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'create' )
 			->once()
-			->with( [ 'object_id' => 1337, 'object_type' => 'post', 'post_status' => 'unindexed' ] )
+			->with(
+				[
+					'object_id'   => 1337,
+					'object_type' => 'post',
+					'post_status' => 'unindexed',
+				]
+			)
 			->andReturn( $fake_indexable );
 
 		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1337, 'post', $indexable ) );
@@ -507,7 +513,7 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1, $indexable )
 			->andReturn( false );
 
-		$fake_indexable = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )
@@ -521,7 +527,13 @@ class Indexable_Builder_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'create' )
 			->once()
-			->with( [ 'object_id' => 1, 'object_type' => 'term', 'post_status' => 'unindexed' ] )
+			->with(
+				[
+					'object_id'   => 1,
+					'object_type' => 'term',
+					'post_status' => 'unindexed',
+				]
+			)
 			->andReturn( $fake_indexable );
 
 		$this->assertEquals( $fake_indexable, $this->instance->build_for_id_and_type( 1, 'term', $indexable ) );

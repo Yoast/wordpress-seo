@@ -162,8 +162,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_post_parent_with_no_indexable_id_set() {
-		$indexable        = $this->get_indexable( 1, 'post' );
-		$parent_indexable = $this->get_indexable( 0, 'post' );
+		$indexable                   = $this->get_indexable( 1, 'post' );
+		$parent_indexable            = $this->get_indexable( 0, 'post' );
 		$parent_indexable->object_id = 2;
 
 		$this->indexable_hierarchy_repository
@@ -390,10 +390,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_primary_term_parents_and_term_is_unindexed() {
 		$indexable = $this->get_indexable( 1, 'post' );
 
-		$primary_term = new Primary_Term();
+		$primary_term          = new Primary_Term();
 		$primary_term->term_id = 2;
 
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -604,8 +604,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_term_with_ancestor_not_indexed() {
-		$indexable        = $this->get_indexable( 1, 'term' );
-		$parent_indexable = $this->get_indexable( 2, 'term' );
+		$indexable                     = $this->get_indexable( 1, 'term' );
+		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -692,8 +692,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_term_with_ancestor_is_already_added() {
-		$indexable        = $this->get_indexable( 1,'term' );
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$indexable        = $this->get_indexable( 1, 'term' );
+		$parent_indexable = $this->get_indexable( 2, 'term' );
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -711,7 +711,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 2,
+					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 3,
 				]
@@ -722,7 +722,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 3,
+					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
 				]

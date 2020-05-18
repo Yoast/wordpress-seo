@@ -95,7 +95,7 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title, when the `wpseo_twitter_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';

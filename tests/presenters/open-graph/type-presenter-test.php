@@ -77,7 +77,7 @@ class Type_Presenter_Test extends TestCase {
 	 * is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_type = 'website';

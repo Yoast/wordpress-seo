@@ -39,7 +39,6 @@ class Meta_Surface {
 	 */
 	private $wp_rewrite_wrapper;
 
-
 	/**
 	 * Meta_Surface constructor.
 	 *

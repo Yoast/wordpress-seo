@@ -13,9 +13,11 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
  * Fills the Indexable according to Post data.
@@ -58,6 +60,13 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	private $post;
 
 	/**
+	 * Holds the logger.
+	 *
+	 * @var Logger
+	 */
+	protected $logger;
+
+	/**
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
@@ -72,19 +81,22 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
 	 * @param Author_Archive_Helper          $author_archive       The author archive helper.
 	 * @param Post_Helper                    $post                 The post helper.
+	 * @param Logger                         $logger               The logger.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
 		Indexable_Builder $builder,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		Author_Archive_Helper $author_archive,
-		Post_Helper $post
+		Post_Helper $post,
+		Logger $logger
 	) {
 		$this->repository           = $repository;
 		$this->builder              = $builder;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->author_archive       = $author_archive;
 		$this->post                 = $post;
+		$this->logger               = $logger;
 	}
 
 	/**
@@ -184,8 +196,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		try {
 			$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
 			$this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 	}
 
@@ -197,11 +209,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected function update_has_public_posts( $indexable ) {
 		// Update the author indexable's has public posts value.
 		try {
-			$author_indexable = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
+			$author_indexable                   = $this->repository->find_by_id_and_type( $indexable->author_id, 'user' );
 			$author_indexable->has_public_posts = $this->author_archive->author_has_public_posts( $author_indexable->object_id );
 			$author_indexable->save();
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 
 		// Update possible attachment's has public posts value.

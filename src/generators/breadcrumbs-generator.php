@@ -245,7 +245,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_user_crumb( $crumb, $ancestor ) {
-		$display_name = \get_the_author_meta( 'display_name', $ancestor->object_id );
+		$display_name  = \get_the_author_meta( 'display_name', $ancestor->object_id );
 		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name;
 
 		return $crumb;

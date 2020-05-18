@@ -29,17 +29,6 @@ use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 class Indexation_Integration implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
-			Migrations_Conditional::class,
-		];
-	}
-
-	/**
 	 * The post indexation action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -87,6 +76,17 @@ class Indexation_Integration implements Integration_Interface {
 	 * @var int
 	 */
 	private $total_unindexed;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [
+			Admin_Conditional::class,
+			Yoast_Admin_And_Dashboard_Conditional::class,
+			Migrations_Conditional::class,
+		];
+	}
 
 	/**
 	 * Indexation_Integration constructor.

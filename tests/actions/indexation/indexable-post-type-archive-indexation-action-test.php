@@ -1,5 +1,9 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+
+use Brain\Monkey\Filters;
+use Mockery;
 use Mockery\MockInterface;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -141,7 +145,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 25 );
 
@@ -181,7 +185,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( -1 );
 
@@ -221,7 +225,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 'not an integer' );
 
@@ -287,6 +291,4 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		return $indexable_mocks;
 	}
-
-
 }

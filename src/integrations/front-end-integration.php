@@ -202,9 +202,6 @@ class Front_End_Integration implements Integration_Interface {
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
-		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
-		\add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
-
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
@@ -222,7 +219,8 @@ class Front_End_Integration implements Integration_Interface {
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
 
-		$title_presenter               = new Title_Presenter();
+		$title_presenter = new Title_Presenter();
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$title_presenter->presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$title_presenter->replace_vars = $this->replace_vars;
@@ -360,7 +358,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$presenters = $this->get_all_presenters();
-		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ] ) ) {
+		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ], true ) ) {
 			$presenters = \array_merge( $presenters, $this->webmaster_verification_presenters );
 		}
 
