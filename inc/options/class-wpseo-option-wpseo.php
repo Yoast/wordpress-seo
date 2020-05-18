@@ -408,11 +408,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'ignore_search_engines_discouraged_notice',
 		];
 
+		$target_values = [
+			'ignore',
+			'done',
+		];
+
 		foreach ( $value_change as $key ) {
-			if ( isset( $option_value[ $key ] ) && in_array( $option_value[ $key ], [
-					'ignore',
-					'done',
-				], true )
+			if ( isset( $option_value[ $key ] )
+				&& in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
 			}

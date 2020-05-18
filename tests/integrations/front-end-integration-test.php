@@ -171,39 +171,45 @@ class Front_End_Integration_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
 
+		$expected = [
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+			'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+			'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
+			'Yoast\WP\SEO\Presenters\Canonical_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
+			'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Url_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Publisher_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
+			'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
+			'Yoast\WP\SEO\Presenters\Schema_Presenter',
+			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+		];
+
+		$callback = function ( $presenter ) {
+			return \get_class( $presenter );
+		};
+
 		$this->assertEquals(
-			[
-				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
-				'Yoast\WP\SEO\Presenters\Title_Presenter',
-				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
-				'Yoast\WP\SEO\Presenters\Robots_Presenter',
-				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
-				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
-				'Yoast\WP\SEO\Presenters\Canonical_Presenter',
-				'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
-				'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Url_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Article_Publisher_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
-				'Yoast\WP\SEO\Presenters\Open_Graph\FB_App_ID_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Image_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Creator_Presenter',
-				'Yoast\WP\SEO\Presenters\Twitter\Site_Presenter',
-				'Yoast\WP\SEO\Presenters\Schema_Presenter',
-				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
-			],
-			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Post_Type' ) )
+			$expected,
+			array_map( $callback, $this->instance->get_presenters( 'Post_Type' ) )
 		);
 	}
 
@@ -223,6 +229,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
+		$callback = function ( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$expected = array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
+
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -237,7 +248,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_map( function ( $presenter ) { return \get_class( $presenter ); }, $this->instance->get_presenters( 'Error_Page' ) )
+			$expected
 		);
 	}
 
@@ -262,6 +273,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'twitter' )
 			->andReturnTrue();
 
+		$callback = function ( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$expected = array_map( $callback, array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
+
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -289,7 +305,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Term_Archive' ) ) )
+			$expected
 		);
 	}
 
@@ -315,6 +331,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
+		$callback = function ( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$actual   = array_map( $callback, array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
+
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -328,7 +349,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
+			$actual
 		);
 	}
 
@@ -354,6 +375,11 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
+		$callback = function ( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$expected = array_map( $callback, array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
+
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -368,7 +394,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Schema_Presenter',
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 			],
-			array_map( function ( $presenter ) { return \get_class( $presenter ); }, array_values( $this->instance->get_presenters( 'Error_Page' ) ) )
+			$expected
 		);
 	}
 }
