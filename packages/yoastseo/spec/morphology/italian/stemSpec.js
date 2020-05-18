@@ -18,12 +18,13 @@ const wordsToStem = [
 	// Input an absolute superlative adjective.
 	[ "bellissimo", "bell" ],
 	[ "tristissima", "trist" ],
-	[ "tesissimi", "tes" ],
 	[ "ricchissime", "ricc" ],
 	[ "decoratissimo", "decor" ],
 	[ "fornitissimo", "forn" ],
 	// Input an absolute superlative adverb ending in -mente.
 	[ "fortissimamente", "fort" ],
+	// Abolute superlative adjective that undergoes stem canonicalization.
+	[ "tesissimi", "tend" ],
 	// Input a diminutive.
 	// [ "casina", "cas" ],
 	// Input a short singular feminine adjective.
