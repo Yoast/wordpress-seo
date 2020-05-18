@@ -150,11 +150,14 @@ class Image_Helper_Test extends TestCase {
 			'inLanguage' => 'language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate_from_attachment_id(
-			'https://example.com/#logo',
-			1337,
-			'Company name'
-		) );
+		$this->assertEquals(
+			$expected,
+			$this->instance->generate_from_attachment_id(
+				'https://example.com/#logo',
+				1337,
+				'Company name'
+			)
+		);
 	}
 
 	/**
@@ -190,11 +193,14 @@ class Image_Helper_Test extends TestCase {
 			'inLanguage' => 'language',
 		];
 
-		$this->assertEquals( $expected, $this->instance->generate_from_attachment_id(
-			'https://example.com/#logo',
-			1337,
-			'Company name'
-		) );
+		$this->assertEquals(
+			$expected,
+			$this->instance->generate_from_attachment_id(
+				'https://example.com/#logo',
+				1337,
+				'Company name'
+			)
+		);
 	}
 
 	/**

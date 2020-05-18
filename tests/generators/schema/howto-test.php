@@ -164,11 +164,13 @@ class HowTo_Test extends TestCase {
 
 		$this->language
 			->shouldReceive( 'add_piece_language' )
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->post
 			->shouldReceive( 'get_post_title_with_fallback' )
@@ -296,14 +298,16 @@ class HowTo_Test extends TestCase {
 				'#schema-image-94025919e8fe3836562573a84a14a305',
 				'https://example.com/wp-content/uploads/2020/02/download.jpeg'
 			)
-			->andReturn( [
-				'@type'      => 'ImageObject',
-				'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
-				'inLanguage' => 'en-US',
-				'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
-				'width'      => 474,
-				'height'     => 474,
-			] );
+			->andReturn(
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
+					'inLanguage' => 'en-US',
+					'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
+					'width'      => 474,
+					'height'     => 474,
+				]
+			);
 
 		$schema = $this->base_schema;
 

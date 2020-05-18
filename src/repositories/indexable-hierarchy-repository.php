@@ -56,12 +56,14 @@ class Indexable_Hierarchy_Repository {
 	 * @return bool Whether or not the ancestor was added succesfully.
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
-		$hierarchy = $this->query()->create( [
-			'indexable_id' => $indexable_id,
-			'ancestor_id'  => $ancestor_id,
-			'depth'        => $depth,
-			'blog_id'      => \get_current_blog_id(),
-		] );
+		$hierarchy = $this->query()->create(
+			[
+				'indexable_id' => $indexable_id,
+				'ancestor_id'  => $ancestor_id,
+				'depth'        => $depth,
+				'blog_id'      => \get_current_blog_id(),
+			]
+		);
 		return $hierarchy->save();
 	}
 

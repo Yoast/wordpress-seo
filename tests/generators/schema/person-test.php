@@ -375,12 +375,14 @@ class Person_Test extends TestCase {
 
 		$this->expects_for_determine_user_id();
 		$this->expects_for_get_userdata( $user_data );
-		$this->expects_for_social_profiles( [
-			'facebook'  => 'facebook',
-			'instagram' => 1234,
-			'youtube'   => false,
-			'wikipedia' => 'wiki',
-		] );
+		$this->expects_for_social_profiles(
+			[
+				'facebook'  => 'facebook',
+				'instagram' => 1234,
+				'youtube'   => false,
+				'wikipedia' => 'wiki',
+			]
+		);
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}

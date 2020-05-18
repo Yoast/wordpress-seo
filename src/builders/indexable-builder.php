@@ -171,11 +171,13 @@ class Indexable_Builder {
 
 		// Something went wrong building, create a false indexable.
 		if ( $indexable === false ) {
-			$indexable = $this->indexable_repository->query()->create( [
-				'object_id'   => $object_id,
-				'object_type' => $object_type,
-				'post_status' => 'unindexed',
-			] );
+			$indexable = $this->indexable_repository->query()->create(
+				[
+					'object_id'   => $object_id,
+					'object_type' => $object_type,
+					'post_status' => 'unindexed',
+				]
+			);
 		}
 
 		$this->save_indexable( $indexable, $indexable_before );

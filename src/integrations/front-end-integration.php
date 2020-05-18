@@ -308,7 +308,9 @@ class Front_End_Integration implements Integration_Interface {
 		$presenter_instances   = \array_filter( $presenter_instances, $is_presenter_callback );
 
 		return \array_merge(
-			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
+			[ new Marker_Open_Presenter() ],
+			$presenter_instances,
+			[ new Marker_Close_Presenter() ]
 		);
 	}
 

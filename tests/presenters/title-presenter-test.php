@@ -71,9 +71,11 @@ class Title_Presenter_Test extends TestCase {
 			->expects( 'strip_all_tags' )
 			->withAnyArgs()
 			->once()
-			->andReturnUsing( function ( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function ( $string ) {
+					return $string;
+				}
+			);
 
 		Monkey\Functions\expect( 'wp_get_document_title' )->andReturnUsing( function() {
 			return $this->instance->get_title();
@@ -90,9 +92,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<title>example_title</title>';
 		$actual   = $this->instance->present();
@@ -110,9 +114,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 
@@ -130,9 +136,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_title' )
 			->once()

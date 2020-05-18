@@ -106,11 +106,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 
-		$this->instance = Mockery::mock( Indexable_Post_Builder_Double::class, [
-			$this->seo_meta_repository,
-			$this->post,
-			$this->logger,
-		] )
+		$this->instance = Mockery::mock(
+			Indexable_Post_Builder_Double::class,
+			[
+				$this->seo_meta_repository,
+				$this->post,
+				$this->logger,
+			]
+		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->instance->set_indexable_repository( $this->indexable_repository );

@@ -117,12 +117,15 @@ class Meta_Tags_Context_Memoizer {
 				$blocks = $this->blocks->get_all_blocks_from_content( $post->post_content );
 			}
 
-			$context = $this->context_prototype->of( [
-				'indexable' => $indexable,
-				'blocks'    => $blocks,
-				'post'      => $post,
-				'page_type' => $page_type,
-			] );
+			$context = $this->context_prototype->of(
+				[
+					'indexable' => $indexable,
+					'blocks'    => $blocks,
+					'post'      => $post,
+					'page_type' => $page_type,
+				]
+			);
+
 			$context->presentation = $this->presentation_memoizer->get( $indexable, $context, $page_type );
 
 			$this->cache[ $indexable->id ] = $context;

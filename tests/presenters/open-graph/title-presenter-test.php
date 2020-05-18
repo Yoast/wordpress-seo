@@ -69,9 +69,11 @@ class Title_Presenter_Test extends TestCase {
 			->expects( 'strip_all_tags' )
 			->withAnyArgs()
 			->once()
-			->andReturnUsing( function( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function( $string ) {
+					return $string;
+				}
+			);
 	}
 
 	/**
@@ -84,9 +86,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<meta property="og:title" content="example_title" />';
 		$actual   = $this->instance->present();
@@ -104,9 +108,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 
@@ -124,9 +130,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_title' )
 			->once()

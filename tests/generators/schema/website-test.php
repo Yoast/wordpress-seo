@@ -101,11 +101,13 @@ class Website_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->options->expects( 'get' )
 			->with( 'alternate_website_name', '' )
@@ -157,11 +159,13 @@ class Website_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->options->expects( 'get' )
 			->with( 'alternate_website_name', '' )
