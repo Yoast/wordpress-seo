@@ -244,14 +244,19 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'twitter_image.jpg' );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [
-			'post_content'  => 'The content of the post',
-			'post_type'     => 'post',
-			'post_status'   => 'publish',
-			'post_password' => '',
-			'post_author'   => '1',
-			'post_parent'   => '0',
-		] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_content'  => 'The content of the post',
+					'post_type'     => 'post',
+					'post_status'   => 'publish',
+					'post_password' => '',
+					'post_author'   => '1',
+					'post_parent'   => '0',
+				]
+			);
 
 		$this->instance->build( 1, $this->indexable );
 	}
