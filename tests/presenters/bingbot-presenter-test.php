@@ -41,8 +41,8 @@ class Bingbot_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Bingbot_Presenter::class )
-								 ->makePartial()
-								 ->shouldAllowMockingProtectedMethods();
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;

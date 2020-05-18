@@ -54,7 +54,7 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 			'</a>'
 		);
 		$reassurance    = \sprintf(
-		/* translators: %s: Yoast SEO. */
+			/* translators: %s: Yoast SEO. */
 			\esc_html__( 'Your site will continue to work normally, but won\'t take full advantage of %s.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);

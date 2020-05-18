@@ -616,7 +616,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_home_static_page_not_the_front_page() {
 		$this->wp_query_wrapper
-			->expects('get_main_query' )
+			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
 
 		$this->wp_query
@@ -624,7 +624,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturnFalse();
 
 		Monkey\Functions\expect( 'get_option' )
-			->with('show_on_front' )
+			->with( 'show_on_front' )
 			->never();
 
 		$this->assertFalse( $this->instance->is_home_static_page() );
@@ -638,7 +638,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_home_static_page_and_show_on_front_is_posts() {
 		$this->wp_query_wrapper
-			->expects('get_main_query' )
+			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
 
 		$this->wp_query
@@ -664,7 +664,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_posts_page() {
 		$this->wp_query_wrapper
-			->expects('get_main_query' )
+			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
 
 		$this->wp_query
@@ -672,7 +672,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturnTrue();
 
 		Monkey\Functions\expect( 'get_option' )
-			->with('show_on_front' )
+			->with( 'show_on_front' )
 			->andReturn( 'page' );
 
 		$this->assertTrue( $this->instance->is_posts_page() );
@@ -685,7 +685,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_posts_page_not_on_the_home() {
 		$this->wp_query_wrapper
-			->expects('get_main_query' )
+			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
 
 		$this->wp_query
@@ -693,7 +693,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturnFalse();
 
 		Monkey\Functions\expect( 'get_option' )
-			->with('show_on_front' )
+			->with( 'show_on_front' )
 			->never();
 
 		$this->assertFalse( $this->instance->is_posts_page() );
@@ -706,7 +706,7 @@ class Current_Page_Helper_Test extends TestCase {
 	 */
 	public function test_is_posts_page_with_option_not_set() {
 		$this->wp_query_wrapper
-			->expects('get_main_query' )
+			->expects( 'get_main_query' )
 			->andReturn( $this->wp_query );
 
 		$this->wp_query
@@ -714,7 +714,7 @@ class Current_Page_Helper_Test extends TestCase {
 			->andReturnTrue();
 
 		Monkey\Functions\expect( 'get_option' )
-			->with('show_on_front' )
+			->with( 'show_on_front' )
 			->andReturn( 'posts' );
 
 		$this->assertFalse( $this->instance->is_posts_page() );

@@ -121,7 +121,7 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	 */
 	public function test_run_with_myyoast_api_reachable() {
 		$this->instance
-			->expects( 'has_premium_plugins_installed')
+			->expects( 'has_premium_plugins_installed' )
 			->once()
 			->andReturnTrue();
 

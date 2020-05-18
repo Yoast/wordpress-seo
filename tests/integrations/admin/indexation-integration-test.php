@@ -204,15 +204,14 @@ class Indexation_Integration_Test extends TestCase {
 			],
 			'restApi' => [
 				'root'      => 'https://example.org/wp-ajax/',
-				'endpoints' =>
-					[
-						'prepare'  => 'yoast/v1/indexation/prepare',
-						'posts'    => 'yoast/v1/indexation/posts',
-						'terms'    => 'yoast/v1/indexation/terms',
-						'archives' => 'yoast/v1/indexation/post-type-archives',
-						'general'  => 'yoast/v1/indexation/general',
-						'complete' => 'yoast/v1/indexation/complete',
-					],
+				'endpoints' => [
+					'prepare'  => 'yoast/v1/indexation/prepare',
+					'posts'    => 'yoast/v1/indexation/posts',
+					'terms'    => 'yoast/v1/indexation/terms',
+					'archives' => 'yoast/v1/indexation/post-type-archives',
+					'general'  => 'yoast/v1/indexation/general',
+					'complete' => 'yoast/v1/indexation/complete',
+				],
 				'nonce'     => 'nonce',
 			],
 			'message' => [

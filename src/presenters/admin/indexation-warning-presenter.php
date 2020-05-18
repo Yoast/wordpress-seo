@@ -190,6 +190,6 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			return false;
 		}
 
-		return  $indexation_started <= ( time() - MONTH_IN_SECONDS );
+		return $indexation_started <= ( time() - MONTH_IN_SECONDS );
 	}
 }

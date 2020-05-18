@@ -144,8 +144,8 @@ class Index_Command_Test extends TestCase {
 			$indexation_action->expects( 'get_total_unindexed' )->once()->andReturn( 30 );
 			$indexation_action->expects( 'get_limit' )->once()->andReturn( 25 );
 			$indexation_action->expects( 'index' )
-			                  ->times( 2 )
-			                  ->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+				->times( 2 )
+				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );

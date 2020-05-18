@@ -256,10 +256,26 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 */
 	public function method_provider() {
 		return [
-			[ 'for_post'             , [ 'id' => 1 ]       , 1 ],
-			[ 'for_term'             , [ 'id' => 1 ]       , 1 ],
-			[ 'for_author'           , [ 'id' => 1 ]       , 1 ],
-			[ 'for_post_type_archive', [ 'slug' => 'type' ], 'type' ],
+			[
+				'for_post',
+				[ 'id' => 1 ],
+				1,
+			],
+			[
+				'for_term',
+				[ 'id' => 1 ],
+				1,
+			],
+			[
+				'for_author',
+				[ 'id' => 1 ],
+				1,
+			],
+			[
+				'for_post_type_archive',
+				[ 'slug' => 'type' ],
+				'type',
+			],
 		];
 	}
 }
