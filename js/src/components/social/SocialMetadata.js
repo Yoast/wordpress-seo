@@ -17,14 +17,16 @@ const SocialMetadata = () => {
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				title="Facebook"
+				title="Facebook preview"
+				initialIsOpen={ true }
 			>
 				<FacebookContainer />
 			</Collapsible>
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				title="Twitter"
+				title="Twitter preview"
+				initialIsOpen={ true }
 			>
 				<TwitterContainer />
 			</Collapsible>
