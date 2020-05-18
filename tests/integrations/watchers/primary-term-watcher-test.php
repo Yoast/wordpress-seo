@@ -119,11 +119,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 			->expects( 'get_primary_term_taxonomies' )
 			->once()
 			->with( 1 )
-			->andReturn( [
-				(object) [
-					'name' => 'category',
-				],
-			] );
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
 
 		$primary_term = Mockery::mock();
 		$primary_term->expects( 'delete' )->once();
@@ -146,11 +142,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 			->expects( 'get_primary_term_taxonomies' )
 			->once()
 			->with( 1 )
-			->andReturn( [
-				(object) [
-					'name' => 'category',
-				],
-			] );
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
 
 		$this->repository
 			->expects( 'find_by_post_id_and_taxonomy' )

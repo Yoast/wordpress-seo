@@ -54,9 +54,7 @@ class Blocks_Helper_Test extends TestCase {
 			->expects( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_content' => 'post content',
-			] );
+			->andReturn( (object) [ 'post_content' => 'post content' ] );
 
 		$this->instance
 			->expects( 'has_blocks_support' )

@@ -58,9 +58,7 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->instance               = new Title_Presenter();
 		$this->instance->replace_vars = $this->replace_vars;
-		$this->instance->helpers      = (object) [
-			'string' => $this->string,
-		];
+		$this->instance->helpers      = (object) [ 'string' => $this->string ];
 
 		$this->presentation         = new Indexable_Presentation();
 		$this->presentation->source = [];

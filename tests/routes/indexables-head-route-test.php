@@ -111,9 +111,7 @@ class Indexables_Head_Route_Test extends TestCase {
 		$this->head_action
 			->expects( 'for_url' )
 			->with( 'https://example.org' )
-			->andReturn( (object) [
-				'status' => 'yes',
-			] );
+			->andReturn( (object) [ 'status' => 'yes' ] );
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
