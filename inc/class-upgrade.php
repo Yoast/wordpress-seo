@@ -764,11 +764,10 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 14.2 upgrade.
 	 *
-	 * Removes the yoast-acf-analysis notice when its still in the database.
+	 * Removes the yoast-acf-analysis notice when it's still in the database.
 	 */
 	private function upgrade_142() {
 		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
-
 	}
 
 
