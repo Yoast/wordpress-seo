@@ -73,11 +73,14 @@ const PlaceholderImage = styled( BaseImage )`
 	border-top-left-radius: 14px;
 	${ props => props.isLarge ? "border-top-right-radius" : "border-bottom-left-radius" }: 14px;
 	border-style: dashed;
-	border-width: 2px;
+	border-width: 1px;
 	// We're not using standard colors to increase contrast for accessibility.
-	color: #073cba;
+	color: #006DAC;
 	// We're not using standard colors to increase contrast for accessibility.
 	background-color: #f1f1f1;
+	text-decoration: underline;
+	font-size: 14px;
+	cursor: pointer;
 `;
 
 /**

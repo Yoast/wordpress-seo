@@ -36,14 +36,17 @@ const PlaceholderImage = styled.div`
 	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
 	background-color: ${ colors.$color_grey };
 	border-style: dashed;
-	border-width: 2px;
+	border-width: 1px;
 	// We're not using standard colors to increase contrast for accessibility.
-	color: #073cba;
+	color: #006DAC;
 	// We're not using standard colors to increase contrast for accessibility.
 	background-color: #f1f1f1;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	text-decoration: underline;
+	font-size: 14px;
+	cursor: pointer;
 `;
 
 /**
