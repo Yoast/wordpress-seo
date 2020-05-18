@@ -6,7 +6,7 @@
 
 .yoast-field-group select,
 .yoast-field-group__select select,
-.select2-container.select2-container--default {
+.yoast-field-group .select2-container.select2-container--default {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
@@ -32,7 +32,7 @@
     padding-right: 40px;
 }
 
-.select2-container.select2-container--default {
+.yoast-field-group  .select2-container.select2-container--default {
     background-image: none;
     padding: 0 8px;
     max-width: 100%;
@@ -85,7 +85,7 @@
     color: var(--color-white);
 }
 
-.select2-container .select2-dropdown {
+.select2-container .yoast-select2-pulldown .select2-dropdown {
     border-color: var(--color-border--default);
     border-radius: 0;
 }
@@ -95,7 +95,7 @@
     left: -1px;
 }
 
-.select2-container .select2-results__option {
+.select2-container .yoast-select2-pulldown .select2-results__option {
     padding: 8px;
     border-top: var(--border-default);
 }
