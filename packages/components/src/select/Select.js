@@ -71,7 +71,7 @@ class MultiSelect extends React.Component {
 	 */
 	componentDidMount() {
 		this.select2 = jQuery( `#${ this.props.id }` );
-		this.select2.select2( { width: "100%" } );
+		this.select2.select2( { width: "100%", dropdownCssClass: ".yoast-select2-pulldown" } );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
