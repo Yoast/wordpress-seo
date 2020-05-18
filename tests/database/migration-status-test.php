@@ -53,7 +53,12 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => '1.0', 'lock' => strtotime( '-20 minutes' ) ] );
+			->andReturn(
+				[
+					'version' => '1.0',
+					'lock'    => strtotime( '-20 minutes' ),
+				]
+			);
 
 		$instance = new Migration_Status();
 
@@ -81,7 +86,12 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => '1.0', 'lock' => strtotime( 'now' ) ] );
+			->andReturn(
+				[
+					'version' => '1.0',
+					'lock'    => strtotime( 'now' ),
+				]
+			);
 
 		$instance = new Migration_Status();
 
@@ -162,12 +172,21 @@ class Migration_Status_Test extends TestCase {
 	 * @covers ::get_error
 	 */
 	public function test_get_error() {
-		$error = [ 'message' => 'Something went wrong', 'time' => strtotime( 'now' ), 'version' => '2.0' ];
+		$error = [
+			'message' => 'Something went wrong',
+			'time'    => strtotime( 'now' ),
+			'version' => '2.0',
+		];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => '1.0', 'error' => $error ] );
+			->andReturn(
+				[
+					'version' => '1.0',
+					'error'   => $error,
+				]
+			);
 
 		$instance = new Migration_Status();
 
@@ -193,7 +212,14 @@ class Migration_Status_Test extends TestCase {
 	 */
 	public function test_set_error() {
 		$error_message   = 'Something went wrong';
-		$expected_option = [ 'version' => '1.0', 'error' => [ 'message' => $error_message, 'time' => strtotime( 'now' ), 'version' => WPSEO_VERSION ] ];
+		$expected_option = [
+			'version' => '1.0',
+			'error'   => [
+				'message' => $error_message,
+				'time'    => strtotime( 'now' ),
+				'version' => WPSEO_VERSION,
+			],
+		];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
@@ -231,7 +257,10 @@ class Migration_Status_Test extends TestCase {
 	 * @covers ::lock_migration
 	 */
 	public function test_lock_migration() {
-		$expected_option = [ 'version' => '1.0', 'lock' => strtotime( 'now' ) ];
+		$expected_option = [
+			'version' => '1.0',
+			'lock'    => strtotime( 'now' ),
+		];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )

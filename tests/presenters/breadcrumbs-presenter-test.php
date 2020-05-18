@@ -70,8 +70,15 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_happy_path() {
-		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
-		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
+		$breadcrumb_1 = [
+			'url'  => 'home_url',
+			'text' => 'home_title',
+		];
+		$breadcrumb_2 = [
+			'url'  => 'post_url',
+			'text' => 'post_title',
+			'id'   => 'post_id',
+		];
 
 		$this->presentation->breadcrumbs = [
 			$breadcrumb_1,
@@ -189,8 +196,15 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_no_breadcrumbs_prefix() {
-		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
-		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
+		$breadcrumb_1 = [
+			'url'  => 'home_url',
+			'text' => 'home_title',
+		];
+		$breadcrumb_2 = [
+			'url'  => 'post_url',
+			'text' => 'post_title',
+			'id'   => 'post_id',
+		];
 
 		$this->presentation->breadcrumbs = [
 			$breadcrumb_1,
@@ -250,7 +264,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_not_last_element() {
-		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
+		$breadcrumb = [
+			'url'  => 'home_url',
+			'text' => 'home_text',
+		];
 
 		$this->instance->expects( 'get_element' )
 			->once()
@@ -271,7 +288,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_filter_applied() {
-		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text' ];
+		$breadcrumb = [
+			'url'  => 'home_url',
+			'text' => 'home_text',
+		];
 
 		$this->instance->expects( 'get_element' )
 			->once()
@@ -298,7 +318,11 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_title_is_set() {
-		$breadcrumb = [ 'url' => 'home_url', 'text' => 'home_text', 'title' => 'home_title' ];
+		$breadcrumb = [
+			'url'   => 'home_url',
+			'text'  => 'home_text',
+			'title' => 'home_title',
+		];
 
 		$this->instance->expects( 'get_element' )
 			->once()
@@ -320,7 +344,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_last_element_bold() {
-		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+		$breadcrumb = [
+			'url'  => 'page_url',
+			'text' => 'page_text',
+		];
 
 		$this->options->expects( 'get' )
 			->once()
@@ -349,7 +376,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_last_element_not_bold() {
-		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+		$breadcrumb = [
+			'url'  => 'page_url',
+			'text' => 'page_text',
+		];
 
 		$this->options->expects( 'get' )
 			->once()
@@ -378,7 +408,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_add_closing_elements() {
-		$breadcrumb = [ 'url' => 'page_url', 'text' => 'page_text' ];
+		$breadcrumb = [
+			'url'  => 'page_url',
+			'text' => 'page_text',
+		];
 
 		$this->options->expects( 'get' )
 			->once()
@@ -417,7 +450,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_with_text_not_string() {
-		$breadcrumb = [ 'url' => 'home_url', 'text' => 123 ];
+		$breadcrumb = [
+			'url'  => 'home_url',
+			'text' => 123,
+		];
 
 		$this->assertEmpty( $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
 	}
@@ -428,7 +464,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_with_empty_text() {
-		$breadcrumb = [ 'url' => 'home_url', 'text' => '' ];
+		$breadcrumb = [
+			'url'  => 'home_url',
+			'text' => '',
+		];
 
 		$this->assertEmpty( $this->instance->crumb_to_link( $breadcrumb, 0, 2 ) );
 	}
@@ -454,7 +493,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_with_url_not_string() {
-		$breadcrumb = [ 'url' => 123, 'text' => 'home_text' ];
+		$breadcrumb = [
+			'url'  => 123,
+			'text' => 'home_text',
+		];
 
 		$link = '<span>home_text</span>';
 
@@ -468,7 +510,10 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::crumb_to_link
 	 */
 	public function test_crumb_to_link_with_url_empty() {
-		$breadcrumb = [ 'url' => '', 'text' => 'home_text' ];
+		$breadcrumb = [
+			'url'  => '',
+			'text' => 'home_text',
+		];
 
 		$link = '<span>home_text</span>';
 
@@ -675,8 +720,15 @@ class Breadcrumbs_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_get() {
-		$breadcrumb_1 = [ 'url' => 'home_url', 'text' => 'home_title' ];
-		$breadcrumb_2 = [ 'url' => 'post_url', 'text' => 'post_title', 'id' => 'post_id' ];
+		$breadcrumb_1 = [
+			'url'  => 'home_url',
+			'text' => 'home_title',
+		];
+		$breadcrumb_2 = [
+			'url'  => 'post_url',
+			'text' => 'post_title',
+			'id'   => 'post_id',
+		];
 
 		$this->presentation->breadcrumbs = [
 			$breadcrumb_1,

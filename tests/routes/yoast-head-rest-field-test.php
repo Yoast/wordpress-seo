@@ -167,7 +167,12 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->expects( $method )
 			->once()
 			->with( $input )
-			->andReturn( (object) [ 'status' => 200, 'head' => 'this is the head' ] );
+			->andReturn(
+				(object) [
+					'status' => 200,
+					'head'   => 'this is the head',
+				]
+			);
 
 		if ( $method === 'for_post_type_archive' ) {
 			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
@@ -187,7 +192,12 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 		$this->head_action
 			->expects( 'for_posts_page' )
 			->once()
-			->andReturn( (object) [ 'status' => 200, 'head' => 'this is the head' ] );
+			->andReturn(
+				(object) [
+					'status' => 200,
+					'head'   => 'this is the head',
+				]
+			);
 
 		$this->assertEquals( 'this is the head', $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );
 	}
@@ -224,7 +234,12 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 			->expects( $method )
 			->once()
 			->with( $input )
-			->andReturn( (object) [ 'status' => 404, 'head' => 'this is the 404 head' ] );
+			->andReturn(
+				(object) [
+					'status' => 404,
+					'head'   => 'this is the 404 head',
+				]
+			);
 
 		if ( $method === 'for_post_type_archive' ) {
 			$this->post_type_helper->expects( 'has_archive' )->with( $input )->andReturnTrue();
@@ -244,7 +259,12 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 		$this->head_action
 			->expects( 'for_posts_page' )
 			->once()
-			->andReturn( (object) [ 'status' => 404, 'head' => 'this is the 404 head' ] );
+			->andReturn(
+				(object) [
+					'status' => 404,
+					'head'   => 'this is the 404 head',
+				]
+			);
 
 		$this->assertNull( $this->instance->for_post_type_archive( [ 'slug' => 'post' ] ) );
 	}

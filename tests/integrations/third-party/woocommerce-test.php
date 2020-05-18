@@ -137,7 +137,12 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::add_shop_to_breadcrumbs
 	 */
 	public function test_add_shop_to_breadcrumbs() {
-		$indexables = [ (object) [ 'object_type' => 'post-type-archive', 'object_sub_type' => 'product' ] ];
+		$indexables = [
+			(object) [
+				'object_type'     => 'post-type-archive',
+				'object_sub_type' => 'product',
+			],
+		];
 
 		Monkey\Functions\expect( 'wc_get_page_id' )
 			->once()

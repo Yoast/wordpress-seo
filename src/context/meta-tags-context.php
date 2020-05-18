@@ -419,7 +419,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return array
 	 */
 	public function __debugInfo() {
-		return [ 'indexable' => $this->indexable, 'presentation' => $this->presentation ];
+		return [
+			'indexable'    => $this->indexable,
+			'presentation' => $this->presentation,
+		];
 	}
 }
 
