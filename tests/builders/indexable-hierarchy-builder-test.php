@@ -127,7 +127,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 */
 	public function test_parents_not_set() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -620,7 +620,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_not_array() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -636,7 +636,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
 		$this->instance->build( $indexable );
@@ -655,7 +655,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_empty() {
-		$indexable = new Indexable();
+		$indexable              = new Indexable();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -671,7 +671,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ]
+			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
 		$this->instance->build( $indexable );
