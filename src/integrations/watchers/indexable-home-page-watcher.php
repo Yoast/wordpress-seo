@@ -101,5 +101,5 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	public function build_indexable() {
 		$indexable = $this->repository->find_for_home_page( false );
 		$this->builder->build_for_home_page( $indexable );
-		}
+	}
 }
