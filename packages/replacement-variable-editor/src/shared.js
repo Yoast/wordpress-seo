@@ -29,7 +29,7 @@ export const FormSection = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	margin: 24px 0 0 0;
+	margin: 16px 0 0 0;
 `;
 
 export const StandardButton = styled( Button )`
