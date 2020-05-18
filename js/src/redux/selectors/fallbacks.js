@@ -41,4 +41,4 @@ export const getImageFallback = state => get(
  *
  * @returns {string} The authorName
  */
-export const getSiteUrl = state => state.analysisData.snippet.url.split( "/" )[ 0 ];
+export const getSiteUrl = state => ( state.analysisData.snippet.url || "" ).split( "/" )[ 0 ];
