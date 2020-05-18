@@ -48,16 +48,18 @@ class Primary_Term_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_object_taxonomies' )
 			->once()
 			->with( 'post', 'objects' )
-			->andReturn( [
-				(object) [
-					'name'         => 'category',
-					'hierarchical' => true,
-				],
-				(object) [
-					'name'         => 'tag',
-					'hierarchical' => false,
-				],
-			] );
+			->andReturn(
+				[
+					(object) [
+						'name'         => 'category',
+						'hierarchical' => true,
+					],
+					(object) [
+						'name'         => 'tag',
+						'hierarchical' => false,
+					],
+				]
+			);
 
 		Monkey\Functions\expect( 'get_post_type' )
 			->once()
@@ -81,16 +83,18 @@ class Primary_Term_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_object_taxonomies' )
 			->once()
 			->with( 'post', 'objects' )
-			->andReturn( [
-				(object) [
-					'name'         => 'category',
-					'hierarchical' => false,
-				],
-				(object) [
-					'name'         => 'tag',
-					'hierarchical' => false,
-				],
-			] );
+			->andReturn(
+				[
+					(object) [
+						'name'         => 'category',
+						'hierarchical' => false,
+					],
+					(object) [
+						'name'         => 'tag',
+						'hierarchical' => false,
+					],
+				]
+			);
 
 		Monkey\Functions\expect( 'get_post_type' )
 			->once()

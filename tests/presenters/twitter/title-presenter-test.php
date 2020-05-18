@@ -64,9 +64,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
 		$actual   = $this->instance->present();
@@ -83,9 +85,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 		$this->assertEmpty( $actual );
@@ -102,9 +106,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_title' )
 			->once()

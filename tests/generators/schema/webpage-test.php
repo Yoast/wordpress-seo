@@ -173,11 +173,13 @@ class WebPage_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function ( $data ) {
-				$data['inLanguage'] = 'the-language';
+			->andReturnUsing(
+				function ( $data ) {
+					$data['inLanguage'] = 'the-language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->meta_tags_context
 			->expects( 'generate_schema_page_type' )

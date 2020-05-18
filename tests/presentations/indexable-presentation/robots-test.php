@@ -93,10 +93,13 @@ class Robots_Test extends TestCase {
 	public function test_generate_robots_with_array_filter() {
 		Monkey\Filters\expectApplied( 'wpseo_robots_array' )
 			->once()
-			->with( [
+			->with(
+				[
 					'index'  => 'index',
 					'follow' => 'follow',
-				], $this->instance )
+				],
+				$this->instance
+			)
 			->andReturn(
 				[
 					'index'  => 'noindex',
