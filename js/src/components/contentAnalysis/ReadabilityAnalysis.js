@@ -1,11 +1,11 @@
-/* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
+/* global wpseoAdminL10n */
 /* External components */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import { isNil } from "lodash-es";
+import { isNil, get } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
@@ -28,12 +28,7 @@ const ReadabilityResultsTabContainer = styled.div`
 	padding: 16px;
 `;
 
-let localizedData = {};
-if ( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
+const localizedData = get( window, "wpseoScriptData.metabox", {} );
 
 const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;

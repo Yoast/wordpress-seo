@@ -8,7 +8,7 @@ export default class FacebookFields {
 	 * @returns {HTMLElement} The titleElement.
 	 */
 	static get titleElement() {
-		return document.getElementById( window.wpseoPostScraperL10n ? "yoast_wpseo_opengraph-title" : "wpseo_opengraph-title" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_opengraph-title" : "wpseo_opengraph-title" );
 	}
 
 	/**
@@ -17,7 +17,7 @@ export default class FacebookFields {
 	 * @returns {HTMLElement} The descriptionElement.
 	 */
 	static get descriptionElement() {
-		return document.getElementById( window.wpseoPostScraperL10n ? "yoast_wpseo_opengraph-description" : "wpseo_opengraph-description" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_opengraph-description" : "wpseo_opengraph-description" );
 	}
 
 	/**
@@ -26,7 +26,7 @@ export default class FacebookFields {
 	 * @returns {HTMLElement} The imageIdElement.
 	 */
 	static get imageIdElement() {
-		return document.getElementById( window.wpseoPostScraperL10n ? "yoast_wpseo_opengraph-image-id" : "hidden_wpseo_opengraph-image-id" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_opengraph-image-id" : "hidden_wpseo_opengraph-image-id" );
 	}
 
 	/**
@@ -35,7 +35,7 @@ export default class FacebookFields {
 	 * @returns {HTMLElement} The imageUrlElement.
 	 */
 	static get imageUrlElement() {
-		return document.getElementById( window.wpseoPostScraperL10n ? "yoast_wpseo_opengraph-image" : "wpseo_opengraph-image" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_opengraph-image" : "wpseo_opengraph-image" );
 	}
 
 	/**

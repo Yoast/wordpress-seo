@@ -44,6 +44,7 @@ const wordpressExternals = {
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/url": "window.wp.url",
 	"@wordpress/dom-ready": "window.wp.domReady",
+	"@wordpress/a11y": "window.wp.a11y",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
@@ -193,7 +194,7 @@ module.exports = function( env ) {
 					test: /\.css$/,
 					use: [
 						MiniCssExtractPlugin.loader,
-						'css-loader',
+						"css-loader",
 					],
 				},
 			],
@@ -229,7 +230,7 @@ module.exports = function( env ) {
 		{
 			...base,
 			entry: {
-				components: "./js/src/components.js",
+				components: "./js/src/externals/components.js",
 			},
 			output: {
 				path: path.resolve(),
@@ -274,7 +275,7 @@ module.exports = function( env ) {
 			},
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				analysis: "./js/src/analysis.js",
+				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

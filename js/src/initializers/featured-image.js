@@ -1,12 +1,17 @@
 /* global wp */
-/* global wpseoFeaturedImageL10n */
+/* global wpseoScriptData */
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
 
-( function( $ ) {
+/**
+ * @summary Initializes the featured image integration.
+ * @param {object} $ jQuery
+ * @returns {void}
+ */
+export default function initFeaturedImageIntegration( $ ) {
 	var featuredImagePlugin;
 	var $featuredImageElement;
 	var $postImageDiv;
@@ -109,13 +114,13 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			if ( 0 === $( "#yst_opengraph_image_warning" ).length ) {
 				// Create a warning using native WordPress notices styling.
 				$( '<div id="yst_opengraph_image_warning" class="notice notice-error notice-alt"><p>' +
-					wpseoFeaturedImageL10n.featured_image_notice +
+					wpseoScriptData.featuredImage.featured_image_notice +
 					"</p></div>" )
 					.insertAfter( $postImageDivHeading );
 
 				$postImageDiv.addClass( "yoast-opengraph-image-notice" );
 
-				a11ySpeak( wpseoFeaturedImageL10n.featured_image_notice, "assertive" );
+				a11ySpeak( wpseoScriptData.featuredImage.featured_image_notice, "assertive" );
 			}
 		} else {
 			// Force reset warning
@@ -201,7 +206,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			}
 		} );
 	} );
-}( jQuery ) );
+}
 
 /* eslint-disable */
 /* jshint ignore:start */

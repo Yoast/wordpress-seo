@@ -1,6 +1,11 @@
 /* Browser:true */
 
-( function() {
+/**
+ * @summary Initializes the metabox tabs script.
+ * @param {object} jQuery jQuery
+ * @returns {void}
+ */
+export default function initTabs( jQuery ) {
 	/**
 	 * Focuses and triggers a click on a tab element.
 	 *
@@ -242,4 +247,4 @@
 
 		wpseoAriaTabsInit();
 	} );
-}( jQuery ) );
+}

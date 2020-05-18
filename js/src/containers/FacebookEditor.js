@@ -11,7 +11,7 @@ const isPremium = window.wpseoAdminL10n.isPremium;
 
 const socialMediumName = "Facebook";
 
-const titlePlaceholder = window.wpseoPostScraperL10n ? window.wpseoPostScraperL10n.title_template : window.wpseoTermScraperL10n.title_template;
+const titlePlaceholder = window.wpseoScriptData.metabox.title_template;
 
 /* Translators: %s expands to the social medium name, i.e. Faceboook. */
 const descriptionPlaceholder  = sprintf(

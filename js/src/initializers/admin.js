@@ -1,9 +1,14 @@
-/* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
+/* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData */
 
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 
-( function() {
+/**
+ * @summary Initializes the admin script.
+ * @param {object} jQuery jQuery
+ * @returns {void}
+ */
+export default function initAdmin( jQuery ) {
 	/**
 	 * Utility function to check whether the given element is fully visible withing the viewport.
 	 *
@@ -149,13 +154,13 @@ import { debounce } from "lodash-es";
 		// Select2 for Twitter card meta data in Settings
 		jQuery( "#twitter_card_type" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale,
+			language: wpseoScriptData.userLanguageCode,
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
 		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
-			language: wpseoSelect2Locale,
+			language: wpseoScriptData.userLanguageCode,
 		} );
 	}
 
@@ -387,4 +392,4 @@ import { debounce } from "lodash-es";
 		// Should be called after the initial active tab has been set.
 		setFixedSubmitButtonVisibility();
 	} );
-}() );
+}
