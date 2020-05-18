@@ -5,7 +5,6 @@ import sampleVocabulary from "./sampleVocabulary.json";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyDataIT = getMorphologyData( "it" ).it;
-
 const wordsToStemWithoutFunctionWords = filterFunctionWordsFromArray( sampleVocabulary.words, "it" );
 
 describe( "Generate stems for Italian words", () => {

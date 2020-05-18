@@ -299,6 +299,24 @@ const normalizeDigraphs = function( word, morphologyData, rvText ) {
 };
 
 /**
+ * Returns a canonical stem for verbs with multiple stems.
+ *
+ * @param {string}  word                    The word to canonicalize.
+ * @param {Array}   verbsWithMultipleStems  An array of arrays of stems belonging to one word.
+ *
+ * @returns {string} A stem canonicalized stem or the original word.
+ */
+const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
+	const multipleStems = verbsWithMultipleStems.find( stems => stems.includes( word ) );
+
+	if ( multipleStems ) {
+		return multipleStems[ 0 ];
+	}
+
+	return word;
+};
+
+/**
  * Stems Italian words.
  *
  * @param {string} word             The word to stem.
@@ -363,6 +381,11 @@ export default function stem( word, morphologyData ) {
 
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
+
+	/*
+	 * Returns a canonical stem for verbs with multiple stems (e.g., chiudere–chiuso).
+	 */
+	word = canonicalizeVerbStems( word, morphologyData.verbsWithMultipleStems );
 
 	return word.toLowerCase();
 }

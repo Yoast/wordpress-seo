@@ -86,9 +86,12 @@ const wordsToStem = [
 	// Input a noun ending in -enze.
 	[ "rimanenze", "rimanent" ],
 	// Input a noun ending in -amento.
-	[ "portamento", "port" ],
+	[ "insegnamento", "insegn" ],
 	// Input a noun ending in -amenti.
-	[ "portamenti", "port" ],
+	[ "insegnamenti", "insegn" ],
+	// Words originally stemmed to "port" get canonicalized to "porg".
+	[ "portamento", "porg" ],
+	[ "portamenti", "porg" ],
 	// Input a noun ending in -imento.
 	[ "approfondimento", "approfond" ],
 	// Input a noun ending in -imenti.
@@ -199,9 +202,18 @@ const wordsToStem = [
 	//  Input a verb form ending in -ò
 	[ "articolò", "articol" ],
 	//  A suffix (-ativo in the example) does not get stemmed if not found in the right region.
-	[ "nativo", "nat" ],
+	[ "stativo", "stat" ],
 	//  Returns the word if no suffixes are found.
 	[ "alcol", "alcol" ],
+	// Participles ending in -uto.
+	[ "conceduto", "conced" ],
+	[ "venuto", "ven" ],
+	// Participles ending in -ito.
+	[ "insistito", "insist" ],
+	// Irregular participles stemmed to a canonical stem.
+	[ "acces", "accend" ],
+	[ "esplos", "esplod" ],
+	[ "risolt", "risolv" ],
 ];
 
 const paradigms = [
@@ -264,9 +276,9 @@ const paradigms = [
 			"correvamo",
 			"correvate",
 			"correvano",
-			// "corsi",
+			"corsi",
 			// "corresti",
-			// "corse",
+			"corse",
 			"corremmo",
 			// "corsero",
 			"correrò",
@@ -294,7 +306,7 @@ const paradigms = [
 			"corrano",
 			"correre",
 			// "corrente",
-			// "corso",
+			"corso",
 			"correndo",
 		],
 	},
@@ -355,8 +367,13 @@ const paradigms = [
 			"dormendo",
 		],
 	},
-	// A verb paradigm with a pronoun ending.
-	{   stem: "port",
+	/*
+	 * A verb paradigm with a pronoun ending.
+	 * "Portare" receives the stem "porg" because its stem "port" is seen as part of the "porgere" paradigm. This doesn't
+	 * impede the functionality except leading to forms of "porgere" being collapsed with forms of "portare". This
+	 * has a low real-life impact in keyphrase recogniton.
+	 */
+	{   stem: "porg",
 		forms: [
 			"portarglieli",
 			"portarglielo",
@@ -398,7 +415,6 @@ const paradigms = [
 		],
 	},
 ];
-
 
 describe( "Test for stemming Italian words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
