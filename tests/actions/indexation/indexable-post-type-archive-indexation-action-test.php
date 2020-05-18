@@ -244,12 +244,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		}
 
 		$this->post_type->expects( 'get_public_post_types' )
-		                ->andReturn( $post_type_objects );
+			->andReturn( $post_type_objects );
 
 		foreach ( $post_type_objects as $post_type_object ) {
 			$this->post_type->expects( 'has_archive' )
-			                ->with( $post_type_object )
-			                ->andReturn( $post_type_object->has_archive );
+				->with( $post_type_object )
+				->andReturn( $post_type_object->has_archive );
 		}
 	}
 
@@ -285,8 +285,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			$indexable_mocks[] = $indexable_mock;
 
 			$this->builder->expects( 'build_for_post_type_archive' )
-			              ->with( $post_type )
-			              ->andReturn( $indexable_mock );
+				->with( $post_type )
+				->andReturn( $indexable_mock );
 		}
 
 		return $indexable_mocks;
