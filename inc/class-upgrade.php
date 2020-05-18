@@ -53,7 +53,7 @@ class WPSEO_Upgrade {
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
 			'13.2-RC0'  => 'upgrade_132',
-			'14.4-RC0'   => 'upgrade_144',
+			'14.4-RC0'  => 'upgrade_144',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -730,6 +730,16 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 14.4 upgrade for the admin redesign.
+	 *
+	 * Removes unused database usermeta.
+	 */
+	private function upgrade_144() {
+		global $wpdb;
+		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wpseo-dismiss-configuration-notice'" );
+	}
+
+	/**
 	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
 	 *
 	 * @return void
@@ -899,15 +909,5 @@ class WPSEO_Upgrade {
 
 			WPSEO_Options::set( 'noindex-ptarchive-product', false );
 		}
-	}
-
-	/**
-	 * Performs the 14.4 upgrade for admin redesign.
-	 *
-	 * Removes unused database usermeta.
-	 */
-	private function upgrade_144() {
-		global $wpdb;
-		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wpseo-dismiss-configuration-notice'" );
 	}
 }

@@ -6,19 +6,19 @@
  */
 
 /**
- * Represents the logic for showing the notification.
+ * Represents the logic for showing the configuration wizard notification.
  */
 class WPSEO_Configuration_Notifier {
 
 	/**
-	 * Should the notification be shown.
+	 * Whether the notification should be shown.
 	 *
 	 * @var bool
 	 */
 	protected $show_notification;
 
 	/**
-	 * Constructs the object by setting the show notification property based the given options.
+	 * Constructs the object by setting the show notification property based on the given option.
 	 */
 	public function __construct() {
 		$this->show_notification = WPSEO_Options::get( 'show_onboarding_notice', false );
@@ -53,7 +53,7 @@ class WPSEO_Configuration_Notifier {
 	}
 
 	/**
-	 * Adds the re-run notification to the notification centre
+	 * Adds the re-run notification to the notification center.
 	 *
 	 * @return void
 	 */
@@ -72,11 +72,10 @@ class WPSEO_Configuration_Notifier {
 
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->add_notification( $notification );
-
 	}
 
 	/**
-	 * Adds the first-time notification to the notification centre
+	 * Adds the first-time notification to the notification center.
 	 *
 	 * @return void
 	 */
@@ -84,8 +83,7 @@ class WPSEO_Configuration_Notifier {
 		$note         = new Wizard_Notification();
 		$message      = $note->get_notification_message( 'start' );
 		$notification = new Yoast_Notification(
-			$message
-			,
+			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
@@ -96,11 +94,10 @@ class WPSEO_Configuration_Notifier {
 
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->add_notification( $notification );
-
 	}
 
 	/**
-	 * Adds the continue notification to the notification centre
+	 * Adds the continue notification to the notification center.
 	 *
 	 * @return void
 	 */
@@ -119,6 +116,5 @@ class WPSEO_Configuration_Notifier {
 
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->add_notification( $notification );
-
 	}
 }
