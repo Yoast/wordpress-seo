@@ -102,13 +102,17 @@ const wordsToStem = [
 	[ "bis", "bis" ],
 	[ "diffus", "diffus" ],
 	[ "clos", "clos" ],
-	// Short words that should be stemmed
+	// Short words that should be stemmed.
 	[ "ardemment", "ardent" ],
 	[ "ours", "our" ],
 	[ "action", "act" ],
 	[ "actions", "act" ],
 	[ "âme", "âm" ],
 	[ "âmes", "âm" ],
+	// Verbs with multiple stems.
+	[ "acquit", "acquer" ],
+	[ "astrein", "astreindr" ],
+	[ "vécu", "vivr" ],
 ];
 
 const paradigms = [
