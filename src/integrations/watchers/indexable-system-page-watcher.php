@@ -94,7 +94,6 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $type ) {
 		$indexable = $this->repository->find_for_system_page( $type, false );
-		$indexable = $this->builder->build_for_system_page( $type, $indexable );
-		$indexable->save();
+		$this->builder->build_for_system_page( $type, $indexable );
 	}
 }
