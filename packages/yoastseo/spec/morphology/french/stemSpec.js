@@ -12,7 +12,7 @@ const wordsToStem = [
 	// RV is the end of the word if the previous positions cannot be found.
 	[ "voler", "vol" ],
 	// RV is the right of par, col, tap for words beginning with those syllables.
-	[ "tapis", "tapis" ],
+	[ "tapis", "tapi" ],
 	// Input a word ending in -ci + a2 class suffix.
 	[ "cicatrice", "cicatric" ],
 	// Input a noun ending in -ance.
@@ -33,8 +33,8 @@ const wordsToStem = [
 	// Input a noun ending in -eux.
 	[ "bileux", "bileux" ],
 	// Input a noun ending in -atrice.
-	[ "curatrices", "curatric" ],
-	[ "curatrice", "curatric" ],
+	[ "curatrices", "cur" ],
+	[ "curatrice", "cur" ],
 	// Input a noun ending in -eur.
 	[ "acteurs", "acteur" ],
 	// Input a noun ending in -logie.
@@ -69,6 +69,14 @@ const wordsToStem = [
 	// Input a noun ending in -ment.
 	[ "clément", "clément" ],
 	[ "cléments", "clément" ],
+	[ "accident", "accident" ],
+	[ "accidents", "accident" ],
+	[ "testament", "testament" ],
+	[ "testaments", "testament" ],
+	[ "coefficient", "coefficient" ],
+	[ "coefficients", "coefficient" ],
+	[ "filament", "filament" ],
+	[ "filaments", "filament" ],
 	// Words on the exception list with full forms.
 	[ "yeux", "œil" ],
 	[ "oeil", "œil" ],
@@ -86,6 +94,21 @@ const wordsToStem = [
 	[ "feux", "feu" ],
 	[ "cailloux", "caillou" ],
 	[ "étaux", "étau" ],
+	// Plurals ending in -is/-os/-us.
+	[ "vrais", "vrai" ],
+	[ "numéros", "numéro" ],
+	[ "trous", "trou" ],
+	// Exceptions for which -is/-os/-us should not be stemmed.
+	[ "bis", "bis" ],
+	[ "diffus", "diffus" ],
+	[ "clos", "clos" ],
+	// Short words that should be stemmed
+	[ "ardemment", "ardent" ],
+	[ "ours", "our" ],
+	[ "action", "act" ],
+	[ "actions", "act" ],
+	[ "âme", "âm" ],
+	[ "âmes", "âm" ],
 ];
 
 const paradigms = [
@@ -105,7 +128,7 @@ const paradigms = [
 			// "dort",
 			// "dormons",
 			"dormez",
-			// "dorment",
+			"dorment",
 			"dormais",
 			"dormait",
 			// "dormions",
@@ -126,7 +149,6 @@ const paradigms = [
 			"dorme",
 			// "dormions",
 			"dormiez",
-			// "dorment",
 			"dormisse",
 			"dormisses",
 			"dormît",
