@@ -199,12 +199,18 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_execute_multisite() {
-		Monkey\Functions\expect( 'get_sites' )->once()->with( [
-			'fields'   => 'ids',
-			'spam'     => 0,
-			'deleted'  => 0,
-			'archived' => 0,
-		] )->andReturn( [ 1, 2 ] );
+		Monkey\Functions\expect( 'get_sites' )
+			->once()
+			->with(
+				[
+					'fields'   => 'ids',
+					'spam'     => 0,
+					'deleted'  => 0,
+					'archived' => 0,
+				]
+			)
+			->andReturn( [ 1, 2 ] );
+
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 1 );
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 2 );
 		Monkey\Functions\expect( 'restore_current_blog' )->times( 2 );
