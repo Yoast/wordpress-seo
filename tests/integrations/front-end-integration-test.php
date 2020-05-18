@@ -1,19 +1,22 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Integrations
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
-use \Mockery;
+use Mockery;
 use Brain\Monkey;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -83,7 +86,7 @@ class Front_End_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class, Migrations_Conditional::class ],
+			[ Front_End_Conditional::class ],
 			Front_End_Integration::get_conditionals()
 		);
 	}
@@ -97,7 +100,6 @@ class Front_End_Integration_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertTrue( has_action( 'wp_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected wp_head action' );
-		$this->assertTrue( has_action( 'amp_post_template_head', [ $this->instance, 'call_wpseo_head' ] ), 'Does not have expected amp_post_template_head action' );
 		$this->assertTrue( has_action( 'wpseo_head', [ $this->instance, 'present_head' ] ), 'Does not have expected wpseo_head action' );
 		$this->assertTrue( has_filter( 'wp_title', [ $this->instance, 'filter_title' ] ), 'Does not have expected wp_title filter' );
 	}
@@ -110,7 +112,8 @@ class Front_End_Integration_Test extends TestCase {
 	public function test_call_wpseo_head() {
 		global $wp_query;
 
-		$wp_query = $initial_wp_query = Mockery::mock( 'WP_Query' );
+		$initial_wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query         = $initial_wp_query;
 		Monkey\Functions\expect( 'wp_reset_query' )->once();
 
 		$this->instance->call_wpseo_head();
@@ -175,6 +178,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Canonical_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
@@ -204,7 +208,7 @@ class Front_End_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the presents for an error page.
+	 * Tests retrieval of the presenters for an error page.
 	 *
 	 * @covers ::get_presenters
 	 * @covers ::get_needed_presenters
@@ -226,6 +230,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
@@ -264,6 +269,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Canonical_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Prev_Presenter',
 				'Yoast\WP\SEO\Presenters\Rel_Next_Presenter',
@@ -315,6 +321,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
@@ -354,6 +361,7 @@ class Front_End_Integration_Test extends TestCase {
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Googlebot_Presenter',
+				'Yoast\WP\SEO\Presenters\Bingbot_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',

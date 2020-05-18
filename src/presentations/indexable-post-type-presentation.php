@@ -59,7 +59,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		Post_Type_Helper $post_type,
 		Date_Helper $date,
 		Pagination_Helper $pagination,
-	    Post_Helper $post
+		Post_Helper $post
 	) {
 		$this->post_type  = $post_type;
 		$this->date       = $date;
@@ -283,7 +283,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 		$robots = array_merge(
 			$robots,
 			[
@@ -303,7 +303,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**

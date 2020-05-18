@@ -42,14 +42,12 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	 *
 	 * @return string|array The raw value.
 	 */
-	public abstract function get();
+	abstract public function get();
 
 	/**
 	 * Replace replacement variables in a string.
 	 *
 	 * @param string $string The string.
-	 *
-	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return string The string with replacement variables replaced.
 	 */

@@ -50,7 +50,7 @@ class Indexing_Controls implements Integration_Interface {
 	public function register_hooks() {
 		// The option `blog_public` is set in Settings > Reading > Search Engine Visibility.
 		if ( (string) \get_option( 'blog_public' ) === '0' ) {
-			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
+			\add_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] );
 		}
 
 		\add_action( 'template_redirect', [ $this, 'noindex_robots' ] );

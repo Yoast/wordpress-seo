@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
-use Exception;
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -136,11 +136,27 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable() {
 		$indexable = Mockery::mock( Indexable::class );
-		$indexable->expects( 'save' )->once();
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
+
+		$term = (object) [ 'taxonomy' => 'tag' ];
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnTrue();
 
 		$this->repository
 			->expects( 'find_by_id_and_type' )
@@ -157,6 +173,78 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$this->instance->build_indexable( 1 );
 	}
 
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_with_null_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturnNull();
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_error_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		$term = 'WP_Error';
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnTrue();
+
+		$this->instance->build_indexable( 1 );
+	}
+
+	/**
+	 * Tests the build indexable function.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_non_viewable_term() {
+		$this->site
+			->expects( 'is_multisite_and_switched' )
+			->andReturnFalse();
+
+		$term = (object) [ 'taxonomy' => 'tag' ];
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnFalse();
+
+		$this->instance->build_indexable( 1 );
+	}
 
 	/**
 	 * Tests the build indexable function on a multisite with a switch between the sites.
@@ -183,11 +271,27 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 */
 	public function test_build_does_not_exist() {
 		$indexable = Mockery::mock( Indexable::class );
-		$indexable->expects( 'save' )->once();
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )
 			->andReturnFalse();
+
+		$term = (object) [ 'taxonomy' => 'tag' ];
+
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn( $term );
+
+		Monkey\Functions\expect( 'is_wp_error' )
+			->once()
+			->with( $term )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_taxonomy_viewable' )
+			->once()
+			->with( $term->taxonomy )
+			->andReturnTrue();
 
 		$this->repository
 			->expects( 'find_by_id_and_type' )
@@ -200,31 +304,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->once()
 			->with( 1, 'term', false )
 			->andReturn( $indexable );
-
-		$this->instance->build_indexable( 1 );
-	}
-
-	/**
-	 * Tests the build indexable functionality with an exception being thrown.
-	 *
-	 * @covers ::build_indexable
-	 */
-	public function test_build_with_an_exception_thrown() {
-		$this->site
-			->expects( 'is_multisite_and_switched' )
-			->andReturnFalse();
-
-		$this->repository
-			->expects( 'find_by_id_and_type' )
-			->once()
-			->with( 1, 'term', false )
-			->andReturn( false );
-
-		$this->builder
-			->expects( 'build_for_id_and_type' )
-			->once()
-			->with( 1, 'term', false )
-			->andThrow( Exception::class );
 
 		$this->instance->build_indexable( 1 );
 	}

@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
  * Returns schema Person data.
  */
 class Person extends Abstract_Schema_Piece {
+
 	/**
 	 * Array of the social profiles we display for a Person.
 	 *
@@ -261,8 +262,8 @@ class Person extends Abstract_Schema_Piece {
 
 		// Article post from the same user as the site represents.
 		if (
-			$this->context->indexable->object_type === 'post' &&
-			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+			$this->context->indexable->object_type === 'post'
+			&& $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
 		) {
 			return $this->context->site_user_id === $this->context->indexable->author_id;
 		}

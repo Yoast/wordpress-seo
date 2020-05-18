@@ -27,14 +27,25 @@ class Robots_Presenter_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The indexable presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	private $presentation;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Robots_Presenter::class )
+		$this->presentation = new Indexable_Presentation();
+		$this->instance     = Mockery::mock( Robots_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+		$this->presentation           = new Indexable_Presentation();
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -43,40 +54,15 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
+		$this->presentation->robots = [
 			'index'  => 'index',
 			'follow' => 'nofollow',
 		];
 
 		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="index,nofollow" />';
+		$expected = '<meta name="robots" content="index, nofollow" />';
 
-		$this->assertEquals( $actual, $expected );
-	}
-
-	/**
-	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_robots` filter is applied.
-	 *
-	 * @covers ::present
-	 * @covers ::filter
-	 */
-	public function test_present_filter() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
-			'index'  => 'index',
-			'follow' => 'nofollow',
-		];
-
-		Monkey\Filters\expectApplied( 'wpseo_robots' )
-			->once()
-			->with( 'index,nofollow', $indexable_presentation )
-			->andReturn( 'noindex' );
-
-		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="noindex" />';
-
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -85,31 +71,25 @@ class Robots_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [];
+		$this->presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
-	 * Tests if the default and null values are removed from the robots options array.
+	 * Tests the retrieval of the raw value.
 	 *
-	 * @covers ::present
-	 * @covers ::remove_defaults
+	 * @covers ::get
 	 */
-	public function test_present_with_filtering_default_and_null_values() {
-		$indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'noimageindex' => 'noimageindex',
-			'nosnippet'    => null,
-			'noarchive'    => null,
+	public function test_get() {
+		$this->presentation->robots = [
+			'index'  => 'index',
+			'follow' => 'nofollow',
 		];
 
-		$actual   = $this->instance->present();
-		$expected = '<meta name="robots" content="noimageindex" />';
-
-		$this->assertEquals( $actual, $expected );
+		$this->assertSame( [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		], $this->instance->get() );
 	}
 }

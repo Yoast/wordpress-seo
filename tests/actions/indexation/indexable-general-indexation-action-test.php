@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -35,21 +33,13 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	protected $indexable_repository;
 
 	/**
-	 * Represents the indexable builder.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Builder
-	 */
-	protected $indexable_builder;
-
-	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->indexable_builder    = Mockery::mock( Indexable_Builder::class );
-		$this->instance             = new Indexable_General_Indexation_Action( $this->indexable_repository, $this->indexable_builder );
+		$this->instance             = new Indexable_General_Indexation_Action( $this->indexable_repository );
 	}
 
 	/**
@@ -66,6 +56,15 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the limit
+	 *
+	 * @covers ::get_limit
+	 */
+	public function test_get_limit() {
+		$this->assertEquals( 4, $this->instance->get_limit() );
+	}
+
+	/**
 	 * Tests the indexing of the general indexables.
 	 *
 	 * @covers ::__construct
@@ -76,22 +75,22 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 	public function test_index() {
 		$this->set_query();
 
-		$this->indexable_builder
-			->expects( 'build_for_system_page' )
+		$this->indexable_repository
+			->expects( 'find_for_system_page' )
 			->with( '404' )
 			->andReturn( '404' );
 
-		$this->indexable_builder
-			->expects( 'build_for_system_page' )
+		$this->indexable_repository
+			->expects( 'find_for_system_page' )
 			->with( 'search-result' )
 			->andReturn( 'search' );
 
-		$this->indexable_builder
-			->expects( 'build_for_date_archive' )
+		$this->indexable_repository
+			->expects( 'find_for_date_archive' )
 			->andReturn( 'date archive' );
 
-		$this->indexable_builder
-			->expects( 'build_for_home_page' )
+		$this->indexable_repository
+			->expects( 'find_for_home_page' )
 			->andReturn( 'home page' );
 
 		$this->assertEquals( [ '404', 'search', 'date archive', 'home page' ], $this->instance->index() );
@@ -135,5 +134,4 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 			->with( 'show_on_front' )
 			->andReturn( 'posts' );
 	}
-
 }

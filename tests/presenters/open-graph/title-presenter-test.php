@@ -56,11 +56,9 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Title_Presenter();
+		$this->instance               = new Title_Presenter();
 		$this->instance->replace_vars = $this->replace_vars;
-		$this->instance->helpers      = (object) [
-			'string' => $this->string,
-		];
+		$this->instance->helpers      = (object) [ 'string' => $this->string ];
 
 		$this->presentation         = new Indexable_Presentation();
 		$this->presentation->source = [];
@@ -119,7 +117,7 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct title, when the `wpseo_opengraph_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_title = 'example_title';

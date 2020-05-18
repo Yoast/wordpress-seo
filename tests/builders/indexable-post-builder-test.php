@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Tests\Builders;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Builders\Indexable_Post_Builder_Double;
@@ -145,7 +145,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
 		$this->indexable      = Mockery::mock( Indexable::class );
-		$this->indexable->orm = Mockery::mock( ORMWrapper::class );
+		$this->indexable->orm = Mockery::mock( ORM::class );
 		$this->indexable->orm->expects( 'set' )->with( 'object_id', 1 );
 		$this->indexable->orm->expects( 'set' )->with( 'object_type', 'post' );
 		$this->indexable->orm->expects( 'set' )->with( 'object_sub_type', 'post' );
@@ -417,11 +417,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an exception.
+	 * Tests has_public_posts for when the attachment has a post parent but the ORM throws an false.
 	 *
 	 * @covers ::has_public_posts
 	 */
-	public function test_has_public_posts_attachment_with_post_parent_exception() {
+	public function test_has_public_posts_attachment_with_post_parent_false() {
 		$this->indexable->object_sub_type = 'attachment';
 		$this->indexable->post_parent     = 1;
 		$this->indexable->post_status     = 'inherit';
@@ -432,8 +432,19 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )
 			->once()
 			->with( 1, 'post' )
-			->andThrows( Exception::class );
+			->andReturn( false );
 
 		$this->assertFalse( $this->instance->has_public_posts( $this->indexable ) );
+	}
+
+	/**
+	 * Tests that build returns false when no term was returned.
+	 *
+	 * @covers ::build
+	 */
+	public function test_build_term_null() {
+		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( null );
+
+		$this->assertFalse( $this->instance->build( 1, false ) );
 	}
 }

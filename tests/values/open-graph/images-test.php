@@ -49,8 +49,10 @@ class Images_Test extends TestCase {
 		$this->image            = Mockery::mock( Image_Helper::class )->makePartial();
 		$this->url              = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->open_graph_image = Mockery::mock(
-			Open_Graph_Image_Helper::class, [ new Url_Helper(), $this->image ]
+			Open_Graph_Image_Helper::class,
+			[ new Url_Helper(), $this->image ]
 		)->makePartial();
+
 		$this->instance = new Images( $this->image, $this->url );
 		$this->instance->set_helpers( $this->open_graph_image );
 	}
@@ -95,5 +97,4 @@ class Images_Test extends TestCase {
 
 		$this->assertEquals( [], $this->instance->get_images() );
 	}
-
 }

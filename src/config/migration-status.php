@@ -121,7 +121,7 @@ class Migration_Status {
 	 * @return bool Whether or not the migration was succesfully locked.
 	 */
 	public function lock_migration( $name ) {
-		$migration_status = $this->get_migration_status( $name );
+		$migration_status         = $this->get_migration_status( $name );
 		$migration_status['lock'] = strtotime( 'now' );
 
 		return $this->set_migration_status( $name, $migration_status );
@@ -164,8 +164,12 @@ class Migration_Status {
 		if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 			return false;
 		}
+		$current_blog_id = \get_current_blog_id();
 
-		$this->migration_options[ $name ] = $migration_status;
+		if ( ! isset( $this->migration_options[ $current_blog_id ] ) ) {
+			$this->migration_options[ $current_blog_id ] = [];
+		}
+		$this->migration_options[ $current_blog_id ][ $name ] = $migration_status;
 
 		return \update_option( self::MIGRATION_OPTION_KEY . $name, $migration_status );
 	}

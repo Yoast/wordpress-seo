@@ -1,10 +1,14 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+
+use Brain\Monkey\Filters;
+use Mockery;
 use Mockery\MockInterface;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -141,7 +145,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 25 );
 
@@ -181,7 +185,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( -1 );
 
@@ -221,7 +225,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Brain\Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 'not an integer' );
 
@@ -259,7 +263,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			return [ 'object_sub_type' => $post_type ];
 		}, $post_types );
 
-		$query_mock = Mockery::mock( ORMWrapper::class );
+		$query_mock = Mockery::mock( ORM::class );
 		$query_mock->expects( 'select' )->once()->with( 'object_sub_type' )->andReturn( $query_mock );
 		$query_mock->expects( 'where' )->once()->with( 'object_type', 'post-type-archive' )->andReturn( $query_mock );
 		$query_mock->expects( 'find_array' )->once()->andReturn( $results );
@@ -287,6 +291,4 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		return $indexable_mocks;
 	}
-
-
 }

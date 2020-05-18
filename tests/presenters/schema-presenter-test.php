@@ -36,9 +36,10 @@ class Schema_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = Mockery::mock( Schema_Presenter::class )
-			->makePartial();
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance     = Mockery::mock( Schema_Presenter::class )->makePartial();
+		$this->presentation = new Indexable_Presentation();
+
+		$this->instance->presentation = $this->presentation;
 
 		return parent::setUp();
 	}
@@ -58,7 +59,7 @@ class Schema_Presenter_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_json_ld' )
 			->once();
 
-		$output = '<script type="application/ld+json" class="yoast-schema-graph">[' . PHP_EOL;
+		$output  = '<script type="application/ld+json" class="yoast-schema-graph">[' . PHP_EOL;
 		$output .= "\t    \"the_schema\"" . PHP_EOL;
 		$output .= "\t]</script>";
 
@@ -111,5 +112,16 @@ class Schema_Presenter_Test extends TestCase {
 			->once();
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->schema = [ 'the_schema' ];
+
+		$this->assertSame( [ 'the_schema' ], $this->instance->get() );
 	}
 }

@@ -45,9 +45,7 @@ class Title_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->options
 			->expects( 'get' )
@@ -69,9 +67,7 @@ class Title_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->options
 			->expects( 'get' )
@@ -87,5 +83,4 @@ class Title_Test extends TestCase {
 
 		$this->assertEquals( 'This is the default options title', $this->instance->generate_title() );
 	}
-
 }

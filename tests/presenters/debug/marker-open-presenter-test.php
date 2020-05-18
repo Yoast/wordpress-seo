@@ -32,7 +32,7 @@ class Marker_Open_Presenter_Test extends TestCase {
 		$product_mock = Mockery::mock( Product_Helper::class );
 		$product_mock->expects( 'get_name' )->andReturn( 'Yoast SEO plugin' );
 
-		$instance = new Marker_Open_Presenter();
+		$instance          = new Marker_Open_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product_mock,
 		];
@@ -42,8 +42,6 @@ class Marker_Open_Presenter_Test extends TestCase {
 			$instance->present()
 		);
 	}
-
-
 
 	/**
 	 * Tests the presentation of the close debug marker.
@@ -56,7 +54,7 @@ class Marker_Open_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_debug_markers' )->andReturn( false );
 
-		$instance = new Marker_Open_Presenter();
+		$instance          = new Marker_Open_Presenter();
 		$instance->helpers = (object) [
 			'product' => $product_mock,
 		];
@@ -67,4 +65,14 @@ class Marker_Open_Presenter_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests the get method.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$instance = new Marker_Open_Presenter();
+
+		$this->assertSame( '', $instance->get() );
+	}
 }

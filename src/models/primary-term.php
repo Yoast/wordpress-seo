@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Primary Term model definition.
@@ -21,7 +21,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string $created_at
  * @property string $updated_at
  */
-class Primary_Term extends Yoast_Model {
+class Primary_Term extends Model {
 
 	/**
 	 * Whether nor this model uses timestamps.

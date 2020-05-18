@@ -138,9 +138,7 @@ class Indexable_Builder {
 	 * @param string         $object_type The indexable object type.
 	 * @param Indexable|bool $indexable   Optional. An existing indexable to overwrite.
 	 *
-	 * @return bool|Indexable Instance of indexable.
-	 *
-	 * @throws \Exception If the object_id could not be found.
+	 * @return bool|Indexable Instance of indexable. False when unable to build.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
 		$indexable        = $this->ensure_indexable( $indexable );
@@ -149,6 +147,10 @@ class Indexable_Builder {
 		switch ( $object_type ) {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
+				if ( $indexable === false ) {
+					break;
+				}
+
 				$this->primary_term_builder->build( $object_id );
 
 				$author = $this->indexable_repository->find_by_id_and_type( $indexable->author_id, 'user', false );
@@ -167,9 +169,18 @@ class Indexable_Builder {
 				return $indexable;
 		}
 
+		// Something went wrong building, create a false indexable.
+		if ( $indexable === false ) {
+			$indexable = $this->indexable_repository->query()->create( [
+				'object_id'   => $object_id,
+				'object_type' => $object_type,
+				'post_status' => 'unindexed',
+			] );
+		}
+
 		$this->save_indexable( $indexable, $indexable_before );
 
-		if ( in_array( $object_type, [ 'post', 'term' ], true ) ) {
+		if ( in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
 			$this->hierarchy_builder->build( $indexable );
 		}
 

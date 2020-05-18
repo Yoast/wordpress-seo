@@ -140,9 +140,9 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 0,
 		];
 
-		$indexable = Mockery::mock();
-		$indexable->id = 1;
-		$indexable->is_public = true;
+		$indexable              = Mockery::mock();
+		$indexable->id          = 1;
+		$indexable->is_public   = true;
 		$indexable->object_type = 'post';
 		$indexable->expects( 'delete' )->once();
 
@@ -190,7 +190,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
 		$this->repository->expects( 'create_for_id_and_type' )->never();
@@ -287,7 +286,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
 		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
@@ -305,8 +303,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable     = Mockery::mock( Indexable::class );
-		$updated_indexable = Mockery::mock( Indexable::class );
+		$old_indexable                  = Mockery::mock( Indexable::class );
+		$updated_indexable              = Mockery::mock( Indexable::class );
 		$updated_indexable->object_type = 'term';
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -461,7 +459,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable::class );
 		$indexable->is_public = false;
 		$indexable->expects( 'save' )->never();
 
@@ -583,5 +581,4 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			$this->instance->get_related_indexables( $post )
 		);
 	}
-
 }

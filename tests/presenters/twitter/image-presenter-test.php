@@ -36,8 +36,9 @@ class Image_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = new Image_Presenter();
-		$this->presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance               = new Image_Presenter();
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->presentation           = $this->instance->presentation;
 
 		parent::setUp();
 
@@ -74,7 +75,7 @@ class Image_Presenter_Test extends TestCase {
 	 * when the `wpseo_twitter_image` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->twitter_image = 'relative_image.jpg';

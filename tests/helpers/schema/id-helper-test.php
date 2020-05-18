@@ -39,10 +39,10 @@ class ID_Helper_Test extends TestCase {
 	 * @covers ::get_user_schema_id
 	 */
 	public function test_get_user_schema_id() {
-		$user = Mockery::mock( 'WP_User' );
+		$user             = Mockery::mock( 'WP_User' );
 		$user->user_login = 'dingdong';
 
-		$context = Mockery::mock();
+		$context           = Mockery::mock();
 		$context->site_url = 'https://example.org/';
 
 		Monkey\Functions\expect( 'get_userdata' )
@@ -67,7 +67,7 @@ class ID_Helper_Test extends TestCase {
 	 * @covers ::get_user_schema_id
 	 */
 	public function test_get_user_schema_id_no_user_found() {
-		$context = Mockery::mock();
+		$context           = Mockery::mock();
 		$context->site_url = 'https://example.org/';
 
 		Monkey\Functions\expect( 'get_userdata' )

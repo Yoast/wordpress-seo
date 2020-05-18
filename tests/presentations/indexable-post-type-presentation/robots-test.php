@@ -43,17 +43,17 @@ class Robots_Test extends TestCase {
 			->andReturn( 'published' );
 
 		$this->post_type->expects( 'is_indexable' )
-							   ->once()
-							   ->with( 'post' )
-							   ->andReturn( true );
+			->once()
+			->with( 'post' )
+			->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'nosnippet'    => 'nosnippet',
-			'noarchive'    => 'noarchive',
-			'noimageindex' => 'noimageindex',
+			'index'      => 'index',
+			'follow'     => 'follow',
+			'snippet'    => 'nosnippet',
+			'archive'    => 'noarchive',
+			'imageindex' => 'noimageindex',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -83,9 +83,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -115,9 +112,6 @@ class Robots_Test extends TestCase {
 		$expected = [
 			'index'        => 'noindex',
 			'follow'       => 'follow',
-			'noimageindex' => null,
-			'noarchive'    => null,
-			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );

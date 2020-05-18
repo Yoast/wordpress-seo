@@ -1,4 +1,4 @@
-/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore */
+/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
@@ -8,6 +8,7 @@ const settings = yoastIndexationData;
 ( ( $ ) => {
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
+	let processed = 0;
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
@@ -33,7 +34,7 @@ const settings = yoastIndexationData;
 	}
 
 	/**
-	 * Does the indexation of a given endpoint
+	 * Does the indexation of a given endpoint.
 	 *
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
@@ -43,12 +44,13 @@ const settings = yoastIndexationData;
 	async function doIndexation( endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
-		while ( ! stoppedIndexation && url !== false ) {
+		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
 			const response = await doIndexationRequest( url );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
 			}
 			progressBar.update( response.objects.length );
+			processed += response.objects.length;
 			url = response.next_url;
 		}
 	}
@@ -61,13 +63,14 @@ const settings = yoastIndexationData;
 	 * @returns {Promise} The indexation promise.
 	 */
 	async function startIndexation( progressBar ) {
+		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
 			await doIndexation( endpoint, progressBar );
 		}
 	}
 
 	$( () => {
-		$( "#yoast-open-indexation" ).on( "click", function() {
+		$( ".yoast-open-indexation" ).on( "click", function() {
 			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
 			// So we temporarily revert that change as we do want to have custom height and width.
 			// Eslint is disabled as these have to use the correct names.
@@ -102,16 +105,21 @@ const settings = yoastIndexationData;
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
+					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
 				} ).catch( error => {
+					if ( stoppedIndexation ) {
+						return;
+					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
+					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );
@@ -126,6 +134,23 @@ const settings = yoastIndexationData;
 
 		$( "#yoast-indexation-dismiss-button" ).on( "click", function() {
 			wpseoSetIgnore( "indexation_warning", "yoast-indexation-warning", jQuery( this ).data( "nonce" ) );
+		} );
+
+		$( "#yoast-indexation-remind-button" ).on( "click", function() {
+			const nonce = jQuery( this ).data( "nonce" );
+
+			jQuery.post(
+				ajaxurl,
+				{
+					action: "wpseo_set_indexation_remind",
+					_wpnonce: nonce,
+				},
+				function( data ) {
+					if ( data ) {
+						jQuery( "#yoast-indexation-warning" ).hide();
+					}
+				}
+			);
 		} );
 	} );
 } )( jQuery );

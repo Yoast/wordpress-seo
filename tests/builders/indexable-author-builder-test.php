@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -44,7 +44,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		parent::setUp();
 
 		$this->indexable_mock      = Mockery::mock( Indexable::class );
-		$this->indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$this->indexable_mock->orm = Mockery::mock( ORM::class );
 
 		Monkey\Functions\expect( 'get_author_posts_url' )->once()->with( 1 )->andReturn( 'https://permalink' );
 

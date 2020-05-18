@@ -26,7 +26,7 @@ class Rel_Next_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * ::covers generate_rel_next
+	 * @covers ::generate_rel_next
 	 */
 	public function test_generate_rel_next_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_rel_next() );

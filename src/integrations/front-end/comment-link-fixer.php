@@ -44,7 +44,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @codeCoverageIgnore It only sets depedencies.
 	 *
 	 * @param Redirect_Helper $redirect The redirect helper.
-	 * @param Robots_Helper   $robots The robots helper.
+	 * @param Robots_Helper   $robots   The robots helper.
 	 */
 	public function __construct(
 		Redirect_Helper $redirect, Robots_Helper $robots
@@ -64,7 +64,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 
 		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
 		if ( $this->has_replytocom_parameter() ) {
-			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
+			\add_filter( 'wpseo_robots_array', [ $this->robots, 'set_robots_no_index' ] );
 		}
 	}
 

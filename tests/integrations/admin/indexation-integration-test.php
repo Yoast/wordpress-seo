@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
@@ -23,8 +24,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Indexation_Integration_Test
  *
- * @group actions
- * @group indexables
+ * @group integrations
+ * @group indexation
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Indexation_Integration
  */
@@ -113,41 +114,18 @@ class Indexation_Integration_Test extends TestCase {
 		$this->assertEquals( [
 			Admin_Conditional::class,
 			Yoast_Admin_And_Dashboard_Conditional::class,
+			Migrations_Conditional::class,
 		], $conditionals );
 	}
 
 	/**
-	 * Tests that the right hooks are registered when the indexation
-	 * warning is not ignored.
+	 * Tests the register hooks function.
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_when_warning_is_not_ignored() {
-		// Warning is not ignored.
-		$this->options
-			->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturn( false );
-
-		// The admin_enqueue_scripts should be hooked into.
+	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' );
-
-		$this->instance->register_hooks();
-	}
-
-	/**
-	 * Tests that no hooks are registered when the warning is ignored.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks_when_warning_is_ignored() {
-		// Warning is ignored.
-		$this->options->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturn( true );
-
-		// The scripts and/or styles should not be enqueued.
-		Monkey\Actions\expectAdded( 'admin_enqueue_scripts' )->never();
+		Monkey\Actions\expectAdded( 'wpseo_tools_overview_list_items' );
 
 		$this->instance->register_hooks();
 	}
@@ -157,8 +135,12 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
+	 *
+	 * @dataProvider ignore_warning_provider
+	 *
+	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
-	public function test_enqueue_scripts() {
+	public function test_enqueue_scripts( $ignore_warning ) {
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -168,6 +150,27 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 10,
 			]
 		);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturn( $ignore_warning );
+
+		if ( ! $ignore_warning ) {
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_started', 0 )
+				->andReturn( 0 );
+
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_warning_hide_until' )
+				->andReturn( 0 );
+		}
+
+		if ( ! $ignore_warning ) {
+			Monkey\Actions\expectAdded( 'admin_notices' );
+		}
 
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
@@ -182,7 +185,6 @@ class Indexation_Integration_Test extends TestCase {
 
 		// We should hook into the admin footer and admin notices hook.
 		Monkey\Actions\expectAdded( 'admin_footer' );
-		Monkey\Actions\expectAdded( 'admin_notices' );
 
 		// Mock retrieval of the REST URL.
 		Monkey\Functions\expect( 'rest_url' )
@@ -202,23 +204,24 @@ class Indexation_Integration_Test extends TestCase {
 			],
 			'restApi' => [
 				'root'      => 'https://example.org/wp-ajax/',
-				'endpoints' =>
-					[
-						'posts'    => 'yoast/v1/indexation/posts',
-						'terms'    => 'yoast/v1/indexation/terms',
-						'archives' => 'yoast/v1/indexation/post-type-archives',
-						'general'  => 'yoast/v1/indexation/general',
-					],
+				'endpoints' => [
+					'prepare'  => 'yoast/v1/indexation/prepare',
+					'posts'    => 'yoast/v1/indexation/posts',
+					'terms'    => 'yoast/v1/indexation/terms',
+					'archives' => 'yoast/v1/indexation/post-type-archives',
+					'general'  => 'yoast/v1/indexation/general',
+					'complete' => 'yoast/v1/indexation/complete',
+				],
 				'nonce'     => 'nonce',
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! All your site\'s content has been indexed.',
-				'indexingFailed'    => 'Something went wrong indexing the content of your site. Please try again later.',
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! You\'ve sped up your site.',
+				'indexingFailed'    => 'Something went wrong while optimizing the SEO data of your site. Please try again later.',
 			],
 			'l10n'    => [
-				'calculationInProgress' => 'Calculation in progress...',
-				'calculationCompleted'  => 'Calculation completed.',
-				'calculationFailed'     => 'Calculation failed, please try again later.',
+				'calculationInProgress' => 'Optimization in progress...',
+				'calculationCompleted'  => 'Optimization completed.',
+				'calculationFailed'     => 'Optimization failed, please try again later.',
 			],
 		];
 
@@ -231,6 +234,18 @@ class Indexation_Integration_Test extends TestCase {
 			);
 
 		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Returns whether or not the warning is ignored.
+	 *
+	 * @return array The possible values.
+	 */
+	public function ignore_warning_provider() {
+		return [
+			[ true ],
+			[ false ],
+		];
 	}
 
 	/**
@@ -272,7 +287,23 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
-		$this->expectOutputString( '<div id="yoast-indexation-warning" class="notice notice-warning"><p><strong>NEW:</strong> Yoast SEO can speed up your website! Please <button type="button" id="yoast-open-indexation" class="button-link" data-title="Your content is being indexed">click here</button> to run our indexing process. Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">dismiss this warning</button>.</p></div>' );
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+
+		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<p>We estimate this will take less than a minute.</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
+
+		$this->expectOutputString( $expected );
 
 		$this->instance->render_indexation_warning();
 	}
@@ -296,9 +327,37 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>' );
+		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexing</button></div>' );
 
 		$this->instance->render_indexation_modal();
+	}
+
+	/**
+	 * Tests that the indexation list item is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_list_item
+	 */
+	public function test_render_indexation_list_item() {
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected  = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
+		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
+		$expected .= 'Start processing and speed up your site now</button></span></li>';
+
+		$this->expectOutputString( $expected );
+
+		$this->instance->render_indexation_list_item();
 	}
 
 	/**

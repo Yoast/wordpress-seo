@@ -19,13 +19,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Term_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
-	}
-
-	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -45,6 +38,13 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 * @var Site_Helper
 	 */
 	protected $site;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Term_Watcher constructor.
@@ -102,15 +102,19 @@ class Indexable_Term_Watcher implements Integration_Interface {
 			return;
 		}
 
-		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
+		$term = \get_term( $term_id );
 
-		// If we haven't found an existing indexable, create it. Otherwise update it.
-		try {
-			$indexable = $this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
-		} catch ( \Exception $exception ) {
+		if ( $term === null || \is_wp_error( $term ) ) {
 			return;
 		}
 
-		$indexable->save();
+		if ( ! \is_taxonomy_viewable( $term->taxonomy ) ) {
+			return;
+		}
+
+		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
+
+		// If we haven't found an existing indexable, create it. Otherwise update it.
+		$this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
 	}
 }

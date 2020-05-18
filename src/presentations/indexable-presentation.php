@@ -26,6 +26,7 @@ use Yoast\WP\SEO\Generators\Schema_Generator;
  * @property string $title
  * @property string $meta_description
  * @property array  $robots
+ * @property array  $bingbot
  * @property array  $googlebot
  * @property string $canonical
  * @property string $rel_next
@@ -220,6 +221,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
+		$robots = $this->get_base_robots();
+
+		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Gets the base robots value.
+	 *
+	 * @return array The base robots value.
+	 */
+	protected function get_base_robots() {
 		return [
 			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
 			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
@@ -227,12 +239,82 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the googlebot value.
+	 * Run the robots output content through the `wpseo_robots` filter.
+	 *
+	 * @param array $robots The meta robots values to filter.
+	 *
+	 * @return array The filtered meta robots values.
+	 */
+	protected function filter_robots( $robots ) {
+		$robots_string = \implode( ', ', $robots );
+
+		/**
+		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
+		 *
+		 * @api string $robots The meta robots directives to be echoed.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		$robots_filtered = \apply_filters( 'wpseo_robots', $robots_string, $this );
+
+		if ( is_string( $robots_filtered ) ) {
+			$robots_values = \explode( ', ', $robots_filtered );
+			$robots_new    = [];
+
+			foreach ( $robots_values as $value ) {
+				$key = $value;
+				if ( \strpos( $key, 'no' ) === 0 ) {
+					$key = \substr( $value, 2 );
+				}
+				$robots_new[ $key ] = $value;
+			}
+
+			$robots = $robots_new;
+		}
+
+		if ( ! $robots_filtered ) {
+			return [];
+		}
+
+		/**
+		 * Filter: 'wpseo_robots_array' - Allows filtering of the meta robots output array of Yoast SEO.
+		 *
+		 * @api array $robots The meta robots directives to be used.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \apply_filters( 'wpseo_robots_array', \array_filter( $robots ), $this );
+	}
+
+	/**
+	 * Generates the robots value for the googlebot tag.
+	 *
+	 * @return array The robots value with opt-in snippets.
+	 */
+	public function generate_googlebot() {
+		return $this->generate_snippet_opt_in();
+	}
+
+	/**
+	 * Generates the value for the bingbot tag.
+	 *
+	 * @return array The robots value with opt-in snippets.
+	 */
+	public function generate_bingbot() {
+		return $this->generate_snippet_opt_in();
+	}
+
+	/**
+	 * Generates a snippet opt-in robots value.
 	 *
 	 * @return array The googlebot value.
 	 */
-	public function generate_googlebot() {
-		return [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ];
+	private function generate_snippet_opt_in() {
+		if ( in_array( 'noindex', $this->robots, true ) ) {
+			return [];
+		}
+
+		return \array_filter( \array_merge( $this->robots, [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ] ) );
 	}
 
 	/**
@@ -483,13 +565,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_site() {
 		switch ( $this->context->site_represents ) {
-			case 'person' :
+			case 'person':
 				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
 				if ( empty( $twitter ) ) {
 					$twitter = $this->options->get( 'twitter_site' );
 				}
 				break;
-			case 'company' :
+			case 'company':
 			default:
 				$twitter = $this->options->get( 'twitter_site' );
 				break;
@@ -527,5 +609,17 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_breadcrumbs() {
 		return $this->breadcrumbs_generator->generate( $this->context );
+	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [
+			'model'   => $this->model,
+			'context' => $this->context,
+		];
 	}
 }

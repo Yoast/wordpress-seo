@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group twitter-title
  */
 class Title_Presenter_Test extends TestCase {
+
 	/**
 	 * The indexable presentation.
 	 *
@@ -43,10 +44,11 @@ class Title_Presenter_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->instance               = new Title_Presenter();
-		$this->indexable_presentation = $this->instance->presentation = new Indexable_Presentation();
+		$this->instance->presentation = new Indexable_Presentation();
+		$this->indexable_presentation = $this->instance->presentation;
 		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
 
-		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->replace_vars         = $this->replace_vars;
 		$this->indexable_presentation->source = [];
 
 		return parent::setUp();
@@ -67,7 +69,7 @@ class Title_Presenter_Test extends TestCase {
 			} );
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -93,7 +95,7 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title, when the `wpseo_twitter_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
@@ -110,7 +112,7 @@ class Title_Presenter_Test extends TestCase {
 			->andReturn( 'twitterexampletitle' );
 
 		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}

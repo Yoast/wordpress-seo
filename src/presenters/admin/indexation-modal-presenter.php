@@ -41,7 +41,7 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 		if ( $this->total_unindexed === 0 ) {
 			$inner_text = \sprintf(
 				'<p>%s</p>',
-				\esc_html__( 'All your content is already indexed, there is no need to index them again.', 'wordpress-seo' )
+				\esc_html__( 'All your content is already indexed, there is no need to index it again.', 'wordpress-seo' )
 			);
 		}
 		else {
@@ -65,7 +65,7 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 		return \sprintf(
 			'<div id="yoast-indexation-wrapper" class="hidden">%s<button id="yoast-indexation-stop" type="button" class="button">%s</button></div>',
 			\implode( '<hr />', $blocks ),
-			\esc_html( 'Stop indexation', 'wordpress-seo' )
+			\esc_html__( 'Stop indexing', 'wordpress-seo' )
 		);
 	}
 }

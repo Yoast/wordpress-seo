@@ -55,7 +55,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO 14.0');
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO 14.0' );
 
 		return true;
 	}
@@ -223,7 +223,7 @@ class WPSEO_OpenGraph {
 	public function facebook_filter( $meta_tags ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -259,7 +259,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
-
+	 *
 	 * @param string|bool $image Optional. Image URL.
 	 *
 	 * @return void

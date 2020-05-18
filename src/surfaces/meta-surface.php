@@ -39,7 +39,6 @@ class Meta_Surface {
 	 */
 	private $wp_rewrite_wrapper;
 
-
 	/**
 	 * Meta_Surface constructor.
 	 *
@@ -235,12 +234,13 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_url( $url ) {
-		$url_parts = \wp_parse_url( $url );
-		$site_host = \wp_parse_url( \site_url(), PHP_URL_HOST );
-		if ( $url_parts['host'] !== $site_host ) {
+		$url_parts  = \wp_parse_url( $url );
+		$site_parts = \wp_parse_url( \site_url() );
+		if ( $url_parts['host'] !== $site_parts['host'] ) {
 			return false;
 		}
-		$url = \site_url( $url_parts['path'] );
+		// Ensure the scheme is consistent with values in the DB.
+		$url = $site_parts['scheme'] . '://' . $url_parts['host'] . $url_parts['path'];
 
 		if ( $this->is_date_archive_url( $url ) ) {
 			$indexable = $this->repository->find_for_date_archive();

@@ -8,10 +8,10 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Indexable_Post_Indexation_Action class.
@@ -26,11 +26,11 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	protected $post_type_helper;
 
 	/**
-	 * The indexable builder.
+	 * The indexable repository.
 	 *
-	 * @var Indexable_Builder
+	 * @var Indexable_Repository
 	 */
-	protected $builder;
+	protected $repository;
 
 	/**
 	 * The WordPress database instance.
@@ -42,13 +42,13 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Post_Type_Helper  $post_type_helper The post type helper.
-	 * @param Indexable_Builder $builder          The indexable builder.
-	 * @param wpdb              $wpdb             The WordPress database instance.
+	 * @param Post_Type_Helper     $post_type_helper The post type helper.
+	 * @param Indexable_Repository $repository       The indexable repository.
+	 * @param wpdb                 $wpdb             The WordPress database instance.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Builder $builder, wpdb $wpdb ) {
+	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Repository $repository, wpdb $wpdb ) {
 		$this->post_type_helper = $post_type_helper;
-		$this->builder          = $builder;
+		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
 	}
 
@@ -79,7 +79,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->builder->build_for_id_and_type( (int) $post_id, 'post' );
+			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
 		}
 
 		return $indexables;
@@ -90,7 +90,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_post_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 * Filter 'wpseo_post_indexation_limit' - Allow filtering the amount of posts indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of posts indexed.
 		 */
@@ -114,7 +114,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	protected function get_query( $count, $limit = 1 ) {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
-		$indexable_table   = Yoast_Model::get_table_name( 'Indexable' );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
 		$select = 'ID';

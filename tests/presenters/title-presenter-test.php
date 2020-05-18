@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group title-presenter
  */
 class Title_Presenter_Test extends TestCase {
+
 	/**
 	 * The indexable presentation.
 	 *
@@ -55,9 +56,9 @@ class Title_Presenter_Test extends TestCase {
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
-		$this->instance = new Title_Presenter( $this->string );
+		$this->instance               = new Title_Presenter( $this->string );
 		$this->instance->replace_vars = $this->replace_vars;
-		$this->instance->helpers = (object) [
+		$this->instance->helpers      = (object) [
 			'string' => $this->string,
 		];
 
@@ -73,6 +74,10 @@ class Title_Presenter_Test extends TestCase {
 			->andReturnUsing( function ( $string ) {
 				return $string;
 			} );
+
+		Monkey\Functions\expect( 'wp_get_document_title' )->andReturnUsing( function() {
+			return $this->instance->get_title();
+		} );
 	}
 
 	/**
@@ -118,7 +123,7 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct title, when the `wpseo_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->title = 'example_title';

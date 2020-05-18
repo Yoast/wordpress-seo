@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable table definition.
@@ -78,7 +78,14 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string  $schema_page_type
  * @property string  $schema_article_type
  */
-class Indexable extends Yoast_Model {
+class Indexable extends Model {
+
+	/**
+	 * Holds the ancestors.
+	 *
+	 * @var Indexable[]
+	 */
+	public $ancestors;
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -149,14 +156,50 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Enhances the save method.
 	 *
-	 * @return boolean True on succes.
+	 * @return boolean True on success.
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$this->sanitize_permalink();
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
+		}
+		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
 		return parent::save();
+	}
+
+	/**
+	 * Sanitizes the permalink.
+	 *
+	 * @return void
+	 */
+	protected function sanitize_permalink() {
+		$permalink_structure = \get_option( 'permalink_structure' );
+		$permalink_parts     = \wp_parse_url( $this->permalink );
+
+		if ( ! isset( $permalink_parts['path'] ) ) {
+			$permalink_parts['path'] = '/';
+		}
+		if ( \substr( $permalink_structure, -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
+			$permalink_parts['path'] = \trailingslashit( $permalink_parts['path'] );
+		}
+
+		$permalink = '';
+		if ( isset( $permalink_parts['scheme'] ) ) {
+			$permalink .= $permalink_parts['scheme'] . '://';
+		}
+		if ( isset( $permalink_parts['host'] ) ) {
+			$permalink .= $permalink_parts['host'];
+		}
+		if ( isset( $permalink_parts['path'] ) ) {
+			$permalink .= $permalink_parts['path'];
+		}
+		if ( isset( $permalink_parts['query'] ) ) {
+			$permalink .= '?' . $permalink_parts['query'];
+		}
+		// We never set the fragment as the fragment is intended to be client-only.
+		$this->permalink = $permalink;
 	}
 }

@@ -55,10 +55,10 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	/**
 	 * Open_Graph_OEmbed constructor.
 	 *
-	 * @param Meta_Surface $meta  The meta surface.
+	 * @param Meta_Surface $meta The meta surface.
 	 */
 	public function __construct( Meta_Surface $meta ) {
-		$this->meta  = $meta;
+		$this->meta = $meta;
 	}
 
 	/**
