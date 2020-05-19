@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Mocks;
 /**
  * Represents the Abstract_Indexation_Route mock.
  */
-class Abstract_Indexation_Route extends \Yoast\WP\SEO\Routes\Abstract_Indexation_Route {
+class Abstract_Indexation_Route_Mock extends \Yoast\WP\SEO\Routes\Abstract_Indexation_Route {
 
 	/**
 	 * @inheritDoc

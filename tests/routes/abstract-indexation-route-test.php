@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Tests\Routes;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Mocks\Abstract_Indexation_Route;
+use Yoast\WP\SEO\Tests\Mocks\Abstract_Indexation_Route_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class Abstract_Indexation_Route_Test extends TestCase {
 	 * @covers ::respond_with
 	 */
 	public function test_respond_with() {
-		$instance = new Abstract_Indexation_Route();
+		$instance = new Abstract_Indexation_Route_Mock();
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
