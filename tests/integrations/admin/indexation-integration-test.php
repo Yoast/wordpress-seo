@@ -111,11 +111,14 @@ class Indexation_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$conditionals = Indexation_Integration::get_conditionals();
-		$this->assertEquals( [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
-			Migrations_Conditional::class,
-		], $conditionals );
+		$this->assertEquals(
+			[
+				Admin_Conditional::class,
+				Yoast_Admin_And_Dashboard_Conditional::class,
+				Migrations_Conditional::class,
+			],
+			$conditionals
+		);
 	}
 
 	/**

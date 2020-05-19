@@ -120,7 +120,6 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
-		$indexable->save();
+		$this->builder->build_for_post_type_archive( $post_type, $indexable );
 	}
 }

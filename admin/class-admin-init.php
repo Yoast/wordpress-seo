@@ -412,17 +412,19 @@ class WPSEO_Admin_Init {
 	 * @return bool Whether the "search engines discouraged" admin notice should be displayed.
 	 */
 	private function should_display_search_engines_discouraged_notice() {
+		$discouraged_pages = [
+			'index.php',
+			'plugins.php',
+			'update-core.php',
+		];
+
 		return (
 			$this->are_search_engines_discouraged()
 			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
 			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
 			&& (
 				$this->on_wpseo_admin_page()
-				|| in_array( $this->pagenow, [
-					'index.php',
-					'plugins.php',
-					'update-core.php',
-				], true )
+				|| in_array( $this->pagenow, $discouraged_pages, true )
 			)
 		);
 	}

@@ -122,7 +122,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 
 		$indexables = \apply_filters( 'wpseo_breadcrumb_indexables', $indexables, $context );
 
-		$crumbs = array_map( function ( Indexable $ancestor ) {
+		$callback = function ( Indexable $ancestor ) {
 			$crumb = [
 				'url'  => $ancestor->permalink,
 				'text' => $ancestor->breadcrumb_title,
@@ -148,7 +148,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 					break;
 			}
 			return $crumb;
-		}, $indexables );
+		};
+		$crumbs   = array_map( $callback, $indexables );
 
 		if ( $breadcrumbs_home !== '' ) {
 			$crumbs[0]['text'] = $breadcrumbs_home;
@@ -161,7 +162,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		 */
 		$crumbs = apply_filters( 'wpseo_breadcrumb_links', $crumbs );
 
-		return array_map( function( $link_info, $index ) use ( $crumbs ) {
+		$filter_callback = function( $link_info, $index ) use ( $crumbs ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
 			 *
@@ -171,7 +172,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			 * @param array $crumbs The complete list of breadcrumbs.
 			 */
 			return apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $crumbs );
-		}, $crumbs, array_keys( $crumbs ) );
+		};
+		return array_map( $filter_callback, $crumbs, array_keys( $crumbs ) );
 	}
 
 	/**

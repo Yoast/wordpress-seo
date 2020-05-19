@@ -28,35 +28,40 @@ class ExpandIndexableColumnLengths extends Ruckusing_Migration_Base {
 	 * Migration down.
 	 */
 	public function down() {
+		$attr_limit_191 = [
+			'null'  => true,
+			'limit' => 191,
+		];
+
 		$this->change_column(
 			$this->get_table_name(),
 			'title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'opengraph_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'open_graph_image_source',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_image_source',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 	}
 

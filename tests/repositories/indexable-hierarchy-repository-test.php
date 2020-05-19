@@ -201,12 +201,14 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 
 		$orm_object
 			->expects( 'create' )
-			->with( [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-				'blog_id'      => 1,
-			] )
+			->with(
+				[
+					'indexable_id' => 1,
+					'ancestor_id'  => 2,
+					'depth'        => 1,
+					'blog_id'      => 1,
+				]
+			)
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 

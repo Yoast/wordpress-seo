@@ -59,7 +59,7 @@ class Indexables_Head_Route implements Route_Interface {
 	 * @inheritDoc
 	 */
 	public function register_routes() {
-		\register_rest_route( Main::API_V1_NAMESPACE, self::HEAD_FOR_URL_ROUTE, [
+		$route_args = [
 			'methods'  => 'GET',
 			'callback' => [ $this, 'get_head' ],
 			'args'     => [
@@ -68,7 +68,8 @@ class Indexables_Head_Route implements Route_Interface {
 					'required'          => true,
 				],
 			],
-		] );
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::HEAD_FOR_URL_ROUTE, $route_args );
 	}
 
 	/**

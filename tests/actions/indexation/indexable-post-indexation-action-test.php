@@ -79,8 +79,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(ID)
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
-			$limit_placeholder
-		";
+			$limit_placeholder";
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )
@@ -119,8 +118,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT ID
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
-			LIMIT %d
-		';
+			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 

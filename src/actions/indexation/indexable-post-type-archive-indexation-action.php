@@ -149,8 +149,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			->where( 'object_type', 'post-type-archive' )
 			->find_array();
 
-		return \array_map( function( $result ) {
+		$callback = function( $result ) {
 			return $result['object_sub_type'];
-		}, $results );
+		};
+		return \array_map( $callback, $results );
 	}
 }

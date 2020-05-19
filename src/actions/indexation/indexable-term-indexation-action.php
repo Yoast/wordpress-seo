@@ -128,11 +128,13 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
 			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term') AND taxonomy IN ($placeholders)
-			$limit_query
-		", $replacements );
+			$limit_query",
+			$replacements
+		);
 	}
 }

@@ -56,12 +56,14 @@ class Indexable_Hierarchy_Repository {
 	 * @return bool Whether or not the ancestor was added successfully.
 	 */
 	public function add_ancestor( $indexable_id, $ancestor_id, $depth ) {
-		$hierarchy = $this->query()->create( [
-			'indexable_id' => $indexable_id,
-			'ancestor_id'  => $ancestor_id,
-			'depth'        => $depth,
-			'blog_id'      => \get_current_blog_id(),
-		] );
+		$hierarchy = $this->query()->create(
+			[
+				'indexable_id' => $indexable_id,
+				'ancestor_id'  => $ancestor_id,
+				'depth'        => $depth,
+				'blog_id'      => \get_current_blog_id(),
+			]
+		);
 		return $hierarchy->save();
 	}
 
@@ -80,15 +82,17 @@ class Indexable_Hierarchy_Repository {
 			->find_array();
 
 		if ( ! empty( $ancestors ) ) {
-			return \array_map( function ( $ancestor ) {
+			$callback = function ( $ancestor ) {
 				return $ancestor['ancestor_id'];
-			}, $ancestors );
+			};
+			return \array_map( $callback, $ancestors );
 		}
 
 		$indexable = $this->builder->build( $indexable );
-		return \array_map( function ( $indexable ) {
+		$callback  = function ( $indexable ) {
 			return $indexable->id;
-		}, $indexable->ancestors );
+		};
+		return \array_map( $callback, $indexable->ancestors );
 	}
 
 	/**

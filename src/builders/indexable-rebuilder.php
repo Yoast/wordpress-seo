@@ -8,7 +8,9 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Exception;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
  * Class Indexable_Rebuilder.
@@ -32,16 +34,25 @@ class Indexable_Rebuilder {
 	protected $builder;
 
 	/**
+	 * Holds the logger.
+	 *
+	 * @var Logger
+	 */
+	protected $logger;
+
+	/**
 	 * Indexable_Rebuilder constructor.
 	 *
 	 * @codeCoverageIgnore No point in testing this constructor without side-effects.
 	 *
 	 * @param Indexable_Repository $repository The repository to use.
 	 * @param Indexable_Builder    $builder    The post builder to use.
+	 * @param Logger               $logger     The logger.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder, Logger $logger ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
+		$this->logger     = $logger;
 	}
 
 	/**
@@ -55,8 +66,8 @@ class Indexable_Rebuilder {
 			foreach ( $indexables as $indexable ) {
 				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
 			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 	}
 
@@ -72,8 +83,8 @@ class Indexable_Rebuilder {
 			foreach ( $indexables as $indexable ) {
 				$this->builder->build_for_id_and_type( $indexable->object_id, $object_type, $indexable );
 			}
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 	}
 
@@ -88,8 +99,8 @@ class Indexable_Rebuilder {
 		try {
 			$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
 			$this->builder->build_for_post_type_archive( $post_type, $indexable );
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 	}
 
@@ -102,8 +113,8 @@ class Indexable_Rebuilder {
 		try {
 			$indexable = $this->repository->find_for_date_archive( false );
 			$this->builder->build_for_date_archive( $indexable );
-		} catch ( Exception $exception ) { // @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-			// Do nothing.
+		} catch ( Exception $exception ) {
+			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
 		}
 	}
 }

@@ -592,17 +592,19 @@ class Current_Page_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_option' )
 			->twice()
-			->andReturnUsing( function ( $option ) {
-				if ( $option === 'show_on_front' ) {
-					return 'page';
-				}
+			->andReturnUsing(
+				function ( $option ) {
+					if ( $option === 'show_on_front' ) {
+						return 'page';
+					}
 
-				if ( $option === 'page_on_front' ) {
-					return 1;
-				}
+					if ( $option === 'page_on_front' ) {
+						return 1;
+					}
 
-				return null;
-			} );
+					return null;
+				}
+			);
 
 		$this->assertTrue( $this->instance->is_home_static_page() );
 	}

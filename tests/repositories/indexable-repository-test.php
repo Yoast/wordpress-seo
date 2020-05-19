@@ -73,12 +73,15 @@ class Indexable_Repository_Test extends TestCase {
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->instance             = Mockery::mock( Indexable_Repository::class, [
-			$this->builder,
-			$this->current_page,
-			$this->logger,
-			$this->hierarchy_repository,
-		] )->makePartial();
+		$this->instance             = Mockery::mock(
+			Indexable_Repository::class,
+			[
+				$this->builder,
+				$this->current_page,
+				$this->logger,
+				$this->hierarchy_repository,
+			]
+		)->makePartial();
 	}
 
 	/**

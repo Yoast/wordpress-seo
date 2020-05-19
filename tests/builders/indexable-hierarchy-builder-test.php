@@ -112,7 +112,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
-		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEmpty( $actual->ancestors );
@@ -426,7 +433,16 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_term' )->twice()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->twice()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
@@ -437,7 +453,16 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [$parent_indexable], $actual->ancestors );
@@ -551,8 +576,26 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2 )
 			->andReturnTrue();
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 3 ] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 3, 'tag' )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 3,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 3, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 3,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 2 );
@@ -565,7 +608,16 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $grand_parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [$grand_parent_indexable, $parent_indexable], $actual->ancestors );
@@ -598,8 +650,26 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( [ (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] ] );
-		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_the_terms' )
+			->with( 1, 'tag' )
+			->andReturn(
+				[
+					(object) [
+						'term_id'  => 2,
+						'taxonomy' => 'tag',
+						'parent'   => 0,
+					],
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
@@ -611,9 +681,15 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
-		);
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [$parent_indexable], $actual->ancestors );
@@ -723,12 +799,43 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 4;
 
-		Monkey\Functions\expect( 'get_the_terms' )->once()->with( 1, 'tag' )->andReturn( [
-			(object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ],
-			(object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 4 ],
-		] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 3 )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 4 ] );
-		Monkey\Functions\expect( 'get_term' )->twice()->with( 4, 'tag' )->andReturn( (object) [ 'term_id' => 4, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_the_terms' )
+			->once()
+			->with( 1, 'tag' )
+			->andReturn(
+				[
+					(object) [
+						'term_id'  => 2,
+						'taxonomy' => 'tag',
+						'parent'   => 0,
+					],
+					(object) [
+						'term_id'  => 3,
+						'taxonomy' => 'tag',
+						'parent'   => 4,
+					],
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 3 )
+			->andReturn(
+				(object) [
+					'term_id'  => 3,
+					'taxonomy' => 'tag',
+					'parent'   => 4,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->twice()
+			->with( 4, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 4,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
@@ -742,7 +849,16 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 4, 'term' )->andReturn( $grand_parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
 		$actual = $this->instance->build( $indexable );
 		$this->assertEquals( [$grand_parent_indexable, $parent_indexable], $actual->ancestors );
@@ -771,8 +887,26 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'term_id' => 1, 'taxonomy' => 'tag', 'parent' => 2 ] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 2, 'tag' )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'term_id'  => 1,
+					'taxonomy' => 'tag',
+					'parent'   => 2,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
