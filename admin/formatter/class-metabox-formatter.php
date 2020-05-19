@@ -71,6 +71,7 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'languageBeaconId'			=> '1060600e-401f-4e6a-88b2-47429e942e74',
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
