@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Author;
+use Yoast\WP\SEO\Tests\Mocks\Author_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -70,7 +70,7 @@ class Author_Test extends TestCase {
 	/**
 	 * Holds the author schema generator under test.
 	 *
-	 * @var Author
+	 * @var Author_Mock
 	 */
 	private $instance;
 
@@ -112,7 +112,7 @@ class Author_Test extends TestCase {
 
 		$this->meta_tags_context = new Meta_Tags_Context();
 
-		$this->instance = Mockery::mock( Author::class )
+		$this->instance = Mockery::mock( Author_Mock::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
