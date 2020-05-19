@@ -10,7 +10,6 @@ import Warning from "../../containers/Warning";
 import KeywordInput from "../contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
-import Collapsible from "../SidebarCollapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
