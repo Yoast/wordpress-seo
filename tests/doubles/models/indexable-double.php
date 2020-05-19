@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Tests\Doubles\Models;
 use Yoast\WP\SEO\Models\Indexable as Indexable_Model;
 
 /**
- * Class Indexable.
+ * Class Indexable_Double.
  */
-class Indexable extends Indexable_Model {
+class Indexable_Double extends Indexable_Model {
 
 	/**
 	 * Holds the return value for has_one. Making it possible to mock that.
