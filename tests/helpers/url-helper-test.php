@@ -47,10 +47,12 @@ class Url_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->withArgs( [ 'home_url' ] )
-			->andReturn( [
-				'scheme' => 'https',
-				'host'   => 'example.com',
-			] );
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 
 		$expected = 'https://example.com/my-page';
 		$actual   = $this->instance->build_absolute_url( '/my-page' );
@@ -73,10 +75,12 @@ class Url_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->withArgs( [ 'home_url' ] )
-			->andReturn( [
-				'scheme' => 'https',
-				'host'   => 'example.com',
-			] );
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 
 		$expected = 'https://example.com/my-page';
 		$actual   = $this->instance->build_absolute_url( 'https://example.com/my-page' );

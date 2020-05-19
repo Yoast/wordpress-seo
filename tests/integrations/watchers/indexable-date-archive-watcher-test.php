@@ -91,7 +91,6 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_for_date_archive' )->once()->with( false )->andReturn( $indexable_mock );
 		$this->builder->expects( 'build_for_date_archive' )->once()->with( $indexable_mock )->andReturn( $indexable_mock );
@@ -131,7 +130,6 @@ class Indexable_Date_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository->expects( 'find_for_date_archive' )->once()->with( false )->andReturn( false );
 		$this->builder->expects( 'build_for_date_archive' )->once()->with( false )->andReturn( $indexable_mock );

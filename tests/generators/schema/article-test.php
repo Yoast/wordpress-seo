@@ -259,11 +259,13 @@ class Article_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		Monkey\Functions\expect( 'post_type_supports' )
 			->once()
@@ -295,7 +297,10 @@ class Article_Test extends TestCase {
 			->with( array_slice( $terms, 0, 2 ), 'name' )
 			->andReturn( [ 'Tag1', 'Tag2' ] );
 
-		$expected_value = [ 'data1' => 1, 'keywords' => 'Tag1,Tag2' ];
+		$expected_value = [
+			'data1'    => 1,
+			'keywords' => 'Tag1,Tag2',
+		];
 
 		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}

@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -20,18 +20,32 @@ class AddColumnsToIndexables extends Ruckusing_Migration_Base {
 		$tables  = $this->get_tables();
 		$blog_id = \get_current_blog_id();
 		foreach ( $tables as $table ) {
-			$this->add_column( $table, 'blog_id', 'biginteger', [
-				'null'    => false,
-				'limit'   => 20,
-				'default' => $blog_id,
-			] );
+			$this->add_column(
+				$table,
+				'blog_id',
+				'biginteger',
+				[
+					'null'    => false,
+					'limit'   => 20,
+					'default' => $blog_id,
+				]
+			);
 		}
 
+		$attr_limit_32 = [
+			'null'  => true,
+			'limit' => 32,
+		];
+		$attr_limit_64 = [
+			'null'  => true,
+			'limit' => 64,
+		];
+
 		$indexable_table = $this->get_indexable_table();
-		$this->add_column( $indexable_table, 'language', 'string', [ 'null' => true, 'limit' => 32 ] );
-		$this->add_column( $indexable_table, 'region', 'string', [ 'null' => true, 'limit' => 32 ] );
-		$this->add_column( $indexable_table, 'schema_page_type', 'string', [ 'null' => true, 'limit' => 64 ] );
-		$this->add_column( $indexable_table, 'schema_article_type', 'string', [ 'null' => true, 'limit' => 64 ] );
+		$this->add_column( $indexable_table, 'language', 'string', $attr_limit_32 );
+		$this->add_column( $indexable_table, 'region', 'string', $attr_limit_32 );
+		$this->add_column( $indexable_table, 'schema_page_type', 'string', $attr_limit_64 );
+		$this->add_column( $indexable_table, 'schema_article_type', 'string', $attr_limit_64 );
 	}
 
 	/**
@@ -56,7 +70,7 @@ class AddColumnsToIndexables extends Ruckusing_Migration_Base {
 	 * @return string The Indexable table name.
 	 */
 	protected function get_indexable_table() {
-		return Yoast_Model::get_table_name( 'Indexable' );
+		return Model::get_table_name( 'Indexable' );
 	}
 
 	/**
@@ -67,8 +81,8 @@ class AddColumnsToIndexables extends Ruckusing_Migration_Base {
 	protected function get_tables() {
 		return [
 			$this->get_indexable_table(),
-			Yoast_Model::get_table_name( 'Indexable_Hierarchy' ),
-			Yoast_Model::get_table_name( 'Primary_Term' ),
+			Model::get_table_name( 'Indexable_Hierarchy' ),
+			Model::get_table_name( 'Primary_Term' ),
 		];
 	}
 }

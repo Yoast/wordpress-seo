@@ -33,5 +33,4 @@ class Abstract_Indexation_Route_Test extends TestCase {
 
 		$this->assertInstanceOf( 'WP_Rest_Response', $instance->respond_with( [], 'https://example.org/next/url' ) );
 	}
-
 }

@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 use Brain\Monkey\Filters;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -29,9 +29,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	/**
 	 * The builder mock.
 	 *
-	 * @var Indexable_Builder|Mockery\MockInterface
+	 * @var Indexable_Repository|Mockery\MockInterface
 	 */
-	protected $builder;
+	protected $repository;
 
 	/**
 	 * The wpdb mock.
@@ -55,13 +55,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->builder          = Mockery::mock( Indexable_Builder::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
 
 		$this->instance = new Indexable_Post_Indexation_Action(
 			$this->post_type_helper,
-			$this->builder,
+			$this->repository,
 			$this->wpdb
 		);
 	}
@@ -79,8 +79,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(ID)
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
-			$limit_placeholder
-		";
+			$limit_placeholder";
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )
@@ -119,8 +118,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT ID
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
-			LIMIT %d
-		';
+			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 
@@ -128,9 +126,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->with( $expected_query, [ 'public_post_type', 25 ] )->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'post' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 3, 'post' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 8, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		$this->instance->index();
 	}
@@ -148,9 +146,9 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'post' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 3, 'post' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 8, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		$this->instance->index();
 	}

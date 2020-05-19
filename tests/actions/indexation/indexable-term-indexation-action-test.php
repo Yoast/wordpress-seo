@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 use Mockery;
 use Brain\Monkey\Filters;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -29,9 +29,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	/**
 	 * The builder mock.
 	 *
-	 * @var Indexable_Builder|Mockery\MockInterface
+	 * @var Indexable_Repository|Mockery\MockInterface
 	 */
-	protected $builder;
+	protected $repository;
 
 	/**
 	 * The wpdb mock.
@@ -55,13 +55,13 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->taxonomy            = Mockery::mock( Taxonomy_Helper::class );
-		$this->builder             = Mockery::mock( Indexable_Builder::class );
+		$this->repository          = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                = Mockery::mock( 'wpdb' );
 		$this->wpdb->term_taxonomy = 'wp_term_taxonomy';
 
 		$this->instance = new Indexable_Term_Indexation_Action(
 			$this->taxonomy,
-			$this->builder,
+			$this->repository,
 			$this->wpdb
 		);
 	}
@@ -79,8 +79,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term') AND taxonomy IN (%s)
-			$limit_placeholder
-		";
+			$limit_placeholder";
 
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
@@ -119,8 +118,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			SELECT term_id
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'term\') AND taxonomy IN (%s)
-			LIMIT %d
-		';
+			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 
@@ -131,9 +129,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'term' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 3, 'term' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 8, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		$this->instance->index();
 	}
@@ -151,9 +149,9 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
 
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 1, 'term' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 3, 'term' );
-		$this->builder->expects( 'build_for_id_and_type' )->once()->with( 8, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
 		$this->instance->index();
 	}

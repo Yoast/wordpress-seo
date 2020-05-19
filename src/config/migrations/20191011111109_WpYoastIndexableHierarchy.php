@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -21,18 +21,26 @@ class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name, [ 'id' => false ] );
 
-		$indexable_table->column( 'indexable_id', 'integer', [
-			'primary_key' => true,
-			'unsigned'    => true,
-			'null'        => true,
-			'limit'       => 11,
-		] );
-		$indexable_table->column( 'ancestor_id', 'integer', [
-			'primary_key' => true,
-			'unsigned'    => true,
-			'null'        => true,
-			'limit'       => 11,
-		] );
+		$indexable_table->column(
+			'indexable_id',
+			'integer',
+			[
+				'primary_key' => true,
+				'unsigned'    => true,
+				'null'        => true,
+				'limit'       => 11,
+			]
+		);
+		$indexable_table->column(
+			'ancestor_id',
+			'integer',
+			[
+				'primary_key' => true,
+				'unsigned'    => true,
+				'null'        => true,
+				'limit'       => 11,
+			]
+		);
 		$indexable_table->column( 'depth', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->finish();
 
@@ -54,6 +62,6 @@ class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base {
 	 * @return string The table name to use.
 	 */
 	protected function get_table_name() {
-		return Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		return Model::get_table_name( 'Indexable_Hierarchy' );
 	}
 }

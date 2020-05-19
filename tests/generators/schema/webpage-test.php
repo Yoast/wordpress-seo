@@ -85,7 +85,7 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
-		$this->instance          = Mockery::mock( Webpage::class )
+		$this->instance          = Mockery::mock( WebPage::class )
 			->makePartial();
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [
@@ -173,11 +173,13 @@ class WebPage_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function ( $data ) {
-				$data['inLanguage'] = 'the-language';
+			->andReturnUsing(
+				function ( $data ) {
+					$data['inLanguage'] = 'the-language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->meta_tags_context
 			->expects( 'generate_schema_page_type' )

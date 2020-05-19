@@ -27,13 +27,6 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	const YOAST_HEAD_FIELD_NAME = 'yoast_head';
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
-	}
-
-	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -53,6 +46,13 @@ class Yoast_Head_REST_Field implements Route_Interface {
 	 * @var Indexable_Head_Action
 	 */
 	protected $head_action;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * Yoast_Head_REST_Field constructor.
@@ -78,9 +78,7 @@ class Yoast_Head_REST_Field implements Route_Interface {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
 
 		foreach ( $public_post_types as $post_type ) {
-			\register_rest_field( $post_type, self::YOAST_HEAD_FIELD_NAME, [
-				'get_callback' => [ $this, 'for_post' ],
-			] );
+			\register_rest_field( $post_type, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_post' ] ] );
 		}
 
 		$public_taxonomies = $this->taxonomy_helper->get_public_taxonomies();
@@ -89,18 +87,12 @@ class Yoast_Head_REST_Field implements Route_Interface {
 			if ( $taxonomy === 'post_tag' ) {
 				$taxonomy = 'tag';
 			}
-			\register_rest_field( $taxonomy, self::YOAST_HEAD_FIELD_NAME, [
-				'get_callback' => [ $this, 'for_term' ],
-			] );
+			\register_rest_field( $taxonomy, self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_term' ] ] );
 		}
 
-		\register_rest_field( 'user', self::YOAST_HEAD_FIELD_NAME, [
-			'get_callback' => [ $this, 'for_author' ],
-		] );
+		\register_rest_field( 'user', self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_author' ] ] );
 
-		\register_rest_field( 'type', self::YOAST_HEAD_FIELD_NAME, [
-			'get_callback' => [ $this, 'for_post_type_archive' ],
-		] );
+		\register_rest_field( 'type', self::YOAST_HEAD_FIELD_NAME, [ 'get_callback' => [ $this, 'for_post_type_archive' ] ] );
 	}
 
 	/**

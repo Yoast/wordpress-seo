@@ -57,9 +57,11 @@ class Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->once()
-			->andReturnUsing( function ( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function ( $string ) {
+					return $string;
+				}
+			);
 	}
 
 	/**
@@ -94,7 +96,7 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests whether the `wpseo_opengraph_desc` filter is used.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_description = 'My description';

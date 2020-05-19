@@ -396,21 +396,63 @@ class Meta_Surface_Test extends TestCase {
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 
-		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'url' )->andReturn( [ 'host' => 'host', 'path' => '/path' ] );
-		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'https://www.example.org' )->andReturn( [ 'scheme' => 'scheme', 'host' => 'host' ] );
-		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
-		$this->repository->expects( 'find_by_permalink' )->once()->with( 'scheme://host/path' )->andReturn( $this->indexable );
-		$this->wp_rewrite_wrapper->expects( 'get' )->once()->andReturn( $wp_rewrite );
-		$wp_rewrite->expects( 'get_date_permastruct' )->once()->andReturn( 'date_permastruct' );
-		$wp_rewrite->expects( 'generate_rewrite_rules' )->once()->with( 'date_permastruct', EP_DATE )->andReturn( [] );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'url' )
+			->andReturn(
+				[
+					'host' => 'host',
+					'path' => '/path',
+				]
+			);
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://www.example.org' )
+			->andReturn(
+				[
+					'scheme' => 'scheme',
+					'host'   => 'host',
+				]
+			);
+
+		$this->container->expects( 'get' )
+			->times( 3 )
+			->andReturn( null );
+
+		$this->repository->expects( 'find_by_permalink' )
+			->once()
+			->with( 'scheme://host/path' )
+			->andReturn( $this->indexable );
+
+		$this->wp_rewrite_wrapper->expects( 'get' )
+			->once()
+			->andReturn( $wp_rewrite );
+
+		$wp_rewrite->expects( 'get_date_permastruct' )
+			->once()
+			->andReturn( 'date_permastruct' );
+
+		$wp_rewrite->expects( 'generate_rewrite_rules' )
+			->once()
+			->with( 'date_permastruct', EP_DATE )
+			->andReturn( [] );
+
 		$this->indexable->object_type     = $object_type;
 		$this->indexable->object_id       = $object_id;
 		$this->indexable->object_sub_type = $object_sub_type;
 
 		if ( $object_type === 'post' ) {
-			Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( $front_page_id );
+			Monkey\Functions\expect( 'get_option' )
+				->once()
+				->with( 'page_on_front' )
+				->andReturn( $front_page_id );
+
 			if ( $front_page_id === 0 ) {
-				Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( $page_for_posts_id );
+				Monkey\Functions\expect( 'get_option' )
+					->once()
+					->with( 'page_for_posts' )
+					->andReturn( $page_for_posts_id );
 			}
 		}
 

@@ -5,7 +5,7 @@
  * @package WPSEO\Migrations
  */
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
@@ -109,12 +109,16 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 
 		// Prominent words.
-		$indexable_table->column( 'prominent_words_version', 'integer', [
-			'null'     => true,
-			'limit'    => 11,
-			'unsigned' => true,
-			'default'  => null,
-		] );
+		$indexable_table->column(
+			'prominent_words_version',
+			'integer',
+			[
+				'null'     => true,
+				'limit'    => 11,
+				'unsigned' => true,
+				'default'  => null,
+			]
+		);
 
 		$indexable_table->finish();
 
@@ -155,6 +159,6 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 	 * @return string The table name to use.
 	 */
 	protected function get_table_name() {
-		return Yoast_Model::get_table_name( 'Indexable' );
+		return Model::get_table_name( 'Indexable' );
 	}
 }

@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -33,7 +33,7 @@ class Indexable_System_Page_Builder_Test extends TestCase {
 		$options_mock->expects( 'get' )->with( 'title-search-wpseo' )->andReturn( 'search_title' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
-		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'system-page' );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'search-result' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );

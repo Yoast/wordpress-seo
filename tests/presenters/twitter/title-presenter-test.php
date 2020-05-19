@@ -64,9 +64,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
 		$actual   = $this->instance->present();
@@ -83,9 +85,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 		$this->assertEmpty( $actual );
@@ -95,16 +99,18 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title, when the `wpseo_twitter_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_title' )
 			->once()
