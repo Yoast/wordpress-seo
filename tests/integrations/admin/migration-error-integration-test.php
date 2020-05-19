@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
@@ -114,7 +115,7 @@ class Migration_Error_Integration_Test extends TestCase {
 
 		$expected  = '<div class="notice notice-error">';
 		$expected .= '<p>Yoast SEO had problems creating the database tables needed to speed up your site.</p>';
-		$expected .= '<p>Please read <a href="' . \WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
+		$expected .= '<p>Please read <a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">this help article</a> to find out how to resolve this problem.</p>';
 		$expected .= '<p>Your site will continue to work normally, but won\'t take full advantage of Yoast SEO.</p>';
 		$expected .= '<details><summary>Show debug information</summary><p>test error</p></details>';
 		$expected .= '</div>';

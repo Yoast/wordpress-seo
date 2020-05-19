@@ -7,10 +7,12 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Context;
 
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+
 /**
  * Class Meta_Tags_Context_Mock
  */
-class Meta_Tags_Context_Mock extends \Yoast\WP\SEO\Context\Meta_Tags_Context {
+class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 
 	/**
 	 * @var string

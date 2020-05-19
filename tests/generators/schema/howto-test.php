@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
+use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
@@ -142,15 +143,15 @@ class HowTo_Test extends TestCase {
 
 		$id = 1234;
 
-		$this->meta_tags_context = \Mockery::mock( Meta_Tags_Context_Mock::class );
+		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
 
 		$this->meta_tags_context->id             = $id;
 		$this->meta_tags_context->main_schema_id = 'https://example.com/post-1#main-schema-id';
 
-		$this->html     = \Mockery::mock( HTML_Helper::class );
-		$this->image    = \Mockery::mock( Image_Helper::class );
-		$this->post     = \Mockery::mock( Post_Helper::class );
-		$this->language = \Mockery::mock( Language_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->image    = Mockery::mock( Image_Helper::class );
+		$this->post     = Mockery::mock( Post_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
 
 		$this->html
 			->shouldReceive( 'smart_strip_tags' )

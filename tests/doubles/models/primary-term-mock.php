@@ -2,12 +2,14 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Models;
 
+use Yoast\WP\SEO\Models\Primary_Term;
+
 /**
  * Class Primary_Term_Mock
  *
  * Primary_Term mock class.
  */
-class Primary_Term_Mock extends \Yoast\WP\SEO\Models\Primary_Term {
+class Primary_Term_Mock extends Primary_Term {
 
 	public $id;
 

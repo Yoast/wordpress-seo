@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Generators;
 
 use Brain\Monkey;
+use Error;
 use Mockery;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -105,7 +106,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 		$this->indexable->open_graph_image_id = 1337;
 
 		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_images' )
-			->andThrow( new \Error( 'Something went wrong' ) );
+			->andThrow( new Error( 'Something went wrong' ) );
 
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
@@ -127,7 +128,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 		$this->indexable->open_graph_image_id = 1337;
 
 		Monkey\Filters\expectApplied( 'wpseo_add_opengraph_additional_images' )
-			->andThrow( new \Error( 'Something went wrong' ) );
+			->andThrow( new Error( 'Something went wrong' ) );
 
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 

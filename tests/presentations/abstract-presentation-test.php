@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations;
 
+use Mockery;
 use Yoast\WP\SEO\Tests\Doubles\Presentations\Abstract_Presentation_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -26,7 +27,7 @@ class Abstract_Presentation_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = \Mockery::mock( Abstract_Presentation_Mock::class )->makePartial();
+		$this->instance = Mockery::mock( Abstract_Presentation_Mock::class )->makePartial();
 	}
 
 	/**

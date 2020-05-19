@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Helpers;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -26,7 +27,7 @@ class Primary_Term_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = \Mockery::mock( Primary_Term_Helper::class )
+		$this->instance = Mockery::mock( Primary_Term_Helper::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}

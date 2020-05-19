@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
+use Mockery;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
@@ -43,8 +44,8 @@ class FAQ_Test extends TestCase {
 	 * @inheritDoc
 	 */
 	public function setUp() {
-		$this->html     = \Mockery::mock( HTML_Helper::class );
-		$this->language = \Mockery::mock( Language_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
 
 		$this->instance = new FAQ();
 

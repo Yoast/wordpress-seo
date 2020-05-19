@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Description_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -34,7 +35,7 @@ class Description_Presenter_Test extends TestCase {
 	 * Setup of the tests.
 	 */
 	public function setUp() {
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance               = new Description_Presenter();
 		$this->instance->replace_vars = $this->replace_vars;

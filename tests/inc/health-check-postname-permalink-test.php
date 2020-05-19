@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
+use WPSEO_Health_Check_Postname_Permalink;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -24,7 +25,7 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 			->with( 'permalink_structure' )
 			->andReturn( '/%postname%/' );
 
-		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
+		$health_check = new WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
@@ -43,7 +44,7 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 			->with( 'permalink_structure' )
 			->andReturn( '/%category%/%postname%/' );
 
-		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
+		$health_check = new WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
@@ -64,7 +65,7 @@ class Health_Check_Postname_Permalink_Test extends TestCase {
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 
-		$health_check = new \WPSEO_Health_Check_Postname_Permalink();
+		$health_check = new WPSEO_Health_Check_Postname_Permalink();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
