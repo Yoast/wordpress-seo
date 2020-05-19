@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group language-utils
  */
-class WPSEO_Language_Utils_Test extends TestCase {
+class Language_Utils_Test extends TestCase {
 
 	/**
 	 * Tests the get_language function with no argument.

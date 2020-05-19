@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
+class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 
 	/**
 	 * The instance to test.
