@@ -93,7 +93,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 
 		$links = [];
 		foreach ( $results as $link ) {
-			$links[] = WPSEO_Link_Factory::get_link( $link->url, $link->target_post_id, $link->type );
+			$links[] = new WPSEO_Link( $link->url, $link->target_post_id, $link->type );
 		}
 
 		return $links;

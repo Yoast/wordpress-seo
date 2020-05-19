@@ -381,14 +381,12 @@ class WPSEO_Admin {
 			return $integrations;
 		}
 
-		$integrations[] = new WPSEO_Link_Cleanup_Transient();
-
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() ) {
-			WPSEO_Link_Table_Accessible::cleanup();
+			WPSEO_Link_Table_Accessible::clear();
 		}
 
 		if ( ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
-			WPSEO_Meta_Table_Accessible::cleanup();
+			WPSEO_Meta_Table_Accessible::clear();
 		}
 
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {

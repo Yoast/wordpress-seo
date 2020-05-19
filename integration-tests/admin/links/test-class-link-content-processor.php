@@ -41,7 +41,7 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test link storage.
 	 *
-	 * @covers WPSEO_Link_Content_Processor::process
+	 * @covers WPSEO_Link_Builder::build
 	 */
 	public function test_store_links() {
 
@@ -66,7 +66,7 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 				[ new WPSEO_Link( 'http://example.org/post', 0, 'internal' ) ]
 			);
 
-		$processor = new WPSEO_Link_Content_Processor( $storage, new WPSEO_Meta_Storage() );
-		$processor->process( 1, "<a href='http://example.org/post'>example post</a>" );
+		$processor = new WPSEO_Link_Builder( $storage, new WPSEO_Meta_Storage() );
+		$processor->build( 1, "<a href='http://example.org/post'>example post</a>" );
 	}
 }

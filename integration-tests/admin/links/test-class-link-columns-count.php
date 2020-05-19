@@ -156,8 +156,8 @@ class WPSEO_Link_Column_Count_Test extends WPSEO_UnitTestCase {
 	 * @covers ::get_results
 	 */
 	public function test_get_results() {
-		$processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
-		$processor->process( 100, '<a href="http://example.com/internal-url">internal-url</a>' );
+		$processor = new WPSEO_Link_Builder( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
+		$processor->build( 100, '<a href="http://example.com/internal-url">internal-url</a>' );
 
 
 		$column_count = new WPSEO_Link_Column_Count();
