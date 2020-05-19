@@ -8,7 +8,7 @@
 namespace Yoast\WP\SEO\Tests\Routes;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Mocks\Abstract_Indexation_Route_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Routes\Abstract_Indexation_Route_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Tests\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Routes;
 
 /**
  * Represents the Abstract_Indexation_Route mock.
