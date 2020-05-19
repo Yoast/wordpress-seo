@@ -195,6 +195,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	public function display_tablenav( $which ) {
 		$post_status = sanitize_text_field( filter_input( INPUT_GET, 'post_status' ) );
 		?>
+		<?php if ( $which === 'bottom' ) { ?>
+		</div>
+		<?php } ?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 			<?php if ( $which === 'top' ) { ?>
@@ -224,7 +227,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			</form>
 		<?php } ?>
 		</div>
-
+		<?php if ( $which === 'top' ) { ?>
+		<div class="yoast-table__container">
+		<?php } ?>
 		<?php
 	}
 
