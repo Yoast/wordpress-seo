@@ -66,7 +66,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the constructor succesfully creates
+	 * Tests that the constructor successfully creates the primary term builder.
 	 *
 	 * @covers ::__construct
 	 */

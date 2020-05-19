@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Post;
 use WP_Term;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
