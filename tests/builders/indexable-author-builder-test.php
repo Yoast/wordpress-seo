@@ -137,7 +137,13 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
-			->with( $this->indexable_mock->object_id, [ 'size' => 500, 'scheme' => 'https', ] )
+			->with(
+				$this->indexable_mock->object_id,
+				[
+					'size'   => 500,
+					'scheme' => 'https',
+				]
+			)
 			->andReturn( '' );
 
 		$builder = new Indexable_Author_Builder( $this->author_archive );
