@@ -12,7 +12,7 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
@@ -128,7 +128,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
-		$this->context->indexable = Mockery::mock( Indexable::class );
+		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
 
 	/**

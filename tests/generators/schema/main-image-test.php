@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Generators\Schema\Main_Image;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -75,7 +75,7 @@ class Main_Image_Test extends TestCase {
 		$this->instance = new Main_Image();
 
 		$this->meta_tags_context            = new Meta_Tags_Context_Mock();
-		$this->meta_tags_context->indexable = new Indexable();
+		$this->meta_tags_context->indexable = new Indexable_Mock();
 
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [

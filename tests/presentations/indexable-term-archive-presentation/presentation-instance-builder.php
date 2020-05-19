@@ -6,7 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
@@ -20,7 +20,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Holds the Indexable instance.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -63,7 +63,7 @@ trait Presentation_Instance_Builder {
 	 * Builds an instance of Indexable_Term_Archive_Presentation.
 	 */
 	protected function set_instance() {
-		$this->indexable = new Indexable();
+		$this->indexable = new Indexable_Mock();
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->taxonomy         = Mockery::mock( Taxonomy_Helper::class );

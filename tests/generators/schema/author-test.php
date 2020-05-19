@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Tests\Mocks\Author_Mock;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -316,7 +316,7 @@ class Author_Test extends TestCase {
 		$this->instance->context->site_user_id           = 123;
 		$this->instance->context->site_url               = 'http://example.com';
 		$this->instance->context->site_represents        = 'person';
-		$this->instance->context->indexable              = new Indexable();
+		$this->instance->context->indexable              = new Indexable_Mock();
 		$this->instance->context->indexable->object_type = 'user';
 		$this->instance->context->indexable->object_id   = 123;
 
@@ -347,7 +347,7 @@ class Author_Test extends TestCase {
 		$this->instance->context->site_user_id           = 123;
 		$this->instance->context->site_url               = 'http://example.com';
 		$this->instance->context->site_represents        = 'person';
-		$this->instance->context->indexable              = new Indexable();
+		$this->instance->context->indexable              = new Indexable_Mock();
 		$this->instance->context->indexable->object_type = 'user';
 		$this->instance->context->indexable->object_id   = 123;
 

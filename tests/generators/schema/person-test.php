@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -64,7 +64,7 @@ class Person_Test extends TestCase {
 
 		$this->instance                     = new Person();
 		$this->instance->context            = new Meta_Tags_Context_Mock();
-		$this->instance->context->indexable = new Indexable();
+		$this->instance->context->indexable = new Indexable_Mock();
 		$this->instance->helpers            = (object) [
 			'image'  => Mockery::mock( Image_Helper::class ),
 			'schema' => (object) [

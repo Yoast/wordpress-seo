@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -282,7 +282,7 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	private function set_expectations_for_builder( $post_types ) {
 		$indexable_mocks = [];
 		foreach ( $post_types as $post_type ) {
-			$indexable_mock    = Mockery::mock( Indexable::class );
+			$indexable_mock    = Mockery::mock( Indexable_Mock::class );
 			$indexable_mocks[] = $indexable_mock;
 
 			$this->builder->expects( 'build_for_post_type_archive' )

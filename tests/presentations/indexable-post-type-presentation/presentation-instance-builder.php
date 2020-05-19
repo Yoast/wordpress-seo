@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
@@ -21,7 +21,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Represents the indexable.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -71,7 +71,7 @@ trait Presentation_Instance_Builder {
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function set_instance() {
-		$this->indexable = new Indexable();
+		$this->indexable = new Indexable_Mock();
 
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
 		$this->post       = Mockery::mock( Post_Helper::class );

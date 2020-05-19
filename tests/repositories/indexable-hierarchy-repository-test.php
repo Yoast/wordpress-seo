@@ -12,7 +12,7 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -66,7 +66,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::find_ancestors
 	 */
 	public function test_find_ancestors_having_results() {
-		$indexable     = Mockery::mock( Indexable::class );
+		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
 		$ancestors = [ 2 ];
@@ -109,10 +109,10 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::find_ancestors
 	 */
 	public function test_find_ancestors_having_no_results_first_time() {
-		$indexable     = Mockery::mock( Indexable::class );
+		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
-		$parent_indexable     = Mockery::mock( Indexable::class );
+		$parent_indexable     = Mockery::mock( Indexable_Mock::class );
 		$parent_indexable->id = 2;
 		$indexable->ancestors = [ $parent_indexable ];
 

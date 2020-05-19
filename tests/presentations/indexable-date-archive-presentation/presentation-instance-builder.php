@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -15,7 +15,7 @@ trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
 	/**
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -35,7 +35,7 @@ trait Presentation_Instance_Builder {
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function set_instance() {
-		$this->indexable = new Indexable();
+		$this->indexable = new Indexable_Mock();
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 

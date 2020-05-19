@@ -3,13 +3,13 @@
 namespace Yoast\WP\SEO\Tests\Mocks;
 
 /**
- * Class Indexable
+ * Class Indexable_Mock
  *
  * Indexable mock class.
  *
  * @package Yoast\WP\SEO\Tests\Mocks
  */
-class Indexable extends \Yoast\WP\SEO\Models\Indexable {
+class Indexable_Mock extends \Yoast\WP\SEO\Models\Indexable {
 
 	public $id;
 

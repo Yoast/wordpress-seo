@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -61,7 +61,7 @@ class WooCommerce_Test extends TestCase {
 	/**
 	 * The indexable.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	private $indexable;
 
@@ -92,7 +92,7 @@ class WooCommerce_Test extends TestCase {
 			->makePartial();
 
 		$presentation       = new Indexable_Presentation();
-		$this->indexable    = new Indexable();
+		$this->indexable    = new Indexable_Mock();
 		$this->presentation = $presentation->of( [ 'model' => $this->indexable ] );
 	}
 

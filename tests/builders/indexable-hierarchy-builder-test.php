@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -105,7 +105,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_no_parents() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -135,7 +135,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 */
 	public function test_parents_not_set() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -160,12 +160,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'post';
 		$parent_indexable->object_id   = 2;
@@ -420,7 +420,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -428,7 +428,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
@@ -553,7 +553,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_many_primary_term_parents() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -561,12 +561,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		$grand_parent_indexable              = new Indexable();
+		$grand_parent_indexable              = new Indexable_Mock();
 		$grand_parent_indexable->id          = 3;
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 3;
@@ -640,12 +640,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
@@ -708,7 +708,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_not_array() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -744,7 +744,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_empty() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
@@ -784,17 +784,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_deepest_term_parent() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 3;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 3;
 
-		$grand_parent_indexable              = new Indexable();
+		$grand_parent_indexable              = new Indexable_Mock();
 		$grand_parent_indexable->id          = 4;
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 4;
@@ -877,12 +877,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_term() {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = 1;
 		$indexable->object_type = 'term';
 		$indexable->object_id   = 1;
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 2;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
@@ -1118,7 +1118,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );
 
-		$parent_indexable              = new Indexable();
+		$parent_indexable              = new Indexable_Mock();
 		$parent_indexable->id          = 3;
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 3;
@@ -1198,10 +1198,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @param string $id          The id to use.
 	 * @param string $object_type The object type.
 	 *
-	 * @return Indexable
+	 * @return Indexable_Mock
 	 */
 	private function get_indexable( $id, $object_type = 'post' ) {
-		$indexable              = new Indexable();
+		$indexable              = new Indexable_Mock();
 		$indexable->id          = $id;
 		$indexable->object_type = $object_type;
 		$indexable->object_id   = $id;

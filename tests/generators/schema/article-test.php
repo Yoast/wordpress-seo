@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\Article;
 use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Article_Double;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -98,7 +98,7 @@ class Article_Test extends TestCase {
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->context_mock            = new Meta_Tags_Context_Mock();
-		$this->context_mock->indexable = new Indexable();
+		$this->context_mock->indexable = new Indexable_Mock();
 		$this->context_mock->post      = new stdClass();
 		$this->context_mock->id        = 5;
 

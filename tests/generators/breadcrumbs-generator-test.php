@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -73,7 +73,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Represents the indexable.
 	 *
-	 * @var Mockery\MockInterface|Indexable
+	 * @var Mockery\MockInterface|Indexable_Mock
 	 */
 	private $indexable;
 
@@ -89,7 +89,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->instance         = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper );
 
-		$this->indexable                   = Mockery::mock( Indexable::class );
+		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->object_id        = 1;
 		$this->indexable->object_type      = 'post';
 		$this->indexable->object_sub_type  = 'post';
@@ -335,10 +335,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Retrieves the 'ancestors'.
 	 *
-	 * @return Indexable[] The ancestors.
+	 * @return Indexable_Mock[] The ancestors.
 	 */
 	private function get_ancestors() {
-		$post_type_indexable                   = new Indexable();
+		$post_type_indexable                   = new Indexable_Mock();
 		$post_type_indexable->object_type      = 'post-type-archive';
 		$post_type_indexable->object_sub_type  = 'post';
 		$post_type_indexable->permalink        = 'https://example.com/post-type';
