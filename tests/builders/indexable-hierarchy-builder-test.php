@@ -946,7 +946,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building the hierarchy of a post with term parents when no primary is set.
+	 * Tests building the hierarchy of a post with term parents when no primary term is set.
 	 *
 	 * @covers ::__construct
 	 * @covers ::set_indexable_repository
