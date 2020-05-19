@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Postname_Permalink_Test extends TestCase {
+class Health_Check_Postname_Permalink_Test extends TestCase {
 
 	/**
 	 * Tests the run method when the permalink structure is set to "Post name".

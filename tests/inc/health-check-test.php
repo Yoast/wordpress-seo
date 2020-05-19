@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Test extends TestCase {
+class Health_Check_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.

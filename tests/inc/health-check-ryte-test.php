@@ -13,7 +13,7 @@ use WPSEO_Utils;
  * @coversDefaultClass \WPSEO_Health_Check_Ryte
  * @group health-check
  */
-class WPSEO_Health_Check_Ryte_Test extends TestCase {
+class Health_Check_Ryte_Test extends TestCase {
 
 	/**
 	 * @var \Mockery\Mock|\WPSEO_Ryte_Option
