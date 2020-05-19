@@ -7,8 +7,6 @@ use Yoast\WP\SEO\Generators\Schema\Article;
 
 /**
  * Class Article_Double.
- *
- * @package Yoast\Tests\Doubles
  */
 class Article_Double extends Article {
 

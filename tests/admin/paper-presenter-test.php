@@ -8,8 +8,6 @@ use Brain\Monkey;
 
 /**
  * Class Paper_Presenter_Test
- *
- * @package Yoast\WP\SEO\Tests\Admin
  */
 class Paper_Presenter_Test extends TestCase {
 

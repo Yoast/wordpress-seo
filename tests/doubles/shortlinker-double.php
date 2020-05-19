@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Tests\Doubles;
 
 /**
  * Class Shortlinker_Double.
- *
- * @package Yoast\Tests\Doubles
  */
 class Shortlinker_Double extends \WPSEO_Shortlinker {
 

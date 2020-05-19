@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
  *
  * @group   presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Googlebot_Presenter_Test extends TestCase {
 

@@ -6,8 +6,6 @@ use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Class Indexable_Post_Watcher_Double.
- *
- * @package Yoast\Tests\Doubles
  */
 class Indexable_Post_Watcher_Double extends \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher {
 
