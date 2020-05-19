@@ -1,13 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Models;
 
 /**
  * Class Primary_Term_Mock
  *
  * Primary_Term mock class.
- *
- * @package Yoast\WP\SEO\Tests\Mocks
  */
 class Primary_Term_Mock extends \Yoast\WP\SEO\Models\Primary_Term {
 
