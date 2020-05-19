@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\Mocks\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -425,7 +425,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$primary_term          = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
 		$parent_indexable              = new Indexable();
@@ -484,7 +484,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_primary_term_parents_and_term_is_unindexed() {
 		$indexable = $this->get_indexable( 1, 'post' );
 
-		$primary_term          = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
 		$parent_indexable              = $this->get_indexable( 2, 'term' );
@@ -558,7 +558,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$indexable->object_type = 'post';
 		$indexable->object_id   = 1;
 
-		$primary_term          = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
 		$parent_indexable              = new Indexable();
