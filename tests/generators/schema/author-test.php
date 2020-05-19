@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Tests\Mocks\Author_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -63,7 +63,7 @@ class Author_Test extends TestCase {
 	/**
 	 * Holds the meta tags context.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -110,7 +110,7 @@ class Author_Test extends TestCase {
 		$this->html         = Mockery::mock( Schema\HTML_Helper::class );
 		$this->id           = Mockery::mock( Schema\ID_Helper::class );
 
-		$this->meta_tags_context = new Meta_Tags_Context();
+		$this->meta_tags_context = new Meta_Tags_Context_Mock();
 
 		$this->instance = Mockery::mock( Author_Mock::class )
 			->shouldAllowMockingProtectedMethods()

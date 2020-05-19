@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -66,7 +66,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Represents the meta tags context.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	private $context;
 
@@ -95,7 +95,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->indexable->object_sub_type  = 'post';
 		$this->indexable->permalink        = 'https://example.com/post';
 		$this->indexable->breadcrumb_title = 'post';
-		$this->context                     = Mockery::mock( Meta_Tags_Context::class );
+		$this->context                     = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->context->indexable          = $this->indexable;
 	}
 

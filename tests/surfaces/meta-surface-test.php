@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,7 +52,7 @@ class Meta_Surface_Test extends TestCase {
 	/**
 	 * The context
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -84,7 +84,7 @@ class Meta_Surface_Test extends TestCase {
 		$this->container          = Mockery::mock( ContainerInterface::class );
 		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
-		$this->context            = Mockery::mock( Meta_Tags_Context::class );
+		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
 		$this->indexable          = Mockery::mock( Indexable::class );
 

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -42,7 +42,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Represents the meta tags context.
 	 *
-	 * @var Meta_Tags_Context|Mockery\MockInterface
+	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
 	 */
 	protected $context;
 
@@ -75,7 +75,7 @@ trait Presentation_Instance_Builder {
 
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
 		$this->post       = Mockery::mock( Post_Helper::class );
-		$this->context    = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->context    = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
 		$this->date       = Mockery::mock( Date_Helper::class );
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 

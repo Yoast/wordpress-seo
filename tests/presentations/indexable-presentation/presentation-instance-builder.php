@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -27,7 +27,7 @@ trait Presentation_Instance_Builder {
 	protected $instance;
 
 	/**
-	 * @var Meta_Tags_Context|Mockery\MockInterface
+	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
 	 */
 	protected $context;
 
@@ -37,7 +37,7 @@ trait Presentation_Instance_Builder {
 	protected function set_instance() {
 		$this->indexable = new Indexable();
 
-		$this->context = Mockery::mock( Meta_Tags_Context::class );
+		$this->context = Mockery::mock( Meta_Tags_Context_Mock::class );
 
 		$instance = Mockery::mock( Indexable_Presentation::class )
 			->shouldAllowMockingProtectedMethods()

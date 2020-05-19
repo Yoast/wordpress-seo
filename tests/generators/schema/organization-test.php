@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Generators\Schema\Organization;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -38,7 +38,7 @@ class Organization_Test extends TestCase {
 	/**
 	 * The meta tags context.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -80,7 +80,7 @@ class Organization_Test extends TestCase {
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->html     = Mockery::mock( HTML_Helper::class );
 		$this->id       = new ID_Helper();
-		$this->context  = new Meta_Tags_Context();
+		$this->context  = new Meta_Tags_Context_Mock();
 		$this->instance = new Organization(
 			$this->image,
 			$this->options,

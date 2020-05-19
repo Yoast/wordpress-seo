@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -68,7 +68,7 @@ class WebPage_Test extends TestCase {
 	/**
 	 * The meta tags context object.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -82,7 +82,7 @@ class WebPage_Test extends TestCase {
 		$this->html              = Mockery::mock( HTML_Helper::class );
 		$this->date              = Mockery::mock( Date_Helper::class );
 		$this->language          = Mockery::mock( Language_Helper::class );
-		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context::class );
+		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->id                = Mockery::mock( ID_Helper::class );
 
 		$this->instance          = Mockery::mock( WebPage::class )

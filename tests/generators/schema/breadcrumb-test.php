@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -53,7 +53,7 @@ class Breadcrumb_Test extends TestCase {
 	/**
 	 * Holds the meta tags context mock instance.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -67,7 +67,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->html         = Mockery::mock( HTML_Helper::class );
 
-		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context::class );
+		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
 		$this->meta_tags_context->indexable    = Mockery::mock( Indexable::class );
 		$this->meta_tags_context->canonical    = 'https://wordpress.example.com/canonical';

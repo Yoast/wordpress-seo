@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation;
 use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
@@ -55,7 +55,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * The context class.
 	 *
-	 * @var \Yoast\WP\SEO\Context\Meta_Tags_Context
+	 * @var \Yoast\WP\SEO\Context\Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -68,7 +68,7 @@ trait Presentation_Instance_Builder {
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->taxonomy         = Mockery::mock( Taxonomy_Helper::class );
 		$this->pagination       = Mockery::mock( Pagination_Helper::class );
-		$this->context          = Mockery::mock( Meta_Tags_Context::class );
+		$this->context          = Mockery::mock( Meta_Tags_Context_Mock::class );
 
 		$instance = Mockery::mock(
 			Indexable_Term_Archive_Presentation::class,

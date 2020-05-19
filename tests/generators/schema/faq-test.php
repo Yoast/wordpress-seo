@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -86,7 +86,7 @@ class FAQ_Test extends TestCase {
 			],
 		];
 
-		$meta_tags_context                 = new Meta_Tags_Context();
+		$meta_tags_context                 = new Meta_Tags_Context_Mock();
 		$meta_tags_context->blocks         = $blocks;
 		$meta_tags_context->main_schema_id = 'https://example.org/page/';
 		$meta_tags_context->canonical      = 'https://example.org/page/';
@@ -183,7 +183,7 @@ class FAQ_Test extends TestCase {
 			],
 		];
 
-		$meta_tags_context                 = new Meta_Tags_Context();
+		$meta_tags_context                 = new Meta_Tags_Context_Mock();
 		$meta_tags_context->blocks         = $blocks;
 		$meta_tags_context->main_schema_id = 'https://example.org/page/';
 		$meta_tags_context->canonical      = 'https://example.org/page/';
@@ -244,7 +244,7 @@ class FAQ_Test extends TestCase {
 	 * @covers ::is_needed
 	 */
 	public function test_is_not_needed_when_no_faq_blocks() {
-		$meta_tags_context         = new Meta_Tags_Context();
+		$meta_tags_context         = new Meta_Tags_Context_Mock();
 		$meta_tags_context->blocks = [];
 
 		$this->instance->context = $meta_tags_context;
@@ -279,7 +279,7 @@ class FAQ_Test extends TestCase {
 			],
 		];
 
-		$meta_tags_context                   = new Meta_Tags_Context();
+		$meta_tags_context                   = new Meta_Tags_Context_Mock();
 		$meta_tags_context->blocks           = $blocks;
 		$meta_tags_context->schema_page_type = 'WebPage';
 
