@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -161,7 +162,7 @@ class Custom_Loader extends PhpFileLoader {
 
 			try {
 				$r = $this->container->getReflectionClass( $class );
-			} catch ( \ReflectionException $e ) {
+			} catch ( ReflectionException $e ) {
 				$classes[ $class ] = \sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,

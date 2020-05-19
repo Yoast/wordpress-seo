@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO;
 
+use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -133,7 +134,7 @@ class Loader {
 		foreach ( $this->commands as $class ) {
 			$command = $this->container->get( $class );
 
-			\WP_CLI::add_command( $class::get_namespace(), $command );
+			WP_CLI::add_command( $class::get_namespace(), $command );
 		}
 	}
 

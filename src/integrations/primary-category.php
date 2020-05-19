@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Conditionals\Primary_Category_Conditional;
 
 /**
@@ -63,7 +64,7 @@ class Primary_Category implements Integration_Interface {
 	 * @return int Primary category id.
 	 */
 	protected function get_primary_category( $post ) {
-		$primary_term = new \WPSEO_Primary_Term( 'category', $post->ID );
+		$primary_term = new WPSEO_Primary_Term( 'category', $post->ID );
 
 		return $primary_term->get_primary_term();
 	}

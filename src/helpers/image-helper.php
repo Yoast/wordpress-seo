@@ -240,7 +240,7 @@ class Image_Helper {
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_Image_Utils::get_image( $attachment_id, $size );
+		return WPSEO_Image_Utils::get_image( $attachment_id, $size );
 	}
 
 	/**
@@ -253,8 +253,8 @@ class Image_Helper {
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
 	public function get_best_attachment_variation( $attachment_id ) {
-		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
-		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
+		$variations = WPSEO_Image_Utils::get_variations( $attachment_id );
+		$variations = WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
 		if ( empty( $variations ) ) {

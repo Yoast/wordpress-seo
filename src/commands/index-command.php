@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Commands;
 
+use WP_CLI;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
@@ -133,7 +134,7 @@ class Index_Command implements Command_Interface {
 	 */
 	protected function run_indexation_actions( $reindex ) {
 		if ( $reindex ) {
-			\WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+			WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
 			$this->clear();
 		}
 

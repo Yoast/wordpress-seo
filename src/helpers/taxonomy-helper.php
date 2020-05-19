@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Taxonomy_Meta;
+
 /**
  * Class Taxonomy_Helper
  */
@@ -84,6 +86,6 @@ class Taxonomy_Helper {
 	 *                    False if the term does not exist or the $meta provided is invalid.
 	 */
 	public function get_term_meta( $term ) {
-		return \WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
+		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
 }
