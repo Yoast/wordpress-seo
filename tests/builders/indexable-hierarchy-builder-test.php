@@ -114,7 +114,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -135,7 +136,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -170,7 +172,9 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'post_parent' => 2, 'post_type' => 'post' ] );
 		$this->post->expects( 'get_post' )->twice()->with( 2 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
-		$this->instance->build( $indexable );
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -230,7 +234,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -282,7 +287,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -337,7 +343,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -386,7 +393,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -431,7 +439,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -499,7 +508,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -557,7 +567,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$grand_parent_indexable, $parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -604,7 +615,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -639,7 +651,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -674,7 +687,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
 		);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -730,7 +744,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$grand_parent_indexable, $parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -764,7 +779,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -816,7 +832,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'term' )
 			->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -866,7 +883,8 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'term' )
 			->andReturn( $indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
@@ -942,7 +960,9 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'term' )
 			->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
@@ -963,6 +983,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 */
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );
+
+		$parent_indexable              = new Indexable();
+		$parent_indexable->id          = 3;
+		$parent_indexable->object_type = 'term';
+		$parent_indexable->object_id   = 3;
 
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
@@ -1025,11 +1050,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->with( 3, 'term' )
-			->andReturn( $this->get_indexable( 3, 'term' ) );
+			->andReturn( $parent_indexable );
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [$parent_indexable], $actual->ancestors );
 	}
 
 	/**
