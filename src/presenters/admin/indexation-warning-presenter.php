@@ -99,8 +99,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
+			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
+			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
 		);
 
 		return $output;
@@ -128,8 +128,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
+			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
+			\esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
 		);
 
 		return $output;
@@ -173,10 +173,10 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		}
 
 		if ( $this->total_unindexed >= 400 ) {
-			return '<p>' . esc_html__( 'We estimate this will take a couple of minutes.', 'wordpress-seo' ) . '</p>';
+			return '<p>' . \esc_html__( 'We estimate this will take a couple of minutes.', 'wordpress-seo' ) . '</p>';
 		}
 
-		return '<p>' . esc_html__( 'We estimate this will take less than a minute.', 'wordpress-seo' ) . '</p>';
+		return '<p>' . \esc_html__( 'We estimate this will take less than a minute.', 'wordpress-seo' ) . '</p>';
 	}
 
 	/**
@@ -190,6 +190,6 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			return false;
 		}
 
-		return $indexation_started <= ( time() - MONTH_IN_SECONDS );
+		return $indexation_started <= ( \time() - MONTH_IN_SECONDS );
 	}
 }

@@ -69,7 +69,7 @@ class Url_Helper {
 		}
 
 		$parts = \explode( '.', $path );
-		if ( empty( $parts ) || count( $parts ) === 1 ) {
+		if ( empty( $parts ) || \count( $parts ) === 1 ) {
 			return '';
 		}
 
@@ -84,7 +84,7 @@ class Url_Helper {
 	 * @return string The absolute url.
 	 */
 	public function ensure_absolute_url( $url ) {
-		if ( ! is_string( $url ) || $url === '' ) {
+		if ( ! \is_string( $url ) || $url === '' ) {
 			return $url;
 		}
 

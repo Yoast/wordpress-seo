@@ -426,4 +426,4 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	}
 }
 
-class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
+\class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );

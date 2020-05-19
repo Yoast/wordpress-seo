@@ -28,7 +28,7 @@ class Primary_Category implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'post_link_category', [ $this, 'post_link_category' ], 10, 3 );
+		\add_filter( 'post_link_category', [ $this, 'post_link_category' ], 10, 3 );
 	}
 
 	/**

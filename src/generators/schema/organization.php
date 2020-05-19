@@ -63,7 +63,7 @@ class Organization extends Abstract_Schema_Piece {
 		foreach ( $social_profiles as $profile ) {
 			$social_profile = $this->helpers->options->get( $profile, '' );
 			if ( $social_profile !== '' ) {
-				$profiles[] = urldecode( $social_profile );
+				$profiles[] = \urldecode( $social_profile );
 			}
 		}
 

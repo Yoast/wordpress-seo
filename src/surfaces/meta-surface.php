@@ -316,7 +316,7 @@ class Meta_Surface {
 		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );
 
 		foreach ( (array) $date_rewrite as $match => $query ) {
-			if ( preg_match( "#^$match#", $path ) ) {
+			if ( \preg_match( "#^$match#", $path ) ) {
 				return true;
 			}
 		}

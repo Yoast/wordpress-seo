@@ -112,7 +112,7 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 */
 	protected function set_image() {
 		$images = $this->meta->for_post( $this->post_id )->open_graph_images;
-		$image  = reset( $images );
+		$image  = \reset( $images );
 
 		if ( empty( $image ) ) {
 			return;

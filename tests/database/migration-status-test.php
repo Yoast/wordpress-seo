@@ -55,7 +55,7 @@ class Migration_Status_Test extends TestCase {
 			->andReturn(
 				[
 					'version' => '1.0',
-					'lock'    => strtotime( '-20 minutes' ),
+					'lock'    => \strtotime( '-20 minutes' ),
 				]
 			);
 
@@ -90,7 +90,7 @@ class Migration_Status_Test extends TestCase {
 			->andReturn(
 				[
 					'version' => '1.0',
-					'lock'    => strtotime( 'now' ),
+					'lock'    => \strtotime( 'now' ),
 				]
 			);
 
@@ -180,7 +180,7 @@ class Migration_Status_Test extends TestCase {
 	public function test_get_error() {
 		$error = [
 			'message' => 'Something went wrong',
-			'time'    => strtotime( 'now' ),
+			'time'    => \strtotime( 'now' ),
 			'version' => '2.0',
 		];
 
@@ -224,7 +224,7 @@ class Migration_Status_Test extends TestCase {
 			'version' => '1.0',
 			'error'   => [
 				'message' => $error_message,
-				'time'    => strtotime( 'now' ),
+				'time'    => \strtotime( 'now' ),
 				'version' => WPSEO_VERSION,
 			],
 		];
@@ -271,7 +271,7 @@ class Migration_Status_Test extends TestCase {
 	public function test_lock_migration() {
 		$expected_option = [
 			'version' => '1.0',
-			'lock'    => strtotime( 'now' ),
+			'lock'    => \strtotime( 'now' ),
 		];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );

@@ -262,7 +262,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = \get_the_terms( $post->ID, $taxonomy );
 
-			if ( empty( $terms ) || is_wp_error( $terms ) ) {
+			if ( empty( $terms ) || \is_wp_error( $terms ) ) {
 				continue;
 			}
 

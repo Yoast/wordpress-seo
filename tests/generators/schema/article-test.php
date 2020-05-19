@@ -294,7 +294,7 @@ class Article_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_list_pluck' )
 			->once()
-			->with( array_slice( $terms, 0, 2 ), 'name' )
+			->with( \array_slice( $terms, 0, 2 ), 'name' )
 			->andReturn( [ 'Tag1', 'Tag2' ] );
 
 		$expected_value = [
