@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Presentations;
 
 /**
  * Represents the Abstract_Presentation mock.

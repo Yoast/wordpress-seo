@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations;
 
-use Yoast\WP\SEO\Tests\Mocks\Abstract_Presentation_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Presentations\Abstract_Presentation_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
