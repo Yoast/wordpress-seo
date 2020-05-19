@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Language_Utils;
-use Yoast\WP\SEO\Tests\Doubles\Shortlinker;
+use Yoast\WP\SEO\Tests\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -61,7 +61,7 @@ class WPSEO_Language_Utils_Test extends TestCase {
 	 * @covers WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n
 	 */
 	public function test_get_knowledge_graph_company_info_missing_l10n() {
-		$shortlinker = new Shortlinker();
+		$shortlinker = new Shortlinker_Double();
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->times( 1 )

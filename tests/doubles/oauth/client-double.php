@@ -7,10 +7,12 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Oauth;
 
+use Yoast\WP\SEO\Oauth\Client;
+
 /**
  * Test Helper Class.
  */
-class Client extends \Yoast\WP\SEO\Oauth\Client {
+class Client_Double extends Client {
 
 	/**
 	 * Exposes the parent method which is protected.

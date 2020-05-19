@@ -7,7 +7,7 @@ use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Tests\Doubles\Shortlinker;
+use Yoast\WP\SEO\Tests\Doubles\Shortlinker_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -25,7 +25,7 @@ class Admin_Features_Test extends TestCase {
 	 * @return \WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
-		$shortlinker = new Shortlinker();
+		$shortlinker = new Shortlinker_Double();
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->times( 3 )
