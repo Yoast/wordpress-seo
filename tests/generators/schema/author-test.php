@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Author_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Author_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;

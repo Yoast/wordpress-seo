@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Generators\Schema;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context as Meta_Tags_Context_Original;
 
