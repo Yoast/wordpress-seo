@@ -8,14 +8,14 @@
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass WPSEO_Link_Factory
+ * @coversDefaultClass WPSEO_Link_Builder
  */
 class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests the processing of an external link.
 	 *
-	 * @covers ::build
+	 * @covers ::build_links
 	 * @covers ::build_link
 	 */
 	public function test_process_external_link() {
@@ -27,11 +27,11 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'lookup' );
 
-		$processor = new WPSEO_Link_Factory( $this->getClassifierMock( 'external' ), $populator, $this->getFilterMock( 'page', true ) );
+		$processor = new WPSEO_Link_Builder( $this->getClassifierMock( 'external' ), $populator, $this->getFilterMock( 'page', true ) );
 
 		$this->assertEquals(
 			[ new WPSEO_Link( 'test', 0, 'external' ) ],
-			$processor->build( [ 'test' ] )
+			$processor->build_links( [ 'test' ] )
 		);
 	}
 
@@ -46,12 +46,12 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	 * @param string                     $link_url   The link url to test.
 	 * @param mixed                      $expected   The expected result.
 	 *
-	 * @covers ::build
+	 * @covers ::build_links
 	 * @covers ::build_link
 	 */
 	public function test_process_internal_link( $classifier, $lookup, $filter, $link_url, $expected ) {
-		$processor = new WPSEO_Link_Factory( $classifier, $lookup, $filter );
-		$actual    = $processor->build( [ $link_url ] );
+		$processor = new WPSEO_Link_Builder( $classifier, $lookup, $filter );
+		$actual    = $processor->build_links( [ $link_url ] );
 
 		$this->assertEquals( $expected, $actual );
 	}

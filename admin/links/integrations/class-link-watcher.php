@@ -13,17 +13,17 @@ class WPSEO_Link_Watcher {
 	/**
 	 * Represents the content processor. It will extract links from the content and saves them for the given post id.
 	 *
-	 * @var WPSEO_Link_Content_Processor
+	 * @var WPSEO_Link_Builder
 	 */
-	protected $content_processor;
+	protected $link_builder;
 
 	/**
 	 * WPSEO_Link_Watcher constructor.
 	 *
-	 * @param WPSEO_Link_Content_Processor $content_processor The processor to use.
+	 * @param WPSEO_Link_Builder $link_builder The processor to use.
 	 */
-	public function __construct( WPSEO_Link_Content_Processor $content_processor ) {
-		$this->content_processor = $content_processor;
+	public function __construct(WPSEO_Link_Builder $link_builder ) {
+		$this->link_builder = $link_builder;
 	}
 
 	/**
@@ -104,14 +104,14 @@ class WPSEO_Link_Watcher {
 		}
 
 		// Fetch links to update related linked objects.
-		$links = $this->content_processor->get_stored_internal_links( $post_id );
+		$links = $this->link_builder->get_stored_internal_links( $post_id );
 
 		// Update the storage, remove all links for this post.
 		$storage = new WPSEO_Link_Storage();
 		$storage->cleanup( $post_id );
 
 		// Update link counts for object and referenced links.
-		$this->content_processor->update_link_counts( $post_id, 0, $links );
+		$this->link_builder->update_link_counts( $post_id, 0, $links );
 	}
 
 	/**
@@ -144,6 +144,6 @@ class WPSEO_Link_Watcher {
 		$content = apply_filters( 'the_content', $content );
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
-		$this->content_processor->process( $post_id, $content );
+		$this->link_builder->build( $post_id, $content );
 	}
 }

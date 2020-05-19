@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Link_Reindex_Post_Service.
  */
-class WPSEO_Link_Reindex_Post_Service {
+class WPSEO_Post_Link_Indexing_Action {
 
 	/**
 	 * Reindexes the unprocessed posts by REST request.
@@ -74,22 +74,22 @@ class WPSEO_Link_Reindex_Post_Service {
 
 		ob_end_clean();
 
-		$content_processor = $this->get_content_processor();
-		$content_processor->process( $post->ID, $content );
+		$link_builder = $this->get_link_builder();
+		$link_builder->build( $post->ID, $content );
 	}
 
 	/**
 	 * Returns an instance of the content processor.
 	 *
-	 * @return WPSEO_Link_Content_Processor The instance of the link content processor.
+	 * @return WPSEO_Link_Builder The instance of the link content processor.
 	 */
-	protected function get_content_processor() {
-		static $content_processor;
+	protected function get_link_builder() {
+		static $link_builder;
 
-		if ( $content_processor === null ) {
-			$content_processor = new WPSEO_Link_Content_Processor( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
+		if ( $link_builder === null ) {
+			$link_builder = new WPSEO_Link_Builder( new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() );
 		}
 
-		return $content_processor;
+		return $link_builder;
 	}
 }

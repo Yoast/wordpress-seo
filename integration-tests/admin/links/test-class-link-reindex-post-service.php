@@ -13,13 +13,13 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing the default situation without any unprocessed posts.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts
-	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable
-	 * @covers WPSEO_Link_Reindex_Post_Service::get_unprocessed_posts
+	 * @covers WPSEO_Post_Link_Indexing_Action::reindex
+	 * @covers WPSEO_Post_Link_Indexing_Action::process_posts
+	 * @covers WPSEO_Post_Link_Indexing_Action::is_processable
+	 * @covers WPSEO_Post_Link_Indexing_Action::get_unprocessed_posts
 	 */
 	public function test_reindex() {
-		$class_instance = new WPSEO_Link_Reindex_Post_Service();
+		$class_instance = new WPSEO_Post_Link_Indexing_Action();
 
 		$this->assertEquals( new WP_REST_Response( 0 ), $class_instance->reindex() );
 	}
@@ -27,11 +27,11 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing the situation where the needed tables aren't accessible.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
+	 * @covers WPSEO_Post_Link_Indexing_Action::reindex
 	 */
 	public function test_reindex_with_inaccessible_tables() {
 		$class_instance = $this
-			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
+			->getMockBuilder('WPSEO_Post_Link_Indexing_Action')
 			->setMethods( [ 'is_processable' ] )
 			->getMock();
 
@@ -48,10 +48,10 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the reindexing functionality with one 'unprocessed' post.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts
-	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_post
+	 * @covers WPSEO_Post_Link_Indexing_Action::reindex
+	 * @covers WPSEO_Post_Link_Indexing_Action::process_posts
+	 * @covers WPSEO_Post_Link_Indexing_Action::is_processable
+	 * @covers WPSEO_Post_Link_Indexing_Action::process_post
 	 */
 	public function test_reindex_with_posts() {
 		$content_processor = $this->get_content_processor_mock();
@@ -65,7 +65,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 			->create_and_get( [ 'post_content' => 'this is the content' ] );
 
 		$class_instance = $this
-			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
+			->getMockBuilder('WPSEO_Post_Link_Indexing_Action')
 			->setMethods( [ 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ] )
 			->getMock();
 
@@ -92,7 +92,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the reindexing without any posts.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
+	 * @covers WPSEO_Post_Link_Indexing_Action::reindex
 	 */
 	public function test_reindex_without_posts() {
 		$content_processor = $this->get_content_processor_mock();
@@ -102,7 +102,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 			->method( 'process' );
 
 		$class_instance = $this
-			->getMockBuilder( 'WPSEO_Link_Reindex_Post_Service' )
+			->getMockBuilder('WPSEO_Post_Link_Indexing_Action')
 			->setMethods( [ 'is_processable', 'get_unprocessed_posts', 'get_content_processor' ] )
 			->getMock();
 
@@ -129,11 +129,11 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a mock object for the WPSEO_Link_Content_Processor.
 	 *
-	 * @return WPSEO_Link_Content_Processor The mock object.
+	 * @return WPSEO_Link_Builder The mock object.
 	 */
 	private function get_content_processor_mock() {
 		return $this
-			->getMockBuilder( 'WPSEO_Link_Content_Processor' )
+			->getMockBuilder('WPSEO_Link_Builder')
 			->setConstructorArgs( [ new WPSEO_Link_Storage(), new WPSEO_Meta_Storage() ] )
 			->setMethods( [ 'process' ] )
 			->getMock();

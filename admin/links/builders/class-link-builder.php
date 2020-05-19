@@ -9,7 +9,7 @@
  * Represents the content processor. It will extract links from the content and
  * saves them for the given post id.
  */
-class WPSEO_Link_Content_Processor {
+class WPSEO_Link_Builder {
 
 	/**
 	 * Holds the link storage instance.
@@ -24,6 +24,11 @@ class WPSEO_Link_Content_Processor {
 	 * @var WPSEO_Meta_Storage
 	 */
 	private $count_storage;
+
+	/**
+	 * @var string
+	 */
+	private $current_page_path;
 
 	/**
 	 * Sets an instance of a storage object.
@@ -43,25 +48,92 @@ class WPSEO_Link_Content_Processor {
 	 * @param int    $post_id The post id.
 	 * @param string $content The content to process.
 	 */
-	public function process( $post_id, $content ) {
+	public function build( $post_id, $content ) {
 		$link_extractor = new WPSEO_Link_Extractor( $content );
-		$link_processor = new WPSEO_Link_Factory(
-			new WPSEO_Link_Type_Classifier( home_url() ),
-			new WPSEO_Link_Internal_Lookup(),
-			new WPSEO_Link_Filter( get_permalink( $post_id ) )
-		);
+		$link_classifier = new WPSEO_Link_Type_Classifier( home_url() );
+
+		$this->current_page_path = untrailingslashit( WPSEO_Link_Utils::get_url_part( get_permalink( $post_id ), 'path' ) );
 
 		$extracted_links = $link_extractor->extract();
-		$links           = $link_processor->build( $extracted_links );
 
-		$internal_links = array_filter( $links, [ $this, 'filter_internal_link' ] );
+		$extracted_links = array_map(
+			function( $link ) use ( $link_classifier ) {
+				$link_type = $link_classifier->classify( $link );
+
+				$target_post_id = 0;
+				if ( $link_type === WPSEO_Link::TYPE_INTERNAL ) {
+					$target_post_id = url_to_postid( $link );
+				}
+
+				return new WPSEO_Link( $link, $target_post_id, $link_type );
+			},
+			$extracted_links
+		);
+
+		$filtered_links = array_filter(
+			$extracted_links,
+			[ $this, 'internal_link_with_fragment_filter']
+		);
+
+		$internal_links = array_filter( $filtered_links, [ $this, 'filter_internal_link' ] );
 
 		$stored_links = $this->get_stored_internal_links( $post_id );
 
 		$this->storage->cleanup( $post_id );
-		$this->storage->save_links( $post_id, $links );
+		$this->storage->save_links( $post_id, $filtered_links );
 
 		$this->update_link_counts( $post_id, count( $internal_links ), array_merge( $stored_links, $internal_links ) );
+	}
+
+	/**
+	 * Filters all internal links that contains an fragment in the URL.
+	 *
+	 * @param WPSEO_Link $link The link that might be filtered.
+	 *
+	 * @return bool False when url contains a fragment.
+	 */
+	public function internal_link_with_fragment_filter( WPSEO_Link $link ) {
+		// When the type is external.
+		if ( $link->get_type() === WPSEO_Link::TYPE_EXTERNAL ) {
+			return true;
+		}
+
+		$url_parts = wp_parse_url( $link->get_url() );
+
+		if ( isset( $url_parts['path'] ) ) {
+			return ! $this->is_current_page( untrailingslashit( $url_parts['path'] ) );
+		}
+
+		return ( ! isset( $url_parts['fragment'] ) && ! isset( $url_parts['query'] ) );
+	}
+
+	/**
+	 * Is the url path the same as the current page path.
+	 *
+	 * @param string $url_path The url path.
+	 *
+	 * @return bool True when path is equal to the current page path.
+	 */
+	protected function is_current_page( $url_path ) {
+		return ( ! empty( $url_path ) && $url_path === $this->current_page_path );
+	}
+
+	/**
+	 * Builds the link.
+	 *
+	 * @param string $link The link to build.
+	 *
+	 * @return WPSEO_Link The built link.
+	 */
+	public function build_link( $link ) {
+		$link_type = $this->classifier->classify( $link );
+
+		$target_post_id = 0;
+		if ( $link_type === WPSEO_Link::TYPE_INTERNAL ) {
+			$target_post_id = $this->internal_lookup->lookup( $link );
+		}
+
+		return new WPSEO_Link( $link, $target_post_id, $link_type );
 	}
 
 	/**

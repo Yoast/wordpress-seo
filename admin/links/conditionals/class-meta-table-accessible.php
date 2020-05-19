@@ -11,33 +11,19 @@
 class WPSEO_Meta_Table_Accessible {
 
 	/**
-	 * Indicates that the table is accessible.
-	 *
-	 * @var string
-	 */
-	const ACCESSIBLE = '0';
-
-	/**
-	 * Indicates that the table is inaccessible.
-	 *
-	 * @var string
-	 */
-	const INACCESSBILE = '1';
-
-	/**
 	 * Checks if the given table name exists.
 	 *
 	 * @return bool True when table is accessible.
 	 */
 	public static function is_accessible() {
-		$value = get_transient( self::transient_name() );
+		$value = get_transient( 'wpseo_meta_table_inaccessible' );
 
 		// If the value is not set, check the table.
 		if ( $value === false ) {
 			return self::check_table();
 		}
 
-		return $value === self::ACCESSIBLE;
+		return $value === '0';
 	}
 
 	/**
@@ -46,7 +32,7 @@ class WPSEO_Meta_Table_Accessible {
 	 * @return void
 	 */
 	public static function set_inaccessible() {
-		set_transient( self::transient_name(), self::INACCESSBILE, HOUR_IN_SECONDS );
+		set_transient( 'wpseo_meta_table_inaccessible', '1', HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -54,8 +40,8 @@ class WPSEO_Meta_Table_Accessible {
 	 *
 	 * @return void
 	 */
-	public static function cleanup() {
-		delete_transient( self::transient_name() );
+	public static function clear() {
+		delete_transient( 'wpseo_meta_table_inaccessible' );
 	}
 
 	/**
@@ -70,7 +56,7 @@ class WPSEO_Meta_Table_Accessible {
 		 *
 		 * Setting a YEAR_IN_SECONDS instead.
 		 */
-		set_transient( self::transient_name(), self::ACCESSIBLE, YEAR_IN_SECONDS );
+		set_transient( 'wpseo_meta_table_inaccessible', '0', YEAR_IN_SECONDS );
 	}
 
 	/**
@@ -90,14 +76,5 @@ class WPSEO_Meta_Table_Accessible {
 
 		self::set_accessible();
 		return true;
-	}
-
-	/**
-	 * Returns the name of the transient.
-	 *
-	 * @return string The name of the transient to use.
-	 */
-	protected static function transient_name() {
-		return 'wpseo_meta_table_inaccessible';
 	}
 }

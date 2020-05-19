@@ -34,16 +34,16 @@ class WPSEO_Link_Reindex_Post_Endpoint {
 	/**
 	 * Holds the link reindex post service instance.
 	 *
-	 * @var WPSEO_Link_Reindex_Post_Service
+	 * @var WPSEO_Post_Link_Indexing_Action
 	 */
 	protected $service;
 
 	/**
 	 * WPSEO_Link_Reindex_Post_Endpoint constructor.
 	 *
-	 * @param WPSEO_Link_Reindex_Post_Service $service The service to handle the requests to the endpoint.
+	 * @param WPSEO_Post_Link_Indexing_Action $service The service to handle the requests to the endpoint.
 	 */
-	public function __construct( WPSEO_Link_Reindex_Post_Service $service ) {
+	public function __construct(WPSEO_Post_Link_Indexing_Action $service ) {
 		$this->service = $service;
 	}
 
