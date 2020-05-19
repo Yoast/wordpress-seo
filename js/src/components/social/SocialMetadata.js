@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import { Collapsible } from "@yoast/components";
+import MetaboxCollapsible from "../MetaboxCollapsible";
 
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
@@ -14,20 +14,16 @@ import TwitterContainer from "../../containers/TwitterEditor";
 const SocialMetadata = () => {
 	return (
 		<Fragment>
-			<Collapsible
-				hasPadding={ true }
-				hasSeparator={ true }
+			<MetaboxCollapsible
 				title="Facebook"
 			>
 				<FacebookContainer />
-			</Collapsible>
-			<Collapsible
-				hasPadding={ true }
-				hasSeparator={ true }
+			</MetaboxCollapsible>
+			<MetaboxCollapsible
 				title="Twitter"
 			>
 				<TwitterContainer />
-			</Collapsible>
+			</MetaboxCollapsible>
 		</Fragment>
 	);
 };

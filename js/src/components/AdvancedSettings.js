@@ -1,4 +1,4 @@
-import Collapsible from "./SidebarCollapsible";
+import MetaboxCollapsible from "./MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
@@ -196,7 +196,7 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			<Collapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+			<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
 				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }
@@ -204,7 +204,7 @@ class AdvancedSettings extends Component {
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
-			</Collapsible>
+			</MetaboxCollapsible>
 		);
 	}
 }
