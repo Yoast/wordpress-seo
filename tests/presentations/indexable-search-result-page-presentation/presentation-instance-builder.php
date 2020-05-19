@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Search_Result_Page_Presentation;
 
 use Yoast\WP\SEO\Presentations\Indexable_Search_Result_Page_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**

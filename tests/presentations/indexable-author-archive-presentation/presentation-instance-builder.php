@@ -6,7 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 

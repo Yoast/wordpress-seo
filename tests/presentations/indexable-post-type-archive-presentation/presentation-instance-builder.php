@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentat
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Archive_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
