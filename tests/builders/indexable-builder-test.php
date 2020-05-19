@@ -20,7 +20,7 @@ use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -156,7 +156,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_author_indexable_found() {
-		$indexable            = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 1999;
 
 		$indexable
@@ -189,7 +189,7 @@ class Indexable_Builder_Test extends TestCase {
 			->with( 1999, 'user', false )
 			->andReturnFalse();
 
-		$author_indexable = Mockery::mock( Indexable::class );
+		$author_indexable = Mockery::mock( Indexable_Mock::class );
 		$author_indexable
 			->expects( 'save' )
 			->once();
@@ -227,7 +227,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_author_indexable_found() {
-		$indexable            = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->author_id = 1999;
 
 		$indexable
@@ -254,7 +254,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( $indexable );
 
-		$author_indexable = Mockery::mock( Indexable::class );
+		$author_indexable = Mockery::mock( Indexable_Mock::class );
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->once()
@@ -273,7 +273,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_post_given_and_no_indexable_build() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->post_builder
 			->expects( 'build' )
@@ -285,7 +285,7 @@ class Indexable_Builder_Test extends TestCase {
 			->expects( 'build' )
 			->never();
 
-		$fake_indexable              = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )
@@ -321,7 +321,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_user_given() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$indexable
 			->expects( 'save' )
@@ -350,7 +350,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_id_and_type_with_term_given() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$indexable
 			->expects( 'save' )
@@ -383,7 +383,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::ensure_indexable
 	 */
 	public function test_build_for_id_and_type_with_unknown_type_given() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->assertSame( $indexable, $this->instance->build_for_id_and_type( 1337, 'bicycle', $indexable ) );
 	}
@@ -398,7 +398,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_homepage() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->home_page_builder
 			->expects( 'build' )
@@ -427,7 +427,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_date_archive() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->date_archive_builder
 			->expects( 'build' )
@@ -452,7 +452,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_post_type_archive() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->post_type_archive_builder
 			->expects( 'build' )
@@ -481,7 +481,7 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::save_indexable
 	 */
 	public function test_build_for_system_page() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->system_page_builder
 			->expects( 'build' )
@@ -506,14 +506,14 @@ class Indexable_Builder_Test extends TestCase {
 	 * @covers ::build_for_id_and_type
 	 */
 	public function test_build_for_id_and_type_returns_fake_indexable() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->term_builder->expects( 'build' )
 			->once()
 			->with( 1, $indexable )
 			->andReturn( false );
 
-		$fake_indexable              = Mockery::mock( Indexable::class );
+		$fake_indexable              = Mockery::mock( Indexable_Mock::class );
 		$fake_indexable->post_status = 'unindexed';
 		$fake_indexable
 			->expects( 'save' )

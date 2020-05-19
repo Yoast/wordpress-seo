@@ -12,7 +12,7 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -93,11 +93,11 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 			->with( 2 )
 			->andReturn( 'https://example.com/' );
 
-		$indexable_old                 = Mockery::mock( Indexable::class );
+		$indexable_old                 = Mockery::mock( Indexable_Mock::class );
 		$indexable_old->permalink      = 'https://example.com/';
 		$indexable_old->permalink_hash = 'https://example.com/';
 
-		$indexable_new                 = Mockery::mock( Indexable::class );
+		$indexable_new                 = Mockery::mock( Indexable_Mock::class );
 		$indexable_new->permalink      = 'https://example.com/old-permalink';
 		$indexable_new->permalink_hash = 'https://example.com/old-permalink';
 
@@ -139,7 +139,7 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 			->with( 1 )
 			->andReturn( 'https://example.com/permalink/' );
 
-		$indexable_old                 = Mockery::mock( Indexable::class );
+		$indexable_old                 = Mockery::mock( Indexable_Mock::class );
 		$indexable_old->permalink      = 'https://example.com/';
 		$indexable_old->permalink_hash = 'https://example.com/';
 

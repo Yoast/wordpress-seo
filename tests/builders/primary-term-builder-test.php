@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Builders\Primary_Term_Builder_Double;
-use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\Doubles\Models\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -157,7 +157,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term() {
-		$primary_term = Mockery::mock( Primary_Term::class );
+		$primary_term = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->expects( 'save' )->once();
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
@@ -187,7 +187,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term_of_custom_taxonomy() {
-		$primary_term = Mockery::mock( Primary_Term::class );
+		$primary_term = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->expects( 'save' )->once();
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );

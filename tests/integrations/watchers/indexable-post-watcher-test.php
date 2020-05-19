@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers\Indexable_Post_Watcher_Double;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -199,7 +199,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
 		$this->repository->expects( 'create_for_id_and_type' )->never();
@@ -276,7 +276,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 		$indexable_mock->expects( 'save' )->never();
 
 		$this->repository->expects( 'find_by_id_and_type' )
@@ -300,7 +300,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock = Mockery::mock( Indexable_Mock::class );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
 		$this->builder->expects( 'build_for_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
@@ -318,8 +318,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable                  = Mockery::mock( Indexable::class );
-		$updated_indexable              = Mockery::mock( Indexable::class );
+		$old_indexable                  = Mockery::mock( Indexable_Mock::class );
+		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
 		$updated_indexable->object_type = 'term';
 
 		$this->instance->updated_indexable( $updated_indexable, $old_indexable );
@@ -335,10 +335,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( 'update_relations' )
 			->never();
 
-		$old_indexable            = Mockery::mock( Indexable::class );
+		$old_indexable            = Mockery::mock( Indexable_Mock::class );
 		$old_indexable->is_public = false;
 
-		$updated_indexable              = Mockery::mock( Indexable::class );
+		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
 		$updated_indexable->object_type = 'post';
 		$updated_indexable->is_public   = false;
 
@@ -361,10 +361,10 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( [] )
 			->once();
 
-		$old_indexable            = Mockery::mock( Indexable::class );
+		$old_indexable            = Mockery::mock( Indexable_Mock::class );
 		$old_indexable->is_public = true;
 
-		$updated_indexable              = Mockery::mock( Indexable::class );
+		$updated_indexable              = Mockery::mock( Indexable_Mock::class );
 		$updated_indexable->object_type = 'post';
 		$updated_indexable->is_public   = false;
 		$updated_indexable->object_id   = 1;
@@ -394,7 +394,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$post_indexable->author_id       = 1;
 		$post_indexable->is_public       = null;
 
-		$author_indexable            = Mockery::mock( Indexable::class );
+		$author_indexable            = Mockery::mock( Indexable_Mock::class );
 		$author_indexable->object_id = 11;
 
 		$this->repository
@@ -455,7 +455,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		$indexable            = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->is_public = true;
 		$indexable->expects( 'save' )->once();
 
@@ -480,7 +480,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			'ID'          => 1,
 		];
 
-		$indexable            = Mockery::mock( Indexable::class );
+		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->is_public = false;
 		$indexable->expects( 'save' )->never();
 
@@ -565,7 +565,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( 1, 'another-taxonomy' )
 			->andReturnNull();
 
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->repository
 			->expects( 'find_by_id_and_type' )

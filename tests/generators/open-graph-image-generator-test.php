@@ -9,8 +9,8 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
@@ -46,7 +46,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	protected $instance;
 
 	/**
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -56,7 +56,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	protected $image_container;
 
 	/**
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -90,8 +90,8 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 			->twice()
 			->andReturn( $this->image_container );
 
-		$this->indexable          = new Indexable();
-		$this->context            = Mockery::mock( Meta_Tags_Context::class );
+		$this->indexable          = new Indexable_Mock();
+		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->context->indexable = $this->indexable;
 	}
 

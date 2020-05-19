@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Generators;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -33,7 +33,7 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 	/**
 	 * Represents the metatags context.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -44,7 +44,7 @@ class Open_Graph_Locale_Generator_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = new Open_Graph_Locale_Generator();
-		$this->context  = Mockery::mock( Meta_Tags_Context::class );
+		$this->context  = Mockery::mock( Meta_Tags_Context_Mock::class );
 	}
 
 	/**

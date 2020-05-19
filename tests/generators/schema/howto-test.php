@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\HowTo;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -25,7 +25,7 @@ class HowTo_Test extends TestCase {
 	/**
 	 * Holds the meta tags context mock.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -144,7 +144,7 @@ class HowTo_Test extends TestCase {
 
 		$id = 1234;
 
-		$this->meta_tags_context = \Mockery::mock( Meta_Tags_Context::class );
+		$this->meta_tags_context = \Mockery::mock( Meta_Tags_Context_Mock::class );
 
 		$this->meta_tags_context->id             = $id;
 		$this->meta_tags_context->main_schema_id = 'https://example.com/post-1#main-schema-id';
