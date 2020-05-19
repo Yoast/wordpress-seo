@@ -17,7 +17,7 @@ import { LocationConsumer } from "../contexts/location";
 import LanguageFeedbackLink from "../LanguageFeedbackLink";
 import { Fragment } from "react";
 
-const KeywordInputContainer = styled.div`
+const PaddedContainer = styled.div`
 	padding: 16px;
 	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
 	border-bottom: 1px solid transparent;
@@ -51,33 +51,42 @@ class KeywordInput extends Component {
 	 * @returns {ReactElement} The component.
 	 */
 	render() {
-		return <LocationConsumer>
+		let isBetaLocale = false;
+		if ( [ "fr_FR", "ru_RU" ].includes( wpseoPostScraperL10n.contentLocale ) ) {
+			isBetaLocale = true;
+		}
+
+		return (
 			<Fragment>
-				{ context => (
-					<KeywordInputContainer>
-						<KeywordInputComponent
-							id={ `focus-keyword-input-${ context }` }
-							onChange={ this.props.onFocusKeywordChange }
-							keyword={ this.props.keyword }
-							label={ __( "Focus keyphrase", "wordpress-seo" ) }
-							helpLink={ KeywordInput.renderHelpLink() }
-							onBlurKeyword={ this.props.onBlurKeyword }
-							onFocusKeyword={ this.props.onFocusKeyword }
-						/>
-						{
-							this.props.keyword.length > 191 &&
-							<Alert type="warning">
-								{ __(
-									"Your keyphrase is too long. It can be a maximum of 191 characters.",
-									"wordpress-seo"
-								) }
-							</Alert>
-						}
-					</KeywordInputContainer>
-				) }
-				<LanguageFeedbackLink />
+				<LocationConsumer>
+					{ context => (
+						<PaddedContainer>
+							<KeywordInputComponent
+								id={ `focus-keyword-input-${ context }` }
+								onChange={ this.props.onFocusKeywordChange }
+								keyword={ this.props.keyword }
+								label={ __( "Focus keyphrase", "wordpress-seo" ) }
+								helpLink={ KeywordInput.renderHelpLink() }
+								onBlurKeyword={ this.props.onBlurKeyword }
+								onFocusKeyword={ this.props.onFocusKeyword }
+							/>
+							{
+								this.props.keyword.length > 191 &&
+								<Alert type="warning">
+									{ __(
+										"Your keyphrase is too long. It can be a maximum of 191 characters.",
+										"wordpress-seo"
+									) }
+								</Alert>
+							}
+						</PaddedContainer>
+					) }
+				</LocationConsumer>
+				{ isBetaLocale && <PaddedContainer>
+					<LanguageFeedbackLink />
+				</PaddedContainer> }
 			</Fragment>
-		</LocationConsumer>;
+		);
 	}
 }
 
