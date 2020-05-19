@@ -5,7 +5,7 @@
  * @package Yoast\WP\SEO\Tests\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Context;
 
 /**
  * Class Meta_Tags_Context_Mock
