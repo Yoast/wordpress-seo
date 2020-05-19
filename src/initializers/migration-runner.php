@@ -11,6 +11,7 @@ use Exception;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
+use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
 
 /**
  * Triggers database migrations and handles results.
@@ -103,7 +104,7 @@ class Migration_Runner implements Initializer_Interface {
 			/**
 			 * This variable represents Ruckusing_Adapter_MySQL_Base adapter.
 			 *
-			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
+			 * @var Ruckusing_Adapter_MySQL_Base $adapter
 			 */
 			$adapter = $framework_runner->get_adapter();
 

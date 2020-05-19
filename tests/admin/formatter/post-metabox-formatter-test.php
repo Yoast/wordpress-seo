@@ -2,10 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Admin\Formatter;
 
-use Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
-use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 use Mockery;
+use WP_Post;
+use Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -26,7 +27,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Mocked WP_Post.
 	 *
-	 * @var \WP_Post
+	 * @var WP_Post
 	 */
 	private $mock_post;
 

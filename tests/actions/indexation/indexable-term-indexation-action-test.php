@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
-use Mockery;
 use Brain\Monkey\Filters;
+use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -36,7 +37,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	/**
 	 * The wpdb mock.
 	 *
-	 * @var \wpdb|Mockery\MockInterface
+	 * @var wpdb|Mockery\MockInterface
 	 */
 	protected $wpdb;
 

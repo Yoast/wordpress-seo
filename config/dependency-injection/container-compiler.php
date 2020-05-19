@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use Exception;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
@@ -21,7 +22,7 @@ class Container_Compiler {
 	 *
 	 * @param boolean $debug If false the container will only be re-compiled if it does not yet already exist.
 	 *
-	 * @throws \Exception If compiling the container fails.
+	 * @throws Exception If compiling the container fails.
 	 *
 	 * @return void
 	 */

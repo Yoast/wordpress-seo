@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Exception;
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -87,7 +88,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
+	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
 	 */
 	private $instance;
 

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Models;
 
+use Mockery\MockInterface;
 use Yoast\WP\SEO\Models\Indexable as Indexable_Model;
 
 /**
@@ -17,7 +18,7 @@ class Indexable_Double extends Indexable_Model {
 	/**
 	 * Holds the return value for has_one. Making it possible to mock that.
 	 *
-	 * @var null|\Mockery\MockInterface
+	 * @var null|MockInterface
 	 */
 	public $mock_has_one = null;
 

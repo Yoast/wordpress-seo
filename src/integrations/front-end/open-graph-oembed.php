@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
+use WP_Post;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -67,8 +68,8 @@ class Open_Graph_OEmbed implements Integration_Interface {
 	 * address the concern where some social channels/subscribed use oEmebed data over Open Graph data
 	 * if both are present.
 	 *
-	 * @param array    $data The oEmbed data.
-	 * @param \WP_Post $post The current Post object.
+	 * @param array   $data The oEmbed data.
+	 * @param WP_Post $post The current Post object.
 	 *
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.

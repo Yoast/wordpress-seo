@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Exception;
+use WP_Post;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
@@ -223,7 +224,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Updates the relations on post save or post status change.
 	 *
-	 * @param \WP_Post $post The post that has been updated.
+	 * @param WP_Post $post The post that has been updated.
 	 */
 	protected function update_relations( $post ) {
 		$related_indexables = $this->get_related_indexables( $post );
@@ -242,7 +243,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Retrieves the related indexables for given post.
 	 *
-	 * @param \WP_Post $post The post to get the indexables for.
+	 * @param WP_Post $post The post to get the indexables for.
 	 *
 	 * @return Indexable[] The indexables.
 	 */
