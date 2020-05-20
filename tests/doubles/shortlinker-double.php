@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles;
 
+use WPSEO_Shortlinker;
+
 /**
  * Class Shortlinker_Double.
  */
-class Shortlinker_Double extends \WPSEO_Shortlinker {
+class Shortlinker_Double extends WPSEO_Shortlinker {
 
 	/**
 	 * Gets the additional shortlink data.

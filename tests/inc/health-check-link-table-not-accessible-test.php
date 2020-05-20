@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Health_Check_Link_Table_Not_Accessible;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -26,7 +27,7 @@ class Health_Check_Link_Table_Not_Accessible_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( \WPSEO_Health_Check_Link_Table_Not_Accessible::class )
+		$this->instance = Mockery::mock( WPSEO_Health_Check_Link_Table_Not_Accessible::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}

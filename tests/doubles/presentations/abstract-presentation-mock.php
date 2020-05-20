@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Presentations;
 
+use Yoast\WP\SEO\Presentations\Abstract_Presentation;
+
 /**
  * Represents the Abstract_Presentation mock.
  */
-class Abstract_Presentation_Mock extends \Yoast\WP\SEO\Presentations\Abstract_Presentation {
+class Abstract_Presentation_Mock extends Abstract_Presentation {
 
 	/**
 	 * @inheritDoc

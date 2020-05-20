@@ -2,12 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers;
 
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Class Indexable_Post_Watcher_Double.
  */
-class Indexable_Post_Watcher_Double extends \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher {
+class Indexable_Post_Watcher_Double extends Indexable_Post_Watcher {
 
 	/**
 	 * @inheritDoc

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Title_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -46,7 +47,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->instance               = new Title_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->indexable_presentation = $this->instance->presentation;
-		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars           = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance->replace_vars         = $this->replace_vars;
 		$this->indexable_presentation->source = [];

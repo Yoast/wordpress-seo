@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Health_Check;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -26,7 +27,7 @@ class Health_Check_Test extends TestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->instance = Mockery::mock( \WPSEO_Health_Check::class )
+		$this->instance = Mockery::mock( WPSEO_Health_Check::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 

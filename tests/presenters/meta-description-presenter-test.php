@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
@@ -52,7 +53,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 	 * Setup of the tests.
 	 */
 	public function setUp() {
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance               = new Meta_Description_Presenter();

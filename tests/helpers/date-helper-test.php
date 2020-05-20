@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
+use WPSEO_Date_Helper;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -27,7 +28,7 @@ class Date_Helper_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new \WPSEO_Date_Helper();
+		$this->instance = new WPSEO_Date_Helper();
 	}
 
 	/**

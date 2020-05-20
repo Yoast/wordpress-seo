@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Doubles\Inc;
 
+use WPSEO_Addon_Manager;
+
 /**
  * Test Helper Class.
  */
-class Addon_Manager_Double extends \WPSEO_Addon_Manager {
+class Addon_Manager_Double extends WPSEO_Addon_Manager {
 
 	/**
 	 * Checks if the given plugin_file belongs to a Yoast addon.

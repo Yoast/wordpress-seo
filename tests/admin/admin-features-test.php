@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Admin;
 
+use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
@@ -38,7 +39,7 @@ class Admin_Features_Test extends TestCase {
 		// Mock the current user for notifications.
 		Monkey\Functions\expect( 'wp_get_current_user' )
 			->times( 1 )
-			->andReturn( Mockery::mock( \WP_User::class ) );
+			->andReturn( Mockery::mock( WP_User::class ) );
 
 		return new WPSEO_Admin();
 	}

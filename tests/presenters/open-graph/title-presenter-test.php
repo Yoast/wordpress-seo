@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter;
@@ -53,7 +54,7 @@ class Title_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance               = new Title_Presenter();
