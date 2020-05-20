@@ -5,7 +5,7 @@ import styled from "styled-components";
 const ButtonLink = styled.button`
 	background: none;
 	border: none;
-	padding: 0!important;
+	padding: 0;
 	color: #069;
 	text-decoration: underline;
 	cursor: pointer;
@@ -31,7 +31,7 @@ function onClick() {
 export default function LanguageFeedbackLink() {
 	return (
 		<ButtonLink onClick={ onClick }>
-			{ __( "Yoast didn't recognize my keyphrase.", "wordpress-seo" ) }
+			{ __( "Yoast didn't recognize my keyphrase", "wordpress-seo" ) }
 		</ButtonLink>
 	);
 }
