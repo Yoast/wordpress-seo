@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Date_Helper;
+
 /**
  * Class Date_Helper
  */
@@ -25,7 +27,7 @@ class Date_Helper {
 	 * @codeCoverageIgnore It only sets dependencies.
 	 */
 	public function __construct() {
-		$this->date = new \WPSEO_Date_Helper();
+		$this->date = new WPSEO_Date_Helper();
 	}
 
 	/**

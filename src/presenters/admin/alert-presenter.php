@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
 
 /**
@@ -49,7 +50,7 @@ class Alert_Presenter extends Abstract_Presenter {
 		$this->type    = $type;
 
 		if ( ! $this->asset_manager ) {
-			$this->asset_manager = new \WPSEO_Admin_Asset_Manager();
+			$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
 
 		$this->asset_manager->enqueue_style( 'alert' );
