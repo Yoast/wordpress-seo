@@ -76,7 +76,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @return string The value of replytocom.
 	 */
 	protected function has_replytocom_parameter() {
-		return \filter_input( INPUT_GET, 'replytocom' );
+		return \filter_input( \INPUT_GET, 'replytocom' );
 	}
 
 	/**

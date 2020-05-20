@@ -255,7 +255,7 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		// When the indexation is started, but not completed.
-		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - MONTH_IN_SECONDS ) ) {
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return true;
 		}
 

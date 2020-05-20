@@ -259,7 +259,7 @@ class Front_End_Integration implements Integration_Interface {
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 
-		echo PHP_EOL;
+		echo \PHP_EOL;
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
@@ -267,10 +267,10 @@ class Front_End_Integration implements Integration_Interface {
 
 			$output = $presenter->present();
 			if ( ! empty( $output ) ) {
-				echo "\t" . $output . PHP_EOL;
+				echo "\t" . $output . \PHP_EOL;
 			}
 		}
-		echo PHP_EOL . PHP_EOL;
+		echo \PHP_EOL . \PHP_EOL;
 	}
 
 	/**

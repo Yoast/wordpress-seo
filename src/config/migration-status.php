@@ -44,7 +44,7 @@ class Migration_Status {
 		}
 
 		// Is the migration version less than the current version.
-		return \version_compare( $migration_status['version'], WPSEO_VERSION, '<' );
+		return \version_compare( $migration_status['version'], \WPSEO_VERSION, '<' );
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Migration_Status {
 	 *
 	 * @return bool Whether or not the requested migration is at least the requested version.
 	 */
-	public function is_version( $name, $version = WPSEO_VERSION ) {
+	public function is_version( $name, $version = \WPSEO_VERSION ) {
 		$migration_status = $this->get_migration_status( $name );
 
 		return \version_compare( $version, $migration_status['version'], '<=' );
@@ -91,7 +91,7 @@ class Migration_Status {
 
 		$migration_status['error'] = [
 			'time'    => \strtotime( 'now' ),
-			'version' => WPSEO_VERSION,
+			'version' => \WPSEO_VERSION,
 			'message' => $message,
 		];
 
@@ -109,7 +109,7 @@ class Migration_Status {
 		$migration_status = $this->get_migration_status( $name );
 		unset( $migration_status['lock'] );
 		unset( $migration_status['error'] );
-		$migration_status['version'] = WPSEO_VERSION;
+		$migration_status['version'] = \WPSEO_VERSION;
 		$this->set_migration_status( $name, $migration_status );
 	}
 

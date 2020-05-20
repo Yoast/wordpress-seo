@@ -42,7 +42,7 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		$schema = $this->get();
 		if ( \is_array( $schema ) ) {
 			$output = WPSEO_Utils::format_json_encode( $schema );
-			$output = \str_replace( "\n", PHP_EOL . "\t", $output );
+			$output = \str_replace( "\n", \PHP_EOL . "\t", $output );
 			return '<script type="application/ld+json" class="yoast-schema-graph">' . $output . '</script>';
 		}
 

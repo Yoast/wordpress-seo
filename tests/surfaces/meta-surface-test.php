@@ -435,7 +435,7 @@ class Meta_Surface_Test extends TestCase {
 
 		$wp_rewrite->expects( 'generate_rewrite_rules' )
 			->once()
-			->with( 'date_permastruct', EP_DATE )
+			->with( 'date_permastruct', \EP_DATE )
 			->andReturn( [] );
 
 		$this->indexable->object_type     = $object_type;

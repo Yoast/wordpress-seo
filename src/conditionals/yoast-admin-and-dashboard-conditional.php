@@ -19,7 +19,7 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 		global $pagenow;
 
 		// Do not output on plugin / theme upgrade pages or when WordPress is upgrading.
-		if ( ( \defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || $this->on_upgrade_page() || \wp_installing() ) {
+		if ( ( \defined( 'IFRAME_REQUEST' ) && \IFRAME_REQUEST ) || $this->on_upgrade_page() || \wp_installing() ) {
 			return false;
 		}
 

@@ -143,7 +143,7 @@ class Meta {
 
 			$presenter_output = $presenter->present();
 			if ( ! empty( $presenter_output ) ) {
-				$output .= $presenter_output . PHP_EOL;
+				$output .= $presenter_output . \PHP_EOL;
 			}
 		}
 
