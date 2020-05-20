@@ -71,4 +71,50 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 
 	}
 
+	/**
+	 * Tests if the get_notification_message function returns the correct value when passed "start".
+	 *
+	 * @covers Wizard_Notification::get_notification_message
+	 * @covers Wizard_Notification::get_start_notification
+	 */
+	public function test_notification_message_start()
+	{
+		$notifier = new Wizard_Notification();
+		$this->assertEquals('Get started quickly with the configuration wizard!<br/>We have detected that you have not started this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'start' ));
+	}
+
+	/**
+	 * Tests if the get_notification_message function returns the correct value when passed "continue".
+	 *
+	 * @covers Wizard_Notification::get_notification_message
+	 * @covers Wizard_Notification::get_continue_notification
+	 */
+	public function test_notification_message_continue()
+	{
+		$notifier = new Wizard_Notification();
+		$this->assertEquals('The configuration wizard helps you to easily configure your site to have the optimal SEO settings.<br/>We have detected that you have not finished this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'continue' ));
+	}
+
+	/**
+	 * Tests if the get_notification_message function returns the correct value when passed "finish".
+	 *
+	 * @covers Wizard_Notification::get_notification_message
+	 * @covers Wizard_Notification::get_finished_notification
+	 */
+	public function test_notification_message_finish()
+	{
+		$notifier = new Wizard_Notification();
+		$this->assertEquals('You have successfully completed the configuration wizard, good job!<br/>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">reopen the configuration wizard</a>.', $notifier->get_notification_message( 'finish' ));
+	}
+
+	/**
+	 * Tests if the get_notification_message function returns nothing when passed a empty string.
+	 *
+	 * @covers Wizard_Notification::get_notification_message
+	 */
+	public function test_notification_message_empty()
+	{
+		$notifier = new Wizard_Notification();
+		$this->assertEquals('', $notifier->get_notification_message( '' ));
+	}
 }
