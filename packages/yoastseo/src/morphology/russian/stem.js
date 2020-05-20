@@ -122,6 +122,10 @@ const removeEndings = function( word, regex, region ) {
  * @returns {string}	The word after inflectional suffixes were removed.
  */
 const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
+	const removeDerivationalNounSuffix = removeEndings( word, morphologyData.externalStemmer.regexDerivationalNounSuffix, rv );
+	if ( removeDerivationalNounSuffix ) {
+		return removeDerivationalNounSuffix;
+	}
 	// Try to find a PERFECTIVE GERUND ending. If it exists, remove it and finalize the step.
 	const removeGerundSuffixes = removeEndings(
 		word,

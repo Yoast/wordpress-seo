@@ -108,7 +108,10 @@
       "/spec/morphology/spanish/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/french/stemmerCoverage/generateStems.js",
       "/spec/morphology/french/stemmerCoverage/goldStandardStems.json",
-      "/spec/morphology/french/stemmerCoverage/sampleVocabulary.json"
+      "/spec/morphology/french/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/russian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/russian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/russian/stemmerCoverage/sampleVocabulary.json"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"
