@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Admin_Features.
  *
- * @package Yoast\Tests\Admin
- *
  * @coversDefaultClass WPSEO_Admin
  */
 class Admin_Features_Test extends TestCase {

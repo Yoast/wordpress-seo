@@ -19,8 +19,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Term_Builder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Term_Builder_Test extends TestCase {
 

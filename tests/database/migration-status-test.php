@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\Migration_Status
  * @covers ::<!public>
- *
- * @package Yoast\Tests
  */
 class Migration_Status_Test extends TestCase {
 

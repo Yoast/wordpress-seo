@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class HowTo_Test
  *
- * @package Yoast\WP\SEO\Tests\Generators\Schema
- *
  * @group generators
  * @group schema
  *

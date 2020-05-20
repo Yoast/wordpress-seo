@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Bingbot_Presenter
  *
  * @group presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Bingbot_Presenter_Test extends TestCase {
 

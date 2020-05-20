@@ -25,8 +25,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Primary_Term_Watcher_Test extends TestCase {
 

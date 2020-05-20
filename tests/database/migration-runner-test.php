@@ -22,8 +22,6 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
  * @covers ::<!public>
- *
- * @package Yoast\Tests
  */
 class Migration_Runner_Test extends TestCase {
 
