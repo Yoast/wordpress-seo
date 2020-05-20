@@ -18,8 +18,8 @@ const SocialMetadata = () => {
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				/* Translators: $s expands to Facebook. */
-				title={ sprintf( __( "$s preview", "wordpress-seo" ), "Facebook" ) }
+				/* Translators: %s expands to Facebook. */
+				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
 			>
 				<FacebookContainer />
@@ -27,8 +27,8 @@ const SocialMetadata = () => {
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				/* Translators: $s expands to Twitter. */
-				title={ sprintf( __( "$s preview", "wordpress-seo" ), "Twitter" ) }
+				/* Translators: %s expands to Twitter. */
+				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />
