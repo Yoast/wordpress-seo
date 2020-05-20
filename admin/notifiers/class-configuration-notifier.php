@@ -31,7 +31,7 @@ class WPSEO_Configuration_Notifier {
 	 */
 	public function notify() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id('wpseo-wizard-notification');
+		$notification_center->remove_notification_by_id( 'wpseo-wizard-notification' );
 
 		if ( ! $this->show_notification() ) {
 			$this->re_run_notification();

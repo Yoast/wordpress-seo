@@ -31,41 +31,73 @@ class Wizard_Notification {
 		 * - continue: The wizard has been opened but has not been finished, the notification is a call to action to open it.
 		 * - finish: The wizard has been finished and the notification hints that you can reopen it to change some settings with a call to action.
 		 */
-		switch ( $state ) {
-			case 'start':
-				$message  = esc_html__( 'Get started quickly with the configuration wizard!', 'wordpress-seo' );
-				$message .= '<br/>';
-				$message .= sprintf(
-					/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
-					esc_html__( 'We have detected that you have not started this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
-					'Yoast SEO',
-					'<a href="' . esc_url( admin_url( '?page=' . self::PAGE_IDENTIFIER ) ) . '">',
-					'</a>'
-				);
-				return $message;
-			case 'continue':
-				$message  = esc_html__( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
-				$message .= '<br/>';
-				$message .= sprintf(
-					/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
-					esc_html__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
-					'Yoast SEO',
-					'<a href="' . esc_url( admin_url( '?page=' . self::PAGE_IDENTIFIER ) ) . '">',
-					'</a>'
-				);
-				return $message;
-			case 'finish':
-				$message  = esc_html__( 'You have successfully completed the configuration wizard, good job!', 'wordpress-seo' );
-				$message .= '<br/>';
-				$message .= sprintf(
-					/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
-					esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sreopen the configuration wizard%3$s.', 'wordpress-seo' ),
-					'Yoast SEO',
-					'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
-					'</a>'
-				);
-				return $message;
+		$message = '';
+
+		if ( $state === 'start' ) {
+			$message = $this->get_start_notification();
 		}
+		if ( $state === 'continue' ) {
+			$message = $this->get_continue_notification();
+		}
+		if ( $state === 'finish' ) {
+			$message = $this->get_finished_notification();
+		}
+
+		return $message;
+	}
+
+	/**
+	 * Return the first time notification message
+	 *
+	 * @return string
+	 */
+	private function get_start_notification() {
+		$message  = esc_html__( 'Get started quickly with the configuration wizard!', 'wordpress-seo' );
+		$message .= '<br/>';
+		$message .= sprintf(
+		/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
+			esc_html__( 'We have detected that you have not started this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="' . esc_url( admin_url( '?page=' . self::PAGE_IDENTIFIER ) ) . '">',
+			'</a>'
+		);
+		return $message;
+	}
+
+	/**
+	 * Return the continue notification  message
+	 *
+	 * @return string
+	 */
+	private function get_continue_notification() {
+		$message  = esc_html__( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
+		$message .= '<br/>';
+		$message .= sprintf(
+		/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
+			esc_html__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="' . esc_url( admin_url( '?page=' . self::PAGE_IDENTIFIER ) ) . '">',
+			'</a>'
+		);
+		return $message;
+	}
+
+	/**
+	 * Return the finished notification message
+	 *
+	 * @return string
+	 */
+	private function get_finished_notification() {
+		$message  = esc_html__( 'You have successfully completed the configuration wizard, good job!', 'wordpress-seo' );
+		$message .= '<br/>';
+		$message .= sprintf(
+		/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
+			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sreopen the configuration wizard%3$s.', 'wordpress-seo' ),
+			'Yoast SEO',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
+			'</a>'
+		);
+		return $message;
 	}
 
 }
