@@ -101,18 +101,32 @@ function wpseo_get_rendered_tab( $table, $id ) {
 	var wpseo_bulk_editor_nonce = wpseoBulkEditorNonce;
 </script>
 
-<br/><br/>
-
 <div class="wpseo_table_page">
 
-	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="description-tab"
-			href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
-	</h2>
+<?php
 
-	<div class="tabwrapper">
-		<?php wpseo_get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
-		<?php wpseo_get_rendered_tab( $wpseo_bulk_description_table, 'description' ); ?>
-	</div>
+$tabs = [
+	'title' => [
+		'label' => __( 'Title', 'wordpress-seo' ),
+	],
+	'description' => [
+		'label' => __( 'Description', 'wordpress-seo' ),
+	],
+];
+
+?>
+
+	<nav class="yoast-tabs" id="wpseo-tabs">
+		<ul class="yoast-tabs__list">
+			<li class="yoast-tabs__list-item">
+				<a class="yoast-tabs__list-item-link" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
+			</li>
+			<li class="yoast-tabs__list-item">
+				<a class="yoast-tabs__list-item-link" id="description-tab" href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
+			</li>
+		</ul>
+	</nav>
+
+	<?php wpseo_get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
+	<?php wpseo_get_rendered_tab( $wpseo_bulk_description_table, 'description' ); ?>
 </div>
