@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-
 /**
  * Class Robots_Presenter
  */

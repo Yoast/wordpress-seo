@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;

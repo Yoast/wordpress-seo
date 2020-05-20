@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Helpers\Schema;
 
 use Mockery;
-use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;

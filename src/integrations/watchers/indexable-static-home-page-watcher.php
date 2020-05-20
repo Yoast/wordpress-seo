@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
