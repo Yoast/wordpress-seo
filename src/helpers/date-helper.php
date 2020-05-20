@@ -44,7 +44,7 @@ class Date_Helper {
 	 * @return string Formatted date string.
 	 */
 	public function mysql_date_to_w3c_format( $date, $translate = false ) {
-		return \mysql2date( DATE_W3C, $date, $translate );
+		return \mysql2date( \DATE_W3C, $date, $translate );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class Date_Helper {
 	 *
 	 * @return string The formatted date.
 	 */
-	public function format( $date, $format = DATE_W3C ) {
+	public function format( $date, $format = \DATE_W3C ) {
 		return $this->date->format( $date, $format );
 	}
 }

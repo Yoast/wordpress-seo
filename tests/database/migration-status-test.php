@@ -72,7 +72,7 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => WPSEO_VERSION ] );
+			->andReturn( [ 'version' => \WPSEO_VERSION ] );
 
 		$instance = new Migration_Status();
 
@@ -122,7 +122,7 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => WPSEO_VERSION ] );
+			->andReturn( [ 'version' => \WPSEO_VERSION ] );
 
 		$instance = new Migration_Status();
 
@@ -225,7 +225,7 @@ class Migration_Status_Test extends TestCase {
 			'error'   => [
 				'message' => $error_message,
 				'time'    => \strtotime( 'now' ),
-				'version' => WPSEO_VERSION,
+				'version' => \WPSEO_VERSION,
 			],
 		];
 
@@ -248,7 +248,7 @@ class Migration_Status_Test extends TestCase {
 	 * @covers ::set_success
 	 */
 	public function test_set_success() {
-		$expected_option = [ 'version' => WPSEO_VERSION ];
+		$expected_option = [ 'version' => \WPSEO_VERSION ];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )

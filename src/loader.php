@@ -120,7 +120,7 @@ class Loader {
 
 		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
-		if ( \defined( 'WP_CLI' ) && WP_CLI ) {
+		if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
 			$this->load_commands();
 		}
 	}

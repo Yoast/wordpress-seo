@@ -42,7 +42,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'home_url' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->withArgs( [ '/my-page', PHP_URL_PATH ] )
+			->withArgs( [ '/my-page', \PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -70,7 +70,7 @@ class Url_Helper_Test extends TestCase {
 			->andReturn( 'home_url' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->withArgs( [ 'https://example.com/my-page', PHP_URL_PATH ] )
+			->withArgs( [ 'https://example.com/my-page', \PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -96,7 +96,7 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_get_extension_from_url() {
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.com/image.jpg', PHP_URL_PATH )
+			->with( 'https://example.com/image.jpg', \PHP_URL_PATH )
 			->andReturn( '/image.jpg' );
 
 		$expected = 'jpg';
@@ -113,7 +113,7 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_get_extension_from_url_no_path() {
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.com', PHP_URL_PATH )
+			->with( 'https://example.com', \PHP_URL_PATH )
 			->andReturn( '' );
 
 		$expected = '';
@@ -130,7 +130,7 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function test_get_extension_from_url_no_extension() {
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.com/path', PHP_URL_PATH )
+			->with( 'https://example.com/path', \PHP_URL_PATH )
 			->andReturn( 'path' );
 
 		$expected = '';
