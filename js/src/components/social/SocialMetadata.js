@@ -1,6 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
 import { Collapsible } from "@yoast/components";
+import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
@@ -17,7 +18,8 @@ const SocialMetadata = () => {
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				title="Facebook preview"
+				/* Translators: $s expands to Facebook. */
+				title={ sprintf( __( "$s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
 			>
 				<FacebookContainer />
@@ -25,7 +27,8 @@ const SocialMetadata = () => {
 			<Collapsible
 				hasPadding={ true }
 				hasSeparator={ true }
-				title="Twitter preview"
+				/* Translators: $s expands to Twitter. */
+				title={ sprintf( __( "$s preview", "wordpress-seo" ), "Twitter" ) }
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />
