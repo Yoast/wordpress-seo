@@ -31,7 +31,7 @@ class WPSEO_Configuration_Notifier {
 	 */
 	public function notify() {
 		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id('wpseo-dismiss-onboarding-notice');
+		$notification_center->remove_notification_by_id('wpseo-wizard-notification');
 
 		if ( ! $this->show_notification() ) {
 			$this->re_run_notification();
@@ -66,7 +66,7 @@ class WPSEO_Configuration_Notifier {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
+				'id'           => 'wpseo-wizard-notification',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.1,
 			]
@@ -88,7 +88,7 @@ class WPSEO_Configuration_Notifier {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
+				'id'           => 'wpseo-wizard-notification',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 1,
 			]
@@ -110,7 +110,7 @@ class WPSEO_Configuration_Notifier {
 			$message,
 			[
 				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
+				'id'           => 'wpseo-wizard-notification',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 1,
 			]
