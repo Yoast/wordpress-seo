@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_MyYoast_Proxy;
 use Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double;
 use Yoast\WP\SEO\Tests\TestCase;

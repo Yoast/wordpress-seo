@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
-use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Robots_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;

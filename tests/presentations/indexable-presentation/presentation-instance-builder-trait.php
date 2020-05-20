@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
-use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;

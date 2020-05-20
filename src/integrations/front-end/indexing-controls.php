@@ -8,10 +8,8 @@
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 
 /**
  * Class Indexing_Controls

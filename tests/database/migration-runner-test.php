@@ -6,8 +6,6 @@ use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
-use Yoast\WP\SEO\Initializers\Database_Setup;
-use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Initializers\Migration_Runner;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Tests\TestCase;

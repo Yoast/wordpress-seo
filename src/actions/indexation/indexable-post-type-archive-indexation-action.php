@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use WP_Post_Type;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
