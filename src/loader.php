@@ -46,14 +46,14 @@ class Loader {
 	/**
 	 * The dependency injection container.
 	 *
-	 * @var \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;

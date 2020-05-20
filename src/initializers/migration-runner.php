@@ -11,6 +11,7 @@ use Exception;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
+use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
 
 /**
  * Triggers database migrations and handles results.
@@ -57,7 +58,7 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
-	 * @throws \Exception When a migration errored.
+	 * @throws Exception When a migration errored.
 	 *
 	 * @return void
 	 */
@@ -70,7 +71,7 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
-	 * @throws \Exception When a migration errored.
+	 * @throws Exception When a migration errored.
 	 *
 	 * @return void
 	 */
@@ -87,7 +88,7 @@ class Migration_Runner implements Initializer_Interface {
 	 *
 	 * @return bool True on success, false on failure.
 	 *
-	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
+	 * @throws Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
 	public function run_migrations( $name, $migrations_table_name, $migrations_directory ) {
 		if ( ! $this->migration_status->should_run_migration( $name ) ) {
@@ -103,7 +104,7 @@ class Migration_Runner implements Initializer_Interface {
 			/**
 			 * This variable represents Ruckusing_Adapter_MySQL_Base adapter.
 			 *
-			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
+			 * @var Ruckusing_Adapter_MySQL_Base $adapter
 			 */
 			$adapter = $framework_runner->get_adapter();
 

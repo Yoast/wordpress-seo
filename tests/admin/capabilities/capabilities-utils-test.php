@@ -19,7 +19,7 @@ final class Capabilities_Utils_Test extends TestCase {
 	/**
 	 * The roles object.
 	 *
-	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface
 	 */
 	protected $roles;
 

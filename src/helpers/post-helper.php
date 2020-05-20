@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Post;
 use Yoast\WP\Lib\Model;
 
 /**
@@ -94,7 +95,7 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It wraps a WordPress function.
 	 *
-	 * @return \WP_Post|null The post.
+	 * @return WP_Post|null The post.
 	 */
 	public function get_post( $post_id ) {
 		return \get_post( $post_id );

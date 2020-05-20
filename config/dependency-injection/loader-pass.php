@@ -28,7 +28,7 @@ class Loader_Pass implements CompilerPassInterface {
 	 * Checks all definitions to ensure all classes implementing the Integration interface
 	 * are registered with the Loader class.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The container.
+	 * @param ContainerBuilder $container The container.
 	 */
 	public function process( ContainerBuilder $container ) {
 		if ( ! $container->hasDefinition( Loader::class ) ) {
@@ -46,8 +46,8 @@ class Loader_Pass implements CompilerPassInterface {
 	/**
 	 * Processes a definition in the container.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\Definition $definition        The definition to process.
-	 * @param \Symfony\Component\DependencyInjection\Definition $loader_definition The loader definition.
+	 * @param Definition $definition        The definition to process.
+	 * @param Definition $loader_definition The loader definition.
 	 */
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();

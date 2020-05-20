@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Database;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
 use Yoast\WP\SEO\Initializers\Database_Setup;
@@ -122,7 +123,7 @@ class Migration_Runner_Test extends TestCase {
 	/**
 	 * Returns a wpdb mock.
 	 *
-	 * @return \wpdb The wpdb mock.
+	 * @return wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
 		$wpdb         = Mockery::mock( 'wpdb' );

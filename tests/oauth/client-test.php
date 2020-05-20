@@ -23,7 +23,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\SEO\Oauth\Client
+	 * @var Client
 	 */
 	protected $class_instance;
 
