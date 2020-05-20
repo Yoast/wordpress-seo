@@ -183,14 +183,14 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->badge['color'] = 'red';
 
 		/* translators: %1$s: Expands to 'Ryte', %2$s: Expands to 'Yoast SEO'. */
-		$description       = esc_html__(
+		$description        = esc_html__(
 			'%1$s offers a free indexability check for %2$s users and right now it has trouble determining
 			whether search engines can find your site. This could have several (legitimate) reasons and
 			is not a problem in itself. If this is a live site, it is recommended that you figure out why
 			the %1$s check failed.',
 			'wordpress-seo'
 		);
-		$this->description = sprintf(
+		$this->description  = sprintf(
 			$description,
 			'Ryte',
 			'Yoast SEO'
