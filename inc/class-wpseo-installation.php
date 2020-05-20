@@ -39,6 +39,7 @@ class WPSEO_Installation {
 		$options = get_option( 'wpseo' );
 
 		$options['show_onboarding_notice'] = true;
+		$options['started_configuration_wizard'] = false;
 		$options['first_activated_on']     = time();
 
 		update_option( 'wpseo', $options );

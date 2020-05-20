@@ -158,6 +158,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'fbadminapp',
+		'started_configuration_wizard',
 	];
 
 	/**
