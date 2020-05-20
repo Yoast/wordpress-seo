@@ -30,6 +30,8 @@ class WPSEO_Configuration_Notifier {
 	 * @return string A string with the notification HTML, or empty string when no notification is needed.
 	 */
 	public function notify() {
+		$notification_center = Yoast_Notification_Center::get();
+		$notification_center->remove_notification_by_id('wpseo-dismiss-onboarding-notice');
 
 		if ( ! $this->show_notification() ) {
 			$this->re_run_notification();

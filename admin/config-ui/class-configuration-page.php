@@ -25,11 +25,6 @@ class WPSEO_Configuration_Page {
 			return;
 		}
 
-		if ( $this->should_add_notification() ) {
-			WPSEO_Options::set( 'started_configuration_wizard', true );
-			$this->add_notification();
-		}
-
 		// Register the page for the wizard.
 		add_action( 'admin_menu', [ $this, 'add_wizard_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
@@ -47,7 +42,6 @@ class WPSEO_Configuration_Page {
 			return;
 		}
 
-		$this->remove_notification();
 		$this->remove_notification_option();
 
 		wp_safe_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
@@ -191,52 +185,6 @@ class WPSEO_Configuration_Page {
 	 */
 	protected function is_config_page() {
 		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
-	}
-
-	/**
-	 * Adds a notification to the notification center.
-	 */
-	private function add_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( self::get_notification() );
-	}
-
-	/**
-	 * Removes the notification from the notification center.
-	 */
-	private function remove_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( self::get_notification() );
-	}
-
-	/**
-	 * Gets the notification.
-	 *
-	 * @return Yoast_Notification
-	 */
-	private static function get_notification() {
-		$note         = new Wizard_Notification();
-		$message      = $note->get_notification_message( 'continue' );
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 1,
-			]
-		);
-
-		return $notification;
-	}
-
-	/**
-	 * When the notice should be shown.
-	 *
-	 * @return bool
-	 */
-	private function should_add_notification() {
-		return ( WPSEO_Options::get( 'show_onboarding_notice' ) === true );
 	}
 
 	/**
