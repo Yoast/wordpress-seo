@@ -18,11 +18,30 @@ class WPSEO_Configuration_Page {
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
+	 * The notifier to be called when the wizard notification should be updated.
+	 *
+	 * @var WPSEO_Configuration_Notifier
+	 */
+	protected $notifier;
+
+	/**
+	 * Constructs the object by setting the notifier.
+	 */
+	public function __construct() {
+		$this->notifier = new WPSEO_Configuration_Notifier();
+	}
+
+	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
 	 */
 	public function set_hooks() {
 		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
 			return;
+		}
+
+		if ( $this->should_add_notification() ) {
+			WPSEO_Options::set( 'started_configuration_wizard', true );
+			$this->notifier->notify();
 		}
 
 		// Register the page for the wizard.
@@ -39,6 +58,7 @@ class WPSEO_Configuration_Page {
 		$page               = filter_input( INPUT_GET, 'page' );
 
 		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
+			$this->notifier->notify();
 			return;
 		}
 
@@ -192,5 +212,14 @@ class WPSEO_Configuration_Page {
 	 */
 	private function remove_notification_option() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
+	}
+
+	/**
+	 * When the notice should be shown.
+	 *
+	 * @return bool
+	 */
+	private function should_add_notification() {
+		return ( WPSEO_Options::get( 'show_onboarding_notice' ) === true );
 	}
 }
