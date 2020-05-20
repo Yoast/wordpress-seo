@@ -1,6 +1,7 @@
 /* eslint-disable max-statements, complexity */
 import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
+
 /*
  * MIT License
  *
@@ -375,7 +376,14 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  * @returns {null|string}	The canonical stem if word was found on the list.
  */
 const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
+	// Check the adjectives list.
 	for ( const paradigm of stemsThatBelongToOneWord.adjectives ) {
+		if ( paradigm.includes( stemmedWord ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	// Check the verbs list. The infinitive stem is always the canonical stem for verbs.
+	for ( const paradigm of stemsThatBelongToOneWord.verbs ) {
 		if ( paradigm.includes( stemmedWord ) ) {
 			return paradigm[ 0 ];
 		}
