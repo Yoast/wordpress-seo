@@ -51,6 +51,7 @@ class KeywordInput extends Component {
 	 * @returns {ReactElement} The component.
 	 */
 	render() {
+		const isPremium = !! window.wpseoPostScraperL10n.isPremium;
 		let isBetaLocale = false;
 		if ( [ "fr_FR", "ru_RU" ].includes( window.wpseoPostScraperL10n.contentLocale ) ) {
 			isBetaLocale = true;
@@ -82,7 +83,7 @@ class KeywordInput extends Component {
 						</PaddedContainer>
 					) }
 				</LocationConsumer>
-				{ isBetaLocale && <PaddedContainer>
+				{ isPremium && isBetaLocale && <PaddedContainer>
 					<LanguageFeedbackLink />
 				</PaddedContainer> }
 			</Fragment>
