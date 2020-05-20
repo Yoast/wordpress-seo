@@ -52,7 +52,7 @@ class KeywordInput extends Component {
 	 */
 	render() {
 		let isBetaLocale = false;
-		if ( [ "fr_FR", "ru_RU" ].includes( wpseoPostScraperL10n.contentLocale ) ) {
+		if ( [ "fr_FR", "ru_RU" ].includes( window.wpseoPostScraperL10n.contentLocale ) ) {
 			isBetaLocale = true;
 		}
 

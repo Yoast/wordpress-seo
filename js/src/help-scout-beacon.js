@@ -43,7 +43,7 @@ function pageHasUpsells() {
  *
  * @returns {void}
  */
-function loadHelpScout( beaconId, sessionData = "" ) {
+export default function loadHelpScout( beaconId, sessionData = "" ) {
 	// This IIFE is directly from HelpScout to insert their beacon.
 	( function( window, document ) {
 		let beacon = window.Beacon || function() {};
