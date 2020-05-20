@@ -7,7 +7,9 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -99,8 +101,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$image            = Mockery::mock( Image_Helper::class );
-		$open_graph_image = Mockery::mock( \Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper::class );
-		$twitter_image    = Mockery::mock( \Yoast\WP\SEO\Helpers\Twitter\Image_Helper::class );
+		$open_graph_image = Mockery::mock( OG_Image_Helper::class );
+		$twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
 
 		$image
 			->expects( 'get_term_content_image' )
