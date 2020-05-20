@@ -82,10 +82,9 @@ class Indexable_Hierarchy_Repository {
 			->find_array();
 
 		if ( ! empty( $ancestors ) ) {
-			$callback = function ( $ancestor ) {
+			return \array_map( function ( $ancestor ) {
 				return $ancestor['ancestor_id'];
-			};
-			return \array_map( $callback, $ancestors );
+			}, $ancestors );
 		}
 
 		$indexable = $this->builder->build( $indexable );

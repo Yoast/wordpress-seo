@@ -214,6 +214,8 @@ Release Date: May 26th, 2020
 
 Bugfixes:
 
+* Fixes an issue where breadcrumbs were being saved in reversed order.
+* Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the Advanced Settings tab for all users.
 * Fixes a bug where replacement variables would not be replaced when using the deprecated WPSEO_Frontend output without echoing it.
 
 Enhancements:

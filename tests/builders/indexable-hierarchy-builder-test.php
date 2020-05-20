@@ -25,6 +25,8 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @covers ::<!public>
  * @covers ::__construct
  * @covers ::set_indexable_repository
+ *
+ * @package Yoast\Tests\Builders
  */
 class Indexable_Hierarchy_Builder_Test extends TestCase {
 
