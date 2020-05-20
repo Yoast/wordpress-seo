@@ -84,7 +84,7 @@ class Post_Helper {
 			return $post_title;
 		}
 
-		return __( 'No title', 'wordpress-seo' );
+		return \__( 'No title', 'wordpress-seo' );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Post_Helper {
 
 		// Debatable way to get the table name in an update format.
 		$query = $orm_wrapper->set( 'has_public_posts', $has_public_posts )->get_update_sql();
-		$query = str_replace( 'WHERE `id` = %s', '', $query );
+		$query = \str_replace( 'WHERE `id` = %s', '', $query );
 
 		// Execute a raw query here to be able to find & set in one, i.e. more performant.
 		return $orm_wrapper

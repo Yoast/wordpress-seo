@@ -142,7 +142,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->andReturn( $this->indexable );
 		}
 
-		if ( strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
+		if ( \strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
 			$this->repository
 				->expects( 'find_by_id_and_type' )
 				->once()
@@ -204,7 +204,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			array_slice( $this->instance->generate( $this->context ), -2 ),
+			\array_slice( $this->instance->generate( $this->context ), -2 ),
 			$message
 		);
 	}
@@ -320,7 +320,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$is_home     = ( $scenario === 'on-home-page' );
 		$is_search   = ( $scenario === 'on-search-page' );
-		$is_singular = ( strpos( $scenario, 'on-singular-post-page' ) === 0 );
+		$is_singular = ( \strpos( $scenario, 'on-singular-post-page' ) === 0 );
 
 		Monkey\Functions\expect( 'is_home' )
 			->andReturn( $is_home );

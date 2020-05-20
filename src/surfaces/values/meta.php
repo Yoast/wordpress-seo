@@ -172,7 +172,7 @@ class Meta {
 		}
 
 		$presenter_namespace = 'Yoast\WP\SEO\Presenters\\';
-		$parts               = explode( '_', $name );
+		$parts               = \explode( '_', $name );
 		if ( $parts[0] === 'twitter' ) {
 			$presenter_namespace .= 'Twitter\\';
 			$parts                = \array_slice( $parts, 1 );
@@ -182,7 +182,7 @@ class Meta {
 			$parts                = \array_slice( $parts, 2 );
 		}
 
-		$presenter_class = $presenter_namespace . implode( '_', array_map( 'ucfirst', $parts ) ) . '_Presenter';
+		$presenter_class = $presenter_namespace . \implode( '_', \array_map( 'ucfirst', $parts ) ) . '_Presenter';
 
 		if ( \class_exists( $presenter_class ) ) {
 			/**

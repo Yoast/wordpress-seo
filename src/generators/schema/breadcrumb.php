@@ -47,9 +47,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		$list_elements = [];
 
 		// Only output breadcrumbs that are not hidden.
-		$breadcrumbs = array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
+		$breadcrumbs = \array_filter( $breadcrumbs, [ $this, 'not_hidden' ] );
 
-		reset( $breadcrumbs );
+		\reset( $breadcrumbs );
 
 		/*
 		 * Check whether at least one of the breadcrumbs is broken.
@@ -63,7 +63,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 
 
 		// Create the last breadcrumb.
-		$last_breadcrumb = array_pop( $breadcrumbs );
+		$last_breadcrumb = \array_pop( $breadcrumbs );
 		$breadcrumbs[]   = $this->format_last_breadcrumb( $last_breadcrumb );
 
 		// Add a paginated state if the current page is paged.

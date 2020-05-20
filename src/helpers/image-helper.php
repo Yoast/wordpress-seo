@@ -205,7 +205,7 @@ class Image_Helper {
 	 */
 	public function get_metadata( $attachment_id ) {
 		$metadata = \wp_get_attachment_metadata( $attachment_id );
-		if ( ! $metadata || ! is_array( $metadata ) ) {
+		if ( ! $metadata || ! \is_array( $metadata ) ) {
 			return [];
 		}
 
@@ -277,7 +277,7 @@ class Image_Helper {
 		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
-		if ( strpos( $url, \get_site_url() ) !== 0 ) {
+		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
 			return 0;
 		}
 

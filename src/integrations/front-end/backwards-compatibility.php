@@ -44,10 +44,10 @@ class Backwards_Compatibility implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->options->get( 'opengraph' ) === true ) {
-			add_action( 'wpseo_head', [ $this, 'call_wpseo_opengraph' ], 30 );
+			\add_action( 'wpseo_head', [ $this, 'call_wpseo_opengraph' ], 30 );
 		}
-		if ( $this->options->get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
-			add_action( 'wpseo_head', [ $this, 'call_wpseo_twitter' ], 40 );
+		if ( $this->options->get( 'twitter' ) === true && \apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
+			\add_action( 'wpseo_head', [ $this, 'call_wpseo_twitter' ], 40 );
 		}
 	}
 
@@ -57,7 +57,7 @@ class Backwards_Compatibility implements Integration_Interface {
 	 * @return void
 	 */
 	public function call_wpseo_opengraph() {
-		do_action_deprecated( 'wpseo_opengraph', [], '14.0', 'wpseo_frontend_presenters' );
+		\do_action_deprecated( 'wpseo_opengraph', [], '14.0', 'wpseo_frontend_presenters' );
 	}
 
 	/**
@@ -66,6 +66,6 @@ class Backwards_Compatibility implements Integration_Interface {
 	 * @return void
 	 */
 	public function call_wpseo_twitter() {
-		do_action_deprecated( 'wpseo_twitter', [], '14.0', 'wpseo_frontend_presenters' );
+		\do_action_deprecated( 'wpseo_twitter', [], '14.0', 'wpseo_frontend_presenters' );
 	}
 }

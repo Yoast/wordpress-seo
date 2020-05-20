@@ -62,7 +62,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * @return int The total number of unindexed post type archives.
 	 */
 	public function get_total_unindexed() {
-		return count( $this->get_unindexed_post_type_archives( false ) );
+		return \count( $this->get_unindexed_post_type_archives( false ) );
 	}
 
 	/**
