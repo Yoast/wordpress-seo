@@ -26,7 +26,6 @@ const entry = {
 	"wp-seo-edit-page": "./wp-seo-edit-page.js",
 	"wp-seo-featured-image": "./wp-seo-featured-image.js",
 	"wp-seo-metabox-category": "./wp-seo-metabox-category.js",
-	"wp-seo-recalculate": "./wp-seo-recalculate.js",
 	"wp-seo-reindex-links": "./wp-seo-reindex-links.js",
 	"wp-seo-shortcode-plugin": "./wp-seo-shortcode-plugin.js",
 	"wp-seo-api": "./wp-seo-api.js",

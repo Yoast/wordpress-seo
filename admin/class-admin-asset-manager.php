@@ -368,18 +368,6 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-' . $flat_version,
-				'deps' => [
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-progressbar',
-					self::PREFIX . 'jed',
-					self::PREFIX . 'analysis',
-					self::PREFIX . 'commons',
-				],
-			],
-			[
 				'name' => 'primary-category',
 				'src'  => 'wp-seo-metabox-category-' . $flat_version,
 				'deps' => [
