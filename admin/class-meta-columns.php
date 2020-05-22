@@ -5,10 +5,21 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+
 /**
  * Class WPSEO_Meta_Columns.
  */
 class WPSEO_Meta_Columns {
+
+	/**
+	 * Holds the context objects for each indexable.
+	 *
+	 * @var Meta_Tags_Context[]
+	 */
+	protected $indexables;
 
 	/**
 	 * Holds the SEO analysis.
@@ -51,6 +62,20 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
+
+		// Hook into tablenav to get the indexables.
+		add_action( 'manage_posts_extra_tablenav', [ $this, 'count_objects' ] );
+	}
+
+	/**
+	 * Retrieves the indexables for later use.
+	 *
+	 * @param string $target Extra table navigation location which is triggered.
+	 */
+	public function count_objects( $target ) {
+		if ( $target === 'top' ) {
+			$this->set_indexables();
+		}
 	}
 
 	/**
@@ -108,17 +133,15 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				$post  = get_post( $post_id, ARRAY_A );
-				$title = wpseo_replace_vars( $this->page_title( $post_id ), $post );
-				$title = apply_filters( 'wpseo_title', $title );
+				$context = $this->get_indexable( $post_id );
+				$title   = apply_filters( 'wpseo_title', $context->title, $context->presentation );
 
 				echo esc_html( $title );
 				return;
 
 			case 'wpseo-metadesc':
-				$post         = get_post( $post_id, ARRAY_A );
-				$metadesc_val = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), $post );
-				$metadesc_val = apply_filters( 'wpseo_metadesc', $metadesc_val );
+				$context      = $this->get_indexable( $post_id );
+				$metadesc_val = apply_filters( 'wpseo_metadesc', $context->description, $context->presentation );
 
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
@@ -698,31 +721,6 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Retrieve the page title.
-	 *
-	 * @param int $post_id Post to retrieve the title for.
-	 *
-	 * @return string
-	 */
-	private function page_title( $post_id ) {
-		$fixed_title = WPSEO_Meta::get_value( 'title', $post_id );
-		if ( $fixed_title !== '' ) {
-			return $fixed_title;
-		}
-
-		$post = get_post( $post_id );
-
-		if ( is_object( $post ) && WPSEO_Options::get( 'title-' . $post->post_type, '' ) !== '' ) {
-			$title_template = WPSEO_Options::get( 'title-' . $post->post_type );
-			$title_template = str_replace( ' %%page%% ', ' ', $title_template );
-
-			return wpseo_replace_vars( $title_template, $post );
-		}
-
-		return wpseo_replace_vars( '%%title%%', $post );
-	}
-
-	/**
 	 * Renders the score indicator.
 	 *
 	 * @param WPSEO_Rank $rank  The rank this indicator should have.
@@ -758,5 +756,61 @@ class WPSEO_Meta_Columns {
 		}
 
 		return WPSEO_Post_Type::is_post_type_accessible( $screen->post_type );
+	}
+
+	/**
+	 * Sets the objects to use for the count.
+	 */
+	protected function set_indexables() {
+		global $wp_query;
+
+		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+		$post_ids = [];
+
+		// Post lists return a list of objects.
+		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+			$post_ids = wp_list_pluck( $posts, 'ID' );
+		}
+		elseif ( ! empty( $posts ) ) {
+			// Page list returns an array of post IDs.
+			$post_ids = array_keys( $posts );
+		}
+
+		/**
+		 * Represents the meta tags context memoizer.
+		 *
+		 * @var Meta_Tags_Context_Memoizer $context_memoizer
+		 */
+		$context_memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+
+		/**
+		 * Represents the indexable repository.
+		 *
+		 * @var Indexable_Repository $indexable_repository
+		 */
+		$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		$indexables = $indexable_repository
+			->query()
+			->where_in( 'object_id', $post_ids )
+			->find_many();
+
+		foreach ( $indexables as $indexable ) {
+			$this->indexables[ $indexable->object_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
+		}
+	}
+
+	/**
+	 * Retrieves the indexable for the given post id.
+	 *
+	 * @param int $post_id The post_id.
+	 *
+	 * @return Meta_Tags_Context
+	 */
+	protected function get_indexable( $post_id ) {
+		if ( ! isset( $this->indexables[ $post_id ] ) ) {
+			return null;
+		}
+
+		return $this->indexables[ $post_id ];
 	}
 }
