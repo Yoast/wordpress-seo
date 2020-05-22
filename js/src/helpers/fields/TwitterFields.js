@@ -8,7 +8,7 @@ export default class TwitterFields {
 	 * @returns {HTMLElement} The titleElement.
 	 */
 	static get titleElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-title" : "wpseo_twitter-title" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-title" : "hidden_wpseo_twitter-title" );
 	}
 
 	/**
@@ -17,7 +17,7 @@ export default class TwitterFields {
 	 * @returns {HTMLElement} The descriptionElement.
 	 */
 	static get descriptionElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-description" : "wpseo_twitter-description" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-description" : "hidden_wpseo_twitter-description" );
 	}
 
 	/**
@@ -35,7 +35,7 @@ export default class TwitterFields {
 	 * @returns {HTMLElement} The imageUrlElement.
 	 */
 	static get imageUrlElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-image" : "wpseo_twitter-image" );
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_twitter-image" : "hidden_wpseo_twitter-image" );
 	}
 
 	/**
