@@ -109,8 +109,9 @@ class WPSEO_Taxonomy_Metabox {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_social_meta_section();
-		$content_sections[] = new WPSEO_Metabox_Section_Social();
+		// $content_sections[] = $this->get_social_meta_section();
+		// $this->social_admin = new WPSEO_Social_Admin();
+		// $content_sections[] = new WPSEO_Metabox_Section_Social( $this->social_admin );
 
 		return $content_sections;
 	}

@@ -3,6 +3,8 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin
+ *
+ * @deprecated 14.4 //todo: fix with Andizer
  */
 
 /**
@@ -127,6 +129,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		];
 
 		$tab_content = $this->get_premium_notice( $medium );
+		$tab_content .= '<p>social_admin</p>';
 
 		foreach ( $field_names as $field_name ) {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );

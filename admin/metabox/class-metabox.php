@@ -13,11 +13,11 @@ use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
-	 * An instance of the Social Admin class.
+	 * Whether or not the social tab is enabled for this metabox.
 	 *
-	 * @var WPSEO_Social_Admin
+	 * @var boolean
 	 */
-	protected $social_admin;
+	private $social_is_enabled;
 
 	/**
 	 * An instance of the Metabox Analysis SEO class.
@@ -56,13 +56,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'add_attachment', [ $this, 'save_postdata' ] );
 		add_action( 'admin_init', [ $this, 'translate_meta_boxes' ] );
 
-		// Check if one of the social settings is checked in the options, if so, initialize the social_admin object.
-		if ( WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false ) ) {
-			$this->social_admin = new WPSEO_Social_Admin();
-		}
-
 		$this->editor = new WPSEO_Metabox_Editor();
 		$this->editor->register_hooks();
+
+		$this->social_is_enabled = WPSEO_Options::get( 'opengraph', false ) || WPSEO_Options::get( 'twitter', false );
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
@@ -337,15 +334,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		// Check if social_admin is an instance of WPSEO_Social_Admin.
-		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
-			$content_sections[] = $this->social_admin->get_meta_section();
-			$content_sections[] = new WPSEO_Metabox_Section_Social();
+		// Whether social is enabled.
+		if ( $this->social_is_enabled ) {
+			$content_sections[] = $this->get_social_meta_section();
 		}
-
+		
 		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
 
 		return $content_sections;
+	}
+
+	private function get_social_meta_section() {
+		$content = '';
+
+		$content .= $this->get_tab_content( 'social' );
+
+		// Add react target
+		$content .= '<div id="wpseo-section-social"></div>';
+
+		$link_content = '<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' );;
+
+		return new WPSEO_Metabox_Section_React(
+			'social',
+			$link_content,
+			$content
+		);
 	}
 
 	/**
@@ -672,6 +685,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+			var_dump( "here" ); exit;
 			return false;
 		}
 
@@ -697,8 +711,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		do_action( 'wpseo_save_compare_data', $post );
 
+		$social_fields = [];
+		if ( $this->social_is_enabled ) {
+			$social_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
+		}
+
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', [] );
-		$meta_boxes = array_merge( $meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ), WPSEO_Meta::get_meta_field_defs( 'advanced' ) );
+		$meta_boxes = array_merge(
+			$meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
+			$social_fields
+		);
+		
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 
