@@ -55,6 +55,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'started_configuration_wizard'    => false,
 	];
 
 	/**
