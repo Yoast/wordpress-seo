@@ -218,6 +218,7 @@ Bugfixes:
 * Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
 * Fixes a bug where replacement variables would not be replaced when using the deprecated WPSEO_Frontend output without echoing it.
 * Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
+* Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
 
 Enhancements:
 
