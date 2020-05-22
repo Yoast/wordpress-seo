@@ -308,7 +308,7 @@ class Yoast_Input_Validation {
 	 * @return string The error invalid value message or empty string.
 	 */
 	public static function get_dirty_value_message( $error_code ) {
-		$dirty_value = self::get_dirty_value( $error_code );
+		$dirty_value = esc_html(self::get_dirty_value( $error_code ));
 
 		if ( $dirty_value ) {
 			return sprintf(
