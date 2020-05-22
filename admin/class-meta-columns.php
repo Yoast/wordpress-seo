@@ -777,18 +777,14 @@ class WPSEO_Meta_Columns {
 		}
 
 		/**
-		 * Represents the meta tags context memoizer.
+		 * Makes sure autocompletion works.
 		 *
-		 * @var Meta_Tags_Context_Memoizer $context_memoizer
+		 * @var Meta_Tags_Context_Memoizer $context_memoizer     The context memoizer.
+		 * @var Indexable_Repository       $indexable_repository The indexable_repository.
 		 */
-		$context_memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-
-		/**
-		 * Represents the indexable repository.
-		 *
-		 * @var Indexable_Repository $indexable_repository
-		 */
+		$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 		$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
 		$indexables = $indexable_repository
 			->query()
 			->where_in( 'object_id', $post_ids )
@@ -808,7 +804,15 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function get_indexable( $post_id ) {
 		if ( ! isset( $this->indexables[ $post_id ] ) ) {
-			return null;
+			$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
+			$indexable = $indexable_repository->find_by_id_and_type( $post_id, 'post' );
+			if ( ! $indexable  ) {
+				return null;
+			}
+
+			$this->indexables[ $post_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
 		}
 
 		return $this->indexables[ $post_id ];
