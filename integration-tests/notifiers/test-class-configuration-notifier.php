@@ -80,7 +80,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_notification_message_start()
 	{
 		$notifier = new Wizard_Notification();
-		$this->assertEquals('Get started quickly with the configuration wizard!<br/>We have detected that you have not started this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'start' ));
+		$this->assertEquals('Get started quickly with the configuration wizard!<br/>We have detected that you have not started this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'start' ));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_notification_message_continue()
 	{
 		$notifier = new Wizard_Notification();
-		$this->assertEquals('The configuration wizard helps you to easily configure your site to have the optimal SEO settings.<br/>We have detected that you have not finished this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'continue' ));
+		$this->assertEquals('The configuration wizard helps you to easily configure your site to have the optimal SEO settings.<br/>We have detected that you have not finished this wizard yet, so we recommend you to <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">start the configuration wizard to configure Yoast SEO</a>.', $notifier->get_notification_message( 'continue' ));
 	}
 
 	/**
