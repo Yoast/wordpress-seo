@@ -1,10 +1,21 @@
 # Change Log
 
-This changelog is according to [Keep a Changelog](http://keepachangelog.com).
-
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 
 We follow [Semantic Versioning](http://semver.org/).
+
+## 2.2.0 May 25th, 2020
+### Enhancements
+* Adds a new DataModel component.
+* Changes the Warning component colors to match the new Yoast notification styling.
+* Changes the WordOccurrences component in a way that now requires CSS to be loaded. Make sure your JavaScript packager can load CSS.
+* Changes the image upload component to be inline with the new Yoast styling.
+* Updates HTML and CSS for unexported Toggle and FieldGroup components. ClassName of FieldGroup can now be controlled via props.
+* Allows users to set wrapper class and title class on TextInput via wrapperClassName and titleClassName props.
+
+### Bugfixes
+* Fixes a bug where the Select's selected option text was too long for the container.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
 
 ## 2.1.0 May 11th, 2020
 ### Added

@@ -6,7 +6,7 @@
 
 .yoast-field-group select,
 .yoast-field-group__select select,
-.select2-container.select2-container--default {
+.yoast-field-group .select2-container.select2-container--default {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
@@ -29,9 +29,10 @@
 .yoast-field-group select,
 .yoast-field-group__select select {
     line-height: 1.9;
+    padding-right: 40px;
 }
 
-.select2-container.select2-container--default {
+.yoast-field-group  .select2-container.select2-container--default {
     background-image: none;
     padding: 0 8px;
     max-width: 100%;
@@ -48,12 +49,12 @@
     background-color: transparent;
 }
 
-.select2-container--default .select2-selection {
+.select2-container--default .yoast-select__dropdown .select2-selection {
     border: 0;
     min-height: 0;
 }
 
-.select2-container--default .select2-selection ul {
+.select2-container--default .yoast-select__dropdown .select2-selection ul {
     display: flex;
     align-items: center;
     margin: 0;
@@ -84,27 +85,27 @@
     color: var(--color-white);
 }
 
-.select2-container .select2-dropdown {
+.select2-container .yoast-select__dropdown .select2-dropdown {
     border-color: var(--color-border--default);
     border-radius: 0;
 }
 
-.select2-container.select2-container--open .select2-dropdown {
+.select2-container.select2-container--open .yoast-select__dropdown .select2-dropdown {
     top: -2px;
     left: -1px;
 }
 
-.select2-container .select2-results__option {
+.select2-container .yoast-select__dropdown .select2-results__option {
     padding: 8px;
     border-top: var(--border-default);
 }
 
-.select2-container--default .select2-results__option.select2-results__option--highlighted[aria-selected] {
+.select2-container--default .yoast-select__dropdown .select2-results__option.select2-results__option--highlighted[aria-selected] {
     background-color: var(--color-primary-lighter);
     color: var(--color-font-default);
 }
 
-.select2-container--default .select2-results__option.select2-results__option[aria-selected="true"] {
+.select2-container--default .yoast-select__dropdown .select2-results__option.select2-results__option[aria-selected="true"] {
     background-color: var(--color-primary);
     color: var(--color-white);
 }
