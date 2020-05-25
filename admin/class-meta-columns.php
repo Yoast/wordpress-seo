@@ -68,7 +68,7 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Retrieves the posts ids and set the context objects for all the indexables belonging
+	 * Retrieves the post ids and sets the context objects for all the indexables belonging
 	 * to the post ids.
 	 *
 	 * @param string $target Extra table navigation location which is triggered.
