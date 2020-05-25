@@ -286,11 +286,13 @@ const removeVerbSuffixesStartingWithI = function( word, originalWord, rvIndex, v
  * @param {string}  wordAfterStep1    The word after step 1 was done.
  * @param {number}  r2Index           The start index of R2.
  * @param {number}  rvIndex           The start index of RV.
- * @param {Object}  otherVerbSuffixes The French verbal suffixes that do not start with I.
+ * @param {Object}  morphologyData    The French morphology data.
  *
  * @returns {string} The word after other verb suffixes were removed.
  */
-const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, otherVerbSuffixes ) {
+const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2Index, rvIndex, morphologyData ) {
+	const otherVerbSuffixes = morphologyData.regularStemmer.otherVerbSuffixes;
+
 	if ( step2aDone && wordAfterStep1 === word ) {
 		const suffixIons = new RegExp( otherVerbSuffixes[ 0 ] );
 		if ( word.search( suffixIons ) >= r2Index ) {
@@ -300,8 +302,16 @@ const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2In
 		for ( let i = 1; i < otherVerbSuffixes.length; i++ ) {
 			const regex = new RegExp( otherVerbSuffixes[ i ] );
 			if ( word.search( regex ) >= rvIndex ) {
-				return word.replace( regex,  "" );
+				return word.replace( regex, "" );
 			}
+		}
+		/*
+		 * Check for the verb suffix -ons and remove if in RV, unless it is preceded by -i. In most words ending in -ions,
+		 -ons is not a (full) suffix.
+		 */
+		const verbSuffixOns = new RegExp( morphologyData.regularStemmer.verbSuffixOns );
+		if ( word.search( verbSuffixOns ) >= rvIndex ) {
+			word = word.replace( verbSuffixOns, "$1" );
 		}
 	}
 
@@ -469,6 +479,15 @@ export default function stem( word, morphologyData ) {
 			return word.slice( 0, -1 );
 		}
 	}
+
+	// Check if word is on the exception list of nouns and adjectives for which the verb suffix -ons should not be stemmed.
+	const nonVerbsOnOns = morphologyData.nonVerbsOnOns;
+	if ( word.endsWith( "ons" ) ) {
+		if ( nonVerbsOnOns.includes( word ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
+
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
@@ -510,7 +529,7 @@ export default function stem( word, morphologyData ) {
 			wordAfterStep1,
 			r2Index,
 			rvIndex,
-			morphologyData.regularStemmer.otherVerbSuffixes
+			morphologyData
 		);
 	}
 
