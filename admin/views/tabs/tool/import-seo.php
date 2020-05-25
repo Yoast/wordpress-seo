@@ -37,7 +37,7 @@ if ( count( $import_check->needs_import ) === 0 ) {
  */
 function wpseo_import_external_select( $name, $plugins ) {
 	echo '<div class="yoast-field-group__title">';
-	echo '<label>'.esc_html__( 'Plugin: ', 'wordpress-seo' ).'</label>';
+	echo '<label>' . esc_html__( 'Plugin: ', 'wordpress-seo' ) . '</label>';
 	echo '</div>';
 	echo '<select class="yoast-select--inline" name="', esc_attr( $name ), '">';
 	foreach ( $plugins as $class => $plugin ) {
