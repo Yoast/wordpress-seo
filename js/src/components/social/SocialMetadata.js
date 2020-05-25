@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import { Collapsible } from "@yoast/components";
+import MetaboxCollapsible from "../MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,7 @@ import TwitterContainer from "../../containers/TwitterEditor";
 const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 	return (
 		<Fragment>
-			{ isFacebookEnabled && <Collapsible
+			{ isFacebookEnabled && <MetaboxCollapsible
 				hasPadding={ true }
 				hasSeparator={ true }
 				/* Translators: %s expands to Facebook. */
@@ -26,8 +26,8 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 				initialIsOpen={ true }
 			>
 				<FacebookContainer />
-			</Collapsible> }
-			{ isTwitterEnabled && <Collapsible
+			</MetaboxCollapsible> }
+			{ isTwitterEnabled && <MetaboxCollapsible
 				hasPadding={ true }
 				hasSeparator={ true }
 				/* Translators: %s expands to Twitter. */
@@ -35,7 +35,7 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />
-			</Collapsible> }
+			</MetaboxCollapsible> }
 		</Fragment>
 	);
 };

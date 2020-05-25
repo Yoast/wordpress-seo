@@ -85,7 +85,7 @@ class Comment_Link_Fixer_Test extends TestCase {
 
 		$this->instance->register_hooks();
 
-		add_filter( 'wpseo_remove_reply_to_com', '__return_false' );
+		\add_filter( 'wpseo_remove_reply_to_com', '__return_false' );
 
 		$this->assertTrue( \has_filter( 'comment_reply_link', [ $this->instance, 'remove_reply_to_com' ] ) );
 		$this->assertTrue( \has_action( 'template_redirect', [ $this->instance, 'replytocom_redirect' ] ) );

@@ -39,7 +39,6 @@ class Meta_Surface {
 	 */
 	private $wp_rewrite_wrapper;
 
-
 	/**
 	 * Meta_Surface constructor.
 	 *
@@ -309,15 +308,15 @@ class Meta_Surface {
 	 * @return boolean
 	 */
 	protected function is_date_archive_url( $url ) {
-		$path = \wp_parse_url( $url, PHP_URL_PATH );
+		$path = \wp_parse_url( $url, \PHP_URL_PATH );
 		$path = \ltrim( $path, '/' );
 
 		$wp_rewrite   = $this->wp_rewrite_wrapper->get();
-		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), EP_DATE );
+		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), \EP_DATE );
 		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );
 
 		foreach ( (array) $date_rewrite as $match => $query ) {
-			if ( preg_match( "#^$match#", $path ) ) {
+			if ( \preg_match( "#^$match#", $path ) ) {
 				return true;
 			}
 		}

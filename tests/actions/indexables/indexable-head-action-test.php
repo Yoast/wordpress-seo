@@ -187,10 +187,10 @@ class Indexable_Head_Action_Test extends TestCase {
 	 */
 	public function method_provider() {
 		return [
-			[ 'for_url'              , 'https://example.org/' ],
-			[ 'for_post'             , 1 ],
-			[ 'for_term'             , 1 ],
-			[ 'for_author'           , 1 ],
+			[ 'for_url', 'https://example.org/' ],
+			[ 'for_post', 1 ],
+			[ 'for_term', 1 ],
+			[ 'for_author', 1 ],
 			[ 'for_post_type_archive', 'type' ],
 		];
 	}

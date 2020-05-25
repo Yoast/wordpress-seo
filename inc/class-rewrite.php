@@ -241,4 +241,4 @@ class WPSEO_Rewrite {
 		wp_safe_redirect( $catlink, 301, 'Yoast SEO' );
 		exit;
 	}
-} /* End of class */
+}

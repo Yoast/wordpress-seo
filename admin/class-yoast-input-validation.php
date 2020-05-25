@@ -314,7 +314,7 @@ class Yoast_Input_Validation {
 			return sprintf(
 				/* translators: %s: form value as submitted. */
 				esc_html__( 'The submitted value was: %s', 'wordpress-seo' ),
-				$dirty_value
+				esc_html( $dirty_value )
 			);
 		}
 

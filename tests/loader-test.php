@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Conditional;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
@@ -16,8 +17,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Loader
  * @covers ::<!public>
- *
- * @package Yoast\WP\SEO\Tests
  */
 class Loader_Test extends TestCase {
 
@@ -30,9 +29,33 @@ class Loader_Test extends TestCase {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 1 );
+
 		$loader_mock->expects( 'load_initializers' )->once()->ordered();
 		$loader_mock->expects( 'load_integrations' )->once()->ordered();
 
+		$loader_mock->load();
+	}
+
+	/**
+	 * Tests load_initializers with load_integrations set as a hook.
+	 *
+	 * @covers ::load
+	 */
+	public function test_loading_integrations_set_as_hook() {
+		$loader_mock = Mockery::mock( Loader::class )->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 0 );
+
+		Monkey\Actions\expectAdded( 'init' )
+			->with( [ $loader_mock, 'load_integrations' ] );
+
+		$loader_mock->expects( 'load_initializers' )->once()->ordered();
 		$loader_mock->load();
 	}
 
@@ -50,6 +73,10 @@ class Loader_Test extends TestCase {
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
 		$container_mock->expects( 'get' )->once()->with( 'Unconditional_Integration' )->andReturn( $integration_mock );
+
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 1 );
 
 		$loader = new Loader( $container_mock );
 		$loader->register_integration( 'Unconditional_Integration' );
@@ -75,6 +102,10 @@ class Loader_Test extends TestCase {
 		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
 		$container_mock->expects( 'get' )->once()->with( 'Met_Conditional_Integration' )->andReturn( $integration_mock );
 
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 1 );
+
 		$loader = new Loader( $container_mock );
 		$loader->register_integration( 'Met_Conditional_Integration' );
 		$loader->load();
@@ -98,6 +129,10 @@ class Loader_Test extends TestCase {
 		$container_mock = Mockery::mock( ContainerInterface::class );
 		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
 		$container_mock->expects( 'get' )->never()->with( 'Unmet_Conditional_Integration' );
+
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 1 );
 
 		$loader = new Loader( $container_mock );
 		$loader->register_integration( 'Unmet_Conditional_Integration' );

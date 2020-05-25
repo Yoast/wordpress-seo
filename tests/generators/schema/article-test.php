@@ -13,8 +13,8 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\Article;
 use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Article_Double;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -52,7 +52,7 @@ class Article_Test extends TestCase {
 	/**
 	 * The meta tags context object.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $context_mock;
 
@@ -97,8 +97,8 @@ class Article_Test extends TestCase {
 		$this->instance                = Mockery::mock( Article_Double::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
-		$this->context_mock            = new Meta_Tags_Context();
-		$this->context_mock->indexable = new Indexable();
+		$this->context_mock            = new Meta_Tags_Context_Mock();
+		$this->context_mock->indexable = new Indexable_Mock();
 		$this->context_mock->post      = new stdClass();
 		$this->context_mock->id        = 5;
 
@@ -259,11 +259,13 @@ class Article_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		Monkey\Functions\expect( 'post_type_supports' )
 			->once()
@@ -292,10 +294,13 @@ class Article_Test extends TestCase {
 
 		Monkey\Functions\expect( 'wp_list_pluck' )
 			->once()
-			->with( array_slice( $terms, 0, 2 ), 'name' )
+			->with( \array_slice( $terms, 0, 2 ), 'name' )
 			->andReturn( [ 'Tag1', 'Tag2' ] );
 
-		$expected_value = [ 'data1' => 1, 'keywords' => 'Tag1,Tag2' ];
+		$expected_value = [
+			'data1'    => 1,
+			'keywords' => 'Tag1,Tag2',
+		];
 
 		$this->assertEquals( $expected_value, $this->instance->add_terms( [ 'data1' => 1 ], 'keywords', 'post_tag' ) );
 	}

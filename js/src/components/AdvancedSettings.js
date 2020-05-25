@@ -1,4 +1,4 @@
-import Collapsible from "./SidebarCollapsible";
+import MetaboxCollapsible from "./MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
@@ -30,10 +30,10 @@ const getNoIndexOptions = () => {
 		return [
 			{
 				name: sprintf(
-					/* Translators: %s translates to the Post Label in plural form, %s translates to "yes" or "no" */
-					__( "Default for %s, currently: %s", "wordpress-seo" ),
-					window.wpseoAdminL10n.postTypeNamePlural,
+					/* Translators: %s translates to "yes" or "no", %s translates to the Post Label in plural form */
+					__( "%s (current default for %s)", "wordpress-seo" ),
 					noIndex,
+					window.wpseoAdminL10n.postTypeNamePlural,
 				),
 				value: "0",
 			},
@@ -44,10 +44,10 @@ const getNoIndexOptions = () => {
 	return [
 		{
 			name: sprintf(
-				/* Translators: %s translates to the Post Label in plural form, %s translates to the "yes" or "no" */
-				__( "Default for %s, currently: %s", "wordpress-seo" ),
-				window.wpseoAdminL10n.postTypeNamePlural,
+				/* Translators: %s translates to the "yes" or "no" ,%s translates to the Post Label in plural form */
+				__( "%s (current default for %s)", "wordpress-seo" ),
 				noIndex,
+				window.wpseoAdminL10n.postTypeNamePlural,
 			),
 			value: "default",
 		},
@@ -196,7 +196,7 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			<Collapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+			<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
 				{ isPost() && <MetaRobotsNoFollow /> }
 				{ isPost() && <MetaRobotsAdvanced /> }
@@ -204,7 +204,7 @@ class AdvancedSettings extends Component {
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
-			</Collapsible>
+			</MetaboxCollapsible>
 		);
 	}
 }

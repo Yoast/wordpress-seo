@@ -5,13 +5,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Generate_Source_Test
+ * Class Replace_Vars_Object_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Presentation
  *
  * @group presentations
  */
-class Generate_Source_Test extends TestCase {
+class Replace_Vars_Object_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**

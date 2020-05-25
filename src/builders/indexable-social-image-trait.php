@@ -106,7 +106,7 @@ trait Indexable_Social_Image_Trait {
 
 		if ( ! empty( $image ) ) {
 			$indexable->open_graph_image      = $image['url'];
-			$indexable->open_graph_image_meta = wp_json_encode( $image );
+			$indexable->open_graph_image_meta = \wp_json_encode( $image );
 		}
 	}
 

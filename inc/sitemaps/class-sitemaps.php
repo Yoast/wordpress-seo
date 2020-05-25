@@ -554,7 +554,7 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( empty( $url ) ) {
-			$url = urlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+			$url = rawurlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 		}
 
 		// Ping Google and Bing.

@@ -103,4 +103,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	public function og_data_compare( $post ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.4' );
 	}
-} /* End of class */
+}
