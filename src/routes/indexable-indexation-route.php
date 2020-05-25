@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\REST_Request_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Main;
 
@@ -22,7 +22,12 @@ use Yoast\WP\SEO\Main;
  */
 class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
-	use No_Conditionals;
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ REST_Request_Conditional::class ];
+	}
 
 	/**
 	 * The indexation complete route constant.

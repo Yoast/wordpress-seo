@@ -1,25 +1,66 @@
 <?php
 /**
- * WPSEO plugin file.
+ * Registers the yoast head REST field.
+ * Not technically a route but behaves the same so is included here.
  *
- * @package WPSEO\XML_Sitemaps
+ * @package Yoast\WP\SEO\Routes\Routes
  */
+
+namespace Yoast\WP\SEO\Routes;
+
+use WP_Query;
+use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\XML_Sitemaps_Request_Conditional;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
- * Rewrite setup and handling for sitemaps functionality.
+ * XML_Sitemaps_Route class
  */
-class WPSEO_Sitemaps_Router {
+class XML_Sitemaps_Route implements Route_Interface {
 
 	/**
-	 * Sets up init logic.
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
 	 */
-	public function __construct() {
+	protected $post_type_helper;
+
+	/**
+	 * The taxonomy helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**
-	 * Sets up rewrite rules.
+	 * Yoast_Head_REST_Field constructor.
+	 *
+	 * @param Post_Type_Helper      $post_type_helper The post type helper.
+	 * @param Taxonomy_Helper       $taxonomy_helper  The taxonomy helper.
 	 */
-	public function init() {
+	public function __construct(
+		Post_Type_Helper $post_type_helper,
+		Taxonomy_Helper $taxonomy_helper
+	) {
+		$this->post_type_helper = $post_type_helper;
+		$this->taxonomy_helper  = $taxonomy_helper;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function register_routes() {
+		//		add_action( 'init', [ $this, 'init' ], 1 );
+		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
+		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ] );
 	}
 
 	/**
@@ -56,7 +97,7 @@ class WPSEO_Sitemaps_Router {
 	 *
 	 * @return bool True if redirect is needed, false otherwise.
 	 */
-	public function needs_sitemap_index_redirect() {
+	protected function needs_sitemap_index_redirect() {
 		global $wp_query;
 
 		$protocol = 'http://';
@@ -81,32 +122,5 @@ class WPSEO_Sitemaps_Router {
 		}
 
 		return $wp_query->is_404 && in_array( home_url( '/sitemap.xml' ), $check_urls, true );
-	}
-
-	/**
-	 * Create base URL for the sitemap.
-	 *
-	 * @param string $page Page to append to the base URL.
-	 *
-	 * @return string base URL (incl page)
-	 */
-	public static function get_base_url( $page ) {
-
-		global $wp_rewrite;
-
-		$base = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
-
-		/**
-		 * Filter the base URL of the sitemaps.
-		 *
-		 * @param string $base The string that should be added to home_url() to make the full base URL.
-		 */
-		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
-
-		/*
-		 * Get the scheme from the configured home URL instead of letting WordPress
-		 * determine the scheme based on the requested URI.
-		 */
-		return home_url( $base . $page, wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 	}
 }
