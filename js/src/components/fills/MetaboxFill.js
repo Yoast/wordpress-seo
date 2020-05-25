@@ -10,7 +10,7 @@ import Warning from "../../containers/Warning";
 import KeywordInput from "../contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
-import Collapsible from "../SidebarCollapsible";
+import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import TopLevelProviders from "../TopLevelProviders";
 import AdvancedSettings from "../AdvancedSettings";
@@ -52,12 +52,12 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<Collapsible
+					<MetaboxCollapsible
 						id={ "yoast-snippet-editor-metabox" }
 						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
 					>
 						<SnippetEditor hasPaperStyle={ false } />
-					</Collapsible>
+					</MetaboxCollapsible>
 				</TopLevelProviders>
 			</SidebarItem>
 			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>

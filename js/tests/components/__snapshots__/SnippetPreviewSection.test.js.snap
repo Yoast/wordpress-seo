@@ -6,8 +6,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
 }
 
 .c0.StyledSection__StyledSectionBase-enyt8a-2 {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 
 .c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
@@ -44,7 +43,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
             "rules": Array [
               "max-width:640px;&",
               ".StyledSection__StyledSectionBase-enyt8a-2",
-              "{padding-left:0;padding-right:0;& ",
+              "{padding:0;& ",
               ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],
@@ -94,8 +93,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
 }
 
 .c0.StyledSection__StyledSectionBase-enyt8a-2 {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 
 .c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
@@ -132,7 +130,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
             "rules": Array [
               "max-width:640px;&",
               ".StyledSection__StyledSectionBase-enyt8a-2",
-              "{padding-left:0;padding-right:0;& ",
+              "{padding:0;& ",
               ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],

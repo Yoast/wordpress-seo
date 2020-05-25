@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
-import { Collapsible } from "@yoast/components";
+import MetaboxCollapsible from "../MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
@@ -15,24 +15,20 @@ import TwitterContainer from "../../containers/TwitterEditor";
 const SocialMetadata = () => {
 	return (
 		<Fragment>
-			<Collapsible
-				hasPadding={ true }
-				hasSeparator={ true }
+			<MetaboxCollapsible
 				/* Translators: %s expands to Facebook. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
 			>
 				<FacebookContainer />
-			</Collapsible>
-			<Collapsible
-				hasPadding={ true }
-				hasSeparator={ true }
+			</MetaboxCollapsible>
+			<MetaboxCollapsible
 				/* Translators: %s expands to Twitter. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />
-			</Collapsible>
+			</MetaboxCollapsible>
 		</Fragment>
 	);
 };
