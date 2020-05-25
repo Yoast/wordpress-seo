@@ -16,7 +16,8 @@ Therefore, you will need to use a css-loader in your bundler in order to use thi
 
 E.g. in Webpack: https://webpack.js.org/loaders/css-loader/
 
-Make sure to add the CSS imports to your project. `import "@yoast/components/base";`
+Make sure to add the CSS imports to your project. `import "@yoast/components/base";` This is a collection of all the CSS in `@yoast/components`.
+It should be imported in App.js or index.js of your react project.
 
 ## Using the MultiSelect
 The `MultiSelect` component requires the presence of both [jQuery](https://jquery.com/download/) and [Select2](https://select2.org/getting-started/installation). Make sure that they are available on the global window object before the component is instantiated.
