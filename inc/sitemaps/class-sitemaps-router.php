@@ -14,12 +14,26 @@ class WPSEO_Sitemaps_Router {
 	 * Sets up init logic.
 	 */
 	public function __construct() {
+
+		add_action( 'init', [ $this, 'init' ], 1 );
+		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ] );
+		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
 	}
 
 	/**
 	 * Sets up rewrite rules.
 	 */
 	public function init() {
+
+		global $wp;
+
+		$wp->add_query_var( 'sitemap' );
+		$wp->add_query_var( 'sitemap_n' );
+		$wp->add_query_var( 'yoast-sitemap-xsl' );
+
+		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
+		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
+		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
 	}
 
 	/**
@@ -30,6 +44,7 @@ class WPSEO_Sitemaps_Router {
 	 * @return bool|string $redirect
 	 */
 	public function redirect_canonical( $redirect ) {
+
 		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
 			return false;
 		}
