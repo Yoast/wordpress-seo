@@ -8,7 +8,7 @@ The Yoast/Components package is not pre-build. So if you would like to include `
 	
 	Note that you will also need to install these presets. Run `yarn add --dev @babel/preset-env @babel/preset-react`
 
-### Now the JavaScript has been taken care of, we need to make sure CSS will also load.
+### Loading CSS
 
 Because we are importing CSS in our JavaScript, your JavaScript bundler needs to be able to interpret CSS.  
 
