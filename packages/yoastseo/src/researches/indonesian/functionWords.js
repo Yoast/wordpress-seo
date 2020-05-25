@@ -87,7 +87,7 @@ const interviewVerbs = [ "kata", "bilang", "berkata", "mengeklaim", "bertanya", 
 	"diumumkan", "dibicarakan", "mendiskusikan", "menyarankan", "disarankan", "mengerti" ];
 
 const additionalTransitionWords = [ "yakni", "yaitu", "artinya", "awalnya", "akhirnya", "makanya", "malahan", "malah", "memang",
-	"nantinya", "nanti", "pula", "seketika", "sekarang", "benar-benar", "kadang", "justru", "tetapi", "tapi", ];
+	"nantinya", "nanti", "pula", "seketika", "sekarang", "benar-benar", "kadang", "justru", "tetapi", "tapi" ];
 
 const intensifiers = [ "sangat", "amat", "terlalu", "terlampau", "sungguh", "serba", "agak", "begitu", "demikian",
 	"makin", "semakin", "kian", "tambah", "bertambah", "begini", "amatlah" ];
