@@ -56,7 +56,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present() {
 		$breadcrumbs = $this->get();
-		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
+		if ( ! \is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
@@ -142,8 +142,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		) {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
-			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
+			$link      .= '<a href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -234,7 +234,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! $this->wrapper ) {
 			$this->wrapper = \apply_filters( 'wpseo_breadcrumb_output_wrapper', 'span' );
 			$this->wrapper = \tag_escape( $this->wrapper );
-			if ( ! is_string( $this->wrapper ) || $this->wrapper === '' ) {
+			if ( ! \is_string( $this->wrapper ) || $this->wrapper === '' ) {
 				$this->wrapper = 'span';
 			}
 		}

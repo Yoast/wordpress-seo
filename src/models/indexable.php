@@ -134,7 +134,7 @@ class Indexable extends Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]
+	 * @var Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -143,7 +143,7 @@ class Indexable extends Model {
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable_Extension|bool The extension.
+	 * @return Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $class_name ) {
 		if ( ! $this->loaded_extensions[ $class_name ] ) {
@@ -182,7 +182,7 @@ class Indexable extends Model {
 		if ( ! isset( $permalink_parts['path'] ) ) {
 			$permalink_parts['path'] = '/';
 		}
-		if ( \substr( $permalink_structure , -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
+		if ( \substr( $permalink_structure, -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
 			$permalink_parts['path'] = \trailingslashit( $permalink_parts['path'] );
 		}
 

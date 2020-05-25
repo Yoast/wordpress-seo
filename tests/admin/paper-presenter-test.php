@@ -7,11 +7,9 @@ use WPSEO_Paper_Presenter;
 use Brain\Monkey;
 
 /**
- * Class WPSEO_Paper_Presenter_Test
- *
- * @package Yoast\WP\SEO\Tests\Admin
+ * Class Paper_Presenter_Test
  */
-class WPSEO_Paper_Presenter_Test extends TestCase {
+class Paper_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests whether the \WPSEO_Paper_Presenter can be used with a content option instead of a view file.

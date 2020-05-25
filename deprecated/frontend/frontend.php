@@ -110,15 +110,16 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		$presentation = $this->get_current_page_presentation();
-		if ( ! $echo ) {
-			return $presentation->canonical;
-		}
-
-		$presenter = new Canonical_Presenter();
+		$presenter    = new Canonical_Presenter();
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presenter->presentation = $presentation;
 		$presenter->helpers      = $this->helpers;
 		$presenter->replace_vars = $this->replace_vars;
+
+		if ( ! $echo ) {
+			return $presenter->get();
+		}
+
 		echo $presenter->present();
 	}
 
@@ -248,16 +249,15 @@ class WPSEO_Frontend {
 	public function metadesc( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
-		$presentation = $this->get_current_page_presentation();
-
-		if ( ! $echo ) {
-			return $presentation->meta_description;
-		}
-
+		$presentation            = $this->get_current_page_presentation();
 		$presenter               = new Meta_Description_Presenter();
 		$presenter->presentation = $presentation;
 		$presenter->helpers      = $this->helpers;
 		$presenter->replace_vars = $this->replace_vars;
+
+		if ( ! $echo ) {
+			return $presenter->get();
+		}
 		$presenter->present();
 	}
 

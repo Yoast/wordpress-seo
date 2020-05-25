@@ -3,10 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Database;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Config\Ruckusing_Framework;
-use Yoast\WP\SEO\Initializers\Database_Setup;
-use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Initializers\Migration_Runner;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -22,8 +21,6 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Migration_Runner
  * @covers ::<!public>
- *
- * @package Yoast\Tests
  */
 class Migration_Runner_Test extends TestCase {
 
@@ -124,7 +121,7 @@ class Migration_Runner_Test extends TestCase {
 	/**
 	 * Returns a wpdb mock.
 	 *
-	 * @return \wpdb The wpdb mock.
+	 * @return wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
 		$wpdb         = Mockery::mock( 'wpdb' );

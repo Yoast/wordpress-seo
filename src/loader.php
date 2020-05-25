@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO;
 
+use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,14 +46,14 @@ class Loader {
 	/**
 	 * The dependency injection container.
 	 *
-	 * @var \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
@@ -119,7 +120,7 @@ class Loader {
 
 		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
 			$this->load_commands();
 		}
 	}
@@ -133,7 +134,7 @@ class Loader {
 		foreach ( $this->commands as $class ) {
 			$command = $this->container->get( $class );
 
-			\WP_CLI::add_command( $class::get_namespace(), $command );
+			WP_CLI::add_command( $class::get_namespace(), $command );
 		}
 	}
 

@@ -31,7 +31,6 @@ class Indexables_Head_Route_Test extends TestCase {
 	 */
 	protected $head_action;
 
-
 	/**
 	 * Represents the instance to test.
 	 *
@@ -66,7 +65,7 @@ class Indexables_Head_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[
-				Headless_Rest_Endpoints_Enabled_Conditional::class
+				Headless_Rest_Endpoints_Enabled_Conditional::class,
 			],
 			Indexables_Head_Route::get_conditionals()
 		);
@@ -112,9 +111,7 @@ class Indexables_Head_Route_Test extends TestCase {
 		$this->head_action
 			->expects( 'for_url' )
 			->with( 'https://example.org' )
-			->andReturn( (object) [
-				'status' => 'yes',
-			] );
+			->andReturn( (object) [ 'status' => 'yes' ] );
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 

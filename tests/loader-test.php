@@ -17,8 +17,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Loader
  * @covers ::<!public>
- *
- * @package Yoast\WP\SEO\Tests
  */
 class Loader_Test extends TestCase {
 
@@ -48,7 +46,7 @@ class Loader_Test extends TestCase {
 	 */
 	public function test_loading_integrations_set_as_hook() {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
-		                      ->shouldAllowMockingProtectedMethods();
+			->shouldAllowMockingProtectedMethods();
 
 		Monkey\Functions\expect( 'did_action' )
 			->with( 'init' )

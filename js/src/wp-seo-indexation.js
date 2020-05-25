@@ -110,6 +110,9 @@ const settings = yoastIndexationData;
 					tb_remove();
 					indexationInProgress = false;
 				} ).catch( error => {
+					if ( stoppedIndexation ) {
+						return;
+					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( "#yoast-indexation-warning" )

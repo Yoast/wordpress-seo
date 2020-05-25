@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Post;
 use WP_Term;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -125,9 +124,9 @@ class Indexable_Hierarchy_Builder {
 	 * @return void
 	 */
 	private function save_ancestors( $indexable ) {
-		$depth = 1;
+		$depth = \count( $indexable->ancestors );
 		foreach ( $indexable->ancestors as $ancestor ) {
-			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth++ );
+			$this->indexable_hierarchy_repository->add_ancestor( $indexable->id, $ancestor->id, $depth-- );
 		}
 	}
 
@@ -224,7 +223,7 @@ class Indexable_Hierarchy_Builder {
 
 		$terms = \get_the_terms( $post->ID, $main_taxonomy );
 
-		if ( ! is_array( $terms ) || empty( $terms ) ) {
+		if ( ! \is_array( $terms ) || empty( $terms ) ) {
 			return 0;
 		}
 
@@ -257,11 +256,11 @@ class Indexable_Hierarchy_Builder {
 		 */
 		$parents_count = -1;
 		$term_order    = 9999; // Because ASC.
-		$deepest_term  = reset( $terms_by_id );
+		$deepest_term  = \reset( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
 			$parents = $this->get_term_parents( $term );
 
-			$new_parents_count = count( $parents );
+			$new_parents_count = \count( $parents );
 
 			if ( $new_parents_count < $parents_count ) {
 				continue;

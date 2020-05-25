@@ -233,7 +233,7 @@ class WooCommerce implements Integration_Interface {
 	 * @return int The ID of the set page.
 	 */
 	protected function get_shop_page_id() {
-		if ( ! function_exists( 'wc_get_page_id' ) ) {
+		if ( ! \function_exists( 'wc_get_page_id' ) ) {
 			return -1;
 		}
 

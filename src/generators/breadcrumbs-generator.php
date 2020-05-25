@@ -78,7 +78,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
 		$breadcrumbs_home = $this->options->get( 'breadcrumbs-home' );
-		if ( $breadcrumbs_home !== '' && ! in_array( $this->current_page_helper->get_page_type(), [ 'Home_Page', 'Static_Home_Page' ], true ) ) {
+		if ( $breadcrumbs_home !== '' && ! \in_array( $this->current_page_helper->get_page_type(), [ 'Home_Page', 'Static_Home_Page' ], true ) ) {
 			$front_page_id = $this->current_page_helper->get_front_page_id();
 			if ( $front_page_id === 0 ) {
 				$static_ancestors[] = $this->repository->find_for_home_page();
@@ -117,12 +117,12 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		$indexables[] = $context->indexable;
 
 		if ( ! empty( $static_ancestors ) ) {
-			array_unshift( $indexables, ...$static_ancestors );
+			\array_unshift( $indexables, ...$static_ancestors );
 		}
 
 		$indexables = \apply_filters( 'wpseo_breadcrumb_indexables', $indexables, $context );
 
-		$crumbs = array_map( function ( Indexable $ancestor ) {
+		$callback = function ( Indexable $ancestor ) {
 			$crumb = [
 				'url'  => $ancestor->permalink,
 				'text' => $ancestor->breadcrumb_title,
@@ -148,7 +148,8 @@ class Breadcrumbs_Generator implements Generator_Interface {
 					break;
 			}
 			return $crumb;
-		}, $indexables );
+		};
+		$crumbs   = \array_map( $callback, $indexables );
 
 		if ( $breadcrumbs_home !== '' ) {
 			$crumbs[0]['text'] = $breadcrumbs_home;
@@ -159,9 +160,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		 *
 		 * @api array $crumbs The crumbs array.
 		 */
-		$crumbs = apply_filters( 'wpseo_breadcrumb_links', $crumbs );
+		$crumbs = \apply_filters( 'wpseo_breadcrumb_links', $crumbs );
 
-		return array_map( function( $link_info, $index ) use ( $crumbs ) {
+		$filter_callback = function( $link_info, $index ) use ( $crumbs ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
 			 *
@@ -170,8 +171,9 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			 * @param int $index The index of the breadcrumb in the list.
 			 * @param array $crumbs The complete list of breadcrumbs.
 			 */
-			return apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $crumbs );
-		}, $crumbs, array_keys( $crumbs ) );
+			return \apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $index, $crumbs );
+		};
+		return \array_map( $filter_callback, $crumbs, \array_keys( $crumbs ) );
 	}
 
 	/**
@@ -245,7 +247,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @return array The crumb.
 	 */
 	private function get_user_crumb( $crumb, $ancestor ) {
-		$display_name = \get_the_author_meta( 'display_name', $ancestor->object_id );
+		$display_name  = \get_the_author_meta( 'display_name', $ancestor->object_id );
 		$crumb['text'] = $this->options->get( 'breadcrumbs-archiveprefix' ) . ' ' . $display_name;
 
 		return $crumb;
@@ -299,7 +301,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		}
 
 		// When the current page is the home page, searchpage or isn't a singular post.
-		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
+		if ( \is_home() || \is_search() || ! \is_singular( 'post' ) ) {
 			return false;
 		}
 

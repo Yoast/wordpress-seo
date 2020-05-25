@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Title_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -35,7 +36,7 @@ class Title_Presenter_Test extends TestCase {
 	/**
 	 * The WPSEO Replace Vars object.
 	 *
-	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
+	 * @var WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 
@@ -46,7 +47,7 @@ class Title_Presenter_Test extends TestCase {
 		$this->instance               = new Title_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->indexable_presentation = $this->instance->presentation;
-		$this->replace_vars           = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars           = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance->replace_vars         = $this->replace_vars;
 		$this->indexable_presentation->source = [];
@@ -64,9 +65,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
 		$actual   = $this->instance->present();
@@ -83,9 +86,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 		$this->assertEmpty( $actual );
@@ -95,16 +100,18 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct Twitter title, when the `wpseo_twitter_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->twitter_title = 'twitter_example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_title' )
 			->once()

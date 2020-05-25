@@ -25,8 +25,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Primary_Term_Watcher_Test extends TestCase {
 
@@ -75,12 +73,15 @@ class Primary_Term_Watcher_Test extends TestCase {
 		$this->site                 = Mockery::mock( Site_Helper::class );
 		$this->primary_term         = Mockery::mock( Primary_Term_Helper::class );
 		$this->primary_term_builder = Mockery::mock( Primary_Term_Builder::class );
-		$this->instance             = Mockery::mock( Primary_Term_Watcher::class, [
-			$this->repository,
-			$this->site,
-			$this->primary_term,
-			$this->primary_term_builder,
-		] )
+		$this->instance             = Mockery::mock(
+			Primary_Term_Watcher::class,
+			[
+				$this->repository,
+				$this->site,
+				$this->primary_term,
+				$this->primary_term_builder,
+			]
+		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -119,11 +120,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 			->expects( 'get_primary_term_taxonomies' )
 			->once()
 			->with( 1 )
-			->andReturn( [
-				(object) [
-					'name' => 'category',
-				],
-			] );
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
 
 		$primary_term = Mockery::mock();
 		$primary_term->expects( 'delete' )->once();
@@ -146,11 +143,7 @@ class Primary_Term_Watcher_Test extends TestCase {
 			->expects( 'get_primary_term_taxonomies' )
 			->once()
 			->with( 1 )
-			->andReturn( [
-				(object) [
-					'name' => 'category',
-				],
-			] );
+			->andReturn( [ (object) [ 'name' => 'category' ] ] );
 
 		$this->repository
 			->expects( 'find_by_post_id_and_taxonomy' )
