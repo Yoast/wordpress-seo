@@ -231,7 +231,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 	public function database_exists( $db ) {
 		$ddl    = 'SHOW DATABASES';
 		$result = $this->select_all( $ddl );
-		if ( \count( $result ) === 0 ) {
+		if ( \count( $result ) == 0 ) {
 			return false;
 		}
 		foreach ( $result as $dbrow ) {
