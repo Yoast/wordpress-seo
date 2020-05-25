@@ -211,7 +211,7 @@ class Migration {
 	 * @param string       $table_name The name of the table.
 	 * @param array|string $options    The options.
 	 *
-	 * @return bool|Ruckusing_Adapter_MySQL_TableDefinition|Ruckusing_Adapter_PgSQL_TableDefinition|Ruckusing_Adapter_Sqlite3_TableDefinition
+	 * @return bool|Table
 	 */
 	public function create_table( $table_name, $options = [] ) {
 		return $this->_adapter->create_table( $table_name, $options );
