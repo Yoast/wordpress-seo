@@ -19,7 +19,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @var Meta_Tags_Context[]
 	 */
-	protected $indexables;
+	protected $context = [];
 
 	/**
 	 * Holds the SEO analysis.
@@ -63,18 +63,33 @@ class WPSEO_Meta_Columns {
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
 
-		// Hook into tablenav to get the indexables.
-		add_action( 'manage_posts_extra_tablenav', [ $this, 'count_objects' ] );
+		// Hook into tablenav to get the indexable context, at this point we can get the post ids.
+		add_action( 'manage_posts_extra_tablenav', [ $this, 'get_post_ids_and_set_context' ] );
 	}
 
 	/**
-	 * Retrieves the indexables for later use.
+	 * Retrieves the posts ids and set the context objects for all the indexables belonging
+	 * to the post ids.
 	 *
 	 * @param string $target Extra table navigation location which is triggered.
 	 */
-	public function count_objects( $target ) {
+	public function get_post_ids_and_set_context( $target ) {
 		if ( $target === 'top' ) {
-			$this->set_indexables();
+			global $wp_query;
+
+			$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+			$post_ids = [];
+
+			// Post lists return a list of objects.
+			if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+				$post_ids = wp_list_pluck( $posts, 'ID' );
+			}
+			elseif ( ! empty( $posts ) ) {
+				// Page list returns an array of post IDs.
+				$post_ids = array_keys( $posts );
+			}
+
+			$this->set_context( $post_ids );
 		}
 	}
 
@@ -133,14 +148,14 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				$context = $this->get_indexable( $post_id );
+				$context = $this->get_context( $post_id );
 				$title   = apply_filters( 'wpseo_title', $context->title, $context->presentation );
 
 				echo esc_html( $title );
 				return;
 
 			case 'wpseo-metadesc':
-				$context      = $this->get_indexable( $post_id );
+				$context      = $this->get_context( $post_id );
 				$metadesc_val = apply_filters( 'wpseo_metadesc', $context->description, $context->presentation );
 
 				if ( $metadesc_val === '' ) {
@@ -759,21 +774,13 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
-	 * Sets the objects to use for the count.
+	 * Sets the meta tags context for each post id.
+	 *
+	 * @param array $post_ids The post ids to get the context for.
 	 */
-	protected function set_indexables() {
-		global $wp_query;
-
-		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
-		$post_ids = [];
-
-		// Post lists return a list of objects.
-		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
-			$post_ids = wp_list_pluck( $posts, 'ID' );
-		}
-		elseif ( ! empty( $posts ) ) {
-			// Page list returns an array of post IDs.
-			$post_ids = array_keys( $posts );
+	protected function set_context( $post_ids ) {
+		if ( empty( $post_ids ) ) {
+			return;
 		}
 
 		/**
@@ -791,7 +798,7 @@ class WPSEO_Meta_Columns {
 			->find_many();
 
 		foreach ( $indexables as $indexable ) {
-			$this->indexables[ $indexable->object_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
+			$this->context[ $indexable->object_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
 		}
 	}
 
@@ -802,8 +809,8 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @return Meta_Tags_Context
 	 */
-	protected function get_indexable( $post_id ) {
-		if ( ! isset( $this->indexables[ $post_id ] ) ) {
+	protected function get_context( $post_id ) {
+		if ( ! isset( $this->context[ $post_id ] ) ) {
 			$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
 
@@ -812,9 +819,9 @@ class WPSEO_Meta_Columns {
 				return null;
 			}
 
-			$this->indexables[ $post_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
+			$this->context[ $post_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
 		}
 
-		return $this->indexables[ $post_id ];
+		return $this->context[ $post_id ];
 	}
 }
