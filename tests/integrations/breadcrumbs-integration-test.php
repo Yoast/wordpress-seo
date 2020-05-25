@@ -1,14 +1,16 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Integrations
+ */
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
 use Mockery;
-use Brain\Monkey;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Breadcrumbs_Integration;
-use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
@@ -65,7 +67,7 @@ class Breadcrumbs_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Breadcrumbs_Enabled_Conditional::class, Migrations_Conditional::class ], Breadcrumbs_Integration::get_conditionals() );
+		$this->assertEquals( [ Breadcrumbs_Enabled_Conditional::class ], Breadcrumbs_Integration::get_conditionals() );
 	}
 
 	/**

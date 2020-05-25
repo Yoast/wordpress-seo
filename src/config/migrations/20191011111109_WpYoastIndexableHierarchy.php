@@ -21,18 +21,26 @@ class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name, [ 'id' => false ] );
 
-		$indexable_table->column( 'indexable_id', 'integer', [
-			'primary_key' => true,
-			'unsigned'    => true,
-			'null'        => true,
-			'limit'       => 11,
-		] );
-		$indexable_table->column( 'ancestor_id', 'integer', [
-			'primary_key' => true,
-			'unsigned'    => true,
-			'null'        => true,
-			'limit'       => 11,
-		] );
+		$indexable_table->column(
+			'indexable_id',
+			'integer',
+			[
+				'primary_key' => true,
+				'unsigned'    => true,
+				'null'        => true,
+				'limit'       => 11,
+			]
+		);
+		$indexable_table->column(
+			'ancestor_id',
+			'integer',
+			[
+				'primary_key' => true,
+				'unsigned'    => true,
+				'null'        => true,
+				'limit'       => 11,
+			]
+		);
 		$indexable_table->column( 'depth', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
 		$indexable_table->finish();
 

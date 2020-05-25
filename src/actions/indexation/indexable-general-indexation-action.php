@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -37,7 +36,7 @@ class Indexable_General_Indexation_Action implements Indexation_Action_Interface
 	public function get_total_unindexed() {
 		$indexables_to_create = $this->query();
 
-		return count( $indexables_to_create );
+		return \count( $indexables_to_create );
 	}
 
 	/**

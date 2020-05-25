@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Builders\Primary_Term_Builder_Double;
-use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\Doubles\Models\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -66,7 +66,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the constructor succesfully creates
+	 * Tests that the constructor successfully creates the primary term builder.
 	 *
 	 * @covers ::__construct
 	 */
@@ -157,7 +157,7 @@ class Primary_Term_Builder_Test extends TestCase {
 	 * @covers ::save_primary_term
 	 */
 	public function test_save_primary_term() {
-		$primary_term = Mockery::mock( Primary_Term::class );
+		$primary_term = Mockery::mock( Primary_Term_Mock::class );
 		$primary_term->expects( 'save' )->once();
 
 		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
@@ -178,6 +178,36 @@ class Primary_Term_Builder_Test extends TestCase {
 		$this->assertEquals( 1337, $primary_term->term_id );
 		$this->assertEquals( 1, $primary_term->post_id );
 		$this->assertEquals( 'category', $primary_term->taxonomy );
+		$this->assertEquals( 1, $primary_term->blog_id );
+	}
+
+	/**
+	 * Tests the saving of a primary term, the happy path.
+	 *
+	 * @covers ::save_primary_term
+	 */
+	public function test_save_primary_term_of_custom_taxonomy() {
+		$primary_term = Mockery::mock( Primary_Term_Mock::class );
+		$primary_term->expects( 'save' )->once();
+
+		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+
+		$this->repository
+			->expects( 'find_by_post_id_and_taxonomy' )
+			->once()
+			->with( 1, 'custom', true )
+			->andReturn( $primary_term );
+
+		$this->meta
+			->expects( 'get_value' )
+			->with( 'primary_custom', 1 )
+			->andReturn( 1337 );
+
+		$this->instance->save_primary_term( 1, 'custom' );
+
+		$this->assertEquals( 1337, $primary_term->term_id );
+		$this->assertEquals( 1, $primary_term->post_id );
+		$this->assertEquals( 'custom', $primary_term->taxonomy );
 		$this->assertEquals( 1, $primary_term->blog_id );
 	}
 

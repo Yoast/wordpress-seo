@@ -1396,4 +1396,4 @@ class WPSEO_Replace_Vars {
 
 		return $replacement;
 	}
-} /* End of class WPSEO_Replace_Vars */
+}

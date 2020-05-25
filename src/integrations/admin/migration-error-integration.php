@@ -18,18 +18,18 @@ use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 class Migration_Error_Integration implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
-	}
-
-	/**
 	 * The migration status object.
 	 *
 	 * @var Migration_Status
 	 */
 	protected $migration_status;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
 
 	/**
 	 * Migration_Error_Integration constructor.
@@ -57,6 +57,6 @@ class Migration_Error_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_migration_error() {
-		echo new Migration_Error_Presenter();
+		echo new Migration_Error_Presenter( $this->migration_status->get_error( 'free' ) );
 	}
 }

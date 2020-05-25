@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO;
 
+use WP_CLI;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,14 +46,14 @@ class Loader {
 	/**
 	 * The dependency injection container.
 	 *
-	 * @var \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
@@ -109,11 +110,17 @@ class Loader {
 	 */
 	public function load() {
 		$this->load_initializers();
-		$this->load_integrations();
+
+		if ( ! \did_action( 'init' ) ) {
+			\add_action( 'init', [ $this, 'load_integrations' ] );
+		}
+		else {
+			$this->load_integrations();
+		}
 
 		\add_action( 'rest_api_init', [ $this, 'load_routes' ] );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		if ( \defined( 'WP_CLI' ) && \WP_CLI ) {
 			$this->load_commands();
 		}
 	}
@@ -127,7 +134,7 @@ class Loader {
 		foreach ( $this->commands as $class ) {
 			$command = $this->container->get( $class );
 
-			\WP_CLI::add_command( $class::get_namespace(), $command );
+			WP_CLI::add_command( $class::get_namespace(), $command );
 		}
 	}
 
@@ -151,7 +158,7 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	protected function load_integrations() {
+	public function load_integrations() {
 		foreach ( $this->integrations as $class ) {
 			if ( ! $this->conditionals_are_met( $class ) ) {
 				continue;

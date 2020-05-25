@@ -76,7 +76,7 @@ class Primary_Term_Builder {
 	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		$term_id = $this->meta->get_value( 'primary_category', $post_id );
+		$term_id = $this->meta->get_value( 'primary_' . $taxonomy, $post_id );
 
 		$term_selected = ! empty( $term_id );
 		$primary_term  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );

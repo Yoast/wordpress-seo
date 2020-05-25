@@ -124,11 +124,11 @@ class Images {
 	 * @return void
 	 */
 	public function add_image( $image ) {
-		if ( is_string( $image ) ) {
+		if ( \is_string( $image ) ) {
 			$image = [ 'url' => $image ];
 		}
 
-		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
+		if ( ! \is_array( $image ) || empty( $image['url'] ) || ! \is_string( $image['url'] ) ) {
 			return;
 		}
 
@@ -136,7 +136,7 @@ class Images {
 			$image['url'] = $this->url->build_absolute_url( $image['url'] );
 		}
 
-		if ( array_key_exists( $image['url'], $this->images ) ) {
+		if ( \array_key_exists( $image['url'], $this->images ) ) {
 			return;
 		}
 

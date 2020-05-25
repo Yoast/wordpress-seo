@@ -290,4 +290,21 @@ class Meta_Tags_Context_Test extends TestCase {
 
 		$this->assertEquals( 'person', $this->instance->generate_site_represents() );
 	}
+
+	/**
+	 * Tests the debug info method.
+	 *
+	 * @covers ::__debugInfo
+	 */
+	public function test_debug_info() {
+		$this->instance->indexable    = 'indexable';
+		$this->instance->presentation = 'presentation';
+
+		$expected = [
+			'indexable'    => 'indexable',
+			'presentation' => 'presentation',
+		];
+
+		$this->assertEquals( $expected, $this->instance->__debugInfo() );
+	}
 }

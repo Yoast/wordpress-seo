@@ -119,11 +119,17 @@ class Indexable_Repository {
 		}
 
 		if ( $indexable === false ) {
-			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
+			return $this->query()->create(
+				[
+					'object_type' => 'unknown',
+					'post_status' => 'unindexed',
+				]
+			);
 		}
 
 		return $indexable;
 	}
+
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *
@@ -132,7 +138,6 @@ class Indexable_Repository {
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
 	public function find_by_permalink( $permalink ) {
-		$permalink      = \trailingslashit( $permalink );
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
@@ -348,15 +353,20 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable ) {
-		$ancestors = $this->hierarchy_repository->find_ancestors( $indexable );
-
-		if ( empty( $ancestors ) ) {
-			return [];
+		// If we've already set ancestors on the indexable no need to get them again.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
 		}
 
-		$indexable_ids = [];
-		foreach ( $ancestors as $ancestor ) {
-			$indexable_ids[] = $ancestor->ancestor_id;
+		$indexable_ids = $this->hierarchy_repository->find_ancestors( $indexable );
+
+		// If we've set ancestors on the indexable because we had to build them to find them.
+		if ( \is_array( $indexable->ancestors ) && ! empty( $indexable->ancestors ) ) {
+			return \array_map( [ $this, 'ensure_permalink' ], $indexable->ancestors );
+		}
+
+		if ( empty( $indexable_ids ) ) {
+			return [];
 		}
 
 		if ( $indexable_ids[0] === 0 && \count( $indexable_ids ) === 1 ) {
@@ -364,9 +374,9 @@ class Indexable_Repository {
 		}
 
 		$indexables = $this->query()
-						   ->where_in( 'id', $indexable_ids )
-						   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-						   ->find_many();
+			->where_in( 'id', $indexable_ids )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+			->find_many();
 
 		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}
@@ -397,17 +407,24 @@ class Indexable_Repository {
 		switch ( true ) {
 			case $indexable->object_type === 'post':
 			case $indexable->object_type === 'home-page':
-				return get_permalink( $indexable->object_id );
+				if ( $indexable->object_sub_type === 'attachment' ) {
+					return \wp_get_attachment_url( $indexable->object_id );
+				}
+				return \get_permalink( $indexable->object_id );
 			case $indexable->object_type === 'term':
-				$term = get_term( $indexable->object_id );
+				$term = \get_term( $indexable->object_id );
 
-				return get_term_link( $term, $term->taxonomy );
+				if ( $term === null || \is_wp_error( $term ) ) {
+					return null;
+				}
+
+				return \get_term_link( $term, $term->taxonomy );
 			case $indexable->object_type === 'system-page' && $indexable->object_sub_type === 'search-page':
-				return get_search_link();
+				return \get_search_link();
 			case $indexable->object_type === 'post-type-archive':
-				return get_post_type_archive_link( $indexable->object_sub_type );
+				return \get_post_type_archive_link( $indexable->object_sub_type );
 			case $indexable->object_type === 'user':
-				return get_author_posts_url( $indexable->object_id );
+				return \get_author_posts_url( $indexable->object_id );
 		}
 
 		return null;
