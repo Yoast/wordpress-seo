@@ -338,7 +338,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( $this->social_is_enabled ) {
 			$content_sections[] = $this->get_social_meta_section();
 		}
-		
+
 		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
 
 		return $content_sections;
