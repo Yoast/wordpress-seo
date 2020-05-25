@@ -92,7 +92,7 @@ class WPSEO_Meta_Columns {
 			$post_ids = array_keys( $posts );
 		}
 
-		$this->set_context( $post_ids );
+		$this->set_context_for_post_ids( $post_ids );
 	}
 
 	/**
@@ -150,14 +150,14 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				$context = $this->get_context( $post_id );
+				$context = $this->get_context_for_post_id( $post_id );
 				$title   = apply_filters( 'wpseo_title', $context->title, $context->presentation );
 
 				echo esc_html( $title );
 				return;
 
 			case 'wpseo-metadesc':
-				$context      = $this->get_context( $post_id );
+				$context      = $this->get_context_for_post_id( $post_id );
 				$metadesc_val = apply_filters( 'wpseo_metadesc', $context->description, $context->presentation );
 
 				if ( $metadesc_val === '' ) {
@@ -780,7 +780,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @param array $post_ids The post ids to get the context for.
 	 */
-	protected function set_context( $post_ids ) {
+	protected function set_context_for_post_ids( $post_ids ) {
 		if ( empty( $post_ids ) ) {
 			return;
 		}
@@ -811,7 +811,7 @@ class WPSEO_Meta_Columns {
 	 *
 	 * @return Meta_Tags_Context
 	 */
-	protected function get_context( $post_id ) {
+	protected function get_context_for_post_id( $post_id ) {
 		if ( ! isset( $this->context[ $post_id ] ) ) {
 			$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
