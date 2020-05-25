@@ -1,6 +1,7 @@
 /* External dependencies */
 import { Fragment } from "@wordpress/element";
 import MetaboxCollapsible from "../MetaboxCollapsible";
+import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import FacebookContainer from "../../containers/FacebookEditor";
@@ -15,12 +16,16 @@ const SocialMetadata = () => {
 	return (
 		<Fragment>
 			<MetaboxCollapsible
-				title="Facebook"
+				/* Translators: %s expands to Facebook. */
+				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
+				initialIsOpen={ true }
 			>
 				<FacebookContainer />
 			</MetaboxCollapsible>
 			<MetaboxCollapsible
-				title="Twitter"
+				/* Translators: %s expands to Twitter. */
+				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
+				initialIsOpen={ true }
 			>
 				<TwitterContainer />
 			</MetaboxCollapsible>
