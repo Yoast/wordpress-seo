@@ -15,6 +15,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Bugfixes
 * Fixes a bug where the Select's selected option text was too long for the container.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
 
 ## 2.1.0 May 11th, 2020
 ### Added
