@@ -74,23 +74,25 @@ class WPSEO_Meta_Columns {
 	 * @param string $target Extra table navigation location which is triggered.
 	 */
 	public function get_post_ids_and_set_context( $target ) {
-		if ( $target === 'top' ) {
-			global $wp_query;
-
-			$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
-			$post_ids = [];
-
-			// Post lists return a list of objects.
-			if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
-				$post_ids = wp_list_pluck( $posts, 'ID' );
-			}
-			elseif ( ! empty( $posts ) ) {
-				// Page list returns an array of post IDs.
-				$post_ids = array_keys( $posts );
-			}
-
-			$this->set_context( $post_ids );
+		if ( $target !== 'top' ) {
+			return;
 		}
+
+		global $wp_query;
+
+		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+		$post_ids = [];
+
+		// Post lists return a list of objects.
+		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+			$post_ids = wp_list_pluck( $posts, 'ID' );
+		}
+		elseif ( ! empty( $posts ) ) {
+			// Page list returns an array of post IDs.
+			$post_ids = array_keys( $posts );
+		}
+
+		$this->set_context( $post_ids );
 	}
 
 	/**
