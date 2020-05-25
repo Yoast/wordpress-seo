@@ -109,9 +109,12 @@ class WPSEO_Taxonomy_Metabox {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_social_meta_section();
-		// $this->social_admin = new WPSEO_Social_Admin();
-		// $content_sections[] = new WPSEO_Metabox_Section_Social( $this->social_admin );
+		$show_facebook = WPSEO_Options::get( "opengraph", false );
+		$show_twitter = WPSEO_Options::get( "twitter", false );
+
+		if ( $show_facebook || $show_twitter ) {
+			$content_sections[] = $this->get_social_meta_section( $show_facebook, $show_twitter );
+		}
 
 		return $content_sections;
 	}
@@ -164,17 +167,20 @@ class WPSEO_Taxonomy_Metabox {
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_social_meta_section() {
+	private function get_social_meta_section( $show_facebook, $show_twitter) {
 		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$this->social_admin           = new WPSEO_Social_Admin();
 
 		$content = '';
 
-		$facebook_fields = $this->taxonomy_social_fields->get_by_network( 'opengraph' );
-		$content .= $this->taxonomy_tab_content->html( $facebook_fields );
+		if ( $show_facebook ) {
+			$facebook_fields = $this->taxonomy_social_fields->get_by_network( 'opengraph' );
+			$content .= $this->taxonomy_tab_content->html( $facebook_fields );
+		};
 
-		$twitter_fields = $this->taxonomy_social_fields->get_by_network( 'twitter' );
-		$content .= $this->taxonomy_tab_content->html( $twitter_fields );
+		if ( $show_twitter ) {
+			$twitter_fields = $this->taxonomy_social_fields->get_by_network( 'twitter' );
+			$content .= $this->taxonomy_tab_content->html( $twitter_fields );
+		}
 
 		// Add react target
 		$content .= '<div id="wpseo-section-social"></div>';

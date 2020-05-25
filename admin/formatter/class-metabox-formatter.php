@@ -73,6 +73,10 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'showSocial' => [
+				"facebook" => WPSEO_Options::get( 'opengraph', false ),
+				"twitter" => WPSEO_Options::get( 'twitter', false ),
+			],
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
