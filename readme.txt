@@ -211,6 +211,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 = 14.2 =
 Release Date: May 26th, 2020
+In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
 
 Bugfixes:
 
