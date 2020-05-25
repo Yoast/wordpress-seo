@@ -132,7 +132,6 @@ const timeWords = [ "detik", "menit", "jam", "detik-detik", "menit-menit", "jam-
 	"minggu-minggu", "bulan", "bulan-bulan", "tahun", "tahun-tahun", "besok", "kemarin", "lusa", "malam-malam", "siang-siang",
 	"subuh", "bedug", "keesokan" ];
 
-// 'People' should only be removed in combination with 'some', 'many' and 'few' (and is therefore not yet included in the list below).
 const vagueNouns = [ "cara", "barang", "masalah", "bagian", "bagian-bagian", "aspek", "aspek-aspek", "ide", "item",
 	"tema", "hal", "perkara", "faktor", "faktor-faktor", "detil", "perbedaan", "adanya", "beginian", "rupanya", "diri" ];
 
