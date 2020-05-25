@@ -344,6 +344,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $content_sections;
 	}
 
+	/**
+	 * Returns the social section for the social previews.
+	 * 
+	 * @return WPSEO_Metabox_Section
+	 */
 	private function get_social_meta_section() {
 		$content = '';
 
