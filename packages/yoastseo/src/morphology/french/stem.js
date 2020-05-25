@@ -1,6 +1,7 @@
 /* eslint-disable max-statements, complexity */
 import { checkIfWordEndingIsOnExceptionList } from "../morphoHelpers/exceptionListHelpers";
 import { applyAllReplacements } from "../morphoHelpers/regexHelpers";
+
 /*
  * MIT License
  *
@@ -375,9 +376,43 @@ const checkWordInFullFormExceptions = function( word, exceptions ) {
  * @returns {null|string}	The canonical stem if word was found on the list.
  */
 const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
+	// Check the adjectives list.
 	for ( const paradigm of stemsThatBelongToOneWord.adjectives ) {
 		if ( paradigm.includes( stemmedWord ) ) {
 			return paradigm[ 0 ];
+		}
+	}
+	// Check the verbs list. The infinitive stem is always the canonical stem for verbs.
+	for ( const paradigm of stemsThatBelongToOneWord.verbs ) {
+		if ( paradigm.includes( stemmedWord ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+};
+
+/**
+ * Checks whether the word is on the list of words which should be stemmed, even though the suffix would not be found in the
+ * required region. If the word is found on the list, the stem specified in that list is returned.
+ *
+ * @param {string}	word				The word to check.
+ * @param {Object}	shortWordsAndStems	The list to check.
+ *
+ * @returns {null|string} The stem or null if the word was not found on the list.
+ */
+const checkShortWordsExceptionList = function( word, shortWordsAndStems ) {
+	// First check whether the word is on the sub-list of words that cannot take an extra -s suffix.
+	for ( const wordStemPair of shortWordsAndStems.cannotTakeExtraSuffixS ) {
+		if ( wordStemPair[ 0 ] === word ) {
+			return wordStemPair[ 1 ];
+		}
+	}
+	// If the word was not found on the first sub-list, check the second sub-list of words that can take an extra -s suffix.
+	if ( word.endsWith( "s" ) ) {
+		word = word.slice( 0, -1 );
+	}
+	for ( const wordStemPair of shortWordsAndStems.canTakeExtraSuffixS ) {
+		if ( wordStemPair[ 0 ] === word ) {
+			return wordStemPair[ 1 ];
 		}
 	}
 };
@@ -394,6 +429,12 @@ export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
 	const originalWord = word;
 
+	// Check if the word is on an exception list of words that should be stemmed even though the suffix is not in the required region.
+	const wordAfterShortWordsCheck = checkShortWordsExceptionList( word, morphologyData.shortWordsAndStems );
+	if ( wordAfterShortWordsCheck ) {
+		return wordAfterShortWordsCheck;
+	}
+
 	// Check if the word is on an exception list for which all forms of a word and its stem are listed.
 	const ifException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
 	if ( ifException ) {
@@ -408,6 +449,26 @@ export default function stem( word, morphologyData ) {
 		}
 	}
 
+	// Check if the word is on the exception list of words for which -s should not be stemmed.
+	if ( word.endsWith( "s" ) ) {
+		const sShouldNotBeStemmed = morphologyData.sShouldNotBeStemmed;
+		if ( sShouldNotBeStemmed.includes( word ) ) {
+			return word;
+		}
+	}
+
+	// Check if the word is on the exception list of words for which -ent should not be stemmed.
+	const nonVerbsOnEnt = morphologyData.nonVerbsOnEnt;
+	if ( word.endsWith( "ent" ) ) {
+		if ( nonVerbsOnEnt.includes( word ) ) {
+			return word;
+		}
+	}
+	if ( word.endsWith( "ents" ) ) {
+		if ( nonVerbsOnEnt.includes( word.slice( 0, -1 ) ) ) {
+			return word.slice( 0, -1 );
+		}
+	}
 	// Pre-processing steps
 	word = applyAllReplacements( word, morphologyData.regularStemmer.preProcessingStepsRegexes );
 
@@ -442,14 +503,16 @@ export default function stem( word, morphologyData ) {
 	 * Step 2b:
 	 * Stem other verb suffixes
 	 */
-	word = removeOtherVerbSuffixes(
-		word,
-		step2aDone,
-		wordAfterStep1,
-		r2Index,
-		rvIndex,
-		morphologyData.regularStemmer.otherVerbSuffixes
-	);
+	if ( ! nonVerbsOnEnt.includes( word ) ) {
+		word = removeOtherVerbSuffixes(
+			word,
+			step2aDone,
+			wordAfterStep1,
+			r2Index,
+			rvIndex,
+			morphologyData.regularStemmer.otherVerbSuffixes
+		);
+	}
 
 	if ( originalWord === word.toLowerCase() ) {
 		/* Step 4:

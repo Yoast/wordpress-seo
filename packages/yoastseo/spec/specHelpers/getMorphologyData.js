@@ -1,9 +1,10 @@
 import en from "../../premium-configuration/data/morphologyData-v3.json";
-import de from "../../premium-configuration/data/morphologyData-de-v6.json";
-import nl from "../../premium-configuration/data/morphologyData-nl-v6.json";
-import es from "../../premium-configuration/data/morphologyData-es-v6.json";
-import fr from "../../premium-configuration/data/morphologyData-fr-v6.json";
-import ru from "../../premium-configuration/data/morphologyData-ru-v6.json";
+import de from "../../premium-configuration/data/morphologyData-de-v7.json";
+import nl from "../../premium-configuration/data/morphologyData-nl-v7.json";
+import es from "../../premium-configuration/data/morphologyData-es-v7.json";
+import fr from "../../premium-configuration/data/morphologyData-fr-v7.json";
+import ru from "../../premium-configuration/data/morphologyData-ru-v7.json";
+import it from "../../premium-configuration/data/morphologyData-it-v7.json";
 
 
 const morphologyData = {
@@ -13,6 +14,7 @@ const morphologyData = {
 	es,
 	fr,
 	ru,
+	it,
 };
 
 /**
