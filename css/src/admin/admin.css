@@ -17,8 +17,7 @@
 	display: none;
 }
 
-
-.yoast-field-group__title code{
+.yoast-field-group__title code {
 	font-size: 13px;
 	font-weight: 700;
 	border: var(--border-default);
