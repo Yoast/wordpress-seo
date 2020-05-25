@@ -32,6 +32,10 @@
     padding-right: 40px;
 }
 
+.yoast-field-group select.yoast-select--inline {
+	display: inline-block;
+}
+
 .select2-container.select2-container--default {
     max-width: 100%;
 }
