@@ -235,7 +235,7 @@ class Ruckusing_Adapter extends Ruckusing_Adapter_MySQL_Base implements Ruckusin
 			return false;
 		}
 		foreach ( $result as $dbrow ) {
-			if ( $dbrow['Database'] == $db ) {
+			if ( $dbrow['Database'] === $db ) {
 				return true;
 			}
 		}
