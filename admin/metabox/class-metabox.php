@@ -416,7 +416,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return new WPSEO_Metabox_Section_React(
 			'schema',
 			'',
+<<<<<<< HEAD
 			$content
+=======
+			$content,
+>>>>>>> 3ae378a62... Hide schema_article_type on pages
 		);
 	}
 
