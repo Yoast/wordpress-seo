@@ -1,4 +1,4 @@
-/* global tinyMCE, require, YoastSEO */
+/* global tinyMCE, YoastSEO */
 import {
 	forEach,
 	isUndefined,
