@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\TestCase;

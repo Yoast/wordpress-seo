@@ -167,7 +167,7 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on the plugin upgrade page.
 	 *
 	 * @covers ::is_met
-	 * @covers ::on_plugin_or_theme_page
+	 * @covers ::on_upgrade_page
 	 */
 	public function test_is_not_met_on_plugin_upgrade_page() {
 		// We are on an admin page.
@@ -189,7 +189,7 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on the theme upgrade page.
 	 *
 	 * @covers ::is_met
-	 * @covers ::on_plugin_or_theme_page
+	 * @covers ::on_upgrade_page
 	 */
 	public function test_is_not_met_on_theme_upgrade_page() {
 		// We are on an admin page.
@@ -201,6 +201,50 @@ class Yoast_Admin_And_Dashboard_Conditional_Test extends TestCase {
 			->andReturn( false );
 
 		$_GET['action'] = 'do-theme-upgrade';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the WordPress upgrade page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_upgrade_page
+	 */
+	public function test_is_not_met_on_wordpress_upgrade_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-core-upgrade';
+
+		$is_met = $this->instance->is_met();
+
+		$this->assertEquals( false, $is_met );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on the WordPress reinstall page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::on_upgrade_page
+	 */
+	public function test_is_not_met_on_wordpress_reinstall_page() {
+		// We are on an admin page.
+		global $pagenow;
+		$pagenow = 'admin.php';
+
+		// But WordPress is currently installing.
+		Monkey\Functions\expect( 'wp_installing' )
+			->andReturn( false );
+
+		$_GET['action'] = 'do-core-reinstall';
 
 		$is_met = $this->instance->is_met();
 

@@ -6,13 +6,13 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class Generate_Source_Test
+ * Class Replace_Vars_Object_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  */
-class Generate_Source_Test extends TestCase {
+class Replace_Vars_Object_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Home_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
-use Yoast\WP\SEO\Presentations\Indexable_Home_Page_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Presentations\Indexable_Date_Archive_Presentation;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -15,12 +15,12 @@ trait Presentation_Instance_Builder {
 	use Presentation_Instance_Dependencies;
 
 	/**
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Home_Page_Presentation|Mockery\MockInterface
+	 * @var Indexable_Date_Archive_Presentation
 	 */
 	protected $instance;
 
@@ -32,18 +32,17 @@ trait Presentation_Instance_Builder {
 	protected $pagination;
 
 	/**
-	 * Builds an instance of Indexable_Home_Page_Presentation.
+	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function set_instance() {
-		$this->indexable = new Indexable();
+		$this->indexable = new Indexable_Mock();
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$instance = new Indexable_Home_Page_Presentation();
+		$instance = new Indexable_Date_Archive_Presentation( $this->pagination );
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 
 		$this->set_instance_dependencies( $this->instance );
-		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 }

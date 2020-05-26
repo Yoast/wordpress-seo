@@ -17,8 +17,8 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -63,8 +63,8 @@ class Person_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance                     = new Person();
-		$this->instance->context            = new Meta_Tags_Context();
-		$this->instance->context->indexable = new Indexable();
+		$this->instance->context            = new Meta_Tags_Context_Mock();
+		$this->instance->context->indexable = new Indexable_Mock();
 		$this->instance->helpers            = (object) [
 			'image'  => Mockery::mock( Image_Helper::class ),
 			'schema' => (object) [
@@ -375,12 +375,14 @@ class Person_Test extends TestCase {
 
 		$this->expects_for_determine_user_id();
 		$this->expects_for_get_userdata( $user_data );
-		$this->expects_for_social_profiles( [
-			'facebook'  => 'facebook',
-			'instagram' => 1234,
-			'youtube'   => false,
-			'wikipedia' => 'wiki',
-		] );
+		$this->expects_for_social_profiles(
+			[
+				'facebook'  => 'facebook',
+				'instagram' => 1234,
+				'youtube'   => false,
+				'wikipedia' => 'wiki',
+			]
+		);
 
 		$this->assertEquals( $expected, $this->instance->generate( $this->instance->context ) );
 	}

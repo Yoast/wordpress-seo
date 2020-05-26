@@ -42,17 +42,23 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 	 * @return string The error HTML.
 	 */
 	public function present() {
-		$message    = \sprintf(
+		$message = \sprintf(
 			/* translators: %s: Yoast SEO. */
-			\esc_html__( '%s was unable to create the database tables required and as such will not function correctly.', 'wordpress-seo' ),
+			\esc_html__( '%s had problems creating the database tables needed to speed up your site.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
-		$support    = \sprintf(
+		$support = \sprintf(
 			/* translators: %1$s: link to help article about solving table issue. %2$s: is anchor closing. */
-			esc_html__( 'Please read %1$sthis help article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
+			\esc_html__( 'Please read %1$sthis help article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">',
 			'</a>'
 		);
+		$reassurance = \sprintf(
+			/* translators: %s: Yoast SEO. */
+			\esc_html__( 'Your site will continue to work normally, but won\'t take full advantage of %s.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+
 		$debug_info = \sprintf(
 			'<details><summary>%1$s</summary><p>%2$s</p></details>',
 			\esc_html__( 'Show debug information', 'wordpress-seo' ),
@@ -60,9 +66,10 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 		);
 
 		return \sprintf(
-			'<div class="notice notice-error"><p>%1$s</p><p>%2$s</p>%3$s</div>',
+			'<div class="notice notice-error"><p>%1$s</p><p>%2$s</p><p>%3$s</p>%4$s</div>',
 			$message,
 			$support,
+			$reassurance,
 			$debug_info
 		);
 	}

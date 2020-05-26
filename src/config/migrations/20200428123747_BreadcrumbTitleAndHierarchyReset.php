@@ -38,7 +38,10 @@ class BreadcrumbTitleAndHierarchyReset extends Migration {
 			$this->get_indexable_table_name(),
 			'breadcrumb_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			[
+				'null'  => true,
+				'limit' => 191,
+			]
 		);
 	}
 

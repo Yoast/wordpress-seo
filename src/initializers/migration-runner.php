@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Initializers;
 use Exception;
 use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\Lib\Migrations\Migration;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Loader;
 
@@ -18,14 +19,7 @@ use Yoast\WP\SEO\Loader;
  */
 class Migration_Runner implements Initializer_Interface {
 
-	/**
-	 * Retrieves the conditionals for the migrations.
-	 *
-	 * @return array The conditionals.
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
+	use No_Conditionals;
 
 	/**
 	 * The migrations adapter.
@@ -49,6 +43,15 @@ class Migration_Runner implements Initializer_Interface {
 	protected $migration_status;
 
 	/**
+	 * Retrieves the conditionals for the migrations.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [];
+	}
+
+	/**
 	 * Migrations constructor.
 	 *
 	 * @param Migration_Status $migration_status The migration status.
@@ -68,7 +71,7 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
-	 * @throws \Exception When a migration errored.
+	 * @throws Exception When a migration errored.
 	 *
 	 * @return void
 	 */
@@ -81,7 +84,7 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
-	 * @throws \Exception When a migration errored.
+	 * @throws Exception When a migration errored.
 	 *
 	 * @return void
 	 */
@@ -96,7 +99,7 @@ class Migration_Runner implements Initializer_Interface {
 	 *
 	 * @return bool True on success, false on failure.
 	 *
-	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
+	 * @throws Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
 	public function run_migrations( $name ) {
 		if ( ! $this->migration_status->should_run_migration( $name ) ) {

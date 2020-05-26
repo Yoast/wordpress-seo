@@ -18,8 +18,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Date_Archive_Builder_Test extends TestCase {
 
@@ -31,7 +29,6 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 	public function test_build() {
 		$options_mock = Mockery::mock( Options_Helper::class );
 		$options_mock->expects( 'get' )->with( 'title-archive-wpseo' )->andReturn( 'date_archive_title' );
-		$options_mock->expects( 'get' )->with( 'breadcrumbs-archiveprefix' )->andReturn( 'date_archive_breadcrumb_prefix' );
 		$options_mock->expects( 'get' )->with( 'metadesc-archive-wpseo' )->andReturn( 'date_archive_meta_description' );
 		$options_mock->expects( 'get' )->with( 'noindex-archive-wpseo' )->andReturn( false );
 
@@ -39,7 +36,6 @@ class Indexable_Date_Archive_Builder_Test extends TestCase {
 		$indexable_mock->orm = Mockery::mock( ORM::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'date-archive' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'date_archive_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'date_archive_breadcrumb_prefix' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'date_archive_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_public', true );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
