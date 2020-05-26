@@ -1125,7 +1125,7 @@ class ORM implements \ArrayAccess {
 					$db_fields[] = $value;
 				}
 				else {
-					$db_fields[] = '%s';
+					$db_fields[] = ( $value === null ) ? 'NULL' : '%s';
 				}
 			}
 
