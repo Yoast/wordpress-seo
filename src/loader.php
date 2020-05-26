@@ -120,7 +120,7 @@ class Loader {
 	 * @return void
 	 */
 	public function register_migration( $plugin, $version, $class ) {
-		if ( ! array_key_exists( $plugin, $this->migrations ) ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
 			$this->migrations[ $plugin ] = [];
 		}
 
@@ -157,7 +157,7 @@ class Loader {
 	 * @return string[]|false The registered migrations. False if no migrations were registered.
 	 */
 	public function get_migrations( $plugin ) {
-		if ( ! array_key_exists( $plugin, $this->migrations ) ) {
+		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
 			return false;
 		}
 

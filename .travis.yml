@@ -178,7 +178,7 @@ before_script:
       cd /tmp/wordpress/
       cp wp-tests-config-sample.php wp-tests-config.php
       sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
-      sed -i "s/yourusernamehere/travis/" wp-tests-config.php
+      sed -i "s/yourusernamehere/root/" wp-tests-config.php
       sed -i "s/yourpasswordhere//" wp-tests-config.php
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"

@@ -487,7 +487,7 @@ class Adapter {
 			return false;
 		}
 		$column_info = $this->column_info( $table_name, $column_name );
-		// Default types
+		// Default types.
 		if ( ! \array_key_exists( 'limit', $options ) ) {
 			$options['limit'] = null;
 		}
@@ -979,7 +979,7 @@ class Adapter {
 	 */
 	private function is_sql_method_call( $string ) {
 		$string = \trim( $string );
-		if ( \substr( $string, - 2, 2 ) == '()' ) {
+		if ( \substr( $string, - 2, 2 ) === '()' ) {
 			return true;
 		}
 		return false;

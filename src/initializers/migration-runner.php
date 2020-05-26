@@ -111,6 +111,12 @@ class Migration_Runner implements Initializer_Interface {
 		}
 
 		$migrations = $this->loader->get_migrations( $name );
+
+		if ( $migrations === false ) {
+			$this->migration_status->set_error( $name, "Could not perform $name migrations. No migrations found." );
+			return;
+		}
+
 		try {
 			if ( ! $this->adapter->has_table( $this->adapter->get_schema_version_table_name() ) ) {
 				$this->adapter->create_schema_version_table();
@@ -122,7 +128,7 @@ class Migration_Runner implements Initializer_Interface {
 			\sort( $to_do_versions, SORT_STRING );
 
 			foreach ( $to_do_versions as $version ) {
-				$class     = $migrations[ $version ];
+				$class = $migrations[ $version ];
 				$this->run_migration( $version, $class );
 			}
 		} catch ( Exception $exception ) {

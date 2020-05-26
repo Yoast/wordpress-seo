@@ -101,12 +101,12 @@ abstract class Migration {
 	/**
 	 * Drop a table
 	 *
-	 * @param string $tbl The name of the table.
+	 * @param string $table_name The name of the table.
 	 *
 	 * @return boolean
 	 */
-	public function drop_table( $tbl ) {
-		return $this->adapter->drop_table( $tbl );
+	public function drop_table( $table_name ) {
+		return $this->adapter->drop_table( $table_name );
 	}
 
 	/**
@@ -124,14 +124,14 @@ abstract class Migration {
 	/**
 	 * Rename a column
 	 *
-	 * @param string $tbl_name        The name of the table.
+	 * @param string $table_name      The name of the table.
 	 * @param string $column_name     The column name.
 	 * @param string $new_column_name The new column name.
 	 *
 	 * @return boolean
 	 */
-	public function rename_column( $tbl_name, $column_name, $new_column_name ) {
-		return $this->adapter->rename_column( $tbl_name, $column_name, $new_column_name );
+	public function rename_column( $table_name, $column_name, $new_column_name ) {
+		return $this->adapter->rename_column( $table_name, $column_name, $new_column_name );
 	}
 
 	/**
