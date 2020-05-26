@@ -8,7 +8,6 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	"admin-global": "./admin-global.js",
-	"admin-gsc": "./admin-gsc.js",
 	"api-client": "./api-client.js",
 	"bulk-editor": "./bulk-editor.js",
 	"configuration-wizard": "./configuration-wizard.js",

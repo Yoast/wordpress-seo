@@ -295,18 +295,6 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			],
 			[
-				'name'      => 'admin-gsc',
-				'src'       => 'admin-gsc-' . $flat_version,
-				'deps'      => [
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'styled-components',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
-				],
-				'in_footer' => false,
-			],
-			[
 				'name' => 'term-edit',
 				'src'  => 'term-edit-' . $flat_version,
 				'deps' => [
