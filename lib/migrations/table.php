@@ -71,7 +71,7 @@ class Table {
 	private $auto_generate_id = true;
 
 	/**
-	 * Creates an instance of Ruckusing_Adapters_MySQL_Adapter
+	 * Creates an instance of the Adapter.
 	 *
 	 * @param Adapter $adapter The current adapter.
 	 * @param string  $name    The table name.
@@ -192,7 +192,7 @@ class Table {
 		$create_table_sql = $this->sql;
 		if ( $this->auto_generate_id === true ) {
 			$this->primary_keys[] = 'id';
-			$primary_id = new \YoastSEO_Vendor\Ruckusing_Adapter_ColumnDefinition( $this->adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
+			$primary_id = new Column( $this->adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
 			$create_table_sql .= $primary_id->to_sql() . ",\n";
 		}
 		$create_table_sql .= $this->columns_to_str();
