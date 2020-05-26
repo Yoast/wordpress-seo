@@ -334,6 +334,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
+		$content_sections[] = $this->get_schema_meta_section();
+
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
 			$content_sections[] = $this->get_social_meta_section();
@@ -401,6 +403,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			[
 				'html_after' => $html_after,
 			]
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the schema tab.
+	 *
+	 * @return WPSEO_Metabox_Section_React
+	 */
+	private function get_schema_meta_section() {
+		$content = $this->get_tab_content( 'schema' );
+		return new WPSEO_Metabox_Section_React(
+			'schema',
+			'',
+			$content,
 		);
 	}
 
@@ -509,6 +525,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( isset( $meta_field_def['description'] ) ) {
 			$aria_describedby = ' aria-describedby="' . $esc_form_key . '-desc"';
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
+		}
+
+		// Add a hide-on-pages option that returns nothing when the field is rendered on a page.
+		if ( isset( $meta_field_def['hide-on-pages'] ) && $meta_field_def['hide-on-pages'] && get_post_type() === 'page' ) {
+			return '';
 		}
 
 		switch ( $meta_field_def['type'] ) {
