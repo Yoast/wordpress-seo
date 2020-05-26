@@ -27,7 +27,6 @@
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
 		"pimple/pimple": "^3.2",
-		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
 		"league/oauth2-client": "^2.4",
 		"symfony/dependency-injection": "^3.4"
@@ -112,13 +111,9 @@
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
-			"composer prefix-ruckusing",
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
 			"touch ./vendor_prefixed/dependencies-prefixed.txt"
-		],
-		"prefix-ruckusing": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -144,7 +139,7 @@
 			"composer compile-di"
 		],
 		"generate-migration": [
-			"./vendor/bin/ruckus.php db:generate"
+			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		]
 	}
 }

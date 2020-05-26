@@ -10,7 +10,7 @@ namespace Yoast\WP\Lib\Migrations;
 /**
  * Migration class
  */
-class Migration {
+abstract class Migration {
 
 	/**
 	 * The adapter.
@@ -20,13 +20,27 @@ class Migration {
 	private $_adapter;
 
 	/**
+	 * Performs the migration.
+	 *
+	 * @return void
+	 */
+	public abstract function up();
+
+	/**
+	 * Reverts the migration.
+	 *
+	 * @return void
+	 */
+	public abstract function down();
+
+	/**
 	 * __construct
 	 *
 	 * @param Adapter $adapter the current adapter.
 	 *
 	 * @return \Migration
 	 */
-	public function __construct( $adapter ) {
+	public function __construct( Adapter $adapter ) {
 		$this->set_adapter( $adapter );
 	}
 

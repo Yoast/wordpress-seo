@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Dependency_Injection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\SEO\Commands\Command_Interface;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -66,6 +67,14 @@ class Loader_Pass implements CompilerPassInterface {
 
 		if ( \is_subclass_of( $class, Command_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_command', [ $class ] );
+		}
+
+		if ( \is_subclass_of( $class, Migration::class ) ) {
+			$path    = $definition->getFile();
+			$file    = \basename( $path, '.php' );
+			$version = \explode( '_', $file )[0];
+			$plugin  = $class::$plugin;
+			$loader_definition->addMethodCall( 'register_migration', [ $plugin, $version, $class ] );
 		}
 	}
 }

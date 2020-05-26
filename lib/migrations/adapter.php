@@ -8,25 +8,12 @@
 namespace Yoast\WP\Lib\Migrations;
 
 use Exception;
+use Yoast\WP\Lib\Model;
 
 /**
- * Ruckusing_Adapter
+ * Adapter class.
  */
 class Adapter {
-
-	/**
-	 * Tables
-	 *
-	 * @var array
-	 */
-	private $tables = [];
-
-	/**
-	 * Tables_loaded
-	 *
-	 * @var boolean
-	 */
-	private $tables_loaded = false;
 
 	/**
 	 * Version
@@ -41,24 +28,6 @@ class Adapter {
 	 * @var boolean
 	 */
 	private $in_transaction = false;
-
-	/**
-	 * The migrations table name.
-	 *
-	 * @var string
-	 */
-	private $migrations_table_name;
-
-	/**
-	 * Creates an instance of Ruckusing_Adapter.
-	 *
-	 * @param string $migrations_table_name The migrations table name.
-	 *
-	 * @return Ruckusing_Adapter
-	 */
-	public function __construct( $migrations_table_name ) {
-		$this->migrations_table_name = $migrations_table_name;
-	}
 
 	/**
 	 * Get the current db name
@@ -133,7 +102,7 @@ class Adapter {
 	 * @return string
 	 */
 	public function get_schema_version_table_name() {
-		return $this->migrations_table_name;
+		return Model::get_table_name( 'migrations' );
 	}
 
 	/**
@@ -141,8 +110,8 @@ class Adapter {
 	 */
 	public function create_schema_version_table() {
 		if ( ! $this->has_table( $this->get_schema_version_table_name() ) ) {
-			$t = $this->create_table( $this->get_schema_version_table_name(), [ 'id' => false ] );
-			$t->column( 'version', 'string' );
+			$t = $this->create_table( $this->get_schema_version_table_name() );
+			$t->column( 'version', 'string', [ 'limit' => 191 ] );
 			$t->finish();
 			$this->add_index( $this->get_schema_version_table_name(), 'version', [ 'unique' => true ] );
 		}
@@ -893,13 +862,26 @@ class Adapter {
 	}
 
 	/**
+	 * Returns a list of all versions that have been migrated.
+	 *
+	 * @return string[] The version numbers that have been migrated.
+	 */
+	public function get_migrated_versions() {
+		return \array_map(
+			function ( $row ) {
+				return $row['version'];
+			}, $this->select_all( \sprintf( 'SELECT version FROM %s', $this->get_schema_version_table_name() ) )
+		);
+	}
+
+	/**
 	 * Set current version.
 	 *
 	 * @param string $version The version.
 	 *
 	 * @return boolean Whether or not the version was succesfully set.
 	 */
-	public function set_current_version( $version ) {
+	public function add_version( $version ) {
 		$sql = \sprintf( "INSERT INTO %s (version) VALUES ('%s')", $this->get_schema_version_table_name(), $version );
 
 		return $this->execute_ddl( $sql );

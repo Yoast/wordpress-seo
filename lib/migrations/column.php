@@ -72,8 +72,8 @@ class Column {
 			throw new Exception( "Invalid 'type' parameter" );
 		}
 		$this->_adapter = $adapter;
-		$this->name = $name;
-		$this->type = $type;
+		$this->name     = $name;
+		$this->type     = $type;
 		$this->_options = $options;
 	}
 

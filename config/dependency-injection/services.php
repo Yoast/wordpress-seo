@@ -12,6 +12,7 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
+use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,6 +32,9 @@ $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowir
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
 
+// Required for the migrations framework.
+$container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
+
 $excluded_files = [
 	'main.php',
 ];
@@ -44,7 +48,6 @@ $excluded_directories = [
 	'backwards-compatibility',
 	'surfaces/values',
 	'presenters',
-	'config/migrations',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
