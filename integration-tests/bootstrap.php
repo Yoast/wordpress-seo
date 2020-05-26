@@ -5,6 +5,8 @@
  * @package Wordpress_Seo
  */
 
+use Yoast\WP\SEO\Initializers\Migration_Runner;
+
 // Determine the WP_TEST_DIR.
 if ( getenv( 'WP_TESTS_DIR' ) !== false ) {
 	$_tests_dir = getenv( 'WP_TESTS_DIR' );
@@ -72,3 +74,7 @@ define( 'WPSEO_TESTS_PATH', __DIR__ . '/' );
 
 // Start up the WP testing environment.
 require $_tests_dir . '/includes/bootstrap.php';
+
+// Run migrations.
+$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
+$migration_runner->run_migrations( 'free' );
