@@ -49,28 +49,19 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 
 		return [
 			$settings['network'] . '-title'       => $this->get_field_config(
-				/* translators: %s expands to the social network name */
-				sprintf( __( '%s Title', 'wordpress-seo' ), $settings['label'] ),
-				/* translators: %1$s expands to the social network name */
-				sprintf( esc_html__( 'If you don\'t want to use the title for sharing on %1$s but instead want another title there, write it here.', 'wordpress-seo' ), $settings['label'] ),
-				'text',
-				[ 'class' => 'large-text' ]
+				'',
+				'',
+				'hidden'
 			),
 			$settings['network'] . '-description' => $this->get_field_config(
-				/* translators: %s expands to the social network name */
-				sprintf( __( '%s Description', 'wordpress-seo' ), $settings['label'] ),
-				/* translators: %1$s expands to the social network name */
-				sprintf( esc_html__( 'If you don\'t want to use the meta description for sharing on %1$s but want another description there, write it here.', 'wordpress-seo' ), $settings['label'] ),
-				'textarea'
+				'',
+				'',
+				'hidden'
 			),
 			$settings['network'] . '-image'       => $this->get_field_config(
-				/* translators: %s expands to the social network name */
-				sprintf( __( '%s Image', 'wordpress-seo' ), $settings['label'] ),
-				/* translators: %1$s expands to the social network name */
-				sprintf( esc_html__( 'If you want to use an image for sharing on %1$s, you can upload / choose an image or add the image URL here.', 'wordpress-seo' ), $settings['label'] ) . '<br />' .
-				/* translators: %1$s expands to the social network name, %2$s expands to the image size */
-				sprintf( __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
-				'upload'
+				'',
+				'',
+				'hidden'
 			),
 			$settings['network'] . '-image-id' => $this->get_field_config(
 				'',
