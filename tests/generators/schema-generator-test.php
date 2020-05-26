@@ -12,8 +12,8 @@ use Mockery;
 use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -42,7 +42,7 @@ class Schema_Generator_Test extends TestCase {
 	/**
 	 * The meta tags context.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
@@ -107,7 +107,7 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context            = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
 		$this->context->blocks    = [
 			'yoast/faq-block' => [
 				[
@@ -128,7 +128,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
-		$this->context->indexable = Mockery::mock( Indexable::class );
+		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
 
 	/**

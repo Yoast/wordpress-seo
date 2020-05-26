@@ -53,7 +53,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
 	}
 
 	/**
@@ -72,19 +72,19 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 			$old_value = [];
 		}
 
-		if ( ! is_array( $old_value ) || ! is_array( $new_value ) ) {
+		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
 			return false;
 		}
 
-		$keys               = array_unique( array_merge( array_keys( $old_value ), array_keys( $new_value ) ) );
+		$keys               = \array_unique( \array_merge( \array_keys( $old_value ), \array_keys( $new_value ) ) );
 		$post_types_rebuild = [];
 
 		foreach ( $keys as $key ) {
 			$post_type = false;
 			// Check if it's a key relevant to post type archives.
 			foreach ( $relevant_keys as $relevant_key ) {
-				if ( strpos( $key, $relevant_key ) === 0 ) {
-					$post_type = substr( $key, strlen( $relevant_key ) );
+				if ( \strpos( $key, $relevant_key ) === 0 ) {
+					$post_type = \substr( $key, \strlen( $relevant_key ) );
 					break;
 				}
 			}
@@ -96,7 +96,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 
 			// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
 			if (
-				! in_array( $post_type, $post_types_rebuild, true )
+				! \in_array( $post_type, $post_types_rebuild, true )
 				&& (
 					! isset( $old_value[ $key ] )
 					|| ! isset( $new_value[ $key ] )
@@ -120,7 +120,6 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
-		$indexable->save();
+		$this->builder->build_for_post_type_archive( $post_type, $indexable );
 	}
 }

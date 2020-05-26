@@ -71,7 +71,7 @@ class Indexable_Post_Type_Archive_Builder {
 
 		$post_type_obj = \get_post_type_object( $post_type );
 
-		if ( ! is_object( $post_type_obj ) ) {
+		if ( ! \is_object( $post_type_obj ) ) {
 			return '';
 		}
 

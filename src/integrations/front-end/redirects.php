@@ -75,9 +75,9 @@ class Redirects implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'wp', [ $this, 'archive_redirect' ] );
-		add_action( 'wp', [ $this, 'page_redirect' ], 99 );
-		add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
+		\add_action( 'wp', [ $this, 'archive_redirect' ] );
+		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
+		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Redirects implements Integration_Interface {
 	 */
 	public function archive_redirect() {
 		if ( $this->need_archive_redirect() ) {
-			$this->redirect->do_safe_redirect( get_bloginfo( 'url' ), 301 );
+			$this->redirect->do_safe_redirect( \get_bloginfo( 'url' ), 301 );
 		}
 	}
 
@@ -97,8 +97,8 @@ class Redirects implements Integration_Interface {
 			return;
 		}
 
-		$post = get_post();
-		if ( ! is_object( $post ) ) {
+		$post = \get_post();
+		if ( ! \is_object( $post ) ) {
 			return;
 		}
 
@@ -169,7 +169,7 @@ class Redirects implements Integration_Interface {
 		 *
 		 * @since 7.5.3
 		 */
-		return apply_filters(
+		return \apply_filters(
 			'wpseo_attachment_redirect_url',
 			\wp_get_attachment_url( \get_queried_object_id() ),
 			\get_queried_object()

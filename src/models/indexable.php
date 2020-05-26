@@ -81,6 +81,13 @@ use Yoast\WP\Lib\Model;
 class Indexable extends Model {
 
 	/**
+	 * Holds the ancestors.
+	 *
+	 * @var Indexable[]
+	 */
+	public $ancestors;
+
+	/**
 	 * Whether nor this model uses timestamps.
 	 *
 	 * @var bool
@@ -127,7 +134,7 @@ class Indexable extends Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]
+	 * @var Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -136,7 +143,7 @@ class Indexable extends Model {
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable_Extension|bool The extension.
+	 * @return Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $class_name ) {
 		if ( ! $this->loaded_extensions[ $class_name ] ) {
@@ -153,10 +160,7 @@ class Indexable extends Model {
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$permalink_structure = \get_option( 'permalink_structure' );
-			if ( \substr( $permalink_structure , -1, 1 ) === '/' ) {
-				$this->permalink = \trailingslashit( $this->permalink );
-			}
+			$this->sanitize_permalink();
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
 		}
 		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
@@ -164,5 +168,38 @@ class Indexable extends Model {
 		}
 
 		return parent::save();
+	}
+
+	/**
+	 * Sanitizes the permalink.
+	 *
+	 * @return void
+	 */
+	protected function sanitize_permalink() {
+		$permalink_structure = \get_option( 'permalink_structure' );
+		$permalink_parts     = \wp_parse_url( $this->permalink );
+
+		if ( ! isset( $permalink_parts['path'] ) ) {
+			$permalink_parts['path'] = '/';
+		}
+		if ( \substr( $permalink_structure, -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
+			$permalink_parts['path'] = \trailingslashit( $permalink_parts['path'] );
+		}
+
+		$permalink = '';
+		if ( isset( $permalink_parts['scheme'] ) ) {
+			$permalink .= $permalink_parts['scheme'] . '://';
+		}
+		if ( isset( $permalink_parts['host'] ) ) {
+			$permalink .= $permalink_parts['host'];
+		}
+		if ( isset( $permalink_parts['path'] ) ) {
+			$permalink .= $permalink_parts['path'];
+		}
+		if ( isset( $permalink_parts['query'] ) ) {
+			$permalink .= '?' . $permalink_parts['query'];
+		}
+		// We never set the fragment as the fragment is intended to be client-only.
+		$this->permalink = $permalink;
 	}
 }

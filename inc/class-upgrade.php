@@ -5,6 +5,8 @@
  * @package WPSEO\Internal
  */
 
+use Yoast\WP\Lib\Model;
+
 /**
  * This code handles the option upgrades.
  */
@@ -54,7 +56,8 @@ class WPSEO_Upgrade {
 			'12.8-RC0'   => 'upgrade_128',
 			'13.2-RC0'   => 'upgrade_132',
 			'14.0.3-RC0' => 'upgrade_1403',
-			'14.1-RC0'  => 'upgrade_141',
+			'14.1-RC0'   => 'upgrade_141',
+			'14.2-RC0'   => 'upgrade_142',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -753,6 +756,64 @@ class WPSEO_Upgrade {
 		 * priority 1. We need to remove them after they're retrieved.
 		 */
 		add_action( 'init', [ $this, 'remove_notifications_for_141' ] );
+		add_action( 'init', [ $this, 'clean_up_private_taxonomies_for_141' ] );
+
+		$this->reset_permalinks_of_attachments_for_141();
+	}
+
+	/**
+	 * Performs the 14.2 upgrade.
+	 *
+	 * Removes the yoast-acf-analysis notice when it's still in the database.
+	 */
+	private function upgrade_142() {
+		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
+	}
+
+	/**
+	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
+	 */
+	public function clean_up_private_taxonomies_for_141() {
+		global $wpdb;
+
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		// Clean up indexables of private taxonomies.
+		$private_taxonomies = \get_taxonomies( [ 'public' => false ], 'names' );
+
+		if ( empty( $private_taxonomies ) ) {
+			return;
+		}
+
+		$placeholders    = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$query           = $wpdb->prepare(
+			"DELETE FROM $indexable_table WHERE object_type = 'term' AND object_sub_type IN ($placeholders)",
+			$private_taxonomies
+		);
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
+	}
+
+	/**
+	 * Resets the permalinks of attachments to `null` in the indexable table for the upgrade routine to 14.1.
+	 */
+	private function reset_permalinks_of_attachments_for_141() {
+		global $wpdb;
+
+		// If migrations haven't been completed succesfully the following may give false errors. So suppress them.
+		$show_errors       = $wpdb->show_errors;
+		$wpdb->show_errors = false;
+
+		// Reset the permalinks of the attachments in the indexable table.
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		$query           = "UPDATE $indexable_table SET permalink = NULL WHERE object_type = 'post' AND object_sub_type = 'attachment'";
+		$wpdb->query( $query );
+
+		$wpdb->show_errors = $show_errors;
 	}
 
 	/**
@@ -765,6 +826,15 @@ class WPSEO_Upgrade {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-links-table-not-accessible' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
+	}
+
+	/**
+	 * Removes the wpseo-suggested-plugin-yoast-acf-analysis notification from the Notification center for the 14.2 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_acf_notification_for_142() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
 	}
 
 	/**

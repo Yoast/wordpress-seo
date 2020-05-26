@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Tests\Models;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -26,7 +26,7 @@ class Indexable_Test extends TestCase {
 	/**
 	 * Holds the instance to test.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable|\Mockery\MockInterface
+	 * @var Indexable_Double|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -36,7 +36,7 @@ class Indexable_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance      = new Indexable();
+		$this->instance      = new Indexable_Double();
 		$this->instance->orm = Mockery::mock( ORM::class );
 	}
 
@@ -48,11 +48,24 @@ class Indexable_Test extends TestCase {
 	public function test_save() {
 		$permalink = 'https://example.com/';
 
+		Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com/' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
+
+		$this->instance->orm->expects( 'set' )
+			->once()
+			->with( 'permalink', $permalink );
 		$this->instance->orm->expects( 'set' )
 			->once()
 			->with( 'permalink_hash', \strlen( $permalink ) . ':' . \md5( $permalink ) );
 		// Once for going into the if-statement, then twice for the permalink_hash.
-		$this->instance->orm->expects( 'get' )->times( 3 )->with( 'permalink' )->andReturn( $permalink );
+		$this->instance->orm->expects( 'get' )->times( 4 )->with( 'permalink' )->andReturn( $permalink );
 		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
 		$this->instance->orm->expects( 'save' )->once();
 
@@ -72,6 +85,16 @@ class Indexable_Test extends TestCase {
 			->once()
 			->with( 'permalink_structure' )
 			->andReturn( '/%postname%/' );
+
+		Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://example.com' )
+			->andReturn(
+				[
+					'scheme' => 'https',
+					'host'   => 'example.com',
+				]
+			);
 
 		$this->instance->orm->expects( 'set' )->once()->with( 'permalink', $permalink_slash );
 		$this->instance->orm->expects( 'set' )

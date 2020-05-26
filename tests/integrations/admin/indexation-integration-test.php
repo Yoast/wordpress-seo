@@ -111,11 +111,14 @@ class Indexation_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$conditionals = Indexation_Integration::get_conditionals();
-		$this->assertEquals( [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
-			Migrations_Conditional::class,
-		], $conditionals );
+		$this->assertEquals(
+			[
+				Admin_Conditional::class,
+				Yoast_Admin_And_Dashboard_Conditional::class,
+				Migrations_Conditional::class,
+			],
+			$conditionals
+		);
 	}
 
 	/**
@@ -137,6 +140,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 *
 	 * @dataProvider ignore_warning_provider
+	 *
+	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
 	public function test_enqueue_scripts( $ignore_warning ) {
 		// Mock that 40 indexables should be indexed.
@@ -153,6 +158,18 @@ class Indexation_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
 			->andReturn( $ignore_warning );
+
+		if ( ! $ignore_warning ) {
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_started', 0 )
+				->andReturn( 0 );
+
+			$this->options
+				->expects( 'get' )
+				->with( 'indexation_warning_hide_until' )
+				->andReturn( 0 );
+		}
 
 		if ( ! $ignore_warning ) {
 			Monkey\Actions\expectAdded( 'admin_notices' );
@@ -190,13 +207,14 @@ class Indexation_Integration_Test extends TestCase {
 			],
 			'restApi' => [
 				'root'      => 'https://example.org/wp-ajax/',
-				'endpoints' =>
-					[
-						'posts'    => 'yoast/v1/indexation/posts',
-						'terms'    => 'yoast/v1/indexation/terms',
-						'archives' => 'yoast/v1/indexation/post-type-archives',
-						'general'  => 'yoast/v1/indexation/general',
-					],
+				'endpoints' => [
+					'prepare'  => 'yoast/v1/indexation/prepare',
+					'posts'    => 'yoast/v1/indexation/posts',
+					'terms'    => 'yoast/v1/indexation/terms',
+					'archives' => 'yoast/v1/indexation/post-type-archives',
+					'general'  => 'yoast/v1/indexation/general',
+					'complete' => 'yoast/v1/indexation/complete',
+				],
 				'nonce'     => 'nonce',
 			],
 			'message' => [
@@ -272,12 +290,21 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+
+		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
 		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<strong>NEW:</strong> Yoast SEO can now store your site’s SEO data in a smarter way!<br/>';
-		$expected .= 'Don\'t worry: this won\'t have to be done after each update.</p>';
-		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="Yoast indexation status">Click here to speed up your site now</button>';
-		$expected .= '<p>Or <button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">hide this notice</button> ';
-		$expected .= '(everything will continue to function as normal).</p></div>';
+		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<p>We estimate this will take less than a minute.</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
 
 		$this->expectOutputString( $expected );
 
@@ -303,7 +330,7 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexation</button></div>' );
+		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexing</button></div>' );
 
 		$this->instance->render_indexation_modal();
 	}
@@ -323,7 +350,15 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<li><strong>Speeding up your site</strong><br/><span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">Speed up your site</button></span></li>' );
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected  = '<li><strong>SEO Data</strong>';
+		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
+		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';
+		$expected .= 'Start processing and speed up your site now</button></span></li>';
+
+		$this->expectOutputString( $expected );
 
 		$this->instance->render_indexation_list_item();
 	}

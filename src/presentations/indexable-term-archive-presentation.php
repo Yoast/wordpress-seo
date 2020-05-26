@@ -7,13 +7,14 @@
 
 namespace Yoast\WP\SEO\Presentations;
 
+use WP_Term;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
  *
- * @property \WP_Term $source
+ * @property WP_Term $source
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	use Archive_Adjacent;

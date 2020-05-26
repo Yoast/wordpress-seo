@@ -345,7 +345,7 @@ class WPSEO_Taxonomy {
 	 * @return object Labels for the current taxonomy.
 	 */
 	public static function get_labels() {
-		$term = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+		$term     = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
 		$taxonomy = get_taxonomy( $term );
 
 		return $taxonomy->labels;

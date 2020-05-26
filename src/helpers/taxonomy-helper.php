@@ -7,6 +7,10 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WP_Taxonomy;
+use WP_Term;
+use WPSEO_Taxonomy_Meta;
+
 /**
  * Class Taxonomy_Helper
  */
@@ -55,8 +59,8 @@ class Taxonomy_Helper {
 	 *
 	 * @param string $output The output type to use.
 	 *
-	 * @return string[]|\WP_Taxonomy[] Array with all the public taxonomies.
-	 *                                 The type depends on the specified output variable.
+	 * @return string[]|WP_Taxonomy[] Array with all the public taxonomies.
+	 *                                The type depends on the specified output variable.
 	 */
 	public function get_public_taxonomies( $output = 'names' ) {
 		return \get_taxonomies( [ 'public' => true ], $output );
@@ -76,7 +80,7 @@ class Taxonomy_Helper {
 	/**
 	 * Retrieves the taxonomy term's meta values.
 	 *
-	 * @param \WP_Term $term Term to get the meta value for.
+	 * @param WP_Term $term Term to get the meta value for.
 	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
@@ -84,6 +88,6 @@ class Taxonomy_Helper {
 	 *                    False if the term does not exist or the $meta provided is invalid.
 	 */
 	public function get_term_meta( $term ) {
-		return \WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
+		return WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, null );
 	}
 }

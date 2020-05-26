@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
-use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Type_Presenter;
@@ -77,7 +76,7 @@ class Type_Presenter_Test extends TestCase {
 	 * is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_type = 'website';
