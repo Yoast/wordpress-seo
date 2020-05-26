@@ -27,12 +27,11 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
-	 * The helpers surface
+	 * The helpers surface.
 	 *
 	 * @var Helpers_Surface
 	 */
 	public $helpers;
-
 
 	/**
 	 * The date helper.
@@ -40,7 +39,6 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
-
 
 	/**
 	 * The new stable piece.
@@ -59,18 +57,18 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Article constructor.
 	 *
-	 * @param array $context The context. No longer used but present for BC.
+	 * @param string $class_name The class name.
 	 *
 	 * @codeCoverageIgnore
 	 * @deprecated 14.0
 	 */
 	public function __construct( $class_name ) {
 		$this->stable_class_name = $class_name;
-		$this->stable = new $class_name();
+		$this->stable            = new $class_name();
 
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', $this->stable_class_name );
 
-		$memoizer      			= YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
+		$memoizer = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
 
 		// We cannot extend the stable graph piece because a property was made public on it that was previously private.
 		// So instead, we instantiate a stable graph piece and delegate to it.

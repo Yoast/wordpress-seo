@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Generators\Schema\Article;
  *
  * @since 10.2
  */
-class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
+class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 
 	/**
 	 * The date helper.
@@ -34,7 +34,7 @@ class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece implements WPSEO
 	public function __construct( $context = null ) {
 		parent::__construct( Article::class );
 
-		$this->date    			= new WPSEO_Date_Helper();
+		$this->date = new WPSEO_Date_Helper();
 	}
 
 	/**
