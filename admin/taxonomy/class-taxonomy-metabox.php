@@ -109,8 +109,8 @@ class WPSEO_Taxonomy_Metabox {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$show_facebook = WPSEO_Options::get( "opengraph", false );
-		$show_twitter = WPSEO_Options::get( "twitter", false );
+		$show_facebook = WPSEO_Options::get( 'opengraph', false );
+		$show_twitter = WPSEO_Options::get( 'twitter', false );
 
 		if ( $show_facebook || $show_twitter ) {
 			$content_sections[] = $this->get_social_meta_section( $show_facebook, $show_twitter );
@@ -165,9 +165,12 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
+	 * @param boolean $show_facebook  Whether to render the facebook fields.
+	 * @param boolean $show_twitter   Whether to render the twitter fields.
+	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_social_meta_section( $show_facebook, $show_twitter) {
+	private function get_social_meta_section( $show_facebook, $show_twitter ) {
 		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 
 		$content = '';
@@ -182,7 +185,7 @@ class WPSEO_Taxonomy_Metabox {
 			$content .= $this->taxonomy_tab_content->html( $twitter_fields );
 		}
 
-		// Add react target
+		// Add react target.
 		$content .= '<div id="wpseo-section-social"></div>';
 
 		return new WPSEO_Metabox_Section_React(

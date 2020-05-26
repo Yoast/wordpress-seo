@@ -74,8 +74,8 @@ class WPSEO_Metabox_Formatter {
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
 			'showSocial' => [
-				"facebook" => WPSEO_Options::get( 'opengraph', false ),
-				"twitter" => WPSEO_Options::get( 'twitter', false ),
+				'facebook' => WPSEO_Options::get( 'opengraph', false ),
+				'twitter' => WPSEO_Options::get( 'twitter', false ),
 			],
 
 			/**

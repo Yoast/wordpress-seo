@@ -346,7 +346,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Returns the social section for the social previews.
-	 * 
+	 *
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
@@ -354,10 +354,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$content .= $this->get_tab_content( 'social' );
 
-		// Add react target
+		// Add react target.
 		$content .= '<div id="wpseo-section-social"></div>';
 
-		$link_content = '<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' );;
+		$link_content = '<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' );
 
 		return new WPSEO_Metabox_Section_React(
 			'social',
@@ -726,7 +726,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields
 		);
-		
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
 
