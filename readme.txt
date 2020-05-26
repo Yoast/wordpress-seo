@@ -211,13 +211,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 = 14.2 =
 Release Date: May 26th, 2020
+
 In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
 
 Bugfixes:
 
 * Fixes a bug where breadcrumbs would be saved in reversed order.
 * Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
-* Fixes a bug where replacement variables would not be replaced when using the deprecated WPSEO_Frontend output without echoing it.
+* Fixes a bug where replacement variables would not be replaced when using the deprecated `WPSEO_Frontend` output without echoing it.
 * Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
 * Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
 
