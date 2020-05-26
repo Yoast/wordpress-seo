@@ -123,8 +123,7 @@ class Migration_Runner implements Initializer_Interface {
 
 			foreach ( $to_do_versions as $version ) {
 				$class     = $migrations[ $version ];
-				$migration = new $class( $this->adapter );
-				$this->run_migration( $version, $migration );
+				$this->run_migration( $version, $class );
 			}
 		} catch ( Exception $exception ) {
 			// Something went wrong...
