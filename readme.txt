@@ -209,6 +209,23 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.2 =
+Release Date: May 26th, 2020
+
+In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
+
+Bugfixes:
+
+* Fixes a bug where breadcrumbs would be saved in reversed order.
+* Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
+* Fixes a bug where replacement variables would not be replaced when using the deprecated `WPSEO_Frontend` output without echoing it.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
+* Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
+
+Enhancements:
+
+* Optimizes the query used to check if a focus keyphrase has been previously used, by running it against our indexable table.
+
 = 14.1 =
 Release Date: May 13th, 2020
 
@@ -257,126 +274,6 @@ Enhancements:
 Other
 
 * Deletes the unnecessarily created indexables of private taxonomies.
-
-= 14.0.4 =
-Release Date: April 30th, 2020
-
-Bugfixes:
-
-* Fixes a bug where robots meta values defaulted to 0 instead of null because of a [bug in WPDB](https://core.trac.wordpress.org/ticket/12819). This could result in incorrect values for `noindex`, `nofollow` , `noarchive`, `noimageindex` and/or `nosnippet`. In order to purge the wrong data, we need to truncate our tables again. This means you will have to go through the indexing process again. We’re very sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexing on the server](https://yoa.st/wp-cli-index).
-
-= 14.0.3 =
-Release Date: April 30th, 2020
-
-Bugfixes:
-
-* Fixes a bug where running the migrations could cause fatal errors on sites where plugins are installed remotely. Some remote plugin installers don't remove files that are removed in an update. Since our migration runner goes through all migrations on the server, this could lead to fatal errors.
-* Fixes a bug where the `pre_get_document_title filter` could be skipped when other plugins were using this filter as well.
-* Fixes a bug where an error would be thrown when the name of an indexable table had been converted to a different case.
-* Fixes a bug where a taxonomy parent would not be present in the breadcrumbs even though it was set in the breadcrumbs settings.
-
-Enhancements:
-
-* Adds a missing index to the new indexables table. Props to [@pagelypete](https://github.com/pagelypete).
-
-Other:
-
-* Adds the wpseo_frontend_presentation filter that can be used by third-party plugins to easily alter all our meta output with 1 single filter.
-
-= 14.0.2 =
-Release Date: April 29th, 2020
-
-Because we’ve changed the underlying framework of our Indexables technology, we’ve chosen to rebuild the table. This means you will have to go through the indexing process again. We’re sorry. For sites with more than 10,000 posts, we advise using the [WP CLI command to do the indexing on the server](https://yoa.st/wp-cli-index).
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown when a title contained more than 191 characters.
-* Fixes a bug where a fatal error would be thrown when a focus keyphrase contained more than 191 characters.
-* Fixes a bug where a fatal error would be thrown when search engines were disallowed from indexing the site.
-* Fixes a bug where a fatal error would be thrown on WooCommerce installations when the `wpseo_metadesc` filter was called with only 1 argument.
-* Fixes a bug where a fatal error would be thrown when using the `WPSEO_Frontend` class to get the meta description.
-* Fixes a bug where a fatal error would be thrown when `WPSEO_Frontend` or `WPSEO_Breadcrumbs` was called before the `init` action.
-* Fixes a bug where a non-object property retrieval notice would be thrown when the site's content was being indexed.
-* Fixes a bug where a trailing slash would be added to canonical URLs and some `rel="prev"` URLs, even when the permalink structure settings didn't contain that trailing slash.
-* Fixes a bug where a double breadcrumb would be shown on home pages.
-* Fixes a bug where indexing would continue indefinitely under specific circumstances.
-
-Other:
-
-* Removes all usages of `PDO` and `mysqli` directly and uses `wpdb` everywhere. This should prevent a lot of errors for database installations that have different encodings or configurations than what is generally seen.
-
-= 14.0.1 =
-Release Date: April 28th, 2020
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown when a breadcrumb title was too long.
-* Fixes a bug where a fatal error would be thrown when `DB_CHARSET` was not defined.
-* Fixes a bug where a fatal error would be thrown when breadcrumbs were rendered in the admin.
-* Fixes a bug where a fatal error would be thrown when the Yoast migrations table did not have a primary key.
-* Fixes a bug where a fatal exception would be thrown when building an indexable failed.
-* Fixes a bug where the order of the breadcrumbs was incorrect when more than 3 nested taxonomies were used.
-* Fixes a bug where HTML tags would no longer be allowed in the breadcrumbs.
-* Fixes a bug where no title would be shown in the Yoast indexing status modal.
-* Fixes a bug where changes made through the `wpseo_robots` filter would not be shown in the googlebot and bingbot meta tag output.
-
-Other:
-
-* Yoast SEO needs to have the right to create a database index. If you have restricted the creation of database indexes on your setup, please make sure to temporarily allow Yoast SEO to create indexes before updating.
-
-= 14.0 =
-Release Date: April 28th, 2020
-
-Today is a special day. Today, a project we’ve been working on for a year sees the light of day. Yoast SEO 14.0 rewrites the playbook on how a WordPress SEO plugin can work. Thanks to an approach we call indexables, we bring you a much faster experience and a new foundation that helps us get ready for an exciting future! Read more about this release in [our release post](https://yoa.st/release-14-0)!
-
-Bugfixes:
-
-* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
-* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
-* Fixes a bug where no `title` meta tag would be output when no post or page-specific title was specified.
-* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
-* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
-* Fixes a bug where the Help Scout beacon was aligned to the right on settings pages on installations with a right-to-left language.
-* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
-* Fixes a bug where the embedding of posts on LinkedIn was broken.
-
-Enhancements:
-
-* Adds a notification that appears when your content hasn't been fully indexed yet.
-* Adds a button to the SEO > Tools  page to index all your content.
-* Adds a feature toggle to disable the headless REST routes.
-* No longer outputs the `og:type` meta tag on 404 pages.
-* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
-* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
-* No longer outputs an `og:updated_time` meta tag as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
-* No longer outputs an `og:image:secure_url` meta tag as it was the same as `og:image` and all Open Graph consumers seem to prefer that.
-* Strips all HTML tags from text fields in the schema output.
-* Adds `Term hierarchy` as a taxonomy snippet variable.
-* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
-* Improves the way gallery images are retrieved . Props to [stodorovic](https://github.com/stodorovic).
-* Bing has added support for the same opt-in `meta robots` values as Google has, see their [announcement post](https://blogs.bing.com/webmaster/april-2020/Announcing-new-options-for-webmasters-to-control-their-snippets-at-Bing). We have decided to opt-in users of Yoast SEO by default to Bingbot crawling.
-* No longer removes the default robots meta values.
-
-Other:
-
-* Deprecates the `wpseo_twitter_taxonomy_image` and `wpseo_twitter_metatag_key` filters.
-* Deprecates the `wp_seo_get_bc_ancestors` filter. Developers should use the `wpseo_breadcrumb_links` filter instead to add and/or replace breadcrumbs.
-* Deprecates the `wpseo_opengraph` and `wpseo_twitter` actions.
-* Adds the following filters:
-     * `wpseo_debug_markers`, which allows users to disable the debug markers.
-     * `wpseo_frontend_presenter_classes`, which enables the filtering of presenters.
-     * `wpseo_frontend_presenters`, which enables the filtering of presenter instances.
-     * `wpseo_googlebot`, which enables the filtering of the googlebot meta output.
-     * `wpseo_og_article_publisher`, which enables the filtering of the article publisher’s Facebook URL.
-     * `wpseo_og_locale`, which enables the filtering of the Open Graph locale.
-     * `wpseo_post_indexation_limit`, which enables the filtering of the amount of posts indexed during each indexing pass.
-     * `wpseo_post_type_archive_indexation_limit`, which enables the filtering of the amount of post type archives indexed during each indexing pass.
-     * `wpseo_term_indexation_limit`, which enables the filtering of the amount of terms indexed during each indexing pass.
-     * `wpseo_post_types_reset_permalinks`, which enables the filtering of the post types to reset permalinks for.
-     * `wpseo_public_post_statuses`, which enables the filtering of the list of public post statuses.
-* No longer calls the third-party `thematic_doctitle` and `woo_title` filters.
-* Adds the `/wp-json/yoast/v1/get_head` endpoint to get the our head for an URL. This endpoint takes a single parameter, `url` which should be the absolute URL of the page to get the head for.
-* Removes the minimum and maximum size requirements when outputting `og:image` meta tags.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

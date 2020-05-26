@@ -39,7 +39,8 @@ class Robots_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Robots_Presenter::class )
+		$this->presentation = new Indexable_Presentation();
+		$this->instance     = Mockery::mock( Robots_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 
@@ -74,5 +75,22 @@ class Robots_Presenter_Test extends TestCase {
 		$this->presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->robots = [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		];
+
+		$this->assertSame( [
+			'index'  => 'index',
+			'follow' => 'nofollow',
+		], $this->instance->get() );
 	}
 }
