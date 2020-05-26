@@ -1,4 +1,4 @@
-import { initializeData } from "../src/edit.js";
+import { initializeData } from "../src/initializers/edit.js";
 import ClassicEditorData from "../src/analysis/classicEditorData.js";
 import Data from "../src/analysis/data.js";
 import isGutenbergDataAvailable from "../src/helpers/isGutenbergDataAvailable";
