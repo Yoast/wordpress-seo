@@ -5,8 +5,8 @@ import { get } from "lodash-es";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import tmceHelper from "../wp-seo-tinymce";
-import { termsTmceId as tmceId } from "../wp-seo-tinymce";
+import tmceHelper from "../lib/tinymce";
+import { termsTmceId as tmceId } from "../lib/tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
