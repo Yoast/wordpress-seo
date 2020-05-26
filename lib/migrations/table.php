@@ -19,56 +19,56 @@ class Table {
 	 *
 	 * @var Adapter
 	 */
-	private $_adapter;
+	private $adapter;
 
 	/**
 	 * The name
 	 *
 	 * @var string
 	 */
-	private $_name;
+	private $name;
 
 	/**
 	 * The options
 	 *
 	 * @var array
 	 */
-	private $_options;
+	private $options;
 
 	/**
 	 * The SQL representation of this table.
 	 *
 	 * @var string
 	 */
-	private $_sql = '';
+	private $sql = '';
 
 	/**
 	 * Whether or not the table has been initialized.
 	 *
 	 * @var boolean
 	 */
-	private $_initialized = false;
+	private $initialized = false;
 
 	/**
 	 * The columns
 	 *
 	 * @var Column[]
 	 */
-	private $_columns = [];
+	private $columns = [];
 
 	/**
 	 * The primary keys.
 	 *
 	 * @var string[]
 	 */
-	private $_primary_keys = [];
+	private $primary_keys = [];
 
 	/**
 	 * Whether or not to auto generate the id.
 	 *
 	 * @var boolean
 	 */
-	private $_auto_generate_id = true;
+	private $auto_generate_id = true;
 
 	/**
 	 * Creates an instance of Ruckusing_Adapters_MySQL_Adapter
@@ -89,20 +89,20 @@ class Table {
 		if ( ! $name ) {
 			throw new Exception( "Invalid 'name' parameter" );
 		}
-		$this->_adapter = $adapter;
-		$this->_name = $name;
-		$this->_options = $options;
+		$this->adapter = $adapter;
+		$this->name    = $name;
+		$this->options = $options;
 		$this->init_sql( $name, $options );
 		if ( \array_key_exists( 'id', $options ) ) {
 			if ( \is_bool( $options['id'] ) && $options['id'] === false ) {
-				$this->_auto_generate_id = false;
+				$this->auto_generate_id = false;
 			}
 
 			// If its a string then we want to auto-generate an integer-based
 			// primary key with this name.
 			if ( \is_string( $options['id'] ) ) {
-				$this->_auto_generate_id = true;
-				$this->_primary_keys[] = $options['id'];
+				$this->auto_generate_id = true;
+				$this->primary_keys[] = $options['id'];
 			}
 		}
 	}
@@ -116,7 +116,7 @@ class Table {
 	 */
 	public function column( $column_name, $type, $options = [] ) {
 		// If there is already a column by the same name then silently fail and continue.
-		foreach ( $this->_columns as $column ) {
+		foreach ( $this->columns as $column ) {
 			if ( $column->name === $column_name ) {
 				return;
 			}
@@ -125,7 +125,7 @@ class Table {
 		$column_options = [];
 		if ( \array_key_exists( 'primary_key', $options ) ) {
 			if ( $options['primary_key'] ) {
-				$this->_primary_keys[] = $column_name;
+				$this->primary_keys[] = $column_name;
 			}
 		}
 		if ( \array_key_exists( 'auto_increment', $options ) ) {
@@ -134,8 +134,8 @@ class Table {
 			}
 		}
 		$column_options = \array_merge( $column_options, $options );
-		$column = new Column( $this->_adapter, $column_name, $type, $column_options );
-		$this->_columns[] = $column;
+		$column = new Column( $this->adapter, $column_name, $type, $column_options );
+		$this->columns[] = $column;
 	}
 
 	/**
@@ -154,11 +154,11 @@ class Table {
 	 * @return string
 	 */
 	private function keys() {
-		if ( \count( $this->_primary_keys ) > 0 ) {
+		if ( \count( $this->primary_keys ) > 0 ) {
 			$lead = ' PRIMARY KEY (';
 			$quoted = [];
-			foreach ( $this->_primary_keys as $key ) {
-				$quoted[] = \sprintf( '%s', $this->_adapter->identifier( $key ) );
+			foreach ( $this->primary_keys as $key ) {
+				$quoted[] = \sprintf( '%s', $this->adapter->identifier( $key ) );
 			}
 			$primary_key_sql = ",\n" . $lead . \implode( ',', $quoted ) . ')';
 			return $primary_key_sql;
@@ -175,24 +175,24 @@ class Table {
 	 * @return boolean | string
 	 */
 	public function finish( $wants_sql = false ) {
-		if ( ! $this->_initialized ) {
-			throw new Exception( \sprintf( "Table Definition: '%s' has not been initialized", $this->_name ) );
+		if ( ! $this->initialized ) {
+			throw new Exception( \sprintf( "Table Definition: '%s' has not been initialized", $this->name ) );
 		}
 		$opt_str = '';
-		if ( \is_array( $this->_options ) && \array_key_exists( 'options', $this->_options ) ) {
-			$opt_str = $this->_options['options'];
+		if ( \is_array( $this->options ) && \array_key_exists( 'options', $this->options ) ) {
+			$opt_str = $this->options['options'];
 		} else {
-			if ( isset( $this->_adapter->db_info['charset'] ) ) {
-				$opt_str = ' DEFAULT CHARSET=' . $this->_adapter->db_info['charset'];
+			if ( isset( $this->adapter->db_info['charset'] ) ) {
+				$opt_str = ' DEFAULT CHARSET=' . $this->adapter->db_info['charset'];
 			} else {
 				$opt_str = ' DEFAULT CHARSET=utf8';
 			}
 		}
 		$close_sql = \sprintf( ') %s;', $opt_str );
-		$create_table_sql = $this->_sql;
-		if ( $this->_auto_generate_id === true ) {
-			$this->_primary_keys[] = 'id';
-			$primary_id = new \YoastSEO_Vendor\Ruckusing_Adapter_ColumnDefinition( $this->_adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
+		$create_table_sql = $this->sql;
+		if ( $this->auto_generate_id === true ) {
+			$this->primary_keys[] = 'id';
+			$primary_id = new \YoastSEO_Vendor\Ruckusing_Adapter_ColumnDefinition( $this->adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
 			$create_table_sql .= $primary_id->to_sql() . ",\n";
 		}
 		$create_table_sql .= $this->columns_to_str();
@@ -200,7 +200,7 @@ class Table {
 		if ( $wants_sql ) {
 			return $create_table_sql;
 		}
-		return $this->_adapter->execute_ddl( $create_table_sql );
+		return $this->adapter->execute_ddl( $create_table_sql );
 	}
 
 	/**
@@ -211,9 +211,9 @@ class Table {
 	private function columns_to_str() {
 		$str = '';
 		$fields = [];
-		$len = \count( $this->_columns );
+		$len = \count( $this->columns );
 		for ( $i = 0; $i < $len; $i++ ) {
-			$c = $this->_columns[ $i ];
+			$c = $this->columns[ $i ];
 			$fields[] = $c->__toString();
 		}
 		return \join( ",\n", $fields );
@@ -227,15 +227,15 @@ class Table {
 	private function init_sql( $name, $options ) {
 		// Are we forcing table creation? If so, drop it first.
 		if ( \array_key_exists( 'force', $options ) && $options['force'] === true ) {
-			$this->_adapter->drop_table( $name );
+			$this->adapter->drop_table( $name );
 		}
 		$temp = '';
 		if ( \array_key_exists( 'temporary', $options ) ) {
 			$temp = ' TEMPORARY';
 		}
 		$create_sql = \sprintf( 'CREATE%s TABLE ', $temp );
-		$create_sql .= \sprintf( "%s (\n", $this->_adapter->identifier( $name ) );
-		$this->_sql .= $create_sql;
-		$this->_initialized = true;
+		$create_sql .= \sprintf( "%s (\n", $this->adapter->identifier( $name ) );
+		$this->sql .= $create_sql;
+		$this->initialized = true;
 	}
 }

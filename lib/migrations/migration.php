@@ -13,6 +13,13 @@ namespace Yoast\WP\Lib\Migrations;
 abstract class Migration {
 
 	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static $plugin = 'unknown';
+
+	/**
 	 * The adapter.
 	 *
 	 * @var Adapter

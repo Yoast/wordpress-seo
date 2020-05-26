@@ -19,7 +19,7 @@ class Column {
 	 *
 	 * @var Adapter
 	 */
-	private $_adapter;
+	private $adapter;
 
 	/**
 	 * The name.
@@ -47,7 +47,7 @@ class Column {
 	 *
 	 * @var array
 	 */
-	private $_options = [];
+	private $options = [];
 
 	/**
 	 * Creates an instance of Column
@@ -71,10 +71,10 @@ class Column {
 		if ( empty( $type ) || ! \is_string( $type ) ) {
 			throw new Exception( "Invalid 'type' parameter" );
 		}
-		$this->_adapter = $adapter;
+		$this->adapter = $adapter;
 		$this->name     = $name;
 		$this->type     = $type;
-		$this->_options = $options;
+		$this->options = $options;
 	}
 
 	/**
@@ -83,8 +83,8 @@ class Column {
 	 * @return string
 	 */
 	public function to_sql() {
-		$column_sql = \sprintf( '%s %s', $this->_adapter->identifier( $this->name ), $this->sql_type() );
-		$column_sql .= $this->_adapter->add_column_options( $this->type, $this->_options );
+		$column_sql = \sprintf( '%s %s', $this->adapter->identifier( $this->name ), $this->sql_type() );
+		$column_sql .= $this->adapter->add_column_options( $this->type, $this->options );
 		return $column_sql;
 	}
 
@@ -102,6 +102,6 @@ class Column {
 	 * @return string
 	 */
 	private function sql_type() {
-		return $this->_adapter->type_to_sql( $this->type, $this->_options );
+		return $this->adapter->type_to_sql( $this->type, $this->options );
 	}
 }
