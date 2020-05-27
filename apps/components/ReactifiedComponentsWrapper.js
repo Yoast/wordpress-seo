@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
@@ -6,6 +6,44 @@ import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup
 import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
+import {
+	Button,
+	PrimaryButton,
+	PrimaryLink,
+	UpsellButton,
+	UpsellLink,
+	HideButton,
+	HideLink,
+	RemoveButton,
+	RemoveLink,
+	CloseButton,
+	CloseLink,
+} from "@yoast/components/src/button";
+
+/**
+ * Temporary onclick function.
+ *
+ * @returns {void}
+ */
+function clickerDiClick() {
+	console.log( "WHOOOHOO!" );
+}
+
+const buttonGrouping = <Fragment>
+	<Button>Naked button</Button>
+	<PrimaryButton onClick={ clickerDiClick }>Primary button</PrimaryButton>
+	<PrimaryLink href="#">Primary link</PrimaryLink>
+	<UpsellButton onClick={ clickerDiClick }>Upsell button</UpsellButton>
+	<UpsellLink href="#">Upsell link</UpsellLink>
+	<UpsellButton onClick={ clickerDiClick } caret={ true }>Upsell button</UpsellButton>
+	<UpsellLink href="#" caret={ true }>Upsell link</UpsellLink>
+	<HideButton onClick={ clickerDiClick }>Hide button</HideButton>
+	<HideLink href="#">Hide link</HideLink>
+	<RemoveButton onClick={ clickerDiClick }>Remove button</RemoveButton>
+	<RemoveLink href="#">Remove link</RemoveLink>
+	<CloseButton onClick={ clickerDiClick } />
+	<CloseLink href="#" />
+</Fragment>;
 
 /**
  * Function that displays all the reactified components that we currently have.
@@ -15,6 +53,30 @@ import DataModel from "@yoast/components/src/data-model/DataModel";
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
+
+			<h2>Buttons</h2>
+			<h3>Row</h3>
+			<div
+				style={ {
+					padding: "24px",
+				} }
+			>
+				{ buttonGrouping }
+			</div>
+
+			<h3>Column</h3>
+			<div
+				style={ {
+					display: "flex",
+					flexDirection: "column",
+					padding: "24px",
+				} }
+			>
+				{ buttonGrouping }
+			</div>
+			<hr />
+
+			<h2>Inputs</h2>
 			<TextInput
 				label="This is the input label"
 				value="This is the input value"
@@ -147,6 +209,9 @@ const ReactifiedComponentsWrapper = () => {
 				linkText="A helpful link!"
 				onChange={ console.warn }
 			/>
+			<hr />
+
+			<h2>DataModel</h2>
 			<DataModel
 				items={ [
 					{
