@@ -416,7 +416,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return new WPSEO_Metabox_Section_React(
 			'schema',
 			'',
-			$content,
+			$content
 		);
 	}
 
