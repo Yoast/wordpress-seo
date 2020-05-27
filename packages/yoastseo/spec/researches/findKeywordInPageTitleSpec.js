@@ -218,7 +218,7 @@ describe( "Matches keywords in string", function() {
 	it( "returns all-words-found match if keyphrase words were shuffled in the title and used in different forms", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "interesting books about computer science",
-			title: "interestingly, I have a science book on my computer",
+			title: "They showed interest in the computer science book",
 			locale: "en_EN",
 		} );
 		const researcher = new Researcher( mockPaper );

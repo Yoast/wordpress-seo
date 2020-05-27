@@ -1,8 +1,6 @@
-import { Node, LeafNode, StructuredNode, Paragraph,
-	Heading, List, ListItem } from "./nodes";
-
-import TextContainer from "./TextContainer";
 import FormattingElement from "./FormattingElement";
+import { Heading, LeafNode, List, ListItem, MetadataMiscellaneous, MetadataText, Node, Paragraph, StructuredNode } from "./nodes";
+import TextContainer from "./TextContainer";
 
 /**
  * The collection of elements used in constructing the tree structure.
@@ -10,13 +8,15 @@ import FormattingElement from "./FormattingElement";
  * @module parsedPaper/structure
  */
 export {
-	Node,
-	LeafNode,
-	StructuredNode,
-	Paragraph,
 	Heading,
+	LeafNode,
 	List,
 	ListItem,
+	MetadataText,
+	MetadataMiscellaneous,
+	Node,
+	Paragraph,
+	StructuredNode,
 	TextContainer,
 	FormattingElement,
 };

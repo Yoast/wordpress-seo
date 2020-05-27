@@ -1,10 +1,8 @@
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import { getVerbForms, normalizePrefixed } from "../../../src/morphology/english/getVerbForms";
-
+import { getInfinitive, normalizePrefixed } from "../../../src/morphology/english/getVerbStem";
 
 const morphologyData = getMorphologyData( "en" );
-const verbData = morphologyData.en.verbs;
-const irregularVerbsToTest = verbData.irregularVerbs;
+const regexVerb = morphologyData.en.verbs.regexVerb;
 
 const regularVerbsToTest = [
 	[ "bill", "bills", "billing", "billed" ],
@@ -100,7 +98,6 @@ const yAtTheEnd = [
 
 const eAtTheEnd = [
 	[ "abate", "abates", "abating", "abated" ],
-	[ "ache", "aches", "aching", "ached" ],
 	[ "bathe", "bathes", "bathing", "bathed" ],
 	[ "believe", "believes", "believing", "believed" ],
 	[ "care", "cares", "caring", "cared" ],
@@ -142,99 +139,6 @@ const needsDoublingLastConsonant = [
 	[ "wet", "wets", "wetting", "wetted" ],
 ];
 
-const irregularVerbsWithPrefixes = [
-	[ "abear", "abears", "abearing", "abore", "abare", "aborne" ],
-	[ "atslip", "atslips", "atslipping", "atslipped", "atslope", "atslopen" ],
-	[ "become", "becomes", "becoming", "became", "becomen" ],
-	[ "enfreeze", "enfreezes", "enfreezing", "enfroze", "enfrozen" ],
-	[ "inblow", "inblows", "inblowing", "inblew", "inblown" ],
-	[ "onhold", "onholds", "onholding", "onheld", "onholden" ],
-	[ "resow", "resows", "resowing", "resowed", "resown" ],
-	[ "tobeat", "tobeats", "tobeating", "tobeat", "tobeaten" ],
-	[ "undo", "undoes", "undoing", "undid", "undone" ],
-	[ "upgrow", "upgrows", "upgrowing", "upgrew", "upgrown", "upgrowe", "upgrowes", "upgrewe", "upgrowne" ],
-	[ "at-slip", "at-slips", "at-slipping", "at-slipped", "at-slope", "at-slopen" ],
-	[ "be-come", "be-comes", "be-coming", "be-came", "be-comen" ],
-	[ "co-write", "co-writes", "co-writing", "co-wrote", "co-written", "co-writ" ],
-	[ "en-freeze", "en-freezes", "en-freezing", "en-froze", "en-frozen" ],
-	[ "in-blow", "in-blows", "in-blowing", "in-blew", "in-blown" ],
-	[ "on-hold", "on-holds", "on-holding", "on-held", "on-holden" ],
-	[ "re-sow", "re-sows", "re-sowing", "re-sowed", "re-sown" ],
-	[ "to-beat", "to-beats", "to-beating", "to-beat", "to-beaten" ],
-	[ "un-do", "un-does", "un-doing", "un-did", "un-done" ],
-	[ "up-grow", "up-grows", "up-growing", "up-grew", "up-grown", "up-growe", "up-growes", "up-grewe", "up-growne" ],
-	[ "disprove", "disproves", "disproving", "disproved", "disproven" ],
-	[ "farspeak", "farspeaks", "farspeaking", "farspoke", "farspoken" ],
-	[ "fordrink", "fordrinks", "fordrinking", "fordrank", "fordrunk" ],
-	[ "mischoose", "mischooses", "mischoosing", "mischose", "mischosen" ],
-	[ "offtake", "offtakes", "offtaking", "offtook", "offtaken" ],
-	[ "outgo", "outgoe", "outgoes", "outgoing", "outwent", "outgone" ],
-	[ "preshow", "preshows", "preshowing", "preshowed", "preshown" ],
-	[ "dis-prove", "dis-proves", "dis-proving", "dis-proved", "dis-proven" ],
-	[ "far-speak", "far-speaks", "far-speaking", "far-spoke", "far-spoken" ],
-	[ "for-drink", "for-drinks", "for-drinking", "for-drank", "for-drunk" ],
-	[ "mis-choose", "mis-chooses", "mis-choosing", "mis-chose", "mis-chosen" ],
-	[ "off-take", "off-takes", "off-taking", "off-took", "off-taken" ],
-	[ "out-go", "out-goe", "out-goes", "out-going", "out-went", "out-gone" ],
-	[ "pre-show", "pre-shows", "pre-showing", "pre-showed", "pre-shown" ],
-	[ "autorun", "autoruns", "autorunning", "autoran", "autorin", "autorins", "autorinning" ],
-	[ "backshine", "backshines", "backshining", "backshone", "backshined" ],
-	[ "deepfreeze", "deepfreezes", "deepfreezing", "deepfroze", "deepfrozen" ],
-	[ "downtrod", "downtrods", "downtrodding", "downtrod", "downtrodden" ],
-	[ "finedraw", "finedraws", "finedrawing", "finedrew", "finedrawn" ],
-	[ "forebear", "forebears", "forebearing", "forebore", "forebare", "foreborne" ],
-	[ "freerid", "freerid", "freeridded", "freeride", "freerode", "freeridden" ],
-	[ "fullcome", "fullcomes", "fullcoming", "fullcame", "fullcomen" ],
-	[ "halfsew", "halfsews", "halfsewing", "halfsewed", "halfsewn" ],
-	[ "handsew", "handsews", "handsewing", "handsewed", "handsewn" ],
-	[ "heatsink", "heatsinks", "heatsinking", "heatsank", "heatsunk", "heatsunken" ],
-	[ "overbreak", "overbreaks", "overbreaking", "overbroke", "overbroken" ],
-	[ "testdrive", "testdrives", "testdriving", "testdrove", "testdriven" ],
-	[ "umbeset", "umbesets", "umbesetting" ],
-	[ "windbreak", "windbreaks", "windbreaking", "windbroke", "windbroken" ],
-	[ "withhold", "withholds", "withholding", "withheld", "withholden" ],
-	[ "auto-run", "auto-runs", "auto-running", "auto-ran", "auto-rin", "auto-rins", "auto-rinning" ],
-	[ "back-shine", "back-shines", "back-shining", "back-shone", "back-shined" ],
-	[ "deep-freeze", "deep-freezes", "deep-freezing", "deep-froze", "deep-frozen" ],
-	[ "down-trod", "down-trods", "down-trodding", "down-trod", "down-trodden" ],
-	[ "fine-draw", "fine-draws", "fine-drawing", "fine-drew", "fine-drawn" ],
-	[ "fore-bear", "fore-bears", "fore-bearing", "fore-bore", "fore-bare", "fore-borne" ],
-	[ "free-rid", "free-rid", "free-ridded", "free-ride", "free-rode", "free-ridden" ],
-	[ "full-come", "full-comes", "full-coming", "full-came", "full-comen" ],
-	[ "half-sew", "half-sews", "half-sewing", "half-sewed", "half-sewn" ],
-	[ "hand-sew", "hand-sews", "hand-sewing", "hand-sewed", "hand-sewn" ],
-	[ "heat-sink", "heat-sinks", "heat-sinking", "heat-sank", "heat-sunk", "heat-sunken" ],
-	[ "over-break", "over-breaks", "over-breaking", "over-broke", "over-broken" ],
-	[ "test-drive", "test-drives", "test-driving", "test-drove", "test-driven" ],
-	[ "wind-break", "wind-breaks", "wind-breaking", "wind-broke", "wind-broken" ],
-	[ "with-hold", "with-holds", "with-holding", "with-held", "with-holden" ],
-	[ "aftersee", "aftersees", "afterseeing", "aftersaw", "afterseen", "aftersaws", "aftersawing", "aftersawed", "aftersawn" ],
-	[ "belawgive", "belawgives", "belawgiving", "belawgave", "belawgiven" ],
-	[ "entertake", "entertakes", "entertaking", "entertook", "entertaken" ],
-	[ "forthnim", "forthnims", "forthnimming", "forthnimmed", "forthnam", "forthnumb", "forthnomen", "forthnum", "forthnome" ],
-	[ "frostbite", "frostbites", "frostbiting", "frostbit", "frostbitten" ],
-	[ "housebreak", "housebreaks", "housebreaking", "housebroke", "housebroken" ],
-	[ "intercome", "intercomes", "intercoming", "intercame", "intercomen" ],
-	[ "quickfreeze", "quickfreezes", "quickfreezing", "quickfroze", "quickfrozen" ],
-	[ "roughhew", "roughhews", "roughhewing", "roughhewed", "roughhewn" ],
-	[ "undercreep", "undercreeps", "undercreeping", "undercrept", "undercrope", "undercreeped", "undercropen" ],
-	[ "after-see", "after-sees", "after-seeing", "after-saw", "after-seen", "after-saws", "after-sawing", "after-sawed", "after-sawn" ],
-	[ "belaw-give", "belaw-gives", "belaw-giving", "belaw-gave", "belaw-given" ],
-	[ "enter-take", "enter-takes", "enter-taking", "enter-took", "enter-taken" ],
-	[ "forth-nim", "forth-nims", "forth-nimming", "forth-nimmed", "forth-nam", "forth-numb", "forth-nomen", "forth-num", "forth-nome" ],
-	[ "frost-bite", "frost-bites", "frost-biting", "frost-bit", "frost-bitten" ],
-	[ "house-break", "house-breaks", "house-breaking", "house-broke", "house-broken" ],
-	[ "inter-come", "inter-comes", "inter-coming", "inter-came", "inter-comen" ],
-	[ "quick-freeze", "quick-freezes", "quick-freezing", "quick-froze", "quick-frozen" ],
-	[ "rough-hew", "rough-hews", "rough-hewing", "rough-hewed", "rough-hewn" ],
-	[ "under-creep", "under-creeps", "under-creeping", "under-crept", "under-crope", "under-creeped", "under-cropen" ],
-	[ "countersing", "countersings", "countersinging", "countersang", "countersung" ],
-	[ "quartersee", "quartersees", "quarterseeing", "quartersaw", "quarterseen", "quartersaws", "quartersawing", "quartersawed", "quartersawn" ],
-	[ "counter-sing", "counter-sings", "counter-singing", "counter-sang", "counter-sung" ],
-	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing",
-		"quarter-sawed", "quarter-sawn" ],
-];
-
 const verbsToNormalizePrefix = [
 	[ "abear", { normalizedWord: "bear", prefix: "a" } ],
 	[ "atslips", { normalizedWord: "slips", prefix: "at" } ],
@@ -260,107 +164,56 @@ const verbsToNormalizePrefix = [
 	[ "quarter-see", { normalizedWord: "see", prefix: "quarter-" } ],
 ];
 
-let receivedForms = [];
-
 describe( "Test for normalizing verb prefix", function() {
 	verbsToNormalizePrefix.forEach( function( paradigm ) {
 		const verbToNormalize = paradigm[ 0 ];
 		const expectedNormalization = paradigm[ 1 ].normalizedWord;
 		const expectedPrefix = paradigm[ 1 ].prefix;
 		it( "returns a normalized form for a prefixed verb", function() {
-			const receivedNormalization = normalizePrefixed( verbToNormalize, verbData.regexVerb.verbPrefixes );
+			const receivedNormalization = normalizePrefixed( verbToNormalize, regexVerb.verbPrefixes );
 			expect( receivedNormalization.normalizedWord ).toEqual( expectedNormalization );
 			expect( receivedNormalization.prefix ).toEqual( expectedPrefix );
 		} );
 	} );
 } );
 
-describe( "Test for getting all possible word forms for regular verbs", function() {
+describe( "Test for getting infinitive", function() {
 	regularVerbsToTest.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a regular verb", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
+			it( "for regular verbs", function() {
+				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
 	} );
-} );
 
-describe( "Test for getting all possible word forms for doubleConsonantsAtTheEnd verbs", function() {
 	doubleConsonantsAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a doubleConsonantsAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
+			it( "for verbs with double consonants at the end", function() {
+				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
 	} );
-} );
 
-describe( "Test for getting all possible word forms for yAtTheEnd verbs", function() {
 	yAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a yAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
+			it( "for verbs with y at the end", function() {
+				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
 	} );
-} );
 
-describe( "Test for getting all possible word forms for eAtTheEnd verbs", function() {
 	eAtTheEnd.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a eAtTheEnd verb", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
+			it( "for verbs with e at the end", function() {
+				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
 	} );
-} );
 
-describe( "Test for getting all possible word forms for needsDoublingLastConsonant verbs", function() {
 	needsDoublingLastConsonant.forEach( function( paradigm ) {
 		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for a needsDoublingLastConsonant verb", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for irregular verbs", function() {
-	irregularVerbsToTest.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for an irregular verbs", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
-			} );
-		} );
-	} );
-} );
-
-describe( "Test for getting all possible word forms for irregular verbs with prefixes", function() {
-	irregularVerbsWithPrefixes.forEach( function( paradigm ) {
-		paradigm.forEach( function( wordInParadigm ) {
-			it( "returns an array of word forms for an irregular verbs with prefixes", function() {
-				receivedForms = getVerbForms( wordInParadigm, verbData );
-				paradigm.forEach( function( form ) {
-					expect( receivedForms ).toContain( form );
-				} );
+			it( "for verbs that need doubling of the last consonant", function() {
+				expect( getInfinitive( wordInParadigm, regexVerb ).infinitive ).toEqual( paradigm[ 0 ] );
 			} );
 		} );
 	} );

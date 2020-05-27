@@ -18,6 +18,7 @@ import FacebookPreviewExample from "./FacebookPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
+import ReactifiedComponentsWrapper from "./ReactifiedComponentsWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -102,6 +103,11 @@ const components = [
 		id: "multi-step-progress",
 		name: "Multi step progress",
 		component: <MultiStepProgressWrapper />,
+	},
+	{
+		id: "reactified-components",
+		name: "Reactified components",
+		component: <ReactifiedComponentsWrapper />,
 	},
 ];
 
