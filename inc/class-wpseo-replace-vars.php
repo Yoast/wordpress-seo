@@ -190,7 +190,12 @@ class WPSEO_Replace_Vars {
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== [] ) {
-			$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
+			$string = str_replace(
+				array_keys( $replacements ),
+				// Exclude replacement values that are arrays e.g. coming from a custom field serialized value.
+				array_filter( array_values( $replacements ), 'is_string' ),
+				$string
+			);
 		}
 
 		/**
