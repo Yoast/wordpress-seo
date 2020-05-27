@@ -27,6 +27,8 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		$link_storage->install();
 		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
 		$migration_runner->run_migrations( 'free' );
+
+		var_dump( get_option( 'yoast_migrations_free' ) );
 	}
 
 	/**
