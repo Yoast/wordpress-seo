@@ -19,6 +19,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property Helpers\Date_Helper           $date
  * @property Helpers\Home_Url_Helper       $home_url
  * @property Helpers\Image_Helper          $image
+ * @property Helpers\Language_Helper       $language
  * @property Helpers\Meta_Helper           $meta
  * @property Helpers\Options_Helper        $options
  * @property Helpers\Pagination_Helper     $pagination

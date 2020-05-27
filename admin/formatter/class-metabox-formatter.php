@@ -69,7 +69,7 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => $this->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
+			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
 
 			/**
@@ -261,18 +261,5 @@ class WPSEO_Metabox_Formatter {
 		 * @param array $is_markdown Is markdown support for Yoast SEO active.
 		 */
 		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
-	}
-
-	/**
-	 * Checks whether word form recognition is active for the used language.
-	 *
-	 * @param string $language The used language.
-	 *
-	 * @return boolean Whether word form recognition is active for the used language.
-	 */
-	private function is_word_form_recognition_active( $language ) {
-		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru' ];
-
-		return in_array( $language, $supported_languages, true );
 	}
 }
