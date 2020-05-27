@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -70,7 +71,8 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		if ( \is_subclass_of( $class, Migration::class ) ) {
-			$path    = $definition->getFile();
+			$reflect = new ReflectionClass( $class );
+			$path    = $reflect->getFileName();
 			$file    = \basename( $path, '.php' );
 			$version = \explode( '_', $file )[0];
 			$plugin  = $class::$plugin;
