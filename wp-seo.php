@@ -16,7 +16,7 @@
  * Text Domain: wordpress-seo
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 5.3
+ * Requires WP: 5.3
  * Requires PHP: 5.6.20
  *
  * WC requires at least: 3.0
