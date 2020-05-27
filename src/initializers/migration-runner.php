@@ -118,9 +118,7 @@ class Migration_Runner implements Initializer_Interface {
 		}
 
 		try {
-			if ( ! $this->adapter->has_table( $this->adapter->get_schema_version_table_name() ) ) {
-				$this->adapter->create_schema_version_table();
-			}
+			$this->adapter->create_schema_version_table();
 			$all_versions      = \array_keys( $migrations );
 			$migrated_versions = $this->adapter->get_migrated_versions();
 			$to_do_versions    = \array_diff( $all_versions, $migrated_versions );

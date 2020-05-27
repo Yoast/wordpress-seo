@@ -16,21 +16,21 @@ use Yoast\WP\Lib\Model;
 class Adapter {
 
 	/**
-	 * Version
+	 * The version of this adapter.
 	 *
 	 * @var string
 	 */
 	private $version = '1.0';
 
 	/**
-	 * Indicate if is in transaction
+	 * Whether or not a transaction has been started.
 	 *
 	 * @var boolean
 	 */
 	private $in_transaction = false;
 
 	/**
-	 * Get the current db name
+	 * Returns the current database name.
 	 *
 	 * @return string
 	 */
@@ -41,7 +41,7 @@ class Adapter {
 	}
 
 	/**
-	 * Check support for migrations
+	 * Checks support for migrations.
 	 *
 	 * @return boolean
 	 */
@@ -50,7 +50,7 @@ class Adapter {
 	}
 
 	/**
-	 * Get the column native types
+	 * Returns all column native types.
 	 *
 	 * @return array
 	 */
@@ -86,14 +86,14 @@ class Adapter {
 	}
 
 	/**
-	 * Check if a table exists.
+	 * Checks if a table exists.
 	 *
-	 * @param string $tbl The table name.
+	 * @param string $table The table name.
 	 *
 	 * @return boolean
 	 */
-	public function has_table( $tbl ) {
-		return $this->table_exists( $tbl );
+	public function has_table( $table ) {
+		return $this->table_exists( $table );
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Adapter {
 	}
 
 	/**
-	 * Create the schema table, if necessary
+	 * Create the schema table, if necessary.
 	 */
 	public function create_schema_version_table() {
 		if ( ! $this->has_table( $this->get_schema_version_table_name() ) ) {
@@ -118,7 +118,7 @@ class Adapter {
 	}
 
 	/**
-	 * Start Transaction
+	 * Starts a transaction.
 	 */
 	public function start_transaction() {
 		if ( $this->in_transaction() === false ) {
@@ -127,7 +127,7 @@ class Adapter {
 	}
 
 	/**
-	 * Commit Transaction
+	 * Commits a transaction.
 	 */
 	public function commit_transaction() {
 		if ( $this->in_transaction() ) {
@@ -136,7 +136,7 @@ class Adapter {
 	}
 
 	/**
-	 * Rollback Transaction
+	 * Rollbacks a transaction.
 	 */
 	public function rollback_transaction() {
 		if ( $this->in_transaction() ) {
@@ -145,18 +145,18 @@ class Adapter {
 	}
 
 	/**
-	 * Quote a table name string
+	 * Quotes a table name string.
 	 *
-	 * @param string $str table name.
+	 * @param string $string table name.
 	 *
 	 * @return string
 	 */
-	public function quote_table( $str ) {
-		return '`' . $str . '`';
+	public function quote_table( $string ) {
+		return '`' . $string . '`';
 	}
 
 	/**
-	 * Column definition
+	 * Return the SQL definition of a column.
 	 *
 	 * @param string $column_name The column name.
 	 * @param string $type        The type of the column.
@@ -169,22 +169,22 @@ class Adapter {
 
 		return $col->__toString();
 	}
-	// -------- DATABASE LEVEL OPERATIONS
+
 	/**
-	 * Check if a db exists
+	 * Checks if a database exists.
 	 *
-	 * @param string $db The db name.
+	 * @param string $database The database name.
 	 *
 	 * @return boolean
 	 */
-	public function database_exists( $db ) {
+	public function database_exists( $database ) {
 		$ddl    = 'SHOW DATABASES';
 		$result = $this->select_all( $ddl );
 		if ( \count( $result ) === 0 ) {
 			return false;
 		}
 		foreach ( $result as $dbrow ) {
-			if ( $dbrow['Database'] === $db ) {
+			if ( $dbrow['Database'] === $database ) {
 				return true;
 			}
 		}
@@ -193,7 +193,7 @@ class Adapter {
 	}
 
 	/**
-	 * Create a database.
+	 * Creates a database.
 	 *
 	 * @param string $db the database name.
 	 *
@@ -210,7 +210,7 @@ class Adapter {
 	}
 
 	/**
-	 * Drop a database.
+	 * Drops a database.
 	 *
 	 * @param string $db the database name.
 	 *
@@ -227,7 +227,7 @@ class Adapter {
 	}
 
 	/**
-	 * Check if a table exists
+	 * Checks if a table exists.
 	 *
 	 * @param string $table The table name.
 	 *
@@ -263,7 +263,7 @@ class Adapter {
 	}
 
 	/**
-	 * Execute a query.
+	 * Executes a query.
 	 *
 	 * @param string $query The query to run.
 	 *
@@ -297,7 +297,7 @@ class Adapter {
 	}
 
 	/**
-	 * Select one row.
+	 * Returns a single result for a query.
 	 *
 	 * @param string $query The query to run.
 	 *
@@ -320,18 +320,18 @@ class Adapter {
 	}
 
 	/**
-	 * Select all
+	 * Returns all results for a query.
 	 *
 	 * @param string $query The query to run.
 	 *
-	 * @return array
+	 * @return array An array of associative arrays.
 	 */
 	public function select_all( $query ) {
 		return $this->query( $query );
 	}
 
 	/**
-	 * Use this method for non-SELECT queries
+	 * Use this method for non-SELECT queries.
 	 * Or anything where you dont necessarily expect a result string, e.g. DROPs, CREATEs, etc.
 	 *
 	 * @param string $ddl The query to run.
@@ -343,7 +343,7 @@ class Adapter {
 	}
 
 	/**
-	 * Drop table
+	 * Drops a table
 	 *
 	 * @param string $table The table name.
 	 *
@@ -355,7 +355,7 @@ class Adapter {
 	}
 
 	/**
-	 * Create table
+	 * Creates a table.
 	 *
 	 * @param string $table_name The table name.
 	 * @param array  $options    The options.
@@ -367,7 +367,7 @@ class Adapter {
 	}
 
 	/**
-	 * Escape a string for mysql
+	 * Escapes a string for usage in queries.
 	 *
 	 * @param string $string The string.
 	 *
@@ -380,7 +380,7 @@ class Adapter {
 	}
 
 	/**
-	 * Quote a string.
+	 * Returns a quoted string.
 	 *
 	 * @param string $string the string.
 	 *
@@ -391,7 +391,7 @@ class Adapter {
 	}
 
 	/**
-	 * Rename a table.
+	 * Renames a table.
 	 *
 	 * @param string $name     The current table name.
 	 * @param string $new_name The new table name.
@@ -408,7 +408,7 @@ class Adapter {
 	}
 
 	/**
-	 * Add a column.
+	 * Adds a column.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -438,7 +438,7 @@ class Adapter {
 	}
 
 	/**
-	 * Drop a column.
+	 * Drops a column.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -452,7 +452,7 @@ class Adapter {
 	}
 
 	/**
-	 * Rename a column.
+	 * Renames a column.
 	 *
 	 * @param string $table_name      The table name.
 	 * @param string $column_name     The column name.
@@ -473,7 +473,7 @@ class Adapter {
 	}
 
 	/**
-	 * Change a column.
+	 * Changes a column.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -504,7 +504,7 @@ class Adapter {
 	}
 
 	/**
-	 * Get a column info.
+	 * Returns the database information for a column.
 	 *
 	 * @param string $table  the table name.
 	 * @param string $column the column name.
@@ -529,7 +529,7 @@ class Adapter {
 	}
 
 	/**
-	 * Add an index.
+	 * Adds an index.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -583,7 +583,7 @@ class Adapter {
 	}
 
 	/**
-	 * Drop an index.
+	 * Drops an index.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -609,7 +609,7 @@ class Adapter {
 	}
 
 	/**
-	 * Add timestamps.
+	 * Adds timestamps.
 	 *
 	 * @param string $table_name          The table name.
 	 * @param string $created_column_name Created at column name.
@@ -632,7 +632,7 @@ class Adapter {
 	}
 
 	/**
-	 * Remove timestamps.
+	 * Removes timestamps.
 	 *
 	 * @param string $table_name          The table name.
 	 * @param string $created_column_name Created at column name.
@@ -651,7 +651,7 @@ class Adapter {
 	}
 
 	/**
-	 * Check an index.
+	 * Checks an index.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -681,7 +681,7 @@ class Adapter {
 	}
 
 	/**
-	 * Return all indexes of a table.
+	 * Returns all indexes of a table.
 	 *
 	 * @param string $table_name The table name.
 	 *
@@ -703,7 +703,7 @@ class Adapter {
 	}
 
 	/**
-	 * Convert type to sql. Default options:
+	 * Converts a type to sql. Default options:
 	 * $limit = null, $precision = null, $scale = null
 	 *
 	 * @param string $type    The native type.
@@ -795,7 +795,7 @@ class Adapter {
 	}
 
 	/**
-	 * Add column options.
+	 * Adds column options.
 	 *
 	 * @param string $type    The native type.
 	 * @param array  $options The options.
@@ -875,7 +875,7 @@ class Adapter {
 	}
 
 	/**
-	 * Set current version.
+	 * Adds a migrated version.
 	 *
 	 * @param string $version The version.
 	 *
@@ -888,7 +888,7 @@ class Adapter {
 	}
 
 	/**
-	 * Remove a version.
+	 * Removes a migrated version.
 	 *
 	 * @param string $version The version.
 	 *
@@ -901,7 +901,7 @@ class Adapter {
 	}
 
 	/**
-	 * Return a message displaying the current version
+	 * Returns a message displaying the current version
 	 *
 	 * @return string
 	 */
@@ -910,7 +910,7 @@ class Adapter {
 	}
 
 	/**
-	 * Get an index name.
+	 * Returns an index name.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -932,7 +932,7 @@ class Adapter {
 	}
 
 	/**
-	 * Check query type.
+	 * Returns the type of a query.
 	 *
 	 * @param string $query The query to run.
 	 *
@@ -986,7 +986,7 @@ class Adapter {
 	}
 
 	/**
-	 * Check if in transaction
+	 * Checks if a transaction is active.
 	 *
 	 * @return boolean
 	 */
@@ -995,7 +995,7 @@ class Adapter {
 	}
 
 	/**
-	 * Start transaction
+	 * Starts a transaction.
 	 *
 	 * @return void
 	 *
@@ -1012,7 +1012,7 @@ class Adapter {
 	}
 
 	/**
-	 * Commit a transaction
+	 * Commits a transaction.
 	 *
 	 * @return void
 	 *
@@ -1029,7 +1029,7 @@ class Adapter {
 	}
 
 	/**
-	 * Rollback a transaction
+	 * Rollbacks a transaction.
 	 *
 	 * @return void
 	 *

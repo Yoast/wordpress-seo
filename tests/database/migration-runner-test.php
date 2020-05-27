@@ -71,8 +71,7 @@ class Migration_Runner_Test extends TestCase {
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'set_success' )->once()->with( 'test' );
-		$adapter_mock->expects( 'get_schema_version_table_name' )->once()->andReturn( 'table' );
-		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( true );
+		$adapter_mock->expects( 'create_schema_version_table' )->once();
 		$adapter_mock->expects( 'get_migrated_versions' )->once()->andReturn( [] );
 		$adapter_mock->expects( 'start_transaction' )->once();
 		$adapter_mock->expects( 'add_version' )->once()->with( 'version' );
@@ -159,8 +158,7 @@ class Migration_Runner_Test extends TestCase {
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'set_error' )->once()->with( 'test', Migration_Double::class . ' - Migration error' );
-		$adapter_mock->expects( 'get_schema_version_table_name' )->once()->andReturn( 'table' );
-		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( true );
+		$adapter_mock->expects( 'create_schema_version_table' )->once();
 		$adapter_mock->expects( 'get_migrated_versions' )->once()->andReturn( [] );
 		$adapter_mock->expects( 'start_transaction' )->once();
 		$adapter_mock->expects( 'rollback_transaction' )->once();
@@ -172,37 +170,6 @@ class Migration_Runner_Test extends TestCase {
 		Migration_Double::$should_error = true;
 
 		$this->assertFalse( $instance->run_migrations( 'test' ) );
-	}
-
-	/**
-	 * Tests the initializing when everything goes as planned including creating migration tables.
-	 *
-	 * @covers ::run_migrations
-	 */
-	public function test_migration_success_with_migrations_table() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
-
-		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
-		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
-		$status_mock->expects( 'set_success' )->once()->with( 'test' );
-		$adapter_mock->expects( 'get_schema_version_table_name' )->once()->andReturn( 'table' );
-		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( false );
-		$adapter_mock->expects( 'create_schema_version_table' )->once();
-		$adapter_mock->expects( 'get_migrated_versions' )->once()->andReturn( [] );
-		$adapter_mock->expects( 'start_transaction' )->once();
-		$adapter_mock->expects( 'add_version' )->once()->with( 'version' );
-		$adapter_mock->expects( 'commit_transaction' )->once();
-		$loader_mock->expects( 'get_migrations' )->once()->with( 'test' )->andReturn( [ 'version' => Migration_Double::class ] );
-
-		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
-
-		Migration_Double::$was_run      = false;
-		Migration_Double::$should_error = false;
-
-		$this->assertTrue( $instance->run_migrations( 'test' ) );
-		$this->assertTrue( Migration_Double::$was_run );
 	}
 
 	/**
