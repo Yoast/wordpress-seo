@@ -50,7 +50,7 @@ class Column {
 	private $options = [];
 
 	/**
-	 * Creates an instance of Column
+	 * Creates an instance of a column.
 	 *
 	 * @param Adapter $adapter The current adapter.
 	 * @param string  $name    the name of the column.
@@ -89,7 +89,7 @@ class Column {
 	}
 
 	/**
-	 * SQL string version
+	 * The SQL string version.
 	 *
 	 * @return string
 	 */

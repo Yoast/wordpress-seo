@@ -16,8 +16,9 @@ use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-/* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
-
+/**
+ * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
+ */
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 
@@ -59,7 +60,9 @@ $base_definition
 	->setAutoconfigured( true )
 	->setPublic( true );
 
-/* @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader */
+/**
+ * @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader
+ */
 $loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
 
 if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {

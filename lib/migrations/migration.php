@@ -52,7 +52,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Set an adapter
+	 * Set an adapter.
 	 *
 	 * @param Adapter $adapter The adapter to set.
 	 *
@@ -67,7 +67,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Get the current adapter
+	 * Get the current adapter.
 	 *
 	 * @return object
 	 */
@@ -76,7 +76,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Create a database
+	 * Create a database.
 	 *
 	 * @param string $name    The name of the database.
 	 * @param array  $options The options.
@@ -88,7 +88,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Drop a database
+	 * Drop a database.
 	 *
 	 * @param string $name The name of the database.
 	 *
@@ -99,7 +99,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Drop a table
+	 * Drop a table.
 	 *
 	 * @param string $table_name The name of the table.
 	 *
@@ -110,7 +110,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Rename a table
+	 * Rename a table.
 	 *
 	 * @param string $name     The name of the table.
 	 * @param string $new_name The new name of the table.
@@ -122,7 +122,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Rename a column
+	 * Rename a column.
 	 *
 	 * @param string $table_name      The name of the table.
 	 * @param string $column_name     The column name.
@@ -135,7 +135,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Add a column
+	 * Add a column.
 	 *
 	 * @param string       $table_name  The name of the table.
 	 * @param string       $column_name The column name.
@@ -149,7 +149,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Remove a column
+	 * Remove a column.
 	 *
 	 * @param string $table_name  The name of the table.
 	 * @param string $column_name The column name.
@@ -161,7 +161,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Change a column
+	 * Change a column.
 	 *
 	 * @param string       $table_name  The name of the table.
 	 * @param string       $column_name The column name.
@@ -175,7 +175,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Add an index
+	 * Add an index.
 	 *
 	 * @param string       $table_name  The name of the table.
 	 * @param string       $column_name The column name.
@@ -188,7 +188,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Remove an index
+	 * Remove an index.
 	 *
 	 * @param string       $table_name  The name of the table.
 	 * @param string       $column_name The column name.
@@ -201,7 +201,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Add timestamps
+	 * Add timestamps.
 	 *
 	 * @param string $table_name          The name of the table.
 	 * @param string $created_column_name Created at column name.
@@ -214,7 +214,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Remove timestamps
+	 * Remove timestamps.
 	 *
 	 * @param string $table_name          The name of the table.
 	 * @param string $created_column_name Created at column name.
@@ -227,7 +227,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Create a table
+	 * Create a table.
 	 *
 	 * @param string       $table_name The name of the table.
 	 * @param array|string $options    The options.
@@ -239,7 +239,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Select one query
+	 * Select one query.
 	 *
 	 * @param string $sql The query to run.
 	 *
@@ -250,7 +250,7 @@ abstract class Migration {
 	}
 
 	/**
-	 * Select all query
+	 * Select all query.
 	 *
 	 * @param string $sql The query to run.
 	 *
@@ -260,7 +260,7 @@ abstract class Migration {
 		return $this->adapter->select_all( $sql );
 	}
 	/**
-	 * Execute a query
+	 * Execute a query.
 	 *
 	 * @param string $sql The query to run.
 	 *
@@ -270,7 +270,7 @@ abstract class Migration {
 		return $this->adapter->query( $sql );
 	}
 	/**
-	 * Quote a string
+	 * Quote a string.
 	 *
 	 * @param string $str The string to quote.
 	 *

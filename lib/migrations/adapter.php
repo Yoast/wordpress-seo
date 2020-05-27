@@ -504,7 +504,7 @@ class Adapter {
 	}
 
 	/**
-	 * Get a column info
+	 * Get a column info.
 	 *
 	 * @param string $table  the table name.
 	 * @param string $column the column name.
@@ -529,7 +529,7 @@ class Adapter {
 	}
 
 	/**
-	 * Add an index
+	 * Add an index.
 	 *
 	 * @param string $table_name  The table name.
 	 * @param string $column_name The column name.
@@ -632,7 +632,7 @@ class Adapter {
 	}
 
 	/**
-	 * Remove timestamps
+	 * Remove timestamps.
 	 *
 	 * @param string $table_name          The table name.
 	 * @param string $created_column_name Created at column name.
@@ -681,7 +681,7 @@ class Adapter {
 	}
 
 	/**
-	 * Return all indexes of a table
+	 * Return all indexes of a table.
 	 *
 	 * @param string $table_name The table name.
 	 *
