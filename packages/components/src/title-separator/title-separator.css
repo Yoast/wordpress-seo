@@ -1,6 +1,7 @@
 .yoast-field-group__title-separator {
     display: flex;
     flex-wrap: wrap;
+    padding: 0;
 }
 
 .yoast-field-group__title-separator label {
