@@ -89,6 +89,61 @@ class Migration_Runner_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the initializing when the migration should not run.
+	 *
+	 * @covers ::run_migrations
+	 */
+	public function test_migration_should_not_run() {
+		$status_mock    = Mockery::mock( Migration_Status::class );
+		$loader_mock    = Mockery::mock( Loader::class );
+		$adapter_mock   = Mockery::mock( Adapter::class );
+
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( false );
+
+		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
+
+		$this->assertTrue( $instance->run_migrations( 'test' ) );
+	}
+
+	/**
+	 * Tests the initializing when the migration is locked.
+	 *
+	 * @covers ::run_migrations
+	 */
+	public function test_migration_locked() {
+		$status_mock    = Mockery::mock( Migration_Status::class );
+		$loader_mock    = Mockery::mock( Loader::class );
+		$adapter_mock   = Mockery::mock( Adapter::class );
+
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( false );
+
+		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
+
+		$this->assertFalse( $instance->run_migrations( 'test' ) );
+	}
+
+	/**
+	 * Tests the initializing when no migrations are present.
+	 *
+	 * @covers ::run_migrations
+	 */
+	public function test_migration_with_no_migrations() {
+		$status_mock    = Mockery::mock( Migration_Status::class );
+		$loader_mock    = Mockery::mock( Loader::class );
+		$adapter_mock   = Mockery::mock( Adapter::class );
+
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'set_error' )->once()->with( 'test', 'Could not perform test migrations. No migrations found.' );
+		$loader_mock->expects( 'get_migrations' )->once()->with( 'test' )->andReturn( false );
+
+		$instance = new Migration_Runner( $status_mock, $loader_mock, $adapter_mock );
+
+		$this->assertFalse( $instance->run_migrations( 'test' ) );
+	}
+
+	/**
 	 * Tests the initializing when everything goes wrong.
 	 *
 	 * @covers ::run_migrations

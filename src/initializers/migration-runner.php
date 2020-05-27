@@ -114,7 +114,7 @@ class Migration_Runner implements Initializer_Interface {
 
 		if ( $migrations === false ) {
 			$this->migration_status->set_error( $name, "Could not perform $name migrations. No migrations found." );
-			return;
+			return false;
 		}
 
 		try {
