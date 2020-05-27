@@ -1,5 +1,7 @@
 /* This file is meant to be used exclusively for the Configuration Wizard. */
 /* WordPress-specific styling to be used only for single-page apps like the Onboarding Wizard. */
+@import url("../title-separator/title-separator.css");
+
 .screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
@@ -348,7 +350,7 @@ a:focus {
 }
 
 .yoast-wizard--navigation {
-	border-top: 1px solid #a4286a;
+	border-top: 1px solid var(--color-border--default);
 	margin-top: 2em;
 	padding-top: 1em;
 }
@@ -428,12 +430,6 @@ a:focus {
 
 .yoast-wizard--emphasis {
 	font-weight: bold;
-}
-
-.yoast-wizard--navigation {
-	margin-top: 2em;
-	padding-top: 1em;
-	border-top: 1px solid #a4286a;
 }
 
 .yoast-wizard--rows {
