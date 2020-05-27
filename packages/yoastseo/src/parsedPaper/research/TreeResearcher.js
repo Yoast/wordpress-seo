@@ -71,13 +71,14 @@ class TreeResearcher {
 	/**
 	 * Applies the research with the given name to the node and its descendants.
 	 *
-	 * @param {string} name                     The name of the research to apply to the node.
+	 * @param {string} name The name of the research to apply to the node.
 	 * @param {module:parsedPaper/structure.Node} node The node to compute the research of.
-	 * @param {boolean} [bustCache=false]       If we should force the results, as cached on each node, to be recomputed.
+	 * @param {module:parsedPaper/structure.StructuredNode} metadata The node that holds the paper metadata.
+	 * @param {boolean} [bustCache=false] If we should force the results, as cached on each node, to be recomputed.
 	 *
 	 * @returns {Promise<*>} A promising research result.
 	 */
-	async doResearch( name, node, bustCache = false ) {
+	async doResearch( name, node, metadata, bustCache = false ) {
 		const research = this.getResearch( name );
 		let researchResult = Promise.resolve();
 
@@ -87,7 +88,7 @@ class TreeResearcher {
 			  Always compute it when we need to bust the cache.
 			 */
 			if ( ! node.hasResearchResult( name ) || bustCache ) {
-				node.setResearchResult( name, await research.calculateFor( node ) );
+				node.setResearchResult( name, await research.calculateFor( node, metadata ) );
 			}
 			researchResult = node.getResearchResult( name );
 		} else {
@@ -96,7 +97,7 @@ class TreeResearcher {
 			// Heading and paragraph nodes do not have children.
 			if ( children ) {
 				const resultsForChildren = await Promise.all( children.map( ( child ) => {
-					return this.doResearch( name, child );
+					return this.doResearch( name, child, metadata );
 				} ) );
 
 				researchResult = research.mergeChildrenResults( resultsForChildren );

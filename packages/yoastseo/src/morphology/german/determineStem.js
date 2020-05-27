@@ -1,6 +1,6 @@
 import { flatten } from "lodash-es";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { allGermanVerbPrefixesSorted } from "./helpers";
+import { flattenSortLength } from "../morphoHelpers/flattenSortLength";
 
 import stem from "./stem";
 
@@ -13,17 +13,15 @@ import stem from "./stem";
  * @returns {string|null} The stemmed word or null if none was found.
  */
 const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	const exceptionStemsWithFullForms = morphologyDataNouns.exceptionStemsWithFullForms;
+	const exceptionStems = morphologyDataNouns.exceptionStems;
 
-	for ( const exceptionSet of exceptionStemsWithFullForms ) {
-		const exceptionStems = exceptionSet[ 0 ];
-
-		const matchedStem = exceptionStems.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
+	for ( const exceptionStemSet of exceptionStems ) {
+		const matchedStem = exceptionStemSet.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
 
 		if ( matchedStem ) {
 			const precedingLexicalMaterial = stemmedWord.slice( 0, stemmedWord.length - matchedStem.length );
 
-			return precedingLexicalMaterial + exceptionStems[ 0 ];
+			return precedingLexicalMaterial + exceptionStemSet[ 0 ];
 		}
 	}
 
@@ -65,7 +63,7 @@ const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, ste
 const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord ) {
 	let wordToCheck = stemmedWord;
 	const strongAndIrregularVerbStems = morphologyDataVerbs.strongAndIrregularVerbs.stems;
-	const prefixes = allGermanVerbPrefixesSorted( morphologyDataVerbs.prefixes );
+	const prefixes = flattenSortLength( morphologyDataVerbs.prefixes );
 
 	let matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
 

@@ -1,0 +1,22 @@
+.yoast-field-group {
+    position: relative;
+    border: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+}
+
+.yoast-field-group__title {
+    display: flex;
+    align-items: center;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 8px;
+    color: var(--color-label);
+    line-height: 1.2;
+    padding: 0;
+}
+
+.yoast-field-group .description {
+    margin: 0;
+}
+
+
