@@ -4,10 +4,6 @@
 
     <file>.</file>
 
-    <!-- Temporary exclude for the lib dir -->
-    <exclude-pattern>lib/model.php</exclude-pattern>
-    <exclude-pattern>lib/orm.php</exclude-pattern>
-
     <exclude-pattern>tests/*</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
     <exclude-pattern>vendor_prefixed/*</exclude-pattern>
