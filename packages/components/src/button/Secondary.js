@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button, { buttonDefaultProps, buttonPropTypes } from "./Button";
+import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
 
 /**
  * A secondary button.
@@ -17,12 +17,12 @@ export const SecondaryButton = ( props ) => {
 };
 
 SecondaryButton.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	onClick: PropTypes.func.isRequired,
 };
 
 SecondaryButton.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };
 
 /**
@@ -41,10 +41,10 @@ export const SecondaryLink = ( props ) => {
 };
 
 SecondaryLink.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	href: PropTypes.string.isRequired,
 };
 
 SecondaryLink.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button, { buttonDefaultProps, buttonPropTypes } from "./Button";
+import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
 
 const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true" focusable="false">
 	{ /* eslint-disable-next-line max-len */ }
@@ -25,13 +25,12 @@ export const CloseButton = ( props ) => {
 };
 
 CloseButton.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	onClick: PropTypes.func.isRequired,
 };
 
 CloseButton.defaultProps = {
-	...buttonDefaultProps,
-	caret: false,
+	...sharedButtonDefaultProps,
 };
 
 /**
@@ -53,10 +52,10 @@ export const CloseLink = ( props ) => {
 };
 
 CloseLink.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	href: PropTypes.string.isRequired,
 };
 
 CloseLink.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };

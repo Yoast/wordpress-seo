@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Primary matches the Button snapshot 1`] = `
+<Button
+  className="yoast-button yoast-button--primary"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+</Button>
+`;
+
+exports[`Primary matches the Link snapshot 1`] = `
+<Button
+  className="yoast-button yoast-button--primary"
+  href="#"
+  isLink={false}
+>
+  test
+</Button>
+`;
+
+exports[`Secondary matches the Button snapshot 1`] = `
+<Button
+  className="yoast-button yoast-button--secondary"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+</Button>
+`;
+
+exports[`Secondary matches the Link snapshot 1`] = `
+<Button
+  className="yoast-button yoast-button--secondary"
+  href="#"
+  isLink={false}
+>
+  test
+</Button>
+`;
+
+exports[`Upsell has a caret in the Button snapshot when caret is true 1`] = `
+<Button
+  className="yoast-button yoast-button--buy"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+  <span
+    className="yoast-button--buy__caret"
+  />
+</Button>
+`;
+
+exports[`Upsell has a caret in the Link snapshot when caret is true 1`] = `
+<Button
+  className="yoast-button yoast-button--buy"
+  href="#"
+  isLink={false}
+>
+  test
+  <span
+    className="yoast-button--buy__caret"
+  />
+</Button>
+`;
+
+exports[`Upsell matches the Button snapshot without caret 1`] = `
+<Button
+  className="yoast-button yoast-button--buy"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+</Button>
+`;
+
+exports[`Upsell matches the Link snapshot without caret 1`] = `
+<Button
+  className="yoast-button yoast-button--buy"
+  href="#"
+  isLink={false}
+>
+  test
+</Button>
+`;

@@ -27,7 +27,7 @@ exports[`StyledSection can change the heading level 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h4
     className="c0 fDabUE"
@@ -84,7 +84,7 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -139,7 +139,7 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -194,7 +194,7 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -249,7 +249,7 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -304,7 +304,7 @@ exports[`StyledSection can change the icon to circle 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -359,7 +359,7 @@ exports[`StyledSection can change the icon to edit 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -414,7 +414,7 @@ exports[`StyledSection can change the icon to eye 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -469,7 +469,7 @@ exports[`StyledSection can change the icon to file-text 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -524,7 +524,7 @@ exports[`StyledSection can change the icon to key 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -579,7 +579,7 @@ exports[`StyledSection can change the icon to list 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -634,7 +634,7 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -689,7 +689,7 @@ exports[`StyledSection can change the icon to search 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -744,7 +744,7 @@ exports[`StyledSection can change the icon to times 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -799,7 +799,7 @@ exports[`StyledSection have a red icon 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"
@@ -853,7 +853,7 @@ exports[`StyledSection match the snapshot 1`] = `
 }
 
 <section
-  className="yoast-section noBqY"
+  className="noBqY yoast-section"
 >
   <h2
     className="c0 fDabUE"

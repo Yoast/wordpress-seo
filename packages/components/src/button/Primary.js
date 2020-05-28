@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button, { buttonDefaultProps, buttonPropTypes } from "./Button";
+import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
 
 /**
  * A primary button.
@@ -17,12 +17,12 @@ export const PrimaryButton = ( props ) => {
 };
 
 PrimaryButton.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	onClick: PropTypes.func.isRequired,
 };
 
 PrimaryButton.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };
 
 /**
@@ -41,10 +41,10 @@ export const PrimaryLink = ( props ) => {
 };
 
 PrimaryLink.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	href: PropTypes.string.isRequired,
 };
 
 PrimaryLink.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };

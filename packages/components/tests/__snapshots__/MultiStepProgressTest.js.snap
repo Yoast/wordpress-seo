@@ -61,7 +61,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-loading-spinner fPPnRA"
+        className="fPPnRA yoast-svg-icon yoast-svg-icon-loading-spinner"
         fill="currentColor"
         focusable="false"
         role="img"

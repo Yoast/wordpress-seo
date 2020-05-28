@@ -32,14 +32,14 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
-	<Button title="Testing whether other props work!">Naked button</Button>
+	<Button title="Testing whether other props">Naked button</Button>
 	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
 	<PrimaryLink href="#" title="Other props work!">Primary link</PrimaryLink>
 	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
 	<SecondaryLink href="#" title="Other props work!">Secondary link</SecondaryLink>
 	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
 	<UpsellLink href="#" title="Other props work!">Upsell link</UpsellLink>
-	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellButton caret={ true } title="Other props work!">Upsell button</UpsellButton>
 	<UpsellLink href="#" caret={ true } title="Other props work!">Upsell link</UpsellLink>
 	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
 	<HideLink href="#" title="Other props work!">Hide link</HideLink>

@@ -2,7 +2,7 @@
 
 exports[`The FullHeightCard is rendered including some props 1`] = `
 <div
-  className="CourseCard_Empty dgKSLD jcXXIE"
+  className="jcXXIE dgKSLD CourseCard_Empty"
   id="Test01"
 >
   <div
@@ -13,7 +13,7 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
 <div
-  className="CourseCard dgKSLD jcXXIE"
+  className="jcXXIE dgKSLD CourseCard"
   id="Test02"
 >
   <a
