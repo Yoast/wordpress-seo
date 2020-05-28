@@ -10,6 +10,8 @@ import {
 	Button,
 	PrimaryButton,
 	PrimaryLink,
+	SecondaryButton,
+	SecondaryLink,
 	UpsellButton,
 	UpsellLink,
 	HideButton,
@@ -33,6 +35,8 @@ const buttonGrouping = <Fragment>
 	<Button>Naked button</Button>
 	<PrimaryButton onClick={ clickerDiClick }>Primary button</PrimaryButton>
 	<PrimaryLink href="#">Primary link</PrimaryLink>
+	<SecondaryButton onClick={ clickerDiClick }>Secondary button</SecondaryButton>
+	<SecondaryLink href="#">Secondary link</SecondaryLink>
 	<UpsellButton onClick={ clickerDiClick }>Upsell button</UpsellButton>
 	<UpsellLink href="#">Upsell link</UpsellLink>
 	<UpsellButton onClick={ clickerDiClick } caret={ true }>Upsell button</UpsellButton>
