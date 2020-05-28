@@ -69,7 +69,7 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
+			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
 
 			/**
@@ -148,14 +148,14 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns a link to the settings page, if the user has the right capabilities.
+	 * Returns a link to the General Settings page, if the user has the right capabilities.
 	 * Returns an empty string otherwise.
 	 *
-	 * @return string The settings link.
+	 * @return string The General Settings link.
 	 */
 	private function get_settings_link() {
 		if ( current_user_can( 'manage_options' ) ) {
-			return admin_url( 'options-general.php' );
+			return esc_url( admin_url( 'options-general.php' ) );
 		}
 
 		return '';

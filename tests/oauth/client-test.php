@@ -10,11 +10,11 @@ namespace Yoast\WP\SEO\Tests\Oauth;
 use Yoast\WP\SEO\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use Yoast\WP\SEO\Tests\Doubles\Oauth\Client as Client_Double;
+use Yoast\WP\SEO\Tests\Doubles\Oauth\Client_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Oauth_Test.
+ * Class Client_Test.
  *
  * @group oauth
  */
@@ -23,7 +23,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\SEO\Oauth\Client
+	 * @var Client
 	 */
 	protected $class_instance;
 

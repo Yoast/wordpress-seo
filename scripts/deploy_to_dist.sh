@@ -29,7 +29,7 @@ lastTag=$1
 branch="master"
 mainDir=$(pwd)
 
-if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
   branch=$lastTag
 fi
 
@@ -49,9 +49,9 @@ cd ./artifact-composer
 # Commit the files.
 git add -A
 
-# If it's a feature branch.
-if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
-  git commit -m "${TRAVIS_COMMIT_MESSAGE}"
+# If it's a feature, release or trunk branch.
+if [[ $lastTag =~ ^feature/* || $lastTag =~ ^release/* || $lastTag == "trunk" ]]; then
+  git commit --allow-empty -m "${TRAVIS_COMMIT_MESSAGE}"
 else
   git commit -m "Release ${lastTag}"
    # Tag the commit.

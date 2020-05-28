@@ -61,5 +61,4 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 			'convert' => [ 'on' => 1 ],
 		],
 	];
-
 }

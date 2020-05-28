@@ -44,6 +44,23 @@ function wpseo_set_option() {
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 
 /**
+ * Sets an option in the database to hide the index warning for a week.
+ *
+ * This function is used in AJAX calls and dies on exit.
+ */
+function wpseo_set_indexation_remind() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	check_ajax_referer( 'wpseo-indexation-remind' );
+
+	WPSEO_Options::set( 'indexation_warning_hide_until', ( time() + WEEK_IN_SECONDS ) );
+	die( '1' );
+}
+add_action( 'wp_ajax_wpseo_set_indexation_remind', 'wpseo_set_indexation_remind' );
+
+/**
  * Since 3.2 Notifications are dismissed in the Notification Center.
  */
 add_action( 'wp_ajax_yoast_dismiss_notification', [ 'Yoast_Notification_Center', 'ajax_dismiss_notification' ] );
@@ -65,23 +82,6 @@ function wpseo_set_ignore() {
 }
 
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
-
-/**
- * Hides the default tagline notice for a specific user.
- */
-function wpseo_dismiss_tagline_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-dismiss-tagline-notice' );
-
-	update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
-
-	die( '1' );
-}
-
-add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
 
 /**
  * Save an individual SEO title from the Bulk Editor.
@@ -187,7 +187,6 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 		);
 
 		return $upsert_results;
-
 	}
 
 	if ( $sanitized_new_meta_value === $orig_meta_value && $sanitized_new_meta_value !== $new_meta_value ) {
@@ -331,8 +330,6 @@ wpseo_register_ajax_integrations();
 // SEO Score Recalculations.
 new WPSEO_Recalculate_Scores_Ajax();
 
-new Yoast_OnPage_Ajax();
-
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
@@ -400,4 +397,19 @@ function wpseo_ajax_replace_vars() {
 	$omit = [ 'excerpt', 'excerpt_only', 'title' ];
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
+}
+
+/**
+ * Hides the default tagline notice for a specific user.
+ *
+ * @deprecated 13.2
+ * @codeCoverageIgnore
+ */
+function wpseo_dismiss_tagline_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		die( '-1' );
+	}
+
+	_deprecated_function( __FUNCTION__, 'WPSEO 13.2', 'This method is deprecated.' );
+	wpseo_ajax_json_echo_die( '' );
 }

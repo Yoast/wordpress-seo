@@ -308,15 +308,12 @@ class WPSEO_Utils {
 		 * @param string $filtered The sanitized string.
 		 * @param string $str      The string prior to being sanitized.
 		 */
-
 		return apply_filters( 'sanitize_text_field', $filtered, $value );
 	}
 
 	/**
 	 * Sanitize a url for saving to the database.
 	 * Not to be confused with the old native WP function.
-	 *
-	 * @todo [JRF => whomever] Check/improve url verification.
 	 *
 	 * @since 1.8.0
 	 *
@@ -326,7 +323,81 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
-		return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
+
+		$url   = '';
+		$parts = wp_parse_url( $value );
+
+		if ( isset( $parts['scheme'], $parts['host'] ) ) {
+			$url = $parts['scheme'] . '://';
+
+			if ( isset( $parts['user'] ) ) {
+				$url .= rawurlencode( $parts['user'] );
+				$url .= isset( $parts['pass'] ) ? ':' . rawurlencode( $parts['pass'] ) : '';
+				$url .= '@';
+			}
+
+			$parts['host'] = preg_replace(
+				'`[^a-z0-9-.:\[\]\\x80-\\xff]`',
+				'',
+				strtolower( $parts['host'] )
+			);
+
+			$url .= $parts['host'] . ( isset( $parts['port'] ) ? ':' . intval( $parts['port'] ) : '' );
+		}
+
+		if ( isset( $parts['path'] ) && strpos( $parts['path'], '/' ) === 0 ) {
+			$path = explode( '/', wp_strip_all_tags( $parts['path'] ) );
+			$path = self::sanitize_encoded_text_field( $path );
+			$url .= implode( '/', $path );
+		}
+
+		if ( ! $url ) {
+			return '';
+		}
+
+		if ( isset( $parts['query'] ) ) {
+			wp_parse_str( $parts['query'], $parsed_query );
+
+			$parsed_query = array_combine(
+				self::sanitize_encoded_text_field( array_keys( $parsed_query ) ),
+				self::sanitize_encoded_text_field( array_values( $parsed_query ) )
+			);
+
+			$url = add_query_arg( $parsed_query, $url );
+		}
+
+		if ( isset( $parts['fragment'] ) ) {
+			$url .= '#' . self::sanitize_encoded_text_field( $parts['fragment'] );
+		}
+
+		if ( strpos( $url, '%' ) !== false ) {
+			$url = preg_replace_callback(
+				'`%[a-fA-F0-9]{2}`',
+				function( $octects ) {
+					return strtolower( $octects[0] );
+				},
+				$url
+			);
+		}
+
+		return esc_url_raw( $url, $allowed_protocols );
+	}
+
+	/**
+	 * Decode, sanitize and encode the array of strings or the string.
+	 *
+	 * @since 13.3
+	 *
+	 * @param array|string $value The value to sanitize and encode.
+	 *
+	 * @return array|string The sanitized value.
+	 */
+	public static function sanitize_encoded_text_field( $value ) {
+		if ( is_array( $value ) ) {
+			return array_map( [ __CLASS__, 'sanitize_encoded_text_field' ], $value );
+		}
+
+		return rawurlencode( sanitize_text_field( rawurldecode( $value ) ) );
 	}
 
 	/**
@@ -618,7 +689,7 @@ class WPSEO_Utils {
 					$result = bccomp( $number1, $number2, $precision ); // Returns int 0, 1 or -1.
 				}
 				else {
-					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : - 1 );
+					$result = ( $number1 == $number2 ) ? 0 : ( ( $number1 > $number2 ) ? 1 : -1 );
 				}
 				break;
 		}
@@ -830,7 +901,10 @@ class WPSEO_Utils {
 	public static function is_development_mode() {
 		$development_mode = false;
 
-		if ( defined( 'WPSEO_DEBUG' ) ) {
+		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' ) {
+			$development_mode = true;
+		}
+		elseif ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
 		}
 		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
@@ -907,7 +981,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function traffic_light_svg() {
-		return <<<SVG
+		return <<<'SVG'
 <svg class="yst-traffic-light init" version="1.1" xmlns="http://www.w3.org/2000/svg"
 	 role="img" aria-hidden="true" focusable="false"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
@@ -1062,12 +1136,69 @@ SVG;
 	}
 
 	/**
+	 * Gets the type of the current post.
+	 *
+	 * @return string The post type, or an empty string.
+	 */
+	public static function get_post_type() {
+		global $post;
+
+		if ( isset( $post->post_type ) ) {
+			return $post->post_type;
+		}
+		elseif ( isset( $_GET['post_type'] ) ) {
+			return sanitize_text_field( $_GET['post_type'] );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the type of the current page.
+	 *
+	 * @return string Returns 'post' if the current page is a post edit page. Taxonomy in other cases.
+	 */
+	public static function get_page_type() {
+		global $pagenow;
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			return 'post';
+		}
+
+		return 'taxonomy';
+	}
+
+	/**
 	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
 	 *
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [];
+		$post_type = self::get_post_type();
+		$page_type = self::get_page_type();
+
+		$label_object = false;
+		$no_index     = false;
+
+		if ( $page_type === 'post' ) {
+			$label_object = get_post_type_object( $post_type );
+			$no_index     = WPSEO_Options::get( 'noindex-' . $post_type, false );
+		}
+		else {
+			$label_object = WPSEO_Taxonomy::get_labels();
+
+			$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+			$no_index      = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
+		}
+
+		$wpseo_admin_l10n = [
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'noIndex'              => ! ! $no_index,
+			'isPostType'           => ! ! get_post_type(),
+			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
+			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
+			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
+		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {
@@ -1096,44 +1227,37 @@ SVG;
 	}
 
 	/**
-	 * Returns the home url with the following modifications:
+	 * Returns the unfiltered home URL.
 	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 * In case of a multisite setup we return the network_home_url.
-	 * In case of no multisite setup we return the home_url while overriding the WPML filter.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return string The home url.
 	 */
-	public static function get_home_url() {
-		// Add a new filter to undo WPML's changing of home url.
-		add_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10, 2 );
-
-		$url = home_url();
-
-		// If the plugin is network activated, use the network home URL.
-		if ( self::is_plugin_network_active() ) {
-			$url = network_home_url();
-		}
-
-		remove_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10 );
-
-		return $url;
-	}
 
 	/**
-	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter.
+	 * Returns the unfiltered home URL.
+	 *
+	 * In case WPML is installed, returns the original home_url and not the WPML version.
+	 * In case of a multisite setup we return the network_home_url.
+	 *
+	 * @return string The home url.
 	 *
 	 * @codeCoverageIgnore
-	 *
-	 * @param string $home_url The url altered by WPML. Unused.
-	 * @param string $url      The url that isn't altered by WPML.
-	 *
-	 * @return string The original url.
 	 */
-	public static function wpml_get_home_url( $home_url, $url ) {
-		return $url;
+	public static function get_home_url() {
+
+		/**
+		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
+		 */
+		do_action( 'wpseo_home_url' );
+
+		// If the plugin is network-activated, use the network home URL.
+		if ( self::is_plugin_network_active() ) {
+			return network_home_url();
+		}
+
+		return home_url();
 	}
 
 	/**

@@ -26,21 +26,6 @@
 	jQuery( document ).ready( displayConsoleNotifications );
 
 	/**
-	 * Used to dismiss the tagline notice for a specific user.
-	 *
-	 * @param {string} nonce Nonce for verification.
-	 *
-	 * @returns {void}
-	 */
-	function wpseoDismissTaglineNotice( nonce ) {
-		jQuery.post( ajaxurl, {
-			action: "wpseo_dismiss_tagline_notice",
-			_wpnonce: nonce,
-		}
-		);
-	}
-
-	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
 	 * @param {string} option The option to ignore.
@@ -120,8 +105,13 @@
 				$button.attr( "aria-expanded", ! isPanelVisible );
 			} );
 		} );
+
+		// Dismiss the "search engines discouraged" admin notice.
+		jQuery( "#robotsmessage button" ).on( "click", function() {
+			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) );
+		} );
 	} );
-	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
+
 	window.wpseoSetIgnore = wpseoSetIgnore;
 	window.wpseoDismissLink = wpseoDismissLink;
 
@@ -174,7 +164,7 @@
 	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
-		$( ".yoast-alert-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
+		$( ".yoast-notification-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
 
 		if ( typeof response.html === "undefined" ) {
 			return;
@@ -214,11 +204,11 @@
 	 * @returns {void}
 	 */
 	function hookDismissRestoreButtons() {
-		var $dismissible = $( ".yoast-alert-holder" );
+		var $dismissible = $( ".yoast-notification-holder" );
 
 		$dismissible.on( "click", ".dismiss", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var $source = $this.closest( ".yoast-notification-holder" );
 
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );
@@ -226,7 +216,7 @@
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_dismiss_alert",
+					action: "yoast_dismiss_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
 					data: $source.data( "json" ),
@@ -238,7 +228,7 @@
 
 		$dismissible.on( "click", ".restore", function() {
 			var $this = $( this );
-			var $source = $this.closest( ".yoast-alert-holder" );
+			var $source = $this.closest( ".yoast-notification-holder" );
 
 			var $container = $this.closest( ".yoast-container" );
 			$container.append( '<div class="yoast-container-disabled"/>' );
@@ -246,7 +236,7 @@
 			$.post(
 				ajaxurl,
 				{
-					action: "yoast_restore_alert",
+					action: "yoast_restore_notification",
 					notification: $source.attr( "id" ),
 					nonce: $source.data( "nonce" ),
 					data: $source.data( "json" ),

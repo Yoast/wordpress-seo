@@ -263,4 +263,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			);
 		}
 	}
-} /* End of class */
+}

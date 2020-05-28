@@ -92,25 +92,6 @@ class WPSEO_Plugin_Availability {
 				'version_sync'  => true,
 				'premium'       => true,
 			],
-
-			'yoast-acf-analysis' => [
-				'url'           => 'https://wordpress.org/plugins/acf-content-analysis-for-yoast-seo/',
-				'title'         => 'ACF Content Analysis for Yoast SEO',
-				'description'   => sprintf(
-					/* translators: %1$s expands to Yoast SEO, %2$s expands to Advanced Custom Fields */
-					__( 'Seamlessly integrate %2$s with %1$s for the content analysis!', 'wordpress-seo' ),
-					'Yoast SEO',
-					'Advanced Custom Fields'
-				),
-				'installed'     => false,
-				'slug'          => 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
-				'_dependencies' => [
-					'Advanced Custom Fields' => [
-						'slug' => 'advanced-custom-fields/acf.php',
-					],
-				],
-				'version_sync'  => false,
-			],
 		];
 	}
 

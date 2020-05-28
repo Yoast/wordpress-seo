@@ -308,7 +308,7 @@ export default class Question extends Component {
 	 */
 	static Content( question ) {
 		return (
-			<div className={ "schema-faq-section" } key={ question.id }>
+			<div className={ "schema-faq-section" } id={ question.id } key={ question.id }>
 				<RichTextWithAppendedSpace
 					tagName="strong"
 					className="schema-faq-question"

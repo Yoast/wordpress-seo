@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Health_Check;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -11,12 +12,12 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Test extends TestCase {
+class Health_Check_Test extends TestCase {
 
 	/**
 	 * Class instance to use for the test.
 	 *
-	 * @var \Mockery\MockInterface
+	 * @var Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -26,7 +27,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->instance = Mockery::mock( \WPSEO_Health_Check::class )
+		$this->instance = Mockery::mock( WPSEO_Health_Check::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
@@ -111,6 +112,8 @@ class WPSEO_Health_Check_Test extends TestCase {
 	public function test_get_test_result() {
 		$this->instance->shouldReceive( 'run' )->once();
 
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
+
 		$this->assertEquals(
 			[
 				'label'       => '',
@@ -120,7 +123,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 					'color' => 'green',
 				],
 				'description' => '',
-				'actions'     => '',
+				'actions'     => '<p class="yoast-site-health__signature"><img src="images/Yoast_SEO_Icon.svg" alt="" height="20" width="20" class="yoast-site-health__signature-icon">This was reported by the Yoast SEO plugin</p>',
 				'test'        => '',
 			],
 			$this->instance->get_test_result()
