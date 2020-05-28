@@ -8,22 +8,32 @@
 namespace Yoast\WP\SEO\Initializers;
 
 use Exception;
-use Yoast\WP\Lib\Model;
+use Yoast\WP\Lib\Migrations\Adapter;
+use Yoast\WP\Lib\Migrations\Migration;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Config\Migration_Status;
-use Yoast\WP\SEO\Config\Ruckusing_Framework;
-use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
+use Yoast\WP\SEO\Loader;
 
 /**
  * Triggers database migrations and handles results.
  */
 class Migration_Runner implements Initializer_Interface {
 
+	use No_Conditionals;
+
 	/**
-	 * The Ruckusing framework runner.
+	 * The migrations adapter.
 	 *
-	 * @var Ruckusing_Framework
+	 * @var Adapter
 	 */
-	protected $framework;
+	protected $adapter;
+
+	/**
+	 * The loader.
+	 *
+	 * @var Loader
+	 */
+	protected $loader;
 
 	/**
 	 * The migration status.
@@ -44,15 +54,18 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param Migration_Status    $migration_status The migration status.
-	 * @param Ruckusing_Framework $framework        The Ruckusing framework runner.
+	 * @param Migration_Status $migration_status The migration status.
+	 * @param Loader           $loader           The loader.
+	 * @param Adapter          $adapter          The migrations adapter.
 	 */
 	public function __construct(
 		Migration_Status $migration_status,
-		Ruckusing_Framework $framework
+		Loader $loader,
+		Adapter $adapter
 	) {
 		$this->migration_status = $migration_status;
-		$this->framework        = $framework;
+		$this->loader           = $loader;
+		$this->adapter          = $adapter;
 	}
 
 	/**
@@ -76,21 +89,19 @@ class Migration_Runner implements Initializer_Interface {
 	 * @return void
 	 */
 	public function run_free_migrations() {
-		$this->run_migrations( 'free', Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'src/config/migrations' );
+		$this->run_migrations( 'free' );
 	}
 
 	/**
 	 * Initializes the migrations.
 	 *
-	 * @param string $name                  The name of the migration.
-	 * @param string $migrations_table_name The migrations table name.
-	 * @param string $migrations_directory  The migrations directory.
+	 * @param string $name The name of the migration.
 	 *
 	 * @return bool True on success, false on failure.
 	 *
 	 * @throws Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
-	public function run_migrations( $name, $migrations_table_name, $migrations_directory ) {
+	public function run_migrations( $name ) {
 		if ( ! $this->migration_status->should_run_migration( $name ) ) {
 			return true;
 		}
@@ -99,28 +110,25 @@ class Migration_Runner implements Initializer_Interface {
 			return false;
 		}
 
+		$migrations = $this->loader->get_migrations( $name );
+
+		if ( $migrations === false ) {
+			$this->migration_status->set_error( $name, "Could not perform $name migrations. No migrations found." );
+			return false;
+		}
+
 		try {
-			$framework_runner = $this->framework->get_framework_runner( $migrations_table_name, $migrations_directory );
-			/**
-			 * This variable represents Ruckusing_Adapter_MySQL_Base adapter.
-			 *
-			 * @var Ruckusing_Adapter_MySQL_Base $adapter
-			 */
-			$adapter = $framework_runner->get_adapter();
+			$this->adapter->create_schema_version_table();
+			$all_versions      = \array_keys( $migrations );
+			$migrated_versions = $this->adapter->get_migrated_versions();
+			$to_do_versions    = \array_diff( $all_versions, $migrated_versions );
 
-			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
-			// Run this before calling the framework runner so it doesn't create it's own.
-			if ( ! $adapter->has_table( $migrations_table_name ) ) {
-				$table = $adapter->create_table( $migrations_table_name );
-				$table->column( 'version', 'string', [ 'limit' => 191 ] );
-				$table->finish();
-				$adapter->add_index( $migrations_table_name, 'version', [ 'unique' => true ] );
+			\sort( $to_do_versions, SORT_STRING );
+
+			foreach ( $to_do_versions as $version ) {
+				$class = $migrations[ $version ];
+				$this->run_migration( $version, $class );
 			}
-
-			// Create our own task manager so we can set RUCKUSING_BASE to a nonsense directory as it's impossible to
-			// determine the actual directory if the plugin is installed with composer.
-			$task_manager = $this->framework->get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory );
-			$task_manager->execute( $framework_runner, 'db:migrate', [] );
 		} catch ( Exception $exception ) {
 			// Something went wrong...
 			$this->migration_status->set_error( $name, $exception->getMessage() );
@@ -135,5 +143,31 @@ class Migration_Runner implements Initializer_Interface {
 		$this->migration_status->set_success( $name );
 
 		return true;
+	}
+
+	/**
+	 * Runs a single migration.
+	 *
+	 * @param string $version The version.
+	 * @param string $class   The migration class.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception If the migration failed. Caught by the run_migrations function.
+	 */
+	protected function run_migration( $version, $class ) {
+		/**
+		 * @var Migration
+		 */
+		$migration = new $class( $this->adapter );
+		try {
+			$this->adapter->start_transaction();
+			$migration->up();
+			$this->adapter->add_version( $version );
+			$this->adapter->commit_transaction();
+		} catch ( Exception $e ) {
+			$this->adapter->rollback_transaction();
+			throw new Exception( \sprintf( '%s - %s', $class, $e->getMessage() ), 0, $e );
+		}
 	}
 }
