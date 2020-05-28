@@ -19,6 +19,8 @@ const wordsToStem = [
 	[ "concordances", "concord" ],
 	[ "concordance", "concord" ],
 	// Input a noun ending in -ition.
+	[ "opposition", "oppos" ],
+	[ "oppositions", "oppos" ],
 	[ "acquisition", "acquer" ],
 	[ "acquisitions", "acquer" ],
 	// Input a noun ending in -ique.
