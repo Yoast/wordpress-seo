@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button, { buttonDefaultProps, buttonPropTypes } from "./Button";
+import Button, { sharedButtonDefaultProps, sharedButtonPropTypes } from "./Button";
 
 /**
  * A hide button.
@@ -17,12 +17,12 @@ export const HideButton = ( props ) => {
 };
 
 HideButton.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	onClick: PropTypes.func.isRequired,
 };
 
 HideButton.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };
 
 /**
@@ -41,20 +41,20 @@ export const HideLink = ( props ) => {
 };
 
 HideLink.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	href: PropTypes.string.isRequired,
 };
 
 HideLink.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };
 
 /**
- * A hide button.
+ * A hide sharedButton.
  *
  * @param {Object} props The props object.
  *
- * @returns {ReactElement} A hide button component.
+ * @returns {ReactElement} A hide sharedButton component.
  */
 export const RemoveButton = ( props ) => {
 	return <Button
@@ -64,12 +64,12 @@ export const RemoveButton = ( props ) => {
 };
 
 RemoveButton.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	onClick: PropTypes.func.isRequired,
 };
 
 RemoveButton.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };
 
 /**
@@ -88,10 +88,10 @@ export const RemoveLink = ( props ) => {
 };
 
 RemoveLink.propTypes = {
-	...buttonPropTypes,
+	...sharedButtonPropTypes,
 	href: PropTypes.string.isRequired,
 };
 
 RemoveLink.defaultProps = {
-	...buttonDefaultProps,
+	...sharedButtonDefaultProps,
 };

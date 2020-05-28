@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Icon CloseButton matches the Button snapshot 1`] = `
+<Button
+  aria-label="Close"
+  className="yoast-close"
+  isLink={false}
+  onClick={[Function]}
+>
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    role="img"
+    viewBox="0 0 352 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+    />
+  </svg>
+</Button>
+`;
+
+exports[`Icon CloseLink matches the Link snapshot 1`] = `
+<Button
+  aria-label="Close"
+  className="yoast-close"
+  href="#"
+  isLink={false}
+>
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    role="img"
+    viewBox="0 0 352 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+    />
+  </svg>
+</Button>
+`;
+
 exports[`Primary matches the Button snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--primary"
@@ -33,6 +75,46 @@ exports[`Secondary matches the Button snapshot 1`] = `
 exports[`Secondary matches the Link snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--secondary"
+  href="#"
+  isLink={false}
+>
+  test
+</Button>
+`;
+
+exports[`Text HideButton matches the Button snapshot 1`] = `
+<Button
+  className="yoast-hide"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+</Button>
+`;
+
+exports[`Text HideLink matches the Link snapshot 1`] = `
+<Button
+  className="yoast-hide"
+  href="#"
+  isLink={false}
+>
+  test
+</Button>
+`;
+
+exports[`Text RemoveButton matches the Button snapshot 1`] = `
+<Button
+  className="yoast-remove"
+  isLink={false}
+  onClick={[Function]}
+>
+  test
+</Button>
+`;
+
+exports[`Text RemoveLink matches the Link snapshot 1`] = `
+<Button
+  className="yoast-remove"
   href="#"
   isLink={false}
 >

@@ -9,6 +9,12 @@ import {
 	SecondaryLink,
 	UpsellButton,
 	UpsellLink,
+	RemoveButton,
+	RemoveLink,
+	HideButton,
+	HideLink,
+	CloseButton,
+	CloseLink,
 } from "../../src/button";
 
 const shallowRenderer = new ReactShallowRenderer();
@@ -173,5 +179,60 @@ describe( "Upsell", () => {
 		// General Upsell test.
 		expect( result ).toMatchSnapshot();
 		expect( result.props.className ).toBe( expectedClassName );
+	} );
+} );
+
+describe( "Text", () => {
+	const removeClassName = "yoast-remove";
+	it( "RemoveButton matches the Button snapshot", () => {
+		shallowRenderer.render( <RemoveButton onClick={ () => {} }>test</RemoveButton> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( removeClassName );
+	} );
+
+	it( "RemoveLink matches the Link snapshot", () => {
+		shallowRenderer.render( <RemoveLink href="#">test</RemoveLink> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( removeClassName );
+	} );
+
+	const hideClassName = "yoast-hide";
+	it( "HideButton matches the Button snapshot", () => {
+		shallowRenderer.render( <HideButton onClick={ () => {} }>test</HideButton> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( hideClassName );
+	} );
+
+	it( "HideLink matches the Link snapshot", () => {
+		shallowRenderer.render( <HideLink href="#">test</HideLink> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( hideClassName );
+	} );
+} );
+
+describe( "Icon", () => {
+	const closeClassname = "yoast-close";
+	it( "CloseButton matches the Button snapshot", () => {
+		shallowRenderer.render( <CloseButton onClick={ () => {} }>test</CloseButton> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( closeClassname );
+	} );
+
+	it( "CloseLink matches the Link snapshot", () => {
+		shallowRenderer.render( <CloseLink href="#">test</CloseLink> );
+
+		const result = shallowRenderer.getRenderOutput();
+		expect( result ).toMatchSnapshot();
+		expect( result.props.className ).toBe( closeClassname );
 	} );
 } );
