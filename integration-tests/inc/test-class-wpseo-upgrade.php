@@ -205,6 +205,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 			$wpdb->options,
 			[
 				'option_name'  => $option_name,
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no security risk, because users don't interact with tests.
 				'option_value' => serialize( $option_value ),
 			],
 			[ 'option_name' => $option_name ]
