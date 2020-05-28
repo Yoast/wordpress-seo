@@ -32,21 +32,21 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
-	<Button>Naked button</Button>
-	<PrimaryButton onClick={ clickerDiClick }>Primary button</PrimaryButton>
-	<PrimaryLink href="#">Primary link</PrimaryLink>
-	<SecondaryButton onClick={ clickerDiClick }>Secondary button</SecondaryButton>
-	<SecondaryLink href="#">Secondary link</SecondaryLink>
-	<UpsellButton onClick={ clickerDiClick }>Upsell button</UpsellButton>
-	<UpsellLink href="#">Upsell link</UpsellLink>
-	<UpsellButton onClick={ clickerDiClick } caret={ true }>Upsell button</UpsellButton>
-	<UpsellLink href="#" caret={ true }>Upsell link</UpsellLink>
-	<HideButton onClick={ clickerDiClick }>Hide button</HideButton>
-	<HideLink href="#">Hide link</HideLink>
-	<RemoveButton onClick={ clickerDiClick }>Remove button</RemoveButton>
-	<RemoveLink href="#">Remove link</RemoveLink>
-	<CloseButton onClick={ clickerDiClick } />
-	<CloseLink href="#" />
+	<Button title="Testing whether other props work!">Naked button</Button>
+	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
+	<PrimaryLink href="#" title="Other props work!">Primary link</PrimaryLink>
+	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
+	<SecondaryLink href="#" title="Other props work!">Secondary link</SecondaryLink>
+	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellLink href="#" title="Other props work!">Upsell link</UpsellLink>
+	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellLink href="#" caret={ true } title="Other props work!">Upsell link</UpsellLink>
+	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
+	<HideLink href="#" title="Other props work!">Hide link</HideLink>
+	<RemoveButton onClick={ clickerDiClick } title="Other props work!">Remove button</RemoveButton>
+	<RemoveLink href="#" title="Other props work!">Remove link</RemoveLink>
+	<CloseButton onClick={ clickerDiClick } title="Other props work!" />
+	<CloseLink href="#" title="Other props work!" />
 </Fragment>;
 
 /**

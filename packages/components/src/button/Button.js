@@ -25,21 +25,41 @@ export const sharedButtonDefaultProps = {
  * @returns {ReactElemen} The Button component.
  */
 const Button = ( props ) => {
+	// Split children and className from all other props.
+	const {
+		children,
+		className,
+		...restProps
+	} = props;
+
 	if ( props.isLink ) {
+		// Split link specific props from all additional props.
+		const {
+			href,
+			...linkProps
+		} = restProps;
+
 		return <a
-			href={ props.href }
-			className={ props.className }
+			href={ href }
+			className={ className }
+			{ ...linkProps }
 		>
-			{ props.children }
+			{ children }
 		</a>;
 	}
 
+	// Split button specific props from all additional props.
+	const {
+		onClick,
+		...buttonProps
+	} = restProps;
 
 	return <button
-		onClick={ props.onClick }
-		className={ props.className }
+		onClick={ onClick }
+		className={ className }
+		{ ...buttonProps }
 	>
-		{ props.children }
+		{ children }
 	</button>;
 };
 
