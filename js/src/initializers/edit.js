@@ -10,20 +10,20 @@ import {
 } from "lodash-es";
 
 /* Internal dependencies */
-import Data from "./analysis/data.js";
-import reducers from "./redux/reducers";
-import PluginIcon from "../../images/Yoast_icon_kader.svg";
-import ClassicEditorData from "./analysis/classicEditorData.js";
-import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
-import SidebarFill from "./containers/SidebarFill";
-import MetaboxPortal from "./components/portals/MetaboxPortal";
-import selectors from "./redux/selectors";
-import * as actions from "./redux/actions";
-import { setSettings } from "./redux/actions/settings";
-import UsedKeywords from "./analysis/usedKeywords";
-import { setMarkerStatus } from "./redux/actions";
-import { isAnnotationAvailable } from "./decorator/gutenberg";
-import SidebarSlot from "./components/slots/SidebarSlot";
+import Data from "../analysis/data.js";
+import reducers from "../redux/reducers";
+import PluginIcon from "../../../images/Yoast_icon_kader.svg";
+import ClassicEditorData from "../analysis/classicEditorData.js";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import SidebarFill from "../containers/SidebarFill";
+import MetaboxPortal from "../components/portals/MetaboxPortal";
+import selectors from "../redux/selectors";
+import * as actions from "../redux/actions";
+import { setSettings } from "../redux/actions/settings";
+import UsedKeywords from "../analysis/usedKeywords";
+import { setMarkerStatus } from "../redux/actions";
+import { isAnnotationAvailable } from "../decorator/gutenberg";
+import SidebarSlot from "../components/slots/SidebarSlot";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -191,7 +191,7 @@ class Edit {
 		const scriptUrl     = get(
 			window,
 			[ "wpseoScriptData", "analysis", "worker", "keywords_assessment_url" ],
-			"wp-seo-used-keywords-assessment.js"
+			"used-keywords-assessment.js"
 		);
 
 		const usedKeywords = new UsedKeywords(

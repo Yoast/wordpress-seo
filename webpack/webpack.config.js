@@ -274,7 +274,7 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				"analysis-worker": "./js/src/analysis-worker.js",
 				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
@@ -287,7 +287,7 @@ module.exports = function( env ) {
 			...base,
 			externals: { yoastseo: "yoast.analysis" },
 			entry: {
-				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

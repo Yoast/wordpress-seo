@@ -219,7 +219,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'yoast-modal',
-				'src'  => 'wp-seo-modal-' . $flat_version,
+				'src'  => 'modal-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'wp-element',
@@ -245,7 +245,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'network-admin-script',
-				'src'  => 'wp-seo-network-admin-' . $flat_version,
+				'src'  => 'network-admin-' . $flat_version,
 				'deps' => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -253,7 +253,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor-' . $flat_version,
+				'src'  => 'bulk-editor-' . $flat_version,
 				'deps' => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -261,7 +261,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name'      => 'admin-global-script',
-				'src'       => 'wp-seo-admin-global-' . $flat_version,
+				'src'       => 'admin-global-' . $flat_version,
 				'deps'      => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -295,18 +295,6 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			],
 			[
-				'name'      => 'admin-gsc',
-				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
-				'deps'      => [
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'styled-components',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
-				],
-				'in_footer' => false,
-			],
-			[
 				'name' => 'term-edit',
 				'src'  => 'term-edit-' . $flat_version,
 				'deps' => [
@@ -329,7 +317,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-' . $flat_version,
+				'src'  => 'recalculate-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'jquery-ui-core',
@@ -372,7 +360,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'reindex-links',
-				'src'  => 'wp-seo-reindex-links-' . $flat_version,
+				'src'  => 'reindex-links-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'jquery-ui-core',
@@ -382,7 +370,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'indexation',
-				'src'  => 'wp-seo-indexation-' . $flat_version,
+				'src'  => 'indexation-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'jquery-ui-core',
@@ -393,7 +381,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'edit-page-script',
-				'src'  => 'wp-seo-edit-page-' . $flat_version,
+				'src'  => 'edit-page-' . $flat_version,
 				'deps' => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -401,7 +389,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name'      => 'quick-edit-handler',
-				'src'       => 'wp-seo-quick-edit-handler-' . $flat_version,
+				'src'       => 'quick-edit-handler-' . $flat_version,
 				'deps'      => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -410,7 +398,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'api',
-				'src'  => 'wp-seo-api-' . $flat_version,
+				'src'  => 'api-client' . $flat_version,
 				'deps' => [
 					'wp-api',
 					'jquery',
@@ -419,7 +407,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'dashboard-widget',
-				'src'  => 'wp-seo-dashboard-widget-' . $flat_version,
+				'src'  => 'dashboard-widget-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'api',
 					'jquery',
@@ -431,7 +419,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'filter-explanation',
-				'src'  => 'wp-seo-filter-explanation-' . $flat_version,
+				'src'  => 'filter-explanation-' . $flat_version,
 				'deps' => [
 					'jquery',
 					self::PREFIX . 'commons',
@@ -460,7 +448,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'structured-data-blocks',
-				'src'  => 'wp-seo-structured-data-blocks-' . $flat_version,
+				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [
 					'wp-blocks',
 					'wp-i18n',

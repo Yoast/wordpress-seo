@@ -1,14 +1,13 @@
-/* global tinyMCE, require, YoastSEO */
-
-import CompatibilityHelper from "./compatibility/compatibilityHelper";
-
+/* global tinyMCE, YoastSEO */
 import {
 	forEach,
 	isUndefined,
 } from "lodash-es";
-var editorHasMarks = require( "./decorator/tinyMCE" ).editorHasMarks;
-var editorRemoveMarks = require( "./decorator/tinyMCE" ).editorRemoveMarks;
-import { setMarkerStatus } from "./redux/actions/markerButtons";
+
+import { editorHasMarks, editorRemoveMarks } from "../decorator/tinyMCE";
+import CompatibilityHelper from "../compatibility/compatibilityHelper";
+import { setMarkerStatus } from "../redux/actions/markerButtons";
+
 let store;
 
 /**

@@ -9,7 +9,7 @@ import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import tmceHelper, { tmceId } from "../lib/tinymce";
 import getI18n from "./getI18n";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";

@@ -13,9 +13,9 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "../edit";
-import { termsTmceId } from "../wp-seo-tinymce";
-import Pluggable from "../Pluggable";
+import Edit from "./edit";
+import { termsTmceId } from "../lib/tinymce";
+import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
 

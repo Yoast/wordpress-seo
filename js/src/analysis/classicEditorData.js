@@ -13,7 +13,7 @@ import {
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import tmceHelper, { tmceId } from "../lib/tinymce";
 
 const $ = jQuery;
 
