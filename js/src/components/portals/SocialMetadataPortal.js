@@ -11,9 +11,14 @@ import Portal from "./Portal";
  * @returns {React.Component} The social metadata collapsibles.
  */
 export default function SocialMetadataPortal( { target } ) {
+	const isFacebookEnabled = window.wpseoScriptData.metabox.showSocial.facebook;
+	const isTwitterEnabled = window.wpseoScriptData.metabox.showSocial.twitter;
 	return (
 		<Portal target={ target }>
-			<SocialMetadata />
+			<SocialMetadata
+				isFacebookEnabled={ isFacebookEnabled }
+				isTwitterEnabled={ isTwitterEnabled }
+			/>
 		</Portal>
 	);
 }

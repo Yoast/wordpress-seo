@@ -35,18 +35,20 @@ MediaWrapper.get = () => {
 	return MediaWrapper.media;
 };
 
-// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-domReady( () => {
-	const media = MediaWrapper.get();
-	media.on( "select", () => {
-		const selected = media.state().get( "selection" ).first();
-		wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-			url: selected.attributes.url,
-			id: selected.attributes.id,
+if ( window.wpseoScriptData.metabox.showSocial.facebook ) {
+	// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
+	domReady( () => {
+		const media = MediaWrapper.get();
+		media.on( "select", () => {
+			const selected = media.state().get( "selection" ).first();
+			wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
+				url: selected.attributes.url,
+				id: selected.attributes.id,
+			} );
 		} );
+		wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
 	} );
-	wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();
-} );
+}
 
 export default compose( [
 	withSelect( select => {
