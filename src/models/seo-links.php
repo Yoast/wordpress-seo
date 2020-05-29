@@ -17,8 +17,24 @@ use Yoast\WP\Lib\Model;
  * @property int    $post_id
  * @property int    $target_post_id
  * @property string $type
+ * @property int    $indexable_id
+ * @property int    $target_indexable_id
  */
 class SEO_Links extends Model {
+
+	/**
+	 * Indicates that the link is external.
+	 *
+	 * @var string
+	 */
+	const TYPE_INTERNAL = 'internal';
+
+	/**
+	 * Indicates that the link is internal.
+	 *
+	 * @var string
+	 */
+	const TYPE_EXTERNAL = 'external';
 
 	/**
 	 * Which columns contain int values.
