@@ -28,7 +28,7 @@ import {
  * @returns {void}
  */
 function clickerDiClick() {
-	console.log( "WHOOOHOO!" );
+	console.log( "You are an exceptional clicker!" );
 }
 
 const buttonGrouping = <Fragment>
@@ -39,7 +39,7 @@ const buttonGrouping = <Fragment>
 	<SecondaryLink href="#" title="Other props work!">Secondary link</SecondaryLink>
 	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
 	<UpsellLink href="#" title="Other props work!">Upsell link</UpsellLink>
-	<UpsellButton caret={ true } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
 	<UpsellLink href="#" caret={ true } title="Other props work!">Upsell link</UpsellLink>
 	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
 	<HideLink href="#" title="Other props work!">Hide link</HideLink>
