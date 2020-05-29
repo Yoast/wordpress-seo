@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Links
  */
 
+use Yoast\WP\SEO\Models\SEO_Links;
+
 /**
  * Represents an seo link.
  */
@@ -15,14 +17,14 @@ class WPSEO_Link {
 	 *
 	 * @var string
 	 */
-	const TYPE_EXTERNAL = 'external';
+	const TYPE_EXTERNAL = SEO_Links::TYPE_EXTERNAL;
 
 	/**
 	 * Indicates that the link is internal.
 	 *
 	 * @var string
 	 */
-	const TYPE_INTERNAL = 'internal';
+	const TYPE_INTERNAL = SEO_Links::TYPE_INTERNAL;
 
 	/**
 	 * Holds the url.
