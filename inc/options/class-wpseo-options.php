@@ -230,9 +230,9 @@ class WPSEO_Options {
 			if ( isset( static::$option_instances[ $option_name ] ) ) {
 				$option  = static::get_option( $option_name );
         
-        if ( $option !== null ) {
-  				$options = array_merge( $options, $option );
-        }
+				if ( $option !== null ) {
+						$options = array_merge( $options, $option );
+				}
 			}
 		}
 
