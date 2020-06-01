@@ -231,7 +231,7 @@ class WPSEO_Options {
 				$option  = static::get_option( $option_name );
         
 				if ( $option !== null ) {
-						$options = array_merge( $options, $option );
+					$options = array_merge( $options, $option );
 				}
 			}
 		}
