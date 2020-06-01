@@ -34,14 +34,15 @@ const externals = {
 };
 
 const wordpressExternals = {
-	"@wordpress/element": "window.wp.element",
-	"@wordpress/data": "window.wp.data",
-	"@wordpress/components": "window.wp.components",
-	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/api-fetch": "window.wp.apiFetch",
-	"@wordpress/rich-text": "window.wp.richText",
+	"@wordpress/components": "window.wp.components",
 	"@wordpress/compose": "window.wp.compose",
+	"@wordpress/data": "window.wp.data",
+	"@wordpress/element": "window.wp.element",
+	"@wordpress/html-entities": "window.wp.htmlEntities",
+	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
+	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/url": "window.wp.url",
 };
 
