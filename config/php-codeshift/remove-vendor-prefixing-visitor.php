@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\PHP_CodeShift
  */
 
-namespace Yoast\WP\Free\PHP_CodeShift;
+namespace Yoast\WP\SEO\PHP_CodeShift;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;
@@ -17,9 +17,11 @@ use PhpParser\NodeVisitorAbstract;
 class Remove_Vendor_Prefixing_Visitor extends NodeVisitorAbstract {
 
 	/**
-	 * @param \PhpParser\Node $node The node being visited.
+	 * Removes vendor prefixes from use statements.
 	 *
-	 * @return \PhpParser\Node The possibly modified node.
+	 * @param Node $node The node being visited.
+	 *
+	 * @return Node The possibly modified node.
 	 */
 	public function leaveNode( Node $node ) {
 		if ( ! $node instanceof Name ) {

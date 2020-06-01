@@ -1,7 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Doubles\Inc\Options;
 
+use WPSEO_Option;
 use WPSEO_Option_Social;
 
 /**
@@ -12,7 +13,7 @@ class Option_Social_Double extends WPSEO_Option_Social {
 	/**
 	 * Adds all the actions and filters for the option.
 	 *
-	 * @return \WPSEO_Option
+	 * @return WPSEO_Option
 	 */
 	public function __construct() {
 		return parent::__construct();

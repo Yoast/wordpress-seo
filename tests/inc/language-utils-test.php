@@ -1,19 +1,19 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Language_Utils;
-use Yoast\WP\Free\Tests\Doubles\Shortlinker;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Shortlinker_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
  * @group language-utils
  */
-class WPSEO_Language_Utils_Test extends TestCase {
+class Language_Utils_Test extends TestCase {
 
 	/**
 	 * Tests the get_language function with no argument.
@@ -61,7 +61,7 @@ class WPSEO_Language_Utils_Test extends TestCase {
 	 * @covers WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n
 	 */
 	public function test_get_knowledge_graph_company_info_missing_l10n() {
-		$shortlinker = new Shortlinker();
+		$shortlinker = new Shortlinker_Double();
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->times( 1 )

@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\TestCase;
 use WPSEO_Metabox_Section_Additional;
 
 /**
@@ -10,7 +10,7 @@ use WPSEO_Metabox_Section_Additional;
  *
  * @group Metabox
  */
-class Metabox_Section_Additional extends TestCase {
+class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_content.

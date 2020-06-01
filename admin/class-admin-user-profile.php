@@ -33,7 +33,7 @@ class WPSEO_Admin_User_Profile {
 	 * @param string $meta_key  The key of the meta field changed.
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
-		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {
+		if ( $meta_key === '_yoast_wpseo_profile_updated' ) {
 			WPSEO_Sitemaps_Cache::clear( [ 'author' ] );
 		}
 	}

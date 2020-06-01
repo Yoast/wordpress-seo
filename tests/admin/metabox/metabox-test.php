@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
 use Brain\Monkey;
 use WPSEO_Metabox_Section_Additional;
-use Yoast\WP\Free\Tests\Doubles\Admin\Metabox\Metabox_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Admin\Metabox\Metabox_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -19,7 +19,7 @@ class Metabox_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\Free\Tests\Doubles\Admin\Metabox\Metabox_Double
+	 * @var Metabox_Double
 	 */
 	protected $instance;
 

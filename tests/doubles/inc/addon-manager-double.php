@@ -1,11 +1,14 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Doubles\Inc;
+namespace Yoast\WP\SEO\Tests\Doubles\Inc;
+
+use stdClass;
+use WPSEO_Addon_Manager;
 
 /**
  * Test Helper Class.
  */
-class Addon_Manager_Double extends \WPSEO_Addon_Manager {
+class Addon_Manager_Double extends WPSEO_Addon_Manager {
 
 	/**
 	 * Checks if the given plugin_file belongs to a Yoast addon.
@@ -32,9 +35,9 @@ class Addon_Manager_Double extends \WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param \stdClass $subscription The subscription to convert.
+	 * @param stdClass $subscription The subscription to convert.
 	 *
-	 * @return \stdClass The converted subscription.
+	 * @return stdClass The converted subscription.
 	 */
 	public function convert_subscription_to_plugin( $subscription ) {
 		return parent::convert_subscription_to_plugin( $subscription );
@@ -61,7 +64,7 @@ class Addon_Manager_Double extends \WPSEO_Addon_Manager {
 	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
-	 * @param \stdClass $subscription Plugin subscription.
+	 * @param stdClass $subscription Plugin subscription.
 	 *
 	 * @return bool Has the plugin expired.
 	 */

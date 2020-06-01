@@ -1,12 +1,11 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_MyYoast_Proxy;
-use Yoast\WP\Free\Tests\Doubles\Admin\MyYoast_Proxy_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit test class.
@@ -23,7 +22,11 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var \Yoast\WP\Free\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var MyYoast_Proxy_Double $instance
+		 */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version' ] )
@@ -52,7 +55,11 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'set_header' ] )
@@ -79,10 +86,14 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * Holds the instance of the class being tested.
+		 *
+		 * @var WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'set_header', 'get_remote_url_body' ] )
 			->getMock();
 
 		$instance
@@ -107,13 +118,8 @@ class MyYoast_Proxy_Test extends TestCase {
 
 		$instance
 			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'load_url' )
-			->will( $this->returnValue( true ) );
+			->method( 'get_remote_url_body' )
+			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' );
 
 		$instance->render_proxy_page();
 
@@ -136,130 +142,14 @@ class MyYoast_Proxy_Test extends TestCase {
 			->with( 'response' )
 			->andReturn( 404 );
 
-		/** @var \WPSEO_MyYoast_Proxy $instance */
-		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
-			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
-
-		$instance
-			->expects( $this->at( 2 ) )
-			->method( 'set_header' )
-			->with( 'Content-Type: text/javascript; charset=UTF-8' );
-
-		$instance
-			->expects( $this->at( 3 ) )
-			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'load_url' )
-			->will( $this->returnValue( false ) );
-
-		$instance
-			->expects( $this->at( 6 ) )
-			->method( 'set_header' )
-			->with( 'Content-Type: text/plain' );
-
-		$instance
-			->expects( $this->at( 7 ) )
-			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=0' );
-
-		$instance
-			->expects( $this->at( 8 ) )
-			->method( 'set_header' )
-			->with( 'HTTP/1.0 500 Received unexpected response from MyYoast' );
-
-		$instance->render_proxy_page();
-
-		$this->expectOutput( '', 'wp_remote_get failed, no output expected' );
-	}
-
-	/**
-	 * Tests rendering the proxy page that went via WordPress.
-	 *
-	 * @covers ::render_proxy_page
-	 */
-	public function test_render_proxy_page_via_wordpress() {
-		Monkey\Functions\expect( 'wp_remote_get' )
-			->times( 1 )
-			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
-			->andReturn( 'response' );
-
-		Monkey\Functions\expect( 'wp_remote_retrieve_response_code' )
-			->times( 1 )
-			->with( 'response' )
-			->andReturn( 200 );
-
-		Monkey\Functions\expect( 'wp_remote_retrieve_body' )
-			->times( 1 )
-			->with( 'response' )
-			->andReturn( 'success' );
-
-		/** @var \WPSEO_MyYoast_Proxy $instance */
-		$instance = $this
-			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
-			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_proxy_file' )
-			->will( $this->returnValue( 'research-webworker' ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_plugin_version' )
-			->will( $this->returnValue( '1.0' ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( false ) );
-
-		$instance->render_proxy_page();
-
-		$this->expectOutput( 'success', 'Load URL succeeded, success expected' );
-	}
-
-	/**
-	 * Tests rendering of the proxy page where WordPress remote get throws an error.
-	 *
-	 * @covers ::render_proxy_page
-	 */
-	public function test_render_proxy_page_via_wordpress_errored() {
-		$wp_error_mock = Mockery::mock( '\WP_Error' );
-
-		Monkey\Functions\expect( 'wp_remote_get' )
-			->times( 1 )
-			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
-			->andReturn( $wp_error_mock );
-
 		/**
-		 * It acts like an instance of WPSEO_MyYoast_Proxy.
+		 * Holds the instance of the class being tested.
 		 *
-		 * @var \WPSEO_MyYoast_Proxy $instance
+		 * @var WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'set_header' ] )
 			->getMock();
 
 		$instance
@@ -283,24 +173,19 @@ class MyYoast_Proxy_Test extends TestCase {
 			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
 
 		$instance
-			->expects( $this->once() )
-			->method( 'should_load_url_directly' )
-			->will( $this->returnValue( false ) );
+			->expects( $this->at( 4 ) )
+			->method( 'set_header' )
+			->with( 'Content-Type: text/plain' );
 
 		$instance
 			->expects( $this->at( 5 ) )
 			->method( 'set_header' )
-			->with( 'Content-Type: text/plain' );
+			->with( 'Cache-Control: max-age=0' );
 
 		$instance
 			->expects( $this->at( 6 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=0' );
-
-		$instance
-			->expects( $this->at( 7 ) )
-			->method( 'set_header' )
-			->with( $this->equalTo( 'HTTP/1.0 500 Unable to retrieve file from MyYoast' ) );
+			->with( 'HTTP/1.0 500 Received unexpected response from MyYoast' );
 
 		$instance->render_proxy_page();
 

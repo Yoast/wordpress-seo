@@ -1,14 +1,11 @@
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
-const pkg = require( "../package.json" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
-
-const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
 const root = path.join( __dirname, "../" );
 const mainEntry = mapValues( paths.entry, entry => {
@@ -27,8 +24,12 @@ const externals = {
 	"yoast-components": "window.yoast.components",
 	react: "React",
 	"react-dom": "ReactDOM",
+	redux: "window.yoast.redux",
+	"react-redux": "window.yoast.reactRedux",
+	jed: "window.yoast.jed",
 
 	lodash: "window.lodash",
+	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
 };
 
@@ -40,6 +41,8 @@ const wordpressExternals = {
 	"@wordpress/api-fetch": "window.wp.apiFetch",
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/compose": "window.wp.compose",
+	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
+	"@wordpress/url": "window.wp.url",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
@@ -58,6 +61,7 @@ const defaultAllowedHosts = [
 	"two.wordpress.test",
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
+	"basic.wordpress.test",
 ];
 
 let bundleAnalyzerPort = 8888;
@@ -114,8 +118,15 @@ function addBundleAnalyzer( plugins ) {
 	return plugins;
 }
 
-module.exports = function( env = { environment: "production" } ) {
+module.exports = function( env ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
+
+	if ( ! env.pluginVersion ) {
+		// eslint-disable-next-line global-require
+		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
+	}
+
+	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );
 
 	// Allowed hosts is space separated string. Example usage: ALLOWED_HOSTS="first.allowed.host second.allowed.host"
 	let allowedHosts = ( process.env.ALLOWED_HOSTS || "" ).split( " " );
@@ -124,13 +135,15 @@ module.exports = function( env = { environment: "production" } ) {
 	// Prepend the default allowed hosts.
 	allowedHosts = defaultAllowedHosts.concat( allowedHosts );
 
-	const outputFilenameMinified = "[name]-" + pluginVersionSlug + ".min.js";
-	const outputFilenameUnminified = "[name]-" + pluginVersionSlug + ".js";
-
-	const outputFilename = mode === "development" ? outputFilenameUnminified : outputFilenameMinified;
+	const outputFilename = "[name]-" + pluginVersionSlug + ".js";
 
 	const plugins = [
 		new CaseSensitivePathsPlugin(),
+		new MiniCssExtractPlugin(
+			{
+				filename: "css/dist/monorepo-" + pluginVersionSlug + ".css",
+			}
+		),
 	];
 
 	const base = {
@@ -175,6 +188,13 @@ module.exports = function( env = { environment: "production" } ) {
 						},
 					],
 				},
+				{
+					test: /\.css$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						'css-loader',
+					],
+				},
 			],
 		},
 		externals,
@@ -190,8 +210,9 @@ module.exports = function( env = { environment: "production" } ) {
 			...base,
 			entry: {
 				...mainEntry,
-				"styled-components": "./js/src/styled-components.js",
-				analysis: "./js/src/analysis.js",
+				"styled-components": "./js/src/externals/styled-components.js",
+				redux: "./js/src/externals/redux.js",
+				jed: "./js/src/externals/jed.js",
 			},
 			externals: {
 				...externals,
@@ -200,18 +221,6 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: addBundleAnalyzer( [
 				...plugins,
-				new CopyWebpackPlugin( [
-					{
-						from: "node_modules/react/umd/react.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react.min.js",
-					},
-					{
-						from: "node_modules/react-dom/umd/react-dom.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react-dom.min.js",
-					},
-				] ),
 			] ),
 		},
 
@@ -221,6 +230,11 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				components: "./js/src/components.js",
 			},
+			output: {
+				path: path.resolve(),
+				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
+				jsonpFunction: "yoastWebpackJsonp",
+			},
 			externals: {
 				...externals,
 				...wordpressExternals,
@@ -232,60 +246,16 @@ module.exports = function( env = { environment: "production" } ) {
 				runtimeChunk: false,
 			},
 		},
-
-		// Config for wp packages files that are shipped for BC with WP 4.9.
-		{
-			...base,
-			externals: {
-				tinymce: "tinymce",
-
-				react: "React",
-				"react-dom": "ReactDOM",
-
-				lodash: "lodash",
-
-				// Don't reference window.wp.* externals in this config!
-				"@wordpress/element": [ "wp", "element" ],
-				"@wordpress/data": [ "wp", "data" ],
-				"@wordpress/components": [ "wp",  "components" ],
-				"@wordpress/i18n": [ "wp", "i18n" ],
-				"@wordpress/api-fetch": [ "wp", "apiFetch" ],
-				"@wordpress/rich-text": [ "wp", "richText" ],
-				"@wordpress/compose": [ "wp", "compose" ],
-			},
-			output: {
-				path: paths.jsDist,
-				filename: "wp-" + outputFilenameMinified,
-				jsonpFunction: "yoastWebpackJsonp",
-				library: {
-					root: [ "wp", "[name]" ],
-				},
-				libraryTarget: "this",
-			},
-			entry: {
-				apiFetch: "./node_modules/@wordpress/api-fetch",
-				components: "./node_modules/@wordpress/components",
-				data: "./node_modules/@wordpress/data",
-				element: "./node_modules/@wordpress/element",
-				i18n: "./node_modules/@wordpress/i18n",
-				compose: "./node_modules/@wordpress/compose",
-				richText: "./node_modules/@wordpress/rich-text",
-			},
-			plugins: addBundleAnalyzer( plugins ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
 			output: {
 				path: paths.jsDist,
-				filename: outputFilenameMinified,
+				filename: "[name]-" + pluginVersionSlug + ".js",
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"babel-polyfill": "./js/src/babel-polyfill.js",
+				"babel-polyfill": "./js/src/externals/babel-polyfill.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -295,6 +265,7 @@ module.exports = function( env = { environment: "production" } ) {
 		// Config for the analysis web worker.
 		{
 			...base,
+			externals: {},
 			output: {
 				path: paths.jsDist,
 				filename: outputFilename,
@@ -302,6 +273,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				analysis: "./js/src/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

@@ -26,9 +26,7 @@
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
-		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
-		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
 		"league/oauth2-client": "^2.4",
 		"symfony/dependency-injection": "^3.4"
@@ -52,9 +50,9 @@
 			"inc/",
 			"deprecated/",
 			"cli/",
-			"deprecated/",
 			"vendor_prefixed/",
-			"src/"
+			"src/",
+			"lib/"
 		]
 	},
 	"autoload-dev": {
@@ -80,19 +78,17 @@
 		],
 		"premium-check-cs": [
 			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/,*/tests/load/wp-seo-premium.php,*/tests/premium/ --runtime-set ignore_warnings_on_exit 1",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./tests/load/wp-seo-premium.php ./tests/premium/ --runtime-set testVersion 5.6- --runtime-set ignore_warnings_on_exit 1",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
 		],
 		"check-cs-errors": [
 			"@check-cs -n"
 		],
 		"check-staged-cs": [
-			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"
 		],
 		"check-branch-cs": [
-			"Yoast\\WP\\Free\\Composer\\Actions::check_branch_cs"
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_branch_cs"
 		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
@@ -103,26 +99,21 @@
 			"@after-premium-cs"
 		],
 		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~1.3.0 --update-with-dependencies --no-suggest --no-interaction"
+			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
+			"composer config-yoastcs-premium"
+		],
+		"config-yoastcs-premium": [
+			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
 		],
 		"after-premium-cs": [
-			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
+			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
 			"@php ./scripts/maybe-restore-composer-lock.php",
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
-			"composer prefix-ruckusing",
-			"composer prefix-idiorm",
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt",
-			"composer du"
-		],
-		"prefix-ruckusing": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
-		],
-		"prefix-idiorm": [
-			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
+			"touch ./vendor_prefixed/dependencies-prefixed.txt"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -134,16 +125,21 @@
 		],
 		"remove-vendor-prefixed-uses": [
 			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/src",
-			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/migrations"
+			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/src/config/migrations",
+			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/remove-vendor-prefixing-codemod.php --src=artifact-composer/lib"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
 			"rm -f ./src/generated/container.php.meta",
-			"composer du",
-			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+			"composer du --no-scripts",
+			"Yoast\\WP\\SEO\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-install-cmd": [
-			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
+		"post-autoload-dump": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
+		],
+		"generate-migration": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::generate_migration"
 		]
 	}
 }

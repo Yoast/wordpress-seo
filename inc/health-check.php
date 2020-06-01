@@ -11,26 +11,25 @@
 abstract class WPSEO_Health_Check {
 
 	/**
+	 * The health check section in which 'good' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_GOOD = 'good';
 
 	/**
+	 * The health check section in which 'recommended' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_RECOMMENDED = 'recommended';
 
 	/**
-	 * @var string
-	 */
-	const STATUS_CRITICAL = 'critical';
-
-	/**
-	 * Name of the test.
+	 * The health check section in which 'critical' results should be shown.
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	const STATUS_CRITICAL = 'critical';
 
 	/**
 	 * The value of the section header in the Health check.
@@ -86,8 +85,6 @@ abstract class WPSEO_Health_Check {
 
 	/**
 	 * Runs the test and returns the result.
-	 *
-	 * @return array The result.
 	 */
 	abstract public function run();
 
@@ -95,7 +92,7 @@ abstract class WPSEO_Health_Check {
 	 * Registers the test to WordPress.
 	 */
 	public function register_test() {
-		if ( $this->async ) {
+		if ( $this->is_async() ) {
 			add_filter( 'site_status_tests', [ $this, 'add_async_test' ] );
 
 			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), [ $this, 'get_async_test_result' ] );
@@ -114,9 +111,8 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_test( $tests ) {
-		$tests['direct'][ $this->name ] = [
+		$tests['direct'][ $this->get_test_name() ] = [
 			'test' => [ $this, 'get_test_result' ],
-			'name' => $this->name,
 		];
 
 		return $tests;
@@ -130,9 +126,8 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_async_test( $tests ) {
-		$tests['async'][ $this->name ] = [
+		$tests['async'][ $this->get_test_name() ] = [
 			'test' => $this->get_test_name(),
-			'name' => $this->name,
 		];
 
 		return $tests;
@@ -145,6 +140,7 @@ abstract class WPSEO_Health_Check {
 	 */
 	public function get_test_result() {
 		$this->run();
+		$this->add_yoast_signature();
 
 		return [
 			'label'       => $this->label,
@@ -152,6 +148,7 @@ abstract class WPSEO_Health_Check {
 			'badge'       => $this->get_badge(),
 			'description' => $this->description,
 			'actions'     => $this->actions,
+			'test'        => $this->test,
 		];
 	}
 
@@ -191,5 +188,27 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function get_test_name() {
 		return str_replace( '_', '-', $this->test );
+	}
+
+	/**
+	 * Checks if the health check is async.
+	 *
+	 * @return bool True when check is async.
+	 */
+	protected function is_async() {
+		return ! empty( $this->async );
+	}
+
+	/**
+	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
+	 */
+	protected function add_yoast_signature() {
+		$this->actions .= sprintf(
+			/* translators: 1: Start of a paragraph beginning with the Yoast icon, 2: Expands to 'Yoast SEO', 3: Paragraph closing tag. */
+			esc_html__( '%1$sThis was reported by the %2$s plugin%3$s', 'wordpress-seo' ),
+			'<p class="yoast-site-health__signature"><img src="' . esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/Yoast_SEO_Icon.svg' ) . '" alt="" height="20" width="20" class="yoast-site-health__signature-icon">',
+			'Yoast SEO',
+			'</p>'
+		);
 	}
 }

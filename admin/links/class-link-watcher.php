@@ -44,7 +44,16 @@ class WPSEO_Link_Watcher {
 	 *
 	 * @return void
 	 */
-	public function save_post( $post_id, WP_Post $post ) {
+	public function save_post( $post_id, $post ) {
+		if ( ! $post instanceof WP_Post ) {
+			return;
+		}
+
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
 		 *

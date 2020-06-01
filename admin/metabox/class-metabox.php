@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
+
 /**
  * This class generates the metabox on the edit post / page as well as contains all page analysis functionality.
  */
@@ -72,9 +74,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the request comes from an IE 11 browser.
 	 */
 	public static function is_internet_explorer() {
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			return false;
+		}
 
-		if ( ! stripos( $user_agent, 'Trident/7.0' ) ) {
+		$user_agent = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
+
+		if ( stripos( $user_agent, 'Trident/7.0' ) === false ) {
 			return false;
 		}
 
@@ -111,21 +117,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Renders the content for the internet explorer metabox.
+	 *
+	 * @return void
 	 */
 	public function render_internet_explorer_notice() {
-		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
-		echo '<span class="icon">';
-		echo '<svg xmlns="http://www.w3.org/2000/svg" fill="#674E00" height="14px" width="14px" viewBox="0 0 576 512" role="img" aria-hidden="true" focusable="false"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg>';
-		echo '</span>';
-		echo '<div style="float: left">';
-		printf(
+		$content = sprintf(
+			/* translators: 1: Link start tag to the Firefox website, 2: Link start tag to the Chrome website, 3: Link start tag to the Edge website, 4: Link closing tag. */
 			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
 			'<a href="https://www.mozilla.org/firefox/new/">',
-			'<a href="https://www.google.com/intl/nl/chrome/">',
+			'<a href="https://www.google.com/chrome/">',
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
-		echo '</div></div>';
+
+		echo new Alert_Presenter( $content );
 	}
 
 	/**
@@ -135,13 +140,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		WPSEO_Meta::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
-
+		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
 		/* translators: %s expands to the post type name. */
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
-		if ( '0' === (string) get_option( 'blog_public' ) ) {
+		if ( (string) get_option( 'blog_public' ) === '0' ) {
 			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<span class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 		}
 		/* translators: %1$s expands to Yes or No,  %2$s expands to the post type name.*/
@@ -386,18 +390,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$html_after = '';
 
 		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			$advanced_collapsible = new WPSEO_Paper_Presenter(
-				__( 'Advanced', 'wordpress-seo' ),
-				null,
-				[
-					'collapsible' => true,
-					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
-					'content'     => $this->get_tab_content( 'advanced' ),
-					'paper_id'    => 'collapsible-advanced-settings',
-				]
-			);
-
-			$html_after = '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>';
+			$html_after = $this->get_tab_content( 'advanced' );
 		}
 
 		/**
@@ -536,6 +529,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<input type="text"' . $placeholder . ' id="' . $esc_form_key . '" ' . $ac . 'name="' . $esc_form_key . '" value="' . esc_attr( $meta_value ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
 				break;
 
+			case 'url':
+				if ( $placeholder !== '' ) {
+					$placeholder = ' placeholder="' . esc_attr( $placeholder ) . '"';
+				}
+				$content .= '<input type="url"' . $placeholder . ' id="' . $esc_form_key . '" name="' . $esc_form_key . '" value="' . esc_attr( urldecode( $meta_value ) ) . '" class="large-text' . $class . '"' . $aria_describedby . '/>';
+				break;
+
 			case 'textarea':
 				$rows = 3;
 				if ( isset( $meta_field_def['rows'] ) && $meta_field_def['rows'] > 0 ) {
@@ -566,7 +566,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					$selected_arr = $meta_value;
 
 					// If the multiselect field is 'meta-robots-adv' we should explode on ,.
-					if ( 'meta-robots-adv' === $key ) {
+					if ( $key === 'meta-robots-adv' ) {
 						$selected_arr = explode( ',', $meta_value );
 					}
 
@@ -655,12 +655,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 
 			// If it's a set of radio buttons, output proper fieldset and legend.
-			if ( 'radio' === $meta_field_def['type'] ) {
+			if ( $meta_field_def['type'] === 'radio' ) {
 				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
 			}
 
 			// If it's a single checkbox, ignore the title.
-			if ( 'checkbox' === $meta_field_def['type'] ) {
+			if ( $meta_field_def['type'] === 'checkbox' ) {
 				$label = '';
 			}
 
@@ -735,7 +735,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( 'checkbox' === $meta_box['type'] ) {
+			if ( $meta_box['type'] === 'checkbox' ) {
 				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
 			}
 			else {
@@ -748,7 +748,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					}
 
 					if ( is_string( $data ) ) {
-						$data = WPSEO_Utils::sanitize_text_field( $data );
+						$data = ( $key !== 'canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 					}
 				}
 
@@ -774,11 +774,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether the given meta value key is disabled.
 	 */
 	public function is_meta_value_disabled( $key ) {
-		if ( 'linkdex' === $key && ! $this->analysis_seo->is_enabled() ) {
+		if ( $key === 'linkdex' && ! $this->analysis_seo->is_enabled() ) {
 			return true;
 		}
 
-		if ( 'content_score' === $key && ! $this->analysis_readability->is_enabled() ) {
+		if ( $key === 'content_score' && ! $this->analysis_readability->is_enabled() ) {
 			return true;
 		}
 
@@ -822,6 +822,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'metabox-css' );
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'select2' );
+		$asset_manager->enqueue_style( 'monorepo' );
 
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
@@ -1031,7 +1032,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$custom_fields = get_post_custom( $post->ID );
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom field values that are serialized.
+			if ( is_serialized( $custom_field[0] ) ) {
 				continue;
 			}
 
@@ -1049,7 +1056,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether or not the given page is the post overview page.
 	 */
 	public static function is_post_overview( $page ) {
-		return 'edit.php' === $page;
+		return $page === 'edit.php';
 	}
 
 	/**
@@ -1060,8 +1067,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return bool Whether or not the given page is the post edit page.
 	 */
 	public static function is_post_edit( $page ) {
-		return 'post.php' === $page
-			|| 'post-new.php' === $page;
+		return $page === 'post.php'
+			|| $page === 'post-new.php';
 	}
 
 	/**

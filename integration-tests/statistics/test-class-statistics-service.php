@@ -22,7 +22,7 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests filtering the zero counts.
 	 *
-	 * @covers ::get_statisticså
+	 * @covers ::get_statistics
 	 */
 	public function test_filter_zero_counts() {
 		$statistics = new Statistics_Mock(

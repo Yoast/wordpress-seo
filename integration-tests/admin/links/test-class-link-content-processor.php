@@ -40,6 +40,8 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test link storage.
+	 *
+	 * @covers WPSEO_Link_Content_Processor::process
 	 */
 	public function test_store_links() {
 

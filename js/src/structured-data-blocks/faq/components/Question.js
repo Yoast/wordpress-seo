@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import isShallowEqual from "@wordpress/is-shallow-equal/objects";
+import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
@@ -308,7 +308,7 @@ export default class Question extends Component {
 	 */
 	static Content( question ) {
 		return (
-			<div className={ "schema-faq-section" } key={ question.id }>
+			<div className={ "schema-faq-section" } id={ question.id } key={ question.id }>
 				<RichTextWithAppendedSpace
 					tagName="strong"
 					className="schema-faq-question"
@@ -333,7 +333,7 @@ export default class Question extends Component {
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		if ( ! isShallowEqual( nextProps, this.props ) ) {
+		if ( ! isShallowEqualObjects( nextProps, this.props ) ) {
 			return true;
 		}
 		return false;

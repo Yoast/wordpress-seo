@@ -150,7 +150,7 @@ class WPSEO_Sitemaps {
 		}
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$extension   = substr( $request_uri, -4 );
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
+		if ( stripos( $request_uri, 'sitemap' ) !== false && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -287,7 +287,7 @@ class WPSEO_Sitemaps {
 
 		$this->transient = false;
 
-		if ( true !== $this->cache->is_enabled() ) {
+		if ( $this->cache->is_enabled() !== true ) {
 			return false;
 		}
 
@@ -432,7 +432,7 @@ class WPSEO_Sitemaps {
 		// Make the browser cache this file properly.
 		$expires = YEAR_IN_SECONDS;
 		header( 'Pragma: public' );
-		header( 'Cache-Control: maxage=' . $expires );
+		header( 'Cache-Control: max-age=' . $expires );
 		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
 		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
@@ -500,7 +500,7 @@ class WPSEO_Sitemaps {
 					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 					GROUP BY post_type
-					ORDER BY post_modified_gmt DESC
+					ORDER BY date DESC
 				";
 
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
@@ -549,12 +549,12 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( '0' === get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+		if ( get_option( 'blog_public' ) === '0' ) { // Don't ping if blog is not public.
 			return;
 		}
 
 		if ( empty( $url ) ) {
-			$url = urlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+			$url = rawurlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 		}
 
 		// Ping Google and Bing.

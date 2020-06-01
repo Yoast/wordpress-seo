@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
+class WPSEO_Ryte_Request_Double extends WPSEO_Ryte_Request {
 
 	/**
 	 * Overwrite the get_remote method, because this is a dependency.

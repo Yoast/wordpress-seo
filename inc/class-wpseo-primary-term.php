@@ -45,7 +45,7 @@ class WPSEO_Primary_Term {
 
 		$terms = $this->get_terms();
 
-		if ( ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
+		if ( ! in_array( (int) $primary_term, wp_list_pluck( $terms, 'term_id' ), true ) ) {
 			$primary_term = false;
 		}
 

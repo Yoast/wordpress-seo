@@ -1,1 +1,0 @@
-window.lodash = _.noConflict();

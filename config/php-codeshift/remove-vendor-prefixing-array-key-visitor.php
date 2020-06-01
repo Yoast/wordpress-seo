@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\PHP_CodeShift
  */
 
-namespace Yoast\WP\Free\PHP_CodeShift;
+namespace Yoast\WP\SEO\PHP_CodeShift;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayItem;
@@ -18,9 +18,11 @@ use PhpParser\NodeVisitorAbstract;
 class Remove_Vendor_Prefixing_Array_Key_Visitor extends NodeVisitorAbstract {
 
 	/**
-	 * @param \PhpParser\Node $node The node being visited.
+	 * Removes vendor prefixes from array keys.
 	 *
-	 * @return \PhpParser\Node The possibly modified node.
+	 * @param Node $node The node being visited.
+	 *
+	 * @return Node The possibly modified node.
 	 */
 	public function leaveNode( Node $node ) {
 		if ( ! $node instanceof ArrayItem ) {

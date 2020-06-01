@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 5.2
-Tested up to: 5.3
-Stable tag: 12.6.2
+Requires at least: 5.3
+Tested up to: 5.4
+Stable tag: 14.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and what to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -131,16 +131,16 @@ The sitemap index and individual sitemaps are updated automatically as you add o
 
 It is straightforward to add your website to Google Search Console. 
 1. Create a Google Search Console account and login into your account.
-1. Click ‘Add a property’ under the search drop-down.
-1. Enter your website URL in the box and click ‘Continue’.
-1. Click the arrow next to ‘HTML tag’ to expand the option.
-1. Copy the meta tag.
-1. Log in to your WordPress website.
-1. Click on ‘SEO’ in the dashboard.
-1. Click on ‘General’.
-1. Click on the ‘Webmaster Tools’ tab.
-1. Paste the code in the Google field and click ‘Save Changes’.
-1. Go back to Google Search Console and click ‘Verify’.
+2. Click ‘Add a property’ under the search drop-down.
+3. Enter your website URL in the box and click ‘Continue’.
+4. Click the arrow next to ‘HTML tag’ to expand the option.
+5. Copy the meta tag.
+6. Log in to your WordPress website.
+7. Click on ‘SEO’ in the dashboard.
+8. Click on ‘General’.
+9. Click on the ‘Webmaster Tools’ tab.
+10. Paste the code in the Google field and click ‘Save Changes’.
+11. Go back to Google Search Console and click ‘Verify’.
 
 If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
@@ -148,18 +148,18 @@ If you want more details steps, please visit [our article on our knowledge base]
 
 The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
-To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs](https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 ```
 <?php
-*if* ( function_exists(‘yoast_breadcrumb’) ) {
-  yoast_breadcrumb( ‘<p id=“breadcrumbs”>’,’</p>’ );
+if ( function_exists( 'yoast_breadcrumb' ) ) {
+    yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 }
 ?>
 ```
 
-Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php`at the very end.
+Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php` at the very end.
 
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
@@ -209,54 +209,29 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.7.0 =
-Release Date: December 10th, 2019
+= 14.3 =
+Release Date: June 9th, 2020
 
 Bugfixes:
 
-* Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
-* Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
-* Fixes a bug where the notification center dismiss and restore buttons had no focus style.
+* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors. [#15288](https://github.com/Yoast/wordpress-seo/pull/15288)
 
-Other:
+= 14.2 =
+Release Date: May 26th, 2020
 
-* Improves security by adding output escaping.
-
-= 12.6.2 =
-Release Date: November 28th, 2019
-
-Other:
-
-* Removes the Black Friday banner.
-
-= 12.6.1 =
-Release Date: November 27th, 2019
+In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named `Date_Helper`.
-* Fixes a bug where a fatal error would be thrown when an empty string would be passed to the `WPSEO_Date_Helper->format` method. Props to [@mpolek](https://github.com/mpolek).
-
-= 12.6.0 =
-Release Date: November 26th, 2019
-
-In Yoast SEO 12.6, we’re activating our new beacon for help documentation. This tool helps answer the questions you might have about using Yoast SEO. It’s easy to use and very friendly. Just hit that big purple question mark and search! Other improvements in Yoast SEO 12.6 includes a number of fixes and enhancements. Find out more in [our 12.6 release post](https://yoa.st/release-12-6)!
+* Fixes a bug where breadcrumbs would be saved in reversed order.
+* Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
+* Fixes a bug where replacement variables would not be replaced when using the deprecated `WPSEO_Frontend` output without echoing it.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
+* Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
 
 Enhancements:
 
-* Adds a description property to the schema's `WebSite` node.
-* Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
-* Introduced a HelpScout beacon as a replacement for the Help Center.
-
-Bugfixes:
-
-* Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
-* Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
-
-Other:
-
-* Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
-* Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
+* Optimizes the query used to check if a focus keyphrase has been previously used, by running it against our indexable table.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

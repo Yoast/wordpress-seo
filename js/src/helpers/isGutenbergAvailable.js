@@ -1,7 +1,9 @@
 /* global wp */
 
-import isNil from "lodash/isNil";
-import isFunction from "lodash/isFunction";
+import {
+	isNil,
+	isFunction,
+} from "lodash-es";
 
 /**
  * Checks if the data API from Gutenberg is available.

@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO\Dependency_Injection
  */
 
-namespace Yoast\WP\Free\Dependency_Injection;
+namespace Yoast\WP\SEO\Dependency_Injection;
 
+use ReflectionException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Config\Resource\GlobResource;
-use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -24,7 +24,7 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
 	 */
 	public function __construct( ContainerBuilder $container ) {
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
@@ -56,19 +56,17 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param \Symfony\Component\DependencyInjection\Definition $prototype A definition to use as template.
-	 * @param string                                            $namespace The namespace prefix of classes
-	 *                                                                     in the scanned directory.
-	 * @param string                                            $resource  The directory to look for classes,
-	 *                                                                     glob-patterns allowed.
-	 * @param string                                            $exclude   A globed path of files to exclude.
+	 * @param Definition $prototype A definition to use as template.
+	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string     $exclude   A globed path of files to exclude.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 *
 	 * @return void
 	 */
 	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
-		if ( '\\' !== \substr( $namespace, -1 ) ) {
+		if ( \substr( $namespace, -1 ) !== '\\' ) {
 			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
 		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
@@ -87,7 +85,7 @@ class Custom_Loader extends PhpFileLoader {
 			}
 			else {
 				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
-				if ( null !== $error_message ) {
+				if ( $error_message !== null ) {
 					$definition->addError( $error_message );
 
 					continue;
@@ -100,33 +98,8 @@ class Custom_Loader extends PhpFileLoader {
 		foreach ( $interfaces as $interface ) {
 			if ( ! empty( $singly_implemented[ $interface ] ) ) {
 				$this->container->setAlias( $interface, $singly_implemented[ $interface ] )
-								->setPublic( false );
+					->setPublic( false );
 			}
-		}
-	}
-
-	/**
-	 * Registers a definition in the container with its instanceof-conditionals.
-	 *
-	 * @param string                                            $id         The ID of the definition.
-	 * @param \Symfony\Component\DependencyInjection\Definition $definition The definition.
-	 *
-	 * @throws InvalidArgumentException If invalid arguments were supplied.
-	 *
-	 * @return void
-	 */
-	protected function setDefinition( $id, Definition $definition ) {
-		$this->container->removeBindings( $id );
-
-		// @codingStandardsIgnoreLine WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar This is from an inherited class not abiding by that standard.
-		if ( $this->isLoadingInstanceof ) {
-			if ( ! $definition instanceof ChildDefinition ) {
-				throw new InvalidArgumentException( \sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
-			}
-			$this->instanceof[ $id ] = $definition;
-		}
-		else {
-			$this->container->setDefinition( $id, ( $definition instanceof ChildDefinition ) ? $definition : $definition->setInstanceofConditionals( $this->instanceof ) );
 		}
 	}
 
@@ -149,7 +122,7 @@ class Custom_Loader extends PhpFileLoader {
 		if ( $exclude ) {
 			$exclude = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $exclude ) );
 			foreach ( $this->glob( $exclude, true, $resource ) as $path => $info ) {
-				if ( null === $exclude_prefix ) {
+				if ( $exclude_prefix === null ) {
 					$exclude_prefix = $resource->getPrefix();
 				}
 
@@ -163,10 +136,10 @@ class Custom_Loader extends PhpFileLoader {
 		$ext_regexp = \defined( 'HHVM_VERSION' ) ? '/\\.(?:php|hh)$/' : '/\\.php$/';
 		$prefix_len = null;
 		foreach ( $this->glob( $pattern, true, $resource ) as $path => $info ) {
-			if ( null === $prefix_len ) {
+			if ( $prefix_len === null ) {
 				$prefix_len = \strlen( $resource->getPrefix() );
 
-				if ( $exclude_prefix && 0 !== \strpos( $exclude_prefix, $resource->getPrefix() ) ) {
+				if ( $exclude_prefix && \strpos( $exclude_prefix, $resource->getPrefix() ) !== 0 ) {
 					throw new InvalidArgumentException( \sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $exclude, $pattern ) );
 				}
 			}
@@ -186,7 +159,7 @@ class Custom_Loader extends PhpFileLoader {
 
 			try {
 				$r = $this->container->getReflectionClass( $class );
-			} catch ( \ReflectionException $e ) {
+			} catch ( ReflectionException $e ) {
 				$classes[ $class ] = \sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,

@@ -17,7 +17,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	 */
 	protected $feature_vars = [
 		'disableadvanced_meta',
-		'onpage_indexability',
+		'ryte_indexability',
 		'content_analysis_active',
 		'keyword_analysis_active',
 		'enable_admin_bar_menu',

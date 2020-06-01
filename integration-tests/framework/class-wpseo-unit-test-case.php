@@ -5,10 +5,29 @@
  * @package WPSEO\Tests\Framework
  */
 
+use Yoast\WP\SEO\Initializers\Migration_Runner;
+
 /**
  * TestCase base class for convenience methods.
  */
 abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
+
+	/**
+	 * Make sure to do migrations before WP_UnitTestCase starts messing with the DB.
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		// Run migrations.
+		$meta_storage = new WPSEO_Meta_Storage();
+		$meta_storage->install();
+		$link_storage = new WPSEO_Link_Storage();
+		$link_storage->install();
+		$migration_runner = YoastSEO()->classes->get( Migration_Runner::class );
+		$migration_runner->run_migrations( 'free' );
+	}
 
 	/**
 	 * Adds slashes to the value of $key in the $_POST array, and then updates the $_REQUEST array.

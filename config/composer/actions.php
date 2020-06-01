@@ -5,10 +5,12 @@
  * @package Yoast\YoastSEO\Composer
  */
 
-namespace Yoast\WP\Free\Composer;
+namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
-use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
+use Exception;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
 /**
  * Class to handle Composer actions and events.
@@ -22,7 +24,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -30,7 +32,13 @@ class Actions {
 		$io = $event->getIO();
 
 		if ( ! $event->isDevMode() ) {
-			$io->write( 'Not prefixing dependencies.' );
+			$io->write( 'Not prefixing dependencies, due to not being in dev move.' );
+
+			return;
+		}
+
+		if ( ! \file_exists( __DIR__ . '/../../vendor/bin/php-scoper' ) ) {
+			$io->write( 'Not prefixing dependencies, due to PHP scoper not being installed' );
 
 			return;
 		}
@@ -48,12 +56,18 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
 	public static function compile_dependency_injection_container( Event $event ) {
 		$io = $event->getIO();
+
+		if ( ! \class_exists( ContainerBuilder::class ) ) {
+			$io->write( 'Not compiling dependency injection container, due to the container builder not being installed' );
+
+			return;
+		}
 
 		$io->write( 'Compiling the dependency injection container...' );
 
@@ -83,7 +97,7 @@ class Actions {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
+	 * @param Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -120,5 +134,88 @@ class Actions {
 		}
 
 		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+	}
+
+	/**
+	 * Generates a migration.
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception If no migration name is provided.
+	 */
+	public static function generate_migration( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args[0] ) ) {
+			throw new Exception( 'You must provide an argument with the migration name.' );
+		}
+		$name      = $args[0];
+		$timestamp = \gmdate( 'YmdHis', \time() );
+
+		// Camelcase the name.
+		$name  = \preg_replace( '/\\s+/', '_', $name );
+		$parts = \explode( '_', $name );
+		$name  = '';
+		foreach ( $parts as $word ) {
+			$name .= \ucfirst( $word );
+		}
+
+		$correct_class_name_regex = '/^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*$/';
+		if ( ! \preg_match( $correct_class_name_regex, $name ) ) {
+			throw new Exception( "$name is not a valid migration name." );
+		}
+		if ( \class_exists( $name ) ) {
+			throw new Exception( "A class with the name $name already exists." );
+		}
+
+		$file_name = $timestamp . '_' . $name . '.php';
+
+		$template = <<<TPL
+<?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\WP\SEO\Config\Migrations
+ */
+
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
+
+/**
+ * {$name} class.
+ */
+class {$name} extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static \$plugin = 'free';
+
+	/**
+	 * Migration up.
+	 *
+	 * @return void
+	 */
+	public function up() {
+
+	}
+
+	/**
+	 * Migration down.
+	 *
+	 * @return void
+	 */
+	public function down() {
+
+	}
+}
+
+TPL;
+
+		\file_put_contents( __DIR__ . '/../../src/config/migrations/' . $file_name, $template );
 	}
 }

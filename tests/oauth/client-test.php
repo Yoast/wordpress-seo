@@ -5,16 +5,16 @@
  * @package Yoast\Tests\Oauth
  */
 
-namespace Yoast\WP\Free\Tests\Oauth;
+namespace Yoast\WP\SEO\Tests\Oauth;
 
-use Yoast\WP\Free\Oauth\Client;
+use Yoast\WP\SEO\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use Yoast\WP\Free\Tests\Doubles\Oauth\Client as Client_Double;
-use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Doubles\Oauth\Client_Double;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Oauth_Test.
+ * Class Client_Test.
  *
  * @group oauth
  */
@@ -23,7 +23,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\Free\Oauth\Client
+	 * @var Client
 	 */
 	protected $class_instance;
 
@@ -50,7 +50,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests the formatting of the access token.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
+	 * @covers \Yoast\WP\SEO\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens() {
 		$class_instance = new Client_Double();
@@ -70,7 +70,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests the formatting of the access token with an non array argument given.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
+	 * @covers \Yoast\WP\SEO\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens_with_invalid_argument() {
 		$class_instance = new Client_Double();
@@ -81,7 +81,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests the formatting of the access token with an empty array given as argument.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
+	 * @covers \Yoast\WP\SEO\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens_with_empty_array_as_argument() {
 		$class_instance = new Client_Double();
@@ -98,8 +98,8 @@ class Client_Test extends TestCase {
 	 * @param array  $expected_config The expected config.
 	 * @param string $message         The message to show when test fails.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::save_configuration
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::save_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_configuration
 	 */
 	public function test_save_configuration( array $config, array $expected_config, $message ) {
 		$this->class_instance->save_configuration( $config );
@@ -114,7 +114,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests if configuration is set correctly without setting the config before.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::has_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::has_configuration
 	 */
 	public function test_has_configuration_with_no_config_being_set() {
 		$this->assertFalse( $this->class_instance->has_configuration() );
@@ -123,7 +123,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests if configuration is set correctly with only have set the clientId before.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::has_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::has_configuration
 	 */
 	public function test_has_configuration_with_clientId_only_set() {
 		$this->class_instance->save_configuration( [ 'clientId' => 123456789 ] );
@@ -134,7 +134,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests if configuration is set correctly with only have set the secret before.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::has_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::has_configuration
 	 */
 	public function test_has_configuration_with_secret_only_set() {
 		$this->class_instance->save_configuration( [ 'secret' => 's3cr31' ] );
@@ -145,7 +145,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests if configuration is set correctly with having set the clientId and secret before.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::has_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::has_configuration
 	 */
 	public function test_has_configuration_with_config_set_correctly() {
 		$this->class_instance->save_configuration(
@@ -161,7 +161,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests if the configation has been cleared correctly.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::clear_configuration
+	 * @covers \Yoast\WP\SEO\Oauth\Client::clear_configuration
 	 */
 	public function test_clear_configuration() {
 		$this->class_instance->save_configuration(
@@ -179,7 +179,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token when no token was saved before.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_access_token
 	 */
 	public function test_get_access_token_with_no_set_access_tokens() {
 		$this->assertFalse( $this->class_instance->get_access_token() );
@@ -188,8 +188,8 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token when a token has been set.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_access_token
-	 * @covers \Yoast\WP\Free\Oauth\Client::save_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::save_access_token
 	 */
 	public function test_get_access_token_with_set_access_tokens() {
 		$this->class_instance->save_access_token( 1, new AccessToken( [ 'access_token' => 'this-is-a-token' ] ) );
@@ -200,8 +200,8 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token for a specific user.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_access_token
-	 * @covers \Yoast\WP\Free\Oauth\Client::save_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::save_access_token
 	 */
 	public function test_get_access_token_for_user() {
 		$this->class_instance->save_access_token( 1, new AccessToken( [ 'access_token' => 't0k3n' ] ) );
@@ -212,7 +212,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token for a user that isn't set.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_access_token
 	 */
 	public function test_get_access_token_for_unexisting_user() {
 		$this->assertFalse( $this->class_instance->get_access_token( 3 ) );
@@ -221,7 +221,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token for a user that isn't set.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::remove_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::remove_access_token
 	 */
 	public function test_remove_access_token_for_non_existing_user_id() {
 		$class_instance = $this
@@ -240,7 +240,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the access token for a user that isn't set.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::remove_access_token
+	 * @covers \Yoast\WP\SEO\Oauth\Client::remove_access_token
 	 */
 	public function test_remove_access_token_for_user_id() {
 		$class_instance = $this
@@ -260,7 +260,7 @@ class Client_Test extends TestCase {
 	/**
 	 * Tests retrieval of the provider.
 	 *
-	 * @covers \Yoast\WP\Free\Oauth\Client::get_provider
+	 * @covers \Yoast\WP\SEO\Oauth\Client::get_provider
 	 */
 	public function test_get_provider() {
 

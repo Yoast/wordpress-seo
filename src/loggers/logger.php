@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO\Loggers
  */
 
-namespace Yoast\WP\Free\Loggers;
+namespace Yoast\WP\SEO\Loggers;
 
 use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
- * Creates an instance of a logger object.
+ * Our logger class.
  */
 class Logger implements LoggerInterface {
 	use LoggerTrait;
@@ -20,7 +20,7 @@ class Logger implements LoggerInterface {
 	/**
 	 * The logger object.
 	 *
-	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
+	 * @var LoggerInterface
 	 */
 	protected $wrapped_logger;
 
@@ -35,7 +35,7 @@ class Logger implements LoggerInterface {
 		 *
 		 * @api \YoastSEO_Vendor\Psr\Log\LoggerInterface $logger Instance of NullLogger.
 		 *
-		 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The logger object.
+		 * @return LoggerInterface The logger object.
 		 */
 		$this->wrapped_logger = \apply_filters( 'wpseo_logger', $this->wrapped_logger );
 	}

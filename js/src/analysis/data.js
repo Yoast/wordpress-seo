@@ -1,4 +1,4 @@
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import { string } from "yoastseo";
 
 import {
@@ -164,7 +164,8 @@ class Data {
 		}
 
 		// When no custom slug is provided we should use the generated_slug attribute.
-		return this.getPostAttribute( "slug" ) || generatedSlug;
+		const slug = this.getPostAttribute( "slug" ) || generatedSlug;
+		return decodeURIComponent( slug );
 	}
 
 	/**

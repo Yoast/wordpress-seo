@@ -2,6 +2,27 @@ const path = require( "path" );
 
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
+	/**
+	 * Will throw an error if there are uncommitted changes.
+	 *
+	 * @param {*}        error     A potential error in calling in the git status --porcelain command.
+	 * @param {*}        stdout    The response if no errors.
+	 * @param {*}        stderr    A stderr.
+	 * @param {Function} callback  The callback function.
+	 *
+	 * @returns {void}
+	 */
+	function throwUncommittedChangesError( error, stdout, stderr, callback ) {
+		if ( stdout ) {
+			throw "You have uncommitted changes. Commit, stash or reset the above files.";
+		} else {
+			grunt.log.ok( "You have no uncommitted changes. Continuing..." );
+		}
+		callback();
+	}
+
+	// Temporarily disable require-jsdoc due to the structure of the code below.
+	/* eslint-disable require-jsdoc */
 	return {
 		"combine-pot-files": {
 			fromFiles: [
@@ -119,16 +140,20 @@ module.exports = function( grunt ) {
 		},
 
 		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
 		"remove-prefixed-sources": {
-			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
+			command: "composer remove league/oauth2-client pimple/pimple ruckusing/ruckusing-migrations psr/log " +
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader --no-scripts",
 		},
 
-		"composer-install-dev": {
+		"composer-install": {
 			command: "composer install",
+		},
+
+		"composer-update-yoast-dependencies": {
+			command: "composer update yoast/license-manager yoast/i18n-module",
 		},
 
 		"composer-reset-config": {
@@ -173,5 +198,50 @@ module.exports = function( grunt ) {
 		phpcs: {
 			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
 		},
+
+		"unlink-monorepo": {
+			command: "yarn unlink-monorepo",
+		},
+
+		"install-monorepo": {
+			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
+		},
+
+		"get-monorepo-versions": {
+			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
+		},
+
+		"git-add-version-bump-files": {
+			command: "git add package.json wp-seo-main.php wp-seo.php",
+		},
+
+		"git-commit-version-bump-files": {
+			command: "git commit -m 'Bump version for RC'",
+		},
+
+		"git-push-origin-head": {
+			command: "git push origin HEAD",
+		},
+
+		"git-checkout-trunk": {
+			command: "git checkout trunk",
+		},
+
+		"git-merge-into-trunk": {
+			command: "git merge <%= branchForRC %>",
+		},
+
+		"git-checkout-release-branch": {
+			command: "git checkout <%= branchForRC %>",
+		},
+
+		"check-for-uncommitted-changes": {
+			// --porcelain gives the output in an easy-to-parse format for scripts.
+			command: "git status --porcelain",
+			options: {
+				callback: throwUncommittedChangesError,
+			},
+		},
 	};
+	/* eslint-enable require-jsdoc */
 };

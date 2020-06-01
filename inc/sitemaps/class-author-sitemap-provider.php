@@ -5,7 +5,7 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
 
 /**
  * Sitemap provider for author archives.
@@ -94,7 +94,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'lastmod' => ( $user->_yoast_wpseo_profile_updated ) ? $this->date->format_timestamp( $user->_yoast_wpseo_profile_updated ) : null,
 			];
 
-			$page++;
+			++$page;
 		}
 
 		return $index;

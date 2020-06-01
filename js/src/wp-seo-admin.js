@@ -1,7 +1,7 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 
 ( function() {
 	/**
@@ -370,6 +370,16 @@ import { debounce } from "lodash";
 				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
+
+		const opengraphToggle = jQuery( "#opengraph" );
+		const facebookSettingsContainer = jQuery( "#wpseo-opengraph-settings" );
+		if ( opengraphToggle.length && facebookSettingsContainer.length ) {
+			facebookSettingsContainer.toggle( opengraphToggle[ 0 ].checked );
+
+			opengraphToggle.change( ( event ) => {
+				facebookSettingsContainer.toggle( event.target.checked );
+			} );
+		}
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
