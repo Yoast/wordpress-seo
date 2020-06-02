@@ -430,12 +430,12 @@ class InlineLinkUI extends Component {
 								onChange={ this.setLinkTarget }
 							/>
 							<ToggleControl
-								label={ __( "Add 'nofollow' to link", "wordpress-seo" ) }
+								label={ __( "Discourage search engines from following this link", "wordpress-seo" ) }
 								checked={ noFollow }
 								onChange={ this.setNoFollow }
 							/>
 							<ToggleControl
-								label={ __( "Add 'sponsored' to link", "wordpress-seo" ) }
+								label={ __( "This is a sponsored link", "wordpress-seo" ) }
 								checked={ sponsored }
 								onChange={ this.setSponsored }
 							/>
