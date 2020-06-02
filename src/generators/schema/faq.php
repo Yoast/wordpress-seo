@@ -46,7 +46,8 @@ class FAQ extends Abstract_Schema_Piece {
 					continue;
 				}
 				$ids[]   = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
-				$graph[] = $this->generate_question_block( $question, $index );
+				// Index + 1 below so we start at 1 and count from there.
+				$graph[] = $this->generate_question_block( $question, $index + 1 );
 				++$number_of_items;
 			}
 		}
