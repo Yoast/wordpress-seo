@@ -13,7 +13,7 @@ function LinkViewerUrl( { url, urlLabel, className } ) {
 	);
 
 	if ( ! url ) {
-		return <span className={ linkClassName }></span>;
+		return <span className={ linkClassName } />;
 	}
 
 	return (
