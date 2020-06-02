@@ -3,6 +3,7 @@
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
+use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
 use Yoast\WP\SEO\Routes\SEMrush_Route;
 
 /**
@@ -31,6 +32,7 @@ class SEMrush_Client {
 	 * @param $code
 	 *
 	 * @return \Exception|IdentityProviderException|AccessTokenInterface
+	 * @throws OAuth_Authentication_Failed_Exception
 	 */
 	public function get_access_tokens( $code ) {
 		try {
@@ -38,7 +40,7 @@ class SEMrush_Client {
 				'code' => $code,
 			] );
 		} catch ( IdentityProviderException $e ) {
-			return $e;
+			throw new OAuth_Authentication_Failed_Exception( $code, $e );
 		}
 	}
 
