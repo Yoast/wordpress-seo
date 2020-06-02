@@ -4,17 +4,11 @@ import ReactShallowRenderer from "react-test-renderer/shallow";
 import {
 	Button,
 	PrimaryButton,
-	PrimaryLink,
 	SecondaryButton,
-	SecondaryLink,
 	UpsellButton,
-	UpsellLink,
 	RemoveButton,
-	RemoveLink,
 	HideButton,
-	HideLink,
 	CloseButton,
-	CloseLink,
 } from "../../src/button";
 
 const shallowRenderer = new ReactShallowRenderer();
@@ -82,7 +76,7 @@ describe( "Primary", () => {
 	} );
 
 	it( "matches the Link snapshot", () => {
-		shallowRenderer.render( <PrimaryLink href="#">test</PrimaryLink> );
+		shallowRenderer.render( <PrimaryButton isLink={ true } href="#">test</PrimaryButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -101,7 +95,7 @@ describe( "Secondary", () => {
 	} );
 
 	it( "matches the Link snapshot", () => {
-		shallowRenderer.render( <SecondaryLink href="#">test</SecondaryLink> );
+		shallowRenderer.render( <SecondaryButton isLink={ true } href="#">test</SecondaryButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -129,7 +123,7 @@ describe( "Upsell", () => {
 	} );
 
 	it( "matches the Link snapshot without caret", () => {
-		shallowRenderer.render( <UpsellLink href="#">test</UpsellLink> );
+		shallowRenderer.render( <UpsellButton isLink={ true } href="#">test</UpsellButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 
@@ -164,7 +158,7 @@ describe( "Upsell", () => {
 	} );
 
 	it( "has a caret in the Link snapshot when caret is true", () => {
-		shallowRenderer.render( <UpsellLink href="#" caret={ true }>test</UpsellLink> );
+		shallowRenderer.render( <UpsellButton isLink={ true } href="#" caret={ true }>test</UpsellButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 
@@ -193,7 +187,7 @@ describe( "Text", () => {
 	} );
 
 	it( "RemoveLink matches the Link snapshot", () => {
-		shallowRenderer.render( <RemoveLink href="#">test</RemoveLink> );
+		shallowRenderer.render( <RemoveButton isLink={ true } href="#">test</RemoveButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -210,7 +204,7 @@ describe( "Text", () => {
 	} );
 
 	it( "HideLink matches the Link snapshot", () => {
-		shallowRenderer.render( <HideLink href="#">test</HideLink> );
+		shallowRenderer.render( <HideButton isLink={ true } href="#">test</HideButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -229,7 +223,7 @@ describe( "Icon", () => {
 	} );
 
 	it( "CloseLink matches the Link snapshot", () => {
-		shallowRenderer.render( <CloseLink href="#">test</CloseLink> );
+		shallowRenderer.render( <CloseButton isLink={ true } href="#">test</CloseButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();

@@ -2,17 +2,17 @@
 
 exports[`the ScoreAssessments matches the snapshot 1`] = `
 <ul
-  className="FlNpt score-assessments"
+  className="score-assessments FlNpt"
   role="list"
 >
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="eeqDlJ score-assessments__item-bullet"
+      className="score-assessments__item-bullet eeqDlJ"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -21,13 +21,13 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="PTWTa score-assessments__item-bullet"
+      className="score-assessments__item-bullet PTWTa"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -40,17 +40,17 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
 
 exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 <ul
-  className="FlNpt score-assessments"
+  className="score-assessments FlNpt"
   role="list"
 >
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="eeqDlJ score-assessments__item-bullet"
+      className="score-assessments__item-bullet eeqDlJ"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -59,13 +59,13 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="PTWTa score-assessments__item-bullet"
+      className="score-assessments__item-bullet PTWTa"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -78,17 +78,17 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
 
 exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
 <ul
-  className="FlNpt score-assessments"
+  className="score-assessments FlNpt"
   role="list"
 >
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="eeqDlJ score-assessments__item-bullet"
+      className="score-assessments__item-bullet eeqDlJ"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -97,13 +97,13 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     />
   </li>
   <li
-    className="clxkYQ score-assessments__item"
+    className="score-assessments__item clxkYQ"
   >
     <span
-      className="PTWTa score-assessments__item-bullet"
+      className="score-assessments__item-bullet PTWTa"
     />
     <span
-      className="MQCNO score-assessments__item-text"
+      className="score-assessments__item-text MQCNO"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",

@@ -4,6 +4,7 @@ exports[`Icon CloseButton matches the Button snapshot 1`] = `
 <Button
   aria-label="Close"
   className="yoast-close"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -26,7 +27,8 @@ exports[`Icon CloseLink matches the Link snapshot 1`] = `
   aria-label="Close"
   className="yoast-close"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   <svg
     aria-hidden="true"
@@ -45,6 +47,7 @@ exports[`Icon CloseLink matches the Link snapshot 1`] = `
 exports[`Primary matches the Button snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--primary"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -56,7 +59,8 @@ exports[`Primary matches the Link snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--primary"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
 </Button>
@@ -65,6 +69,7 @@ exports[`Primary matches the Link snapshot 1`] = `
 exports[`Secondary matches the Button snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--secondary"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -76,7 +81,8 @@ exports[`Secondary matches the Link snapshot 1`] = `
 <Button
   className="yoast-button yoast-button--secondary"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
 </Button>
@@ -85,6 +91,7 @@ exports[`Secondary matches the Link snapshot 1`] = `
 exports[`Text HideButton matches the Button snapshot 1`] = `
 <Button
   className="yoast-hide"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -96,7 +103,8 @@ exports[`Text HideLink matches the Link snapshot 1`] = `
 <Button
   className="yoast-hide"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
 </Button>
@@ -105,6 +113,7 @@ exports[`Text HideLink matches the Link snapshot 1`] = `
 exports[`Text RemoveButton matches the Button snapshot 1`] = `
 <Button
   className="yoast-remove"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -116,7 +125,8 @@ exports[`Text RemoveLink matches the Link snapshot 1`] = `
 <Button
   className="yoast-remove"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
 </Button>
@@ -125,6 +135,7 @@ exports[`Text RemoveLink matches the Link snapshot 1`] = `
 exports[`Upsell has a caret in the Button snapshot when caret is true 1`] = `
 <Button
   className="yoast-button yoast-button--buy"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -139,7 +150,8 @@ exports[`Upsell has a caret in the Link snapshot when caret is true 1`] = `
 <Button
   className="yoast-button yoast-button--buy"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
   <span
@@ -151,6 +163,7 @@ exports[`Upsell has a caret in the Link snapshot when caret is true 1`] = `
 exports[`Upsell matches the Button snapshot without caret 1`] = `
 <Button
   className="yoast-button yoast-button--buy"
+  href={null}
   isLink={false}
   onClick={[Function]}
 >
@@ -162,7 +175,8 @@ exports[`Upsell matches the Link snapshot without caret 1`] = `
 <Button
   className="yoast-button yoast-button--buy"
   href="#"
-  isLink={false}
+  isLink={true}
+  onClick={null}
 >
   test
 </Button>
