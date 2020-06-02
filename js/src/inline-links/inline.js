@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import {
 	ToggleControl,
 	withSpokenMessages,
@@ -25,12 +26,36 @@ import PositionedAtSelection from "./positioned-at-selection";
 import LinkEditor from "./link-editor";
 import LinkViewer from "./link-viewer";
 
+/**
+ * Stop key propagation.
+ *
+ * @param {object} event a DOM event.
+ * @returns {void}
+ */
 const stopKeyPropagation = ( event ) => event.stopPropagation();
 
+/**
+ * Util to check if the Inline Link UI is showing input.
+ *
+ * @param {object} props the props
+ * @param {object} state the state
+ * @returns {boolean} True or false.
+ */
 function isShowingInput( props, state ) {
 	return props.addingLink || state.editLink;
 }
 
+/**
+ * Renders a URL popover element if the selection is clear.
+ *
+ * @param {boolean}  isActive     If the popover is active.
+ * @param {boolean}  addingLink   If a link is being added.
+ * @param {object}   value        The value object.
+ * @param {function} resetOnMount Reset function.
+ * @param {object}   props        The props.
+ *
+ * @returns {null|wp.Element} The component or null.
+ */
 const URLPopoverAtLink = ( { isActive, addingLink, value, resetOnMount, ...props } ) => {
 	const anchorRect = useMemo( () => {
 		const selection = window.getSelection();
@@ -65,6 +90,13 @@ const URLPopoverAtLink = ( { isActive, addingLink, value, resetOnMount, ...props
 	resetOnMount( anchorRect );
 
 	return <URLPopover anchorRect={ anchorRect } { ...props } />;
+};
+
+URLPopoverAtLink.propTypes = {
+	resetOnMount: PropTypes.func.isRequired,
+	isActive: PropTypes.bool.isRequired,
+	addingLink: PropTypes.bool.isRequired,
+	value: PropTypes.object.isRequired,
 };
 
 class InlineLinkUI extends Component {
@@ -233,10 +265,12 @@ class InlineLinkUI extends Component {
 	}
 
 	onFocusOutside() {
-		// The autocomplete suggestions list renders in a separate popover (in a portal),
-		// so onClickOutside fails to detect that a click on a suggestion occured in the
-		// LinkContainer. Detect clicks on autocomplete suggestions using a ref here, and
-		// return to avoid the popover being closed.
+		/**
+		 * The autocomplete suggestions list renders in a separate popover (in a portal),
+		 * so onClickOutside fails to detect that a click on a suggestion occured in the
+		 * LinkContainer. Detect clicks on autocomplete suggestions using a ref here, and
+		 * return to avoid the popover being closed.
+		 */
 		const autocompleteElement = this.autocompleteRef.current;
 		if ( autocompleteElement && autocompleteElement.contains( event.target ) ) {
 			return;
@@ -285,7 +319,8 @@ class InlineLinkUI extends Component {
 
 		return (
 			<PositionedAtSelection
-				key={ `${ value.start }${ value.end }` /* Used to force rerender on selection change */ }
+				// Used to force rerender on selection change.
+				key={ `${ value.start }${ value.end }` }
 			>
 				<URLPopoverAtLink
 					resetOnMount={ this.resetOnMount }
@@ -335,7 +370,11 @@ class InlineLinkUI extends Component {
 							onKeyPress={ stopKeyPropagation }
 							url={ url }
 							onEditLinkClick={ this.editLink }
-							linkClassName={ isValidHref( prependHTTP( url ) ) ? undefined : "has-invalid-link" }
+							linkClassName={
+								/* eslint-disable no-undefined */
+								isValidHref( prependHTTP( url ) ) ? undefined : "has-invalid-link"
+								/* eslint-enable no-undefined */
+							}
 						/>
 					) }
 
@@ -344,5 +383,15 @@ class InlineLinkUI extends Component {
 		);
 	}
 }
+
+InlineLinkUI.propTypes = {
+	isActive: PropTypes.bool.isRequired,
+	addingLink: PropTypes.bool.isRequired,
+	value: PropTypes.object.isRequired,
+	activeAttributes: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+	speak: PropTypes.func.isRequired,
+	stopAddingLink: PropTypes.func.isRequired,
+};
 
 export default withSpokenMessages( InlineLinkUI );

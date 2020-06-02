@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Component } from "@wordpress/element";
 import { getOffsetParent, getRectangleFromRange } from "@wordpress/dom";
 
@@ -11,8 +12,7 @@ import { getOffsetParent, getRectangleFromRange } from "@wordpress/dom";
 function getCurrentCaretPositionStyle() {
 	const selection = window.getSelection();
 
-	// Unlikely, but in the case there is no selection, return empty styles so
-	// as to avoid a thrown error by `Selection#getRangeAt` on invalid index.
+	// Unlikely, but in the case there is no selection, return empty styles so as to avoid a thrown error by `Selection#getRangeAt` on invalid index.
 	if ( selection.rangeCount === 0 ) {
 		return {};
 	}
@@ -41,6 +41,9 @@ function getCurrentCaretPositionStyle() {
  * @type {WPComponent}
  */
 class PositionedAtSelection extends Component {
+	/**
+	 * Constructor.
+	 */
 	constructor() {
 		super( ...arguments );
 
@@ -49,6 +52,11 @@ class PositionedAtSelection extends Component {
 		};
 	}
 
+	/**
+	 * Render function.
+	 *
+	 * @returns {wp.Element} the component.
+	 */
 	render() {
 		const { children } = this.props;
 		const { style } = this.state;
@@ -60,5 +68,13 @@ class PositionedAtSelection extends Component {
 		);
 	}
 }
+
+PositionedAtSelection.propTypes = {
+	children: PropTypes.element,
+};
+
+PositionedAtSelection.defaultProps = {
+	children: "",
+};
 
 export default PositionedAtSelection;

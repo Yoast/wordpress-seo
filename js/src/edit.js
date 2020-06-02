@@ -38,6 +38,9 @@ const PinnedPluginIcon = styled( PluginIcon )`
 	height: 20px;
 `;
 
+/**
+ * Contains the Yoast SEO block editor integration.
+ */
 class Edit {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.

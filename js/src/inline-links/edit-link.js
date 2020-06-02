@@ -1,4 +1,5 @@
 import { map } from "lodash";
+import PropTypes from "prop-types";
 import { BlockControls, RichTextToolbarButton, RichTextShortcut } from "@wordpress/block-editor";
 import { Toolbar, withSpokenMessages } from "@wordpress/components";
 import { compose, ifCondition } from "@wordpress/compose";
@@ -22,7 +23,13 @@ const name = "yoast-seo/link";
 const title = __( "Add Link", "wordpress-seo" );
 const EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
 
+/**
+ * The EditLink component.
+ */
 class EditLink extends Component {
+	/**
+	 * The constructor.
+	 */
 	constructor() {
 		super( ...arguments );
 
@@ -35,6 +42,11 @@ class EditLink extends Component {
 		};
 	}
 
+	/**
+	 * Hook to run when the component mounted.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		const oldFormat = select( "core/rich-text" ).getFormatType( "core/link" );
 		if ( oldFormat ) {
@@ -43,10 +55,21 @@ class EditLink extends Component {
 		}
 	}
 
+	/**
+	 * Checks if a string is a valid emailaddress.
+	 *
+	 * @param {string} email the emailstring.
+	 * @returns {boolean} A truthy value.
+	 */
 	isEmail( email ) {
 		return EMAIL_REGEXP.test( email );
 	}
 
+	/**
+	 * Updates the state to reflect we're currently adding a link.
+	 *
+	 * @returns {void}
+	 */
 	addLink() {
 		const { value, onChange } = this.props;
 		const text = getTextContent( slice( value ) );
@@ -60,10 +83,20 @@ class EditLink extends Component {
 		}
 	}
 
+	/**
+	 * Updates the state to reflect we're no longer adding a link.
+	 *
+	 * @returns {void}
+	 */
 	stopAddingLink() {
 		this.setState( { addingLink: false } );
 	}
 
+	/**
+	 * Hook triggered when the format is removed.
+	 *
+	 * @returns {void}
+	 */
 	onRemoveFormat() {
 		const { value, onChange, speak } = this.props;
 
@@ -77,6 +110,11 @@ class EditLink extends Component {
 		speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
 	}
 
+	/**
+	 * Renders the block controls.
+	 *
+	 * @returns {wp.Element} The block controls component.
+	 */
 	render() {
 		const { activeAttributes, onChange } = this.props;
 		let { isActive, value } = this.props;
@@ -145,6 +183,14 @@ class EditLink extends Component {
 		);
 	}
 }
+
+EditLink.propTypes = {
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+	speak: PropTypes.func.isRequired,
+	activeAttributes: PropTypes.object.isRequired,
+	isActive: PropTypes.bool.isRequired,
+};
 
 export default compose(
 	withSelect( () => {

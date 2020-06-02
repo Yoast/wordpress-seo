@@ -1,6 +1,7 @@
 import { throttle } from "lodash";
 import classnames from "classnames";
 import scrollIntoView from "dom-scroll-into-view";
+import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 import { Spinner, withSpokenMessages, Popover } from "@wordpress/components";
 import { withInstanceId } from "@wordpress/compose";
@@ -10,11 +11,18 @@ import { __, sprintf, _n } from "@wordpress/i18n";
 import { UP, DOWN, ENTER, TAB } from "@wordpress/keycodes";
 import { addQueryArgs } from "@wordpress/url";
 
-// Since URLInput is rendered in the context of other inputs, but should be
-// considered a separate modal node, prevent keyboard events from propagating
-// as being considered from the input.
+/**
+ * Since URLInput is rendered in the context of other inputs, but should be considered a separate modal node, prevent keyboard events from
+ * propagating as being considered from the input.
+ *
+ * @param {object} event Event.
+ * @returns {void}
+ */
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
+/**
+ * The UrlInput component.
+ */
 class URLInput extends Component {
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
@@ -36,8 +44,7 @@ class URLInput extends Component {
 
 	componentDidUpdate() {
 		const { showSuggestions, selectedSuggestion } = this.state;
-		// only have to worry about scrolling selected suggestion into view
-		// when already expanded
+		// Only have to worry about scrolling selected suggestion into view when already expanded.
 		if ( showSuggestions && selectedSuggestion !== null && ! this.scrollingIntoView ) {
 			this.scrollingIntoView = true;
 			scrollIntoView( this.suggestionNodes[ selectedSuggestion ], this.autocompleteRef.current, {
@@ -61,8 +68,7 @@ class URLInput extends Component {
 	}
 
 	updateSuggestions( value ) {
-		// Show the suggestions after typing at least 2 characters
-		// and also for URLs
+		// Show the suggestions after typing at least 2 characters and also for URLs.
 		if ( value.length < 2 || /^https?:/.test( value ) ) {
 			this.setState( {
 				showSuggestions: false,
@@ -87,10 +93,11 @@ class URLInput extends Component {
 			} ),
 		} );
 
+		/**
+		 * A fetch Promise doesn"t have an abort option. It"s mimicked by comparing the request reference in on the instance,
+		 * which is reset or deleted on subsequent requests or unmounting.
+		 */
 		request.then( ( posts ) => {
-			// A fetch Promise doesn"t have an abort option. It"s mimicked by
-			// comparing the request reference in on the instance, which is
-			// reset or deleted on subsequent requests or unmounting.
 			if ( this.suggestionsRequest !== request ) {
 				return;
 			}
@@ -104,7 +111,8 @@ class URLInput extends Component {
 				this.props.debouncedSpeak( sprintf( _n(
 					"%d result found, use up and down arrow keys to navigate.",
 					"%d results found, use up and down arrow keys to navigate.",
-					posts.length
+					posts.length,
+					"wordpress-seo"
 				), posts.length ), "assertive" );
 			} else {
 				this.props.debouncedSpeak( __( "No results.", "wordpress-seo" ), "assertive" );
@@ -128,17 +136,21 @@ class URLInput extends Component {
 
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, posts, loading } = this.state;
-		// If the suggestions are not shown or loading, we shouldn"t handle the arrow keys
-		// We shouldn"t preventDefault to allow block arrow keys navigation
+
+		/**
+		 * If the suggestions are not shown or loading, we shouldn"t handle the arrow keys.
+		 * We shouldn"t preventDefault to allow block arrow keys navigation
+		 */
 		if ( ! showSuggestions || ! posts.length || loading ) {
-			// In the Windows version of Firefox the up and down arrows don"t move the caret
-			// within an input field like they do for Mac Firefox/Chrome/Safari. This causes
-			// a form of focus trapping that is disruptive to the user experience. This disruption
-			// only happens if the caret is not in the first or last position in the text input.
-			// See: https://github.com/WordPress/gutenberg/issues/5693#issuecomment-436684747
+			/**
+			 * In the Windows version of Firefox the up and down arrows don"t move the caret
+			 * within an input field like they do for Mac Firefox/Chrome/Safari. This causes
+			 * a form of focus trapping that is disruptive to the user experience. This disruption
+			 * only happens if the caret is not in the first or last position in the text input.
+			 * @see: https://github.com/WordPress/gutenberg/issues/5693#issuecomment-436684747
+			 */
 			switch ( event.keyCode ) {
-				// When UP is pressed, if the caret is at the start of the text, move it to the 0
-				// position.
+				// When UP is pressed, if the caret is at the start of the text, move it to the 0 position.
 				case UP: {
 					if ( 0 !== event.target.selectionStart ) {
 						event.stopPropagation();
@@ -149,8 +161,7 @@ class URLInput extends Component {
 					}
 					break;
 				}
-				// When DOWN is pressed, if the caret is not at the end of the text, move it to the
-				// last position.
+				// When DOWN is pressed, if the caret is not at the end of the text, move it to the last position.
 				case DOWN: {
 					if ( this.props.value.length !== event.target.selectionStart ) {
 						event.stopPropagation();
@@ -172,7 +183,7 @@ class URLInput extends Component {
 			case UP: {
 				event.stopPropagation();
 				event.preventDefault();
-				const previousIndex = ! selectedSuggestion ? posts.length - 1 : selectedSuggestion - 1;
+				const previousIndex = selectedSuggestion ? selectedSuggestion - 1 : posts.length - 1;
 				this.setState( {
 					selectedSuggestion: previousIndex,
 				} );
@@ -223,6 +234,8 @@ class URLInput extends Component {
 		const { value = "", autoFocus = true, instanceId, className } = this.props;
 		const { showSuggestions, posts, selectedSuggestion, loading } = this.state;
 		/* eslint-disable jsx-a11y/no-autofocus */
+		/* eslint-disable jsx-a11y/role-has-required-aria-props */
+		/* eslint-disable react/jsx-boolean-value */
 		return (
 			<div className={ classnames( "editor-url-input block-editor-url-input", className ) }>
 				<input
@@ -239,7 +252,11 @@ class URLInput extends Component {
 					aria-expanded={ showSuggestions }
 					aria-autocomplete="list"
 					aria-owns={ `editor-url-input-suggestions-${ instanceId }` }
-					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
+					aria-activedescendant={
+						/* eslint-disable no-undefined */
+						selectedSuggestion === null ? undefined : `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }`
+						/* eslint-enable no-undefined */
+					}
 					ref={ this.inputRef }
 				/>
 
@@ -279,7 +296,27 @@ class URLInput extends Component {
 			</div>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
+		/* eslint-enable react/jsx-boolean-value */
+		/* eslint-enable jsx-a11y/role-has-required-aria-props */
 	}
 }
+
+URLInput.propTypes = {
+	autocompleteRef: PropTypes.object,
+	debouncedSpeak: PropTypes.func.isRequired,
+	onChange: PropTypes.func.isRequired,
+	value: PropTypes.string,
+	speak: PropTypes.func.isRequired,
+	autoFocus: PropTypes.bool,
+	instanceId: PropTypes.string.isRequired,
+	className: PropTypes.string,
+};
+
+URLInput.defaultProps = {
+	autocompleteRef: null,
+	value: "",
+	autoFocus: true,
+	className: "",
+};
 
 export default withSpokenMessages( withInstanceId( URLInput ) );
