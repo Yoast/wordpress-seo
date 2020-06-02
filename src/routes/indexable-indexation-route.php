@@ -233,7 +233,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * Prepares the indexation.
 	 */
 	public function prepare() {
-		$this->options_helper->set( 'indexation_started', time() );
+		$this->options_helper->set( 'indexation_started', \time() );
 
 		return $this->respond_with( [], false );
 	}

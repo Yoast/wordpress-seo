@@ -19,9 +19,9 @@ class Remove_Vendor_Prefixing_Comment_Visitor extends NodeVisitorAbstract {
 	/**
 	 * Removes vendor prefixes from comments.
 	 *
-	 * @param \PhpParser\Node $node The node being visited.
+	 * @param Node $node The node being visited.
 	 *
-	 * @return \PhpParser\Node The possibly modified node.
+	 * @return Node The possibly modified node.
 	 */
 	public function leaveNode( Node $node ) {
 		$comment = $node->getDocComment();

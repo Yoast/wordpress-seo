@@ -18,8 +18,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Rebuilder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Rebuilder_Test extends TestCase {
 

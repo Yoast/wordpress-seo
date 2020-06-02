@@ -65,7 +65,7 @@ class Abstract_Presentation {
 			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( $data ) to get a model presentation.' );
 		}
 		$generator = "generate_$name";
-		if ( method_exists( $this, $generator ) ) {
+		if ( \method_exists( $this, $generator ) ) {
 			$this->{$name} = $this->$generator();
 			return $this->{$name};
 		}
@@ -82,7 +82,7 @@ class Abstract_Presentation {
 	 * @codeCoverageIgnore Wrapper method.
 	 */
 	public function __isset( $name ) {
-		return method_exists( $this, "generate_$name" );
+		return \method_exists( $this, "generate_$name" );
 	}
 
 	/**

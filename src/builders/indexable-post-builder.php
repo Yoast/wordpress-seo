@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Exception;
+use WPSEO_Meta;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -343,7 +344,7 @@ class Indexable_Post_Builder {
 	 * @return mixed The value of the indexable entry to use.
 	 */
 	protected function get_meta_value( $post_id, $meta_key ) {
-		$value = \WPSEO_Meta::get_value( $meta_key, $post_id );
+		$value = WPSEO_Meta::get_value( $meta_key, $post_id );
 		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
@@ -463,7 +464,7 @@ class Indexable_Post_Builder {
 
 		if ( ! empty( $image ) ) {
 			$indexable->open_graph_image      = $image['url'];
-			$indexable->open_graph_image_meta = wp_json_encode( $image );
+			$indexable->open_graph_image_meta = \wp_json_encode( $image );
 		}
 	}
 }

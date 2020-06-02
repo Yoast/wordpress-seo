@@ -13,11 +13,13 @@ use WPSEO_Breadcrumbs;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use Yoast_Notification_Center;
+use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-/* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */
-
+/**
+ * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
+ */
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 
@@ -33,6 +35,9 @@ $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowir
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
 
+// Required for the migrations framework.
+$container->register( Adapter::class, Adapter::class )->setAutowired( true )->setPublic( true );
+
 $excluded_files = [
 	'main.php',
 ];
@@ -46,7 +51,6 @@ $excluded_directories = [
 	'backwards-compatibility',
 	'surfaces/values',
 	'presenters',
-	'config/migrations',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
@@ -58,7 +62,9 @@ $base_definition
 	->setAutoconfigured( true )
 	->setPublic( true );
 
-/* @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader */
+/**
+ * @var $loader \Yoast\WP\SEO\Dependency_Injection\Custom_Loader
+ */
 $loader->registerClasses( $base_definition, 'Yoast\\WP\\SEO\\', 'src/*', 'src/{' . $excluded . '}' );
 
 if ( \file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {

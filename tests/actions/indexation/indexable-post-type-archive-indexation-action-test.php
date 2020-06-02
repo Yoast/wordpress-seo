@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -244,12 +244,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		}
 
 		$this->post_type->expects( 'get_public_post_types' )
-		                ->andReturn( $post_type_objects );
+			->andReturn( $post_type_objects );
 
 		foreach ( $post_type_objects as $post_type_object ) {
 			$this->post_type->expects( 'has_archive' )
-			                ->with( $post_type_object )
-			                ->andReturn( $post_type_object->has_archive );
+				->with( $post_type_object )
+				->andReturn( $post_type_object->has_archive );
 		}
 	}
 
@@ -259,9 +259,10 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	 * @param array $post_types The post types for which to return indexables.
 	 */
 	private function set_expectations_for_repository( $post_types ) {
-		$results = \array_map( function( $post_type ) {
+		$callback = function( $post_type ) {
 			return [ 'object_sub_type' => $post_type ];
-		}, $post_types );
+		};
+		$results  = \array_map( $callback, $post_types );
 
 		$query_mock = Mockery::mock( ORM::class );
 		$query_mock->expects( 'select' )->once()->with( 'object_sub_type' )->andReturn( $query_mock );
@@ -281,12 +282,12 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 	private function set_expectations_for_builder( $post_types ) {
 		$indexable_mocks = [];
 		foreach ( $post_types as $post_type ) {
-			$indexable_mock    = Mockery::mock( Indexable::class );
+			$indexable_mock    = Mockery::mock( Indexable_Mock::class );
 			$indexable_mocks[] = $indexable_mock;
 
 			$this->builder->expects( 'build_for_post_type_archive' )
-			              ->with( $post_type )
-			              ->andReturn( $indexable_mock );
+				->with( $post_type )
+				->andReturn( $indexable_mock );
 		}
 
 		return $indexable_mocks;

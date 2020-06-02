@@ -5,13 +5,22 @@
  * @package WPSEO\Migrations
  */
 
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
-use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
  * ExpandIndexableColumnLengths
  */
-class ExpandIndexableColumnLengths extends Ruckusing_Migration_Base {
+class ExpandIndexableColumnLengths extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static $plugin = 'free';
 
 	/**
 	 * Migration up.
@@ -28,35 +37,40 @@ class ExpandIndexableColumnLengths extends Ruckusing_Migration_Base {
 	 * Migration down.
 	 */
 	public function down() {
+		$attr_limit_191 = [
+			'null'  => true,
+			'limit' => 191,
+		];
+
 		$this->change_column(
 			$this->get_table_name(),
 			'title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'opengraph_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'open_graph_image_source',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 		$this->change_column(
 			$this->get_table_name(),
 			'twitter_image_source',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			$attr_limit_191
 		);
 	}
 

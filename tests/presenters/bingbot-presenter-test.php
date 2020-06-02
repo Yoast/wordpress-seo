@@ -6,7 +6,6 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Bingbot_Presenter;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -15,8 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Bingbot_Presenter
  *
  * @group presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Bingbot_Presenter_Test extends TestCase {
 

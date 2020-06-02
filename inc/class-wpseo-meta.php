@@ -960,9 +960,11 @@ class WPSEO_Meta {
 			->where_not_equal( 'object_id', $post_id )
 			->limit( 2 )
 			->find_array();
-		$post_ids = array_map( function ( $row ) {
+
+		$callback = function ( $row ) {
 			return (int) $row['object_id'];
-		}, $post_ids );
+		};
+		$post_ids = array_map( $callback, $post_ids );
 
 		/*
 		 * If Yoast SEO Premium is active, get the additional keywords as well.
@@ -1019,4 +1021,4 @@ class WPSEO_Meta {
 		// @codingStandardsIgnoreLine
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
-} /* End of class */
+}

@@ -62,7 +62,7 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_shortcode( 'wpseo_breadcrumb', [ $this, 'render' ] );
+		\add_shortcode( 'wpseo_breadcrumb', [ $this, 'render' ] );
 	}
 
 	/**

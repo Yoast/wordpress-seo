@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Presenters;
 
 use Mockery;
-use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Robots_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -14,8 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Robots_Presenter
  *
  * @group presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Robots_Presenter_Test extends TestCase {
 
@@ -87,9 +84,12 @@ class Robots_Presenter_Test extends TestCase {
 			'follow' => 'nofollow',
 		];
 
-		$this->assertSame( [
-			'index'  => 'index',
-			'follow' => 'nofollow',
-		], $this->instance->get() );
+		$this->assertSame(
+			[
+				'index'  => 'index',
+				'follow' => 'nofollow',
+			],
+			$this->instance->get()
+		);
 	}
 }
