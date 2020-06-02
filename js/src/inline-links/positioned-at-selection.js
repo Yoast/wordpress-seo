@@ -1,11 +1,5 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * WordPress dependencies
- */
-const { Component } = wp.element;
-const { getOffsetParent, getRectangleFromRange } = wp.dom;
+import { Component } from "@wordpress/element";
+import { getOffsetParent, getRectangleFromRange } from "@wordpress/dom";
 
 /**
  * Returns a style object for applying as `position: absolute` for an element

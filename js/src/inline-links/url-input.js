@@ -1,24 +1,14 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * External dependencies
- */
 import { throttle } from 'lodash';
 import classnames from 'classnames';
 import scrollIntoView from 'dom-scroll-into-view';
-
-/**
- * WordPress dependencies
- */
-const { __, sprintf, _n } = wp.i18n;
-const { Component, createRef } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
-const { UP, DOWN, ENTER, TAB } = wp.keycodes;
-const { Spinner, withSpokenMessages, Popover } = wp.components;
-const { withInstanceId } = wp.compose;
-const apiFetch = wp.apiFetch;
-const { addQueryArgs } = wp.url;
+import apiFetch from "@wordpress/api-fetch";
+import { Spinner, withSpokenMessages, Popover } from "@wordpress/components";
+import { withInstanceId } from "@wordpress/compose";
+import { Component, createRef } from "@wordpress/element";
+import { decodeEntities } from "@wordpress/html-entities";
+import { __, sprintf, _n } from "@wordpress/i18n";
+import { UP, DOWN, ENTER, TAB } from "@wordpress/keycodes";
+import { addQueryArgs } from "@wordpress/url";
 
 // Since URLInput is rendered in the context of other inputs, but should be
 // considered a separate modal node, prevent keyboard events from propagating

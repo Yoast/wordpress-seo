@@ -1,15 +1,6 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * External dependencies
- */
 import { startsWith } from 'lodash';
-
-/**
- * WordPress dependencies
- */
-const {
+import { __, sprintf } from "@wordpress/i18n";
+import {
 	getProtocol,
 	isValidProtocol,
 	getAuthority,
@@ -20,8 +11,7 @@ const {
 	isValidQueryString,
 	getFragment,
 	isValidFragment,
-} = wp.url;
-const { __, sprintf } = wp.i18n;
+} from "@wordpress/url";
 
 /**
  * Check for issues with the provided href.

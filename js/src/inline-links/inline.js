@@ -1,27 +1,21 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * WordPress dependencies
- */
-const { __ } = wp.i18n;
-const { Component, createRef, useMemo, Fragment } = wp.element;
-const {
+import {
 	ToggleControl,
 	withSpokenMessages,
-} = wp.components;
-const { LEFT, RIGHT, UP, DOWN, BACKSPACE, ENTER, ESCAPE } = wp.keycodes;
-const { getRectangleFromRange } = wp.dom;
-const { prependHTTP } = wp.url;
-const {
+} from "@wordpress/components";
+import { getRectangleFromRange } from "@wordpress/dom";
+import { Component, createRef, useMemo, Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { LEFT, RIGHT, UP, DOWN, BACKSPACE, ENTER, ESCAPE } from "@wordpress/keycodes";
+import { prependHTTP } from "@wordpress/url";
+import {
 	create,
 	insert,
 	isCollapsed,
 	applyFormat,
 	getTextContent,
 	slice,
-} = wp.richText;
-const { URLPopover } = wp.blockEditor;
+} from "@wordpress/rich-text";
+import { URLPopover } from "@wordpress/block-editor";
 
 /**
  * Internal dependencies

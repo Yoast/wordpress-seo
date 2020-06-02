@@ -1,20 +1,10 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * External dependencies
- */
 import classnames from 'classnames';
-
-/**
- * WordPress dependencies
- */
-const { __ } = wp.i18n;
-const {
+import {
 	ExternalLink,
 	IconButton,
-} = wp.components;
-const { safeDecodeURI, filterURLForDisplay } = wp.url;
+} from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
+import { safeDecodeURI, filterURLForDisplay } from "@wordpress/url";
 
 function LinkViewerUrl( { url, urlLabel, className } ) {
 	const linkClassName = classnames(

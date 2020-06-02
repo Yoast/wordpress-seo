@@ -1,27 +1,17 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * External dependencies
- */
 import { map } from 'lodash';
-
-/**
- * WordPress dependencies
- */
-const { __ } = wp.i18n;
-const { Component, Fragment } = wp.element;
-const { select, withSelect, dispatch } = wp.data;
-const { BlockControls, RichTextToolbarButton, RichTextShortcut } = wp.blockEditor;
-const {
+import { BlockControls, RichTextToolbarButton, RichTextShortcut } from "@wordpress/block-editor";
+import { Toolbar, withSpokenMessages } from "@wordpress/components";
+import { compose, ifCondition } from "@wordpress/compose";
+import { select, withSelect, dispatch } from "@wordpress/data";
+import { Component, Fragment } from "@wordpress/element";
+import { __ } = "@wordpress/i18n";
+import {
 	getTextContent,
 	applyFormat,
 	removeFormat,
 	slice,
-	getActiveFormat } = wp.richText;
-const { isURL } = wp.url;
-const { Toolbar, withSpokenMessages } = wp.components;
-const { compose, ifCondition } = wp.compose;
+	getActiveFormat } from "@wordpress/rich-text";
+import { isURL } from "@wordpress/url";
 
 /**
  * Internal dependencies

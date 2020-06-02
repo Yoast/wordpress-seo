@@ -1,16 +1,6 @@
-// jshint ignore: start
-/* eslint-disable */
-
-/**
- * External dependencies
- */
 import classnames from 'classnames';
-
-/**
- * WordPress dependencies
- */
-const { __ } = wp.i18n;
-const { IconButton } = wp.components;
+import { IconButton } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
