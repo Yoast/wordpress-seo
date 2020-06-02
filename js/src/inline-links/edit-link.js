@@ -4,7 +4,7 @@ import { Toolbar, withSpokenMessages } from "@wordpress/components";
 import { compose, ifCondition } from "@wordpress/compose";
 import { select, withSelect, dispatch } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
-import { __ } = "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import {
 	getTextContent,
 	applyFormat,
