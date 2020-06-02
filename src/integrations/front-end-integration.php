@@ -198,7 +198,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 4 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
