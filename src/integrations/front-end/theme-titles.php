@@ -26,8 +26,8 @@ class Theme_Titles implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'thematic_doctitle', [ $this, 'title' ], 15 );
-		add_filter( 'woo_title', [ $this, 'title' ], 99 );
+		\add_filter( 'thematic_doctitle', [ $this, 'title' ], 15 );
+		\add_filter( 'woo_title', [ $this, 'title' ], 99 );
 	}
 
 	/**
@@ -42,10 +42,10 @@ class Theme_Titles implements Integration_Interface {
 	 * @return string The title.
 	 */
 	public function title( $title ) {
-		_deprecated_function(
+		\_deprecated_function(
 			__METHOD__,
 			'WPSEO 14.0',
-			esc_html__(
+			\esc_html__(
 				'a theme that has proper title-tag theme support, or adapt your theme to have that support',
 				'wordpress-seo'
 			)

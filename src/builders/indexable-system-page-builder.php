@@ -40,9 +40,7 @@ class Indexable_System_Page_Builder {
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
-	public function __construct(
-		Options_Helper $options
-	) {
+	public function __construct( Options_Helper $options ) {
 		$this->options = $options;
 	}
 

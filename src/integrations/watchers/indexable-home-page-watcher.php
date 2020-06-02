@@ -53,11 +53,11 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 15, 3 );
-		add_action( 'update_option_wpseo_social', [ $this, 'check_option' ], 15, 3 );
-		add_action( 'update_option_blog_public', [ $this, 'build_indexable' ] );
-		add_action( 'update_option_blogdescription', [ $this, 'build_indexable' ] );
-		add_action( 'update_option_home', [ $this, 'build_indexable' ] );
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 15, 3 );
+		\add_action( 'update_option_wpseo_social', [ $this, 'check_option' ], 15, 3 );
+		\add_action( 'update_option_blog_public', [ $this, 'build_indexable' ] );
+		\add_action( 'update_option_blogdescription', [ $this, 'build_indexable' ] );
+		\add_action( 'update_option_home', [ $this, 'build_indexable' ] );
 	}
 
 	/**
@@ -100,7 +100,6 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable() {
 		$indexable = $this->repository->find_for_home_page( false );
-		$indexable = $this->builder->build_for_home_page( $indexable );
-		$indexable->save();
+		$this->builder->build_for_home_page( $indexable );
 	}
 }

@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -25,7 +25,7 @@ class Title_Test extends TestCase {
 	protected $option;
 
 	/**
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 

@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -61,7 +61,7 @@ class WooCommerce_Test extends TestCase {
 	/**
 	 * The indexable.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	private $indexable;
 
@@ -92,7 +92,7 @@ class WooCommerce_Test extends TestCase {
 			->makePartial();
 
 		$presentation       = new Indexable_Presentation();
-		$this->indexable    = new Indexable();
+		$this->indexable    = new Indexable_Mock();
 		$this->presentation = $presentation->of( [ 'model' => $this->indexable ] );
 	}
 
@@ -351,13 +351,15 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function test_title_by_using_the_product_archive_template() {
 		// Sets the stubs.
-		Monkey\Functions\stubs( [
-			'is_shop'        => true,
-			'is_search'      => false,
-			'is_archive'     => true,
-			'wc_get_page_id' => 1337,
-			'get_post'       => [ 'post' ],
-		] );
+		Monkey\Functions\stubs(
+			[
+				'is_shop'        => true,
+				'is_search'      => false,
+				'is_archive'     => true,
+				'wc_get_page_id' => 1337,
+				'get_post'       => [ 'post' ],
+			]
+		);
 
 		$this->options
 			->expects( 'get' )
@@ -384,13 +386,15 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function test_description_by_using_the_product_archive_template() {
 		// Sets the stubs.
-		Monkey\Functions\stubs( [
-			'is_shop'        => true,
-			'is_search'      => false,
-			'is_archive'     => true,
-			'wc_get_page_id' => 1337,
-			'get_post'       => [ 'post' ],
-		] );
+		Monkey\Functions\stubs(
+			[
+				'is_shop'        => true,
+				'is_search'      => false,
+				'is_archive'     => true,
+				'wc_get_page_id' => 1337,
+				'get_post'       => [ 'post' ],
+			]
+		);
 
 		$this->options
 			->expects( 'get' )

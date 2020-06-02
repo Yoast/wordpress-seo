@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Exception;
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -25,8 +26,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Post_Builder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Builder_Test extends TestCase {
 
@@ -89,7 +88,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	/**
 	 * Holds the Indexable_Post_Builder instance.
 	 *
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
+	 * @var Indexable_Post_Builder|Indexable_Post_Builder_Double|Mockery\MockInterface
 	 */
 	private $instance;
 
@@ -106,11 +105,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 
-		$this->instance = Mockery::mock( Indexable_Post_Builder_Double::class, [
-			$this->seo_meta_repository,
-			$this->post,
-			$this->logger,
-		] )
+		$this->instance = Mockery::mock(
+			Indexable_Post_Builder_Double::class,
+			[
+				$this->seo_meta_repository,
+				$this->post,
+				$this->logger,
+			]
+		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -241,14 +243,19 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'twitter_image.jpg' );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [
-			'post_content'  => 'The content of the post',
-			'post_type'     => 'post',
-			'post_status'   => 'publish',
-			'post_password' => '',
-			'post_author'   => '1',
-			'post_parent'   => '0',
-		] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_content'  => 'The content of the post',
+					'post_type'     => 'post',
+					'post_status'   => 'publish',
+					'post_password' => '',
+					'post_author'   => '1',
+					'post_parent'   => '0',
+				]
+			);
 
 		$this->instance->build( 1, $this->indexable );
 	}

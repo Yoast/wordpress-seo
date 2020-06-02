@@ -1191,7 +1191,7 @@ SVG;
 		}
 
 		$wpseo_admin_l10n = [
-			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && ! ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => ! ! $no_index,
 			'isPostType'           => ! ! get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,

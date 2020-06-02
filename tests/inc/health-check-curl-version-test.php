@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Health_Check_Curl_Version;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -11,12 +12,12 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
+class Health_Check_Curl_Version_Test extends TestCase {
 
 	/**
 	 * The instance to test.
 	 *
-	 * @var Mockery\Mock|\WPSEO_Health_Check_Curl_Version
+	 * @var Mockery\Mock|WPSEO_Health_Check_Curl_Version
 	 */
 	private $instance;
 
@@ -26,7 +27,7 @@ class WPSEO_Health_Check_Curl_Version_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( \WPSEO_Health_Check_Curl_Version::class )
+		$this->instance = Mockery::mock( WPSEO_Health_Check_Curl_Version::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}

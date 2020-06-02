@@ -24,8 +24,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
@@ -92,7 +90,6 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_check_option_first_time_save() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -128,7 +125,6 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -154,7 +150,6 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value_new() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -179,11 +174,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value_switched() {
-		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
-
+		$indexable_mock       = Mockery::mock( Indexable::class );
 		$other_indexable_mock = Mockery::mock( Indexable::class );
-		$other_indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -244,7 +236,6 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )

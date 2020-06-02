@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
@@ -175,12 +174,12 @@ class Indexation_Integration implements Integration_Interface {
 			],
 			'message' => [
 				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
-				'indexingFailed'    => __( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
+				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
-				'calculationInProgress' => __( 'Optimization in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => __( 'Optimization completed.', 'wordpress-seo' ),
-				'calculationFailed'     => __( 'Optimization failed, please try again later.', 'wordpress-seo' ),
+				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
 			],
 		];
 
@@ -255,7 +254,7 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		// When the indexation is started, but not completed.
-		if ( $this->options_helper->get( 'indexation_started', false ) > ( time() - MONTH_IN_SECONDS ) ) {
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return true;
 		}
 

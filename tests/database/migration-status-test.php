@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Config\Migration_Status
  * @covers ::<!public>
- *
- * @package Yoast\Tests
  */
 class Migration_Status_Test extends TestCase {
 
@@ -57,7 +55,7 @@ class Migration_Status_Test extends TestCase {
 			->andReturn(
 				[
 					'version' => '1.0',
-					'lock'    => strtotime( '-20 minutes' ),
+					'lock'    => \strtotime( '-20 minutes' ),
 				]
 			);
 
@@ -74,7 +72,7 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => WPSEO_VERSION ] );
+			->andReturn( [ 'version' => \WPSEO_VERSION ] );
 
 		$instance = new Migration_Status();
 
@@ -92,7 +90,7 @@ class Migration_Status_Test extends TestCase {
 			->andReturn(
 				[
 					'version' => '1.0',
-					'lock'    => strtotime( 'now' ),
+					'lock'    => \strtotime( 'now' ),
 				]
 			);
 
@@ -124,7 +122,7 @@ class Migration_Status_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( Migration_Status::MIGRATION_OPTION_KEY . 'test' )
 			->once()
-			->andReturn( [ 'version' => WPSEO_VERSION ] );
+			->andReturn( [ 'version' => \WPSEO_VERSION ] );
 
 		$instance = new Migration_Status();
 
@@ -182,7 +180,7 @@ class Migration_Status_Test extends TestCase {
 	public function test_get_error() {
 		$error = [
 			'message' => 'Something went wrong',
-			'time'    => strtotime( 'now' ),
+			'time'    => \strtotime( 'now' ),
 			'version' => '2.0',
 		];
 
@@ -226,8 +224,8 @@ class Migration_Status_Test extends TestCase {
 			'version' => '1.0',
 			'error'   => [
 				'message' => $error_message,
-				'time'    => strtotime( 'now' ),
-				'version' => WPSEO_VERSION,
+				'time'    => \strtotime( 'now' ),
+				'version' => \WPSEO_VERSION,
 			],
 		];
 
@@ -250,7 +248,7 @@ class Migration_Status_Test extends TestCase {
 	 * @covers ::set_success
 	 */
 	public function test_set_success() {
-		$expected_option = [ 'version' => WPSEO_VERSION ];
+		$expected_option = [ 'version' => \WPSEO_VERSION ];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );
 		Monkey\Functions\expect( 'get_option' )
@@ -273,7 +271,7 @@ class Migration_Status_Test extends TestCase {
 	public function test_lock_migration() {
 		$expected_option = [
 			'version' => '1.0',
-			'lock'    => strtotime( 'now' ),
+			'lock'    => \strtotime( 'now' ),
 		];
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->twice()->andReturn( 1 );

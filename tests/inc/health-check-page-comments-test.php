@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
+use WPSEO_Health_Check_Page_Comments;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -10,7 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
+class Health_Check_Page_Comments_Test extends TestCase {
 
 	/**
 	 * Tests the run method when page_comments are disabled.
@@ -24,7 +25,7 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 			->with( 'page_comments' )
 			->andReturn( '0' );
 
-		$health_check = new \WPSEO_Health_Check_Page_Comments();
+		$health_check = new WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
@@ -45,7 +46,7 @@ class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 
 		Monkey\Functions\expect( 'admin_url' )->andReturn( '' );
 
-		$health_check = new \WPSEO_Health_Check_Page_Comments();
+		$health_check = new WPSEO_Health_Check_Page_Comments();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.

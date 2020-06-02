@@ -6,7 +6,6 @@
 namespace Yoast\WP\SEO\Tests\Presenters\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
