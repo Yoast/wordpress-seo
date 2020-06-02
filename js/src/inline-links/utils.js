@@ -1,4 +1,4 @@
-import { startsWith } from "lodash";
+import { startsWith, uniq } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import {
 	getProtocol,
@@ -94,7 +94,7 @@ export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, 
 		},
 	};
 
-	const relAttributes = [];
+	let relAttributes = [];
 
 	if ( opensInNewWindow ) {
 		// translators: accessibility label for external links, where the argument is the link text
@@ -106,15 +106,17 @@ export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, 
 		relAttributes.push( "noreferrer noopener" );
 	}
 
+	if ( sponsored ) {
+		relAttributes.push( "sponsored" );
+		relAttributes.push( "nofollow" );
+	}
+
 	if ( noFollow ) {
 		relAttributes.push( "nofollow" );
 	}
 
-	if ( sponsored ) {
-		relAttributes.push( "sponsored" );
-	}
-
 	if ( relAttributes.length > 0 ) {
+		relAttributes = uniq( relAttributes );
 		format.attributes.rel = relAttributes.join( " " );
 	}
 

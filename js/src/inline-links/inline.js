@@ -235,8 +235,18 @@ class InlineLinkUI extends Component {
 	 */
 	setNoFollow( noFollow ) {
 		const { activeAttributes: { url = "" }, value, onChange } = this.props;
+		let sponsored = this.state.sponsored;
 
-		this.setState( { noFollow } );
+		if ( noFollow === false && sponsored === true ) {
+			sponsored = false;
+
+			this.setState( {
+				noFollow,
+				sponsored,
+			} );
+		} else {
+			this.setState( { noFollow } );
+		}
 
 		// Apply now if URL is not being edited.
 		if ( ! isShowingInput( this.props, this.state ) ) {
@@ -246,7 +256,7 @@ class InlineLinkUI extends Component {
 				url,
 				opensInNewWindow: this.state.opensInNewWindow,
 				noFollow,
-				sponsored: this.state.sponsored,
+				sponsored,
 				text: selectedText,
 			} ) ) );
 		}
@@ -261,8 +271,18 @@ class InlineLinkUI extends Component {
 	 */
 	setSponsored( sponsored ) {
 		const { activeAttributes: { url = "" }, value, onChange } = this.props;
+		let noFollow = this.state.noFollow;
 
-		this.setState( { sponsored } );
+		if ( sponsored === true && noFollow === false ) {
+			noFollow = true;
+
+			this.setState( {
+				noFollow,
+				sponsored,
+			} );
+		} else {
+			this.setState( { sponsored } );
+		}
 
 		// Apply now if URL is not being edited.
 		if ( ! isShowingInput( this.props, this.state ) ) {
@@ -271,7 +291,7 @@ class InlineLinkUI extends Component {
 			onChange( applyFormat( value, createLinkFormat( {
 				url,
 				opensInNewWindow: this.state.opensInNewWindow,
-				noFollow: this.state.noFollow,
+				noFollow,
 				sponsored,
 				text: selectedText,
 			} ) ) );
