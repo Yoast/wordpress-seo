@@ -229,7 +229,7 @@ class WPSEO_Options {
 		foreach ( $option_names as $option_name ) {
 			if ( isset( static::$option_instances[ $option_name ] ) ) {
 				$option  = static::get_option( $option_name );
-        
+
 				if ( $option !== null ) {
 					$options = array_merge( $options, $option );
 				}
