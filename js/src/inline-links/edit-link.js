@@ -185,7 +185,10 @@ class EditLink extends Component {
 }
 
 EditLink.propTypes = {
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.object,
+	] ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	speak: PropTypes.func.isRequired,
 	activeAttributes: PropTypes.object.isRequired,

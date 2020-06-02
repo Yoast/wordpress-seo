@@ -48,7 +48,10 @@ LinkEditor.propTypes = {
 	autocompleteRef: PropTypes.object,
 	className: PropTypes.string,
 	onChangeInputValue: PropTypes.func.isRequired,
-	value: PropTypes.object.isRequired,
+	value: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.object,
+	] ).isRequired,
 };
 
 LinkEditor.defaultProps = {

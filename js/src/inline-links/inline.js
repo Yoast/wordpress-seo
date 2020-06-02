@@ -104,7 +104,10 @@ URLPopoverAtLink.propTypes = {
 	resetOnMount: PropTypes.func.isRequired,
 	isActive: PropTypes.bool.isRequired,
 	addingLink: PropTypes.bool.isRequired,
-	value: PropTypes.object.isRequired,
+	value: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.object,
+	] ).isRequired,
 };
 
 /**
@@ -472,7 +475,10 @@ class InlineLinkUI extends Component {
 InlineLinkUI.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	addingLink: PropTypes.bool.isRequired,
-	value: PropTypes.object.isRequired,
+	value: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.object,
+	] ).isRequired,
 	activeAttributes: PropTypes.object.isRequired,
 	onChange: PropTypes.func.isRequired,
 	speak: PropTypes.func.isRequired,

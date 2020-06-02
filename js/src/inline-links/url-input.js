@@ -373,10 +373,13 @@ URLInput.propTypes = {
 	autocompleteRef: PropTypes.object,
 	debouncedSpeak: PropTypes.func.isRequired,
 	onChange: PropTypes.func.isRequired,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType( [
+		PropTypes.string,
+		PropTypes.object,
+	] ),
 	speak: PropTypes.func.isRequired,
 	autoFocus: PropTypes.bool,
-	instanceId: PropTypes.string.isRequired,
+	instanceId: PropTypes.number.isRequired,
 	className: PropTypes.string,
 };
 
