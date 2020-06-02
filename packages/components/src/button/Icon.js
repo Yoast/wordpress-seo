@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
 
 const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true" focusable="false">
@@ -26,36 +25,8 @@ export const CloseButton = ( props ) => {
 
 CloseButton.propTypes = {
 	...sharedButtonPropTypes,
-	onClick: PropTypes.func.isRequired,
 };
 
 CloseButton.defaultProps = {
-	...sharedButtonDefaultProps,
-};
-
-/**
- * An Close link.
- *
- * @param {Object} props The props object.
- *
- * @returns {ReactElement} An Close link component.
- */
-export const CloseLink = ( props ) => {
-	return <Button
-		className="yoast-close"
-		aria-label="Close"
-		isLink={ true }
-		{ ...props }
-	>
-		{ closeIcon }
-	</Button>;
-};
-
-CloseLink.propTypes = {
-	...sharedButtonPropTypes,
-	href: PropTypes.string.isRequired,
-};
-
-CloseLink.defaultProps = {
 	...sharedButtonDefaultProps,
 };

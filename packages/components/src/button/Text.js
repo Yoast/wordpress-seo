@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Button, { sharedButtonDefaultProps, sharedButtonPropTypes } from "./Button";
 
 /**
@@ -18,34 +17,9 @@ export const HideButton = ( props ) => {
 
 HideButton.propTypes = {
 	...sharedButtonPropTypes,
-	onClick: PropTypes.func.isRequired,
 };
 
 HideButton.defaultProps = {
-	...sharedButtonDefaultProps,
-};
-
-/**
- * A hide link.
- *
- * @param {Object} props The props object.
- *
- * @returns {ReactElement} A hide link component.
- */
-export const HideLink = ( props ) => {
-	return <Button
-		className="yoast-hide"
-		isLink={ true }
-		{ ...props }
-	/>;
-};
-
-HideLink.propTypes = {
-	...sharedButtonPropTypes,
-	href: PropTypes.string.isRequired,
-};
-
-HideLink.defaultProps = {
 	...sharedButtonDefaultProps,
 };
 
@@ -65,33 +39,8 @@ export const RemoveButton = ( props ) => {
 
 RemoveButton.propTypes = {
 	...sharedButtonPropTypes,
-	onClick: PropTypes.func.isRequired,
 };
 
 RemoveButton.defaultProps = {
-	...sharedButtonDefaultProps,
-};
-
-/**
- * A remove link.
- *
- * @param {Object} props The props object.
- *
- * @returns {ReactElement} A remove link component.
- */
-export const RemoveLink = ( props ) => {
-	return <Button
-		className="yoast-remove"
-		isLink={ true }
-		{ ...props }
-	/>;
-};
-
-RemoveLink.propTypes = {
-	...sharedButtonPropTypes,
-	href: PropTypes.string.isRequired,
-};
-
-RemoveLink.defaultProps = {
 	...sharedButtonDefaultProps,
 };

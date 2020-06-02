@@ -10,17 +10,22 @@ export const sharedButtonPropTypes = {
 			PropTypes.arrayOf( PropTypes.node ),
 		]
 	),
+	onClick: PropTypes.func,
+	href: PropTypes.string,
 };
 
 export const sharedButtonDefaultProps = {
 	isLink: false,
 	children: null,
+	onClick: null,
+	href: null,
 };
 
 /**
  * Creates a button component.
  *
  * @param {Object} props The props
+ * @param {bool} props.isLink When true, Button will return an anchor <a> rather than a <button>.
  *
  * @returns {ReactElemen} The Button component.
  */
@@ -34,31 +39,17 @@ const Button = ( props ) => {
 	} = props;
 
 	if ( isLink ) {
-		// Split link specific props from all additional props.
-		const {
-			href,
-			...linkProps
-		} = restProps;
-
 		return <a
-			href={ href }
 			className={ className }
-			{ ...linkProps }
+			{ ...restProps }
 		>
 			{ children }
 		</a>;
 	}
 
-	// Split button specific props from all additional props.
-	const {
-		onClick,
-		...buttonProps
-	} = restProps;
-
 	return <button
-		onClick={ onClick }
 		className={ className }
-		{ ...buttonProps }
+		{ ...restProps }
 	>
 		{ children }
 	</button>;

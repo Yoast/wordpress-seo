@@ -9,17 +9,11 @@ import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
 	Button,
 	PrimaryButton,
-	PrimaryLink,
 	SecondaryButton,
-	SecondaryLink,
 	UpsellButton,
-	UpsellLink,
 	HideButton,
-	HideLink,
 	RemoveButton,
-	RemoveLink,
 	CloseButton,
-	CloseLink,
 } from "@yoast/components/src/button";
 
 /**
@@ -34,19 +28,19 @@ function clickerDiClick() {
 const buttonGrouping = <Fragment>
 	<Button title="Testing whether other props">Naked button</Button>
 	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
-	<PrimaryLink href="#" title="Other props work!">Primary link</PrimaryLink>
+	<PrimaryButton href="#" isLink={ true } title="Other props work!">Primary link</PrimaryButton>
 	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
-	<SecondaryLink href="#" title="Other props work!">Secondary link</SecondaryLink>
+	<SecondaryButton href="#" isLink={ true } title="Other props work!">Secondary link</SecondaryButton>
 	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellLink href="#" title="Other props work!">Upsell link</UpsellLink>
+	<UpsellButton href="#" isLink={ true } title="Other props work!">Upsell link</UpsellButton>
 	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellLink href="#" caret={ true } title="Other props work!">Upsell link</UpsellLink>
+	<UpsellButton href="#" isLink={ true } caret={ true } title="Other props work!">Upsell link</UpsellButton>
 	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
-	<HideLink href="#" title="Other props work!">Hide link</HideLink>
+	<HideButton href="#" isLink={ true } title="Other props work!">Hide link</HideButton>
 	<RemoveButton onClick={ clickerDiClick } title="Other props work!">Remove button</RemoveButton>
-	<RemoveLink href="#" title="Other props work!">Remove link</RemoveLink>
+	<RemoveButton href="#" isLink={ true } title="Other props work!">Remove link</RemoveButton>
 	<CloseButton onClick={ clickerDiClick } title="Other props work!" />
-	<CloseLink href="#" title="Other props work!" />
+	<CloseButton href="#" isLink={ true } title="Other props work!" />
 </Fragment>;
 
 /**
