@@ -50,6 +50,7 @@ class Indexable_Repository {
 
 	/**
 	 * The WordPress database.
+	 *
 	 * @var \wpdb
 	 */
 	protected $wpdb;

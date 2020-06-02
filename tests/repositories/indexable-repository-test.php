@@ -64,6 +64,13 @@ class Indexable_Repository_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * Represents the WordPress database.
+	 *
+	 * @var \wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -73,6 +80,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->wpdb                 = Mockery::mock( \wpdb::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -80,6 +88,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->current_page,
 				$this->logger,
 				$this->hierarchy_repository,
+				$this->wpdb
 			]
 		)->makePartial();
 	}
