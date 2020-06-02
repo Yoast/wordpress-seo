@@ -20,10 +20,10 @@ import { URLPopover } from "@wordpress/block-editor";
 /**
  * Internal dependencies
  */
-import { createLinkFormat, isValidHref } from './utils';
-import PositionedAtSelection from './positioned-at-selection';
-import LinkEditor from './link-editor';
-import LinkViewer from './link-viewer';
+import { createLinkFormat, isValidHref } from "./utils";
+import PositionedAtSelection from "./positioned-at-selection";
+import LinkEditor from "./link-editor";
+import LinkViewer from "./link-viewer";
 
 const stopKeyPropagation = ( event ) => event.stopPropagation();
 
@@ -52,7 +52,7 @@ const URLPopoverAtLink = ( { isActive, addingLink, value, resetOnMount, ...props
 			element = element.parentNode;
 		}
 
-		const closest = element.closest( 'a' );
+		const closest = element.closest( "a" );
 		if ( closest ) {
 			return closest.getBoundingClientRect();
 		}
@@ -87,14 +87,14 @@ class InlineLinkUI extends Component {
 			opensInNewWindow: false,
 			noFollow: false,
 			sponsored: false,
-			inputValue: '',
+			inputValue: "",
 			anchorRect: false,
 		};
 	}
 
 	static getDerivedStateFromProps( props, state ) {
 		const { activeAttributes: { url, target, rel } } = props;
-		const opensInNewWindow = target === '_blank';
+		const opensInNewWindow = target === "_blank";
 
 		if ( ! isShowingInput( props, state ) ) {
 			if ( url !== state.inputValue ) {
@@ -105,9 +105,9 @@ class InlineLinkUI extends Component {
 				return { opensInNewWindow };
 			}
 
-			if ( typeof rel === 'string' ) {
-				const noFollow = rel.split( ' ' ).includes( 'nofollow' );
-				const sponsored = rel.split( ' ' ).includes( 'sponsored' );
+			if ( typeof rel === "string" ) {
+				const noFollow = rel.split( " " ).includes( "nofollow" );
+				const sponsored = rel.split( " " ).includes( "sponsored" );
 
 				if ( noFollow !== state.noFollow ) {
 					return { noFollow };
@@ -138,7 +138,7 @@ class InlineLinkUI extends Component {
 	}
 
 	setLinkTarget( opensInNewWindow ) {
-		const { activeAttributes: { url = '' }, value, onChange } = this.props;
+		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
 		this.setState( { opensInNewWindow } );
 
@@ -157,7 +157,7 @@ class InlineLinkUI extends Component {
 	}
 
 	setNoFollow( noFollow ) {
-		const { activeAttributes: { url = '' }, value, onChange } = this.props;
+		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
 		this.setState( { noFollow } );
 
@@ -176,7 +176,7 @@ class InlineLinkUI extends Component {
 	}
 
 	setSponsored( sponsored ) {
-		const { activeAttributes: { url = '' }, value, onChange } = this.props;
+		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
 		this.setState( { sponsored } );
 
@@ -224,11 +224,11 @@ class InlineLinkUI extends Component {
 		this.resetState();
 
 		if ( ! isValidHref( url ) ) {
-			speak( __( 'Warning: the link has been inserted but could have errors. Please test it.', 'wordpress-seo' ), 'assertive' );
+			speak( __( "Warning: the link has been inserted but could have errors. Please test it.", "wordpress-seo" ), "assertive" );
 		} else if ( isActive ) {
-			speak( __( 'Link edited.', 'wordpress-seo' ), 'assertive' );
+			speak( __( "Link edited.", "wordpress-seo" ), "assertive" );
 		} else {
-			speak( __( 'Link inserted.', 'wordpress-seo' ), 'assertive' );
+			speak( __( "Link inserted.", "wordpress-seo" ), "assertive" );
 		}
 	}
 
@@ -266,13 +266,13 @@ class InlineLinkUI extends Component {
 		const { inputValue, opensInNewWindow, noFollow, sponsored } = this.state;
 		const showInput = isShowingInput( this.props, this.state );
 
-		if ( ! opensInNewWindow && target === '_blank' ) {
+		if ( ! opensInNewWindow && target === "_blank" ) {
 			this.setState( { opensInNewWindow: true } );
 		}
 
-		if ( typeof rel === 'string' ) {
-			const relNoFollow = rel.split( ' ' ).includes( 'nofollow' );
-			const relSponsored = rel.split( ' ' ).includes( 'sponsored' );
+		if ( typeof rel === "string" ) {
+			const relNoFollow = rel.split( " " ).includes( "nofollow" );
+			const relSponsored = rel.split( " " ).includes( "sponsored" );
 
 			if ( relNoFollow !== noFollow ) {
 				this.setState( { noFollow: relNoFollow } );
@@ -298,21 +298,21 @@ class InlineLinkUI extends Component {
 							this.resetState();
 						}
 					} }
-					focusOnMount={ showInput ? 'firstElement' : false }
+					focusOnMount={ showInput ? "firstElement" : false }
 					renderSettings={ () => (
 						<Fragment>
 							<ToggleControl
-								label={ __( 'Open in New Tab', 'wordpress-seo' ) }
+								label={ __( "Open in New Tab", "wordpress-seo" ) }
 								checked={ opensInNewWindow }
 								onChange={ this.setLinkTarget }
 							/>
 							<ToggleControl
-								label={ __( 'Add "nofollow" to link', 'wordpress-seo' ) }
+								label={ __( "Add 'nofollow' to link", "wordpress-seo" ) }
 								checked={ noFollow }
 								onChange={ this.setNoFollow }
 							/>
 							<ToggleControl
-								label={ __( 'Add "sponsored" to link', 'wordpress-seo' ) }
+								label={ __( "Add 'sponsored' to link", "wordpress-seo" ) }
 								checked={ sponsored }
 								onChange={ this.setSponsored }
 							/>
@@ -335,7 +335,7 @@ class InlineLinkUI extends Component {
 							onKeyPress={ stopKeyPropagation }
 							url={ url }
 							onEditLinkClick={ this.editLink }
-							linkClassName={ isValidHref( prependHTTP( url ) ) ? undefined : 'has-invalid-link' }
+							linkClassName={ isValidHref( prependHTTP( url ) ) ? undefined : "has-invalid-link" }
 						/>
 					) }
 

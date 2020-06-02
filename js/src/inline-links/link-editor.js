@@ -1,11 +1,11 @@
-import classnames from 'classnames';
+import classnames from "classnames";
 import { IconButton } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
 /**
  * Internal dependencies
  */
-import URLInput from './url-input';
+import URLInput from "./url-input";
 
 export default function LinkEditor( {
 	autocompleteRef,
@@ -17,7 +17,7 @@ export default function LinkEditor( {
 	return (
 		<form
 			className={ classnames(
-				'block-editor-url-popover__link-editor',
+				"block-editor-url-popover__link-editor",
 				className
 			) }
 			{ ...props }
@@ -27,7 +27,7 @@ export default function LinkEditor( {
 				onChange={ onChangeInputValue }
 				autocompleteRef={ autocompleteRef }
 			/>
-			<IconButton icon="editor-break" label={ __( 'Apply', 'wordpress-seo' ) } type="submit" />
+			<IconButton icon="editor-break" label={ __( "Apply", "wordpress-seo" ) } type="submit" />
 		</form>
 	);
 }

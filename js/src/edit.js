@@ -52,21 +52,21 @@ class Edit {
 		this._localizedData = this.getLocalizedData();
 		this._args =          args;
 		this.link = {
-			name: 'yoast-seo/link',
-			title: __( 'Link', 'wordpress-seo' ),
-			tagName: 'a',
-			className: 'yoast-seo-link',
+			name: "yoast-seo/link",
+			title: __( "Link", "wordpress-seo" ),
+			tagName: "a",
+			className: "yoast-seo-link",
 			attributes: {
-				url: 'href',
-				target: 'target',
-				rel: 'rel',
+				url: "href",
+				target: "target",
+				rel: "rel",
 			},
 			__unstablePasteRule( value, { html, plainText } ) {
 				if ( isCollapsed( value ) ) {
 					return value;
 				}
 
-				const pastedText = ( html || plainText ).replace( /<[^>]+>/g, '' ).trim();
+				const pastedText = ( html || plainText ).replace( /<[^>]+>/g, "" ).trim();
 
 				if ( ! isURL( pastedText ) ) {
 					return value;

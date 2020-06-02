@@ -1,4 +1,4 @@
-import { startsWith } from 'lodash';
+import { startsWith } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import {
 	getProtocol,
@@ -41,7 +41,7 @@ export function isValidHref( href ) {
 		// Add some extra checks for http(s) URIs, since these are the most common use-case.
 		// This ensures URIs with an http protocol have exactly two forward slashes following the protocol.
 		// eslint-disable-next-line no-useless-escape
-		if ( startsWith( protocol, 'http' ) && ! /^https?:\/\/[^\/\s]/i.test( trimmedHref ) ) {
+		if ( startsWith( protocol, "http" ) && ! /^https?:\/\/[^\/\s]/i.test( trimmedHref ) ) {
 			return false;
 		}
 
@@ -67,7 +67,7 @@ export function isValidHref( href ) {
 	}
 
 	// Validate anchor links.
-	if ( startsWith( trimmedHref, '#' ) && ! isValidFragment( trimmedHref ) ) {
+	if ( startsWith( trimmedHref, "#" ) && ! isValidFragment( trimmedHref ) ) {
 		return false;
 	}
 
@@ -86,7 +86,7 @@ export function isValidHref( href ) {
  */
 export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, text } ) {
 	const format = {
-		type: 'yoast-seo/link',
+		type: "yoast-seo/link",
 		attributes: {
 			url,
 		},
@@ -96,24 +96,24 @@ export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, 
 
 	if ( opensInNewWindow ) {
 		// translators: accessibility label for external links, where the argument is the link text
-		const label = sprintf( __( '%s (opens in a new tab)', 'wordpress-seo' ), text );
+		const label = sprintf( __( "%s (opens in a new tab)", "wordpress-seo" ), text );
 
-		format.attributes.target = '_blank';
-		format.attributes[ 'aria-label' ] = label;
+		format.attributes.target = "_blank";
+		format.attributes[ "aria-label" ] = label;
 
-		relAttributes.push( 'noreferrer noopener' );
+		relAttributes.push( "noreferrer noopener" );
 	}
 
 	if ( noFollow ) {
-		relAttributes.push( 'nofollow' );
+		relAttributes.push( "nofollow" );
 	}
 
 	if ( sponsored ) {
-		relAttributes.push( 'sponsored' );
+		relAttributes.push( "sponsored" );
 	}
 
 	if ( relAttributes.length > 0 ) {
-		format.attributes.rel = relAttributes.join( ' ' );
+		format.attributes.rel = relAttributes.join( " " );
 	}
 
 	return format;

@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import classnames from "classnames";
 import {
 	ExternalLink,
 	IconButton,
@@ -9,7 +9,7 @@ import { safeDecodeURI, filterURLForDisplay } from "@wordpress/url";
 function LinkViewerUrl( { url, urlLabel, className } ) {
 	const linkClassName = classnames(
 		className,
-		'block-editor-url-popover__link-viewer-url'
+		"block-editor-url-popover__link-viewer-url"
 	);
 
 	if ( ! url ) {
@@ -37,13 +37,13 @@ export default function LinkViewer( {
 	return (
 		<div
 			className={ classnames(
-				'block-editor-url-popover__link-viewer',
+				"block-editor-url-popover__link-viewer",
 				className
 			) }
 			{ ...props }
 		>
 			<LinkViewerUrl url={ url } urlLabel={ urlLabel } className={ linkClassName } />
-			{ onEditLinkClick && <IconButton icon="edit" label={ __( 'Edit', 'wordpress-seo' ) } onClick={ onEditLinkClick } /> }
+			{ onEditLinkClick && <IconButton icon="edit" label={ __( "Edit", "wordpress-seo" ) } onClick={ onEditLinkClick } /> }
 		</div>
 	);
 }

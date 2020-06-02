@@ -1,6 +1,6 @@
-import { throttle } from 'lodash';
-import classnames from 'classnames';
-import scrollIntoView from 'dom-scroll-into-view';
+import { throttle } from "lodash";
+import classnames from "classnames";
+import scrollIntoView from "dom-scroll-into-view";
 import apiFetch from "@wordpress/api-fetch";
 import { Spinner, withSpokenMessages, Popover } from "@wordpress/components";
 import { withInstanceId } from "@wordpress/compose";
@@ -80,15 +80,15 @@ class URLInput extends Component {
 		} );
 
 		const request = apiFetch( {
-			path: addQueryArgs( '/wp/v2/search', {
+			path: addQueryArgs( "/wp/v2/search", {
 				search: value,
 				per_page: 20,
-				type: 'post',
+				type: "post",
 			} ),
 		} );
 
 		request.then( ( posts ) => {
-			// A fetch Promise doesn't have an abort option. It's mimicked by
+			// A fetch Promise doesn"t have an abort option. It"s mimicked by
 			// comparing the request reference in on the instance, which is
 			// reset or deleted on subsequent requests or unmounting.
 			if ( this.suggestionsRequest !== request ) {
@@ -102,12 +102,12 @@ class URLInput extends Component {
 
 			if ( posts.length ) {
 				this.props.debouncedSpeak( sprintf( _n(
-					'%d result found, use up and down arrow keys to navigate.',
-					'%d results found, use up and down arrow keys to navigate.',
+					"%d result found, use up and down arrow keys to navigate.",
+					"%d results found, use up and down arrow keys to navigate.",
 					posts.length
-				), posts.length ), 'assertive' );
+				), posts.length ), "assertive" );
 			} else {
-				this.props.debouncedSpeak( __( 'No results.', 'wordpress-seo' ), 'assertive' );
+				this.props.debouncedSpeak( __( "No results.", "wordpress-seo" ), "assertive" );
 			}
 		} ).catch( () => {
 			if ( this.suggestionsRequest === request ) {
@@ -128,10 +128,10 @@ class URLInput extends Component {
 
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, posts, loading } = this.state;
-		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
-		// We shouldn't preventDefault to allow block arrow keys navigation
+		// If the suggestions are not shown or loading, we shouldn"t handle the arrow keys
+		// We shouldn"t preventDefault to allow block arrow keys navigation
 		if ( ! showSuggestions || ! posts.length || loading ) {
-			// In the Windows version of Firefox the up and down arrows don't move the caret
+			// In the Windows version of Firefox the up and down arrows don"t move the caret
 			// within an input field like they do for Mac Firefox/Chrome/Safari. This causes
 			// a form of focus trapping that is disruptive to the user experience. This disruption
 			// only happens if the caret is not in the first or last position in the text input.
@@ -191,7 +191,7 @@ class URLInput extends Component {
 				if ( this.state.selectedSuggestion !== null ) {
 					this.selectLink( post );
 					// Announce a link has been selected when tabbing away from the input field.
-					this.props.speak( __( 'Link selected.', 'wordpress-seo' ) );
+					this.props.speak( __( "Link selected.", "wordpress-seo" ) );
 				}
 				break;
 			}
@@ -220,20 +220,20 @@ class URLInput extends Component {
 	}
 
 	render() {
-		const { value = '', autoFocus = true, instanceId, className } = this.props;
+		const { value = "", autoFocus = true, instanceId, className } = this.props;
 		const { showSuggestions, posts, selectedSuggestion, loading } = this.state;
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<div className={ classnames( 'editor-url-input block-editor-url-input', className ) }>
+			<div className={ classnames( "editor-url-input block-editor-url-input", className ) }>
 				<input
 					autoFocus={ autoFocus }
 					type="text"
-					aria-label={ __( 'URL', 'wordpress-seo' ) }
+					aria-label={ __( "URL", "wordpress-seo" ) }
 					required
 					value={ value }
 					onChange={ this.onChange }
 					onInput={ stopEventPropagation }
-					placeholder={ __( 'Paste URL or type to search', 'wordpress-seo' ) }
+					placeholder={ __( "Paste URL or type to search", "wordpress-seo" ) }
 					onKeyDown={ this.onKeyDown }
 					role="combobox"
 					aria-expanded={ showSuggestions }
@@ -249,8 +249,8 @@ class URLInput extends Component {
 					<Popover position="bottom" noArrow focusOnMount={ false }>
 						<div
 							className={ classnames(
-								'editor-url-input__suggestions',
-								'block-editor-url-input__suggestions',
+								"editor-url-input__suggestions",
+								"block-editor-url-input__suggestions",
 								`${ className }__suggestions`
 							) }
 							id={ `editor-url-input-suggestions-${ instanceId }` }
@@ -264,13 +264,13 @@ class URLInput extends Component {
 									tabIndex="-1"
 									id={ `editor-url-input-suggestion-${ instanceId }-${ index }` }
 									ref={ this.bindSuggestionNode( index ) }
-									className={ classnames( 'editor-url-input__suggestion block-editor-url-input__suggestion', {
-										'is-selected': index === selectedSuggestion,
+									className={ classnames( "editor-url-input__suggestion block-editor-url-input__suggestion", {
+										"is-selected": index === selectedSuggestion,
 									} ) }
 									onClick={ () => this.handleOnClick( post ) }
 									aria-selected={ index === selectedSuggestion }
 								>
-									{ decodeEntities( post.title ) || __( '(no title)', 'wordpress-seo' ) }
+									{ decodeEntities( post.title ) || __( "(no title)", "wordpress-seo" ) }
 								</button>
 							) ) }
 						</div>
