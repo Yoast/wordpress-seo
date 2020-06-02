@@ -88,8 +88,8 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 */
 	public function test_invalid_authentication() {
 		// Expected returned class by client
-		$tokens_class = Mockery::mock( OAuth_Authentication_Failed_Exception::class );
-		$tokens_class
+		$failed_tokens_request = Mockery::mock( OAuth_Authentication_Failed_Exception::class );
+		$failed_tokens_request
 			->expects( 'get_response' )
 			->once()
 			->andReturn(
@@ -102,7 +102,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 		$this->client_instance
 			->expects( 'get_access_tokens' )
 			->with( '123456' )
-			->andReturn( $tokens_class );
+			->andReturn( $failed_tokens_request );
 
 		$this->assertEquals(
 			(object) [
