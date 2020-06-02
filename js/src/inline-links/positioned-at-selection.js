@@ -6,7 +6,7 @@ import { getOffsetParent, getRectangleFromRange } from "@wordpress/dom";
  * relative to the bottom-center of the current selection. Includes `top` and
  * `left` style properties.
  *
- * @return {Object} Style object.
+ * @returns {Object} Style object.
  */
 function getCurrentCaretPositionStyle() {
 	const selection = window.getSelection();

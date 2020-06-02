@@ -18,7 +18,7 @@ import {
  *
  * @param {string} href The href.
  *
- * @return {boolean} Is the href invalid?
+ * @returns {boolean} Is the href invalid?
  */
 export function isValidHref( href ) {
 	if ( ! href ) {
@@ -82,7 +82,7 @@ export function isValidHref( href ) {
  * @param {boolean} options.opensInNewWindow Whether this link will open in a new window.
  * @param {Object}  options.text             The text that is being hyperlinked.
  *
- * @return {Object} The final format object.
+ * @returns {Object} The final format object.
  */
 export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, text } ) {
 	const format = {
