@@ -13,6 +13,7 @@ import {
 	isValidFragment,
 } from "@wordpress/url";
 
+/* eslint-disable complexity */
 /**
  * Check for issues with the provided href.
  *
@@ -73,6 +74,7 @@ export function isValidHref( href ) {
 
 	return true;
 }
+/* eslint-enable complexity */
 
 /**
  * Generates the format object that will be applied to the link text.

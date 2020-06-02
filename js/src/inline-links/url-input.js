@@ -24,6 +24,13 @@ const stopEventPropagation = ( event ) => event.stopPropagation();
  * The UrlInput component.
  */
 class URLInput extends Component {
+	/**
+	 * The constructor.
+	 *
+	 * @param {object} autocompleteRef The autocomplete Ref.
+	 *
+	 * @returns {void}
+	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
@@ -42,6 +49,11 @@ class URLInput extends Component {
 		};
 	}
 
+	/**
+	 * Lifecycle function.
+	 *
+	 * @returns {void}
+	 */
 	componentDidUpdate() {
 		const { showSuggestions, selectedSuggestion } = this.state;
 		// Only have to worry about scrolling selected suggestion into view when already expanded.
@@ -57,16 +69,34 @@ class URLInput extends Component {
 		}
 	}
 
+	/**
+	 * Lifecycle function.
+	 *
+	 * @returns {void}
+	 */
 	componentWillUnmount() {
 		delete this.suggestionsRequest;
 	}
 
+	/**
+	 * Binds the refs to suggestionnodes.
+	 *
+	 * @param {int} index the index of the node.
+	 * @returns {Function} the function.
+	 */
 	bindSuggestionNode( index ) {
 		return ( ref ) => {
 			this.suggestionNodes[ index ] = ref;
 		};
 	}
 
+	/**
+	 * Updates the suggestions.
+	 *
+	 * @param {string} value The value string.
+	 *
+	 * @returns {void}
+	 */
 	updateSuggestions( value ) {
 		// Show the suggestions after typing at least 2 characters and also for URLs.
 		if ( value.length < 2 || /^https?:/.test( value ) ) {
@@ -85,6 +115,7 @@ class URLInput extends Component {
 			loading: true,
 		} );
 
+		/* eslint-disable camelcase */
 		const request = apiFetch( {
 			path: addQueryArgs( "/wp/v2/search", {
 				search: value,
@@ -92,6 +123,7 @@ class URLInput extends Component {
 				type: "post",
 			} ),
 		} );
+		/* eslint-enable camelcase */
 
 		/**
 		 * A fetch Promise doesn"t have an abort option. It"s mimicked by comparing the request reference in on the instance,
@@ -128,12 +160,28 @@ class URLInput extends Component {
 		this.suggestionsRequest = request;
 	}
 
+	/**
+	 * Onchange callback.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
 	onChange( event ) {
 		const inputValue = event.target.value;
 		this.props.onChange( inputValue );
 		this.updateSuggestions( inputValue );
 	}
 
+	/* eslint-disable complexity */
+	/* eslint-disable max-statements */
+	/**
+	 * OnKeyDown callback.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, posts, loading } = this.state;
 
@@ -143,10 +191,9 @@ class URLInput extends Component {
 		 */
 		if ( ! showSuggestions || ! posts.length || loading ) {
 			/**
-			 * In the Windows version of Firefox the up and down arrows don"t move the caret
-			 * within an input field like they do for Mac Firefox/Chrome/Safari. This causes
-			 * a form of focus trapping that is disruptive to the user experience. This disruption
-			 * only happens if the caret is not in the first or last position in the text input.
+			 * In the Windows version of Firefox the up and down arrows don"t move the caret within an input field like they do for
+			 * Mac Firefox/Chrome/Safari. This causes a form of focus trapping that is disruptive to the user experience. This disruption only happens
+			 * if the caret is not in first or last position in the text input.
 			 * @see: https://github.com/WordPress/gutenberg/issues/5693#issuecomment-436684747
 			 */
 			switch ( event.keyCode ) {
@@ -215,7 +262,16 @@ class URLInput extends Component {
 			}
 		}
 	}
+	/* eslint-enable complexity */
+	/* eslint-enable max-statements */
 
+	/**
+	 * Selects the link.
+	 *
+	 * @param {object} post The post.
+	 *
+	 * @returns {void}
+	 */
 	selectLink( post ) {
 		this.props.onChange( post.url, post );
 		this.setState( {
@@ -224,12 +280,24 @@ class URLInput extends Component {
 		} );
 	}
 
+	/**
+	 * Onclick handler.
+	 *
+	 * @param {object} post The post.
+	 *
+	 * @returns {void}
+	 */
 	handleOnClick( post ) {
 		this.selectLink( post );
 		// Move focus to the input field when a link suggestion is clicked.
 		this.inputRef.current.focus();
 	}
 
+	/**
+	 * Render method.
+	 *
+	 * @returns {wp.Element} The component.
+	 */
 	render() {
 		const { value = "", autoFocus = true, instanceId, className } = this.props;
 		const { showSuggestions, posts, selectedSuggestion, loading } = this.state;

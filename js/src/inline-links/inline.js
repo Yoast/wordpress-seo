@@ -57,31 +57,39 @@ function isShowingInput( props, state ) {
  * @returns {null|wp.Element} The component or null.
  */
 const URLPopoverAtLink = ( { isActive, addingLink, value, resetOnMount, ...props } ) => {
-	const anchorRect = useMemo( () => {
-		const selection = window.getSelection();
-		const range = selection.rangeCount > 0 ? selection.getRangeAt( 0 ) : null;
-		if ( ! range ) {
-			return;
-		}
+	const anchorRect = useMemo(
+		/**
+		 * Returns the selection.
+		 *
+		 * @returns {ClientRect | DOMRect|*} The selection.
+		 */
+		() => {
+			const selection = window.getSelection();
+			const range = selection.rangeCount > 0 ? selection.getRangeAt( 0 ) : null;
+			if ( ! range ) {
+				return;
+			}
 
-		if ( addingLink ) {
-			return getRectangleFromRange( range );
-		}
+			if ( addingLink ) {
+				return getRectangleFromRange( range );
+			}
 
-		let element = range.startContainer;
+			let element = range.startContainer;
 
-		// If the caret is right before the element, select the next element.
-		element = element.nextElementSibling || element;
+			// If the caret is right before the element, select the next element.
+			element = element.nextElementSibling || element;
 
-		while ( element.nodeType !== window.Node.ELEMENT_NODE ) {
-			element = element.parentNode;
-		}
+			while ( element.nodeType !== window.Node.ELEMENT_NODE ) {
+				element = element.parentNode;
+			}
 
-		const closest = element.closest( "a" );
-		if ( closest ) {
-			return closest.getBoundingClientRect();
-		}
-	}, [ isActive, addingLink, value.start, value.end ] );
+			const closest = element.closest( "a" );
+			if ( closest ) {
+				return closest.getBoundingClientRect();
+			}
+		},
+		[ isActive, addingLink, value.start, value.end ]
+	);
 
 	if ( ! anchorRect ) {
 		return null;
@@ -99,7 +107,13 @@ URLPopoverAtLink.propTypes = {
 	value: PropTypes.object.isRequired,
 };
 
+/**
+ * The InlineLinkUI component.
+ */
 class InlineLinkUI extends Component {
+	/**
+	 * Constructor.
+	 */
 	constructor() {
 		super( ...arguments );
 
@@ -154,6 +168,13 @@ class InlineLinkUI extends Component {
 		return null;
 	}
 
+	/**
+	 * OnKeyDown callback.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
 	onKeyDown( event ) {
 		if ( [ LEFT, DOWN, RIGHT, UP, BACKSPACE, ENTER ].indexOf( event.keyCode ) > -1 ) {
 			// Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
@@ -165,10 +186,24 @@ class InlineLinkUI extends Component {
 		}
 	}
 
+	/**
+	 * OnChange handler.
+	 *
+	 * @param {string} inputValue The inputValue.
+	 *
+	 * @returns {void}
+	 */
 	onChangeInputValue( inputValue ) {
 		this.setState( { inputValue } );
 	}
 
+	/**
+	 * Sets the link target.
+	 *
+	 * @param {boolean} opensInNewWindow Should the link open in a new window.
+	 *
+	 * @returns {void}
+	 */
 	setLinkTarget( opensInNewWindow ) {
 		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
@@ -188,6 +223,13 @@ class InlineLinkUI extends Component {
 		}
 	}
 
+	/**
+	 * Sets nofollow.
+	 *
+	 * @param {boolean} noFollow Should rel 'nofollow' be added to the link.
+	 *
+	 * @returns {void}
+	 */
 	setNoFollow( noFollow ) {
 		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
@@ -207,6 +249,13 @@ class InlineLinkUI extends Component {
 		}
 	}
 
+	/**
+	 * Sets sponsored.
+	 *
+	 * @param {boolean} sponsored Should rel 'sponsored' be added to the link.
+	 *
+	 * @returns {void}
+	 */
 	setSponsored( sponsored ) {
 		const { activeAttributes: { url = "" }, value, onChange } = this.props;
 
@@ -226,11 +275,25 @@ class InlineLinkUI extends Component {
 		}
 	}
 
+	/**
+	 * Edit link callback.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
 	editLink( event ) {
 		this.setState( { editLink: true } );
 		event.preventDefault();
 	}
 
+	/**
+	 * Submit link callback.
+	 *
+	 * @param {object} event The event.
+	 *
+	 * @returns {void}
+	 */
 	submitLink( event ) {
 		const { isActive, value, onChange, speak } = this.props;
 		const { inputValue, opensInNewWindow, noFollow, sponsored } = this.state;
@@ -264,6 +327,11 @@ class InlineLinkUI extends Component {
 		}
 	}
 
+	/**
+	 * On focus outside callback.
+	 *
+	 * @returns {void}
+	 */
 	onFocusOutside() {
 		/**
 		 * The autocomplete suggestions list renders in a separate popover (in a portal),
@@ -279,17 +347,34 @@ class InlineLinkUI extends Component {
 		this.resetState();
 	}
 
+	/**
+	 * Resets the state.
+	 *
+	 * @returns {void}
+	 */
 	resetState() {
 		this.props.stopAddingLink();
 		this.setState( { editLink: false } );
 	}
 
+	/**
+	 * Resets the rectangle.
+	 *
+	 * @param {object} anchorRect The rectangle.
+	 *
+	 * @returns {void}
+	 */
 	resetOnMount( anchorRect ) {
 		if ( this.state.anchorRect !== anchorRect ) {
 			this.setState( { opensInNewWindow: false, noFollow: false, sponsored: false, anchorRect: anchorRect } );
 		}
 	}
 
+	/**
+	 * Render method.
+	 *
+	 * @returns {wp.Element} The component.
+	 */
 	render() {
 		const { isActive, activeAttributes: { url, target, rel }, addingLink, value } = this.props;
 
