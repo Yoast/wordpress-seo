@@ -415,12 +415,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content = $this->get_tab_content( 'schema' );
 		return new WPSEO_Metabox_Section_React(
 			'schema',
-			'',
-<<<<<<< HEAD
-			$content
-=======
+			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
 			$content,
->>>>>>> 3ae378a62... Hide schema_article_type on pages
 		);
 	}
 
