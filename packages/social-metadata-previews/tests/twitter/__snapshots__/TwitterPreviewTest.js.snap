@@ -52,9 +52,13 @@ exports[`TwitterPreview matches the snapshot 1`] = `
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c2 {
