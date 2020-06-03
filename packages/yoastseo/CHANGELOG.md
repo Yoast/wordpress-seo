@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.76.0 June 8th, 2020
+### Enhancements
+* Adds a check for the exception list of French verbs with multiple stems and stems them by returning the indicated canonical stem.
+* Adds a stemmer for the Italian language.
+* Adds an exception check for words ending in -is/us/os where -s should not be stemmed.
+* Improves the way keyphrases containing words ending in "ent" are recognized in the text.
+* Stems French words that are considered too short to be stemmed according to the stemming rules, but that should nevertheless be stemmed.
+
+## 1.75.0 May 25th, 2020
+### Enhancements
+* Adds a stemmer for the Russian language.
+* Adds checks for exception list with full forms and exception list of words with multiple stems to the French stemmer.
+* Checks an exception list of plurals with -x suffix and stems them correctly.
+* Transfers data from French stemmer to data file and improves stemming of words in -issement in French.
+
 ## 1.74.0 May 11th, 2020
 ### Added
 * Adds French to the list of languages for which we have morphology support.

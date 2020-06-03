@@ -7640,6 +7640,15 @@ draft-js-single-line-plugin@^2.0.1:
   dependencies:
     immutable "~3.7.4"
 
+draft-js@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  integrity sha512-LE6jSCV9nkPhfVX2ggcRLA4FKs6zWq9ceuO/88BpXdNCS7mjRTgs0NsV6piUCJX9YxMsB9An33wnkMmU2sD2Zg==
+  dependencies:
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
 draft-js@^0.11.4:
   version "0.11.4"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.4.tgz#e48782b96b90a5c14f2cb34c164c2a1a359d8a48"
@@ -8770,7 +8779,7 @@ fbjs-css-vars@^1.0.0:
   resolved "https://registry.yarnpkg.com/fbjs-css-vars/-/fbjs-css-vars-1.0.2.tgz#216551136ae02fe255932c3ec8775f18e2c078b8"
   integrity sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==
 
-fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.6, fbjs@^0.8.9:
+fbjs@^0.8.0, fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.4, fbjs@^0.8.6, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -12439,7 +12448,7 @@ js-tokens@^3.0.2:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
   integrity sha1-mGbfOVECEw449/mWvOtlRDIJwls=
 
-js-yaml@3.x, js-yaml@>=1.0.1, js-yaml@^3.12.0, js-yaml@^3.12.1, js-yaml@^3.6.0, js-yaml@^3.7.0, js-yaml@^3.9.0, js-yaml@~3.12.0:
+js-yaml@3.x, js-yaml@>=1.0.1, js-yaml@^3.12.0, js-yaml@^3.12.1, js-yaml@^3.7.0, js-yaml@^3.9.0, js-yaml@~3.12.0:
   version "3.12.2"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.2.tgz#ef1d067c5a9d9cb65bd72f285b5d8105c77f14fc"
   integrity sha512-QHn/Lh/7HhZ/Twc7vJYQTkjuCa0kaCcDcjK5Zlk2rvnUpy7DxMJ23+Jc2dcyvltwQVg1nygAVlB2oRDFHoRS5Q==
@@ -12447,7 +12456,7 @@ js-yaml@3.x, js-yaml@>=1.0.1, js-yaml@^3.12.0, js-yaml@^3.12.1, js-yaml@^3.6.0, 
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-js-yaml@^3.13.1:
+js-yaml@^3.13.1, js-yaml@^3.6.0:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
@@ -20997,6 +21006,21 @@ yeoman-generator@^2.0.5:
     text-table "^0.2.0"
     through2 "^2.0.0"
     yeoman-environment "^2.0.5"
+
+yoastseo@^1.74.0-rc.0:
+  version "1.75.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.75.0.tgz#f144715f334c44d39b17f9ab9650c2b5f547e1cf"
+  integrity sha512-v5zPGD4BZIUbm4VrVOlsA+uPoa1JJ9kE6QbbLqQFxN7SPquET5tX0GmxzBs9iW1Ulpkg/PDS3qxipw8dXaB8zA==
+  dependencies:
+    "@wordpress/autop" "^2.0.2"
+    "@yoast/feature-flag" "^0.5.2"
+    htmlparser2 "^3.9.2"
+    jed "^1.1.0"
+    lodash-es "^4.17.10"
+    loglevel "^1.6.1"
+    parse5 "^5.1.0"
+    sassdash "0.9.0"
+    tokenizer2 "^2.0.1"
 
 "yoastseo@git+https://github.com/Yoast/YoastSEO.js.git#master":
   version "1.48.0"
