@@ -4,8 +4,8 @@ import {
 	withSpokenMessages,
 } from "@wordpress/components";
 import { getRectangleFromRange } from "@wordpress/dom";
-import { Component, createRef, useMemo, Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { Component, createRef, useMemo, Fragment, __experimentalCreateInterpolateElement } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { LEFT, RIGHT, UP, DOWN, BACKSPACE, ENTER, ESCAPE } from "@wordpress/keycodes";
 import { prependHTTP } from "@wordpress/url";
 import {
@@ -25,6 +25,7 @@ import { createLinkFormat, isValidHref } from "./utils";
 import PositionedAtSelection from "./positioned-at-selection";
 import LinkEditor from "./link-editor";
 import LinkViewer from "./link-viewer";
+import HelpLink from "../components/contentAnalysis/HelpLink";
 
 /**
  * Stop key propagation.
@@ -425,6 +426,41 @@ class InlineLinkUI extends Component {
 			}
 		}
 
+		const NoFollowHelpLink = <HelpLink
+			href={ window.wpseoAdminL10n[ "shortlinks.nofollow_sponsored" ] }
+			className="dashicons"
+		>
+			<span className="screen-reader-text">
+				{ __( "Learn more about marking a link as nofollow or sponsored.", "wordpress-seo" ) }
+			</span>
+		</HelpLink>;
+
+		const noFollowLabel = __experimentalCreateInterpolateElement(
+			sprintf(
+				__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
+				"<code>",
+				"</code>",
+				"<helplink />"
+			),
+			{
+				code: <code />,
+				helplink: NoFollowHelpLink,
+			}
+		);
+
+		const sponsoredLabel = __experimentalCreateInterpolateElement(
+			sprintf(
+				__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),
+				"<code>",
+				"</code>",
+				"<helplink />"
+			),
+			{
+				code: <code />,
+				helplink: NoFollowHelpLink,
+			}
+		);
+
 		return (
 			<PositionedAtSelection
 				// Used to force rerender on selection change.
@@ -445,17 +481,18 @@ class InlineLinkUI extends Component {
 					renderSettings={ () => (
 						<Fragment>
 							<ToggleControl
-								label={ __( "Open in New Tab", "wordpress-seo" ) }
+								label={ __( "Open in new tab", "wordpress-seo" ) }
 								checked={ opensInNewWindow }
 								onChange={ this.setLinkTarget }
 							/>
 							<ToggleControl
-								label={ __( "Discourage search engines from following this link", "wordpress-seo" ) }
+								className="yoast-no-follow-toggle"
+								label={ noFollowLabel }
 								checked={ noFollow }
 								onChange={ this.setNoFollow }
 							/>
 							<ToggleControl
-								label={ __( "This is a sponsored link", "wordpress-seo" ) }
+								label={ sponsoredLabel }
 								checked={ sponsored }
 								onChange={ this.setSponsored }
 							/>
