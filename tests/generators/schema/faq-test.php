@@ -124,7 +124,7 @@ class FAQ_Test extends TestCase {
 			[
 				'@id'            => 'https://example.org/page/#id-1',
 				'@type'          => 'Question',
-				'position'       => 0,
+				'position'       => 1,
 				'url'            => 'https://example.org/page/#id-1',
 				'name'           => 'This is a question',
 				'answerCount'    => 1,
@@ -138,7 +138,7 @@ class FAQ_Test extends TestCase {
 			[
 				'@id'            => 'https://example.org/page/#id-2',
 				'@type'          => 'Question',
-				'position'       => 1,
+				'position'       => 2,
 				'url'            => 'https://example.org/page/#id-2',
 				'name'           => 'This is the second question',
 				'answerCount'    => 1,
@@ -220,7 +220,7 @@ class FAQ_Test extends TestCase {
 			[
 				'@id'            => 'https://example.org/page/#id-1',
 				'@type'          => 'Question',
-				'position'       => 0,
+				'position'       => 1,
 				'url'            => 'https://example.org/page/#id-1',
 				'name'           => 'This is a question',
 				'answerCount'    => 1,
