@@ -2,6 +2,11 @@
 /* WordPress-specific styling to be used only for single-page apps like the Onboarding Wizard. */
 @import url("../title-separator/title-separator.css");
 
+.yoast-wizard--step.yoast-wizard--step__inactive div,
+.yoast-wizard--step.yoast-wizard--step__active span {
+	font-family: var(--font-family) !important;
+}
+
 .screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);

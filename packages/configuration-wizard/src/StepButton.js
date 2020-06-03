@@ -9,6 +9,10 @@ import { colors } from "@yoast/style-guide";
 
 const colorInactive = window.getComputedStyle(document.documentElement).getPropertyValue("--color-inactive-text");
 
+const style = {
+	fontFamily: "var(--font-family)",
+}
+
 /**
  * Creates a step button for the wizard. The step buttons are meant to be rendered in a stepper component(StepIndicator)
  * They indicate a step in the process, show a descriptive tooltip when hovered
@@ -22,7 +26,7 @@ const colorInactive = window.getComputedStyle(document.documentElement).getPrope
  */
 const StepButton = ( props ) => (
 	<IconButton
-		className={ props.className } onClick={ props.onClick } tooltip={ props.tooltip } touch={ true }
+		style={style} className={ props.className } onClick={ props.onClick } tooltip={ props.tooltip } touch={ true }
 		tooltipPosition="top-center" tooltipStyles={ props.tooltipStyles } aria-label={ props.ariaLabel }
 	>
 		<SvgIcon color={ colorInactive }>
