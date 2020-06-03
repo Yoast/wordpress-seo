@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The ImageSelect component displays warnings 1`] = `
-.c1 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -19,23 +19,23 @@ exports[`The ImageSelect component displays warnings 1`] = `
   margin-bottom: 20px;
 }
 
-.c3 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
 }
 
-.c3 a {
+.c4 a {
   color: #004973;
 }
 
-.c2 {
+.c3 {
   margin-top: 0.125rem;
   margin-right: 8px;
 }
 
-.c0 {
+.c1 {
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   flex: 1 1 200px;
@@ -48,7 +48,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   font-weight: 500;
 }
 
-.c7 {
+.c8 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -94,18 +94,18 @@ exports[`The ImageSelect component displays warnings 1`] = `
   height: 40px;
 }
 
-.c7:active {
+.c8:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c7::-moz-focus-inner {
+.c8::-moz-focus-inner {
   border-width: 0;
 }
 
-.c7:focus {
+.c8:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -113,19 +113,19 @@ exports[`The ImageSelect component displays warnings 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c7:hover {
+.c8:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c7 svg {
+.c8 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c8 {
+.c9 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -179,18 +179,18 @@ exports[`The ImageSelect component displays warnings 1`] = `
   box-shadow: none;
 }
 
-.c8:active {
+.c9:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c8::-moz-focus-inner {
+.c9::-moz-focus-inner {
   border-width: 0;
 }
 
-.c8:focus {
+.c9:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -198,31 +198,31 @@ exports[`The ImageSelect component displays warnings 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c8:hover {
+.c9:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c8 svg {
+.c9 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c8:hover {
+.c9:hover {
   color: #F00;
 }
 
-.c8:focus {
+.c9:focus {
   color: #F00;
 }
 
-.c5 {
+.c6 {
   min-width: 100%;
 }
 
-.c5.c5.c5 {
+.c6.c6.c6 {
   padding: 0 8px;
   min-height: 34px;
   font-size: 1em;
@@ -231,12 +231,12 @@ exports[`The ImageSelect component displays warnings 1`] = `
   border-radius: 0;
 }
 
-.c5.c5.c5:focus {
+.c6.c6.c6:focus {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
 }
 
-.c4 {
+.c5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -246,7 +246,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
   flex-direction: column;
 }
 
-.c6 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -254,12 +254,8 @@ exports[`The ImageSelect component displays warnings 1`] = `
   margin: 10px 0 0 0;
 }
 
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c7::after {
-    display: inline-block;
-    content: "";
-    min-height: 22px;
-  }
+.c0 {
+  margin-top: 24px;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
@@ -270,21 +266,30 @@ exports[`The ImageSelect component displays warnings 1`] = `
   }
 }
 
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c9::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
+  className="c0"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="c0"
+    className="c1"
   >
     Facebook image
   </div>
   <div
-    className="c1"
+    className="c2"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -297,17 +302,17 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c3"
+      className="c4"
     >
       Your image is too small
     </div>
   </div>
   <div
-    className="c1"
+    className="c2"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-alert-warning c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
+      className="yoast-svg-icon yoast-svg-icon-alert-warning c3 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#674e00"
       focusable="false"
       role="img"
@@ -320,31 +325,31 @@ exports[`The ImageSelect component displays warnings 1`] = `
       />
     </svg>
     <div
-      className="c3"
+      className="c4"
     >
       Wow, I like writing tests
     </div>
   </div>
   <div
-    className="c4"
+    className="c5"
   >
     <input
-      className="c5"
+      className="c6"
       disabled="disabled"
       value=""
     />
     <div
-      className="c6"
+      className="c7"
     >
       <button
-        className="c7"
+        className="c8"
         onClick={[Function]}
         type="button"
       >
         Replace image
       </button>
       <button
-        className="c8"
+        className="c9"
         onClick={[Function]}
         type="button"
       >
@@ -356,7 +361,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
 `;
 
 exports[`The ImageSelect component renders 1`] = `
-.c0 {
+.c1 {
   -webkit-flex: 1 1 200px;
   -ms-flex: 1 1 200px;
   flex: 1 1 200px;
@@ -369,7 +374,7 @@ exports[`The ImageSelect component renders 1`] = `
   font-weight: 500;
 }
 
-.c1 {
+.c2 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -415,18 +420,18 @@ exports[`The ImageSelect component renders 1`] = `
   height: 40px;
 }
 
-.c1:active {
+.c2:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c1::-moz-focus-inner {
+.c2::-moz-focus-inner {
   border-width: 0;
 }
 
-.c1:focus {
+.c2:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -434,20 +439,24 @@ exports[`The ImageSelect component renders 1`] = `
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c1:hover {
+.c2:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c1 svg {
+.c2 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
+.c0 {
+  margin-top: 24px;
+}
+
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c1::after {
+  .c2::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -455,16 +464,17 @@ exports[`The ImageSelect component renders 1`] = `
 }
 
 <div
+  className="c0"
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
   <div
-    className="c0"
+    className="c1"
   >
     Facebook image
   </div>
   <button
-    className="c1"
+    className="c2"
     onClick={[Function]}
     type="button"
   >
