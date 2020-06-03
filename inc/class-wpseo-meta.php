@@ -199,7 +199,7 @@ class WPSEO_Meta {
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
-				'hide-on-pages' => true,
+				'hide_on_pages' => true,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */

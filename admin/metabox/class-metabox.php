@@ -528,7 +528,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		// Add a hide-on-pages option that returns nothing when the field is rendered on a page.
-		if ( isset( $meta_field_def['hide-on-pages'] ) && $meta_field_def['hide-on-pages'] && get_post_type() === 'page' ) {
+		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
 			return '';
 		}
 
