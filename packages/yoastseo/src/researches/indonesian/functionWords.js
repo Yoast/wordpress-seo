@@ -67,7 +67,7 @@ const prepositions = [ "antara", "seantero", "bagai", "bagaikan", "bagi", "buat"
 	"pada", "sepanjang", "per", "seputar", "bersama", "sejak", "semenjak", "seperti", "serta", "tentang", "menuju", "menurut",
 	"untuk", "tanpa", "adapun", "antar", "diantara", "silam", "lalu", "selaku", "melalui", "sebagai", "bahwasanya" ];
 
-// These prepositional adverbs are all preceded by locative preposition "di"
+// These prepositional adverbs are all preceded by locative preposition "di", e.g. "di atas".
 const locativeAdverbs = [ "atas", "bawah", "dalam", "luar", "depan", "belakang", "sebelah", "samping" ];
 
 const coordinatingConjunctions = [ "dan", "atau", "lalu", "kemudian", "serta", "sedangkan", "sementara",
@@ -98,7 +98,7 @@ const delexicalizedVerbs = [ "ada", "punya", "milik", "terlihat", "kelihatan", "
 
 // These adjectives and adverbs are so general, they should never be suggested as a (single) keyword.
 // Keyword combinations containing these adjectives/adverbs are fine.
-const generalAdjectivesAdverbs = [ "terbesar", "besar", "terkecil", "kecil", "terbaru", "baru", "tertua", "tua", "lalu",
+const generalAdjectivesAndAdverbs = [ "terbesar", "besar", "terkecil", "kecil", "terbaru", "baru", "tertua", "tua", "lalu",
 	"semudah", "termudah", "mudah", "cepat", "jauh", "susah", "keras", "panjang", "rendah", "pendek", "tinggi", "biasa",
 	"simpel", "kebanyakan", "baru-baru", "lagi", "selesai", "mungkin", "umum", "baik", "buruk", "bagus", "utama", "sama",
 	"tertentu", "biasanya", "spesifik", "langsung", "dekat", "terbaru", "berbeda", "beda", "sibuk", "terkini", "penting",
@@ -117,7 +117,7 @@ const generalAdjectivesAdverbs = [ "terbesar", "besar", "terkecil", "kecil", "te
 	"selamanya", "selama-lamanya", "mampu", "begini", "beginilah", "begitu", "begitulah", "sebegini", "sebegitu", "semula", "pasti",
 	"pastilah", "pastinya", "dini", "sedini", "sering", "seringnya", "jarang", "terbanyak" ];
 
-// These adverbs are all preceded by a negative, i.e. tak tidak, or belum.
+// These adverbs are all preceded by a negative, i.e. tak, tidak, or belum. Example: tak puas-puasnya.
 const otherAdverbs = [ "putus-putusnya", "jemu-jemunya", "jera-jeranya", "puas-puasnya", "bosan-bosannya", "henti-hentinya",
 	"berhenti-hentinya" ];
 
@@ -162,13 +162,13 @@ export default function() {
 			reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
 			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
 			interrogativePronouns, interrogativeProAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
-			recipeWords, timeWords, vagueNouns, generalAdjectivesAdverbs, relativePronoun, prepositions, quantifiers ),
+			recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers ),
 
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
 			personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
 			locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
-			generalAdjectivesAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun ),
+			generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun ),
 	};
 }
