@@ -76,7 +76,7 @@ class Edit {
 				}
 
 				return applyFormat( value, {
-					type: name,
+					type: "yoast-seo/link",
 					attributes: {
 						url: decodeEntities( pastedText ),
 					},
