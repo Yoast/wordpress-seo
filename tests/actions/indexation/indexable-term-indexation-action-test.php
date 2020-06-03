@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
+use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
 use Mockery;
 use wpdb;
@@ -82,12 +83,27 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term') AND taxonomy IN (%s)
 			$limit_placeholder";
 
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturn( false );
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', DAY_IN_SECONDS )->andReturn( true );
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with( $expected_query, [ 'public_taxonomy' ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
+
+		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get total unindexed method with cache.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 */
+	public function test_get_total_unindexed_cached() {
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturn( '10' );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
 	}
