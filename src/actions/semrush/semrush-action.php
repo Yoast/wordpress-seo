@@ -29,8 +29,6 @@ class SEMrush_Login_Action {
 			return $tokens_request->get_response();
 		}
 
-		// if valid, yay. Else, boooo.
-
 		return (object) [
 			'tokens' => (object) [
 				'access_token'  => $tokens_request->getToken(),

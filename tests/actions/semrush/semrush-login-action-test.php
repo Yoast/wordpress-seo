@@ -58,7 +58,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 		$tokens_class->allows( [
 			'getToken'        => '000000',
 			'getRefreshToken' => '000001',
-			'getExpires'      => '01-01-1970',
+			'getExpires'      => 604800,
 			'hasExpired'      => false,
 		] );
 
@@ -67,17 +67,19 @@ class SEMrush_Login_Action_Test extends TestCase {
 			->with( '123456' )
 			->andReturn( $tokens_class );
 
+		$authenticated_instance = $this->instance->authenticate( '123456' );
+
 		$this->assertEquals(
 			(object) [
 				'tokens' => (object) [
 					'access_token'  => '000000',
 					'refresh_token' => '000001',
-					'expires'       => '01-01-1970',
+					'expires'       => 604800,
 					'is_expired'    => false,
 				],
 				'status' => 200,
 			],
-			$this->instance->authenticate( '123456' )
+			$authenticated_instance
 		);
 	}
 

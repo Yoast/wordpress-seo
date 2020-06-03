@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Dependency_Injection;
 
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
@@ -28,6 +29,9 @@ $container->register( WPSEO_Admin_Asset_Manager::class, WPSEO_Admin_Asset_Manage
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
 $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
+// Third-party classes
+$container->register( AccessTokenInterface::class, AccessTokenInterface::class )->setAutowired( true )->setPublic( true );
+
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
 
@@ -45,6 +49,7 @@ $excluded_directories = [
 	'surfaces/values',
 	'presenters',
 	'config/migrations',
+	'exceptions',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );

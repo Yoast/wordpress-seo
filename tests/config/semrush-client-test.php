@@ -23,9 +23,8 @@ class SEMrush_Client_Test extends TestCase {
 	 */
 	private $instance;
 
-
 	/**
-	 * Does the setup for testing.
+	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
