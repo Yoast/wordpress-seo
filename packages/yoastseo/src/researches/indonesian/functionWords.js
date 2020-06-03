@@ -46,7 +46,7 @@ const interrogativeDeterminers = [ "apa", "manakah", "mana", "apanya", "inikah",
 const interrogativePronouns = [ "siapa", "siapakah", "kamukah", "andakah", "sayakah", "akukah", "diakah", "merekakah",
 	"engkaukah", "kamikah", "kitakah", "beliaukah", "iakah", "dirinyakah", "dirikukah", "siapatah", "siapalah", "siapanya" ];
 
-const interrogativeProAdverbs = [ "bagaimana", "mengapa", "kenapa", "kapan", "berapa", "kapankah", "berapakah",
+const interrogativeAdverbs = [ "bagaimana", "mengapa", "kenapa", "kapan", "berapa", "kapankah", "berapakah",
 	"bagaimanakah", "apakah", "kapanpun", "apatah", "apalah", "berapatah", "berapalah", "mengapakah", "mengapatah",
 	"mengapalah", "kenapakah", "kenapatah", "kenapalah", "kapantah", "kapanlah", "manatah", "mananya", "manalah",
 	"bagaimanatah", "bagaimanalah", "bilamana", "bilamanakah", "bilamanatah", "bilamananya", "bilamanalah", "keberapa", "mampukah",
@@ -161,12 +161,12 @@ export default function() {
 		filteredAnywhere: [].concat( adverbialGenitives, personalPronounsNominative,
 			reflexivePronouns, interjections, cardinalNumerals, auxiliaries, copula, interviewVerbs,
 			delexicalizedVerbs, indefinitePronouns, correlativeConjunctions, subordinatingConjunctions, interrogativeDeterminers,
-			interrogativePronouns, interrogativeProAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
+			interrogativePronouns, interrogativeAdverbs, otherAdverbs, miscellaneous, locativeAdverbs,
 			recipeWords, timeWords, vagueNouns, generalAdjectivesAndAdverbs, relativePronoun, prepositions, quantifiers ),
 
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, demonstrativePronouns, possessivePronouns, reflexivePronouns,
-			personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeProAdverbs,
+			personalPronounsNominative, quantifiers, indefinitePronouns, interrogativeDeterminers, interrogativePronouns, interrogativeAdverbs,
 			locativeAdverbs, adverbialGenitives, auxiliaries, copula, prepositions, coordinatingConjunctions, correlativeConjunctions,
 			subordinatingConjunctions, interviewVerbs, additionalTransitionWords, intensifiers, delexicalizedVerbs, interjections,
 			generalAdjectivesAndAdverbs, recipeWords, vagueNouns, miscellaneous, titlesPreceding, relativePronoun ),
