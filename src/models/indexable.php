@@ -81,7 +81,7 @@ use Yoast\WP\Lib\Model;
 class Indexable extends Model {
 
 	/**
-	 * Holds the ancestors.
+	 * Holds the ancestors. May not be set.
 	 *
 	 * @var Indexable[]
 	 */

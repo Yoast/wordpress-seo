@@ -36,4 +36,34 @@ class SEO_Meta_Repository {
 			->where( 'object_id', $post_id )
 			->find_one();
 	}
+
+	/**
+	 * Updates the incoming link count for a post.
+	 *
+	 * @param int $post_id The post ID.
+	 * @param int $count   The count.
+	 *
+	 * @return bool Whether or not the update was succcessfull.
+	 */
+	public function update_incoming_link_count( $post_id, $count ) {
+		return $this->query()
+				->set( 'incoming_link_count', $count )
+				->where( 'post_id', $post_id )
+				->save();
+	}
+
+	/**
+	 * Updates the internal link count for a post.
+	 *
+	 * @param int $post_id The post ID.
+	 * @param int $count   The count.
+	 *
+	 * @return bool Whether or not the update was succcessfull.
+	 */
+	public function update_internal_link_count( $post_id, $count ) {
+		return $this->seo_meta_repository->query()
+			->set( 'internal_link_count', $count )
+			->where( 'post_id', $post_id )
+			->save();
+	}
 }

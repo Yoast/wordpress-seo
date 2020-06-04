@@ -37,6 +37,13 @@ class SEO_Links extends Model {
 	const TYPE_EXTERNAL = 'external';
 
 	/**
+	 * Holds the parsed URL. May not be set.
+	 *
+	 * @var array.
+	 */
+	protected $parsed_url;
+
+	/**
 	 * Which columns contain int values.
 	 *
 	 * @var array
