@@ -114,7 +114,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	 * @return string The query.
 	 */
 	protected function get_query( $count, $limit = 1 ) {
-		$public_post_types = $this->post_type_helper->get_public_post_types();
+		$public_post_types = $this->post_type_helper->get_accessible_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$seo_meta_table    = Model::get_table_name( 'SEO_Meta' );
 		$replacements      = $public_post_types;

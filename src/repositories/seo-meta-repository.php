@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Models\SEO_Meta;
 
 /**
  * Class SEO_Meta_Repository
@@ -29,12 +30,25 @@ class SEO_Meta_Repository {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return bool|Model
+	 * @return bool|SEO_Meta The found meta.
 	 */
 	public function find_by_post_id( $post_id ) {
 		return $this->query()
 			->where( 'object_id', $post_id )
 			->find_one();
+	}
+
+	/**
+	 * Finds the SEO meta for a list of post IDs.
+	 *
+	 * @param int $post_ids The post IDs.
+	 *
+	 * @return bool|SEO_Meta[] The found meta.
+	 */
+	public function find_by_post_ids( $post_ids ) {
+		return $this->query()
+			->where_in( 'object_id', $post_ids )
+			->find_many();
 	}
 
 	/**
