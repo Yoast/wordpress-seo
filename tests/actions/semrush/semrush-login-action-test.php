@@ -104,7 +104,7 @@ class SEMrush_Login_Action_Test extends TestCase {
 		$this->client_instance
 			->expects( 'get_access_tokens' )
 			->with( '123456' )
-			->andReturn( $failed_tokens_request );
+			->andThrow( $failed_tokens_request );
 
 		$this->assertEquals(
 			(object) [
