@@ -41,6 +41,17 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Returns an array with the accessible post types.
+	 *
+	 * An accessible post type is a post type that is public and isn't set as no-index (robots).
+	 *
+	 * @return array Array with all the accessible post_types.
+	 */
+	public function get_accessible_post_types() {
+		return WPSEO_Post_Type::get_accessible_post_types();
+	}
+
+	/**
 	 * Checks if the post type with the given name has an archive page.
 	 *
 	 * @param WP_Post_Type|string $post_type The name of the post type to check.
