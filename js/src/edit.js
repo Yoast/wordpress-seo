@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { Slot } from "@wordpress/components";
+import { Slot, Fill, PanelBody } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import { PluginPrePublishPanel } from "@wordpress/edit-post";
 import { __ } from "@wordpress/i18n";
@@ -28,6 +28,7 @@ import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
 import PrePublish from "./containers/PrePublish";
+import DocumentSidebar from "./containers/DocumentSidebar";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -140,9 +141,19 @@ class Edit {
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
-				<PluginPrePublishPanel className="yoast-seo-pre-publish-panel" title={ __( "Yoast SEO", "wordpress-seo" ) } initialOpen={ true }>
+				<PluginPrePublishPanel className="yoast-seo-sidebar-panel" title={ __( "Yoast SEO", "wordpress-seo" ) } initialOpen={ true }>
 					<PrePublish />
 				</PluginPrePublishPanel>
+				<Fill name="PluginDocumentSettingPanel">
+					<PanelBody
+						className="yoast-seo-sidebar-panel"
+						title={ __( "Yoast SEO", "wordpress-seo" ) }
+						icon={ <PluginIcon /> }
+						initialOpen={ true }
+					>
+						<DocumentSidebar />
+					</PanelBody>
+				</Fill>
 			</Fragment>
 		);
 

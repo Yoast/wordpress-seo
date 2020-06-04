@@ -1,7 +1,7 @@
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
-import PrePublish from "../components/PrePublish";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import DocumentSidebar from "../components/DocumentSidebar";
 
 export default compose( [
 	withSelect( ( select ) => {
@@ -29,4 +29,4 @@ export default compose( [
 
 		return { onClick };
 	} ),
-] )( PrePublish );
+] )( DocumentSidebar );

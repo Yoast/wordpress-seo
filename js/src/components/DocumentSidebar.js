@@ -5,25 +5,17 @@ import { getIconForScore } from "./contentAnalysis/mapResults";
 import { Button } from "@yoast/components";
 
 /**
- * Renders the PrePublish Yoast integration.
+ * Renders the Document Sidebar Yoast integration.
  *
- * @returns {wp.Element} The PrePublish panel.
+ * @returns {wp.Element} The Document sidebar panel.
  */
-export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
+export default function DocumentSidebar( { focusKeyphrase, seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
 	const noFocusKeyphrase = ! focusKeyphrase;
 	const noFocusKeyphraseEl = <div>
 		<SvgIcon { ...getIconForScore( "bad" ) } /> { __( "No focus keyword was entered", "wordpress-seo" ) }
 	</div>;
 
-	let intro;
-	if ( seoScore === "good" && readabilityScore === "good" ) {
-		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!" ) }</p>
-	} else {
-		intro = <p>{ __( "We've analyzed your post. There is still room for improvement!" ) }</p>
-	}
-
 	return <Fragment>
-		{ intro }
 		{ noFocusKeyphrase && noFocusKeyphraseEl }
 		<div>
 			<SvgIcon { ...getIconForScore( readabilityScore ) } />

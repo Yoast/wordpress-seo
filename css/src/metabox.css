@@ -676,15 +676,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
-.yoast-seo-pre-publish-panel > h2 > button, .yoast-seo-pre-publish-panel svg {
+.yoast-seo-sidebar-panel > h2 > button, .yoast-seo-sidebar-panel svg {
 	color: #a4286a !important;
 }
 
-.yoast-seo-pre-publish-panel div {
+.yoast-seo-sidebar-panel div {
 	line-height: 2;
 }
 
-.yoast-seo-pre-publish-panel div svg {
+.yoast-seo-sidebar-panel div svg {
 	vertical-align: middle;
 }
 
