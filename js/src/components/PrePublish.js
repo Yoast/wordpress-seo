@@ -16,7 +16,8 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 	</div>;
 
 	let intro;
-	if ( seoScore === "good" && readabilityScore === "good" ) {
+	const perfectScore = seoScore === "good" && readabilityScore === "good";
+	if ( perfectScore ) {
 		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!" ) }</p>
 	} else {
 		intro = <p>{ __( "We've analyzed your post. There is still room for improvement!" ) }</p>
@@ -34,6 +35,6 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 			<span> { __( "SEO analysis:", "wordpress-seo" ) } <strong>{ seoScoreLabel }</strong></span>
 		</div>
 		<br />
-		<Button onClick={ onClick }>Improve your post with Yoast SEO</Button>
+		{ ! perfectScore && <Button onClick={ onClick }>Improve your post with Yoast SEO</Button> }
 	</Fragment>;
 }

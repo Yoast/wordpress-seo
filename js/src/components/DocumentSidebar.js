@@ -14,6 +14,7 @@ export default function DocumentSidebar( { focusKeyphrase, seoScore, seoScoreLab
 	const noFocusKeyphraseEl = <div>
 		<SvgIcon { ...getIconForScore( "bad" ) } /> { __( "No focus keyword was entered", "wordpress-seo" ) }
 	</div>;
+	const perfectScore = seoScore === "good" && readabilityScore === "good";
 
 	return <Fragment>
 		{ noFocusKeyphrase && noFocusKeyphraseEl }
@@ -26,6 +27,6 @@ export default function DocumentSidebar( { focusKeyphrase, seoScore, seoScoreLab
 			<span> { __( "SEO analysis:", "wordpress-seo" ) } <strong>{ seoScoreLabel }</strong></span>
 		</div>
 		<br />
-		<Button onClick={ onClick }>Improve your post with Yoast SEO</Button>
+		{  ! perfectScore && <Button onClick={ onClick }>Improve your post with Yoast SEO</Button> }
 	</Fragment>;
 }
