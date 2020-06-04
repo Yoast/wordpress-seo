@@ -27,7 +27,7 @@ class SEMrush_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const AUTHENTICATION_ROUTE = self::ROUTE_PREFIX . '/' . 'authenticate';
+	const AUTHENTICATION_ROUTE = self::ROUTE_PREFIX . '/authenticate';
 
 	/**
 	 * The full login route constant.
