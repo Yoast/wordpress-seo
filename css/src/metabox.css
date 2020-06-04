@@ -676,4 +676,16 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
+.yoast-seo-pre-publish-panel > h2 > button, .yoast-seo-pre-publish-panel svg {
+	color: #a4286a !important;
+}
+
+.yoast-seo-pre-publish-panel div {
+	line-height: 2;
+}
+
+.yoast-seo-pre-publish-panel div svg {
+	vertical-align: middle;
+}
+
 /*# sourceMappingURL=metabox.css.map */
