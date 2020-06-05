@@ -6,6 +6,9 @@ import { __ } from "@wordpress/i18n";
 /* Yoast dependencies */
 import { BaseButton} from "@yoast/components";
 
+/* Internal dependencies */
+import RelatedKeyPhrasesWrapper from "../containers/RelatedKeyphrases";
+
 class RelatedKeyPhrasesModal extends Component {
 	constructor( props ) {
 		super( props );
@@ -28,31 +31,31 @@ class RelatedKeyPhrasesModal extends Component {
 
 	render() {
 		return (
-			< Fragment >
+			<Fragment>
 
-				< BaseButton
-					id = { "yoast-get-related-keyphrases" }
-					title = { __( "Get related keyphrases", "wordpress-seo" ) }
-					suffixIcon = { { size: "20px", icon: "pencil-square" } }
-					hasSeparator = { true }
-					onClick = { this.openModal }
+				<BaseButton
+					id={ "yoast-get-related-keyphrases" }
+					title={ __( "Get related keyphrases", "wordpress-seo" ) }
+					suffixIcon={ { size: "20px", icon: "pencil-square" } }
+					hasSeparator={ true }
+					onClick={ this.openModal }
 					{ ...this.props }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
-				< / BaseButton >
+				</BaseButton>
 				{ this.state.isOpen &&
-					< Modal
-					title = { __( "Get related keyphrases", "wordpress-seo" ) }
-					onRequestClose = { this.closeModal }
-					>
-
-					< Button isSecondary = { true } onClick = { this.closeModal } >
+				<Modal
+					title={ __( "Get related keyphrases", "wordpress-seo" ) }
+					onRequestClose={ this.closeModal }
+				>
+					<RelatedKeyPhrasesWrapper />
+					<Button isSecondary={ true } onClick={ this.closeModal }>
 						{ __( "Close", "wordpress-seo" ) }
-					< / Button >
+					</Button>
 
-					< / Modal >
+				</Modal>
 				}
-			< / Fragment >
+			</Fragment>
 		);
 	}
 }
