@@ -32,6 +32,13 @@ const AnalysisHeader = styled.span`
  * Redux container for the seo analysis.
  */
 class SeoAnalysis extends Component {
+	/**
+	 * Constructs the SeoAnalysis component.
+	 *
+	 * @param {Object} props The component properties.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -46,18 +53,38 @@ class SeoAnalysis extends Component {
 		this.closeSynonymsModal   = this.closeSynonymsModal.bind( this );
 	}
 
+	/**
+	 * Opens the Keyphrases modal.
+	 *
+	 * @returns {void}
+	 */
 	openKeyphrasesModal() {
 		this.setState( { isKeyphrasesModalOpen: true } );
 	}
 
+	/**
+	 * Closes the Keyphrases modal.
+	 *
+	 * @returns {void}
+	 */
 	closeKeyphrasesModal() {
 		this.setState( { isKeyphrasesModalOpen: false } );
 	}
 
+	/**
+	 * Opens the Synonyms modal.
+	 *
+	 * @returns {void}
+	 */
 	openSynonymsModal() {
 		this.setState( { isSynonymsModalOpen: true } );
 	}
 
+	/**
+	 * Closes the Synonyms modal.
+	 *
+	 * @returns {void}
+	 */
 	closeSynonymsModal() {
 		this.setState( { isSynonymsModalOpen: false } );
 	}
