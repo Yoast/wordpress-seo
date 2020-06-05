@@ -28,7 +28,7 @@
 
 .yoast-field-group select:focus,
 .yoast-field-group__select select:focus,
-.yoast-field-group .select2-container.select2-container--default:focus {
+.yoast-field-group .select2-container.select2-container--focus {
 	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
 	outline: none;
 }
@@ -88,7 +88,7 @@
 	color: var(--color-white);
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+.yoast-field-group .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
 	color: var(--color-white);
 }
 
