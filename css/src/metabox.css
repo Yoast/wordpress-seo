@@ -676,7 +676,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
-.yoast-seo-sidebar-panel > h2 > button, .yoast-seo-sidebar-panel svg {
+.yoast-seo-sidebar-panel > h2 > button {
 	color: #a4286a !important;
 }
 
