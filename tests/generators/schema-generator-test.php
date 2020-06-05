@@ -332,7 +332,7 @@ class Schema_Generator_Test extends TestCase {
 					[
 						'@type'          => 'Question',
 						'@id'            => '#id-1',
-						'position'       => 0,
+						'position'       => 1,
 						'url'            => '#id-1',
 						'name'           => 'This is a question',
 						'answerCount'    => 1,
@@ -406,7 +406,7 @@ class Schema_Generator_Test extends TestCase {
 				[
 					'@type'          => 'Question',
 					'@id'            => '#id-1',
-					'position'       => 0,
+					'position'       => 1,
 					'url'            => '#id-1',
 					'name'           => 'This is a question',
 					'answerCount'    => 1,
