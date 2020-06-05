@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.3.0 June 8th, 2020
+### Bugfixes
+* Fixes a bug where the close button wasn't placed correctly in the metabox modals.
+* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
+
 ## 2.2.0 May 25th, 2020
 ### Enhancements
 * Adds a new DataModel component.
@@ -70,7 +75,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 0.11.0 November 26th, 2019
 ### Other
-* Removed the components related to the Help Center and the AlgoliaSearcher package
+* Removed the components related to the Help Center and the AlgoliaSearch package.
 
 ## 0.10.0 November 11th, 2019
 ### Added
