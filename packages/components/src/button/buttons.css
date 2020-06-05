@@ -17,11 +17,11 @@
 .yoast-remove:focus,
 .yoast-hide:focus {
 	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px rgba(0, 128, 255, .25);
+	outline: none;
 }
 
 .yoast .yoast-button:active { /* 'Pressed' button state */
 	box-shadow: none;
-	padding-bottom: 12px;
 	top: 2px;
 }
 
@@ -64,6 +64,7 @@
 	align-items: center;
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-sale);
+	justify-content: center;
 }
 
 .yoast .yoast-button--buy:visited {
@@ -86,6 +87,10 @@
 	background: var(--yoast-svg-icon-caret-right) center center no-repeat;
 }
 
+html[dir=rtl] .yoast .yoast-button--buy {
+	flex-direction: row-reverse;
+}
+
 .yoast-remove, .yoast-hide {
 	color: #dc3232;
 	background-color: transparent;
@@ -93,6 +98,7 @@
 	cursor: pointer;
 	text-decoration: underline;
 	padding: 0;
+	font-size:14px;
 }
 
 .yoast-hide {
