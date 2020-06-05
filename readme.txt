@@ -214,7 +214,9 @@ Release Date: June 9th, 2020
 
 Bugfixes:
 
-* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors. [#15288](https://github.com/Yoast/wordpress-seo/pull/15288)
+* Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
+* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
+* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
 
 = 14.2 =
 Release Date: May 26th, 2020
