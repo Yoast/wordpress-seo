@@ -63,9 +63,12 @@ export default compose( [
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
+		const {
+			getFirstContentImage,
+		} = select( "core/block-editor" );
 		return {
 			imageUrl: getFacebookImageUrl(),
-			imageFallbackUrl: getImageFallback(),
+			imageFallbackUrl: getFirstContentImage() || getImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),

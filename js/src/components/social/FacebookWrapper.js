@@ -13,6 +13,7 @@ import SocialForm from "../social/SocialForm";
  * @returns {Component} Renders the FacebookWrapper React Component.
  */
 const FacebookWrapper = ( props ) => {
+	console.log( props.fallbackImageUrl );
 	return (
 		<Fragment>
 			{

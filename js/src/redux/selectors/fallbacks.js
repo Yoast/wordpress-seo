@@ -19,6 +19,19 @@ export const getTitleFallback = state => get( state, "analysisData.snippet.title
 export const getDescriptionFallback = state => get( state, "analysisData.snippet.description", "" );
 
 /**
+ * Gets the first image from the content in Gutenberg.
+ *
+ * @param {Object} state The state object.
+ *
+ * @returns {string} The first content image src.
+ */
+export const getFirstContentImage = state => {
+	const blockIds = state.blocks.order;
+	const firstImageId = blockIds.find( id => get( state.blocks.byClientId, `${ id }.name`, "" ) === "core/image" );
+	return get( state.blocks.attributes, `${ firstImageId }.src`, "" );
+};
+
+/**
  * Gets the fallback image from:
  * state.settings.socialPreviews.sitewideImage
  * or
