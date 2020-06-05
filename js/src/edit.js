@@ -141,14 +141,18 @@ class Edit {
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
-				<PluginPrePublishPanel className="yoast-seo-sidebar-panel" title={ __( "Yoast SEO", "wordpress-seo" ) } initialOpen={ true }>
+				<PluginPrePublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
 					<PrePublish />
 				</PluginPrePublishPanel>
 				<Fill name="PluginDocumentSettingPanel">
 					<PanelBody
 						className="yoast-seo-sidebar-panel"
 						title={ __( "Yoast SEO", "wordpress-seo" ) }
-						icon={ <PluginIcon /> }
 						initialOpen={ true }
 					>
 						<DocumentSidebar />
