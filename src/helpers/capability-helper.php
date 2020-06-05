@@ -15,11 +15,11 @@ namespace Yoast\WP\SEO\Helpers;
 class Capability_Helper {
 
 	/**
-	 * Checks if the user has the proper capabilities.
+	 * Checks if the user has at least one of the proper capabilities.
 	 *
 	 * @param string $capability Capability to check.
 	 *
-	 * @return bool True if the user has the proper rights.
+	 * @return bool True if the user has at least one of the proper rights.
 	 */
 	public function current_user_can( $capability ) {
 		if ( $capability === 'wpseo_manage_options' ) {
