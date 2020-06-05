@@ -63,7 +63,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the site owner.
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return void
 	 *
@@ -95,7 +95,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -111,7 +111,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
@@ -146,7 +146,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -163,7 +163,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -197,8 +197,8 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://developers.facebook.com/docs/internationalization/#locales for the list of supported locales.
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @param bool $echo Whether to echo or return the locale.
 	 *
@@ -244,7 +244,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean;
 	 */
@@ -286,7 +286,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -302,7 +302,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean;
 	 */
