@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot, Fill, PanelBody } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
-import { PluginPrePublishPanel } from "@wordpress/edit-post";
+import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
 import { __ } from "@wordpress/i18n";
 import {
 	get,
@@ -29,6 +29,7 @@ import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
 import PrePublish from "./containers/PrePublish";
 import DocumentSidebar from "./containers/DocumentSidebar";
+import PostPublish from "./containers/PostPublish";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -136,7 +137,6 @@ class Edit {
 						} }
 					</Slot>
 				</PluginSidebar>
-
 				<Fragment>
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
@@ -149,6 +149,14 @@ class Edit {
 				>
 					<PrePublish />
 				</PluginPrePublishPanel>
+				<PluginPostPublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PostPublish />
+				</PluginPostPublishPanel>
 				<Fill name="PluginDocumentSettingPanel">
 					<PanelBody
 						className="yoast-seo-sidebar-panel"

@@ -688,4 +688,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	vertical-align: middle;
 }
 
+ul.yoast-seo-social-share-buttons li {
+	display: inline;
+	margin-right: 8px;
+}
+
+ul.yoast-seo-social-share-buttons svg {
+	width: 32px;
+	height: 32px;
+}
+
 /*# sourceMappingURL=metabox.css.map */
