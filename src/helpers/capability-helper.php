@@ -43,7 +43,7 @@ class Capability_Helper {
 			return [];
 		}
 
-		return get_users( [ 'role__in' => $applicable_roles ] );
+		return \get_users( [ 'role__in' => $applicable_roles ] );
 	}
 
 	/**
@@ -54,11 +54,11 @@ class Capability_Helper {
 	 * @return array The names of the roles that have the capability.
 	 */
 	public function get_applicable_roles( $capability ) {
-		$roles      = wp_roles();
+		$roles      = \wp_roles();
 		$role_names = $roles->get_names();
 
 		$applicable_roles = [];
-		foreach ( array_keys( $role_names ) as $role_name ) {
+		foreach ( \array_keys( $role_names ) as $role_name ) {
 			$role = $roles->get_role( $role_name );
 
 			if ( ! $role ) {
@@ -66,7 +66,7 @@ class Capability_Helper {
 			}
 
 			// Add role if it has the capability.
-			if ( array_key_exists( $capability, $role->capabilities ) && $role->capabilities[ $capability ] === true ) {
+			if ( \array_key_exists( $capability, $role->capabilities ) && $role->capabilities[ $capability ] === true ) {
 				$applicable_roles[] = $role_name;
 			}
 		}
@@ -83,7 +83,7 @@ class Capability_Helper {
 	 */
 	private function has_any( array $capabilities ) {
 		foreach ( $capabilities as $capability ) {
-			if ( current_user_can( $capability ) ) {
+			if ( \current_user_can( $capability ) ) {
 				return true;
 			}
 		}
