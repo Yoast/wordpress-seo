@@ -36,7 +36,7 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 			<span> { __( "SEO analysis:", "wordpress-seo" ) } <strong>{ seoScoreLabel }</strong></span>
 		</div>
 		<br />
-		{ ! perfectScore && <Button onClick={ onClick }>Improve your post with Yoast SEO</Button> }
+		{ ! perfectScore && <Button onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button> }
 	</Fragment>;
 }
 
