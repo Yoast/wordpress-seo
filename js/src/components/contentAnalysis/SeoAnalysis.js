@@ -4,7 +4,7 @@ import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Slot, Button, Modal } from "@wordpress/components";
+import { Slot, Modal } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
@@ -81,13 +81,13 @@ class SeoAnalysis extends Component {
 
 		return (
 			<Fragment>
-				<Button
-					isLink={ true }
+				<button
+					type="button"
 					onClick={ this.openSynonymsModal }
-					className="wpseo-keyword-synonyms"
+					className="wpseo-keyword-synonyms button-link"
 				>
 					{ "+ " + __( "Add synonyms", "wordpress-seo" ) }
-				</Button>
+				</button>
 				{ this.state.isSynonymsModalOpen &&
 					<Modal
 						title={
@@ -132,13 +132,13 @@ class SeoAnalysis extends Component {
 
 		return (
 			<Fragment>
-				<Button
-					isLink={ true }
+				<button
+					type="button"
 					onClick={ this.openKeyphrasesModal }
-					className="wpseo-multiple-keywords"
+					className="wpseo-multiple-keywords button-link"
 				>
 					{ "+ " + __( "Add related keyphrase", "wordpress-seo" ) }
-				</Button>
+				</button>
 				{ this.state.isKeyphrasesModalOpen &&
 					<Modal
 						title={
