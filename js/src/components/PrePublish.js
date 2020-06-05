@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment } from "react";
+import { Fragment } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { getIconForScore } from "./contentAnalysis/mapResults";
 import { Button } from "@yoast/components";
@@ -18,9 +19,9 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 	let intro;
 	const perfectScore = seoScore === "good" && readabilityScore === "good";
 	if ( perfectScore ) {
-		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!" ) }</p>
+		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" ) }</p>;
 	} else {
-		intro = <p>{ __( "We've analyzed your post. There is still room for improvement!" ) }</p>
+		intro = <p>{ __( "We've analyzed your post. There is still room for improvement!", "wordpress-seo" ) }</p>;
 	}
 
 	return <Fragment>
@@ -38,3 +39,12 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 		{ ! perfectScore && <Button onClick={ onClick }>Improve your post with Yoast SEO</Button> }
 	</Fragment>;
 }
+
+PrePublish.propTypes = {
+	focusKeyphrase: PropTypes.string.isRequired,
+	seoScore: PropTypes.string.isRequired,
+	seoScoreLabel: PropTypes.string.isRequired,
+	readabilityScore: PropTypes.string.isRequired,
+	readabilityScoreLabel: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired,
+};

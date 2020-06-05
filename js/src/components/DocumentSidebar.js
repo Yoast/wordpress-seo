@@ -1,5 +1,6 @@
+import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment } from "react";
+import { Fragment } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 import { getIconForScore } from "./contentAnalysis/mapResults";
 import { Button } from "@yoast/components";
@@ -9,15 +10,10 @@ import { Button } from "@yoast/components";
  *
  * @returns {wp.Element} The Document sidebar panel.
  */
-export default function DocumentSidebar( { focusKeyphrase, seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
-	const noFocusKeyphrase = ! focusKeyphrase;
-	const noFocusKeyphraseEl = <div>
-		<SvgIcon { ...getIconForScore( "bad" ) } /> { __( "No focus keyword was entered", "wordpress-seo" ) }
-	</div>;
+export default function DocumentSidebar( { seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
 	const perfectScore = seoScore === "good" && readabilityScore === "good";
 
 	return <Fragment>
-		{ noFocusKeyphrase && noFocusKeyphraseEl }
 		<div>
 			<SvgIcon { ...getIconForScore( readabilityScore ) } />
 			<span> { __( "Readability analysis:", "wordpress-seo" ) } <strong>{ readabilityScoreLabel }</strong></span>
@@ -30,3 +26,11 @@ export default function DocumentSidebar( { focusKeyphrase, seoScore, seoScoreLab
 		{  ! perfectScore && <Button onClick={ onClick }>Improve your post with Yoast SEO</Button> }
 	</Fragment>;
 }
+
+DocumentSidebar.propTypes = {
+	seoScore: PropTypes.string.isRequired,
+	seoScoreLabel: PropTypes.string.isRequired,
+	readabilityScore: PropTypes.string.isRequired,
+	readabilityScoreLabel: PropTypes.string.isRequired,
+	onClick: PropTypes.func.isRequired,
+};

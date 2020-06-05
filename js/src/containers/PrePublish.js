@@ -22,6 +22,11 @@ export default compose( [
 		const { closePublishSidebar, openGeneralSidebar } = dispatch(
 			"core/edit-post"
 		);
+		/**
+		 * Closes the publish sidebar and opens the Yoast sidebar.
+		 *
+		 * @returns {void}
+		 */
 		const onClick = () => {
 			closePublishSidebar();
 			openGeneralSidebar( "yoast-seo/seo-sidebar" );
