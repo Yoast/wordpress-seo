@@ -29,7 +29,7 @@
 .yoast-field-group select:focus,
 .yoast-field-group__select select:focus,
 .yoast-field-group .select2-container.select2-container--focus {
-	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
+	box-shadow: var(--yoast-color-focus);
 	outline: none;
 }
 

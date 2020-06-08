@@ -16,7 +16,7 @@
 
 .yoast .yoast-field-group__textarea:focus,
 .yoast .yoast-field-group__inputfield:focus {
-	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
+	box-shadow: var(--yoast-color-focus);
 	outline: none;
 }
 
