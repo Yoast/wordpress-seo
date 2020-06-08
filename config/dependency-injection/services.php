@@ -49,7 +49,9 @@ $excluded_directories = [
 	'surfaces/values',
 	'presenters',
 	'config/migrations',
-	'exceptions',
+	'exceptions/oauth',
+	'exceptions/semrush',
+	'values/semrush',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );

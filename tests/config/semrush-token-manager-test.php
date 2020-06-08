@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Config\SEMrush_Token_Manager;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
  * Class SEMrush_Token_Manager_Test.
@@ -18,14 +19,19 @@ use Yoast\WP\SEO\Tests\TestCase;
 class SEMrush_Token_Manager_Test extends TestCase {
 
 	/**
-	 * @var AccessTokenInterface|Mockery\LegacyMockInterface|Mockery\MockInterface
-	 */
-	private $oauth_response;
-
-	/**
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */
 	private $options_helper;
+
+	/**
+	 * @var SEMrush_Token_Manager
+	 */
+	private $instance;
+
+	/**
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|SEMrush_Token
+	 */
+	private $token;
 
 	/**
 	 * @inheritDoc
@@ -33,48 +39,20 @@ class SEMrush_Token_Manager_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->oauth_response = Mockery::mock( AccessTokenInterface::class );
+		$this->token          = Mockery::mock( SEMrush_Token::class );
 		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->instance       = new SEMrush_Token_Manager( $this->options_helper );
 	}
 
 	/**
-	 * Tests if the needed attributes are set correctly.
+	 * Tests that setting of a token object is successful.
 	 *
-	 * @covers ::__construct
+	 * @covers ::set_token
 	 */
-	public function test_constructor() {
-		$this->oauth_response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
+	public function test_successful_adding_of_token() {
+		$this->instance->set_token( $this->token );
 
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
-
-		$this->assertEquals( '000000', $new_instance->get_access_token() );
-		$this->assertEquals( '000001', $new_instance->get_refresh_token() );
-		$this->assertEquals( 604800, $new_instance->get_expires() );
-		$this->assertEquals( false, $new_instance->has_expired() );
-
-		$this->assertInstanceOf( AccessTokenInterface::class, $new_instance->get_original_response() );
-	}
-
-	/**
-	 * Tests that the constructor throws an exception if the token turns out to have expired.
-	 *
-	 * @covers ::__construct
-	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\OAuth_Expired_Token_Exception
-	 */
-	public function test_constructor_with_expired_token() {
-		$this->oauth_response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => true,
-		] );
-
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
+		$this->assertAttributeInstanceOf( SEMrush_Token::class, 'token', $this->instance );
 	}
 
 	/**
@@ -83,53 +61,56 @@ class SEMrush_Token_Manager_Test extends TestCase {
 	 * @covers ::store
 	 */
 	public function test_successful_token_store() {
-		$this->oauth_response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
+		$this->token
+			->expects( 'to_array' )
+			->andReturn( [
+				'access_token'  => '000000',
+				'refresh_token' => '000001',
+				'expires'       => 604800,
+				'has_expired'   => false,
+			] );
 
 		$this->options_helper
 			->expects( 'set' )
-			->with( 'yst_semrush_tokens', [
-				'access_token'  => '000000',
-				'refresh_token' => '000001',
-				'expires'       => '604800',
-				'has_expired'   => false,
-			] )->andReturn( true );
+			->once()
+			->andReturn( true );
 
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
+		$this->instance->set_token( $this->token );
 
-		$this->assertTrue( $new_instance->store() );
+		$this->assertAttributeInstanceOf( SEMrush_Token::class, 'token', $this->instance );
+		$this->assertTrue( $this->instance->store() );
 	}
 
 	/**
 	 * Tests that the storing of a token is unsuccessful.
 	 *
 	 * @covers ::store
-	 * @expectedException Yoast\WP\SEO\Exceptions\OAuth\OAuth_Failed_Token_Storage_Exception
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception
 	 */
 	public function test_unsuccessful_token_store() {
-		$this->oauth_response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
-
-		$this->options_helper
-			->expects( 'set' )
-			->with( 'yst_semrush_tokens', [
+		$this->token
+			->expects( 'to_array' )
+			->andReturn( [
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => '604800',
+				'expires'       => 604800,
 				'has_expired'   => false,
-			] )->andReturn( null );
+			] );
 
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
+		$this->options_helper->expects( 'set' )->once()->andReturn( null );
+		$this->instance->set_token( $this->token );
 
-		$this->assertFalse( $new_instance->store() );
+		$this->assertFalse( $this->instance->store() );
+	}
+
+	/**
+	 * Tests that the storing of a token is unsuccessful when none is set.
+	 *
+	 * @covers ::store
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception
+	 */
+	public function test_unsuccessful_token_store_when_no_token_is_set() {
+		$this->instance->store();
 	}
 
 	/**
@@ -138,41 +119,45 @@ class SEMrush_Token_Manager_Test extends TestCase {
 	 * @covers ::get_from_storage
 	 */
 	public function test_successful_token_retrieval() {
-		$this->oauth_response->allows( [
-			'getToken'        => '000000',
-			'getRefreshToken' => '000001',
-			'getExpires'      => 604800,
-			'hasExpired'      => false,
-		] );
-
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'yst_semrush_tokens' )
 			->andReturn( [
 				'access_token'  => '000000',
 				'refresh_token' => '000001',
-				'expires'       => '604800',
+				'expires'       => 604800,
 				'has_expired'   => false,
 			] );
 
-		// Existing instance
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
+		$token = $this->instance->get_from_storage();
 
-		$this->assertEquals( [
-			'access_token'  => '000000',
-			'refresh_token' => '000001',
-			'expires'       => '604800',
-			'has_expired'   => false,
-		], $new_instance->get_from_storage() );
+		$this->assertInstanceOf( SEMrush_Token::class, $token );
+		$this->assertInstanceOf( SEMrush_Token::class, $this->instance->get_token() );
 	}
 
 	/**
-	 * Tests that the retrieval of a token is unsuccessful, which means that no value is set, resulting in an empty array.
+	 * Tests that the retrieval of a token is unsuccessful, which means that no token is set, resulting in an empty array.
 	 *
 	 * @covers ::get_from_storage
 	 */
 	public function test_unsuccessful_token_retrieval_returns_empty_array() {
-		$this->oauth_response->allows( [
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'yst_semrush_tokens' )
+			->andReturn( null );
+
+		$this->assertNull( $this->instance->get_from_storage() );
+		$this->assertAttributeEmpty( 'token', $this->instance );
+	}
+
+	/**
+	 * Tests that the creation of a token and storing it, is successful.
+	 *
+	 * @covers ::from_response
+	 */
+	public function test_successful_token_creation_from_response() {
+		$response = Mockery::mock( AccessTokenInterface::class );
+		$response->allows( [
 			'getToken'        => '000000',
 			'getRefreshToken' => '000001',
 			'getExpires'      => 604800,
@@ -180,13 +165,12 @@ class SEMrush_Token_Manager_Test extends TestCase {
 		] );
 
 		$this->options_helper
-			->expects( 'get' )
-			->with( 'yst_semrush_tokens' )
-			->andReturn( null );
+			->expects( 'set' )
+			->once()
+			->andReturn( true );
 
-		// Existing instance
-		$new_instance = new SEMrush_Token_Manager( $this->oauth_response, $this->options_helper );
+		$this->instance->from_response( $response );
 
-		$this->assertEquals( [], $new_instance->get_from_storage() );
+		$this->assertInstanceOf( SEMrush_Token::class, $this->instance->get_token() );
 	}
 }

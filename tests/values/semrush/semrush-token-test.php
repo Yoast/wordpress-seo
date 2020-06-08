@@ -1,0 +1,98 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\Values\SEMrush;
+
+use League\OAuth2\Client\Token\AccessTokenInterface;
+use Mockery;
+use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
+
+/**
+ * Class Images_Test
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Values\SEMrush\SEMrush_Token
+ *
+ * @group values
+ * @group semrush
+ */
+class SEMrush_Token_Test extends TestCase {
+
+	/**
+	 * Test creating a valid new instance.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_creating_new_instance() {
+		$instance = new SEMrush_Token( '000000', '000001', 604800, false );
+
+		$this->assertInstanceOf( SEMrush_Token::class, $instance );
+	}
+
+	/**
+	 * Test creating a new instance with an empty property.
+	 *
+	 * @covers ::__construct
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception
+	 */
+	public function test_creating_new_instance_empty_property() {
+		$instance = new SEMrush_Token( '', '000001', 604800, true );
+	}
+
+	/**
+	 * Test creating a new instance with an expired token.
+	 *
+	 * @covers ::get_access_token
+	 * @covers ::get_refresh_token
+	 * @covers ::get_expires
+	 * @covers ::has_expired
+	 */
+	public function test_getters() {
+		$instance = new SEMrush_Token( '000000', '000001', 604800, false );
+
+		$this->assertEquals( '000000', $instance->get_access_token() );
+		$this->assertEquals( '000001', $instance->get_refresh_token() );
+		$this->assertEquals( 604800, $instance->get_expires() );
+		$this->assertFalse( $instance->has_expired() );
+	}
+
+	/**
+	 * Test converting an instance to an array.
+	 *
+	 * @covers ::to_array
+	 */
+	public function test_to_array() {
+		$instance = new SEMrush_Token( '000000', '000001', 604800, false );
+
+		$this->assertEquals( [
+			'access_token'  => '000000',
+			'refresh_token' => '000001',
+			'expires'       => 604800,
+			'has_expired'   => false,
+		], $instance->to_array() );
+
+	}
+
+	/**
+	 * Test creating from a response object.
+	 *
+	 * @covers ::from_response
+	 * @covers ::__construct
+	 */
+	public function test_from_response() {
+		$response = Mockery::mock( AccessTokenInterface::class );
+		$response->allows( [
+			'getToken'        => '000000',
+			'getRefreshToken' => '000001',
+			'getExpires'      => 604800,
+			'hasExpired'      => false,
+		] );
+
+		$instance = SEMrush_Token::from_response( $response );
+
+		$this->assertInstanceOf( SEMrush_Token::class, $instance );
+		$this->assertAttributeEquals( '000000', 'access_token', $instance );
+		$this->assertAttributeEquals( '000001', 'refresh_token', $instance );
+		$this->assertAttributeEquals( time() + 604800 , 'expires', $instance );
+		$this->assertAttributeEquals( false, 'has_expired', $instance );
+	}
+}
