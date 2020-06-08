@@ -551,28 +551,28 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   width: 18px;
   margin-right: 7px;
   height: 18px;
-  background: var(--svg-icon-yoast) no-repeat;
+  background: var(--yoast-svg-icon-yoast) no-repeat;
   background-size: 18px;
 }
 
 .yoast-seo-score .yoast-logo.svg.good {
-  background-image: var(--svg-icon-yoast-good);
+  background-image: var(--yoast-svg-icon-yoast-good);
 }
 
 .yoast-seo-score .yoast-logo.svg.ok {
-  background-image: var(--svg-icon-yoast-ok);
+  background-image: var(--yoast-svg-icon-yoast-ok);
 }
 
 .yoast-seo-score .yoast-logo.svg.bad {
-  background-image: var(--svg-icon-yoast-bad);
+  background-image: var(--yoast-svg-icon-yoast-bad);
 }
 
 .yoast-seo-score .yoast-logo.svg.na {
-  background-image: var(--svg-icon-yoast);
+  background-image: var(--yoast-svg-icon-yoast);
 }
 
 .yoast-seo-score .yoast-logo.svg.noindex {
-  background-image: var(--svg-icon-yoast);
+  background-image: var(--yoast-svg-icon-yoast);
 }
 
 .term-php .wpseo-taxonomy-metabox-postbox > h2 {
@@ -604,15 +604,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast-section__heading-icon-list {
-  background-image: var(--svg-icon-list);
+  background-image: var(--yoast-svg-icon-list);
 }
 
 .yoast-section__heading-icon-key {
-  background-image: var(--svg-icon-key);
+  background-image: var(--yoast-svg-icon-key);
 }
 
 .yoast-section__heading-icon-edit {
-  background-image: var(--svg-icon-edit);
+  background-image: var(--yoast-svg-icon-edit);
 }
 
 .yoast-tooltip.yoast-tooltip-hidden::before,
