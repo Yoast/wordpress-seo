@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
 /*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -317,6 +318,23 @@ const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
 };
 
 /**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	      The word to be checked.
+ * @param {Object} exceptions The list of full-form exceptions to be checked in.
+ *
+ * @returns {null|string} The canonical stem or null if nothing was found.
+ */
+const checkWordInFullFormExceptions = function( word, exceptions ) {
+	for ( const paradigm of exceptions ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
+};
+
+/**
  * Stems Italian words.
  *
  * @param {string} word             The word to stem.
@@ -325,6 +343,12 @@ const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
  * @returns {string}               The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Check the exception list for irregular plural nouns and adjectives.
+	const irregularPluralNounsAndAdjectives = checkWordInFullFormExceptions( word, morphologyData.irregularPluralNounsAndAdjectives );
+	if ( irregularPluralNounsAndAdjectives ) {
+		return irregularPluralNounsAndAdjectives;
+	}
+	// Start word pre-processing.
 	word = preProcess( word, morphologyData );
 
 	// Don't stem words that consist of less than 3 letters.

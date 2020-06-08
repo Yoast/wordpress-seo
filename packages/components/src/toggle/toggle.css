@@ -46,7 +46,7 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 }
 
 .yoast-toggle__checkbox:focus ~ .yoast-toggle__switch {
-	box-shadow: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
+	box-shadow: var(--yoast-color-focus);
 }
 
 .yoast-toggle__switch::before {
