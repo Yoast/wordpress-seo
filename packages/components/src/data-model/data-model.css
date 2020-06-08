@@ -9,12 +9,12 @@
     padding: 0 8px;
     position: relative;
     z-index:2;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--yoast-font-weight-bold);
 }
 
 .yoast-data-model span {
     float: right;
-    font-weight: var(--font-weight-default);
+    font-weight: var(--yoast-font-weight-default);
 }
 
 .yoast-data-model li + li {
@@ -27,6 +27,6 @@
     height: 20px;
     background: #F5D6E6;
     content:"";
-    width: var(--width);
+    width: var(--yoast-width);
     z-index:-1;
 }
