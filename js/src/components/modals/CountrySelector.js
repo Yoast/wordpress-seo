@@ -1,4 +1,7 @@
+/* External dependencies */
 import React from "react";
+import PropTypes from "prop-types";
+import { Fragment } from "@wordpress/element";
 
 /**
  * The Country selector component.
@@ -7,7 +10,8 @@ class CountrySelector extends React.Component {
 	/**
 	 * Constructs the country selector.
 	 *
-	 * @param {Object}   props                                   The props for the country selector.
+	 * @param {Object} props The props for the country selector.
+	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
@@ -17,24 +21,24 @@ class CountrySelector extends React.Component {
 	/**
 	 * Renders the country selector.
 	 *
-	 * @returns {ReactElement} The snippet country selector.
+	 * @returns {ReactElement} The country selector.
 	 */
 	render() {
 		return (
-			<div>
-				<h1> Country selector </h1>
-				<p> The Country selector will come here ! </p>
-			</div>
+			<Fragment>
+				<h2 fakeProp={ this.props.fakeProp }>Country selector</h2>
+				<p>The Country selector will come here!</p>
+			</Fragment>
 		);
 	}
 }
 
 CountrySelector.propTypes = {
-
+	fakeProp: PropTypes.string,
 };
 
 CountrySelector.defaultProps = {
-
+	fakeProp: "",
 };
 
 export default CountrySelector;

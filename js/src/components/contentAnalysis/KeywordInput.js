@@ -53,10 +53,10 @@ class KeywordInput extends Component {
 	render() {
 		return <Fragment>
 			<LocationConsumer>
-				{ context => (
+				{ location => (
 					<KeywordInputContainer>
 						<KeywordInputComponent
-							id={ `focus-keyword-input-${ context }` }
+							id={ `focus-keyword-input-${ location }` }
 							onChange={ this.props.onFocusKeywordChange }
 							keyword={ this.props.keyword }
 							label={ __( "Focus keyphrase", "wordpress-seo" ) }
@@ -73,12 +73,13 @@ class KeywordInput extends Component {
 								) }
 							</Alert>
 						}
+						<RelatedKeyPhrasesModal
+							location={ location }
+							className="yoast-related-keyphrases-modal"
+						/>
 					</KeywordInputContainer>
 				) }
 			</LocationConsumer>
-
-			<RelatedKeyPhrasesModal />
-
 			<Slot name="YoastAfterKeyphraseInput" />
 		</Fragment>;
 	}
