@@ -75,7 +75,6 @@ class KeywordInput extends Component {
 						}
 						<RelatedKeyPhrasesModal
 							location={ location }
-							className="yoast-related-keyphrases-modal"
 						/>
 					</KeywordInputContainer>
 				) }
