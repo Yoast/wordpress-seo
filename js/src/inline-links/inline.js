@@ -4,7 +4,7 @@ import {
 	withSpokenMessages,
 } from "@wordpress/components";
 import { getRectangleFromRange } from "@wordpress/dom";
-import { Component, createRef, useMemo, Fragment, __experimentalCreateInterpolateElement } from "@wordpress/element";
+import { Component, createRef, useMemo, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { LEFT, RIGHT, UP, DOWN, BACKSPACE, ENTER, ESCAPE } from "@wordpress/keycodes";
 import { prependHTTP } from "@wordpress/url";
@@ -26,6 +26,7 @@ import PositionedAtSelection from "./positioned-at-selection";
 import LinkEditor from "./link-editor";
 import LinkViewer from "./link-viewer";
 import HelpLink from "../components/contentAnalysis/HelpLink";
+import createInterpolateElement from "../helpers/createInterpolateElement";
 
 /**
  * Stop key propagation.
@@ -435,7 +436,7 @@ class InlineLinkUI extends Component {
 			</span>
 		</HelpLink>;
 
-		const noFollowLabel = __experimentalCreateInterpolateElement(
+		const noFollowLabel = createInterpolateElement(
 			sprintf(
 				__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
 				"<code>",
@@ -448,7 +449,7 @@ class InlineLinkUI extends Component {
 			}
 		);
 
-		const sponsoredLabel = __experimentalCreateInterpolateElement(
+		const sponsoredLabel = createInterpolateElement(
 			sprintf(
 				__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),
 				"<code>",
