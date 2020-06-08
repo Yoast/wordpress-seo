@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.3 =
 Release Date: June 9th, 2020
 
+In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code styling and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
+
 Bugfixes:
 
 * Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
