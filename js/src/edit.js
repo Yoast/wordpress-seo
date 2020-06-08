@@ -2,11 +2,12 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { Slot } from "@wordpress/components";
-import { combineReducers, registerStore } from "@wordpress/data";
+import { Slot, Fill, PanelBody } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
+import { combineReducers, registerStore } from "@wordpress/data";
 import { decodeEntities } from "@wordpress/html-entities";
 import { __ } from "@wordpress/i18n";
+import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
 import { registerFormatType, applyFormat, isCollapsed } from "@wordpress/rich-text";
 import { isURL } from "@wordpress/url";
 import {
@@ -30,6 +31,9 @@ import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
+import PrePublish from "./containers/PrePublish";
+import DocumentSidebar from "./containers/DocumentSidebar";
+import PostPublish from "./containers/PostPublish";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -181,11 +185,35 @@ class Edit {
 						} }
 					</Slot>
 				</PluginSidebar>
-
 				<Fragment>
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
+				<PluginPrePublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PrePublish />
+				</PluginPrePublishPanel>
+				<PluginPostPublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PostPublish />
+				</PluginPostPublishPanel>
+				<Fill name="PluginDocumentSettingPanel">
+					<PanelBody
+						className="yoast-seo-sidebar-panel"
+						title={ __( "Yoast SEO", "wordpress-seo" ) }
+						initialOpen={ true }
+					>
+						<DocumentSidebar />
+					</PanelBody>
+				</Fill>
 			</Fragment>
 		);
 

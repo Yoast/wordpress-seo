@@ -42,6 +42,7 @@ const wordpressExternals = {
 	"@wordpress/dom": "window.wp.dom",
 	"@wordpress/element": "window.wp.element",
 	"@wordpress/html-entities": "window.wp.htmlEntities",
+	"@wordpress/edit-post": "window.wp.editPost",
 	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/keycodes": "window.wp.keycodes",

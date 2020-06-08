@@ -174,7 +174,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						 * with the exception of underscores.
 						 *
 						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
-						 * @link https://dev.twitter.com/docs/platform-objects/users
 						 */
 						if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
 							$clean[ $key ] = $twitter_id;
