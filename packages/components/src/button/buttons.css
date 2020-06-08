@@ -20,6 +20,13 @@
 	outline: none;
 }
 
+.yoast .yoast-button::-moz-focus-inner,
+.yoast-close::-moz-focus-inner,
+.yoast-remove::-moz-focus-inner,
+.yoast-hide::-moz-focus-inner {
+	border: 0;
+}
+
 .yoast .yoast-button:active { /* 'Pressed' button state */
 	box-shadow: none;
 	top: 2px;
