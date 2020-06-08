@@ -26,7 +26,7 @@ class KeyphrasesTable extends React.Component {
 	render() {
 		return (
 			<Fragment>
-				<h2 fakeProp={ this.props.fakeProp }>Keyphrase table</h2>
+				<h2 id={ this.props.fakeProp }>Keyphrase table</h2>
 				<p>The Keyphrase table will come here!</p>
 			</Fragment>
 		);
@@ -38,7 +38,7 @@ KeyphrasesTable.propTypes = {
 };
 
 KeyphrasesTable.defaultProps = {
-	fakeProp: "",
+	fakeProp: null,
 };
 
 export default KeyphrasesTable;

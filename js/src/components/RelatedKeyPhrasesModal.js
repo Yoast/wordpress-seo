@@ -4,7 +4,6 @@ import { Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import styled from "styled-components";
 
 /* Yoast dependencies */
 import { BaseButton } from "@yoast/components";
@@ -14,16 +13,6 @@ import { ModalContainer } from "./modals/Container";
 import CountrySelector from "./modals/CountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
-
-const StyledBaseButton = styled( BaseButton )`
-	margin-top: 16px;
-`;
-
-const ModalHeaderIcon = styled( YoastIcon )`
-	width: 18px;
-	height: 18px;
-	margin: 4px 16px 0 0;
-`;
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -92,24 +81,23 @@ class RelatedKeyPhrasesModal extends Component {
 
 		return (
 			<Fragment>
-				<StyledBaseButton
+				<BaseButton
 					id={ "yoast-get-related-keyphrases" }
 					onClick={ this.openModal }
 					{ ...this.props }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
-				</StyledBaseButton>
+				</BaseButton>
 				{ keyphrase && this.state.isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
 						onRequestClose={ this.closeModal }
 						className={ this.props.className }
-						icon={ <ModalHeaderIcon /> }
+						icon={ <YoastIcon /> }
 					>
 						<ModalContainer>
 							<CountrySelector />
 							<KeyphrasesTable />
-
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />

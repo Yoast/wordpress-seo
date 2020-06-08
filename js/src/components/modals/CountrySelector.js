@@ -26,7 +26,7 @@ class CountrySelector extends React.Component {
 	render() {
 		return (
 			<Fragment>
-				<h2 fakeProp={ this.props.fakeProp }>Country selector</h2>
+				<h2 id={ this.props.fakeProp }>Country selector</h2>
 				<p>The Country selector will come here!</p>
 			</Fragment>
 		);
@@ -38,7 +38,7 @@ CountrySelector.propTypes = {
 };
 
 CountrySelector.defaultProps = {
-	fakeProp: "",
+	fakeProp: null,
 };
 
 export default CountrySelector;
