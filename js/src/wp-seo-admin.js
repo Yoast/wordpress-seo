@@ -149,12 +149,14 @@ import a11ySpeak from "a11y-speak";
 		jQuery( "#twitter_card_type" ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale,
+			dropdownCssClass: "yoast-select__dropdown",
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
 		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
 			language: wpseoSelect2Locale,
+			dropdownCssClass: "yoast-select__dropdown",
 		} );
 	}
 
