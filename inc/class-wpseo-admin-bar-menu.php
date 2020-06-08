@@ -332,7 +332,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'     => 'wpseo-facebookdebug',
 				'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-				'href'   => '//developers.facebook.com/tools/debug/og/object?q=' . $encoded_url,
+				'href'   => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
 			],
 			[
 				'id'     => 'wpseo-pinterestvalidator',
