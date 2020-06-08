@@ -15,6 +15,8 @@ $yform          = Yoast_Form::get_instance();
 $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 
+echo '<div class="yoast-feature">';
+
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
@@ -238,6 +240,8 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		echo '</p>';
 	}
 }
+
+echo '</div>';
 
 if ( is_multisite() ) {
 	$yform->admin_footer( false );
