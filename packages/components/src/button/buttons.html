@@ -12,9 +12,9 @@ use a button when it's used for an action: for example, opening a modal.-->
 	<style>
 		/* Demo styling */
 		body {
-			font-family: var(--font-family);
-			font-size: var(--font-size-default);
-			color: var(--color-font-default);
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
 			line-height: 1.5;
 		}
 	</style>
@@ -30,13 +30,33 @@ use a button when it's used for an action: for example, opening a modal.-->
 </head>
 <body class="yoast">
 	<p>
-		You can use both a <code>button</code> and an <code><a href=""></a></code> with the buttons.
+		You can use both a <code>button</code> and a <code><a href=""></a></code> with the buttons.
 		A button is used for an action, an a tag for a link to (external) content.
 	</p>
 
 	<p>Primary, purple button. Use with class <code>yoast-button yoast-button--primary</code></p>
 
 	<button class="yoast-button yoast-button--primary">Save changes</button>
+
+	<p>Secondary, gray button. Use with class <code>yoast-button yoast-button--secondary</code></p>
+
+	<button class="yoast-button yoast-button--secondary">Save changes</button>
+
+	<p>Upsell, yellow button. Use with class <code>yoast-button yoast-button--buy</code></p>
+
+	<a href="#" class="yoast-button yoast-button--buy">Buy premium</a>
+
+	<p>Upsell, yellow button with arrow. Use with class <code>yoast-button yoast-button--buy</code> and in the span use <code>yoast-button--buy__caret</code></p>
+
+	<a href="#" class="yoast-button yoast-button--buy">Buy premium<span class="yoast-button--buy__caret"></span></a>
+
+	<p>Remove button. Use with class <code>yoast-remove</code></p>
+
+	<input class="yoast-remove" value="Remove button" type="button" />
+
+	<p>Hide button. Use with class <code>yoast-hide</code></p>
+
+	<button class="yoast-hide">Hide button</button>
 
 	<p>Close button</p>
 

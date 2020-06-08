@@ -5,6 +5,10 @@ const morphologyDataIT = getMorphologyData( "it" ).it;
 
 const wordsToStem = [
 	// Suffixes for which we have no examples as they are extremely unusual: -istà, -istì, -istè, -ià, -iè, -iì.
+	// Input a noun with an irregular plural.
+	[ "uomini", "uom" ],
+	// Input an adjective with an irregular plural.
+	[ "ampli", "amp" ],
 	// Input a masculine plural noun.
 	[ "cani", "can" ],
 	// Input a masculine singular noun.

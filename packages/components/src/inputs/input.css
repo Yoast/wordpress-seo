@@ -1,17 +1,23 @@
 :root {
-	--color-placeholder: #707070;
+	--yoast-color-placeholder: #707070;
 }
 
 .yoast .yoast-field-group__textarea,
 .yoast .yoast-field-group__inputfield {
 	width: 100%;
-	font-size: var(--font-size-default);
+	font-size: var(--yoast-font-size-default);
 	padding: 8px;
 	background: white;
-	border: var(--border-default);
+	border: var(--yoast-border-default);
 	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
 	border-radius: 0;
+}
+
+.yoast .yoast-field-group__textarea:focus,
+.yoast .yoast-field-group__inputfield:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
 }
 
 .yoast-field-group__upload .yoast-field-group__inputfield {
@@ -36,12 +42,12 @@
 
 /* Edge. */
 ::-ms-input-placeholder {
-	color: var(--color-placeholder);
+	color: var(--yoast-color-placeholder);
 }
 
 /* Modern browsers. */
 ::placeholder {
-	color: var(--color-placeholder);
+	color: var(--yoast-color-placeholder);
 	/* Specific for Firefox. */
 	opacity: 1;
 }

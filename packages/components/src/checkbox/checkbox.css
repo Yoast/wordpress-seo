@@ -17,7 +17,7 @@
     margin: 2px 8px 0 0;
     border-radius: 2px;
     transition: background-color 150ms ease-out 0s;
-    border: var(--border-default);
+    border: var(--yoast-border-default);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
@@ -28,7 +28,7 @@
 }
 
 .yoast-field-group__checkbox input[type='checkbox']:checked {
-    background: var(--checkmark--white) var(--color-primary) no-repeat center / 13px;
-    border: 1px solid var(--color-primary);
+    background: var(--yoast-checkmark--white) var(--yoast-color-primary) no-repeat center / 13px;
+    border: 1px solid var(--yoast-color-primary);
     box-shadow: none;
 }
