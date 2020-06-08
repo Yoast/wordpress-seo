@@ -14,6 +14,12 @@
 	border-radius: 0;
 }
 
+.yoast .yoast-field-group__textarea:focus,
+.yoast .yoast-field-group__inputfield:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
+}
+
 .yoast-field-group__upload .yoast-field-group__inputfield {
 	margin-bottom: 8px;
 }
