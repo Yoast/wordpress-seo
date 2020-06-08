@@ -6,6 +6,7 @@ import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
+import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
 
@@ -63,12 +64,18 @@ export default compose( [
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
-		const {
-			getFirstContentImage,
-		} = select( "core/block-editor" );
+		if ( isGutenbergDataAvailable() ) {
+			const {
+				getBlocks,
+			} = select( "core/block-editor" );
+			console.log( getBlocks() );
+			// Get the first image from the Block editor.
+		} else {
+			// Get the first image from TinyMCE
+		}
 		return {
 			imageUrl: getFacebookImageUrl(),
-			imageFallbackUrl: getFirstContentImage() || getImageFallback(),
+			imageFallbackUrl: getImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
