@@ -2,11 +2,14 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { Fragment } from "@wordpress/element";
 import { Slot, Fill, PanelBody } from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore } from "@wordpress/data";
-import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
+import { decodeEntities } from "@wordpress/html-entities";
 import { __ } from "@wordpress/i18n";
+import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
+import { registerFormatType, applyFormat, isCollapsed } from "@wordpress/rich-text";
+import { isURL } from "@wordpress/url";
 import {
 	get,
 	pickBy,
@@ -19,6 +22,7 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import Sidebar from "./containers/Sidebar";
+import EditLink from "./inline-links/edit-link";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
@@ -38,6 +42,9 @@ const PinnedPluginIcon = styled( PluginIcon )`
 	height: 20px;
 `;
 
+/**
+ * Contains the Yoast SEO block editor integration.
+ */
 class Edit {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.
@@ -51,6 +58,36 @@ class Edit {
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
 		this._args =          args;
+		this.link = {
+			name: "yoast-seo/link",
+			title: __( "Link", "wordpress-seo" ),
+			tagName: "a",
+			className: "yoast-seo-link",
+			attributes: {
+				url: "href",
+				target: "target",
+				rel: "rel",
+			},
+			__unstablePasteRule( value, { html, plainText } ) {
+				if ( isCollapsed( value ) ) {
+					return value;
+				}
+
+				const pastedText = ( html || plainText ).replace( /<[^>]+>/g, "" ).trim();
+
+				if ( ! isURL( pastedText ) ) {
+					return value;
+				}
+
+				return applyFormat( value, {
+					type: "yoast-seo/link",
+					attributes: {
+						url: decodeEntities( pastedText ),
+					},
+				} );
+			},
+			edit: EditLink,
+		};
 
 		this._init();
 	}
@@ -72,6 +109,7 @@ class Edit {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerPlugin();
+		this._registerFormats();
 
 		this._data = this._initializeData();
 
@@ -84,6 +122,16 @@ class Edit {
 				socialPreviewImageURL: this._localizedData.social_preview_image_url,
 			},
 		} ) );
+	}
+
+	_registerFormats() {
+		[
+			this.link,
+		].forEach( ( { name, ...settings } ) => {
+			if ( name ) {
+				registerFormatType( name, settings );
+			}
+		} );
 	}
 
 	/**

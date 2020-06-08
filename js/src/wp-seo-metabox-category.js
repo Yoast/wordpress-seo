@@ -256,6 +256,11 @@ const PLUGIN_NAMESPACE = "yoast-seo";
 			PLUGIN_NAMESPACE,
 			OriginalComponent => {
 				return class Filter extends Component {
+					/**
+					 * Renders the primary taxonomy filter component.
+					 *
+					 * @returns {wp.Element} the component.
+					 */
 					render() {
 						return (
 							<PrimaryTaxonomyFilter
