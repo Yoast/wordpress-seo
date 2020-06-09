@@ -84,6 +84,7 @@ class RelatedKeyPhrasesModal extends Component {
 				<BaseButton
 					id={ "yoast-get-related-keyphrases" }
 					onClick={ this.handleOnClick }
+					className="yoast-related-keyphrases-modal__button"
 					{ ...this.props }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
@@ -92,11 +93,11 @@ class RelatedKeyPhrasesModal extends Component {
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
 						onRequestClose={ this.closeModal }
-						className="yoast-related-keyphrases-modal"
+						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 					>
 						<ModalContainer
-							className="yoast-related-keyphrases-modal__content"
+							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
 							<CountrySelector />
 							<KeyphrasesTable />
