@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Formats the homepage meta to indexable format.
@@ -47,15 +48,16 @@ class Indexable_Home_Page_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
+	 * @param Indexable $indexable The indexable to format.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable The extended indexable.
+	 * @return Indexable The extended indexable.
 	 */
 	public function build( $indexable ) {
 		$indexable->object_type      = 'home-page';
 		$indexable->title            = $this->options->get( 'title-home-wpseo' );
 		$indexable->breadcrumb_title = $this->options->get( 'breadcrumbs-home' );
 		$indexable->permalink        = $this->url->home();
+		$indexable->blog_id          = \get_current_blog_id();
 		$indexable->description      = $this->options->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );

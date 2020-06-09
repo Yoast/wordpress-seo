@@ -8,8 +8,8 @@ use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Generators\Schema\Breadcrumb;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -53,7 +53,7 @@ class Breadcrumb_Test extends TestCase {
 	/**
 	 * Holds the meta tags context mock instance.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -67,9 +67,9 @@ class Breadcrumb_Test extends TestCase {
 		$this->id           = Mockery::mock( ID_Helper::class );
 		$this->html         = Mockery::mock( HTML_Helper::class );
 
-		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context::class );
+		$this->meta_tags_context               = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->meta_tags_context->presentation = Mockery::mock( Indexable_Presentation::class );
-		$this->meta_tags_context->indexable    = Mockery::mock( Indexable::class );
+		$this->meta_tags_context->indexable    = Mockery::mock( Indexable_Mock::class );
 		$this->meta_tags_context->canonical    = 'https://wordpress.example.com/canonical';
 
 		$this->instance = new Breadcrumb();
@@ -109,6 +109,18 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
 
 		$actual = $this->instance->generate();
 
@@ -169,6 +181,12 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
 
 		$actual = $this->instance->generate();
 
@@ -245,6 +263,24 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Page title' )
+			->once()
+			->andReturnArg( 0 );
+
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -316,6 +352,18 @@ class Breadcrumb_Test extends TestCase {
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
+
 		$expected = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => 'https://wordpress.example.com/canonical#breadcrumb',
@@ -377,7 +425,8 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
-		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Page title' )->andReturn( 'Page title' );
+		$this->html->expects( 'smart_strip_tags' )->once()->with( 'Home' )->andReturn( 'Home' );
+		$this->html->expects( 'smart_strip_tags' )->twice()->with( 'Page title' )->andReturn( 'Page title' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',

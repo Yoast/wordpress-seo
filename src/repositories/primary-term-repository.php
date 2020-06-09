@@ -2,29 +2,27 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\ORM\Repositories
+ * @package Yoast\WP\SEO\Repositories
  */
 
 namespace Yoast\WP\SEO\Repositories;
 
+use Yoast\WP\Lib\ORM;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Models\Primary_Term;
-use Yoast\WP\SEO\ORM\ORMWrapper;
-use Yoast\WP\SEO\ORM\Yoast_Model;
 
 /**
  * Class Primary_Term_Repository
- *
- * @package Yoast\WP\SEO\ORM\Repositories
  */
 class Primary_Term_Repository {
 
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return ORMWrapper
+	 * @return ORM
 	 */
 	public function query() {
-		return Yoast_Model::of_type( 'Primary_Term' );
+		return Model::of_type( 'Primary_Term' );
 	}
 
 	/**

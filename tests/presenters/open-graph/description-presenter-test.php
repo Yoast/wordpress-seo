@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -21,7 +22,7 @@ class Description_Presenter_Test extends TestCase {
 	/**
 	 * The description presenter instance.
 	 *
-	 * @var \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter
+	 * @var Description_Presenter
 	 */
 	protected $instance;
 
@@ -35,7 +36,7 @@ class Description_Presenter_Test extends TestCase {
 	/**
 	 * The WPSEO Replace Vars object.
 	 *
-	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
+	 * @var WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 
@@ -47,7 +48,7 @@ class Description_Presenter_Test extends TestCase {
 
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 
 		$this->instance->presentation = $this->presentation;
 		$this->instance->replace_vars = $this->replace_vars;
@@ -57,9 +58,11 @@ class Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->once()
-			->andReturnUsing( function ( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function ( $string ) {
+					return $string;
+				}
+			);
 	}
 
 	/**
@@ -94,7 +97,7 @@ class Description_Presenter_Test extends TestCase {
 	 * Tests whether the `wpseo_opengraph_desc` filter is used.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_description = 'My description';

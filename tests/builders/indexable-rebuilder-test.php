@@ -6,6 +6,7 @@ use Exception;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Rebuilder;
+use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -17,8 +18,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Rebuilder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Rebuilder_Test extends TestCase {
 
@@ -44,6 +43,13 @@ class Indexable_Rebuilder_Test extends TestCase {
 	private $builder;
 
 	/**
+	 * Holds the Logger instance.
+	 *
+	 * @var Logger|Mockery\MockInterface
+	 */
+	private $logger;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
@@ -51,7 +57,8 @@ class Indexable_Rebuilder_Test extends TestCase {
 
 		$this->repository = Mockery::mock( Indexable_Repository::class );
 		$this->builder    = Mockery::mock( Indexable_Builder::class );
-		$this->instance   = new Indexable_Rebuilder( $this->repository, $this->builder );
+		$this->logger     = Mockery::mock( Logger::class );
+		$this->instance   = new Indexable_Rebuilder( $this->repository, $this->builder, $this->logger );
 	}
 
 	/**
@@ -92,8 +99,12 @@ class Indexable_Rebuilder_Test extends TestCase {
 	 * @covers ::rebuild_for_type
 	 */
 	public function test_rebuild_for_type_catches_exceptions() {
-		$this->repository->expects( 'find_all_with_type' )->once()->with( 'user' )->andThrows( new Exception() );
+		$this->repository->expects( 'find_all_with_type' )
+			->once()
+			->with( 'user' )
+			->andThrows( new Exception( 'an error' ) );
 		$this->builder->expects( 'build_for_id_and_type' )->never();
+		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
 		$this->instance->rebuild_for_type( 'user' );
 	}
@@ -136,8 +147,12 @@ class Indexable_Rebuilder_Test extends TestCase {
 	 * @covers ::rebuild_for_type_and_sub_type
 	 */
 	public function test_rebuild_for_type_and_sub_type_catches_exceptions() {
-		$this->repository->expects( 'find_all_with_type_and_sub_type' )->once()->with( 'post', 'custom-post' )->andThrows( new Exception() );
+		$this->repository->expects( 'find_all_with_type_and_sub_type' )
+			->once()
+			->with( 'post', 'custom-post' )
+			->andThrows( new Exception( 'an error' ) );
 		$this->builder->expects( 'build_for_id_and_type' )->never();
+		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
 		$this->instance->rebuild_for_type_and_sub_type( 'post', 'custom-post' );
 	}
@@ -176,8 +191,12 @@ class Indexable_Rebuilder_Test extends TestCase {
 	 * @covers ::rebuild_for_post_type_archive
 	 */
 	public function test_rebuild_for_post_type_archive_catches_exceptions() {
-		$this->repository->expects( 'find_for_post_type_archive' )->once()->with( 'custom-post', false )->andThrows( new Exception() );
+		$this->repository->expects( 'find_for_post_type_archive' )
+			->once()
+			->with( 'custom-post', false )
+			->andThrows( new Exception( 'an error' ) );
 		$this->builder->expects( 'build_for_post_type_archive' )->never();
+		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
 		$this->instance->rebuild_for_post_type_archive( 'custom-post' );
 	}
@@ -216,8 +235,12 @@ class Indexable_Rebuilder_Test extends TestCase {
 	 * @covers ::rebuild_for_date_archive
 	 */
 	public function test_rebuild_for_date_archive_catches_exceptions() {
-		$this->repository->expects( 'find_for_date_archive' )->once()->with( false )->andThrows( new Exception() );
+		$this->repository->expects( 'find_for_date_archive' )
+			->once()
+			->with( false )
+			->andThrows( new Exception( 'an error' ) );
 		$this->builder->expects( 'build_for_date_archive' )->never();
+		$this->logger->expects( 'log' )->once()->with( 'error', 'an error' );
 
 		$this->instance->rebuild_for_date_archive();
 	}

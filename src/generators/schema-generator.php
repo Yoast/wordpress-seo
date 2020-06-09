@@ -58,7 +58,7 @@ class Schema_Generator implements Generator_Interface {
 
 		// Do a loop before everything else to inject the context and helpers.
 		foreach ( $pieces as $piece ) {
-			if ( is_a( $piece, Abstract_Schema_Piece::class ) ) {
+			if ( \is_a( $piece, Abstract_Schema_Piece::class ) ) {
 				$piece->context = $context;
 				$piece->helpers = $this->helpers;
 			}
@@ -67,7 +67,7 @@ class Schema_Generator implements Generator_Interface {
 		$pieces_to_generate = [];
 		foreach ( $pieces as $piece ) {
 			$identifier = \strtolower( \str_replace( 'Yoast\WP\SEO\Generators\Schema\\', '', \get_class( $piece ) ) );
-			if ( property_exists( $piece, 'identifier' ) ) {
+			if ( \property_exists( $piece, 'identifier' ) ) {
 				$identifier = $piece->identifier;
 			}
 
@@ -91,7 +91,7 @@ class Schema_Generator implements Generator_Interface {
 				$graph_pieces = [ $graph_pieces ];
 			}
 
-			if ( ! is_array( $graph_pieces ) ) {
+			if ( ! \is_array( $graph_pieces ) ) {
 				continue;
 			}
 
@@ -139,14 +139,7 @@ class Schema_Generator implements Generator_Interface {
 	 * @return Abstract_Schema_Piece[] A filtered array of graph pieces.
 	 */
 	protected function get_graph_pieces( $context ) {
-		/**
-		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
-		 *
-		 * @param Meta_Tags_Context $context An object with context variables.
-		 *
-		 * @api array $pieces The schema pieces.
-		 */
-		return \apply_filters( 'wpseo_schema_graph_pieces', [
+		$schema_pieces = [
 			new Schema\Organization(),
 			new Schema\Person(),
 			new Schema\Website(),
@@ -157,6 +150,15 @@ class Schema_Generator implements Generator_Interface {
 			new Schema\Author(),
 			new Schema\FAQ(),
 			new Schema\HowTo(),
-		], $context );
+		];
+
+		/**
+		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
+		 *
+		 * @param Meta_Tags_Context $context An object with context variables.
+		 *
+		 * @api array $pieces The schema pieces.
+		 */
+		return \apply_filters( 'wpseo_schema_graph_pieces', $schema_pieces, $context );
 	}
 }

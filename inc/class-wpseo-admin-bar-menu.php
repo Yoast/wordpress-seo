@@ -158,10 +158,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score        		 = '';
-		$settings_url 		 = '';
-		$counter      		 = '';
-		$notification_popup  = '';
+		$score              = '';
+		$settings_url       = '';
+		$counter            = '';
+		$notification_popup = '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
@@ -180,7 +180,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		if ( empty( $score ) && ! is_network_admin() && $can_manage_options ) {
-			$counter     		= $this->get_notification_counter();
+			$counter            = $this->get_notification_counter();
 			$notification_popup = $this->get_notification_popup();
 		}
 
@@ -280,7 +280,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_analysis_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$url           = YoastSEO()->meta->for_current_page()->canonical;
+		try {
+			$url = YoastSEO()->meta->for_current_page()->canonical;
+		} catch ( Exception $e ) {
+			// This is not the type of error we can handle here.
+			return;
+		}
+
 		$focus_keyword = '';
 
 		if ( ! $url ) {
@@ -326,7 +332,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'     => 'wpseo-facebookdebug',
 				'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-				'href'   => '//developers.facebook.com/tools/debug/og/object?q=' . $encoded_url,
+				'href'   => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
 			],
 			[
 				'id'     => 'wpseo-pinterestvalidator',

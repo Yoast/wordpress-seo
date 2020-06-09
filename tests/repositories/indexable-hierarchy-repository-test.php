@@ -7,11 +7,12 @@
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
+use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -45,7 +46,7 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
-		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class )->makePartial();
+		$this->builder  = Mockery::mock( Indexable_Hierarchy_Builder::class );
 	}
 
 	/**
@@ -65,18 +66,19 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::find_ancestors
 	 */
 	public function test_find_ancestors_having_results() {
-		$indexable     = Mockery::mock( Indexable::class );
+		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
-		$ancestors = [
-			(object) [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-			],
-		];
+		$ancestors = [ 2 ];
 
-		$orm_object = Mockery::mock()->makePartial();
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'ancestor_id' )
+			->andReturn( $orm_object );
+
 		$orm_object
 			->expects( 'where' )
 			->once()
@@ -90,9 +92,9 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 			->andReturn( $orm_object );
 
 		$orm_object
-			->expects( 'find_many' )
+			->expects( 'find_array' )
 			->once()
-			->andReturn( $ancestors );
+			->andReturn( [ [ 'ancestor_id' => 2 ] ] );
 
 		$this->instance
 			->expects( 'query' )
@@ -107,40 +109,45 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 	 * @covers ::find_ancestors
 	 */
 	public function test_find_ancestors_having_no_results_first_time() {
-		$indexable     = Mockery::mock( Indexable::class );
+		$indexable     = Mockery::mock( Indexable_Mock::class );
 		$indexable->id = 1;
 
-		$ancestors = [
-			(object) [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-			],
-		];
+		$parent_indexable     = Mockery::mock( Indexable_Mock::class );
+		$parent_indexable->id = 2;
+		$indexable->ancestors = [ $parent_indexable ];
 
-		$orm_object = Mockery::mock()->makePartial();
+		$ancestors = [ 2 ];
+
+		$orm_object = Mockery::mock();
+
+		$orm_object
+			->expects( 'select' )
+			->once()
+			->with( 'ancestor_id' )
+			->andReturn( $orm_object );
+
 		$orm_object
 			->expects( 'where' )
-			->twice()
+			->once()
 			->with( 'indexable_id', 1 )
 			->andReturn( $orm_object );
 
 		$orm_object
 			->expects( 'order_by_desc' )
-			->twice()
+			->once()
 			->with( 'depth' )
 			->andReturn( $orm_object );
 
 		$orm_object
-			->expects( 'find_many' )
-			->twice()
-			->andReturn( [], $ancestors );
+			->expects( 'find_array' )
+			->once()
+			->andReturn( [] );
 
 		$this->instance->set_builder( $this->builder );
 
 		$this->instance
 			->expects( 'query' )
-			->twice()
+			->once()
 			->andReturn( $orm_object );
 
 		$this->builder
@@ -184,26 +191,32 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$hierarchy->indexable_id = 1;
 		$hierarchy->ancestor_id  = 2;
 		$hierarchy->depth        = 1;
+		$hierarchy->blog_id      = 1;
 
-		$hierarchy->expects( 'save' )->once();
+		Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+
+		$hierarchy->expects( 'save' )->once()->andReturn( true );
 
 		$orm_object = Mockery::mock()->makePartial();
 
 		$orm_object
 			->expects( 'create' )
-			->with( [
-				'indexable_id' => 1,
-				'ancestor_id'  => 2,
-				'depth'        => 1,
-			] )
+			->with(
+				[
+					'indexable_id' => 1,
+					'ancestor_id'  => 2,
+					'depth'        => 1,
+					'blog_id'      => 1,
+				]
+			)
 			->andReturn( $hierarchy );
 		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
-		$this->assertSame( $hierarchy, $this->instance->add_ancestor( 1, 2, 1 ) );
+		$this->assertTrue( $this->instance->add_ancestor( 1, 2, 1 ) );
 	}
 
 	/**
-	 * Tests if the query method returns an instance of the ORMWrapper class that
+	 * Tests if the query method returns an instance of the ORM class that
 	 * represents the Indexable_Hierarchy.
 	 *
 	 * @covers ::query
@@ -217,6 +230,6 @@ class Indexable_Hierarchy_Repository_Test extends TestCase {
 		$query = $this->instance->query();
 
 		$this->assertAttributeEquals( '\Yoast\WP\SEO\Models\Indexable_Hierarchy', 'class_name', $query );
-		$this->assertInstanceOf( ORMWrapper::class, $query );
+		$this->assertInstanceOf( ORM::class, $query );
 	}
 }

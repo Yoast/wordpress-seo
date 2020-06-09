@@ -13,11 +13,16 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
  *
- * @group presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
+ * @group   presenters
  */
 class Googlebot_Presenter_Test extends TestCase {
+
+	/**
+	 * Represents the indexable presentation.
+	 *
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
 
 	/**
 	 * The Googlebot presenter instance.
@@ -25,6 +30,11 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @var Googlebot_Presenter
 	 */
 	private $instance;
+
+	/**
+	 * @var array
+	 */
+	private $googlebot;
 
 	/**
 	 * Sets up the test class.
@@ -35,6 +45,9 @@ class Googlebot_Presenter_Test extends TestCase {
 		$this->instance = Mockery::mock( Googlebot_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
+
+		$this->presentation           = Mockery::mock();
+		$this->instance->presentation = $this->presentation;
 	}
 
 	/**
@@ -43,14 +56,25 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->instance->presentation      = new Indexable_Presentation();
-		$indexable_presentation            = $this->instance->presentation;
-		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->robots    = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two, three" />';
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns an empty string because of robots noindex.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_robots_set_to_no_index() {
+		$this->presentation->googlebot = [];
+		$this->presentation->robots    = [ 'index' => 'noindex' ];
+
+		$this->assertEmpty( $this->instance->present() );
 	}
 
 	/**
@@ -60,19 +84,18 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->instance->presentation      = new Indexable_Presentation();
-		$indexable_presentation            = $this->instance->presentation;
-		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+		$this->presentation->robots    = [];
 
 		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
 			->once()
-			->with( 'one, two, three', $indexable_presentation )
+			->with( 'one, two, three', $this->presentation )
 			->andReturn( 'one, two' );
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="googlebot" content="one, two" />';
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -81,10 +104,20 @@ class Googlebot_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_empty() {
-		$this->instance->presentation      = new Indexable_Presentation();
-		$indexable_presentation            = $this->instance->presentation;
-		$indexable_presentation->googlebot = [];
+		$this->presentation->googlebot = [];
+		$this->presentation->robots    = [];
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests retrieval of the raw value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get() {
+		$this->presentation->googlebot = [ 'one', 'two', 'three' ];
+
+		$this->assertEquals( [ 'one', 'two', 'three' ], $this->instance->get() );
 	}
 }
