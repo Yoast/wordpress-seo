@@ -1,0 +1,97 @@
+<?php
+/**
+ * Watcher for the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
+ *
+ * @package Yoast\YoastSEO\Watchers
+ */
+
+namespace Yoast\WP\SEO\Integrations\Watchers;
+
+use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\WordPress\Wrapper;
+
+/**
+ * Represents the option titles watcher.
+ */
+class Indexable_Category_Permalink_Watcher implements Integration_Interface {
+	/**
+	 * Holds the indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
+
+	/**
+	 * Indexable_Permalink_Watcher constructor.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function __construct( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
+	}
+
+	/**
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
+	 */
+	public function register_hooks() {
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
+	}
+
+	/**
+	 * Checks if the stripcategorybase key in wpseo_titles has a change in value, and if so,
+	 * clears the permalink for category indexables.
+	 *
+	 * @param array $old_value The old value of the wpseo_titles option.
+	 * @param array $new_value The new value of the wpseo_titles option.
+	 *
+	 * @return void
+	 */
+	public function check_option( $old_value, $new_value ) {
+		// If this is the first time saving the option, thus when value is false.
+		if ( $old_value === false ) {
+			$old_value = [];
+		}
+
+		// If either value is not an array, return false.
+		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
+			return;
+		}
+
+		// If both values aren't set, they haven't changed.
+		if ( ! isset( $old_value['stripcategorybase'] ) && ! isset( $new_value['stripcategorybase'] ) ) {
+			return;
+		}
+
+		if ( $old_value['stripcategorybase'] !== $new_value['stripcategorybase'] ) {
+			$this->clear_category_permalinks();
+
+			return;
+		}
+	}
+
+	protected function clear_category_permalinks() {
+		Wrapper::get_wpdb()->update(
+			Model::get_table_name( 'Indexable' ),
+			[
+				'permalink' => null,
+			],
+			[ 'object_type' => 'term', 'object_sub_type' => 'category' ]
+		);
+	}
+}
