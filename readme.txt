@@ -209,6 +209,28 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.4 =
+Release Date: June 23rd, 2020
+
+Bugfixes:
+
+* Fixes a bug where replacement variable values would break the Google Preview and output a PHP notice on the front end if they were a serialized array string.
+* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a BC break.
+* Fixes a bug where the site logo was not output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
+* Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
+
+Enhancements:
+
+* Adds SEO insights to every step of the publishing flow:
+   * Adds the readability and SEO score to the document sidebar with the possibility to quickly open the Yoast sidebar.
+   * Adds the readability and SEO score to the publish checks. Gives reassurance or a call to action to further optimize the content.
+   * Adds social sharing buttons to the post publish actions to enable easy sharing on Facebook and Twitter.
+* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor.
+
+Other:
+
+* Adds headers to the main plugin file for minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
+
 = 14.3 =
 Release Date: June 9th, 2020
 
@@ -219,23 +241,6 @@ Bugfixes:
 * Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
 * Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
 * Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
-
-= 14.2 =
-Release Date: May 26th, 2020
-
-In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
-
-Bugfixes:
-
-* Fixes a bug where breadcrumbs would be saved in reversed order.
-* Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
-* Fixes a bug where replacement variables would not be replaced when using the deprecated `WPSEO_Frontend` output without echoing it.
-* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
-* Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
-
-Enhancements:
-
-* Optimizes the query used to check if a focus keyphrase has been previously used, by running it against our indexable table.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
