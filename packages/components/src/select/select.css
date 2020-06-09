@@ -61,6 +61,10 @@
 	background-color: transparent;
 }
 
+.yoast-field-group .select2-container--default .select2-selection--single {
+	margin-top: 6px;
+}
+
 .yoast-field-group .select2-container--default .select2-selection--single .select2-selection__arrow {
 	display: none;
 }
@@ -114,6 +118,7 @@
 .select2-container .yoast-select__dropdown .select2-results__option {
 	padding: 8px;
 	border-top: var(--yoast-border-default);
+	margin-bottom: 0px;
 }
 
 .select2-container--default .yoast-select__dropdown .select2-results__option.select2-results__option--highlighted[aria-selected] {
