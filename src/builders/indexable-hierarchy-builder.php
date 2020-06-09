@@ -109,7 +109,8 @@ class Indexable_Hierarchy_Builder {
 		if ( $indexable->object_type === 'term' ) {
 			$this->add_ancestors_for_term( $indexable_id, $indexable->object_id, $ancestors );
 		}
-		$indexable->ancestors = \array_reverse( \array_values( $ancestors ) );
+		$indexable->ancestors     = \array_reverse( \array_values( $ancestors ) );
+		$indexable->has_ancestors = ! empty( $ancestors );
 		if ( ! \is_null( $indexable->id ) ) {
 			$this->save_ancestors( $indexable );
 		}

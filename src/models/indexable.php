@@ -167,8 +167,6 @@ class Indexable extends Model {
 			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
-		$this->has_ancestors = ( is_array( $this->ancestors ) && ! empty( $this->ancestors ) );
-
 		return parent::save();
 	}
 
