@@ -152,10 +152,9 @@ class WPSEO_Configuration_Page {
 		<body class="wp-admin wp-core-ui">
 		<div id="wizard"></div>
 		<div role="contentinfo" class="yoast-wizard-return-link-container">
-			<a class="button yoast-wizard-return-link" href="<?php echo esc_url( $dashboard_url ); ?>">
-				<span aria-hidden="true" class="dashicons dashicons-no"></span>
+			<a class="yoast-wizard-return-link" href="<?php echo esc_url( $dashboard_url ); ?>">
 				<?php
-				esc_html_e( 'Close the Wizard', 'wordpress-seo' );
+				esc_html_e( 'Close this wizard', 'wordpress-seo' );
 				?>
 			</a>
 		</div>
