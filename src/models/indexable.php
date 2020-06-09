@@ -76,6 +76,8 @@ use Yoast\WP\Lib\Model;
  *
  * @property string  $schema_page_type
  * @property string  $schema_article_type
+ *
+ * @property bool    $has_ancestors
  */
 class Indexable extends Model {
 
@@ -164,6 +166,8 @@ class Indexable extends Model {
 		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
 			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
 		}
+
+		$this->has_ancestors = ( is_array( $this->ancestors ) && ! empty( $this->ancestors ) );
 
 		return parent::save();
 	}
