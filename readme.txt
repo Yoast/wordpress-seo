@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
-Tested up to: 5.4
-Stable tag: 14.2
+Tested up to: 5.4.1
+Stable tag: 14.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -211,6 +211,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 = 14.3 =
 Release Date: June 9th, 2020
+
+In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code style and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
 
 Bugfixes:
 
