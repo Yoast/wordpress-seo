@@ -14,7 +14,7 @@ describe( "Calculate coverage for the Russian stemmer", () => {
 
 	it( "checks if the coverage is above the threshold", () => {
 		const coverage = ( stemsComparison.length - errors.length ) / stemsComparison.length;
-		console.log( "The current coverage of the Russian stemmer is", coverage * 100, "%." );
+		console.log( "The current coverage of the Russian stemmer is", coverage * 100, "%. The number of errors is", errors.length + "." );
 		expect( coverage ).toBeGreaterThan( coverageThreshold );
 	} );
 } );
