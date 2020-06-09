@@ -6,6 +6,7 @@ import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
+import getContentImage from "../helpers/getContentImage";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
 
@@ -56,6 +57,7 @@ export default compose( [
 			getTwitterDescription,
 			getTwitterTitle,
 			getTwitterImageUrl,
+			getFacebookImageUrl,
 			getTwitterWarnings,
 			getTwitterImageType,
 			getImageFallback,
@@ -66,7 +68,7 @@ export default compose( [
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
-			imageFallbackUrl: getImageFallback(),
+			imageFallbackUrl: getFacebookImageUrl() || getContentImage( select ) || getImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getTwitterDescription(),
