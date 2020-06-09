@@ -24,8 +24,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Home_Page_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_Home_Page_Watcher_Test extends TestCase {
 
@@ -98,7 +96,6 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_home_page' )
@@ -136,7 +133,6 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_social_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_home_page' )
@@ -173,7 +169,6 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_home_page' )

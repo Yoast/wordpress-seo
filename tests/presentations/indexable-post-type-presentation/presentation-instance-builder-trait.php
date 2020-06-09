@@ -1,16 +1,15 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Static_Posts_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Date_Helper;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
-use Yoast\WP\SEO\Presentations\Indexable_Static_Posts_Page_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -22,7 +21,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Represents the indexable.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -43,7 +42,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Represents the meta tags context.
 	 *
-	 * @var Meta_Tags_Context|Mockery\MockInterface
+	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
 	 */
 	protected $context;
 
@@ -52,7 +51,7 @@ trait Presentation_Instance_Builder {
 	 *
 	 * @var Date_Helper
 	 */
-	protected $date_helper;
+	protected $date;
 
 	/**
 	 * Holds the Pagination_Helper instance.
@@ -69,25 +68,38 @@ trait Presentation_Instance_Builder {
 	protected $post;
 
 	/**
-	 * Builds an instance of Indexable_Search_Result_Page_Presentation.
+	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function set_instance() {
-		$this->indexable = new Indexable();
+		$this->indexable = new Indexable_Mock();
 
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );
 		$this->post       = Mockery::mock( Post_Helper::class );
+		$this->context    = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
 		$this->date       = Mockery::mock( Date_Helper::class );
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$instance = new Indexable_Static_Posts_Page_Presentation(
-			$this->post_type,
-			$this->date,
-			$this->pagination,
-			$this->post
+		$instance = Mockery::mock(
+			Indexable_Post_Type_Presentation::class,
+			[
+				$this->post_type,
+				$this->date,
+				$this->pagination,
+				$this->post,
+			]
+		)
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$this->instance = $instance->of(
+			[
+				'model'   => $this->indexable,
+				'context' => $this->context,
+			]
 		);
 
-		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
-
 		$this->set_instance_dependencies( $this->instance );
+
+		$this->context->indexable = $this->indexable;
 	}
 }

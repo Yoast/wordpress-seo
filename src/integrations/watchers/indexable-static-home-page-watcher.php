@@ -8,7 +8,6 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -20,7 +19,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	/**
 	 * The indexable repository.
 	 *
-	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
@@ -34,7 +33,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Repository $repository The repository to use.
 	 *
 	 * @codeCoverageIgnore
 	 */

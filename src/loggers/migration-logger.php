@@ -17,7 +17,7 @@ class Migration_Logger extends Ruckusing_Util_Logger {
 	/**
 	 * The logger object.
 	 *
-	 * @var \Yoast\WP\SEO\Loggers\Logger
+	 * @var Logger
 	 */
 	protected $logger;
 
@@ -26,7 +26,7 @@ class Migration_Logger extends Ruckusing_Util_Logger {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param \Yoast\WP\SEO\Loggers\Logger $logger The logger to wrap.
+	 * @param Logger $logger The logger to wrap.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;

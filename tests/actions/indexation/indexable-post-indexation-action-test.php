@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
 use Brain\Monkey\Filters;
 use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -36,7 +37,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	/**
 	 * The wpdb mock.
 	 *
-	 * @var \wpdb|Mockery\MockInterface
+	 * @var wpdb|Mockery\MockInterface
 	 */
 	protected $wpdb;
 
@@ -55,7 +56,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->repository          = Mockery::mock( Indexable_Repository::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
 
@@ -79,8 +80,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(ID)
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
-			$limit_placeholder
-		";
+			$limit_placeholder";
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )
@@ -119,8 +119,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			SELECT ID
 			FROM wp_posts
 			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
-			LIMIT %d
-		';
+			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
 

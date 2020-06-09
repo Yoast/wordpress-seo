@@ -119,11 +119,17 @@ class Indexable_Repository {
 		}
 
 		if ( $indexable === false ) {
-			return $this->query()->create( [ 'object_type' => 'unknown', 'post_status' => 'unindexed' ] );
+			return $this->query()->create(
+				[
+					'object_type' => 'unknown',
+					'post_status' => 'unindexed',
+				]
+			);
 		}
 
 		return $indexable;
 	}
+
 	/**
 	 * Retrieves an indexable by its permalink.
 	 *
@@ -368,9 +374,9 @@ class Indexable_Repository {
 		}
 
 		$indexables = $this->query()
-						   ->where_in( 'id', $indexable_ids )
-						   ->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
-						   ->find_many();
+			->where_in( 'id', $indexable_ids )
+			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
+			->find_many();
 
 		return \array_map( [ $this, 'ensure_permalink' ], $indexables );
 	}

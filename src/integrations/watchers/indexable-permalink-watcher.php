@@ -90,8 +90,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 		$subtype = $type;
 
 		// When the subtype contains _base, just strip it.
-		if ( strstr( $subtype, '_base' ) ) {
-			$subtype = substr( $type, 0, -5 );
+		if ( \strstr( $subtype, '_base' ) ) {
+			$subtype = \substr( $type, 0, -5 );
 		}
 
 		if ( $subtype === 'tag' ) {
@@ -151,11 +151,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	protected function get_taxonomies_for_post_types( $post_types ) {
 		$taxonomies = [];
 		foreach ( $post_types as $post_type ) {
-			$taxonomies[] = get_object_taxonomies( $post_type, 'names' );
+			$taxonomies[] = \get_object_taxonomies( $post_type, 'names' );
 		}
 
-		$taxonomies = array_merge( [], ...$taxonomies );
-		$taxonomies = array_unique( $taxonomies );
+		$taxonomies = \array_merge( [], ...$taxonomies );
+		$taxonomies = \array_unique( $taxonomies );
 
 		return $taxonomies;
 	}

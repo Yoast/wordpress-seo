@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Models;
+
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
- * Class Indexable
+ * Class Indexable_Mock
  *
  * Indexable mock class.
- *
- * @package Yoast\WP\SEO\Tests\Mocks
  */
-class Indexable extends \Yoast\WP\SEO\Models\Indexable {
+class Indexable_Mock extends Indexable {
 
 	public $id;
 

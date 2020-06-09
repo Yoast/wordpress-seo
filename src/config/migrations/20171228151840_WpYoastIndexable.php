@@ -109,12 +109,16 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 
 		// Prominent words.
-		$indexable_table->column( 'prominent_words_version', 'integer', [
-			'null'     => true,
-			'limit'    => 11,
-			'unsigned' => true,
-			'default'  => null,
-		] );
+		$indexable_table->column(
+			'prominent_words_version',
+			'integer',
+			[
+				'null'     => true,
+				'limit'    => 11,
+				'unsigned' => true,
+				'default'  => null,
+			]
+		);
 
 		$indexable_table->finish();
 

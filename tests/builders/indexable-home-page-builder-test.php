@@ -22,8 +22,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -35,7 +33,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	private $indexable_mock;
 
 	/**
-	 * Options helper mock
+	 * Options helper mock.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */
@@ -147,7 +145,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		// Provide stubs.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
@@ -170,7 +168,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build_with_fallback_description() {
 		// Provide stubs.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
@@ -196,7 +194,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
 
 		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		// We expect open graph image meta data to be set on the Indexable ORM.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		// We expect image meta data to be retrieved from the open graph image helper.

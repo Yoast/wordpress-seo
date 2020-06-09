@@ -5,12 +5,14 @@
  * @package Yoast\WP\SEO\Tests\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Mocks;
+namespace Yoast\WP\SEO\Tests\Doubles\Routes;
+
+use Yoast\WP\SEO\Routes\Abstract_Indexation_Route;
 
 /**
  * Represents the Abstract_Indexation_Route mock.
  */
-class Abstract_Indexation_Route extends \Yoast\WP\SEO\Routes\Abstract_Indexation_Route {
+class Abstract_Indexation_Route_Mock extends Abstract_Indexation_Route {
 
 	/**
 	 * @inheritDoc

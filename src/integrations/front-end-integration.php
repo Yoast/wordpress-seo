@@ -202,9 +202,6 @@ class Front_End_Integration implements Integration_Interface {
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 
-		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
-		\add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
-
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
@@ -222,7 +219,8 @@ class Front_End_Integration implements Integration_Interface {
 	public function filter_title() {
 		$context = $this->context_memoizer->for_current_page();
 
-		$title_presenter               = new Title_Presenter();
+		$title_presenter = new Title_Presenter();
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$title_presenter->presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 		$title_presenter->replace_vars = $this->replace_vars;
@@ -261,7 +259,7 @@ class Front_End_Integration implements Integration_Interface {
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 
-		echo PHP_EOL;
+		echo \PHP_EOL;
 		foreach ( $presenters as $presenter ) {
 			$presenter->presentation = $presentation;
 			$presenter->helpers      = $this->helpers;
@@ -269,10 +267,10 @@ class Front_End_Integration implements Integration_Interface {
 
 			$output = $presenter->present();
 			if ( ! empty( $output ) ) {
-				echo "\t" . $output . PHP_EOL;
+				echo "\t" . $output . \PHP_EOL;
 			}
 		}
-		echo PHP_EOL . PHP_EOL;
+		echo \PHP_EOL . \PHP_EOL;
 	}
 
 	/**
@@ -285,14 +283,13 @@ class Front_End_Integration implements Integration_Interface {
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$presenters = array_filter(
-			\array_map( function( $presenter ) {
-				if ( ! \class_exists( $presenter ) ) {
-					return null;
-				}
-				return new $presenter();
-			}, $needed_presenters )
-		);
+		$callback   = function( $presenter ) {
+			if ( ! \class_exists( $presenter ) ) {
+				return null;
+			}
+			return new $presenter();
+		};
+		$presenters = \array_filter( \array_map( $callback, $needed_presenters ) );
 
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
@@ -305,12 +302,15 @@ class Front_End_Integration implements Integration_Interface {
 			$presenter_instances = $presenters;
 		}
 
-		$presenter_instances = \array_filter( $presenter_instances, function ( $presenter_instance ) {
+		$is_presenter_callback = function ( $presenter_instance ) {
 			return $presenter_instance instanceof Abstract_Indexable_Presenter;
-		} );
+		};
+		$presenter_instances   = \array_filter( $presenter_instances, $is_presenter_callback );
 
 		return \array_merge(
-			[ new Marker_Open_Presenter() ], $presenter_instances, [ new Marker_Close_Presenter() ]
+			[ new Marker_Open_Presenter() ],
+			$presenter_instances,
+			[ new Marker_Close_Presenter() ]
 		);
 	}
 
@@ -326,12 +326,13 @@ class Front_End_Integration implements Integration_Interface {
 
 		if ( ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
 			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
-			$presenters = array_diff( $presenters, [ 'Title' ] );
+			$presenters = \array_diff( $presenters, [ 'Title' ] );
 		}
 
-		$presenters = \array_map( function ( $presenter ) {
+		$callback   = function ( $presenter ) {
 			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
-		}, $presenters );
+		};
+		$presenters = \array_map( $callback, $presenters );
 
 		/**
 		 * Filter 'wpseo_frontend_presenter_classes' - Allow filtering presenters in or out of the request.
@@ -360,7 +361,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$presenters = $this->get_all_presenters();
-		if ( in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ] ) ) {
+		if ( \in_array( $page_type, [ 'Static_Home_Page', 'Home_Page' ], true ) ) {
 			$presenters = \array_merge( $presenters, $this->webmaster_verification_presenters );
 		}
 
@@ -382,7 +383,7 @@ class Front_End_Integration implements Integration_Interface {
 		if ( $this->options->get( 'opengraph' ) === true ) {
 			$presenters = \array_merge( $presenters, $this->open_graph_presenters );
 		}
-		if ( $this->options->get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
+		if ( $this->options->get( 'twitter' ) === true && \apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
 			$presenters = \array_merge( $presenters, $this->twitter_card_presenters );
 		}
 

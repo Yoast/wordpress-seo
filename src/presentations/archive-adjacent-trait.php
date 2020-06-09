@@ -8,13 +8,14 @@
 namespace Yoast\WP\SEO\Presentations;
 
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
+use Yoast\WP\SEO\Models\Indexable;
 
 /**
  * Class Archive_Adjacent
  *
- * @property \Yoast\WP\SEO\Models\Indexable          $model      The indexable.
- * @property \Yoast\WP\SEO\Helpers\Pagination_Helper $pagination The pagination helper. Should be defined in the parent
- *                                                                class because of trait issues in PHP 5.6.
+ * @property Indexable         $model      The indexable.
+ * @property Pagination_Helper $pagination The pagination helper. Should be defined in the parent
+ *                                         class because of trait issues in PHP 5.6.
  */
 trait Archive_Adjacent {
 

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
 
-use Mockery;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

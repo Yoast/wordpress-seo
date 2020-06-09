@@ -18,7 +18,7 @@ class Image_Utils_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\SEO\Tests\Doubles\Inc\Image_Utils_Double
+	 * @var Image_Utils_Double
 	 */
 	private $instance;
 
