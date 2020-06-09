@@ -181,7 +181,7 @@ class Indexable_Builder {
 		}
 
 		if ( \in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
-			$indexable = $this->hierarchy_builder->build( $indexable );
+			$this->hierarchy_builder->build( $indexable );
 		}
 
 		$this->save_indexable( $indexable, $indexable_before );
