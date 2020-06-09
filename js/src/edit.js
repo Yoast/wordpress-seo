@@ -166,6 +166,8 @@ class Edit {
 		const theme = {
 			isRtl: this._localizedData.isRtl,
 		};
+		const preferences = store.getState().preferences;
+		const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -189,14 +191,14 @@ class Edit {
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
-				<PluginPrePublishPanel
+				{ analysesEnabled && <PluginPrePublishPanel
 					className="yoast-seo-sidebar-panel"
 					title={ __( "Yoast SEO", "wordpress-seo" ) }
 					initialOpen={ true }
 					icon={ <Fragment /> }
 				>
 					<PrePublish />
-				</PluginPrePublishPanel>
+				</PluginPrePublishPanel> }
 				<PluginPostPublishPanel
 					className="yoast-seo-sidebar-panel"
 					title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -205,7 +207,7 @@ class Edit {
 				>
 					<PostPublish />
 				</PluginPostPublishPanel>
-				<Fill name="PluginDocumentSettingPanel">
+				{ analysesEnabled && <Fill name="PluginDocumentSettingPanel">
 					<PanelBody
 						className="yoast-seo-sidebar-panel"
 						title={ __( "Yoast SEO", "wordpress-seo" ) }
@@ -213,7 +215,7 @@ class Edit {
 					>
 						<DocumentSidebar />
 					</PanelBody>
-				</Fill>
+				</Fill> }
 			</Fragment>
 		);
 

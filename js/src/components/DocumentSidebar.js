@@ -10,24 +10,36 @@ import { Button } from "@yoast/components";
  *
  * @returns {wp.Element} The Document sidebar panel.
  */
-export default function DocumentSidebar( { seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
-	const perfectScore = seoScore === "good" && readabilityScore === "good";
+export default function DocumentSidebar( {
+	isKeywordAnalysisActive,
+	isContentAnalysisActive,
+	seoScore,
+	seoScoreLabel,
+	readabilityScore,
+	readabilityScoreLabel,
+	onClick,
+} ) {
+	const perfectScore =
+		( seoScore === "good" || ! isKeywordAnalysisActive ) &&
+		( readabilityScore === "good" || ! isContentAnalysisActive );
 
 	return <Fragment>
-		<div>
+		{ isContentAnalysisActive && <div>
 			<SvgIcon { ...getIconForScore( readabilityScore ) } />
 			<span> { __( "Readability analysis:", "wordpress-seo" ) } <strong>{ readabilityScoreLabel }</strong></span>
-		</div>
-		<div>
+		</div> }
+		{ isKeywordAnalysisActive && <div>
 			<SvgIcon { ...getIconForScore( seoScore ) } />
 			<span> { __( "SEO analysis:", "wordpress-seo" ) } <strong>{ seoScoreLabel }</strong></span>
-		</div>
+		</div> }
 		<br />
 		{  ! perfectScore && <Button onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button> }
 	</Fragment>;
 }
 
 DocumentSidebar.propTypes = {
+	isKeywordAnalysisActive: PropTypes.bool.isRequired,
+	isContentAnalysisActive: PropTypes.bool.isRequired,
 	seoScore: PropTypes.string.isRequired,
 	seoScoreLabel: PropTypes.string.isRequired,
 	readabilityScore: PropTypes.string.isRequired,
