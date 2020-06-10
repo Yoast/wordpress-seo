@@ -79,13 +79,13 @@ class Edit {
 				sitewideImage: this._localizedData.sitewide_social_image,
 				authorName: this._localizedData.author_name,
 				siteName: this._localizedData.site_name,
+				contentImage: this._localizedData.first_content_image,
 			},
 			snippetEditor: {
 				baseUrl: this._args.snippetEditorBaseUrl,
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
 				siteIconUrl: this._localizedData.siteIconUrl,
-				socialPreviewImageURL: this._localizedData.social_preview_image_url,
 			},
 		} ) );
 	}

@@ -25,10 +25,8 @@ export const getDescriptionFallback = state => get( state, "analysisData.snippet
  *
  * @returns {string} The first content image src.
  */
-export const getFirstContentImage = state => {
-	const blockIds = state.blocks.order;
-	const firstImageId = blockIds.find( id => get( state.blocks.byClientId, `${ id }.name`, "" ) === "core/image" );
-	return get( state.blocks.attributes, `${ firstImageId }.src`, "" );
+export const getContentImage = state => {
+	return get( state, "socialPreviews.contentImage", "" );
 };
 
 /**
@@ -41,11 +39,13 @@ export const getFirstContentImage = state => {
  *
  * @returns {string} The sidewide image url.
  */
-export const getImageFallback = state => get(
-	state,
-	"settings.socialPreviews.sitewideImage",
-	get( state, "snippetEditor.data.snippetPreviewImageURL", "" )
-);
+export const getImageFallback = state => {
+	const featuredImage = get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
+	const contentImage = get( state, "settings.socialPreviews.contentImage", "" );
+	const siteWideImage = get( state, "settings.socialPreviews.sitewideImage", "" );
+
+	return featuredImage || contentImage || siteWideImage;
+};
 
 /**
  * Gets the site base URL from the analysisdata state. Then cuts it after the first "/".

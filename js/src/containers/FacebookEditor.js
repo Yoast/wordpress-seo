@@ -6,7 +6,6 @@ import domReady from "@wordpress/dom-ready";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
-import getContentImage from "../helpers/getContentImage";
 
 const isPremium = window.wpseoAdminL10n.isPremium;
 
@@ -64,9 +63,10 @@ export default compose( [
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
+
 		return {
 			imageUrl: getFacebookImageUrl(),
-			imageFallbackUrl: getContentImage( select ) || getImageFallback(),
+			imageFallbackUrl: getImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),

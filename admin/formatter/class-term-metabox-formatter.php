@@ -60,7 +60,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'keyword_usage'            => $this->get_focus_keyword_usage(),
 				'title_template'           => $this->get_title_template(),
 				'metadesc_template'        => $this->get_metadesc_template(),
-				'social_preview_image_url' => $this->get_image_url(),
+				'first_content_image' => $this->get_image_url(),
 			];
 		}
 
