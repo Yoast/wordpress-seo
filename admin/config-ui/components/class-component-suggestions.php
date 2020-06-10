@@ -81,7 +81,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				[
 					'label' => 'Local SEO',
 					'type'  => 'link',
-					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
+					'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-local-seo' ),
 				],
 				[
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
