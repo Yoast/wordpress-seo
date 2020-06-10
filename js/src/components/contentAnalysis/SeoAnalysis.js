@@ -20,6 +20,7 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { ModalContainer, ModalIcon } from "../modals/Container";
+import YoastIcon from "../../../../images/Yoast_icon_kader.svg";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -125,6 +126,8 @@ class SeoAnalysis extends Component {
 							)
 						}
 						onRequestClose={ this.closeSynonymsModal }
+						className="yoast-gutenberg-modal"
+						icon={ <YoastIcon /> }
 					>
 						<ModalContainer>
 							<ModalIcon icon={ YoastSeoIcon } />
@@ -176,6 +179,8 @@ class SeoAnalysis extends Component {
 							)
 						}
 						onRequestClose={ this.closeKeyphrasesModal }
+						className="yoast-gutenberg-modal"
+						icon={ <YoastIcon /> }
 					>
 						<ModalContainer>
 							<ModalIcon icon={ YoastSeoIcon } />
