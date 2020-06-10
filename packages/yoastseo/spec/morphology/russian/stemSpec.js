@@ -46,7 +46,7 @@ const wordsToStem = [
 	// Words that belong to doNotStemSuffix exceptions
 	[ "космодром", "космодром" ],
 	[ "детдом", "детдом" ],
-	[ "альманах", "альманах" ]
+	[ "альманах", "альманах" ],
 ];
 
 
