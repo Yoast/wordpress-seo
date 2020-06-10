@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Config\Migrations;
 
 use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
  * Class AddHasAncestorsColumn.
@@ -34,6 +35,12 @@ class AddHasAncestorsColumn extends Migration {
 				'default' => false,
 			]
 		);
+
+		Wrapper::get_wpdb()->query( '
+			UPDATE ' . Model::get_table_name( 'Indexable' ) . '
+			SET has_ancestors = 1
+			WHERE id IN ( SELECT indexable_id FROM ' . Model::get_table_name( 'Indexable_Hierarchy' ) . ' )	
+		');
 	}
 
 	/**
