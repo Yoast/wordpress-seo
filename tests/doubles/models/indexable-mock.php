@@ -96,4 +96,6 @@ class Indexable_Mock extends Indexable {
 	public $post_status;
 
 	public $has_public_posts;
+
+	public $has_ancestors;
 }

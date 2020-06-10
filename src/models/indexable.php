@@ -76,6 +76,8 @@ use Yoast\WP\Lib\Model;
  *
  * @property string  $schema_page_type
  * @property string  $schema_article_type
+ *
+ * @property bool    $has_ancestors
  */
 class Indexable extends Model {
 
