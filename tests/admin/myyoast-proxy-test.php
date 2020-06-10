@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Admin;
 
 use Brain\Monkey;
-use Mockery;
 use WPSEO_MyYoast_Proxy;
 use Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -26,7 +25,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * Holds the instance of the class being tested.
 		 *
-		 * @var \Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance
+		 * @var MyYoast_Proxy_Double $instance
 		 */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
@@ -59,7 +58,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * Holds the instance of the class being tested.
 		 *
-		 * @var \WPSEO_MyYoast_Proxy $instance
+		 * @var WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
@@ -90,7 +89,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * Holds the instance of the class being tested.
 		 *
-		 * @var \WPSEO_MyYoast_Proxy $instance
+		 * @var WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
@@ -146,7 +145,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * Holds the instance of the class being tested.
 		 *
-		 * @var \WPSEO_MyYoast_Proxy $instance
+		 * @var WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )

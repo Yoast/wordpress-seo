@@ -56,6 +56,7 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_nosnippet    = null;
 		$indexable->is_public              = ( $indexable->is_robots_noindex ) ? false : null;
 		$indexable->has_public_posts       = $this->author_archive->author_has_public_posts( $user_id );
+		$indexable->blog_id                = \get_current_blog_id();
 
 		$this->reset_social_images( $indexable );
 		$this->handle_social_images( $indexable );

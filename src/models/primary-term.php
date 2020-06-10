@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Primary Term model definition.
@@ -16,11 +16,12 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int    $post_id  Post ID.
  * @property int    $term_id  Term ID.
  * @property string $taxonomy Taxonomy.
+ * @property int    $blog_id  Blog ID.
  *
  * @property string $created_at
  * @property string $updated_at
  */
-class Primary_Term extends Yoast_Model {
+class Primary_Term extends Model {
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -38,5 +39,6 @@ class Primary_Term extends Yoast_Model {
 		'id',
 		'post_id',
 		'term_id',
+		'blog_id',
 	];
 }

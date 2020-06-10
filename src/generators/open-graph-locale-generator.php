@@ -49,8 +49,8 @@ class Open_Graph_Locale_Generator implements Generator_Interface {
 		}
 
 		// Convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does).
-		if ( strlen( $locale ) === 2 ) {
-			$locale = strtolower( $locale ) . '_' . strtoupper( $locale );
+		if ( \strlen( $locale ) === 2 ) {
+			$locale = \strtolower( $locale ) . '_' . \strtoupper( $locale );
 		}
 
 		// These are the locales FB supports.
@@ -212,12 +212,12 @@ class Open_Graph_Locale_Generator implements Generator_Interface {
 		];
 
 		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
-		if ( in_array( $locale, $fb_valid_fb_locales, true ) ) {
+		if ( \in_array( $locale, $fb_valid_fb_locales, true ) ) {
 			return $locale;
 		}
 
-		$locale = strtolower( substr( $locale, 0, 2 ) ) . '_' . strtoupper( substr( $locale, 0, 2 ) );
-		if ( ! in_array( $locale, $fb_valid_fb_locales, true ) ) {
+		$locale = \strtolower( \substr( $locale, 0, 2 ) ) . '_' . \strtoupper( \substr( $locale, 0, 2 ) );
+		if ( ! \in_array( $locale, $fb_valid_fb_locales, true ) ) {
 			return 'en_US';
 		}
 

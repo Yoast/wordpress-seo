@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.3
-Tested up to: 5.4
-Stable tag: 13.5
+Tested up to: 5.4.1
+Stable tag: 14.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -77,7 +77,7 @@ You should also check out these other products by Yoast:
 
 * **[Yoast Local SEO](https://yoa.st/1uu)** to optimize all website that serve a local audience, like certain small businesses, or businesses with multiple locations.
 * **[Yoast Video SEO](https://yoa.st/1uw)** to make sure Google understands what you video is about, thus increasing your chances to rank in video results.
-* **[Yoast News SEO](https://yoa.st/1uv)** for websites that are in Google News and want to optimize all news articles for the best indexation and ranking.
+* **[Yoast News SEO](https://yoa.st/1uv)** for news publishers who want to improve their visibility and performance in Google News.
 * **[WooCommerce SEO](https://yoa.st/3rh)** for all online shops that want to perform better in search engines and on social platforms.
 
 They work with the FREE version of Yoast SEO already, and these premium extensions of course come with support too.
@@ -209,53 +209,33 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 14.0 =
-Release Date: April 28th, 2020
+= 14.3 =
+Release Date: June 9th, 2020
+
+In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code style and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
 
 Bugfixes:
 
-* Fixes a bug where the Open Graph image would be set as Twitter image when Open Graph was disabled.
-* Fixes a bug where the `article:publisher` meta tag would not contain the Person's Facebook account if the Knowledge Graph was set to Person.
-* Fixes a bug where no `title` meta tag would be output when no post or page specific title was specified.
-* Fixes a bug where the date archive description from the Search Appearance settings would not be used for the `og:description` meta tag.
-* Fixes a bug where a notice would be thrown when a field in the FAQ or HowTo block was left empty.
-* Fixes a bug where the Helpscout beacon on settings pages was aligned on the right of the settings pages.
-* Fixes a bug where UTF-8 encoded urls were not always readable in the snippet preview.
-* Fixes a bug where the embedding of posts on LinkedIn was broken, by using the OpenGraph data to power the core oEmbed feature.
+* Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
+* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
+* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
+
+= 14.2 =
+Release Date: May 26th, 2020
+
+In today's release, we’ve fixed several issues with breadcrumbs. One of these bugs turned the order of breadcrumbs on its head, which is not something we like. Things should work as expected now. We’ve also changed how we check if a focus keyphrase was used before. We currently run this against our indexable table, making the process more efficient. Read more about those changes in [our release post](https://yoa.st/release-14-2)!
+
+Bugfixes:
+
+* Fixes a bug where breadcrumbs would be saved in reversed order.
+* Fixes a bug where setting `Security: no advanced settings for authors` to `off` would remove the advanced settings tab for all users.
+* Fixes a bug where replacement variables would not be replaced when using the deprecated `WPSEO_Frontend` output without echoing it.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
+* Fixes a bug where JavaScript could be executed via the error message on the Social section in the Yoast Settings. As this potentially dangerous data is not saved, abusing this was not possible.
 
 Enhancements:
 
-* No longer outputs the `og:type` meta tag on 404 pages.
-* No longer outputs a `twitter:title`, `twitter:image` and/or `twitter:description` meta tag if/when there is already an `og:title`, `og:image` and/or `og:description` meta tag specified in the frontend output and they’re not specifically set to something else.
-* No longer outputs an `article:section` and `article:tag` meta tag as none of the Open Graph consumers seems to use it.
-* No longer outputs an `og:updated_time` as it was the same as `article:modified_time` and all Open Graph consumers seem to prefer that.
-* No longer outputs an `og:image:secure_url` meta tag, because it would always be output next to a similar og:image tag.
-* Strips all tags from text fields in the schema output.
-* Adds `Term hierarchy` as a taxonomy snippet variable.
-* Uses the Gravatar image as a fallback for author archive's `og:image` and `twitter:image`.
-* Improves the way we are getting the gallery images. Props to [stodorovic](https://github.com/stodorovic).
-* Adds a polyfill to support setups that do not have the `pdo_mysql` extension installed.
-* Adds config support for setups that have database configuration via `php.ini` defaults instead of `wp-config.php`.
-
-Other:
-
-* Deprecates the following filters: `wpseo_twitter_taxonomy_image`, `wpseo_opengraph`, `wpseo_twitter`, `wpseo_twitter_metatag_key`, `thematic_doctitle`, `woo_title`.
-* Prevents integrations relying on the deprecated `WPSEO_OpenGraph_Image` class from creating Type Errors with the latest version of Yoast SEO.
-* Ensures no duplicate tags are output on AMP pages with the official AMP plugin.
-
-= 13.5 =
-Release Date: April 14th, 2020
-
-While we’re working on getting [Yoast SEO 14.0](https://yoa.st/3zs) ready for the world, you can enjoy today’s release of Yoast SEO 13.5. Read all about Yoast SEO 13.5 in [our release post](https://yoa.st/release-13-5)!
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown when saving a post while the type was no longer WP_Post due to filtering.
-* Fixes a bug where .xsl site map files would not be cached correctly.
-
-Other:
-
-* Sets minimum supported WordPress version to 5.3.
+* Optimizes the query used to check if a focus keyphrase has been previously used, by running it against our indexable table.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

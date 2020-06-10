@@ -127,6 +127,17 @@ class Yoast_Feature_Toggles {
 				'read_more_url'   => 'https://example.com',// @todo add a URL once this article has been written.
 				'order'           => 90,
 			],
+			(object) [
+				'name'    => __( 'REST API: Head endpoint', 'wordpress-seo' ),
+				'setting' => 'enable_headless_rest_endpoints',
+				'read_more_label' => sprintf(
+					/* translators: 1: Yoast SEO */
+					__( 'This %1$s REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use %1$s for all their SEO meta output.', 'wordpress-seo' ),
+					'Yoast SEO'
+				),
+				'read_more_url'   => 'https://example.com',// @todo add a URL once this article has been written.
+				'order'   => 100,
+			],
 		];
 
 		/**

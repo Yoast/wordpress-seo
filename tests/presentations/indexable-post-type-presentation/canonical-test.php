@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Mockery;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -53,9 +52,11 @@ class Canonical_Test extends TestCase {
 		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
-			->andReturnUsing( function ( $val ) {
-				return $val;
-			} );
+			->andReturnUsing(
+				function ( $val ) {
+					return $val;
+				}
+			);
 
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
@@ -83,9 +84,11 @@ class Canonical_Test extends TestCase {
 		$this->url
 			->expects( 'ensure_absolute_url' )
 			->once()
-			->andReturnUsing( function ( $val ) {
-				return $val;
-			} );
+			->andReturnUsing(
+				function ( $val ) {
+					return $val;
+				}
+			);
 
 		$this->assertEquals( 'https://example.com/permalink/2/', $this->instance->generate_canonical() );
 	}

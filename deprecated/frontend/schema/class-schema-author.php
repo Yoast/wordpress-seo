@@ -7,7 +7,6 @@
 
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\Author;
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
 /**
  * Returns schema Person data.
@@ -16,7 +15,7 @@ use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
  *
  * @since 10.2
  */
-class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
+class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 
 	/**
 	 * The hash used for images.
@@ -41,11 +40,7 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 	 * @deprecated 14.0
 	 */
 	public function __construct( $context = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author' );
-
-		$memoizer      = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$this->context = $memoizer->for_current_page();
-		$this->helpers = YoastSEO()->helpers;
+		parent::__construct( Author::class );
 	}
 
 	/**
@@ -59,35 +54,21 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 	public function is_needed() {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author::is_needed' );
 
-		if ( $this->context->indexable->object_type === 'user' ) {
+		if ( $this->stable->context->indexable->object_type === 'user' ) {
 			return true;
 		}
 
 		// This call to `is_post_author` is why this whole block could not be replaced with a `parent::is_needed()` call.
 		if ( $this->is_post_author() ) {
 			// If the author is the user the site represents, no need for an extra author block.
-			if ( parent::is_needed() ) {
-				return (int) $this->context->post->post_author !== $this->context->site_user_id;
+			if ( $this->stable->is_needed() ) {
+				return (int) $this->stable->context->post->post_author !== $this->stable->context->site_user_id;
 			}
 
 			return true;
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns Person Schema data.
-	 *
-	 * @codeCoverageIgnore
-	 * @deprecated 14.0
-	 *
-	 * @return bool|array Person data on success, false on failure.
-	 */
-	public function generate() {
-		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'Yoast\WP\SEO\Generators\Schema\Author::generate' );
-
-		return parent::generate();
 	}
 
 	/**
@@ -116,8 +97,8 @@ class WPSEO_Schema_Author extends Author implements WPSEO_Graph_Piece {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0' );
 
 		return (
-			$this->context->indexable->object_type === 'post'
-			&& $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+			$this->stable->context->indexable->object_type === 'post'
+			&& $this->helpers->schema->article->is_article_post_type( $this->stable->context->indexable->object_sub_type )
 		);
 	}
 
