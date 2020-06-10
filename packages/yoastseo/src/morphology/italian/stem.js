@@ -300,21 +300,26 @@ const normalizeDigraphs = function( word, morphologyData, rvText ) {
 };
 
 /**
- * Returns a canonical stem for verbs with multiple stems.
+ * Returns a canonical stem for words with multiple stems.
  *
- * @param {string}  word                    The word to canonicalize.
- * @param {Array}   verbsWithMultipleStems  An array of arrays of stems belonging to one word.
+ * @param {string}  word                       The word to canonicalize.
+ * @param {Object}  stemsThatBelongToOneWord   An object of arrays of stems belonging to one word.
  *
- * @returns {string} A stem canonicalized stem or the original word.
+ * @returns {string} A canonicalized stem or the original word.
  */
-const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
-	const multipleStems = verbsWithMultipleStems.find( stems => stems.includes( word ) );
-
-	if ( multipleStems ) {
-		return multipleStems[ 0 ];
+const canonicalizeStem = function( word, stemsThatBelongToOneWord ) {
+	// Check the verbs list. The infinitive stem is always the canonical stem for verbs.
+	for ( const paradigm of stemsThatBelongToOneWord.verbsWithMultipleStems ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
+		}
 	}
-
-	return word;
+	// Check the diminutives list.
+	for ( const paradigm of stemsThatBelongToOneWord.irregularDiminutives ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
 };
 
 /**
@@ -406,10 +411,11 @@ export default function stem( word, morphologyData ) {
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
 
-	/*
-	 * Returns a canonical stem for verbs with multiple stems (e.g., chiudere–chiuso).
-	 */
-	word = canonicalizeVerbStems( word, morphologyData.verbsWithMultipleStems );
 
+	// Returns a canonical stem for words with multiple stems (e.g., verbs: chiudere–chiuso; diminutives: ovetto-uovo).
+	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
+	if ( canonicalStem ) {
+		return canonicalStem;
+	}
 	return word.toLowerCase();
 }
