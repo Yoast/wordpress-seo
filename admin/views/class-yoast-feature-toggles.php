@@ -117,14 +117,14 @@ class Yoast_Feature_Toggles {
 				'name'            => __( 'Admin bar menu', 'wordpress-seo' ),
 				'setting'         => 'enable_admin_bar_menu',
 				'read_more_label' => __( 'Read more about the use of the admin bar menu.', 'wordpress-seo' ),
-				'read_more_url'   => 'https://example.com',// @todo add a URL once this article has been written.
+				'read_more_url'   => 'https://yoa.st/40q',
 				'order'           => 80,
 			],
 			(object) [
 				'name'            => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
 				'setting'         => 'disableadvanced_meta',
 				'read_more_label' => __( 'Read more about this security setting.', 'wordpress-seo' ),
-				'read_more_url'   => 'https://example.com',// @todo add a URL once this article has been written.
+				'read_more_url'   => 'https://yoa.st/40r',
 				'order'           => 90,
 			],
 			(object) [
