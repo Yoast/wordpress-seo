@@ -26,6 +26,7 @@ class CountrySelector extends React.Component {
 	render() {
 		return (
 			<Fragment>
+				// This `fakeProp` is temporary in this component firts basic implementation and should be removed.
 				<h2 id={ this.props.fakeProp }>Country selector</h2>
 				<p>The Country selector will come here!</p>
 			</Fragment>

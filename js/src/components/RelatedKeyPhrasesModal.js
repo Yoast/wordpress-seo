@@ -21,7 +21,7 @@ class RelatedKeyPhrasesModal extends Component {
 	/**
 	 * @summary Constructs the RelatedKeyPhrasesModal component.
 	 *
-	 * @param {object} props The properties.
+	 * @param {Object} props The properties.
 	 *
 	 * @returns {void}
 	 */
@@ -82,7 +82,7 @@ class RelatedKeyPhrasesModal extends Component {
 		return (
 			<Fragment>
 				<BaseButton
-					id={ "yoast-get-related-keyphrases" }
+					id="yoast-get-related-keyphrases"
 					onClick={ this.handleOnClick }
 					className="yoast-related-keyphrases-modal__button"
 					{ ...this.props }
