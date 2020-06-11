@@ -63,6 +63,7 @@ export default compose( [
 			getSiteUrl,
 			getAuthorName,
 		} = select( "yoast-seo/editor" );
+
 		return {
 			imageUrl: getFacebookImageUrl(),
 			imageFallbackUrl: getImageFallback(),

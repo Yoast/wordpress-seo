@@ -56,6 +56,7 @@ export default compose( [
 			getTwitterDescription,
 			getTwitterTitle,
 			getTwitterImageUrl,
+			getFacebookImageUrl,
 			getTwitterWarnings,
 			getTwitterImageType,
 			getImageFallback,
@@ -66,7 +67,7 @@ export default compose( [
 		} = select( "yoast-seo/editor" );
 		return {
 			imageUrl: getTwitterImageUrl(),
-			imageFallbackUrl: getImageFallback(),
+			imageFallbackUrl: getFacebookImageUrl() || getImageFallback(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getTwitterDescription(),
