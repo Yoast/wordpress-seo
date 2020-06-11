@@ -49,6 +49,7 @@ const Button = ( props ) => {
 
 	return <button
 		className={ className }
+		type="button"
 		{ ...restProps }
 	>
 		{ children }
