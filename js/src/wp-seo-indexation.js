@@ -7,10 +7,15 @@ import ProgressBar from "./ui/progressBar";
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
 	let processed = 0;
+	const preIndexationActions = {};
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
-	window.yoast.registerIndexationAction = ( endpoint, action ) => {
+	window.yoast.indexation = window.yoast.indexation || {};
+	window.yoast.indexation.registerPreIndexationAction = ( endpoint, action ) => {
+		preIndexationActions[ endpoint ] = action;
+	};
+	window.yoast.indexation.registerIndexationAction = ( endpoint, action ) => {
 		indexationActions[ endpoint ] = action;
 	};
 
@@ -45,6 +50,9 @@ import ProgressBar from "./ui/progressBar";
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
 		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
+			if ( typeof preIndexationActions[ endpoint ] === "function" ) {
+				await preIndexationActions[ endpoint ]( settings );
+			}
 			const response = await doIndexationRequest( url, settings.restApi.nonce );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects, settings );
