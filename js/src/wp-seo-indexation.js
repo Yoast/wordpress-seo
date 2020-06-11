@@ -1,9 +1,7 @@
-/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
+/* global jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
-
-const settings = yoastIndexationData;
 
 ( ( $ ) => {
 	let indexationInProgress = false;
@@ -19,15 +17,16 @@ const settings = yoastIndexationData;
 	/**
 	 * Does an indexation request.
 	 *
-	 * @param {string} url The url of the indexation that should be done.
+	 * @param {string} url   The url of the indexation that should be done.
+	 * @param {string} nonce The WordPress nonce value for in the header.
 	 *
 	 * @returns {Promise} The request promise.
 	 */
-	async function doIndexationRequest( url ) {
+	async function doIndexationRequest( url, nonce ) {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
-				"X-WP-Nonce": settings.restApi.nonce,
+				"X-WP-Nonce": nonce,
 			},
 		} );
 		return response.json();
@@ -36,18 +35,19 @@ const settings = yoastIndexationData;
 	/**
 	 * Does the indexation of a given endpoint.
 	 *
+	 * @param {Object}      settings    The indexation settings.
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function doIndexation( endpoint, progressBar ) {
+	async function doIndexation( settings, endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
 		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
-			const response = await doIndexationRequest( url );
+			const response = await doIndexationRequest( url, settings.restApi.nonce );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
-				await indexationActions[ endpoint ]( response.objects );
+				await indexationActions[ endpoint ]( response.objects, settings );
 			}
 			progressBar.update( response.objects.length );
 			processed += response.objects.length;
@@ -58,14 +58,15 @@ const settings = yoastIndexationData;
 	/**
 	 * Starts the indexation.
 	 *
+	 * @param {Object}      settings    The indexation settings.
 	 * @param {ProgressBar} progressBar The progress bar.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function startIndexation( progressBar ) {
+	async function startIndexation( settings, progressBar ) {
 		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
-			await doIndexation( endpoint, progressBar );
+			await doIndexation( settings, endpoint, progressBar );
 		}
 	}
 
@@ -88,13 +89,15 @@ const settings = yoastIndexationData;
 			/* eslint-enable camelcase */
 
 			if ( indexationInProgress === false ) {
+				const settings = window[ $( this ).data( "settings" ) ];
+
 				stoppedIndexation = false;
 				indexationInProgress = true;
 
 				a11ySpeak( settings.l10n.calculationInProgress );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 
-				startIndexation( progressBar ).then( () => {
+				startIndexation( settings, progressBar ).then( () => {
 					if ( stoppedIndexation ) {
 						return;
 					}
