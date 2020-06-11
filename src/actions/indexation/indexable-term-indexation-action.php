@@ -53,7 +53,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	}
 
 	/**
-	 * The total number of unindexed terms.
+	 * Gets the total number of unindexed terms.
 	 *
 	 * @return int|false The amount of unindexed terms. False if the query fails.
 	 */
