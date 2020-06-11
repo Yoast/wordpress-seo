@@ -9,9 +9,12 @@ export default compose( [
 		const focusKeyphrase = data.getFocusKeyphrase();
 		const seoScoreIndicator = getIndicatorForScore( data.getResultsForFocusKeyword().overallScore );
 		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
+		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
 
 		return {
 			focusKeyphrase,
+			isKeywordAnalysisActive,
+			isContentAnalysisActive,
 			seoScore: seoScoreIndicator.className,
 			seoScoreLabel: seoScoreIndicator.screenReaderReadabilityText,
 			readabilityScore: readabilityScoreIndicator.className,
