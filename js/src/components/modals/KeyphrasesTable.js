@@ -21,7 +21,7 @@ class KeyphrasesTable extends React.Component {
 	/**
 	 * Renders the Related Keyphrases table.
 	 *
-	 * @returns {ReactElement} The Related Keyphrases table.
+	 * @returns {React.Element} The Related Keyphrases table.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.

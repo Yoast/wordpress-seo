@@ -21,7 +21,7 @@ class CountrySelector extends React.Component {
 	/**
 	 * Renders the country selector.
 	 *
-	 * @returns {ReactElement} The country selector.
+	 * @returns {React.Element} The country selector.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.
