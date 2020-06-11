@@ -1,4 +1,5 @@
 @import url(../src/icons.css);
+@import url(../src/gutenberg-modal.css);
 @import "../../node_modules/yoastseo/css/_tooltips.scss";
 
 .wpseo-premium-indicator {
