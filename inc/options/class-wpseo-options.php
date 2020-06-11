@@ -6,7 +6,7 @@
  */
 
 /**
- * Overal Option Management class.
+ * Overall Option Management class.
  *
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */

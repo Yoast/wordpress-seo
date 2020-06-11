@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**
- * Represents the option titles watcher.
+ * Watches the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
  */
 class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 	/**
@@ -63,7 +63,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
-		// If this is the first time saving the option, thus when value is false.
+		// If this is the first time saving the option, in which case its value would be false.
 		if ( $old_value === false ) {
 			$old_value = [];
 		}
