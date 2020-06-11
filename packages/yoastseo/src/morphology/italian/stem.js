@@ -417,5 +417,6 @@ export default function stem( word, morphologyData ) {
 	if ( canonicalStem ) {
 		return canonicalStem;
 	}
+
 	return word.toLowerCase();
 }
