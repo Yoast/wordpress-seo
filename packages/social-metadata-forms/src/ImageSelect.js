@@ -37,6 +37,10 @@ const RowWrapper = styled.div`
 	margin: 10px 0 0 0;
 `;
 
+const DivWithMargin = styled.div`
+	margin-top: 24px;
+`;
+
 
 /**
  * Renders the standard and the undo button.
@@ -96,7 +100,7 @@ const ImageSelect = ( {
 	onMouseEnter,
 	onMouseLeave,
 } ) =>
-	<div
+	<DivWithMargin
 		onMouseEnter={ onMouseEnter }
 		onMouseLeave={ onMouseLeave }
 	>
@@ -118,7 +122,7 @@ const ImageSelect = ( {
 					</RowWrapper>
 				</ColumnWrapper>
 		}
-	</div>
+	</DivWithMargin>
 ;
 
 ImageSelect.propTypes = {

@@ -7,8 +7,8 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -22,6 +22,10 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 <div
@@ -177,8 +181,8 @@ exports[`FacebookImage Component matches the snapshot in the loading state 1`] =
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -192,6 +196,10 @@ exports[`FacebookImage Component matches the snapshot in the loading state 1`] =
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 <div

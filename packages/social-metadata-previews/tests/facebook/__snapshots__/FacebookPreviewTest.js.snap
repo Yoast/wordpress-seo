@@ -31,8 +31,8 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -46,6 +46,10 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c5 {
@@ -207,8 +211,8 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -222,6 +226,10 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c5 {
@@ -383,8 +391,8 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -398,6 +406,10 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c5 {
@@ -559,8 +571,8 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -574,6 +586,10 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c5 {
@@ -735,8 +751,8 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   height: 273px;
   background-color: #ddd;
   border-style: dashed;
-  border-width: 2px;
-  color: #073cba;
+  border-width: 1px;
+  color: #006DAC;
   background-color: #f1f1f1;
   display: -webkit-box;
   display: -webkit-flex;
@@ -750,6 +766,10 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .c5 {
