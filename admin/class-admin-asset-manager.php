@@ -599,6 +599,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'select2',
 					self::PREFIX . 'admin-css',
+					'wp-components',
 				],
 			],
 			[
