@@ -13,16 +13,17 @@ class Suggestion extends React.Component {
 		const buttonProps = {};
 
 		if ( this.props.button.type === "primary" ) {
-			buttonProps.labelPosition = "before";
-			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
+			buttonProps.className = "yoast-button yoast-button--primary";
 		}
 
 		return (
 			<div className="yoast-wizard--list yoast-wizard--columns yoast-wizard--suggestion">
 				<div className="yoast-wizard--column__push_right">
-					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
+					<h2 className="yoast-h2">{ this.props.title }</h2>
 					<p>{ this.props.copy }</p>
-					<RaisedURLNewWindowButton { ...this.props.button } { ...buttonProps } />
+					<a href={ this.props.button.href } className="yoast-button yoast-button--secondary" { ...buttonProps }>
+						{ this.props.button.label}
+					</a>
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
 					<iframe
