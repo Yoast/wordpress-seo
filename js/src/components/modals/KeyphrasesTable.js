@@ -25,8 +25,8 @@ class KeyphrasesTable extends React.Component {
 	 */
 	render() {
 		return (
+			// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.
 			<Fragment>
-				// This `fakeProp` is temporary in this component firts basic implementation and should be removed.
 				<h2 id={ this.props.fakeProp }>Keyphrase table</h2>
 				<p>The Keyphrase table will come here!</p>
 			</Fragment>
