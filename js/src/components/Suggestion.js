@@ -21,7 +21,7 @@ class Suggestion extends React.Component {
 				<div className="yoast-wizard--column__push_right">
 					<h2 className="yoast-h2">{ this.props.title }</h2>
 					<p>{ this.props.copy }</p>
-					<a href={ this.props.button.href } className="yoast-button yoast-button--secondary" { ...buttonProps }>
+					<a href={ this.props.button.href } target="_blank" className="yoast-button yoast-button--secondary" { ...buttonProps }>
 						{ this.props.button.label}
 					</a>
 				</div>

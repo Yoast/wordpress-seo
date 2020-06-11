@@ -237,9 +237,6 @@ class MailchimpSignup extends React.Component {
 
 					{ this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={ { __html: this.props.properties.GDPRNotice } } /> }
 				</div>
-				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
-					<img src={ this.props.properties.decoration } alt="" />
-				</div>
 			</div>
 		);
 	}
