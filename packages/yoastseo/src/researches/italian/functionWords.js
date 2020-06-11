@@ -200,7 +200,7 @@ const generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "pre
 	"recentemente", "sinceramente", "solamente", "avanti", "indietro" ];
 
 const generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",
-	"bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
+	"bello", "bella", "belli", "belle", "bei", "begli", "bellissimo", "bellissima", "bellissimi", "bellissime",
 	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
 	"grandissimo", "grandissima", "grandissimi", "grandissime", "lunga", "lunghi", "lunghe", "piccolo", "piccola", "piccoli",
 	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime", "proprio", "propria", "propri", "proprie",
