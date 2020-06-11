@@ -80,10 +80,12 @@ import ProgressBar from "./ui/progressBar";
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
-			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
-			// So we temporarily revert that change as we do want to have custom height and width.
-			// Eslint is disabled as these have to use the correct names.
-			// @see https://core.trac.wordpress.org/ticket/27473
+			/*
+			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
+			 * So we temporarily revert that change as we do want to have custom height and width.
+			 * Eslint is disabled as these have to use the correct names.
+			 * @see https://core.trac.wordpress.org/ticket/27473
+			 */
 			/* eslint-disable camelcase */
 			const old_tb_position = window.tb_position;
 			window.tb_position = () => {
@@ -102,7 +104,7 @@ import ProgressBar from "./ui/progressBar";
 				stoppedIndexation = false;
 				indexationInProgress = true;
 
-				a11ySpeak( settings.l10n.calculationInProgress );
+				a11ySpeak( settings.l10n.calculationInProgress, "polite" );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 
 				startIndexation( settings, progressBar ).then( () => {

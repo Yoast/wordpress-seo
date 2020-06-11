@@ -127,8 +127,10 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		// We aren't able to determine whether or not anything needs to happen at register_hooks as post types aren't registered yet.
-		// So we do most of our add_action calls here.
+		/*
+		 * We aren't able to determine whether or not anything needs to happen at register_hooks,
+		 * as post types aren't registered yet. So we do most of our add_action calls here.
+		 */
 		if ( $this->get_total_unindexed() === 0 ) {
 			return;
 		}
