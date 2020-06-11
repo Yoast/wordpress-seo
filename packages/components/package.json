@@ -49,8 +49,8 @@
     "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {
-    "react": "^16.2.0",
-    "react-dom": "16.2.0"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "publishConfig": {
     "access": "public"
