@@ -7,10 +7,10 @@ import SvgIcon from "material-ui/SvgIcon";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
-const colorInactive = window.getComputedStyle(document.documentElement).getPropertyValue("--color-inactive-text");
+const colorInactive = window.getComputedStyle(document.documentElement).getPropertyValue("--yoast-color-inactive-text");
 
 const style = {
-	fontFamily: "var(--font-family)",
+	fontFamily: "var(--yoast-font-family)",
 }
 
 /**
