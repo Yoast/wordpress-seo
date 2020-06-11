@@ -2,11 +2,6 @@
 /* WordPress-specific styling to be used only for single-page apps like the Onboarding Wizard. */
 @import url("../title-separator/title-separator.css");
 
-.yoast-wizard--step.yoast-wizard--step__inactive div,
-.yoast-wizard--step.yoast-wizard--step__active span {
-	font-family: var(--font-family) !important;
-}
-
 .screen-reader-text {
 	position: absolute !important;
 	clip: rect(1px, 1px, 1px, 1px);
@@ -92,7 +87,7 @@ a:focus {
 }
 
 .yoast-wizard--button {
-	margin: 1em -8px 0;
+	margin: 0 -8px 0;
 	padding: 8px;
 	background: none;
 	color: #0073aa;
@@ -111,6 +106,65 @@ a:focus {
 .yoast-wizard--button:focus {
 	outline: 1px solid #5b9dd9;
 	box-shadow: 0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-wizard--button__next {
+	margin-left: auto;
+}
+
+.yoast-button {
+	display: inline-block;
+	position: relative;
+	padding: 10px 16px 12px 16px;
+	text-decoration: none;
+	border-radius: 4px;
+	border: 1px solid rgba(0,0,0, 0.2);
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+	transition: background-color 150ms ease-out 0s;
+	line-height: 1.2;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.yoast-button:active { /* 'Pressed' button state */
+	box-shadow: none;
+	padding-bottom: 12px;
+	top: 2px;
+}
+
+.yoast-button--primary {
+	color: var(--color-white);
+	background-color: var(--color-primary);
+	border: 1px solid rgba(0,0,0, 0.2);
+}
+
+.yoast-button--primary:visited {
+	color: var(--color-white);
+	border: 1px solid rgba(0,0,0, 0.2);
+}
+
+.yoast-button--primary:hover,
+.yoast-button--primary:active{
+	color: var(--color-white);
+	background-color: var(--color-primary-darker);
+	border: 1px solid rgba(0,0,0, 0.2);
+}
+
+.yoast-button--secondary {
+	color: var(--color-dark);
+	background-color: var(--color-secondary);
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.yoast-button--secondary:visited {
+	color: var(--color-dark);
+}
+
+.yoast-button--secondary:hover,
+.yoast-button--secondary:active {
+	color: var(--color-dark);
+	background-color: var(--color-secondary-darker);
+	border: 1px solid rgba(0,0,0, 0.2);
 }
 
 @media screen and (max-width: 768px) {
@@ -328,11 +382,7 @@ a:focus {
 }
 
 .yoast-wizard-content-container {
-	max-width: 560px;
-}
-
-.yoast-wizard-content-container.yoast-wizard-content-container__is-full-width {
-	max-width: none;
+	max-width: 600px;
 }
 
 #wizard {
@@ -357,7 +407,6 @@ a:focus {
 .yoast-wizard--navigation {
 	border-top: 1px solid var(--color-border--default);
 	margin-top: 2em;
-	padding-top: 1em;
 }
 
 .yoast-wizard-return-link-container {
@@ -440,10 +489,6 @@ a:focus {
 .yoast-wizard--rows {
 	display: flex;
 	flex-direction: column;
-}
-
-.yoast-wizard--columns {
-	display: flex;
 }
 
 .yoast-wizard--columns .yoast-wizard-text-input-field {
@@ -582,4 +627,28 @@ a:focus {
 		width: 100%;
 		height: 100%;
 	}
+}
+
+.yoast-wizard--step.yoast-wizard--step__inactive div,
+.yoast-wizard--step.yoast-wizard--step__active span {
+	font-family: var(--font-family) !important;
+}
+
+.yoast-wizard--header svg {
+	margin-bottom: 24px;
+}
+
+.yoast-wizard__mailchimp {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+}
+
+.yoast-wizard__mailchimp-input {
+	flex: 1;
+	margin-right: 8px;
+}
+
+.yoast-wizard__mailchimp-input input {
+	margin-bottom: 0;
 }
