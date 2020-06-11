@@ -16,7 +16,7 @@
 .yoast-close:focus,
 .yoast-remove:focus,
 .yoast-hide:focus {
-  box-shadow: var(--yoast-color-focus);
+	box-shadow: var(--yoast-color-focus);
 	outline: none;
 }
 
@@ -68,7 +68,7 @@
 .yoast .yoast-button--secondary:active {
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-secondary-darker);
-	border: 1px solid rgba(0,0,0, 0.2);
+	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .yoast .yoast-button--buy {
@@ -110,7 +110,7 @@ html[dir=rtl] .yoast .yoast-button--buy {
 	cursor: pointer;
 	text-decoration: underline;
 	padding: 0;
-	font-size:14px;
+	font-size: 14px;
 }
 
 .yoast-hide {
