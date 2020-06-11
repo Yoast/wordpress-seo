@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
 class Suggestion extends React.Component {
 	/**
@@ -22,7 +20,7 @@ class Suggestion extends React.Component {
 					<h2 className="yoast-h2">{ this.props.title }</h2>
 					<p>{ this.props.copy }</p>
 					<a href={ this.props.button.href } target="_blank" className="yoast-button yoast-button--secondary" { ...buttonProps }>
-						{ this.props.button.label}
+						{ this.props.button.label }
 					</a>
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
