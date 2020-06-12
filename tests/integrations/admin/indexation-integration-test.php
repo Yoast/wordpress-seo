@@ -175,6 +175,13 @@ class Indexation_Integration_Test extends TestCase {
 			Monkey\Actions\expectAdded( 'admin_notices' );
 		}
 
+		$this->term_indexation
+			->expects( 'get_total_term_permalinks_null' )
+			->once()
+			->andReturn( 35 );
+
+		Monkey\Actions\expectAdded( 'admin_notices' );
+
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
 			->expects( 'enqueue_script' )
