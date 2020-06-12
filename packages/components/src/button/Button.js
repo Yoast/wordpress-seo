@@ -29,23 +29,13 @@ export const sharedButtonDefaultProps = {
  *
  * @returns {ReactElemen} The Button component.
  */
-const Button = ( props ) => {
+export const Button = ( props ) => {
 	// Split Button.js specific props from all other props.
 	const {
 		children,
 		className,
-		isLink,
 		...restProps
 	} = props;
-
-	if ( isLink ) {
-		return <a
-			className={ className }
-			{ ...restProps }
-		>
-			{ children }
-		</a>;
-	}
 
 	return <button
 		className={ className }
@@ -66,4 +56,30 @@ Button.defaultProps = {
 	className: "yoast-button",
 };
 
-export default Button;
+/**
+ * 
+ * @param {*} props 
+ */
+export const ButtonStyledLink = ( props ) => {
+	const {
+		children,
+		className,
+		...restProps
+	} = props;
+	return <a
+		className={ className }
+		{ ...restProps }
+	>
+		{ children }
+	</a>;
+};
+
+ButtonStyledLink.propTypes = {
+	...sharedButtonPropTypes,
+	className: PropTypes.string,
+};
+
+ButtonStyledLink.defaultProps = {
+	...sharedButtonDefaultProps,
+	className: "yoast-button",
+};
