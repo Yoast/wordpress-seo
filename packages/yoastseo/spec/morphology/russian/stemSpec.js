@@ -51,6 +51,10 @@ const wordsToStem = [
 	[ "ребята", "ребёнк" ],
 	[ "уху", "ухо" ],
 	[ "ушами", "ухо" ],
+	// Words that belong to doNotStemSuffix exceptions
+	[ "космодром", "космодром" ],
+	[ "детдом", "детдом" ],
+	[ "альманах", "альманах" ],
 ];
 
 describe( "Test for stemming Russian words", () => {

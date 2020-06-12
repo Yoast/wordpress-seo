@@ -216,6 +216,10 @@ const canonicalizeStems = function( word, wordsWithMultipleStems ) {
  * @returns {string}	The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Check if word is in the doNotStemSuffix exception list.
+	if ( morphologyData.doNotStemSuffix.includes( word ) ) {
+		return word;
+	}
 	// Check if the word is on the list of exceptions for which we listed all forms and the stem.
 	const fullFormException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
 	if ( fullFormException ) {
