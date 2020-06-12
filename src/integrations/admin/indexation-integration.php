@@ -153,8 +153,7 @@ class Indexation_Integration implements Integration_Interface {
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
-
-		if ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
+		elseif ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
 		}
 
