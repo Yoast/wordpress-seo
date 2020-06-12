@@ -22,7 +22,11 @@ module.exports = {
 			 */
 			then: function( results ) {
 				if ( results[ "config.monorepoVersions" ] === false ) {
-					throw "The script has been aborted because the monorepo versions are incorrect. Ask team Lingo to release the monorepo packages.";
+					throw "The script has been aborted because the monorepo versions are incorrect." +
+						  "\n" +
+						  "Use --yoast-components-no-rc and --yoastseo-no-rc if you need to use the non-rc version of these packages." +
+						  "\n\n" +
+						  "Otherwise, ask team Lingo to release the monorepo packages.";
 				}
 			},
 		},
