@@ -27,7 +27,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $post_type ) {
-		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
+		$wpseo_post_type_presenter = new WPSEO_Collapsible_Presenter(
 			$post_type->labels->name,
 			__DIR__ . '/paper-content/post-type-content.php',
 			[

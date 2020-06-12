@@ -29,7 +29,7 @@ class WPSEO_Paper_Presenter {
 	 *
 	 * @var string
 	 */
-	private $view_file;
+	protected $view_file;
 
 	/**
 	 * WPSEO_presenter_paper constructor.
@@ -88,7 +88,7 @@ class WPSEO_Paper_Presenter {
 	 *
 	 * @return array The view variables.
 	 */
-	private function get_view_variables() {
+	protected function get_view_variables() {
 		$view_variables = [
 			'class'                    => $this->settings['class'],
 			'collapsible'              => $this->settings['collapsible'],
