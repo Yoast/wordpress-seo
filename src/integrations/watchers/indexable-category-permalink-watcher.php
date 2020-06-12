@@ -68,7 +68,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 			$old_value = [];
 		}
 
-		// If either value is not an array, return false.
+		// If either value is not an array, return.
 		if ( ! \is_array( $old_value ) || ! \is_array( $new_value ) ) {
 			return;
 		}
@@ -78,6 +78,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 			return;
 		}
 
+		// If a new value has been set for 'stripcategorybase', clear the category permalinks.
 		if ( $old_value['stripcategorybase'] !== $new_value['stripcategorybase'] ) {
 			$this->clear_category_permalinks();
 
