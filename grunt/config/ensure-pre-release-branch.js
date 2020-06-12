@@ -28,7 +28,8 @@ module.exports = function( grunt ) {
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 
-			const basebranch = type === "hotfix" ? "master" : "trunk";
+//			const basebranch = type === "hotfix" ? "master" : "trunk";
+			const basebranch = "14533-look-for-remote-rc-branch"; // for testing purposes.
 			const branchForRC = type + "/" + version;
 
 			// Set a grunt branchForRC variable.
