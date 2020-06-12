@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Tests\TestCase;
+use WPSEO_Health_Check_Ryte;
+use WPSEO_Ryte_Option;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
@@ -13,26 +15,26 @@ use WPSEO_Utils;
  * @coversDefaultClass \WPSEO_Health_Check_Ryte
  * @group health-check
  */
-class WPSEO_Health_Check_Ryte_Test extends TestCase {
+class Health_Check_Ryte_Test extends TestCase {
 
 	/**
-	 * @var \Mockery\Mock|\WPSEO_Ryte_Option
+	 * @var Mockery\Mock|WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
-	 * @var \Mockery\Mock|\WPSEO_Health_Check_Ryte
+	 * @var Mockery\Mock|WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->ryte_option = Mockery::mock( \WPSEO_Ryte_Option::class )
+		$this->ryte_option = Mockery::mock( WPSEO_Ryte_Option::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
-		$this->health_check = Mockery::mock( \WPSEO_Health_Check_Ryte::class )
+		$this->health_check = Mockery::mock( WPSEO_Health_Check_Ryte::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -143,7 +145,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
-			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
+			->andReturn( WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
 
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
@@ -179,11 +181,13 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
-			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
+			->andReturn( WPSEO_Ryte_Option::CANNOT_FETCH );
 
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 		Monkey\Functions\expect( 'wp_remote_retrieve_response_message' )->andReturn( '' );
+		Monkey\Functions\expect( 'wp_enqueue_style' )->andReturn( '' );
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->health_check->run();
 		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
@@ -215,7 +219,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 		$this->ryte_option
 			->expects( 'get_status' )
 			->once()
-			->andReturn( \WPSEO_Ryte_Option::IS_INDEXABLE );
+			->andReturn( WPSEO_Ryte_Option::IS_INDEXABLE );
 
 		Monkey\Functions\expect( 'wp_get_schedules' )->andReturn( [] );
 		Monkey\Functions\expect( 'update_option' )->andReturn( true );

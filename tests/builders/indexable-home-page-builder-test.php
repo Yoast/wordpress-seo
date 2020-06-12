@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Builders;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -11,7 +12,6 @@ use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\ORM\ORMWrapper;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -22,8 +22,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Builders
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -35,7 +33,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	private $indexable_mock;
 
 	/**
-	 * Options helper mock
+	 * Options helper mock.
 	 *
 	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Helper
 	 */
@@ -103,7 +101,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		// Setup the Indexable mock and its ORM layer.
 		$this->indexable_mock      = Mockery::mock( Indexable::class );
-		$this->indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$this->indexable_mock->orm = Mockery::mock( ORM::class );
 
 		// Mock Indexable ORM setters.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_type', 'home-page' );
@@ -147,13 +145,16 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		// Provide stubs.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
@@ -167,7 +168,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build_with_fallback_description() {
 		// Provide stubs.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
@@ -175,6 +176,9 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( false );
 		// We expect the description to be `false` in the ORM layer.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', false );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
@@ -190,11 +194,14 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
 
 		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
-		$image_meta_mock_json = wp_json_encode( $this->image_meta_mock );
+		$image_meta_mock_json = \wp_json_encode( $this->image_meta_mock );
 		// We expect open graph image meta data to be set on the Indexable ORM.
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
 		// We expect image meta data to be retrieved from the open graph image helper.
 		$this->open_graph_image_mock->expects( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
+
+		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
 		$builder = new Indexable_Home_Page_Builder( $this->options_mock, $this->url_mock );
 		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );

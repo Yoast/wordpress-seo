@@ -19,7 +19,7 @@ class Metabox_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \Yoast\WP\SEO\Tests\Doubles\Admin\Metabox\Metabox_Double
+	 * @var Metabox_Double
 	 */
 	protected $instance;
 

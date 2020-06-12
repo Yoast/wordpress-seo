@@ -16,11 +16,11 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		$robots['index'] = 'noindex';
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**
@@ -55,5 +55,14 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Generates the Open Graph type.
+	 *
+	 * @return string The Open Graph type.
+	 */
+	public function generate_open_graph_type() {
+		return 'article';
 	}
 }

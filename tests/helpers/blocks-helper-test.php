@@ -51,12 +51,10 @@ class Blocks_Helper_Test extends TestCase {
 	 */
 	public function test_get_all_blocks_from_post() {
 		$this->post
-			->expects('get_post' )
+			->expects( 'get_post' )
 			->once()
 			->with( 1337 )
-			->andReturn( (object) [
-				'post_content' => 'post content',
-			] );
+			->andReturn( (object) [ 'post_content' => 'post content' ] );
 
 		$this->instance
 			->expects( 'has_blocks_support' )
@@ -139,7 +137,8 @@ class Blocks_Helper_Test extends TestCase {
 					],
 				],
 			],
-			$this->instance->get_all_blocks_from_content( 'post content' ) );
+			$this->instance->get_all_blocks_from_content( 'post content' )
+		);
 	}
 
 	/**

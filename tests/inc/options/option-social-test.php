@@ -31,7 +31,7 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_parse_url' => function ( $url ) {
-					return parse_url( $url );
+					return \parse_url( $url );
 				},
 			]
 		);
@@ -63,7 +63,7 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\stubs(
 			[
 				'wp_parse_url' => function ( $url ) {
-					return parse_url( $url );
+					return \parse_url( $url );
 				},
 			]
 		);

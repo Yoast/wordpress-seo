@@ -43,10 +43,10 @@ class Indexable_Date_Archive_Builder {
 	public function build( $indexable ) {
 		$indexable->object_type       = 'date-archive';
 		$indexable->title             = $this->options->get( 'title-archive-wpseo' );
-		$indexable->breadcrumb_title  = $this->options->get( 'breadcrumbs-archiveprefix' );
 		$indexable->description       = $this->options->get( 'metadesc-archive-wpseo' );
 		$indexable->is_robots_noindex = $this->options->get( 'noindex-archive-wpseo' );
 		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
+		$indexable->blog_id           = \get_current_blog_id();
 
 		return $indexable;
 	}

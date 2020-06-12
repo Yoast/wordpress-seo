@@ -251,7 +251,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 *
 			 * @api bool Whether or not to show publish date.
 			 */
-			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post->get_post_type( $this->source ) ) ) {
+			if ( ! \apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post->get_post_type( $this->source ) ) ) {
 				return '';
 			}
 		}
@@ -283,8 +283,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
-		$robots = array_merge(
+		$robots = $this->get_base_robots();
+		$robots = \array_merge(
 			$robots,
 			[
 				'noimageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
@@ -303,7 +303,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**

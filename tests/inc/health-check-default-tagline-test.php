@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Inc;
 
 use Brain\Monkey;
+use WPSEO_Health_Check_Default_Tagline;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -10,7 +11,7 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
+class Health_Check_Default_Tagline_Test extends TestCase {
 
 	/**
 	 * Tests the run method when the WordPress tagline is the default one.
@@ -32,7 +33,7 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->once()
 			->andReturn( 'http://example.org/wp-admin/customize.php?autofocus[control]=blogdescription' );
 
-		$health_check = new \WPSEO_Health_Check_Default_Tagline();
+		$health_check = new WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "not passed" message.
@@ -51,7 +52,7 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->with( 'blogdescription' )
 			->andReturn( '' );
 
-		$health_check = new \WPSEO_Health_Check_Default_Tagline();
+		$health_check = new WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.
@@ -70,7 +71,7 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->with( 'blogdescription' )
 			->andReturn( 'My custom site tagline' );
 
-		$health_check = new \WPSEO_Health_Check_Default_Tagline();
+		$health_check = new WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
 		// We just want to verify that the label attribute is the "passed" message.

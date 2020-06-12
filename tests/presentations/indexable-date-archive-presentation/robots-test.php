@@ -7,10 +7,8 @@ use Yoast\WP\SEO\Tests\TestCase;
 /**
  * Class Robots_Test.
  *
- * @group   presentations
- * @group   robots
- *
- * @package Yoast\Tests\Presentations\Indexable_Date_Archive_Presentation
+ * @group presentations
+ * @group robots
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;

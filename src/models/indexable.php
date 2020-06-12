@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Indexable table definition.
@@ -26,7 +26,6 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property string  $permalink
  * @property string  $permalink_hash
  * @property string  $canonical
- * @property int     $content_score
  *
  * @property boolean $is_robots_noindex
  * @property boolean $is_robots_nofollow
@@ -69,8 +68,23 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property boolean $is_protected
  * @property string  $post_status
  * @property boolean $has_public_posts
+ *
+ * @property int     $blog_id
+ *
+ * @property string  $language
+ * @property string  $region
+ *
+ * @property string  $schema_page_type
+ * @property string  $schema_article_type
  */
-class Indexable extends Yoast_Model {
+class Indexable extends Model {
+
+	/**
+	 * Holds the ancestors.
+	 *
+	 * @var Indexable[]
+	 */
+	public $ancestors;
 
 	/**
 	 * Whether nor this model uses timestamps.
@@ -106,19 +120,19 @@ class Indexable extends Yoast_Model {
 		'object_id',
 		'author_id',
 		'post_parent',
-		'content_score',
 		'primary_focus_keyword_score',
 		'readability_score',
 		'link_count',
 		'incoming_link_count',
 		'number_of_pages',
 		'prominent_words_version',
+		'blog_id',
 	];
 
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var \Yoast\WP\SEO\Models\Indexable_Extension[]
+	 * @var Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -127,7 +141,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
-	 * @return \Yoast\WP\SEO\Models\Indexable_Extension|bool The extension.
+	 * @return Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $class_name ) {
 		if ( ! $this->loaded_extensions[ $class_name ] ) {
@@ -140,14 +154,50 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Enhances the save method.
 	 *
-	 * @return boolean True on succes.
+	 * @return boolean True on success.
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = \trailingslashit( $this->permalink );
+			$this->sanitize_permalink();
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
+		}
+		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
 		}
 
 		return parent::save();
+	}
+
+	/**
+	 * Sanitizes the permalink.
+	 *
+	 * @return void
+	 */
+	protected function sanitize_permalink() {
+		$permalink_structure = \get_option( 'permalink_structure' );
+		$permalink_parts     = \wp_parse_url( $this->permalink );
+
+		if ( ! isset( $permalink_parts['path'] ) ) {
+			$permalink_parts['path'] = '/';
+		}
+		if ( \substr( $permalink_structure, -1, 1 ) === '/' && \strpos( \substr( $permalink_parts['path'], -5 ), '.' ) === false ) {
+			$permalink_parts['path'] = \trailingslashit( $permalink_parts['path'] );
+		}
+
+		$permalink = '';
+		if ( isset( $permalink_parts['scheme'] ) ) {
+			$permalink .= $permalink_parts['scheme'] . '://';
+		}
+		if ( isset( $permalink_parts['host'] ) ) {
+			$permalink .= $permalink_parts['host'];
+		}
+		if ( isset( $permalink_parts['path'] ) ) {
+			$permalink .= $permalink_parts['path'];
+		}
+		if ( isset( $permalink_parts['query'] ) ) {
+			$permalink .= '?' . $permalink_parts['query'];
+		}
+		// We never set the fragment as the fragment is intended to be client-only.
+		$this->permalink = $permalink;
 	}
 }

@@ -374,14 +374,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'system-page':
 				switch ( $this->indexable->object_sub_type ) {
 					case 'search-result':
-						$type = 'SearchResultsPage';
+						$type = [ 'CollectionPage', 'SearchResultsPage' ];
 						break;
 					default:
 						$type = 'WebPage';
 				}
 				break;
 			case 'user':
-				$type = [ 'ProfilePage', 'WebPage' ];
+				$type = 'ProfilePage';
 				break;
 			case 'home-page':
 			case 'date-archive':
@@ -391,6 +391,9 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				break;
 			default:
 				$type = 'WebPage';
+				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
+					$type = 'CollectionPage';
+				}
 		}
 
 		/**
@@ -409,6 +412,18 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
 	}
+
+	/**
+	 * Strips all nested dependencies from the debug info.
+	 *
+	 * @return array
+	 */
+	public function __debugInfo() {
+		return [
+			'indexable'    => $this->indexable,
+			'presentation' => $this->presentation,
+		];
+	}
 }
 
-class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
+\class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );

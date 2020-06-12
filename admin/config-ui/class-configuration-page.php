@@ -18,6 +18,20 @@ class WPSEO_Configuration_Page {
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
+	 * The notifier to be called when the wizard notification should be updated.
+	 *
+	 * @var WPSEO_Configuration_Notifier
+	 */
+	protected $notifier;
+
+	/**
+	 * Constructs the object by setting the notifier.
+	 */
+	public function __construct() {
+		$this->notifier = new WPSEO_Configuration_Notifier();
+	}
+
+	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
 	 */
 	public function set_hooks() {
@@ -26,7 +40,8 @@ class WPSEO_Configuration_Page {
 		}
 
 		if ( $this->should_add_notification() ) {
-			$this->add_notification();
+			WPSEO_Options::set( 'started_configuration_wizard', true );
+			$this->notifier->notify();
 		}
 
 		// Register the page for the wizard.
@@ -43,10 +58,10 @@ class WPSEO_Configuration_Page {
 		$page               = filter_input( INPUT_GET, 'page' );
 
 		if ( ! ( $configuration_page === 'finished' && ( $page === WPSEO_Admin::PAGE_IDENTIFIER ) ) ) {
+			$this->notifier->notify();
 			return;
 		}
 
-		$this->remove_notification();
 		$this->remove_notification_option();
 
 		wp_safe_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
@@ -193,48 +208,10 @@ class WPSEO_Configuration_Page {
 	}
 
 	/**
-	 * Adds a notification to the notification center.
+	 * Remove the options that triggers the notice for the configuration wizard.
 	 */
-	private function add_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( self::get_notification() );
-	}
-
-	/**
-	 * Removes the notification from the notification center.
-	 */
-	private function remove_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( self::get_notification() );
-	}
-
-	/**
-	 * Gets the notification.
-	 *
-	 * @return Yoast_Notification
-	 */
-	private static function get_notification() {
-		$message  = __( 'The configuration wizard helps you to easily configure your site to have the optimal SEO settings.', 'wordpress-seo' );
-		$message .= '<br/>';
-		$message .= sprintf(
-			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to the starting tag of the link to the wizard, %3$s resolves to the closing link tag */
-			__( 'We have detected that you have not finished this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'<a href="' . admin_url( '?page=' . self::PAGE_IDENTIFIER ) . '">',
-			'</a>'
-		);
-
-		$notification = new Yoast_Notification(
-			$message,
-			[
-				'type'         => Yoast_Notification::WARNING,
-				'id'           => 'wpseo-dismiss-onboarding-notice',
-				'capabilities' => 'wpseo_manage_options',
-				'priority'     => 0.8,
-			]
-		);
-
-		return $notification;
+	private function remove_notification_option() {
+		WPSEO_Options::set( 'show_onboarding_notice', false );
 	}
 
 	/**
@@ -244,12 +221,5 @@ class WPSEO_Configuration_Page {
 	 */
 	private function should_add_notification() {
 		return ( WPSEO_Options::get( 'show_onboarding_notice' ) === true );
-	}
-
-	/**
-	 * Remove the options that triggers the notice for the configuration wizard.
-	 */
-	private function remove_notification_option() {
-		WPSEO_Options::set( 'show_onboarding_notice', false );
 	}
 }

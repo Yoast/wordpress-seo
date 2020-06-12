@@ -154,4 +154,4 @@ class WPSEO_Sitemaps_Admin {
 	public function detect_blocking_filesystem_sitemaps() {
 		_deprecated_function( 'WPSEO_Sitemaps_Admin::delete_sitemaps', '7.0' );
 	}
-} /* End of class */
+}

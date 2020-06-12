@@ -42,6 +42,6 @@ class Url_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return urldecode( (string) \apply_filters( 'wpseo_opengraph_url', $this->presentation->open_graph_url, $this->presentation ) );
+		return \urldecode( (string) \apply_filters( 'wpseo_opengraph_url', $this->presentation->open_graph_url, $this->presentation ) );
 	}
 }

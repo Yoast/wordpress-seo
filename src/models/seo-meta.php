@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Models;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Table definition for the SEO Meta table.
@@ -16,7 +16,7 @@ use Yoast\WP\SEO\ORM\Yoast_Model;
  * @property int $internal_link_count
  * @property int $incoming_link_count
  */
-class SEO_Meta extends Yoast_Model {
+class SEO_Meta extends Model {
 
 	/**
 	 * Overwrites the default ID column name.

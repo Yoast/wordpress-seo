@@ -17,7 +17,7 @@ class Metabox_Editor_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var \WPSEO_Metabox_Editor
+	 * @var WPSEO_Metabox_Editor
 	 */
 	protected $subject;
 

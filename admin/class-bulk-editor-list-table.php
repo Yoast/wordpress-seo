@@ -1021,4 +1021,4 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $columns;
 	}
-} /* End of class */
+}

@@ -14,8 +14,10 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -59,9 +61,21 @@ class WooCommerce_Test extends TestCase {
 	/**
 	 * The indexable.
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	private $indexable;
+
+	/**
+	 * The memoizer for the meta tags context.
+	 *
+	 * @var Meta_Tags_Context_Memoizer
+	 */
+	protected $context_memoizer;
+
+	/**
+	 * @var Indexable_Repository
+	 */
+	private $repository;
 
 	/**
 	 * Sets an instance for test purposes.
@@ -69,14 +83,16 @@ class WooCommerce_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options      = Mockery::mock( Options_Helper::class );
-		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
-		$this->instance     = Mockery::mock( WooCommerce::class, [ $this->options, $this->replace_vars ] )
+		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->replace_vars     = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
+		$this->repository       = Mockery::mock( Indexable_Repository::class );
+		$this->instance         = Mockery::mock( WooCommerce::class, [ $this->options, $this->replace_vars, $this->context_memoizer, $this->repository ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 
 		$presentation       = new Indexable_Presentation();
-		$this->indexable    = new Indexable();
+		$this->indexable    = new Indexable_Mock();
 		$this->presentation = $presentation->of( [ 'model' => $this->indexable ] );
 	}
 
@@ -116,6 +132,28 @@ class WooCommerce_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the add shop to breadcrumbs function.
+	 *
+	 * @covers ::add_shop_to_breadcrumbs
+	 */
+	public function test_add_shop_to_breadcrumbs() {
+		$indexables = [
+			(object) [
+				'object_type'     => 'post-type-archive',
+				'object_sub_type' => 'product',
+			],
+		];
+
+		Monkey\Functions\expect( 'wc_get_page_id' )
+			->once()
+			->andReturn( 707 );
+
+		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 707, 'post' )->andReturn( 'shop' );
+
+		$this->assertEquals( [ 'shop' ], $this->instance->add_shop_to_breadcrumbs( $indexables ) );
+	}
+
+	/**
 	 * Tests the situation where the page isn't a shop page.
 	 *
 	 * @covers ::get_page_id
@@ -136,6 +174,10 @@ class WooCommerce_Test extends TestCase {
 	 * @covers ::get_shop_page_id
 	 */
 	public function test_get_page_id_when_woocommerce_function_does_not_exist() {
+		// Sets the stubs.
+		Monkey\Functions\expect( 'wc_get_page_id' )
+			->andReturn( -1 );
+
 		$this->instance
 			->expects( 'is_shop_page' )
 			->once()
@@ -309,13 +351,15 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function test_title_by_using_the_product_archive_template() {
 		// Sets the stubs.
-		Monkey\Functions\stubs( [
-			'is_shop'        => true,
-			'is_search'      => false,
-			'is_archive'     => true,
-			'wc_get_page_id' => 1337,
-			'get_post'       => [ 'post' ],
-		] );
+		Monkey\Functions\stubs(
+			[
+				'is_shop'        => true,
+				'is_search'      => false,
+				'is_archive'     => true,
+				'wc_get_page_id' => 1337,
+				'get_post'       => [ 'post' ],
+			]
+		);
 
 		$this->options
 			->expects( 'get' )
@@ -342,13 +386,15 @@ class WooCommerce_Test extends TestCase {
 	 */
 	public function test_description_by_using_the_product_archive_template() {
 		// Sets the stubs.
-		Monkey\Functions\stubs( [
-			'is_shop'        => true,
-			'is_search'      => false,
-			'is_archive'     => true,
-			'wc_get_page_id' => 1337,
-			'get_post'       => [ 'post' ],
-		] );
+		Monkey\Functions\stubs(
+			[
+				'is_shop'        => true,
+				'is_search'      => false,
+				'is_archive'     => true,
+				'wc_get_page_id' => 1337,
+				'get_post'       => [ 'post' ],
+			]
+		);
 
 		$this->options
 			->expects( 'get' )

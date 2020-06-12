@@ -51,7 +51,7 @@ class Url_Helper {
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
-		return (string) \wp_parse_url( $url, PHP_URL_PATH );
+		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class Url_Helper {
 		}
 
 		$parts = \explode( '.', $path );
-		if ( empty( $parts ) || count( $parts ) === 1 ) {
+		if ( empty( $parts ) || \count( $parts ) === 1 ) {
 			return '';
 		}
 
@@ -84,7 +84,7 @@ class Url_Helper {
 	 * @return string The absolute url.
 	 */
 	public function ensure_absolute_url( $url ) {
-		if ( ! is_string( $url ) || $url === '' ) {
+		if ( ! \is_string( $url ) || $url === '' ) {
 			return $url;
 		}
 
@@ -103,7 +103,7 @@ class Url_Helper {
 	 * @return string
 	 */
 	public function build_absolute_url( $path = null ) {
-		$path      = \wp_parse_url( $path, PHP_URL_PATH );
+		$path      = \wp_parse_url( $path, \PHP_URL_PATH );
 		$url_parts = \wp_parse_url( \home_url() );
 
 		$base_url = \trailingslashit( $url_parts['scheme'] . '://' . $url_parts['host'] );

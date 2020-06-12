@@ -16,11 +16,11 @@ class Indexable_Error_Page_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = parent::generate_robots();
+		$robots = $this->get_base_robots();
 
 		$robots['index'] = 'noindex';
 
-		return $robots;
+		return $this->filter_robots( $robots );
 	}
 
 	/**

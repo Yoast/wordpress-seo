@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 /**
  * Class Abstract_Indexable_Presenter
  */
-abstract class Abstract_Indexable_Presenter {
+abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 
 	/**
 	 * The WPSEO Replace Vars object.
@@ -38,15 +38,6 @@ abstract class Abstract_Indexable_Presenter {
 	public $helpers;
 
 	/**
-	 * Presents a presentation.
-	 *
-	 * @codeCoverageIgnore There is nothing to test.
-	 *
-	 * @return string The template.
-	 */
-	abstract public function present();
-
-	/**
 	 * Gets the raw value of a presentation.
 	 *
 	 * @return string|array The raw value.
@@ -57,8 +48,6 @@ abstract class Abstract_Indexable_Presenter {
 	 * Replace replacement variables in a string.
 	 *
 	 * @param string $string The string.
-	 *
-	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return string The string with replacement variables replaced.
 	 */

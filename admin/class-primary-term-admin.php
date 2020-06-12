@@ -21,9 +21,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
 		add_action( 'save_post', [ $this, 'save_primary_terms' ] );
-
-		$primary_term = new WPSEO_Frontend_Primary_Category();
-		$primary_term->register_hooks();
 	}
 
 	/**

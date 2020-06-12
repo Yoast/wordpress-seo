@@ -2,7 +2,7 @@
 /* global JSON */
 /* global wpseoBulkEditorNonce */
 /* jshint -W097 */
-
+/* eslint-disable camelcase */
 ( function() {
 	var bulkEditor = function( currentTable ) {
 		var newClass = currentTable.find( "[class^=wpseo-new]" ).first().attr( "class" );
@@ -49,7 +49,6 @@
 						return;
 					}
 
-					/* eslint-disable camelcase */
 					var data = {
 						action: saveMethod,
 						_ajax_nonce: wpseoBulkEditorNonce,
@@ -57,7 +56,6 @@
 						new_value: newValue,
 						existing_value: currentValue,
 					};
-					/* eslint-enable camelcase */
 
 					jQuery.post( ajaxurl, data, instance.handleResponse );
 				}
@@ -188,3 +186,4 @@
 	}
 	);
 }() );
+/* eslint-enable camelcase */

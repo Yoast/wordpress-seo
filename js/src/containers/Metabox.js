@@ -10,8 +10,13 @@ import { connect } from "react-redux";
  * @returns {Object} The props for the Metabox component.
  */
 function mapStateToProps( state, ownProps ) {
+	const settings = {
+		...state.preferences,
+		// Because this value is initiated as an empty string.
+		displayAdvancedTab: !! window.wpseoAdminL10n.displayAdvancedTab,
+	};
 	return {
-		settings: state.preferences,
+		settings,
 		store: ownProps.store,
 	};
 }

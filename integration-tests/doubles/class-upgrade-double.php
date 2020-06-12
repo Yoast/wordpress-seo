@@ -54,8 +54,12 @@ class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 
 	/**
 	 * Test double. Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
+	 *
+	 * @param string $previous_version The previous version.
+	 *
+	 * @return void
 	 */
-	public function finish_up() {
-		parent::finish_up();
+	public function finish_up( $previous_version = null ) {
+		parent::finish_up( $previous_version );
 	}
 }

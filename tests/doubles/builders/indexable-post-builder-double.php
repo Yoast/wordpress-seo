@@ -6,8 +6,6 @@ use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 
 /**
  * Class Indexable_Post_Builder_Double.
- *
- * @package Yoast\Tests\Doubles
  */
 class Indexable_Post_Builder_Double extends Indexable_Post_Builder {
 

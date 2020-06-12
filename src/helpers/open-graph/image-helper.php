@@ -30,18 +30,6 @@ class Image_Helper {
 	private $image;
 
 	/**
-	 * The parameters we have for Facebook images.
-	 *
-	 * @var array
-	 */
-	private $image_params = [
-		'min_width'  => 200,
-		'max_width'  => 2000,
-		'min_height' => 200,
-		'max_height' => 2000,
-	];
-
-	/**
 	 * Image_Helper constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -62,7 +50,7 @@ class Image_Helper {
 	 * @return bool Whether or not the URL is a valid image.
 	 */
 	public function is_image_url_valid( array $image ) {
-		if ( empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
+		if ( empty( $image['url'] ) || ! \is_string( $image['url'] ) ) {
 			return false;
 		}
 
@@ -76,7 +64,7 @@ class Image_Helper {
 		 *
 		 * @param string $url The image url to validate.
 		 */
-		return (bool) apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
+		return (bool) \apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
 	}
 
 	/**
@@ -119,6 +107,6 @@ class Image_Helper {
 			return $this->image->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image->get_best_attachment_variation( $attachment_id, $this->image_params );
+		return $this->image->get_best_attachment_variation( $attachment_id );
 	}
 }
