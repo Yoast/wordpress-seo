@@ -11,9 +11,6 @@ module.exports = function( grunt ) {
 		"ensure-pre-release-branch",
 		"Ensures that the release or hotfix branch is checked out",
 		function() {
-			// Fetch all existing branches.
-			grunt.config( "gitfetch.fetchall.options.all", true );
-			grunt.task.run( "gitfetch:fetchall" );
 			const version = grunt.option( "plugin-version" );
 			const type = grunt.option( "type" );
 
@@ -27,8 +24,11 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( "Missing --type argument (release or hotfix)" );
 			}
 
-			const basebranch = type === "hotfix" ? "master" : "trunk";
+			// Fetch all existing branches.
+			grunt.config( "gitfetch.fetchall.options.all", true );
+			grunt.task.run( "gitfetch:fetchall" );
 
+			const basebranch = type === "hotfix" ? "master" : "trunk";
 			const branchForRC = type + "/" + version;
 
 			// Set a grunt branchForRC variable.
@@ -46,12 +46,21 @@ module.exports = function( grunt ) {
 			} );
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
-			const exists = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
+			const existsRemotely = ! ! execSync( "git branch --list -r origin/" + branchForRC, { encoding: "utf-8" } );
+			let existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
 
-			if ( exists ) {
-				// Verify whether this branch already exists on the remote.
-				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchForRC, { encoding: "utf-8" } );
+			// If there is a remote branch, check it out.
+			if ( existsRemotely && ! existsLocally ) {
+				// First switch to either trunk or master to make sure we branch from the correct base branch.
+				grunt.config( "gitcheckout.rcBranch.options", {
+					branch: branchForRC,
+				} );
+				grunt.task.run( "gitcheckout:rcBranch" );
 
+				existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
+			}
+
+			if ( existsLocally ) {
 				/* If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
 				This is needed because you cannot pull (as we will do below) on a branch that doesn't exist remotely. */
 				if ( ! existsRemotely ) {
@@ -60,10 +69,10 @@ module.exports = function( grunt ) {
 				}
 
 				// Checkout the release or hotfix branch.
-				grunt.config( "gitcheckout.existingBranch.options", {
+				grunt.config( "gitcheckout.rcBranch.options", {
 					branch: branchForRC,
 				} );
-				grunt.task.run( "gitcheckout:existingBranch" );
+				grunt.task.run( "gitcheckout:rcBranch" );
 
 				// Pull the release or hotfix branch to make sure you have the latest commits.
 				grunt.config( "gitpull.pullReleaseBranch.options", {
@@ -78,7 +87,7 @@ module.exports = function( grunt ) {
 				} );
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
-			grunt.log.ok( "Switched to the " + branchForRC + " branch" );
+			grunt.log.ok( "Switched to the " + branchForRC + " branch." );
 		}
 	);
 };
