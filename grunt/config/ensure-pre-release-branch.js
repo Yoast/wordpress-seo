@@ -50,7 +50,16 @@ module.exports = function( grunt ) {
 			const existsRemotely = ! ! execSync( "git branch --list -r origin/" + branchForRC, { encoding: "utf-8" } );
 			let existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
 
-			// If there is a remote branch, check it out.
+			/*
+			 * If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
+			 * This is needed because you cannot pull (as we will do below) on a branch that doesn't exist remotely.
+			 */
+			if ( existsLocally && ! existsRemotely ) {
+				grunt.fail.fatal( "The release branch does not exist on the remote (origin). " +
+								  "Please push your local branch, and run this script again." );
+			}
+
+			// If there is a remote branch, check it out and pull the changes in.
 			if ( existsRemotely && ! existsLocally ) {
 				// First switch to either trunk or master to make sure we branch from the correct base branch.
 				grunt.config( "gitcheckout.rcBranch.options", {
@@ -58,17 +67,19 @@ module.exports = function( grunt ) {
 				} );
 				grunt.task.run( "gitcheckout:rcBranch" );
 
-				existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
+				// Pull the release or hotfix branch to make sure you have the latest commits.
+				grunt.config( "gitpull.pullReleaseBranch.options", {
+					branch: branchForRC,
+				} );
+				grunt.task.run( "gitpull:pullReleaseBranch" );
+
+				// All good!
+				grunt.log.ok( "Switched to the " + branchForRC + " branch." );
+
+				return;
 			}
 
-			if ( existsLocally ) {
-				/* If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
-				This is needed because you cannot pull (as we will do below) on a branch that doesn't exist remotely. */
-				if ( ! existsRemotely ) {
-					grunt.fail.fatal( "The release branch does not exist on the remote (origin). " +
-						"Please push your local branch, and run this script again." );
-				}
-
+			if ( existsLocally && existsRemotely ) {
 				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.rcBranch.options", {
 					branch: branchForRC,
@@ -80,14 +91,19 @@ module.exports = function( grunt ) {
 					branch: branchForRC,
 				} );
 				grunt.task.run( "gitpull:pullReleaseBranch" );
-			} else {
-				// If the release or hotfix branch doesn't exist yet, we need to create the branch.
-				grunt.config( "gitcheckout.newBranch.options", {
-					branch: branchForRC,
-					create: true,
-				} );
-				grunt.task.run( "gitcheckout:newBranch" );
+
+				grunt.log.ok( "Switched to the " + branchForRC + " branch." );
+
+				return;
 			}
+
+			// If the release or hotfix branch doesn't exist yet, we need to create the branch.
+			grunt.config( "gitcheckout.newBranch.options", {
+				branch: branchForRC,
+				create: true,
+			} );
+			grunt.task.run( "gitcheckout:newBranch" );
+
 			grunt.log.ok( "Switched to the " + branchForRC + " branch." );
 		}
 	);
