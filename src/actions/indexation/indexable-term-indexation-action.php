@@ -146,7 +146,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	public function get_total_term_permalinks_null() {
 		return Model::of_type( 'Indexable' )
 			->where( 'object_type', 'term' )
-			->where( 'permalink', null )
+			->where_null( 'permalink' )
 			->count( 'id' );
 	}
 }
