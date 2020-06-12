@@ -227,10 +227,18 @@ module.exports = function( grunt ) {
 			command: "git checkout trunk",
 		},
 
+		/*
+		 * Used in the `bump-the-rc-version` alias flow.
+		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
+		 */
 		"git-merge-into-trunk": {
 			command: "git merge <%= branchForRC %>",
 		},
 
+		/*
+		 * Used in the `bump-the-rc-version` alias flow.
+		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
+		 */
 		"git-checkout-release-branch": {
 			command: "git checkout <%= branchForRC %>",
 		},
