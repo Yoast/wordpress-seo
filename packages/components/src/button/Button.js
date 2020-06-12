@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import "./buttons.css";
 
 export const sharedButtonPropTypes = {
-	isLink: PropTypes.bool,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -15,7 +14,6 @@ export const sharedButtonPropTypes = {
 };
 
 export const sharedButtonDefaultProps = {
-	isLink: false,
 	children: null,
 	onClick: null,
 	href: null,
@@ -34,12 +32,13 @@ export const Button = ( props ) => {
 	const {
 		children,
 		className,
+		type,
 		...restProps
 	} = props;
 
 	return <button
 		className={ className }
-		type="button"
+		type={ type }
 		{ ...restProps }
 	>
 		{ children }

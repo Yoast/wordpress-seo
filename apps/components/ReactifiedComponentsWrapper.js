@@ -8,12 +8,6 @@ import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
 	Button,
-	PrimaryButton,
-	SecondaryButton,
-	UpsellButton,
-	HideButton,
-	RemoveButton,
-	CloseButton,
 } from "@yoast/components/src/button";
 
 /**
@@ -26,21 +20,7 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
-	<Button title="Testing whether other props">Naked button</Button>
-	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
-	<PrimaryButton href="#" isLink={ true } title="Other props work!">Primary link</PrimaryButton>
-	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
-	<SecondaryButton href="#" isLink={ true } title="Other props work!">Secondary link</SecondaryButton>
-	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellButton href="#" isLink={ true } title="Other props work!">Upsell link</UpsellButton>
-	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellButton href="#" isLink={ true } caret={ true } title="Other props work!">Upsell link</UpsellButton>
-	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
-	<HideButton href="#" isLink={ true } title="Other props work!">Hide link</HideButton>
-	<RemoveButton onClick={ clickerDiClick } title="Other props work!">Remove button</RemoveButton>
-	<RemoveButton href="#" isLink={ true } title="Other props work!">Remove link</RemoveButton>
-	<CloseButton onClick={ clickerDiClick } title="Other props work!" />
-	<CloseButton href="#" isLink={ true } title="Other props work!" />
+	<Button type="button" title="Testing whether other props" onClick={ clickerDiClick }>Naked button</Button>
 </Fragment>;
 
 /**
