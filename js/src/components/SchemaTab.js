@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import HelpIcon from "@yoast/components/src/help-icon/HelpIcon";
 import SidebarCollapsible from "./SidebarCollapsible";
 import PropTypes from "prop-types";
+import interpolateComponents from "interpolate-components";
 
 const SchemaContainer = styled.div`
 	padding: 16px;
@@ -107,6 +108,21 @@ const schemaArticleOptions = [
 	},
 ];
 
+/* translators: %1$s and %2$s expand to a link to the Search Appearance Settings page */
+const footerText = sprintf(
+	__( "You can change the default type for Posts in your %1$sSearch Appearance Settings%2$s.", "wordpress-seo" ),
+	"{{link}}",
+	"{{/link}}"
+);
+
+const footerWithLink = interpolateComponents(
+	{
+		mixedString: footerText,
+		// eslint-disable-next-line jsx-a11y/anchor-has-content
+		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" /> },
+	},
+);
+
 /**
  * Returns the content of the schema tab.
  *
@@ -126,13 +142,13 @@ const Content = ( props ) => (
 		<p>
 			{ props.helpTextDescription }
 		</p>
-		{ props.showAdditionalHelpText && <div className="yoast-field-group__title" style={ { paddingTop: 16, paddingBottom: 16 } }>
-			<b>What type of page or content is this?</b>
+		<div className="yoast-field-group__title" style={ { paddingTop: 16, paddingBottom: 16 } }>
+			<b>{ __( "What type of page or content is this?", "wordpress-seo" ) }</b>
 			<HelpIcon
 				linkTo={ props.additionalHelpTextLink }
 				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
 			/>
-		</div> }
+		</div>
 		<Select
 			id="yoast_wpseo_schema_page_type_react"
 			name="schema_page_type"
@@ -149,16 +165,11 @@ const Content = ( props ) => (
 			onChange={ props.schemaArticleTypeChange }
 			selected={ props.schemaArticleTypeSelected }
 		/> }
-		{ props.showFooter && <p>
-			You can change the default type for Posts in your
-			<a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types"> Search Appearance settings</a>.
-		</p> }
+		<p>{ footerWithLink }</p>
 	</Fragment>
 );
 
 Content.propTypes = {
-	showFooter: PropTypes.bool,
-	showAdditionalHelpText: PropTypes.bool,
 	schemaPageTypeChange: PropTypes.func,
 	schemaPageTypeSelected: PropTypes.string,
 	schemaArticleTypeChange: PropTypes.func,
@@ -171,8 +182,6 @@ Content.propTypes = {
 };
 
 Content.defaultProps = {
-	showFooter: true,
-	showAdditionalHelpText: true,
 	schemaPageTypeChange: () => {},
 	schemaPageTypeSelected: null,
 	schemaArticleTypeChange: () => {},
