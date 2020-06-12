@@ -1,6 +1,6 @@
 const fs = require( "fs" );
 const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
-const githubApi = require( "../config/tools/github-api" );
+const githubApi = require( "../tools/github-api" );
 
 /**
  * Gets a milestone from the wordpress-seo repo.
