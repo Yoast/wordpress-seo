@@ -107,6 +107,7 @@ clean:build-assets:
   - 'ensure-rc-dependencies'
   - 'update-readme'
   - 'bump-the-rc-version'
+  - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
