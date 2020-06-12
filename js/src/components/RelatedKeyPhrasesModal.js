@@ -19,7 +19,7 @@ import YoastIcon from "../../../images/Yoast_icon_kader.svg";
  */
 class RelatedKeyPhrasesModal extends Component {
 	/**
-	 * @summary Constructs the RelatedKeyPhrasesModal component.
+	 * Constructs the RelatedKeyPhrasesModal component.
 	 *
 	 * @param {Object} props The properties.
 	 *
