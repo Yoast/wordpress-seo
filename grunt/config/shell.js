@@ -211,38 +211,6 @@ module.exports = function( grunt ) {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
 
-		"git-add-version-bump-files": {
-			command: "git add package.json wp-seo-main.php wp-seo.php",
-		},
-
-		"git-commit-version-bump-files": {
-			command: "git commit -m 'Bump version for RC'",
-		},
-
-		"git-push-origin-head": {
-			command: "git push origin HEAD",
-		},
-
-		"git-checkout-trunk": {
-			command: "git checkout trunk",
-		},
-
-		/*
-		 * Used in the `bump-the-rc-version` alias flow.
-		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
-		 */
-		"git-merge-into-trunk": {
-			command: "git merge <%= branchForRC %>",
-		},
-
-		/*
-		 * Used in the `bump-the-rc-version` alias flow.
-		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
-		 */
-		"git-checkout-release-branch": {
-			command: "git checkout <%= branchForRC %>",
-		},
-
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",

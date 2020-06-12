@@ -106,14 +106,13 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-the-rc-version'
+  - 'bump-rc-version-and-commit'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
   - 'verify-zip-size'
-  - 'shell:git-checkout-trunk'
   - 'celebrate'
 
 'ensure-clean-branch':
@@ -126,16 +125,6 @@ clean:build-assets:
   - 'prompt:monorepoVersions'
   - 'shell:composer-install'
   - 'shell:composer-update-yoast-dependencies'
-
-'bump-the-rc-version':
-  - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
-  - 'shell:git-commit-version-bump-files'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-trunk'
-  - 'shell:git-merge-into-trunk'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
