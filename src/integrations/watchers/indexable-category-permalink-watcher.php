@@ -94,7 +94,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 	protected function clear_category_permalinks() {
 		Wrapper::get_wpdb()->update(
 			Model::get_table_name( 'Indexable' ),
-			[ 'permalink' => null, ],
+			[ 'permalink' => null ],
 			[ 'object_type' => 'term', 'object_sub_type' => 'category' ]
 		);
 	}
