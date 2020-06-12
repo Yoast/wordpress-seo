@@ -132,8 +132,46 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term') AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' && permalink IS NOT NULL) AND taxonomy IN ($placeholders)
 			$limit_query",
+			$replacements
+		);
+	}
+
+	/**
+	 * Gets the total number of unindexed terms.
+	 *
+	 * @return int|false The amount of unindexed terms. False if the query fails.
+	 */
+	public function get_total_term_permalinks_null() {
+		$query = $this->get_query_term_permalinks_null();
+
+		$result = $this->wpdb->get_var( $query );
+
+		if ( \is_null( $result ) ) {
+			return false;
+		}
+
+		return (int) $result;
+	}
+
+	/**
+	 * Queries the database for terms whose permalink is NULL.
+	 *
+	 * @return string The query.
+	 */
+	public function get_query_term_permalinks_null() {
+		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
+		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
+		$replacements      = $public_taxonomies;
+
+		return $this->wpdb->prepare(
+			"
+			SELECT COUNT(term_id)
+			FROM {$this->wpdb->term_taxonomy}
+			WHERE term_id IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' && permalink IS NULL) AND taxonomy IN ($placeholders)
+			",
 			$replacements
 		);
 	}
