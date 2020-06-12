@@ -61,6 +61,7 @@ const schemaPageOptions = [
 		value: "option-12",
 	},
 	{
+		/* translators: %1$s expands to "- " (a hyphen and a space), %2$s expands to " -" (a space and a hyphen) */
 		name: sprintf( __( "%1$sNone%2$s", "wordpress-seo" ), "- ", " -" ),
 		value: "option-13",
 	},
@@ -100,6 +101,7 @@ const schemaArticleOptions = [
 		value: "option-8",
 	},
 	{
+		/* translators: %1$s expands to "- " (a hyphen and a space), %2$s expands to " -" (a space and a hyphen) */
 		name: sprintf( __( "%1$sNone%2$s", "wordpress-seo" ), "- ", " -" ),
 		value: "option-9",
 	},
