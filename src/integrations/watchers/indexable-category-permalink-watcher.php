@@ -86,6 +86,11 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 		}
 	}
 
+	/**
+	 * Clears the permalinks for category indexables.
+	 *
+	 * @return void
+	 */
 	protected function clear_category_permalinks() {
 		Wrapper::get_wpdb()->update(
 			Model::get_table_name( 'Indexable' ),
