@@ -161,7 +161,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 */
 	public function get_table_classes() {
 		$classes = parent::get_table_classes();
-		$classes[] = "yoast-table";
+		$classes[] = 'yoast-table';
 		return array_values( $classes );
 	}
 
