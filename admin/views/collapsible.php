@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WPSEO plugin file.
  *
@@ -21,7 +20,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-
 
 ?>
 <div
