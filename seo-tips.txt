@@ -1,0 +1,5 @@
+I am a SEO expert.
+Here I'm sharing some wordpress seo tips.
+
+Wordpress is mostly used CMS.
+Yoast is the plugin for the wordpress SEO.
