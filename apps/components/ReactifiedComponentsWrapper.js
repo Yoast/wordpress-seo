@@ -8,6 +8,7 @@ import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
 	Button,
+	ButtonStyledLink,
 } from "@yoast/components/src/button";
 
 /**
@@ -20,7 +21,16 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
-	<Button type="button" title="Testing whether other props" onClick={ clickerDiClick }>Naked button</Button>
+	<Button type="button" onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
+	<Button type="button" variant="primary" iconAfter="caret-right" onClick={ clickerDiClick }>Primary</Button>
+	<Button type="button" variant="secondary" iconAfter="caret-right" onClick={ clickerDiClick }>Secondary</Button>
+	<Button type="button" variant="upsell" iconAfter="caret-right" onClick={ clickerDiClick }>Buy</Button>
+	<Button type="button" variant="buy" iconAfter="buy" onClick={ clickerDiClick }>Buy</Button>
+	<Button type="button" variant="buy" iconBefore="buy" onClick={ clickerDiClick }>Buy</Button>
+	<ButtonStyledLink variant="primary" href={ "#" }>Buy</ButtonStyledLink>
+	<ButtonStyledLink variant="secondary" href={ "#" }>Buy</ButtonStyledLink>
+	<ButtonStyledLink variant="upsell" href="#" iconAfter="buy">Buy</ButtonStyledLink>
+	<ButtonStyledLink variant="buy" href="#" iconAfter="caret-right">Buy</ButtonStyledLink>
 </Fragment>;
 
 /**

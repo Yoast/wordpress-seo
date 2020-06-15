@@ -19,66 +19,143 @@ export const sharedButtonDefaultProps = {
 	href: null,
 };
 
+const iconToClassName = {
+	"caret-right": "yoast-button--buy__caret",
+	buy: "yoast-button--buy__caret",
+};
+
+const variantToClassName = {
+	primary: "primary",
+	secondary: "secondary",
+	buy: "buy",
+	upsell: "buy",
+};
+
 /**
- * Creates a button component.
+ * A function that looks up the correct className that belongs to a certain variant.
  *
- * @param {Object} props The props
- * @param {bool} props.isLink When true, Button will return an anchor <a> rather than a <button>.
+ * @param {string} variant The variant for which to lookup the className.
  *
- * @returns {ReactElemen} The Button component.
+ * @returns {string} The className that contains the css for the requested variant.
+ */
+const getClassName = variant => `yoast-button yoast-button--${ variantToClassName[ variant ] }`;
+
+/**
+ * Gets the span that has the svg icon as a background.
+ *
+ * @param {string} desiredIcon The icon which should be added as a background to a span.
+ *
+ * @returns {HTMLSpanElement} A span with an svg set as background.
+ */
+const getIconSpan = desiredIcon => <span className={ iconToClassName[ desiredIcon ] } />;
+
+/**
+ * A button with some functionality for Yoast styling.
+ *
+ * Can be provided with a variant string (see the variantToClassName object )
+ * and iconBefore and iconAfter strings (see the iconToClassName object).
+ *
+ * @param {Object} props The props object.
+ *
+ * @returns {HTMLButtonElement} A button.
  */
 export const Button = ( props ) => {
 	// Split Button.js specific props from all other props.
 	const {
 		children,
-		className,
+		variant,
+		iconBefore,
+		iconAfter,
 		type,
 		...restProps
 	} = props;
 
+	const displayIconBefore = ! ! iconBefore;
+	const displayIconAfter = ! ! iconAfter;
+
 	return <button
-		className={ className }
+		className={ getClassName( variant ) }
 		type={ type }
 		{ ...restProps }
 	>
+		{ displayIconBefore && getIconSpan( iconBefore ) }
 		{ children }
+		{ displayIconAfter && getIconSpan( iconAfter ) }
 	</button>;
 };
 
 Button.propTypes = {
-	...sharedButtonPropTypes,
-	className: PropTypes.string,
+	children: PropTypes.oneOfType(
+		[
+			PropTypes.node,
+			PropTypes.arrayOf( PropTypes.node ),
+		]
+	),
+	onClick: PropTypes.func,
+	type: PropTypes.string,
+	variant: PropTypes.string,
+	iconBefore: PropTypes.string,
+	iconAfter: PropTypes.string,
 };
 
 Button.defaultProps = {
-	...sharedButtonDefaultProps,
-	className: "yoast-button",
+	type: "button",
+	variant: "primary",
+	children: null,
+	onClick: null,
+	iconBefore: "",
+	iconAfter: "",
 };
 
 /**
- * 
- * @param {*} props 
+ * A link, styled to look like a button.
+ *
+ * Can be provided with a variant string (see the variantToClassName object )
+ * and iconBefore and iconAfter strings (see the iconToClassName object).
+ *
+ * @param {Object} props The props object.
+ *
+ * @returns {HTMLAnchorElement} An anchor tag, styled like a button.
  */
 export const ButtonStyledLink = ( props ) => {
 	const {
 		children,
-		className,
+		iconBefore,
+		iconAfter,
+		variant,
 		...restProps
 	} = props;
+
+	const displayIconBefore = ! ! iconBefore;
+	const displayIconAfter = ! ! iconAfter;
+
 	return <a
-		className={ className }
+		className={ getClassName( variant ) }
 		{ ...restProps }
 	>
+		{ displayIconBefore && getIconSpan( iconBefore ) }
 		{ children }
+		{ displayIconAfter && getIconSpan( iconAfter ) }
 	</a>;
 };
 
 ButtonStyledLink.propTypes = {
-	...sharedButtonPropTypes,
-	className: PropTypes.string,
+	href: PropTypes.string.isRequired,
+	variant: PropTypes.string,
+	children: PropTypes.oneOfType(
+		[
+			PropTypes.node,
+			PropTypes.arrayOf( PropTypes.node ),
+		]
+	),
+	iconBefore: PropTypes.string,
+	iconAfter: PropTypes.string,
 };
 
 ButtonStyledLink.defaultProps = {
 	...sharedButtonDefaultProps,
-	className: "yoast-button",
+	variant: "primary",
+	children: null,
+	iconBefore: "",
+	iconAfter: "",
 };
