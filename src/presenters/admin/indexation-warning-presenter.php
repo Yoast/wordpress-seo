@@ -97,7 +97,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= '</p>';
 		$output .= $this->get_estimate();
 		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
+			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
 			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
 			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
@@ -126,7 +126,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= '</p>';
 		$output .= $this->get_estimate();
 		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
+			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
 			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
 			\esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
