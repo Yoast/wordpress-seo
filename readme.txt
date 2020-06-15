@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Content analysis, Readability
+Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
 Stable tag: 14.3
