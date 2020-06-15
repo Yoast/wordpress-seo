@@ -22,10 +22,10 @@ class SEMrush_Login_Action {
 	public function authenticate( $code ) {
 		// Code has already been validated at this point. No need to do that again
 		try {
-			$tokens_request = $this->client->request_tokens( $code );
+			$tokens = $this->client->request_tokens( $code );
 
 			return (object) [
-				'tokens' => $tokens_request,
+				'tokens' => $tokens,
 				'status' => 200,
 			];
 		} catch ( OAuth_Authentication_Failed_Exception $e ) {

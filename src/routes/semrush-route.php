@@ -58,10 +58,10 @@ class SEMrush_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$route_args = [
-			'methods'  => 'GET',
+			'methods'  => 'POST',
 			'callback' => [ $this, 'authenticate' ],
 			'args'     => [
-				'url' => [
+				'code' => [
 					'validate_callback' => [ $this, 'has_code' ],
 					'required'          => true,
 				],

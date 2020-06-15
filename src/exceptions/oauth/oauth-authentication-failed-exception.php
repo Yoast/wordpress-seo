@@ -1,7 +1,5 @@
 <?php namespace Yoast\WP\SEO\Exceptions\OAuth;
 
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-
 /**
  * Class OAuth_Authentication_Failed_Exception
  * @package Yoast\WP\SEO\Exceptions\OAuth
@@ -11,10 +9,10 @@ class OAuth_Authentication_Failed_Exception extends \Exception {
 	/**
 	 * OAuth_Authentication_Failed_Exception constructor.
 	 *
-	 * @param IdentityProviderException $original_exception The original exception.
+	 * @param \Exception $original_exception The original exception.
 	 */
-	public function __construct( IdentityProviderException $original_exception ) {
-		parent::__construct( 'Authentication failed', 500, $original_exception );
+	public function __construct( \Exception $original_exception ) {
+		parent::__construct( 'Authentication failed', 401, $original_exception );
 	}
 
 	/**
@@ -25,7 +23,7 @@ class OAuth_Authentication_Failed_Exception extends \Exception {
 	public function get_response() {
 		return (object) [
 			'tokens' => [],
-			'error'  => $this->getMessage(),
+			'error'  => $this->getMessage() . ': ' . $this->getPrevious()->getMessage(),
 			'code'   => $this->getCode(),
 		];
 	}

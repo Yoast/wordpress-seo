@@ -31,16 +31,22 @@ class SEMrush_Token {
 	private $has_expired;
 
 	/**
+	 * @var int
+	 */
+	private $created_at;
+
+	/**
 	 * SEMrush_Token constructor.
 	 *
 	 * @param string $access_token  The access token.
 	 * @param string $refresh_token The refresh token.
 	 * @param int    $expires       The date and time at which the token will expire.
 	 * @param bool   $has_expired   Whether or not the token has expired.
+	 * @param int    $created_at	The timestamp of when the token was created.
 	 *
 	 * @throws SEMrush_Empty_Token_Property_Exception
 	 */
-	public function __construct( $access_token, $refresh_token, $expires, $has_expired ) {
+	public function __construct( $access_token, $refresh_token, $expires, $has_expired, $created_at ) {
 
 		if ( empty( $access_token ) ) {
 			throw new SEMrush_Empty_Token_Property_Exception( 'access_token' );
@@ -65,6 +71,8 @@ class SEMrush_Token {
 		}
 
 		$this->has_expired = $has_expired;
+
+		$this->created_at = $created_at;
 	}
 
 	/**
@@ -88,10 +96,19 @@ class SEMrush_Token {
 	/**
 	 * Gets the expires.
 	 *
-	 * @return int The expires.
+	 * @return int The expiraton in seconds.
 	 */
 	public function get_expires() {
 		return $this->expires;
+	}
+
+	/**
+	 * Gets the created at timestamp.
+	 *
+	 * @return int The created at timestamp.
+	 */
+	public function get_created_at() {
+		return $this->created_at;
 	}
 
 	/**
@@ -100,7 +117,7 @@ class SEMrush_Token {
 	 * @return bool Whether or not the token has expired.
 	 */
 	public function has_expired() {
-		return $this->has_expired;
+		return ( time() >= ( $this->created_at + $this->expires ) ) || $this->has_expired === true;
 	}
 
 	/**
@@ -115,8 +132,9 @@ class SEMrush_Token {
 		return new self(
 			$response->getToken(),
 			$response->getRefreshToken(),
-			time() + $response->getExpires(),
-			$response->hasExpired()
+			$response->getExpires(),
+			$response->hasExpired(),
+			time()
 		);
 	}
 
@@ -131,6 +149,7 @@ class SEMrush_Token {
 			'refresh_token' => $this->get_refresh_token(),
 			'expires'       => $this->get_expires(),
 			'has_expired'   => $this->has_expired(),
+			'created_at'    => $this->get_created_at(),
 		];
 	}
 }

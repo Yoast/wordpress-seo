@@ -1,10 +1,8 @@
 <?php namespace Yoast\WP\SEO\Config;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Expired_Token_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
@@ -13,25 +11,12 @@ use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
  */
 class SEMrush_Token_Manager {
 
-	/**
-	 * @var Options_Helper
-	 */
-	private $options_helper;
+	const TOKEN_OPTION = 'yoast_semrush_tokens';
 
 	/**
 	 * @var SEMrush_Token
 	 */
 	private $token;
-
-	/**
-	 * SEMrush_Token_Manager constructor.
-	 *
-	 * @param Options_Helper $options_helper
-	 *
-	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
-	}
 
 	/**
 	 * Saves the tokens to storage.
@@ -44,13 +29,10 @@ class SEMrush_Token_Manager {
 			throw new SEMrush_Failed_Token_Storage_Exception( 'No token was set' );
 		}
 
-		$saved = $this->options_helper->set(
-			'yst_semrush_tokens',
-			$this->token->to_array()
-		);
+		$saved = \update_option( self::TOKEN_OPTION, $this->token->to_array() );
 
 		// Something went wrong in the saving process.
-		if ( $saved === null || $saved === false ) {
+		if ( $saved === false ) {
 			throw new SEMrush_Failed_Token_Storage_Exception();
 		}
 
@@ -62,11 +44,10 @@ class SEMrush_Token_Manager {
 	 *
 	 * @return SEMrush_Token|null The tokens object. Returns null if none exist.
 	 *
-	 * @throws OAuth_Expired_Token_Exception
 	 * @throws SEMrush_Empty_Token_Property_Exception
 	 */
 	public function get_from_storage() {
-		$token = $this->options_helper->get( 'yst_semrush_tokens' );
+		$token = \get_option( self::TOKEN_OPTION );
 
 		if ( ! is_array( $token ) || $token === null ) {
 			return null;
@@ -77,7 +58,8 @@ class SEMrush_Token_Manager {
 				$token['access_token'],
 				$token['refresh_token'],
 				$token['expires'],
-				$token['has_expired']
+				$token['has_expired'],
+				$token['created_at']
 			)
 		);
 
@@ -107,7 +89,6 @@ class SEMrush_Token_Manager {
 	 *
 	 * @param AccessTokenInterface $response The response to use to create a new token from.
 	 *
-	 * @throws OAuth_Expired_Token_Exception
 	 * @throws SEMrush_Empty_Token_Property_Exception
 	 * @throws SEMrush_Failed_Token_Storage_Exception
 	 */

@@ -76,10 +76,10 @@ class SEMrush_Route_Test extends TestCase {
 				'yoast/v1',
 				'semrush/authenticate',
 				[
-					'methods'  => 'GET',
+					'methods'  => 'POST',
 					'callback' => [ $this->instance, 'authenticate' ],
 					'args'     => [
-						'url' => [
+						'code' => [
 							'validate_callback' => [ $this->instance, 'has_code' ],
 							'required'          => true,
 						],

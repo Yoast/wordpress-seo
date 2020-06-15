@@ -3,11 +3,8 @@
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Expired_Token_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Routes\SEMrush_Route;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
@@ -19,18 +16,23 @@ class SEMrush_Client {
 	/**
 	 * @var GenericProvider
 	 */
-	private $provider;
+	protected $provider;
 
 	/**
 	 * @var SEMrush_Token_Manager
 	 */
-	private $token_manager;
+	protected $token_manager;
 
+	/**
+	 * SEMrush_Client constructor.
+	 *
+	 * @throws SEMrush_Empty_Token_Property_Exception
+	 */
 	public function __construct() {
 		$this->provider = new GenericProvider( [
-			'clientId'                => '',
+			'clientId'                => 'yoast',
 			'clientSecret'            => '',
-			'redirectUri'             => SEMrush_Route::FULL_AUTHENTICATION_ROUTE,
+			'redirectUri'             => 'https://oauth.semrush.com/oauth2/yoast/success',
 			'urlAuthorize'            => 'https://oauth.semrush.com/oauth2/authorize',
 			'urlAccessToken'          => 'https://oauth.semrush.com/oauth2/access_token',
 			'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
@@ -58,46 +60,91 @@ class SEMrush_Client {
 					'code' => $code,
 				] );
 
+
 			$this->token_manager->from_response( $response );
 
 			return $this->token_manager->get_token();
-		} catch ( IdentityProviderException $e ) {
-			throw new OAuth_Authentication_Failed_Exception( $e );
-		} catch ( OAuth_Expired_Token_Exception $e ) {
-			throw new OAuth_Authentication_Failed_Exception( $e );
-		} catch ( SEMrush_Empty_Token_Property_Exception $e ) {
-			throw new OAuth_Authentication_Failed_Exception( $e );
-		} catch ( SEMrush_Failed_Token_Storage_Exception $e ) {
+		} catch ( \Exception $e ) {
 			throw new OAuth_Authentication_Failed_Exception( $e );
 		}
 	}
 
+	/**
+	 * Performs an authenticated GET request to the desired URL.
+	 *
+	 * @param string $url The URL to send the request to.
+	 *
+	 * @return mixed The parsed API response.
+	 * @throws IdentityProviderException
+	 * @throws OAuth_Authentication_Failed_Exception
+	 */
 	public function get( $url ) {
 		$request = $this->provider->getAuthenticatedRequest(
 			'GET',
 			$url,
-			$this->token_manager->get_token()->get_access_token()
+			$this->get_tokens()->get_access_token()
 		);
+
+		return $this->provider->getParsedResponse( $request );
 	}
 
+	/**
+	 * Performs an authenticated POST request to the desired URL.
+	 *
+	 * @param string $url The URL to send the request to.
+	 * @param mixed $data The data to send along.
+	 *
+	 * @return mixed The parsed API response.
+	 * @throws IdentityProviderException
+	 * @throws OAuth_Authentication_Failed_Exception
+	 */
 	public function post( $url, $data ) {
 		$request = $this->provider->getAuthenticatedRequest(
 			'POST',
 			$url,
-			$this->token_manager->get_token()->get_access_token(),
+			$this->get_tokens()->get_access_token(),
 			[ 'body' => $data ]
 		);
+
+		return $this->provider->getParsedResponse( $request );
 	}
 
-	protected function refresh_tokens() {
-		$current_token = $this->token_manager->get_token();
+	/**
+	 * Gets the stored tokens and refreshes them if they've expired.
+	 *
+	 * @return SEMrush_Token The stored tokens.
+	 * @throws OAuth_Authentication_Failed_Exception
+	 */
+	protected function get_tokens() {
+		$tokens = $this->token_manager->get_token();
 
-		if ( $current_token->has_expired() ) {
+		if ( $tokens->has_expired() ) {
+			$tokens = $this->refresh_tokens( $tokens );
+		}
+
+		return $tokens;
+	}
+
+	/**
+	 * Refreshes the outdated tokens.
+	 *
+	 * @param SEMrush_Token $tokens The outdated tokens.
+	 *
+	 * @return SEMrush_Token The refreshed tokens.
+	 * @throws OAuth_Authentication_Failed_Exception
+	 */
+	protected function refresh_tokens( SEMrush_Token $tokens ) {
+		try {
 			$new_tokens = $this->provider->getAccessToken( 'refresh_token', [
-				'refresh_token' => $current_token->getRefreshToken(),
+				'refresh_token' => $tokens->get_refresh_token(),
 			] );
 
 			$this->token_manager->from_response( $new_tokens );
+
+			return $this->token_manager->get_token();
+		} catch ( \Exception $e ) {
+			throw new OAuth_Authentication_Failed_Exception( $e );
 		}
 	}
+
 }
