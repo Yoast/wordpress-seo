@@ -46,7 +46,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	 *
 	 * @return string The generated alert.
 	 */
-	private function get_base_alert() {
+	protected function get_base_alert() {
 		$output = '<p>';
 		$output .= \esc_html__( 'Because you changed the category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 		$output .= '</p>';
