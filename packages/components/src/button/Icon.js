@@ -1,5 +1,6 @@
 import React from "react";
 import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
+import { __ } from "@wordpress/i18n";
 
 const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true" focusable="false">
 	{ /* eslint-disable-next-line max-len */ }
@@ -16,7 +17,7 @@ const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" 
 export const CloseButton = ( props ) => {
 	return <Button
 		className="yoast-close"
-		aria-label="Close"
+		aria-label={ __( "Close", "yoast-components" ) }
 		{ ...props }
 	>
 		{ closeIcon }
