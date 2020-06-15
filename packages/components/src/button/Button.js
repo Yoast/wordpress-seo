@@ -29,6 +29,9 @@ const variantToClassName = {
 	secondary: "secondary",
 	buy: "buy",
 	upsell: "buy",
+	purple: "primary",
+	grey: "secondary",
+	yellow: "buy",
 };
 
 /**
