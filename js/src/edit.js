@@ -18,7 +18,7 @@ import {
 /* Internal dependencies */
 import Data from "./analysis/data.js";
 import reducers from "./redux/reducers";
-import PluginIcon from "../../images/Yoast_icon_kader.svg";
+import PluginIcon from "./containers/PluginIcon";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import Sidebar from "./containers/Sidebar";

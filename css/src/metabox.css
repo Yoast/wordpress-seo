@@ -705,4 +705,12 @@ ul.yoast-seo-social-share-buttons a {
   height: 32px;
   display: inline-block;
 }
+
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+	max-width: 28px;
+	max-height: 28px;
+	width: 28px;
+	height: 28px;
+}
 /*# sourceMappingURL=metabox.css.map */
