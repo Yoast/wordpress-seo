@@ -31,6 +31,12 @@ const wordsToStem = [
 	[ "tesissimi", "tend" ],
 	// Input a diminutive.
 	// [ "casina", "cas" ],
+	// Input an irregular diminutive for a noun.
+	[ "ovetto", "uov" ],
+	// Input an irregular diminutive for an adjective.
+	[ "dolciastro", "dolc" ],
+	// Input an irregular diminutive for a verb.
+	[ "scribacchiare", "scriv" ],
 	// Input a short singular feminine adjective.
 	[ "cara", "car" ],
 	// Input a short singular masculine adjective.
