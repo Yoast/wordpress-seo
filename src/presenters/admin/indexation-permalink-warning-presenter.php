@@ -27,7 +27,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		$output .= '<hr />';
 		$output .= '<p>';
 		$output .= \sprintf(
-		/* translators: 1: Button start tag to dismiss the warning, 2: Button closing tag. */
+			/* translators: 1: Button start tag to dismiss the warning, 2: Button closing tag. */
 			\esc_html__( '%1$sHide this notice%2$s (everything will continue to function normally)', 'wordpress-seo' ),
 			\sprintf(
 				'<button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="%s">',
