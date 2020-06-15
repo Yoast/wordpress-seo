@@ -30,7 +30,7 @@ export default compose( [
 
 		/* eslint-disable-next-line no-unused-vars */
 		let seoScoreColor;
-		switch( seoScoreIndicator.className ) {
+		switch ( seoScoreIndicator.className ) {
 			case "good":
 				seoScoreColor = colors.$color_good;
 				break;

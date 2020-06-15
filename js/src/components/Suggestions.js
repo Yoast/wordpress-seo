@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 
 import Suggestion from "./Suggestion";
 
+/**
+ * Suggestions component.
+ */
 class Suggestions extends React.Component {
 	/**
 	 * @summary Renders the Suggestions component.
