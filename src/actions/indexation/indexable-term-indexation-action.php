@@ -132,7 +132,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' && permalink IS NOT NULL) AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' AND permalink IS NOT NULL) AND taxonomy IN ($placeholders)
 			$limit_query",
 			$replacements
 		);
