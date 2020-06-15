@@ -56,7 +56,7 @@ const Choice = ( props ) => {
 			;
 			/* eslint-enable jsx-a11y/no-onchange */
 		} else if ( fieldName === "separator" ) {
-			return <fieldset className={ "yoast-field-group__title-separator" }>
+			return <div className={ "yoast-field-group__title-separator" }>
 				{ fieldKeys.map( ( choiceName, index ) => {
 					const choice = choices[ choiceName ];
 					const id = `${fieldName}-${index}`;
@@ -76,7 +76,7 @@ const Choice = ( props ) => {
 						</Fragment>
 					);
 				} ) }
-			</fieldset>
+			</div>
 			;
 		}
 		return <fieldset className={ "yoast-field-group yoast-wizard-input-radio-" + fieldName }>
