@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Composer;
 
 use Composer\Script\Event;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Yoast\WP\SEO\Dependency_Injection\Container_Compiler;
 
@@ -133,5 +134,88 @@ class Actions {
 		}
 
 		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+	}
+
+	/**
+	 * Generates a migration.
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 *
+	 * @throws Exception If no migration name is provided.
+	 */
+	public static function generate_migration( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args[0] ) ) {
+			throw new Exception( 'You must provide an argument with the migration name.' );
+		}
+		$name      = $args[0];
+		$timestamp = \gmdate( 'YmdHis', \time() );
+
+		// Camelcase the name.
+		$name  = \preg_replace( '/\\s+/', '_', $name );
+		$parts = \explode( '_', $name );
+		$name  = '';
+		foreach ( $parts as $word ) {
+			$name .= \ucfirst( $word );
+		}
+
+		$correct_class_name_regex = '/^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*$/';
+		if ( ! \preg_match( $correct_class_name_regex, $name ) ) {
+			throw new Exception( "$name is not a valid migration name." );
+		}
+		if ( \class_exists( $name ) ) {
+			throw new Exception( "A class with the name $name already exists." );
+		}
+
+		$file_name = $timestamp . '_' . $name . '.php';
+
+		$template = <<<TPL
+<?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\WP\SEO\Config\Migrations
+ */
+
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
+
+/**
+ * {$name} class.
+ */
+class {$name} extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static \$plugin = 'free';
+
+	/**
+	 * Migration up.
+	 *
+	 * @return void
+	 */
+	public function up() {
+
+	}
+
+	/**
+	 * Migration down.
+	 *
+	 * @return void
+	 */
+	public function down() {
+
+	}
+}
+
+TPL;
+
+		\file_put_contents( __DIR__ . '/../../src/config/migrations/' . $file_name, $template );
 	}
 }

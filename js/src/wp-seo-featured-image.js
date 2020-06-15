@@ -12,6 +12,12 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	var $postImageDiv;
 	var $postImageDivHeading;
 
+	/**
+	 * A content analysis plugin for the featured image.
+	 *
+	 * @param {object} app The Yoast SEO app.
+	 * @constructor
+	 */
 	var FeaturedImagePlugin = function( app ) {
 		this._app = app;
 
