@@ -13,6 +13,10 @@
 	border-bottom: var(--border-default);
 }
 
+.yoast .yoast-table th.check-column {
+	padding: 19px 0 0 3px;
+}
+
 .yoast .yoast-table th,
 .yoast .yoast-table th.sortable {
 	color: var(--color-dark);
