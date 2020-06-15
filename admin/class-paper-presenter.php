@@ -22,14 +22,14 @@ class WPSEO_Paper_Presenter {
 	 *
 	 * @var array
 	 */
-	private $settings;
+	protected $settings;
 
 	/**
 	 * The path to the view file.
 	 *
 	 * @var string
 	 */
-	private $view_file;
+	protected $view_file;
 
 	/**
 	 * WPSEO_presenter_paper constructor.
@@ -39,7 +39,7 @@ class WPSEO_Paper_Presenter {
 	 *                          a view file.
 	 * @param array  $settings  Optional. Settings for the paper.
 	 */
-	public function __construct( $title, $view_file = null, array $settings = [] ) {
+	public function __construct( $title, $view_file = '', array $settings = [] ) {
 		$defaults = [
 			'paper_id'                 => null,
 			'paper_id_prefix'          => 'wpseo-',
@@ -70,7 +70,7 @@ class WPSEO_Paper_Presenter {
 
 		$content = $this->settings['content'];
 
-		if ( $this->view_file !== null ) {
+		if ( ! empty( $this->view_file ) ) {
 			ob_start();
 			require $this->view_file;
 			$content = ob_get_clean();
@@ -88,7 +88,7 @@ class WPSEO_Paper_Presenter {
 	 *
 	 * @return array The view variables.
 	 */
-	private function get_view_variables() {
+	protected function get_view_variables() {
 		$view_variables = [
 			'class'                    => $this->settings['class'],
 			'collapsible'              => $this->settings['collapsible'],
