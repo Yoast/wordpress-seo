@@ -9,6 +9,14 @@
 	box-sizing: border-box;
 }
 
+.yoast-paper .toggleable-container-trigger {
+	background: none;
+	border: 0px;
+	width: 100%;
+	text-align: left;
+	color: var(--color-primary);
+}
+
 .yoast-paper--small {
 	padding: 16px;
 }
