@@ -10,6 +10,6 @@ class OAuth_Expired_Token_Exception extends \Exception {
 	 * OAuth_Expired_Token_Exception constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'Invalid token: Token expired', 500 );
+		parent::__construct( 'Invalid token: Token expired', 403 );
 	}
 }
