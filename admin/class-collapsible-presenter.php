@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Collapsible_Presenter.
+ * Class WPSEO_Collapsible_Presenter. Extends the WPSEO_presenter_paper class to make borderless papers.
  */
 class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 
@@ -18,7 +18,7 @@ class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 	 *                          a view file.
 	 * @param array  $settings  Optional. Settings for the collapsible.
 	 */
-	public function __construct( $title, $view_file = null, array $settings = [] ) {
+	public function __construct( $title, $view_file = '', array $settings = [] ) {
 		$defaults = [
 			'paper_id'                 => null,
 			'paper_id_prefix'          => 'wpseo-',
@@ -37,8 +37,6 @@ class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 		$view_file = $view_file;
 
 		parent::__construct( $title, $view_file, $settings );
-
-
 	}
 
 	/**
@@ -54,7 +52,7 @@ class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 
 		$content = $this->settings['content'];
 
-		if ( $this->view_file !== null ) {
+		if ( ! empty( $this->view_file ) ) {
 			ob_start();
 			require $this->view_file;
 			$content = ob_get_clean();
@@ -66,5 +64,4 @@ class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 
 		return $rendered_output;
 	}
-
 }
