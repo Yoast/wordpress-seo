@@ -198,7 +198,7 @@
 }
 
 .yoast .wpseo_bulk_titles input {
-	line-height: 1.6;
+	line-height: 1.57142857;
 }
 
 .yoast .yoast-table__container {
@@ -206,8 +206,8 @@
 	width: 100%;
 }
 
-@media screen and ( min-width: 783px) {
-	.yoast .yoast-table__container table {
+@media screen and ( min-width: 782px) {
+	.yoast .yoast-table__container thead th {
 		min-width: 1500px;
 	}
 }
