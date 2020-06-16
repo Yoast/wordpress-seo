@@ -1,6 +1,7 @@
 .yoast-field-group__title-separator {
     display: flex;
     flex-wrap: wrap;
+    padding: 0;
 }
 
 .yoast-field-group__title-separator label {
@@ -8,7 +9,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: var(--border-default);
+    border: var(--yoast-border-default);
     cursor: pointer;
     height: 42px;
     width: 42px;
@@ -17,5 +18,5 @@
 }
 
 .yoast-field-group__title-separator input[type='radio']:checked + label {
-    border: solid 3px var(--color-primary);
+    border: solid 3px var(--yoast-color-primary);
 }

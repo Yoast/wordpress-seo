@@ -12,7 +12,7 @@ Array [
     <li
       style={
         Object {
-          "--width": "100%",
+          "--yoast-width": "100%",
         }
       }
     >
@@ -29,7 +29,7 @@ Array [
     <li
       style={
         Object {
-          "--width": "61.53846153846154%",
+          "--yoast-width": "61.53846153846154%",
         }
       }
     >
@@ -46,7 +46,7 @@ Array [
     <li
       style={
         Object {
-          "--width": "46.15384615384615%",
+          "--yoast-width": "46.15384615384615%",
         }
       }
     >
@@ -75,7 +75,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
   <li
     style={
       Object {
-        "--width": "100%",
+        "--yoast-width": "100%",
       }
     }
   >
@@ -92,7 +92,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
   <li
     style={
       Object {
-        "--width": "61.53846153846154%",
+        "--yoast-width": "61.53846153846154%",
       }
     }
   >
@@ -109,7 +109,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
   <li
     style={
       Object {
-        "--width": "46.15384615384615%",
+        "--yoast-width": "46.15384615384615%",
       }
     }
   >
