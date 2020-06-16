@@ -30,7 +30,8 @@ $yoast_free_breadcrumb_bold_texts = [
 	__( 'Regular', 'wordpress-seo' ),
 	__( 'Bold', 'wordpress-seo' ),
 ];
-$yform->light_switch( 'breadcrumbs-boldlast',	__( 'Bold the last page', 'wordpress-seo' ), $yoast_free_breadcrumb_bold_texts );
+$yform->light_switch( 'breadcrumbs-boldlast',
+__( 'Bold the last page', 'wordpress-seo' ), $yoast_free_breadcrumb_bold_texts );
 
 echo '<br/><br/>';
 

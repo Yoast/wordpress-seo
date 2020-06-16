@@ -372,7 +372,12 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '
+		" placeholder="' . esc_attr( $attr['placeholder'] ) . '
+		" type="' . $type . '
+		" id="', esc_attr( $var ), '
+		" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']
+		" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
 
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
@@ -409,7 +414,12 @@ class Yoast_Form {
 				'class' => 'textinput',
 			]
 		);
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="yoast-field-group__textarea ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea>';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '
+		" rows="' . esc_attr( $attr['rows'] ) . '
+		" class="yoast-field-group__textarea ' . esc_attr( $attr['class'] ) . '
+		" id="' . esc_attr( $var ) . '
+		" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']
+		"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea>';
 		echo '</div>';
 	}
 
@@ -635,12 +645,12 @@ class Yoast_Form {
 	/**
 	 * Create a Title separator input field.
 	 *
-	 * @param string $var         The variable within the option to create the radio button for.
-	 * @param array  $values      The radio options to choose from.
+	 * @param string $var         The variable within the option to create the separator.
+	 * @param array  $values      The title separator options to choose from.
 	 * @param string $legend      Optional. The legend to show for the field set, if any.
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
 	 *
-	 * @since 2.0
+	 * @since 14.5
 	 */
 	public function title_separator( $var, $values, $legend = '', $legend_attr = [] ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -697,7 +707,7 @@ class Yoast_Form {
 	 */
 	public function label_title_separator( $text, $attr ) {
 		$defaults = [
-			'class'      => 'checkbox',
+			'class'      => 'radio',
 			'close'      => true,
 			'for'        => '',
 			'aria_label' => '',

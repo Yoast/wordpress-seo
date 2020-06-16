@@ -73,3 +73,12 @@
 .yoast-label--inactive {
 	background-color: var(--color-inactive);
 }
+
+.yoast-notice {
+	clear:both;
+	background-color: #ffeb3b;
+	color: var(--color-default);
+	padding: 16px;
+	max-width: 450px;
+	margin-bottom: 32px;
+}
