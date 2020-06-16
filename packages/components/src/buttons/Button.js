@@ -41,7 +41,7 @@ export function addBaseStyle( component ) {
 		text-align: ${ getDirectionalStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
-		transition: background-color 150ms ease-out 0s;
+		transition: var(--yoast-transition-default);
 
 		svg {
 			// Safari 10
@@ -94,7 +94,7 @@ export function addHoverStyle( component ) {
 		&:hover {
 			color: ${ props => props.hoverColor };
 			background-color: ${ props => props.hoverBackgroundColor };
-			border-color: rgba(0, 0, 0, 0.2);
+			border-color: var(--yoast-color-border--default);
 		}
 	`;
 }
