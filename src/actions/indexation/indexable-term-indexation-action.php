@@ -132,7 +132,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' AND permalink IS NOT NULL) AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term' AND permalink_hash IS NOT NULL) AND taxonomy IN ($placeholders)
 			$limit_query",
 			$replacements
 		);
@@ -146,7 +146,7 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	public function get_total_term_permalinks_null() {
 		return Model::of_type( 'Indexable' )
 			->where( 'object_type', 'term' )
-			->where_null( 'permalink' )
+			->where_null( 'permalink_hash' )
 			->count( 'id' );
 	}
 }

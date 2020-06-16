@@ -96,6 +96,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 			Model::get_table_name( 'Indexable' ),
 			[
 				'permalink' => null,
+				'permalink_hash' => null,
 			],
 			[ 'object_type' => 'term', 'object_sub_type' => 'category' ]
 		);
