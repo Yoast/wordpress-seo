@@ -18,6 +18,11 @@ const wordsToStem = [
 	// Input a noun ending in -ance.
 	[ "concordances", "concord" ],
 	[ "concordance", "concord" ],
+	// Input a noun ending in -ition.
+	[ "opposition", "oppos" ],
+	[ "oppositions", "oppos" ],
+	[ "acquisition", "acquer" ],
+	[ "acquisitions", "acquer" ],
 	// Input a noun ending in -ique.
 	[ "botaniques", "botan" ],
 	[ "botanique", "botan" ],
@@ -117,6 +122,17 @@ const wordsToStem = [
 	[ "acquis", "acquer" ],
 	[ "appris", "apprendr" ],
 	[ "assis", "asseoir" ],
+	// Verbs with suffix -ons.
+	[ "chantons", "chant" ],
+	[ "dessinons", "dessin" ],
+	[ "nettoyons", "nettoi" ],
+	// -Ons is not stemmed if preceded by i.
+	[ "questions", "question" ],
+	[ "stations", "station" ],
+	// Non-verbs ending on -ons where only -s should be stemmed.
+	[ "chansons", "chanson" ],
+	[ "potirons", "potiron" ],
+	[ "taille-crayons", "taille-crayon" ],
 ];
 
 const paradigms = [

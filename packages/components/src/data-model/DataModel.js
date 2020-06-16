@@ -26,7 +26,7 @@ const DataItem = ( props ) => {
 	return (
 		<li
 			key={ props.name + "_dataItem" }
-			style={ { "--width": `${ props.width}%` } }
+			style={ { "--yoast-width": `${ props.width}%` } }
 		>
 			{ props.name }
 			<span>{ props.number }</span>

@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
 /*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -299,21 +300,43 @@ const normalizeDigraphs = function( word, morphologyData, rvText ) {
 };
 
 /**
- * Returns a canonical stem for verbs with multiple stems.
+ * Returns a canonical stem for words with multiple stems.
  *
- * @param {string}  word                    The word to canonicalize.
- * @param {Array}   verbsWithMultipleStems  An array of arrays of stems belonging to one word.
+ * @param {string}  word                       The word to canonicalize.
+ * @param {Object}  stemsThatBelongToOneWord   An object of arrays of stems belonging to one word.
  *
- * @returns {string} A stem canonicalized stem or the original word.
+ * @returns {string} A canonicalized stem or the original word.
  */
-const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
-	const multipleStems = verbsWithMultipleStems.find( stems => stems.includes( word ) );
-
-	if ( multipleStems ) {
-		return multipleStems[ 0 ];
+const canonicalizeStem = function( word, stemsThatBelongToOneWord ) {
+	// Check the verbs list. The infinitive stem is always the canonical stem for verbs.
+	for ( const paradigm of stemsThatBelongToOneWord.verbsWithMultipleStems ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
+		}
 	}
+	// Check the diminutives list.
+	for ( const paradigm of stemsThatBelongToOneWord.irregularDiminutives ) {
+		if ( paradigm.includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+};
 
-	return word;
+/**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	      The word to be checked.
+ * @param {Object} exceptions The list of full-form exceptions to be checked in.
+ *
+ * @returns {null|string} The canonical stem or null if nothing was found.
+ */
+const checkWordInFullFormExceptions = function( word, exceptions ) {
+	for ( const paradigm of exceptions ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
 };
 
 /**
@@ -325,6 +348,12 @@ const canonicalizeVerbStems = function( word, verbsWithMultipleStems ) {
  * @returns {string}               The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Check the exception list for irregular plural nouns and adjectives.
+	const irregularPluralNounsAndAdjectives = checkWordInFullFormExceptions( word, morphologyData.irregularPluralNounsAndAdjectives );
+	if ( irregularPluralNounsAndAdjectives ) {
+		return irregularPluralNounsAndAdjectives;
+	}
+	// Start word pre-processing.
 	word = preProcess( word, morphologyData );
 
 	// Don't stem words that consist of less than 3 letters.
@@ -382,10 +411,12 @@ export default function stem( word, morphologyData ) {
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
 
-	/*
-	 * Returns a canonical stem for verbs with multiple stems (e.g., chiudere–chiuso).
-	 */
-	word = canonicalizeVerbStems( word, morphologyData.verbsWithMultipleStems );
+
+	// Returns a canonical stem for words with multiple stems (e.g., verbs: chiudere–chiuso; diminutives: ovetto-uovo).
+	const canonicalStem = canonicalizeStem( word, morphologyData.stemsThatBelongToOneWord );
+	if ( canonicalStem ) {
+		return canonicalStem;
+	}
 
 	return word.toLowerCase();
 }

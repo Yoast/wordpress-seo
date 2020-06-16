@@ -173,6 +173,41 @@ const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
 };
 
 /**
+ * Checks whether a word is in the full-form exception list and if so returns the canonical stem.
+ *
+ * @param {string} word	      The word to be checked.
+ * @param {Object} exceptions The list of full-form exceptions to be checked in.
+ *
+ * @returns {null|string} The canonical stem or null if nothing was found.
+ */
+const checkWordInFullFormExceptions = function( word, exceptions ) {
+	for ( const paradigm of exceptions ) {
+		if ( paradigm[ 1 ].includes( word ) ) {
+			return paradigm[ 0 ];
+		}
+	}
+	return null;
+};
+
+/**
+ * Returns a canonical stem for verbs with multiple stems.
+ *
+ * @param {string}  word                    The word to canonicalize.
+ * @param {Array}   wordsWithMultipleStems  An array of arrays of stems belonging to one word.
+ *
+ * @returns {string} A canonical stem or the original word.
+ */
+const canonicalizeStems = function( word, wordsWithMultipleStems ) {
+	const multipleStems = wordsWithMultipleStems.find( stems => stems.includes( word ) );
+
+	if ( multipleStems ) {
+		return multipleStems[ 0 ];
+	}
+
+	return word;
+};
+
+/**
  * Stems russian words.
  *
  * @param {string} word             The word to stem.
@@ -181,6 +216,16 @@ const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
  * @returns {string}	The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Check if word is in the doNotStemSuffix exception list.
+	if ( morphologyData.doNotStemSuffix.includes( word ) ) {
+		return word;
+	}
+	// Check if the word is on the list of exceptions for which we listed all forms and the stem.
+	const fullFormException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
+	if ( fullFormException ) {
+		return fullFormException;
+	}
+
 	const rv = findRvRegion( word, morphologyData );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
@@ -208,6 +253,12 @@ export default function stem( word, morphologyData ) {
 	const removeSoftSignEnding = removeEndings( word, morphologyData.externalStemmer.regexSoftSign, rv );
 	if ( removeSoftSignEnding ) {
 		word = removeSoftSignEnding;
+	}
+
+	// Check if the stem is on the list of stems that belong to one word and if so, return the canonical stem.
+	const canonicalizedStem = canonicalizeStems( word, morphologyData.stemsThatBelongToOneWord );
+	if ( canonicalizedStem ) {
+		return canonicalizedStem;
 	}
 
 	return word;

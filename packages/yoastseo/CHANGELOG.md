@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.77.0 June 22nd, 2020
+### Enhancements
+* Adds check for stemming -ons suffix in French, and for the exception list of words where only -s should be stemmed in French.
+* Adds check for nouns in Russian on _ость_ before removing verb suffixes (including the newly added suffix _ть_).
+
 ## 1.76.0 June 8th, 2020
 ### Enhancements
 * Adds a check for the exception list of French verbs with multiple stems and stems them by returning the indicated canonical stem.
