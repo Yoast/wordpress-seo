@@ -2,12 +2,12 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { Slot, Fill, PanelBody } from "@wordpress/components";
+import { Slot } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
-import { combineReducers, registerStore } from "@wordpress/data";
+import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
 import { decodeEntities } from "@wordpress/html-entities";
 import { __ } from "@wordpress/i18n";
-import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
+import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
 import { registerFormatType, applyFormat, isCollapsed } from "@wordpress/rich-text";
 import { isURL } from "@wordpress/url";
 import {
@@ -168,6 +168,7 @@ class Edit {
 		};
 		const preferences = store.getState().preferences;
 		const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
+		this.initiallyOpenDocumentSettings();
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -207,15 +208,14 @@ class Edit {
 				>
 					<PostPublish />
 				</PluginPostPublishPanel>
-				{ analysesEnabled && <Fill name="PluginDocumentSettingPanel">
-					<PanelBody
-						className="yoast-seo-sidebar-panel"
-						title={ __( "Yoast SEO", "wordpress-seo" ) }
-						initialOpen={ true }
-					>
-						<DocumentSidebar />
-					</PanelBody>
-				</Fill> }
+				{ analysesEnabled && <PluginDocumentSettingPanel
+					name="document-panel"
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					icon={ <Fragment /> }
+				>
+					<DocumentSidebar />
+				</PluginDocumentSettingPanel> }
 			</Fragment>
 		);
 
@@ -306,6 +306,18 @@ class Edit {
 	 */
 	getData() {
 		return this._data;
+	}
+
+	/**
+	 * Makes sure the Yoast SEO document panel is toggled open on the first time users see it.
+	 *
+	 * @returns {void}
+	 */
+	initiallyOpenDocumentSettings() {
+		const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+		if ( firstLoad ) {
+			dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+		}
 	}
 }
 
