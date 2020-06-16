@@ -106,7 +106,7 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-the-rc-version'
+  - 'bump-rc-version-and-commit'
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
@@ -114,21 +114,10 @@ clean:build-assets:
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
   - 'verify-zip-size'
-  - 'shell:git-checkout-trunk'
   - 'celebrate'
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
-
-'bump-the-rc-version':
-  - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
-  - 'shell:git-commit-version-bump-files'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-trunk'
-  - 'shell:git-merge-into-trunk'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
