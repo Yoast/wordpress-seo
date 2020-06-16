@@ -10,8 +10,8 @@
 	width: 300px;
 	display: flex;
 	flex-direction: column;
-	box-shadow: var(--shadow-default);
-	border: var(--border-default);
+	box-shadow: var(--yoast-shadow-default);
+	border: var(--yoast-border-default);
 }
 
 .yoast-card:not(:last-of-type) {
@@ -27,7 +27,7 @@
 .yoast-card__title {
 	font-size: 20px;
 	line-height: 1.2;
-	color: var(--color-primary);
+	color: var(--yoast-color-primary);
 	margin-bottom: 16px;
 	margin-top: 0;
 	padding: 0 24px;
@@ -62,14 +62,14 @@
 	display: inline-block;
 	border-radius: 17px;
 	font-size: 12px;
-	color: var(--color-white);
+	color: var(--yoast-color-white);
 	padding: 4px 11px;
 }
 
 .yoast-label--active {
-	background-color: var(--color-active);
+	background-color: var(--yoast-color-active);
 }
 
 .yoast-label--inactive {
-	background-color: var(--color-inactive);
+	background-color: var(--yoast-color-inactive);
 }

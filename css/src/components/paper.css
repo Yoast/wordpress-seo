@@ -2,8 +2,8 @@
 	background-color: white;
 	padding: 24px;
 	margin-bottom: 32px;
-	box-shadow: var(--shadow-default);
-	border: var(--border-default);
+	box-shadow: var(--yoast-shadow-default);
+	border: var(--yoast-border-default);
 	max-width: 600px;
 	position: relative;
 }
@@ -23,7 +23,7 @@
 
 .yoast-paper__item .yoast-alert::before {
 	content: '';
-	background: var(--exclamation-mark) no-repeat center center;
+	background: var(--yoast-exclamation-mark) no-repeat center center;
 	width: 14px;
 	height: 14px;
 	position: absolute;
@@ -36,6 +36,6 @@
 }
 
 .yoast-paper__item:not(:first-of-type) {
-	border-top: 1px solid var(--color-border);
+	border-top: 1px solid var(--yoast-color-border);
 	padding-top: 16px;
 }
