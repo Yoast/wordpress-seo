@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 
@@ -152,6 +153,9 @@ class Indexation_Integration implements Integration_Interface {
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
+		elseif ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
@@ -218,6 +222,15 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Renders the indexation permalink warning.
+	 *
+	 * @return void
+	 */
+	public function render_indexation_permalink_warning() {
+		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+	}
+
+	/**
 	 * Run a single indexation pass of each indexation action. Intended for use as a shutdown function.
 	 *
 	 * @return void
@@ -236,7 +249,7 @@ class Indexation_Integration implements Integration_Interface {
 	 */
 	protected function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed  = $this->post_indexation->get_total_unindexed();
+			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->general_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->post_type_archive_indexation->get_total_unindexed();
@@ -261,6 +274,7 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
+
 		return ( $hide_until !== 0 && $hide_until >= \time() );
 	}
 }

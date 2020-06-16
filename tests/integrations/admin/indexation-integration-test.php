@@ -175,6 +175,15 @@ class Indexation_Integration_Test extends TestCase {
 			Monkey\Actions\expectAdded( 'admin_notices' );
 		}
 
+		if ( $ignore_warning ) {
+			$this->term_indexation
+				->expects( 'get_total_term_permalinks_null' )
+				->once()
+				->andReturn(35);
+
+			Monkey\Actions\expectAdded( 'admin_notices' );
+		}
+
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
 			->expects( 'enqueue_script' )
@@ -299,7 +308,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
 		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
@@ -352,7 +361,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected  = '<li><strong>SEO Data</strong>';
+		$expected = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">';
