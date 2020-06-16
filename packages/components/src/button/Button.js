@@ -2,6 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./buttons.css";
 
+// Load often occurring classes on a const.
+const buttonClasses = "yoast-button yoast-button--";
+
+// A map from variant to icon span className, with iconAfter or iconBefore as a key.
 const variantToIcon = {
 	buy: { iconAfter: "yoast-button--buy__caret" },
 
@@ -9,9 +13,7 @@ const variantToIcon = {
 	upsell: { iconAfter: "yoast-button--buy__caret" },
 };
 
-// Load often occurring classes on a const.
-const buttonClasses = "yoast-button yoast-button--";
-
+// A map from variant to icon span className.
 const variantToClassName = {
 	primary: buttonClasses + "primary",
 	secondary: buttonClasses + "secondary",
@@ -38,7 +40,7 @@ const getClassName = variant => variantToClassName[ variant ];
 /**
  * A function that looks up the correct icons that belong to a certain variant.
  *
- * I puts them behind a iconBefore and/or iconAfter key, so that the position is known.
+ * They are behind a iconBefore and/or iconAfter key, in order to set the position.
  *
  * @param {string} variant The variant for which to lookup the before/after icon.
  *
@@ -49,8 +51,10 @@ const getVariantIcons = variant => variantToIcon[ variant ] || null;
 /**
  * A button with some functionality for Yoast styling.
  *
- * Can be provided with a variant string (see the variantToClassName object )
- * and iconBefore and iconAfter strings (see the iconToClassName object).
+ * Can be provided with a variant string to set the styling
+ * (see the variantToClassName and variantToIcon objects for options).
+ *
+ * Optionally, you can pass a className, to override the variant.
  *
  * @param {Object} props The props object.
  *
@@ -60,6 +64,7 @@ export const Button = ( props ) => {
 	// Split Button.js specific props from all other props.
 	const {
 		children,
+		className,
 		variant,
 		type,
 		...restProps
@@ -70,7 +75,7 @@ export const Button = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
-		className={ getClassName( variant ) }
+		className={ className || getClassName( variant ) }
 		type={ type }
 		{ ...restProps }
 	>
@@ -81,18 +86,20 @@ export const Button = ( props ) => {
 };
 
 Button.propTypes = {
+	onClick: PropTypes.func,
+	type: PropTypes.string,
+	className: PropTypes.string,
+	variant: PropTypes.string,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
 			PropTypes.arrayOf( PropTypes.node ),
 		]
 	),
-	onClick: PropTypes.func,
-	type: PropTypes.string,
-	variant: PropTypes.string,
 };
 
 Button.defaultProps = {
+	className: "",
 	type: "button",
 	variant: "primary",
 	children: null,
@@ -102,8 +109,10 @@ Button.defaultProps = {
 /**
  * A link, styled to look like a button.
  *
- * Can be provided with a variant string (see the variantToClassName object )
- * and iconBefore and iconAfter strings (see the iconToClassName object).
+ * Can be provided with a variant string to set the styling
+ * (see the variantToClassName and variantToIcon objects for options).
+ *
+ * Optionally, you can pass a className, to override the variant.
  *
  * @param {Object} props The props object.
  *
@@ -112,6 +121,7 @@ Button.defaultProps = {
 export const ButtonStyledLink = ( props ) => {
 	const {
 		children,
+		className,
 		variant,
 		...restProps
 	} = props;
@@ -121,7 +131,7 @@ export const ButtonStyledLink = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <a
-		className={ getClassName( variant ) }
+		className={ className || getClassName( variant ) }
 		{ ...restProps }
 	>
 		{ ! ! iconBefore && <span className={ iconBefore } /> }
@@ -133,6 +143,7 @@ export const ButtonStyledLink = ( props ) => {
 ButtonStyledLink.propTypes = {
 	href: PropTypes.string.isRequired,
 	variant: PropTypes.string,
+	className: PropTypes.string,
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -142,6 +153,7 @@ ButtonStyledLink.propTypes = {
 };
 
 ButtonStyledLink.defaultProps = {
+	className: "",
 	variant: "primary",
 	children: null,
 };
