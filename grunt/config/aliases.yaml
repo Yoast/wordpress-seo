@@ -107,6 +107,7 @@ clean:build-assets:
   - 'ensure-rc-dependencies'
   - 'update-readme'
   - 'bump-rc-version-and-commit'
+  - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
@@ -117,14 +118,6 @@ clean:build-assets:
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
-
-'ensure-rc-dependencies':
-  - 'shell:unlink-monorepo'
-  - 'shell:install-monorepo'
-  - 'shell:get-monorepo-versions'
-  - 'prompt:monorepoVersions'
-  - 'shell:composer-install'
-  - 'shell:composer-update-yoast-dependencies'
 
 # Get the project ready for release
 release:
