@@ -77,7 +77,7 @@
 .yoast-notice {
 	clear:both;
 	background-color: #ffeb3b;
-	color: var(--color-default);
+	color: var(--yoast-color-default);
 	padding: 16px;
 	max-width: 450px;
 	margin-bottom: 32px;

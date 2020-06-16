@@ -14,7 +14,7 @@
 	border: 0px;
 	width: 100%;
 	text-align: left;
-	color: var(--color-primary);
+	color: var(--yoast-color-primary);
 }
 
 .yoast-paper--small {

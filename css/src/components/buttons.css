@@ -19,7 +19,7 @@
 
 .yoast .yoast-button--primary {
 	color: var(--color-white);
-	background-color: var(--color-primary);
+	background-color: var(--yoast-color-primary);
 	border: 1px solid rgba(0,0,0, 0.2);
 }
 
