@@ -15,10 +15,22 @@ class SEMrush_Login_Action {
 	 */
 	protected $client;
 
+	/**
+	 * SEMrush_Login_Action constructor.
+	 *
+	 * @param SEMrush_Client $client The API client.
+	 */
 	public function __construct( SEMrush_Client $client ) {
 		$this->client = $client;
 	}
 
+	/**
+	 * Authenticates with SEMrush to request the necessary tokens.
+	 *
+	 * @param string $code The authentication code to use to request a token with.
+	 *
+	 * @return object The response object.
+	 */
 	public function authenticate( $code ) {
 		// Code has already been validated at this point. No need to do that again
 		try {
@@ -31,10 +43,6 @@ class SEMrush_Login_Action {
 		} catch ( OAuth_Authentication_Failed_Exception $e ) {
 			return $e->get_response();
 		}
-	}
-
-	public function login() {
-
 	}
 }
 
