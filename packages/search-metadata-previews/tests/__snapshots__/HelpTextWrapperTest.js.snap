@@ -44,8 +44,8 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  -webkit-transition: background-color 150ms ease-out 0s;
-  transition: background-color 150ms ease-out 0s;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   min-width: 14px;
   min-height: 14px;
   width: 30px;
@@ -82,7 +82,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 .c1:hover {
   color: #000;
   background-color: #fff;
-  border-color: rgba(0,0,0,0.2);
+  border-color: var(--yoast-color-border--default);
 }
 
 .c1 svg {
