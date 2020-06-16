@@ -17,7 +17,7 @@
 	font-size: 16px;
 	margin-top: 35px;
 	padding-bottom: 8px;
-	border-bottom: 1px solid var(--color-primary);
+	border-bottom: 1px solid var(--yoast-color-primary);
 }
 
 .yoast .yoast-sidebar__title {

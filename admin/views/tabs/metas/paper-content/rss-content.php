@@ -22,7 +22,7 @@ $rss_variables_help = new WPSEO_Admin_Help_Button(
 
 echo '<h2 class="help-button-inline">' . esc_html__( 'Available variables', 'wordpress-seo' ) . $rss_variables_help . '</h2>';
 ?>
-<table class="wpseo yoast_help yoast-table-scrollable">
+<table class="wpseo yoast_help yoast-table yoast-table-scrollable widefat striped">
 	<thead>
 	<tr>
 		<th scope="col"><?php esc_html_e( 'Variable', 'wordpress-seo' ); ?></th>

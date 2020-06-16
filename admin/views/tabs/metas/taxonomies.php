@@ -21,7 +21,7 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 	$wpseo_taxonomies = array_diff_key( $wpseo_taxonomies, array_flip( [ 'link_category', 'nav_menu' ] ) );
 
 	foreach ( array_values( $wpseo_taxonomies ) as $wpseo_taxonomy_index => $wpseo_taxonomy ) {
-		$wpseo_taxonomy_presenter = new WPSEO_Paper_Presenter(
+		$wpseo_taxonomy_presenter = new WPSEO_Collapsible_Presenter(
 			$wpseo_taxonomy->labels->name,
 			__DIR__ . '/paper-content/taxonomy-content.php',
 			[
