@@ -25,7 +25,7 @@ const determineWrapperHeight = ( mode ) => {
 			return "158px";
 
 		case "portrait":
-			return "215px";
+			return "237px";
 
 		default:
 			return "57px";
@@ -80,6 +80,7 @@ const FacebookTextWrapper = styled.div`
 	width: ${ props => determineTextContainerWidth( props.mode ) };
 	${ props => props.mode === "landscape"  ? "height: 78px;" : "" }
 	font-size: 12px;
+	overflow: hidden;
 `;
 
 /**

@@ -11,7 +11,7 @@ const FacebookSiteAndAuthorNamesWrapper = styled.p`
 	color: #606770;
 	flex-shrink: 0;
 	font-size: 12px;
-	line-height: 16px;
+	line-height: 20px;
 	overflow: hidden;
 	padding: 0;
 	text-overflow: ellipsis;

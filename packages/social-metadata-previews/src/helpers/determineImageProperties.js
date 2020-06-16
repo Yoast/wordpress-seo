@@ -11,7 +11,7 @@ export const FACEBOOK_IMAGE_SIZES = {
 	landscapeWidth: 527,
 	landscapeHeight: 273,
 	portraitWidth: 158,
-	portraitHeight: 236,
+	portraitHeight: 237,
 };
 
 /**

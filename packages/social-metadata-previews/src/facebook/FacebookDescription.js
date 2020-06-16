@@ -42,7 +42,7 @@ const FacebookDescription = styled.p`
 	display: -webkit-box;
 	cursor: pointer;
 	-webkit-line-clamp: ${ props => determineClamp( props.mode ) };
-	-webkit-box-orient: vertical;  
+	-webkit-box-orient: vertical;
 	overflow: hidden;
 `;
 
