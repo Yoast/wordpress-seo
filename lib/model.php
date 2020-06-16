@@ -325,7 +325,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @throws \Exception When ID of current model has a null value.
 	 *
-	 * @return ORM
+	 * @return ORM Instance of the ORM.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
