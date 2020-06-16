@@ -42,9 +42,9 @@
     "styled-components": "^4.4.1",
     "@wordpress/i18n": "^1.2.3",
     "@wordpress/a11y": "^1.1.3",
-    "@yoast/style-guide": "^0.11.1",
-    "@yoast/helpers": "^0.12.0-rc.0",
-    "@yoast/components": "^2.1.0-rc.0",
-    "yoastseo": "^1.74.0-rc.0"
+    "@yoast/style-guide": "^0.11.2",
+    "@yoast/helpers": "^0.12.1",
+    "@yoast/components": "^2.4.0-rc.0",
+    "yoastseo": "^1.77.0-rc.0"
   }
 }

@@ -63,7 +63,8 @@ class SocialPreviewEditorWrapper extends React.Component {
 					siteUrl="some.site.com"
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
-					image={ this.state.image }
+					imageUrl={ this.state.image }
+					imageFallbackUrl=""
 					socialMediumName={ "Facebook" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
@@ -83,7 +84,8 @@ class SocialPreviewEditorWrapper extends React.Component {
 					onRemoveImageClick={ this.removeImage }
 					alt="Alt text"
 					isLarge={ this.state.isLarge }
-					image={ this.state.image }
+					imageUrl={ this.state.image }
+					imageFallbackUrl=""
 					socialMediumName={ "Twitter" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
