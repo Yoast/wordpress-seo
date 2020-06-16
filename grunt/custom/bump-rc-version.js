@@ -25,6 +25,15 @@ module.exports = function( grunt ) {
 				grunt.fail.fatal( "Missing --type argument" );
 			}
 
+			/*
+			 * Whenever a merge conflict occurs after the version has bumped when the branch is merged
+			 * back into trunk, this needs to be resolved.
+			 * To avoid an additional bump (RC1 -> RC2) when continuing the process, this flag should
+			 * be used: --no-version-bump.
+			 */
+			const gruntFlags = grunt.option.flags();
+			const noBump = -1 !== gruntFlags.indexOf( '--no-version-bump' );
+
 			// Retrieve the current plugin version from package.json.
 			const packageJson = grunt.file.readJSON( "package.json" );
 			const pluginVersionPackageJson = packageJson.yoast.pluginVersion;
@@ -38,21 +47,30 @@ module.exports = function( grunt ) {
 			// Declare the new plugin version variable.
 			let newPluginVersion = pluginVersionArgument;
 
+			// Setup the bumped version, which is only bumped without the flag being present.
+			let bumpedRCVersion = parseInt( parsedVersion[ 1 ] || "0", 10 );
+
 			/*
 			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
 			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
 			*/
 			if ( pluginVersionArgument === strippedVersion ) {
-				const currentRCVersion = parsedVersion[ 1 ] || "0";
-				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
+				if ( noBump ) {
+					console.log( "Skipping version bumping, flag --no-version-bump detected." );
+				} else {
+					bumpedRCVersion += 1;
+				}
+
 				newPluginVersion += "-RC" + bumpedRCVersion;
 			} else {
 				// Else, the RC is 1.
 				newPluginVersion += "-RC1";
 			}
 
-			// eslint-disable-next-line no-console
-			console.log( "Bumped the plugin version to " + newPluginVersion + "." );
+			if ( pluginVersionPackageJson !== newPluginVersion ) {
+				console.log( "Bumped the plugin version to " + newPluginVersion + "." );
+				console.log( "  To prevent a version bump when resolving a merge conflict, use the '--no-version-bump' flag in your command." );
+			}
 
 			// Set the plugin version to the bumped version in package.json.
 			grunt.option( "new-version", newPluginVersion );
