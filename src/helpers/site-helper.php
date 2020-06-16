@@ -34,6 +34,6 @@ class Site_Helper {
 	 * @return bool True when there was a switch between the multisites.
 	 */
 	public function is_multisite_and_switched() {
-		return is_multisite() && ms_is_switched();
+		return \is_multisite() && \ms_is_switched();
 	}
 }

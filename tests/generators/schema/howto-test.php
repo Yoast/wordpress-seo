@@ -2,18 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
+use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\HowTo;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class HowTo_Test
- *
- * @package Yoast\WP\SEO\Tests\Generators\Schema
  *
  * @group generators
  * @group schema
@@ -25,7 +24,7 @@ class HowTo_Test extends TestCase {
 	/**
 	 * Holds the meta tags context mock.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -144,15 +143,15 @@ class HowTo_Test extends TestCase {
 
 		$id = 1234;
 
-		$this->meta_tags_context = \Mockery::mock( Meta_Tags_Context::class );
+		$this->meta_tags_context = Mockery::mock( Meta_Tags_Context_Mock::class );
 
 		$this->meta_tags_context->id             = $id;
 		$this->meta_tags_context->main_schema_id = 'https://example.com/post-1#main-schema-id';
 
-		$this->html     = \Mockery::mock( HTML_Helper::class );
-		$this->image    = \Mockery::mock( Image_Helper::class );
-		$this->post     = \Mockery::mock( Post_Helper::class );
-		$this->language = \Mockery::mock( Language_Helper::class );
+		$this->html     = Mockery::mock( HTML_Helper::class );
+		$this->image    = Mockery::mock( Image_Helper::class );
+		$this->post     = Mockery::mock( Post_Helper::class );
+		$this->language = Mockery::mock( Language_Helper::class );
 
 		$this->html
 			->shouldReceive( 'smart_strip_tags' )
@@ -164,11 +163,13 @@ class HowTo_Test extends TestCase {
 
 		$this->language
 			->shouldReceive( 'add_piece_language' )
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->post
 			->shouldReceive( 'get_post_title_with_fallback' )
@@ -296,14 +297,16 @@ class HowTo_Test extends TestCase {
 				'#schema-image-94025919e8fe3836562573a84a14a305',
 				'https://example.com/wp-content/uploads/2020/02/download.jpeg'
 			)
-			->andReturn( [
-				'@type'      => 'ImageObject',
-				'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
-				'inLanguage' => 'en-US',
-				'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
-				'width'      => 474,
-				'height'     => 474,
-			] );
+			->andReturn(
+				[
+					'@type'      => 'ImageObject',
+					'@id'        => 'https://example.com/post-1/#schema-image-72ed920b53178575afcdb59b932ad01b',
+					'inLanguage' => 'en-US',
+					'url'        => 'https://example.com/wp-content/uploads/2020/02/download.jpeg',
+					'width'      => 474,
+					'height'     => 474,
+				]
+			);
 
 		$schema = $this->base_schema;
 

@@ -124,11 +124,12 @@ class Article extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$terms = \array_filter( $terms, function( $term ) {
+		$callback = function( $term ) {
 			// We are checking against the WordPress internal translation.
 			// @codingStandardsIgnoreLine
-			return $term->name !== __( 'Uncategorized' );
-		} );
+			return $term->name !== \__( 'Uncategorized', 'default' );
+		};
+		$terms    = \array_filter( $terms, $callback );
 
 		if ( empty( $terms ) ) {
 			return $data;

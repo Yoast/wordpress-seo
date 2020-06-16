@@ -75,7 +75,7 @@ class Image_Presenter_Test extends TestCase {
 	 * when the `wpseo_twitter_image` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->twitter_image = 'relative_image.jpg';

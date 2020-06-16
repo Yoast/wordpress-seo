@@ -72,7 +72,7 @@ class Url_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct URL, when the `wpseo_opengraph_url` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->presentation->open_graph_url = 'www.example.com';

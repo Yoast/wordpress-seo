@@ -1,7 +1,7 @@
 # Todo
 
 ### ORM
-- Created at --- is not set on 
+- Created at --- is not set on
 
 ### Travis
 - Travis configuratie om Prefix classes te gebruiken
@@ -60,8 +60,6 @@ The commands have been placed in `composer.json` and can be run using: `composer
 Prefixing
 
 ### prefix modules
-* [x] j4mie/paris
-* [x] j4mie/idiorm
 * [x] ruckusing/ruckusing-migrations
 
 
@@ -75,7 +73,7 @@ Prefixing
 Callback on missing field data?
 
 # Hacks
-- [Yoast_Model](https://github.com/Yoast/wordpress-seo/blob/yoast-meta/src/Yoast_Model.php#L7) to inject WordPress database table prefix the table names
+- [Model](https://github.com/Yoast/wordpress-seo/blob/yoast-meta/src/Model.php#L7) to inject WordPress database table prefix the table names
 
 # Final todo
 Remove this file from the repository.

@@ -10,7 +10,7 @@ use WPSEO_Metabox_Section_Additional;
  *
  * @group Metabox
  */
-class Metabox_Section_Additional extends TestCase {
+class Metabox_Section_Additional_Test extends TestCase {
 
 	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_content.

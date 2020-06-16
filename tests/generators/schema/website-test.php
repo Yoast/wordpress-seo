@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Generators\Schema\Website;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -53,7 +53,7 @@ class Website_Test extends TestCase {
 	/**
 	 * The meta tags context object.
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	private $meta_tags_context;
 
@@ -69,7 +69,7 @@ class Website_Test extends TestCase {
 
 		$this->instance = new Website();
 
-		$this->meta_tags_context = new Meta_Tags_Context();
+		$this->meta_tags_context = new Meta_Tags_Context_Mock();
 
 		$this->instance->context = $this->meta_tags_context;
 		$this->instance->helpers = (object) [
@@ -101,11 +101,13 @@ class Website_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->options->expects( 'get' )
 			->with( 'alternate_website_name', '' )
@@ -157,11 +159,13 @@ class Website_Test extends TestCase {
 
 		$this->language->expects( 'add_piece_language' )
 			->once()
-			->andReturnUsing( function( $data ) {
-				$data['inLanguage'] = 'language';
+			->andReturnUsing(
+				function( $data ) {
+					$data['inLanguage'] = 'language';
 
-				return $data;
-			} );
+					return $data;
+				}
+			);
 
 		$this->options->expects( 'get' )
 			->with( 'alternate_website_name', '' )

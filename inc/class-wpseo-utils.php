@@ -1136,12 +1136,69 @@ SVG;
 	}
 
 	/**
+	 * Gets the type of the current post.
+	 *
+	 * @return string The post type, or an empty string.
+	 */
+	public static function get_post_type() {
+		global $post;
+
+		if ( isset( $post->post_type ) ) {
+			return $post->post_type;
+		}
+		elseif ( isset( $_GET['post_type'] ) ) {
+			return sanitize_text_field( $_GET['post_type'] );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the type of the current page.
+	 *
+	 * @return string Returns 'post' if the current page is a post edit page. Taxonomy in other cases.
+	 */
+	public static function get_page_type() {
+		global $pagenow;
+		if ( WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			return 'post';
+		}
+
+		return 'taxonomy';
+	}
+
+	/**
 	 * Getter for the Adminl10n array. Applies the wpseo_admin_l10n filter.
 	 *
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = [];
+		$post_type = self::get_post_type();
+		$page_type = self::get_page_type();
+
+		$label_object = false;
+		$no_index     = false;
+
+		if ( $page_type === 'post' ) {
+			$label_object = get_post_type_object( $post_type );
+			$no_index     = WPSEO_Options::get( 'noindex-' . $post_type, false );
+		}
+		else {
+			$label_object = WPSEO_Taxonomy::get_labels();
+
+			$taxonomy_slug = filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
+			$no_index      = WPSEO_Options::get( 'noindex-tax-' . $taxonomy_slug, false );
+		}
+
+		$wpseo_admin_l10n = [
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'noIndex'              => ! ! $no_index,
+			'isPostType'           => ! ! get_post_type(),
+			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
+			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
+			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
+			'privateBlog'          => ( (string) get_option( 'blog_public' ) ) === '0',
+		];
 
 		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {

@@ -34,9 +34,7 @@ class Robots_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->current_page
 			->expects( 'is_multiple_terms_page' )
@@ -54,7 +52,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -66,9 +64,7 @@ class Robots_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->current_page
 			->expects( 'is_multiple_terms_page' )
@@ -86,7 +82,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -99,9 +95,7 @@ class Robots_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->current_page
 			->expects( 'is_multiple_terms_page' )
@@ -121,7 +115,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -134,9 +128,7 @@ class Robots_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_source' )
 			->once()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 
 		$this->current_page
 			->expects( 'is_multiple_terms_page' )
@@ -156,7 +148,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -180,7 +172,7 @@ class Robots_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -191,9 +183,7 @@ class Robots_Test extends TestCase {
 		$wp_query
 			->expects( 'get_queried_object' )
 			->zeroOrMoreTimes()
-			->andReturn( (object) [
-				'taxonomy' => 'category',
-			] );
+			->andReturn( (object) [ 'taxonomy' => 'category' ] );
 		$this->wp_query_wrapper
 			->expects( 'get_query' )
 			->zeroOrMoreTimes()

@@ -14,7 +14,7 @@ class FinalStep extends React.Component {
 		return (
 			<div className="yoast-wizard--columns">
 				<div className="yoast-wizard--column__push_right">
-					<h2 className="yoast-wizard--heading">{ this.props.properties.title }</h2>
+					<p>{ this.props.properties.title }</p>
 					<p>{ this.props.properties.message }</p>
 				</div>
 				<div className="yoast-wizard--column__push_left">

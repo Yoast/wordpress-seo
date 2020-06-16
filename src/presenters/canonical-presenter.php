@@ -45,6 +45,6 @@ class Canonical_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return urldecode( (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) ) );
+		return \urldecode( (string) \trim( \apply_filters( 'wpseo_canonical', $this->presentation->canonical, $this->presentation ) ) );
 	}
 }

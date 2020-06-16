@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Handle_404;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -96,7 +97,7 @@ class Handle_404_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$wp_query        = new \stdClass();
+		$wp_query        = new stdClass();
 		$wp_query->posts = true;
 
 		$this->query_wrapper

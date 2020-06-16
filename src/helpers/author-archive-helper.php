@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\ORM\Yoast_Model;
+use Yoast\WP\Lib\Model;
 
 /**
  * Class Author_Archive_Helper
@@ -61,7 +61,7 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has at least one public post.
 	 */
 	protected function author_has_a_public_post( $author_id ) {
-		$indexable_exists = Yoast_Model::of_type( 'Indexable' )
+		$indexable_exists = Model::of_type( 'Indexable' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )
@@ -82,7 +82,7 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has at least one post with the is public null.
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
-		$indexable_exists = Yoast_Model::of_type( 'Indexable' )
+		$indexable_exists = Model::of_type( 'Indexable' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )

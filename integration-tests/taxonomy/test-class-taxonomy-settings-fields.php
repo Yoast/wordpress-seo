@@ -48,7 +48,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( is_array( $fields ) );
 
 		$this->assertTrue( array_key_exists( 'noindex', $fields ) );
-		$this->assertEquals( 'select', $fields['noindex']['type'] );
+		$this->assertEquals( 'hidden', $fields['noindex']['type'] );
 	}
 
 	/**
@@ -62,31 +62,5 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance->set_option( 'breadcrumbs-enable', false );
 		$this->assertFalse( array_key_exists( 'bctitle', $this->class_instance->get() ) );
-	}
-
-	/**
-	 * Test the result of get_robot_index.
-	 *
-	 * @covers ::get_robot_index
-	 */
-	public function test_get_robot_index() {
-		// Setting no index for current taxonomy to true.
-		$this->class_instance->set_option( 'noindex-tax-' . $this->term->taxonomy, true );
-
-		$fields_before = $this->class_instance->get();
-
-		$this->assertEquals(
-			'No (current default for Tags)',
-			$fields_before['noindex']['options']['options']['default']
-		);
-
-		// Setting the noindex to false.
-		$this->class_instance->set_option( 'noindex-tax-' . $this->term->taxonomy, false );
-
-		$fields_after = $this->class_instance->get();
-		$this->assertEquals(
-			'Yes (current default for Tags)',
-			$fields_after['noindex']['options']['options']['default']
-		);
 	}
 }

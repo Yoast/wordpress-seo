@@ -56,7 +56,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present() {
 		$breadcrumbs = $this->get();
-		if ( ! is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
+		if ( ! \is_array( $breadcrumbs ) || empty( $breadcrumbs ) ) {
 			return '';
 		}
 
@@ -76,7 +76,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$output = '<' . $this->get_wrapper() . $this->get_id() . $this->get_class() . '>' . $output . '</' . $this->get_wrapper() . '>';
-		$output = $this->filter( $output, $this->presentation );
+		$output = $this->filter( $output );
 
 		$prefix = $this->helpers->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
@@ -120,10 +120,6 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	 *                          'text'                  => (string) link text.
 	 *                          'url'                   => (string) link url.
 	 *                          (optional) 'title'      => (string) link title attribute text.
-	 *                          (optional) 'allow_html' => (bool) whether to (not) escape html in the link text.
-	 *                          'allow_html' prevents html stripping from the text strings set in the WPSEO -> Internal Links options page.
-	 *                          We never set 'title' or 'allow_html' ourselves but they could be set by users through the
-	 *                          'wpseo_breadcrumb_links' and 'wpseo_breadcrumb_single_link_info' filters.
 	 * @param int   $index      Index for the current breadcrumb.
 	 * @param int   $total      The total number of breadcrumbs.
 	 *
@@ -137,9 +133,6 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$text = \trim( $breadcrumb['text'] );
-		if ( ! isset( $breadcrumb['allow_html'] ) || $breadcrumb['allow_html'] !== true ) {
-			$text = \esc_html( $text );
-		}
 
 		if (
 			$index < ( $total - 1 )
@@ -149,8 +142,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		) {
 			// If it's not the last element and we have a url.
 			$link      .= '<' . $this->get_element() . '>';
-			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
-			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
+			$title_attr = isset( $breadcrumb['title'] ) ? ' title="' . \esc_attr( $breadcrumb['title'] ) . '"' : '';
+			$link      .= '<a href="' . \esc_url( $breadcrumb['url'] ) . '"' . $title_attr . '>' . $text . '</a>';
 		}
 		elseif ( $index === ( $total - 1 ) ) {
 			// If it's the last element.
@@ -241,7 +234,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		if ( ! $this->wrapper ) {
 			$this->wrapper = \apply_filters( 'wpseo_breadcrumb_output_wrapper', 'span' );
 			$this->wrapper = \tag_escape( $this->wrapper );
-			if ( ! is_string( $this->wrapper ) || $this->wrapper === '' ) {
+			if ( ! \is_string( $this->wrapper ) || $this->wrapper === '' ) {
 				$this->wrapper = 'span';
 			}
 		}

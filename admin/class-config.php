@@ -179,4 +179,4 @@ class WPSEO_Admin_Pages {
 			$this->asset_manager->enqueue_script( 'bulk-editor' );
 		}
 	}
-} /* End of class */
+}

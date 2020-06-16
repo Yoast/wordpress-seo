@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
-use Yoast\WP\SEO\Models\Primary_Term;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
 /**
@@ -77,7 +76,7 @@ class Primary_Term_Builder {
 	 * @return void
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		$term_id = $this->meta->get_value( 'primary_category', $post_id );
+		$term_id = $this->meta->get_value( 'primary_' . $taxonomy, $post_id );
 
 		$term_selected = ! empty( $term_id );
 		$primary_term  = $this->repository->find_by_post_id_and_taxonomy( $post_id, $taxonomy, $term_selected );
@@ -94,6 +93,7 @@ class Primary_Term_Builder {
 		$primary_term->term_id  = $term_id;
 		$primary_term->post_id  = $post_id;
 		$primary_term->taxonomy = $taxonomy;
+		$primary_term->blog_id  = \get_current_blog_id();
 		$primary_term->save();
 	}
 }
