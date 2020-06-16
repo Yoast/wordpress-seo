@@ -14,6 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
+$yoast_features = new WPSEO_Features();
 
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
@@ -31,6 +32,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	<?php
 
 	foreach ( $feature_toggles as $feature ) {
+		if ( $feature->premium && ! $yoast_features->is_premium() ) {
+			// This should be shown as disabled with upgrade incentive.
+		}
+
 		$yform->light_switch(
 			$feature->setting,
 			$feature->name,

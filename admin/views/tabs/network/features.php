@@ -14,6 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
+$yoast_features = new WPSEO_Features();
 
 ?>
 
@@ -36,6 +37,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			/* translators: %s Expands to a feature's name. */
 			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) )
 		);
+
+		if ( $feature['premium'] && ! $yoast_features->is_premium() ) {
+			// This should be shown as disabled with upgrade incentive.
+		}
 
 		$yform->toggle_switch(
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
