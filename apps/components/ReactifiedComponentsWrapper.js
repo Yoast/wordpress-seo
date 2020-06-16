@@ -9,6 +9,7 @@ import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
 	Button,
 	ButtonStyledLink,
+	CloseButton,
 } from "@yoast/components/src/button";
 
 /**
@@ -21,16 +22,21 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
+	<h3>Buttons</h3>
 	<Button type="button" onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
-	<Button type="button" variant="primary" iconAfter="caret-right" onClick={ clickerDiClick }>Primary</Button>
-	<Button type="button" variant="secondary" iconAfter="caret-right" onClick={ clickerDiClick }>Secondary</Button>
-	<Button type="button" variant="upsell" iconAfter="caret-right" onClick={ clickerDiClick }>Buy</Button>
-	<Button type="button" variant="buy" iconAfter="buy" onClick={ clickerDiClick }>Buy</Button>
-	<Button type="button" variant="buy" iconBefore="buy" onClick={ clickerDiClick }>Buy</Button>
-	<ButtonStyledLink variant="primary" href={ "#" }>Buy</ButtonStyledLink>
-	<ButtonStyledLink variant="secondary" href={ "#" }>Buy</ButtonStyledLink>
-	<ButtonStyledLink variant="upsell" href="#" iconAfter="buy">Buy</ButtonStyledLink>
-	<ButtonStyledLink variant="buy" href="#" iconAfter="caret-right">Buy</ButtonStyledLink>
+	<Button type="button" variant="primary" onClick={ clickerDiClick }>Primary button</Button>
+	<Button type="button" variant="secondary" onClick={ clickerDiClick }>Secondary button</Button>
+	<Button type="button" variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
+	<Button type="button" variant="hide" onClick={ clickerDiClick }>Hide button</Button>
+	<Button type="button" variant="remove" onClick={ clickerDiClick }>Remove button</Button>
+	<h3>Links</h3>
+	<ButtonStyledLink variant="primary" href={ "#" }>Primary link</ButtonStyledLink>
+	<ButtonStyledLink variant="secondary" href={ "#" }>Secondary link</ButtonStyledLink>
+	<ButtonStyledLink variant="upsell" href="#">Buy Link</ButtonStyledLink>
+	<ButtonStyledLink variant="hide" href="#">Hide Link</ButtonStyledLink>
+	<ButtonStyledLink variant="remove" href="#">Remove Link</ButtonStyledLink>
+	<h3>Icons</h3>
+	<CloseButton onClick={ clickerDiClick } />
 </Fragment>;
 
 /**

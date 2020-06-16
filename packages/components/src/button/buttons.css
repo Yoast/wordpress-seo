@@ -1,5 +1,7 @@
 .yoast .yoast-button {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	position: relative;
 	padding: 11px 13px 13px;
 	text-decoration: none;
@@ -72,11 +74,8 @@
 }
 
 .yoast .yoast-button--buy {
-	display: inline-flex;
-	align-items: center;
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-sale);
-	justify-content: center;
 }
 
 .yoast .yoast-button--buy:visited {
@@ -96,10 +95,9 @@
 	height: 16px;
 	/*Negative margin to compensate the icon white space within its viewbox.*/
 	margin: 0 -2px 0 6px;
-	/* background: var(--yoast-svg-icon-caret-right) center center no-repeat; */
 	background-color: currentColor;
-    -webkit-mask-image: var(--yoast-svg-icon-caret-right);
-    mask-image: var(--yoast-svg-icon-caret-right);
+	-webkit-mask-image: var(--yoast-svg-icon-caret-right);
+	mask-image: var(--yoast-svg-icon-caret-right);
 }
 
 html[dir=rtl] .yoast .yoast-button--buy {

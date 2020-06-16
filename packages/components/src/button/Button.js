@@ -2,19 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./buttons.css";
 
-const iconToClassName = {
-	"caret-right": "yoast-button--buy__caret",
-	buy: "yoast-button--buy__caret",
+const variantToIcon = {
+	buy: { iconAfter: "yoast-button--buy__caret" },
+
+	// Aliases
+	upsell: { iconAfter: "yoast-button--buy__caret" },
 };
 
+// Load often occurring classes on a const.
+const buttonClasses = "yoast-button yoast-button--";
+
 const variantToClassName = {
-	primary: "primary",
-	secondary: "secondary",
-	buy: "buy",
-	upsell: "buy",
-	purple: "primary",
-	grey: "secondary",
-	yellow: "buy",
+	primary: buttonClasses + "primary",
+	secondary: buttonClasses + "secondary",
+	buy: buttonClasses + "buy",
+	hide: "yoast-hide",
+	remove: "yoast-remove",
+
+	// Aliases
+	upsell: buttonClasses + "buy",
+	purple: buttonClasses + "primary",
+	grey: buttonClasses + "secondary",
+	yellow: buttonClasses + "buy",
 };
 
 /**
@@ -24,16 +33,18 @@ const variantToClassName = {
  *
  * @returns {string} The className that contains the css for the requested variant.
  */
-const getClassName = variant => `yoast-button yoast-button--${ variantToClassName[ variant ] }`;
+const getClassName = variant => variantToClassName[ variant ];
 
 /**
- * Gets the span that has the svg icon as a background.
+ * A function that looks up the correct icons that belong to a certain variant.
  *
- * @param {string} desiredIcon The icon which should be added as a background to a span.
+ * I puts them behind a iconBefore and/or iconAfter key, so that the position is known.
  *
- * @returns {HTMLSpanElement} A span with an svg set as background.
+ * @param {string} variant The variant for which to lookup the before/after icon.
+ *
+ * @returns {Object|null} The icons for the requested variant.
  */
-const getIconSpan = desiredIcon => <span className={ iconToClassName[ desiredIcon ] } />;
+const getVariantIcons = variant => variantToIcon[ variant ] || null;
 
 /**
  * A button with some functionality for Yoast styling.
@@ -50,23 +61,22 @@ export const Button = ( props ) => {
 	const {
 		children,
 		variant,
-		iconBefore,
-		iconAfter,
 		type,
 		...restProps
 	} = props;
 
-	const displayIconBefore = ! ! iconBefore;
-	const displayIconAfter = ! ! iconAfter;
+	const variantIcons = getVariantIcons( variant );
+	const iconBefore = variantIcons && variantIcons.iconBefore;
+	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
 		className={ getClassName( variant ) }
 		type={ type }
 		{ ...restProps }
 	>
-		{ displayIconBefore && getIconSpan( iconBefore ) }
+		{ ! ! iconBefore && <span className={ iconBefore } /> }
 		{ children }
-		{ displayIconAfter && getIconSpan( iconAfter ) }
+		{ ! ! iconAfter && <span className={ iconAfter } /> }
 	</button>;
 };
 
@@ -80,8 +90,6 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	variant: PropTypes.string,
-	iconBefore: PropTypes.string,
-	iconAfter: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -89,8 +97,6 @@ Button.defaultProps = {
 	variant: "primary",
 	children: null,
 	onClick: null,
-	iconBefore: "",
-	iconAfter: "",
 };
 
 /**
@@ -106,22 +112,21 @@ Button.defaultProps = {
 export const ButtonStyledLink = ( props ) => {
 	const {
 		children,
-		iconBefore,
-		iconAfter,
 		variant,
 		...restProps
 	} = props;
 
-	const displayIconBefore = ! ! iconBefore;
-	const displayIconAfter = ! ! iconAfter;
+	const variantIcons = getVariantIcons( variant );
+	const iconBefore = variantIcons && variantIcons.iconBefore;
+	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <a
 		className={ getClassName( variant ) }
 		{ ...restProps }
 	>
-		{ displayIconBefore && getIconSpan( iconBefore ) }
+		{ ! ! iconBefore && <span className={ iconBefore } /> }
 		{ children }
-		{ displayIconAfter && getIconSpan( iconAfter ) }
+		{ ! ! iconAfter && <span className={ iconAfter } /> }
 	</a>;
 };
 
@@ -134,13 +139,9 @@ ButtonStyledLink.propTypes = {
 			PropTypes.arrayOf( PropTypes.node ),
 		]
 	),
-	iconBefore: PropTypes.string,
-	iconAfter: PropTypes.string,
 };
 
 ButtonStyledLink.defaultProps = {
 	variant: "primary",
 	children: null,
-	iconBefore: "",
-	iconAfter: "",
 };
