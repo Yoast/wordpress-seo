@@ -79,7 +79,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$expected_query    = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term' AND permalink IS NOT NULL) AND taxonomy IN (%s)
+			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term' AND permalink_hash IS NOT NULL) AND taxonomy IN (%s)
 			$limit_placeholder";
 
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
@@ -118,7 +118,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$expected_query = '
 			SELECT term_id
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'term\' AND permalink IS NOT NULL) AND taxonomy IN (%s)
+			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'term\' AND permalink_hash IS NOT NULL) AND taxonomy IN (%s)
 			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
