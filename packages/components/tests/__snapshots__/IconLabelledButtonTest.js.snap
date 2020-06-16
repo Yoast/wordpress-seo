@@ -2,7 +2,7 @@
 
 exports[`the IconLabelledButton matches the snapshot 1`] = `
 <button
-  className="fofQmH"
+  className="cGuLTS"
   type="button"
 >
   <svg
@@ -25,7 +25,7 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 
 exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 <button
-  className="xWMsb"
+  className="zTZVt"
   type="reset"
 >
   <svg
