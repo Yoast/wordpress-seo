@@ -4,7 +4,7 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: rgba(164, 40, 106, 0.6);;
+	background-color: rgba(164, 40, 106, 0.6);
 	z-index: 100000;
 	animation: edit-post__fade-in-animation .2s ease-out 0s;
 	animation-fill-mode: forwards;
@@ -27,18 +27,19 @@
 .yoast-tabs .yoast-modal__content {
 	display: grid;
 	grid-template-areas: "heading heading" "menu content" "menu footer";
-	grid-template-rows: 72px 1fr 89px;
+	grid-template-rows: 72px 1fr 88px;
 	grid-template-columns: 280px 1fr;
 }
 
 .yoast-modal__heading {
-	padding: 13px 24px 14px;
 	display: flex;
 	align-items: center;
+	box-sizing: border-box;
+	min-height: 72px;
 	border-bottom: var(--yoast-border-default);
+	padding: 0 24px;
 	grid-area: heading;
 	background: var(--yoast-color-white);
-	height: 72px;
 }
 
 .yoast-modal__heading .yoast-close {
@@ -46,11 +47,21 @@
 	right: 16px;
 }
 
-.yoast-modal__heading h1 {
+.yoast-modal__heading h1,
+.yoast-gutenberg-modal .components-modal__header-heading {
 	font-size: 20px;
+	font-weight: 400;
+	color: var(--yoast-color-primary);
+	line-height: 1.2;
+	margin: 0;
 }
 
-.yoast-modal__heading-icon {
+.yoast-gutenberg-modal .components-modal__icon-container {
+	display: inline-flex;
+}
+
+.yoast-modal__heading-icon,
+.yoast-gutenberg-modal .components-modal__icon-container svg {
 	fill: var(--yoast-color-primary);
 	margin-right: 16px;
 	width: 19px;
@@ -97,7 +108,6 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	box-sizing: border-box;
 }
 
 .yoast-modal__section {
@@ -128,7 +138,7 @@
 
 .yoast-modal__footer {
 	grid-area: footer;
-	padding: 24px 0;
+	padding: 0;
 	border-top: var(--yoast-border-default);
 	display: flex;
 	align-self: flex-end;
@@ -139,7 +149,8 @@
 	background: var(--yoast-color-white);
 	margin: 0 24px;
 	z-index: 10;
-	height: 89px;
+	box-sizing: border-box;
+	min-height: 88px;
 	width: calc(100% - 48px);
 }
 
@@ -170,28 +181,38 @@
 
 @media screen and (max-width: 880px) {
 	.yoast-modal {
-		position: fixed;
 		top: 0;
 		bottom: 0;
 		left: 0;
 		right: 0;
+		height: auto;
 	}
 }
 
 @media screen and (max-width: 782px) {
 	.yoast-modal {
 		overflow-y: initial;
-		height: auto;
+	}
+
+	.yoast-modal.yoast-modal-collapsible {
 		padding-bottom: 72px;
 	}
 
+	.yoast-tabs .yoast-modal__content {
+		grid-template-rows: 48px 1fr 72px;
+	}
+
 	.yoast-modal__heading {
-		padding: 14px 16px 15px;
+		padding: 0 16px;
 		position: fixed;
 		top: 0;
 		width: 100%;
+		min-height: 48px;
 		z-index: 11;
-		height: auto;
+	}
+
+	.yoast-modal__heading h1 {
+		font-size: var(--yoast-font-size-default);
 	}
 
 	.yoast-close svg {
@@ -222,7 +243,7 @@
 	}
 
 	.yoast-modal__section:first-of-type {
-		margin-top: 46px;
+		margin-top: 48px;
 	}
 
 	.yoast-modal__section:last-of-type {
@@ -230,7 +251,7 @@
 	}
 
 	.yoast-modal__section-header {
-		top: 46px;
+		top: 48px;
 		position: sticky;
 		padding: 0;
 		margin: 0;
@@ -248,12 +269,16 @@
 	}
 
 	.yoast-modal__footer {
-		margin: 0;
 		width: 100%;
+		min-height: 72px;
+		margin: 0;
+		padding: 0 16px;
 		position: fixed;
 		z-index: 11;
-		height: 72px;
-		padding: 24px 16px;
+	}
+
+	.yoast-modal-collapsible .yoast-modal__footer {
+		min-height: 72px;
 	}
 
 	/* collapsible styling */
@@ -306,7 +331,7 @@
 
 	.yoast-collapsible-block {
 		width: 100%;
-		margin-top: 46px;
+		margin-top: 48px;
 	}
 
 	.yoast-collapsible-block + .yoast-collapsible-block {

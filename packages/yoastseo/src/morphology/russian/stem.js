@@ -181,6 +181,10 @@ const removeInflectionalSuffixes = function( word, morphologyData, rv ) {
  * @returns {string}	The stemmed word.
  */
 export default function stem( word, morphologyData ) {
+	// Check if word is in the doNotStemSuffix exception list.
+	if ( morphologyData.doNotStemSuffix.includes( word ) ) {
+		return word;
+	}
 	const rv = findRvRegion( word, morphologyData );
 
 	// Step 1: Remove inflectional suffixes if they are present in the word.
