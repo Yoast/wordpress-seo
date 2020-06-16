@@ -79,7 +79,7 @@ describe( "retrieveExpectedDimensions", () => {
 			landscapeWidth: 527,
 			landscapeHeight: 273,
 			portraitWidth: 158,
-			portraitHeight: 236,
+			portraitHeight: 237,
 		};
 
 		expect( actual ).toEqual( expected );
@@ -96,7 +96,7 @@ describe( "calculateImageRatios", () => {
 		 * Expected widthRatio is 2, because 316 is divided by 158, Facebook's width for portrait images.
 		 * Same idea for expected heightRatio.
 		 */
-		const expected = { widthRatio: 2, heightRatio: 2 };
+		const expected = { widthRatio: 2, heightRatio: 1.9915611814345993 };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -332,7 +332,7 @@ describe( "determineImageProperties", () => {
 			"Facebook"
 		);
 
-		const expected = { mode: "portrait", width: 211, height: 236 };
+		const expected = { mode: "portrait", width: 212, height: 237 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 

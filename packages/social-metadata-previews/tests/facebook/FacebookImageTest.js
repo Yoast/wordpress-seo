@@ -152,7 +152,7 @@ describe( "retrieveContainerDimensions", () => {
 		const FacebookImageComponent = new FacebookImage();
 
 		const actual = FacebookImageComponent.retrieveContainerDimensions( "portrait" );
-		const expected = { height: 236 + "px", width: 158 + "px" };
+		const expected = { height: 237 + "px", width: 158 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );

@@ -75,7 +75,7 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
 exports[`FacebookImage Component matches the snapshot for a portrait image 1`] = `
 .c0 {
   position: relative;
-  height: 236px;
+  height: 237px;
   width: 158px;
   overflow: hidden;
   background-color: #fff;

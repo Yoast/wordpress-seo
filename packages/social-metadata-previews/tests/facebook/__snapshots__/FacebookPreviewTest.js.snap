@@ -7,7 +7,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   -ms-flex-negative: 0;
   flex-shrink: 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 20px;
   overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
@@ -126,6 +126,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
   justify-content: center;
   width: 476px;
   font-size: 12px;
+  overflow: hidden;
 }
 
 <div
@@ -187,7 +188,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   -ms-flex-negative: 0;
   flex-shrink: 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 20px;
   overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
@@ -306,6 +307,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
   justify-content: center;
   width: 476px;
   font-size: 12px;
+  overflow: hidden;
 }
 
 <div
@@ -367,7 +369,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   -ms-flex-negative: 0;
   flex-shrink: 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 20px;
   overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
@@ -486,6 +488,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
   justify-content: center;
   width: 476px;
   font-size: 12px;
+  overflow: hidden;
 }
 
 <div
@@ -547,7 +550,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   -ms-flex-negative: 0;
   flex-shrink: 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 20px;
   overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
@@ -666,6 +669,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
   justify-content: center;
   width: 476px;
   font-size: 12px;
+  overflow: hidden;
 }
 
 <div
@@ -727,7 +731,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   -ms-flex-negative: 0;
   flex-shrink: 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 20px;
   overflow: hidden;
   padding: 0;
   text-overflow: ellipsis;
@@ -846,6 +850,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
   justify-content: center;
   width: 476px;
   font-size: 12px;
+  overflow: hidden;
 }
 
 <div
