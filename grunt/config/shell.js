@@ -203,8 +203,20 @@ module.exports = function( grunt ) {
 			command: "yarn unlink-monorepo",
 		},
 
-		"install-monorepo": {
-			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
+		"yarn-add-yoast-components-rc": {
+			command: "yarn add yoast-components@rc",
+		},
+
+		"yarn-add-yoast-components": {
+			command: "yarn add yoast-components",
+		},
+
+		"yarn-add-yoastseo-rc": {
+			command: "yarn add yoastseo@rc",
+		},
+
+		"yarn-add-yoastseo": {
+			command: "yarn add yoastseo",
 		},
 
 		"get-monorepo-versions": {
@@ -227,10 +239,18 @@ module.exports = function( grunt ) {
 			command: "git checkout trunk",
 		},
 
+		/*
+		 * Used in the `bump-the-rc-version` alias flow.
+		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
+		 */
 		"git-merge-into-trunk": {
 			command: "git merge <%= branchForRC %>",
 		},
 
+		/*
+		 * Used in the `bump-the-rc-version` alias flow.
+		 * Variable branchForRC is set in the task `ensure-pre-release-branch`
+		 */
 		"git-checkout-release-branch": {
 			command: "git checkout <%= branchForRC %>",
 		},

@@ -107,6 +107,7 @@ clean:build-assets:
   - 'ensure-rc-dependencies'
   - 'update-readme'
   - 'bump-the-rc-version'
+  - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
@@ -118,14 +119,6 @@ clean:build-assets:
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
-
-'ensure-rc-dependencies':
-  - 'shell:unlink-monorepo'
-  - 'shell:install-monorepo'
-  - 'shell:get-monorepo-versions'
-  - 'prompt:monorepoVersions'
-  - 'shell:composer-install'
-  - 'shell:composer-update-yoast-dependencies'
 
 'bump-the-rc-version':
   - 'bump-rc-version'
