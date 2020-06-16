@@ -47,7 +47,7 @@ module.exports = function( grunt ) {
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
 			const existsRemotely = ! ! execSync( "git branch --list -r origin/" + branchForRC, { encoding: "utf-8" } );
-			let existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
+			const existsLocally = ! ! execSync( "git branch --list " + branchForRC, { encoding: "utf-8" } );
 
 			/*
 			 * If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
