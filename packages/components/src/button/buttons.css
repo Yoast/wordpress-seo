@@ -96,7 +96,10 @@
 	height: 16px;
 	/*Negative margin to compensate the icon white space within its viewbox.*/
 	margin: 0 -2px 0 6px;
-	background: var(--yoast-svg-icon-caret-right) center center no-repeat;
+	/* background: var(--yoast-svg-icon-caret-right) center center no-repeat; */
+	background-color: currentColor;
+    -webkit-mask-image: var(--yoast-svg-icon-caret-right);
+    mask-image: var(--yoast-svg-icon-caret-right);
 }
 
 html[dir=rtl] .yoast .yoast-button--buy {

@@ -2,23 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./buttons.css";
 
-export const sharedButtonPropTypes = {
-	children: PropTypes.oneOfType(
-		[
-			PropTypes.node,
-			PropTypes.arrayOf( PropTypes.node ),
-		]
-	),
-	onClick: PropTypes.func,
-	href: PropTypes.string,
-};
-
-export const sharedButtonDefaultProps = {
-	children: null,
-	onClick: null,
-	href: null,
-};
-
 const iconToClassName = {
 	"caret-right": "yoast-button--buy__caret",
 	buy: "yoast-button--buy__caret",
@@ -156,7 +139,6 @@ ButtonStyledLink.propTypes = {
 };
 
 ButtonStyledLink.defaultProps = {
-	...sharedButtonDefaultProps,
 	variant: "primary",
 	children: null,
 	iconBefore: "",
