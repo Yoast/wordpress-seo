@@ -4,7 +4,6 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
@@ -38,7 +37,7 @@ class SEMrush_Client {
 			'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
 		] );
 
-		$this->token_manager = new SEMrush_Token_Manager( new Options_Helper() );
+		$this->token_manager = new SEMrush_Token_Manager();
 
 		// Prime token manager.
 		$this->token_manager->get_from_storage();
@@ -91,8 +90,8 @@ class SEMrush_Client {
 	/**
 	 * Performs an authenticated POST request to the desired URL.
 	 *
-	 * @param string $url The URL to send the request to.
-	 * @param mixed $data The data to send along.
+	 * @param string $url  The URL to send the request to.
+	 * @param mixed  $data The data to send along.
 	 *
 	 * @return mixed The parsed API response.
 	 * @throws IdentityProviderException
