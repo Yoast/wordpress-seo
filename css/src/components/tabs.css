@@ -21,17 +21,17 @@
 	margin-top: 0;
 	padding-top: 3px;
 	padding-left: 16px;
-	border-bottom: 1px solid var(--color-border);
+	border-bottom: 1px solid var(--yoast-color-border);
 	min-height: 60px;
 }
 
 .yoast-tabs__list-item {
 	position: relative;
-	background-color: var(--color-secondary);
+	background-color: var(--yoast-color-secondary);
 	margin-bottom: 0;
-	border-top: var(--border-default);
-	border-right: var(--border-default);
-	border-left: var(--border-default);
+	border-top: var(--yoast-border-default);
+	border-right: var(--yoast-border-default);
+	border-left: var(--yoast-border-default);
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 	margin-left: -1px;
 }
@@ -78,24 +78,24 @@
 
 .yoast-tabs__list-item-link {
 	display: block;
-	color: var(--color-dark);
+	color: var(--yoast-color-dark);
 	text-decoration: none;
 	padding: 12px 16px;
 }
 
 .yoast-tabs__list-item-link:hover {
-	color: var(--color-primary);
+	color: var(--yoast-color-primary);
 }
 
 .yoast-tabs__list-item.yoast-tabs__list-item--active {
 	top: 1px;
-	background-color: var(--color-white);
+	background-color: var(--yoast-color-white);
 	z-index: 11;
 }
 
 .yoast-tabs__list-item--active::after {
 	content: '';
-	background-color: var(--color-white);
+	background-color: var(--yoast-color-white);
 	height: 1px;
 	width: 100%;
 	position: absolute;
@@ -103,7 +103,7 @@
 }
 
 .yoast-tabs__list-item--active .yoast-tabs__list-item-link {
-	color: var(--color-primary);
+	color: var(--yoast-color-primary);
 	padding: 16px;
 }
 
@@ -115,7 +115,7 @@
 	}
 
 	.yoast-tabs__list-item {
-		border-bottom: var(--border-default);
+		border-bottom: var(--yoast-border-default);
 		margin: 4px;
 	}
 

@@ -10,7 +10,7 @@
 
 .yoast-list li::before {
 	content: '';
-	background-color: var(--color-default);
+	background-color: var(--yoast-color-default);
 	border-radius: 50%;
 	width: 6px;
 	height: 6px;
@@ -25,7 +25,7 @@
 
 .yoast-check::before {
 	content: '';
-	background: var(--checkmark--green) no-repeat center center;
+	background: var(--yoast-checkmark--green) no-repeat center center;
 	width: 14px;
 	height: 14px;
 	position: absolute;
@@ -45,7 +45,7 @@
 
 .yoast-list--usp li::before {
 	content: '';
-	background: var(--checkmark--green) no-repeat center center;
+	background: var(--yoast-checkmark--green) no-repeat center center;
 	width: 14px;
 	height: 14px;
 	position: absolute;
