@@ -54,6 +54,14 @@ class SEMrush_Login_Action_Test extends TestCase {
 	 * @covers ::authenticate
 	 */
 	public function test_valid_authentication() {
+		$token_data = [
+			'access_token' => 'some valid token',
+			'refresh_token' => 'some valid refresh token',
+			'expires'       => 99999999,
+			'has_expired'   => false,
+			'created_at'    => 0,
+		];
+
 		// Expected returned class by client
 		$response = Mockery::mock( AccessTokenInterface::class );
 		$response->allows( [
@@ -64,17 +72,22 @@ class SEMrush_Login_Action_Test extends TestCase {
 		] );
 
 		$tokens_class = Mockery::mock( SEMrush_Token::class );
+		$tokens_class
+			->expects( 'to_array' )
+			->andReturn( $token_data );
 
 		$this->client_instance
 			->expects( 'request_tokens' )
 			->with( '123456' )
 			->andReturn( $tokens_class );
 
-		$authenticated_instance = $this
-			->instance
-			->authenticate( '123456' );
-
-		$this->assertInstanceOf( SEMrush_Token::class, $authenticated_instance->tokens );
+		$this->assertEquals(
+			(object) [
+				'tokens' => $token_data,
+				'status' => 200,
+			],
+			$this->instance->authenticate( '123456' )
+		);
 	}
 
 	/**

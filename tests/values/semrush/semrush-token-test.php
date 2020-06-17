@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
- * Class Images_Test
+ * Class SEMrush_Token_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Values\SEMrush\SEMrush_Token
  *
@@ -58,11 +58,11 @@ class SEMrush_Token_Test extends TestCase {
 	 * @covers ::has_expired
 	 */
 	public function test_getters() {
-		$instance = new SEMrush_Token( '000000', '000001', 604800, false, $this->created_at );
+		$instance = new SEMrush_Token( '000000', '000001', $this->created_at + 604800, false, $this->created_at );
 
 		$this->assertEquals( '000000', $instance->get_access_token() );
 		$this->assertEquals( '000001', $instance->get_refresh_token() );
-		$this->assertEquals( 604800, $instance->get_expires() );
+		$this->assertEquals( $this->created_at + 604800, $instance->get_expires() );
 		$this->assertFalse( $instance->has_expired() );
 		$this->assertEquals( $this->created_at, $instance->get_created_at() );
 	}
@@ -73,12 +73,12 @@ class SEMrush_Token_Test extends TestCase {
 	 * @covers ::to_array
 	 */
 	public function test_to_array() {
-		$instance = new SEMrush_Token( '000000', '000001', 604800, false, $this->created_at );
+		$instance = new SEMrush_Token( '000000', '000001', $this->created_at + 604800, false, $this->created_at );
 
 		$this->assertEquals( [
 			'access_token'  => '000000',
 			'refresh_token' => '000001',
-			'expires'       => 604800,
+			'expires'       => $this->created_at + 604800,
 			'has_expired'   => false,
 			'created_at'	=> $this->created_at,
 		], $instance->to_array() );

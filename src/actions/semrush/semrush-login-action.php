@@ -37,12 +37,23 @@ class SEMrush_Login_Action {
 			$tokens = $this->client->request_tokens( $code );
 
 			return (object) [
-				'tokens' => $tokens,
+				'tokens' => $tokens->to_array(),
 				'status' => 200,
 			];
 		} catch ( OAuth_Authentication_Failed_Exception $e ) {
 			return $e->get_response();
 		}
+	}
+
+	/**
+	 * Performs the login request, if necessary.
+	 */
+	public function login() {
+		if ( $this->client->has_valid_tokens() ) {
+			return;
+		}
+
+		// Prompt with login screen.
 	}
 }
 
