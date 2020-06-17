@@ -19,7 +19,7 @@ const Header = ( props ) => {
 			className="yoast-wizard--header"
 		>
 			{ ( props.icon ) ? <Icon icon={ props.icon } width="56px" height="56px" /> : null }
-			{ ( props.headerTitle ) ? <p className="yoast-wizard--header--page-title">{ props.headerTitle }</p> : null }
+			{ ( props.headerTitle ) ? <h1 className="yoast-h1">{ props.headerTitle }</h1> : null }
 		</div>
 	);
 };
