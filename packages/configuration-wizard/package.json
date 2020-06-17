@@ -14,7 +14,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=11",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/configuration-wizard.scss dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\\\\\"this.main='index.js'\\\\\\\" && mkdir dist/src && cp ../components/src/configuration-wizard/configuration-wizard.css dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
@@ -40,8 +40,8 @@
     "enzyme-to-json": "3.3.5",
     "jest": "^22.4.3",
     "jest-styled-components": "^5.0.1",
-    "react": "16.6.3",
-    "react-dom": "16.6.3",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
     "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {

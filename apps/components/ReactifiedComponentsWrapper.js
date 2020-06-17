@@ -42,7 +42,7 @@ const buttonGrouping = <Fragment>
 /**
  * Function that displays all the reactified components that we currently have.
  *
- * @returns {React.Component} A wrapper for all the new reactified components.
+ * @returns {*} A div with all reactified components.
  */
 const ReactifiedComponentsWrapper = () => {
 	return (
