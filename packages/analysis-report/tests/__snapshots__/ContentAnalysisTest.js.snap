@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContentAnalysis the ContentAnalysis component with disabled buttons matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -34,18 +34,18 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -53,13 +53,13 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -82,11 +82,11 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -101,21 +101,21 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -186,21 +186,21 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -638,7 +638,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with hidden buttons matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -671,18 +671,18 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -690,13 +690,13 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -719,11 +719,11 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -738,21 +738,21 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -799,21 +799,21 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1203,7 +1203,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with specified header level matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -1236,18 +1236,18 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1255,13 +1255,13 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -1284,11 +1284,11 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1303,21 +1303,21 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -1388,21 +1388,21 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1840,7 +1840,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without language notice matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -1873,18 +1873,18 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -1892,13 +1892,13 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -1921,11 +1921,11 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -1940,21 +1940,21 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -2025,21 +2025,21 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2477,7 +2477,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -2510,18 +2510,18 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -2529,13 +2529,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -2558,11 +2558,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -2577,21 +2577,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -2662,21 +2662,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2950,7 +2950,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and improvements matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -2983,18 +2983,18 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -3002,13 +3002,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -3031,11 +3031,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -3050,21 +3050,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -3135,21 +3135,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3423,7 +3423,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -3456,18 +3456,18 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -3475,13 +3475,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -3504,11 +3504,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -3523,21 +3523,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -3608,21 +3608,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -3966,7 +3966,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems, improvements and considerations matches the snapshot 1`] = `
-.c6 {
+.c4 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
@@ -3999,18 +3999,18 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   min-height: 32px;
 }
 
-.c6:active {
+.c4:active {
   color: #000;
   background-color: #f7f7f7;
   border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
-.c6::-moz-focus-inner {
+.c4::-moz-focus-inner {
   border-width: 0;
 }
 
-.c6:focus {
+.c4:focus {
   outline: none;
   border-color: #0066cd;
   color: #000;
@@ -4018,13 +4018,13 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
-.c6:hover {
+.c4:hover {
   color: #000;
   background-color: #fff;
   border-color: #888;
 }
 
-.c6 svg {
+.c4 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
@@ -4047,11 +4047,11 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   color: #555;
 }
 
-.c2 {
+.c1 {
   background-color: #fff;
 }
 
-.c5 {
+.c6 {
   width: 100%;
   background-color: #fff;
   padding: 16px;
@@ -4066,21 +4066,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   font-weight: normal;
 }
 
-.c5:focus {
+.c6:focus {
   outline: 1px solid #0066cd;
   outline-offset: -1px;
 }
 
-.c5:active {
+.c6:active {
   box-shadow: none;
   background-color: #fff;
 }
 
-.c5 svg:first-child {
+.c6 svg:first-child {
   margin-right: 8px;
 }
 
-.c5 svg:last-child {
+.c6 svg:last-child {
   margin-left: 8px;
 }
 
@@ -4151,21 +4151,21 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   border-bottom: 1px solid transparent;
 }
 
-.c1 {
+.c2 {
   margin-bottom: 8px;
 }
 
-.c1 button:first-child svg {
+.c2 button:first-child svg {
   margin: -2px 8px 0 -2px;
 }
 
-.c1 .c4 {
+.c2 .c5 {
   padding: 8px 0;
   color: #0066cd;
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
+  .c4::after {
     display: inline-block;
     content: "";
     min-height: 22px;

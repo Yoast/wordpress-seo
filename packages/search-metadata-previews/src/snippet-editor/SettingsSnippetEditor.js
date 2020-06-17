@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 
 // Yoast dependencies.
 import { ErrorBoundary } from "@yoast/components";
-
-// Internal dependencies.
-import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "./constants";
+} from "@yoast/replacement-variable-editor";
+
+// Internal dependencies.
+import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
 
 /**
  * The snippet editor settings.
