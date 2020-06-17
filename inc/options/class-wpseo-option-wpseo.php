@@ -31,6 +31,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_indexation_warning'                => false,
 		'indexation_warning_hide_until'            => false,
 		'indexation_started'                       => false,
+		'indexables_indexation_reason'             => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',

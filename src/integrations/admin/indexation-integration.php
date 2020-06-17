@@ -95,7 +95,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
-	 * @param Options_Helper                                $options_helper               The options helper.
+	 * @param Options_Helper                                $options_helper               The options_helper helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 */
 	public function __construct(
@@ -133,6 +133,7 @@ class Indexation_Integration implements Integration_Interface {
 		 * as post types aren't registered yet. So we do most of our add_action calls here.
 		 */
 		if ( $this->get_total_unindexed() === 0 ) {
+			$this->set_complete();
 			return;
 		}
 
@@ -153,7 +154,7 @@ class Indexation_Integration implements Integration_Interface {
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
-		elseif ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
+		elseif ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
 		}
 
@@ -276,5 +277,12 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
+	}
+
+	/**
+	 * Sets the indexation to complete.
+	 */
+	private function set_complete() {
+		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 }
