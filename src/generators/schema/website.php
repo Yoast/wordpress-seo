@@ -27,8 +27,6 @@ class Website extends Abstract_Schema_Piece {
 	 * Outputs code to allow recognition of the internal search engine.
 	 *
 	 * @return array Website data blob.
-	 *
-	 * @link https://developers.google.com/structured-data/site-name
 	 */
 	public function generate() {
 		$data = [
@@ -69,7 +67,7 @@ class Website extends Abstract_Schema_Piece {
 	/**
 	 * Adds the internal search JSON LD code to the homepage if it's not disabled.
 	 *
-	 * @link https://developers.google.com/structured-data/slsb-overview
+	 * @link https://developers.google.com/search/docs/data-types/sitelinks-searchbox
 	 *
 	 * @param array $data The website data array.
 	 *

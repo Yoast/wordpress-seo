@@ -1,6 +1,6 @@
-const getUserInput = require( "./tools/get-user-input" );
-const githubApi = require( "./tools/github-api" );
-const uploadToGitHub = require( "./tools/upload-to-github" );
+const getUserInput = require( "../tools/get-user-input" );
+const githubApi = require( "../tools/github-api" );
+const uploadToGitHub = require( "../tools/upload-to-github" );
 
 /**
  * Throws an error.
