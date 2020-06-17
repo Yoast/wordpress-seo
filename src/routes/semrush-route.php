@@ -36,7 +36,6 @@ class SEMrush_Route implements Route_Interface {
 	 */
 	const FULL_AUTHENTICATION_ROUTE = Main::API_V1_NAMESPACE . '/' . self::AUTHENTICATION_ROUTE;
 
-
 	/**
 	 * The login action.
 	 *

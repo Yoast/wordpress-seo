@@ -1,7 +1,6 @@
 <?php namespace Yoast\WP\SEO\Values\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
-use Yoast\WP\SEO\Exceptions\OAuth\OAuth_Expired_Token_Exception;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
 
 /**
@@ -42,7 +41,7 @@ class SEMrush_Token {
 	 * @param string $refresh_token The refresh token.
 	 * @param int    $expires       The date and time at which the token will expire.
 	 * @param bool   $has_expired   Whether or not the token has expired.
-	 * @param int    $created_at	The timestamp of when the token was created.
+	 * @param int    $created_at    The timestamp of when the token was created.
 	 *
 	 * @throws SEMrush_Empty_Token_Property_Exception
 	 */
@@ -71,8 +70,25 @@ class SEMrush_Token {
 		}
 
 		$this->has_expired = $has_expired;
+		$this->created_at  = $created_at;
+	}
 
-		$this->created_at = $created_at;
+	/**
+	 * Creates a new instance based on the passed response.
+	 *
+	 * @param AccessTokenInterface $response The response object to create a new instance from.
+	 *
+	 * @return SEMrush_Token The token object.
+	 * @throws SEMrush_Empty_Token_Property_Exception
+	 */
+	public static function from_response( AccessTokenInterface $response ) {
+		return new self(
+			$response->getToken(),
+			$response->getRefreshToken(),
+			$response->getExpires(),
+			$response->hasExpired(),
+			time()
+		);
 	}
 
 	/**
@@ -117,25 +133,7 @@ class SEMrush_Token {
 	 * @return bool Whether or not the token has expired.
 	 */
 	public function has_expired() {
-		return ( time() >= ( $this->created_at + $this->expires ) ) || $this->has_expired === true;
-	}
-
-	/**
-	 * Creates a new instance based on the passed response.
-	 *
-	 * @param AccessTokenInterface $response The response object to create a new instance from.
-	 *
-	 * @return SEMrush_Token The token object.
-	 * @throws SEMrush_Empty_Token_Property_Exception
-	 */
-	public static function from_response( AccessTokenInterface $response ) {
-		return new self(
-			$response->getToken(),
-			$response->getRefreshToken(),
-			$response->getExpires(),
-			$response->hasExpired(),
-			time()
-		);
+		return ( time() >= $this->expires ) || $this->has_expired === true;
 	}
 
 	/**

@@ -59,50 +59,70 @@ class SEMrush_Client {
 					'code' => $code,
 				] );
 
-
 			$this->token_manager->from_response( $response );
 
 			return $this->token_manager->get_token();
-		} catch ( \Exception $e ) {
-			throw new OAuth_Authentication_Failed_Exception( $e );
+		} catch ( \Exception $exception ) {
+			throw new OAuth_Authentication_Failed_Exception( $exception );
 		}
 	}
 
 	/**
 	 * Performs an authenticated GET request to the desired URL.
 	 *
-	 * @param string $url The URL to send the request to.
+	 * @param string $url  The URL to send the request to.
+	 * @param mixed  $body The data to send along in the request's body. Optional.
 	 *
 	 * @return mixed The parsed API response.
 	 * @throws IdentityProviderException
 	 * @throws OAuth_Authentication_Failed_Exception
 	 */
-	public function get( $url ) {
-		$request = $this->provider->getAuthenticatedRequest(
-			'GET',
-			$url,
-			$this->get_tokens()->get_access_token()
-		);
-
-		return $this->provider->getParsedResponse( $request );
+	public function get( $url, $body = null ) {
+		return $this->do_request( $url, $body );
 	}
 
 	/**
 	 * Performs an authenticated POST request to the desired URL.
 	 *
 	 * @param string $url  The URL to send the request to.
-	 * @param mixed  $data The data to send along.
+	 * @param mixed  $body The data to send along in the request's body
 	 *
 	 * @return mixed The parsed API response.
 	 * @throws IdentityProviderException
 	 * @throws OAuth_Authentication_Failed_Exception
 	 */
-	public function post( $url, $data ) {
+	public function post( $url, $body ) {
+		return $this->do_request( $url, $body, 'POST' );
+	}
+
+	/**
+	 * Determines whether or not there are valid tokens available.
+	 *
+	 * @return bool Whether or not there are valid tokens.
+	 */
+	public function has_valid_tokens() {
+		$tokens = $this->token_manager->get_token();
+
+		return ! empty( $tokens ) && $tokens->has_expired() === false;
+	}
+
+	/**
+	 * Performs the specified request.
+	 *
+	 * @param string     $url  The URL to send the request to.
+	 * @param mixed|null $body The data to send along in the request's body
+	 * @param string     $type The type of request.
+	 *
+	 * @return mixed The parsed API response.
+	 * @throws IdentityProviderException
+	 * @throws OAuth_Authentication_Failed_Exception
+	 */
+	protected function do_request( $url, $body, $type = 'GET' ) {
 		$request = $this->provider->getAuthenticatedRequest(
-			'POST',
+			$type,
 			$url,
 			$this->get_tokens()->get_access_token(),
-			[ 'body' => $data ]
+			[ 'body' => $body ]
 		);
 
 		return $this->provider->getParsedResponse( $request );
@@ -141,8 +161,8 @@ class SEMrush_Client {
 			$this->token_manager->from_response( $new_tokens );
 
 			return $this->token_manager->get_token();
-		} catch ( \Exception $e ) {
-			throw new OAuth_Authentication_Failed_Exception( $e );
+		} catch ( \Exception $exception ) {
+			throw new OAuth_Authentication_Failed_Exception( $exception );
 		}
 	}
 
