@@ -165,5 +165,14 @@ import ProgressBar from "./ui/progressBar";
 				}
 			);
 		} );
+
+		// Start the indexation if the hash matches a settings value.
+		if ( window.location.hash && window.location.hash.startsWith( "#start-indexation-" ) ) {
+			$( ".yoast-open-indexation" ).each( function() {
+				if ( window.location.hash.endsWith( $( this ).data( "settings" ) ) ) {
+					$( this ).click();
+				}
+			} );
+		}
 	} );
 } )( jQuery );
