@@ -129,6 +129,9 @@ const wordsToStem = [
 	// -Ons is not stemmed if preceded by i.
 	[ "questions", "question" ],
 	[ "stations", "station" ],
+	// Two-syllable verbs that start with a vowel and end on -ons.
+	[ "aidons", "aid" ],
+	[ "aimons", "aim" ],
 	// Non-verbs ending on -ons where only -s should be stemmed.
 	[ "chansons", "chanson" ],
 	[ "potirons", "potiron" ],

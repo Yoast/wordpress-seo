@@ -309,9 +309,12 @@ const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2In
 		 * Check for the verb suffix -ons and remove if in RV, unless it is preceded by -i. In most words ending in -ions,
 		 -ons is not a (full) suffix.
 		 */
+		if ( word.endsWith( "ions" ) ) {
+			return word;
+		}
 		const verbSuffixOns = new RegExp( morphologyData.regularStemmer.verbSuffixOns );
 		if ( word.search( verbSuffixOns ) >= rvIndex ) {
-			word = word.replace( verbSuffixOns, "$1" );
+			word = word.replace( verbSuffixOns, "" );
 		}
 	}
 
