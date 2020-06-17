@@ -159,6 +159,8 @@ class Indexation_Integration_Test extends TestCase {
 			->with( 'ignore_indexation_warning', false )
 			->andReturn( $ignore_warning );
 
+
+
 		if ( ! $ignore_warning ) {
 			$this->options
 				->expects( 'get' )
@@ -169,19 +171,20 @@ class Indexation_Integration_Test extends TestCase {
 				->expects( 'get' )
 				->with( 'indexation_warning_hide_until' )
 				->andReturn( 0 );
-		}
 
-		if ( ! $ignore_warning ) {
+			$this->options
+				->expects( 'get' )
+				->never()
+				->with( 'indexables_indexation_reason', '' );
+
 			Monkey\Actions\expectAdded( 'admin_notices' );
 		}
-
-		if ( $ignore_warning ) {
-			$this->term_indexation
-				->expects( 'get_total_term_permalinks_null' )
+		else {
+			$this->options
+				->expects( 'get' )
 				->once()
-				->andReturn(35);
-
-			Monkey\Actions\expectAdded( 'admin_notices' );
+				->with( 'indexables_indexation_reason', '' )
+				->andReturn( '' );
 		}
 
 		// Expect that the script and style for the modal is enqueued.
@@ -277,6 +280,11 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 0,
 			]
 		);
+
+		$this->options
+			->expects( 'set' )
+			->once()
+			->with( 'indexables_indexation_reason', '' );
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();
