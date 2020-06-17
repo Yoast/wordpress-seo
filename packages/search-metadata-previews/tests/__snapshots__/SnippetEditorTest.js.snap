@@ -178,7 +178,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -362,8 +361,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
           <div
             className="c13"
           >
-
-
+            
+            
             Totally different description
           </div>
         </div>
@@ -708,7 +707,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -807,7 +806,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -882,7 +880,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -1877,7 +1874,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -2712,7 +2708,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -2988,6 +2983,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -3000,7 +2997,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -3991,7 +3987,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -4595,7 +4590,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -4694,7 +4689,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -4769,7 +4763,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -5764,7 +5757,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -6599,7 +6591,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -6916,7 +6907,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -7015,7 +7006,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -7090,7 +7080,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -8085,7 +8074,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -8920,7 +8908,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -9210,7 +9197,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -9394,8 +9380,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
           <div
             className="c13"
           >
-
-
+            
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -9605,7 +9591,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -9789,8 +9774,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           <div
             className="c13"
           >
-
-
+            
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -10126,7 +10111,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -10201,7 +10185,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c22:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -11234,7 +11217,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -12069,7 +12051,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -12386,7 +12367,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -12485,7 +12466,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -12560,7 +12540,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c22:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -13593,7 +13572,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -14428,7 +14406,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -14479,7 +14456,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -14745,7 +14722,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -14844,7 +14821,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -14919,7 +14895,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -15914,7 +15889,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -16749,7 +16723,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -17066,7 +17039,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -17165,7 +17138,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -17240,7 +17212,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -18250,7 +18221,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -19130,7 +19100,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -19181,7 +19150,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -19424,7 +19393,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -19608,14 +19576,14 @@ exports[`SnippetEditor passes the date prop 1`] = `
           <div
             className="c13"
           >
-
+            
             <span
               className="c14"
             >
               date string
-
+               
               ⋅
-
+               
             </span>
             Test description, %%replacement_variable%%
           </div>
@@ -19961,7 +19929,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -20060,7 +20028,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -20135,7 +20102,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -21130,7 +21096,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -21965,7 +21930,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -22016,7 +21980,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -22248,7 +22212,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -22428,7 +22391,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -22665,7 +22628,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   -ms-flex: 0 1 100%;
   flex: 0 1 100%;
   border: 1px solid #ddd;
-  padding: 7px 5px;
+  padding: 3px 5px;
   box-sizing: border-box;
   box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
   background-color: #fff;
@@ -22863,8 +22826,8 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
           <div
             className="c13"
           >
-
-
+            
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -23091,7 +23054,6 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -23275,8 +23237,8 @@ exports[`SnippetEditor shows the editor 1`] = `
           <div
             className="c13"
           >
-
-
+            
+            
             Test description, %%replacement_variable%%
           </div>
         </div>

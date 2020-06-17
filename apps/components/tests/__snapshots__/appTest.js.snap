@@ -165,11 +165,11 @@ exports[`App renders without problems 1`] = `
         }
       }
     >
-      For redux devtools press
+      For redux devtools press 
       <strong>
         Ctrl + H
       </strong>
-      , to change position press
+      , to change position press 
       <strong>
         Ctrl + Q
       </strong>
@@ -190,21 +190,21 @@ exports[`App renders without problems 1`] = `
       className="ButtonsWrapper__ButtonsContainer-sc-1nb1s31-0 cDHlch"
     >
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         BaseButton
       </button>
-
+       
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         Button
       </button>
-
+       
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         <svg
@@ -223,10 +223,10 @@ exports[`App renders without problems 1`] = `
         </svg>
         IconButton
       </button>
-
+       
       <button
         aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         <svg
@@ -244,9 +244,9 @@ exports[`App renders without problems 1`] = `
           />
         </svg>
       </button>
-
+       
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         <svg
@@ -283,7 +283,7 @@ exports[`App renders without problems 1`] = `
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
       <a
-        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 bBvCCw"
+        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 guQfPP"
         href="#someresource"
       >
         LinkButton
@@ -329,7 +329,7 @@ exports[`App renders without problems 1`] = `
           YoastButton
         </span>
       </button>
-
+       
       <button
         aria-expanded={undefined}
         className="UpsellButton__UpsellButtonBase-sc-7vlxuh-2 UpsellButton-sc-7vlxuh-1 dMNgsz"
@@ -354,7 +354,7 @@ exports[`App renders without problems 1`] = `
           </svg>
         </span>
       </button>
-
+       
       <a
         className="UpsellLinkButton-sc-19tfxfs-0 TVWHo"
         href="http://example.org"
@@ -365,7 +365,7 @@ exports[`App renders without problems 1`] = `
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 iYttLC"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 laOfvh"
         type="button"
       >
         <svg
@@ -385,7 +385,7 @@ exports[`App renders without problems 1`] = `
         Need help?
       </button>
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 iYttLC"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 laOfvh"
         type="button"
       >
         <svg
@@ -405,7 +405,7 @@ exports[`App renders without problems 1`] = `
         Settings
       </button>
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 eGlfCY"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 iljbzd"
         type="button"
       >
         <svg
@@ -425,7 +425,7 @@ exports[`App renders without problems 1`] = `
         Custom Hover
       </button>
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 cwzxpe"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 ksRaaQ"
         type="button"
       >
         <svg
@@ -445,7 +445,7 @@ exports[`App renders without problems 1`] = `
         Custom Focus
       </button>
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 feCBLV"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 duVbJP"
         type="button"
       >
         <svg
@@ -465,7 +465,7 @@ exports[`App renders without problems 1`] = `
         Custom Active
       </button>
       <button
-        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 hsiQsk"
+        className="IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 dXHjta"
         type="button"
       >
         <svg
@@ -492,7 +492,7 @@ exports[`App renders without problems 1`] = `
       </h2>
       <button
         aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         <svg
@@ -510,9 +510,9 @@ exports[`App renders without problems 1`] = `
           />
         </svg>
       </button>
-
+       
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN with-max-width"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq with-max-width"
         type="button"
       >
         <svg
@@ -531,7 +531,7 @@ exports[`App renders without problems 1`] = `
         </svg>
         With max-width and long text
       </button>
-
+       
       <button
         aria-expanded={undefined}
         className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 fQIjQA"
@@ -542,7 +542,7 @@ exports[`App renders without problems 1`] = `
           Color
         </span>
       </button>
-
+       
       <button
         aria-expanded={undefined}
         className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
@@ -553,7 +553,7 @@ exports[`App renders without problems 1`] = `
           Min width
         </span>
       </button>
-
+       
       <h2>
         Test min-height bugs
       </h2>
@@ -575,12 +575,12 @@ exports[`App renders without problems 1`] = `
         Buttons
       </h3>
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         Base
       </button>
-
+       
       <button
         aria-expanded={undefined}
         className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 fQIjQA"
@@ -591,7 +591,7 @@ exports[`App renders without problems 1`] = `
           Color
         </span>
       </button>
-
+       
       <button
         aria-expanded={undefined}
         className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT test-large-button"
@@ -602,10 +602,10 @@ exports[`App renders without problems 1`] = `
           Min width
         </span>
       </button>
-
+       
       <button
         aria-label="IconButton with icon only"
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq"
         type="button"
       >
         <svg
@@ -623,9 +623,9 @@ exports[`App renders without problems 1`] = `
           />
         </svg>
       </button>
-
+       
       <button
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN with-max-width"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq with-max-width"
         type="button"
       >
         <svg
@@ -644,24 +644,24 @@ exports[`App renders without problems 1`] = `
         </svg>
         With max-width and long text
       </button>
-
+       
       <h3>
         Links
       </h3>
       <a
-        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 bBvCCw"
+        className="LinkButton-sc-8lzs74-0 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 guQfPP"
         href="#somewhere2"
       >
         Button
       </a>
-
+       
       <a
         className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 kVjfWG"
         href="#somewhere4"
       >
         Color
       </a>
-
+       
       <a
         className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 exJvQq test-large-button"
         href="#somewhere3"
