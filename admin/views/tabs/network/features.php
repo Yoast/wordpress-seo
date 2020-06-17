@@ -40,6 +40,7 @@ $yoast_features = new WPSEO_Features();
 
 		if ( $feature['premium'] && ! $yoast_features->is_premium() ) {
 			// This should be shown as disabled with upgrade incentive.
+			// Use URL for the upsell link: esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
 		}
 
 		$yform->toggle_switch(

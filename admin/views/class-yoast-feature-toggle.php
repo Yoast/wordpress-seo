@@ -53,6 +53,13 @@ class Yoast_Feature_Toggle {
 	protected $premium = false;
 
 	/**
+	 * URL to use to redirect users to Yoast.com for Yoast SEO Premium.
+	 *
+	 * @var string
+	 */
+	protected $upsell_url = '';
+
+	/**
 	 * Additional help content for the feature.
 	 *
 	 * @var string
@@ -80,6 +87,7 @@ class Yoast_Feature_Toggle {
 	 *     @type string  $read_more_url   URL to learn more about the feature. Default empty string.
 	 *     @type string  $read_more_label Label for the learn more link. Default empty string.
 	 *     @type boolean $premium         If this is a premium or regular feature.
+	 *     @type boolean $upsell_url      The URL to use to redirect to Yoast SEO Premium on Yoast.com.
 	 *     @type string  $extra           Additional help content for the feature. Default empty string.
 	 *     @type int     $order           Value to specify the feature toggle order. A lower value indicates
 	 *                                    a higher priority. Default 100.
