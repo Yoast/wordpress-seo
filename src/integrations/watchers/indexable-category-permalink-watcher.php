@@ -9,7 +9,10 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Indexation_Permalink_Warning_Presenter;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
@@ -17,12 +20,13 @@ use Yoast\WP\SEO\WordPress\Wrapper;
  * Watches the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
  */
 class Indexable_Category_Permalink_Watcher implements Integration_Interface {
+
 	/**
-	 * Holds the indexable repository.
+	 * Represents the options helper.
 	 *
-	 * @var Indexable_Repository
+	 * @var Options_Helper
 	 */
-	private $indexable_repository;
+	protected $options_helper;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -36,10 +40,10 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Permalink_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Options_Helper $options The options helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository ) {
-		$this->indexable_repository = $indexable_repository;
+	public function __construct( Options_Helper $options ) {
+		$this->options_helper = $options;
 	}
 
 	/**
@@ -92,7 +96,7 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	protected function clear_category_permalinks() {
-		Wrapper::get_wpdb()->update(
+		$result = Wrapper::get_wpdb()->update(
 			Model::get_table_name( 'Indexable' ),
 			[
 				'permalink'      => null,
@@ -100,5 +104,9 @@ class Indexable_Category_Permalink_Watcher implements Integration_Interface {
 			],
 			[ 'object_type' => 'term', 'object_sub_type' => 'category' ]
 		);
+
+		if ( $result > 0 ) {
+			$this->options_helper->set( 'indexables_indexation_reason', Indexation_Permalink_Warning_Presenter::REASON_CATEGORY_BASE_PREFIX );
+		}
 	}
 }

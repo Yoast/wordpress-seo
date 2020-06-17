@@ -10,8 +10,8 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -26,6 +26,13 @@ use Yoast\WP\SEO\Tests\TestCase;
 class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexable_Category_Permalink_Watcher
@@ -33,20 +40,13 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * Represents the indexable repository.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Repository
-	 */
-	private $indexable_repository;
-
-	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
-		$this->instance             = new Indexable_Category_Permalink_Watcher( $this->indexable_repository );
+		$this->options  = Mockery::mock( Options_Helper::class );
+		$this->instance = new Indexable_Category_Permalink_Watcher( $this->options );
 	}
 
 	/**
