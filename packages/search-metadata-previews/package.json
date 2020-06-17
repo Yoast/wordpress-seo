@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=67",
+    "lint": "eslint . --max-warnings=42",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
@@ -40,7 +40,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "jest-styled-components": "^6.3.1",
-    "react": "16.6.3",
     "react-test-renderer": "^16.8.4"
   },
   "jest": {

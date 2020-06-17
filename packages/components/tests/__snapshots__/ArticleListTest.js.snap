@@ -2,22 +2,22 @@
 
 exports[`the ArticleList matches the snapshot 1`] = `
 <div
-  className="articlelist-feed kQdEnK"
+  className="kQdEnK articlelist-feed"
 >
   <h3
-    className="articlelist-feed__header dDdpLZ"
+    className="dDdpLZ articlelist-feed__header"
   >
     Feed title
   </h3>
   <ul
-    className="articlelist-feed__posts dfXWGx"
+    className="dfXWGx articlelist-feed__posts"
     role="list"
   >
     <li
-      className="articlelist-feed__post dEOLjB"
+      className="dEOLjB articlelist-feed__post"
     >
       <a
-        className="articlelist-feed__post-link guuSkw"
+        className="guuSkw articlelist-feed__post-link"
         href="https://www.yoast.com/1"
         rel={null}
         target="_blank"
@@ -36,10 +36,10 @@ exports[`the ArticleList matches the snapshot 1`] = `
       </p>
     </li>
     <li
-      className="articlelist-feed__post dEOLjB"
+      className="dEOLjB articlelist-feed__post"
     >
       <a
-        className="articlelist-feed__post-link guuSkw"
+        className="guuSkw articlelist-feed__post-link"
         href="https://www.yoast.com/2"
         rel={null}
         target="_blank"

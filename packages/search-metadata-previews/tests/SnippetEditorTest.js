@@ -3,9 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount, shallow } from "enzyme";
 import { MODE_DESKTOP } from "../src/snippet-preview/constants";
-import { focus } from "../src/snippet-editor/ReplacementVariableEditorStandalone";
-
-jest.mock( "../src/snippet-editor/ReplacementVariableEditorStandalone" );
+import { focus } from "@yoast/replacement-variable-editor";
 
 const defaultData = {
 	title: "Test title",
@@ -16,7 +14,8 @@ const defaultData = {
 const defaultArgs = {
 	baseUrl: "http://example.org/",
 	data: defaultData,
-	onChange: jest.fn(),
+	onChange: () => {},
+
 };
 
 /**
@@ -104,6 +103,8 @@ describe( "SnippetEditor", () => {
 			{
 				name: "replacement_variable",
 				value: "replacement value",
+				description: "replacement value",
+				label: "replacement value",
 			},
 		];
 
@@ -217,51 +218,20 @@ describe( "SnippetEditor", () => {
 		expect( onChange ).toBeCalledWith( "mode", "desktop" );
 	} );
 
-	it( "calls callbacks when the editors are focused or changed", () => {
-		const onChange = jest.fn();
-		const editor = mountWithArgs( { onChange } );
-
-		const changedSlugEvent = {
-			target: {
-				value: "changedSlug",
-			},
-		};
-
-		editor.instance().open();
-		editor.update();
-
-		const titleEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 0 );
-		const slugEditor = editor.find( "input" ).get( 2 );
-		const descriptionEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 1 );
-
-		titleEditor.props.onFocus();
-		expect( editor ).toMatchSnapshot();
-		slugEditor.props.onFocus();
-		expect( editor ).toMatchSnapshot();
-		descriptionEditor.props.onFocus();
-		expect( editor ).toMatchSnapshot();
-
-		titleEditor.props.onChange( "changedTitle" );
-		slugEditor.props.onChange( changedSlugEvent );
-		descriptionEditor.props.onChange( "changedDescription" );
-
-		expect( onChange.mock.calls ).toEqual( [
-			[ "title", "changedTitle" ],
-			[ "slug", "changedSlug" ],
-			[ "description", "changedDescription" ],
-		] );
-	} );
-
 	it( "passes replacement variables to the title and description editor", () => {
 		const editor = mountWithArgs( {
 			replacementVariables: [
 				{
 					name: "title",
 					value: "Title!!!",
+					label: "Title",
+					description: "Title",
 				},
 				{
 					name: "excerpt",
 					value: "Excerpt!!!",
+					label: "Excerpt",
+					description: "Excerpt",
 				},
 			],
 		} );
@@ -324,11 +294,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -352,11 +324,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -371,11 +345,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -399,11 +375,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -418,11 +396,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first to change",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -446,11 +426,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second",
+						description: "Second",
 					},
 				],
 			};
@@ -465,11 +447,13 @@ describe( "SnippetEditor", () => {
 						name: "test1",
 						label: "Test1",
 						value: "first",
+						description: "First",
 					},
 					{
 						name: "test2",
 						label: "Test2",
 						value: "second but now third",
+						description: "Second",
 					},
 				],
 			};
