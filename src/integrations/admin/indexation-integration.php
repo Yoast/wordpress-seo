@@ -154,7 +154,7 @@ class Indexation_Integration implements Integration_Interface {
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
-		elseif ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+		elseif ( $this->show_indexation_permalink_warning()  ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
 		}
 
@@ -265,7 +265,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return bool True if hidden.
 	 */
 	protected function is_indexation_warning_hidden() {
-		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+		if ( $this->has_indexation_reason() ) {
 			return true;
 		}
 
@@ -278,15 +278,46 @@ class Indexation_Integration implements Integration_Interface {
 			return true;
 		}
 
+		return $this->is_temporary_hidden();
+	}
+
+	/**
+	 * Checks if the indexation warning for permalinks must be shown.
+	 *
+	 * @return bool True when the warning must be shown.
+	 */
+	protected function show_indexation_permalink_warning() {
+		if ( ! $this->has_indexation_reason()  ) {
+			return false;
+		}
+
+		return $this->is_temporary_hidden() === false;
+	}
+
+	/**
+	 * Checks if the warning is temporary hidden.
+	 *
+	 * @return bool True when hidden.
+	 */
+	protected function is_temporary_hidden() {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
 	}
 
 	/**
+	 * Is there a specific reason for reindex.
+	 *
+	 * @return bool True when there is a reason.
+	 */
+	protected function has_indexation_reason() {
+		return $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '';
+	}
+
+	/**
 	 * Sets the indexation to complete.
 	 */
-	private function set_complete() {
+	protected function set_complete() {
 		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 }
