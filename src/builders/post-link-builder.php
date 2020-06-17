@@ -101,7 +101,7 @@ class Post_Link_Builder {
 			}
 		}
 		foreach ( $old_links as $link ) {
-			$updated_post_ids = $link->target_post_id;
+			$updated_post_ids[] = $link->target_post_id;
 		}
 
 		$incoming_link_counts = $this->seo_links_repository->get_incoming_link_counts_for_post_ids( $updated_post_ids );
