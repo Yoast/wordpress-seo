@@ -91,6 +91,16 @@ class MailchimpSignup extends React.Component {
 		result
 			.then(
 				( response ) => {
+					// For privacy reasons, don't show it when an email address is already on the mailing list.
+					if ( response.msg.indexOf( "is already subscribed" ) !== -1  ) {
+						this.setState( {
+							isLoading: false,
+							successfulSignup: true,
+							message: "Almost finished... We need to confirm your email address." +
+							"To complete the subscription process, please click the link in the email we just sent you.",
+						} );
+						return;
+					}
 					if ( response.result === "error" ) {
 						this.setState( {
 							isLoading: false,
