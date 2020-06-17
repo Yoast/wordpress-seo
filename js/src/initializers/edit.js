@@ -2,7 +2,7 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { Slot, Fill, PanelBody } from "@wordpress/components";
+import { Fill, PanelBody } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore } from "@wordpress/data";
 import { decodeEntities } from "@wordpress/html-entities";
