@@ -61,4 +61,4 @@ class WPSEO_Twitter {
 
 		return null;
 	}
-} /* End of class */
+}

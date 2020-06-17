@@ -18,20 +18,22 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 	public function is_met() {
 		global $pagenow;
 
-		// Do not output on plugin / theme upgrade pages or when wordpress is upgrading.
-		if ( ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || $this->on_upgrade_page() || wp_installing() ) {
+		// Do not output on plugin / theme upgrade pages or when WordPress is upgrading.
+		if ( ( \defined( 'IFRAME_REQUEST' ) && \IFRAME_REQUEST ) || $this->on_upgrade_page() || \wp_installing() ) {
 			return false;
 		}
 
-		if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && strpos( $_GET['page'], 'wpseo' ) === 0 ) {
+		if ( $pagenow === 'admin.php' && isset( $_GET['page'] ) && \strpos( $_GET['page'], 'wpseo' ) === 0 ) {
 			return true;
 		}
 
-		return \in_array( $pagenow, [
+		$target_pages = [
 			'index.php',
 			'plugins.php',
 			'update-core.php',
-		], true );
+		];
+
+		return \in_array( $pagenow, $target_pages, true );
 	}
 
 	/**
@@ -45,6 +47,6 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 		 * though these action pages do show when upgrading themes or plugins.
 		 */
 		$actions = [ 'do-theme-upgrade', 'do-plugin-upgrade', 'do-core-upgrade', 'do-core-reinstall' ];
-		return isset( $_GET['action'] ) && in_array( $_GET['action'], $actions, true );
+		return isset( $_GET['action'] ) && \in_array( $_GET['action'], $actions, true );
 	}
 }

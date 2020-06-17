@@ -28,9 +28,11 @@ class Open_Graph_Description_Test extends TestCase {
 			->expects( 'strip_shortcodes' )
 			->withAnyArgs()
 			->once()
-			->andReturnUsing( function( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function( $string ) {
+					return $string;
+				}
+			);
 	}
 
 	/**

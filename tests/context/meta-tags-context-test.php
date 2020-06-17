@@ -300,6 +300,11 @@ class Meta_Tags_Context_Test extends TestCase {
 		$this->instance->indexable    = 'indexable';
 		$this->instance->presentation = 'presentation';
 
-		$this->assertEquals( [ 'indexable' => 'indexable', 'presentation' => 'presentation' ], $this->instance->__debugInfo() );
+		$expected = [
+			'indexable'    => 'indexable',
+			'presentation' => 'presentation',
+		];
+
+		$this->assertEquals( $expected, $this->instance->__debugInfo() );
 	}
 }

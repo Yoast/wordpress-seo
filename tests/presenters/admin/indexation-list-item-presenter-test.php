@@ -8,9 +8,7 @@
 namespace Yoast\WP\SEO\Tests\Presenters\Admin;
 
 use Brain\Monkey;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
-use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -32,7 +30,6 @@ class Indexation_List_Item_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 *
 	 * Tests the case when there is nothing to index.
 	 *
 	 * @covers ::present

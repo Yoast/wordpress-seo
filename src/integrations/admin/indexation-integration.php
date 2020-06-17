@@ -28,17 +28,6 @@ use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
 class Indexation_Integration implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
-			Migrations_Conditional::class,
-		];
-	}
-
-	/**
 	 * The post indexation action.
 	 *
 	 * @var Indexable_Post_Indexation_Action
@@ -86,6 +75,17 @@ class Indexation_Integration implements Integration_Interface {
 	 * @var int
 	 */
 	private $total_unindexed;
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [
+			Admin_Conditional::class,
+			Yoast_Admin_And_Dashboard_Conditional::class,
+			Migrations_Conditional::class,
+		];
+	}
 
 	/**
 	 * Indexation_Integration constructor.
@@ -174,12 +174,12 @@ class Indexation_Integration implements Integration_Interface {
 			],
 			'message' => [
 				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
-				'indexingFailed'    => __( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
+				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
-				'calculationInProgress' => __( 'Optimization in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => __( 'Optimization completed.', 'wordpress-seo' ),
-				'calculationFailed'     => __( 'Optimization failed, please try again later.', 'wordpress-seo' ),
+				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
 			],
 		];
 
@@ -254,7 +254,7 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		// When the indexation is started, but not completed.
-		if ( $this->options_helper->get( 'indexation_started', false ) > ( time() - MONTH_IN_SECONDS ) ) {
+		if ( $this->options_helper->get( 'indexation_started', false ) > ( \time() - \MONTH_IN_SECONDS ) ) {
 			return true;
 		}
 

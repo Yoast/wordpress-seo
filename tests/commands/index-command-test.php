@@ -144,8 +144,8 @@ class Index_Command_Test extends TestCase {
 			$indexation_action->expects( 'get_total_unindexed' )->once()->andReturn( 30 );
 			$indexation_action->expects( 'get_limit' )->once()->andReturn( 25 );
 			$indexation_action->expects( 'index' )
-			                  ->times( 2 )
-			                  ->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
+				->times( 2 )
+				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
@@ -199,12 +199,18 @@ class Index_Command_Test extends TestCase {
 	 * @covers ::run_indexation_action
 	 */
 	public function test_execute_multisite() {
-		Monkey\Functions\expect( 'get_sites' )->once()->with( [
-			'fields'   => 'ids',
-			'spam'     => 0,
-			'deleted'  => 0,
-			'archived' => 0,
-		] )->andReturn( [ 1, 2 ] );
+		Monkey\Functions\expect( 'get_sites' )
+			->once()
+			->with(
+				[
+					'fields'   => 'ids',
+					'spam'     => 0,
+					'deleted'  => 0,
+					'archived' => 0,
+				]
+			)
+			->andReturn( [ 1, 2 ] );
+
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 1 );
 		Monkey\Functions\expect( 'switch_to_blog' )->once()->with( 2 );
 		Monkey\Functions\expect( 'restore_current_blog' )->times( 2 );

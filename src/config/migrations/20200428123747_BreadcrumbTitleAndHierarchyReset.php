@@ -5,13 +5,23 @@
  * @package WPSEO\Migrations
  */
 
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
-use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
  * BreadcrumbTitleAndHierarchyReset
  */
-class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
+class BreadcrumbTitleAndHierarchyReset extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static $plugin = 'free';
+
 	/**
 	 * Migration up.
 	 */
@@ -28,7 +38,10 @@ class BreadcrumbTitleAndHierarchyReset extends Ruckusing_Migration_Base {
 			$this->get_indexable_table_name(),
 			'breadcrumb_title',
 			'string',
-			[ 'null' => true, 'limit' => 191 ]
+			[
+				'null'  => true,
+				'limit' => 191,
+			]
 		);
 	}
 

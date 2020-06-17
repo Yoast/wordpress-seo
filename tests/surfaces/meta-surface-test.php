@@ -12,8 +12,8 @@ use Mockery;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,14 +52,14 @@ class Meta_Surface_Test extends TestCase {
 	/**
 	 * The context
 	 *
-	 * @var Meta_Tags_Context
+	 * @var Meta_Tags_Context_Mock
 	 */
 	protected $context;
 
 	/**
 	 * The indexable
 	 *
-	 * @var Indexable
+	 * @var Indexable_Mock
 	 */
 	protected $indexable;
 
@@ -84,9 +84,9 @@ class Meta_Surface_Test extends TestCase {
 		$this->container          = Mockery::mock( ContainerInterface::class );
 		$this->context_memoizer   = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->repository         = Mockery::mock( Indexable_Repository::class );
-		$this->context            = Mockery::mock( Meta_Tags_Context::class );
+		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
-		$this->indexable          = Mockery::mock( Indexable::class );
+		$this->indexable          = Mockery::mock( Indexable_Mock::class );
 
 		$this->instance = new Meta_Surface(
 			$this->container,
@@ -396,21 +396,63 @@ class Meta_Surface_Test extends TestCase {
 	public function test_for_url( $object_type, $object_sub_type, $object_id, $page_type, $front_page_id, $page_for_posts_id ) {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 
-		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'url' )->andReturn( [ 'host' => 'host', 'path' => '/path' ] );
-		Monkey\Functions\expect( 'wp_parse_url' )->once()->with( 'https://www.example.org' )->andReturn( [ 'scheme' => 'scheme', 'host' => 'host' ] );
-		$this->container->expects( 'get' )->times( 3 )->andReturn( null );
-		$this->repository->expects( 'find_by_permalink' )->once()->with( 'scheme://host/path' )->andReturn( $this->indexable );
-		$this->wp_rewrite_wrapper->expects( 'get' )->once()->andReturn( $wp_rewrite );
-		$wp_rewrite->expects( 'get_date_permastruct' )->once()->andReturn( 'date_permastruct' );
-		$wp_rewrite->expects( 'generate_rewrite_rules' )->once()->with( 'date_permastruct', EP_DATE )->andReturn( [] );
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'url' )
+			->andReturn(
+				[
+					'host' => 'host',
+					'path' => '/path',
+				]
+			);
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->with( 'https://www.example.org' )
+			->andReturn(
+				[
+					'scheme' => 'scheme',
+					'host'   => 'host',
+				]
+			);
+
+		$this->container->expects( 'get' )
+			->times( 3 )
+			->andReturn( null );
+
+		$this->repository->expects( 'find_by_permalink' )
+			->once()
+			->with( 'scheme://host/path' )
+			->andReturn( $this->indexable );
+
+		$this->wp_rewrite_wrapper->expects( 'get' )
+			->once()
+			->andReturn( $wp_rewrite );
+
+		$wp_rewrite->expects( 'get_date_permastruct' )
+			->once()
+			->andReturn( 'date_permastruct' );
+
+		$wp_rewrite->expects( 'generate_rewrite_rules' )
+			->once()
+			->with( 'date_permastruct', \EP_DATE )
+			->andReturn( [] );
+
 		$this->indexable->object_type     = $object_type;
 		$this->indexable->object_id       = $object_id;
 		$this->indexable->object_sub_type = $object_sub_type;
 
 		if ( $object_type === 'post' ) {
-			Monkey\Functions\expect( 'get_option' )->once()->with( 'page_on_front' )->andReturn( $front_page_id );
+			Monkey\Functions\expect( 'get_option' )
+				->once()
+				->with( 'page_on_front' )
+				->andReturn( $front_page_id );
+
 			if ( $front_page_id === 0 ) {
-				Monkey\Functions\expect( 'get_option' )->once()->with( 'page_for_posts' )->andReturn( $page_for_posts_id );
+				Monkey\Functions\expect( 'get_option' )
+					->once()
+					->with( 'page_for_posts' )
+					->andReturn( $page_for_posts_id );
 			}
 		}
 

@@ -26,8 +26,8 @@ class Category_Term_Description implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'category_description', [ $this, 'add_shortcode_support' ] );
-		add_filter( 'term_description', [ $this, 'add_shortcode_support' ] );
+		\add_filter( 'category_description', [ $this, 'add_shortcode_support' ] );
+		\add_filter( 'term_description', [ $this, 'add_shortcode_support' ] );
 	}
 
 	/**
@@ -41,9 +41,9 @@ class Category_Term_Description implements Integration_Interface {
 	 * @return string Content with shortcodes filtered out.
 	 */
 	public function add_shortcode_support( $description ) {
-		ob_start();
-		$description = do_shortcode( $description );
-		ob_end_clean();
+		\ob_start();
+		$description = \do_shortcode( $description );
+		\ob_end_clean();
 
 		return $description;
 	}

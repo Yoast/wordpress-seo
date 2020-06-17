@@ -41,7 +41,7 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel next meta tag.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -60,7 +60,7 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel prev next tag when it's empty.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_empty() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -79,7 +79,7 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel next meta tag when robots is noindex.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_when_robots_is_noindex() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -95,7 +95,7 @@ class Rel_Next_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel next meta tag with filter.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_with_filter() {
 		$this->instance->presentation = new Indexable_Presentation();

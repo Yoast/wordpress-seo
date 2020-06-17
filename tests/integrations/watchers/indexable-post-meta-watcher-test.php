@@ -22,8 +22,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @group watchers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Meta_Watcher_Test extends TestCase {
 

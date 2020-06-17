@@ -171,16 +171,18 @@ class Indexable_Builder {
 
 		// Something went wrong building, create a false indexable.
 		if ( $indexable === false ) {
-			$indexable = $this->indexable_repository->query()->create( [
-				'object_id'   => $object_id,
-				'object_type' => $object_type,
-				'post_status' => 'unindexed',
-			] );
+			$indexable = $this->indexable_repository->query()->create(
+				[
+					'object_id'   => $object_id,
+					'object_type' => $object_type,
+					'post_status' => 'unindexed',
+				]
+			);
 		}
 
 		$this->save_indexable( $indexable, $indexable_before );
 
-		if ( in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
+		if ( \in_array( $object_type, [ 'post', 'term' ], true ) && $indexable->post_status !== 'unindexed' ) {
 			$this->hierarchy_builder->build( $indexable );
 		}
 
@@ -278,7 +280,7 @@ class Indexable_Builder {
 			 *
 			 * @api Indexable The saved indexable.
 			 */
-			do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
+			\do_action( 'wpseo_save_indexable', $indexable, $indexable_before );
 		}
 
 		$indexable->save();

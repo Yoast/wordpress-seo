@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presentations
  * @group twitter
- *
- * @package Yoast\Tests\Presentations\Indexable_Search_Result_Page_Presentation
  */
 class Twitter_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;

@@ -47,7 +47,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * @return string The warning HTML.
 	 */
 	public function present() {
-		$output  = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$output = '<div id="yoast-indexation-warning" class="notice notice-success">';
 
 		if ( $this->show_indexation_incomplete_alert() ) {
 			$output .= $this->get_incomplete_indexation_alert();
@@ -99,8 +99,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
+			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
+			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
 		);
 
 		return $output;
@@ -128,8 +128,8 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
-			sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
+			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
+			\esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
 		);
 
 		return $output;
@@ -142,7 +142,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 */
 	private function get_estimate() {
 		if ( $this->total_unindexed > 2500 ) {
-			$estimate = '<p>';
+			$estimate  = '<p>';
 			$estimate .= \esc_html__( 'We estimate this could take a long time, due to the size of your site. As an alternative to waiting, you could:', 'wordpress-seo' );
 			$estimate .= '<ul class="ul-disc">';
 			$estimate .= '<li>';
@@ -173,10 +173,10 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		}
 
 		if ( $this->total_unindexed >= 400 ) {
-			return '<p>' . esc_html__( 'We estimate this will take a couple of minutes.', 'wordpress-seo' ) . '</p>';
+			return '<p>' . \esc_html__( 'We estimate this will take a couple of minutes.', 'wordpress-seo' ) . '</p>';
 		}
 
-		return '<p>' . esc_html__( 'We estimate this will take less than a minute.', 'wordpress-seo' ) . '</p>';
+		return '<p>' . \esc_html__( 'We estimate this will take less than a minute.', 'wordpress-seo' ) . '</p>';
 	}
 
 	/**
@@ -190,6 +190,6 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 			return false;
 		}
 
-		return  $indexation_started <= ( time() - MONTH_IN_SECONDS );
+		return $indexation_started <= ( \time() - \MONTH_IN_SECONDS );
 	}
 }

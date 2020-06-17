@@ -98,29 +98,29 @@ class Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests adding an image with a boolean given as value.
+	 * Tests that a second image being added with the same name doesn't overwrite the first.
 	 *
 	 * @covers ::add_image
-	 * @covers::has_images
+	 * @covers ::has_images
 	 * @covers ::get_images
 	 */
 	public function test_add_image_that_is_added_before() {
-		$image = [
+		$image1 = [
 			'url' => 'image.jpg',
 		];
-
-		$this->instance->add_image( $image );
-		$this->instance->add_image( [
+		$image2 = [
 			'url'    => 'image.jpg',
 			'width'  => '100',
 			'height' => '100',
-		] );
+		];
 
+		$this->instance->add_image( $image1 );
+		$this->instance->add_image( $image2 );
 
 		$this->assertTrue( $this->instance->has_images() );
 		$this->assertEquals(
 			[
-				'image.jpg' => $image,
+				'image.jpg' => $image1,
 			],
 			$this->instance->get_images()
 		);

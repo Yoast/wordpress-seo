@@ -45,18 +45,20 @@ class FAQ extends Abstract_Schema_Piece {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
-				$ids[]   = [ '@id' => $this->context->canonical . '#' . esc_attr( $question['id'] ) ];
-				$graph[] = $this->generate_question_block( $question, $index );
+				$ids[] = [ '@id' => $this->context->canonical . '#' . \esc_attr( $question['id'] ) ];
+				// Index + 1 below so we start at 1 and count from there.
+				$graph[] = $this->generate_question_block( $question, ( $index + 1 ) );
 				++$number_of_items;
 			}
 		}
 
-		\array_unshift( $graph, [
+		$extra_graph_entries = [
 			'@type'            => 'ItemList',
 			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
 			'numberOfItems'    => $number_of_items,
 			'itemListElement'  => $ids,
-		] );
+		];
+		\array_unshift( $graph, $extra_graph_entries );
 
 		return $graph;
 	}
@@ -70,7 +72,7 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array Schema.org Question piece.
 	 */
 	protected function generate_question_block( $question, $position ) {
-		$url = $this->context->canonical . '#' . esc_attr( $question['id'] );
+		$url = $this->context->canonical . '#' . \esc_attr( $question['id'] );
 
 		$data = [
 			'@type'          => 'Question',

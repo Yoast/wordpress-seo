@@ -91,8 +91,8 @@ class Meta_Tags_Context_Memoizer {
 	 */
 	public function for_current_page() {
 		if ( ! isset( $this->cache['current_page'] ) ) {
-			$indexable = $this->repository->for_current_page();
-			$page_type = $this->current_page->get_page_type();
+			$indexable                   = $this->repository->for_current_page();
+			$page_type                   = $this->current_page->get_page_type();
 			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 		}
 
@@ -117,12 +117,15 @@ class Meta_Tags_Context_Memoizer {
 				$blocks = $this->blocks->get_all_blocks_from_content( $post->post_content );
 			}
 
-			$context = $this->context_prototype->of( [
-				'indexable' => $indexable,
-				'blocks'    => $blocks,
-				'post'      => $post,
-				'page_type' => $page_type,
-			] );
+			$context = $this->context_prototype->of(
+				[
+					'indexable' => $indexable,
+					'blocks'    => $blocks,
+					'post'      => $post,
+					'page_type' => $page_type,
+				]
+			);
+
 			$context->presentation = $this->presentation_memoizer->get( $indexable, $context, $page_type );
 
 			$this->cache[ $indexable->id ] = $context;

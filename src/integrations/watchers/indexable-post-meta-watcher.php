@@ -17,13 +17,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 class Indexable_Post_Meta_Watcher implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Migrations_Conditional::class ];
-	}
-
-	/**
 	 * The post watcher.
 	 *
 	 * @var Indexable_Post_Watcher
@@ -36,6 +29,13 @@ class Indexable_Post_Meta_Watcher implements Integration_Interface {
 	 * @var array
 	 */
 	protected $post_ids_to_update = [];
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Migrations_Conditional::class ];
+	}
 
 	/**
 	 * Indexable_Postmeta_Watcher constructor.

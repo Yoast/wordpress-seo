@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Actions\Indexation;
 
-use WP_Post_Type;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -62,7 +61,7 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * @return int The total number of unindexed post type archives.
 	 */
 	public function get_total_unindexed() {
-		return count( $this->get_unindexed_post_type_archives( false ) );
+		return \count( $this->get_unindexed_post_type_archives( false ) );
 	}
 
 	/**
@@ -149,8 +148,9 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			->where( 'object_type', 'post-type-archive' )
 			->find_array();
 
-		return \array_map( function( $result ) {
+		$callback = function( $result ) {
 			return $result['object_sub_type'];
-		}, $results );
+		};
+		return \array_map( $callback, $results );
 	}
 }

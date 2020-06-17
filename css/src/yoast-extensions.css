@@ -493,7 +493,7 @@ a.promoblock:hover {
 
 .yoast-list--usp li:before {
   content: "";
-  background: var(--svg-icon-check) no-repeat;
+  background: var(--yoast-svg-icon-check) no-repeat;
   background-size: contain;
   width: 1em;
   height: 100%;
@@ -684,7 +684,7 @@ a.promoblock:hover {
 }
 
 .yoast-link--more-info {
-  background: var(--svg-icon-info);
+  background: var(--yoast-svg-icon-info);
   padding-left: calc( 1em + 5px);
   background-size: 1em;
   background-repeat: no-repeat;

@@ -32,6 +32,11 @@ class Debug_Info_Test extends TestCase {
 		$this->instance->model   = 'indexable';
 		$this->instance->context = 'context';
 
-		$this->assertEquals( [ 'model' => 'indexable', 'context' => 'context' ], $this->instance->__debugInfo() );
+		$expected = [
+			'model'   => 'indexable',
+			'context' => 'context',
+		];
+
+		$this->assertEquals( $expected, $this->instance->__debugInfo() );
 	}
 }

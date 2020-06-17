@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -72,13 +72,16 @@ class Indexable_Repository_Test extends TestCase {
 		$this->builder              = Mockery::mock( Indexable_Builder::class );
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
-		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class )->makePartial();
-		$this->instance             = Mockery::mock( Indexable_Repository::class, [
-			$this->builder,
-			$this->current_page,
-			$this->logger,
-			$this->hierarchy_repository,
-		] )->makePartial();
+		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
+		$this->instance             = Mockery::mock(
+			Indexable_Repository::class,
+			[
+				$this->builder,
+				$this->current_page,
+				$this->logger,
+				$this->hierarchy_repository,
+			]
+		)->makePartial();
 	}
 
 	/**
@@ -87,7 +90,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_no_ancestors_found() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
@@ -104,17 +107,17 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_one_ancestor_that_has_no_ancestor_id_found() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$this->hierarchy_repository
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 0,
-				],
-			] );
+			->andReturn( [ 9 ] );
+
+		$orm_object = $this->mock_orm( [ 9 ], [] );
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
 
 		$this->assertSame( [], $this->instance->get_ancestors( $indexable ) );
 	}
@@ -125,7 +128,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_one_ancestor_that_has_ancestor_id_found() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$indexable->permalink = 'https://example.org/post';
 
@@ -133,11 +136,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-			] );
+			->andReturn( [ 1 ] );
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
@@ -152,7 +151,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * @covers ::get_ancestors
 	 */
 	public function test_get_ancestors_with_multiple_ancestors() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 
 		$indexable->permalink = 'https://example.org/post';
 
@@ -160,14 +159,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-				(object) [
-					'ancestor_id' => 2,
-				],
-			] );
+			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
@@ -181,7 +173,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * that the permalink of each ancestor is available.
 	 */
 	public function test_get_ancestors_ensures_permalink() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 		$indexable->expects( 'save' )->once();
 		$indexable->object_type = 'post';
 
@@ -189,14 +181,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-				(object) [
-					'ancestor_id' => 2,
-				],
-			] );
+			->andReturn( [ 1, 2 ] );
 
 		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
 
@@ -216,7 +201,7 @@ class Indexable_Repository_Test extends TestCase {
 	 * that the permalink of each ancestor is available when there is only one ancestor.
 	 */
 	public function test_get_ancestors_one_ancestor_ensures_permalink() {
-		$indexable = Mockery::mock( Indexable::class );
+		$indexable = Mockery::mock( Indexable_Mock::class );
 		$indexable->expects( 'save' )->once();
 		$indexable->object_type = 'post';
 
@@ -224,11 +209,7 @@ class Indexable_Repository_Test extends TestCase {
 			->expects( 'find_ancestors' )
 			->once()
 			->with( $indexable )
-			->andReturn( [
-				(object) [
-					'ancestor_id' => 1,
-				],
-			] );
+			->andReturn( [ 1 ] );
 
 		$orm_object = $this->mock_orm( [ 1 ], [ $indexable ] );
 
@@ -260,7 +241,7 @@ class Indexable_Repository_Test extends TestCase {
 
 		$orm_object
 			->expects( 'order_by_expr' )
-			->with( 'FIELD(id,' . \implode( ',',  $indexable_ids ) . ')' )
+			->with( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
 			->andReturn( $orm_object );
 		$orm_object
 			->expects( 'find_many' )

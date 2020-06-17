@@ -7,10 +7,12 @@
 
 namespace Yoast\WP\SEO\Exceptions;
 
+use Exception;
+
 /**
  * The exception when a method does not exists.
  */
-class Missing_Method extends \Exception {
+class Missing_Method extends Exception {
 
 	/**
 	 * Creates exception for a method that does not exists in a class.

@@ -57,6 +57,7 @@ class WPSEO_Upgrade {
 			'13.2-RC0'   => 'upgrade_132',
 			'14.0.3-RC0' => 'upgrade_1403',
 			'14.1-RC0'   => 'upgrade_141',
+			'14.2-RC0'   => 'upgrade_142',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -761,6 +762,15 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 14.2 upgrade.
+	 *
+	 * Removes the yoast-acf-analysis notice when it's still in the database.
+	 */
+	private function upgrade_142() {
+		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
+	}
+
+	/**
 	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
 	 */
 	public function clean_up_private_taxonomies_for_141() {
@@ -816,6 +826,15 @@ class WPSEO_Upgrade {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-blog-public-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-links-table-not-accessible' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-post-type-archive-notification' );
+	}
+
+	/**
+	 * Removes the wpseo-suggested-plugin-yoast-acf-analysis notification from the Notification center for the 14.2 upgrade.
+	 *
+	 * @return void
+	 */
+	public function remove_acf_notification_for_142() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-suggested-plugin-yoast-acf-analysis' );
 	}
 
 	/**

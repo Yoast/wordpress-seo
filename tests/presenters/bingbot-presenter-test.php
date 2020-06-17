@@ -6,7 +6,6 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Bingbot_Presenter;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -15,8 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Bingbot_Presenter
  *
  * @group presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Bingbot_Presenter_Test extends TestCase {
 
@@ -41,8 +38,8 @@ class Bingbot_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Bingbot_Presenter::class )
-								 ->makePartial()
-								 ->shouldAllowMockingProtectedMethods();
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;
@@ -55,7 +52,7 @@ class Bingbot_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
-		$this->presentation->robots    = [ 'index' => 'index' ];
+		$this->presentation->robots  = [ 'index' => 'index' ];
 
 		$actual   = $this->instance->present();
 		$expected = '<meta name="bingbot" content="one, two, three" />';
@@ -83,14 +80,14 @@ class Bingbot_Presenter_Test extends TestCase {
 	 */
 	public function test_present_filter() {
 		$this->presentation->bingbot = [ 'one', 'two', 'three' ];
-		$this->presentation->robots    = [];
+		$this->presentation->robots  = [];
 
 		Monkey\Filters\expectApplied( 'wpseo_bingbot' )
 			->once()
 			->with( 'one, two, three', $this->presentation )
 			->andReturn( 'one, two' );
 
-		$actual = $this->instance->present();
+		$actual   = $this->instance->present();
 		$expected = '<meta name="bingbot" content="one, two" />';
 
 		$this->assertEquals( $expected, $actual );

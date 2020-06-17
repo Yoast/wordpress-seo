@@ -268,8 +268,6 @@ class WPSEO_Admin {
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
-	 * @link https://developers.google.com/search/docs/data-types/social-profile
-	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
 	 * @return array $contactmethods with added contactmethods.

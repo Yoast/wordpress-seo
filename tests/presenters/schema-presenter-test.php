@@ -59,8 +59,8 @@ class Schema_Presenter_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_json_ld' )
 			->once();
 
-		$output  = '<script type="application/ld+json" class="yoast-schema-graph">[' . PHP_EOL;
-		$output .= "\t    \"the_schema\"" . PHP_EOL;
+		$output  = '<script type="application/ld+json" class="yoast-schema-graph">[' . \PHP_EOL;
+		$output .= "\t    \"the_schema\"" . \PHP_EOL;
 		$output .= "\t]</script>";
 
 		$this->assertEquals( $output, $this->instance->present() );

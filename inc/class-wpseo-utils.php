@@ -1173,8 +1173,8 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$post_type = WPSEO_Utils::get_post_type();
-		$page_type = WPSEO_Utils::get_page_type();
+		$post_type = self::get_post_type();
+		$page_type = self::get_page_type();
 
 		$label_object = false;
 		$no_index     = false;
@@ -1191,7 +1191,7 @@ SVG;
 		}
 
 		$wpseo_admin_l10n = [
-			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) && ! ! WPSEO_Options::get( 'disableadvanced_meta' ),
+			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => ! ! $no_index,
 			'isPostType'           => ! ! get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,

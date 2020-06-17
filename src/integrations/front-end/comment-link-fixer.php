@@ -76,7 +76,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @return string The value of replytocom.
 	 */
 	protected function has_replytocom_parameter() {
-		return filter_input( INPUT_GET, 'replytocom' );
+		return \filter_input( \INPUT_GET, 'replytocom' );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 * @return string The modified link.
 	 */
 	public function remove_reply_to_com( $link ) {
-		return preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
+		return \preg_replace( '`href=(["\'])(?:.*(?:\?|&|&#038;)replytocom=(\d+)#respond)`', 'href=$1#comment-$2', $link );
 	}
 
 	/**
@@ -131,6 +131,6 @@ class Comment_Link_Fixer implements Integration_Interface {
 		 *
 		 * @param bool $return True to remove, false not to remove.
 		 */
-		return (bool) apply_filters( 'wpseo_remove_reply_to_com', true );
+		return (bool) \apply_filters( 'wpseo_remove_reply_to_com', true );
 	}
 }

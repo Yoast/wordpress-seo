@@ -400,7 +400,8 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertEquals(
 			'https://example.org/image.jpg',
-			$this->instance->get_attachment_image_url( 1337, 'full' ) );
+			$this->instance->get_attachment_image_url( 1337, 'full' )
+		);
 	}
 
 	/**

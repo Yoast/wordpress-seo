@@ -9,6 +9,7 @@
  * This class parses all the values for the general tab in the Yoast SEO settings metabox.
  */
 class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
+
 	/**
 	 * The WPSEO_Taxonomy_Settings_Fields class constructor.
 	 *

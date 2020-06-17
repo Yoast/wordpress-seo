@@ -205,7 +205,7 @@ class Image_Helper {
 	 */
 	public function get_metadata( $attachment_id ) {
 		$metadata = \wp_get_attachment_metadata( $attachment_id );
-		if ( ! $metadata || ! is_array( $metadata ) ) {
+		if ( ! $metadata || ! \is_array( $metadata ) ) {
 			return [];
 		}
 
@@ -240,7 +240,7 @@ class Image_Helper {
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_Image_Utils::get_image( $attachment_id, $size );
+		return WPSEO_Image_Utils::get_image( $attachment_id, $size );
 	}
 
 	/**
@@ -253,8 +253,8 @@ class Image_Helper {
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
 	public function get_best_attachment_variation( $attachment_id ) {
-		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
-		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
+		$variations = WPSEO_Image_Utils::get_variations( $attachment_id );
+		$variations = WPSEO_Image_Utils::filter_usable_file_size( $variations );
 
 		// If we are left without variations, there is no valid variation for this attachment.
 		if ( empty( $variations ) ) {
@@ -277,7 +277,7 @@ class Image_Helper {
 		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
-		if ( strpos( $url, \get_site_url() ) !== 0 ) {
+		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
 			return 0;
 		}
 

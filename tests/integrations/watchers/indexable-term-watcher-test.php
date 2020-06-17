@@ -26,8 +26,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_Term_Watcher_Test extends TestCase {
 

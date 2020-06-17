@@ -45,5 +45,4 @@ class Abstract_Indexable_Presenter_Test extends TestCase {
 
 		$this->assertSame( 'the replaced value', $instance->replace_vars( 'the given value' ) );
 	}
-
 }

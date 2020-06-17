@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Meta;
+
 /**
  * Class Meta_Helper
  */
@@ -35,6 +37,6 @@ class Meta_Helper {
 	 *                if the post does not exist.
 	 */
 	public function get_value( $key, $postid = 0 ) {
-		return \WPSEO_Meta::get_value( $key, $postid );
+		return WPSEO_Meta::get_value( $key, $postid );
 	}
 }

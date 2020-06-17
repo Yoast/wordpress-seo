@@ -73,4 +73,53 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $result['translations'], [] );
 	}
+
+	/**
+	 * Test that wordFormRecognitionActive is true for English.
+	 *
+	 * @covers WPSEO_Metabox_Formatter::__construct
+	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 */
+	public function test_word_form_recognition_is_active() {
+		add_filter('locale', function(){ return 'en_US'; });
+
+		$class_instance = new WPSEO_Metabox_Formatter(
+			new WPSEO_Post_Metabox_Formatter(
+				$this->factory->post->create_and_get(),
+				[],
+				''
+			)
+		);
+
+		$values = $class_instance->get_values();
+		$result = $values['wordFormRecognitionActive'];
+
+		$this->assertEquals( true, $result );
+
+	}
+
+
+	/**
+	 * Test that wordFormRecognitionActive is false for Afrikaans.
+	 *
+	 * @covers WPSEO_Metabox_Formatter::__construct
+	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
+	 */
+	public function test_word_form_recognition_is_not_active() {
+		add_filter('locale', function(){ return 'af_ZA'; });
+
+		$class_instance = new WPSEO_Metabox_Formatter(
+			new WPSEO_Post_Metabox_Formatter(
+				$this->factory->post->create_and_get(),
+				[],
+				''
+			)
+		);
+
+		$values = $class_instance->get_values();
+		$result = $values['wordFormRecognitionActive'];
+
+		$this->assertEquals( false, $result );
+
+	}
 }

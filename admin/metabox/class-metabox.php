@@ -140,7 +140,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		WPSEO_Meta::$meta_fields['general']['title']['title'] = __( 'SEO title', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['general']['title']['title']    = __( 'SEO title', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
 		/* translators: %s expands to the post type name. */
@@ -1032,7 +1032,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$custom_fields = get_post_custom( $post->ID );
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
+			// Skip private custom fields.
 			if ( substr( $custom_field_name, 0, 1 ) === '_' ) {
+				continue;
+			}
+
+			// Skip custom field values that are serialized.
+			if ( is_serialized( $custom_field[0] ) ) {
 				continue;
 			}
 

@@ -20,6 +20,6 @@ class WPML_Conditional implements Conditional {
 	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return defined( 'WPML_PLUGIN_FILE' );
+		return \defined( 'WPML_PLUGIN_FILE' );
 	}
 }

@@ -20,12 +20,12 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	/**
 	 * The indexable repository.
 	 *
-	 * @var \Yoast\WP\SEO\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\SEO\Builders\Indexable_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
@@ -51,7 +51,7 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
+		\add_action( 'update_option_wpseo_titles', [ $this, 'check_option' ], 10, 2 );
 	}
 
 	/**
@@ -86,7 +86,6 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable() {
 		$indexable = $this->repository->find_for_date_archive( false );
-		$indexable = $this->builder->build_for_date_archive( $indexable );
-		$indexable->save();
+		$this->builder->build_for_date_archive( $indexable );
 	}
 }

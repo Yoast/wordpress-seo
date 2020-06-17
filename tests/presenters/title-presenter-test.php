@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
@@ -36,7 +37,7 @@ class Title_Presenter_Test extends TestCase {
 	/**
 	 * The WPSEO Replace Vars object.
 	 *
-	 * @var \WPSEO_Replace_Vars|Mockery\MockInterface
+	 * @var WPSEO_Replace_Vars|Mockery\MockInterface
 	 */
 	protected $replace_vars;
 
@@ -53,7 +54,7 @@ class Title_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
 		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance               = new Title_Presenter( $this->string );
@@ -71,13 +72,18 @@ class Title_Presenter_Test extends TestCase {
 			->expects( 'strip_all_tags' )
 			->withAnyArgs()
 			->once()
-			->andReturnUsing( function ( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				function ( $string ) {
+					return $string;
+				}
+			);
 
-		Monkey\Functions\expect( 'wp_get_document_title' )->andReturnUsing( function() {
-			return $this->instance->get_title();
-		} );
+		Monkey\Functions\expect( 'wp_get_document_title' )
+			->andReturnUsing(
+				function() {
+					return $this->instance->get_title();
+				}
+			);
 	}
 
 	/**
@@ -90,9 +96,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$expected = '<title>example_title</title>';
 		$actual   = $this->instance->present();
@@ -110,9 +118,11 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		$actual = $this->instance->present();
 
@@ -123,16 +133,18 @@ class Title_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct title, when the `wpseo_title` filter is applied.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_filter() {
 		$this->indexable_presentation->title = 'example_title';
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function ( $str ) {
-				return $str;
-			} );
+			->andReturnUsing(
+				function ( $str ) {
+					return $str;
+				}
+			);
 
 		Monkey\Filters\expectApplied( 'wpseo_title' )
 			->once()

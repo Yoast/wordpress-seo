@@ -79,7 +79,7 @@ class Main {
 			}
 
 			$this->container->get( Loader::class )->load();
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			if ( $this->is_development() ) {
 				throw $e;
 			}
