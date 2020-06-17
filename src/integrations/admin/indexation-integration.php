@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_List_Item_Presenter;
@@ -69,6 +70,13 @@ class Indexation_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;
+
+	/**
+	 * Determines if the indexation action is a link or a button.
+	 *
+	 * @var bool
+	 */
+	protected $indexation_action_is_link = false;
 
 	/**
 	 * The total amount of unindexed objects.
@@ -149,7 +157,9 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
-		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+		$tools_page_conditional          = new Yoast_Tools_Page_Conditional();
+		$this->indexation_action_is_link = ! $tools_page_conditional->is_met();
+
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
 		}
@@ -157,39 +167,10 @@ class Indexation_Integration implements Integration_Interface {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
 		}
 
-		$this->asset_manager->enqueue_script( 'indexation' );
-		$this->asset_manager->enqueue_style( 'admin-css' );
-
-		$data = [
-			'amount'  => $this->get_total_unindexed(),
-			'ids'     => [
-				'count'    => '#yoast-indexation-current-count',
-				'progress' => '#yoast-indexation-progress-bar',
-			],
-			'restApi' => [
-				'root'      => \esc_url_raw( \rest_url() ),
-				'endpoints' => [
-					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
-					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
-					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
-					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
-					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
-					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
-				],
-				'nonce'     => \wp_create_nonce( 'wp_rest' ),
-			],
-			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
-				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
-			],
-			'l10n'    => [
-				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
-				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
-				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
-			],
-		];
-
-		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
+		// Only enqueue indexation assets when the action is a button.
+		if ( $this->indexation_action_is_link === false ) {
+			$this->enqueue_indexation_assets();
+		}
 	}
 
 	/**
@@ -198,7 +179,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->indexation_action_is_link, $this->options_helper );
 	}
 
 	/**
@@ -227,7 +208,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->indexation_action_is_link, $this->options_helper );
 	}
 
 	/**
@@ -276,5 +257,46 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
+	}
+
+	/**
+	 * Enqueues the indexation script and style and renders the indexation modal.
+	 */
+	protected function enqueue_indexation_assets() {
+		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+
+		$this->asset_manager->enqueue_script( 'indexation' );
+		$this->asset_manager->enqueue_style( 'admin-css' );
+
+		$data = [
+			'amount'  => $this->get_total_unindexed(),
+			'ids'     => [
+				'count'    => '#yoast-indexation-current-count',
+				'progress' => '#yoast-indexation-progress-bar',
+			],
+			'restApi' => [
+				'root'      => \esc_url_raw( \rest_url() ),
+				'endpoints' => [
+					'prepare'  => Indexable_Indexation_Route::FULL_PREPARE_ROUTE,
+					'posts'    => Indexable_Indexation_Route::FULL_POSTS_ROUTE,
+					'terms'    => Indexable_Indexation_Route::FULL_TERMS_ROUTE,
+					'archives' => Indexable_Indexation_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+					'general'  => Indexable_Indexation_Route::FULL_GENERAL_ROUTE,
+					'complete' => Indexable_Indexation_Route::FULL_COMPLETE_ROUTE,
+				],
+				'nonce'     => \wp_create_nonce( 'wp_rest' ),
+			],
+			'message' => [
+				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
+				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
+			],
+			'l10n'    => [
+				'calculationInProgress' => \__( 'Optimization in progress...', 'wordpress-seo' ),
+				'calculationCompleted'  => \__( 'Optimization completed.', 'wordpress-seo' ),
+				'calculationFailed'     => \__( 'Optimization failed, please try again later.', 'wordpress-seo' ),
+			],
+		];
+
+		\wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'indexation', 'yoastIndexationData', $data );
 	}
 }
