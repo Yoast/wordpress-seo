@@ -166,7 +166,8 @@ export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, 0.1);
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 	padding-left: 8px;
-	height: 33px;
+	height: 28px;
+	min-height: 28px;
 	border: 1px solid #dbdbdb;
 	font-size: 13px;
 	margin:0 0 4px;
