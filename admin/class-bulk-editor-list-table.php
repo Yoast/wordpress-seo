@@ -157,6 +157,17 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Add yoast-table class to the tables
+	 *
+	 * @return string Returns an array with the classes for the table element.
+	 */
+	public function get_table_classes() {
+		$classes = parent::get_table_classes();
+		$classes[] = 'yoast-table';
+		return $classes;
+	}
+
+	/**
 	 * Used in the constructor to build a reference list of post types the current user can edit.
 	 */
 	protected function populate_editable_post_types() {
@@ -195,6 +206,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	public function display_tablenav( $which ) {
 		$post_status = sanitize_text_field( filter_input( INPUT_GET, 'post_status' ) );
 		?>
+		<?php if ( $which === 'bottom' ) { ?>
+		</div>
+		<?php } ?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
 			<?php if ( $which === 'top' ) { ?>
@@ -224,7 +238,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			</form>
 		<?php } ?>
 		</div>
-
+		<?php if ( $which === 'top' ) { ?>
+		<div class="yoast-table__container">
+		<?php } ?>
 		<?php
 	}
 

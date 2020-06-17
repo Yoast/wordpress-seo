@@ -5,6 +5,6 @@
 }
 
 .yoast-collapsible .collapsible-header {
-	border-bottom: var(--border-default);
+	border-bottom: var(--yoast-border-default);
 	padding-bottom: 13px;
 }
