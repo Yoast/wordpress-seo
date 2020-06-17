@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -81,6 +82,13 @@ class Indexation_Integration_Test extends TestCase {
 	private $asset_manager;
 
 	/**
+	 * Holds the Yoast tools page conditional.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Tools_Page_Conditional
+	 */
+	private $yoast_tools_page_conditional;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -90,6 +98,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->options                      = Mockery::mock( Options_Helper::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->yoast_tools_page_conditional = Mockery::mock( Yoast_Tools_Page_Conditional::class );
 
 		$this->instance = new Indexation_Integration(
 			$this->post_indexation,
@@ -97,7 +106,8 @@ class Indexation_Integration_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->options,
-			$this->asset_manager
+			$this->asset_manager,
+			$this->yoast_tools_page_conditional
 		);
 
 		parent::setUp();
@@ -154,6 +164,10 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
 		$this->options
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
@@ -179,7 +193,7 @@ class Indexation_Integration_Test extends TestCase {
 			$this->term_indexation
 				->expects( 'get_total_term_permalinks_null' )
 				->once()
-				->andReturn(35);
+				->andReturn( 35 );
 
 			Monkey\Actions\expectAdded( 'admin_notices' );
 		}
@@ -244,6 +258,51 @@ class Indexation_Integration_Test extends TestCase {
 				'yoastIndexationData',
 				$expected_data
 			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests that the modal and indexation assets are not enqueued when not on the Yoast tools page.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_without_indexable_assets() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturn( true );
+
+		$this->term_indexation
+			->expects( 'get_total_term_permalinks_null' )
+			->once()
+			->andReturn( 35 );
+
+		Monkey\Actions\expectAdded( 'admin_notices' );
+
+		// Expect that the script and style for the modal is not enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->never()
+			->with( 'indexation' );
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->never()
+			->with( 'admin-css' );
 
 		$this->instance->enqueue_scripts();
 	}
