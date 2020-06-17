@@ -24,6 +24,16 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	protected $total_unindexed;
 
 	/**
+	 * Determines if the action is a link or a button.
+	 *
+	 * The link links to the Yoast Tools page.
+	 * The button will run the action on the current page.
+	 *
+	 * @var bool
+	 */
+	protected $action_is_link;
+
+	/**
 	 * The options helper.
 	 *
 	 * @var Options_Helper
@@ -34,10 +44,12 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 * Indexation_Warning_Presenter constructor.
 	 *
 	 * @param int            $total_unindexed The number of objects that needs to be indexed.
+	 * @param bool           $action_is_link  Whether the action is a link or a button.
 	 * @param Options_Helper $options_helper  The options helper.
 	 */
-	public function __construct( $total_unindexed, Options_Helper $options_helper ) {
+	public function __construct( $total_unindexed, $action_is_link, Options_Helper $options_helper ) {
 		$this->total_unindexed = $total_unindexed;
+		$this->action_is_link  = $action_is_link;
 		$this->options_helper  = $options_helper;
 	}
 
@@ -96,12 +108,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		);
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
-			/* translators: 1: Expands to Yoast. */
-			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
-		);
+		$output .= $this->get_action( \esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
 
 		return $output;
 	}
@@ -125,14 +132,33 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 		$output .= \esc_html__( 'It looks like an indexing process was run earlier, but didn\'t complete. There is still some content which hasn\'t been indexed yet. Don\'t worry, you can pick up where you left off.', 'wordpress-seo' );
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= \sprintf(
+		$output .= $this->get_action( \esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' ) );
+
+		return $output;
+	}
+
+	/**
+	 * Generates the action, which is either a button or a link.
+	 *
+	 * @param string $text The text of the action.
+	 *
+	 * @return string The action.
+	 */
+	protected function get_action( $text ) {
+		if ( $this->action_is_link ) {
+			return \sprintf(
+				'<a class="button" href="%1$s">%2$s</a>',
+				\admin_url( '/admin.php?page=wpseo_tools#start-indexation-yoastIndexationData' ),
+				$text
+			);
+		}
+
+		return \sprintf(
 			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
 			/* translators: 1: Expands to Yoast. */
 			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			\esc_html__( 'Continue processing and speed up your site now', 'wordpress-seo' )
+			$text
 		);
-
-		return $output;
 	}
 
 	/**
