@@ -82,7 +82,6 @@ function wpseo_set_ignore() {
 		WPSEO_Options::set( 'indexables_indexation_reason', '' );
 	}
 
-
 	die( '1' );
 }
 
