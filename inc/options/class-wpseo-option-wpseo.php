@@ -240,6 +240,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						$clean[ $key ] = $dirty[ $key ];
 					}
 					break;
+				case 'indexables_indexation_reason':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
+					}
+					break;
 
 				/* Verification strings. */
 				case 'baiduverify':

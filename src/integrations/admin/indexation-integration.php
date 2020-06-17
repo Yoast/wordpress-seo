@@ -265,6 +265,10 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return bool True if hidden.
 	 */
 	protected function is_indexation_warning_hidden() {
+		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+			return true;
+		}
+
 		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === true ) {
 			return true;
 		}
