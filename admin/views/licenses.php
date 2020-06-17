@@ -153,39 +153,35 @@ $new_tab_message         = sprintf(
 				</ul>
 			<?php endif; ?>
 			<?php if ( $extension_list->is_installed( $premium_extension->get_title() ) ) : ?>
-				<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
-				<?php if ( $has_valid_premium_subscription ) : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
-					   class="yoast-link--license">
-						<?php
-						printf(
-						/* translators: %s expands to the extension title */
-							esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-							$premium_extension->get_title()
-						);
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-				<?php else : ?>
-					<div class="yoast-button yoast-button--noarrow yoast-label yoast-label-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
-					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
-					   class="yoast-link--license">
-						<?php
-						printf(
-						/* translators: %s expands to the extension title */
-							esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
-							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
-							$premium_extension->get_title()
-						);
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-				<?php endif; ?>
+				<section class="yoast-card">
+					<div class="yoast-card__image">
+						<img alt="" src="<?php echo plugins_url( 'images/yoast_seo_premium.svg?v=' . WPSEO_VERSION, WPSEO_FILE ) ?>"/>
+					</div>
+					<footer class="yoast-card__footer">
+						<h2 class="yoast-card__title">
+							<?php echo $premium_extension->get_title(); ?>
+						</h2>
+						<div class="yoast-label yoast-label--active">
+							Installed
+						</div>
+						<?php if ( $has_valid_premium_subscription ) : ?>
+							<div class="yoast-label yoast-label--active">
+								<?php esc_html_e( 'Activated', 'wordpress-seo' ); ?>
+							</div>
+						<?php else : ?>
+							<div class="yoast-label yoast-label--inactive">
+								<?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?>
+							</div>
+						<?php endif; ?>
+						<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
+						class="yoast-link--license">
+						<?php esc_html_e( 'Manage your subscription on MyYoast', 'wordpress-seo' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.?>
+						</a>
+					</footer>
+				</section>
+
+
 
 			<?php else : ?>
 
