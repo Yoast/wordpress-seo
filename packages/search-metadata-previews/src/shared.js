@@ -131,6 +131,8 @@ export const DescriptionInputContainer = styled( InputContainer )`
 
 	.public-DraftEditorPlaceholder-root {
 		color: ${colors.$color_grey_text};
+		position: absolute;
+  		z-index: 1;
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
