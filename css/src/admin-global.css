@@ -493,11 +493,11 @@ td.column-wpseo-linked {
   width: 8px;
   height: 16px;
   margin: 0 -2px 0 6px;
-  background: transparent var(--svg-icon-caret-right) center no-repeat;
+  background: transparent var(--yoast-svg-icon-caret-right) center no-repeat;
 }
 
 .rtl .yoast-button-upsell__caret {
-  background-image: var(--svg-icon-caret-left);
+  background-image: var(--yoast-svg-icon-caret-left);
 }
 
 body.folded .wpseo-admin-submit-fixed {

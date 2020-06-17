@@ -103,7 +103,13 @@
 			$.ajax( {
 				url: wpApiSettings.root + "yoast/v1/" + route,
 				method: method,
-				// eslint-disable-next-line require-jsdoc
+				/**
+				 * Sets the Nonce in the request header.
+				 *
+				 * @param {object} xhr The xhr object.
+				 *
+				 * @returns {void};
+				 */
 				beforeSend: function( xhr ) {
 					xhr.setRequestHeader( "X-WP-Nonce", wpApiSettings.nonce );
 				},

@@ -17,6 +17,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 	 */
 	private $shortlinks = [
 		'shortlinks.focus_keyword_info'                             => 'https://yoa.st/focus-keyword',
+		'shortlinks.nofollow_sponsored'                             => 'https://yoa.st/nofollow-sponsored',
 		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
 		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',

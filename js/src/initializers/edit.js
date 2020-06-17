@@ -2,8 +2,14 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
+import { Slot, Fill, PanelBody } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore } from "@wordpress/data";
+import { decodeEntities } from "@wordpress/html-entities";
+import { __ } from "@wordpress/i18n";
+import { PluginPrePublishPanel, PluginPostPublishPanel } from "@wordpress/edit-post";
+import { registerFormatType, applyFormat, isCollapsed } from "@wordpress/rich-text";
+import { isURL } from "@wordpress/url";
 import {
 	get,
 	pickBy,
@@ -17,13 +23,17 @@ import ClassicEditorData from "../analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
-import selectors from "../redux/selectors";
+import * as selectors from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { setSettings } from "../redux/actions/settings";
 import UsedKeywords from "../analysis/usedKeywords";
 import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
+import EditLink from "../inline-links/edit-link";
+import PrePublish from "../containers/PrePublish";
+import DocumentSidebar from "../containers/DocumentSidebar";
+import PostPublish from "../containers/PostPublish";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -32,7 +42,9 @@ const PinnedPluginIcon = styled( PluginIcon )`
 	height: 20px;
 `;
 
-/** Class representing edit functions. */
+/**
+ * Contains the Yoast SEO block editor integration.
+ */
 class Edit {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.
@@ -46,6 +58,36 @@ class Edit {
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
 		this._args =          args;
+		this.link = {
+			name: "yoast-seo/link",
+			title: __( "Link", "wordpress-seo" ),
+			tagName: "a",
+			className: "yoast-seo-link",
+			attributes: {
+				url: "href",
+				target: "target",
+				rel: "rel",
+			},
+			__unstablePasteRule( value, { html, plainText } ) {
+				if ( isCollapsed( value ) ) {
+					return value;
+				}
+
+				const pastedText = ( html || plainText ).replace( /<[^>]+>/g, "" ).trim();
+
+				if ( ! isURL( pastedText ) ) {
+					return value;
+				}
+
+				return applyFormat( value, {
+					type: "yoast-seo/link",
+					attributes: {
+						url: decodeEntities( pastedText ),
+					},
+				} );
+			},
+			edit: EditLink,
+		};
 
 		this._init();
 	}
@@ -71,6 +113,7 @@ class Edit {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerPlugin();
+		this._registerFormats();
 
 		this._data = this._initializeData();
 
@@ -88,6 +131,16 @@ class Edit {
 				siteIconUrl: this._localizedData.siteIconUrl,
 			},
 		} ) );
+	}
+
+	_registerFormats() {
+		[
+			this.link,
+		].forEach( ( { name, ...settings } ) => {
+			if ( name ) {
+				registerFormatType( name, settings );
+			}
+		} );
 	}
 
 	/**
@@ -146,6 +199,31 @@ class Edit {
 					<SidebarFill store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
+				<PluginPrePublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PrePublish />
+				</PluginPrePublishPanel>
+				<PluginPostPublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PostPublish />
+				</PluginPostPublishPanel>
+				<Fill name="PluginDocumentSettingPanel">
+					<PanelBody
+						className="yoast-seo-sidebar-panel"
+						title={ __( "Yoast SEO", "wordpress-seo" ) }
+						initialOpen={ true }
+					>
+						<DocumentSidebar />
+					</PanelBody>
+				</Fill>
 			</Fragment>
 		);
 

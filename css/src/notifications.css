@@ -171,7 +171,7 @@
 }
 
 .yoast-notifications-dismissed .yoast-svg-icon-eye {
-	background: transparent var(--svg-icon-eye) no-repeat 0 0;
+	background: transparent var(--yoast-svg-icon-eye) no-repeat 0 0;
 	background-size: 20px;
 }
 

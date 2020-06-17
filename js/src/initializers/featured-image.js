@@ -18,11 +18,11 @@ export default function initFeaturedImageIntegration( $ ) {
 	var $postImageDivHeading;
 
 	/**
-	 * @summary Adds the featured image to the content for analysis.
+	 * A content analysis plugin for the featured image.
 	 *
-	 * @param {object} app The YoastSEO.app
+	 * @param {object} app The Yoast SEO app.
 	 *
-	 * @returns {undefined}
+	 * @constructor
 	 */
 	var FeaturedImagePlugin = function( app ) {
 		this._app = app;

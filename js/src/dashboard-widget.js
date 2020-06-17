@@ -11,7 +11,7 @@ import { getPostFeed } from "@yoast/helpers";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /**
- * @summary Dashboard widget component.
+ * The Yoast dashboardwidget component used on the WordPress admin dashboard.
  */
 class DashboardWidget extends React.Component {
 	/**
