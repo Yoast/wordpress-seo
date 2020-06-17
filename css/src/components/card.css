@@ -63,7 +63,8 @@
 	border-radius: 17px;
 	font-size: 12px;
 	color: var(--yoast-color-white);
-	padding: 4px 11px;
+	padding: 2px 11px;
+	margin-right: 4px;
 }
 
 .yoast-label--active {
@@ -82,4 +83,3 @@
 	max-width: 450px;
 	margin-bottom: 32px;
 }
-
