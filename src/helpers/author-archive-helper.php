@@ -62,14 +62,14 @@ class Author_Archive_Helper {
 	 */
 	protected function author_has_a_public_post( $author_id ) {
 		$indexable_exists = Model::of_type( 'Indexable' )
+			->select( 'id' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )
 			->where( 'is_public', 1 )
-			->limit( 1 )
-			->count();
+			->find_one();
 
-		return $indexable_exists > 0;
+		return (bool) $indexable_exists;
 	}
 
 	/**
@@ -83,13 +83,13 @@ class Author_Archive_Helper {
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
 		$indexable_exists = Model::of_type( 'Indexable' )
+			->select( 'id' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )
 			->where_null( 'is_public' )
-			->limit( 1 )
-			->count();
+			->find_one();
 
-		return $indexable_exists > 0;
+		return (bool) $indexable_exists;
 	}
 }
