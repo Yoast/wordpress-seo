@@ -4,8 +4,13 @@
 	justify-content: space-between;
 }
 
+.wpseo_content_cell {
+	flex-grow: 1;
+}
+
 .yoast-sidebar {
 	max-width: 300px;
+	margin-left: 24px;
 }
 
 .yoast-main {
