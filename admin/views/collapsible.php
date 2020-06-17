@@ -36,7 +36,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			}
 
 			printf(
-				'<h2 class="%1$s"><div%2$s class="toggleable-container-trigger" aria-expanded="%3$s">%4$s%5$s <span class="toggleable-container-icon dashicons %6$s" aria-hidden="true"></span></div></h2>',
+				'<h2 class="%1$s"><button%2$s type="button" class="toggleable-container-trigger" aria-expanded="%3$s">%4$s%5$s <span class="toggleable-container-icon dashicons %6$s" aria-hidden="true"></span></button></h2>',
 				esc_attr( 'collapsible-header ' . $collapsible_header_class ),
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
 				$button_id_attr,
