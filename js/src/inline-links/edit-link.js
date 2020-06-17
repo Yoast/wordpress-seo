@@ -1,18 +1,22 @@
-import { map } from "lodash";
-import PropTypes from "prop-types";
-import { BlockControls, RichTextToolbarButton, RichTextShortcut } from "@wordpress/block-editor";
-import { Toolbar, withSpokenMessages } from "@wordpress/components";
-import { compose, ifCondition } from "@wordpress/compose";
-import { select, withSelect, dispatch } from "@wordpress/data";
-import { Component, Fragment } from "@wordpress/element";
+/**
+ * WordPress dependencies
+ */
 import { __ } from "@wordpress/i18n";
+import { Component, Fragment } from "@wordpress/element";
+import { withSpokenMessages } from "@wordpress/components";
 import {
 	getTextContent,
 	applyFormat,
 	removeFormat,
 	slice,
-	getActiveFormat } from "@wordpress/rich-text";
-import { isURL } from "@wordpress/url";
+	isCollapsed,
+} from "@wordpress/rich-text";
+import { isURL, isEmail } from "@wordpress/url";
+import {
+	RichTextToolbarButton,
+	RichTextShortcut,
+} from "@wordpress/block-editor";
+import { decodeEntities } from "@wordpress/html-entities";
 
 /**
  * Internal dependencies
@@ -20,124 +24,101 @@ import { isURL } from "@wordpress/url";
 import InlineLinkUI from "./inline";
 
 const name = "yoast-seo/link";
-const title = __( "Add Link", "wordpress-seo" );
-const EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
+const title = __( "Link", "wordpress-seo" );
 
-/**
- * The EditLink component.
- */
-class EditLink extends Component {
-	/**
-	 * The constructor.
-	 */
-	constructor() {
-		super( ...arguments );
-
-		this.isEmail = this.isEmail.bind( this );
-		this.addLink = this.addLink.bind( this );
-		this.stopAddingLink = this.stopAddingLink.bind( this );
-		this.onRemoveFormat = this.onRemoveFormat.bind( this );
-		this.state = {
-			addingLink: false,
-		};
-	}
-
-	/**
-	 * Hook to run when the component mounted.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		const oldFormat = select( "core/rich-text" ).getFormatType( "core/link" );
-		if ( oldFormat ) {
-			oldFormat.edit = null;
-			dispatch( "core/rich-text" ).addFormatTypes( oldFormat );
+export const link = {
+	name,
+	title,
+	tagName: "a",
+	className: "yoast-seo-link",
+	attributes: {
+		url: "href",
+		type: "data-type",
+		target: "target",
+	},
+	replaces: "core/link",
+	__unstablePasteRule( value, { html, plainText } ) {
+		if ( isCollapsed( value ) ) {
+			return value;
 		}
-	}
 
-	/**
-	 * Checks if a string is a valid emailaddress.
-	 *
-	 * @param {string} email the emailstring.
-	 * @returns {boolean} A truthy value.
-	 */
-	isEmail( email ) {
-		return EMAIL_REGEXP.test( email );
-	}
+		const pastedText = ( html || plainText )
+			.replace( /<[^>]+>/g, "" )
+			.trim();
 
-	/**
-	 * Updates the state to reflect we're currently adding a link.
-	 *
-	 * @returns {void}
-	 */
-	addLink() {
-		const { value, onChange } = this.props;
-		const text = getTextContent( slice( value ) );
-
-		if ( text && isURL( text ) ) {
-			onChange( applyFormat( value, { type: name, attributes: { url: text } } ) );
-		} else if ( text && this.isEmail( text ) ) {
-			onChange( applyFormat( value, { type: name, attributes: { url: `mailto:${ text }` } } ) );
-		} else {
-			this.setState( { addingLink: true } );
+		// A URL was pasted, turn the selection into a link
+		if ( ! isURL( pastedText ) ) {
+			return value;
 		}
-	}
 
-	/**
-	 * Updates the state to reflect we're no longer adding a link.
-	 *
-	 * @returns {void}
-	 */
-	stopAddingLink() {
-		this.setState( { addingLink: false } );
-	}
+		// Allows us to ask for this information when we get a report.
+		window.console.log( "Created link:\n\n", pastedText );
 
-	/**
-	 * Hook triggered when the format is removed.
-	 *
-	 * @returns {void}
-	 */
-	onRemoveFormat() {
-		const { value, onChange, speak } = this.props;
-
-		let newValue = value;
-
-		map( [ "core/link", "yoast-seo/link" ], ( linkFormat ) => {
-			newValue = removeFormat( newValue, linkFormat );
+		return applyFormat( value, {
+			type: name,
+			attributes: {
+				url: decodeEntities( pastedText ),
+			},
 		} );
+	},
+	edit: withSpokenMessages(
+		class LinkEdit extends Component {
+			constructor() {
+				super( ...arguments );
 
-		onChange( { ...newValue } );
-		speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
-	}
+				this.addLink = this.addLink.bind( this );
+				this.stopAddingLink = this.stopAddingLink.bind( this );
+				this.onRemoveFormat = this.onRemoveFormat.bind( this );
+				this.state = {
+					addingLink: false,
+				};
+			}
 
-	/**
-	 * Renders the block controls.
-	 *
-	 * @returns {wp.Element} The block controls component.
-	 */
-	render() {
-		const { activeAttributes, onChange } = this.props;
-		let { isActive, value } = this.props;
+			addLink() {
+				const { value, onChange } = this.props;
+				const text = getTextContent( slice( value ) );
 
-		const activeFormat = getActiveFormat( value, "core/link" );
+				if ( text && isURL( text ) ) {
+					onChange(
+						applyFormat( value, {
+							type: name,
+							attributes: { url: text },
+						} )
+					);
+				} else if ( text && isEmail( text ) ) {
+					onChange(
+						applyFormat( value, {
+							type: name,
+							attributes: { url: `mailto:${ text }` },
+						} )
+					);
+				} else {
+					this.setState( { addingLink: true } );
+				}
+			}
 
-		if ( activeFormat ) {
-			activeFormat.type = name;
+			stopAddingLink() {
+				this.setState( { addingLink: false } );
+				this.props.onFocus();
+			}
 
-			let newValue = value;
-			newValue = applyFormat( newValue, activeFormat );
-			newValue = removeFormat( newValue, "core/link" );
-			onChange( { ...newValue } );
+			onRemoveFormat() {
+				const { value, onChange, speak } = this.props;
 
-			value = newValue;
+				onChange( removeFormat( value, name ) );
+				speak( __( "Link removed.", "wordpress-seo" ), "assertive" );
+			}
 
-			isActive = true;
-		}
+			render() {
+				const {
+					isActive,
+					activeAttributes,
+					value,
+					onChange,
+				} = this.props;
 
-		return (
-			<Fragment>
-				<BlockControls>
-					<Toolbar className="editorskit-components-toolbar">
+				return (
+					<Fragment>
 						<RichTextShortcut
 							type="primary"
 							character="k"
@@ -148,59 +129,41 @@ class EditLink extends Component {
 							character="k"
 							onUse={ this.onRemoveFormat }
 						/>
-
-						{ isActive && <RichTextToolbarButton
-							name="link"
-							icon="editor-unlink"
-							title={ __( "Unlink", "wordpress-seo" ) }
-							onClick={ this.onRemoveFormat }
-							isActive={ isActive }
-							shortcutType="primaryShift"
-							shortcutCharacter="k"
-						/> }
-						{ ! isActive && <RichTextToolbarButton
-							name="link"
-							icon="admin-links"
-							title={ title }
-							onClick={ this.addLink }
-							isActive={ isActive }
-							shortcutType="primary"
-							shortcutCharacter="k"
-						/> }
-
-						<InlineLinkUI
-							addingLink={ this.state.addingLink }
-							stopAddingLink={ this.stopAddingLink }
-							isActive={ isActive }
-							activeAttributes={ activeAttributes }
-							value={ value }
-							onChange={ onChange }
-						/>
-
-					</Toolbar>
-				</BlockControls>
-			</Fragment>
-		);
-	}
-}
-
-EditLink.propTypes = {
-	value: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.object,
-	] ).isRequired,
-	onChange: PropTypes.func.isRequired,
-	speak: PropTypes.func.isRequired,
-	activeAttributes: PropTypes.object.isRequired,
-	isActive: PropTypes.bool.isRequired,
+						{ isActive && (
+							<RichTextToolbarButton
+								name="link"
+								icon="editor-unlink"
+								title={ __( "Unlink", "wordpress-seo" ) }
+								onClick={ this.onRemoveFormat }
+								isActive={ isActive }
+								shortcutType="primaryShift"
+								shortcutCharacter="k"
+							/>
+						) }
+						{ ! isActive && (
+							<RichTextToolbarButton
+								name="link"
+								icon="admin-links"
+								title={ title }
+								onClick={ this.addLink }
+								isActive={ isActive }
+								shortcutType="primary"
+								shortcutCharacter="k"
+							/>
+						) }
+						{ ( this.state.addingLink || isActive ) && (
+							<InlineLinkUI
+								addingLink={ this.state.addingLink }
+								stopAddingLink={ this.stopAddingLink }
+								isActive={ isActive }
+								activeAttributes={ activeAttributes }
+								value={ value }
+								onChange={ onChange }
+							/>
+						) }
+					</Fragment>
+				);
+			}
+		}
+	),
 };
-
-export default compose(
-	withSelect( () => {
-		return {
-			isDisabled: select( "core/edit-post" ).isFeatureActive( "disableEditorsKitLinkFormats" ),
-		};
-	} ),
-	ifCondition( ( props ) => ! props.isDisabled ),
-	withSpokenMessages,
-)( EditLink );
