@@ -72,6 +72,13 @@ class Indexation_Integration implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * Holds the Yoast tools page conditional.
+	 *
+	 * @var Yoast_Tools_Page_Conditional
+	 */
+	protected $yoast_tools_page_conditional;
+
+	/**
 	 * Determines if the indexation action is a link or a button.
 	 *
 	 * @var bool
@@ -101,10 +108,14 @@ class Indexation_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation
+	 *                                                                                    action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation
+	 *                                                                                    action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
+	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The yoast tools page
+	 *                                                                                    conditional.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -112,7 +123,8 @@ class Indexation_Integration implements Integration_Interface {
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
 		Options_Helper $options_helper,
-		WPSEO_Admin_Asset_Manager $asset_manager
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional
 	) {
 		$this->post_indexation              = $post_indexation;
 		$this->term_indexation              = $term_indexation;
@@ -120,6 +132,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->general_indexation           = $general_indexation;
 		$this->options_helper               = $options_helper;
 		$this->asset_manager                = $asset_manager;
+		$this->yoast_tools_page_conditional = $yoast_tools_page_conditional;
 	}
 
 	/**
@@ -157,8 +170,7 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
-		$tools_page_conditional          = new Yoast_Tools_Page_Conditional();
-		$this->indexation_action_is_link = ! $tools_page_conditional->is_met();
+		$this->indexation_action_is_link = ! $this->yoast_tools_page_conditional->is_met();
 
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
