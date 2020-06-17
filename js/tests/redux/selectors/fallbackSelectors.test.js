@@ -10,7 +10,7 @@ const testState = {
 	},
 	settings: {
 		socialPreviews: {
-			sitewideImage: "side-wide.png",
+			sitewideImage: "site-wide.png",
 		},
 	},
 	snippetEditor: {
@@ -41,26 +41,26 @@ describe( getDescriptionFallback, () => {
 } );
 
 describe( getImageFallback, () => {
-	it( "returns the site wide image if it's set", () => {
+	it( "returns the featured image if it's set", () => {
 		const actual = getImageFallback( testState );
 
-		const expected = "side-wide.png";
+		const expected = "featured.png";
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns the featured image as a fallback", () => {
+	it( "returns the siteWide image as a fallback", () => {
 		const state = {
 			 ...testState,
-			settings: {
-				socialPreviews: {
-					sitewideImage: undefined,
+			snippetEditor: {
+				data: {
+					snippetPreviewImageURL: undefined,
 				},
 			},
 		};
 		const actual = getImageFallback( state );
 
-		const expected = "featured.png";
+		const expected = "site-wide.png";
 
 		expect( actual ).toEqual( expected );
 	} );
