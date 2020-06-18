@@ -138,7 +138,7 @@ class Index_Command implements Command_Interface {
 	protected function run_indexation_actions( $assoc_args ) {
 		if ( isset( $assoc_args['reindex'] ) ) {
 			if ( ! isset( $assoc_args['skip-confirmation'] ) ) {
-				WP_CLI::confirm('This will clear all previously indexed objects. Are you certain you wish to proceed?');
+				WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
 			}
 			$this->clear();
 		}
