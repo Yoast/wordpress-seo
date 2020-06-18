@@ -4,14 +4,14 @@ import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
-import ScoreIconPortal from "./ScoreIconPortal";
-import Collapsible from "../SidebarCollapsible";
+import ScoreIconPortal from "../portals/ScoreIconPortal";
+import SidebarCollapsible from "../SidebarCollapsible";
+import MetaboxCollapsible from "../MetaboxCollapsible";
 import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
@@ -21,6 +21,7 @@ import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { ModalContainer, ModalIcon } from "../modals/Container";
+import SynonymSlot from "../slots/SynonymSlot";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -142,10 +143,12 @@ class SeoAnalysis extends Component {
 		// Default to metabox.
 		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
 		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_button" ];
+		let Collapsible = MetaboxCollapsible;
 
 		if ( location.toLowerCase() === "sidebar" ) {
 			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
 			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_button" ];
+			Collapsible = SidebarCollapsible;
 		}
 
 		return (
@@ -197,7 +200,7 @@ class SeoAnalysis extends Component {
 
 		return (
 			<ScoreIconPortal
-				elementId="wpseo-seo-score-icon"
+				target="wpseo-seo-score-icon"
 				scoreIndicator={ scoreIndicator }
 			/>
 		);
@@ -218,36 +221,40 @@ class SeoAnalysis extends Component {
 
 		return (
 			<LocationConsumer>
-				{ location => (
-					<Fragment>
-						<Collapsible
-							title={ __( "SEO analysis", "wordpress-seo" ) }
-							titleScreenReaderText={ score.screenReaderReadabilityText }
-							prefixIcon={ getIconForScore( score.className ) }
-							prefixIconCollapsed={ getIconForScore( score.className ) }
-							subTitle={ this.props.keyword }
-							id={ `yoast-seo-analysis-collapsible-${ location }` }
-						>
-							<Slot name={ `yoast-synonyms-${ location }` } />
-							{ this.props.shouldUpsell && <Fragment>
-								{ this.renderSynonymsUpsell( location ) }
-								{ this.renderMultipleKeywordsUpsell( location ) }
-							</Fragment> }
-							{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location ) }
-							<AnalysisHeader>
-								{ __( "Analysis results", "wordpress-seo" ) }
-							</AnalysisHeader>
-							<Results
-								showLanguageNotice={ false }
-								results={ this.props.results }
-								marksButtonClassName="yoast-tooltip yoast-tooltip-w"
-								marksButtonStatus={ this.props.marksButtonStatus }
-							/>
-						</Collapsible>
-						{ this.props.shouldUpsell && this.renderKeywordUpsell( location ) }
-						{ this.renderTabIcon( location, score.className ) }
-					</Fragment>
-				) }
+				{ location => {
+					const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
+
+					return (
+						<Fragment>
+							<Collapsible
+								title={ __( "SEO analysis", "wordpress-seo" ) }
+								titleScreenReaderText={ score.screenReaderReadabilityText }
+								prefixIcon={ getIconForScore( score.className ) }
+								prefixIconCollapsed={ getIconForScore( score.className ) }
+								subTitle={ this.props.keyword }
+								id={ `yoast-seo-analysis-collapsible-${ location }` }
+							>
+								<SynonymSlot location={ location } />
+								{ this.props.shouldUpsell && <Fragment>
+									{ this.renderSynonymsUpsell( location ) }
+									{ this.renderMultipleKeywordsUpsell( location ) }
+								</Fragment> }
+								{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location ) }
+								<AnalysisHeader>
+									{ __( "Analysis results", "wordpress-seo" ) }
+								</AnalysisHeader>
+								<Results
+									showLanguageNotice={ false }
+									results={ this.props.results }
+									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+									marksButtonStatus={ this.props.marksButtonStatus }
+								/>
+							</Collapsible>
+							{ this.props.shouldUpsell && this.renderKeywordUpsell( location ) }
+							{ this.renderTabIcon( location, score.className ) }
+						</Fragment>
+					);
+				} }
 			</LocationConsumer>
 		);
 	}
