@@ -1,4 +1,5 @@
 import { SET_SETTINGS } from "../actions/settings";
+import { SET_CONTENT_IMAGE } from "../actions/settings";
 
 /**
  * A reducer for settings.
@@ -9,9 +10,19 @@ import { SET_SETTINGS } from "../actions/settings";
  * @returns {Object} The state.
  */
 export default function settingsReducer( state = {}, action ) {
-	if ( action.type === SET_SETTINGS ) {
-		return action.settings;
+	switch ( action.type ) {
+		case SET_SETTINGS:
+			return { ...state, ...action.settings };
+		case SET_CONTENT_IMAGE: {
+			const newSocialPreviews = Object.assign( {}, state.socialPreviews, { contentImage: action.src } );
+			return {
+				...state,
+				socialPreviews: {
+					...newSocialPreviews,
+				},
+			};
+		}
+		default:
+			return state;
 	}
-
-	return state;
 }
