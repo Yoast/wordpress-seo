@@ -203,36 +203,24 @@ module.exports = function( grunt ) {
 			command: "yarn unlink-monorepo",
 		},
 
-		"install-monorepo": {
-			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
+		"yarn-add-yoast-components-rc": {
+			command: "yarn add yoast-components@rc",
+		},
+
+		"yarn-add-yoast-components": {
+			command: "yarn add yoast-components",
+		},
+
+		"yarn-add-yoastseo-rc": {
+			command: "yarn add yoastseo@rc",
+		},
+
+		"yarn-add-yoastseo": {
+			command: "yarn add yoastseo",
 		},
 
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
-		},
-
-		"git-add-version-bump-files": {
-			command: "git add package.json wp-seo-main.php wp-seo.php",
-		},
-
-		"git-commit-version-bump-files": {
-			command: "git commit -m 'Bump version for RC'",
-		},
-
-		"git-push-origin-head": {
-			command: "git push origin HEAD",
-		},
-
-		"git-checkout-trunk": {
-			command: "git checkout trunk",
-		},
-
-		"git-merge-into-trunk": {
-			command: "git merge <%= branchForRC %>",
-		},
-
-		"git-checkout-release-branch": {
-			command: "git checkout <%= branchForRC %>",
 		},
 
 		"check-for-uncommitted-changes": {
