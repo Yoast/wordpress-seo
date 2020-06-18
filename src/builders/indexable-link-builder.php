@@ -14,9 +14,9 @@ use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
 /**
- * Post_Link_Builder class
+ * Indexable_Link_Builder class
  */
-class Post_Link_Builder {
+class Indexable_Link_Builder {
 
 	/**
 	 * The SEO links repository.
@@ -59,20 +59,28 @@ class Post_Link_Builder {
 	/**
 	 * Builds the links for a post.
 	 *
-	 * @param int    $post_id      The post ID.
-	 * @param string $post_content The post content. Expected to be unfiltered.
+	 * @param Indexable $indexable The indexable.
+	 * @param string    $content   The content. Expected to be unfiltered.
 	 *
 	 * @return SEO_Links[] The created SEO links.
 	 */
-	public function build( $post_id, $post_content ) {
-		$links = $this->gather_links( $post_content );
+	public function build( $indexable, $content ) {
+		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
+			return;
+		}
+
+		if ( $indexable->object_type === 'post' ) {
+			$content = \apply_filters( 'the_content', $content );
+		}
+
+		$content = \str_replace( ']]>', ']]&gt;', $content );
+		$links   = $this->gather_links( $content );
 
 		if ( empty( $links ) ) {
 			return [];
 		}
 
 		// TODO: Consider if the indexable should instead be the input?
-		$indexable   = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
 		$home_url    = \wp_parse_url( \home_url() );
 		$current_url = \wp_parse_url( $indexable->permalink );
 		$links       = \array_map(
@@ -89,28 +97,58 @@ class Post_Link_Builder {
 			}
 		);
 
-		$updated_post_ids    = [];
-		$internal_link_count = 0;
-		$old_links           = $this->seo_links_repository->find_all_by_post_id( $post_id );
-		$this->seo_links_repository->delete_all_by_post_id( $post_id );
+		// Add all images from the content.
+		$images = $this->gather_images( $content );
+		$images = \array_map(
+			function( $link ) use ( $home_url, $indexable ) {
+				return $this->create_internal_link( $link, $home_url, $indexable, true );
+			},
+			$images
+		);
+		$links = \array_merge( $links, $images );
+
+		$updated_indexable_ids = [];
+		$internal_link_count   = 0;
+		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
+		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
 		foreach ( $links as $link ) {
 			$link->save();
-			$updated_post_ids[] = $link->target_post_id;
+			$updated_indexable_ids[] = $link->target_indexable_id;
 			if ( $link->type === SEO_Links::TYPE_INTERNAL ) {
 				$internal_link_count += 1;
 			}
 		}
 		foreach ( $old_links as $link ) {
-			$updated_post_ids[] = $link->target_post_id;
+			$updated_indexable_ids[] = $link->target_indexable_id;
 		}
 
-		$incoming_link_counts = $this->seo_links_repository->get_incoming_link_counts_for_post_ids( $updated_post_ids );
-		foreach ( $incoming_link_counts as $link_count ) {
-			$this->seo_meta_repository->update_incoming_link_count( $link_count['post_id'], $link_count['incoming'] );
-		}
-		$this->seo_meta_repository->update_internal_link_count( $post_id, $internal_link_count );
+		$this->update_incoming_links_for_related_indexables( $updated_indexable_ids );
+		$this->indexable_repository->update_link_count( $indexable->id, $internal_link_count );
 
 		return $links;
+	}
+
+	/**
+	 * Deletes all SEO links for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return void
+	 */
+	public function delete( $indexable ) {
+		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
+			return;
+		}
+
+		$links = ($this->seo_links_repository->find_all_by_indexable_id( $indexable->id ));
+		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
+
+		$linked_indexable_ids = [];
+		foreach ( $links as $link ) {
+			$linked_indexable_ids[] = $link->target_indexable_id;
+		}
+
+		$this->update_incoming_links_for_related_indexables( $linked_indexable_ids );
 	}
 
 	/**
@@ -121,9 +159,6 @@ class Post_Link_Builder {
 	 * @return string[] An array of urls.
 	 */
 	protected function gather_links( $content ) {
-		$content = \apply_filters( 'the_content', $content );
-		$content = \str_replace( ']]>', ']]&gt;', $content );
-
 		if ( strpos( $content, 'href' ) === false ) {
 			// Nothing to do.
 			return [];
@@ -142,6 +177,31 @@ class Post_Link_Builder {
 	}
 
 	/**
+	 * Gathers all images from content.
+	 *
+	 * @param string $content The content.
+	 *
+	 * @return string[] An array of urls.
+	 */
+	protected function gather_images( $content ) {
+		if ( strpos( $content, 'src' ) === false ) {
+			// Nothing to do.
+			return [];
+		}
+
+		$images = [];
+		$regexp = '<img\s[^>]*src=("??)([^" >]*?)\\1[^>]*>';
+		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
+		if ( preg_match_all( "/$regexp/iU", $this->content, $matches, PREG_SET_ORDER ) ) {
+			foreach ( $matches as $match ) {
+				$images[] = trim( $match[2], "'" );
+			}
+		}
+
+		return $images;
+	}
+
+	/**
 	 * Creates an internal link.
 	 *
 	 * @param string    $url       The url of the link.
@@ -150,21 +210,26 @@ class Post_Link_Builder {
 	 *
 	 * @return SEO_Links The created link.
 	 */
-	protected function create_internal_link( $url, $home_url, $indexable ) {
+	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false ) {
 		$parsed_url = \wp_parse_url( $url );
+		$link_type  = $this->get_link_type( $parsed_url, $home_url );
+
+		if ( $is_image ) {
+			$link_type = ( $link_type === SEO_Links::TYPE_INTERNAL ) ? SEO_Links::TYPE_INTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL_IMAGE;
+		}
 
 		/**
 		 * @var SEO_Links
 		 */
 		$model = $this->seo_links_repository->query()->create( [
 			'link'         => $url,
-			'type'         => $this->get_link_type( $parsed_url, $home_url ),
+			'type'         => $link_type,
 			'indexable_id' => $indexable->id,
 			'post_id'      => $indexable->object_id,
 		] );
 		$model->parsed_url = $parsed_url;
 
-		if ( $model->type === SEO_Links::TYPE_INTERNAL ) {
+		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->get_permalink( $url, $home_url );
 			$target    = $this->indexable_repository->find_by_permalink( $permalink );
 
@@ -269,5 +334,19 @@ class Post_Link_Builder {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Updates incoming link counts for related indexables.
+	 *
+	 * @param int[] $related_indexable_ids The IDs of all related indexables.
+	 *
+	 * @return void
+	 */
+	protected function update_incoming_links_for_related_indexables( $related_indexable_ids ) {
+		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
+		foreach ( $counts as $count ) {
+			$this->seo_meta_repository->update_incoming_link_count( $count['indexable_id'], $count['incoming'] );
+		}
 	}
 }
