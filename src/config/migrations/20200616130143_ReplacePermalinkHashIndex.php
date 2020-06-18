@@ -31,18 +31,19 @@ class ReplacePermalinkHashIndex extends Migration {
 		$table_name = $this->get_table_name();
 		$adapter    = $this->get_adapter();
 
-		if ( $adapter->has_table( $table_name ) ) {
-
-			$this->change_column(
-				$table_name,
-				'permalink_hash',
-				'string',
-				[
-					'null' => true,
-					'limit' => 40,
-				]
-			);
+		if ( ! $adapter->has_table( $table_name ) ) {
+			return;
 		}
+
+		$this->change_column(
+			$table_name,
+			'permalink_hash',
+			'string',
+			[
+				'null' => true,
+				'limit' => 40,
+			]
+		);
 
 		if ( $adapter->has_index( $table_name, [ 'permalink_hash' ], [ 'name' => 'permalink_hash' ] ) ) {
 			$this->remove_index(
