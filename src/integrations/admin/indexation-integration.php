@@ -65,7 +65,7 @@ class Indexation_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
-	 * Represents tha admin asset manager.
+	 * Represents the admin asset manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -79,11 +79,20 @@ class Indexation_Integration implements Integration_Interface {
 	protected $yoast_tools_page_conditional;
 
 	/**
-	 * Determines if the indexation action is a link or a button.
+	 * Holds whether or not the current page is the Yoast tools page.
 	 *
 	 * @var bool
 	 */
-	protected $indexation_action_is_link = false;
+	protected $is_on_yoast_tools_page;
+
+	/**
+	 * Holds the indexation action type.
+	 *
+	 * Can be Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO or Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE.
+	 *
+	 * @var string
+	 */
+	protected $indexation_action_type;
 
 	/**
 	 * The total amount of unindexed objects.
@@ -170,7 +179,8 @@ class Indexation_Integration implements Integration_Interface {
 			return;
 		}
 
-		$this->indexation_action_is_link = ! $this->yoast_tools_page_conditional->is_met();
+		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
+		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
 
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
@@ -180,7 +190,7 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		// Only enqueue indexation assets when the action is a button.
-		if ( $this->indexation_action_is_link === false ) {
+		if ( $this->is_on_yoast_tools_page ) {
 			$this->enqueue_indexation_assets();
 		}
 	}
@@ -191,7 +201,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->indexation_action_is_link, $this->options_helper );
+		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 	}
 
 	/**
@@ -220,7 +230,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->indexation_action_is_link, $this->options_helper );
+		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 	}
 
 	/**

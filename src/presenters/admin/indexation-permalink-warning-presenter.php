@@ -23,7 +23,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		$output .= \esc_html__( 'Because you changed the category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= $this->get_action( \esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
+		$output .= $this->get_action( \__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
 		$output .= '<hr />';
 		$output .= '<p>';
 		$output .= \sprintf(
