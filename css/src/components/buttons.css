@@ -79,6 +79,16 @@
 	background: var(--yoast-svg-icon-caret-right) center center no-repeat;
 }
 
+.yoast .yoast-button--buy-small {
+	font-size: 13px;
+	padding: 5px 8px 8px;
+}
+
+.yoast .yoast-button--buy-small .yoast-button--buy__caret {
+	width: 4px;
+	height: 8px;
+}
+
 .yoast-remove, .yoast-hide {
 	color: #dc3232;
 	background-color: transparent;
