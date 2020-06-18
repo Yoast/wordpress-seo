@@ -5,7 +5,7 @@ import { isUndefined } from "lodash-es";
  *
  * @returns {Object} The l10n object for the current page.
  */
-function getL10nObject() {
+export default function getL10nObject() {
 	var l10nObject = null;
 
 	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
@@ -16,5 +16,3 @@ function getL10nObject() {
 
 	return l10nObject;
 }
-
-module.exports = getL10nObject;

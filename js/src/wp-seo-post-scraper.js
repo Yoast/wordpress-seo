@@ -16,13 +16,13 @@ import { select, subscribe } from "@wordpress/data";
 // Internal dependencies.
 import Edit from "./edit";
 import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
-import tinyMCEHelper from "./wp-seo-tinymce";
+import * as tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
 import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
-import publishBox from "./ui/publishBox";
+import * as publishBox from "./ui/publishBox";
 import { update as updateTrafficLight } from "./ui/trafficLight";
 import { update as updateAdminBar } from "./ui/adminBar";
 

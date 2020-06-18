@@ -1,9 +1,7 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
-/* global require */
 
-var Jed = require( "jed" );
-
+import Jed from "jed";
 import {
 	Paper,
 	ContentAssessor,
