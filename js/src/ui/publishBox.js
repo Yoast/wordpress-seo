@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n */
+/* global wpseoScriptData */
 
 var scoreDescriptionClass = "score-text";
 var imageScoreClass = "image yoast-logo svg";
@@ -23,7 +23,7 @@ var imageScoreClass = "image yoast-logo svg";
 	 * @returns {String} A string with label and description with correct text decoration.
 	 */
 	function createSEOScoreLabel( scoreType, status ) {
-		return wpseoPostScraperL10n.publish_box.labels[ scoreType ][ status ] || "";
+		return wpseoScriptData.metabox.publish_box.labels[ scoreType ][ status ] || "";
 	}
 
 	/**
@@ -112,11 +112,11 @@ var imageScoreClass = "image yoast-logo svg";
 	function initialize() {
 		var notAvailableStatus = "na";
 
-		if ( wpseoPostScraperL10n.contentAnalysisActive === "1" ) {
+		if ( wpseoScriptData.metabox.contentAnalysisActive === "1" ) {
 			createScoresInPublishBox( "content", notAvailableStatus );
 		}
 
-		if ( wpseoPostScraperL10n.keywordAnalysisActive === "1" ) {
+		if ( wpseoScriptData.metabox.keywordAnalysisActive === "1" ) {
 			createScoresInPublishBox( "keyword", notAvailableStatus );
 		}
 
