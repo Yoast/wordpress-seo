@@ -173,14 +173,19 @@ module.exports = function( env ) {
 						{
 							loader: "babel-loader",
 							options: {
+								presets: [
+									[ "@babel/preset-env" ],
+									[
+										"@babel/preset-react",
+										{
+											pragma: "wp.element.createElement",
+										},
+									],
+								],
+								plugins: [
+									"babel-plugin-styled-components",
+								],
 								cacheDirectory: true,
-								env: {
-									development: {
-										plugins: [
-											"babel-plugin-styled-components",
-										],
-									},
-								},
 							},
 						},
 					],
