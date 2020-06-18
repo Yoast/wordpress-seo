@@ -159,14 +159,12 @@ if ( ! file_exists( $robots_file ) ) {
 	}
 }
 else {
-	$f = fopen( $robots_file, 'r' );
-
-	$content = '';
-	if ( filesize( $robots_file ) > 0 ) {
-		$content = fread( $f, filesize( $robots_file ) );
+	$content = $wp_filesystem->get_contents( $robots_file );
+	if ( $content === false ) {
+		$content = '';
 	}
 
-	if ( ! is_writable( $robots_file ) ) {
+	if ( ! $wp_filesystem->is_writable( $robots_file ) ) {
 		echo '<p><em>';
 		printf(
 			/* translators: %s expands to robots.txt. */
