@@ -324,6 +324,31 @@ class Yoast_Form {
 		'</div>';
 	}
 
+	public function light_switch_disabled( $var, $label, $buttons = [], $help = '', $inverse = false, $url ) {
+		$class = 'yoast-toggle';
+		if ( $inverse ) {
+			$class .= '--inverse';
+		}
+
+
+		if ( empty( $buttons ) ) {
+			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
+		}
+
+		list( $off_button, $on_button ) = $buttons;
+
+		echo '<div class="yoast-toggle__item yoast-toggle__item-disabled">',
+		'<div class="yoast-toggle__item-title"><label for="', esc_attr( $var ) ,'">', esc_html( $label ), '</label>', $help, '</div>',
+		'<div class="', $class, '">',
+		'<input type="checkbox" disabled class="yoast-toggle__checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', '/>',
+		'<span class="yoast-toggle__switch"></span>',
+		'<span class="yoast-toggle--inactive" aria-hidden="true">', esc_html( $off_button ), '</span>',
+		'<span class="yoast-toggle--active" aria-hidden="true">', esc_html( $on_button ), '</span>',
+		'</div>',
+		'<a href="', $url, '" class="yoast-button yoast-button--buy">', __('Upgrade to premium', 'wordpress-seo') ,'<span class="yoast-button--buy__caret"></span></a>',
+		'</div>';
+	}
+
 	/**
 	 * Create a Text input field.
 	 *
