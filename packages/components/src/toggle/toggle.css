@@ -1,5 +1,6 @@
 .yoast-feature {
 	max-width: 600px;
+	margin-right: 150px;
 }
 
 .yoast-toggle__item {
@@ -8,6 +9,22 @@
 	padding-bottom: 16px;
 	border-bottom: 1px solid var(--yoast-color-border);
 	margin-bottom: 16px;
+}
+
+.yoast-toggle__item-disabled {
+	position: relative;
+}
+
+.yoast-toggle__item-disabled .yoast-button.yoast-button--buy {
+	position: absolute;
+	left: 100%;
+	margin-left: 32px;
+	white-space: nowrap;
+}
+
+.yoast-toggle__item-disabled .yoast-toggle__item-title,
+.yoast-toggle__item-disabled .yoast-toggle {
+	opacity: .5;
 }
 
 .yoast-toggle__item-title {
