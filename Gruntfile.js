@@ -59,6 +59,11 @@ module.exports = function( grunt ) {
 				"frontend/**/*.php",
 				"inc/**/*.php",
 			],
+			versionFiles: [
+				"package.json",
+				"wp-seo-main.php",
+				"wp-seo.php",
+			],
 			pot: {
 
 				/*
