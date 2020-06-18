@@ -280,12 +280,12 @@ class Indexation_Integration_Test extends TestCase {
 
 		$this->yoast_tools_page_conditional->expects( 'is_met' )
 			->once()
-			->andReturn( false );
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
-			->andReturn( true );
+			->andReturnTrue();
 
 		$this->term_indexation
 			->expects( 'get_total_term_permalinks_null' )
