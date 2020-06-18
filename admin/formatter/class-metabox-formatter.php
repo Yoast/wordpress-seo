@@ -48,6 +48,9 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return [
+			'author_name'               => get_the_author_meta( 'display_name' ),
+			'site_name'                 => get_bloginfo( 'name' ),
+			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
@@ -67,10 +70,13 @@ class WPSEO_Metabox_Formatter {
 			'cornerstoneActive'         => WPSEO_Options::get( 'enable_cornerstone_content', false ) ? 1 : 0,
 			'intl'                      => $this->get_content_analysis_component_translations(),
 			'isRtl'                     => is_rtl(),
-			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'showSocial' => [
+				'facebook' => WPSEO_Options::get( 'opengraph', false ),
+				'twitter' => WPSEO_Options::get( 'twitter', false ),
+			],
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
