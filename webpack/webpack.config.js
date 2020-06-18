@@ -48,6 +48,8 @@ const wordpressExternals = {
 	"@wordpress/keycodes": "window.wp.keycodes",
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/url": "window.wp.url",
+	"@wordpress/dom-ready": "window.wp.domReady",
+	"@wordpress/a11y": "window.wp.a11y",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
@@ -197,7 +199,7 @@ module.exports = function( env ) {
 					test: /\.css$/,
 					use: [
 						MiniCssExtractPlugin.loader,
-						'css-loader',
+						"css-loader",
 					],
 				},
 			],
@@ -233,7 +235,7 @@ module.exports = function( env ) {
 		{
 			...base,
 			entry: {
-				components: "./js/src/components.js",
+				components: "./js/src/externals/components.js",
 			},
 			output: {
 				path: path.resolve(),
@@ -277,8 +279,8 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				analysis: "./js/src/analysis.js",
+				"analysis-worker": "./js/src/analysis-worker.js",
+				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -290,7 +292,7 @@ module.exports = function( env ) {
 			...base,
 			externals: { yoastseo: "yoast.analysis" },
 			entry: {
-				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
