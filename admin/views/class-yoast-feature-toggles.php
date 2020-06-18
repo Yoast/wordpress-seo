@@ -153,7 +153,7 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ai',
 				'premium'         => true,
-				'upsell_url'      => '', // @todo add shortlink
+				'upsell_url'      => 'https://yoa.st/411',
 				'order'           => 41,
 			];
 
@@ -164,7 +164,7 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/17g',
 				'premium'         => true,
-				'upsell_url'      => '', // @todo add shortlink
+				'upsell_url'      => 'https://yoa.st/412',
 				'order'           => 42,
 			];
 		}
