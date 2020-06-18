@@ -9,7 +9,7 @@ namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Builders\Post_Link_Builder;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -22,9 +22,9 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	/**
 	 * The post link builder.
 	 *
-	 * @var Post_Link_Builder
+	 * @var Indexable_Link_Builder
 	 */
-	protected $post_link_builder;
+	protected $link_builder;
 
 	/**
 	 * The post type helper.
@@ -50,21 +50,21 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Post_Link_Builder    $post_link_builder The post link builder.
-	 * @param Post_Type_Helper     $post_type_helper  The post type helper.
-	 * @param Indexable_Repository $repository        The indexable repository.
-	 * @param wpdb                 $wpdb              The WordPress database instance.
+	 * @param Indexable_Link_Builder $link_builder The post link builder.
+	 * @param Post_Type_Helper       $post_type_helper  The post type helper.
+	 * @param Indexable_Repository   $repository        The indexable repository.
+	 * @param wpdb                   $wpdb              The WordPress database instance.
 	 */
 	public function __construct(
-		Post_Link_Builder $post_link_builder,
+		Indexable_Link_Builder $link_builder,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
-		$this->post_link_builder = $post_link_builder;
-		$this->post_type_helper  = $post_type_helper;
-		$this->repository        = $repository;
-		$this->wpdb              = $wpdb;
+		$this->link_builder     = $link_builder;
+		$this->post_type_helper = $post_type_helper;
+		$this->repository       = $repository;
+		$this->wpdb             = $wpdb;
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	protected function get_query( $count, $limit = 1 ) {
 		$public_post_types = $this->post_type_helper->get_accessible_post_types();
 		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
-		$seo_meta_table    = Model::get_table_name( 'SEO_Meta' );
+		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
 		$select = 'ID, post_content';
@@ -132,7 +132,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 		return $this->wpdb->prepare( "
 			SELECT $select
 			FROM {$this->wpdb->posts}
-			WHERE ID NOT IN (SELECT object_id FROM $seo_meta_table) AND post_status = 'publish' AND post_type IN ($placeholders)
+			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL) AND post_status = 'publish' AND post_type IN ($placeholders)
 			$limit_query
         ", $replacements );
 	}

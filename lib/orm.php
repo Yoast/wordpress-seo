@@ -2143,7 +2143,9 @@ class ORM implements \ArrayAccess {
 				return true;
 			}
 			$query = $this->_build_update();
-			$id    = $this->id( true );
+			$this->_add_id_column_conditions( $query );
+
+			$id = $this->id( true );
 			if ( \is_array( $id ) ) {
 				$values = \array_merge( $values, \array_values( $id ) );
 			}
@@ -2168,6 +2170,32 @@ class ORM implements \ArrayAccess {
 				$this->_data[ $column ] = $wpdb->insert_id;
 			}
 		}
+		$this->_dirty_fields = $this->_expr_fields = [];
+
+		return $success;
+	}
+
+	/**
+	 * Updates many records in the database.
+	 *
+	 * @return int|bool The number of rows changed if the query was succesful. False otherwise.
+	 */
+	public function update_many() {
+		// Remove any expression fields as they are already baked into the query.
+		$values = \array_values( \array_diff_key( $this->_dirty_fields, $this->_expr_fields ) );
+
+		// UPDATE.
+		// If there are no dirty values, do nothing.
+		if ( empty( $values ) && empty( $this->_expr_fields ) ) {
+			return true;
+		}
+
+		$query = $this->_join_if_not_empty( ' ', [
+			$this->_build_update(),
+			$this->_build_where(),
+		] );
+
+		$success             = self::_execute( $query, \array_merge( $values, $this->_values ) );
 		$this->_dirty_fields = $this->_expr_fields = [];
 
 		return $success;
@@ -2210,7 +2238,6 @@ class ORM implements \ArrayAccess {
 			$field_list[] = "{$this->_quote_identifier($key)} = {$value}";
 		}
 		$query[] = \join( ', ', $field_list );
-		$this->_add_id_column_conditions( $query );
 
 		return \join( ' ', $query );
 	}
