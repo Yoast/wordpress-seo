@@ -332,7 +332,7 @@ class Yoast_Form {
 	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
 	 * @param bool   $inverse Used when the option is saved inverse, for instance for "noindex-" or "disable-" type options.
-	 * @param string $url     The URL to link the button to
+	 * @param string $url     The URL to link the button to.
 	 *
 	 * @since 3.1
 	 */

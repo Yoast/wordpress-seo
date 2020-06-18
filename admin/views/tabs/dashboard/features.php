@@ -44,7 +44,8 @@ $yoast_features = new WPSEO_Features();
 				false,
 				esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
 			);
-		} else {
+		}
+		else {
 
 			$yform->light_switch(
 				$feature->setting,
