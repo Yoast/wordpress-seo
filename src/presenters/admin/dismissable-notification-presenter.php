@@ -82,7 +82,7 @@ class Dismissable_Notification_Presenter extends Abstract_Presenter {
 		}
 
 		$dismiss_label = $this->dismiss_label;
-		if ( empty ( $this->dismiss_label ) ) {
+		if ( empty( $this->dismiss_label ) ) {
 			$dismiss_label = \__( 'Dismiss', 'wordpress-seo' );
 		}
 		$dismiss_label = \esc_html( $dismiss_label );

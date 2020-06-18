@@ -29,6 +29,39 @@ class Redesign_Notification_Integration extends Dismissable_Notification_Integra
 	}
 
 	/**
+	 * Provides the message to be displayed in the notification.
+	 *
+	 * @return string The message to be displayed.
+	 */
+	protected function get_message() {
+		return \sprintf(
+			__(
+				'We decided to give %1$s a new look. Don’t worry, all your settings are secure and can still be found in the same place as before.',
+				'wordpress-seo'
+			),
+			'Yoast SEO'
+		);
+	}
+
+	/**
+	 * Provides the label to be shown on the dismiss button.
+	 *
+	 * @return string The label to be shown on the dismiss button.
+	 */
+	protected function get_dismiss_label() {
+		return \__( 'I understand, remove this message.', 'wordpress-seo' );
+	}
+
+	/**
+	 * Provides the type of notification that will be shown.
+	 *
+	 * @return string The type of notification to show.
+	 */
+	protected function get_notification_type() {
+		return 'info';
+	}
+
+	/**
 	 * Determines if the notification should be shown.
 	 *
 	 * @return bool True if the notification should be shown.
@@ -63,43 +96,10 @@ class Redesign_Notification_Integration extends Dismissable_Notification_Integra
 	 * @return bool True if it was installed before the release date.
 	 */
 	private function is_installed_before_redesign() {
-		// July 7th 2020, 12:00 CEST
+		// July 7th 2020, 12:00 CEST.
 		$redesign_release_date = 1594116000;
 		$activation_time       = \WPSEO_Options::get( 'first_activated_on' );
 
 		return ( $activation_time < $redesign_release_date );
-	}
-
-	/**
-	 * Provides the message to be displayed in the notification.
-	 *
-	 * @return string The message to be displayed.
-	 */
-	protected function get_message() {
-		return \sprintf(
-			__(
-				'We decided to give %1$s a new look. Don’t worry, all your settings are secure and can still be found in the same place as before.',
-				'wordpress-seo'
-			),
-			'Yoast SEO'
-		);
-	}
-
-	/**
-	 * Provides the label to be shown on the dismiss button.
-	 *
-	 * @return string The label to be shown on the dismiss button.
-	 */
-	protected function get_dismiss_label() {
-		return \__( 'I understand, remove this message.', 'wordpress-seo' );
-	}
-
-	/**
-	 * Provides the type of notification that will be shown.
-	 *
-	 * @return string The type of notification to show.
-	 */
-	protected function get_notification_type() {
-		return 'info';
 	}
 }
