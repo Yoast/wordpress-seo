@@ -167,7 +167,7 @@ class Index_Command implements Command_Interface {
 		$total = $indexation_action->get_total_unindexed();
 		if ( $total > 0 ) {
 			$limit    = $indexation_action->get_limit();
-				$progress = \WP_CLI\Utils\make_progress_bar( 'Indexing ' . $name, $total );
+			$progress = \WP_CLI\Utils\make_progress_bar( 'Indexing ' . $name, $total );
 			do {
 				$indexables = $indexation_action->index();
 				$count      = \count( $indexables );
