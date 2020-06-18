@@ -56,18 +56,27 @@ class Author_Archive_Helper {
 	 *
 	 * @param int $author_id The author ID.
 	 *
-	 * @codeCoverageIgnore It only performs a count query through the ORM and converts it to a boolean.
+	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
 	 *
 	 * @return bool Whether the author has at least one public post.
 	 */
 	protected function author_has_a_public_post( $author_id ) {
-		$indexable_exists = Model::of_type( 'Indexable' )
+		$cache_key = 'author_has_a_public_post_' . $author_id;
+		$indexable_exists = wp_cache_get( $cache_key );
+
+		if ( false === $indexable_exists ) {
+			$indexable_exists = Model::of_type( 'Indexable' )
 			->select( 'id' )
 			->where( 'object_type', 'post' )
 			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
 			->where( 'author_id', $author_id )
 			->where( 'is_public', 1 )
 			->find_one();
+
+			if ( false === $indexable_exists ) {
+				wp_cache_set( $cache_key, 0, '', wp_rand( 2 * HOUR_IN_SECONDS, 4 * HOUR_IN_SECONDS ) ); // Cache no results to prevent full table scanning on authors with no public posts.
+			}
+		}
 
 		return (bool) $indexable_exists;
 	}
@@ -77,18 +86,27 @@ class Author_Archive_Helper {
 	 *
 	 * @param int $author_id The author ID.
 	 *
-	 * @codeCoverageIgnore It only performs a count query through the ORM and converts it to a boolean.
+	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
 	 *
 	 * @return bool Whether the author has at least one post with the is public null.
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
-		$indexable_exists = Model::of_type( 'Indexable' )
-			->select( 'id' )
-			->where( 'object_type', 'post' )
-			->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
-			->where( 'author_id', $author_id )
-			->where_null( 'is_public' )
-			->find_one();
+		$cache_key = 'author_has_a_post_with_is_public_null_' . $author_id;
+		$indexable_exists = wp_cache_get( $cache_key );
+
+		if ( false === $indexable_exists ) {
+			$indexable_exists = Model::of_type( 'Indexable' )
+				->select( 'id' )
+				->where( 'object_type', 'post' )
+				->where_in( 'object_sub_type', $this->get_author_archive_post_types() )
+				->where( 'author_id', $author_id )
+				->where_null( 'is_public' )
+				->find_one();
+
+			if ( false === $indexable_exists ) {
+				wp_cache_set( $cache_key, 0, '', wp_rand( 2 * HOUR_IN_SECONDS, 4 * HOUR_IN_SECONDS ) ); // Cache no results to prevent full table scanning on authors with no is public null posts.
+			}
+		}
 
 		return (bool) $indexable_exists;
 	}
