@@ -75,6 +75,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 				break;
 
 			case static::REASON_PERMALINK_SETTINGS :
+			default:
 				$text = \esc_html__( 'Because of a change in your permalink structure, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
 				break;
 		}

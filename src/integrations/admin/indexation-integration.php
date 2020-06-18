@@ -95,7 +95,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
-	 * @param Options_Helper                                $options_helper               The options_helper helper.
+	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 */
 	public function __construct(
@@ -151,11 +151,9 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+
 		if ( $this->is_indexation_warning_hidden() === false ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
-		}
-		elseif ( $this->show_indexation_permalink_warning()  ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+			$this->add_admin_notice();
 		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
@@ -260,15 +258,24 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Adds the admin notice to show a specific indexation warning.
+	 */
+	protected function add_admin_notice() {
+		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+
+			return;
+		}
+
+		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+	}
+
+	/**
 	 * Returns if the indexation warning is temporarily hidden.
 	 *
 	 * @return bool True if hidden.
 	 */
 	protected function is_indexation_warning_hidden() {
-		if ( $this->has_indexation_reason() ) {
-			return true;
-		}
-
 		if ( $this->options_helper->get( 'ignore_indexation_warning', false ) === true ) {
 			return true;
 		}
@@ -278,40 +285,9 @@ class Indexation_Integration implements Integration_Interface {
 			return true;
 		}
 
-		return $this->is_temporary_hidden();
-	}
-
-	/**
-	 * Checks if the indexation warning for permalinks must be shown.
-	 *
-	 * @return bool True when the warning must be shown.
-	 */
-	protected function show_indexation_permalink_warning() {
-		if ( ! $this->has_indexation_reason()  ) {
-			return false;
-		}
-
-		return $this->is_temporary_hidden() === false;
-	}
-
-	/**
-	 * Checks if the warning is temporary hidden.
-	 *
-	 * @return bool True when hidden.
-	 */
-	protected function is_temporary_hidden() {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
-	}
-
-	/**
-	 * Is there a specific reason for reindex.
-	 *
-	 * @return bool True when there is a reason.
-	 */
-	protected function has_indexation_reason() {
-		return $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '';
 	}
 
 	/**
