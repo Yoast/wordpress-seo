@@ -147,3 +147,19 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 .yoast-toggle--inverse .yoast-toggle__checkbox:checked ~ .yoast-toggle--active {
 	color: var(--yoast-color-default-darker);
 }
+
+@media(max-width: 400px) {
+	.yoast-feature {
+		margin-right: 0;
+	}
+
+	.yoast-toggle__item-disabled {
+		flex-wrap: wrap;
+	}
+
+	.yoast-toggle__item-disabled .yoast-button.yoast-button--buy {
+		position: initial;
+		margin-left: 0;
+		margin-top: 8px;
+	}
+}
