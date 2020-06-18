@@ -301,7 +301,7 @@ class Yoast_Form {
 	public function light_switch( $var, $label, $buttons = [], $help = '', $inverse = false ) {
 		$val = $this->get_field_value( $var, false );
 
-		if( $val === 'on' ){
+		if ( $val === 'on' ) {
 			$val = true;
 		}
 
