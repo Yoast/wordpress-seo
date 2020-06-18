@@ -136,6 +136,9 @@ const wordsToStem = [
 	[ "chansons", "chanson" ],
 	[ "potirons", "potiron" ],
 	[ "taille-crayons", "taille-crayon" ],
+	// Irregular verbs added to the full forms.
+	[ "prirent", "prend" ],
+	[ "croiraient", "croi" ],
 ];
 
 const paradigms = [
