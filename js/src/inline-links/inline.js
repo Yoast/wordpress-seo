@@ -11,7 +11,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { withSpokenMessages, Popover } from "@wordpress/components";
 import { prependHTTP } from "@wordpress/url";
 import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
-import { __experimentalLinkControl as LinkControl } from "@wordpress/block-editor";
+import LinkControl from "./vendor/link-control";
 
 /**
  * Internal dependencies
