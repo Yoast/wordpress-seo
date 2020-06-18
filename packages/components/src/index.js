@@ -1,4 +1,5 @@
 import "./base";
+import "./title-separator";
 
 import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
 import { LinkButton } from "./buttons/LinkButton";
