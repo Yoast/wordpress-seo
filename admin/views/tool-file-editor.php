@@ -102,9 +102,11 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Writing to .htaccess file and escaping for HTML will break functionality.
 		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
 		if ( is_writable( $ht_access_file ) ) {
-			$f = fopen( $ht_access_file, 'w+' );
-			fwrite( $f, $ht_access_new );
-			fclose( $f );
+			$wp_filesystem->put_contents(
+				$ht_access_file,
+				$ht_access_new,
+				FS_CHMOD_FILE
+			);
 		}
 	}
 }
