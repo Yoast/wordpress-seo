@@ -65,8 +65,12 @@ class WPSEO_Export {
 		);
 		echo '</p>';
 		/* translators: %1$s expands to Yoast SEO */
-		echo '<label for="wpseo-settings-export" class="yoast-inline-label">' . sprintf( __( 'Your %1$s settings:', 'wordpress-seo' ), 'Yoast SEO' ) . '</label><br />';
-		echo '<textarea id="wpseo-settings-export" rows="20" cols="100" aria-describedby="wpseo-settings-export-desc">' . esc_textarea( $this->export ) . '</textarea>';
+		echo '<div class="yoast-field-group">';
+		echo '<div class="yoast-field-group__title">';
+		echo '<label for="wpseo-settings-export" class="yoast-inline-label">' . sprintf( __( 'Your %1$s settings:', 'wordpress-seo' ), 'Yoast SEO' ) . '</label>';
+		echo '</div>';
+		echo '<textarea id="wpseo-settings-export" class="yoast-field-group__textarea" rows="20" cols="100" aria-describedby="wpseo-settings-export-desc">' . esc_textarea( $this->export ) . '</textarea>';
+		echo '</div>';
 	}
 
 	/**

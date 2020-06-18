@@ -8,7 +8,7 @@
  */
 
 ?>
-<div class="tab-block">
+<div class="tab-block yoast-feature">
 	<?php
 	if ( get_option( 'show_on_front' ) === 'posts' ) {
 		// @todo add the proper URL here once this article has been written.

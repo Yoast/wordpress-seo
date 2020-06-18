@@ -301,6 +301,10 @@ class Yoast_Form {
 	public function light_switch( $var, $label, $buttons = [], $help = '', $inverse = false ) {
 		$val = $this->get_field_value( $var, false );
 
+		if ( $val === 'on' ) {
+			$val = true;
+		}
+
 		$class = 'yoast-toggle';
 		if ( $inverse ) {
 			$class .= '--inverse';
@@ -336,6 +340,10 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function textinput( $var, $label, $attr = [] ) {
+
+		echo '<div class="yoast-field-group">';
+		$type = 'text';
+
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class'    => $attr,
@@ -368,7 +376,13 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '
+		" placeholder="' . esc_attr( $attr['placeholder'] ) . '
+		" type="' . $type . '
+		" id="', esc_attr( $var ), '
+		" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']
+		" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
 
@@ -382,6 +396,7 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function textarea( $var, $label, $attr = [] ) {
+		echo '<div class="yoast-field-group">';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class' => $attr,
@@ -403,7 +418,13 @@ class Yoast_Form {
 				'class' => 'textinput',
 			]
 		);
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '
+		" rows="' . esc_attr( $attr['rows'] ) . '
+		" class="yoast-field-group__textarea ' . esc_attr( $attr['class'] ) . '
+		" id="' . esc_attr( $var ) . '
+		" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']
+		"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea>';
+		echo '</div>';
 	}
 
 	/**
@@ -623,6 +644,89 @@ class Yoast_Form {
 			);
 		}
 		echo '</fieldset>';
+	}
+
+	/**
+	 * Create a Title separator input field.
+	 *
+	 * @param string $var         The variable within the option to create the separator.
+	 * @param array  $values      The title separator options to choose from.
+	 * @param string $legend      Optional. The legend to show for the field set, if any.
+	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
+	 *
+	 * @since 14.5
+	 */
+	public function title_separator( $var, $values, $legend = '', $legend_attr = [] ) {
+		if ( ! is_array( $values ) || $values === [] ) {
+			return;
+		}
+		$val = $this->get_field_value( $var, false );
+
+		$var_esc = esc_attr( $var );
+
+		echo '<div class="yoast-field-group__title-separator" id="' . $var_esc . '">';
+
+		if ( is_string( $legend ) && $legend !== '' ) {
+
+			$defaults = [
+				'id'    => '',
+				'class' => 'radiogroup',
+			];
+
+			$legend_attr = wp_parse_args( $legend_attr, $defaults );
+
+			$this->legend( $legend, $legend_attr );
+		}
+
+		foreach ( $values as $key => $value ) {
+			$label      = $value;
+			$aria_label = '';
+
+			if ( is_array( $value ) ) {
+				$label      = isset( $value['label'] ) ? $value['label'] : '';
+				$aria_label = isset( $value['aria_label'] ) ? $value['aria_label'] : '';
+			}
+
+			$key_esc = esc_attr( $key );
+			echo '<input type="radio" class="visually-hidden" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
+			$this->label_title_separator(
+				$label,
+				[
+					'for'        => $var_esc . '-' . $key_esc,
+					'class'      => 'radio',
+					'aria_label' => $aria_label,
+				]
+			);
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * Output a label element.
+	 *
+	 * @param string $text Label text string.
+	 * @param array  $attr HTML attributes set.
+	 *
+	 * @since 2.0
+	 */
+	public function label_title_separator( $text, $attr ) {
+		$defaults = [
+			'class'      => 'radio',
+			'close'      => true,
+			'for'        => '',
+			'aria_label' => '',
+		];
+
+		$attr       = wp_parse_args( $attr, $defaults );
+		$aria_label = '';
+		if ( $attr['aria_label'] !== '' ) {
+			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
+		}
+
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
+		if ( $attr['close'] ) {
+			echo '</label>';
+		}
 	}
 
 	/**

@@ -46,5 +46,7 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 
 unset( $wpseo_taxonomies );
 
+echo '<div class="yoast-feature">';
 printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
 require __DIR__ . '/taxonomies/category-url.php';
+echo '</div>';

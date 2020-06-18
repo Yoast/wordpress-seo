@@ -63,7 +63,8 @@
 	border-radius: 17px;
 	font-size: 12px;
 	color: var(--yoast-color-white);
-	padding: 4px 11px;
+	padding: 2px 11px;
+	margin-right: 4px;
 }
 
 .yoast-label--active {
@@ -72,4 +73,13 @@
 
 .yoast-label--inactive {
 	background-color: var(--yoast-color-inactive);
+}
+
+.yoast-notice {
+	clear:both;
+	background-color: #ffeb3b;
+	color: var(--yoast-color-default);
+	padding: 16px;
+	max-width: 450px;
+	margin-bottom: 32px;
 }

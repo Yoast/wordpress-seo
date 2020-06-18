@@ -18,11 +18,11 @@
 	--yoast-color-inactive-grey: #9E9E9E;
 	--yoast-color-inactive-grey-light: #f1f1f1;
 	--yoast-color-active-light: #B6CF94;
-
+  
 	--yoast-font-size-default: 14px;
-
+  
 	--yoast-border-default: 1px solid var(--yoast-color-border);
-
+  
 	--yoast-shadow-default: 0px 3px 6px rgba(0, 0, 0, 0.15);
 
 	--yoast-transition-default: all 150ms ease-out;

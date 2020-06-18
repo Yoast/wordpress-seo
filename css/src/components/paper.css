@@ -6,6 +6,15 @@
 	border: var(--yoast-border-default);
 	max-width: 600px;
 	position: relative;
+	box-sizing: border-box;
+}
+
+.yoast-paper .toggleable-container-trigger {
+	background: none;
+	border: 0px;
+	width: 100%;
+	text-align: left;
+	color: var(--yoast-color-primary);
 }
 
 .yoast-paper--small {
