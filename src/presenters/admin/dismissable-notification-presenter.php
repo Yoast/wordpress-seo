@@ -90,10 +90,12 @@ class Dismissable_Notification_Presenter extends Abstract_Presenter {
 		$html = <<<PHP_EOL
 <div class="notice notice-$type"><p>$message</p>
 <form method="GET" action="">
-<input type="hidden" name="identifier" value="$identifier">
-<input type="hidden" name="page" value="$page">
-<input type="hidden" name="nonce" value="$nonce">
-<input type="submit" value="$dismiss_label">
+	<div class="yoast-notice--container">
+		<input type="hidden" name="identifier" value="$identifier">
+		<input type="hidden" name="page" value="$page">
+		<input type="hidden" name="nonce" value="$nonce">
+		<input class="yoast-button yoast-button--secondary" type="submit" value="$dismiss_label">
+	</div>
 </form>
 </div>
 PHP_EOL;
