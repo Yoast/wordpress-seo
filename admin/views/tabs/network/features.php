@@ -32,26 +32,30 @@ $yoast_features = new WPSEO_Features();
 
 	<?php
 	foreach ( $feature_toggles as $feature ) {
-		$feature_help = new WPSEO_Admin_Help_Button(
-			$feature->read_more_url,
-			/* translators: %s Expands to a feature's name. */
-			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) )
-		);
+		if ( $feature->premium && ! $yoast_features->is_premium() ) {
+			$yform->light_switch_disabled(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label ),
+				false,
+				esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
+			);
+		} else {
 
-		if ( $feature['premium'] && ! $yoast_features->is_premium() ) {
-			// This should be shown as disabled with upgrade incentive.
-			// Use URL for the upsell link: esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
+			$yform->light_switch(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			);
 		}
-
-		$yform->toggle_switch(
-			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
-			[
-				'off' => __( 'Disable', 'wordpress-seo' ),
-				'on'  => __( 'Allow Control', 'wordpress-seo' ),
-			],
-			'<strong>' . $feature->name . '</strong>',
-			$feature_help
-		);
 	}
 	?>
 

@@ -44,17 +44,18 @@ $yoast_features = new WPSEO_Features();
 				false,
 				esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
 			);
-		}
+		} else {
 
-		$yform->light_switch(
-			$feature->setting,
-			$feature->name,
-			[
-				__( 'Off', 'wordpress-seo' ),
-				__( 'On', 'wordpress-seo' ),
-			],
-			new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
-		);
+			$yform->light_switch(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			);
+		}
 	}
 	?>
 </div>
