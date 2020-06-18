@@ -305,13 +305,12 @@ const removeOtherVerbSuffixes = function( word, step2aDone, wordAfterStep1, r2In
 				return word.replace( regex, "" );
 			}
 		}
-		/*
-		 * Check for the verb suffix -ons and remove if in RV, unless it is preceded by -i. In most words ending in -ions,
-		 -ons is not a (full) suffix.
-		 */
+		// Check if a word ends in "ons" preceded by "i", if it is "ons" is not stemmed.
 		if ( word.endsWith( "ions" ) ) {
 			return word;
 		}
+
+		// Check if a word ends in "ons" preceded by other than "i" and stem it if it is in RV.
 		const verbSuffixOns = new RegExp( morphologyData.regularStemmer.verbSuffixOns );
 		if ( word.search( verbSuffixOns ) >= rvIndex ) {
 			word = word.replace( verbSuffixOns, "" );
