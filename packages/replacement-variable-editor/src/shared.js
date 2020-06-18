@@ -17,10 +17,12 @@ export const DescriptionInputContainer = styled( VariableEditorInputContainer )`
 
 	.public-DraftEditorPlaceholder-root {
 		color: ${colors.$color_grey_text};
+		position: absolute;
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
 		color: ${colors.$color_grey_text};
+		position: absolute;
 	}
 `;
 
