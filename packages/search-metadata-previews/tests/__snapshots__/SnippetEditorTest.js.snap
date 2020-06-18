@@ -164,6 +164,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -176,7 +178,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -195,7 +196,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -433,7 +434,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       focusBoxShadowColor="#084a67"
       focusColor="#000"
       hoverBackgroundColor="#fff"
-      hoverBorderColor="#888"
       hoverColor="#000"
       onClick={[Function]}
       textColor="#555"
@@ -491,7 +491,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
       focusBoxShadowColor="#084a67"
       focusColor="#000"
       hoverBackgroundColor="#fff"
-      hoverBorderColor="#888"
       hoverColor="#000"
       onClick={[Function]}
       textColor="#555"
@@ -793,6 +792,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -805,7 +806,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -824,7 +824,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -868,6 +868,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -878,7 +880,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -897,7 +898,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -1841,7 +1842,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -1874,7 +1874,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -1916,9 +1915,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -1927,7 +1924,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -1961,7 +1958,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -1976,7 +1972,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -2682,7 +2677,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -2714,7 +2708,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -2756,9 +2749,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -2767,7 +2758,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -2795,7 +2786,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -2810,7 +2800,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -2994,6 +2983,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -3006,7 +2997,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -3025,7 +3015,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -3965,7 +3955,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -3998,7 +3987,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -4040,9 +4028,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -4051,7 +4037,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -4085,7 +4071,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -4100,7 +4085,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -4691,6 +4675,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -4703,7 +4689,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -4722,7 +4707,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -4766,6 +4751,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -4776,7 +4763,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -4795,7 +4781,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -5739,7 +5725,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -5772,7 +5757,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -5814,9 +5798,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -5825,7 +5807,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -5859,7 +5841,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -5874,7 +5855,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -6580,7 +6560,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -6612,7 +6591,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -6654,9 +6632,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -6665,7 +6641,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -6693,7 +6669,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -6708,7 +6683,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -7018,6 +6992,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -7030,7 +7006,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -7049,7 +7024,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -7093,6 +7068,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -7103,7 +7080,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -7122,7 +7098,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -8066,7 +8042,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -8099,7 +8074,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -8141,9 +8115,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -8152,7 +8124,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -8186,7 +8158,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -8201,7 +8172,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -8907,7 +8877,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -8939,7 +8908,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -8981,9 +8949,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -8992,7 +8958,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -9020,7 +8986,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -9035,7 +9000,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -9219,6 +9183,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -9231,7 +9197,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -9250,7 +9215,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -9612,6 +9577,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -9624,7 +9591,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -9643,7 +9609,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -10131,6 +10097,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -10143,7 +10111,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -10162,7 +10129,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c15:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c15 svg {
@@ -10206,6 +10173,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -10216,7 +10185,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c22:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -10235,7 +10203,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c22:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c22 svg {
@@ -11217,7 +11185,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -11250,7 +11217,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -11292,9 +11258,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -11303,7 +11267,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -11337,7 +11301,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -11352,7 +11315,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -12058,7 +12020,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -12090,7 +12051,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -12132,9 +12092,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -12143,7 +12101,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -12171,7 +12129,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -12186,7 +12143,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -12496,6 +12452,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -12508,7 +12466,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -12527,7 +12484,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c15:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c15 svg {
@@ -12571,6 +12528,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -12581,7 +12540,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c22:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -12600,7 +12558,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c22:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c22 svg {
@@ -13582,7 +13540,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -13615,7 +13572,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -13657,9 +13613,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -13668,7 +13622,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -13702,7 +13656,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -13717,7 +13670,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -14423,7 +14375,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -14455,7 +14406,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -14497,9 +14447,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -14508,7 +14456,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -14536,7 +14484,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -14551,7 +14498,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -14861,6 +14807,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -14873,7 +14821,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -14892,7 +14839,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -14936,6 +14883,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -14946,7 +14895,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -14965,7 +14913,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -15909,7 +15857,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -15942,7 +15889,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -15984,9 +15930,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -15995,7 +15939,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -16029,7 +15973,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -16044,7 +15987,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -16750,7 +16692,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -16782,7 +16723,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -16824,9 +16764,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -16835,7 +16773,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -16863,7 +16801,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -16878,7 +16815,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -17188,6 +17124,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -17200,7 +17138,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -17219,7 +17156,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -17263,6 +17200,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -17273,7 +17212,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -17292,7 +17230,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -18251,7 +18189,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -18284,7 +18221,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -18326,9 +18262,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -18337,7 +18271,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -18371,7 +18305,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -18386,7 +18319,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -19137,7 +19069,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -19169,7 +19100,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -19211,9 +19141,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -19222,7 +19150,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -19250,7 +19178,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -19265,7 +19192,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -19453,6 +19379,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -19465,7 +19393,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -19484,7 +19411,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
 .c15:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c15 svg {
@@ -19729,7 +19656,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       focusBoxShadowColor="#084a67"
       focusColor="#000"
       hoverBackgroundColor="#fff"
-      hoverBorderColor="#888"
       hoverColor="#000"
       onClick={[Function]}
       textColor="#555"
@@ -19787,7 +19713,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
       focusBoxShadowColor="#084a67"
       focusColor="#000"
       hoverBackgroundColor="#fff"
-      hoverBorderColor="#888"
       hoverColor="#000"
       onClick={[Function]}
       textColor="#555"
@@ -20089,6 +20014,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -20101,7 +20028,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -20120,7 +20046,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {
@@ -20164,6 +20090,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -20174,7 +20102,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c21:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -20193,7 +20120,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 .c21:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c21 svg {
@@ -21137,7 +21064,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -21170,7 +21096,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -21212,9 +21137,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -21223,7 +21146,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -21257,7 +21180,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -21272,7 +21194,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
           forwardedRef={[Function]}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -21978,7 +21899,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
         focusBoxShadowColor="#084a67"
         focusColor="#000"
         hoverBackgroundColor="#fff"
-        hoverBorderColor="#888"
         hoverColor="#000"
         onClick={[Function]}
         textColor="#555"
@@ -22010,7 +21930,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": "#084a67",
                 "focusColor": "#000",
                 "hoverBackgroundColor": "#fff",
-                "hoverBorderColor": "#888",
                 "hoverColor": "#000",
                 "textColor": "#555",
                 "type": "button",
@@ -22052,9 +21971,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   [Function],
                   ";background-color:",
                   [Function],
-                  ";border-color:",
-                  [Function],
-                  ";}",
+                  ";border-color:var(--yoast-color-border--default);}",
                   "display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;border-width:",
                   "1px",
                   ";border-style:solid;margin:0;padding:",
@@ -22063,7 +21980,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   [Function],
                   ";overflow:visible;min-height:",
                   "32px",
-                  ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
+                  ";transition:var(--yoast-transition-default);svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
@@ -22091,7 +22008,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                 "focusBoxShadowColor": [Function],
                 "focusColor": [Function],
                 "hoverBackgroundColor": [Function],
-                "hoverBorderColor": [Function],
                 "hoverColor": [Function],
                 "textColor": [Function],
                 "type": [Function],
@@ -22106,7 +22022,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
           forwardedRef={null}
           hoverBackgroundColor="#fff"
-          hoverBorderColor="#888"
           hoverColor="#000"
           onClick={[Function]}
           textColor="#555"
@@ -22283,6 +22198,8 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -22295,7 +22212,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c15:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -22314,7 +22230,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 .c15:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c15 svg {
@@ -23124,6 +23040,8 @@ exports[`SnippetEditor shows the editor 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -23136,7 +23054,6 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c14:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -23155,7 +23072,7 @@ exports[`SnippetEditor shows the editor 1`] = `
 .c14:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c14 svg {

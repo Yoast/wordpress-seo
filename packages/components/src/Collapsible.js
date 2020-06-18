@@ -112,7 +112,7 @@ const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1
 export const CollapsibleStateless = ( props ) => {
 	let children = null;
 	if ( props.isOpen ) {
-		children = ( props.hasPadding ) ? <Content class="collapsible_content">{ props.children }</Content> : props.children;
+		children = ( props.hasPadding ) ? <Content className="collapsible_content">{ props.children }</Content> : props.children;
 	}
 	const Container = ( props.hasSeparator ) ? StyledContainerTopLevel : StyledContainer;
 
