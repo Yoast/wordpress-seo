@@ -72,9 +72,11 @@ if ( isset( $_POST['submitrobots'] ) ) {
 	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
 		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
 		if ( is_writable( $robots_file ) ) {
-			$f = fopen( $robots_file, 'w+' );
-			fwrite( $f, $robotsnew );
-			fclose( $f );
+			$wp_filesystem->put_contents(
+				$robots_file,
+				$robotsnew,
+				FS_CHMOD_FILE
+			);
 			$msg = sprintf(
 				/* translators: %s expands to robots.txt. */
 				__( 'Updated %s', 'wordpress-seo' ),
