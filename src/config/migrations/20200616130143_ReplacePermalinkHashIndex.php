@@ -77,7 +77,47 @@ class ReplacePermalinkHashIndex extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		// Nothing to do.
+		$table_name = $this->get_table_name();
+		$adapter    = $this->get_adapter();
+
+		if ( ! $adapter->has_table( $table_name ) ) {
+			return;
+		}
+
+		if ( $adapter->has_index( $table_name, [ 'permalink_hash', 'object_type' ], [ 'name' => 'permalink_hash_and_object_type' ] ) ) {
+			$this->remove_index(
+				$table_name,
+				[
+					'permalink_hash',
+					'object_type',
+				],
+				[
+					'name' => 'permalink_hash_and_object_type',
+				]
+			);
+		}
+
+		$this->change_column(
+			$table_name,
+			'permalink_hash',
+			'string',
+			[
+				'null' => true,
+				'limit' => 191,
+			]
+		);
+
+		if ( ! $adapter->has_index( $table_name, [ 'permalink_hash' ], [ 'name' => 'permalink_hash' ] ) ) {
+			$this->add_index(
+				$table_name,
+				[
+					'permalink_hash',
+				],
+				[
+					'name' => 'permalink_hash',
+				]
+			);
+		}
 	}
 
 	/**
