@@ -142,6 +142,8 @@ import ProgressBar from "./ui/progressBar";
 		$( "#yoast-indexation-stop" ).on( "click", () => {
 			stoppedIndexation = true;
 			tb_remove();
+			// Reset the hash for if we linked from another page. Preventing an immediate re-run.
+			window.location.hash = "";
 			window.location.reload();
 		} );
 
