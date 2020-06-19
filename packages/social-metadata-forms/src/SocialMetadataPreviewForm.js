@@ -153,8 +153,9 @@ class SocialMetadataPreviewForm extends Component {
 			onSelectImageClick,
 			onRemoveImageClick,
 			title,
+			titleInputPlaceholder,
 			description,
-			descriptionPlaceholder,
+			descriptionInputPlaceholder,
 			onTitleChange,
 			onDescriptionChange,
 			hoveredField,
@@ -193,6 +194,7 @@ class SocialMetadataPreviewForm extends Component {
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
 					content={ title }
+					placeholder={ titleInputPlaceholder }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
@@ -209,7 +211,7 @@ class SocialMetadataPreviewForm extends Component {
 				<ReplacementVariableEditor
 					onChange={ onDescriptionChange }
 					content={ description }
-					placeholder={ descriptionPlaceholder }
+					placeholder={ descriptionInputPlaceholder }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
@@ -245,7 +247,8 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
-	descriptionPlaceholder: PropTypes.string,
+	titleInputPlaceholder: PropTypes.string,
+	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
 	onMouseHover: PropTypes.func,
 };
@@ -258,7 +261,8 @@ SocialMetadataPreviewForm.defaultProps = {
 	activeField: "",
 	onSelect: () => {},
 	imageUrl: "",
-	descriptionPlaceholder: "",
+	titleInputPlaceholder: "",
+	descriptionInputPlaceholder: "",
 	isPremium: false,
 	setEditorRef: () => {},
 	onMouseHover: () => {},
