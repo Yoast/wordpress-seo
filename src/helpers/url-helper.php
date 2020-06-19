@@ -20,12 +20,30 @@ class Url_Helper {
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public function home( $path = '', $scheme = null ) {
-		return WPSEO_Utils::home_url( $path, $scheme );
+		$home_url = home_url( $path, $scheme );
+
+		if ( ! empty( $path ) ) {
+			return $home_url;
+		}
+
+		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
+
+		if ( $home_path === '/' ) { // Home at site root, already slashed.
+			return $home_url;
+		}
+
+		if ( is_null( $home_path ) ) { // Home at site root, always slash.
+			return trailingslashit( $home_url );
+		}
+
+		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
+			return user_trailingslashit( $home_url );
+		}
+
+		return $home_url;
 	}
 
 	/**
@@ -33,12 +51,10 @@ class Url_Helper {
 	 *
 	 * @param string $url URL string to check.
 	 *
-	 * @codeCoverageIgnore - We have to write test when this method contains own code.
-	 *
 	 * @return bool True when url is relative.
 	 */
 	public function is_relative( $url ) {
-		return WPSEO_Utils::is_url_relative( $url );
+		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
 	}
 
 	/**

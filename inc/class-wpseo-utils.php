@@ -165,7 +165,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_url_relative( $url ) {
-		return ( strpos( $url, 'http' ) !== 0 && strpos( $url, '//' ) !== 0 );
+		return YoastSEO()->helpers->url->is_relative( $url );
 	}
 
 	/**
@@ -932,28 +932,7 @@ class WPSEO_Utils {
 	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public static function home_url( $path = '', $scheme = null ) {
-
-		$home_url = home_url( $path, $scheme );
-
-		if ( ! empty( $path ) ) {
-			return $home_url;
-		}
-
-		$home_path = wp_parse_url( $home_url, PHP_URL_PATH );
-
-		if ( $home_path === '/' ) { // Home at site root, already slashed.
-			return $home_url;
-		}
-
-		if ( is_null( $home_path ) ) { // Home at site root, always slash.
-			return trailingslashit( $home_url );
-		}
-
-		if ( is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
-			return user_trailingslashit( $home_url );
-		}
-
-		return $home_url;
+		return YoastSEO()->helpers->url->home( $path, $scheme );
 	}
 
 	/**
