@@ -33,16 +33,22 @@ SocialForm.propTypes = {
 	imageUrl: PropTypes.string.isRequired,
 	imageFallbackUrl: PropTypes.string.isRequired,
 	description: PropTypes.string,
-	descriptionPlaceholder: PropTypes.string,
+	descriptionInputPlaceholder: PropTypes.string,
+	descriptionPreviewFallback: PropTypes.string,
 	title: PropTypes.string,
+	titleInputPlaceholder: PropTypes.string,
+	titlePreviewFallback: PropTypes.string,
 	imageWarnings: PropTypes.array,
 };
 
 SocialForm.defaultProps = {
 	imageWarnings: [],
 	title: "",
+	titleInputPlaceholder: "",
+	titlePreviewFallback: "",
 	description: "",
-	descriptionPlaceholder: "",
+	descriptionInputPlaceholder: "",
+	descriptionPreviewFallback: "",
 };
 
 export default SocialForm;

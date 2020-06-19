@@ -11,10 +11,15 @@ const isPremium = window.wpseoAdminL10n.isPremium;
 
 const socialMediumName = "Facebook";
 
-const titlePlaceholder = window.wpseoScriptData.metabox.title_template;
+/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+const titleInputPlaceholder  = sprintf(
+	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
+	__( "Modify your %s title by editing it right here...", "yoast-components" ),
+	socialMediumName
+);
 
 /* Translators: %s expands to the social medium name, i.e. Faceboook. */
-const descriptionPlaceholder  = sprintf(
+const descriptionInputPlaceholder  = sprintf(
 	/* Translators: %s expands to the social medium name, i.e. Faceboook. */
 	__( "Modify your %s description by editing it right here...", "yoast-components" ),
 	socialMediumName
@@ -54,7 +59,9 @@ export default compose( [
 	withSelect( select => {
 		const {
 			getFacebookDescription,
+			getDescriptionFallback,
 			getFacebookTitle,
+			getTitleFallback,
 			getFacebookImageUrl,
 			getImageFallback,
 			getFacebookWarnings,
@@ -70,13 +77,15 @@ export default compose( [
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
 			replacementVariables: getReplaceVars(),
 			description: getFacebookDescription(),
+			descriptionPreviewFallback: getDescriptionFallback(),
 			title: getFacebookTitle(),
+			titlePreviewFallback: getTitleFallback(),
 			imageWarnings: getFacebookWarnings(),
 			authorName: getAuthorName(),
 			siteUrl: getSiteUrl(),
 			isPremium: !! isPremium,
-			titlePlaceholder,
-			descriptionPlaceholder,
+			titleInputPlaceholder,
+			descriptionInputPlaceholder,
 			socialMediumName,
 		};
 	} ),
