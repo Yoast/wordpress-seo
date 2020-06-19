@@ -808,7 +808,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function get_site_name() {
-		return wp_strip_all_tags( get_bloginfo( 'name' ), true );
+		return YoastSEO()->helpers->site->get_site_name();
 	}
 
 	/**
