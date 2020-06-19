@@ -10,6 +10,7 @@ describe( "The ImageSelect component", () => {
 			<ImageSelect
 				imageSelected={ false }
 				title="Facebook image"
+				socialMediumName="facebook"
 				isPremium={ true }
 			/>,
 		).toJSON();
@@ -22,6 +23,7 @@ describe( "The ImageSelect component", () => {
 				title="Facebook image"
 				imageSelected={ true }
 				isPremium={ false }
+				socialMediumName="twitter"
 				warnings={ [
 					"Your image is too small",
 					"Wow, I like writing tests",
