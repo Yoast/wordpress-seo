@@ -5,11 +5,9 @@ import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
-import { decodeEntities } from "@wordpress/html-entities";
 import { __ } from "@wordpress/i18n";
 import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
-import { registerFormatType, applyFormat, isCollapsed } from "@wordpress/rich-text";
-import { isURL } from "@wordpress/url";
+import { registerFormatType } from "@wordpress/rich-text";
 import {
 	get,
 	pickBy,
@@ -22,7 +20,6 @@ import PluginIcon from "../../images/Yoast_icon_kader.svg";
 import ClassicEditorData from "./analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
 import Sidebar from "./containers/Sidebar";
-import EditLink from "./inline-links/edit-link";
 import MetaboxPortal from "./components/MetaboxPortal";
 import sortComponentsByRenderPriority from "./helpers/sortComponentsByRenderPriority";
 import * as selectors from "./redux/selectors";
@@ -34,6 +31,7 @@ import { isAnnotationAvailable } from "./decorator/gutenberg";
 import PrePublish from "./containers/PrePublish";
 import DocumentSidebar from "./containers/DocumentSidebar";
 import PostPublish from "./containers/PostPublish";
+import { link } from "./inline-links/edit-link";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -57,38 +55,7 @@ class Edit {
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
-		this._args =          args;
-		this.link = {
-			name: "yoast-seo/link",
-			title: __( "Link", "wordpress-seo" ),
-			tagName: "a",
-			className: "yoast-seo-link",
-			attributes: {
-				url: "href",
-				target: "target",
-				rel: "rel",
-			},
-			__unstablePasteRule( value, { html, plainText } ) {
-				if ( isCollapsed( value ) ) {
-					return value;
-				}
-
-				const pastedText = ( html || plainText ).replace( /<[^>]+>/g, "" ).trim();
-
-				if ( ! isURL( pastedText ) ) {
-					return value;
-				}
-
-				return applyFormat( value, {
-					type: "yoast-seo/link",
-					attributes: {
-						url: decodeEntities( pastedText ),
-					},
-				} );
-			},
-			edit: EditLink,
-		};
-
+		this._args = args;
 		this._init();
 	}
 
@@ -126,8 +93,11 @@ class Edit {
 
 	_registerFormats() {
 		[
-			this.link,
-		].forEach( ( { name, ...settings } ) => {
+			link,
+		].forEach( ( { name, replaces, ...settings } ) => {
+			if ( replaces ) {
+				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
+			}
 			if ( name ) {
 				registerFormatType( name, settings );
 			}

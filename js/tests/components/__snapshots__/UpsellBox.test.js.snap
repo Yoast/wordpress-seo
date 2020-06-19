@@ -73,7 +73,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       </a>
        test
     </p>
-    <.UpsellBox__StyledList-gjf66g-0
+    <UpsellBox__StyledList
       role="list"
     >
       <StyledComponent
@@ -133,7 +133,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
           </li>
         </ul>
       </StyledComponent>
-    </.UpsellBox__StyledList-gjf66g-0>
+    </UpsellBox__StyledList>
     <OutboundLink
       aria-labelledby="label-id"
       className="class name"
@@ -161,7 +161,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         </A11yNotice>
       </a>
     </OutboundLink>
-    <.UpsellBox__ButtonLabel-gjf66g-1>
+    <UpsellBox__ButtonLabel>
       <StyledComponent
         forwardedComponent={
           Object {
@@ -191,7 +191,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
           className="c1"
         />
       </StyledComponent>
-    </.UpsellBox__ButtonLabel-gjf66g-1>
+    </UpsellBox__ButtonLabel>
   </div>
 </UpsellBox>
 `;
