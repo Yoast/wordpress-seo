@@ -48,14 +48,17 @@ const DivWithMargin = styled.div`
  * @param {function} 	onClick				Callback called when the "Select image" or "Replace image" button is clicked.
  * @param {bool}		imageSelected		Is there already an image slected.
  * @param {function}	onRemoveImageClick 	Callback called when the "Remove image" button is clicked.
+ * @param {string}		socialMediumName	The name of the Social Medium for which the buttons are rendered.
  *
  * @returns {Components} The buttons to render for the ImageSelect.
  */
-const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
+const renderButtons = ( onClick, imageSelected, onRemoveImageClick, socialMediumName ) => {
+	const buttonId = imageSelected ? `${ socialMediumName }-replace-button` : `${ socialMediumName }-select-button`;
 	return (
 		<Fragment>
 			<StandardButton
 				onClick={ onClick }
+				id={ buttonId }
 			>
 				{
 					imageSelected
@@ -67,6 +70,7 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
 			{
 				imageSelected && <UndoButton
 					onClick={ onRemoveImageClick }
+					id={ `${ socialMediumName }-remove-button`  }
 				>
 					{ __( "Remove image", "yoast-components" ) }
 				</UndoButton>
@@ -86,6 +90,7 @@ const renderButtons = ( onClick, imageSelected, onRemoveImageClick ) => {
  * @param {function} props.onRemoveImageClick Callback called when the "Remove image" button is clicked.
  * @param {string}   props.imageUrl           The Url adress of the image
  * @param {bool}     props.isPremium          States if premium is installed.
+ * @param {string}   props.socialMediumName   The name of the social medium for which this component is rendered.
  *
  * @returns {React.Component} The ImageSelect component with a title, optional warnings and an image selection button.
  */
@@ -99,6 +104,7 @@ const ImageSelect = ( {
 	isPremium,
 	onMouseEnter,
 	onMouseLeave,
+	socialMediumName,
 } ) =>
 	<DivWithMargin
 		onMouseEnter={ onMouseEnter }
@@ -114,11 +120,11 @@ const ImageSelect = ( {
 			</Alert> )
 		}
 		{
-			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick )
+			isPremium ? renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName )
 				:	<ColumnWrapper>
-					<UrlInputField disabled={ "disabled" } value={ imageUrl } />
+					<UrlInputField disabled={ "disabled" } value={ imageUrl } id={ `${ socialMediumName }-url-input` } />
 					<RowWrapper>
-						{ renderButtons( onClick, imageSelected, onRemoveImageClick ) }
+						{ renderButtons( onClick, imageSelected, onRemoveImageClick, socialMediumName ) }
 					</RowWrapper>
 				</ColumnWrapper>
 		}
@@ -135,6 +141,7 @@ ImageSelect.propTypes = {
 	imageUrl: PropTypes.string,
 	onMouseEnter: PropTypes.func,
 	onMouseLeave: PropTypes.func,
+	socialMediumName: PropTypes.oneOf( [ "twitter", "facebook" ] ).isRequired,
 };
 
 ImageSelect.defaultProps = {
