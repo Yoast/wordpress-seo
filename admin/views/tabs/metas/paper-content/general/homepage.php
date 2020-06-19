@@ -9,6 +9,7 @@
 
 ?>
 <div class="tab-block yoast-feature">
+	<div class="yoast-field-group">
 	<?php
 	if ( get_option( 'show_on_front' ) === 'posts' ) {
 		// @todo add the proper URL here once this article has been written.
@@ -53,4 +54,6 @@
 		}
 	}
 	?>
+	</div>
+	<br class="clear">
 </div>
