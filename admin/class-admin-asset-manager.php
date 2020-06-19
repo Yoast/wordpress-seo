@@ -504,18 +504,6 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [ self::PREFIX . 'toggle-switch' ],
 			],
 			[
-				'name' => 'toggle-switch',
-				'src'  => 'toggle-switch-' . $flat_version,
-			],
-			[
-				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible-' . $flat_version,
-			],
-			[
-				'name' => 'notifications',
-				'src'  => 'notifications-' . $flat_version,
-			],
-			[
 				'name' => 'alert',
 				'src'  => 'alerts-' . $flat_version,
 			],
@@ -570,16 +558,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 			],
 			[
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
-			],
-			[
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
-			],
-			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
 			],
 			[
 				'name' => 'monorepo',
