@@ -85,8 +85,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Admin_Asset_Manager();
 		$class_instance->register_assets();
 
-		$class_instance->enqueue_script( 'metabox' );
-		$this->assertTrue( wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'enqueued' ) );
+		$class_instance->enqueue_script( 'post-edit' );
+		$this->assertTrue( wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit', 'enqueued' ) );
 	}
 
 	/**

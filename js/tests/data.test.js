@@ -18,9 +18,13 @@ const mockSelect = jest.fn();
 // Mocks the getEditedPostAttribute function.
 const mockGetEditedPostAttribute = jest.fn().mockImplementation( value => value );
 
+// Mocks the getEditedPostContent function.
+const mockGetEditedPostContent = jest.fn().mockReturnValue( "" );
+
 // Ensures mockSelect.getEditedPostAttribute is a function.
 mockSelect.mockReturnValue( {
 	getEditedPostAttribute: mockGetEditedPostAttribute,
+	getEditedPostContent: mockGetEditedPostContent,
 	getActiveMarker: () => null,
 } );
 
@@ -88,6 +92,7 @@ describe( "collectGutenbergData", () => {
 	it( "collects the GutenbergData", () => {
 		const expected = {
 			content: "content",
+			contentImage: "",
 			title: "title",
 			slug: "slug",
 			excerpt: "excerpt",
