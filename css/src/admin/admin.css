@@ -11,6 +11,7 @@
 	color: var(--yoast-color-default);
 	padding: 5px;
 	margin: 0 2px;
+	background: var(--yoast-color-secondary);
 }
 
 .toggleable-container-hidden {
@@ -24,4 +25,13 @@
 	color: var(--yoast-color-default);
 	padding: 3px 5px;
 	margin: 0 2px;
+}
+
+.collapsible-header .toggleable-container-trigger {
+	display: block;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: none;
+    color: var(--yoast-primary-color);
 }
