@@ -132,6 +132,7 @@ class SettingsSnippetEditorFields extends React.Component {
 				padding={ containerPadding }
 			>
 				<ReplacementVariableEditor
+					type="title"
 					label={ __( "SEO title", "yoast-components" ) }
 					onFocus={ () => onFocus( "title" ) }
 					onBlur={ onBlur }
