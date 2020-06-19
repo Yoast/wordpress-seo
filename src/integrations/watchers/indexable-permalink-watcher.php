@@ -137,6 +137,8 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 
 		if ( $result > 0 ) {
 			$this->options_helper->set( 'indexables_indexation_reason', $reason );
+			$this->options_helper->set( 'ignore_indexation_warning', false );
+			$this->options_helper->set( 'indexation_warning_hide_until', false );
 		}
 	}
 

@@ -11,6 +11,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -33,6 +34,13 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * Represents the post type helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexable_Category_Permalink_Watcher
@@ -45,8 +53,9 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->options  = Mockery::mock( Options_Helper::class );
-		$this->instance = new Indexable_Category_Permalink_Watcher( $this->options );
+		$this->options   = Mockery::mock( Options_Helper::class );
+		$this->post_type = Mockery::mock( Post_Type_Helper::class );
+		$this->instance  = new Indexable_Category_Permalink_Watcher( $this->post_type, $this->options );
 	}
 
 	/**
