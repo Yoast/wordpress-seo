@@ -49,7 +49,7 @@ class Redesign_Notification_Integration extends Dismissable_Notification_Integra
 	 * @return string The label to be shown on the dismiss button.
 	 */
 	protected function get_dismiss_label() {
-		return \__( 'I understand, remove this message.', 'wordpress-seo' );
+		return \__( 'Hide this notice', 'wordpress-seo' );
 	}
 
 	/**
