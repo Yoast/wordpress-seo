@@ -336,6 +336,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
     <input
       className="c6"
       disabled="disabled"
+      id="undefined-url-input"
       value=""
     />
     <div
@@ -343,6 +344,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
     >
       <button
         className="c8"
+        id="undefined-replace-button"
         onClick={[Function]}
         type="button"
       >
@@ -350,6 +352,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
       </button>
       <button
         className="c9"
+        id="undefined-remove-button"
         onClick={[Function]}
         type="button"
       >
@@ -475,6 +478,7 @@ exports[`The ImageSelect component renders 1`] = `
   </div>
   <button
     className="c2"
+    id="undefined-select-button"
     onClick={[Function]}
     type="button"
   >
