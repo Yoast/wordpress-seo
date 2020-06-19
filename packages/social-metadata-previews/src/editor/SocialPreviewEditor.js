@@ -163,14 +163,14 @@ class SocialPreviewEditor extends Component {
 					onDescriptionChange={ onDescriptionChange }
 					socialMediumName={ socialMediumName }
 					title={ title }
-					titlePlaceholder={ titleInputPlaceholder }
+					titleInputPlaceholder={ titleInputPlaceholder }
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }
-					descriptionPlaceholder={ descriptionInputPlaceholder }
+					descriptionInputPlaceholder={ descriptionInputPlaceholder }
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
