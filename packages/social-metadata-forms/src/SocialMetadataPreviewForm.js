@@ -189,6 +189,7 @@ class SocialMetadataPreviewForm extends Component {
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
 					isPremium={ isPremium }
+					socialMediumName={ socialMediumName.toLowerCase() }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -196,6 +197,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="title"
+					fieldId={ `${ socialMediumName.toLowerCase() }-title-input` }
 					label={ titleEditorTitle }
 					onMouseEnter={ this.onTitleEnter }
 					onMouseLeave={ this.onLeave }
@@ -213,6 +215,7 @@ class SocialMetadataPreviewForm extends Component {
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					type="description"
+					fieldId={ `${ socialMediumName.toLowerCase() }-description-input` }
 					label={ descEditorTitle }
 					onMouseEnter={ this.onDescriptionEnter }
 					onMouseLeave={ this.onLeave }
