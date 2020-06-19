@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Utils;
-
 /**
  * Class Url_Helper
  */
