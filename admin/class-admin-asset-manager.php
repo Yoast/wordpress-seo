@@ -501,7 +501,6 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'admin-css',
 				'src'  => 'yst_plugin_tools-' . $flat_version,
-				'deps' => [ self::PREFIX . 'toggle-switch' ],
 			],
 			[
 				'name' => 'alert',
