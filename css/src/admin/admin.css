@@ -31,7 +31,7 @@
 	display: block;
     width: 100%;
     text-align: left;
-    border: 0px;
+    border: 0;
     background: none;
     color: var(--yoast-primary-color);
 }
