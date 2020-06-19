@@ -215,9 +215,10 @@ Release Date: June 23rd, 2020
 Bugfixes:
 
 * Fixes a bug where replacement variable values would break the Google Preview and output a PHP notice on the front end if they were a serialized array string.
-* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a BC break.
+* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a backward compatibility break.
 * Fixes a bug where the site logo was not output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
 * Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
+* Fixes a bug where a lot of delete queries would be performed after clearing all indexables from the database.
 
 Enhancements:
 
