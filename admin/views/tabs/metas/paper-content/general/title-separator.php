@@ -21,4 +21,5 @@ $title_separator_help = new WPSEO_Admin_Help_Button(
 		$yform->title_separator( 'separator', WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(), $legend, $legend_attr );
 		?>
 	</fieldset>
+	<br class="clear">
 </div>
