@@ -109,6 +109,7 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
+    - .cache
     - node_modules
 
 before_install:
