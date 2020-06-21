@@ -722,7 +722,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = array_merge(
-			$meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			$meta_boxes,
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields
 		);
