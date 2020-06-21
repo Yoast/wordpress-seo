@@ -81,7 +81,12 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_active() {
-		add_filter('locale', function(){ return 'en_US'; });
+		add_filter(
+			'locale',
+			function() {
+				return 'en_US';
+			}
+		);
 
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
@@ -95,9 +100,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$result = $values['wordFormRecognitionActive'];
 
 		$this->assertEquals( true, $result );
-
 	}
-
 
 	/**
 	 * Test that wordFormRecognitionActive is false for Afrikaans.
@@ -106,7 +109,12 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Metabox_Formatter::is_word_form_recognition_active
 	 */
 	public function test_word_form_recognition_is_not_active() {
-		add_filter('locale', function(){ return 'af_ZA'; });
+		add_filter(
+			'locale',
+			function() {
+				return 'af_ZA';
+			}
+		);
 
 		$class_instance = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter(
@@ -120,6 +128,5 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$result = $values['wordFormRecognitionActive'];
 
 		$this->assertEquals( false, $result );
-
 	}
 }

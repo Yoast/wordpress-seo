@@ -25,7 +25,7 @@ class Adapter {
 	/**
 	 * Whether or not a transaction has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $in_transaction = false;
 
@@ -43,7 +43,7 @@ class Adapter {
 	/**
 	 * Checks support for migrations.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function supports_migrations() {
 		return true;
@@ -147,7 +147,7 @@ class Adapter {
 	/**
 	 * Quotes a table name string.
 	 *
-	 * @param string $string table name.
+	 * @param string $string Table name.
 	 *
 	 * @return string
 	 */
@@ -195,7 +195,7 @@ class Adapter {
 	/**
 	 * Creates a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -212,7 +212,7 @@ class Adapter {
 	/**
 	 * Drops a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -382,7 +382,7 @@ class Adapter {
 	/**
 	 * Returns a quoted string.
 	 *
-	 * @param string $string the string.
+	 * @param string $string The string.
 	 *
 	 * @return string
 	 */
@@ -418,7 +418,7 @@ class Adapter {
 	 * @return boolean
 	 */
 	public function add_column( $table_name, $column_name, $type, $options = [] ) {
-		if ( empty( $table_name ) || empty( $column_name ) ||  empty( $type ) ) {
+		if ( empty( $table_name ) || empty( $column_name ) || empty( $type ) ) {
 			return false;
 		}
 		// Default types.
@@ -431,7 +431,7 @@ class Adapter {
 		if ( ! \array_key_exists( 'scale', $options ) ) {
 			$options['scale'] = null;
 		}
-		$sql = \sprintf( 'ALTER TABLE %s ADD `%s` %s', $this->identifier( $table_name ), $column_name, $this->type_to_sql( $type, $options ) );
+		$sql  = \sprintf( 'ALTER TABLE %s ADD `%s` %s', $this->identifier( $table_name ), $column_name, $this->type_to_sql( $type, $options ) );
 		$sql .= $this->add_column_options( $type, $options );
 
 		return $this->execute_ddl( $sql );
@@ -467,7 +467,7 @@ class Adapter {
 		$column_info  = $this->column_info( $table_name, $column_name );
 		$current_type = $column_info['type'];
 		$sql          = \sprintf( 'ALTER TABLE %s CHANGE %s %s %s', $this->identifier( $table_name ), $this->identifier( $column_name ), $this->identifier( $new_column_name ), $current_type );
-		$sql          .= $this->add_column_options( $current_type, $column_info );
+		$sql         .= $this->add_column_options( $current_type, $column_info );
 
 		return $this->execute_ddl( $sql );
 	}
@@ -497,7 +497,7 @@ class Adapter {
 		if ( ! \array_key_exists( 'scale', $options ) ) {
 			$options['scale'] = null;
 		}
-		$sql = \sprintf( 'ALTER TABLE `%s` CHANGE `%s` `%s` %s', $table_name, $column_name, $column_name, $this->type_to_sql( $type, $options ) );
+		$sql  = \sprintf( 'ALTER TABLE `%s` CHANGE `%s` `%s` %s', $table_name, $column_name, $column_name, $this->type_to_sql( $type, $options ) );
 		$sql .= $this->add_column_options( $type, $options );
 
 		return $this->execute_ddl( $sql );
@@ -506,8 +506,8 @@ class Adapter {
 	/**
 	 * Returns the database information for a column.
 	 *
-	 * @param string $table  the table name.
-	 * @param string $column the column name.
+	 * @param string $table  The table name.
+	 * @param string $column The column name.
 	 *
 	 * @return array
 	 */
@@ -596,7 +596,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -669,7 +669,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -722,10 +722,10 @@ class Adapter {
 	public function type_to_sql( $type, $options = [] ) {
 		$natives = $this->native_database_types();
 		if ( ! \array_key_exists( $type, $natives ) ) {
-			$error = \sprintf( "Error:I dont know what column type of '%s' maps to for MySQL.", $type );
+			$error  = \sprintf( "Error:I dont know what column type of '%s' maps to for MySQL.", $type );
 			$error .= "\nYou provided: {$type}\n";
 			$error .= "Valid types are: \n";
-			$types = \array_keys( $natives );
+			$types  = \array_keys( $natives );
 			foreach ( $types as $t ) {
 				if ( $t === 'primary_key' ) {
 					continue;
@@ -844,7 +844,7 @@ class Adapter {
 				$default_format = "'%s'";
 			}
 			$default_value = \sprintf( $default_format, $options['default'] );
-			$sql           .= \sprintf( ' DEFAULT %s', $default_value );
+			$sql          .= \sprintf( ' DEFAULT %s', $default_value );
 		}
 		if ( \array_key_exists( 'null', $options ) ) {
 			if ( $options['null'] === false || $options['null'] === 'NO' ) {
@@ -926,7 +926,7 @@ class Adapter {
 	private function get_index_name( $table_name, $column_name ) {
 		$name = \preg_replace( '/\\W/', '_', $table_name );
 		$name = \preg_replace( '/\\_{2,}/', '_', $name );
-		// if the column parameter is an array then the user wants to create a multi-column index.
+		// If the column parameter is an array then the user wants to create a multi-column index.
 		if ( \is_array( $column_name ) ) {
 			$column_str = \join( '_and_', $column_name );
 		}
@@ -985,7 +985,7 @@ class Adapter {
 	 */
 	private function is_sql_method_call( $string ) {
 		$string = \trim( $string );
-		if ( \substr( $string, - 2, 2 ) === '()' ) {
+		if ( \substr( $string, -2, 2 ) === '()' ) {
 			return true;
 		}
 		return false;
