@@ -1067,10 +1067,13 @@ class ORM implements \ArrayAccess {
 		if ( ! \is_array( $values ) ) {
 			$values = [ $values ];
 		}
-		\array_push( $this->{$conditions_class_property_name}, [
-			self::CONDITION_FRAGMENT => $fragment,
-			self::CONDITION_VALUES   => $values,
-		] );
+		\array_push(
+			$this->{$conditions_class_property_name},
+			[
+				self::CONDITION_FRAGMENT => $fragment,
+				self::CONDITION_VALUES   => $values,
+			]
+		);
 
 		return $this;
 	}
@@ -1716,16 +1719,19 @@ class ORM implements \ArrayAccess {
 		}
 
 		// Build and return the full SELECT statement by concatenating the results of calling each separate builder method.
-		return $this->_join_if_not_empty( ' ', [
-			$this->_build_select_start(),
-			$this->_build_join(),
-			$this->_build_where(),
-			$this->_build_group_by(),
-			$this->_build_having(),
-			$this->_build_order_by(),
-			$this->_build_limit(),
-			$this->_build_offset(),
-		] );
+		return $this->_join_if_not_empty(
+			' ',
+			[
+				$this->_build_select_start(),
+				$this->_build_join(),
+				$this->_build_where(),
+				$this->_build_group_by(),
+				$this->_build_having(),
+				$this->_build_order_by(),
+				$this->_build_limit(),
+				$this->_build_offset(),
+			]
+		);
 	}
 
 	/**
@@ -2256,11 +2262,14 @@ class ORM implements \ArrayAccess {
 	public function delete_many() {
 		// Build and return the full DELETE statement by concatenating
 		// the results of calling each separate builder method.
-		$query = $this->_join_if_not_empty( ' ', [
-			'DELETE FROM',
-			$this->_quote_identifier( $this->_table_name ),
-			$this->_build_where(),
-		] );
+		$query = $this->_join_if_not_empty(
+			' ',
+			[
+				'DELETE FROM',
+				$this->_quote_identifier( $this->_table_name ),
+				$this->_build_where(),
+			]
+		);
 
 		return self::_execute( $query, $this->_values );
 	}
