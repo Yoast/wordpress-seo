@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
 import { registerFormatType } from "@wordpress/rich-text";
 import {
@@ -76,7 +76,19 @@ class Edit {
 		this._store = this._registerStoreInGutenberg();
 
 		this._registerPlugin();
-		this._registerFormats();
+
+		if ( typeof window.wp.blockEditor.__experimentalLinkControl === "function" ) {
+			this._registerFormats();
+		} else {
+			console.warn(
+				__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
+				" " +
+				sprintf(
+					__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			);
+		}
 
 		this._data = this._initializeData();
 
