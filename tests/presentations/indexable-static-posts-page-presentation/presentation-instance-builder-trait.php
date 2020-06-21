@@ -69,7 +69,7 @@ trait Presentation_Instance_Builder {
 	protected $post;
 
 	/**
-	 * Builds an instance of Indexable_Search_Result_Page_Presentation.
+	 * Builds an instance of Indexable_Static_Posts_Page_Presentation.
 	 */
 	protected function set_instance() {
 		$this->indexable = new Indexable_Mock();

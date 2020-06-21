@@ -25,7 +25,7 @@ class Adapter {
 	/**
 	 * Whether or not a transaction has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $in_transaction = false;
 
@@ -43,7 +43,7 @@ class Adapter {
 	/**
 	 * Checks support for migrations.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function supports_migrations() {
 		return true;
@@ -147,7 +147,7 @@ class Adapter {
 	/**
 	 * Quotes a table name string.
 	 *
-	 * @param string $string table name.
+	 * @param string $string Table name.
 	 *
 	 * @return string
 	 */
@@ -195,7 +195,7 @@ class Adapter {
 	/**
 	 * Creates a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -212,7 +212,7 @@ class Adapter {
 	/**
 	 * Drops a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -382,7 +382,7 @@ class Adapter {
 	/**
 	 * Returns a quoted string.
 	 *
-	 * @param string $string the string.
+	 * @param string $string The string.
 	 *
 	 * @return string
 	 */
@@ -506,8 +506,8 @@ class Adapter {
 	/**
 	 * Returns the database information for a column.
 	 *
-	 * @param string $table  the table name.
-	 * @param string $column the column name.
+	 * @param string $table  The table name.
+	 * @param string $column The column name.
 	 *
 	 * @return array
 	 */
@@ -596,7 +596,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -669,7 +669,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -926,7 +926,7 @@ class Adapter {
 	private function get_index_name( $table_name, $column_name ) {
 		$name = \preg_replace( '/\\W/', '_', $table_name );
 		$name = \preg_replace( '/\\_{2,}/', '_', $name );
-		// if the column parameter is an array then the user wants to create a multi-column index.
+		// If the column parameter is an array then the user wants to create a multi-column index.
 		if ( \is_array( $column_name ) ) {
 			$column_str = \join( '_and_', $column_name );
 		}

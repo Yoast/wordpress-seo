@@ -53,9 +53,9 @@ class Column {
 	 * Creates an instance of a column.
 	 *
 	 * @param Adapter $adapter The current adapter.
-	 * @param string  $name    the name of the column.
-	 * @param string  $type    the type of the column.
-	 * @param array   $options the column options.
+	 * @param string  $name    The name of the column.
+	 * @param string  $type    The type of the column.
+	 * @param array   $options The column options.
 	 *
 	 * @throws Exception If invalid arguments provided.
 	 *

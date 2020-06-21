@@ -45,7 +45,7 @@ class Table {
 	/**
 	 * Whether or not the table has been initialized.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $initialized = false;
 
@@ -66,7 +66,7 @@ class Table {
 	/**
 	 * Whether or not to auto generate the id.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $auto_generate_id = true;
 
