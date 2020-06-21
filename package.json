@@ -68,6 +68,7 @@
     "@yoast/grunt-plugin-tasks": "^1.6.2",
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.0",
+    "babel-plugin-dynamic-import-webpack": "^1.0.2",
     "babel-plugin-styled-components": "^1.10.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "colors": "^1.4.0",
@@ -101,7 +102,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@wordpress/icons": "^2.2.0",
+    "@wordpress/block-editor": "^4.1.0",
     "@yoast/analysis-report": "^1.6.0-rc.0",
     "@yoast/components": "^2.4.0-rc.0",
     "@yoast/configuration-wizard": "^2.6.0-rc.0",
