@@ -25,7 +25,7 @@ class Adapter {
 	/**
 	 * Whether or not a transaction has been started.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $in_transaction = false;
 
@@ -43,7 +43,7 @@ class Adapter {
 	/**
 	 * Checks support for migrations.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function supports_migrations() {
 		return true;

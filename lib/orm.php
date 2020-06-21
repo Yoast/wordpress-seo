@@ -102,7 +102,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Are we using the default result column or have these been manually changed?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_using_default_result_columns = true;
 
@@ -116,14 +116,14 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Should the query include a DISTINCT keyword?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_distinct = false;
 
 	/**
 	 * Is this a raw query?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_is_raw_query = false;
 
@@ -207,7 +207,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Is this a new object (has create() been called)?
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $_is_new = false;
 

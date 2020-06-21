@@ -15,7 +15,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Whether or not the social tab is enabled for this metabox.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $social_is_enabled;
 
