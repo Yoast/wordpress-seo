@@ -5,7 +5,7 @@ import { get } from "lodash-es";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import tmceHelper from "../lib/tinymce";
+import * as tmceHelper from "../lib/tinymce";
 import { termsTmceId as tmceId } from "../lib/tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
