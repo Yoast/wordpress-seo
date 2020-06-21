@@ -111,6 +111,13 @@ class Edit {
 		} ) );
 	}
 
+	/**
+	 * Registers the Yoast inline link format.
+	 *
+	 * @private
+	 *
+	 * @returns {void}
+	 */
 	_registerFormats() {
 		[
 			link,
