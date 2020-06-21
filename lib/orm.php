@@ -2090,7 +2090,7 @@ class ORM implements \ArrayAccess {
 		foreach ( $key as $field => $value ) {
 			$this->_data[ $field ]         = $value;
 			$this->_dirty_fields[ $field ] = $value;
-			if ( false === $expr and isset( $this->_expr_fields[ $field ] ) ) {
+			if ( false === $expr && isset( $this->_expr_fields[ $field ] ) ) {
 				unset( $this->_expr_fields[ $field ] );
 			}
 			else {
