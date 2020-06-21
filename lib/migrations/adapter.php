@@ -596,7 +596,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -669,7 +669,7 @@ class Adapter {
 		if ( empty( $table_name ) || empty( $column_name ) ) {
 			return false;
 		}
-		// did the user specify an index name?
+		// Did the user specify an index name?
 		if ( \is_array( $options ) && \array_key_exists( 'name', $options ) ) {
 			$index_name = $options['name'];
 		}
@@ -926,7 +926,7 @@ class Adapter {
 	private function get_index_name( $table_name, $column_name ) {
 		$name = \preg_replace( '/\\W/', '_', $table_name );
 		$name = \preg_replace( '/\\_{2,}/', '_', $name );
-		// if the column parameter is an array then the user wants to create a multi-column index.
+		// If the column parameter is an array then the user wants to create a multi-column index.
 		if ( \is_array( $column_name ) ) {
 			$column_str = \join( '_and_', $column_name );
 		}
