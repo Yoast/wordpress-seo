@@ -24,7 +24,7 @@ import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
-import publishBox from "../ui/publishBox";
+import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 
