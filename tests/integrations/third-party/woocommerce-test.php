@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
