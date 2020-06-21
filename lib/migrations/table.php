@@ -146,7 +146,15 @@ class Table {
 	 */
 	public function timestamps( $created_column_name = 'created_at', $updated_column_name = 'updated_at' ) {
 		$this->column( $created_column_name, 'datetime' );
-		$this->column( $updated_column_name, 'timestamp', [ 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'extra' => 'ON UPDATE CURRENT_TIMESTAMP' ] );
+		$this->column(
+			$updated_column_name,
+			'timestamp',
+			[
+				'null'    => false,
+				'default' => 'CURRENT_TIMESTAMP',
+				'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
+			]
+		);
 	}
 
 	/**
@@ -196,7 +204,16 @@ class Table {
 		$create_table_sql = $this->sql;
 		if ( $this->auto_generate_id === true ) {
 			$this->primary_keys[] = 'id';
-			$primary_id           = new Column( $this->adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
+			$primary_id           = new Column(
+				$this->adapter,
+				'id',
+				'integer',
+				[
+					'unsigned'       => true,
+					'null'           => false,
+					'auto_increment' => true,
+				]
+			);
 			$create_table_sql    .= $primary_id->to_sql() . ",\n";
 		}
 		$create_table_sql .= $this->columns_to_str();

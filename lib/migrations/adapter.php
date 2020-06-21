@@ -56,18 +56,32 @@ class Adapter {
 	 */
 	public function native_database_types() {
 		$types = [
-			'primary_key'   => [ 'name' => 'integer', 'limit' => 11, 'null' => false ],
-			'string'        => [ 'name' => 'varchar', 'limit' => 255 ],
+			'primary_key'   => [
+				'name'  => 'integer',
+				'limit' => 11,
+				'null'  => false,
+			],
+			'string'        => [
+				'name'  => 'varchar',
+				'limit' => 255,
+			],
 			'text'          => [ 'name' => 'text' ],
 			'tinytext'      => [ 'name' => 'tinytext' ],
 			'mediumtext'    => [ 'name' => 'mediumtext' ],
-			'integer'       => [ 'name' => 'int', 'limit' => 11 ],
+			'integer'       => [
+				'name'  => 'int',
+				'limit' => 11,
+			],
 			'tinyinteger'   => [ 'name' => 'tinyint' ],
 			'smallinteger'  => [ 'name' => 'smallint' ],
 			'mediuminteger' => [ 'name' => 'mediumint' ],
 			'biginteger'    => [ 'name' => 'bigint' ],
 			'float'         => [ 'name' => 'float' ],
-			'decimal'       => [ 'name' => 'decimal', 'scale' => 0, 'precision' => 10 ],
+			'decimal'       => [
+				'name'      => 'decimal',
+				'scale'     => 0,
+				'precision' => 10,
+			],
 			'datetime'      => [ 'name' => 'datetime' ],
 			'timestamp'     => [ 'name' => 'timestamp' ],
 			'time'          => [ 'name' => 'time' ],
@@ -76,9 +90,18 @@ class Adapter {
 			'tinybinary'    => [ 'name' => 'tinyblob' ],
 			'mediumbinary'  => [ 'name' => 'mediumblob' ],
 			'longbinary'    => [ 'name' => 'longblob' ],
-			'boolean'       => [ 'name' => 'tinyint', 'limit' => 1 ],
-			'enum'          => [ 'name' => 'enum', 'values' => [] ],
-			'uuid'          => [ 'name' => 'char', 'limit' => 36 ],
+			'boolean'       => [
+				'name'  => 'tinyint',
+				'limit' => 1,
+			],
+			'enum'          => [
+				'name'   => 'enum',
+				'values' => [],
+			],
+			'uuid'          => [
+				'name'  => 'char',
+				'limit' => 36,
+			],
 			'char'          => [ 'name' => 'char' ],
 		];
 
@@ -702,7 +725,10 @@ class Adapter {
 			if ( $row['Key_name'] === 'PRIMARY' ) {
 				continue;
 			}
-			$indexes[] = [ 'name' => $row['Key_name'], 'unique' => (int) $row['Non_unique'] === 0 ];
+			$indexes[] = [
+				'name'   => $row['Key_name'],
+				'unique' => (int) $row['Non_unique'] === 0,
+			];
 		}
 
 		return $indexes;
