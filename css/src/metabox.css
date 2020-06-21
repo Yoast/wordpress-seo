@@ -677,10 +677,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
   align-items: center;
 }
 
-.yoast-seo-sidebar-panel > h2 > button {
-	color: #a4286a !important;
-}
-
 .yoast-seo-sidebar-panel div {
 	line-height: 2;
 }
@@ -691,8 +687,8 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 ul.yoast-seo-social-share-buttons li {
 	display: inline-block;
-  margin-right: 8px;
-  width: 32px;
+	margin-right: 8px;
+	width: 32px;
 	height: 32px;
 }
 
@@ -703,8 +699,8 @@ ul.yoast-seo-social-share-buttons svg {
 
 ul.yoast-seo-social-share-buttons a {
 	width: 32px;
-  height: 32px;
-  display: inline-block;
+	height: 32px;
+	display: inline-block;
 }
 
 .edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,

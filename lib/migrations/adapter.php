@@ -573,7 +573,8 @@ class Adapter {
 			$cols[] = $this->identifier( $name );
 		}
 		$sql = \sprintf(
-			'CREATE %sINDEX %s ON %s(%s)', ( $unique === true ) ? 'UNIQUE ' : '',
+			'CREATE %sINDEX %s ON %s(%s)',
+			( $unique === true ) ? 'UNIQUE ' : '',
 			$this->identifier( $index_name ),
 			$this->identifier( $table_name ),
 			\join( ', ', $cols )
@@ -622,11 +623,16 @@ class Adapter {
 			return false;
 		}
 		$created_at = $this->add_column( $table_name, $created_column_name, 'datetime' );
-		$updated_at = $this->add_column( $table_name, $updated_column_name, 'timestamp', [
-			'null'    => false,
-			'default' => 'CURRENT_TIMESTAMP',
-			'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
-		] );
+		$updated_at = $this->add_column(
+			$table_name,
+			$updated_column_name,
+			'timestamp',
+			[
+				'null'    => false,
+				'default' => 'CURRENT_TIMESTAMP',
+				'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
+			]
+		);
 
 		return $created_at && $updated_at;
 	}
@@ -777,10 +783,10 @@ class Adapter {
 				throw new Exception( 'Error adding enum column: there must be at least one value defined' );
 			}
 			else {
-				$column_type_sql .= \sprintf( "('%s')", \implode( "','", \array_map( [
-					$this,
-					'quote_string',
-				], $values ) ) );
+				$column_type_sql .= \sprintf(
+					"('%s')",
+					\implode( "','", \array_map( [ $this, 'quote_string' ], $values ) )
+				);
 			}
 		}
 		// Not a decimal column.

@@ -96,7 +96,9 @@ class Indexable_Hierarchy_Builder {
 	 * @return Indexable The indexable.
 	 */
 	public function build( Indexable $indexable ) {
-		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		if ( $indexable->has_ancestors ) {
+			$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		}
 
 		$indexable_id = $this->get_indexable_id( $indexable );
 		$ancestors    = [];
@@ -107,8 +109,8 @@ class Indexable_Hierarchy_Builder {
 		if ( $indexable->object_type === 'term' ) {
 			$this->add_ancestors_for_term( $indexable_id, $indexable->object_id, $ancestors );
 		}
-
-		$indexable->ancestors = \array_reverse( \array_values( $ancestors ) );
+		$indexable->ancestors     = \array_reverse( \array_values( $ancestors ) );
+		$indexable->has_ancestors = ! empty( $ancestors );
 		if ( ! \is_null( $indexable->id ) ) {
 			$this->save_ancestors( $indexable );
 		}

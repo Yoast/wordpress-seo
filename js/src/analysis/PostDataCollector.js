@@ -7,14 +7,14 @@ import analysis from "yoastseo";
 /* Internal dependencies */
 import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
-import publishBox from "../ui/publishBox";
+import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import tmceHelper, { tmceId } from "../lib/tinymce";
+import * as tmceHelper from "../lib/tinymce";
 import getI18n from "./getI18n";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
-
+const { tmceId } = tmceHelper;
 const $ = jQuery;
 const { removeMarks } = analysis.markers;
 const i18n = getI18n();

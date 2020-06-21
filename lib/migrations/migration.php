@@ -31,14 +31,14 @@ abstract class Migration {
 	 *
 	 * @return void
 	 */
-	public abstract function up();
+	abstract public function up();
 
 	/**
 	 * Reverts the migration.
 	 *
 	 * @return void
 	 */
-	public abstract function down();
+	abstract public function down();
 
 	/**
 	 * Creates a new migration.
