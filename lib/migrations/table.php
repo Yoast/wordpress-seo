@@ -148,6 +148,7 @@ class Table {
 		$this->column( $created_column_name, 'datetime' );
 		$this->column( $updated_column_name, 'timestamp', [ 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'extra' => 'ON UPDATE CURRENT_TIMESTAMP' ] );
 	}
+
 	/**
 	 * Get all primary keys
 	 *
@@ -166,6 +167,7 @@ class Table {
 
 		return '';
 	}
+
 	/**
 	 * Table definition
 	 *
@@ -220,6 +222,7 @@ class Table {
 		}
 		return \join( ",\n", $fields );
 	}
+
 	/**
 	 * Init create sql statement.
 	 *

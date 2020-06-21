@@ -96,6 +96,7 @@ class Column {
 	public function __toString() {
 		return $this->to_sql();
 	}
+
 	/**
 	 * The SQL type.
 	 *

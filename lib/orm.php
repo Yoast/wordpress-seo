@@ -46,7 +46,6 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
  *
@@ -58,6 +57,7 @@ class ORM implements \ArrayAccess {
 	 */
 
 	const CONDITION_FRAGMENT = 0;
+
 	const CONDITION_VALUES = 1;
 
 	/*

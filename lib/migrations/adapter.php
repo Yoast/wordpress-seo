@@ -418,7 +418,7 @@ class Adapter {
 	 * @return boolean
 	 */
 	public function add_column( $table_name, $column_name, $type, $options = [] ) {
-		if ( empty( $table_name ) || empty( $column_name ) ||  empty( $type ) ) {
+		if ( empty( $table_name ) || empty( $column_name ) || empty( $type ) ) {
 			return false;
 		}
 		// Default types.
@@ -985,7 +985,7 @@ class Adapter {
 	 */
 	private function is_sql_method_call( $string ) {
 		$string = \trim( $string );
-		if ( \substr( $string, - 2, 2 ) === '()' ) {
+		if ( \substr( $string, -2, 2 ) === '()' ) {
 			return true;
 		}
 		return false;

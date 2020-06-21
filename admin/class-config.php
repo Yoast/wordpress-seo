@@ -84,6 +84,7 @@ class WPSEO_Admin_Pages {
 					'replaceVars' => $this->get_replace_vars_script_data(),
 				],
 			];
+
 			$script_data['searchAppearance'] = [
 				'isRtl'                    => is_rtl(),
 				'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
