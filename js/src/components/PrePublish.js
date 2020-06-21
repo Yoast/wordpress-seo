@@ -10,14 +10,21 @@ import { Button } from "@yoast/components";
  *
  * @returns {wp.Element} The PrePublish panel.
  */
-export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, readabilityScore, readabilityScoreLabel, onClick } ) {
+export default function PrePublish( {
+	focusKeyphrase,
+	isKeywordAnalysisActive,
+	isContentAnalysisActive,
+	seoScore,
+	seoScoreLabel,
+	readabilityScore,
+	readabilityScoreLabel,
+	onClick,
+} ) {
 	const noFocusKeyphrase = ! focusKeyphrase;
-	const noFocusKeyphraseEl = <div>
-		<SvgIcon { ...getIconForScore( "bad" ) } /> { __( "No focus keyword was entered", "wordpress-seo" ) }
-	</div>;
-
 	let intro;
-	const perfectScore = seoScore === "good" && readabilityScore === "good";
+	const perfectScore =
+		( seoScore === "good" || ! isKeywordAnalysisActive ) &&
+		( readabilityScore === "good" || ! isContentAnalysisActive );
 	if ( perfectScore ) {
 		intro = <p>{ __( "We've analyzed your post. Everything looks good. Well done!", "wordpress-seo" ) }</p>;
 	} else {
@@ -26,15 +33,17 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 
 	return <Fragment>
 		{ intro }
-		{ noFocusKeyphrase && noFocusKeyphraseEl }
-		<div>
+		{ isKeywordAnalysisActive && noFocusKeyphrase && <div>
+			<SvgIcon { ...getIconForScore( "bad" ) } /> { __( "No focus keyword was entered", "wordpress-seo" ) }
+		</div> }
+		{ isContentAnalysisActive && <div>
 			<SvgIcon { ...getIconForScore( readabilityScore ) } />
 			<span> { __( "Readability analysis:", "wordpress-seo" ) } <strong>{ readabilityScoreLabel }</strong></span>
-		</div>
-		<div>
+		</div> }
+		{ isKeywordAnalysisActive && <div>
 			<SvgIcon { ...getIconForScore( seoScore ) } />
 			<span> { __( "SEO analysis:", "wordpress-seo" ) } <strong>{ seoScoreLabel }</strong></span>
-		</div>
+		</div> }
 		<br />
 		{ ! perfectScore && <Button onClick={ onClick }>{ __( "Improve your post with Yoast SEO", "wordpress-seo" ) }</Button> }
 	</Fragment>;
@@ -42,6 +51,8 @@ export default function PrePublish( { focusKeyphrase, seoScore, seoScoreLabel, r
 
 PrePublish.propTypes = {
 	focusKeyphrase: PropTypes.string.isRequired,
+	isKeywordAnalysisActive: PropTypes.bool.isRequired,
+	isContentAnalysisActive: PropTypes.bool.isRequired,
 	seoScore: PropTypes.string.isRequired,
 	seoScoreLabel: PropTypes.string.isRequired,
 	readabilityScore: PropTypes.string.isRequired,

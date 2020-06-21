@@ -93,8 +93,7 @@ class Yoast_View_Utils {
 
 		$this->form->show_hide_switch(
 			'display-metabox-pt-' . $post_type->name,
-			/* translators: %1$s expands to Yoast SEO */
-			sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
+			__( 'Show SEO settings for content type', 'wordpress-seo' )
 		);
 
 		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
