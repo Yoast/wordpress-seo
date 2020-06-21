@@ -53,17 +53,17 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * @see http://www.php-fig.org/psr/psr-1/
  */
 class ORM implements \ArrayAccess {
+	/*
+	 * --- CLASS CONSTANTS ---
+	 */
 
-	// ----------------------- //
-	// --- CLASS CONSTANTS --- //
-	// ----------------------- //
-	// WHERE and HAVING condition array keys.
 	const CONDITION_FRAGMENT = 0;
 	const CONDITION_VALUES = 1;
 
-	// --------------------------- //
-	// --- INSTANCE PROPERTIES --- //
-	// --------------------------- //
+	/*
+	 * --- INSTANCE PROPERTIES ---
+	 */
+
 	/**
 	 * Holds the class name. Wrapped find_one and find_many classes will return an instance or instances of this class.
 	 *
@@ -219,9 +219,10 @@ class ORM implements \ArrayAccess {
 	 */
 	protected $_instance_id_column = null;
 
-	// ---------------------- //
-	// --- STATIC METHODS --- //
-	// ---------------------- //
+	/*
+	 * --- STATIC METHODS ---
+	 */
+
 	/**
 	 * Factory method, return an instance of this class bound to the supplied
 	 * table name.
@@ -289,9 +290,10 @@ class ORM implements \ArrayAccess {
 		return $result;
 	}
 
-	// ------------------------ //
-	// --- INSTANCE METHODS --- //
-	// ------------------------ //
+	/*
+	 * --- INSTANCE METHODS ---
+	 */
+
 	/**
 	 * "Private" constructor; shouldn't be called directly.
 	 * Use the ORM::for_table factory method instead.
@@ -2274,9 +2276,10 @@ class ORM implements \ArrayAccess {
 		return self::_execute( $query, $this->_values );
 	}
 
-	// --------------------- //
-	// ---  ArrayAccess  --- //
-	// --------------------- //
+	/*
+	 * ---  ArrayAccess  ---
+	 */
+
 	/**
 	 * Checks whether the data has the key.
 	 *
@@ -2322,9 +2325,10 @@ class ORM implements \ArrayAccess {
 		unset( $this->_dirty_fields[ $key ] );
 	}
 
-	// --------------------- //
-	// --- MAGIC METHODS --- //
-	// --------------------- //
+	/*
+	 * --- MAGIC METHODS ---
+	 */
+
 	/**
 	 * Handles magic get via offset.
 	 *
