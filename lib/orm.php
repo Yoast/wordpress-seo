@@ -807,11 +807,12 @@ class ORM implements \ArrayAccess {
 		// Add table alias if present.
 		if ( ! \is_null( $table_alias ) ) {
 			$table_alias = $this->_quote_identifier( $table_alias );
-			$table       .= " {$table_alias}";
+			$table      .= " {$table_alias}";
 		}
 		// Build the constraint.
 		if ( \is_array( $constraint ) ) {
 			list( $first_column, $operator, $second_column ) = $constraint;
+
 			$first_column  = $this->_quote_identifier( $first_column );
 			$second_column = $this->_quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
@@ -835,12 +836,13 @@ class ORM implements \ArrayAccess {
 		// Add table alias if present.
 		if ( ! \is_null( $table_alias ) ) {
 			$table_alias = $this->_quote_identifier( $table_alias );
-			$table       .= " {$table_alias}";
+			$table      .= " {$table_alias}";
 		}
 		$this->_values = \array_merge( $this->_values, $parameters );
 		// Build the constraint.
 		if ( \is_array( $constraint ) ) {
 			list( $first_column, $operator, $second_column ) = $constraint;
+
 			$first_column  = $this->_quote_identifier( $first_column );
 			$second_column = $this->_quote_identifier( $second_column );
 			$constraint    = "{$first_column} {$operator} {$second_column}";
@@ -2176,7 +2178,8 @@ class ORM implements \ArrayAccess {
 				$this->_data[ $column ] = $wpdb->insert_id;
 			}
 		}
-		$this->_dirty_fields = $this->_expr_fields = [];
+		$this->_dirty_fields = [];
+		$this->_expr_fields  = [];
 
 		return $success;
 	}

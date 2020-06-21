@@ -110,7 +110,7 @@ class WPSEO_Taxonomy_Metabox {
 		}
 
 		$show_facebook = WPSEO_Options::get( 'opengraph', false );
-		$show_twitter = WPSEO_Options::get( 'twitter', false );
+		$show_twitter  = WPSEO_Options::get( 'twitter', false );
 
 		if ( $show_facebook || $show_twitter ) {
 			$content_sections[] = $this->get_social_meta_section( $show_facebook, $show_twitter );
@@ -177,12 +177,12 @@ class WPSEO_Taxonomy_Metabox {
 
 		if ( $show_facebook ) {
 			$facebook_fields = $this->taxonomy_social_fields->get_by_network( 'opengraph' );
-			$content .= $this->taxonomy_tab_content->html( $facebook_fields );
+			$content        .= $this->taxonomy_tab_content->html( $facebook_fields );
 		};
 
 		if ( $show_twitter ) {
 			$twitter_fields = $this->taxonomy_social_fields->get_by_network( 'twitter' );
-			$content .= $this->taxonomy_tab_content->html( $twitter_fields );
+			$content       .= $this->taxonomy_tab_content->html( $twitter_fields );
 		}
 
 		// Add react target.
