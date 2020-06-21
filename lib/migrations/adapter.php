@@ -147,7 +147,7 @@ class Adapter {
 	/**
 	 * Quotes a table name string.
 	 *
-	 * @param string $string table name.
+	 * @param string $string Table name.
 	 *
 	 * @return string
 	 */
@@ -195,7 +195,7 @@ class Adapter {
 	/**
 	 * Creates a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -212,7 +212,7 @@ class Adapter {
 	/**
 	 * Drops a database.
 	 *
-	 * @param string $db the database name.
+	 * @param string $db The database name.
 	 *
 	 * @return boolean
 	 */
@@ -382,7 +382,7 @@ class Adapter {
 	/**
 	 * Returns a quoted string.
 	 *
-	 * @param string $string the string.
+	 * @param string $string The string.
 	 *
 	 * @return string
 	 */
@@ -506,8 +506,8 @@ class Adapter {
 	/**
 	 * Returns the database information for a column.
 	 *
-	 * @param string $table  the table name.
-	 * @param string $column the column name.
+	 * @param string $table  The table name.
+	 * @param string $column The column name.
 	 *
 	 * @return array
 	 */

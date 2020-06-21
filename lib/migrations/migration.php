@@ -43,7 +43,7 @@ abstract class Migration {
 	/**
 	 * Creates a new migration.
 	 *
-	 * @param Adapter $adapter the current adapter.
+	 * @param Adapter $adapter The current adapter.
 	 *
 	 * @return \Migration
 	 */
