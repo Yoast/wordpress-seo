@@ -850,7 +850,7 @@ class Adapter {
 			if ( $options['null'] === false || $options['null'] === 'NO' ) {
 				$sql .= ' NOT NULL';
 			}
-			elseif ( 'timestamp' === $type ) {
+			elseif ( $type === 'timestamp' ) {
 				$sql .= ' NULL';
 			}
 		}

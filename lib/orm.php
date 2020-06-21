@@ -523,7 +523,7 @@ class ORM implements \ArrayAccess {
 	protected function _call_aggregate_db_function( $sql_function, $column ) {
 		$alias        = \strtolower( $sql_function );
 		$sql_function = \strtoupper( $sql_function );
-		if ( '*' !== $column ) {
+		if ( $column !== '*' ) {
 			$column = $this->_quote_identifier( $column );
 		}
 		$result_columns        = $this->_result_columns;
@@ -2100,11 +2100,11 @@ class ORM implements \ArrayAccess {
 		foreach ( $key as $field => $value ) {
 			$this->_data[ $field ]         = $value;
 			$this->_dirty_fields[ $field ] = $value;
-			if ( false === $expr && isset( $this->_expr_fields[ $field ] ) ) {
+			if ( $expr === false && isset( $this->_expr_fields[ $field ] ) ) {
 				unset( $this->_expr_fields[ $field ] );
 			}
 			else {
-				if ( true === $expr ) {
+				if ( $expr === true ) {
 					$this->_expr_fields[ $field ] = true;
 				}
 			}

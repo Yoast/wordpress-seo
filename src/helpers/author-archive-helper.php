@@ -64,7 +64,7 @@ class Author_Archive_Helper {
 		$cache_key        = 'author_has_a_public_post_' . $author_id;
 		$indexable_exists = \wp_cache_get( $cache_key );
 
-		if ( false === $indexable_exists ) {
+		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
 				->select( 'id' )
 				->where( 'object_type', 'post' )
@@ -73,7 +73,7 @@ class Author_Archive_Helper {
 				->where( 'is_public', 1 )
 				->find_one();
 
-			if ( false === $indexable_exists ) {
+			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no public posts.
 				\wp_cache_set( $cache_key, 0, '', wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
 			}
@@ -95,7 +95,7 @@ class Author_Archive_Helper {
 		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;
 		$indexable_exists = \wp_cache_get( $cache_key );
 
-		if ( false === $indexable_exists ) {
+		if ( $indexable_exists === false ) {
 			$indexable_exists = Model::of_type( 'Indexable' )
 				->select( 'id' )
 				->where( 'object_type', 'post' )
@@ -104,7 +104,7 @@ class Author_Archive_Helper {
 				->where_null( 'is_public' )
 				->find_one();
 
-			if ( false === $indexable_exists ) {
+			if ( $indexable_exists === false ) {
 				// Cache no results to prevent full table scanning on authors with no is public null posts.
 				\wp_cache_set( $cache_key, 0, '', wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
 			}
