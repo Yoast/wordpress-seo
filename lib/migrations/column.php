@@ -72,8 +72,8 @@ class Column {
 			throw new Exception( "Invalid 'type' parameter" );
 		}
 		$this->adapter = $adapter;
-		$this->name     = $name;
-		$this->type     = $type;
+		$this->name    = $name;
+		$this->type    = $type;
 		$this->options = $options;
 	}
 
@@ -83,7 +83,7 @@ class Column {
 	 * @return string
 	 */
 	public function to_sql() {
-		$column_sql = \sprintf( '%s %s', $this->adapter->identifier( $this->name ), $this->sql_type() );
+		$column_sql  = \sprintf( '%s %s', $this->adapter->identifier( $this->name ), $this->sql_type() );
 		$column_sql .= $this->adapter->add_column_options( $this->type, $this->options );
 		return $column_sql;
 	}
@@ -96,6 +96,7 @@ class Column {
 	public function __toString() {
 		return $this->to_sql();
 	}
+
 	/**
 	 * The SQL type.
 	 *

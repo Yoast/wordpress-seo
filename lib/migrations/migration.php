@@ -259,6 +259,7 @@ abstract class Migration {
 	public function select_all( $sql ) {
 		return $this->adapter->select_all( $sql );
 	}
+
 	/**
 	 * Execute a query.
 	 *
@@ -269,6 +270,7 @@ abstract class Migration {
 	public function query( $sql ) {
 		return $this->adapter->query( $sql );
 	}
+
 	/**
 	 * Returns a quoted string.
 	 *

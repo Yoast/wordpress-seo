@@ -61,7 +61,7 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has at least one public post.
 	 */
 	protected function author_has_a_public_post( $author_id ) {
-		$cache_key = 'author_has_a_public_post_' . $author_id;
+		$cache_key        = 'author_has_a_public_post_' . $author_id;
 		$indexable_exists = \wp_cache_get( $cache_key );
 
 		if ( false === $indexable_exists ) {
@@ -92,7 +92,7 @@ class Author_Archive_Helper {
 	 * @return bool Whether the author has at least one post with the is public null.
 	 */
 	protected function author_has_a_post_with_is_public_null( $author_id ) {
-		$cache_key = 'author_has_a_post_with_is_public_null_' . $author_id;
+		$cache_key        = 'author_has_a_post_with_is_public_null_' . $author_id;
 		$indexable_exists = \wp_cache_get( $cache_key );
 
 		if ( false === $indexable_exists ) {

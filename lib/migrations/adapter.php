@@ -418,7 +418,7 @@ class Adapter {
 	 * @return boolean
 	 */
 	public function add_column( $table_name, $column_name, $type, $options = [] ) {
-		if ( empty( $table_name ) || empty( $column_name ) ||  empty( $type ) ) {
+		if ( empty( $table_name ) || empty( $column_name ) || empty( $type ) ) {
 			return false;
 		}
 		// Default types.
@@ -431,7 +431,7 @@ class Adapter {
 		if ( ! \array_key_exists( 'scale', $options ) ) {
 			$options['scale'] = null;
 		}
-		$sql = \sprintf( 'ALTER TABLE %s ADD `%s` %s', $this->identifier( $table_name ), $column_name, $this->type_to_sql( $type, $options ) );
+		$sql  = \sprintf( 'ALTER TABLE %s ADD `%s` %s', $this->identifier( $table_name ), $column_name, $this->type_to_sql( $type, $options ) );
 		$sql .= $this->add_column_options( $type, $options );
 
 		return $this->execute_ddl( $sql );
@@ -467,7 +467,7 @@ class Adapter {
 		$column_info  = $this->column_info( $table_name, $column_name );
 		$current_type = $column_info['type'];
 		$sql          = \sprintf( 'ALTER TABLE %s CHANGE %s %s %s', $this->identifier( $table_name ), $this->identifier( $column_name ), $this->identifier( $new_column_name ), $current_type );
-		$sql          .= $this->add_column_options( $current_type, $column_info );
+		$sql         .= $this->add_column_options( $current_type, $column_info );
 
 		return $this->execute_ddl( $sql );
 	}
@@ -497,7 +497,7 @@ class Adapter {
 		if ( ! \array_key_exists( 'scale', $options ) ) {
 			$options['scale'] = null;
 		}
-		$sql = \sprintf( 'ALTER TABLE `%s` CHANGE `%s` `%s` %s', $table_name, $column_name, $column_name, $this->type_to_sql( $type, $options ) );
+		$sql  = \sprintf( 'ALTER TABLE `%s` CHANGE `%s` `%s` %s', $table_name, $column_name, $column_name, $this->type_to_sql( $type, $options ) );
 		$sql .= $this->add_column_options( $type, $options );
 
 		return $this->execute_ddl( $sql );
@@ -722,10 +722,10 @@ class Adapter {
 	public function type_to_sql( $type, $options = [] ) {
 		$natives = $this->native_database_types();
 		if ( ! \array_key_exists( $type, $natives ) ) {
-			$error = \sprintf( "Error:I dont know what column type of '%s' maps to for MySQL.", $type );
+			$error  = \sprintf( "Error:I dont know what column type of '%s' maps to for MySQL.", $type );
 			$error .= "\nYou provided: {$type}\n";
 			$error .= "Valid types are: \n";
-			$types = \array_keys( $natives );
+			$types  = \array_keys( $natives );
 			foreach ( $types as $t ) {
 				if ( $t === 'primary_key' ) {
 					continue;
@@ -844,7 +844,7 @@ class Adapter {
 				$default_format = "'%s'";
 			}
 			$default_value = \sprintf( $default_format, $options['default'] );
-			$sql           .= \sprintf( ' DEFAULT %s', $default_value );
+			$sql          .= \sprintf( ' DEFAULT %s', $default_value );
 		}
 		if ( \array_key_exists( 'null', $options ) ) {
 			if ( $options['null'] === false || $options['null'] === 'NO' ) {
@@ -985,7 +985,7 @@ class Adapter {
 	 */
 	private function is_sql_method_call( $string ) {
 		$string = \trim( $string );
-		if ( \substr( $string, - 2, 2 ) === '()' ) {
+		if ( \substr( $string, -2, 2 ) === '()' ) {
 			return true;
 		}
 		return false;

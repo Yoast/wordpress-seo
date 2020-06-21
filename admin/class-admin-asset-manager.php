@@ -271,7 +271,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name'      => 'post-edit',
 				'src'       => 'post-edit-' . $flat_version,
-				'deps' => [
+				'deps'      => [
 					'jquery',
 					'wp-annotations',
 					'wp-api',
