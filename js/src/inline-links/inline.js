@@ -102,10 +102,24 @@ function InlineLinkUI( {
 
 		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
 		const didToggleSetting =
-			linkValue.opensInNewTab !== nextValue.opensInNewTab &&
-			linkValue.noFollow !== nextValue.noFollow &&
-			linkValue.sponsored !== nextValue.sponsored &&
-			linkValue.url === nextValue.url;
+			linkValue.url === nextValue.url &&
+			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
+			linkValue.noFollow !== nextValue.noFollow ||
+			linkValue.sponsored !== nextValue.sponsored;
+
+		/*
+		 * A link rel can only be one of three combinations:
+		 * - only nofollow
+		 * - both nofollow and sponsored
+		 * - neither nofollow or sponsored
+		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
+		 */
+		if ( didToggleSetting && nextValue.sponsored === true && linkValue.sponsored !== true ) {
+			nextValue.noFollow = true;
+		}
+		if ( didToggleSetting && nextValue.noFollow === false && linkValue.noFollow !== false ) {
+			nextValue.sponsored = false;
+		}
 
 		/*
 		 * If change handler was called as a result of a settings change during link insertion, it must be held in state until the link is ready to
@@ -122,19 +136,6 @@ function InlineLinkUI( {
 		}
 
 		const newUrl = prependHTTP( nextValue.url );
-
-		/*
-		 * A link rel can only be one of three combinations:
-		 * - only nofollow
-		 * - both nofollow and sponsored
-		 * - neither nofollow or sponsored
-		 */
-		if ( nextValue.sponsored === true && linkValue.sponsored === false ) {
-			nextValue.noFollow = true;
-		}
-		if ( nextValue.noFollow === false && linkValue.noFollow === true ) {
-			nextValue.sponsored = false;
-		}
 
 		const format = createLinkFormat( {
 			url: newUrl,
