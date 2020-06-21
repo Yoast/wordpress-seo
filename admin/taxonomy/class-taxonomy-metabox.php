@@ -165,8 +165,8 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @param boolean $show_facebook  Whether to render the facebook fields.
-	 * @param boolean $show_twitter   Whether to render the twitter fields.
+	 * @param boolean $show_facebook Whether to render the facebook fields.
+	 * @param boolean $show_twitter  Whether to render the twitter fields.
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
