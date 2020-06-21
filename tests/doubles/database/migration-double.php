@@ -31,6 +31,8 @@ class Migration_Double extends Migration {
 
 	/**
 	 * Migration up.
+	 *
+	 * @throws Exception
 	 */
 	public function up() {
 		if ( self::$should_error ) {
