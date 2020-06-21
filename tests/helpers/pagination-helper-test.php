@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Helpers;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
