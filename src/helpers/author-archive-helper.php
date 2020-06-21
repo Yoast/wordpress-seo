@@ -75,7 +75,7 @@ class Author_Archive_Helper {
 
 			if ( false === $indexable_exists ) {
 				// Cache no results to prevent full table scanning on authors with no public posts.
-				\wp_cache_set( $cache_key, 0, '', wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
+				\wp_cache_set( $cache_key, 0, '', \wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
 			}
 		}
 
@@ -106,7 +106,7 @@ class Author_Archive_Helper {
 
 			if ( false === $indexable_exists ) {
 				// Cache no results to prevent full table scanning on authors with no is public null posts.
-				\wp_cache_set( $cache_key, 0, '', wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
+				\wp_cache_set( $cache_key, 0, '', \wp_rand( ( 2 * \HOUR_IN_SECONDS ), ( 4 * \HOUR_IN_SECONDS ) ) );
 			}
 		}
 
