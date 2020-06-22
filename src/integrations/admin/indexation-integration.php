@@ -198,7 +198,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+		if ( current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper );
+		}
 	}
 
 	/**
@@ -207,9 +209,11 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		\add_thickbox();
+		if ( current_user_can( 'manage_options' ) ) {
+			\add_thickbox();
 
-		echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+			echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+		}
 	}
 
 	/**
@@ -218,7 +222,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+		if ( current_user_can( 'manage_options' ) ) {
+			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+		}
 	}
 
 	/**

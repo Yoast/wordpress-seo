@@ -8,9 +8,9 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**

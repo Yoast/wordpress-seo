@@ -1,4 +1,4 @@
-var getL10nObject = require( "./getL10nObject" );
+import getL10nObject from "./getL10nObject";
 
 import { get } from "lodash-es";
 

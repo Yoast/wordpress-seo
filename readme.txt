@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Content analysis, Readability
+Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
 Stable tag: 14.3
@@ -215,9 +215,11 @@ Release Date: June 23rd, 2020
 Bugfixes:
 
 * Fixes a bug where replacement variable values would break the Google Preview and output a PHP notice on the front end if they were a serialized array string.
-* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a BC break.
+* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a backward compatibility break.
 * Fixes a bug where the site logo was not output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
 * Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
+* Fixes a bug where a lot of delete queries would be performed after clearing all indexables from the database.
+* Fixes a bug where the indexables indexation warning would be visible to users with non-admin roles.
 
 Enhancements:
 
@@ -225,7 +227,7 @@ Enhancements:
    * Adds the readability and SEO score to the document sidebar with the possibility to quickly open the Yoast sidebar.
    * Adds the readability and SEO score to the publish checks. Gives reassurance or a call to action to further optimize the content.
    * Adds social sharing buttons to the post publish actions to enable easy sharing on Facebook and Twitter.
-* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor.
+* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor for WP > 5.4.
 
 Other:
 

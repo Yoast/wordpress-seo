@@ -45,7 +45,7 @@ class Table {
 	/**
 	 * Whether or not the table has been initialized.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $initialized = false;
 
@@ -66,7 +66,7 @@ class Table {
 	/**
 	 * Whether or not to auto generate the id.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $auto_generate_id = true;
 
@@ -102,7 +102,7 @@ class Table {
 			// primary key with this name.
 			if ( \is_string( $options['id'] ) ) {
 				$this->auto_generate_id = true;
-				$this->primary_keys[] = $options['id'];
+				$this->primary_keys[]   = $options['id'];
 			}
 		}
 	}
@@ -133,8 +133,8 @@ class Table {
 				$column_options['auto_increment'] = true;
 			}
 		}
-		$column_options = \array_merge( $column_options, $options );
-		$column = new Column( $this->adapter, $column_name, $type, $column_options );
+		$column_options  = \array_merge( $column_options, $options );
+		$column          = new Column( $this->adapter, $column_name, $type, $column_options );
 		$this->columns[] = $column;
 	}
 
@@ -146,8 +146,17 @@ class Table {
 	 */
 	public function timestamps( $created_column_name = 'created_at', $updated_column_name = 'updated_at' ) {
 		$this->column( $created_column_name, 'datetime' );
-		$this->column( $updated_column_name, 'timestamp', [ 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'extra' => 'ON UPDATE CURRENT_TIMESTAMP' ] );
+		$this->column(
+			$updated_column_name,
+			'timestamp',
+			[
+				'null'    => false,
+				'default' => 'CURRENT_TIMESTAMP',
+				'extra'   => 'ON UPDATE CURRENT_TIMESTAMP',
+			]
+		);
 	}
+
 	/**
 	 * Get all primary keys
 	 *
@@ -155,7 +164,7 @@ class Table {
 	 */
 	private function keys() {
 		if ( \count( $this->primary_keys ) > 0 ) {
-			$lead = ' PRIMARY KEY (';
+			$lead   = ' PRIMARY KEY (';
 			$quoted = [];
 			foreach ( $this->primary_keys as $key ) {
 				$quoted[] = \sprintf( '%s', $this->adapter->identifier( $key ) );
@@ -166,6 +175,7 @@ class Table {
 
 		return '';
 	}
+
 	/**
 	 * Table definition
 	 *
@@ -190,12 +200,21 @@ class Table {
 				$opt_str = ' DEFAULT CHARSET=utf8';
 			}
 		}
-		$close_sql = \sprintf( ') %s;', $opt_str );
+		$close_sql        = \sprintf( ') %s;', $opt_str );
 		$create_table_sql = $this->sql;
 		if ( $this->auto_generate_id === true ) {
 			$this->primary_keys[] = 'id';
-			$primary_id = new Column( $this->adapter, 'id', 'integer', [ 'unsigned' => true, 'null' => false, 'auto_increment' => true ] );
-			$create_table_sql .= $primary_id->to_sql() . ",\n";
+			$primary_id           = new Column(
+				$this->adapter,
+				'id',
+				'integer',
+				[
+					'unsigned'       => true,
+					'null'           => false,
+					'auto_increment' => true,
+				]
+			);
+			$create_table_sql    .= $primary_id->to_sql() . ",\n";
 		}
 		$create_table_sql .= $this->columns_to_str();
 		$create_table_sql .= $this->keys() . $close_sql;
@@ -211,15 +230,16 @@ class Table {
 	 * @return string The SQL.
 	 */
 	private function columns_to_str() {
-		$str = '';
+		$str    = '';
 		$fields = [];
-		$len = \count( $this->columns );
+		$len    = \count( $this->columns );
 		for ( $i = 0; $i < $len; $i++ ) {
-			$c = $this->columns[ $i ];
+			$c        = $this->columns[ $i ];
 			$fields[] = $c->__toString();
 		}
 		return \join( ",\n", $fields );
 	}
+
 	/**
 	 * Init create sql statement.
 	 *
@@ -235,9 +255,9 @@ class Table {
 		if ( \array_key_exists( 'temporary', $options ) ) {
 			$temp = ' TEMPORARY';
 		}
-		$create_sql  = \sprintf( 'CREATE%s TABLE ', $temp );
-		$create_sql .= \sprintf( "%s (\n", $this->adapter->identifier( $name ) );
-		$this->sql  .= $create_sql;
+		$create_sql        = \sprintf( 'CREATE%s TABLE ', $temp );
+		$create_sql       .= \sprintf( "%s (\n", $this->adapter->identifier( $name ) );
+		$this->sql        .= $create_sql;
 		$this->initialized = true;
 	}
 }

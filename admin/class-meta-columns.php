@@ -817,7 +817,7 @@ class WPSEO_Meta_Columns {
 			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
 
 			$indexable = $indexable_repository->find_by_id_and_type( $post_id, 'post' );
-			if ( ! $indexable  ) {
+			if ( ! $indexable ) {
 				return null;
 			}
 

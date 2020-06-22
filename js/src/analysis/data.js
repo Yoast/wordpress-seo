@@ -23,7 +23,7 @@ const $ = global.jQuery;
 /**
  * Represents the data.
  */
-class Data {
+export default class Data {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
@@ -391,4 +391,3 @@ class Data {
 		return this._data;
 	}
 }
-module.exports = Data;
