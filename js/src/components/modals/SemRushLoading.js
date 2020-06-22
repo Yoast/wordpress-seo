@@ -4,9 +4,9 @@ import { __, sprintf } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
 
 /**
- * Creates the loading content for the SEMRush related keywords modal.
+ * Creates the loading content for the SEMrush related keywords modal.
  *
- * @returns {React.Element} The SEMRush loading content.
+ * @returns {React.Element} The SEMrush loading content.
  */
 const SemRushLoading = () => {
 	return (
