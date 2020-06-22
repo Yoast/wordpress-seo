@@ -121,7 +121,7 @@ class SEMrush_Client {
 		$request = $this->provider->getAuthenticatedRequest(
 			$type,
 			$url,
-			$this->get_tokens()->get_access_token(),
+			$this->get_tokens()->access_token,
 			[ 'body' => $body ]
 		);
 
@@ -155,7 +155,7 @@ class SEMrush_Client {
 	protected function refresh_tokens( SEMrush_Token $tokens ) {
 		try {
 			$new_tokens = $this->provider->getAccessToken( 'refresh_token', [
-				'refresh_token' => $tokens->get_refresh_token(),
+				'refresh_token' => $tokens->refresh_token,
 			] );
 
 			$this->token_manager->from_response( $new_tokens );

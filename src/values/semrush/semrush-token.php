@@ -12,27 +12,27 @@ class SEMrush_Token {
 	/**
 	 * @var string
 	 */
-	private $access_token;
+	public $access_token;
 
 	/**
 	 * @var string
 	 */
-	private $refresh_token;
+	public $refresh_token;
 
 	/**
 	 * @var int
 	 */
-	private $expires;
+	public $expires;
 
 	/**
 	 * @var bool
 	 */
-	private $has_expired;
+	public $has_expired;
 
 	/**
 	 * @var int
 	 */
-	private $created_at;
+	public $created_at;
 
 	/**
 	 * SEMrush_Token constructor.
@@ -92,42 +92,6 @@ class SEMrush_Token {
 	}
 
 	/**
-	 * Gets the access token.
-	 *
-	 * @return string The access token.
-	 */
-	public function get_access_token() {
-		return $this->access_token;
-	}
-
-	/**
-	 * Gets the refresh token.
-	 *
-	 * @return string The refresh token.
-	 */
-	public function get_refresh_token() {
-		return $this->refresh_token;
-	}
-
-	/**
-	 * Gets the expires.
-	 *
-	 * @return int The expiraton in seconds.
-	 */
-	public function get_expires() {
-		return $this->expires;
-	}
-
-	/**
-	 * Gets the created at timestamp.
-	 *
-	 * @return int The created at timestamp.
-	 */
-	public function get_created_at() {
-		return $this->created_at;
-	}
-
-	/**
 	 * Determines whether or not the token has expired.
 	 *
 	 * @return bool Whether or not the token has expired.
@@ -143,11 +107,11 @@ class SEMrush_Token {
 	 */
 	public function to_array() {
 		return [
-			'access_token'  => $this->get_access_token(),
-			'refresh_token' => $this->get_refresh_token(),
-			'expires'       => $this->get_expires(),
+			'access_token'  => $this->access_token,
+			'refresh_token' => $this->refresh_token,
+			'expires'       => $this->expires,
 			'has_expired'   => $this->has_expired(),
-			'created_at'    => $this->get_created_at(),
+			'created_at'    => $this->created_at,
 		];
 	}
 }

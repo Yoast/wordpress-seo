@@ -60,11 +60,11 @@ class SEMrush_Token_Test extends TestCase {
 	public function test_getters() {
 		$instance = new SEMrush_Token( '000000', '000001', $this->created_at + 604800, false, $this->created_at );
 
-		$this->assertEquals( '000000', $instance->get_access_token() );
-		$this->assertEquals( '000001', $instance->get_refresh_token() );
-		$this->assertEquals( $this->created_at + 604800, $instance->get_expires() );
+		$this->assertEquals( '000000', $instance->access_token );
+		$this->assertEquals( '000001', $instance->refresh_token );
+		$this->assertEquals( $this->created_at + 604800, $instance->expires );
 		$this->assertFalse( $instance->has_expired() );
-		$this->assertEquals( $this->created_at, $instance->get_created_at() );
+		$this->assertEquals( $this->created_at, $instance->created_at );
 	}
 
 	/**
