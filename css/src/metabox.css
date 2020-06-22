@@ -152,7 +152,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu ul li a {
-  color: #444444;
+  color: var( --yoast-color-label );
   display: flex;
   align-items: center;
   border: 1px solid rgba( 0,0,0,0.2 );
