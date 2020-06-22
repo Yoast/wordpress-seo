@@ -138,12 +138,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
-	 *
-	 * @dataProvider ignore_warning_provider
-	 *
-	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
-	public function test_enqueue_scripts( $ignore_warning ) {
+	public function test_enqueue_scripts_not_having_warning_ignored() {
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -157,32 +153,26 @@ class Indexation_Integration_Test extends TestCase {
 		$this->options
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
-			->andReturn( $ignore_warning );
+			->andReturnFalse();
 
-		if ( ! $ignore_warning ) {
-			$this->options
-				->expects( 'get' )
-				->with( 'indexation_started', 0 )
-				->andReturn( 0 );
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_started', 0 )
+			->andReturn( 0 );
 
-			$this->options
-				->expects( 'get' )
-				->with( 'indexation_warning_hide_until' )
-				->andReturn( 0 );
-		}
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until' )
+			->andReturn( 0 );
 
-		if ( ! $ignore_warning ) {
-			Monkey\Actions\expectAdded( 'admin_notices' );
-		}
 
-		if ( $ignore_warning ) {
-			$this->term_indexation
-				->expects( 'get_total_term_permalinks_null' )
-				->once()
-				->andReturn(35);
+		$this->options
+			->expects( 'get' )
+			->once()
+			->with( 'indexables_indexation_reason', '' )
+			->andReturn( '' );
 
-			Monkey\Actions\expectAdded( 'admin_notices' );
-		}
+		Monkey\Actions\expectAdded( 'admin_notices' );
 
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
@@ -208,7 +198,81 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
-		$expected_data = [
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests that scripts and styles are enqueued and the modal
+	 * is rendered when there is something to index.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_having_the_warning_ignored() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnTrue();
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		// We should hook into the admin footer and admin notices hook.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+
+		// Mock retrieval of the REST URL.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Returns the localized data.
+	 *
+	 * @return array The localized data
+	 */
+	protected function get_localized_data() {
+		return [
 			'amount'  => 40,
 			'ids'     => [
 				'count'    => '#yoast-indexation-current-count',
@@ -236,28 +300,6 @@ class Indexation_Integration_Test extends TestCase {
 				'calculationFailed'     => 'Optimization failed, please try again later.',
 			],
 		];
-
-		// The script should be localized with the right data.
-		Monkey\Functions\expect( 'wp_localize_script' )
-			->with(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
-				'yoastIndexationData',
-				$expected_data
-			);
-
-		$this->instance->enqueue_scripts();
-	}
-
-	/**
-	 * Returns whether or not the warning is ignored.
-	 *
-	 * @return array The possible values.
-	 */
-	public function ignore_warning_provider() {
-		return [
-			[ true ],
-			[ false ],
-		];
 	}
 
 	/**
@@ -277,6 +319,11 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 0,
 			]
 		);
+
+		$this->options
+			->expects( 'set' )
+			->once()
+			->with( 'indexables_indexation_reason', '' );
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();

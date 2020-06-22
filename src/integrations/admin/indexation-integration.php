@@ -133,6 +133,7 @@ class Indexation_Integration implements Integration_Interface {
 		 * as post types aren't registered yet. So we do most of our add_action calls here.
 		 */
 		if ( $this->get_total_unindexed() === 0 ) {
+			$this->set_complete();
 			return;
 		}
 
@@ -150,11 +151,9 @@ class Indexation_Integration implements Integration_Interface {
 		}
 
 		\add_action( 'admin_footer', [ $this, 'render_indexation_modal' ], 20 );
+
 		if ( $this->is_indexation_warning_hidden() === false ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
-		}
-		elseif ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+			$this->add_admin_notice();
 		}
 
 		$this->asset_manager->enqueue_script( 'indexation' );
@@ -265,6 +264,19 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Adds the admin notice to show a specific indexation warning.
+	 */
+	protected function add_admin_notice() {
+		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+
+			return;
+		}
+
+		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+	}
+
+	/**
 	 * Returns if the indexation warning is temporarily hidden.
 	 *
 	 * @return bool True if hidden.
@@ -282,5 +294,12 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
+	}
+
+	/**
+	 * Sets the indexation to complete.
+	 */
+	protected function set_complete() {
+		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 }
