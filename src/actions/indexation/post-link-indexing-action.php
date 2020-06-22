@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -18,13 +17,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Post_Link_Indexing_Action class.
  */
 class Post_Link_Indexing_Action implements Indexation_Action_Interface {
-
-	/**
-	 * The post link builder.
-	 *
-	 * @var Indexable_Link_Builder
-	 */
-	protected $link_builder;
 
 	/**
 	 * The post type helper.
@@ -50,18 +42,15 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Indexable_Link_Builder $link_builder The post link builder.
-	 * @param Post_Type_Helper       $post_type_helper  The post type helper.
-	 * @param Indexable_Repository   $repository        The indexable repository.
-	 * @param wpdb                   $wpdb              The WordPress database instance.
+	 * @param Post_Type_Helper     $post_type_helper  The post type helper.
+	 * @param Indexable_Repository $repository        The indexable repository.
+	 * @param wpdb                 $wpdb              The WordPress database instance.
 	 */
 	public function __construct(
-		Indexable_Link_Builder $link_builder,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
-		$this->link_builder     = $link_builder;
 		$this->post_type_helper = $post_type_helper;
 		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
@@ -96,13 +85,14 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 
 		$query = $this->get_query( false, $limit );
 
-		$posts = $this->wpdb->get_results( $query );
-		$links = [];
-		foreach ( $posts as $post ) {
-			$links[] = $this->post_link_builder->build( $post->ID, $post->post_content );
+		$post_ids = $this->wpdb->get_col( $query );
+
+		$indexables = [];
+		foreach ( $post_ids as $post_id ) {
+			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
 		}
 
-		return $links;
+		return $indexables;
 	}
 
 	/**
