@@ -37,6 +37,10 @@ Array [
   line-height: 1.2em;
 }
 
+.c0 h2 > button:focus {
+  outline: none;
+}
+
 .c0 div[class^="Collapsible__Content"] {
   padding: 24px 0;
   margin: 0 24px;

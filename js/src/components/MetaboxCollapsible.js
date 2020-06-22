@@ -9,7 +9,12 @@ const MetaboxCollapsible = styled( SidebarCollapsible )`
 			color: #A4286A;
 			line-height: 1.2em;
 		}
+
+		:focus {
+			outline: none;
+		}
 	}
+
 	div[class^="Collapsible__Content"] {
 		padding: 24px 0;
 		margin: 0 24px;
