@@ -190,7 +190,8 @@ ul.wpseo-metabox-tabs li.active {
   z-index: 13;
   background-color: #ffffff;
   border-bottom: 2px transparent;
-  clip-path: inset(-4px -4px 0px -4px);
+  clip-path: inset(-5px -5px 0px -5px);
+  box-shadow: none;
 }
 
 .wpseo-metabox-menu ul li.active a {
