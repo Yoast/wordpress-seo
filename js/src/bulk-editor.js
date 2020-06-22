@@ -23,6 +23,12 @@
 
 		var instance = {
 
+			/**
+			 *
+			 * @param {string} id The id of the submit
+			 *
+			 * @returns {void}
+			 */
 			submit_new: function( id ) {
 				instance.submitNew( id );
 			},
