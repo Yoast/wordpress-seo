@@ -29,9 +29,6 @@ $container->register( WPSEO_Admin_Asset_Manager::class, WPSEO_Admin_Asset_Manage
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
 $container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
-// Third-party classes
-$container->register( AccessTokenInterface::class, AccessTokenInterface::class )->setAutowired( true )->setPublic( true );
-
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
 
