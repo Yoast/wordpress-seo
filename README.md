@@ -20,8 +20,12 @@ This monorepo includes reusable packages:
   - A set of helper functions that can be used across multiple projects.
 - [@yoast/search-metadata-previews](packages/search-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
+- [@yoast/replacement-variable-editor](packages/replacement-variable-editor)
+  - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
 - [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
   - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
+- [@yoast/social-metadata-forms](packages/social-metadata-forms)
+  - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
 - [@yoast/style-guide](packages/style-guide)
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
 - [eslint-config-yoast](packages/eslint)
@@ -55,7 +59,7 @@ This monorepo includes apps for testing purposes. These apps are not published. 
 
 The following commands can be executed from the javascript project root:
 
-* `yarn install`, will intall all dependencies for all packages.
+* `yarn install`, will install all dependencies for all packages.
 * `yarn lint`, will run linting for all pacwhichkages.
 * `yarn test`, will run tests for all packages.
 * `yarn link-all`, will run `yarn link` for all packages.

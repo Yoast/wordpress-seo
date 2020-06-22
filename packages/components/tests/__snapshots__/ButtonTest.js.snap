@@ -2,7 +2,7 @@
 
 exports[`BaseButton executes callback 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   onClick={[Function]}
   type="button"
 >
@@ -12,7 +12,7 @@ exports[`BaseButton executes callback 1`] = `
 
 exports[`BaseButton executes callback 2`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   onClick={[Function]}
   type="button"
 >
@@ -22,7 +22,7 @@ exports[`BaseButton executes callback 2`] = `
 
 exports[`SnippetPreviewButton executes callback 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   onClick={[Function]}
   type="button"
 >
@@ -32,7 +32,7 @@ exports[`SnippetPreviewButton executes callback 1`] = `
 
 exports[`SnippetPreviewButton executes callback 2`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   onClick={[Function]}
   type="button"
 >
@@ -42,7 +42,7 @@ exports[`SnippetPreviewButton executes callback 2`] = `
 
 exports[`the BaseButton matches the snapshot 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   type="button"
 >
   ButtonValue
@@ -51,7 +51,7 @@ exports[`the BaseButton matches the snapshot 1`] = `
 
 exports[`the IconButton matches the snapshot 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   type="button"
 >
   <svg
@@ -73,7 +73,7 @@ exports[`the IconButton matches the snapshot 1`] = `
 
 exports[`the IconButton with text matches the snapshot 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   type="button"
 >
   <svg
@@ -96,7 +96,7 @@ exports[`the IconButton with text matches the snapshot 1`] = `
 
 exports[`the SnippetPreviewButton matches the snapshot 1`] = `
 <button
-  className="glyHEG"
+  className="nHkJq"
   type="button"
 >
   ButtonValue

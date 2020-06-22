@@ -378,7 +378,7 @@ class ConfigurationWizard extends React.Component {
 
 		return (
 			<MuiThemeProvider muiTheme={ muiTheme }>
-				<div className="yoast-wizard-body">
+				<div className="yoast yoast-wizard-body">
 					<Header headerTitle={ headerTitle } icon={ this.props.headerIcon } />
 					<StepIndicator
 						steps={ this.props.steps } stepIndex={ this.getCurrentStepNumber() - 1 }

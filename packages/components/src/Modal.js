@@ -56,21 +56,23 @@ class BaseYoastModal extends React.Component {
 				appElement={ this.props.appElement }
 				bodyOpenClassName="yoast-modal_is-open"
 			>
-				{
-					this.props.heading &&
-						<StyledHeading className="yoast-modal__title">{ this.props.heading }</StyledHeading>
-				}
-				{
-					this.props.closeIconButton &&
-						<StyledCloseIconButton
-							type="button"
-							onClick={ this.props.onClose }
-							className={ `yoast-modal__button-close-icon ${ this.props.closeIconButtonClassName }` }
-							aria-label={ this.props.closeIconButton }
-						>
-							<SvgIcon icon="times" color={ colors.$color_grey_text } />
-						</StyledCloseIconButton>
-				}
+				<div>
+					{
+						this.props.heading &&
+							<StyledHeading className="yoast-modal__title">{ this.props.heading }</StyledHeading>
+					}
+					{
+						this.props.closeIconButton &&
+							<StyledCloseIconButton
+								type="button"
+								onClick={ this.props.onClose }
+								className={ `yoast-modal__button-close-icon ${ this.props.closeIconButtonClassName }` }
+								aria-label={ this.props.closeIconButton }
+							>
+								<SvgIcon icon="times" color={ colors.$color_grey_text } />
+							</StyledCloseIconButton>
+					}
+				</div>
 				<div className="yoast-modal__inside">
 					{ this.props.children }
 				</div>

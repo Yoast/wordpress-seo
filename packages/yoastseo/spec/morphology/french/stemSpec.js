@@ -12,12 +12,17 @@ const wordsToStem = [
 	// RV is the end of the word if the previous positions cannot be found.
 	[ "voler", "vol" ],
 	// RV is the right of par, col, tap for words beginning with those syllables.
-	[ "tapis", "tapis" ],
+	[ "tapis", "tapi" ],
 	// Input a word ending in -ci + a2 class suffix.
 	[ "cicatrice", "cicatric" ],
 	// Input a noun ending in -ance.
 	[ "concordances", "concord" ],
 	[ "concordance", "concord" ],
+	// Input a noun ending in -ition.
+	[ "opposition", "oppos" ],
+	[ "oppositions", "oppos" ],
+	[ "acquisition", "acquer" ],
+	[ "acquisitions", "acquer" ],
 	// Input a noun ending in -ique.
 	[ "botaniques", "botan" ],
 	[ "botanique", "botan" ],
@@ -33,8 +38,8 @@ const wordsToStem = [
 	// Input a noun ending in -eux.
 	[ "bileux", "bileux" ],
 	// Input a noun ending in -atrice.
-	[ "curatrices", "curatric" ],
-	[ "curatrice", "curatric" ],
+	[ "curatrices", "cur" ],
+	[ "curatrice", "cur" ],
 	// Input a noun ending in -eur.
 	[ "acteurs", "acteur" ],
 	// Input a noun ending in -logie.
@@ -69,6 +74,14 @@ const wordsToStem = [
 	// Input a noun ending in -ment.
 	[ "clément", "clément" ],
 	[ "cléments", "clément" ],
+	[ "accident", "accident" ],
+	[ "accidents", "accident" ],
+	[ "testament", "testament" ],
+	[ "testaments", "testament" ],
+	[ "coefficient", "coefficient" ],
+	[ "coefficients", "coefficient" ],
+	[ "filament", "filament" ],
+	[ "filaments", "filament" ],
 	// Words on the exception list with full forms.
 	[ "yeux", "œil" ],
 	[ "oeil", "œil" ],
@@ -86,6 +99,46 @@ const wordsToStem = [
 	[ "feux", "feu" ],
 	[ "cailloux", "caillou" ],
 	[ "étaux", "étau" ],
+	// Plurals ending in -is/-os/-us.
+	[ "vrais", "vrai" ],
+	[ "numéros", "numéro" ],
+	[ "trous", "trou" ],
+	// Exceptions for which -is/-os/-us should not be stemmed.
+	[ "bis", "bis" ],
+	[ "diffus", "diffus" ],
+	[ "clos", "clos" ],
+	// Short words that should be stemmed.
+	[ "ardemment", "ardent" ],
+	[ "ours", "our" ],
+	[ "action", "act" ],
+	[ "actions", "act" ],
+	[ "âme", "âm" ],
+	[ "âmes", "âm" ],
+	// Verbs with multiple stems.
+	[ "acquit", "acquer" ],
+	[ "astrein", "astreindr" ],
+	[ "vécu", "vivr" ],
+	// Verbs with multiple stems ending in -s. (Removed from list of verbs ending in -s that shouldn't be stemmed.)
+	[ "acquis", "acquer" ],
+	[ "appris", "apprendr" ],
+	[ "assis", "asseoir" ],
+	// Verbs with suffix -ons.
+	[ "chantons", "chant" ],
+	[ "dessinons", "dessin" ],
+	[ "nettoyons", "nettoi" ],
+	// -Ons is not stemmed if preceded by i.
+	[ "questions", "question" ],
+	[ "stations", "station" ],
+	// Two-syllable verbs that start with a vowel and end on -ons.
+	[ "aidons", "aid" ],
+	[ "aimons", "aim" ],
+	// Non-verbs ending on -ons where only -s should be stemmed.
+	[ "chansons", "chanson" ],
+	[ "potirons", "potiron" ],
+	[ "taille-crayons", "taille-crayon" ],
+	// Irregular verbs added to the full forms.
+	[ "prirent", "prend" ],
+	[ "croiraient", "croi" ],
 ];
 
 const paradigms = [
@@ -105,7 +158,7 @@ const paradigms = [
 			// "dort",
 			// "dormons",
 			"dormez",
-			// "dorment",
+			"dorment",
 			"dormais",
 			"dormait",
 			// "dormions",
@@ -126,7 +179,6 @@ const paradigms = [
 			"dorme",
 			// "dormions",
 			"dormiez",
-			// "dorment",
 			"dormisse",
 			"dormisses",
 			"dormît",

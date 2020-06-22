@@ -25,7 +25,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
   </div>
   <button
     aria-label="Dismiss this alert"
-    className="cdwFrw"
+    className="fjYcEj"
     onClick={
       [MockFunction] {
         "calls": Array [

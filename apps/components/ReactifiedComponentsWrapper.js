@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import TextInput from "@yoast/components/src/inputs/TextInput";
 import TextArea from "@yoast/components/src/inputs/TextArea";
 import CheckboxGroup from "@yoast/components/src/checkbox/CheckboxGroup";
@@ -6,15 +6,75 @@ import RadioButtonGroup from "@yoast/components/src/radiobutton/RadioButtonGroup
 import { MultiSelect, Select } from "@yoast/components/src/select/Select";
 import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
+import {
+	Button,
+	PrimaryButton,
+	SecondaryButton,
+	UpsellButton,
+	HideButton,
+	RemoveButton,
+	CloseButton,
+} from "@yoast/components/src/button";
+
+/**
+ * Temporary onclick function.
+ *
+ * @returns {void}
+ */
+function clickerDiClick() {
+	console.log( "You are an exceptional clicker!" );
+}
+
+const buttonGrouping = <Fragment>
+	<Button title="Testing whether other props">Naked button</Button>
+	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
+	<PrimaryButton href="#" isLink={ true } title="Other props work!">Primary link</PrimaryButton>
+	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
+	<SecondaryButton href="#" isLink={ true } title="Other props work!">Secondary link</SecondaryButton>
+	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellButton href="#" isLink={ true } title="Other props work!">Upsell link</UpsellButton>
+	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
+	<UpsellButton href="#" isLink={ true } caret={ true } title="Other props work!">Upsell link</UpsellButton>
+	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
+	<HideButton href="#" isLink={ true } title="Other props work!">Hide link</HideButton>
+	<RemoveButton onClick={ clickerDiClick } title="Other props work!">Remove button</RemoveButton>
+	<RemoveButton href="#" isLink={ true } title="Other props work!">Remove link</RemoveButton>
+	<CloseButton onClick={ clickerDiClick } title="Other props work!" />
+	<CloseButton href="#" isLink={ true } title="Other props work!" />
+</Fragment>;
 
 /**
  * Function that displays all the reactified components that we currently have.
  *
- * @returns {React.Component} A wrapper for all the new reactified components.
+ * @returns {*} A div with all reactified components.
  */
 const ReactifiedComponentsWrapper = () => {
 	return (
 		<div className="yoast">
+
+			<h2>Buttons</h2>
+			<h3>Row</h3>
+			<div
+				style={ {
+					padding: "24px",
+				} }
+			>
+				{ buttonGrouping }
+			</div>
+
+			<h3>Column</h3>
+			<div
+				style={ {
+					display: "flex",
+					flexDirection: "column",
+					padding: "24px",
+				} }
+			>
+				{ buttonGrouping }
+			</div>
+			<hr />
+
+			<h2>Inputs</h2>
 			<TextInput
 				label="This is the input label"
 				value="This is the input value"
@@ -147,6 +207,9 @@ const ReactifiedComponentsWrapper = () => {
 				linkText="A helpful link!"
 				onChange={ console.warn }
 			/>
+			<hr />
+
+			<h2>DataModel</h2>
 			<DataModel
 				items={ [
 					{
