@@ -152,10 +152,15 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu ul li a {
-  color: #0073aa;
+  color: #444444;
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid rgba( 0,0,0,0.2 );
+  border-bottom: 2px transparent;
+}
+
+.wpseo-metabox-menu ul li a:focus {
+  box-shadow: inherit;
 }
 
 .wpseo-metabox-menu ul li .yst-traffic-light {
@@ -182,8 +187,10 @@ ul.wpseo-metabox-tabs li.active {
   height: 36px;
   /* 4 px is the difference in height with the inactive tabs. */
   margin-top: -4px;
-  z-index: 11;
+  z-index: 13;
   background-color: #ffffff;
+  border-bottom: 2px transparent;
+  clip-path: inset(-4px -4px 0px -4px);
 }
 
 .wpseo-metabox-menu ul li.active a {
