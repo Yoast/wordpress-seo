@@ -219,6 +219,7 @@ Bugfixes:
 * Fixes a bug where the site logo was not output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
 * Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
 * Fixes a bug where a lot of delete queries would be performed after clearing all indexables from the database.
+* Fixes a bug where the indexables indexation warning would be visible to users with non-admin roles.
 
 Enhancements:
 
@@ -226,7 +227,7 @@ Enhancements:
    * Adds the readability and SEO score to the document sidebar with the possibility to quickly open the Yoast sidebar.
    * Adds the readability and SEO score to the publish checks. Gives reassurance or a call to action to further optimize the content.
    * Adds social sharing buttons to the post publish actions to enable easy sharing on Facebook and Twitter.
-* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor.
+* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor for WP > 5.4.
 
 Other:
 
