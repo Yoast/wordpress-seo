@@ -77,7 +77,7 @@ class Edit {
 
 		this._registerPlugin();
 
-		if ( typeof window.wp.blockEditor.__experimentalLinkControl === "function" ) {
+		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
 			this._registerFormats();
 		} else {
 			console.warn(
