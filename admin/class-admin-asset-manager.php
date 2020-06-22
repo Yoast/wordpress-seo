@@ -280,7 +280,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-data',
 					'wp-element',
-					'wp-edit-post',
 					'wp-i18n',
 					'wp-is-shallow-equal',
 					'wp-sanitize',
