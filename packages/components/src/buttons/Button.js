@@ -41,6 +41,7 @@ export function addBaseStyle( component ) {
 		text-align: ${ getDirectionalStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
+		transition: var(--yoast-transition-default);
 
 		svg {
 			// Safari 10
@@ -76,7 +77,7 @@ export function addFocusStyle( component ) {
 			border-color: ${ props => props.focusBorderColor };
 			color: ${ props => props.focusColor };
 			background-color: ${ props => props.focusBackgroundColor };
-			box-shadow: 0 0 3px ${ rgba( colors.$color_blue_dark, .8 ) };
+			box-shadow: 0 0 3px ${ props => rgba( props.focusBoxShadowColor, .8 ) }
 		}
 	`;
 }
@@ -93,7 +94,7 @@ export function addHoverStyle( component ) {
 		&:hover {
 			color: ${ props => props.hoverColor };
 			background-color: ${ props => props.hoverBackgroundColor };
-			border-color: ${ props => props.hoverBorderColor };
+			border-color: var(--yoast-color-border--default);
 		}
 	`;
 }
@@ -110,8 +111,8 @@ export function addActiveStyle( component ) {
 		&:active {
 			color: ${ props => props.activeColor };
 			background-color: ${ props => props.activeBackgroundColor };
-			border-color: ${ props => props.activeBorderColor };
-			box-shadow: inset 0 2px 5px -3px ${ rgba( colors.$color_button_border_active, 0.5 ) };
+			border-color: ${ props => props.hoverBorderColor };
+			box-shadow: inset 0 2px 5px -3px ${ props => rgba( props.activeBorderColor, 0.5 ) }
 		}
 	`;
 }
@@ -158,13 +159,13 @@ BaseButton.propTypes = {
 	boxShadowColor: PropTypes.string,
 	hoverColor: PropTypes.string,
 	hoverBackgroundColor: PropTypes.string,
-	hoverBorderColor: PropTypes.string,
 	activeColor: PropTypes.string,
 	activeBackgroundColor: PropTypes.string,
 	activeBorderColor: PropTypes.string,
 	focusColor: PropTypes.string,
 	focusBackgroundColor: PropTypes.string,
 	focusBorderColor: PropTypes.string,
+	focusBoxShadowColor: PropTypes.string,
 };
 
 BaseButton.defaultProps = {
@@ -175,13 +176,13 @@ BaseButton.defaultProps = {
 	boxShadowColor: colors.$color_button_border,
 	hoverColor: colors.$color_button_text_hover,
 	hoverBackgroundColor: colors.$color_button_hover,
-	hoverBorderColor: colors.$color_button_border_hover,
 	activeColor: colors.$color_button_text_hover,
 	activeBackgroundColor: colors.$color_button,
-	activeBorderColor: colors.$color_button_border_hover,
+	activeBorderColor: colors.$color_button_border_active,
 	focusColor: colors.$color_button_text_hover,
 	focusBackgroundColor: colors.$color_white,
 	focusBorderColor: colors.$color_blue,
+	focusBoxShadowColor: colors.$color_blue_dark,
 };
 
 /**

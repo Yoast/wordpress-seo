@@ -108,7 +108,7 @@ function getFeedItems( parsed, nsResolver, maxItems, parseFeedItem ) {
  *
  * @returns {Promise.<Feed>} A promise which resolves with the parsed Feed.
  */
-export function parseFeed( raw, maxItems = 0, parseFeedItem ) {
+export function parseFeed( raw, maxItems = 0, parseFeedItem = parsePostFeedItem ) {
 	return new Promise( function( resolve, reject ) {
 		try {
 			// Use Wicked Good XPath for browsers that don't support XPath evaluation.

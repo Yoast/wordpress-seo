@@ -7,7 +7,7 @@
   "license": "GPL",
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml -k privatekey.pem -c certificate.pem\" \"webpack-dev-server --mode=development\"",
     "test": "jest"
   },
   "dependencies": {
@@ -41,7 +41,7 @@
     "concurrently": "^3.5.0",
     "css-loader": "^2.1.1",
     "draft-js-mention-plugin": "^3.0.4",
-    "react-hot-loader": "^4.0.0-beta.17",
+    "react-hot-loader": "^4.12.19",
     "redux-devtools": "3.5.0",
     "sass-loader": "7.1.0",
     "stubby": "^0.3.1",
@@ -53,8 +53,8 @@
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
-    "react": "16.3.0",
-    "react-dom": "16.3.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-redux": "6.0.1",
     "redux": "4.0.1"
   },
