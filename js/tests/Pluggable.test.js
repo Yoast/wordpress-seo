@@ -1,6 +1,6 @@
 import { Assessor } from "yoastseo";
 
-import Pluggable from "../src/Pluggable";
+import Pluggable from "../src/lib/Pluggable";
 import Factory from "./helpers/factory";
 
 const i18n = Factory.buildJed();
