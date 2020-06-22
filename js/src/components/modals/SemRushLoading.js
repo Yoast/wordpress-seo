@@ -16,7 +16,7 @@ const SemRushLoading = () => {
 					/* translators: %1$s expands to "Yoast SEO", %2$s expands to "SEMrush". */
 					__( "Please wait while %1$s is connecting to %2$s to get related keyphrases...", "wordpress-seo" ),
 					"Yoast SEO",
-					"SEMRush"
+					"SEMrush"
 				)
 			}
 			&nbsp;
