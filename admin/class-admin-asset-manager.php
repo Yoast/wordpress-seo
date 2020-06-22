@@ -398,7 +398,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'api',
-				'src'  => 'api-client' . $flat_version,
+				'src'  => 'api-client-' . $flat_version,
 				'deps' => [
 					'wp-api',
 					'jquery',
