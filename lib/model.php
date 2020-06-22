@@ -255,6 +255,7 @@ class Model implements JsonSerializable {
 
 		$class_name = \ltrim( $class_name, '\\' );
 		$class_name = \preg_replace( $find, $replacements, $class_name );
+
 		return \strtolower( $class_name );
 	}
 
@@ -305,7 +306,7 @@ class Model implements JsonSerializable {
 	public static function factory( $class_name ) {
 		$class_name = static::$auto_prefix_models . $class_name;
 		$table_name = static::get_table_name_for_class( $class_name );
-		$wrapper = ORM::for_table( $table_name );
+		$wrapper    = ORM::for_table( $table_name );
 		$wrapper->set_class_name( $class_name );
 		$wrapper->use_id_column( static::get_id_column_name( $class_name ) );
 
@@ -322,8 +323,9 @@ class Model implements JsonSerializable {
 	 * @param null|string $foreign_key_name                         The foreign key name in the associated table.
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 *
-	 * @return ORM
 	 * @throws \Exception When ID of current model has a null value.
+	 *
+	 * @return ORM Instance of the ORM.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
@@ -353,8 +355,9 @@ class Model implements JsonSerializable {
 	 * @param null|string $foreign_key_name                         The foreign key name in the associated table.
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 *
-	 * @return ORM Instance of the ORM.
 	 * @throws \Exception  When ID of current model has a null value.
+	 *
+	 * @return ORM Instance of the ORM.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		return $this->has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table );
@@ -368,8 +371,9 @@ class Model implements JsonSerializable {
 	 * @param null|string $foreign_key_name                         The foreign key name in the associated table.
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 *
-	 * @return ORM Instance of the ORM.
 	 * @throws \Exception When ID has a null value.
+	 *
+	 * @return ORM Instance of the ORM.
 	 */
 	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null ) {
 		$this->set_table_name( $associated_class_name );
@@ -404,7 +408,8 @@ class Model implements JsonSerializable {
 		}
 
 		// Comparison: "{$associated_table_name}.{$foreign_key_name_in_associated_models_table} = {$associated_object_id}".
-		return static::factory( $associated_class_name )->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
+		return static::factory( $associated_class_name )
+			->where( $foreign_key_name_in_associated_models_table, $associated_object_id );
 	}
 
 	/**
@@ -458,12 +463,14 @@ class Model implements JsonSerializable {
 		$key_to_base_table       = static::build_foreign_key_name( $key_to_base_table, $base_table_name );
 		$key_to_associated_table = static::build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
-		/*
+		// @codingStandardsIgnoreLine
+		/* // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- Reason: This is commented out code.
 			"   SELECT {$associated_table_name}.*
 				FROM {$associated_table_name} JOIN {$join_table_name}
 					ON {$associated_table_name}.{$associated_table_id_column} = {$join_table_name}.{$key_to_associated_table}
 				WHERE {$join_table_name}.{$key_to_base_table} = {$this->$base_table_id_column} ;"
 		*/
+
 		return static::factory( $associated_class_name )
 			->select( "{$associated_table_name}.*" )
 			->join(
@@ -665,8 +672,9 @@ class Model implements JsonSerializable {
 	/**
 	 * Get the database ID of this model instance.
 	 *
-	 * @return int The database ID of the models instance.
 	 * @throws \Exception When the ID is a null value.
+	 *
+	 * @return int The database ID of the models instance.
 	 */
 	public function id() {
 		return $this->orm->id();
