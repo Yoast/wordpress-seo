@@ -207,6 +207,7 @@ class Indexable_Link_Builder {
 	 * @param string    $url       The url of the link.
 	 * @param array     $home_url  The home url, as parsed by wp_parse_url.
 	 * @param Indexable $indexable The indexable of the post containing the link.
+	 * @param bool      $is_image  Whether or not the link is an image.
 	 *
 	 * @return SEO_Links The created link.
 	 */
