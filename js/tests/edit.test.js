@@ -1,4 +1,4 @@
-import { initializeData } from "../src/edit.js";
+import { initializeData } from "../src/initializers/edit.js";
 import ClassicEditorData from "../src/analysis/classicEditorData.js";
 import Data from "../src/analysis/data.js";
 import isGutenbergDataAvailable from "../src/helpers/isGutenbergDataAvailable";
@@ -24,7 +24,7 @@ jest.mock( "../src/helpers/isGutenbergDataAvailable", () => {
 
 describe( "initializeData", () => {
 	it( "initializes an instance of the Data class if Gutenberg data is available", () => {
-		window.wpseoPostScraperL10n = {
+		window.wpseoScriptData.metabox = {
 			intl: {
 				locale: "en_EN",
 			},
@@ -58,7 +58,7 @@ describe( "initialize", () => {
 	} );
 
 	it( "initializes an instance of the ClassicEditorData class if Gutenberg data is not available", () => {
-		window.wpseoPostScraperL10n = {
+		window.wpseoScriptData.metabox = {
 			intl: {
 				locale: "en_EN",
 			},

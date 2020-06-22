@@ -14,7 +14,7 @@ function getDefaultState() {
 		isContentAnalysisActive: isContentAnalysisActive(),
 		isKeywordAnalysisActive: isKeywordAnalysisActive(),
 		isWordFormRecognitionActive: isUndefined( window.wpseoPremiumMetaboxData ) && isWordFormRecognitionActive(),
-		isCornerstoneActive: isCornerstoneActive() && isUndefined( window.wpseoTermScraperL10n ),
+		isCornerstoneActive: isCornerstoneActive(),
 		shouldUpsell: isUndefined( window.wpseoPremiumMetaboxData ),
 	};
 }

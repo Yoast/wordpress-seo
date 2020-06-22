@@ -2,9 +2,14 @@ window.wpseoAdminL10n = {
 	noIndex: true,
 	privateBlog: true,
 	postTypeNameSingular: "Post",
+	postTypeNamePlural: "Posts",
 	label: "Posts",
 	postType: "post",
 	breadcrumbsDisabled: false,
+};
+
+window.wpseoScriptData = {
+	isPost: true,
 };
 
 import React, { Fragment } from "react";
