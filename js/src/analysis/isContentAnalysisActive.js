@@ -1,16 +1,14 @@
-var getL10nObject = require( "./getL10nObject" );
+import getL10nObject from "./getL10nObject";
 
-import { isUndefined } from "lodash-es";
+import { get } from "lodash-es";
 
 /**
  * Returns whether or not the content analysis is active
  *
  * @returns {boolean} Whether or not the content analysis is active.
  */
-function isContentAnalysisActive() {
-	var l10nObject = getL10nObject();
+export default function isContentAnalysisActive() {
+	const l10nObject = getL10nObject();
 
-	return ! isUndefined( l10nObject ) && l10nObject.contentAnalysisActive === "1";
+	return get( l10nObject, "contentAnalysisActive", 0 ) === 1;
 }
-
-module.exports = isContentAnalysisActive;

@@ -109,7 +109,12 @@ class WPSEO_Taxonomy_Metabox {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_social_meta_section();
+		$show_facebook = WPSEO_Options::get( 'opengraph', false );
+		$show_twitter  = WPSEO_Options::get( 'twitter', false );
+
+		if ( $show_facebook || $show_twitter ) {
+			$content_sections[] = $this->get_social_meta_section( $show_facebook, $show_twitter );
+		}
 
 		return $content_sections;
 	}
@@ -160,67 +165,33 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
+	 * @param boolean $show_facebook Whether to render the facebook fields.
+	 * @param boolean $show_twitter  Whether to render the twitter fields.
+	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_social_meta_section() {
+	private function get_social_meta_section( $show_facebook, $show_twitter ) {
 		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
-		$this->social_admin           = new WPSEO_Social_Admin();
 
-		$collapsibles   = [];
-		$collapsibles[] = $this->create_collapsible( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook', 'wordpress-seo' ) );
-		$collapsibles[] = $this->create_collapsible( 'twitter', 'twitter', 'twitter', __( 'Twitter', 'wordpress-seo' ) );
+		$content = '';
 
-		return new WPSEO_Metabox_Collapsibles_Sections(
+		if ( $show_facebook ) {
+			$facebook_fields = $this->taxonomy_social_fields->get_by_network( 'opengraph' );
+			$content        .= $this->taxonomy_tab_content->html( $facebook_fields );
+		};
+
+		if ( $show_twitter ) {
+			$twitter_fields = $this->taxonomy_social_fields->get_by_network( 'twitter' );
+			$content       .= $this->taxonomy_tab_content->html( $twitter_fields );
+		}
+
+		// Add react target.
+		$content .= '<div id="wpseo-section-social"></div>';
+
+		return new WPSEO_Metabox_Section_React(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
-			$collapsibles
+			$content
 		);
-	}
-
-	/**
-	 * Creates a social network tab.
-	 *
-	 * @param string $name    The name of the tab.
-	 * @param string $network The network of the tab.
-	 * @param string $icon    The icon for the tab.
-	 * @param string $label   The label for the tab.
-	 *
-	 * @return WPSEO_Metabox_Tab A WPSEO_Metabox_Tab instance.
-	 */
-	private function create_collapsible( $name, $network, $icon, $label ) {
-		if ( WPSEO_Options::get( $network ) !== true ) {
-			return new WPSEO_Metabox_Null_Tab();
-		}
-
-		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
-		$content     = $this->taxonomy_tab_content->html( $meta_fields );
-
-		/**
-		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
-		 * the values of the social preview are saved in the hidden field.
-		 */
-		$features = new WPSEO_Features();
-		if ( $features->is_premium() ) {
-			$content = $this->hide_form( $content );
-		}
-
-		$tab_settings = new WPSEO_Metabox_Collapsible(
-			$name,
-			$this->social_admin->get_premium_notice( $network ) . $content,
-			$label
-		);
-
-		return $tab_settings;
-	}
-
-	/**
-	 * Hides the given output when rendered to HTML.
-	 *
-	 * @param string $tab_content The social tab content.
-	 *
-	 * @return string The content.
-	 */
-	private function hide_form( $tab_content ) {
-		return '<div class="hidden">' . $tab_content . '</div>';
 	}
 }

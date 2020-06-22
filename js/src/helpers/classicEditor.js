@@ -1,6 +1,6 @@
 import { render, Component, createRef } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
-import MetaboxPortal from "../components/MetaboxPortal";
+import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
 
 const registeredComponents = [];

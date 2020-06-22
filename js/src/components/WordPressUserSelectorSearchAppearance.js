@@ -1,4 +1,4 @@
-/* global wpseoSearchAppearance */
+/* global wpseoScriptData */
 
 /* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
@@ -35,14 +35,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	 * @returns {number} The user id.
 	 */
 	getInitialValue() {
-		const value = this.element.value;
-
-		let userId = null;
-		if ( value !== "false" ) {
-			userId = parseInt( value, 10 );
-		}
-
-		return userId;
+		return parseInt( this.element.value, 10 );
 	}
 
 	/**
@@ -104,7 +97,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				user: this.state.name,
 				strong: <strong />,
 				/* eslint-disable-next-line jsx-a11y/anchor-has-content */
-				authorEditLink: <a href={ wpseoSearchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
+				authorEditLink: <a href={ wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
 			},
 		} );
 	}

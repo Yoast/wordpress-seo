@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
+use Brain\Monkey;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Metabox_Editor;
-use Brain\Monkey;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Integrations\Primary_Category;
 use Yoast\WP\SEO\Tests\TestCase;
 

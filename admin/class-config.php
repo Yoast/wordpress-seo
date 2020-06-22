@@ -56,23 +56,44 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'select2' );
-
 		$this->asset_manager->enqueue_style( 'admin-css' );
+
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( $page === 'wpseo_titles' ) {
+			$this->asset_manager->enqueue_style( 'search-appearance' );
+		}
 	}
 
 	/**
 	 * Loads the required scripts for the config page.
 	 */
 	public function config_page_scripts() {
-		$this->asset_manager->enqueue_script( 'admin-script' );
+		$this->asset_manager->enqueue_script( 'settings' );
+		wp_enqueue_script( 'dashboard' );
+		wp_enqueue_script( 'thickbox' );
+
+		$script_data = [
+			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+		];
 
 		$page = filter_input( INPUT_GET, 'page' );
 
 		if ( $page === 'wpseo_titles' ) {
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', $this->localize_search_appearance_script() );
-			$this->asset_manager->enqueue_script( 'search-appearance' );
-			$this->asset_manager->enqueue_style( 'search-appearance' );
+			$script_data['analysis'] = [
+				'plugins' => [
+					'replaceVars' => $this->get_replace_vars_script_data(),
+				],
+			];
+
+			$script_data['searchAppearance'] = [
+				'isRtl'                            => is_rtl(),
+				'userEditUrl'                      => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
+				'brushstrokeBackgroundURL'         => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
+				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
+				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
+				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
+			];
+
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
 			 * contenteditable fields.
@@ -83,32 +104,19 @@ class WPSEO_Admin_Pages {
 			$yoast_components_l10n->localize_script( 'search-appearance' );
 		}
 
-		wp_enqueue_script( 'dashboard' );
-		wp_enqueue_script( 'thickbox' );
-
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
-
 		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ], true ) ) {
 			wp_enqueue_media();
 
-			$this->asset_manager->enqueue_script( 'admin-media' );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+			$script_data['media'] = [
+				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+			];
 		}
 
 		if ( $page === 'wpseo_tools' ) {
 			$this->enqueue_tools_scripts();
 		}
-	}
 
-	/**
-	 * Retrieves some variables that are needed for the upload module in JS.
-	 *
-	 * @return array The upload module variables.
-	 */
-	public function localize_media_script() {
-		return [
-			'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-		];
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'settings', 'wpseoScriptData', $script_data );
 	}
 
 	/**
@@ -116,7 +124,7 @@ class WPSEO_Admin_Pages {
 	 *
 	 * @return array The replacement and recommended replacement variables.
 	 */
-	public function localize_replace_vars_script() {
+	public function get_replace_vars_script_data() {
 		$replace_vars                 = new WPSEO_Replace_Vars();
 		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
@@ -128,25 +136,6 @@ class WPSEO_Admin_Pages {
 			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		];
-	}
-
-	/**
-	 * Retrieves some variables that are needed for the search appearance in JS.
-	 *
-	 * @return array The search appearance variables.
-	 */
-	public function localize_search_appearance_script() {
-		$search_appearance_l10n = [
-			'isRtl'                    => is_rtl(),
-			'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
-			'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
-			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
-			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
-		];
-
-		$search_appearance_l10n['knowledgeGraphCompanyInfoMissing'] = WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n();
-
-		return $search_appearance_l10n;
 	}
 
 	/**

@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Admin;
 
+use Brain\Monkey;
 use WPSEO_Admin_Asset;
 use WPSEO_Admin_Asset_Analysis_Worker_Location;
-use Brain\Monkey;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -30,7 +30,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/wp-seo-analysis-worker-' . $version . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
+			->with( 'js/dist/analysis-worker-' . $version . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
@@ -55,7 +55,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/wp-seo-' . $custom_file_name . '-' . $version . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
+			->with( 'js/dist/' . $custom_file_name . '-' . $version . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );

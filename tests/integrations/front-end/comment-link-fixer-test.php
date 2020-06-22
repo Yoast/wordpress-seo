@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;

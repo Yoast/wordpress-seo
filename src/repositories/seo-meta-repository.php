@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Models\SEO_Meta;
+use Yoast\WP\Lib\ORM;
 
 /**
  * Class SEO_Meta_Repository

@@ -9,8 +9,7 @@ const Section = styled( StyledSection )`
 	max-width: 640px;
 	
 	&${ StyledSectionBase } {
-		padding-left: 0;
-		padding-right: 0;
+		padding: 0;
 
 		& ${ StyledHeading } {
 			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;
