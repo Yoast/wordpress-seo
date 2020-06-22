@@ -1,7 +1,6 @@
 /* External dependencies */
 import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
-import { Fragment } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
 
 /**
