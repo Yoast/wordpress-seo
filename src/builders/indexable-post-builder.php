@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Builders;
 
 use Exception;
 use WPSEO_Meta;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
@@ -464,7 +465,7 @@ class Indexable_Post_Builder {
 
 		if ( ! empty( $image ) ) {
 			$indexable->open_graph_image      = $image['url'];
-			$indexable->open_graph_image_meta = \wp_json_encode( $image );
+			$indexable->open_graph_image_meta = WPSEO_Utils::format_json_encode( $image );
 		}
 	}
 }

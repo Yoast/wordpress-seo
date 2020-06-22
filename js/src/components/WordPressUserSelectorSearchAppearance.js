@@ -35,14 +35,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	 * @returns {number} The user id.
 	 */
 	getInitialValue() {
-		const value = this.element.value;
-
-		let userId = null;
-		if ( value !== "false" ) {
-			userId = parseInt( value, 10 );
-		}
-
-		return userId;
+		return parseInt( this.element.value, 10 );
 	}
 
 	/**

@@ -5,13 +5,14 @@ namespace Yoast\WP\SEO\Tests\Generators;
 use Brain\Monkey;
 use Error;
 use Mockery;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
@@ -186,7 +187,7 @@ class Open_Graph_Image_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_image_url_from_indexable_with_open_graph_image_meta() {
 		$this->indexable->open_graph_image      = 'image.jpg';
-		$this->indexable->open_graph_image_meta = \wp_json_encode(
+		$this->indexable->open_graph_image_meta = WPSEO_Utils::format_json_encode(
 			[
 				'height' => 1024,
 				'width'  => 2048,

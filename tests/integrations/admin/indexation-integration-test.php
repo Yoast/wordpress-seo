@@ -290,6 +290,10 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
@@ -312,11 +316,30 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the indexation warning is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_warning
+	 */
+	public function test_no_render_indexation_warning_non_admin() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( false );
+
+		$this->expectOutputString( '' );
+
+		$this->instance->render_indexation_warning();
+	}
+
+	/**
 	 * Tests that the indexation modal is shown when its respective method is called.
 	 *
 	 * @covers ::render_indexation_modal
 	 */
 	public function test_render_indexation_modal() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		// Expect a thickbox to be added for the modal.
 		Monkey\Functions\expect( 'add_thickbox' )
 			->once();
@@ -341,6 +364,10 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_list_item
 	 */
 	public function test_render_indexation_list_item() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		$this->set_total_unindexed_expectations(
 			[
 				'post_type_archive' => 5,

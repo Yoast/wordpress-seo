@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Site_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Creator_Presenter_Test.
