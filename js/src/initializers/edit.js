@@ -15,7 +15,7 @@ import {
 /* Internal dependencies */
 import Data from "../analysis/data.js";
 import reducers from "../redux/reducers";
-import PluginIcon from "../../../images/Yoast_icon_kader.svg";
+import PluginIcon from "../containers/PluginIcon";
 import ClassicEditorData from "../analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import SidebarFill from "../containers/SidebarFill";
@@ -111,6 +111,13 @@ class Edit {
 		} ) );
 	}
 
+	/**
+	 * Registers the Yoast inline link format.
+	 *
+	 * @private
+	 *
+	 * @returns {void}
+	 */
 	_registerFormats() {
 		[
 			link,
