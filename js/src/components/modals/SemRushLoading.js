@@ -11,7 +11,7 @@ import { SvgIcon } from "@yoast/components";
  */
 const SemRushLoading = () => {
 	return (
-		<p className="yoast-related-keyphrases-modal__loading-mesage">
+		<p className="yoast-related-keyphrases-modal__loading-message">
 			{
 				sprintf(
 					/* translators: %1$s expands to "Yoast SEO", %2$s expands to "SEMrush". */
