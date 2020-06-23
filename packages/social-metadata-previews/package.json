@@ -37,8 +37,13 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
+<<<<<<< HEAD
     "@yoast/replacement-variable-editor": "^1.0.0",
     "@yoast/style-guide": "^0.11.1",
+=======
+    "@yoast/replacement-variable-editor": "^1.0.0-rc.0",
+    "@yoast/style-guide": "^0.12.0-rc.0",
+>>>>>>> 88531f73d... Make sure the RC version of the replacement variable editor is used
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "redux": "^3.7.2",
