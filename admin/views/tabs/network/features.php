@@ -14,49 +14,52 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
+$yoast_features = new WPSEO_Features();
 
 ?>
-<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
-<div class="yoast-measure">
-	<?php
-	echo sprintf(
-		/* translators: %s expands to Yoast SEO */
-		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
-		'Yoast SEO'
-	);
 
+<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
+<div class="yoast-feature">
+	<p>
+		<?php
+		printf(
+			/* translators: %s expands to Yoast SEO */
+			esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		?>
+	</p>
+
+	<?php
 	foreach ( $feature_toggles as $feature ) {
-		$help_text = esc_html( $feature->label );
-		if ( ! empty( $feature->extra ) ) {
-			$help_text .= ' ' . $feature->extra;
-		}
-		if ( ! empty( $feature->read_more_label ) ) {
-			$help_text .= ' ';
-			$help_text .= sprintf(
-				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-				esc_url( WPSEO_Shortlinker::get( $feature->read_more_url ) ),
-				esc_html( $feature->read_more_label )
+		if ( $feature->premium && ! $yoast_features->is_premium() ) {
+			$yform->light_switch_disabled(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label ),
+				false,
+				esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
 			);
 		}
+		else {
 
-		$feature_help = new WPSEO_Admin_Help_Panel(
-			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
-			/* translators: %s expands to a feature's name */
-			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
-			$help_text
-		);
-
-		$yform->toggle_switch(
-			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
-			[
-				'on'  => __( 'Allow Control', 'wordpress-seo' ),
-				'off' => __( 'Disable', 'wordpress-seo' ),
-			],
-			'<strong>' . $feature->name . '</strong>',
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
-		);
+			$yform->light_switch(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			);
+		}
 	}
 	?>
+
 </div>
 <?php
 

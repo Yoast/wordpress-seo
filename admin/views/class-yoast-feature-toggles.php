@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Language_Helper;
+
 /**
  * Class for managing feature toggles.
  */
@@ -71,7 +73,6 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'            => __( 'SEO analysis', 'wordpress-seo' ),
 				'setting'         => 'keyword_analysis_active',
-				'label'           => __( 'The SEO analysis offers suggestions to improve the SEO of your text.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Learn how the SEO analysis can help you rank.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ak',
 				'order'           => 10,
@@ -79,7 +80,6 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'            => __( 'Readability analysis', 'wordpress-seo' ),
 				'setting'         => 'content_analysis_active',
-				'label'           => __( 'The readability analysis offers suggestions to improve the structure and style of your text.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Discover why readability is important for SEO.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ao',
 				'order'           => 20,
@@ -87,7 +87,6 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 				'setting'         => 'enable_cornerstone_content',
-				'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Find out how cornerstone content can help you improve your site structure.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/dashboard-help-cornerstone',
 				'order'           => 30,
@@ -95,7 +94,6 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'            => __( 'Text link counter', 'wordpress-seo' ),
 				'setting'         => 'enable_text_link_counter',
-				'label'           => __( 'The text link counter helps you improve your site structure.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Find out how the text link counter can enhance your SEO.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2aj',
 				'order'           => 40,
@@ -103,8 +101,6 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
 				'setting'         => 'enable_xml_sitemap',
-				/* translators: %s: Yoast SEO */
-				'label'           => sprintf( __( 'Enable the XML sitemaps that %s generates.', 'wordpress-seo' ), 'Yoast SEO' ),
 				'read_more_label' => __( 'Read why XML Sitemaps are important for your site.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2a-',
 				'extra'           => $xml_sitemap_extra,
@@ -114,46 +110,64 @@ class Yoast_Feature_Toggles {
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 				'setting'         => 'ryte_indexability',
-				'label'           => sprintf(
-					/* translators: 1: Ryte, 2: Yoast SEO */
-					__( '%1$s will check weekly if your site is still indexable by search engines and %2$s will notify you when this is not the case.', 'wordpress-seo' ),
-					'Ryte',
-					'Yoast SEO'
-				),
 				/* translators: %s: Ryte */
 				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 				'read_more_url'   => 'https://yoa.st/2an',
 				'order'           => 70,
 			],
 			(object) [
-				'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
-				'setting' => 'enable_admin_bar_menu',
-				/* translators: 1: Yoast SEO */
-				'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
-				'order'   => 80,
+				'name'            => __( 'Admin bar menu', 'wordpress-seo' ),
+				'setting'         => 'enable_admin_bar_menu',
+				'read_more_label' => __( 'Read more about the use of the admin bar menu.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/40q',
+				'order'           => 80,
 			],
 			(object) [
-				'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
-				'setting' => 'disableadvanced_meta',
-				'label'   => sprintf(
-					/* translators: 1: Yoast SEO, 2: translated version of "Off" */
-					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
-					'Yoast SEO',
-					__( 'Off', 'wordpress-seo' )
-				),
-				'order'   => 90,
+				'name'            => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
+				'setting'         => 'disableadvanced_meta',
+				'read_more_label' => __( 'Read more about this security setting.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/40r',
+				'order'           => 90,
 			],
 			(object) [
 				'name'    => __( 'REST API: Head endpoint', 'wordpress-seo' ),
 				'setting' => 'enable_headless_rest_endpoints',
-				'label'   => sprintf(
+				'read_more_label' => sprintf(
 					/* translators: 1: Yoast SEO */
 					__( 'This %1$s REST API endpoint gives you all the metadata you need for a specific URL. This will make it very easy for headless WordPress sites to use %1$s for all their SEO meta output.', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
+				'read_more_url'   => 'https://yoa.st/40s',
 				'order'   => 100,
 			],
 		];
+
+		$language = WPSEO_Language_Utils::get_language( \get_locale() );
+		$language_helper = new Language_Helper();
+
+		if ( $language_helper->is_prominent_words_supported( $language ) ) {
+			$feature_toggles[] = (object) [
+				'name'            => __( 'Insights', 'wordpress-seo' ),
+				'setting'         => 'enable_metabox_insights',
+				'label'           => __( 'The Insights section in our metabox shows you useful data about your content, like what words you use most often.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Read more about how the insights can help you improve your content.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/2ai',
+				'premium'         => true,
+				'upsell_url'      => 'https://yoa.st/411',
+				'order'           => 41,
+			];
+
+			$feature_toggles[] = (object) [
+				'name'            => __( 'Link suggestions', 'wordpress-seo' ),
+				'setting'         => 'enable_link_suggestions',
+				'label'           => __( 'The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Read more about how internal linking can improve your site structure.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/17g',
+				'premium'         => true,
+				'upsell_url'      => 'https://yoa.st/412',
+				'order'           => 42,
+			];
+		}
 
 		/**
 		 * Filter to add feature toggles from add-ons.

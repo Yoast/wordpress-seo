@@ -11,14 +11,12 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
-$show_post_type_help = $view_utils->search_results_setting_help( $wpseo_post_type );
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
-
 
 $yform->index_switch(
 	$noindex_option_name,
 	$wpseo_post_type->labels->name,
-	$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
+	$view_utils->search_results_setting_help()
 );
 
 $yform->show_hide_switch(
@@ -28,8 +26,8 @@ $yform->show_hide_switch(
 
 $yform->show_hide_switch(
 	'display-metabox-pt-' . $wpseo_post_type->name,
-	/* translators: %1$s expands to Yoast SEO */
-	sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
+	/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+	sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $wpseo_post_type->labels->name . '</strong>' )
 );
 
 $editor = new WPSEO_Replacevar_Editor(

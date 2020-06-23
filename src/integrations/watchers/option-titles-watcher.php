@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\WordPress\Wrapper;
 
 /**

@@ -16,7 +16,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/**
 	 * Class constructor.
-	 * 
+	 *
 	 * @deprecated 14.4
 	 *
 	 * @codeCoverageIgnore
@@ -64,7 +64,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @param string $network The social network.
 	 *
 	 * @return string The notice HTML on the free version, empty string on premium.
-	 * 
 	 */
 	public function get_premium_notice( $network ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.4' );
@@ -74,7 +73,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/**
 	 * Filter over the meta boxes to save, this function adds the Social meta boxes.
-	 * 
+	 *
 	 * @deprecated 14.4
 	 *
 	 * @codeCoverageIgnore
@@ -93,7 +92,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * This method will compare opengraph fields with the posted values.
 	 *
 	 * When fields are changed, the facebook cache will be purged.
-	 * 
+	 *
 	 * @deprecated 14.4
 	 *
 	 * @codeCoverageIgnore

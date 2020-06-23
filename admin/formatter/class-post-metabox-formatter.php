@@ -60,10 +60,10 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'            => $this->get_focus_keyword_usage(),
-				'title_template'           => $this->get_title_template(),
-				'metadesc_template'        => $this->get_metadesc_template(),
-				'metaDescriptionDate'      => $this->get_metadesc_date(),
+				'keyword_usage'       => $this->get_focus_keyword_usage(),
+				'title_template'      => $this->get_title_template(),
+				'metadesc_template'   => $this->get_metadesc_template(),
+				'metaDescriptionDate' => $this->get_metadesc_date(),
 				'first_content_image' => $this->get_image_url(),
 			];
 

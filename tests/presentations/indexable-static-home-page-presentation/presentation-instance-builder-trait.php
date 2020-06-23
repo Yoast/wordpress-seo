@@ -4,13 +4,13 @@ namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Static_Home_Page_Presentati
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Date_Helper;
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Static_Home_Page_Presentation;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**

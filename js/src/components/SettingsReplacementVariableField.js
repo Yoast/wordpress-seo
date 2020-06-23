@@ -47,6 +47,7 @@ class SettingsReplacementVariableField extends React.Component {
 		return (
 			<SnippetEditorWidthContainer>
 				<ReplacementVariableEditor
+					type="title"
 					label={ label }
 					fieldId={ fieldId + "-snippet-editor" }
 					isActive={ this.state.isActive }

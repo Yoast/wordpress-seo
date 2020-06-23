@@ -39,9 +39,8 @@ class Yoast_Form {
 	/**
 	 * Get the singleton instance of this class.
 	 *
-	 * @since 2.0
-	 *
 	 * @return Yoast_Form
+	 * @since 2.0
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -54,19 +53,19 @@ class Yoast_Form {
 	/**
 	 * Generates the header for admin pages.
 	 *
-	 * @since 2.0
-	 *
 	 * @param bool   $form             Whether or not the form start tag should be included.
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
 	 * @param bool   $option_long_name Group name of the option.
+	 *
+	 * @since 2.0
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
 			$option_long_name = WPSEO_Options::get_group_name( $option );
 		}
 		?>
-		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
+	<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
 		/**
 		 * Display the updated/error messages.
@@ -77,20 +76,18 @@ class Yoast_Form {
 		require_once ABSPATH . 'wp-admin/options-head.php';
 		?>
 		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
-		<div class="wpseo_content_wrapper">
-		<div class="wpseo_content_cell" id="wpseo_content_top">
+		<div class="wpseo_content_wrapper yoast-layout">
+			<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';
 
-			$network_admin = new Yoast_Network_Admin();
+			$action_url       = admin_url( 'options.php' );
+			$hidden_fields_cb = 'settings_fields';
+			$network_admin    = new Yoast_Network_Admin();
 			if ( $network_admin->meets_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
 				$hidden_fields_cb = [ $network_admin, 'settings_fields' ];
-			}
-			else {
-				$action_url       = admin_url( 'options.php' );
-				$hidden_fields_cb = 'settings_fields';
 			}
 
 			echo '<form action="' .
@@ -107,9 +104,9 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $option_name Option key.
+	 *
+	 * @since 2.0
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
@@ -123,30 +120,22 @@ class Yoast_Form {
 	/**
 	 * Generates the footer for admin pages.
 	 *
-	 * @since 2.0
-	 *
 	 * @param bool $submit       Whether or not a submit button and form end tag should be shown.
 	 * @param bool $show_sidebar Whether or not to show the banner sidebar - used by premium plugins to disable it.
+	 *
+	 * @since 2.0
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
 			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
+
 			echo '<div id="wpseo-submit-container">';
+			submit_button( __( 'Save changes', 'wordpress-seo' ), 'yoast-button yoast-button--primary' );
 
-			echo '<div id="wpseo-submit-container-float" class="wpseo-admin-submit">';
-			submit_button( __( 'Save changes', 'wordpress-seo' ) );
 			$settings_changed_listener->show_success_message();
 			echo '</div>';
 
-			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed" style="display: none;">';
-			submit_button( __( 'Save changes', 'wordpress-seo' ) );
-			$settings_changed_listener->show_success_message();
-			echo '</div>';
-
-			echo '</div>';
-
-			echo '
-			</form>';
+			echo PHP_EOL . '</form>';
 		}
 
 		/**
@@ -192,10 +181,10 @@ class Yoast_Form {
 	/**
 	 * Output a label element.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $text Label text string.
 	 * @param array  $attr HTML attributes set.
+	 *
+	 * @since 2.0
 	 */
 	public function label( $text, $attr ) {
 		$defaults = [
@@ -211,19 +200,21 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
+		echo '<div class="yoast-field-group__title">';
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
 		}
+		echo '</div>';
 	}
 
 	/**
 	 * Output a legend element.
 	 *
-	 * @since 3.4
-	 *
 	 * @param string $text Legend text string.
 	 * @param array  $attr HTML attributes set.
+	 *
+	 * @since 3.4
 	 */
 	public function legend( $text, $attr ) {
 		$defaults = [
@@ -239,11 +230,11 @@ class Yoast_Form {
 	/**
 	 * Create a Checkbox input field.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var        The variable within the option to create the checkbox for.
 	 * @param string $label      The label to show for the variable.
 	 * @param bool   $label_left Whether the label should be left (true) or right (false).
+	 *
+	 * @since 2.0
 	 */
 	public function checkbox( $var, $label, $label_left = false ) {
 		$val = $this->get_field_value( $var, false );
@@ -252,12 +243,10 @@ class Yoast_Form {
 			$val = 'on';
 		}
 
-		$class = '';
+		$class = 'double';
 		if ( $label_left !== false ) {
 			$this->label( $label_left, [ 'for' => $var ] );
-		}
-		else {
-			$class = 'double';
+			$class = '';
 		}
 
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>';
@@ -272,10 +261,10 @@ class Yoast_Form {
 	/**
 	 * Creates a Checkbox input field list.
 	 *
-	 * @since 12.8
-	 *
 	 * @param string $variable The variables within the option to create the checkbox list for.
 	 * @param string $labels   The labels to show for the variable.
+	 *
+	 * @since 12.8
 	 */
 	public function checkbox_list( $variable, $labels ) {
 		$values = $this->get_field_value( $variable, [] );
@@ -301,27 +290,26 @@ class Yoast_Form {
 	/**
 	 * Create a light switch input field using a single checkbox.
 	 *
-	 * @since 3.1
-	 *
 	 * @param string $var     The variable within the option to create the checkbox for.
 	 * @param string $label   The label element text for the checkbox.
 	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
-	 * @param bool   $reverse Reverse order of buttons (default true).
 	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
-	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
+	 * @param bool   $inverse Used when the option is saved inverse, for instance for "noindex-" or "disable-" type options.
+	 *
+	 * @since 3.1
 	 */
-	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false ) {
+	public function light_switch( $var, $label, $buttons = [], $help = '', $inverse = false ) {
 		$val = $this->get_field_value( $var, false );
 
-		if ( $val === true ) {
-			$val = 'on';
+		if ( $val === 'on' ) {
+			$val = true;
 		}
 
-		$class = 'switch-light switch-candy switch-yoast-seo';
-
-		if ( $reverse ) {
-			$class .= ' switch-yoast-seo-reverse';
+		$class = 'yoast-toggle';
+		if ( $inverse ) {
+			$class .= '--inverse';
 		}
+
 
 		if ( empty( $buttons ) ) {
 			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
@@ -329,34 +317,70 @@ class Yoast_Form {
 
 		list( $off_button, $on_button ) = $buttons;
 
-		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
+		echo '<div class="yoast-toggle__item">',
+		'<div class="yoast-toggle__item-title"><label for="', esc_attr( $var ) ,'">', esc_html( $label ), '</label>', $help, '</div>',
+		'<div class="', $class, '">',
+		'<input type="checkbox" class="yoast-toggle__checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, true, false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
+		'<span class="yoast-toggle__switch"></span>',
+		'<span class="yoast-toggle--inactive" aria-hidden="true">', esc_html( $off_button ), '</span>',
+		'<span class="yoast-toggle--active" aria-hidden="true">', esc_html( $on_button ), '</span>',
+		'</div>',
+		'</div>';
+	}
 
-		$strong_class = ( $strong ) ? ' switch-light-visual-label__strong' : '';
+	/**
+	 * Create a disabled switch input field using a single checkbox.
+	 *
+	 * @param string $var     The variable within the option to create the checkbox for.
+	 * @param string $label   The label element text for the checkbox.
+	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
+	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
+	 * @param bool   $inverse Used when the option is saved inverse, for instance for "noindex-" or "disable-" type options.
+	 * @param string $url     The URL to link the button to.
+	 *
+	 * @since 3.1
+	 */
+	public function light_switch_disabled( $var, $label, $buttons = [], $help = '', $inverse = false, $url ) {
+		$class = 'yoast-toggle';
+		if ( $inverse ) {
+			$class .= '--inverse';
+		}
 
-		echo '<div class="switch-container', $help_class, '">',
-		'<span class="switch-light-visual-label' . $strong_class . '" id="', esc_attr( $var . '-label' ), '">', esc_html( $label ), '</span>' . $help,
-		'<label class="', $class, '"><b class="switch-yoast-seo-jaws-a11y">&nbsp;</b>',
-		'<input type="checkbox" aria-labelledby="', esc_attr( $var . '-label' ), '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>',
-		'<span aria-hidden="true">
-			<span>', esc_html( $off_button ), '</span>
-			<span>', esc_html( $on_button ), '</span>
-			<a></a>
-		 </span>
-		 </label><div class="clear"></div></div>';
+
+		if ( empty( $buttons ) ) {
+			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
+		}
+
+		list( $off_button, $on_button ) = $buttons;
+
+		echo '<div class="yoast-toggle__item yoast-toggle__item-disabled">',
+		'<div class="yoast-toggle__item-title"><label for="', esc_attr( $var ) ,'">', esc_html( $label ), '</label>', $help, '</div>',
+		'<div class="', $class, '">',
+		'<input type="checkbox" disabled class="yoast-toggle__checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', '/>',
+		'<span class="yoast-toggle__switch"></span>',
+		'<span class="yoast-toggle--inactive" aria-hidden="true">', esc_html( $off_button ), '</span>',
+		'<span class="yoast-toggle--active" aria-hidden="true">', esc_html( $on_button ), '</span>',
+		'</div>',
+		'<a href="', $url, '" class="yoast-button yoast-button--buy yoast-button--buy-small">', __( 'Upgrade to premium', 'wordpress-seo' ) ,'<span class="yoast-button--buy__caret"></span></a>',
+		'</div>';
 	}
 
 	/**
 	 * Create a Text input field.
 	 *
-	 * @since 2.0
-	 * @since 2.1 Introduced the `$attr` parameter.
-	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
 	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
+	 *
+	 * @since 2.1 Introduced the `$attr` parameter.
+	 *
+	 * @since 2.0
 	 */
 	public function textinput( $var, $label, $attr = [] ) {
+
+		echo '<div class="yoast-field-group">';
 		$type = 'text';
+
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class'    => $attr,
@@ -368,12 +392,8 @@ class Yoast_Form {
 			'placeholder' => '',
 			'class'       => '',
 		];
-		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = $this->get_field_value( $var, '' );
-		if ( isset( $attr['type'] ) && $attr['type'] === 'url' ) {
-			$val  = urldecode( $val );
-			$type = 'url';
-		}
+		$attr       = wp_parse_args( $attr, $defaults );
+		$val        = $this->get_field_value( $var, '' );
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -393,20 +413,27 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '
+		" placeholder="' . esc_attr( $attr['placeholder'] ) . '
+		" type="' . $type . '
+		" id="', esc_attr( $var ), '
+		" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']
+		" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
 
 	/**
 	 * Create a textarea.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string       $var   The variable within the option to create the textarea for.
 	 * @param string       $label The label to show for the variable.
 	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
+	 *
+	 * @since 2.0
 	 */
 	public function textarea( $var, $label, $attr = [] ) {
+		echo '<div class="yoast-field-group">';
 		if ( ! is_array( $attr ) ) {
 			$attr = [
 				'class' => $attr,
@@ -428,16 +455,22 @@ class Yoast_Form {
 				'class' => 'textinput',
 			]
 		);
-		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
+		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '
+		" rows="' . esc_attr( $attr['rows'] ) . '
+		" class="yoast-field-group__textarea ' . esc_attr( $attr['class'] ) . '
+		" id="' . esc_attr( $var ) . '
+		" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']
+		"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea>';
+		echo '</div>';
 	}
 
 	/**
 	 * Create a hidden input field.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var The variable within the option to create the hidden input for.
 	 * @param string $id  The ID of the element.
+	 *
+	 * @since 2.0
 	 */
 	public function hidden( $var, $id = '' ) {
 		$val = $this->get_field_value( $var, '' );
@@ -455,16 +488,16 @@ class Yoast_Form {
 	/**
 	 * Create a Select Box.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var            The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
 	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
 	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
+	 *
+	 * @since 2.0
 	 */
 	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true ) {
-
+		echo '<div class="yoast-field-group">';
 		if ( empty( $select_options ) ) {
 			return;
 		}
@@ -502,16 +535,16 @@ class Yoast_Form {
 		echo $wrapper_start_tag;
 		$select->output_html();
 		echo $wrapper_end_tag;
-		echo '<br class="clear"/>';
+		echo '</div>';
 	}
 
 	/**
 	 * Create a File upload field.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var   The variable within the option to create the file upload field for.
 	 * @param string $label The label to show for the variable.
+	 *
+	 * @since 2.0
 	 */
 	public function file_upload( $var, $label ) {
 		$val = $this->get_field_value( $var, '' );
@@ -541,10 +574,10 @@ class Yoast_Form {
 	/**
 	 * Media input.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var   Option name.
 	 * @param string $label Label message.
+	 *
+	 * @since 2.0
 	 */
 	public function media_input( $var, $label ) {
 		$val      = $this->get_field_value( $var, '' );
@@ -562,9 +595,9 @@ class Yoast_Form {
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
 
-		echo '<span>';
+		echo '<div class="yoast-field-group yoast-field-group__upload">';
 			echo '<input',
-				' class="textinput"',
+				' class="textinput yoast-field-group__inputfield"',
 				' id="wpseo_', $var_esc, '"',
 				' type="text" size="36"',
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
@@ -573,16 +606,16 @@ class Yoast_Form {
 				' /> ';
 			echo '<input',
 				' id="wpseo_', $var_esc, '_button"',
-				' class="wpseo_image_upload_button button"',
+				' class="wpseo_image_upload_button yoast-button yoast-button--secondary yoast-button--upload"',
 				' type="button"',
-				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
+				' value="', esc_attr__( 'Upload image', 'wordpress-seo' ), '"',
 				' data-target-id="', esc_attr( $id_field_id ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
-				' /> ';
+				' />';
 			echo '<input',
-				' class="wpseo_image_remove_button button"',
+				' class="yoast-remove yoast-js-remove-image"',
 				' type="button"',
-				' value="', esc_attr__( 'Clear Image', 'wordpress-seo' ), '"',
+				' value="', esc_attr__( 'Remove image', 'wordpress-seo' ), '"',
 				disabled( $this->is_control_disabled( $var ), true, false ),
 				' />';
 			echo '<input',
@@ -591,19 +624,19 @@ class Yoast_Form {
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
 				' value="', esc_attr( $id_value ), '"',
 				' />';
-		echo '</span>';
+		echo '</div>';
 		echo '<br class="clear"/>';
 	}
 
 	/**
 	 * Create a Radio input field.
 	 *
-	 * @since 2.0
-	 *
 	 * @param string $var         The variable within the option to create the radio button for.
 	 * @param array  $values      The radio options to choose from.
 	 * @param string $legend      Optional. The legend to show for the field set, if any.
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
+	 *
+	 * @since 2.0
 	 */
 	public function radio( $var, $values, $legend = '', $legend_attr = [] ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -651,9 +684,90 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Create a toggle switch input field using two radio buttons.
+	 * Create a Title separator input field.
 	 *
-	 * @since 3.1
+	 * @param string $var         The variable within the option to create the separator.
+	 * @param array  $values      The title separator options to choose from.
+	 * @param string $legend      Optional. The legend to show for the field set, if any.
+	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
+	 *
+	 * @since 14.5
+	 */
+	public function title_separator( $var, $values, $legend = '', $legend_attr = [] ) {
+		if ( ! is_array( $values ) || $values === [] ) {
+			return;
+		}
+		$val = $this->get_field_value( $var, false );
+
+		$var_esc = esc_attr( $var );
+
+		echo '<div class="yoast-field-group__title-separator" id="' . $var_esc . '">';
+
+		if ( is_string( $legend ) && $legend !== '' ) {
+
+			$defaults = [
+				'id'    => '',
+				'class' => 'radiogroup',
+			];
+
+			$legend_attr = wp_parse_args( $legend_attr, $defaults );
+
+			$this->legend( $legend, $legend_attr );
+		}
+
+		foreach ( $values as $key => $value ) {
+			$label      = $value;
+			$aria_label = '';
+
+			if ( is_array( $value ) ) {
+				$label      = isset( $value['label'] ) ? $value['label'] : '';
+				$aria_label = isset( $value['aria_label'] ) ? $value['aria_label'] : '';
+			}
+
+			$key_esc = esc_attr( $key );
+			echo '<input type="radio" class="visually-hidden" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
+			$this->label_title_separator(
+				$label,
+				[
+					'for'        => $var_esc . '-' . $key_esc,
+					'class'      => 'radio',
+					'aria_label' => $aria_label,
+				]
+			);
+		}
+		echo '</div>';
+	}
+
+	/**
+	 * Output a label element.
+	 *
+	 * @param string $text Label text string.
+	 * @param array  $attr HTML attributes set.
+	 *
+	 * @since 2.0
+	 */
+	public function label_title_separator( $text, $attr ) {
+		$defaults = [
+			'class'      => 'radio',
+			'close'      => true,
+			'for'        => '',
+			'aria_label' => '',
+		];
+
+		$attr       = wp_parse_args( $attr, $defaults );
+		$aria_label = '';
+		if ( $attr['aria_label'] !== '' ) {
+			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
+		}
+
+		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
+		if ( $attr['close'] ) {
+			echo '</label>';
+		}
+	}
+
+	/**
+	 * Create a toggle switch input field using two radio buttons.
 	 *
 	 * @param string $var    The variable within the option to create the radio buttons for.
 	 * @param array  $values Associative array of on/off keys and their values to be used as
@@ -661,6 +775,8 @@ class Yoast_Form {
 	 *                       value can be an array of visible label text and screen reader text.
 	 * @param string $label  The visual label for the radio buttons group, used as the fieldset legend.
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
+	 *
+	 * @since 3.1
 	 */
 	public function toggle_switch( $var, $values, $label, $help = '' ) {
 		if ( ! is_array( $values ) || $values === [] ) {
@@ -674,15 +790,13 @@ class Yoast_Form {
 			$val = 'off';
 		}
 
-		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
-
 		$var_esc = esc_attr( $var );
 
-		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
-		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
+		echo '<div class="switch-container">';
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, ' ', $help, '</legend>';
 
 		echo $this->get_disabled_note( $var );
-		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
+		echo '<div class="yoast-toggle">';
 
 		foreach ( $values as $key => $value ) {
 			$screen_reader_text_html = '';
@@ -699,7 +813,7 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
+		echo '</div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
@@ -713,19 +827,20 @@ class Yoast_Form {
 	 */
 	public function index_switch( $var, $label, $help = '' ) {
 		$index_switch_values = [
-			'off' => __( 'Yes', 'wordpress-seo' ),
-			'on'  => __( 'No', 'wordpress-seo' ),
+			__( 'Yes', 'wordpress-seo' ),
+			__( 'No', 'wordpress-seo' ),
 		];
 
-		$this->toggle_switch(
+		$this->light_switch(
 			$var,
-			$index_switch_values,
 			sprintf(
-				/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+			/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
-				'<strong>' . esc_html( $label ) . '</strong>'
+				esc_html( $label )
 			),
-			$help
+			$index_switch_values,
+			$help,
+			true
 		);
 	}
 
@@ -740,15 +855,12 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
-		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
-		$off_key = ( $inverse_keys ) ? 'on' : 'off';
-
 		$show_hide_switch = [
-			$on_key  => __( 'Show', 'wordpress-seo' ),
-			$off_key => __( 'Hide', 'wordpress-seo' ),
+			__( 'Hide', 'wordpress-seo' ),
+			__( 'Show', 'wordpress-seo' ),
 		];
 
-		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
+		$this->light_switch( $var, $label, $show_hide_switch, $help, $inverse_keys );
 	}
 
 	/**
@@ -798,12 +910,12 @@ class Yoast_Form {
 	/**
 	 * Retrieve options based on whether we're on multisite or not.
 	 *
-	 * @since 1.2.4
-	 * @since 2.0   Moved to this class.
+	 * @return array The option's value.
+	 * @since      2.0   Moved to this class.
 	 * @deprecated 8.4
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The option's value.
+	 * @since      1.2.4
 	 */
 	public function get_option() {
 		_deprecated_function( __METHOD__, 'WPSEO 8.4' );

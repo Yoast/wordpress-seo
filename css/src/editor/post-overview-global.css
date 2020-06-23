@@ -1,0 +1,147 @@
+@import "../../node_modules/@yoast/components/src/base/icons.css";
+@import "../../node_modules/yoastseo/css/_tooltips.scss";
+
+
+/* Icons in the posts and taxonomies table cells. */
+td .wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin-left: 5px;
+	border-radius: 50%;
+	background: #888;
+	line-height: 16px;
+}
+
+/* Adjust vertical alignment of the icons in the table cells. */
+td .wpseo-score-icon {
+	margin-top: 3px;
+}
+
+/* Table internal links, SEO, and Readability columns tooltips. */
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability,
+.fixed th.column-wpseo-links,
+.fixed th.column-wpseo-linked {
+	/* 42px */
+	width: 3em;
+	padding: 0;
+}
+
+/* Don't use selectors related to classes added with JavaScript to avoid flickering. */
+th.column-wpseo-links a,
+th.column-wpseo-linked a,
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+	vertical-align: middle;
+	padding: 8px 0;
+}
+
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	/* 11+20+11=42px */
+	padding: 8px 11px;
+}
+
+.column-wpseo-links .yoast-tooltip-multiline::after {
+	max-width: 160px;
+}
+
+.column-wpseo-linked .yoast-tooltip-multiline::after {
+	max-width: 170px;
+}
+
+.yoast-column-header-has-tooltip {
+	position: relative;
+}
+
+/* Table internal links, SEO, and Readability columns tooltips. */
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability,
+.fixed th.column-wpseo-links,
+.fixed th.column-wpseo-linked {
+	/* 42px */
+	width: 3em;
+	padding: 0;
+}
+
+/* Don't use selectors related to classes added with JavaScript to avoid flickering. */
+th.column-wpseo-links a,
+th.column-wpseo-linked a,
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	overflow: visible; /* Override WP property to make tooltips visible. */
+	display: inline-block; /* To contain floats instead of using overflow. */
+	vertical-align: middle;
+	padding: 8px 0;
+}
+
+th.column-wpseo-score .yoast-tooltip,
+th.column-wpseo-score-readability .yoast-tooltip {
+	/* 11+20+11=42px */
+	padding: 8px 11px;
+}
+
+.column-wpseo-links .yoast-tooltip-multiline::after {
+	max-width: 160px;
+}
+
+.column-wpseo-linked .yoast-tooltip-multiline::after {
+	max-width: 170px;
+}
+
+.yoast-column-header-has-tooltip {
+	position: relative;
+}
+
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	vertical-align: top;
+	text-decoration: none !important;
+	color: #444;
+}
+
+/* Generate the icons in the table columns, exclude Screen Options. */
+.manage-column .yoast-column-header-has-tooltip:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	vertical-align: top;
+	text-decoration: none !important;
+	color: #444;
+}
+
+.manage-column .yoast-linked-to:before {
+	background: transparent url("../../images/link-out-icon.svg") no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-linked-from:before {
+	background: transparent url("../../images/link-in-icon.svg") no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-seo-score:before {
+	background: transparent url("../../images/Yoast_SEO_negative_icon.svg") no-repeat 0 0;
+	background-size: 20px;
+}
+
+.manage-column .yoast-column-readability:before {
+	background: transparent url("../../images/readability-icon.svg") no-repeat 0 0;
+	background-size: 20px;
+}
+
+/* Do not allow link numbers to break in the table cells. */
+td.column-wpseo-links,
+td.column-wpseo-linked {
+	word-wrap: normal;
+}

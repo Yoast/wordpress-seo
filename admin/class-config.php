@@ -56,7 +56,8 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'select2' );
-		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
+		$this->asset_manager->enqueue_style( 'admin-all' );
 
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( $page === 'wpseo_titles' ) {
@@ -84,12 +85,13 @@ class WPSEO_Admin_Pages {
 					'replaceVars' => $this->get_replace_vars_script_data(),
 				],
 			];
+
 			$script_data['searchAppearance'] = [
-				'isRtl'                    => is_rtl(),
-				'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
-				'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
-				'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
-				'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
+				'isRtl'                            => is_rtl(),
+				'userEditUrl'                      => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
+				'brushstrokeBackgroundURL'         => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
+				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
+				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
 			];
 

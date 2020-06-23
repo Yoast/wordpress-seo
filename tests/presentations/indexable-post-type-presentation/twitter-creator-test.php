@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Twitter_Creator_Test

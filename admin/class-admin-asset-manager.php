@@ -271,7 +271,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name'      => 'post-edit',
 				'src'       => 'post-edit-' . $flat_version,
-				'deps' => [
+				'deps'      => [
 					'jquery',
 					'wp-annotations',
 					'wp-api',
@@ -280,7 +280,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-data',
 					'wp-element',
-					'wp-edit-post',
 					'wp-i18n',
 					'wp-is-shallow-equal',
 					'wp-sanitize',
@@ -399,7 +398,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'api',
-				'src'  => 'api-client' . $flat_version,
+				'src'  => 'api-client-' . $flat_version,
 				'deps' => [
 					'wp-api',
 					'jquery',
@@ -501,19 +500,6 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'admin-css',
 				'src'  => 'yst_plugin_tools-' . $flat_version,
-				'deps' => [ self::PREFIX . 'toggle-switch' ],
-			],
-			[
-				'name' => 'toggle-switch',
-				'src'  => 'toggle-switch-' . $flat_version,
-			],
-			[
-				'name' => 'dismissible',
-				'src'  => 'wpseo-dismissible-' . $flat_version,
-			],
-			[
-				'name' => 'notifications',
-				'src'  => 'notifications-' . $flat_version,
 			],
 			[
 				'name' => 'alert',
@@ -563,24 +549,16 @@ class WPSEO_Admin_Asset_Manager {
 				'rtl'     => false,
 			],
 			[
-				'name' => 'admin-global',
-				'src'  => 'admin-global-' . $flat_version,
+				'name' => 'post-overview-global',
+				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
-				'name' => 'yoast-components',
-				'src'  => 'yoast-components-' . $flat_version,
-			],
-			[
-				'name' => 'extensions',
-				'src'  => 'yoast-extensions-' . $flat_version,
+				'name' => 'configuration-wizard',
+				'src'  => 'configuration-wizard-' . $flat_version,
 			],
 			[
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
-			],
-			[
-				'name' => 'search-appearance',
-				'src'  => 'search-appearance-' . $flat_version,
 			],
 			[
 				'name' => 'monorepo',
@@ -590,6 +568,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'structured-data-blocks',
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
+			],
+			[
+				'name' => 'admin-all',
+				'src'  => plugins_url( 'css/src/admin/all.css', WPSEO_BASENAME ), // @todo fix this.
 			],
 		];
 	}

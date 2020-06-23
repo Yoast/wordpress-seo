@@ -15,7 +15,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Whether or not the social tab is enabled for this metabox.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $social_is_enabled;
 
@@ -620,7 +620,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
 					' /> ';
 				$content .= '<input' .
-					' class="wpseo_image_remove_button button"' .
+					' class="yoast-js-remove-image button"' .
 					' type="button"' .
 					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
 					' />';
@@ -639,18 +639,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// By default, use the field title as a label element.
 			$label = '<label for="' . $esc_form_key . '">' . $title . '</label>';
 
-			// Set the inline help and help panel, if any.
-			$help_button = '';
-			$help_panel  = '';
-			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help        = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
-				$help_button = $help->get_button_html();
-				$help_panel  = $help->get_panel_html();
-			}
-
 			// If it's a set of radio buttons, output proper fieldset and legend.
 			if ( $meta_field_def['type'] === 'radio' ) {
-				return '<fieldset><legend>' . $title . '</legend>' . $help_button . $help_panel . $content . $description . '</fieldset>';
+				return '<fieldset><legend>' . $title . '</legend>' . $content . $description . '</fieldset>';
 			}
 
 			// If it's a single checkbox, ignore the title.
@@ -663,7 +654,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html = $content;
 			}
 			else {
-				$html = $label . $description . $help_button . $help_panel . $content;
+				$html = $label . $description . $content;
 			}
 		}
 
@@ -722,7 +713,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = array_merge(
-			$meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			$meta_boxes,
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields
 		);
@@ -846,7 +838,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$script_data = [
-			'analysis' => [
+			'analysis'         => [
 				'plugins' => [
 					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -860,7 +852,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 					],
 				],
-				'worker' => [
+				'worker'  => [
 					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
@@ -868,13 +860,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
 			],
-			'media' => [
+			'media'            => [
 				// @todo replace this translation with JavaScript translations.
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
-			'metabox' => $this->get_metabox_script_data(),
+			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
-			'isPost' => true,
+			'isPost'           => true,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

@@ -154,7 +154,7 @@ class WPSEO_Taxonomy {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 			$script_data = [
-				'analysis' => [
+				'analysis'         => [
 					'plugins' => [
 						'replaceVars' => [
 							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -163,8 +163,8 @@ class WPSEO_Taxonomy {
 							'scope'                    => $this->determine_scope(),
 						],
 					],
-					'worker' => [
-						'url'                    => $analysis_worker_location->get_url(
+					'worker'  => [
+						'url'                     => $analysis_worker_location->get_url(
 							$analysis_worker_location->get_asset(),
 							WPSEO_Admin_Asset::TYPE_JS
 						),
@@ -175,13 +175,13 @@ class WPSEO_Taxonomy {
 						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
 					],
 				],
-				'media' => [
+				'media'            => [
 					// @todo replace this translation with JavaScript translations.
 					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 				],
-				'metabox' => $this->localize_term_scraper_script(),
+				'metabox'          => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
-				'isTerm' => true,
+				'isTerm'           => true,
 			];
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoScriptData', $script_data );
 		}
