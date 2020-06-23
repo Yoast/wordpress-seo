@@ -1,6 +1,5 @@
 /* External dependencies */
 import React from "react";
-import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
 
