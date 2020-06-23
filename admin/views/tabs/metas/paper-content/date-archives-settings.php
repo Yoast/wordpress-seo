@@ -7,34 +7,29 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-$yform->toggle_switch(
+$yform->light_switch(
 	'disable-date',
+	__( 'Date archives', 'wordpress-seo' ),
 	[
-		'off' => __( 'Enabled', 'wordpress-seo' ),
-		'on'  => __( 'Disabled', 'wordpress-seo' ),
+		__( 'Enabled', 'wordpress-seo' ),
+		__( 'Disabled', 'wordpress-seo' ),
 	],
-	__( 'Date archives', 'wordpress-seo' )
+	false,
+	true
 );
 
 ?>
 <div id='date-archives-titles-metas-content' class='archives-titles-metas-content'>
 	<?php
-	$date_archives_help = new WPSEO_Admin_Help_Panel(
-		'noindex-archive-wpseo',
-		esc_html__( 'Help on the date archives search results setting', 'wordpress-seo' ),
-		sprintf(
-			/* translators: 1: expands to <code>noindex</code>; 2: link open tag; 3: link close tag. */
-			esc_html__( 'Not showing the date archives in the search results technically means those will have a %1$s robots meta. %2$sMore info on the search results settings%3$s.', 'wordpress-seo' ),
-			'<code>noindex</code>',
-			'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/show-x' ) ) . '" target="_blank" rel="noopener noreferrer">',
-			'</a>'
-		)
+	$date_archives_help = new WPSEO_Admin_Help_Button(
+		'https://yoa.st/show-x',
+		esc_html__( 'Help on the date archives search results setting', 'wordpress-seo' )
 	);
 
 	$yform->index_switch(
 		'noindex-archive-wpseo',
 		__( 'date archives', 'wordpress-seo' ),
-		$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
+		$date_archives_help
 	);
 
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();

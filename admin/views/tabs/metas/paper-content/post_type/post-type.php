@@ -11,14 +11,12 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
-$show_post_type_help = $view_utils->search_results_setting_help( $wpseo_post_type );
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
-
 
 $yform->index_switch(
 	$noindex_option_name,
 	$wpseo_post_type->labels->name,
-	$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
+	$view_utils->search_results_setting_help()
 );
 
 $yform->show_hide_switch(

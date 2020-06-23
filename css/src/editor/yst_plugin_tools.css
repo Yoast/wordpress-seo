@@ -1,0 +1,103 @@
+@import "../../node_modules/@yoast/components/src/base/icons.css";
+
+/* Settings pages layout based on CSS table model. */
+.wpseo_content_wrapper {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger {
+	width: 100%;
+	padding: 16px;
+	font-size: 1rem;
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:focus {
+	outline: 1px solid #0066cd;
+	outline-offset: -1px;
+	box-shadow: 0 0 3px rgba(8, 74, 103, 0.8);
+}
+
+.wpseo_content_wrapper .paper.tab-block button.toggleable-container-trigger:active {
+	box-shadow: none;
+}
+
+.wpseo_content_wrapper .paper.tab-block h2.collapsible-header {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.wpseo_content_wrapper .paper.tab-block.metabox button.toggleable-container-trigger {
+	color: #555;
+}
+
+.wpseo_content_wrapper .paper.tab-block.metabox.wpseotab {
+	padding: 0;
+	border: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-container {
+	padding: 16px;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-container:first-child {
+	margin-top: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-title {
+	padding: 16px;
+}
+
+.wpseo_content_wrapper .paper.tab-block .paper-title h2 {
+	margin: 0;
+}
+
+.wpseo_content_wrapper .paper.tab-block .tab-block:first-child {
+	margin-top: 0;
+}
+
+.wpseo_content_wrapper .wpseo-collapsible-container {
+	background-color: #fff;
+	border-top: 1px solid #e2e4e7;
+	border-bottom: 1px solid #e2e4e7;
+	margin-top: -1px;
+}
+
+.wpseo_content_wrapper .toggleable-container-trigger {
+	border: 0;
+	background: none;
+	cursor: pointer;
+	width: 100%;
+	padding: 0;
+	text-align: left;
+}
+
+.wpseo_content_wrapper .toggleable-container-icon {
+	float: right;
+	width: 20px;
+	height: 20px;
+	position: relative;
+}
+
+.wpseo_content_wrapper .toggleable-container-trigger .toggleable-container-icon::after {
+	content: "";
+	display: block;
+	padding: 14px;
+	position: absolute;
+	top: -4px;
+	left: -4px;
+}
+
+.wpseo_content_wrapper .toggleable-container-hidden {
+	display: none;
+}
+
+/* Responsive layout. */
+@media screen and (max-width: 1024px) {
+	.wpseo_content_wrapper,
+	.wpseo_content_cell {
+		display: block;
+		height: auto;
+	}
+}

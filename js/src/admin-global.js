@@ -171,7 +171,7 @@
 		}
 
 		if ( response.html ) {
-			$source.closest( ".yoast-container" ).html( response.html );
+			$source.closest( ".yoast-paper" ).html( response.html );
 			/* jshint ignore:start */
 			/* eslint-disable */
 			hookDismissRestoreButtons();

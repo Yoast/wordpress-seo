@@ -1,0 +1,129 @@
+/* Tabs. */
+.wpseotab {
+	display: none;
+}
+
+.wpseotab.active {
+	display: block;
+}
+
+.yoast-tabs {
+	font-size: 16px;
+	overflow: hidden;
+	margin-bottom: 32px;
+}
+
+.yoast-tabs__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-top: 3px;
+	padding-left: 16px;
+	border-bottom: 1px solid var(--yoast-color-border);
+	min-height: 60px;
+}
+
+.yoast-tabs__list-item {
+	position: relative;
+	background-color: var(--yoast-color-secondary);
+	margin-bottom: 0;
+	border-top: var(--yoast-border-default);
+	border-right: var(--yoast-border-default);
+	border-left: var(--yoast-border-default);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	margin-left: -1px;
+}
+
+.yoast-tabs__list-item:nth-child(1) {
+	z-index: 10;
+}
+
+.yoast-tabs__list-item:nth-child(2) {
+	z-index: 9;
+}
+
+.yoast-tabs__list-item:nth-child(3) {
+	z-index: 8;
+}
+
+.yoast-tabs__list-item:nth-child(4) {
+	z-index: 7;
+}
+
+.yoast-tabs__list-item:nth-child(5) {
+	z-index: 6;
+}
+
+.yoast-tabs__list-item:nth-child(6) {
+	z-index: 5;
+}
+
+.yoast-tabs__list-item:nth-child(7) {
+	z-index: 4;
+}
+
+.yoast-tabs__list-item:nth-child(8) {
+	z-index: 3;
+}
+
+.yoast-tabs__list-item:nth-child(9) {
+	z-index: 2;
+}
+
+.yoast-tabs__list-item:nth-child(10) {
+	z-index: 1;
+}
+
+.yoast-tabs__list-item-link {
+	display: block;
+	color: var(--yoast-color-dark);
+	text-decoration: none;
+	padding: 12px 16px;
+}
+
+.yoast-tabs__list-item-link:hover {
+	color: var(--yoast-color-primary);
+}
+
+.yoast-tabs__list-item.yoast-tabs__list-item--active {
+	top: 1px;
+	background-color: var(--yoast-color-white);
+	z-index: 11;
+}
+
+.yoast-tabs__list-item--active::after {
+	content: '';
+	background-color: var(--yoast-color-white);
+	height: 1px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+}
+
+.yoast-tabs__list-item--active .yoast-tabs__list-item-link {
+	color: var(--yoast-color-primary);
+	padding: 16px;
+}
+
+@media (max-width: 782px) {
+	.yoast-tabs {
+		font-size: 14px;
+		padding-left: 0;
+		padding-bottom: 16px;
+	}
+
+	.yoast-tabs__list-item {
+		border-bottom: var(--yoast-border-default);
+		margin: 4px;
+	}
+
+	.yoast-tabs__list-item--active {
+		top: 0;
+	}
+
+	.yoast-tabs__list-item--active .yoast-tabs__list-item-link {
+		padding: 12px 16px;
+	}
+}

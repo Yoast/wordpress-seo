@@ -34,8 +34,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 			switch ( $status ) {
 				case 'active':
 					$button = sprintf(
-						'<button type="button" class="button dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>',
-						esc_html__( 'Hide this item.', 'wordpress-seo' )
+						'<button type="button" class="yoast-hide">Hide</button>'
 					);
 					break;
 
@@ -48,7 +47,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 			}
 
 			$notifications .= sprintf(
-				'<div class="yoast-notification-holder" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				'<div class="yoast-paper__item" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
@@ -63,24 +62,25 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 	}
 }
 
-$wpseo_i18n_summary = $i18n_issues;
+if ( ! empty( $i18n_issues ) ) {
+	$wpseo_i18n_summary = $i18n_issues;
+}
+
 if ( ! $active ) {
 	$dashicon           = 'yes';
 	$wpseo_i18n_summary = $i18n_no_issues;
 }
 
 ?>
-<h3 class="yoast-notifications-header" id="<?php echo esc_attr( 'yoast-' . $type . '-header' ); ?>">
-	<span class="dashicons <?php echo esc_attr( 'dashicons-' . $dashicon ); ?>"></span>
+<h2>
 	<?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)
-</h3>
+</h2>
 
-<div id="<?php echo esc_attr( 'yoast-' . $type ); ?>">
+<div>
 
 	<?php if ( $total ) : ?>
-		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
-		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
+		<div class="yoast-paper__content">
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
 			echo _yoast_display_notifications( $active, 'active' );

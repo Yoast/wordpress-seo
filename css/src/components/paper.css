@@ -1,0 +1,50 @@
+.yoast-paper {
+	background-color: white;
+	padding: 24px;
+	margin-bottom: 32px;
+	box-shadow: var(--yoast-shadow-default);
+	border: var(--yoast-border-default);
+	max-width: 600px;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.yoast-paper .toggleable-container-trigger {
+	background: none;
+	border: 0px;
+	width: 100%;
+	text-align: left;
+	color: var(--yoast-color-primary);
+}
+
+.yoast-paper--small {
+	padding: 16px;
+}
+
+.yoast-paper__item {
+	display: flex;
+}
+
+.yoast-paper__item .yoast-alert {
+	position: relative;
+	margin-left: 22px;
+}
+
+.yoast-paper__item .yoast-alert::before {
+	content: '';
+	background: var(--yoast-exclamation-mark) no-repeat center center;
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	top: 4px;
+	left: -22px;
+}
+
+.yoast-paper__item .yoast-hide {
+	margin-left: 32px;
+}
+
+.yoast-paper__item:not(:first-of-type) {
+	border-top: 1px solid var(--yoast-color-border);
+	padding-top: 16px;
+}

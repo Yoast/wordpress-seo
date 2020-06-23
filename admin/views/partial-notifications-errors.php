@@ -18,7 +18,6 @@ $dismissed_total = count( $dismissed );
 $total           = $notifications_data['metrics']['errors'];
 
 $i18n_title              = __( 'Problems', 'wordpress-seo' );
-$i18n_issues             = __( 'We have detected the following issues that affect the SEO of your site.', 'wordpress-seo' );
 $i18n_no_issues          = __( 'Good job! We could detect no serious SEO problems.', 'wordpress-seo' );
 $i18n_muted_issues_title = sprintf(
 	/* translators: %d expands the amount of hidden problems. */

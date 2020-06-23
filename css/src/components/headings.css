@@ -1,0 +1,55 @@
+/** Make sure the content within admin pages is exactly 32px from the sides & give it new default line-height. */
+body.yoast {
+	background-color: white;
+	font-size: 1em;
+}
+
+#wpcontent {
+	padding-left: 0;
+}
+
+.wrap {
+	margin: 32px 32px 0;
+	font-size: var(--yoast-font-size-default);
+	color: var(--yoast-color-default);
+	line-height: 1.5;
+}
+
+
+/** On admin pages, the <body> Has the class "yoast", this way we can target only our own pages. */
+.yoast h1,
+.yoast h2,
+.yoast h3,
+.yoast .h1,
+.yoast .h2,
+.yoast .h3 {
+	font-weight: 400;
+	color: var(--yoast-color-primary);
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 1em;
+	line-height: 1.2;
+}
+
+.yoast h1, .yoast .h1 {
+	font-size: 1.7em;
+	margin-bottom: 1.34em;
+}
+
+.yoast h2, .yoast .h2 {
+	font-size: 1.4em;
+}
+
+.yoast h3, .yoast .h3 {
+	font-size: 1.1em;
+}
+
+.yoast p {
+	margin-top: 0;
+	margin-bottom: 16px;
+	font-size: 1em;
+}
+
+.yoast .update-nag{
+	margin-left: 32px;
+}

@@ -21,17 +21,13 @@ $wpseo_post_types = get_post_types( [ 'public' => true ], 'objects' );
 // We'll show attachments on the Media tab.
 $wpseo_post_types = WPSEO_Post_Type::filter_attachment_post_type( $wpseo_post_types );
 
-echo '<p>';
-esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
-echo '</p>';
-
 if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	$view_utils                   = new Yoast_View_Utils();
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $post_type ) {
-		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
+		$wpseo_post_type_presenter = new WPSEO_Collapsible_Presenter(
 			$post_type->labels->name,
 			__DIR__ . '/paper-content/post-type-content.php',
 			[

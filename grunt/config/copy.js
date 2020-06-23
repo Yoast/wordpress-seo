@@ -25,7 +25,9 @@ module.exports = {
 			{
 				expand: true,
 				cwd: "css/src",
-				src: [ "**.css" ],
+				// TO DO: remove the exclude when ready
+				src: [ "**/**.css", "!to-be-removed/**.css", "!admin/all.css" ],
+				flatten: true,
 				dest: "css/dist/",
 				rename: ( dest, src ) => {
 					return dest + src.replace( ".css", "-<%= pluginVersionSlug %>.css" );
@@ -41,7 +43,7 @@ module.exports = {
 				src: [ "wordpress-seo-*.json" ],
 				dest: "languages/",
 				rename: ( dest, src ) => {
-					return dest + src.replace( "wordpress-seo", "yoast-components" );
+					return dest + src.replace( "wordpress-seo", "configuration-wizard.scss" );
 				},
 			},
 			{

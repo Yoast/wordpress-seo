@@ -1,0 +1,29 @@
+/** CSS selectors instead of SASS. */
+:root {
+	--yoast-color-default: #404040;
+	--yoast-color-default-darker: #303030;
+	--yoast-color-primary: #a4286a;
+	--yoast-color-secondary: #f7f7f7;
+	--yoast-color-white: #ffffff;
+	--yoast-color-primary-darker: #7b1e50;
+	--yoast-color-secondary-darker: #d9d9d9;
+	--yoast-color-dark: #303030;
+	--yoast-color-sale: #fec228;
+	--yoast-color-sale-darker: #feb601;
+	--yoast-color-border: rgba(0,0,0, 0.2);
+	--yoast-color-active: #6EA029;
+	--yoast-color-inactive: #DC3232;
+	--yoast-color-link: #006DAC;
+	--yoast-color-inactive-text: #707070;
+	--yoast-color-inactive-grey: #9E9E9E;
+	--yoast-color-inactive-grey-light: #f1f1f1;
+	--yoast-color-active-light: #B6CF94;
+  
+	--yoast-font-size-default: 14px;
+  
+	--yoast-border-default: 1px solid var(--yoast-color-border);
+  
+	--yoast-shadow-default: 0px 3px 6px rgba(0, 0, 0, 0.15);
+
+	--yoast-transition-default: all 150ms ease-out;
+}
