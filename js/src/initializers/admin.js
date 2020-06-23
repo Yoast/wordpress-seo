@@ -1,7 +1,6 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData */
 
 import a11ySpeak from "a11y-speak";
-import { debounce } from "lodash-es";
 
 /**
  * @summary Initializes the admin script.
@@ -155,12 +154,14 @@ export default function initAdmin( jQuery ) {
 		jQuery( "#twitter_card_type" ).select2( {
 			width: select2Width,
 			language: wpseoScriptData.userLanguageCode,
+			dropdownCssClass: "yoast-select__dropdown",
 		} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
 		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
 			language: wpseoScriptData.userLanguageCode,
+			dropdownCssClass: "yoast-select__dropdown",
 		} );
 	}
 
@@ -191,7 +192,7 @@ export default function initAdmin( jQuery ) {
 		}
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).click();
+		jQuery( "#" + activeTabId + "-tab" ).click();
 	}
 
 	/**
@@ -214,45 +215,6 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
-	/**
-	 * Add a resize and scroll listener and determine whether the fixed submit button should be shown.
-	 *
-	 * @returns {void}
-	 */
-	function setFixedSubmitButtonVisibility() {
-		const floatContainer = jQuery( "#wpseo-submit-container-float" );
-		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
-
-		if ( ! floatContainer.length || ! fixedContainer.length ) {
-			return;
-		}
-
-		/**
-		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
-		 *
-		 * @returns {void}
-		 */
-		function onViewportChange() {
-			if ( floatContainer._wpseoIsInViewport() ) {
-				fixedContainer.hide();
-			} else {
-				fixedContainer.show();
-			}
-		}
-
-		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
-		jQuery( window ).on( "yoast-seo-tab-change", onViewportChange );
-
-		const messages = jQuery( ".wpseo-message" );
-		if ( messages.length ) {
-			window.setTimeout( () => {
-				messages.fadeOut();
-			}, 5000 );
-		}
-
-		onViewportChange();
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -266,11 +228,8 @@ export default function initAdmin( jQuery ) {
 		wpseoSetTabHash();
 
 		// Toggle the Author archives section.
-		jQuery( "#disable-author input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-author" ).change( function() {
+			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
@@ -295,19 +254,13 @@ export default function initAdmin( jQuery ) {
 		} );
 
 		// Toggle the Date archives section.
-		jQuery( "#disable-date input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-date" ).change( function() {
+			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		// Toggle the Media section.
-		jQuery( "#disable-attachment input[type='radio']" ).change( function() {
-			// The value on is disabled, off is enabled.
-			if ( jQuery( this ).is( ":checked" ) ) {
-				jQuery( "#media_settings" ).toggle( jQuery( this ).val() === "off" );
-			}
+		jQuery( "#disable-attachment" ).change( function() {
+			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":checked" ) );
 		} ).change();
 
 		// Toggle the Format-based archives section.
@@ -321,14 +274,14 @@ export default function initAdmin( jQuery ) {
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).click( function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+		jQuery( ".yoast-tabs__list-item-link" ).click( function() {
+			jQuery( ".yoast-tabs__list-item-link" ).closest( ".yoast-tabs__list-item" ).removeClass( "yoast-tabs__list-item--active" );
 			jQuery( ".wpseotab" ).removeClass( "active" );
 
 			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
 			var activeTab = jQuery( "#" + id );
 			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
+			jQuery( this ).closest( ".yoast-tabs__list-item" ).addClass( "yoast-tabs__list-item--active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
 				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
@@ -389,7 +342,5 @@ export default function initAdmin( jQuery ) {
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
-		// Should be called after the initial active tab has been set.
-		setFixedSubmitButtonVisibility();
 	} );
 }

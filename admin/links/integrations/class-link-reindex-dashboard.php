@@ -71,7 +71,7 @@ class WPSEO_Link_Reindex_Dashboard {
 
 		if ( $this->has_unprocessed() ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_start_indexing` is considered a safe method.
-			printf( '<span id="reindexLinks">%s</span>', $this->message_start_indexing() );
+			printf( $this->message_start_indexing() );
 		}
 
 		echo '</li>';
@@ -171,7 +171,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 * @return string The message to show when everything has been indexed.
 	 */
 	public function message_already_indexed() {
-		return '<span class="wpseo-checkmark-ok-icon"></span>' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' );
+		return '<span class="yoast-check">' . esc_html__( 'Good job! All the links in your texts have been counted.', 'wordpress-seo' ) . '</span>';
 	}
 
 	/**
@@ -199,7 +199,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 */
 	public function message_start_indexing() {
 		return sprintf(
-			'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="btn button yoast-js-index-links yoast-js-calculate-index-links--all thickbox">%2$s</a>',
+			'<a id="openLinkIndexing" href="#TB_inline?width=600&height=%1$s&inlineId=wpseo_index_links_wrapper" title="%2$s" class="yoast-button yoast-button--secondary yoast-js-calculate-index-links--all thickbox">%2$s</a>',
 			175,
 			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 		);

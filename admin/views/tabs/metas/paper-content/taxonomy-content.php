@@ -17,18 +17,17 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 		'disable-post_format',
 		__( 'Format-based archives', 'wordpress-seo' ),
 		[ __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ],
+		false,
 		false
 	);
 }
 
 echo "<div id='" . esc_attr( $wpseo_taxonomy->name ) . "-titles-metas'>";
 
-$taxonomies_help = $view_utils->search_results_setting_help( $wpseo_taxonomy );
-
 $yform->index_switch(
 	'noindex-tax-' . $wpseo_taxonomy->name,
 	$title,
-	$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
+	$view_utils->search_results_setting_help()
 );
 
 

@@ -13,6 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<div class="yoast-feature">';
 echo '<h2>' . esc_html__( 'Pinterest settings', 'wordpress-seo' ) . '</h2>';
 
 printf(
@@ -34,5 +35,6 @@ printf(
 echo '</p>';
 
 $yform->textinput( 'pinterestverify', __( 'Pinterest confirmation', 'wordpress-seo' ) );
+echo '</div>';
 
 do_action( 'wpseo_admin_pinterest_section' );

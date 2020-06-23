@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
 import { registerFormatType } from "@wordpress/rich-text";
 import {
 	get,
@@ -15,7 +14,7 @@ import {
 /* Internal dependencies */
 import Data from "../analysis/data.js";
 import reducers from "../redux/reducers";
-import PluginIcon from "../../../images/Yoast_icon_kader.svg";
+import PluginIcon from "../containers/PluginIcon";
 import ClassicEditorData from "../analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import SidebarFill from "../containers/SidebarFill";
@@ -80,7 +79,7 @@ class Edit {
 
 		this._registerPlugin();
 
-		if ( typeof window.wp.blockEditor.__experimentalLinkControl === "function" ) {
+		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
 			this._registerFormats();
 		} else {
 			console.warn(
@@ -111,6 +110,13 @@ class Edit {
 		} ) );
 	}
 
+	/**
+	 * Registers the Yoast inline link format.
+	 *
+	 * @private
+	 *
+	 * @returns {void}
+	 */
 	_registerFormats() {
 		[
 			link,
@@ -148,7 +154,13 @@ class Edit {
 			return;
 		}
 
-		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+		const {
+			PluginPrePublishPanel,
+			PluginPostPublishPanel,
+			PluginDocumentSettingPanel,
+			PluginSidebar,
+			PluginSidebarMoreMenuItem,
+		} = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
 		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";

@@ -78,7 +78,7 @@ export default function initAdminMedia( jQuery ) {
 				} );
 
 				$uploadImageButton
-					.siblings( ".wpseo_image_remove_button" )
+					.siblings( ".yoast-js-remove-image" )
 					.on( "click", ( e ) => {
 						e.preventDefault();
 

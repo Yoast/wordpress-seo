@@ -132,6 +132,6 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 
 		$option_tabs->display( new Yoast_Form() );
 
-		$this->expectOutputContains( '<h2 class="nav-tab-wrapper" id="wpseo-tabs">' );
+		$this->expectOutputContains( 'id="wpseo-tabs"' );
 	}
 }

@@ -1,0 +1,233 @@
+.yoast table.yoast-table {
+	font-size: var(--yoast-font-size-default);
+	color: var(--yoast-color-default);
+	line-height: 1.2;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast .yoast-table tfoot th {
+	border-bottom: none;
+}
+
+.yoast .yoast-table th,
+.yoast .yoast-table tr {
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast .yoast-table th.check-column {
+	padding: 19px 0 0 3px;
+}
+
+.yoast .yoast-table th,
+.yoast .yoast-table th.sortable {
+	color: var(--yoast-color-dark);
+	text-align: left;
+	padding: 16px;
+}
+
+.yoast .yoast-table th.sortable a,
+.yoast .yoast-table th a {
+	color: var(--yoast-color-dark);
+	padding: 0;
+	font-weight: 500;
+}
+
+.yoast .yoast-table td {
+	padding: 16px;
+	border-bottom: var(--yoast-border-default);
+	font-size: var(--yoast-font-size-default);
+}
+
+.yoast .yoast-table .sorting-indicator {
+	visibility: inherit;
+}
+
+.yoast .yoast-table .sorting-indicator:before {
+	content: "";
+	background: var(--yoast-svg-icon-sort);
+	width: 6px;
+	height: 9px;
+	top: -2px;
+	left: auto;
+}
+
+.yoast .yoast-table th.desc a:focus span.sorting-indicator:before,
+.yoast .yoast-table th.desc:hover span.sorting-indicator:before,
+.yoast .yoast-table th.sorted.asc .sorting-indicator:before {
+	content: "";
+	background: var(--yoast-svg-icon-sort-up);
+	width: 6px;
+	height: 4px;
+	top: auto;
+	left: auto;
+}
+
+.yoast .yoast-table th.asc a:focus span.sorting-indicator:before,
+.yoast .yoast-table th.asc:hover span.sorting-indicator:before,
+.yoast .yoast-table th.sorted.desc .sorting-indicator:before {
+	content: "";
+	background: var(--yoast-svg-icon-sort-down);
+	width: 6px;
+	height: 4px;
+	top: auto;
+	left: auto;
+}
+
+@media screen and ( max-width: 782px) {
+	.yoast .yoast-table td {
+		border-bottom: 0;
+	}
+}
+
+.yoast .tablenav {
+	height: auto;
+	margin: 6px 0 16px;
+}
+
+.yoast .tablenav.top .tablenav-pages {
+	display: none;
+}
+
+.yoast .tablenav.top #posts-filter .tablenav-pages {
+	display: block;
+}
+
+.yoast .tablenav .yoast-button {
+	color: var(--color-dark);
+}
+
+.yoast .tablenav .search-box {
+	float: right;
+}
+
+.yoast .tablenav .search-box div {
+	float: left;
+	width: 200px;
+	margin-right: 8px;
+}
+
+.yoast .tablenav .displaying-num {
+	margin-right: 22px;
+}
+
+.yoast .tablenav .paging-input {
+	margin-right: 6px;
+}
+
+.yoast .column-actions {
+	text-align: right;
+	width: 200px;
+}
+
+.yoast .tablenav .tablenav-pages .button,
+.yoast .tablenav .tablenav-pages .button.disabled,
+.yoast .tablenav .tablenav-pages .tablenav-pages-navspan {
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+	border-radius: 4px;
+	transition: background-color 150ms ease-out 0s;
+	cursor: pointer;
+	padding: 10px 13px 12px;
+	border: 1px solid rgba(0, 0, 0, 0.2) !important;
+	box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1) !important;
+	color: var(--color-dark) !important;
+	font-size: 1rem;
+	line-height: 1;
+	margin-right: 6px;
+}
+
+.wp-core-ui.yoast .tablenav .tablenav-pages .button.disabled {
+	opacity: 0.5;
+	cursor: inherit;
+}
+
+.yoast .tablenav-pages .current-page {
+	font-size: var(--yoast-font-size-default);
+	padding: 5px 8px;
+	background: var(--yoast-color-white);
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	border-radius: 0;
+	margin-right: 6px;
+}
+
+/* The following CSS is specific for the bulk-editor tables on the tool pages. */
+
+.yoast select#post-type-filter-title,
+.yoast select#post-type-filter-description {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	font-size: var(--yoast-font-size-default);
+	padding: 6px 40px 6px 8px;
+	background-color: var(--yoast-color-white);
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M1.4 0L6 4.6 10.6 0 12 1.4 6 7.5 0 1.4z"/></svg>');
+	background-position: right 15px center;
+	background-repeat: no-repeat;
+	background-size: 10px auto;
+	border-radius: 0;
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	max-width: 300px;
+	display: block;
+	min-height: 2.8em;
+	float: left;
+}
+
+.yoast .wpseo_bulk_titles tr th:first-child,
+.yoast .wpseo_bulk_descriptions tr th:first-child{
+	padding-left: 16px;
+}
+
+.yoast .wpseo_bulk_titles input,
+.yoast .wpseo_bulk_descriptions textarea {
+	width: 100%;
+	font-size: var(--yoast-font-size-default);
+	padding: 8px;
+	background: var(--yoast-color-white);
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	border-radius: 0;
+}
+
+.yoast .wpseo_bulk_titles .row-actions,
+.yoast .wpseo_bulk_descriptions .row-actions {
+	display: none;
+}
+
+.yoast .wpseo_bulk_titles input {
+	line-height: 1.57142857;
+}
+
+.yoast .yoast-table__container {
+	overflow-x: scroll;
+	width: 100%;
+}
+
+@media screen and ( min-width: 782px) {
+	.yoast .yoast-table__container table {
+		width: auto;
+		min-width: 100%;
+	}
+
+	.yoast .yoast-table__container thead th {
+		white-space: nowrap;
+	}
+
+	.yoast .yoast-table__container thead th a {
+		display: flex;
+		flex-wrap: nowrap;
+	}
+
+	.yoast .yoast-table__container .column-col_row_action {
+		white-space: nowrap;
+	}
+
+	.yoast .yoast-table__container input,
+	.yoast .yoast-table__container textarea {
+		min-width: 200px;
+	}
+}

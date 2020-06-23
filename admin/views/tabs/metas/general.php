@@ -11,13 +11,4 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$wpseo_general_presenter = new WPSEO_Paper_Presenter(
-	'',
-	__DIR__ . '/paper-content/general-content.php',
-	[
-		'paper_id' => 'settings-general',
-		'class'    => 'search-appearance',
-	]
-);
-
-echo $wpseo_general_presenter->get_output();
+require __DIR__ . '/paper-content/general-content.php';
