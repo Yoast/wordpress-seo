@@ -15,7 +15,7 @@ import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
 import SemRushLoading from "./modals/SemRushLoading";
-import SemRushUpsellAlert from "./modals/SemRushUpsellAlert"
+import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
