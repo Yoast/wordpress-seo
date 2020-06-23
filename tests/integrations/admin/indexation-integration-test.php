@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -81,6 +82,13 @@ class Indexation_Integration_Test extends TestCase {
 	private $asset_manager;
 
 	/**
+	 * Holds the Yoast tools page conditional.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Tools_Page_Conditional
+	 */
+	private $yoast_tools_page_conditional;
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
@@ -90,6 +98,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->options                      = Mockery::mock( Options_Helper::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->yoast_tools_page_conditional = Mockery::mock( Yoast_Tools_Page_Conditional::class );
 
 		$this->instance = new Indexation_Integration(
 			$this->post_indexation,
@@ -97,7 +106,8 @@ class Indexation_Integration_Test extends TestCase {
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
 			$this->options,
-			$this->asset_manager
+			$this->asset_manager,
+			$this->yoast_tools_page_conditional
 		);
 
 		parent::setUp();
@@ -138,12 +148,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
-	 *
-	 * @dataProvider ignore_warning_provider
-	 *
-	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
-	public function test_enqueue_scripts( $ignore_warning ) {
+	public function test_enqueue_scripts_not_having_warning_ignored() {
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -154,26 +160,32 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
 		$this->options
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
-			->andReturn( $ignore_warning );
+			->andReturnFalse();
 
-		if ( ! $ignore_warning ) {
-			$this->options
-				->expects( 'get' )
-				->with( 'indexation_started', 0 )
-				->andReturn( 0 );
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_started', 0 )
+			->andReturn( 0 );
 
-			$this->options
-				->expects( 'get' )
-				->with( 'indexation_warning_hide_until' )
-				->andReturn( 0 );
-		}
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until' )
+			->andReturn( 0 );
 
-		if ( ! $ignore_warning ) {
-			Monkey\Actions\expectAdded( 'admin_notices' );
-		}
+		$this->options
+			->expects( 'get' )
+			->once()
+			->with( 'indexables_indexation_reason', '' )
+			->andReturn( '' );
+
+		Monkey\Actions\expectAdded( 'admin_notices' );
 
 		// Expect that the script and style for the modal is enqueued.
 		$this->asset_manager
@@ -199,7 +211,85 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
-		$expected_data = [
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests that scripts and styles are enqueued and the modal
+	 * is rendered when there is something to index.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_having_the_warning_ignored() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnTrue();
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		$this->yoast_tools_page_conditional
+			->expects( 'is_met' )
+			->andReturnTrue();
+
+		// We should hook into the admin footer and admin notices hook.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+
+		// Mock retrieval of the REST URL.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Returns the localized data.
+	 *
+	 * @return array The localized data.
+	 */
+	protected function get_localized_data() {
+		return [
 			'amount'  => 40,
 			'ids'     => [
 				'count'    => '#yoast-indexation-current-count',
@@ -227,14 +317,43 @@ class Indexation_Integration_Test extends TestCase {
 				'calculationFailed'     => 'Optimization failed, please try again later.',
 			],
 		];
+	}
 
-		// The script should be localized with the right data.
-		Monkey\Functions\expect( 'wp_localize_script' )
-			->with(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
-				'yoastIndexationData',
-				$expected_data
-			);
+	/**
+	 * Tests that the modal and indexation assets are not enqueued when not on the Yoast tools page.
+	 *
+	 * @covers ::enqueue_scripts
+	 */
+	public function test_enqueue_scripts_without_indexable_assets() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturnFalse();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnTrue();
+
+		// Expect that the script and style for the modal is not enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->never()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->never()
+			->with( 'admin-css' );
 
 		$this->instance->enqueue_scripts();
 	}
@@ -268,6 +387,11 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 0,
 			]
 		);
+
+		$this->options
+			->expects( 'set' )
+			->once()
+			->with( 'indexables_indexation_reason', '' );
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();
@@ -303,11 +427,11 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
 		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
-		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>">Start processing and speed up your site now</button>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
 		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
 
 		$this->expectOutputString( $expected );
@@ -379,10 +503,10 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected  = '<li><strong>SEO Data</strong>';
+		$expected = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
-		$expected .= '<span id="yoast-indexation"><button type="button" class="yoast-button yoast-button--secondary yoast-open-indexation" data-title="Speeding up your site">';
+		$expected .= '<span id="yoast-indexation"><button type="button" class="yoast-button yoast-button--secondary yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">';
 		$expected .= 'Start processing and speed up your site now</button></span></li>';
 
 		$this->expectOutputString( $expected );
