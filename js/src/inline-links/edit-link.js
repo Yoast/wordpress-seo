@@ -30,10 +30,9 @@ export const link = {
 	name,
 	title,
 	tagName: "a",
-	className: "yoast-seo-link",
+	className: null,
 	attributes: {
 		url: "href",
-		type: "data-type",
 		target: "target",
 	},
 	replaces: "core/link",
