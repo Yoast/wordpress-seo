@@ -14,6 +14,7 @@ import CountrySelector from "./modals/CountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
+import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -101,6 +102,7 @@ class RelatedKeyPhrasesModal extends Component {
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
 							<SemRushLimitReached />
+							<SemRushRequestFailed />
 							<CountrySelector />
 							<KeyphrasesTable />
 							<h2>Debug info</h2>
