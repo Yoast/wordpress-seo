@@ -236,11 +236,10 @@ class Edit {
 	_initializeData() {
 		const store  = this._store;
 		const args   = this._args;
-		const wpData = get( window, "wp.data" );
 
 		// Only use Gutenberg's data if Gutenberg is available.
 		if ( isGutenbergDataAvailable() ) {
-			const gutenbergData = new Data( wpData, args.onRefreshRequest, store );
+			const gutenbergData = new Data( args.onRefreshRequest, store );
 			gutenbergData.initialize( args.replaceVars );
 			return gutenbergData;
 		}
