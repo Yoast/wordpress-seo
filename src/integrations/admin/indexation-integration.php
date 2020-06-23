@@ -163,6 +163,7 @@ class Indexation_Integration implements Integration_Interface {
 		 * as post types aren't registered yet. So we do most of our add_action calls here.
 		 */
 		if ( $this->get_total_unindexed() === 0 ) {
+			$this->set_complete();
 			return;
 		}
 
@@ -182,11 +183,9 @@ class Indexation_Integration implements Integration_Interface {
 		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
 		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
 
+
 		if ( $this->is_indexation_warning_hidden() === false ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
-		}
-		elseif ( $this->term_indexation->get_total_term_permalinks_null() > $shutdown_limit ) {
-			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+			$this->add_admin_notice();
 		}
 
 		// Only enqueue indexation assets when the action is a button.
@@ -201,7 +200,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		if ( current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		}
 	}
 
 	/**
@@ -210,9 +211,11 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		\add_thickbox();
+		if ( current_user_can( 'manage_options' ) ) {
+			\add_thickbox();
 
-		echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+			echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
+		}
 	}
 
 	/**
@@ -221,7 +224,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+		if ( current_user_can( 'manage_options' ) ) {
+			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
+		}
 	}
 
 	/**
@@ -262,6 +267,19 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Adds the admin notice to show a specific indexation warning.
+	 */
+	protected function add_admin_notice() {
+		if ( $this->options_helper->get( 'indexables_indexation_reason', '' ) !== '' ) {
+			\add_action( 'admin_notices', [ $this, 'render_indexation_permalink_warning' ], 10 );
+
+			return;
+		}
+
+		\add_action( 'admin_notices', [ $this, 'render_indexation_warning' ], 10 );
+	}
+
+	/**
 	 * Returns if the indexation warning is temporarily hidden.
 	 *
 	 * @return bool True if hidden.
@@ -279,6 +297,13 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
+	}
+
+	/**
+	 * Sets the indexation to complete.
+	 */
+	protected function set_complete() {
+		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 
 	/**

@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Admin;
 
+use Brain\Monkey;
 use WPSEO_Admin_Asset;
 use WPSEO_Admin_Asset_Analysis_Worker_Location;
-use Brain\Monkey;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

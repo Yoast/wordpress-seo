@@ -9,8 +9,8 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\SEO\Presentations\Indexable_Static_Posts_Page_Presentation;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
@@ -69,7 +69,7 @@ trait Presentation_Instance_Builder {
 	protected $post;
 
 	/**
-	 * Builds an instance of Indexable_Search_Result_Page_Presentation.
+	 * Builds an instance of Indexable_Static_Posts_Page_Presentation.
 	 */
 	protected function set_instance() {
 		$this->indexable = new Indexable_Mock();

@@ -9,11 +9,11 @@ namespace Yoast\WP\SEO\Dependency_Injection;
 
 use ReflectionException;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\GlobResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Config\Resource\GlobResource;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * This class is mostly a direct copy-paste of the symfony PhpFileLoader class.

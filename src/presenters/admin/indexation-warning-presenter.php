@@ -48,7 +48,7 @@ class Indexation_Warning_Presenter extends Abstract_Presenter {
 	 *
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * Indexation_Warning_Presenter constructor.

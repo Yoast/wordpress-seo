@@ -105,14 +105,55 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_no_parents() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
+	}
+
+
+
+	/**
+	 * Tests building the hierarchy of a post where the post parent is set to 0.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 */
+	public function test_no_parents_and_has_ancestors_set_to_false() {
+		$indexable                = $this->get_indexable( 1, 'post' );
+		$indexable->has_ancestors = false;
+
+		$this->indexable_hierarchy_repository
+			->expects( 'clear_ancestors' )
+			->never();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'post_types-post-maintax' )
+			->andReturn( '0' );
+
+		$this->post
+			->expects( 'get_post' )
 			->with( 1 )
 			->andReturn(
 				(object) [
@@ -135,10 +176,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::add_ancestors_for_post
 	 */
 	public function test_parents_not_set() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
@@ -160,15 +202,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'post';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'post';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
@@ -436,18 +480,20 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_term' )
 			->twice()
@@ -569,23 +615,26 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_many_primary_term_parents() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		$grand_parent_indexable              = new Indexable_Mock();
-		$grand_parent_indexable->id          = 3;
-		$grand_parent_indexable->object_type = 'term';
-		$grand_parent_indexable->object_id   = 3;
+		$grand_parent_indexable                = new Indexable_Mock();
+		$grand_parent_indexable->id            = 3;
+		$grand_parent_indexable->object_type   = 'term';
+		$grand_parent_indexable->object_id     = 3;
+		$grand_parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -656,15 +705,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_the_terms' )
 			->with( 1, 'tag' )
@@ -724,10 +775,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_not_array() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( 'string-not-array' );
 		Monkey\Functions\expect( 'get_term' )
@@ -774,10 +826,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent_where_terms_empty() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn();
 		Monkey\Functions\expect( 'get_term' )
@@ -828,20 +881,23 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_deepest_term_parent() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable               = new Indexable_Mock();
+		$indexable->id           = 1;
+		$indexable->object_type  = 'post';
+		$indexable->object_id    = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 3;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 3;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 3;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 3;
+		$parent_indexable->has_ancestors = true;
 
-		$grand_parent_indexable              = new Indexable_Mock();
-		$grand_parent_indexable->id          = 4;
-		$grand_parent_indexable->object_type = 'term';
-		$grand_parent_indexable->object_id   = 4;
+		$grand_parent_indexable                = new Indexable_Mock();
+		$grand_parent_indexable->id            = 4;
+		$grand_parent_indexable->object_type   = 'term';
+		$grand_parent_indexable->object_id     = 4;
+		$grand_parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_the_terms' )
 			->once()
@@ -921,15 +977,17 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_indexable_id
 	 */
 	public function test_term() {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = 1;
-		$indexable->object_type = 'term';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'term';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -1162,10 +1220,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );
 
-		$parent_indexable              = new Indexable_Mock();
-		$parent_indexable->id          = 3;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 3;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 3;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 3;
+		$parent_indexable->has_ancestors = true;
 
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
@@ -1245,10 +1304,11 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @return Indexable_Mock
 	 */
 	private function get_indexable( $id, $object_type = 'post' ) {
-		$indexable              = new Indexable_Mock();
-		$indexable->id          = $id;
-		$indexable->object_type = $object_type;
-		$indexable->object_id   = $id;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = $id;
+		$indexable->object_type   = $object_type;
+		$indexable->object_id     = $id;
+		$indexable->has_ancestors = true;
 
 		return $indexable;
 	}

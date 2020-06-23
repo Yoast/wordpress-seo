@@ -28,8 +28,8 @@ $yform->show_hide_switch(
 
 $yform->show_hide_switch(
 	'display-metabox-pt-' . $wpseo_post_type->name,
-	/* translators: %1$s expands to Yoast SEO */
-	sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' )
+	/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
+	sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), '<strong>' . $wpseo_post_type->labels->name . '</strong>' )
 );
 
 $editor = new WPSEO_Replacevar_Editor(

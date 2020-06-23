@@ -271,7 +271,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name'      => 'post-edit',
 				'src'       => 'post-edit-' . $flat_version,
-				'deps' => [
+				'deps'      => [
 					'jquery',
 					'wp-annotations',
 					'wp-api',
@@ -280,7 +280,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-compose',
 					'wp-data',
 					'wp-element',
-					'wp-edit-post',
 					'wp-i18n',
 					'wp-is-shallow-equal',
 					'wp-sanitize',
@@ -399,7 +398,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'api',
-				'src'  => 'api-client' . $flat_version,
+				'src'  => 'api-client-' . $flat_version,
 				'deps' => [
 					'wp-api',
 					'jquery',

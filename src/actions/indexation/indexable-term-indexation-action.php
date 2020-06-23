@@ -8,9 +8,9 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -136,17 +136,5 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$limit_query",
 			$replacements
 		);
-	}
-
-	/**
-	 * Gets the number of terms where the permalink is set to NULL.
-	 *
-	 * @return int The number of terms where the permalink is set to NULL.
-	 */
-	public function get_total_term_permalinks_null() {
-		return Model::of_type( 'Indexable' )
-			->where( 'object_type', 'term' )
-			->where_null( 'permalink_hash' )
-			->count( 'id' );
 	}
 }

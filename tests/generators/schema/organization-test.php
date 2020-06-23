@@ -10,11 +10,11 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 use Brain\Monkey\Filters;
 use Mockery;
 use Yoast\WP\SEO\Config\Schema_IDs;
+use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
-use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
