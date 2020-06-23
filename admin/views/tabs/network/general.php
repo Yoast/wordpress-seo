@@ -13,6 +13,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+echo '<div class="tab-block">';
+echo '<h2>' . esc_html__( 'General', 'wordpress-seo' ) . '</h2>';
+
 /*
  * {@internal Important: Make sure the options added to the array here are in line with the
  * options set in the WPSEO_Option_MS::$allowed_access_options property.}}
@@ -49,4 +52,13 @@ else {
 	echo '</p>';
 }
 
-echo '<p><strong>' . esc_html__( 'Take note:', 'wordpress-seo' ) . '</strong> ' . esc_html__( 'Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new sites.', 'wordpress-seo' ) . '</p>';
+echo '<p>';
+printf(
+	/* translators: 1: Strong open tag, 2: Strong close tag. */
+	esc_html__( '%1$sTake note:%2$s Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new sites.', 'wordpress-seo' ),
+	'<strong>',
+	'</strong>'
+);
+
+echo '</p>';
+echo '</div>';

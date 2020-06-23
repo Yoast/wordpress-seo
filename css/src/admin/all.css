@@ -1,0 +1,14 @@
+@import "./admin.css";
+
+@import "../base/colors.css";
+@import "../base/icons.css";
+
+@import "../components/tabs.css";
+@import "../components/buttons.css";
+@import "../components/headings.css";
+@import "../components/sidebar.css";
+@import "../components/card.css";
+@import "../components/paper.css";
+@import "../components/lists.css";
+@import "../components/table.css";
+@import "../components/collapsible.css";

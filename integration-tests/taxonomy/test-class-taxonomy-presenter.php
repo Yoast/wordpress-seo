@@ -51,10 +51,17 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$expected = '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
-		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
+		// There should be a label with 'test field' as label text.
+		$this->assertContains( '<label for="wpseo_fieldname">test field</label>', $output );
 
-		$this->assertEquals( $expected, $output );
+		// There should be help link.
+		$this->assertContains( '<a class="yoast-help"', $output );
+
+		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
+		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/>', $output );
+
+		// There should be a description with 'fieldname' in the id, and 'this is a test field' as the description inside the <p>.
+		$this->assertContains( '<p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>', $output );
 	}
 
 	/**
@@ -74,10 +81,17 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$expected = '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/><p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>';
-		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
+		// There should be no label.
+		$this->assertNotContains( '<label', $output );
 
-		$this->assertEquals( $expected, $output );
+		// There should be help link.
+		$this->assertContains( '<a class="yoast-help"', $output );
+
+		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
+		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40" aria-describedby="wpseo_fieldname-desc"/>', $output );
+
+		// There should be a description with 'fieldname' in the id, and 'this is a test field' as the description inside the <p>.
+		$this->assertContains( '<p id="wpseo_fieldname-desc" class="yoast-metabox__description">this is a test field</p>', $output );
 	}
 
 	/**
@@ -97,7 +111,20 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
-		$this->assertEquals( '<label for="wpseo_fieldname">test field</label><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/>', $output );
+		// There should be a label with 'test field' as label text.
+		$this->assertContains( '<label for="wpseo_fieldname">test field</label>', $output );
+
+		// There should be help link.
+		$this->assertContains( '<a class="yoast-help"', $output );
+
+		// There should be an input of type 'text', with 'fieldname' in the name, id and aria-describedby.
+		$this->assertContains( '<input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"', $output );
+
+		// There should not be a description.
+		$this->assertNotContains( '<p id="wpseo_fieldname-desc"', $output );
+
+		// There should be an aria-describedby pointing to the (non-existing) description.
+		$this->assertNotContains( 'aria-describedby="wpseo_fieldname-desc"', $output );
 	}
 
 	/**

@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
-import RaisedURLNewWindowButton from "./RaisedURLNewWindowButton";
 
 class Suggestion extends React.Component {
 	/**
@@ -10,19 +8,22 @@ class Suggestion extends React.Component {
 	 * @returns {JSX.Element} Rendered Component.
 	 */
 	render() {
-		const buttonProps = {};
+		let buttonClass = "yoast-button yoast-button--secondary";
+		const isUpsell = this.props.button.type === "upsell";
 
-		if ( this.props.button.type === "primary" ) {
-			buttonProps.labelPosition = "before";
-			buttonProps.icon = <ArrowForwardIcon viewBox="0 0 28 28" />;
+		if ( isUpsell ) {
+			buttonClass = "yoast-button yoast-button--buy";
 		}
 
 		return (
 			<div className="yoast-wizard--list yoast-wizard--columns yoast-wizard--suggestion">
 				<div className="yoast-wizard--column__push_right">
-					<h3 className="yoast-wizard--heading">{ this.props.title }</h3>
+					<h2 className="yoast-h2">{ this.props.title }</h2>
 					<p>{ this.props.copy }</p>
-					<RaisedURLNewWindowButton { ...this.props.button } { ...buttonProps } />
+					<a href={ this.props.button.href } target="_blank" className={ buttonClass }>
+						{ this.props.button.label }
+						{ isUpsell && <span className="yoast-button--buy__caret" /> }
+					</a>
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
 					<iframe

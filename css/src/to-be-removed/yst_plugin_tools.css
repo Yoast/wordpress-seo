@@ -1,4 +1,4 @@
-@import url(../src/icons.css);
+@import url(../base/icons.css);
 /*------------------------------------*\
     #SETTINGS
 \*------------------------------------*/
@@ -99,7 +99,7 @@ tr.yst_row.even {
 
 .wpseo_content_wrapper input.textinput[aria-invalid="true"] {
   color: #000;
-  background: #f9dcdc url(../../images/error-icon.svg) no-repeat calc( 100% - 6px) center;
+  background: #f9dcdc url(../../../images/error-icon.svg) no-repeat calc( 100% - 6px) center;
   background-size: 12px;
   border: 1px solid #dc3232;
   padding-right: 24px;
@@ -499,7 +499,7 @@ textarea.wpseo-new-metadesc {
 
 /* Yoast SEO credits page. */
 body.toplevel_page_wpseo_dashboard .wp-badge {
-  background: transparent url(../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
+  background: transparent url(../../../images/Yoast_SEO_Icon.svg) no-repeat 50% 10px;
   background-size: 140px 140px;
   box-shadow: none;
 }
