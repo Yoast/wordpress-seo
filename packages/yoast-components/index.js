@@ -44,10 +44,10 @@ export
 	SnippetEditor,
 	lengthProgressShape,
 } from "@yoast/search-metadata-previews";
-export { 
+export {
 	ReplacementVariableEditor,
 	recommendedReplacementVariablesShape,
-	replacementVariablesShape
+	replacementVariablesShape,
 } from "@yoast/replacement-variable-editor";
 
 export { default as utils } from "./utils";
