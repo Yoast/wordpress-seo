@@ -142,6 +142,8 @@ import ProgressBar from "./ui/progressBar";
 		$( "#yoast-indexation-stop" ).on( "click", () => {
 			stoppedIndexation = true;
 			tb_remove();
+			// Reset the hash for if we linked from another page. Preventing an immediate re-run.
+			window.location.hash = "";
 			window.location.reload();
 		} );
 
@@ -165,5 +167,14 @@ import ProgressBar from "./ui/progressBar";
 				}
 			);
 		} );
+
+		// Start the indexation if the hash matches a settings value.
+		if ( window.location.hash && window.location.hash.startsWith( "#start-indexation-" ) ) {
+			$( ".yoast-open-indexation" ).each( function() {
+				if ( window.location.hash.endsWith( $( this ).data( "settings" ) ) ) {
+					$( this ).click();
+				}
+			} );
+		}
 	} );
 } )( jQuery );

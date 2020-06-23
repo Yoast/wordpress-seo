@@ -7,10 +7,6 @@
 
 namespace Yoast\WP\SEO\Presenters\Admin;
 
-use WPSEO_Shortlinker;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-
 /**
  * Indexation_Permalink_Warning_Presenter class.
  */
@@ -37,12 +33,7 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 		$output .= $this->get_text_for_reason( $this->options_helper->get( 'indexables_indexation_reason' ) );
 		$output .= '</p>';
 		$output .= $this->get_estimate();
-		$output .= \sprintf(
-			'<button type="button" class="button yoast-open-indexation" data-title="<strong>%1$s</strong>" data-settings="yoastIndexationData">%2$s</button>',
-			/* translators: 1: Expands to Yoast. */
-			\sprintf( \esc_html__( '%1$s indexing status', 'wordpress-seo' ), 'Yoast' ),
-			\esc_html__( 'Start processing and speed up your site now', 'wordpress-seo' )
-		);
+		$output .= $this->get_action( \__( 'Start processing and speed up your site now', 'wordpress-seo' ) );
 		$output .= '<hr />';
 		$output .= '<p>';
 		$output .= \sprintf(
