@@ -13,7 +13,6 @@ import {
 } from "lodash-es";
 
 // Internal dependencies.
-import Edit from "./edit";
 import { termsTmceId } from "../lib/tinymce";
 import Pluggable from "../lib/Pluggable";
 import requestWordsToHighlight from "../analysis/requestWordsToHighlight.js";
@@ -63,12 +62,11 @@ window.yoastHideMarkers = true;
  *
  * @returns {void}
  */
-export default function initTermScraper( $ ) {
+export default function initTermScraper( $, editor, store ) {
 	var app;
 
 	var termSlugInput;
 
-	let edit;
 	const customAnalysisData = new CustomAnalysisData();
 
 	/**
@@ -230,19 +228,6 @@ export default function initTermScraper( $ ) {
 	function initializeTermAnalysis() {
 		var args, termScraper, translations;
 
-		const editArgs = {
-			snippetEditorBaseUrl: wpseoScriptData.metabox.base_url,
-			replaceVars: wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
-			recommendedReplaceVars: wpseoScriptData.analysis.plugins.replaceVars.recommended_replace_vars,
-			classicEditorDataSettings: {
-				tinyMceId: termsTmceId,
-			},
-		};
-
-		edit = new Edit( editArgs );
-
-		const store = edit.getStore();
-
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
@@ -295,7 +280,7 @@ export default function initTermScraper( $ ) {
 		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData( edit, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( editor, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
 		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.
@@ -323,7 +308,7 @@ export default function initTermScraper( $ ) {
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
+		editor.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
 		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 

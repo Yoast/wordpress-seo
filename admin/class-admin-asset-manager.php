@@ -292,7 +292,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
 				],
-				'in_footer' => false,
+				'in_footer' => true,
 			],
 			[
 				'name' => 'term-edit',

@@ -1,27 +1,17 @@
 /* global window wp */
 /* External dependencies */
-import React from "react";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
+import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
-import {
-	get,
-	pickBy,
-} from "lodash-es";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import Data from "../analysis/data.js";
-import reducers from "../redux/reducers";
 import PluginIcon from "../containers/PluginIcon";
-import ClassicEditorData from "../analysis/classicEditorData.js";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
-import * as selectors from "../redux/selectors";
-import * as actions from "../redux/actions";
-import { setSettings } from "../redux/actions/settings";
 import UsedKeywords from "../analysis/usedKeywords";
 import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
@@ -41,19 +31,18 @@ const PinnedPluginIcon = styled( PluginIcon )`
 /**
  * Contains the Yoast SEO block editor integration.
  */
-class Edit {
+class BlockEditor {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.
+	 * @param {Object}   args.store                           The Yoast editor store.
 	 * @param {Function} args.onRefreshRequest                The function to refresh the analysis.
 	 * @param {Object}   args.replaceVars                     The replaceVars object.
-	 * @param {string}   args.snippetEditorBaseUrl            Base URL of the site the user is editing.
-	 * @param {string}   args.snippetEditorDate               The date for the snippet editor.
-	 * @param {array}    args.recommendedReplacementVariables The recommended replacement variables for this context.
 	 * @param {Object}   args.classicEditorDataSettings       Settings for the ClassicEditorData object.
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
 		this._args = args;
+		this._store = args.store;
 		this._init();
 	}
 
@@ -75,39 +64,11 @@ class Edit {
 	 * @returns {void} .
 	 */
 	_init() {
-		this._store = this._registerStoreInGutenberg();
-
 		this._registerPlugin();
-
-		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
-			this._registerFormats();
-		} else {
-			console.warn(
-				__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
-				" " +
-				sprintf(
-					__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
-					"Yoast SEO"
-				)
-			);
-		}
-
-		this._data = this._initializeData();
-
-		this._store.dispatch( setSettings( {
-			socialPreviews: {
-				sitewideImage: this._localizedData.sitewide_social_image,
-				authorName: this._localizedData.author_name,
-				siteName: this._localizedData.site_name,
-				contentImage: this._localizedData.first_content_image,
-			},
-			snippetEditor: {
-				baseUrl: this._args.snippetEditorBaseUrl,
-				date: this._args.snippetEditorDate,
-				recommendedReplacementVariables: this._args.recommendedReplaceVars,
-				siteIconUrl: this._localizedData.siteIconUrl,
-			},
-		} ) );
+		this._registerFormats();
+		this._initializeAnnotations();
+		this._data = new Data( this._args.onRefreshRequest, this._store );
+		this._data.initialize( this._args.replaceVars );
 	}
 
 	/**
@@ -118,29 +79,27 @@ class Edit {
 	 * @returns {void}
 	 */
 	_registerFormats() {
-		[
-			link,
-		].forEach( ( { name, replaces, ...settings } ) => {
-			if ( replaces ) {
-				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
-			}
-			if ( name ) {
-				registerFormatType( name, settings );
-			}
-		} );
-	}
-
-	/**
-	 * Registers a redux store in Gutenberg.
-	 *
-	 * @returns {Object} The store.
-	 */
-	_registerStoreInGutenberg() {
-		return registerStore( "yoast-seo/editor", {
-			reducer: combineReducers( reducers ),
-			selectors,
-			actions: pickBy( actions, x => typeof x === "function" ),
-		} );
+		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+			[
+				link,
+			].forEach( ( { name, replaces, ...settings } ) => {
+				if (replaces) {
+					dispatch( "core/rich-text" ).removeFormatTypes( replaces );
+				}
+				if (name) {
+					registerFormatType( name, settings );
+				}
+			} );
+		} else {
+			console.warn(
+				__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
+				" " +
+				sprintf(
+					__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			);
+		}
 	}
 
 	/**
@@ -150,10 +109,6 @@ class Edit {
 	 * @returns {void}
 	 */
 	_registerPlugin() {
-		if ( ! isGutenbergDataAvailable() ) {
-			return;
-		}
-
 		const {
 			PluginPrePublishPanel,
 			PluginPostPublishPanel,
@@ -229,27 +184,6 @@ class Edit {
 	}
 
 	/**
-	 * Initialize the appropriate data class.
-	 *
-	 * @returns {Object} The instantiated data class.
-	 */
-	_initializeData() {
-		const store  = this._store;
-		const args   = this._args;
-
-		// Only use Gutenberg's data if Gutenberg is available.
-		if ( isGutenbergDataAvailable() ) {
-			const gutenbergData = new Data( args.onRefreshRequest, store );
-			gutenbergData.initialize( args.replaceVars );
-			return gutenbergData;
-		}
-
-		const classicEditorData = new ClassicEditorData( args.onRefreshRequest, store, args.classicEditorDataSettings );
-		classicEditorData.initialize( args.replaceVars );
-		return classicEditorData;
-	}
-
-	/**
 	 * Initialize used keyword analysis.
 	 *
 	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
@@ -290,7 +224,7 @@ class Edit {
 	 *
 	 * @returns {void}
 	 */
-	initializeAnnotations() {
+	_initializeAnnotations() {
 		if ( isAnnotationAvailable() ) {
 			this._store.dispatch( setMarkerStatus( "enabled" ) );
 		}
@@ -327,4 +261,4 @@ class Edit {
 	}
 }
 
-export default Edit;
+export default BlockEditor;
