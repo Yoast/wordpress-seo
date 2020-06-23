@@ -8,8 +8,12 @@ import { normalize as normalizeQuotes } from "../stringProcessing/quotes.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
-// The \u2026 character is an ellipsis
-const sentenceDelimiters = "?!;\u2026";
+/*
+ * \u2026 - ellipsis
+ * \u06D4 - Urdu full stop
+ * \u061f - Arabic question mark
+ */
+const sentenceDelimiters = "?!;\u2026\u06d4\u061f";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
@@ -129,7 +133,19 @@ export default class SentenceTokenizer {
 	}
 
 	isHebrewLetter( letter ) {
-		return /^[a-z\u0590-\u05fe]+$/i.test( letter );
+		const ltrLetterRanges = [
+			// Hebrew characters.
+			/^[\u0590-\u05fe]+$/i,
+			// Arabic characters (used for Arabic, Farsi, Urdu).
+			/^[\u0600-\u06FF]+$/i,
+			// Additional Farsi characters.
+			/^[\uFB8A\u067E\u0686\u06AF]+$/i,
+
+		];
+
+		return (
+			ltrLetterRanges.some( ltrLetterRange => ltrLetterRange.test( letter ) )
+		);
 	}
 
 	/**
