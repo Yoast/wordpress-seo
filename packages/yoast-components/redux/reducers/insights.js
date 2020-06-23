@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { prominentWordsReducer } from "./prominentWords";
+import { wordsForInsightsReducer } from "./prominentWords";
 
 export const insightsReducer = combineReducers( {
-	prominentWords: prominentWordsReducer,
+	prominentWords: wordsForInsightsReducer,
 } );

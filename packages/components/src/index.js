@@ -58,7 +58,7 @@ export { default as Icon } from "./Icon";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
-export { default as KeywordSuggestions } from "./KeywordSuggestions";
+export { default as WordOccurrenceInsights } from "./WordOccurrenceInsights";
 export { default as Label, SimulatedLabel } from "./Label";
 export { default as LanguageNotice, languageNoticePropType } from "./LanguageNotice";
 export { default as Loader } from "./Loader";
@@ -96,3 +96,6 @@ export { Row } from "./table/Row";
 
 export { default as ScreenReaderText } from "./a11y/ScreenReaderText";
 export { default as ScreenReaderShortcut } from "./a11y/ScreenReaderShortcut";
+
+// Deprecated:
+export { default as KeywordSuggestions } from "./WordOccurrenceInsights";
