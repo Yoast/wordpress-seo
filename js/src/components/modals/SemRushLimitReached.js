@@ -20,7 +20,7 @@ const SemRushLimitReached = () => {
 				{
 					sprintf(
 						/* translators: %s : Expands to "SEMrush". */
-						__( "You've reached your request limit for today. Check back tomorrow or upgrade your plan over at %s", "wordpress-seo" ),
+						__( "You've reached your request limit for today. Check back tomorrow or upgrade your plan over at %s.", "wordpress-seo" ),
 						"SEMrush"
 					)
 				}
