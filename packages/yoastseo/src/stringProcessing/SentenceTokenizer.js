@@ -132,7 +132,16 @@ export default class SentenceTokenizer {
 		return next;
 	}
 
-	isHebrewLetter( letter ) {
+	/**
+	 * Checks whether a character is from a language that's written from right to left.
+	 * These languages don't have capital letter forms. Therefore any letter from these languages is a
+	 * potential sentence beginning.
+	 *
+	 * @param {string} letter The letter to check.
+	 *
+	 * @returns {boolean} Whether the letter is from an LTR language.
+	 */
+	isLetterfromRTLLanguage( letter ) {
 		const ltrLetterRanges = [
 			// Hebrew characters.
 			/^[\u0590-\u05fe]+$/i,
@@ -140,7 +149,6 @@ export default class SentenceTokenizer {
 			/^[\u0600-\u06FF]+$/i,
 			// Additional Farsi characters.
 			/^[\uFB8A\u067E\u0686\u06AF]+$/i,
-
 		];
 
 		return (
@@ -157,7 +165,7 @@ export default class SentenceTokenizer {
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return (
 			this.isCapitalLetter( sentenceBeginning ) ||
-			this.isHebrewLetter( sentenceBeginning ) ||
+			this.isLetterfromRTLLanguage( sentenceBeginning ) ||
 			this.isNumber( sentenceBeginning ) ||
 			this.isQuotation( sentenceBeginning ) ||
 			this.isPunctuation( sentenceBeginning ) ||
