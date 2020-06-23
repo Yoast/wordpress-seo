@@ -40,13 +40,15 @@ export
 	FixedWidthContainer,
 	HelpTextWrapper,
 	SnippetPreview,
-	ReplacementVariableEditor,
 	SettingsSnippetEditor,
 	SnippetEditor,
 	lengthProgressShape,
-	recommendedReplacementVariablesShape,
-	replacementVariablesShape,
 } from "@yoast/search-metadata-previews";
+export { 
+	ReplacementVariableEditor,
+	recommendedReplacementVariablesShape,
+	replacementVariablesShape
+} from "@yoast/replacement-variable-editor";
 
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";

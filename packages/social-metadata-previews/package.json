@@ -38,6 +38,7 @@
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
     "@yoast/replacement-variable-editor": "^1.0.0-rc.3",
+    "@yoast/social-metadata-forms": "1.0.0-rc.3",
     "@yoast/style-guide": "^0.12.0-rc.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
@@ -49,5 +50,8 @@
     "browserslist": "^4.7.3",
     "jest": "^22.4.3",
     "jest-styled-components": "^6.3.1"
-  }
+  },
+  "peerDependencies": {
+		"react": "^16.2.0"
+	}
 }
