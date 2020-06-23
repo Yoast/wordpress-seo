@@ -215,6 +215,7 @@ Release Date: June 23rd, 2020
 Bugfixes:
 
 * Fixes a bug where existing links were no longer editable with Yoast SEO active.
+* Fixes a bug where the editor wouldn't remember `rel` values set on a link after refresh.
 
 = 14.4 =
 Release Date: June 23rd, 2020
