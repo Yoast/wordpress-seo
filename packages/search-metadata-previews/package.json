@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "2.7.0-rc.3",
+  "version": "2.7.0-rc.4",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -20,8 +20,8 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^2.5.0-rc.3",
     "@yoast/helpers": "^0.13.0-rc.3",
-    "@yoast/style-guide": "^0.12.0-rc.3",
     "@yoast/replacement-variable-editor": "1.0.0-rc.3",
+    "@yoast/style-guide": "^0.12.0-rc.3",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
