@@ -34,6 +34,7 @@ export const link = {
 	attributes: {
 		url: "href",
 		target: "target",
+		rel: "rel",
 	},
 	replaces: "core/link",
 	__unstablePasteRule( value, { html, plainText } ) {
