@@ -2,9 +2,12 @@
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
-import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
-import { combineReducers, registerStore } from "@wordpress/data";
+import { Fragment } from "@wordpress/element";
+import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
+import { __, sprintf } from "@wordpress/i18n";
+import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
+import { registerFormatType } from "@wordpress/rich-text";
 import {
 	get,
 	pickBy,
@@ -25,6 +28,10 @@ import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
+import PrePublish from "./containers/PrePublish";
+import DocumentSidebar from "./containers/DocumentSidebar";
+import PostPublish from "./containers/PostPublish";
+import { link } from "./inline-links/edit-link";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -33,6 +40,9 @@ const PinnedPluginIcon = styled( PluginIcon )`
 	height: 20px;
 `;
 
+/**
+ * Contains the Yoast SEO block editor integration.
+ */
 class Edit {
 	/**
 	 * @param {Object}   args                                 Edit initialize arguments.
@@ -45,8 +55,7 @@ class Edit {
 	 */
 	constructor( args ) {
 		this._localizedData = this.getLocalizedData();
-		this._args =          args;
-
+		this._args = args;
 		this._init();
 	}
 
@@ -68,6 +77,19 @@ class Edit {
 
 		this._registerPlugin();
 
+		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+			this._registerFormats();
+		} else {
+			console.warn(
+				__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
+				" " +
+				sprintf(
+					__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			);
+		}
+
 		this._data = this._initializeData();
 
 		this._store.dispatch( setSettings( {
@@ -79,6 +101,19 @@ class Edit {
 				socialPreviewImageURL: this._localizedData.social_preview_image_url,
 			},
 		} ) );
+	}
+
+	_registerFormats() {
+		[
+			link,
+		].forEach( ( { name, replaces, ...settings } ) => {
+			if ( replaces ) {
+				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
+			}
+			if ( name ) {
+				registerFormatType( name, settings );
+			}
+		} );
 	}
 
 	/**
@@ -113,6 +148,9 @@ class Edit {
 		const theme = {
 			isRtl: this._localizedData.isRtl,
 		};
+		const preferences = store.getState().preferences;
+		const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
+		this.initiallyOpenDocumentSettings();
 
 		const YoastSidebar = () => (
 			<Fragment>
@@ -132,11 +170,34 @@ class Edit {
 						} }
 					</Slot>
 				</PluginSidebar>
-
 				<Fragment>
 					<Sidebar store={ store } theme={ theme } />
 					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
 				</Fragment>
+				{ analysesEnabled && <PluginPrePublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PrePublish />
+				</PluginPrePublishPanel> }
+				<PluginPostPublishPanel
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					initialOpen={ true }
+					icon={ <Fragment /> }
+				>
+					<PostPublish />
+				</PluginPostPublishPanel>
+				{ analysesEnabled && <PluginDocumentSettingPanel
+					name="document-panel"
+					className="yoast-seo-sidebar-panel"
+					title={ __( "Yoast SEO", "wordpress-seo" ) }
+					icon={ <Fragment /> }
+				>
+					<DocumentSidebar />
+				</PluginDocumentSettingPanel> }
 			</Fragment>
 		);
 
@@ -227,6 +288,18 @@ class Edit {
 	 */
 	getData() {
 		return this._data;
+	}
+
+	/**
+	 * Makes sure the Yoast SEO document panel is toggled open on the first time users see it.
+	 *
+	 * @returns {void}
+	 */
+	initiallyOpenDocumentSettings() {
+		const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+		if ( firstLoad ) {
+			dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+		}
 	}
 }
 

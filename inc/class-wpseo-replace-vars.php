@@ -190,7 +190,12 @@ class WPSEO_Replace_Vars {
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== [] ) {
-			$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
+			$string = str_replace(
+				array_keys( $replacements ),
+				// Make sure to exclude replacement values that are arrays e.g. coming from a custom field serialized value.
+				array_filter( array_values( $replacements ), 'is_scalar' ),
+				$string
+			);
 		}
 
 		/**
@@ -313,18 +318,22 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( $this->args->post_date !== '' ) {
+			// Returns a string.
 			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
 		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
+				// Returns a string.
 				$replacement = get_the_date();
 			}
 			else {
 				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
+					// Returns a string.
 					$replacement = single_month_title( ' ', false );
 				}
 				elseif ( get_query_var( 'year' ) !== '' ) {
-					$replacement = get_query_var( 'year' );
+					// Returns an integer, let's cast to string.
+					$replacement = (string) get_query_var( 'year' );
 				}
 			}
 		}
@@ -705,8 +714,9 @@ class WPSEO_Replace_Vars {
 		if ( is_string( $var ) && $var !== '' ) {
 			$field = substr( $var, 3 );
 			if ( ( is_singular() || is_admin() ) && ( is_object( $post ) && isset( $post->ID ) ) ) {
+				// Post meta can be arrays and in this case we need to exclude them.
 				$name = get_post_meta( $post->ID, $field, true );
-				if ( $name !== '' ) {
+				if ( $name !== '' && ! is_array( $name ) ) {
 					$replacement = $name;
 				}
 			}
@@ -900,7 +910,8 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! empty( $this->args->ID ) ) {
-			$replacement = $this->args->ID;
+			// The post/page/cpt ID is an integer, let's cast to string.
+			$replacement = (string) $this->args->ID;
 		}
 
 		return $replacement;
@@ -929,7 +940,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_name() {
 		$replacement = null;
 
-		$user_id = $this->retrieve_userid();
+		$user_id = (int) $this->retrieve_userid();
 		$name    = get_the_author_meta( 'display_name', $user_id );
 		if ( $name !== '' ) {
 			$replacement = $name;
@@ -946,7 +957,7 @@ class WPSEO_Replace_Vars {
 	private function retrieve_user_description() {
 		$replacement = null;
 
-		$user_id     = $this->retrieve_userid();
+		$user_id     = (int) $this->retrieve_userid();
 		$description = get_the_author_meta( 'description', $user_id );
 		if ( $description !== '' ) {
 			$replacement = $description;
@@ -1072,7 +1083,8 @@ class WPSEO_Replace_Vars {
 	 * @return string
 	 */
 	private function retrieve_userid() {
-		$replacement = ! empty( $this->args->post_author ) ? $this->args->post_author : get_query_var( 'author' );
+		// The user ID is an integer, let's cast to string.
+		$replacement = ! empty( $this->args->post_author ) ? (string) $this->args->post_author : (string) get_query_var( 'author' );
 
 		return $replacement;
 	}
