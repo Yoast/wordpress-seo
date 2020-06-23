@@ -123,12 +123,14 @@ class SocialPreviewEditor extends Component {
 			siteUrl,
 			authorName,
 			description,
-			descriptionPlaceholder,
+			descriptionInputPlaceholder,
+			descriptionPreviewFallback,
 			imageUrl,
 			imageFallbackUrl,
 			alt,
 			title,
-			titlePlaceholder,
+			titleInputPlaceholder,
+			titlePreviewFallback,
 			replacementVariables,
 			recommendedReplacementVariables,
 			applyReplacementVariables,
@@ -136,11 +138,11 @@ class SocialPreviewEditor extends Component {
 			isLarge,
 		} = this.props;
 
-		// Preset a title fallback for the preview if title is empty.
-		const previewTitle = title === "" ? titlePlaceholder : title;
+		// Set fallbacks if title and/or description are empty.
+		const previewTitle = title || titlePreviewFallback;
+		const previewDescription = description || descriptionPreviewFallback;
 
-		const replacedVars = applyReplacementVariables( { title: previewTitle, description } );
-		const previewDescription = replacedVars.description === "" ? descriptionPlaceholder : replacedVars.description;
+		const replacedVars = applyReplacementVariables( { title: previewTitle, description: previewDescription } );
 
 		return (
 			<React.Fragment>
@@ -151,7 +153,7 @@ class SocialPreviewEditor extends Component {
 					siteUrl={ siteUrl }
 					authorName={ authorName }
 					title={ replacedVars.title }
-					description={ previewDescription }
+					description={ replacedVars.description }
 					imageUrl={ imageUrl }
 					imageFallbackUrl={ imageFallbackUrl }
 					alt={ alt }
@@ -161,13 +163,14 @@ class SocialPreviewEditor extends Component {
 					onDescriptionChange={ onDescriptionChange }
 					socialMediumName={ socialMediumName }
 					title={ title }
+					titleInputPlaceholder={ titleInputPlaceholder }
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }
-					descriptionPlaceholder={ descriptionPlaceholder }
+					descriptionInputPlaceholder={ descriptionInputPlaceholder }
 					imageWarnings={ imageWarnings }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -198,8 +201,10 @@ SocialPreviewEditor.propTypes = {
 	imageWarnings: PropTypes.array,
 	isLarge: PropTypes.bool,
 	siteUrl: PropTypes.string,
-	descriptionPlaceholder: PropTypes.string,
-	titlePlaceholder: PropTypes.string,
+	descriptionInputPlaceholder: PropTypes.string,
+	titleInputPlaceholder: PropTypes.string,
+	descriptionPreviewFallback: PropTypes.string,
+	titlePreviewFallback: PropTypes.string,
 	authorName: PropTypes.string,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
@@ -213,8 +218,10 @@ SocialPreviewEditor.defaultProps = {
 	isPremium: false,
 	isLarge: true,
 	siteUrl: "",
-	descriptionPlaceholder: "",
-	titlePlaceholder: "",
+	descriptionInputPlaceholder: "",
+	titleInputPlaceholder: "",
+	descriptionPreviewFallback: "",
+	titlePreviewFallback: "",
 	alt: "",
 	authorName: "",
 	applyReplacementVariables: data => data,
