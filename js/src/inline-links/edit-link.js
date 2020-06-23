@@ -30,11 +30,11 @@ export const link = {
 	name,
 	title,
 	tagName: "a",
-	className: "yoast-seo-link",
+	className: null,
 	attributes: {
 		url: "href",
-		type: "data-type",
 		target: "target",
+		rel: "rel",
 	},
 	replaces: "core/link",
 	__unstablePasteRule( value, { html, plainText } ) {
