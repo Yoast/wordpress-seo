@@ -1,8 +1,10 @@
 /* External dependencies */
 import React from "react";
-import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
+
+/* Yoast dependencies */
+import { makeOutboundLink } from "@yoast/helpers";
 
 const UpdateSemRushPlanLink = makeOutboundLink();
 
