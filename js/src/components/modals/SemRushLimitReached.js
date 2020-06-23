@@ -1,15 +1,17 @@
 /* External dependencies */
 import React from "react";
-import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
+
+/* Yoast dependencies */
+import { makeOutboundLink } from "@yoast/helpers";
 
 const UpdateSemRushPlanLink = makeOutboundLink();
 
 /**
- * Creates the content for the SEMRush limit exceeded modal.
+ * Creates the content for the SEMrush limit exceeded modal.
  *
- * @returns {React.Element} The SEMRush limit exceeded modal content.
+ * @returns {React.Element} The SEMrush limit exceeded modal content.
  */
 const SemRushLimitReached = () => {
 	return (
@@ -19,7 +21,7 @@ const SemRushLimitReached = () => {
 					sprintf(
 						/* translators: %s : Expands to "SEMrush". */
 						__( "You've reached your request limit for today. Check back tomorrow or upgrade your plan over at %s", "wordpress-seo" ),
-						"SEMRush"
+						"SEMrush"
 					)
 				}
 			</p>
@@ -31,7 +33,7 @@ const SemRushLimitReached = () => {
 					sprintf(
 						/* translators: %s : Expands to "SEMrush". */
 						__( "Upgrade your %s plan", "wordpress-seo" ),
-						"SEMRush"
+						"SEMrush"
 					)
 				}
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
