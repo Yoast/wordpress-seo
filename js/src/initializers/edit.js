@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { PluginPrePublishPanel, PluginPostPublishPanel, PluginDocumentSettingPanel } from "@wordpress/edit-post";
 import { registerFormatType } from "@wordpress/rich-text";
 import {
 	get,
@@ -155,7 +154,13 @@ class Edit {
 			return;
 		}
 
-		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
+		const {
+			PluginPrePublishPanel,
+			PluginPostPublishPanel,
+			PluginDocumentSettingPanel,
+			PluginSidebar,
+			PluginSidebarMoreMenuItem,
+		} = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
 		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
