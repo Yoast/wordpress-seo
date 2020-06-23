@@ -25,15 +25,6 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	protected $database_proxy;
 
 	/**
-	 * Holds the prefix of the database table.
-	 *
-	 * @deprecated 7.4
-	 *
-	 * @var null|string
-	 */
-	protected $table_prefix;
-
-	/**
 	 * Initializes the database table.
 	 *
 	 * @param string $table_prefix Optional. Deprecated argument.
