@@ -127,7 +127,7 @@ class Twitter_Image_Test extends TestCase {
 					],
 				],
 				'open_graph_generate_image' => 'open_graph_image.jpg',
-				'expected'                  => '',
+				'expected'                  => 'twitter_image.jpg',
 			],
 			[
 				'image_source'              => 'featured-image',
