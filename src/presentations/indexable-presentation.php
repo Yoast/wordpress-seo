@@ -547,7 +547,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			(
 				$this->context->open_graph_enabled === true
 				&& $this->open_graph_images
-				&& $image['url'] === \reset( $this->open_graph_images )['url']
+				&& isset( $this->open_graph_images[ $image['url'] ] )
 			)
 		) {
 			return '';
