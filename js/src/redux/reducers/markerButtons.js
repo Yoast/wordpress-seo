@@ -1,6 +1,6 @@
 import { SET_MARKER_STATUS } from "../actions/markerButtons";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = "hidden";
 
 /**
  * Sets the marker status.
