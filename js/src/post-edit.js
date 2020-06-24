@@ -10,6 +10,7 @@ import ClassicEditorData from "./analysis/classicEditorData";
 import initClassicEditorIntegration from "./initializers/classic-editor-integration";
 import BlockEditorData from "./analysis/blockEditorData";
 import initBlockEditorIntegration from "./initializers/block-editor-integration";
+import { tmceId } from "./lib/tinymce";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -33,7 +34,7 @@ if ( isBlockEditor() ) {
 	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 } else {
 	initClassicEditorIntegration( store );
-	editorData = new ClassicEditorData( () => {}, store, tinyMceId );
+	editorData = new ClassicEditorData( () => {}, store, tmceId );
 	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 }
 

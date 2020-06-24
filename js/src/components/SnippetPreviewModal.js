@@ -17,6 +17,9 @@ const OverrideOverlayColor = createGlobalStyle`
 	}
 `;
 
+/**
+ * Modal containing the Snippet preview.
+ */
 class SnippetPreviewModal extends Component {
 	constructor( props ) {
 		super( props );

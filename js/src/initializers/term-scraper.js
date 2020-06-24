@@ -61,10 +61,11 @@ window.yoastHideMarkers = true;
  *
  * @param {object} $ jQuery
  * @param {object} store The Yoast editor store.
+ * @param {object} editorData The editor data.
  *
  * @returns {void}
  */
-export default function initTermScraper( $, store ) {
+export default function initTermScraper( $, store, editorData ) {
 	var app;
 
 	var termSlugInput;
@@ -282,7 +283,7 @@ export default function initTermScraper( $, store ) {
 		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
-		window.YoastSEO.analysis.collectData = () => collectAnalysisData( editor, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
+		window.YoastSEO.analysis.collectData = () => collectAnalysisData( editorData, YoastSEO.store, customAnalysisData, YoastSEO.app.pluggable );
 		window.YoastSEO.analysis.applyMarks = ( paper, result ) => getApplyMarks( YoastSEO.store )( paper, result );
 
 		// YoastSEO.app overwrites.

@@ -31,7 +31,7 @@ const editorData = new ClassicEditorData( () => {}, store, termsTmceId );
 editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 
 // Initialize the post scraper.
-initTermScraper( jQuery, store );
+initTermScraper( jQuery, store, editorData );
 
 // Initialize the media library for our social settings.
 initAdminMedia( jQuery );

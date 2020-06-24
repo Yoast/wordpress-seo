@@ -16,7 +16,6 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
 
-const { tmceId } = tmceHelper;
 const $ = jQuery;
 
 /**
@@ -26,11 +25,9 @@ export default class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Function} refresh          The YoastSEO refresh function.
-	 * @param {Object} store              The YoastSEO Redux store.
-	 * @param {Object} settings           The settings for this classic editor data
-	 *                                    object.
-	 * @param {string} tinyMceId The ID of the tinyMCE editor.
+	 * @param {Function} refresh   The YoastSEO refresh function.
+	 * @param {Object}   store     The YoastSEO Redux store.
+	 * @param {string}   tinyMceId ID of the tinyMCE editor.
 	 *
 	 * @returns {void}
 	 */

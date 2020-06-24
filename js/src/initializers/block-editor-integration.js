@@ -166,7 +166,7 @@ function initializeAnnotations( store ) {
 /**
  * Initializes the Yoast block editor integration.
  *
- * @param store The Yoast editor store.
+ * @param {object} store The Yoast editor store.
  *
  * @returns {void}
  */
@@ -174,4 +174,4 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
-};
+}

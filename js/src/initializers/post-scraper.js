@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoScriptData */
+/* global wpseoScriptData */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -41,6 +41,7 @@ import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
+import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
@@ -51,12 +52,7 @@ import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
 
 // Helper dependencies.
-import {
-	registerReactComponent,
-	renderClassicEditorMetabox,
-} from "../helpers/classicEditor";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
-import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -401,17 +397,6 @@ export default function initPostScraper( $, store, editorData ) {
 	}
 
 	/**
-	 * Initializes the analysis plugins.
-	 *
-	 * @param {object} app The YoastSEO app.
-	 *
-	 * @returns {void}
-	 */
-	function loadAnalysisPlugins( app ) {
-
-	}
-
-	/**
 	 * Initializes analysis for the post edit screen.
 	 *
 	 * @returns {void}
@@ -441,20 +426,13 @@ export default function initPostScraper( $, store, editorData ) {
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
 		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
-			editor,
+			editorData,
 			store,
 			customAnalysisData,
 			app.pluggable,
 			select( "core/block-editor" )
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks( store )( paper, marks );
-		const refresh = debounce( () => refreshAnalysis(
-			window.YoastSEO.analysis.worker,
-			window.YoastSEO.analysis.collectData,
-			window.YoastSEO.analysis.applyMarks,
-			store,
-			postDataCollector,
-		), refreshDelay );
 
 		// YoastSEO.app overwrites.
 		window.YoastSEO.app.refresh = debounce( () => refreshAnalysis(
