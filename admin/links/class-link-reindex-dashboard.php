@@ -123,7 +123,7 @@ class WPSEO_Link_Reindex_Dashboard {
 				echo implode( '<hr />', $blocks );
 			?>
 			<button onclick="tb_remove();" type="button"
-					class="button"><?php esc_html_e( 'Stop counting', 'wordpress-seo' ); ?></button>
+					class="yoast-button yoast-button--secondary"><?php esc_html_e( 'Stop counting', 'wordpress-seo' ); ?></button>
 		</div>
 		<?php
 	}
