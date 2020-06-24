@@ -541,8 +541,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $image['url'];
 		}
 
-		// When there isn't a set image or there is a Open Graph image set.
-		if ( empty( $image ) || ( $this->context->open_graph_enabled === true && $this->open_graph_images ) ) {
+		// When there isn't a set image or there is a Open Graph image that's the same URL as Twitter image.
+		if (
+			empty( $image ) ||
+			(
+				$this->context->open_graph_enabled === true
+				&& $this->open_graph_images
+				&& $image['url'] === \reset( $this->open_graph_images )['url']
+			)
+		) {
 			return '';
 		}
 
