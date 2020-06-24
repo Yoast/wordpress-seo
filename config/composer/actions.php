@@ -165,7 +165,7 @@ class Actions {
 		$files = \array_filter(
 			$files,
 			function( $file ) {
-				return \substr( $file, - 4 ) === '.php';
+				return \substr( $file, -4 ) === '.php';
 			}
 		);
 
