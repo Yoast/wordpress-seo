@@ -13,7 +13,7 @@ import TwitterContainer from "../../containers/TwitterEditor";
  *
  * @param {Object} props The props object.
  *
- * @returns {React.Component} The social metadata collapsibles.
+ * @returns {wp.Element} The social metadata collapsibles.
  */
 const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 	return (

@@ -1,8 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { LanguageNotice } from "@yoast/components";
 import { ContentAnalysis } from "@yoast/analysis-report";
-import { Fragment } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
 import { Paper } from "yoastseo";
@@ -12,7 +11,7 @@ import mapResults from "./mapResults";
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
  */
-class Results extends React.Component {
+class Results extends Component {
 	/**
 	 * The component's constructor.
 	 *
@@ -91,7 +90,7 @@ class Results extends React.Component {
 	/**
 	 * Renders the Results component.
 	 *
-	 * @returns {ReactElement} The react element.
+	 * @returns {wp.Element} The React element.
 	 */
 	render() {
 		const { mappedResults } = this.state;

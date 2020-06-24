@@ -29,7 +29,7 @@ class KeywordInput extends Component {
 	/**
 	 * Renders a help link.
 	 *
-	 * @returns {ReactElement} The help link component.
+	 * @returns {wp.Element} The help link component.
 	 */
 	static renderHelpLink() {
 		return (
@@ -47,7 +47,7 @@ class KeywordInput extends Component {
 	/**
 	 * Renders the component.
 	 *
-	 * @returns {ReactElement} The component.
+	 * @returns {wp.Element} The component.
 	 */
 	render() {
 		return <Fragment>

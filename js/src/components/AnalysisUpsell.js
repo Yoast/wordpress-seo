@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
@@ -39,7 +38,7 @@ const OutboundLinkButton = makeOutboundLink( UpsellLinkButton );
  *
  * @param {Object} props The component's props.
  *
- * @returns {ReactElement} The rendered AnalysisUpsell component.
+ * @returns {wp.Element} The rendered AnalysisUpsell component.
  */
 const AnalysisUpsell = ( props ) => {
 	const {

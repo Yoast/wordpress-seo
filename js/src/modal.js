@@ -1,6 +1,5 @@
 /* global yoastModalConfig */
-import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "@wordpress/element";
 import ModalButtonContainer from "./components/ModalButtonContainer";
 
 if ( window.yoastModalConfig ) {
@@ -13,7 +12,7 @@ if ( window.yoastModalConfig ) {
 			const element = document.querySelector( config.mountHook );
 
 			if ( element ) {
-				ReactDOM.render(
+				render(
 					<ModalButtonContainer { ...config } />,
 					element
 				);

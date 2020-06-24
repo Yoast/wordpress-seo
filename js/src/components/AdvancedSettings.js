@@ -4,8 +4,7 @@ import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
 import { TextInput } from "@yoast/components";
 import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
-import { Component } from "@wordpress/element";
-import { Fragment } from "react";
+import { Component, Fragment } from "@wordpress/element";
 import { Alert } from "@yoast/components";
 
 /**

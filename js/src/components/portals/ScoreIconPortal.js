@@ -12,7 +12,7 @@ import Portal from "./Portal";
  * @param {string} target A target element ID in which to render the portal.
  * @param {string} scoreIndicator The score indicator.
  *
- * @returns {React.Element} The score element.
+ * @returns {wp.Element} The score element.
  */
 const ScoreIconPortal = ( { target, scoreIndicator } ) => {
 	return (

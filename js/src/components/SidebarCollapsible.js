@@ -1,4 +1,3 @@
-import React from "react";
 import { Collapsible } from "@yoast/components";
 
 /**
@@ -6,7 +5,7 @@ import { Collapsible } from "@yoast/components";
  *
  * @param {Object} props The properties for the component.
  *
- * @returns {ReactElement} The Collapsible component.
+ * @returns {wp.Element} The Collapsible component.
  */
 const SidebarCollapsible = ( props ) => {
 	return <Collapsible hasPadding={ true } hasSeparator={ true } { ...props } />;
