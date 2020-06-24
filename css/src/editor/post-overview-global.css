@@ -1,5 +1,5 @@
-@import "../../node_modules/@yoast/components/src/base/icons.css";
-@import "../../node_modules/yoastseo/css/_tooltips.scss";
+@import "@yoast/components/src/base/icons.css";
+@import "yoastseo/css/_tooltips.scss";
 
 
 /* Icons in the posts and taxonomies table cells. */
