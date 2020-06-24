@@ -35,3 +35,30 @@
     background: none;
     color: var(--yoast-primary-color);
 }
+
+#wpseo_progressbar {
+	height: 25px;
+	border: 1px solid var(--yoast-color-primary);
+}
+
+#wpseo_progressbar .ui-progressbar-value {
+	height: 25px;
+	background: var(--yoast-color-primary);
+}
+
+.wpseo-progressbar-wrapper {
+	display: inline;
+	width: 100%;
+}
+
+.wpseo-progressbar {
+	display: block;
+	width: 100%;
+	height: 25px;
+	border: 1px solid var(--yoast-color-primary);
+}
+
+.wpseo-progressbar .ui-progressbar-value {
+	height: 25px;
+	background: var(--yoast-color-primary);
+}
