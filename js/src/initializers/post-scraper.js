@@ -56,6 +56,7 @@ import {
 	renderClassicEditorMetabox,
 } from "../helpers/classicEditor";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -66,10 +67,14 @@ window.YoastShortcodePlugin = YoastShortcodePlugin;
 
 /**
  * @summary Initializes the post scraper script.
+ *
  * @param {object} $ jQuery
+ * @param {object} store The Yoast editor store.
+ * @param {object} editorData The editor data.
+ *
  * @returns {void}
  */
-export default function initPostScraper( $, editor, store ) {
+export default function initPostScraper( $, store, editorData ) {
 	/* eslint-disable-next-line */
 	"use strict";
 	if ( typeof wpseoScriptData === "undefined" ) {
@@ -412,8 +417,6 @@ export default function initPostScraper( $, editor, store ) {
 	 * @returns {void}
 	 */
 	function initializePostAnalysis() {
-		const data = editor.getData();
-
 		metaboxContainer = $( "#wpseo_meta" );
 
 		tinyMCEHelper.setStore( store );
@@ -425,7 +428,7 @@ export default function initPostScraper( $, editor, store ) {
 			return;
 		}
 
-		postDataCollector = initializePostDataCollector( data );
+		postDataCollector = initializePostDataCollector( editorData );
 		publishBox.initialize();
 
 		const appArgs = getAppArgs( store );
@@ -434,6 +437,7 @@ export default function initPostScraper( $, editor, store ) {
 		// Content analysis
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
+		window.YoastSEO.store = store;
 		window.YoastSEO.analysis = {};
 		window.YoastSEO.analysis.worker = createAnalysisWorker();
 		window.YoastSEO.analysis.collectData = () => collectAnalysisData(
@@ -477,7 +481,7 @@ export default function initPostScraper( $, editor, store ) {
 			window.YoastSEO.app.refresh();
 		};
 
-		editor.initializeUsedKeywords( app.refresh, "get_focus_keyword_usage" );
+		initializeUsedKeywords( app.refresh, "get_focus_keyword_usage", store );
 		store.subscribe( handleStoreChange.bind( null, store, app.refresh ) );
 
 		// Backwards compatibility.
@@ -526,8 +530,8 @@ export default function initPostScraper( $, editor, store ) {
 		};
 
 		// Set refresh function. data.setRefresh is only defined when Gutenberg is available.
-		if ( data.setRefresh ) {
-			data.setRefresh( app.refresh );
+		if ( editorData.setRefresh ) {
+			editorData.setRefresh( app.refresh );
 		}
 
 		// Initialize the snippet editor data.

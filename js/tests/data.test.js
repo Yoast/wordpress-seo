@@ -1,7 +1,7 @@
 // Mock the jQuery global before importing data.
 global.jQuery = {};
 
-import Data from "../src/analysis/data.js";
+import BlockEditorData from "../src/analysis/blockEditorData";
 
 const wpData = {};
 const refresh = () => {
@@ -10,7 +10,7 @@ const refresh = () => {
 const store = {
 	dispatch: jest.fn(),
 };
-const data = new Data( wpData, refresh, store );
+const data = new BlockEditorData( wpData, refresh, store );
 
 // Mocks the select function and .
 const mockSelect = jest.fn();

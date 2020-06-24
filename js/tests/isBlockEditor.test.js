@@ -1,6 +1,6 @@
-import { isGutenbergDataAvailable } from "../src/helpers/isGutenbergAvailable.js";
+import isBlockEditor from "../src/helpers/isBlockEditor";
 
-describe( "isGutenbergDataAvailable", () => {
+describe( "isBlockEditor", () => {
 	it( "returns true if both wp and wp.data are defined", () => {
 		const select = jest.fn( () => {
 			return {
@@ -9,7 +9,7 @@ describe( "isGutenbergDataAvailable", () => {
 		} );
 
 		window.wp = { data: { select } };
-		const actual = isGutenbergDataAvailable();
+		const actual = isBlockEditor();
 
 		expect( actual ).toBe( true );
 		expect( select ).toBeCalledWith( "core/editor" );
@@ -17,19 +17,19 @@ describe( "isGutenbergDataAvailable", () => {
 
 	it( "returns false if wp.data is not defined", () => {
 		window.wp = { something: true };
-		const actual = isGutenbergDataAvailable();
+		const actual = isBlockEditor();
 		expect( actual ).toBe( false );
 	} );
 
 	it( "returns false if wp is not defined", () => {
 		window.wp = undefined;
-		const actual = isGutenbergDataAvailable();
+		const actual = isBlockEditor();
 		expect( actual ).toBe( false );
 	} );
 
 	it( "returns false if wp.data is available but the required selectors not registered", () => {
 		window.wp = { data: { select: () => null } };
-		const actual = isGutenbergDataAvailable();
+		const actual = isBlockEditor();
 		expect( actual ).toBe( false );
 	} );
 } );

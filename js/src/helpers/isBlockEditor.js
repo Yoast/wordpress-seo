@@ -10,7 +10,7 @@ import {
  *
  * @returns {boolean} True if the data API is available.
  */
-export const isGutenbergDataAvailable = () => {
+export default const isBlockEditor = () => {
 	return (
 		! isNil( window.wp ) &&
 		! isNil( wp.data ) &&

@@ -4,11 +4,12 @@ import initPostScraper from "./initializers/post-scraper";
 import initFeaturedImageIntegration from "./initializers/featured-image";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
-import BlockEditor from "./initializers/block-editor";
 import initEditorStore from "./initializers/editor-store";
-import ClassicEditor from "./initializers/classic-editor";
-import { registerReactComponent } from "./helpers/classicEditor";
-import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
+import isBlockEditor from "./helpers/isBlockEditor";
+import ClassicEditorData from "./analysis/classicEditorData";
+import initClassicEditorIntegration from "./initializers/classic-editor-integration";
+import BlockEditorData from "./analysis/blockEditorData";
+import initBlockEditorIntegration from "./initializers/block-editor-integration";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -24,34 +25,20 @@ if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
 // Initialize the editor store.
 const store = initEditorStore();
 
-// Set YoastSEO global.
-window.YoastSEO = {};
-window.YoastSEO.store = store;
-
 // Initialize either the classic editor integration or the block editor integration.
-let editor;
-if ( typeof window.wp.blockLibrary === "undefined" ) {
-	// Expose registerReactComponent as an alternative to registerPlugin.
-	window.YoastSEO._registerReactComponent = registerReactComponent;
-	editor = new ClassicEditor(
-		{
-			store,
-			onRefreshRequest: () => {},
-			replaceVars: window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
-		}
-	);
+let editorData;
+if ( isBlockEditor() ) {
+	initBlockEditorIntegration( store );
+	editorData = new BlockEditorData( () => {}, store );
+	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 } else {
-	editor = new BlockEditor(
-		{
-			store,
-			onRefreshRequest: () => {},
-			replaceVars: window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars,
-		}
-	);
+	initClassicEditorIntegration( store );
+	editorData = new ClassicEditorData( () => {}, store, tinyMceId );
+	editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 }
 
 // Initialize the post scraper.
-initPostScraper( jQuery, editor, store );
+initPostScraper( jQuery, store, editorData );
 
 // Initialize the featured image integration.
 if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {

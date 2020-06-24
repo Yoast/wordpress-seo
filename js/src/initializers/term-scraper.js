@@ -49,6 +49,7 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "../helpers/classicEditor";
+import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -59,10 +60,11 @@ window.yoastHideMarkers = true;
  * @summary Initializes the term scraper script.
  *
  * @param {object} $ jQuery
+ * @param {object} store The Yoast editor store.
  *
  * @returns {void}
  */
-export default function initTermScraper( $, editor, store ) {
+export default function initTermScraper( $, store ) {
 	var app;
 
 	var termSlugInput;
@@ -308,7 +310,7 @@ export default function initTermScraper( $, editor, store ) {
 			YoastSEO.app.refresh();
 		};
 
-		editor.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
+		initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage", store );
 
 		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
