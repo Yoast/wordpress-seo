@@ -123,10 +123,17 @@ const stemAdjectivesAndAdverbs = function( word, morphologyData ) {
  *
  * @param {string}  word                The word to stem.
  * @param {Object}  morphologyData      The Polish morphology data file.
+ * @param {Object}  dictionary          The dictionary stemmer with word-stem pairs.
  *
  * @returns {string} The stemmed word.
  */
-export default function stem( word, morphologyData ) {
+export default function stem( word, morphologyData, dictionary ) {
+	// Check if the word exists in the dictionary stemmer. If yes, replace the word with the base form of the word specified in the dictionary.
+	let stemmedWord = dictionary[ word ];
+	if ( stemmedWord ) {
+		word = stemmedWord;
+	}
+
 	word.toLowerCase();
 
 	// If the word is three characters long or shorter, the stem should be the same as the word.
@@ -138,7 +145,7 @@ export default function stem( word, morphologyData ) {
 	 * Go through diminutive, noun, verb, and adjective stemming steps. If a suffix (and optional prefix in case of adjectives/adverbs)
 	 *  is found, delete it and stop searching further.
 	 */
-	let stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.diminutiveSuffixes );
+	stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.diminutiveSuffixes );
 
 	if ( ! stemmedWord ) {
 		stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.nounSuffixes );

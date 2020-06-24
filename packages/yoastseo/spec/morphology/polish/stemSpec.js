@@ -2,10 +2,15 @@ import stem from "../../../src/morphology/polish/stem";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataPL = getMorphologyData( "pl" ).pl;
+const dictionaryStemmerPL = getMorphologyData( "plDictionaryTest" ).plDictionaryTest;
 
 const wordsToStem = [
-	// Words with diminutive suffixes
-	[ "stateczek", "stat" ],
+	// A word that's in the dictionary.
+	[ "drzewka", "drzew" ],
+	// A word that's not in the dictionary.
+	[ "moczeniu", "mocz" ],
+	// Words with diminutive suffixes.
+	/*[ "stateczek", "stat" ],
 	[ "maluszek", "mal" ],
 	[ "ptaszek", "pt" ],
 	[ "spacerek", "spacer" ],
@@ -108,14 +113,14 @@ const wordsToStem = [
 	[ "termometr", "termometr" ],
 
 	// Adjective/adverb prefix does not get removed unless there was an adjective/adverb suffix
-	[ "najadłam", "najad" ],
+	[ "najadłam", "najad" ],*/
 ];
 
 describe( "Test for stemming Polish words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
 		const wordToCheck = wordsToStem[ i ];
 		it( "stems the word " + wordToCheck[ 0 ], () => {
-			expect( stem( wordToCheck[ 0 ], morphologyDataPL ) ).toBe( wordToCheck[ 1 ] );
+			expect( stem( wordToCheck[ 0 ], morphologyDataPL, dictionaryStemmerPL ) ).toBe( wordToCheck[ 1 ] );
 		} );
 	}
 } );

@@ -6,7 +6,7 @@ import fr from "../../premium-configuration/data/morphologyData-fr-v9.json";
 import ru from "../../premium-configuration/data/morphologyData-ru-v9.json";
 import it from "../../premium-configuration/data/morphologyData-it-v9.json";
 import pl from "../../premium-configuration/data/morphologyData-pl-v9.json";
-
+import plDictionaryTest from "../../premium-configuration/data/polishDictionaryTest.json";
 
 const morphologyData = {
 	en,
@@ -16,7 +16,8 @@ const morphologyData = {
 	fr,
 	ru,
 	it,
-	pl
+	pl,
+	plDictionaryTest,
 };
 
 /**
