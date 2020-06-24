@@ -701,10 +701,10 @@
     styled-components "^4.2.0"
     yoastseo "^1.78.0-rc.3"
 
-"@yoast/social-metadata-forms@^1.0.0-rc.5":
-  version "1.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.0.0-rc.5.tgz#4d34342a72bd0ff6a849542c08f0b05ea21ba972"
-  integrity sha512-dP+KCCiIcMOxv6VVfzLWyu0499GU9aHGrrHsa3fiNj5CFQ+fmRUCX3xHryHOJv9I8iRF+yV2d3aaSEoYBJ8b4A==
+"@yoast/social-metadata-forms@^1.0.0-rc.6":
+  version "1.0.0-rc.6"
+  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.0.0-rc.6.tgz#10a1584cf316d3eb118f8bbab99e418013de0d34"
+  integrity sha512-EVsirAOjy2tA8U6gjogwgzYwLcwIT9rlheXDiDqEFa9FRFPqR98e5KFXSXud+5JL/6GM3zQ8G3ok9a5eo2RKwg==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
     "@yoast/components" "^2.5.0-rc.3"
