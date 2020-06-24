@@ -1,8 +1,8 @@
 /* This file is meant to be used exclusively for the Configuration Wizard. */
 /* WordPress-specific styling to be used only for single-page apps like the Onboarding Wizard. */
-@import url("@yoast/components/src/title-separator/title-separator.css");
-@import url("@yoast/components/src/button/buttons.css");
-@import url("@yoast/components/src/inputs/input.css");
+@import url("@yoast/components/title-separator/title-separator.css");
+@import url("@yoast/components/button/buttons.css");
+@import url("@yoast/components/inputs/input.css");
 
 .screen-reader-text {
 	position: absolute !important;
