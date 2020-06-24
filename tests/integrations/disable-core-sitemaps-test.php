@@ -42,7 +42,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertTrue( \has_filter( 'wp_sitemaps_is_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_is_enabled filter' );
+		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_is_enabled filter' );
 	}
 
 }
