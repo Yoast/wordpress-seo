@@ -20,6 +20,6 @@ class Disable_Core_Sitemaps implements Integration_Interface {
 	 * Disable the WP core XML sitemaps.
 	 */
 	public function register_hooks() {
-		add_filter( 'wp_sitemaps_is_enabled', '__return_false' );
+		\add_filter( 'wp_sitemaps_is_enabled', '__return_false' );
 	}
 }
