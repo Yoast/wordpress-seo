@@ -62,6 +62,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'semrush_tokens' => [],
 	];
 
 	/**
@@ -314,6 +315,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						}
 
 						if ( is_array( $myyoast_oauth ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+
+					break;
+
+				case 'semrush_tokens':
+					$clean[ $key ] = $old[ $key ];
+
+					if ( isset( $dirty[ $key ] ) ) {
+						$semrush_tokens = $dirty[ $key ];
+						if ( ! is_array( $semrush_tokens ) ) {
+							$semrush_tokens = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $semrush_tokens ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 					}
