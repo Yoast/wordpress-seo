@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations;
 
-use Mockery;
 use Yoast\WP\SEO\Integrations\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -22,7 +21,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	/**
 	 * Represents the instance we are testing.
 	 *
-	 * @var Mockery\MockInterface|Disable_Core_Sitemaps
+	 * @var Disable_Core_Sitemaps
 	 */
 	private $instance;
 
@@ -32,7 +31,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Disable_Core_Sitemaps::class )->makePartial();
+		$this->instance = new Disable_Core_Sitemaps();
 	}
 
 	/**
