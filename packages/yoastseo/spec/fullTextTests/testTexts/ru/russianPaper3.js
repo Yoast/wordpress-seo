@@ -17,8 +17,8 @@ const paper = new Paper( content, {
 const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Your keyphrase or its synonyms do not appear in the first paragraph. <a href='https://yoa.st/33f' target='_blank'>Make sure the topic is clear immediately</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
 	},
 	keyphraseLength: {
 		isApplicable: true,
@@ -27,10 +27,8 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 5 times. That's less than the recommended minimum of 6 times for a text of this length." +
-			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 11 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -126,7 +124,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 14.4% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 15% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,

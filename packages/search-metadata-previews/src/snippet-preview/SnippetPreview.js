@@ -8,7 +8,7 @@ import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { colors } from "@yoast/style-guide";
+import { colors, angleLeft, angleRight } from "@yoast/style-guide";
 import { string } from "yoastseo";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
@@ -22,7 +22,6 @@ const {
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
-import { angleLeft, angleRight } from "../shared";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders

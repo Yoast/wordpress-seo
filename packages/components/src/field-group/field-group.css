@@ -8,9 +8,9 @@
 .yoast-field-group__title {
     display: flex;
     align-items: center;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--yoast-font-weight-bold);
     margin: 0 0 8px;
-    color: var(--color-label);
+    color: var(--yoast-color-label);
     line-height: 1.2;
     padding: 0;
 }
@@ -18,5 +18,3 @@
 .yoast-field-group .description {
     margin: 0;
 }
-
-

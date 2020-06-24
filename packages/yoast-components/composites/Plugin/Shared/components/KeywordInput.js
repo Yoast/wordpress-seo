@@ -213,7 +213,7 @@ class KeywordInput extends React.Component {
 						autoComplete="off"
 					/>
 					{ showRemoveKeywordButton && (
-						<BorderlessButton onClick={ onRemoveKeyword }>
+						<BorderlessButton onClick={ onRemoveKeyword } focusBoxShadowColor={ "#084A67" }>
 							<RemoveIcon
 								size="18px"
 								icon="times-circle"

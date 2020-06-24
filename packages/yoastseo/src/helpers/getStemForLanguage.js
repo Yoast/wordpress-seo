@@ -3,6 +3,8 @@ import { determineStem as germanDetermineStem } from "../morphology/german/deter
 import { determineStem as dutchDetermineStem } from "../morphology/dutch/determineStem";
 import spanishDetermineStem from "../morphology/spanish/stem";
 import frenchDetermineStem from "../morphology/french/stem";
+import russianDetermineStem from "../morphology/russian/stem";
+import italianDetermineStem from "../morphology/italian/stem";
 import polishDetermineStem from "../morphology/polish/stem";
 
 /**
@@ -17,6 +19,8 @@ export default function() {
 		nl: dutchDetermineStem,
 		es: spanishDetermineStem,
 		fr: frenchDetermineStem,
+		ru: russianDetermineStem,
+		it: italianDetermineStem,
 		pl: polishDetermineStem,
 	};
 }

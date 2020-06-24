@@ -5,10 +5,10 @@
 .yoast-help__icon svg {
     width: 12px;
     height: 12px;
-    fill: var(--color-inactive-text);
-    transition: var(--transition-default);
+    fill: var(--yoast-color-inactive-text);
+    transition: var(--yoast-transition-default);
 }
 
 .yoast-help:hover svg {
-    fill: var(--color-link);
+    fill: var(--yoast-color-link);
 }

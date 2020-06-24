@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import ExamplesContainer from "./ExamplesContainer";
 import { WordOccurrences } from "@yoast/components";
 import ProminentWord from "yoastseo/src/values/ProminentWord";
 
-const initialRelevantWords = [
+const initialWords = [
 	new ProminentWord( "davids", "david", 2 ),
 	new ProminentWord( "goliaths", "goliath", 6 ),
 	new ProminentWord( "word", "word", 3 ),
@@ -27,136 +28,242 @@ const initialRelevantWords = [
 	new ProminentWord( "linguïns", "linguïn", 5 ),
 ];
 
-const RelevantWordInputList = ( props ) => {
-	return props.relevantWords.map(
-		( relevantWord, index ) => {
-			return <RelevantWordInputRow
+/**
+ *
+ * @param {Object} props The component's properties.
+ *
+ * @param {ProminentWord[]} props.wordsForInsights The words to populate the list with.
+ * @param {function} props.onChange                The handler handling change events.
+ * @param {function} props.onDelete                The handler handling delete events.
+ *
+ * @returns {InputRow[]} A list of input rows.
+ *
+ * @constructor
+ */
+const InputList = ( { wordsForInsights, onChange, onDelete } ) => {
+	return wordsForInsights.map(
+		( wordForInsights, index ) => {
+			return <InputRow
 				key={ `RelevantWordInputRow-${ index }` }
 				index={ index }
-				relevantWord={ relevantWord }
-				onChange={ props.onChange }
-				onDeleteClick={ props.onDeleteClick }
+				wordForInsights={ wordForInsights }
+				onChange={ onChange }
+				onDelete={ onDelete }
 			/>;
 		}
 	);
 };
 
-const RelevantWordInputRow = ( props ) => {
-	function changeWord( event ) {
-		props.onChange( event.target.value, "_word", props.index );
+/**
+ * A row to change or remove a word to the input list.
+ *
+ * @param {Object} props                        The properties.
+ *
+ * @param {ProminentWord} props.wordForInsights The word to show in the row.
+ * @param {number} props.index                  The row's index.
+ * @param {function} props.onChange             The handler to call when one of the properties of the word (word, stem, occurrences) changes.
+ * @param {function} props.onDelete             The handler to call when the row is removed.
+ *
+ * @returns {React.Component} The row.
+ *
+ * @constructor
+ */
+const InputRow = ( { wordForInsights, index, onChange, onDelete } ) => {
+	/**
+	 * Called when the word changes.
+	 *
+	 * @param {Event} event The change event.
+	 *
+	 * @returns {void}
+	 */
+	function onWordChange( event ) {
+		onChange( event.target.value, "_word", index );
 	}
-	function changeStem( event ) {
-		props.onChange( event.target.value, "_stem", props.index );
+	/**
+	 * Called when the stem changes.
+	 *
+	 * @param {Event} event The change event.
+	 *
+	 * @returns {void}
+	 */
+	function onStemChange( event ) {
+		onChange( event.target.value, "_stem", index );
 	}
-	function changeOccurrences( event ) {
-		props.onChange( event.target.value, "_occurrences", props.index );
+	/**
+	 * Called when the occurrences change.
+	 *
+	 * @param {Event} event The change event.
+	 *
+	 * @returns {void}
+	 */
+	function onOccurrencesChange( event ) {
+		onChange( event.target.value, "_occurrences", index );
 	}
-	function onDeleteClick(){
-		props.onDeleteClick( props.index );
+	/**
+	 * Called when the row is deleted.
+	 *
+	 * @returns {void}
+	 */
+	function onDeleteRow() {
+		onDelete( index );
 	}
 	return (
-		<div key={ `InputDiv-${ props.index }` }>
+		<div key={ `InputDiv-${ index }` }>
 			<input
-				key={ `RelevantWordInput-${ props.index }` }
-				onChange={ changeWord }
-				value={ props.relevantWord._word }
+				key={ `RelevantWordInput-${ index }` }
+				onChange={ onWordChange }
+				value={ wordForInsights._word }
 			/>
 			<input
-				key={ `RelevantStemInput-${ props.index }` }
-				onChange={ changeStem }
-				value={ props.relevantWord._stem }
+				key={ `RelevantStemInput-${ index }` }
+				onChange={ onStemChange }
+				value={ wordForInsights._stem }
 			/>
 			<input
-				key={ `RelevantOccurrencesInput-${ props.index }` }
-				onChange={ changeOccurrences }
-				value={ props.relevantWord._occurrences }
+				key={ `RelevantOccurrencesInput-${ index }` }
+				onChange={ onOccurrencesChange }
+				value={ wordForInsights._occurrences }
 				type="number"
 			/>
-			<button onClick={ onDeleteClick }>REMOVE</button>
+			<button onClick={ onDeleteRow }>REMOVE</button>
 		</div>
 	);
 };
 
-const cloneWords = function ( words ) {
+InputRow.propTypes = {
+	wordForInsights: PropTypes.instanceOf( ProminentWord ).isRequired,
+	index: PropTypes.number.isRequired,
+	onChange: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+};
+
+/**
+ * Clones the array of words.
+ *
+ * @param {ProminentWord[]} words The list of prominent words to clone.
+ *
+ * @returns {ProminentWord[]} A clone of the given words.
+ */
+const cloneWords = function( words ) {
 	return words.map( word => {
 		return new ProminentWord( word.getWord(), word.getStem(), word.getOccurrences() );
 	} );
 };
 
+/**
+ * Wraps the word occurrences component.
+ * Adds a component to change, add and delete words manually.
+ */
 class WordOccurrencesWrapper extends React.Component {
+	/**
+	 * Creates a new wrapper.
+	 *
+	 * @param {Object} props The properties
+	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			relevantWords: cloneWords( initialRelevantWords ),
+			words: cloneWords( initialWords ),
 		};
-		this.changeRelevantWord = this.changeRelevantWord.bind( this );
-		this.removeRelevantWord = this.removeRelevantWord.bind( this );
-		this.addRelevantWordRow = this.addRelevantWordRow.bind( this );
-		this.resetRelevantWords = this.resetRelevantWords.bind( this );
+		this.changeWord = this.changeWord.bind( this );
+		this.removeWord = this.removeWord.bind( this );
+		this.addWord = this.addWord.bind( this );
+		this.reset = this.reset.bind( this );
 	}
 
-	changeRelevantWord( input, type, index ) {
+	/**
+	 * Changes a property of a word.
+	 *
+	 * @param {string} value                        The new value of the property.
+	 * @param {"_word"|"_stem"|"_occurrences"} type The name of the property.
+	 * @param {number} index                        The index of the word that needs to be changed.
+	 *
+	 * @returns {void}
+	 */
+	changeWord( value, type, index ) {
 		this.setState( ( prevState ) => {
 			const nextState = Object.assign( {}, prevState );
-			nextState.relevantWords = [ ...prevState.relevantWords ];
+			nextState.words = [ ...prevState.words ];
 			switch ( type ) {
 				case "_word":
-					nextState.relevantWords[ index ].setWord( input );
+					nextState.words[ index ].setWord( value );
 					break;
 				case "_stem":
-					nextState.relevantWords[ index ]._stem = input;
+					nextState.words[ index ]._stem = value;
 					break;
 				case "_occurrences":
-					nextState.relevantWords[ index ].setOccurrences( input );
+					nextState.words[ index ].setOccurrences( value );
 					break;
 			}
 			return nextState;
 		} );
 	}
 
-	removeRelevantWord( index ) {
+	/**
+	 * Removes a word from the table.
+	 *
+	 * @param {number} index The index of the word that needs to be removed.
+	 *
+	 * @returns {void}
+	 */
+	removeWord( index ) {
 		this.setState( ( prevState ) => {
 			const nextState = Object.assign( {}, prevState );
-			nextState.relevantWords.splice( index, 1 );
+			nextState.words.splice( index, 1 );
 			return {
-				relevantWords: nextState.relevantWords,
+				words: nextState.words,
 			};
 		} );
 	}
 
-	addRelevantWordRow() {
+	/**
+	 * Adds a new word.
+	 *
+	 * @returns {void}
+	 */
+	addWord() {
 		this.setState( prevState => {
-			prevState.relevantWords.push(
+			prevState.words.push(
 				new ProminentWord( "" ),
 			);
 			return (
 				{
-					relevantWords: prevState.relevantWords,
+					words: prevState.words,
 				}
 			);
 		} );
 	}
 
-	resetRelevantWords() {
+	/**
+	 * Resets the words to their initial state.
+	 *
+	 * @returns {void}
+	 */
+	reset() {
 		this.setState( {
-			relevantWords: cloneWords( initialRelevantWords ),
+			words: cloneWords( initialWords ),
 		} );
 	}
 
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {ExamplesContainer} The rendered component.
+	 */
 	render() {
 		return (
 			<ExamplesContainer>
-				<RelevantWordInputList
-					onChange={ this.changeRelevantWord }
-					relevantWords={ this.state.relevantWords }
-					onDeleteClick={ this.removeRelevantWord }
+				<InputList
+					onChange={ this.changeWord }
+					wordsForInsights={ this.state.words }
+					onDelete={ this.removeWord }
 				/>
-				<button onClick={ this.addRelevantWordRow }>Add word</button>
-				<button onClick={ this.resetRelevantWords }>Reset</button>
+				<button onClick={ this.addWord }>Add word</button>
+				<button onClick={ this.reset }>Reset</button>
 				<div style={ { marginTop: "150px", width: "100%", height: "600px" } }>
 					<WordOccurrences
-						words={ this.state.relevantWords }
+						words={ this.state.words }
 						header={ <p>This is an example text that will be displayed before the list is rendered.</p> }
 						footer={ <p>This is an example text that will be displayed after the list is rendered.</p> }
 					/>

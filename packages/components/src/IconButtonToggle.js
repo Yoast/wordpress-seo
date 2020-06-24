@@ -50,7 +50,7 @@ const areButtonsDisabled = function( props ) {
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
-const ChangingIconButton = ( props ) => {
+const ChangingIconButton = function( props ) {
 	return (
 		<IconButtonBase
 			disabled={ areButtonsDisabled( props ) }

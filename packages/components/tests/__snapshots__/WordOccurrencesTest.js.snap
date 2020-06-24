@@ -5,105 +5,19 @@ Array [
   <p>
     I'm a before list paragraph
   </p>,
-  <ol
+  <ul
     aria-label="Prominent words"
-    className="iLIVBa"
+    className="yoast-data-model"
   >
     <li
-      className="didWQV"
-    >
-      <span
-        className="EQarG"
-      >
-        reviewing
-      </span>
-      <span
-        className="icotjz"
-      >
-        <span
-          aria-hidden={true}
-        >
-          13
-        </span>
-        <span
-          className="screen-reader-text"
-        >
-          13 occurrences
-        </span>
-      </span>
-    </li>
-    <li
-      className="dlrdVL"
-    >
-      <span
-        className="EQarG"
-      >
-        code
-      </span>
-      <span
-        className="icotjz"
-      >
-        <span
-          aria-hidden={true}
-        >
-          8
-        </span>
-        <span
-          className="screen-reader-text"
-        >
-          8 occurrences
-        </span>
-      </span>
-    </li>
-    <li
-      className="cgTCMk"
-    >
-      <span
-        className="EQarG"
-      >
-        fun
-      </span>
-      <span
-        className="icotjz"
-      >
-        <span
-          aria-hidden={true}
-        >
-          6
-        </span>
-        <span
-          className="screen-reader-text"
-        >
-          6 occurrences
-        </span>
-      </span>
-    </li>
-  </ol>,
-  <p>
-    I'm an after list paragraph
-  </p>,
-]
-`;
-
-exports[`WordOccurrences renders correctly without before and after elements 1`] = `
-<ol
-  aria-label="Prominent words"
-  className="iLIVBa"
->
-  <li
-    className="didWQV"
-  >
-    <span
-      className="EQarG"
+      style={
+        Object {
+          "--yoast-width": "100%",
+        }
+      }
     >
       reviewing
-    </span>
-    <span
-      className="icotjz"
-    >
-      <span
-        aria-hidden={true}
-      >
+      <span>
         13
       </span>
       <span
@@ -111,22 +25,16 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
       >
         13 occurrences
       </span>
-    </span>
-  </li>
-  <li
-    className="dlrdVL"
-  >
-    <span
-      className="EQarG"
+    </li>
+    <li
+      style={
+        Object {
+          "--yoast-width": "61.53846153846154%",
+        }
+      }
     >
       code
-    </span>
-    <span
-      className="icotjz"
-    >
-      <span
-        aria-hidden={true}
-      >
+      <span>
         8
       </span>
       <span
@@ -134,22 +42,16 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
       >
         8 occurrences
       </span>
-    </span>
-  </li>
-  <li
-    className="cgTCMk"
-  >
-    <span
-      className="EQarG"
+    </li>
+    <li
+      style={
+        Object {
+          "--yoast-width": "46.15384615384615%",
+        }
+      }
     >
       fun
-    </span>
-    <span
-      className="icotjz"
-    >
-      <span
-        aria-hidden={true}
-      >
+      <span>
         6
       </span>
       <span
@@ -157,9 +59,71 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
       >
         6 occurrences
       </span>
+    </li>
+  </ul>,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders correctly without before and after elements 1`] = `
+<ul
+  aria-label="Prominent words"
+  className="yoast-data-model"
+>
+  <li
+    style={
+      Object {
+        "--yoast-width": "100%",
+      }
+    }
+  >
+    reviewing
+    <span>
+      13
+    </span>
+    <span
+      className="screen-reader-text"
+    >
+      13 occurrences
     </span>
   </li>
-</ol>
+  <li
+    style={
+      Object {
+        "--yoast-width": "61.53846153846154%",
+      }
+    }
+  >
+    code
+    <span>
+      8
+    </span>
+    <span
+      className="screen-reader-text"
+    >
+      8 occurrences
+    </span>
+  </li>
+  <li
+    style={
+      Object {
+        "--yoast-width": "46.15384615384615%",
+      }
+    }
+  >
+    fun
+    <span>
+      6
+    </span>
+    <span
+      className="screen-reader-text"
+    >
+      6 occurrences
+    </span>
+  </li>
+</ul>
 `;
 
 exports[`WordOccurrences renders correctly without items 1`] = `
@@ -167,9 +131,9 @@ Array [
   <p>
     I'm a before list paragraph
   </p>,
-  <ol
+  <ul
     aria-label="Prominent words"
-    className="iLIVBa"
+    className="yoast-data-model"
   />,
   <p>
     I'm an after list paragraph
@@ -178,8 +142,8 @@ Array [
 `;
 
 exports[`WordOccurrences renders correctly without words and without before and after elements 1`] = `
-<ol
+<ul
   aria-label="Prominent words"
-  className="iLIVBa"
+  className="yoast-data-model"
 />
 `;

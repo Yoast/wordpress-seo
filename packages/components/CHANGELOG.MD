@@ -4,6 +4,57 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.5.0 July 6th, 2020
+### Enhancements
+* Adds a disabled state for the toggle items.
+* Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.
+* Adds focus styling to button, input, textarea, select and toggle switch components for accessibility.
+* Adds the correct border colors for active, hover and focus to the IconLabeledButton.
+* Adds `VariableEditorInputContainer` to add caret styles since Draft.js (un)mounts on every focus change.
+* Changes all the css variables of the button component to use the Yoast namespacing correctly.
+* Updates the input fields, text areas, dropdowns,  buttons, title separator and toggle switches in the settings pages to the new styling.
+* Updates the configuration wizard to match the new design.
+
+### Bugfixes
+* Fixes a bug where the insights would cause a horizontal scrollbar in the Yoast sidebar.
+* Fixes the right-to-left styling for the .yoast-button--buy button.
+
+### Other
+* Refactors the code to use another term than 'prominent words', 'keyword suggestions' or 'relevant words'.
+* Deprecates the WordList component. A console warning has been added to the component.
+
+## 2.4.0 June 22nd, 2020
+### Enhancements
+* Adds a new standardized Button class, which can render as a button or as an anchor tag.
+* Adds a standardized Primary button and link.
+* Adds a standardized Secondary button and link.
+* Adds a standardized Upsell button and link.
+* Adds a standardized Hide button and link.
+* Adds a standardized Remove button and link.
+* Adds a standardized Close button and link.
+* Adds the HTML and CSS for the secondary, sales, hide and remove buttons.
+
+### Other
+* Adds documentation on how to add `@yoast/components` to your project.
+
+## 2.3.0 June 8th, 2020
+### Bugfixes
+* Fixes a bug where the close button wasn't placed correctly in the metabox modals.
+* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
+
+## 2.2.0 May 25th, 2020
+### Enhancements
+* Adds a new DataModel component.
+* Changes the Warning component colors to match the new Yoast notification styling.
+* Changes the WordOccurrences component in a way that now requires CSS to be loaded. Make sure your JavaScript packager can load CSS.
+* Changes the image upload component to be inline with the new Yoast styling.
+* Updates HTML and CSS for unexported Toggle and FieldGroup components. ClassName of FieldGroup can now be controlled via props.
+* Allows users to set wrapper class and title class on TextInput via wrapperClassName and titleClassName props.
+
+### Bugfixes
+* Fixes a bug where the Select's selected option text was too long for the container.
+* Fixes a bug where our `select2` styling would overwrite the `select2` styling of other plugins.
+
 ## 2.1.0 May 11th, 2020
 ### Added
 * Makes the MultiSelect, Select, RadioButtonGroup, and TextInput available by exporting them from the root.
@@ -57,7 +108,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 0.11.0 November 26th, 2019
 ### Other
-* Removed the components related to the Help Center and the AlgoliaSearcher package
+* Removed the components related to the Help Center and the AlgoliaSearch package.
 
 ## 0.10.0 November 11th, 2019
 ### Added
