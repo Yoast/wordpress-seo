@@ -14,6 +14,7 @@ import CountrySelector from "./modals/CountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
+import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 import SemRushLoading from "./modals/SemRushLoading";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 
@@ -107,6 +108,7 @@ class RelatedKeyPhrasesModal extends Component {
 
 							<SemRushUpsellAlert />
 							<SemRushLimitReached />
+							<SemRushRequestFailed />
 							<CountrySelector />
 							<KeyphrasesTable />
 							<h2>Debug info</h2>
