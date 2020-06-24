@@ -61,7 +61,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$label            = $this->get_label( $field_configuration['label'], $esc_field_name );
 		$field            = $this->get_field( $field_configuration['type'], $esc_field_name, $this->get_field_value( $field_name ), $options );
 		$help_button_text = isset( $field_configuration['options']['help-button'] ) ? $field_configuration['options']['help-button'] : '';
-		$help             = new WPSEO_Admin_Help_Button( 'https://yoast.com/show-x-in-search-results/', $help_button_text );
+		$help             = ( $field_configuration['type'] === 'hidden' ) ? '' : new WPSEO_Admin_Help_Button( 'https://yoast.com/show-x-in-search-results/', $help_button_text );
 
 		return $this->parse_row( $label, $help, $field );
 	}
@@ -210,7 +210,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 *
 	 * @return string
 	 */
-	private function parse_row( $label, WPSEO_Admin_Help_Button $help, $field ) {
+	private function parse_row( $label, $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
 			return $label . $help . $field;
 		}

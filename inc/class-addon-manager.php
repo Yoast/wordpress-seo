@@ -400,6 +400,9 @@ class WPSEO_Addon_Manager {
 	 * @return array The plugins.
 	 */
 	protected function get_plugins() {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 		return get_plugins();
 	}
 
