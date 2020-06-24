@@ -213,6 +213,13 @@ To query for the site configuration data you can query from the root.
         url
       }
     }
+    # Redirects only work in the premium version of Yoast
+    redirects {
+      origin
+      target
+      format
+      type
+    }
   }
 }
 ```
