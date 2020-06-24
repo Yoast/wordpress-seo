@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
- * Triggers database migrations and handles results.
+ * Disables the WP core sitemaps.
  */
 class Disable_Core_Sitemaps implements Integration_Interface {
 
