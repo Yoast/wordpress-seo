@@ -51,7 +51,7 @@ class SettingsReplacementVariableEditors extends Component {
 	 * The *-field-id attributes should point to existing (hidden) inputs in the
 	 * DOM.
 	 *
-	 * @returns {Array<ReactElement>} An array of portals to instances of the
+	 * @returns {Array<wp.Element>} An array of portals to instances of the
 	 *                                settings replacement variable editor.
 	 */
 	renderEditors() {
@@ -92,7 +92,7 @@ class SettingsReplacementVariableEditors extends Component {
 	 * properly. The data-react-replacevar-field-id attribute should point to an
 	 * existing (hidden) input in the DOM.
 	 *
-	 * @returns {Array<ReactElement>} An array of portals to instances of the
+	 * @returns {Array<wp.Element>} An array of portals to instances of the
 	 *                                settings replacement variable field.
 	 */
 	renderSingleFields() {
@@ -124,7 +124,7 @@ class SettingsReplacementVariableEditors extends Component {
 	/**
 	 * Renders the SettingsReplacementVariableEditors element.
 	 *
-	 * @returns {ReactElement} A fragment containing all editor instances.
+	 * @returns {wp.Element} A fragment containing all editor instances.
 	 */
 	render() {
 		return (

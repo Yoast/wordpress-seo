@@ -1,14 +1,14 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /**
  * @summary Final step in the wizard component.
  */
-class FinalStep extends React.Component {
+class FinalStep extends Component {
 	/**
 	 * Renders the video next to the final congratulation message for completing the wizard
 	 *
-	 * @returns {JSX.Element} A HTML paragraph element containing the Final Step response.
+	 * @returns {wp.Element} A HTML paragraph element containing the Final Step response.
 	 */
 	render() {
 		return (

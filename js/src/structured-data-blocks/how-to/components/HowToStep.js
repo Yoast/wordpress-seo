@@ -166,7 +166,7 @@ export default class HowToStep extends Component {
 	 * @param {object} props      The receive props.
 	 * @param {func}   props.open Opens the media upload dialog.
 	 *
-	 * @returns {ReactElement} The media upload button.
+	 * @returns {wp.Element} The media upload button.
 	 */
 	getMediaUploadButton( props ) {
 		return (
@@ -183,7 +183,7 @@ export default class HowToStep extends Component {
 	/**
 	 * The insert and remove step buttons.
 	 *
-	 * @returns {ReactElement} The buttons.
+	 * @returns {wp.Element} The buttons.
 	 */
 	getButtons() {
 		const {
@@ -304,7 +304,7 @@ export default class HowToStep extends Component {
 	 *
 	 * @param {object} step The how-to step.
 	 *
-	 * @returns {ReactElement} The component to be rendered.
+	 * @returns {wp.Element} The component to be rendered.
 	 */
 	static Content( step ) {
 		return (
@@ -328,7 +328,7 @@ export default class HowToStep extends Component {
 	/**
 	 * Renders this component.
 	 *
-	 * @returns {ReactElement} The how-to step editor.
+	 * @returns {wp.Element} The how-to step editor.
 	 */
 	render() {
 		const {

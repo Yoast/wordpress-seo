@@ -1,4 +1,3 @@
-import React from "react";
 import RaisedDefaultButton from "./RaisedDefaultButton";
 import ArrowForwardIcon from "material-ui/svg-icons/navigation/arrow-forward";
 
