@@ -19,8 +19,10 @@ initTabs( jQuery );
 // Initialize the editor store.
 const store = initEditorStore();
 
-// Expose registerReactComponent as an alternative to registerPlugin.
+// Initialize the ClassicEditor Integration.
 initClassicEditorIntegration( store );
+
+// Initialize classic editor data.
 const editorData = new ClassicEditorData( () => {}, store, termsTmceId );
 editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 
