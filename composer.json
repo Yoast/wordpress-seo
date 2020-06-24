@@ -87,6 +87,10 @@
 		"check-cs": [
 			"@check-cs-warnings -n"
 		],
+		"check-cs-errors": [
+			"echo You can now just use check-cs, running that command now.",
+			"composer check-cs"
+		],
 		"check-cs-warnings": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
