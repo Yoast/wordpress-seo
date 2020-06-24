@@ -2,7 +2,6 @@ import initTabs from "./initializers/metabox-tabs";
 import initTermScraper from "./initializers/term-scraper";
 import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
-import { registerReactComponent } from "./helpers/classicEditor";
 import initEditorStore from "./initializers/editor-store";
 import { termsTmceId } from "./lib/tinymce";
 import initClassicEditorIntegration from "./initializers/classic-editor-integration";
@@ -20,12 +19,7 @@ initTabs( jQuery );
 // Initialize the editor store.
 const store = initEditorStore();
 
-// Set YoastSEO global.
-window.YoastSEO = {};
-window.YoastSEO.store = store;
-
 // Expose registerReactComponent as an alternative to registerPlugin.
-window.YoastSEO._registerReactComponent = registerReactComponent;
 initClassicEditorIntegration( store );
 const editorData = new ClassicEditorData( () => {}, store, termsTmceId );
 editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );

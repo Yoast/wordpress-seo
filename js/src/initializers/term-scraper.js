@@ -42,13 +42,6 @@ import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
 import { setMarkerStatus } from "../redux/actions/markerButtons";
-
-// Helper dependencies.
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
-import {
-	registerReactComponent,
-	renderClassicEditorMetabox,
-} from "../helpers/classicEditor";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 setYoastComponentsL10n();
@@ -329,8 +322,6 @@ export default function initTermScraper( $, store, editorData ) {
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
 
-		YoastSEO._registerReactComponent = registerReactComponent;
-
 		initTermSlugWatcher();
 		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
 			YoastSEO.analysis.worker,
@@ -411,10 +402,6 @@ export default function initTermScraper( $, store, editorData ) {
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
-
-		if ( ! isGutenbergDataAvailable() ) {
-			renderClassicEditorMetabox( store );
-		}
 
 		initializationDone();
 		YoastSEO.app.refresh();

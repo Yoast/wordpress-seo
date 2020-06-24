@@ -71,8 +71,6 @@ window.YoastShortcodePlugin = YoastShortcodePlugin;
  * @returns {void}
  */
 export default function initPostScraper( $, store, editorData ) {
-	/* eslint-disable-next-line */
-	"use strict";
 	if ( typeof wpseoScriptData === "undefined" ) {
 		return;
 	}
