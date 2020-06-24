@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Config;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
-use Yoast\WP\SEO\Config\SEMrush_Token_Manager;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Doubles\Config\SEMrush_Client_Double;
 use Yoast\WP\SEO\Tests\TestCase;
 use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
@@ -42,9 +42,9 @@ class SEMrush_Client_Test extends TestCase {
 	protected $provider;
 
 	/**
-	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|SEMrush_Token_Manager
+	 * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|Options_Helper
 	 */
-	protected $token_manager;
+	protected $options_helper;
 
 	/**
 	 * @inheritDoc
@@ -52,12 +52,10 @@ class SEMrush_Client_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->response      = \Mockery::mock( AccessTokenInterface::class );
-		$this->token         = \Mockery::mock( SEMrush_Token::class );
-		$this->provider      = \Mockery::mock( GenericProvider::class );
-		$this->token_manager = \Mockery::mock( SEMrush_Token_Manager::class );
-
-		$this->instance = new SEMrush_Client_Double();
+		$this->response       = \Mockery::mock( AccessTokenInterface::class );
+		$this->token          = \Mockery::mock( SEMrush_Token::class );
+		$this->provider       = \Mockery::mock( GenericProvider::class );
+		$this->options_helper = \Mockery::mock( Options_Helper::class );
 	}
 
 	/**
@@ -66,8 +64,43 @@ class SEMrush_Client_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $this->instance );
-		$this->assertAttributeInstanceOf( SEMrush_Token_Manager::class, 'token_manager', $this->instance );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->andReturnNull();
+
+		$instance = new SEMrush_Client_Double( $this->options_helper );
+
+		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
+	}
+
+	/**
+	 * Tests if the needed attributes are set correctly when a token already exists.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_construct_with_pre_existing_token() {
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->andReturn(
+				[
+					'access_token'  => '000000',
+					'refresh_token' => '000001',
+					'expires'       => 604800,
+					'has_expired'   => true,
+					'created_at'    => 1234890,
+				]
+			);
+
+		$instance = new SEMrush_Client_Double( $this->options_helper );
+
+		$this->assertAttributeInstanceOf( GenericProvider::class, 'provider', $instance );
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $instance );
+		$this->assertAttributeInstanceOf( SEMrush_Token::class, 'token', $instance );
 	}
 
 	/**
@@ -76,26 +109,43 @@ class SEMrush_Client_Test extends TestCase {
 	 * @covers ::request_tokens
 	 */
 	public function test_valid_request_tokens_when_no_token_is_available() {
+		$this->response->allows( [
+			'getToken'        => '000000',
+			'getRefreshToken' => '000001',
+			'getExpires'      => 604800,
+			'hasExpired'      => false,
+		] );
+
 		$this->provider
 			->expects( 'getAccessToken' )
 			->once()
 			->with( 'authorization_code', [ 'code' => '123456' ] )
 			->andReturn( $this->response );
 
-		$this->token_manager
-			->expects( 'from_response' )
+		$this->options_helper
+			->expects( 'get' )
 			->once()
-			->with( $this->response );
+			->andReturnNull();
 
-		$this->token_manager
-			->expects( 'get_token' )
+		$this->options_helper
+			->expects( 'set' )
 			->once()
+			->with( 'semrush_tokens',
+				[
+					'access_token'  => '000000',
+					'refresh_token' => '000001',
+					'expires'       => 604800,
+					'has_expired'   => true,
+					'created_at'    => time(),
+				]
+			)
 			->andReturns( $this->token );
 
-		$this->instance->set_provider( $this->provider );
-		$this->instance->set_token_manager( $this->token_manager );
+		$instance = new SEMrush_Client_Double( $this->options_helper );
 
-		$this->assertInstanceOf( SEMrush_Token::class, $this->instance->request_tokens( '123456' ) );
+		$instance->set_provider( $this->provider );
+
+		$this->assertInstanceOf( SEMrush_Token::class, $instance->request_tokens( '123456' ) );
 	}
 
 	/**
@@ -112,8 +162,58 @@ class SEMrush_Client_Test extends TestCase {
 			->with( 'authorization_code', [ 'code' => '' ] )
 			->andThrow( IdentityProviderException::class );
 
-		$this->instance->set_provider( $this->provider );
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->andReturnNull();
 
-		$this->instance->request_tokens( '' );
+		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance->set_provider( $this->provider );
+
+		$instance->request_tokens( '' );
+	}
+
+	/**
+	 * Tests the scenario where the token storing fails.
+	 *
+	 * @covers ::store_token
+	 *
+	 * @expectedException Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Failed_Token_Storage_Exception
+	 */
+	public function test_storing_token_failure() {
+
+		$this->token->expects('to_array')->once()->andReturns(
+			[
+				'access_token'  => '000000',
+				'refresh_token' => '000001',
+				'expires'       => 604800,
+				'has_expired'   => true,
+				'created_at'    => time(),
+			]
+		);
+
+		$this->options_helper
+			->expects( 'set' )
+			->with( 'semrush_tokens',
+				[
+					'access_token'  => '000000',
+					'refresh_token' => '000001',
+					'expires'       => 604800,
+					'has_expired'   => true,
+					'created_at'    => time(),
+				]
+			)
+			->once()
+			->andReturnFalse();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->andReturnNull();
+
+		$instance = new SEMrush_Client_Double( $this->options_helper );
+		$instance->set_provider( $this->provider );
+
+		$instance->store_token( $this->token );
 	}
 }
