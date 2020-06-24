@@ -1,6 +1,8 @@
 /* External dependencies */
 import React from "react";
 import { __ } from "@wordpress/i18n";
+
+/* Yoast dependencies */
 import { Alert } from "@yoast/components";
 
 /**
