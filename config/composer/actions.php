@@ -59,13 +59,13 @@ class Actions {
 
 		$choices = [
 			'1' => [ 'label' => 'Check staged files for coding standard warnings & errors.', 'command' => 'check-staged-cs' ],
-			'2' => [ 'label' => 'Check current branch for coding standard warnings & errors.', 'command' => 'check-branch-cs' ],
+			'2' => [ 'label' => 'Check current branch\'s changed files for coding standard warnings & errors.', 'command' => 'check-branch-cs' ],
 			'3' => [ 'label' => 'Check for all coding standard errors.', 'command' => 'check-cs' ],
 			'4' => [ 'label' => 'Check for all coding standard warnings & errors.', 'command' => 'check-cs-warnings' ],
 			'5' => [ 'label' => 'Fix auto-fixable coding standards.', 'command' => 'fix-cs' ],
 			'6' => [ 'label' => '[Premium] Check for coding standard warnings and errors.', 'command' => 'premium-check-cs' ],
 			'7' => [ 'label' => '[Premium] Fix auto-fixable coding standards.', 'command' => 'premium-fix-cs' ],
-			'8' => [ 'label' => 'Load condings standards configuration.', 'command' => 'config-yoastcs' ],
+			'8' => [ 'label' => 'Load coding standards configuration.', 'command' => 'config-yoastcs' ],
 		];
 
 		$args = $event->getArguments();
