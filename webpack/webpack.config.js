@@ -31,6 +31,7 @@ const externals = {
 	lodash: "window.lodash",
 	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
+	"draft-js": "window.yoast.draftJs",
 };
 
 const wordpressExternals = {
@@ -227,6 +228,7 @@ module.exports = function( env ) {
 				"styled-components": "./js/src/externals/styled-components.js",
 				redux: "./js/src/externals/redux.js",
 				jed: "./js/src/externals/jed.js",
+				"draft-js": "./js/src/externals/draft-js.js",
 			},
 			externals: {
 				...externals,
