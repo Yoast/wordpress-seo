@@ -7,11 +7,11 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
 
 /**
  * Indexable_Link_Builder class
@@ -26,11 +26,11 @@ class Indexable_Link_Builder {
 	protected $seo_links_repository;
 
 	/**
-	 * The SEO meta repository.
+	 * The image helper.
 	 *
-	 * @var SEO_Meta_Repository
+	 * @var Image_Helper
 	 */
-	protected $seo_meta_repository;
+	protected $image_helper;
 
 	/**
 	 * The indexable repository.
@@ -43,17 +43,24 @@ class Indexable_Link_Builder {
 	 * Post_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
-	 * @param SEO_Meta_Repository  $seo_meta_repository  The SEO meta repository.
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 */
-	public function __construct(
-		SEO_Links_Repository $seo_links_repository,
-		SEO_Meta_Repository $seo_meta_repository,
-		Indexable_Repository $indexable_repository
-	) {
+	public function __construct( SEO_Links_Repository $seo_links_repository ) {
 		$this->seo_links_repository = $seo_links_repository;
-		$this->seo_meta_repository  = $seo_meta_repository;
+	}
+
+	/**
+	 * Sets the indexable repository.
+	 *
+	 * @required
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Image_Helper         $image_helper         The image helper.
+	 *
+	 * @return void
+	 */
+	public function set_dependencies( Indexable_Repository $indexable_repository, Image_Helper $image_helper ) {
 		$this->indexable_repository = $indexable_repository;
+		$this->image_helper         = $image_helper;
 	}
 
 	/**
@@ -75,8 +82,11 @@ class Indexable_Link_Builder {
 
 		$content = \str_replace( ']]>', ']]&gt;', $content );
 		$links   = $this->gather_links( $content );
+		$images  = $this->gather_images( $content );
 
-		if ( empty( $links ) ) {
+		if ( empty( $links ) && empty( $images ) ) {
+			$indexable->link_count = 0;
+			$indexable->save();
 			return [];
 		}
 
@@ -93,12 +103,10 @@ class Indexable_Link_Builder {
 		$links = \array_filter(
 			$links,
 			function ( $link ) use ( $current_url ) {
-				$this->filter_link( $link, $current_url );
+				return $this->filter_link( $link, $current_url );
 			}
 		);
 
-		// Add all images from the content.
-		$images = $this->gather_images( $content );
 		$images = \array_map(
 			function( $link ) use ( $home_url, $indexable ) {
 				return $this->create_internal_link( $link, $home_url, $indexable, true );
@@ -123,7 +131,8 @@ class Indexable_Link_Builder {
 		}
 
 		$this->update_incoming_links_for_related_indexables( $updated_indexable_ids );
-		$this->indexable_repository->update_link_count( $indexable->id, $internal_link_count );
+		$indexable->link_count = $internal_link_count;
+		$indexable->save();
 
 		return $links;
 	}
@@ -165,9 +174,9 @@ class Indexable_Link_Builder {
 		}
 
 		$links  = [];
-		$regexp = '<a\s[^>]*href=("??)([^" >]*?)\\1[^>]*>';
+		$regexp = '<a\s[^>]*href=("??)([^" >]*?)\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( preg_match_all( "/$regexp/iU", $this->content, $matches, PREG_SET_ORDER ) ) {
+		if ( \preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
 				$links[] = trim( $match[2], "'" );
 			}
@@ -192,7 +201,7 @@ class Indexable_Link_Builder {
 		$images = [];
 		$regexp = '<img\s[^>]*src=("??)([^" >]*?)\\1[^>]*>';
 		// Used modifiers iU to match case insensitive and make greedy quantifiers lazy.
-		if ( preg_match_all( "/$regexp/iU", $this->content, $matches, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( "/$regexp/iU", $content, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $match ) {
 				$images[] = trim( $match[2], "'" );
 			}
@@ -223,7 +232,7 @@ class Indexable_Link_Builder {
 		 * @var SEO_Links
 		 */
 		$model = $this->seo_links_repository->query()->create( [
-			'link'         => $url,
+			'url'          => $url,
 			'type'         => $link_type,
 			'indexable_id' => $indexable->id,
 			'post_id'      => $indexable->object_id,
@@ -233,6 +242,16 @@ class Indexable_Link_Builder {
 		if ( $model->type === SEO_Links::TYPE_INTERNAL || $model->type === SEO_Links::TYPE_INTERNAL_IMAGE ) {
 			$permalink = $this->get_permalink( $url, $home_url );
 			$target    = $this->indexable_repository->find_by_permalink( $permalink );
+
+			if ( ! $target ) {
+				if ( $model->type === SEO_Links::TYPE_INTERNAL ) {
+					$post_id = \url_to_postid( $permalink );
+				}
+				else {
+					$post_id = $this->image_helper->get_attachment_by_url( $permalink );
+				}
+				$target = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
+			}
 
 			$model->target_indexable_id = $target->id;
 			if ( $target->object_type === 'post' ) {
@@ -347,7 +366,7 @@ class Indexable_Link_Builder {
 	protected function update_incoming_links_for_related_indexables( $related_indexable_ids ) {
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
 		foreach ( $counts as $count ) {
-			$this->seo_meta_repository->update_incoming_link_count( $count['indexable_id'], $count['incoming'] );
+			$this->indexable_repository->update_incoming_link_count( $count['indexable_id'], $count['incoming'] );
 		}
 	}
 }

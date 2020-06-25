@@ -2152,8 +2152,7 @@ class ORM implements \ArrayAccess {
 			if ( empty( $values ) && empty( $this->_expr_fields ) ) {
 				return true;
 			}
-			$query = $this->_build_update();
-			$this->_add_id_column_conditions( $query );
+			$query = \join( ' ', [ $this->_build_update(), $this->_add_id_column_conditions() ] );
 
 			$id = $this->id( true );
 			if ( \is_array( $id ) ) {
@@ -2215,9 +2214,9 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Adds a WHERE clause for every column that belongs to the primary key.
 	 *
-	 * @param array $query The query.
+	 * @return string The where part of the query.
 	 */
-	public function _add_id_column_conditions( &$query ) {
+	public function _add_id_column_conditions() {
 		$query[] = 'WHERE';
 		$keys    = \is_array( $this->_get_id_column_name() ) ? $this->_get_id_column_name() : [ $this->_get_id_column_name() ];
 		$first   = true;
@@ -2231,6 +2230,8 @@ class ORM implements \ArrayAccess {
 			$query[] = $this->_quote_identifier( $key );
 			$query[] = '= %s';
 		}
+
+		return \join( ' ', $query );
 	}
 
 	/**
@@ -2280,8 +2281,7 @@ class ORM implements \ArrayAccess {
 	 * @return string The delete query.
 	 */
 	public function delete() {
-		$query = [ 'DELETE FROM', $this->_quote_identifier( $this->_table_name ) ];
-		$this->_add_id_column_conditions( $query );
+		$query = [ 'DELETE FROM', $this->_quote_identifier( $this->_table_name ), $this->_add_id_column_conditions() ];
 
 		return self::_execute( \join( ' ', $query ), \is_array( $this->id( true ) ) ? \array_values( $this->id( true ) ) : [ $this->id( true ) ] );
 	}

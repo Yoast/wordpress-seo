@@ -80,6 +80,11 @@ import ProgressBar from "./ui/progressBar";
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
+			const settings = window[ $( this ).data( "settings" ) ];
+			let modalId    = settings.ids.modal || "yoast-indexation-wrapper";
+			modalId = modalId.replace( /^#/, '' );
+			console.log( modalId );
+
 			/*
 			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
 			 * So we temporarily revert that change as we do want to have custom height and width.
@@ -94,18 +99,18 @@ import ProgressBar from "./ui/progressBar";
 					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
 				} );
 			};
-			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=175&inlineId=yoast-indexation-wrapper", false );
+			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=175&inlineId=" + modalId, false );
 			window.tb_position = old_tb_position;
 			/* eslint-enable camelcase */
 
 			if ( indexationInProgress === false ) {
-				const settings = window[ $( this ).data( "settings" ) ];
-
 				stoppedIndexation = false;
 				indexationInProgress = true;
 
 				a11ySpeak( settings.l10n.calculationInProgress, "polite" );
-				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
+				const progressBar    = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
+				const notificationId = settings.ids.notification || "#yoast-indexation-warning";
+				const toolId         = settings.ids.tool || "#yoast-indexation";
 
 				startIndexation( settings, progressBar ).then( () => {
 					if ( stoppedIndexation ) {
@@ -114,11 +119,11 @@ import ProgressBar from "./ui/progressBar";
 
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );
-					$( "#yoast-indexation-warning" )
+					$( notificationId )
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
+					$( toolId ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
@@ -128,11 +133,11 @@ import ProgressBar from "./ui/progressBar";
 					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
-					$( "#yoast-indexation-warning" )
+					$( notificationId )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
+					$( toolId ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );

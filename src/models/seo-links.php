@@ -55,7 +55,7 @@ class SEO_Links extends Model {
 	 *
 	 * @var array.
 	 */
-	protected $parsed_url;
+	public $parsed_url;
 
 	/**
 	 * Which columns contain int values.
