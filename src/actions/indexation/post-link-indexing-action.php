@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -17,6 +18,13 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Post_Link_Indexing_Action class.
  */
 class Post_Link_Indexing_Action implements Indexation_Action_Interface {
+
+	/**
+	 * The link builder.
+	 *
+	 * @var Indexable_Link_Builder
+	 */
+	protected $link_builder;
 
 	/**
 	 * The post type helper.
@@ -42,15 +50,18 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	/**
 	 * Indexable_Post_Indexing_Action constructor
 	 *
-	 * @param Post_Type_Helper     $post_type_helper  The post type helper.
-	 * @param Indexable_Repository $repository        The indexable repository.
-	 * @param wpdb                 $wpdb              The WordPress database instance.
+	 * @param Indexable_Link_Builder $link_builder     The indexable link builder.
+	 * @param Post_Type_Helper       $post_type_helper The post type helper.
+	 * @param Indexable_Repository   $repository       The indexable repository.
+	 * @param wpdb                   $wpdb             The WordPress database instance.
 	 */
 	public function __construct(
+		Indexable_Link_Builder $link_builder,
 		Post_Type_Helper $post_type_helper,
 		Indexable_Repository $repository,
 		wpdb $wpdb
 	) {
+		$this->link_builder     = $link_builder;
 		$this->post_type_helper = $post_type_helper;
 		$this->repository       = $repository;
 		$this->wpdb             = $wpdb;
@@ -60,6 +71,12 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	 * @inheritDoc
 	 */
 	public function get_total_unindexed() {
+		$transient = \get_transient( 'wpseo-unindexed-post-link-count' );
+
+		if ( $transient ) {
+			return (int) $transient;
+		}
+
 		$query = $this->get_query( true );
 
 		$result = $this->wpdb->get_var( $query );
@@ -67,6 +84,9 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 		if ( \is_null( $result ) ) {
 			return false;
 		}
+
+		\set_transient( 'wpseo-unindexed-post-link-count', $result, \DAY_IN_SECONDS );
+
 		return (int) $result;
 	}
 
@@ -82,7 +102,15 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 
 		$indexables = [];
 		foreach ( $post_ids as $post_id ) {
-			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
+			$indexable = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
+
+			// It's possible the indexable was created without having it's links indexed.
+			if ( $indexable->link_count === null ) {
+				$post = \get_post( $indexable->object_id );
+				$this->link_builder->build( $indexable, $post->post_content );
+			}
+
+			$indexables[] = $indexable;
 		}
 
 		return $indexables;
