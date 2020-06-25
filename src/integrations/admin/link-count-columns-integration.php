@@ -103,19 +103,19 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( \wp_doing_ajax() ) {
-			add_action( 'admin_init', [ $this, 'fill_cache' ] );
+			\add_action( 'admin_init', [ $this, 'fill_cache' ] );
 		}
 
 		// Hook into tablenav to calculate links and linked.
-		add_action( 'manage_posts_extra_tablenav', [ $this, 'maybe_fill_cache' ] );
+		\add_action( 'manage_posts_extra_tablenav', [ $this, 'maybe_fill_cache' ] );
 
-		add_filter( 'posts_clauses', [ $this, 'order_by_links' ], 1, 2 );
-		add_filter( 'posts_clauses', [ $this, 'order_by_linked' ], 1, 2 );
+		\add_filter( 'posts_clauses', [ $this, 'order_by_links' ], 1, 2 );
+		\add_filter( 'posts_clauses', [ $this, 'order_by_linked' ], 1, 2 );
 
-		add_filter( 'admin_init', [ $this, 'register_init_hooks' ] );
+		\add_filter( 'admin_init', [ $this, 'register_init_hooks' ] );
 
 		// Adds a filter to exclude the attachments from the link count.
-		add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
+		\add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 	}
 
 	/**
@@ -129,9 +129,9 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 		}
 
 		foreach ( $public_post_types as $post_type ) {
-			add_filter( 'manage_' . $post_type . '_posts_columns', [ $this, 'add_post_columns' ] );
-			add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'column_content' ], 10, 2 );
-			add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'column_sort' ] );
+			\add_filter( 'manage_' . $post_type . '_posts_columns', [ $this, 'add_post_columns' ] );
+			\add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'column_content' ], 10, 2 );
+			\add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'column_sort' ] );
 		}
 	}
 
