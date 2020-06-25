@@ -36,7 +36,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Add synonyms and related keywords, use our Premium SEO analysis, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				[
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
-					'type'  => 'primary',
+					'type'  => 'upsell',
 					'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				],
 				[
@@ -81,7 +81,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				[
 					'label' => 'Local SEO',
 					'type'  => 'link',
-					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
+					'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-local-seo' ),
 				],
 				[
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),

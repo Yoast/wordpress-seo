@@ -66,16 +66,16 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		/* translators: %s expands to Yoast SEO Premium */
 		$button_text  = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+			'<span aria-hidden="true" class="yoast-button--buy__caret"></span>';
 
 		$upgrade_button = sprintf(
-			'<a id="%1$s" class="yoast-button-upsell" href="%2$s" target="_blank">%3$s</a>',
+			'<a id="%1$s" class="yoast-button yoast-button--buy" href="%2$s" target="_blank">%3$s</a>',
 			esc_attr( 'wpseo-' . $this->identifier . '-popup-button' ),
 			esc_url( $url ),
 			$button_text
 		);
 
-		echo '<div class="' . esc_attr( $class ) . '">';
+		echo '<div class="yoast-paper ' . esc_attr( $class ) . '">';
 
 		echo '<div>';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .

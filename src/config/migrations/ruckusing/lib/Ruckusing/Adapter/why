@@ -1,7 +1,0 @@
-The ruckusing framework requires a constant to be defined that points to a directory that matches the directory structure it itself uses.
-
-From there it will require files to load. If the plugin is installed with composer we have no way of determining where ruckusing is installed.
-
-This doesn't matter any way as all it's files are autoloaded. Instead we just give it a directory that matches it's own structure with no files.
-
-Ruckusing will then scan this directory and not load any files. Then see that all the classes it wanted exist anyway and happily continue on.

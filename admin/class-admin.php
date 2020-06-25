@@ -76,6 +76,7 @@ class WPSEO_Admin {
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			add_filter( 'admin_body_class', [ $this, 'set_yoast_body_class' ] );
 		}
 
 		if ( WPSEO_Utils::is_api_available() ) {
@@ -124,6 +125,17 @@ class WPSEO_Admin {
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
+	}
+
+	/**
+	 * Adds `yoast` to the admin page body class.
+	 *
+	 * @param string $body_class Space-separated list of CSS classes.
+	 *
+	 * @return string Space-separated list of CSS classes with `yoast` added.
+	 */
+	public function set_yoast_body_class( $body_class ) {
+		return $body_class . ' yoast';
 	}
 
 	/**
@@ -260,15 +272,13 @@ class WPSEO_Admin {
 	 */
 	public function enqueue_global_style() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'admin-global' );
+		$asset_manager->enqueue_style( 'post-overview-global' );
 	}
 
 	/**
 	 * Filter the $contactmethods array and add a set of social profiles.
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
-	 *
-	 * @link https://developers.google.com/search/docs/data-types/social-profile
 	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *

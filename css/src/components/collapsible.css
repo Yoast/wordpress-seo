@@ -1,0 +1,10 @@
+.yoast-collapsible {
+	margin-bottom: 48px;
+	max-width: 600px;
+	position: relative;
+}
+
+.yoast-collapsible .collapsible-header {
+	border-bottom: var(--yoast-border-default);
+	padding-bottom: 13px;
+}

@@ -14,47 +14,49 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
+$yoast_features = new WPSEO_Features();
 
 ?>
 <h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
-<div class="yoast-measure">
+<div class="yoast-feature">
+	<p>
+		<?php
+		printf(
+			/* translators: %1$s expands to Yoast SEO */
+			esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		?>
+	</p>
+
 	<?php
-	echo sprintf(
-		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( '%1$s comes with a lot of features. You can enable / disable some of them below. Clicking the question mark gives more information about the feature.', 'wordpress-seo' ),
-		'Yoast SEO'
-	);
 
 	foreach ( $feature_toggles as $feature ) {
-		$help_text = esc_html( $feature->label );
-		if ( ! empty( $feature->extra ) ) {
-			$help_text .= ' ' . $feature->extra;
-		}
-		if ( ! empty( $feature->read_more_label ) ) {
-			$help_text .= ' ';
-			$help_text .= sprintf(
-				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
-				esc_url( WPSEO_Shortlinker::get( $feature->read_more_url ) ),
-				esc_html( $feature->read_more_label )
+		if ( $feature->premium && ! $yoast_features->is_premium() ) {
+			$yform->light_switch_disabled(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label ),
+				false,
+				esc_url( WPSEO_Shortlinker::get( $feature->upsell_url ) )
 			);
 		}
+		else {
 
-		$feature_help = new WPSEO_Admin_Help_Panel(
-			$feature->setting,
-			/* translators: %s expands to a feature's name */
-			sprintf( esc_html__( 'Help on: %s', 'wordpress-seo' ), esc_html( $feature->name ) ),
-			$help_text
-		);
-
-		$yform->toggle_switch(
-			$feature->setting,
-			[
-				'on'  => __( 'On', 'wordpress-seo' ),
-				'off' => __( 'Off', 'wordpress-seo' ),
-			],
-			'<strong>' . $feature->name . '</strong>',
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
-		);
+			$yform->light_switch(
+				$feature->setting,
+				$feature->name,
+				[
+					__( 'Off', 'wordpress-seo' ),
+					__( 'On', 'wordpress-seo' ),
+				],
+				new WPSEO_Admin_Help_Button( $feature->read_more_url, $feature->read_more_label )
+			);
+		}
 	}
 	?>
 </div>

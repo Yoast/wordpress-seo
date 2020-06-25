@@ -34,15 +34,22 @@ const externals = {
 };
 
 const wordpressExternals = {
-	"@wordpress/element": "window.wp.element",
-	"@wordpress/data": "window.wp.data",
-	"@wordpress/components": "window.wp.components",
-	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/api-fetch": "window.wp.apiFetch",
-	"@wordpress/rich-text": "window.wp.richText",
+	"@wordpress/block-editor": "window.wp.blockEditor",
+	"@wordpress/components": "window.wp.components",
 	"@wordpress/compose": "window.wp.compose",
+	"@wordpress/data": "window.wp.data",
+	"@wordpress/dom": "window.wp.dom",
+	"@wordpress/element": "window.wp.element",
+	"@wordpress/html-entities": "window.wp.htmlEntities",
+	"@wordpress/edit-post": "window.wp.editPost",
+	"@wordpress/i18n": "window.wp.i18n",
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
+	"@wordpress/keycodes": "window.wp.keycodes",
+	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/url": "window.wp.url",
+	"@wordpress/dom-ready": "window.wp.domReady",
+	"@wordpress/a11y": "window.wp.a11y",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
@@ -192,7 +199,7 @@ module.exports = function( env ) {
 					test: /\.css$/,
 					use: [
 						MiniCssExtractPlugin.loader,
-						'css-loader',
+						"css-loader",
 					],
 				},
 			],
@@ -228,7 +235,7 @@ module.exports = function( env ) {
 		{
 			...base,
 			entry: {
-				components: "./js/src/components.js",
+				components: "./js/src/externals/components.js",
 			},
 			output: {
 				path: path.resolve(),
@@ -272,8 +279,8 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				analysis: "./js/src/analysis.js",
+				"analysis-worker": "./js/src/analysis-worker.js",
+				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -285,7 +292,7 @@ module.exports = function( env ) {
 			...base,
 			externals: { yoastseo: "yoast.analysis" },
 			entry: {
-				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

@@ -6,7 +6,7 @@
  */
 
 /**
- * Overal Option Management class.
+ * Overall Option Management class.
  *
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
@@ -228,8 +228,11 @@ class WPSEO_Options {
 		$option_names = array_filter( $option_names, 'is_string' );
 		foreach ( $option_names as $option_name ) {
 			if ( isset( static::$option_instances[ $option_name ] ) ) {
-				$option  = static::get_option( $option_name );
-				$options = array_merge( $options, $option );
+				$option = static::get_option( $option_name );
+
+				if ( $option !== null ) {
+					$options = array_merge( $options, $option );
+				}
 			}
 		}
 

@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $tool_page = (string) filter_input( INPUT_GET, 'tool' );
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( false );
+$yform->admin_header( false, 'tools' );
 
 if ( $tool_page === '' ) {
 
@@ -45,7 +45,7 @@ if ( $tool_page === '' ) {
 	);
 	echo '</p>';
 
-	echo '<ul class="ul-disc">';
+	echo '<ul class="yoast-list">';
 
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
@@ -54,7 +54,7 @@ if ( $tool_page === '' ) {
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';
-		echo '<strong><a href="', esc_url( $href ), '" ', esc_attr( $attr ), '>', esc_html( $tool['title'] ), '</a></strong><br/>';
+		echo '<a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a><br/>';
 		echo esc_html( $tool['desc'] );
 		echo '</li>';
 	}

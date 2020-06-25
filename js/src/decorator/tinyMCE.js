@@ -63,7 +63,7 @@ function markTinyMCE( editor, paper, marks ) {
  * @param {tinyMCE.Editor} editor The editor to return a function for.
  * @returns {Function} The function that can be called to decorate the editor.
  */
-function tinyMCEDecorator( editor ) {
+export function tinyMCEDecorator( editor ) {
 	window.test = editor;
 
 	return markTinyMCE.bind( null, editor );
@@ -75,7 +75,7 @@ function tinyMCEDecorator( editor ) {
  * @param {tinyMCE.Editor} editor The editor.
  * @returns {boolean} Whether or not there are marks inside the editor.
  */
-function editorHasMarks( editor ) {
+export function editorHasMarks( editor ) {
 	var content = editor.getContent( { format: "raw" } );
 
 	return -1 !== content.indexOf( "<" + MARK_TAG );
@@ -88,17 +88,10 @@ function editorHasMarks( editor ) {
  *
  * @returns {void}
  */
-function editorRemoveMarks( editor ) {
+export function editorRemoveMarks( editor ) {
 	// Create a decorator with the given editor.
 	var decorator = tinyMCEDecorator( editor );
 
 	// Calling the decorator with an empty array of marks will clear the editor of marks.
 	decorator( null, [] );
 }
-
-module.exports = {
-	tinyMCEDecorator: tinyMCEDecorator,
-
-	editorHasMarks: editorHasMarks,
-	editorRemoveMarks: editorRemoveMarks,
-};

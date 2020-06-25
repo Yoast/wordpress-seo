@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RaisedButton from "material-ui/RaisedButton";
-import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
 import { localize } from "yoast-components";
 import { LoadingIndicator } from "@yoast/configuration-wizard";
 import { sendRequest } from "@yoast/helpers";
@@ -91,6 +89,16 @@ class MailchimpSignup extends React.Component {
 		result
 			.then(
 				( response ) => {
+					// For privacy reasons, don't show it when an email address is already on the mailing list.
+					if ( response.msg.indexOf( "is already subscribed" ) !== -1  ) {
+						this.setState( {
+							isLoading: false,
+							successfulSignup: true,
+							message: "Almost finished... We need to confirm your email address." +
+							"To complete the subscription process, please click the link in the email we just sent you.",
+						} );
+						return;
+					}
 					if ( response.result === "error" ) {
 						this.setState( {
 							isLoading: false,
@@ -194,19 +202,19 @@ class MailchimpSignup extends React.Component {
 
 		const input = <input
 			id="mailchimpEmail"
-			className="yoast-wizard-text-input-field"
+			className="yoast-field-group__inputfield"
 			ref={ this.setEmailInputRef }
 			type="email"
 			name={ this.props.name }
 			defaultValue={ this.props.properties.currentUserEmail }
 			autoComplete="email"
 		/>;
-		const button = <RaisedButton
-			primary={ true }
-			label={ this.props.translate( "Sign Up!" ) }
+		const button = <button
+			className="yoast-button yoast-button--primary"
 			onClick={ this.signup.bind( this ) }
-			icon={ <IconMailOutline color="#ffffff" viewBox="0 0 28 28" /> }
-		/>;
+		>
+			{ this.props.translate( "Sign up!" ) }
+		</button>;
 		const message = this.getSignupMessage();
 		const loader = this.getLoadingIndicator();
 
@@ -217,25 +225,25 @@ class MailchimpSignup extends React.Component {
 					<p>{ this.props.properties.label }</p>
 					{ this.props.properties.freeAccountNotice && <strong>{ this.props.properties.freeAccountNotice }</strong> }
 					<div className="yoast-wizard--columns yoast-wizard--columns__even">
-						<div className="yoast-wizard-text-input">
-							<label
-								htmlFor="mailchimpEmail"
-								className="yoast-wizard-text-input-label"
-							>
-								{ this.props.translate( "Email" ) }
-							</label>
-							{ input }
+						<div className="yoast-wizard-text-input yoast-wizard__mailchimp">
+							<div className="yoast-wizard__mailchimp-input">
+								<label
+									htmlFor="mailchimpEmail"
+									className="yoast-wizard-text-input-label"
+								>
+									{ this.props.translate( "Email" ) }
+								</label>
+								{ input }
+							</div>
+							{ button }
 						</div>
 					</div>
 
-					{ button }
+
 					{ message }
 					{ loader }
 
 					{ this.props.properties.GDPRNotice && <div dangerouslySetInnerHTML={ { __html: this.props.properties.GDPRNotice } } /> }
-				</div>
-				<div className="hide-on-tablet yoast-wizard-newsletter--decoration">
-					<img src={ this.props.properties.decoration } alt="" />
 				</div>
 			</div>
 		);

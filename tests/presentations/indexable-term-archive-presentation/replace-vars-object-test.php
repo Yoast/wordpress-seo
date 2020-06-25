@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
-use Yoast\WP\SEO\Tests\TestCase;
 use Brain\Monkey;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Replace_Vars_Object_Test

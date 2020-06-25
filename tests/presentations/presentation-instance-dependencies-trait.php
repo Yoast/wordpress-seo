@@ -5,18 +5,18 @@ namespace Yoast\WP\SEO\Tests\Presentations;
 use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;
 use Yoast\WP\SEO\Generators\Open_Graph_Image_Generator;
+use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
+use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Generators\Twitter_Image_Generator;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Generators\Open_Graph_Locale_Generator;
-use Yoast\WP\SEO\Generators\Schema_Generator;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Image_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 trait Presentation_Instance_Dependencies {
 

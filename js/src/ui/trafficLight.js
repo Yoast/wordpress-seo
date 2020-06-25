@@ -5,7 +5,7 @@
  *
  * @returns {void}
  */
-function updateTrafficLight( indicator ) {
+export function update( indicator ) {
 	var trafficLight = jQuery( ".yst-traffic-light" );
 	var trafficLightLink = trafficLight.closest( ".wpseo-meta-section-link" );
 	var trafficLightDesc = jQuery( "#wpseo-traffic-light-desc" );
@@ -26,7 +26,3 @@ function updateTrafficLight( indicator ) {
 			.append( "<span id='wpseo-traffic-light-desc' class='screen-reader-text'>" + indicator.screenReaderText + "</span>" );
 	}
 }
-
-module.exports = {
-	update: updateTrafficLight,
-};

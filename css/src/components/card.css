@@ -1,0 +1,85 @@
+.yoast-promo-extensions {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.yoast-card {
+	position: relative;
+	background: white;
+	margin-bottom: 32px;
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	box-shadow: var(--yoast-shadow-default);
+	border: var(--yoast-border-default);
+}
+
+.yoast-card:not(:last-of-type) {
+	margin-right: 24px;
+}
+
+.yoast-card__image img,
+.yoast-card__image svg {
+	display: block;
+	width: 100%;
+}
+
+.yoast-card__title {
+	font-size: 20px;
+	line-height: 1.2;
+	color: var(--yoast-color-primary);
+	margin-bottom: 16px;
+	margin-top: 0;
+	padding: 0 24px;
+}
+
+.yoast-card__content {
+	flex-grow: 1;
+	padding: 16px;
+}
+
+.yoast-card__footer {
+	padding: 16px;
+}
+
+.yoast-card__footer .yoast-button--buy {
+	display: flex;
+	justify-content: center;
+}
+
+.read-more,
+.yoast-link--license {
+	display: block;
+	margin-top: 16px;
+	text-align: center;
+}
+
+.yoast-link--license {
+	text-align: left;
+}
+
+.yoast-label {
+	display: inline-block;
+	border-radius: 17px;
+	font-size: 12px;
+	color: var(--yoast-color-white);
+	padding: 2px 11px;
+	margin-right: 4px;
+}
+
+.yoast-label--active {
+	background-color: var(--yoast-color-active);
+}
+
+.yoast-label--inactive {
+	background-color: var(--yoast-color-inactive);
+}
+
+.yoast-notice {
+	clear:both;
+	background-color: #ffeb3b;
+	color: var(--yoast-color-default);
+	padding: 16px;
+	max-width: 450px;
+	margin-bottom: 32px;
+}

@@ -14,6 +14,10 @@ import CountrySelector from "./modals/CountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
+import SemRushRequestFailed from "./modals/SemRushRequestFailed";
+import SemRushLoading from "./modals/SemRushLoading";
+import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
+import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -31,6 +35,7 @@ class RelatedKeyPhrasesModal extends Component {
 
 		this.state = {
 			isModalOpen: false,
+			isLoading: false,
 		};
 
 		this.handleOnClick = this.handleOnClick.bind( this );
@@ -60,7 +65,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	openModal() {
-		this.setState( { isModalOpen: true } );
+		this.setState( { isModalOpen: true, isLoading: true } );
 	}
 
 	/**
@@ -69,7 +74,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	closeModal() {
-		this.setState( { isModalOpen: false } );
+		this.setState( { isModalOpen: false, isLoading: false } );
 	}
 
 	/**
@@ -78,7 +83,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location } = this.props;
+		const { keyphrase, location, maxRelatedKeyphrasesEntered } = this.props;
 
 		return (
 			<Fragment>
@@ -100,7 +105,13 @@ class RelatedKeyPhrasesModal extends Component {
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
+							{ this.state.isLoading && <SemRushLoading /> }
+							{ maxRelatedKeyphrasesEntered && (
+								<SemRushMaxRelatedKeyphrases />
+							) }
+							<SemRushUpsellAlert />
 							<SemRushLimitReached />
+							<SemRushRequestFailed />
 							<CountrySelector />
 							<KeyphrasesTable />
 							<h2>Debug info</h2>
@@ -119,11 +130,13 @@ class RelatedKeyPhrasesModal extends Component {
 RelatedKeyPhrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
+	maxRelatedKeyphrasesEntered: PropTypes.bool,
 };
 
 RelatedKeyPhrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
+	maxRelatedKeyphrasesEntered: false,
 };
 
 /**

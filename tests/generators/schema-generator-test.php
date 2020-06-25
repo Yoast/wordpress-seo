@@ -9,18 +9,18 @@ namespace Yoast\WP\SEO\Tests\Generators;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Generators\Schema_Generator;
-use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Generators\Schema\Organization;
 use Yoast\WP\SEO\Generators\Schema\FAQ;
+use Yoast\WP\SEO\Generators\Schema\Organization;
+use Yoast\WP\SEO\Generators\Schema_Generator;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Schema_Generator_Test
@@ -332,7 +332,7 @@ class Schema_Generator_Test extends TestCase {
 					[
 						'@type'          => 'Question',
 						'@id'            => '#id-1',
-						'position'       => 0,
+						'position'       => 1,
 						'url'            => '#id-1',
 						'name'           => 'This is a question',
 						'answerCount'    => 1,
@@ -406,7 +406,7 @@ class Schema_Generator_Test extends TestCase {
 				[
 					'@type'          => 'Question',
 					'@id'            => '#id-1',
-					'position'       => 0,
+					'position'       => 1,
 					'url'            => '#id-1',
 					'name'           => 'This is a question',
 					'answerCount'    => 1,
