@@ -101,17 +101,17 @@ const findSuffixInClassAndStem = function( word, suffixClass ) {
  * Stems adjective and adverb suffixes. After stemming the suffixes, looks for the superlative prefix 'naj' and stems it
  * as well if found. For example, in 'najsilniejsze', first the 'ejsze' is stemmed and then the 'naj'.
  *
- * @param {string}  word                The word to stem.
- * @param {Object}  morphologyData      The Polish morphology data file.
+ * @param {string}  word                	The word to stem.
+ * @param {Object}  ruleBasedStemmerData    The data for the rule-based stemmer.
  *
  * @returns {string} The word with removed adjective/adverb suffixes
  */
-const stemAdjectivesAndAdverbs = function( word, morphologyData ) {
-	const stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.adjectiveAndAdverbSuffixes );
+const stemAdjectivesAndAdverbs = function( word, ruleBasedStemmerData ) {
+	const stemmedWord = findSuffixInClassAndStem( word, ruleBasedStemmerData.adjectiveAndAdverbSuffixes );
 
 	if ( stemmedWord ) {
 		// Remove superlative prefix if found
-		if ( word.startsWith( morphologyData.externalStemmer.superlativePrefix ) ) {
+		if ( word.startsWith( ruleBasedStemmerData.superlativePrefix ) ) {
 			return stemmedWord.slice( 3 );
 		}
 		return stemmedWord;
@@ -123,13 +123,15 @@ const stemAdjectivesAndAdverbs = function( word, morphologyData ) {
  *
  * @param {string}  word                The word to stem.
  * @param {Object}  morphologyData      The Polish morphology data file.
- * @param {Object}  dictionary          The dictionary stemmer with word-stem pairs.
  *
  * @returns {string} The stemmed word.
  */
-export default function stem( word, morphologyData, dictionary ) {
+export default function stem( word, morphologyData ) {
+	const ruleBasedStemmerData = morphologyData.externalStemmer;
+	const dictionaryStemmer = morphologyData.dictionaryTest;
+
 	// Check if the word exists in the dictionary stemmer. If yes, replace the word with the base form of the word specified in the dictionary.
-	let stemmedWord = dictionary[ word ];
+	let stemmedWord = dictionaryStemmer[ word ];
 	if ( stemmedWord ) {
 		word = stemmedWord;
 	}
@@ -145,18 +147,18 @@ export default function stem( word, morphologyData, dictionary ) {
 	 * Go through diminutive, noun, verb, and adjective stemming steps. If a suffix (and optional prefix in case of adjectives/adverbs)
 	 *  is found, delete it and stop searching further.
 	 */
-	stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.diminutiveSuffixes );
+	stemmedWord = findSuffixInClassAndStem( word, ruleBasedStemmerData.diminutiveSuffixes );
 
 	if ( ! stemmedWord ) {
-		stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.nounSuffixes );
+		stemmedWord = findSuffixInClassAndStem( word, ruleBasedStemmerData.nounSuffixes );
 	}
 
 	if ( ! stemmedWord ) {
-		stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.verbSuffixes );
+		stemmedWord = findSuffixInClassAndStem( word, ruleBasedStemmerData.verbSuffixes );
 	}
 
 	if ( ! stemmedWord ) {
-		stemmedWord = stemAdjectivesAndAdverbs( word, morphologyData );
+		stemmedWord = stemAdjectivesAndAdverbs( word, ruleBasedStemmerData );
 	}
 
 	// If the word was stemmed in any of the previous steps, replace the word with the stem.
@@ -165,7 +167,7 @@ export default function stem( word, morphologyData, dictionary ) {
 	}
 
 	// Find and stem general suffixes
-	stemmedWord = findSuffixInClassAndStem( word, morphologyData.externalStemmer.generalSuffixes );
+	stemmedWord = findSuffixInClassAndStem( word, ruleBasedStemmerData.generalSuffixes );
 
 	if ( stemmedWord ) {
 		return stemmedWord;
