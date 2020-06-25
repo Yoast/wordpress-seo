@@ -413,12 +413,13 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '
-		" placeholder="' . esc_attr( $attr['placeholder'] ) . '
-		" type="' . $type . '
-		" id="', esc_attr( $var ), '
-		" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']
-		" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '"
+		placeholder="' . esc_attr( $attr['placeholder'] ) . '"
+		type="' . $type . '"
+		id="', esc_attr( $var ), '"
+		name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']"
+		value="', esc_attr( $val ), '"',
+		disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
 
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
