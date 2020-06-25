@@ -361,7 +361,7 @@ class Yoast_Form {
 		'<span class="yoast-toggle--inactive" aria-hidden="true">', esc_html( $off_button ), '</span>',
 		'<span class="yoast-toggle--active" aria-hidden="true">', esc_html( $on_button ), '</span>',
 		'</div>',
-		'<a href="', $url, '" class="yoast-button yoast-button--buy yoast-button--buy-small">', __( 'Upgrade to premium', 'wordpress-seo' ) ,'<span class="yoast-button--buy__caret"></span></a>',
+		'<a href="', $url, '" class="yoast-button yoast-button--buy yoast-button--buy-small">', __( 'Upgrade to Premium', 'wordpress-seo' ) ,'<span class="yoast-button--buy__caret"></span></a>',
 		'</div>';
 	}
 
