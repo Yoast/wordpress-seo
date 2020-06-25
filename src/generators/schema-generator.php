@@ -101,9 +101,22 @@ class Schema_Generator implements Generator_Interface {
 				 *
 				 * @api array $graph_piece The graph piece to filter.
 				 *
-				 * @param Meta_Tags_Context $context     A value object with context variables.
+				 * @param Meta_Tags_Context $context A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
+
+				$type = isset( $graph_piece['@type'] ) ? strtolower( $graph_piece['@type'] ) : '';
+				// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
+				if ( $type !== $identifier ) {
+					/**
+					 * Filter: 'wpseo_schema_<type>' - Allows changing graph piece output by @type.
+					 *
+					 * @api array $graph_piece The graph piece to filter.
+					 *
+					 * @param Meta_Tags_Context $context A value object with context variables.
+					 */
+					$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context );
+				}
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
 				}
