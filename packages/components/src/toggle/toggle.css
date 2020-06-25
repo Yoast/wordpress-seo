@@ -69,12 +69,16 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 .yoast-toggle__switch::before {
 	content: '';
 	position: absolute;
+	box-sizing: border-box;
 	top: -3px;
 	left: 0;
 	background-color: var(--yoast-color-inactive-grey-light);
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.40);
+	border: 1px solid;
+	border-image-source: linear-gradient(to top, rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.0));
 }
 
 .yoast-toggle,
