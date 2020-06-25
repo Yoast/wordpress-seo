@@ -1,12 +1,11 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
+import { Fragment, Component } from "@wordpress/element";
 
 /**
  * The Related Keyphrases table component.
  */
-class KeyphrasesTable extends React.Component {
+class KeyphrasesTable extends Component {
 	/**
 	 * Constructs the Related Keyphrases table.
 	 *

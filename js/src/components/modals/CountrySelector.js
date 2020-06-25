@@ -1,12 +1,11 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
+import { Fragment, Component } from "@wordpress/element";
 
 /**
  * The Country selector component.
  */
-class CountrySelector extends React.Component {
+class CountrySelector extends Component {
 	/**
 	 * Constructs the country selector.
 	 *
