@@ -25,12 +25,12 @@
 	display: flex;
 }
 
-.yoast-paper__item .yoast-alert {
+.yoast-paper__item .yoast-notification {
 	position: relative;
 	margin-left: 22px;
 }
 
-.yoast-paper__item .yoast-alert::before {
+.yoast-paper__item .yoast-notification::before {
 	content: '';
 	background: var(--yoast-exclamation-mark) no-repeat center center;
 	width: 14px;
