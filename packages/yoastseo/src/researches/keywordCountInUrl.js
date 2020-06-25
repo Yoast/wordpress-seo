@@ -23,7 +23,6 @@ export default function( paper, researcher ) {
 		const unparsedSlug = paper.getUrl();
 		keyphraseInSlug = findTopicFormsInString( topicForms, unparsedSlug, false, paper.getLocale() );
 	}
-
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,
 		percentWordMatches: keyphraseInSlug.percentWordMatches,
