@@ -442,6 +442,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
+					self::PREFIX . 'draft-js',
 					'wp-a11y',
 					'wp-dom-ready',
 				],
@@ -482,6 +483,10 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 				],
+			],
+			[
+				'name' => 'draft-js',
+				'src'  => 'draft-js-' . $flat_version,
 			],
 		];
 	}
