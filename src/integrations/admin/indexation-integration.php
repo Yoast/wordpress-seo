@@ -231,7 +231,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 		}
 	}

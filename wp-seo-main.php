@@ -314,16 +314,6 @@ function wpseo_init() {
 	// Init it here because the filter must be present on the frontend as well or it won't work in the customizer.
 	new WPSEO_Customizer();
 
-	/*
-	 * Initializes the link watcher for both the frontend and backend.
-	 * Required to process scheduled items properly.
-	 */
-	$storage           = new WPSEO_Link_Storage();
-	$count_storage     = new WPSEO_Meta_Storage();
-	$link_builder	   = new WPSEO_Link_Builder( $storage, $count_storage );
-	$link_watcher      = new WPSEO_Link_Watcher( $link_builder );
-	$link_watcher->register_hooks();
-
 	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 
@@ -362,7 +352,6 @@ function wpseo_init_rest_api() {
 	$statistics_service = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
-	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Post_Link_Indexing_Action() );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );

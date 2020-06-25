@@ -76,14 +76,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function index() {
-		/**
-		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
-		 *
-		 * @api int The maximum number of posts indexed.
-		 */
-		$limit = \apply_filters( 'wpseo_post_link_indexing_limit', 5 );
-
-		$query = $this->get_query( false, $limit );
+		$query = $this->get_query( false, $this->get_limit() );
 
 		$post_ids = $this->wpdb->get_col( $query );
 
@@ -93,6 +86,18 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 		}
 
 		return $indexables;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function get_limit() {
+		/**
+		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 *
+		 * @api int The maximum number of posts indexed.
+		 */
+		return \apply_filters( 'wpseo_post_link_indexing_limit', 5 );
 	}
 
 	/**

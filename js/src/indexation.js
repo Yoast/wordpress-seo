@@ -71,10 +71,17 @@ const settings = yoastIndexationData;
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
-			// WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
-			// So we temporarily revert that change as we do want to have custom height and width.
-			// Eslint is disabled as these have to use the correct names.
-			// @see https://core.trac.wordpress.org/ticket/27473
+			const settings = window[ $( this ).data( "settings" ) ];
+			let modalId    = settings.ids.modal || "yoast-indexation-wrapper";
+			modalId = modalId.replace( /^#/, "" );
+			console.log( modalId );
+
+			/*
+			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
+			 * So we temporarily revert that change as we do want to have custom height and width.
+			 * Eslint is disabled as these have to use the correct names.
+			 * @see https://core.trac.wordpress.org/ticket/27473
+			 */
 			/* eslint-disable camelcase */
 			const old_tb_position = window.tb_position;
 			window.tb_position = () => {
@@ -83,7 +90,7 @@ const settings = yoastIndexationData;
 					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
 				} );
 			};
-			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=179&inlineId=yoast-indexation-wrapper", false );
+			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=175&inlineId=" + modalId, false );
 			window.tb_position = old_tb_position;
 			/* eslint-enable camelcase */
 
@@ -92,7 +99,9 @@ const settings = yoastIndexationData;
 				indexationInProgress = true;
 
 				a11ySpeak( settings.l10n.calculationInProgress );
-				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
+				const progressBar    = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
+				const notificationId = settings.ids.notification || "#yoast-indexation-warning";
+				const toolId         = settings.ids.tool || "#yoast-indexation";
 
 				startIndexation( progressBar ).then( () => {
 					if ( stoppedIndexation ) {
@@ -101,11 +110,11 @@ const settings = yoastIndexationData;
 
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );
-					$( "#yoast-indexation-warning" )
+					$( notificationId )
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
+					$( toolId ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
@@ -115,11 +124,11 @@ const settings = yoastIndexationData;
 					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
-					$( "#yoast-indexation-warning" )
+					$( notificationId )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
+					$( toolId ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );

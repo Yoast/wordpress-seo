@@ -9,12 +9,15 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
 /**
  * Link_Indexing_Route class.
  */
 class Link_Indexing_Route extends Abstract_Indexation_Route {
+
+	use No_Conditionals;
 
 	/**
 	 * The posts route constant.
@@ -65,5 +68,14 @@ class Link_Indexing_Route extends Abstract_Indexation_Route {
 	 */
 	public function index_posts() {
 		return $this->run_indexation_action( $this->post_link_indexing_action, self::FULL_POSTS_ROUTE );
+	}
+
+	/**
+	 * Whether or not the current user is allowed to index.
+	 *
+	 * @return boolean Whether or not the current user is allowed to index.
+	 */
+	public function can_index() {
+		return \current_user_can( 'edit_posts' );
 	}
 }
