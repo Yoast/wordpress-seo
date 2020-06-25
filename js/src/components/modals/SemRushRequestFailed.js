@@ -12,14 +12,12 @@ import { Alert } from "@yoast/components";
  */
 const SemRushRequestFailed = () => {
 	return (
-		<p>
-			<Alert type="error">
-				{ __(
-					"We've encountered a problem trying to get related keyphrases. Please try again later.",
-					"wordpress-seo"
-				) }
-			</Alert>
-		</p>
+		<Alert type="error">
+			{ __(
+				"We've encountered a problem trying to get related keyphrases. Please try again later.",
+				"wordpress-seo"
+			) }
+		</Alert>
 	);
 };
 
