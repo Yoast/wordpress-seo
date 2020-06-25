@@ -418,7 +418,8 @@ class Yoast_Form {
 		type="' . $type . '"
 		id="', esc_attr( $var ), '"
 		name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']"
-		value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';;
+		value="', esc_attr( $val ), '"',
+		disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
 
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
