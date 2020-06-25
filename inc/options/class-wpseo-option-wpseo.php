@@ -26,6 +26,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
+		'tracking'                                 => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
@@ -252,6 +253,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * Boolean dismiss warnings - not fields - may not be in form
 				 * (and don't need to be either as long as the default is false).
 				 */
+				case 'tracking':
 				case 'ignore_search_engines_discouraged_notice':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
