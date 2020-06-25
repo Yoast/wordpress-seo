@@ -108,16 +108,17 @@ const schemaArticleOptions = [
 	},
 ];
 
-/* translators: %1$s and %2$s expand to a link to the Search Appearance Settings page */
-const footerText = sprintf(
-	__( "You can change the default type for Posts in your %1$sSearch Appearance Settings%2$s.", "wordpress-seo" ),
+/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
+const footerText = ( postTypeName ) => sprintf(
+	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
+	postTypeName,
 	"{{link}}",
-	"{{/link}}"
+	"{{/link}}",
 );
 
-const footerWithLink = interpolateComponents(
+const footerWithLink = ( postTypeName ) => interpolateComponents(
 	{
-		mixedString: footerText,
+		mixedString: footerText( postTypeName ),
 		// eslint-disable-next-line jsx-a11y/anchor-has-content
 		components: { link: <a href="/wp-admin/admin.php?page=wpseo_titles#top#post-types" /> },
 	},
@@ -136,7 +137,7 @@ const Content = ( props ) => (
 			<b>{ props.helpTextTitle }</b>
 			<HelpIcon
 				linkTo={ props.helpTextLink }
-				linkText={ __( "Ultimate structured data guide", "wordpress-seo" ) }
+				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
 			/>
 		</div>
 		<p>
@@ -165,7 +166,7 @@ const Content = ( props ) => (
 			onChange={ props.schemaArticleTypeChange }
 			selected={ props.schemaArticleTypeSelected }
 		/> }
-		<p>{ footerWithLink }</p>
+		<p>{ footerWithLink( props.postTypeName ) }</p>
 	</Fragment>
 );
 
@@ -179,6 +180,7 @@ Content.propTypes = {
 	helpTextLink: PropTypes.string.isRequired,
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
+	postTypeName: PropTypes.string.isRequired,
 };
 
 Content.defaultProps = {
@@ -223,6 +225,7 @@ SchemaTab.propTypes = {
 	helpTextTitle: PropTypes.string.isRequired,
 	helpTextDescription: PropTypes.string.isRequired,
 	isMetabox: PropTypes.bool.isRequired,
+	postTypeName: PropTypes.string.isRequired,
 };
 
 SchemaTab.defaultProps = {

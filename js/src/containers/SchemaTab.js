@@ -109,6 +109,7 @@ const SchemaTabContainer = () => {
 		pageTypeLabel: __( "Page type", "wordpress-seo" ),
 		schemaPageTypeChange: setPageType,
 		schemaPageTypeSelected: getPageType(),
+		postTypeName: window.wpseoAdminL10n.postTypeNamePlural,
 	};
 
 	return (
