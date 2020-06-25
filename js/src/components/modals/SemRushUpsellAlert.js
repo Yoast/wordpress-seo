@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
@@ -11,7 +10,7 @@ const PremiumLandingPageLink = makeOutboundLink();
 /**
  * Creates the content for the Yoast SEO Premium upsell alert in SEMrush modal.
  *
- * @returns {React.Element} The Yoast SEO Premium upsell alert.
+ * @returns {wp.Element} The Yoast SEO Premium upsell alert.
  */
 const SemRushUpsellAlert = () => {
 	return (

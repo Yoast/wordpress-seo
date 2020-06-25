@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
@@ -8,7 +7,7 @@ import { Alert } from "@yoast/components";
 /**
  * Creates the content for the Maximum related keyphrases alert.
  *
- * @returns {React.Element} The Maximum related keyphrases alert.
+ * @returns {wp.Element} The Maximum related keyphrases alert.
  */
 const SemRushMaxRelatedKeyphrases = () => {
 	return (
