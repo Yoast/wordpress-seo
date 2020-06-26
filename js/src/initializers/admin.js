@@ -224,7 +224,7 @@ export default function initAdmin( jQuery ) {
 
 		// Toggle the Media section.
 		jQuery( "#disable-attachment" ).change( function() {
-			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":checked" ) );
+			jQuery( "#media_settings" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
 		// Toggle the Format-based archives section.
