@@ -195,26 +195,6 @@ export default function initAdmin( jQuery ) {
 		jQuery( "#" + activeTabId + "-tab" ).click();
 	}
 
-	/**
-	 * Hides or shows the Author without posts toggle.
-	 *
-	 * @param {bool} visible Whether or not the authors without posts toggle should be visible.
-	 *
-	 * @returns {void}
-	 */
-	function setAuthorsWithoutPostsToggleVisibilty( visible ) {
-		/**
-		 * Get the container surrounding the toggle.
-		 */
-		const toggleContainer = jQuery( "#noindex-author-noposts-wpseo-container" );
-
-		if ( visible ) {
-			toggleContainer.show();
-		} else {
-			toggleContainer.hide();
-		}
-	}
-
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -232,26 +212,10 @@ export default function initAdmin( jQuery ) {
 			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
 		} ).change();
 
-		const authorArchivesDisabled = jQuery( "#noindex-author-wpseo-off" );
-		const authorArchivesEnabled  = jQuery( "#noindex-author-wpseo-on" );
-
-		if ( ! authorArchivesDisabled.is( ":checked" ) ) {
-			setAuthorsWithoutPostsToggleVisibilty( false );
-		}
-
-		// Disable Author archives without posts when Show author archives is toggled off.
-		authorArchivesEnabled.change( () => {
-			if ( ! jQuery( this ).is( ":checked" ) ) {
-				setAuthorsWithoutPostsToggleVisibilty( false );
-			}
-		} );
-
-		// Enable Author archives without posts when Show author archives is toggled on.
-		authorArchivesDisabled.change( () => {
-			if ( ! jQuery( this ).is( ":checked" ) ) {
-				setAuthorsWithoutPostsToggleVisibilty( true );
-			}
-		} );
+		// Toggle the Author indexation section.
+		jQuery( "#noindex-author-wpseo" ).change( function() {
+			jQuery( "#noindex-author-noposts-wpseo-container" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
+		} ).change();
 
 		// Toggle the Date archives section.
 		jQuery( "#disable-date" ).change( function() {
