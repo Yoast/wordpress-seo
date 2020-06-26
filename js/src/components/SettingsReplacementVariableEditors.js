@@ -52,7 +52,7 @@ class SettingsReplacementVariableEditors extends Component {
 	 * DOM.
 	 *
 	 * @returns {Array<wp.Element>} An array of portals to instances of the
-	 *                                settings replacement variable editor.
+	 *                              settings replacement variable editor.
 	 */
 	renderEditors() {
 		return map( this.props.editorElements, ( targetElement ) => {
@@ -93,7 +93,7 @@ class SettingsReplacementVariableEditors extends Component {
 	 * existing (hidden) input in the DOM.
 	 *
 	 * @returns {Array<wp.Element>} An array of portals to instances of the
-	 *                                settings replacement variable field.
+	 *                              settings replacement variable field.
 	 */
 	renderSingleFields() {
 		return map( this.props.singleFieldElements, ( targetElement ) => {
