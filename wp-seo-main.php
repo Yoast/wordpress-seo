@@ -191,14 +191,6 @@ function _wpseo_activate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
-	// Create the text link storage table.
-	$link_installer = new WPSEO_Link_Installer();
-	$link_installer->install();
-
-	// Trigger reindex notification.
-	$notifier = new WPSEO_Link_Notifier();
-	$notifier->manage_notification();
-
 	// Schedule cronjob when it doesn't exists on activation.
 	$wpseo_ryte = new WPSEO_Ryte();
 	$wpseo_ryte->activate_hooks();
