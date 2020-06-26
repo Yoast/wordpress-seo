@@ -146,7 +146,7 @@
 	}
 
 	/**
-	 * Handles dismiss and restore AJAX responses.
+	 * Handles notification dismiss and restore AJAX responses.
 	 *
 	 * @param {Object} $source Object that triggered the request.
 	 * @param {Object} response AJAX response.
@@ -154,7 +154,9 @@
 	 * @returns {void}
 	 */
 	function handleDismissRestoreResponse( $source, response ) {
-		$( ".yoast-notification-holder" ).off( "click", ".restore" ).off( "click", ".dismiss" );
+		$( ".yoast-notification-holder" )
+			.off( "click", ".yoast-restore" )
+			.off( "click", ".yoast-hide" );
 
 		if ( typeof response.html === "undefined" ) {
 			return;
@@ -196,7 +198,7 @@
 	function hookDismissRestoreButtons() {
 		var $dismissible = $( ".yoast-notification-holder" );
 
-		$dismissible.on( "click", ".dismiss", function() {
+		$dismissible.on( "click", ".yoast-hide", function() {
 			var $this = $( this );
 			var $source = $this.closest( ".yoast-notification-holder" );
 
@@ -216,7 +218,7 @@
 			);
 		} );
 
-		$dismissible.on( "click", ".restore", function() {
+		$dismissible.on( "click", ".yoast-restore", function() {
 			var $this = $( this );
 			var $source = $this.closest( ".yoast-notification-holder" );
 
