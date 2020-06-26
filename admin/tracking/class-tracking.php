@@ -137,12 +137,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	protected function should_send_tracking( $ignore_time_treshhold = false ) {
 		global $pagenow;
 
-		/**
-		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
-		 *
-		 * @api string $is_enabled The enabled state. Default is false.
-		 */
-		if ( apply_filters( 'wpseo_enable_tracking', false ) === false && WPSEO_Options::get( 'tracking' ) === false ) {
+		if ( WPSEO_Options::get( 'tracking' ) === false ) {
 			return false;
 		}
 
