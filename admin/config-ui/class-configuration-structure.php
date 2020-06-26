@@ -52,7 +52,7 @@ class WPSEO_Configuration_Structure {
 		],
 		'tracking'         => [
 			'trackingIntro',
-			'tracking'
+			'tracking',
 		],
 		'newsletter'       => [
 			'mailchimpSignup',
