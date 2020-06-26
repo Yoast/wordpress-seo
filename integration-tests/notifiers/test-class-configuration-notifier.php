@@ -80,7 +80,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	public function test_notification_message_start()
 	{
 		$notifier = new Wizard_Notification();
-		$this->assertEquals('Looks like you haven&#039;t used our quick-and-easy configuration wizard yet. It&#039;ll help you set up Yoast SEO with the optimal settings for your site. <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">Start the configuration wizard now</a>!.', $notifier->get_notification_message( 'start' ));
+		$this->assertEquals('Looks like you haven&#039;t used our quick-and-easy configuration wizard yet. It&#039;ll help you set up Yoast SEO with the optimal settings for your site. <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">Start the configuration wizard now</a>!', $notifier->get_notification_message( 'start' ));
 	}
 
 	/**
