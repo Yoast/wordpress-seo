@@ -34,7 +34,8 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 			switch ( $status ) {
 				case 'active':
 					$button = sprintf(
-						'<button type="button" class="yoast-hide">Hide</button>'
+						'<button type="button" class="yoast-hide">%1$s</button>',
+						esc_html__( 'Hide', 'wordpress-seo' )
 					);
 					break;
 

@@ -526,10 +526,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'dashboard-' . $flat_version,
 			],
 			[
-				'name' => 'scoring',
-				'src'  => 'yst_seo_score-' . $flat_version,
-			],
-			[
 				'name' => 'adminbar',
 				'src'  => 'adminbar-' . $flat_version,
 				'deps' => [
@@ -558,6 +554,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'filter-explanation',
 				'src'  => 'filter-explanation-' . $flat_version,
+			],
+			[
+				'name' => 'search-appearance',
+				'src'  => 'search-appearance-' . $flat_version,
 			],
 			[
 				'name' => 'monorepo',

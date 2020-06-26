@@ -97,6 +97,10 @@ ul.wpseo-metabox-tabs li.active {
   margin-bottom: 10px;
 }
 
+.wpseo-meta-section-content {
+  padding: 16px;
+}
+
 .wpseo-metabox-content {
   max-width: 800px;
   padding-top: 16px;

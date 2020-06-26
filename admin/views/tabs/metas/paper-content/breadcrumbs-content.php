@@ -12,7 +12,7 @@ if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 	echo '<br/>';
 }
 echo '<div id="breadcrumbsinfo">';
-
+echo '<h2>' . esc_html__( 'General breadcrumb settings', 'wordpress-seo' ) . '</h2>';
 $yform->textinput( 'breadcrumbs-sep', __( 'Separator between breadcrumbs', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-home', __( 'Anchor text for the Homepage', 'wordpress-seo' ) );
 $yform->textinput( 'breadcrumbs-prefix', __( 'Prefix for the breadcrumb path', 'wordpress-seo' ) );
