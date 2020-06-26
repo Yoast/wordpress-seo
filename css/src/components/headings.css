@@ -17,12 +17,12 @@ body.yoast {
 
 
 /** On admin pages, the <body> Has the class "yoast", this way we can target only our own pages. */
-.yoast h1,
-.yoast h2,
-.yoast h3,
-.yoast .h1,
-.yoast .h2,
-.yoast .h3 {
+.yoast #wpcontent h1,
+.yoast #wpcontent h2,
+.yoast #wpcontent h3,
+.yoast #wpcontent .h1,
+.yoast #wpcontent .h2,
+.yoast #wpcontent .h3 {
 	font-weight: 400;
 	color: var(--yoast-color-primary);
 	padding: 0;
@@ -31,16 +31,16 @@ body.yoast {
 	line-height: 1.2;
 }
 
-.yoast h1, .yoast .h1 {
+.yoast #wpcontent h1, .yoast #wpcontent .h1 {
 	font-size: 1.7em;
 	margin-bottom: 1.34em;
 }
 
-.yoast h2, .yoast .h2 {
+.yoast #wpcontent h2, .yoast #wpcontent .h2 {
 	font-size: 1.4em;
 }
 
-.yoast h3, .yoast .h3 {
+.yoast #wpcontent h3, .yoast #wpcontent .h3 {
 	font-size: 1.1em;
 }
 
