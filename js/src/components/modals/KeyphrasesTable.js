@@ -20,7 +20,7 @@ class KeyphrasesTable extends Component {
 	/**
 	 * Renders the Related Keyphrases table.
 	 *
-	 * @returns {React.Element} The Related Keyphrases table.
+	 * @returns {wp.Element} The Related Keyphrases table.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.

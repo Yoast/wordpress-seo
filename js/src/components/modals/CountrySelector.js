@@ -20,7 +20,7 @@ class CountrySelector extends Component {
 	/**
 	 * Renders the country selector.
 	 *
-	 * @returns {React.Element} The country selector.
+	 * @returns {wp.Element} The country selector.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.
