@@ -20,7 +20,7 @@ import TopLevelProviders from "../TopLevelProviders";
  * @param {Object} store    The Redux store.
  * @param {Object} theme    The theme to use.
  *
- * @returns {ReactElement} The Sidebar component.
+ * @returns {wp.Element} The Sidebar component.
  *
  * @constructor
  */

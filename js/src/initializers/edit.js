@@ -1,6 +1,5 @@
 /* global window wp */
 /* External dependencies */
-import React from "react";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";

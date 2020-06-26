@@ -1,4 +1,3 @@
-import React from "react";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
 
@@ -13,7 +12,7 @@ const PremiumLandingPageLink = makeOutboundLink();
  *
  * @param {Object} props The props for the component.
  *
- * @returns {ReactElement} The Keyword Synonyms upsell component.
+ * @returns {wp.Element} The Keyword Synonyms upsell component.
  */
 const KeywordSynonyms = ( props ) => {
 	const intro = sprintf(

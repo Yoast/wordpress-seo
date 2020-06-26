@@ -10,7 +10,7 @@
 /**
  * External dependencies
  */
-import { createElement, cloneElement, Fragment, isValidElement } from "react";
+import { createElement, cloneElement, Fragment, isValidElement } from "@wordpress/element";
 
 /** @typedef {import('./react').WPElement} WPElement */
 
