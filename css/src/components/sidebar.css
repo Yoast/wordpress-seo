@@ -6,6 +6,13 @@
 
 .wpseo_content_cell {
 	flex-grow: 1;
+	max-width: 100%;
+}
+
+@media screen and ( min-width: 1200px) {
+	.wpseo_content_cell {
+		max-width: calc( 100% - 324px );
+	}
 }
 
 .yoast-sidebar {
