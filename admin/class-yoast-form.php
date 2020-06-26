@@ -650,7 +650,6 @@ class Yoast_Form {
 
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
 
-
 		if ( is_string( $legend ) && $legend !== '' ) {
 
 			$defaults = [
@@ -664,7 +663,7 @@ class Yoast_Form {
 		}
 
 		foreach ( $values as $key => $value ) {
-			echo '<div class="yoast-field-group__radiobutton  yoast-field-group__radiobutton--vertical">';
+			echo '<div class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">';
 			$label      = $value;
 			$aria_label = '';
 
@@ -678,7 +677,6 @@ class Yoast_Form {
 			echo '<label for=' . $var_esc . '-' . $key_esc . '>' . $label . '</label>';
 			echo '</div>';
 		}
-
 
 		echo '</fieldset>';
 	}
