@@ -13,7 +13,7 @@ const BeaconOffset = createGlobalStyle`
 /**
  * Render a component in a newly created div.
  *
- * @param {React.Component} component The component to render.
+ * @param {wp.Component} component The component to render.
  *
  * @returns {void}
  */
@@ -146,7 +146,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 	 *
 	 * @constructor
 	 *
-	 * @returns {React.Element} A SpeechBubble element.
+	 * @returns {wp.Element} A SpeechBubble element.
 	 */
 	const SpeechBubble = () => {
 		return (
@@ -193,7 +193,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 	 *
 	 * @constructor
 	 *
-	 * @returns {React.Element} A HelpScoutBeaconAskConsentButton element.
+	 * @returns {wp.Element} A HelpScoutBeaconAskConsentButton element.
 	 */
 	const HelpScoutBeaconAskConsentButton = () => {
 		const [ show, setShow ] = useState( true );

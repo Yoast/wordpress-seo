@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { IntlProvider as IntlProviderOriginal } from "react-intl";
 
@@ -7,7 +7,7 @@ import { IntlProvider as IntlProviderOriginal } from "react-intl";
  *
  * This component will render an IntlProvider when the locale-data promise is resolved.
  */
-class IntlProvider extends React.Component {
+class IntlProvider extends Component {
 	/**
 	 * Renders the provider component.
 	 *

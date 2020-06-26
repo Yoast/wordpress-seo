@@ -43,7 +43,6 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		$comment_count = \get_comment_count( $this->context->id );
 		$data          = [
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
@@ -52,9 +51,15 @@ class Article extends Abstract_Schema_Piece {
 			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
 			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
 			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
-			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
 		];
+
+		// If the comments are open -or- there are comments approved, show the count.
+		$comments_open = \comments_open( $this->context->id );
+		$comment_count = \get_comment_count( $this->context->id );
+		if ( $comments_open || $comment_count['approved'] > 0 ) {
+			$data['commentCount'] = $comment_count['approved'];
+		}
 
 		if ( $this->context->site_represents_reference ) {
 			$data['publisher'] = $this->context->site_represents_reference;

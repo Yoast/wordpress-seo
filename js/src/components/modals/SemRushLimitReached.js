@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 
@@ -11,7 +10,7 @@ const UpdateSemRushPlanLink = makeOutboundLink();
 /**
  * Creates the content for the SEMrush limit exceeded modal.
  *
- * @returns {React.Element} The SEMrush limit exceeded modal content.
+ * @returns {wp.Element} The SEMrush limit exceeded modal content.
  */
 const SemRushLimitReached = () => {
 	return (

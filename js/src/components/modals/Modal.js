@@ -1,4 +1,4 @@
-import React from "react";
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
@@ -21,9 +21,9 @@ const StyledButton = styled.button`
 /**
  * Returns the Modal component.
  *
- * @returns {ReactElement} The Modal component.
+ * @returns {wp.Element} The Modal component.
  */
-class Modal extends React.Component {
+class Modal extends Component {
 	/**
 	 * Constructs the Modal component.
 	 *
@@ -69,7 +69,7 @@ class Modal extends React.Component {
 	/**
 	 * Renders the Modal component.
 	 *
-	 * @returns {ReactElement} The rendered react element.
+	 * @returns {wp.Element} The rendered react element.
 	 */
 	render() {
 		const defaultLabels = {
@@ -82,7 +82,7 @@ class Modal extends React.Component {
 		const modalLabels = Object.assign( {}, defaultLabels, this.props.labels );
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<StyledButton
 					type="button"
 					onClick={ this.openModal }
@@ -105,7 +105,7 @@ class Modal extends React.Component {
 				>
 					{ this.props.children }
 				</YoastModal>
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }

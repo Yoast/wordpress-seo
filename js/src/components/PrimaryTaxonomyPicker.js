@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import {
 	withSelect,
@@ -22,7 +22,7 @@ const PrimaryTaxonomyPickerField = styled.div`
 /**
  * A component for selecting a primary taxonomy term.
  */
-class PrimaryTaxonomyPicker extends React.Component {
+class PrimaryTaxonomyPicker extends Component {
 	constructor( props ) {
 		super( props );
 
@@ -216,7 +216,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	/**
 	 * Renders the PrimaryTaxonomyPicker component.
 	 *
-	 * @returns {ReactElement} The rendered component.
+	 * @returns {wp.Element} The rendered component.
 	 */
 	render() {
 		const {

@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
@@ -8,7 +7,7 @@ import { Alert } from "@yoast/components";
 /**
  * Creates the content for the SEMrush request failed modal.
  *
- * @returns {React.Element} The SEMrush request failed modal content.
+ * @returns {wp.Element} The SEMrush request failed modal content.
  */
 const SemRushRequestFailed = () => {
 	return (

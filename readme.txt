@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
-Stable tag: 14.4
+Stable tag: 14.4.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,6 +209,44 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.5 =
+Release Date: July 7th, 2020
+
+Enhancements:
+
+* Makes the plugin icon in the editor reflect the SEO and Readability score.
+* The Social tab has been re-written using React. Other than a dab of fresh paint, this should result in a snappier editing experience.
+* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
+* Fixes the fact that we sometimes did multiple calls to `my.yoast.com` if you had multiple Yoast products running, when we could do it in one call.
+* Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
+* Implements the redesign of the admin settings pages.
+* Changes the help links to external pages instead of on page help text.
+* Improves accessibility.
+* Shows which features will be added by Wordpress SEO Premium.
+* Introduces the `--skip-confirmation` argument to run our wp-cli reindex command without confirmation prompt.
+* Improves transition words analysis for Russian.
+* Improves keyphrase recognition in Indonesian by filtering the function words such as `atau`, `dan`, `demikian`, `tersebut`.
+* Updates the progress-bar in the indexing process to the new styling.
+
+Bugfixes:
+
+* Fixes a bug where “array_merge(): Argument #1 is not an array” issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
+* Fixes a bug where an indexable’s permalink remained unchanged when the categories prefix option was changed.
+* Fixes a bug where an indexable’s permalink remained unchanged when the category base or tag base was changed.
+* Fixes a bug where the link for Local SEO was missing in the Configuration Wizard “Continue learning” step.
+
+Other:
+
+* Moves the running of the SEO data indexing process to the Yoast Tools page.
+
+= 14.4.1 =
+Release Date: June 23rd, 2020
+
+Bugfixes:
+
+* Fixes a bug where existing links were no longer editable with Yoast SEO active.
+* Fixes a bug where the editor wouldn't remember `rel` values set on a link after refresh.
+
 = 14.4 =
 Release Date: June 23rd, 2020
 
@@ -234,17 +272,6 @@ Enhancements:
 Other:
 
 * Adds headers to the main plugin file for the minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
-
-= 14.3 =
-Release Date: June 9th, 2020
-
-In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code style and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
-
-Bugfixes:
-
-* Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
-* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
-* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

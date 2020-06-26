@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -17,7 +16,7 @@ import Portal from "./Portal";
  * @param {string[]} recommendedReplacementVariables the recommended replacement variables for the field.
  * @param {string} fieldId The field ID.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function SettingsFieldPortal( { target, label, replacementVariables, recommendedReplacementVariables, fieldId } ) {
 	return (
