@@ -435,9 +435,9 @@ class WPSEO_Sitemaps {
 		header( 'Cache-Control: max-age=' . $expires );
 		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
-		$isInitialized = WP_Filesystem();
+		$is_initialized = WP_Filesystem();
 
-		if ( $isInitialized ) {
+		if ( $is_initialized ) {
 			global $wp_filesystem;
 			$wp_filesystem->get_contents( WPSEO_PATH . 'css/main-sitemap.xsl' );
 		}
