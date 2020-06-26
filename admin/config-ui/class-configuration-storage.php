@@ -32,6 +32,7 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Success_Message(),
 			new WPSEO_Config_Field_Mailchimp_Signup(),
 			new WPSEO_Config_Field_Environment(),
+			new WPSEO_Config_Field_Tracking_Intro(),
 			new WPSEO_Config_Field_Tracking(),
 			new WPSEO_Config_Field_Site_Type(),
 			new WPSEO_Config_Field_Multiple_Authors(),
