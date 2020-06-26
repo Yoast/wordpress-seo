@@ -53,18 +53,18 @@ add_action('graphql_init', function () {
     {
 
       if (empty($images)) {
-        __return_empty_string();
+        return __return_empty_string();
       }
 
       $image  = reset($images);
 
       if (empty($image)) {
-        __return_empty_string();
+        return __return_empty_string();
       }
 
 
       if (!isset($image['url'])) {
-        __return_empty_string();
+        return __return_empty_string();
       }
 
       return attachment_url_to_postid($image['url']);
