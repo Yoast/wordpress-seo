@@ -1,8 +1,7 @@
 /* global window */
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import {
 	get,
 	values,
@@ -21,7 +20,7 @@ const ErrorContainer = styled.div`
 	margin: 16px 0 8px;
 `;
 
-class PrimaryTaxonomyFilter extends React.Component {
+class PrimaryTaxonomyFilter extends Component {
 	constructor() {
 		super();
 
@@ -61,7 +60,7 @@ class PrimaryTaxonomyFilter extends React.Component {
 	/**
 	 * Renders the PrimaryTaxonomyFilter component.
 	 *
-	 * @returns {ReactElement} The rendered PrimaryTaxonomyFilter.
+	 * @returns {wp.Element} The rendered PrimaryTaxonomyFilter.
 	 */
 	render() {
 		const {

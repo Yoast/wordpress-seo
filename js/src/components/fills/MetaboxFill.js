@@ -23,7 +23,7 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
  * @param {Object} store    The Redux store.
  * @param {Object} theme    The theme to use.
  *
- * @returns {ReactElement} The Metabox component.
+ * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings, store, theme } ) {
 	return (

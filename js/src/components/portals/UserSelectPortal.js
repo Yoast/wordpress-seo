@@ -8,7 +8,7 @@ import Portal from "./Portal";
  *
  * @param {string} target A target element ID in which to render the portal.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function UserSelectPortal( { target } ) {
 	return (

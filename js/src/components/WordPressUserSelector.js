@@ -12,7 +12,7 @@ import { sendRequest } from "yoast-components";
 /**
  * Styles to overwrite react-select styles.
  *
- * @type React.Component
+ * @type wp.Element
  */
 const Styles = createGlobalStyle`
 	.yoast-person-selector-container {
@@ -67,7 +67,7 @@ const REST_ROUTE = wpApiSettings.root;
 /**
  * Component to replace the react-select dropdown icon.
  *
- * @returns {React.Element} The rendered element.
+ * @returns {wp.Element} The rendered element.
  */
 const Icon = () => (
 	<SvgIcon
@@ -103,7 +103,7 @@ class WordPressUserSelector extends Component {
 	/**
 	 * Renders the WordPressUserSelector component.
 	 *
-	 * @returns {React.Element} The rendered component.
+	 * @returns {wp.Element} The rendered component.
 	 */
 	render() {
 		return (
