@@ -9,6 +9,7 @@ const Section = styled( StyledSection )`
 	
 	&${ StyledSectionBase } {
 		padding: 0;
+		padding-bottom: 16px;
 
 		& ${ StyledHeading } {
 			${ getRtlStyle( "padding-left", "padding-right" ) }: 20px;

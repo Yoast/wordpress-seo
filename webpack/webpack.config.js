@@ -126,8 +126,12 @@ function addBundleAnalyzer( plugins ) {
 }
 
 module.exports = function( env ) {
-	const mode = env.environment || process.env.NODE_ENV || "production";
-
+	if ( ! env ) {
+		env = {};
+	}
+	if ( ! env.environment ) {
+		env.environment = process.env.NODE_ENV || "production";
+	}
 	if ( ! env.pluginVersion ) {
 		// eslint-disable-next-line global-require
 		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
@@ -154,8 +158,8 @@ module.exports = function( env ) {
 	];
 
 	const base = {
-		mode: mode,
-		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
+		mode: env.environment,
+		devtool: env.environment === "development" ? "cheap-module-eval-source-map" : false,
 		context: root,
 		output: {
 			path: paths.jsDist,
@@ -301,7 +305,7 @@ module.exports = function( env ) {
 		},
 	];
 
-	if ( mode === "development" ) {
+	if ( env.environment === "development" ) {
 		config[ 0 ].devServer = {
 			publicPath: "/",
 			allowedHosts,

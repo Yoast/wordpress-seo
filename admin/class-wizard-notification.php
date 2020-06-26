@@ -52,16 +52,13 @@ class Wizard_Notification {
 	 * @return string The first time notification message.
 	 */
 	private function get_start_notification() {
-		$message  = esc_html__( 'Get started quickly with the configuration wizard!', 'wordpress-seo' );
-		$message .= '<br/>';
-		$message .= sprintf(
+		return sprintf(
 			/* translators: 1: Expands to Yoast SEO, 2: Link start tag to the configuration wizard, 3: Link closing tag. */
-			esc_html__( 'We have detected that you have not started this wizard yet, so we recommend you to %2$sstart the configuration wizard to configure %1$s%3$s.', 'wordpress-seo' ),
+			esc_html__( 'Looks like you haven\'t used our quick-and-easy configuration wizard yet. It\'ll help you set up %1$s with the optimal settings for your site. %2$sStart the configuration wizard now%3$s!', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER ) ) . '">',
 			'</a>'
 		);
-		return $message;
 	}
 
 	/**

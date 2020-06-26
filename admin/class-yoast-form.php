@@ -224,7 +224,9 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
-		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
+		echo '<div class="yoast-field-group__title">';
+		echo '<legend class="' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
+		echo '</div>';
 	}
 
 	/**
@@ -413,12 +415,13 @@ class Yoast_Form {
 		Yoast_Input_Validation::set_error_descriptions();
 		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $var );
 
-		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '
-		" placeholder="' . esc_attr( $attr['placeholder'] ) . '
-		" type="' . $type . '
-		" id="', esc_attr( $var ), '
-		" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']
-		" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+		echo '<input' . $attributes . $aria_attributes . ' class="yoast-field-group__inputfield ' . esc_attr( $attr['class'] ) . '"
+		placeholder="' . esc_attr( $attr['placeholder'] ) . '"
+		type="' . $type . '"
+		id="', esc_attr( $var ), '"
+		name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']"
+		value="', esc_attr( $val ), '"',
+		disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
 
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
@@ -661,6 +664,7 @@ class Yoast_Form {
 		}
 
 		foreach ( $values as $key => $value ) {
+			echo '<div class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">';
 			$label      = $value;
 			$aria_label = '';
 
@@ -671,15 +675,10 @@ class Yoast_Form {
 
 			$key_esc = esc_attr( $key );
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
-			$this->label(
-				$label,
-				[
-					'for'        => $var_esc . '-' . $key_esc,
-					'class'      => 'radio',
-					'aria_label' => $aria_label,
-				]
-			);
+			echo '<label for=' . $var_esc . '-' . $key_esc . '>' . $label . '</label>';
+			echo '</div>';
 		}
+
 		echo '</fieldset>';
 	}
 

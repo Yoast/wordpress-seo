@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$wpseo_breadcrumbs_presenter = new WPSEO_Paper_Presenter(
+$wpseo_breadcrumbs_presenter = new WPSEO_Collapsible_Presenter(
 	esc_html__( 'Breadcrumbs settings', 'wordpress-seo' ),
 	__DIR__ . '/paper-content/breadcrumbs-content.php',
 	[

@@ -33,7 +33,8 @@
     text-align: left;
     border: 0;
     background: none;
-    color: var(--yoast-primary-color);
+	color: var(--yoast-primary-color);
+	padding-bottom: 16px;
 }
 
 #wpseo_progressbar {

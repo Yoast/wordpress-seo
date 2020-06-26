@@ -57,7 +57,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 
 	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
 		/* translators: %s is the plural version of the post type's name. */
-		echo '<h4>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h4>';
+		echo '<h3>' . esc_html( sprintf( __( 'Breadcrumb settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 		$yform->textinput( 'bctitle-ptarchive-' . $wpseo_post_type->name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 	}
 }
