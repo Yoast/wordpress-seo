@@ -40,14 +40,14 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 
 				case 'dismissed':
 					$button = sprintf(
-						'<button type="button" class="button restore"><span class="screen-reader-text">%1$s</span><span class="dashicons yoast-svg-icon-eye"></span></button>',
-						esc_html__( 'Show this item.', 'wordpress-seo' )
+						'<button type="button" class="yoast-restore">%1$s</button>',
+						esc_html__( 'Restore', 'wordpress-seo' )
 					);
 					break;
 			}
 
 			$notifications .= sprintf(
-				'<div class="yoast-paper__item" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
+				'<div class="yoast-notification-holder yoast-paper__item" id="%1$s" data-nonce="%2$s" data-json="%3$s">%4$s%5$s</div>',
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
