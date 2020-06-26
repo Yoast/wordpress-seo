@@ -435,8 +435,12 @@ class WPSEO_Sitemaps {
 		header( 'Cache-Control: max-age=' . $expires );
 		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
-		global $wp_filesystem;
-		$wp_filesystem->get_contents( WPSEO_PATH . 'css/main-sitemap.xsl' );
+		$isInitialized = WP_Filesystem();
+
+		if ( $isInitialized ) {
+			global $wp_filesystem;
+			$wp_filesystem->get_contents( WPSEO_PATH . 'css/main-sitemap.xsl' );
+		}
 	}
 
 	/**
