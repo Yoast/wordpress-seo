@@ -32,7 +32,7 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
  * @returns {void}
  */
 export function setYoastComponentsL10n() {
-	setTextdomainL10n( "configuration-wizard.scss" );
+	setTextdomainL10n( "yoast-components" );
 }
 
 /**
