@@ -97,7 +97,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
 	 *
-	 * @returns {ReactElement} A modalButtonContainer component with the modal for a keyword synonyms upsell.
+	 * @returns {wp.Element} A modalButtonContainer component with the modal for a keyword synonyms upsell.
 	 */
 	renderSynonymsUpsell( location ) {
 		// Defaults to metabox.
@@ -150,7 +150,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
 	 *
-	 * @returns {ReactElement} A modalButtonContainer component with the modal for a multiple keywords upsell.
+	 * @returns {wp.Element} A modalButtonContainer component with the modal for a multiple keywords upsell.
 	 */
 	renderMultipleKeywordsUpsell( location ) {
 		// Defaults to metabox
@@ -203,7 +203,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
 	 *
-	 * @returns {ReactElement} The UpsellBox component.
+	 * @returns {wp.Element} The UpsellBox component.
 	 */
 	renderKeywordUpsell( location ) {
 		// Default to metabox.
@@ -237,7 +237,7 @@ class SeoAnalysis extends Component {
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
 	 *
-	 * @returns {ReactElement} The AnalysisUpsell component.
+	 * @returns {wp.Element} The AnalysisUpsell component.
 	 */
 	renderWordFormsUpsell( location ) {
 		return (
@@ -256,7 +256,7 @@ class SeoAnalysis extends Component {
 	 * @param {string} location       Where this component is rendered.
 	 * @param {string} scoreIndicator String indicating the score.
 	 *
-	 * @returns {React.Element} The rendered score icone portal element.
+	 * @returns {wp.Element} The rendered score icone portal element.
 	 */
 	renderTabIcon( location, scoreIndicator ) {
 		// The tab icon should only be rendered for the metabox.
@@ -275,7 +275,7 @@ class SeoAnalysis extends Component {
 	/**
 	 * Renders the SEO Analysis component.
 	 *
-	 * @returns {React.Element} The SEO Analysis component.
+	 * @returns {wp.Element} The SEO Analysis component.
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );

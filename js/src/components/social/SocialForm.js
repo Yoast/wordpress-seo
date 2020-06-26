@@ -1,5 +1,5 @@
 /* External dependencies */
-import React, { Component } from "react";
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
@@ -129,7 +129,7 @@ class SocialPreviewEditor extends Component {
 		} = this.props;
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<SocialUpsell socialMediumName={ socialMediumName } />
 				<SocialMetadataPreviewForm
 					onDescriptionChange={ onDescriptionChange }
@@ -153,7 +153,7 @@ class SocialPreviewEditor extends Component {
 					isPremium={ isPremium }
 					setEditorRef={ this.setEditorRef }
 				/>
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }

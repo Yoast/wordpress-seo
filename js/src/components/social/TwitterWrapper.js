@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import PropTypes from "prop-types";
 
@@ -10,7 +10,7 @@ import SocialForm from "../social/SocialForm";
  *
  * @param {Object} props The properties object.
  *
- * @returns {Component} Renders the TwitterWrapper React Component.
+ * @returns {wp.Element} Renders the TwitterWrapper React Component.
  */
 const TwitterWrapper = ( props ) => {
 	return (

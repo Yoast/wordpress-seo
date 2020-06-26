@@ -1,7 +1,6 @@
 /* global yoastWizardConfig */
 // External dependencies.
-import React from "react";
-import ReactDOM from "react-dom";
+import { Component, render } from "@wordpress/element";
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 import { setTranslations } from "yoast-components";
 import { isUndefined } from "lodash-es";
@@ -22,7 +21,7 @@ const PluginConflictLink = makeOutboundLink();
 /**
  * @summary Configuration wizard component.
  */
-class App extends React.Component {
+class App extends Component {
 	/**
 	 * Constructs the App component.
 	 *
@@ -116,7 +115,7 @@ class App extends React.Component {
 	/**
 	 * Renders the App component.
 	 *
-	 * @returns {JSX.Element|null} The rendered app component.
+	 * @returns {wp.Element|null} The rendered app component.
 	 */
 	render() {
 		// When the wizard is loading, don't do anything.
@@ -154,4 +153,4 @@ class App extends React.Component {
 
 setYoastComponentsL10n();
 
-ReactDOM.render( <App />, document.getElementById( "wizard" ) );
+render( <App />, document.getElementById( "wizard" ) );

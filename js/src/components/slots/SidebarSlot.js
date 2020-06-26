@@ -1,11 +1,10 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
-import React from "react";
 
 /**
  * Renders the Sidebar slot.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function SidebarSlot() {
 	return (
