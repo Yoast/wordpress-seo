@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
+use Yoast\WP\SEO\Actions\Indexation\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Link_Count_Indexing_List_Item_Presenter;
@@ -35,6 +36,13 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	protected $post_link_indexing_action;
 
 	/**
+	 * The term link indexing action.
+	 *
+	 * @var Term_Link_Indexing_Action
+	 */
+	protected $term_link_indexing_action;
+
+	/**
 	 * Represents the admin asset manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -52,13 +60,16 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 * Constructor.
 	 *
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
+	 * @param Term_Link_Indexing_Action $term_link_indexing_action The term link indexing action.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager             The asset manager.
 	 */
 	public function __construct(
 		Post_Link_Indexing_Action $post_link_indexing_action,
+		Term_Link_Indexing_Action $term_link_indexing_action,
 		WPSEO_Admin_Asset_Manager $asset_manager
 	) {
 		$this->post_link_indexing_action = $post_link_indexing_action;
+		$this->term_link_indexing_action = $term_link_indexing_action;
 		$this->asset_manager             = $asset_manager;
 	}
 
@@ -97,7 +108,8 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
 				'endpoints' => [
-					'posts'    => Link_Indexing_Route::FULL_POSTS_ROUTE,
+					'posts' => Link_Indexing_Route::FULL_POSTS_ROUTE,
+					'terms' => Link_Indexing_Route::FULL_TERMS_ROUTE,
 				],
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
@@ -144,7 +156,8 @@ class Link_Count_Tools_Integration implements Integration_Interface {
 	 */
 	protected function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
-			$this->total_unindexed = $this->post_link_indexing_action->get_total_unindexed();
+			$this->total_unindexed  = $this->post_link_indexing_action->get_total_unindexed();
+			$this->total_unindexed += $this->term_link_indexing_action->get_total_unindexed();
 		}
 
 		return $this->total_unindexed;
