@@ -73,14 +73,10 @@ if ( ! $active ) {
 }
 
 ?>
-<h2>
-	<?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)
-</h2>
+<h2><?php echo esc_html( $i18n_title ); ?> (<?php echo (int) $active_total; ?>)</h2>
 
 <div>
-
 	<?php if ( $total ) : ?>
-
 		<div class="yoast-paper__content">
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
@@ -90,7 +86,7 @@ if ( ! $active ) {
 
 		<?php
 		if ( $dismissed ) {
-			$dismissed_paper = new WPSEO_Paper_Presenter(
+			$dismissed_paper = new WPSEO_Collapsible_Presenter(
 				esc_html( $i18n_muted_issues_title ),
 				null,
 				[
