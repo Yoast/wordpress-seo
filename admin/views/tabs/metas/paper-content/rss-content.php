@@ -14,9 +14,8 @@ $textarea_atts = [
 $yform->textarea( 'rssbefore', __( 'Content to put before each post in the feed', 'wordpress-seo' ), $textarea_atts );
 $yform->textarea( 'rssafter', __( 'Content to put after each post in the feed', 'wordpress-seo' ), $textarea_atts );
 
-// @todo Replace the URL below once the article is written.
 $rss_variables_help = new WPSEO_Admin_Help_Button(
-	'search-appearance-rss-variables',
+	'https://yoa.st/41l',
 	__( 'Learn more about the available variables', 'wordpress-seo' )
 );
 
