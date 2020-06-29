@@ -334,7 +334,7 @@ class Indexation_Integration implements Integration_Interface {
 				'nonce'     => \wp_create_nonce( 'wp_rest' ),
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
+				'indexingCompleted' => '<span class="yoast-check"></span>' . \esc_html__( 'Good job! You\'ve sped up your site.', 'wordpress-seo' ),
 				'indexingFailed'    => \__( 'Something went wrong while optimizing the SEO data of your site. Please try again later.', 'wordpress-seo' ),
 			],
 			'l10n'    => [
