@@ -903,26 +903,4 @@ class Yoast_Form {
 
 		return '<p class="disabled-note">' . esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' ) . '</p>';
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Retrieve options based on whether we're on multisite or not.
-	 *
-	 * @return array The option's value.
-	 * @since      2.0   Moved to this class.
-	 * @deprecated 8.4
-	 * @codeCoverageIgnore
-	 *
-	 * @since      1.2.4
-	 */
-	public function get_option() {
-		_deprecated_function( __METHOD__, 'WPSEO 8.4' );
-
-		if ( is_network_admin() ) {
-			return get_site_option( $this->option_name );
-		}
-
-		return get_option( $this->option_name );
-	}
 }

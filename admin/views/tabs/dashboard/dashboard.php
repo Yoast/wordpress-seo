@@ -42,12 +42,3 @@ $wpseo_contributors_phrase = sprintf(
 			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
 		</p>
 	</div>
-
-<?php
-
-/**
- * Action: 'wpseo_internal_linking' - Hook to add the internal linking analyze interface to the interface.
- *
- * @deprecated 7.0
- */
-do_action_deprecated( 'wpseo_internal_linking', [], 'WPSEO 7.0' );
