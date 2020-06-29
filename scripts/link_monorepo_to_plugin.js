@@ -217,7 +217,7 @@ packages.forEach( ( yoastPackage ) => {
 	try {
 		execSync( `yarn link @yoast/${ yoastPackage }`, NO_OUTPUT );
 	} catch ( e ) {
-		if ( ! [ "eslint", "configuration-wizard.scss", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
+		if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
 			log( `Package @yoast/${ yoastPackage } could not be linked.` );
 		}
 	}

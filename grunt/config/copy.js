@@ -43,7 +43,7 @@ module.exports = {
 				src: [ "wordpress-seo-*.json" ],
 				dest: "languages/",
 				rename: ( dest, src ) => {
-					return dest + src.replace( "wordpress-seo", "configuration-wizard.scss" );
+					return dest + src.replace( "wordpress-seo", "yoast-components" );
 				},
 			},
 			{
