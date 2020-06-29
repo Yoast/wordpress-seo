@@ -61,7 +61,7 @@ class Indexation_List_Item_Presenter extends Abstract_Presenter {
 		$shutdown_limit = \apply_filters( 'wpseo_shutdown_indexation_limit', 25 );
 
 		if ( $this->total_unindexed === 0 || $this->total_unindexed < $shutdown_limit ) {
-			$output .= '<span class="wpseo-checkmark-ok-icon"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
+			$output .= '<span class="yoast-check"></span>' . \esc_html__( 'Great, your site has been optimized!', 'wordpress-seo' );
 		}
 		else {
 			$output .= \sprintf(
