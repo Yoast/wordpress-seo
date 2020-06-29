@@ -1,11 +1,17 @@
-<?php namespace Yoast\WP\SEO\Values\SEMrush;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Values\SEMrush
+ */
+
+namespace Yoast\WP\SEO\Values\SEMrush;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Yoast\WP\SEO\Exceptions\SEMrush\SEMrush_Empty_Token_Property_Exception;
 
 /**
  * Class SEMrush_Token
- * @package Yoast\WP\SEO\Values\SEMrush
  */
 class SEMrush_Token {
 
@@ -43,7 +49,7 @@ class SEMrush_Token {
 	 * @param bool   $has_expired   Whether or not the token has expired.
 	 * @param int    $created_at    The timestamp of when the token was created.
 	 *
-	 * @throws SEMrush_Empty_Token_Property_Exception
+	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( $access_token, $refresh_token, $expires, $has_expired, $created_at ) {
 
@@ -79,7 +85,8 @@ class SEMrush_Token {
 	 * @param AccessTokenInterface $response The response object to create a new instance from.
 	 *
 	 * @return SEMrush_Token The token object.
-	 * @throws SEMrush_Empty_Token_Property_Exception
+	 *
+	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public static function from_response( AccessTokenInterface $response ) {
 		return new self(

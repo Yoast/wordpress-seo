@@ -1,4 +1,9 @@
 <?php
+/**
+ * Login action for SEMrush.
+ *
+ * @package Yoast\WP\SEO\Actions\SEMrush
+ */
 
 namespace Yoast\WP\SEO\Actions\SEMrush;
 
@@ -32,7 +37,7 @@ class SEMrush_Login_Action {
 	 * @return object The response object.
 	 */
 	public function authenticate( $code ) {
-		// Code has already been validated at this point. No need to do that again
+		// Code has already been validated at this point. No need to do that again.
 		try {
 			$tokens = $this->client->request_tokens( $code );
 

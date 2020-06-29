@@ -1,4 +1,11 @@
-<?php namespace Yoast\WP\SEO\Config;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Config
+ */
+
+namespace Yoast\WP\SEO\Config;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -11,7 +18,6 @@ use Yoast\WP\SEO\Values\SEMrush\SEMrush_Token;
 
 /**
  * Class SEMrush_Client
- * @package Yoast\WP\SEO\Config
  */
 class SEMrush_Client {
 
@@ -38,9 +44,9 @@ class SEMrush_Client {
 	/**
 	 * SEMrush_Client constructor.
 	 *
-	 * @param Options_Helper $options_helper
+	 * @param Options_Helper $options_helper The Options_Helper instance.
 	 *
-	 * @throws SEMrush_Empty_Token_Property_Exception
+	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->provider = new GenericProvider( [
@@ -63,7 +69,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The requested tokens.
 	 *
-	 * @throws OAuth_Authentication_Failed_Exception
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
 		try {
@@ -87,9 +93,10 @@ class SEMrush_Client {
 	 * @param mixed  $body The data to send along in the request's body. Optional.
 	 *
 	 * @return mixed The parsed API response.
-	 * @throws IdentityProviderException
-	 * @throws OAuth_Authentication_Failed_Exception
-	 * @throws SEMrush_Empty_Token_Exception
+	 *
+	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get( $url, $body = null ) {
 		return $this->do_request( $url, $body );
@@ -99,11 +106,13 @@ class SEMrush_Client {
 	 * Performs an authenticated POST request to the desired URL.
 	 *
 	 * @param string $url  The URL to send the request to.
-	 * @param mixed  $body The data to send along in the request's body
+	 * @param mixed  $body The data to send along in the request's body.
 	 *
 	 * @return mixed The parsed API response.
-	 * @throws IdentityProviderException
-	 * @throws OAuth_Authentication_Failed_Exception
+	 *
+	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function post( $url, $body ) {
 		return $this->do_request( $url, $body, 'POST' );
@@ -122,8 +131,9 @@ class SEMrush_Client {
 	 * Gets the stored tokens and refreshes them if they've expired.
 	 *
 	 * @return SEMrush_Token The stored tokens.
-	 * @throws OAuth_Authentication_Failed_Exception
-	 * @throws SEMrush_Empty_Token_Exception
+	 *
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get_tokens() {
 		if ( empty( $this->tokens ) ) {
@@ -142,7 +152,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token|null The token object. Returns null if none exists.
 	 *
-	 * @throws SEMrush_Empty_Token_Property_Exception
+	 * @throws SEMrush_Empty_Token_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function get_token_from_storage() {
 		$tokens = $this->options_helper->get( self::TOKEN_OPTION );
@@ -167,7 +177,7 @@ class SEMrush_Client {
 	 *
 	 * @return SEMrush_Token The stored token.
 	 *
-	 * @throws SEMrush_Failed_Token_Storage_Exception
+	 * @throws SEMrush_Failed_Token_Storage_Exception Exception thrown if storing of the token fails.
 	 */
 	public function store_token( SEMrush_Token $token ) {
 		$saved = $this->options_helper->set( self::TOKEN_OPTION, $token->to_array() );
@@ -183,14 +193,14 @@ class SEMrush_Client {
 	 * Performs the specified request.
 	 *
 	 * @param string     $url  The URL to send the request to.
-	 * @param mixed|null $body The data to send along in the request's body
+	 * @param mixed|null $body The data to send along in the request's body.
 	 * @param string     $type The type of request.
 	 *
 	 * @return mixed The parsed API response.
 	 *
-	 * @throws IdentityProviderException
-	 * @throws OAuth_Authentication_Failed_Exception
-	 * @throws SEMrush_Empty_Token_Exception
+	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	protected function do_request( $url, $body, $type = 'GET' ) {
 		$request = $this->provider->getAuthenticatedRequest(
@@ -209,7 +219,8 @@ class SEMrush_Client {
 	 * @param SEMrush_Token $tokens The outdated tokens.
 	 *
 	 * @return SEMrush_Token The refreshed tokens.
-	 * @throws OAuth_Authentication_Failed_Exception
+	 *
+	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	protected function refresh_tokens( SEMrush_Token $tokens ) {
 		try {

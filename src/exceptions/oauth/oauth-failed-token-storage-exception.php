@@ -1,7 +1,15 @@
-<?php namespace Yoast\WP\SEO\Exceptions\OAuth;
+<?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Exceptions\OAuth
+ */
+
+namespace Yoast\WP\SEO\Exceptions\OAuth;
 
 /**
  * Class OAuth_Failed_Token_Storage_Exception
+ *
  * @package Yoast\WP\SEO\Exceptions\OAuth
  */
 class OAuth_Failed_Token_Storage_Exception extends \Exception {

@@ -1,8 +1,14 @@
-<?php namespace Yoast\WP\SEO\Exceptions\SEMrush;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Exceptions\SEMrush
+ */
+
+namespace Yoast\WP\SEO\Exceptions\SEMrush;
 
 /**
  * Class SEMrush_Failed_Token_Storage_Exception
- * @package Yoast\WP\SEO\Exceptions\SEMrush
  */
 class SEMrush_Failed_Token_Storage_Exception extends \Exception {
 
