@@ -320,7 +320,7 @@ class Yoast_Notification {
 
 		// Default notification classes.
 		$classes = [
-			'yoast-notification',
+			'yoast-notification yoast',
 		];
 
 		// Maintain WordPress visualisation of notifications when they are not persistent.

@@ -31,6 +31,7 @@ const externals = {
 	lodash: "window.lodash",
 	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
+	"draft-js": "window.yoast.draftJs",
 };
 
 const wordpressExternals = {
@@ -54,12 +55,15 @@ const wordpressExternals = {
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
 const yoastExternals = {
+	"@yoast/analysis-report": "window.yoast.analysisReport",
 	"@yoast/components": "window.yoast.componentsNew",
 	"@yoast/configuration-wizard": "window.yoast.configurationWizard",
+	"@yoast/feature-flag": "window.yoast.featureFlag",
 	"@yoast/helpers": "window.yoast.helpers",
+	"@yoast/replacement-variable-editor": "window.yoast.replacementVariableEditor",
 	"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
+	"@yoast/social-metadata-forms": "window.yoast.socialMetadataForms",
 	"@yoast/style-guide": "window.yoast.styleGuide",
-	"@yoast/analysis-report": "window.yoast.analysisReport",
 };
 
 const defaultAllowedHosts = [
@@ -224,6 +228,7 @@ module.exports = function( env ) {
 				"styled-components": "./js/src/externals/styled-components.js",
 				redux: "./js/src/externals/redux.js",
 				jed: "./js/src/externals/jed.js",
+				"draft-js": "./js/src/externals/draft-js.js",
 			},
 			externals: {
 				...externals,

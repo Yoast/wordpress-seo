@@ -96,7 +96,7 @@ module.exports = function( grunt ) {
 				"<%= paths.js %>components/MailchimpSignup.js",
 				"<%= paths.js %>components/MediaUpload.js",
 			],
-			textdomain: "configuration-wizard.scss",
+			textdomain: "yoast-components",
 			command: function() {
 				let files = grunt.config.get( "shell.makepot-yoast-components-configuration-wizard.fromFiles" );
 
