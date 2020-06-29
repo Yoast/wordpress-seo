@@ -83,8 +83,8 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
 	},
 	urlLength: {
 		isApplicable: true,
