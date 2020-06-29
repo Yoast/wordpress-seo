@@ -85,10 +85,10 @@ class WPSEO_Premium_Upsell_Admin_Block {
 				'Yoast SEO Premium'
 			) .
 		'</h2>';
-		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
+		echo '<ul class="yoast-list--upsell">' . $arguments_html . '</ul>';
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
-		echo '<p>' . $upgrade_button . '</p>';
+		echo $upgrade_button;
 		echo '</div>';
 
 		echo '</div>';
@@ -117,6 +117,6 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return string The HTML base class.
 	 */
 	protected function get_html_class() {
-		return 'yoast_' . $this->identifier;
+		return 'yoast-' . $this->identifier;
 	}
 }
