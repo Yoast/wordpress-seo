@@ -38,7 +38,6 @@ class WPSEO_Upgrade {
 			'5.1'        => 'upgrade_50_51',
 			'5.5'        => 'upgrade_55',
 			'5.6'        => 'upgrade_56',
-			'6.1'        => 'upgrade_61',
 			'6.3'        => 'upgrade_63',
 			'7.0-RC0'    => 'upgrade_70',
 			'7.1-RC0'    => 'upgrade_71',
@@ -410,27 +409,6 @@ class WPSEO_Upgrade {
 		// Make sure incoming link count entries are at least 0, not NULL.
 		$count_storage = new WPSEO_Meta_Storage();
 		$wpdb->query( 'UPDATE ' . $count_storage->get_table_name() . ' SET incoming_link_count = 0 WHERE incoming_link_count IS NULL' );
-	}
-
-	/**
-	 * Updates the links for the link count when there is a difference between the site and home url.
-	 * We've used the site url instead of the home url.
-	 *
-	 * @return void
-	 */
-	private function upgrade_61() {
-		// When the home url is the same as the site url, just do nothing.
-		if ( home_url() === site_url() ) {
-			return;
-		}
-
-		global $wpdb;
-
-		$link_storage = new WPSEO_Link_Storage();
-		$wpdb->query( 'DELETE FROM ' . $link_storage->get_table_name() );
-
-		$meta_storage = new WPSEO_Meta_Storage();
-		$wpdb->query( 'DELETE FROM ' . $meta_storage->get_table_name() );
 	}
 
 	/**

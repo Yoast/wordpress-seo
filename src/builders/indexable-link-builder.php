@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -24,6 +25,13 @@ class Indexable_Link_Builder {
 	 * @var SEO_Links_Repository
 	 */
 	protected $seo_links_repository;
+
+	/**
+	 * The url helper.
+	 *
+	 * @var Url_Helper
+	 */
+	protected $url_helper;
 
 	/**
 	 * The image helper.
@@ -44,8 +52,12 @@ class Indexable_Link_Builder {
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
 	 */
-	public function __construct( SEO_Links_Repository $seo_links_repository ) {
+	public function __construct(
+		SEO_Links_Repository $seo_links_repository,
+		Url_Helper $url_helper
+	) {
 		$this->seo_links_repository = $seo_links_repository;
+		$this->url_helper           = $url_helper;
 	}
 
 	/**
@@ -58,7 +70,10 @@ class Indexable_Link_Builder {
 	 *
 	 * @return void
 	 */
-	public function set_dependencies( Indexable_Repository $indexable_repository, Image_Helper $image_helper ) {
+	public function set_dependencies(
+		Indexable_Repository $indexable_repository,
+		Image_Helper $image_helper
+	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->image_helper         = $image_helper;
 	}
@@ -222,11 +237,7 @@ class Indexable_Link_Builder {
 	 */
 	protected function create_internal_link( $url, $home_url, $indexable, $is_image = false ) {
 		$parsed_url = \wp_parse_url( $url );
-		$link_type  = $this->get_link_type( $parsed_url, $home_url );
-
-		if ( $is_image ) {
-			$link_type = ( $link_type === SEO_Links::TYPE_INTERNAL ) ? SEO_Links::TYPE_INTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL_IMAGE;
-		}
+		$link_type  = $this->url_helper->get_link_type( $parsed_url, $home_url, $is_image );
 
 		/**
 		 * @var SEO_Links
@@ -285,42 +296,6 @@ class Indexable_Link_Builder {
 
 		// Only keep links to the current page without a fragment or query.
 		return ( ! isset( $url['fragment'] ) && ! isset( $url['query'] ) );
-	}
-
-	/**
-	 * Returns the link type.
-	 *
-	 * @param array $url      The URL, as parsed by wp_parse_url.
-	 * @param array $home_url The home URL, as parsed by wp_parse_url.
-	 *
-	 * @return string The link type.
-	 */
-	protected function get_link_type( $url, $home_url ) {
-		// If there is no scheme the link is always internal.
-		if ( empty( $url['scheme'] ) ) {
-			return SEO_Links::TYPE_INTERNAL;
-		}
-
-		// If there is a scheme but it's not https? then the link is always external.
-		if ( ! in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
-			return SEO_Links::TYPE_EXTERNAL;
-		}
-		// When the base host is equal to the host.
-		if ( isset( $url['host'] ) && $url['host'] !== $home_url['host'] ) {
-			return SEO_Links::TYPE_EXTERNAL;
-		}
-
-		// There is no base path.
-		if ( empty( $home_url['path'] ) ) {
-			return SEO_Links::TYPE_INTERNAL;
-		}
-
-		// When there is a path and it matches the start of the url.
-		if ( isset( $url['path'] ) && strpos( $url['path'], $home_url['path'] ) !== 0 ) {
-			return SEO_Links::TYPE_INTERNAL;
-		}
-
-		return SEO_Links::TYPE_EXTERNAL;
 	}
 
 	/**
