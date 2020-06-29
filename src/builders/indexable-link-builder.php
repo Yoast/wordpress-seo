@@ -87,10 +87,6 @@ class Indexable_Link_Builder {
 	 * @return SEO_Links[] The created SEO links.
 	 */
 	public function build( $indexable, $content ) {
-		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
-			return;
-		}
-
 		if ( $indexable->object_type === 'post' ) {
 			$content = \apply_filters( 'the_content', $content );
 		}
@@ -160,10 +156,6 @@ class Indexable_Link_Builder {
 	 * @return void
 	 */
 	public function delete( $indexable ) {
-		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
-			return;
-		}
-
 		$links = ($this->seo_links_repository->find_all_by_indexable_id( $indexable->id ));
 		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
 
