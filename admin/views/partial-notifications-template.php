@@ -42,7 +42,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 				case 'dismissed':
 					$button = sprintf(
 						'<button type="button" class="yoast-restore">%1$s</button>',
-						esc_html__( 'Restore', 'wordpress-seo' )
+						esc_html__( 'Show', 'wordpress-seo' )
 					);
 					break;
 			}
