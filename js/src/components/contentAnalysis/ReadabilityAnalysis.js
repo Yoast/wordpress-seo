@@ -41,7 +41,7 @@ class ReadabilityAnalysis extends Component {
 	/**
 	 * Renders the Readability Analysis results.
 	 *
-	 * @returns {React.Element} The Readability Analysis results.
+	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults() {
 		return (
@@ -73,7 +73,7 @@ class ReadabilityAnalysis extends Component {
 	/**
 	 * Renders the Readability Analysis component.
 	 *
-	 * @returns {React.Element} The Readability Analysis component.
+	 * @returns {wp.Element} The Readability Analysis component.
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );

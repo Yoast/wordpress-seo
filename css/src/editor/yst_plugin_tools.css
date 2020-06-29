@@ -1,4 +1,4 @@
-@import "../../node_modules/@yoast/components/src/base/icons.css";
+@import "@yoast/components/src/base/icons.css";
 
 /* Settings pages layout based on CSS table model. */
 .wpseo_content_wrapper {

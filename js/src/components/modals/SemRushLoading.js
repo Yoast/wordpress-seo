@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
@@ -8,7 +7,7 @@ import { SvgIcon } from "@yoast/components";
 /**
  * Creates the loading content for the SEMrush related keywords modal.
  *
- * @returns {React.Element} The SEMrush loading content.
+ * @returns {wp.Element} The SEMrush loading content.
  */
 const SemRushLoading = () => {
 	return (

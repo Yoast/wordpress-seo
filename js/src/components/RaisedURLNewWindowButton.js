@@ -1,5 +1,4 @@
 // External dependencies.
-import React from "react";
 import PropTypes from "prop-types";
 import InfoIcon from "material-ui/svg-icons/action/info";
 import { makeOutboundLink } from "@yoast/helpers";

@@ -1,12 +1,11 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
+import { Fragment, Component } from "@wordpress/element";
 
 /**
  * The Country selector component.
  */
-class CountrySelector extends React.Component {
+class CountrySelector extends Component {
 	/**
 	 * Constructs the country selector.
 	 *
@@ -21,7 +20,7 @@ class CountrySelector extends React.Component {
 	/**
 	 * Renders the country selector.
 	 *
-	 * @returns {React.Element} The country selector.
+	 * @returns {wp.Element} The country selector.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.

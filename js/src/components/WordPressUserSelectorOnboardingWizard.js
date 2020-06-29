@@ -11,7 +11,7 @@ import WordPressUserSelector, { WordPressUserSelectorPropTypes } from "./WordPre
 /**
  * Container for the user selector.
  *
- * @type {React.Component}
+ * @type {wp.Element}
  */
 const Container = styled.div`
 	max-width: 250px;
@@ -30,7 +30,7 @@ class WordPressUserSelectorOnboardingWizard extends Component {
 	/**
 	 * Renders the WordPressUserSelectorOnboardingWizard component.
 	 *
-	 * @returns {React.Element} The rendered component.
+	 * @returns {wp.Element} The rendered component.
 	 */
 	render() {
 		return (

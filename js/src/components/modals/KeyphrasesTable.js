@@ -1,12 +1,11 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import { Fragment } from "@wordpress/element";
+import { Fragment, Component } from "@wordpress/element";
 
 /**
  * The Related Keyphrases table component.
  */
-class KeyphrasesTable extends React.Component {
+class KeyphrasesTable extends Component {
 	/**
 	 * Constructs the Related Keyphrases table.
 	 *
@@ -21,7 +20,7 @@ class KeyphrasesTable extends React.Component {
 	/**
 	 * Renders the Related Keyphrases table.
 	 *
-	 * @returns {React.Element} The Related Keyphrases table.
+	 * @returns {wp.Element} The Related Keyphrases table.
 	 */
 	render() {
 		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.

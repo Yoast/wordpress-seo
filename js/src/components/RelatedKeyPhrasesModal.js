@@ -80,7 +80,7 @@ class RelatedKeyPhrasesModal extends Component {
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
 	 *
-	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
+	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
 		const { keyphrase, location, maxRelatedKeyphrasesEntered } = this.props;
