@@ -36,7 +36,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
 			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the " +
-			"keyphrase appears at the beginning of the SEO title. Good job!"
+			"focus keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
 
