@@ -23,6 +23,7 @@ import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
+import runKeyphraseAnalysis from "./utils/polishPerformanceTest";
 
 class App extends React.Component {
 	/**
@@ -115,6 +116,17 @@ class App extends React.Component {
 			} );
 		}
 	}
+
+	polishSpanishKeyphraseAnalysisComparison() {
+		const testTextsPL = [ testPapers.polishPaper1, testPapers.polishPaper2, testPapers.polishPaper3 ];
+		const testTextsES = [ testPapers.spanishPaper1, testPapers.spanishPaper2, testPapers.spanishPaper3 ];
+		const morphologyDataPL = getMorphologyData( "pl" ).pl;
+		const morphologyDataES = getMorphologyData( "es" ).es;
+
+		runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
+		runKeyphraseAnalysis( testTextsES, morphologyDataES );
+	}
+
 
 	/**
 	 * Renders the app.
