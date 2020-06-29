@@ -12,9 +12,8 @@
 	<div class="yoast-field-group">
 	<?php
 	if ( get_option( 'show_on_front' ) === 'posts' ) {
-		// @todo add the proper URL here once this article has been written.
 		$homepage_help = new WPSEO_Admin_Help_Button(
-			'search-appearance-homepage',
+			'https://yoa.st/41m',
 			__( 'Learn more about the homepage setting', 'wordpress-seo' )
 		);
 
