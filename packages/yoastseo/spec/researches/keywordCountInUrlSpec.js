@@ -188,4 +188,25 @@ describe( "test to check url for keyword", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
+
+	it( "works with dash within the keyword in url", function() {
+		const paper = new Paper( "", { url: "buku-buku", keyword: "buku-buku" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	it( "works with dash within the keyword in url", function() {
+		const paper = new Paper( "", { url: "on-the-go", keyword: "on-the-go" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	} );
+
+	// It( "works with dash within the keyword in url", function() {
+	// 	Const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
+	// 	Const researcher = new Researcher( paper );
+	// 	Researcher.addResearchData( "morphology", morphologyData );
+	// 	Expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	// } );
 } );
