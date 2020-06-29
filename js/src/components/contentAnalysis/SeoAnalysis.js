@@ -303,6 +303,7 @@ class SeoAnalysis extends Component {
 								<SynonymSlot location={ location } />
 								{ this.props.shouldUpsell && <Fragment>
 									{ this.renderSynonymsUpsell( location ) }
+									<br />
 									{ this.renderMultipleKeywordsUpsell( location ) }
 								</Fragment> }
 								{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location ) }

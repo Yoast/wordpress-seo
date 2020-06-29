@@ -725,4 +725,13 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO Premium"] > svg path {
 	fill: #ffffff;
 }
+
+/* Related keyphrases modal: Needs high specificity. */
+.yoast-related-keyphrases-modal__button.yoast-related-keyphrases-modal__button {
+	margin-top: 8px;
+}
+
+.yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
+	min-height: 66vh;
+}
 /*# sourceMappingURL=metabox.css.map */
