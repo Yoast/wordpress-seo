@@ -93,7 +93,8 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 	grid-row: 1;
 }
 
-.yoast-toggle--inactive {
+.yoast-toggle--inactive,
+.yoast-toggle--inverse .yoast-toggle--active {
 	grid-column: 1;
 }
 
@@ -105,7 +106,8 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 	grid-column: 2;
 }
 
-.yoast-toggle--active {
+.yoast-toggle--active,
+.yoast-toggle--inverse .yoast-toggle--inactive{
 	grid-column: 3;
 }
 
@@ -114,21 +116,16 @@ input[type=checkbox].yoast-toggle__checkbox:checked::before {
 	background-color: var(--yoast-color-active-light);
 }
 
-.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch::before {
+.yoast-toggle .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch::before,
+.yoast-toggle--inverse .yoast-toggle__checkbox:not(:checked) ~ .yoast-toggle__switch::before{
 	background-color: var(--yoast-color-active);
 	right: 0;
 	left: initial;
-}
-
-.yoast-toggle--inverse .yoast-toggle__checkbox:not(:checked) ~ .yoast-toggle__switch::before {
-	background-color: var(--yoast-color-active);
-	right: initial;
-	left: 0;
 }
 
 .yoast-toggle--inverse .yoast-toggle__checkbox:checked ~ .yoast-toggle__switch::before {
-	right: 0;
-	left: initial;
+	right: initial;
+	left: 0;
 }
 
 .yoast-toggle .yoast-toggle__checkbox ~ .yoast-toggle--inactive,
