@@ -1,3 +1,5 @@
+@import "@yoast/components/src/button/buttons.css";
+@import "@yoast/components/src/base/colors.css";
 @import "@yoast/components/src/base/icons.css";
 @import "yoastseo/css/_tooltips.scss";
 
@@ -144,4 +146,13 @@ th.column-wpseo-score-readability .yoast-tooltip {
 td.column-wpseo-links,
 td.column-wpseo-linked {
 	word-wrap: normal;
+}
+
+.yoast-notification .yoast-seo-icon {
+	float: left;
+	margin: 20px 10px;
+}
+
+.yoast-notification .yoast-seo-icon-wrap {
+	margin: 0 0 0 85px;
 }
