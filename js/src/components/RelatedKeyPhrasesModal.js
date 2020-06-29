@@ -3,7 +3,6 @@ import { Fragment, Component } from "@wordpress/element";
 import { Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 /* Yoast dependencies */
 import { BaseButton } from "@yoast/components";
@@ -139,19 +138,4 @@ RelatedKeyPhrasesModal.defaultProps = {
 	maxRelatedKeyphrasesEntered: false,
 };
 
-/**
- * Maps redux state to the RelatedKeyPhrasesModal props.
- *
- * @param {Object} state The redux state.
- *
- * @returns {Object} Props that should be passed to RelatedKeyPhrasesModal.
- */
-function mapStateToProps( state ) {
-	const keyphrase = state.focusKeyword;
-
-	return {
-		keyphrase,
-	};
-}
-
-export default connect( mapStateToProps )( RelatedKeyPhrasesModal );
+export default RelatedKeyPhrasesModal;
