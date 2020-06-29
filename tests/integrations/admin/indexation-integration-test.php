@@ -308,7 +308,7 @@ class Indexation_Integration_Test extends TestCase {
 				'nonce'     => 'nonce',
 			],
 			'message' => [
-				'indexingCompleted' => '<span class="wpseo-checkmark-ok-icon"></span>Good job! You\'ve sped up your site.',
+				'indexingCompleted' => '<span class="yoast-check"></span>Good job! You\'ve sped up your site.',
 				'indexingFailed'    => 'Something went wrong while optimizing the SEO data of your site. Please try again later.',
 			],
 			'l10n'    => [

@@ -14,15 +14,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 echo '<div class="tab-block yoast-feature">';
 echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
+printf(
+	'<p>%s</p>',
+	esc_html__( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' )
+);
 
 $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
 
 ?>
-	<p>
-		<?php
-			esc_html_e( 'Enable this feature if you want Facebook and other social media to display a preview with images and a text excerpt when a link to your site is shared.', 'wordpress-seo' );
-		?>
-	</p>
 
 <div id="wpseo-opengraph-settings" style="display: none;">
 <?php

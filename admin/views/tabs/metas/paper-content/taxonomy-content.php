@@ -18,7 +18,7 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 		__( 'Format-based archives', 'wordpress-seo' ),
 		[ __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ],
 		false,
-		false
+		true
 	);
 }
 
