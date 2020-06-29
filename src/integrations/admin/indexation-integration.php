@@ -244,7 +244,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		if ( \current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		}
 	}
 
 	/**
