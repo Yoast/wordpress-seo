@@ -32,7 +32,7 @@ function renderComponent( component ) {
  * @returns {boolean} Whether the current page contains upsells.
  */
 function pageHasUpsells() {
-	return !! document.getElementById( "sidebar" );
+	return !! document.getElementsByClassName( "yoast-sidebar" );
 }
 
 /**
