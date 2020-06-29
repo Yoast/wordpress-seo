@@ -3,11 +3,39 @@ const fs = require( "fs" );
 const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
+const argv = require('yargs').argv
 
-const AUTO_CHECKOUT = process.env.AUTO_CHECKOUT_MONOREPO_BRANCH;
+// Travis integration.
+const AUTO_CHECKOUT_TRAVIS_BRANCH = process.env.AUTO_CHECKOUT_MONOREPO_BRANCH;
 const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
+// Custom path without creating a config file.
+const MONOREPO_PATH = process.env.YOAST_MONOREPO_PATH || argv.monorepo_path;
+const MONOREPO_BRANCH = process.env.YOAST_MONOREPO_BRANCH || argv.monorepo_branch;
+
+// Cache monorepo location.
 let monorepoLocation;
+
+const NO_OUTPUT = { stdio: [ null, null, null ] };
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} A buffer with the result or a string when it is a simple command.
+ */
+const execMonorepo = cmd => execSync( cmd, { cwd: getMonorepoLocation() } );
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ * This version does not output anything to the console.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} Outputs nothing.
+ */
+const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: getMonorepoLocation(), NO_OUTPUT } );
 
 /**
  * Get the .yoast configuration contents.
@@ -60,18 +88,31 @@ function isValidMonorepoLocation( location ) {
 }
 
 /**
+ * Gets the monorepo-location from the ENV variable MONOREPO_PATH
+ *
+ * @returns {string} The monorepo-location.
+ */
+function getMonorepoLocationFromEnv() {
+	if ( ! MONOREPO_PATH ) {
+		return "";
+	}
+
+	if ( ! isValidMonorepoLocation( MONOREPO_PATH ) ) {
+		log( "The provided monorepo path argument does not seem to contain a clone of the JavaScript monorepo.");
+		return "";
+	}
+
+	return MONOREPO_PATH;
+}
+
+/**
  * Gets the monorepo-location from the .yoast file or asks the user for a location if either the file does not exist or the right key is not there.
  * If a .yoast file exists but the key "monorepo-location" is not there, this function adds a new key to the file without overwriting existing values.
  *
  * @returns {string} The monorepo-location.
  */
-function getMonorepoLocationFromFile() {
-	if ( monorepoLocation ) {
-		return monorepoLocation;
-	}
-
+function getMonorepoLocationFromConfig() {
 	const yoastConfig = getConfiguration();
-
 	let location = yoastConfig[ "monorepo-location" ];
 
 	if ( isValidMonorepoLocation( location ) ) {
@@ -79,11 +120,9 @@ function getMonorepoLocationFromFile() {
 	}
 
 	while ( ! isValidMonorepoLocation( location ) ) {
-		location = readlineSync.question( "The location in your .yoast file or the location you've provided is not valid. " +
-			"Please provide the location of your javascript clone." +
-			"Where is your monorepo git clone located? " +
-			"Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "." +
-			" (note that ~ is not supported)'.\n" );
+		log( "The location in your .yoast file or the location you've provided is not valid." );
+		location = readlineSync.question( "Please provide the monorepo git clone path (absolute or relative to the current directory '" + process.cwd() + "). " +
+										  " (note that ~ is not supported)'.\nMonorepo path: " );
 		// Ensure compatibility with Windows.
 		location = path.normalize( location );
 	}
@@ -98,26 +137,26 @@ function getMonorepoLocationFromFile() {
 	return location;
 }
 
-const NO_OUTPUT = { stdio: [ null, null, null ] };
-
 /**
- * Creates a command that can be used for executing commands in the monorepoLocation.
+ * Gets the location of the monorepo.
  *
- * @param {string} cmd The command that is executed in the monorepoLocation.
- *
- * @returns {Buffer | string} A buffer with the result or a string when it is a simple command.
+ * @returns {string} The monorepo-location.
  */
-const execMonorepo = cmd => execSync( cmd, { cwd: getMonorepoLocationFromFile() } );
+function getMonorepoLocation() {
+	// Cached result.
+	if ( monorepoLocation ) {
+		return monorepoLocation;
+	}
 
-/**
- * Creates a command that can be used for executing commands in the monorepoLocation.
- * This version does not output anything to the console.
- *
- * @param {string} cmd The command that is executed in the monorepoLocation.
- *
- * @returns {Buffer | string} Outputs nothing.
- */
-const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: getMonorepoLocationFromFile(), NO_OUTPUT } );
+	// Fetch from ENV first.
+	let location = getMonorepoLocationFromEnv();
+	if ( location ) {
+		return location;
+	}
+
+	// Fetch from config if the ENV is not set or invalid.
+	return getMonorepoLocationFromConfig();
+}
 
 /**
  * Unlink all the yoast packages that are linked in the ~/.config/yarn/link directory.
@@ -156,6 +195,7 @@ function checkoutMonorepoBranch( yoastSEOBranch ) {
 	try {
 		execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
 	} catch ( error ) {
+		log( "Unable to check out " + monorepoBranch + ", checking out develop." );
 		monorepoBranch = "develop";
 		execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
 	}
@@ -185,13 +225,20 @@ function warning( message ) {
 	console.log( "\x1b[33m%s\x1b[0m", message );
 }
 
-// Start the script.
-log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
+// ********** [ Start the script ] ********** //
+
+log( `Your monorepo is located in "${ getMonorepoLocation() }". ` );
 
 log( "Fetching branches of the monorepo." );
 execMonorepoNoOutput( "git fetch" );
-if ( AUTO_CHECKOUT ) {
+
+if ( AUTO_CHECKOUT_TRAVIS_BRANCH ) {
 	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
+	log( "Checking out " + monorepoBranch + " on the monorepo." );
+}
+
+if ( MONOREPO_BRANCH ) {
+	const monorepoBranch = checkoutMonorepoBranch( MONOREPO_BRANCH );
 	log( "Checking out " + monorepoBranch + " on the monorepo." );
 }
 
