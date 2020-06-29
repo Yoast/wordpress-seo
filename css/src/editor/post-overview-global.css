@@ -1,3 +1,5 @@
+@import "@yoast/components/button/buttons.css";
+@import "@yoast/components/base/colors.css";
 @import "@yoast/components/base/icons.css";
 @import "yoastseo/css/_tooltips.scss";
 
