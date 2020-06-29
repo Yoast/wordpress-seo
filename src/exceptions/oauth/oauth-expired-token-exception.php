@@ -1,8 +1,14 @@
-<?php namespace Yoast\WP\SEO\Exceptions\OAuth;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Exceptions\OAuth
+ */
+
+namespace Yoast\WP\SEO\Exceptions\OAuth;
 
 /**
  * Class OAuth_Expired_Token_Exception
- * @package Yoast\WP\SEO\Exceptions\OAuth
  */
 class OAuth_Expired_Token_Exception extends \Exception {
 

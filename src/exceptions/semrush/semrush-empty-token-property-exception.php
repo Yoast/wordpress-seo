@@ -1,8 +1,14 @@
-<?php namespace Yoast\WP\SEO\Exceptions\SEMrush;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Exceptions\SEMrush
+ */
+
+namespace Yoast\WP\SEO\Exceptions\SEMrush;
 
 /**
  * Class SEMrush_Empty_Token_Property_Exception
- * @package Yoast\WP\SEO\Exceptions\SEMrush
  */
 class SEMrush_Empty_Token_Property_Exception extends \Exception {
 

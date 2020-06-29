@@ -1,8 +1,14 @@
-<?php namespace Yoast\WP\SEO\Exceptions\OAuth;
+<?php
+/**
+ * Yoast SEO plugin file.
+ *
+ * @package Yoast\WP\SEO\Exceptions\OAuth
+ */
+
+namespace Yoast\WP\SEO\Exceptions\OAuth;
 
 /**
  * Class OAuth_Authentication_Failed_Exception
- * @package Yoast\WP\SEO\Exceptions\OAuth
  */
 class OAuth_Authentication_Failed_Exception extends \Exception {
 
