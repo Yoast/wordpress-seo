@@ -34,7 +34,7 @@ $yoast_features = new WPSEO_Features();
 	foreach ( $feature_toggles as $feature ) {
 		if ( $feature->premium && ! $yoast_features->is_premium() ) {
 			$yform->light_switch_disabled(
-				$feature->setting,
+				WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 				$feature->name,
 				[
 					__( 'Off', 'wordpress-seo' ),
@@ -48,7 +48,7 @@ $yoast_features = new WPSEO_Features();
 		else {
 
 			$yform->light_switch(
-				$feature->setting,
+				WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 				$feature->name,
 				[
 					__( 'Off', 'wordpress-seo' ),
