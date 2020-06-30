@@ -14,7 +14,6 @@ const Container = styled.div`
 	margin: 16px 0;
 	padding: 20px 28px;
 	position: relative;
-	z-index: 1;
 	&:before {
 		content: "";
 		background-image: url(${ props => props.backgroundUrl });
