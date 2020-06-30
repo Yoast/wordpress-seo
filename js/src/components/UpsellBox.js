@@ -92,7 +92,7 @@ class UpsellBox extends Component {
 	 */
 	render() {
 		return (
-			<div class="yoast">
+			<div className="yoast">
 				{ this.createInfoParagraphs( this.props.infoParagraphs ) }
 				{ this.createBenefitsList( this.props.benefits ) }
 				<UpsellButton
