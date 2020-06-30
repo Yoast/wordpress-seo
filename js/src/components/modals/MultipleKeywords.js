@@ -63,7 +63,7 @@ const MultipleKeywords = ( props ) => {
 			}
 			upsellButton={ {
 				href: props.buyLink,
-				className: "yoast-button-upsell",
+				className: "yoast-button yoast-button--buy",
 				rel: null,
 			} }
 			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
