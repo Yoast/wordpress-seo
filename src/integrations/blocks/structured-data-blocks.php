@@ -21,6 +21,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * @inheritDoc
+	 */
+	public function get_conditionals() {
+		return [];
+	}
+
+	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
 	 */
 	public function register_hooks() {
