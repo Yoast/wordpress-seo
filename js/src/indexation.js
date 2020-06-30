@@ -83,7 +83,7 @@ const settings = yoastIndexationData;
 					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
 				} );
 			};
-			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=175&inlineId=yoast-indexation-wrapper", false );
+			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=179&inlineId=yoast-indexation-wrapper", false );
 			window.tb_position = old_tb_position;
 			/* eslint-enable camelcase */
 
