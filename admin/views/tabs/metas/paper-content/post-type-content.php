@@ -13,9 +13,12 @@
 
 $single_label = $wpseo_post_type->labels->singular_name;
 $paper_style  = false;
+$has_archive  = WPSEO_Post_Type::has_archive( $wpseo_post_type );
 
 /* translators: %s is the singular version of the post type's name. */
-echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-seo' ), $wpseo_post_type->labels->singular_name ) ) . '</h3>';
+if ( $has_archive ) {
+	echo '<h3>' . esc_html( sprintf( __( 'Settings for single %s URLs', 'wordpress-seo' ), $wpseo_post_type->labels->singular_name ) ) . '</h3>';
+}
 
 require __DIR__ . '/post_type/post-type.php';
 
@@ -25,13 +28,11 @@ if ( $wpseo_post_type->name === 'product' && WPSEO_Utils::is_woocommerce_active(
 	return;
 }
 
-if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
+if ( $has_archive ) {
 	$plural_label = $wpseo_post_type->labels->name;
 
 	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
-
-	echo '<div class="yoast-space-after">';
 
 	$yform->index_switch(
 		'noindex-ptarchive-' . $wpseo_post_type->name,
@@ -42,8 +43,6 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		),
 		$view_utils->search_results_setting_help()
 	);
-
-	echo '</div>';
 
 	$page_type = $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name );
 
