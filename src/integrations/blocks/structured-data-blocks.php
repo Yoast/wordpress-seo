@@ -23,7 +23,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * @inheritDoc
 	 */
-	public function get_conditionals() {
+	public static function get_conditionals() {
 		return [];
 	}
 
