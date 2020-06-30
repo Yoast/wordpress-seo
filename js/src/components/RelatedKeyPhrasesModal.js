@@ -103,7 +103,7 @@ class RelatedKeyPhrasesModal extends Component {
 						icon={ <YoastIcon /> }
 					>
 						<ModalContainer
-							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
+							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content yoast"
 						>
 							{ this.state.isLoading && <SemRushLoading /> }
 							{ maxRelatedKeyphrasesEntered && (

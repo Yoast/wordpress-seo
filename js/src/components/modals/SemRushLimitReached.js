@@ -26,7 +26,7 @@ const SemRushLimitReached = () => {
 			</p>
 			<UpdateSemRushPlanLink
 				href="https://yoa.st/semrush-prices"
-				className="yoast-button-upsell"
+				className="yoast-button yoast-button--buy"
 			>
 				{
 					sprintf(
@@ -35,7 +35,7 @@ const SemRushLimitReached = () => {
 						"SEMrush"
 					)
 				}
-				<span aria-hidden="true" className="yoast-button-upsell__caret" />
+				<span aria-hidden="true" className="yoast-button--buy__caret" />
 			</UpdateSemRushPlanLink>
 		</Fragment>
 	);
