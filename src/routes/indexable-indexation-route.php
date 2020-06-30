@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
@@ -137,6 +138,13 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	private $general_indexation_action;
 
 	/**
+	 * The complete indexation action.
+	 *
+	 * @var Indexable_Complete_Indexation_Action
+	 */
+	private $complete_indexation_action;
+
+	/**
 	 * Represents the options helper.
 	 *
 	 * @var Options_Helper
@@ -150,6 +158,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * @param Indexable_Term_Indexation_Action              $term_indexation_action              The term indexation action.
 	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action The post type archive indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation action.
+	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action          The complete indexation action. Called when the indexation is completed.
 	 * @param Options_Helper                                $options_helper                      The options helper.
 	 */
 	public function __construct(
@@ -157,12 +166,14 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 		Indexable_Term_Indexation_Action $term_indexation_action,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action,
 		Indexable_General_Indexation_Action $general_indexation_action,
+		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		Options_Helper $options_helper
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;
 		$this->general_indexation_action           = $general_indexation_action;
+		$this->complete_indexation_action          = $complete_indexation_action;
 		$this->options_helper                      = $options_helper;
 	}
 
@@ -242,9 +253,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * Completes the indexation.
 	 */
 	public function complete() {
-		$this->options_helper->set( 'indexation_started', 0 );
-
-		return $this->respond_with( [], false );
+		return $this->respond_with( $this->complete_indexation_action->complete(), false );
 	}
 
 	/**
