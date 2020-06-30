@@ -63,7 +63,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The amount of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed() {
-		$transient = \get_transient( self::TRANSIENT_CACHE_KEY );
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
@@ -76,7 +76,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			return false;
 		}
 
-		\set_transient( self::TRANSIENT_CACHE_KEY, $result, DAY_IN_SECONDS );
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
 	}

@@ -84,7 +84,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', DAY_IN_SECONDS )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', \DAY_IN_SECONDS )->andReturnTrue();
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()

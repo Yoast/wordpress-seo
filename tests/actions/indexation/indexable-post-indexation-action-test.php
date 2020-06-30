@@ -84,7 +84,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', DAY_IN_SECONDS )->andReturnTrue();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
