@@ -391,7 +391,11 @@ class Indexable_Repository {
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
-			$indexable->save();
+
+			// Only save if changed.
+			if ( $indexable->permalink !== null ) {
+				$indexable->save();
+			}
 		}
 		return $indexable;
 	}
