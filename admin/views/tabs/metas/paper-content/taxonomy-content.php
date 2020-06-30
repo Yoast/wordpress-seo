@@ -24,8 +24,6 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 
 echo "<div id='" . esc_attr( $wpseo_taxonomy->name ) . "-titles-metas'>";
 
-echo '<div class="yoast-space-after">';
-
 $yform->index_switch(
 	'noindex-tax-' . $wpseo_taxonomy->name,
 	$title,
@@ -39,9 +37,6 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
 		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $title )
 	);
 }
-
-
-echo '</div>';
 
 // Determine the page type for the term, this is needed for the recommended replacement variables.
 $page_type = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name );

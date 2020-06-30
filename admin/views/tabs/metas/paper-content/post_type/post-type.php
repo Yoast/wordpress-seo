@@ -13,8 +13,6 @@
 
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
 
-echo '<div class="yoast-space-after">';
-
 $yform->index_switch(
 	$noindex_option_name,
 	$wpseo_post_type->labels->name,
@@ -31,8 +29,6 @@ $yform->show_hide_switch(
 	/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 	sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $wpseo_post_type->labels->name )
 );
-
-echo '</div>';
 
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,

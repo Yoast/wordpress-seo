@@ -1,7 +1,7 @@
 .yoast-paper {
 	background-color: white;
 	padding: 16px 16px 0;
-	margin-bottom: 32px;
+	margin-bottom: 16px;
 	box-shadow: var(--yoast-shadow-default);
 	border: var(--yoast-border-default);
 	max-width: 600px;
@@ -10,7 +10,7 @@
 }
 
 .yoast #wpcontent .yoast-paper h2 {
-	margin-bottom: 32px;
+	margin-bottom: 16px;
 }
 
 .yoast-paper:last-of-type {
