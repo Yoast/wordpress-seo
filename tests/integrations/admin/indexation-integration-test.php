@@ -158,6 +158,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
+	 * @covers ::is_indexation_warning_hidden
+	 * @covers ::add_admin_notice
 	 */
 	public function test_enqueue_scripts_not_having_warning_ignored() {
 		// Mock that 40 indexables should be indexed.
@@ -194,6 +196,87 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->with( 'indexables_indexation_reason', '' )
 			->andReturn( '' );
+
+		Monkey\Actions\expectAdded( 'admin_notices' );
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		// We should hook into the admin footer and admin notices hook.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+
+		// Mock retrieval of the REST URL.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests that scripts and styles are enqueued and the modal
+	 * is rendered when there is something to index.
+	 *
+	 * @covers ::enqueue_scripts
+	 * @covers ::is_indexation_warning_hidden
+	 * @covers ::add_admin_notice
+	 */
+	public function test_add_admin_notice_about_permalink() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnFalse();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_started', 0 )
+			->andReturn( 0 );
+
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_warning_hide_until' )
+			->andReturn( 0 );
+
+		$this->options
+			->expects( 'get' )
+			->once()
+			->with( 'indexables_indexation_reason', '' )
+			->andReturn( 'The indexation reason' );
 
 		Monkey\Actions\expectAdded( 'admin_notices' );
 
@@ -415,6 +498,61 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that scripts and styles are not enqueued when the number of
+	 * unindexed objects is smaller than the shutdown limit.
+	 *
+	 * @covers ::enqueue_scripts
+	 * @covers ::get_total_unindexed
+	 */
+	public function test_enqueue_scripts_when_smaller_than_shutdown_limit() {
+		// Nothing should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 5,
+				'post'              => 5,
+				'term'              => 5,
+			]
+		);
+
+		/**
+		 * We have to register the shutdown function here to prevent a fatal PHP error,
+		 * which would occur because the registered shutdown function is executed
+		 * after the unit test has already completed.
+		 */
+		register_shutdown_function( [$this, 'shutdown_indexation_expectations' ] );
+
+		// The warning and modal should not be rendered.
+		Monkey\Actions\expectAdded( 'admin_footer' )->never();
+		Monkey\Actions\expectAdded( 'admin_notices' )->never();
+
+		// The script should not be localized.
+		Monkey\Functions\expect( 'wp_localize_script' )->never();
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests the shutdown indexation.
+	 *
+	 * @covers ::shutdown_indexation
+	 */
+	public function test_shutdown_indexation() {
+		$this->shutdown_indexation_expectations();
+		$this->instance->shutdown_indexation();
+	}
+
+	/**
+	 * Sets the expectations for the shutdown indexation.
+	 */
+	public function shutdown_indexation_expectations() {
+		$this->post_indexation->expects( 'index' )->once();
+		$this->term_indexation->expects( 'index' )->once();
+		$this->general_indexation->expects( 'index' )->once();
+		$this->post_type_archive_indexation->expects( 'index' )->once();
+	}
+
+	/**
 	 * Tests that the indexation warning is shown when its respective method is called.
 	 *
 	 * @covers ::render_indexation_warning
@@ -463,6 +601,21 @@ class Indexation_Integration_Test extends TestCase {
 		$this->expectOutputString( '' );
 
 		$this->instance->render_indexation_warning();
+	}
+
+	/**
+	 * Tests that the indexation permalink warning is not shown when the user is not an admin.
+	 *
+	 * @covers ::render_indexation_permalink_warning
+	 */
+	public function test_no_render_indexation_permalink_warning_non_admin() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( false );
+
+		$this->expectOutputString( '' );
+
+		$this->instance->render_indexation_permalink_warning();
 	}
 
 	/**
