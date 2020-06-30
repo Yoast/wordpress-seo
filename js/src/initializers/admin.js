@@ -148,7 +148,7 @@ export default function initAdmin( jQuery ) {
 	 * @returns {void}
 	 */
 	function initSelect2() {
-		var select2Width = "400px";
+		var select2Width = "300px";
 
 		// Select2 for Twitter card meta data in Settings
 		jQuery( "#twitter_card_type" ).select2( {
