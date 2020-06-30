@@ -6,8 +6,6 @@
  */
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class WPSEO_Meta_Columns.
@@ -91,8 +89,6 @@ class WPSEO_Meta_Columns {
 			// Page list returns an array of post IDs.
 			$post_ids = array_keys( $posts );
 		}
-
-		$this->set_context_for_post_ids( $post_ids );
 	}
 
 	/**
@@ -150,15 +146,11 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				$context = $this->get_context_for_post_id( $post_id );
-				$title   = apply_filters( 'wpseo_title', $context->title, $context->presentation );
-
-				echo esc_html( $title );
+				echo esc_html( YoastSEO()->meta->for_post( $post_id )->title );
 				return;
 
 			case 'wpseo-metadesc':
-				$context      = $this->get_context_for_post_id( $post_id );
-				$metadesc_val = apply_filters( 'wpseo_metadesc', $context->description, $context->presentation );
+				$metadesc_val = YoastSEO()->meta->for_post( $post_id )->meta_description;
 
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
@@ -773,57 +765,5 @@ class WPSEO_Meta_Columns {
 		}
 
 		return WPSEO_Post_Type::is_post_type_accessible( $screen->post_type );
-	}
-
-	/**
-	 * Sets the meta tags context for each post id.
-	 *
-	 * @param array $post_ids The post ids to get the context for.
-	 */
-	protected function set_context_for_post_ids( $post_ids ) {
-		if ( empty( $post_ids ) ) {
-			return;
-		}
-
-		/**
-		 * Makes sure autocompletion works.
-		 *
-		 * @var Meta_Tags_Context_Memoizer $context_memoizer     The context memoizer.
-		 * @var Indexable_Repository       $indexable_repository The indexable_repository.
-		 */
-		$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-		$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
-
-		$indexables = $indexable_repository
-			->query()
-			->where_in( 'object_id', $post_ids )
-			->find_many();
-
-		foreach ( $indexables as $indexable ) {
-			$this->context[ $indexable->object_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
-		}
-	}
-
-	/**
-	 * Retrieves the indexable for the given post id.
-	 *
-	 * @param int $post_id The post_id.
-	 *
-	 * @return Meta_Tags_Context
-	 */
-	protected function get_context_for_post_id( $post_id ) {
-		if ( ! isset( $this->context[ $post_id ] ) ) {
-			$context_memoizer     = YoastSEO()->classes->get( Meta_Tags_Context_Memoizer::class );
-			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
-
-			$indexable = $indexable_repository->find_by_id_and_type( $post_id, 'post' );
-			if ( ! $indexable  ) {
-				return null;
-			}
-
-			$this->context[ $post_id ] = $context_memoizer->get( $indexable, 'Post_Type' );
-		}
-
-		return $this->context[ $post_id ];
 	}
 }
