@@ -6,6 +6,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 2.5.0 July 6th, 2020
 ### Enhancements
+* Adds a box shadow and border to the toggle switch.
 * Adds a disabled state for the toggle items.
 * Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.
 * Adds focus styling to button, input, textarea, select and toggle switch components for accessibility.
