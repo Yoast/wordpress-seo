@@ -83,8 +83,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term') AND taxonomy IN (%s)
 			$limit_placeholder";
 
-		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturn( false );
-		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', DAY_IN_SECONDS )->andReturn( true );
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_terms', '10', DAY_IN_SECONDS )->andReturnTrue();
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -115,6 +115,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
+
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
