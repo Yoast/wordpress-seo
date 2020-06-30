@@ -1,4 +1,5 @@
 @import "./admin.css";
+@import "./overwrites.css";
 
 @import "../base/colors.css";
 @import "../base/icons.css";

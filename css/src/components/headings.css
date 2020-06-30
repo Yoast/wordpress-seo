@@ -15,7 +15,6 @@ body.yoast {
 	line-height: 1.5;
 }
 
-
 /** On admin pages, the <body> Has the class "yoast", this way we can target only our own pages. */
 .yoast #wpcontent h1,
 .yoast #wpcontent h2,
@@ -55,6 +54,6 @@ body.yoast {
 	font-size: 1em;
 }
 
-.yoast .update-nag{
-	margin-left: 32px;
+.yoast #wpcontent #wpseo-title {
+	margin-bottom: 24px;
 }

@@ -9,8 +9,8 @@
 	box-sizing: border-box;
 }
 
-.yoast #wpcontent p.submit {
-	padding-top: 8px;
+.yoast #wpcontent .yoast-paper h2 {
+	margin-bottom: 32px;
 }
 
 .yoast-paper:last-of-type {
@@ -23,10 +23,6 @@
 
 .yoast-paper--bottom {
 	padding-bottom: 16px;
-}
-
-.yoast #wpcontent .yoast-paper h2 {
-	margin-bottom: 32px;
 }
 
 .yoast-paper--small {
