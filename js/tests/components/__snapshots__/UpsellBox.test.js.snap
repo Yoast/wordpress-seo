@@ -55,7 +55,9 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
   upsellButtonLabel=""
   upsellButtonText="A button"
 >
-  <div>
+  <div
+    class="yoast"
+  >
     <p
       key="0"
     >
