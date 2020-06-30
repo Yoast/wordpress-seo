@@ -38,7 +38,7 @@ foreach ( $wpseo_archives as $wpseo_archive_index => $wpseo_archive ) {
 		__DIR__ . '/' . $wpseo_archive['view_file'],
 		[
 			'collapsible'                  => true,
-			'expanded'                     => ( $wpseo_archive_index === 0 ),
+			'expanded'                     => false,
 			'paper_id'                     => $wpseo_archive['paper_id'],
 			'recommended_replace_vars'     => $recommended_replace_vars,
 			'editor_specific_replace_vars' => $editor_specific_replace_vars,

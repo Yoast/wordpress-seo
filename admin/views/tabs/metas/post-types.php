@@ -32,7 +32,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 			__DIR__ . '/paper-content/post-type-content.php',
 			[
 				'collapsible' => true,
-				'expanded'    => ( $wpseo_post_type_index === 0 ),
+				'expanded'    => false,
 				'paper_id'    => 'settings-' . $post_type->name,
 				'view_data'   => [
 					'wpseo_post_type'              => $post_type,

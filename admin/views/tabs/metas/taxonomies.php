@@ -26,7 +26,7 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 			__DIR__ . '/paper-content/taxonomy-content.php',
 			[
 				'collapsible' => true,
-				'expanded'    => ( $wpseo_taxonomy_index === 0 ),
+				'expanded'    => false,
 				'paper_id'    => 'settings-' . $wpseo_taxonomy->name,
 				'view_data'   => [
 					'wpseo_taxonomy'               => $wpseo_taxonomy,
