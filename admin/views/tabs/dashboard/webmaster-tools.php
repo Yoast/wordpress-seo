@@ -32,9 +32,7 @@ $googleverify_link = add_query_arg(
 	'https://www.google.com/webmasters/verification/verification'
 );
 
-$yform->textinput( 'baiduverify', __( 'Baidu verification code', 'wordpress-seo' ) );
-echo '<p>';
-printf(
+$context = '<p>' . sprintf(
 	/* translators: %1$s expands to a link start tag to the Baidu Webmaster Tools site add page, %2$s is the link closing tag. */
 	esc_html__( 'Get your Baidu verification code in %1$sBaidu Webmaster Tools%2$s.', 'wordpress-seo' ),
 	/**
@@ -44,36 +42,33 @@ printf(
 	 */
 	'<a target="_blank" href="' . esc_url( 'https://ziyuan.baidu.com/site/siteadd' ) . '" rel="noopener noreferrer">',
 	'</a>'
-);
-echo '</p>';
+) . '</p>';
+$yform->textinput( 'baiduverify', __( 'Baidu verification code', 'wordpress-seo' ), [ 'html_after' => $context ] );
 
-$yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ) );
-echo '<p>';
-printf(
+
+$context = '<p>' .
+sprintf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Bing verification code in %1$sBing Webmaster Tools%2$s.', 'wordpress-seo' ),
 	'<a target="_blank" href="' . esc_url( $msverify_link ) . '" rel="noopener noreferrer">',
 	'</a>'
-);
-echo '</p>';
+) . '</p>';
+$yform->textinput( 'msverify', __( 'Bing verification code', 'wordpress-seo' ), [ 'html_after' => $context ] );
 
-$yform->textinput( 'googleverify', __( 'Google verification code', 'wordpress-seo' ) );
-echo '<p>';
-printf(
+$context = '<p>' . sprintf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Google verification code in %1$sGoogle Search Console%2$s.', 'wordpress-seo' ),
 	'<a target="_blank" href="' . esc_url( $googleverify_link ) . '" rel="noopener noreferrer">',
 	'</a>'
-);
-echo '</p>';
+) . '</p>';
+$yform->textinput( 'googleverify', __( 'Google verification code', 'wordpress-seo' ), [ 'html_after' => $context ] );
 
-$yform->textinput( 'yandexverify', __( 'Yandex verification code', 'wordpress-seo' ) );
-echo '<p>';
-printf(
+$context = '<p>' . sprintf(
 	/* translators: 1: link open tag; 2: link close tag. */
 	esc_html__( 'Get your Yandex verification code in %1$sYandex Webmaster Tools%2$s.', 'wordpress-seo' ),
 	'<a target="_blank" href="' . esc_url( 'https://webmaster.yandex.com/sites/add/' ) . '" rel="noopener noreferrer">',
 	'</a>'
-);
-echo '</p>';
+) . '</p>';
+$yform->textinput( 'yandexverify', __( 'Yandex verification code', 'wordpress-seo' ), [ 'html_after' => $context ] );
+
 echo '</div>';
