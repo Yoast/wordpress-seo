@@ -104,7 +104,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^1.7.0-rc.3",
+    "@yoast/analysis-report": "^1.7.0-rc.4",
     "@yoast/components": "^2.5.0-rc.4",
     "@yoast/configuration-wizard": "^2.7.0-rc.4",
     "@yoast/feature-flag": "^0.5.2",
