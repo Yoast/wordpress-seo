@@ -9,7 +9,7 @@
 
 if ( ! current_theme_supports( 'title-tag' ) ) {
 	?>
-	<div class="tab-block yoast-feature">
+	<div class="tab-block yoast-paper">
 		<?php
 		$yform->light_switch( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
 		echo '<p class="description">';

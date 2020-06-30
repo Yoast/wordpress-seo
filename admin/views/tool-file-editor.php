@@ -177,9 +177,11 @@ else {
 		echo '</form>';
 	}
 }
-echo '</div>';
+echo '</div>'; // yoast-field-group
+
 if ( ! WPSEO_Utils::is_nginx() ) {
 
+	echo '<div class="yoast-field-group">';
 	echo '<h2>';
 	printf(
 		/* translators: %s expands to ".htaccess". */
@@ -239,9 +241,10 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		);
 		echo '</p>';
 	}
+	echo '</div>'; // yoast-field-group
 }
 
-echo '</div>';
+echo '</div>'; // yoast-feature
 
 if ( is_multisite() ) {
 	$yform->admin_footer( false );

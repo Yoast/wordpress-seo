@@ -13,7 +13,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<div class="yoast-feature">';
+echo '<div class="yoast-paper yoast-paper--bottom">';
 echo '<h2>' . esc_html__( 'Pinterest settings', 'wordpress-seo' ) . '</h2>';
 
 printf(

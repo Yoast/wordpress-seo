@@ -103,4 +103,5 @@ if ( $company_or_person === 'company' ) {
 }
 
 do_action( 'wpseo_admin_other_section' );
+
 echo '</div>';

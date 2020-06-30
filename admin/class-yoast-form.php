@@ -421,7 +421,13 @@ class Yoast_Form {
 		id="', esc_attr( $var ), '"
 		name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']"
 		value="', esc_attr( $val ), '"',
-		disabled( $this->is_control_disabled( $var ), true, false ), '/>', '</div>';
+		disabled( $this->is_control_disabled( $var ), true, false ), '/>';
+
+		if ( ! empty( $attr['html_after'] ) ) {
+			echo $attr['html_after'];
+		}
+
+		echo '</div>';
 
 		echo Yoast_Input_Validation::get_the_error_description( $var );
 	}
@@ -628,7 +634,6 @@ class Yoast_Form {
 				' value="', esc_attr( $id_value ), '"',
 				' />';
 		echo '</div>';
-		echo '<br class="clear"/>';
 	}
 
 	/**
