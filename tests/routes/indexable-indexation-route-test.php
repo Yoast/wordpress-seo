@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Routes\Indexable_Indexation_Route;
@@ -59,10 +60,17 @@ class Indexable_Indexation_Route_Test extends TestCase {
 
 	/**
 	 * Represents the indexation complete action.
-	 * 
+	 *
 	 * @var Mockery\MockInterface|Indexable_Complete_Indexation_Action
 	 */
 	protected $complete_indexation_action;
+
+	/**
+	 * Represents the prepare indexation action.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Prepare_Indexation_Action
+	 */
+	protected $prepare_indexation_action;
 
 	/**
 	 * Represents the instance to test.
@@ -89,6 +97,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
 		$this->complete_indexation_action          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
+		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Indexation_Route(
@@ -97,6 +106,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
 			$this->complete_indexation_action,
+			$this->prepare_indexation_action,
 			$this->options_helper
 		);
 	}
