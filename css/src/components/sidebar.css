@@ -10,7 +10,15 @@
 
 .yoast-sidebar {
 	max-width: 300px;
-	margin-top: 40px;
+	margin-left: 24px;
+	padding-top: 16px;
+}
+
+.yoast #wpcontent .yoast-sidebar h2 {
+	padding-top: 5px;
+	padding-bottom: 8px;
+	font-size: 1.1em;
+	font-weight: 400;
 }
 
 .yoast-main {

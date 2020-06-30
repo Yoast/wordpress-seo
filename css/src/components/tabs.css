@@ -22,7 +22,7 @@
 	padding-top: 3px;
 	padding-left: 16px;
 	border-bottom: 1px solid #cccccc;
-	min-height: 60px;
+	min-height: 45px;
 }
 
 .yoast-tabs__list-item {
@@ -79,7 +79,8 @@
 	display: block;
 	color: var(--yoast-color-dark);
 	text-decoration: none;
-	padding: 12px 16px;
+	padding: 8px 12px;
+	font-size: 14px;
 }
 
 .yoast-tabs__list-item-link:hover {
@@ -104,7 +105,8 @@
 
 .yoast-tabs__list-item--active .yoast-tabs__list-item-link {
 	color: var(--yoast-color-primary);
-	padding: 16px;
+	padding: 10px 16px;
+	font-size: 16px;
 }
 
 @media (max-width: 782px) {

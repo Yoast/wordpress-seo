@@ -7,8 +7,15 @@
 	border: var(--yoast-border-default);
 }
 
+.yoast #wpcontent .yoast-collapsible h3 {
+	font-size: 1.4em;
+	font-weight: 300;
+	padding-top: 16px;
+	margin-bottom: 16px;
+}
+
 .toggleable-container {
-	padding: 16px 16px 0;
+	padding: 0 16px;
 }
 
 .toggleable-container-hidden {
@@ -17,10 +24,6 @@
 
 .yoast #wpcontent h2.collapsible-header {
 	margin-bottom: 0;
-}
-
-.yoast #wpcontent .toggleable-container h3 {
-	margin-bottom: 24px;
 }
 
 .collapsible-header .toggleable-container-icon {
@@ -47,4 +50,8 @@
 	color: var(--yoast-primary-color);
 	padding: 16px;
 	cursor: pointer;
+}
+
+.collapsible-header .toggleable-container-trigger:focus {
+	outline: 0;
 }

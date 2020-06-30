@@ -9,7 +9,7 @@ body.yoast {
 }
 
 .wrap {
-	margin: 32px 32px 0;
+	margin: 16px 16px 0;
 	font-size: var(--yoast-font-size-default);
 	color: var(--yoast-color-default);
 	line-height: 1.5;
@@ -55,6 +55,6 @@ body.yoast {
 	font-size: 1em;
 }
 
-.yoast .update-nag{
-	margin-left: 32px;
+.yoast #wpcontent #wpseo-title {
+	margin-bottom: 16px;
 }

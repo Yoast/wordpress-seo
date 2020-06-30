@@ -12,7 +12,7 @@ $title_separator_help = new WPSEO_Admin_Help_Button(
 	__( 'Learn more about the title separator setting', 'wordpress-seo' )
 );
 ?>
-<div class="tab-block yoast-feature yoast-space-after">
+<div class="tab-block yoast-paper yoast-space-after yoast-space-bottom">
 	<fieldset class="yoast-field-group">
 		<h2 class="help-button-inline"><?php echo esc_html__( 'Title Separator', 'wordpress-seo' ) . $title_separator_help; ?></h2>
 		<?php

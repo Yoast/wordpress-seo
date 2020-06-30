@@ -7,12 +7,12 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+echo '<div class="yoast-paper yoast-space-after yoast-space-bottom">';
+
 $rss_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3ym',
 	__( 'Learn more about the RSS feed setting', 'wordpress-seo' )
 );
-
-echo '<div class="yoast-space-after">';
 
 echo '<h2 class="help-button-inline">' . esc_html__( 'RSS feed settings', 'wordpress-seo' ) . $rss_help . '</h2>';
 
@@ -28,7 +28,9 @@ $rss_variables_help = new WPSEO_Admin_Help_Button(
 	__( 'Learn more about the available variables', 'wordpress-seo' )
 );
 
-echo '</div>';
+echo '</div>'; // yoast-paper
+
+echo '<div class="yoast-paper yoast-space-bottom">';
 
 echo '<h2 class="help-button-inline">' . esc_html__( 'Available variables', 'wordpress-seo' ) . $rss_variables_help . '</h2>';
 ?>
@@ -58,3 +60,5 @@ echo '<h2 class="help-button-inline">' . esc_html__( 'Available variables', 'wor
 	</tr>
 	</tbody>
 </table>
+
+</div>

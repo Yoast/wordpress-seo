@@ -6,6 +6,10 @@
 	margin-bottom: 32px;
 }
 
+.yoast-paper.yoast-space-bottom {
+	padding-bottom: 16px;
+}
+
 .yoast-field-group__title code {
 	font-size: 13px;
 	font-weight: normal;

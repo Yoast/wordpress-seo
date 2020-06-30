@@ -20,8 +20,6 @@ $yform->light_switch(
 
 echo '<div id="author-archives-titles-metas-content" class="archives-titles-metas-content">';
 
-echo '<div class="yoast-space-after">';
-
 $author_archives_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/show-x',
 	esc_html__( 'Help on the author archives search results setting', 'wordpress-seo' )
@@ -47,8 +45,6 @@ $yform->index_switch(
 );
 
 echo '</div>'; // noindex-container
-
-echo '</div>'; // space-after
 
 $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
