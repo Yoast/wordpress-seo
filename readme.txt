@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
-Stable tag: 14.3
+Stable tag: 14.4.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -208,6 +208,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 14.4.1 =
+Release Date: June 23rd, 2020
+
+Bugfixes:
+
+* Fixes a bug where existing links were no longer editable with Yoast SEO active.
+* Fixes a bug where the editor wouldn't remember `rel` values set on a link after refresh.
 
 = 14.4 =
 Release Date: June 23rd, 2020
