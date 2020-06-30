@@ -323,7 +323,6 @@ function wpseo_init() {
 
 	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
-	$integrations[] = new WPSEO_Structured_Data_Blocks();
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
