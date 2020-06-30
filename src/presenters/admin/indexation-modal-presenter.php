@@ -47,9 +47,9 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 		else {
 			$progress = \sprintf(
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-				esc_html__( 'Object %1$s of %2$s processed.', 'wordpress-seo' ),
+				\esc_html__( 'Object %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="yoast-indexation-current-count">0</span>',
-				sprintf( '<strong id="yoast-indexation-total-count">%d</strong>', $this->total_unindexed )
+				\sprintf( '<strong id="yoast-indexation-total-count">%d</strong>', $this->total_unindexed )
 			);
 
 			$inner_text  = '<div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div>';
@@ -65,7 +65,7 @@ class Indexation_Modal_Presenter extends Abstract_Presenter {
 		return \sprintf(
 			'<div id="yoast-indexation-wrapper" class="hidden">%s<button id="yoast-indexation-stop" type="button" class="button">%s</button></div>',
 			\implode( '<hr />', $blocks ),
-			\esc_html( 'Stop indexing', 'wordpress-seo' )
+			\esc_html__( 'Stop indexing', 'wordpress-seo' )
 		);
 	}
 }

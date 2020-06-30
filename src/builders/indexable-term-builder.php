@@ -19,14 +19,14 @@ class Indexable_Term_Builder {
 	/**
 	 * Holds the taxonomy helper instance.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Taxonomy_Helper
+	 * @var Taxonomy_Helper
 	 */
 	private $taxonomy;
 
 	/**
 	 * Indexable_Term_Builder constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Taxonomy_Helper $taxonomy The taxonomy helper.
+	 * @param Taxonomy_Helper $taxonomy The taxonomy helper.
 	 */
 	public function __construct( Taxonomy_Helper $taxonomy ) {
 		$this->taxonomy = $taxonomy;
@@ -35,8 +35,8 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                            $term_id   ID of the term to save data for.
-	 * @param \Yoast\WP\SEO\Models\Indexable $indexable The indexable to format.
+	 * @param int       $term_id   ID of the term to save data for.
+	 * @param Indexable $indexable The indexable to format.
 	 *
 	 * @return bool|Indexable The extended indexable. False when unable to build.
 	 */

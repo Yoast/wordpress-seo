@@ -56,6 +56,6 @@ class BbPress implements Integration_Interface {
 		 * {@internal The class itself is only loaded when the template tag is encountered
 		 *            via the template tag function in the wpseo-functions.php file.}}
 		 */
-		add_filter( 'bbp_get_breadcrumb', '__return_false' );
+		\add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
 }

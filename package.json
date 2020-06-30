@@ -104,14 +104,16 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^1.4.0-rc.3",
-    "@yoast/components": "^2.2.0-rc.3",
-    "@yoast/configuration-wizard": "^2.4.0-rc.3",
-    "@yoast/helpers": "^0.12.1-rc.1",
-    "@yoast/search-metadata-previews": "^2.4.0-rc.3",
-    "@yoast/style-guide": "^0.11.2-rc.1",
+    "@yoast/analysis-report": "^1.6.0",
+    "@yoast/components": "^2.4.0",
+    "@yoast/configuration-wizard": "^2.6.0",
+    "@yoast/helpers": "^0.12.1",
+    "@yoast/search-metadata-previews": "^2.6.0",
+    "@yoast/style-guide": "^0.11.2",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
+    "dom-scroll-into-view": "^2.0.1",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "find-with-regex": "~1.0.2",
@@ -131,13 +133,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.4.0-rc.3",
-    "yoastseo": "^1.75.0-rc.1"
+    "yoast-components": "^5.6.0",
+    "yoastseo": "^1.77.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.2-RC3"
+    "pluginVersion": "14.5-RC5"
   }
 }

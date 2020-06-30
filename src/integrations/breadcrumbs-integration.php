@@ -62,7 +62,7 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_shortcode( 'wpseo_breadcrumb', [ $this, 'render' ] );
+		\add_shortcode( 'wpseo_breadcrumb', [ $this, 'render' ] );
 	}
 
 	/**
@@ -72,8 +72,10 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	 */
 	public function render() {
 		$context = $this->context_memoizer->for_current_page();
+
 		/** This filter is documented in src/integrations/front-end-integration.php */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
+
 		$this->presenter->presentation = $presentation;
 
 		return $this->presenter->present();

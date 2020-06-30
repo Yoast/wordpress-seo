@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators;
 
+use Error;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
@@ -82,7 +83,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	 * @return array The images.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$image_container = $this->get_image_container();
+		$image_container        = $this->get_image_container();
 		$backup_image_container = $this->get_image_container();
 
 		try {
@@ -91,8 +92,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			 *
 			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 			 */
-			apply_filters( 'wpseo_add_opengraph_images', $image_container );
-		} catch ( \Error $error ) {
+			\apply_filters( 'wpseo_add_opengraph_images', $image_container );
+		} catch ( Error $error ) {
 			$image_container = $backup_image_container;
 		}
 
@@ -105,8 +106,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			 *
 			 * @api Yoast\WP\SEO\Values\Open_Graph\Images The current object.
 			 */
-			apply_filters( 'wpseo_add_opengraph_additional_images', $image_container );
-		} catch ( \Error $error ) {
+			\apply_filters( 'wpseo_add_opengraph_additional_images', $image_container );
+		} catch ( Error $error ) {
 			$image_container = $backup_image_container;
 		}
 
@@ -129,8 +130,8 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 
 		if ( $indexable->open_graph_image ) {
 			$meta_data = [];
-			if ( $indexable->open_graph_image_meta && is_string( $indexable->open_graph_image_meta ) ) {
-				$meta_data = json_decode( $indexable->open_graph_image_meta, true );
+			if ( $indexable->open_graph_image_meta && \is_string( $indexable->open_graph_image_meta ) ) {
+				$meta_data = \json_decode( $indexable->open_graph_image_meta, true );
 			}
 
 			$image_container->add_image(

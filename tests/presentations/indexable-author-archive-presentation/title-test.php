@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @group presentations
  * @group title
- *
- * @package Yoast\Tests\Presentations\Indexable_Author_Archive_Presentation
  */
 class Title_Test extends TestCase {
 	use Presentation_Instance_Builder;

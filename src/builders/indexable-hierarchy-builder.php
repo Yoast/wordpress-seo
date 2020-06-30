@@ -10,7 +10,6 @@ namespace Yoast\WP\SEO\Builders;
 use WP_Post;
 use WP_Term;
 use WPSEO_Meta;
-use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -97,7 +96,9 @@ class Indexable_Hierarchy_Builder {
 	 * @return Indexable The indexable.
 	 */
 	public function build( Indexable $indexable ) {
-		$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		if ( $indexable->has_ancestors ) {
+			$this->indexable_hierarchy_repository->clear_ancestors( $indexable->id );
+		}
 
 		$indexable_id = $this->get_indexable_id( $indexable );
 		$ancestors    = [];
@@ -108,8 +109,8 @@ class Indexable_Hierarchy_Builder {
 		if ( $indexable->object_type === 'term' ) {
 			$this->add_ancestors_for_term( $indexable_id, $indexable->object_id, $ancestors );
 		}
-
-		$indexable->ancestors = \array_reverse( \array_values( $ancestors ) );
+		$indexable->ancestors     = \array_reverse( \array_values( $ancestors ) );
+		$indexable->has_ancestors = ! empty( $ancestors );
 		if ( ! \is_null( $indexable->id ) ) {
 			$this->save_ancestors( $indexable );
 		}
@@ -224,7 +225,7 @@ class Indexable_Hierarchy_Builder {
 
 		$terms = \get_the_terms( $post->ID, $main_taxonomy );
 
-		if ( ! is_array( $terms ) || empty( $terms ) ) {
+		if ( ! \is_array( $terms ) || empty( $terms ) ) {
 			return 0;
 		}
 
@@ -257,11 +258,11 @@ class Indexable_Hierarchy_Builder {
 		 */
 		$parents_count = -1;
 		$term_order    = 9999; // Because ASC.
-		$deepest_term  = reset( $terms_by_id );
+		$deepest_term  = \reset( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
 			$parents = $this->get_term_parents( $term );
 
-			$new_parents_count = count( $parents );
+			$new_parents_count = \count( $parents );
 
 			if ( $new_parents_count < $parents_count ) {
 				continue;

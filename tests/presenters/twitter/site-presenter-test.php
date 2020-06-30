@@ -48,7 +48,7 @@ class Site_Presenter_Test extends TestCase {
 	 * Tests the presentation for a set twitter creator.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present() {
 		$this->presentation->twitter_site = '@TwitterHandle';
@@ -74,7 +74,7 @@ class Site_Presenter_Test extends TestCase {
 	 * Tests the presentation for a set twitter creator.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_with_filter() {
 		$this->presentation->twitter_site = '@TwitterHandle';

@@ -115,7 +115,8 @@ class Option_Titles_Watcher implements Integration_Interface {
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
 		$result = $wpdb->query(
-			$wpdb->prepare( "
+			$wpdb->prepare(
+				"
 				DELETE FROM `$hierarchy_table`
 				WHERE indexable_id IN(
 					SELECT id FROM `$indexable_table` WHERE object_type = 'post' AND object_sub_type IN( $placeholders )

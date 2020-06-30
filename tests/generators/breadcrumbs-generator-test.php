@@ -14,8 +14,8 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -66,14 +66,14 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Represents the meta tags context.
 	 *
-	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 * @var Mockery\MockInterface|Meta_Tags_Context_Mock
 	 */
 	private $context;
 
 	/**
 	 * Represents the indexable.
 	 *
-	 * @var Mockery\MockInterface|Indexable
+	 * @var Mockery\MockInterface|Indexable_Mock
 	 */
 	private $indexable;
 
@@ -89,13 +89,13 @@ class Breadcrumbs_Generator_Test extends TestCase {
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->instance         = new Breadcrumbs_Generator( $this->repository, $this->options, $this->current_page, $this->post_type_helper );
 
-		$this->indexable                   = Mockery::mock( Indexable::class );
+		$this->indexable                   = Mockery::mock( Indexable_Mock::class );
 		$this->indexable->object_id        = 1;
 		$this->indexable->object_type      = 'post';
 		$this->indexable->object_sub_type  = 'post';
 		$this->indexable->permalink        = 'https://example.com/post';
 		$this->indexable->breadcrumb_title = 'post';
-		$this->context                     = Mockery::mock( Meta_Tags_Context::class );
+		$this->context                     = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$this->context->indexable          = $this->indexable;
 	}
 
@@ -142,7 +142,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 				->andReturn( $this->indexable );
 		}
 
-		if ( strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
+		if ( \strpos( $scenario, 'on-singular-post-page' ) === 0 ) {
 			$this->repository
 				->expects( 'find_by_id_and_type' )
 				->once()
@@ -204,7 +204,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$this->assertEquals(
 			$expected,
-			array_slice( $this->instance->generate( $this->context ), -2 ),
+			\array_slice( $this->instance->generate( $this->context ), -2 ),
 			$message
 		);
 	}
@@ -320,7 +320,7 @@ class Breadcrumbs_Generator_Test extends TestCase {
 
 		$is_home     = ( $scenario === 'on-home-page' );
 		$is_search   = ( $scenario === 'on-search-page' );
-		$is_singular = ( strpos( $scenario, 'on-singular-post-page' ) === 0 );
+		$is_singular = ( \strpos( $scenario, 'on-singular-post-page' ) === 0 );
 
 		Monkey\Functions\expect( 'is_home' )
 			->andReturn( $is_home );
@@ -335,10 +335,10 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Retrieves the 'ancestors'.
 	 *
-	 * @return Indexable[] The ancestors.
+	 * @return Indexable_Mock[] The ancestors.
 	 */
 	private function get_ancestors() {
-		$post_type_indexable                   = new Indexable();
+		$post_type_indexable                   = new Indexable_Mock();
 		$post_type_indexable->object_type      = 'post-type-archive';
 		$post_type_indexable->object_sub_type  = 'post';
 		$post_type_indexable->permalink        = 'https://example.com/post-type';

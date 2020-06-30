@@ -37,14 +37,14 @@ class Migration_Status {
 		$migration_status = $this->get_migration_status( $name );
 
 		// Check if we've attempted to run this migration in the past 10 minutes. If so, it may still be running.
-		if ( array_key_exists( 'lock', $migration_status ) ) {
-			$timestamp = strtotime( '-10 minutes' );
+		if ( \array_key_exists( 'lock', $migration_status ) ) {
+			$timestamp = \strtotime( '-10 minutes' );
 
 			return $timestamp > $migration_status['lock'];
 		}
 
 		// Is the migration version less than the current version.
-		return version_compare( $migration_status['version'], WPSEO_VERSION, '<' );
+		return \version_compare( $migration_status['version'], \WPSEO_VERSION, '<' );
 	}
 
 	/**
@@ -55,10 +55,10 @@ class Migration_Status {
 	 *
 	 * @return bool Whether or not the requested migration is at least the requested version.
 	 */
-	public function is_version( $name, $version = WPSEO_VERSION ) {
+	public function is_version( $name, $version = \WPSEO_VERSION ) {
 		$migration_status = $this->get_migration_status( $name );
 
-		return version_compare( $version, $migration_status['version'], '<=' );
+		return \version_compare( $version, $migration_status['version'], '<=' );
 	}
 
 	/**
@@ -90,8 +90,8 @@ class Migration_Status {
 		$migration_status = $this->get_migration_status( $name );
 
 		$migration_status['error'] = [
-			'time'    => strtotime( 'now' ),
-			'version' => WPSEO_VERSION,
+			'time'    => \strtotime( 'now' ),
+			'version' => \WPSEO_VERSION,
 			'message' => $message,
 		];
 
@@ -109,7 +109,7 @@ class Migration_Status {
 		$migration_status = $this->get_migration_status( $name );
 		unset( $migration_status['lock'] );
 		unset( $migration_status['error'] );
-		$migration_status['version'] = WPSEO_VERSION;
+		$migration_status['version'] = \WPSEO_VERSION;
 		$this->set_migration_status( $name, $migration_status );
 	}
 
@@ -122,7 +122,7 @@ class Migration_Status {
 	 */
 	public function lock_migration( $name ) {
 		$migration_status         = $this->get_migration_status( $name );
-		$migration_status['lock'] = strtotime( 'now' );
+		$migration_status['lock'] = \strtotime( 'now' );
 
 		return $this->set_migration_status( $name, $migration_status );
 	}
@@ -139,7 +139,7 @@ class Migration_Status {
 		if ( ! isset( $this->migration_options[ $current_blog_id ][ $name ] ) ) {
 			$migration_status = \get_option( self::MIGRATION_OPTION_KEY . $name );
 
-			if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
+			if ( ! \is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 				$migration_status = [ 'version' => '0.0' ];
 			}
 
@@ -161,7 +161,7 @@ class Migration_Status {
 	 * @return bool True if the status was succesfully updated, false otherwise.
 	 */
 	protected function set_migration_status( $name, $migration_status ) {
-		if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
+		if ( ! \is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 			return false;
 		}
 		$current_blog_id = \get_current_blog_id();

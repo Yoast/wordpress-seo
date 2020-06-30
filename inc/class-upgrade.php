@@ -770,7 +770,6 @@ class WPSEO_Upgrade {
 		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
 	}
 
-
 	/**
 	 * Cleans up the private taxonomies from the indexables table for the upgrade routine to 14.1.
 	 */

@@ -134,5 +134,4 @@ class Indexable_General_Indexation_Action_Test extends TestCase {
 			->with( 'show_on_front' )
 			->andReturn( 'posts' );
 	}
-
 }

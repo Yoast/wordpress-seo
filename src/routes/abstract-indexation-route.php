@@ -23,9 +23,11 @@ abstract class Abstract_Indexation_Route implements Route_Interface {
 	 * @return WP_REST_Response The response.
 	 */
 	protected function respond_with( $objects, $next_url ) {
-		return new WP_REST_Response( [
-			'objects'  => $objects,
-			'next_url' => $next_url,
-		] );
+		return new WP_REST_Response(
+			[
+				'objects'  => $objects,
+				'next_url' => $next_url,
+			]
+		);
 	}
 }

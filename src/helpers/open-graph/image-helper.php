@@ -50,7 +50,7 @@ class Image_Helper {
 	 * @return bool Whether or not the URL is a valid image.
 	 */
 	public function is_image_url_valid( array $image ) {
-		if ( empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
+		if ( empty( $image['url'] ) || ! \is_string( $image['url'] ) ) {
 			return false;
 		}
 
@@ -64,7 +64,7 @@ class Image_Helper {
 		 *
 		 * @param string $url The image url to validate.
 		 */
-		return (bool) apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
+		return (bool) \apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
 	}
 
 	/**

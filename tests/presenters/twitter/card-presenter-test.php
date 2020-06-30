@@ -35,7 +35,7 @@ class Card_Presenter_Test extends TestCase {
 	 * Tests the presentation for a set twitter creator.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present() {
 		$this->instance->presentation = new Indexable_Presentation();
@@ -52,7 +52,7 @@ class Card_Presenter_Test extends TestCase {
 	 * Tests the presentation of an empty creator.
 	 *
 	 * @covers ::present
-	 * @covers ::filter
+	 * @covers ::get
 	 */
 	public function test_present_with_empty_twitter_creator() {
 		$this->instance->presentation = new Indexable_Presentation();

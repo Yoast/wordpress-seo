@@ -41,7 +41,7 @@ class Twitter_Helpers_Surface {
 	 * @return mixed The helper class.
 	 */
 	public function __get( $helper ) {
-		$helper = implode( '_', array_map( 'ucfirst', explode( '_', $helper ) ) );
+		$helper = \implode( '_', \array_map( 'ucfirst', \explode( '_', $helper ) ) );
 		$class  = "Yoast\WP\SEO\Helpers\Twitter\\{$helper}_Helper";
 		return $this->container->get( $class );
 	}

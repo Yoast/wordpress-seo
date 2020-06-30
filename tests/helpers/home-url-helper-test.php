@@ -77,7 +77,8 @@ class Home_Url_Helper_Test extends TestCase {
 				'scheme' => 'https',
 				'host'   => 'example.com',
 			],
-			$this->instance->get_parsed() );
+			$this->instance->get_parsed()
+		);
 	}
 
 	/**
@@ -94,6 +95,7 @@ class Home_Url_Helper_Test extends TestCase {
 				'scheme' => 'https',
 				'host'   => 'example.com',
 			],
-			$this->instance->get_parsed() );
+			$this->instance->get_parsed()
+		);
 	}
 }

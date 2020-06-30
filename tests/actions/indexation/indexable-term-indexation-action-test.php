@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
-use Mockery;
 use Brain\Monkey\Filters;
+use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -36,7 +37,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 	/**
 	 * The wpdb mock.
 	 *
-	 * @var \wpdb|Mockery\MockInterface
+	 * @var wpdb|Mockery\MockInterface
 	 */
 	protected $wpdb;
 
@@ -79,8 +80,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term') AND taxonomy IN (%s)
-			$limit_placeholder
-		";
+			$limit_placeholder";
 
 		$this->taxonomy->expects( 'get_public_taxonomies' )->once()->andReturn( [ 'public_taxonomy' ] );
 		$this->wpdb->expects( 'prepare' )
@@ -119,8 +119,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 			SELECT term_id
 			FROM wp_term_taxonomy
 			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'term\') AND taxonomy IN (%s)
-			LIMIT %d
-		';
+			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );
 

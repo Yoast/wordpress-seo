@@ -170,36 +170,27 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * @inheritDoc
 	 */
 	public function register_routes() {
-		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, [
+		$route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'index_posts' ],
 			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_terms' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_ARCHIVES_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_post_type_archives' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::GENERAL_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'index_general' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::PREPARE_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'prepare' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
-		\register_rest_route( Main::API_V1_NAMESPACE, self::COMPLETE_ROUTE, [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'complete' ],
-			'permission_callback' => [ $this, 'can_index' ],
-		] );
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::POSTS_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'index_terms' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::TERMS_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'index_post_type_archives' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::POST_TYPE_ARCHIVES_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'index_general' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::GENERAL_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'prepare' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::PREPARE_ROUTE, $route_args );
+
+		$route_args['callback'] = [ $this, 'complete' ];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::COMPLETE_ROUTE, $route_args );
 	}
 
 	/**
@@ -242,7 +233,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * Prepares the indexation.
 	 */
 	public function prepare() {
-		$this->options_helper->set( 'indexation_started', time() );
+		$this->options_helper->set( 'indexation_started', \time() );
 
 		return $this->respond_with( [], false );
 	}

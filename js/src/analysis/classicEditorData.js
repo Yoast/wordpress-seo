@@ -13,14 +13,15 @@ import {
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import * as tmceHelper from "../wp-seo-tinymce";
 
+const { tmceId } = tmceHelper;
 const $ = jQuery;
 
 /**
  * Represents the classic editor data.
  */
-class ClassicEditorData {
+export default class ClassicEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
@@ -388,4 +389,3 @@ class ClassicEditorData {
 		};
 	}
 }
-module.exports = ClassicEditorData;

@@ -11,8 +11,8 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
-use Yoast\WP\SEO\Tests\Mocks\Primary_Term;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\Primary_Term_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -94,76 +94,171 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tests building the hierarchy of a post with no parents.
+	 * Tests building the hierarchy of a post where the post parent is set to 0.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
 	 */
 	public function test_no_parents() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
-		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
+	}
+
+
+
+	/**
+	 * Tests building the hierarchy of a post where the post parent is set to 0.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 */
+	public function test_no_parents_and_has_ancestors_set_to_false() {
+		$indexable                = $this->get_indexable( 1, 'post' );
+		$indexable->has_ancestors = false;
+
+		$this->indexable_hierarchy_repository
+			->expects( 'clear_ancestors' )
+			->never();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'post_types-post-maintax' )
+			->andReturn( '0' );
+
+		$this->post
+			->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
-	 * Tests building the hierarchy of a post with no parents set.
+	 * Tests building the hierarchy of a post where the post parent is not set.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
 	 */
-	public function test_no_post_parents_set() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+	public function test_parents_not_set() {
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->post->expects( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_type' => 'post' ] );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with post parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'post';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'post';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( '0' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'post' )->andReturn( $parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'post_parent' => 2, 'post_type' => 'post' ] );
-		$this->post->expects( 'get_post' )->twice()->with( 2 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
-		$this->instance->build( $indexable );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'post_parent' => 2,
+					'post_type'   => 'post',
+				]
+			);
+		$this->post->expects( 'get_post' )
+			->twice()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with post parents that has no set id.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parent_with_no_indexable_id_set() {
-		$indexable        = $this->get_indexable( 1, 'post' );
-		$parent_indexable = $this->get_indexable( 0, 'post' );
+		$indexable                   = $this->get_indexable( 1, 'post' );
+		$parent_indexable            = $this->get_indexable( 0, 'post' );
 		$parent_indexable->object_id = 2;
 
 		$this->indexable_hierarchy_repository
@@ -206,13 +301,20 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with post parents where the ancestor is unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_with_an_unindexed_ancestor() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -252,13 +354,20 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with post parents already been added.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_with_parent_already_added() {
 		$indexable        = $this->get_indexable( 1, 'post' );
@@ -301,13 +410,20 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with having the parent indexable being the main indexable.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_post_parents_having_the_parent_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'post' );
@@ -344,31 +460,53 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$primary_term          = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		Monkey\Functions\expect( 'get_term' )->twice()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->twice()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( $primary_term );
@@ -377,23 +515,41 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with term parents not unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents_and_term_is_unindexed() {
 		$indexable = $this->get_indexable( 1, 'post' );
 
-		$primary_term = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -439,42 +595,74 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 				]
 			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with many term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_many_primary_term_parents() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$primary_term          = new Primary_Term();
+		$primary_term          = new Primary_Term_Mock();
 		$primary_term->term_id = 2;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		$grand_parent_indexable              = new Indexable();
-		$grand_parent_indexable->id          = 3;
-		$grand_parent_indexable->object_type = 'term';
-		$grand_parent_indexable->object_id   = 3;
+		$grand_parent_indexable                = new Indexable_Mock();
+		$grand_parent_indexable->id            = 3;
+		$grand_parent_indexable->object_type   = 'term';
+		$grand_parent_indexable->object_id     = 3;
+		$grand_parent_indexable->has_ancestors = true;
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
 			->with( 2 )
-			->andReturn( true );
+			->andReturnTrue();
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 3 ] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 3, 'tag' )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 3,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 3, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 3,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 2 );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
@@ -485,127 +673,367 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $grand_parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $grand_parent_indexable, $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_term_parent() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( [ (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] ] );
-		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_the_terms' )
+			->with( 1, 'tag' )
+			->andReturn(
+				[
+					(object) [
+						'term_id'  => 2,
+						'taxonomy' => 'tag',
+						'parent'   => 0,
+					],
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
-		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( false );
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
 
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->post->expects( 'get_post' )->with( 1 )->andReturn(
-			(object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ]
-		);
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
+	}
+
+	/**
+	 * Tests building the hierarchy of a post with term parents, where the terms are not an array.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
+	 */
+	public function test_term_parent_where_terms_not_array() {
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
+
+		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( 'string-not-array' );
+		Monkey\Functions\expect( 'get_term' )
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
+		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
+
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
+	}
+
+	/**
+	 * Tests building the hierarchy of a post with term parents, where the terms are empty.
+	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
+	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
+	 */
+	public function test_term_parent_where_terms_empty() {
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
+
+		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn();
+		Monkey\Functions\expect( 'get_term' )
+			->with( 2 )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
+		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
+
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
+
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
+
+		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
+
+		$this->post->expects( 'get_post' )
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a post with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_deepest_term_parent() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'post';
-		$indexable->object_id   = 1;
+		$indexable               = new Indexable_Mock();
+		$indexable->id           = 1;
+		$indexable->object_type  = 'post';
+		$indexable->object_id    = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 3;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 3;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 3;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 3;
+		$parent_indexable->has_ancestors = true;
 
-		$grand_parent_indexable              = new Indexable();
-		$grand_parent_indexable->id          = 4;
-		$grand_parent_indexable->object_type = 'term';
-		$grand_parent_indexable->object_id   = 4;
+		$grand_parent_indexable                = new Indexable_Mock();
+		$grand_parent_indexable->id            = 4;
+		$grand_parent_indexable->object_type   = 'term';
+		$grand_parent_indexable->object_id     = 4;
+		$grand_parent_indexable->has_ancestors = true;
 
-		Monkey\Functions\expect( 'get_the_terms' )->once()->with( 1, 'tag' )->andReturn( [
-			(object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ],
-			(object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 4 ],
-		] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 3 )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 4 ] );
-		Monkey\Functions\expect( 'get_term' )->twice()->with( 4, 'tag' )->andReturn( (object) [ 'term_id' => 4, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_the_terms' )
+			->once()
+			->with( 1, 'tag' )
+			->andReturn(
+				[
+					(object) [
+						'term_id'  => 2,
+						'taxonomy' => 'tag',
+						'parent'   => 0,
+					],
+					(object) [
+						'term_id'  => 3,
+						'taxonomy' => 'tag',
+						'parent'   => 4,
+					],
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 3 )
+			->andReturn(
+				(object) [
+					'term_id'  => 3,
+					'taxonomy' => 'tag',
+					'parent'   => 4,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->twice()
+			->with( 4, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 4,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 		Monkey\Functions\expect( 'get_post_meta' )->with( 1, WPSEO_Meta::$meta_prefix . 'primary_term', true )->andReturn( '' );
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 4, 2 );
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
 
-		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturn( false );
+		$this->primary_term_repository->expects( 'find_by_post_id_and_taxonomy' )->with( 1, 'tag', false )->andReturnFalse();
 
 		$this->options->expects( 'get' )->with( 'post_types-post-maintax' )->andReturn( 'tag' );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 3, 'term' )->andReturn( $parent_indexable );
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 4, 'term' )->andReturn( $grand_parent_indexable );
 
-		$this->post->expects( 'get_post' )->once()->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
+		$this->post->expects( 'get_post' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'ID'          => 1,
+					'post_parent' => 0,
+					'post_type'   => 'post',
+				]
+			);
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $grand_parent_indexable, $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a term with term parents.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term() {
-		$indexable              = new Indexable();
-		$indexable->id          = 1;
-		$indexable->object_type = 'term';
-		$indexable->object_id   = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'term';
+		$indexable->object_id     = 1;
+		$indexable->has_ancestors = true;
 
-		$parent_indexable              = new Indexable();
-		$parent_indexable->id          = 2;
-		$parent_indexable->object_type = 'term';
-		$parent_indexable->object_id   = 2;
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 2;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 2;
+		$parent_indexable->has_ancestors = true;
 
-		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'term_id' => 1, 'taxonomy' => 'tag', 'parent' => 2 ] );
-		Monkey\Functions\expect( 'get_term' )->once()->with( 2, 'tag' )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 1 )
+			->andReturn(
+				(object) [
+					'term_id'  => 1,
+					'taxonomy' => 'tag',
+					'parent'   => 2,
+				]
+			);
+		Monkey\Functions\expect( 'get_term' )
+			->once()
+			->with( 2, 'tag' )
+			->andReturn(
+				(object) [
+					'term_id'  => 2,
+					'taxonomy' => 'tag',
+					'parent'   => 0,
+				]
+			);
 
-		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
+		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturnTrue();
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 2, 1 );
 
 		$this->indexable_repository->expects( 'find_by_id_and_type' )->with( 2, 'term' )->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
-	 * Tests building the hierarchy of a term with term parents which is unindex.
+	 * Tests building the hierarchy of a term with term parents which is unindexed.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_not_indexed() {
-		$indexable        = $this->get_indexable( 1, 'term' );
-		$parent_indexable = $this->get_indexable( 2, 'term' );
+		$indexable                     = $this->get_indexable( 1, 'term' );
+		$parent_indexable              = $this->get_indexable( 2, 'term' );
 		$parent_indexable->post_status = 'unindexed';
 
 		Monkey\Functions\expect( 'get_term' )
@@ -640,13 +1068,21 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'term' )
 			->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a term with term parents which is the main object.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_is_the_main_object() {
 		$indexable = $this->get_indexable( 1, 'term' );
@@ -683,17 +1119,25 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'term' )
 			->andReturn( $indexable );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEmpty( $actual->ancestors );
 	}
 
 	/**
 	 * Tests building the hierarchy of a term with term parents which is already added.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
 	 */
 	public function test_term_with_ancestor_is_already_added() {
-		$indexable        = $this->get_indexable( 1,'term' );
-		$parent_indexable = $this->get_indexable( 2,'term' );
+		$indexable        = $this->get_indexable( 1, 'term' );
+		$parent_indexable = $this->get_indexable( 2, 'term' );
 
 		Monkey\Functions\expect( 'get_term' )
 			->once()
@@ -711,7 +1155,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 2, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 2,
+					'term_id'  => 2,
 					'taxonomy' => 'tag',
 					'parent'   => 3,
 				]
@@ -722,7 +1166,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'tag' )
 			->andReturn(
 				(object) [
-					'term_id' => 3,
+					'term_id'  => 3,
 					'taxonomy' => 'tag',
 					'parent'   => 0,
 				]
@@ -752,16 +1196,35 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 			->with( 3, 'term' )
 			->andReturn( $parent_indexable );
 
-		$this->instance->build( $indexable );
+
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
-	 * Tests building the hierarchy of a post with term parents when no primary is set.
+	 * Tests building the hierarchy of a post with term parents when no primary term is set.
 	 *
+	 * @covers ::__construct
+	 * @covers ::set_indexable_repository
 	 * @covers ::build
+	 * @covers ::save_ancestors
+	 * @covers ::add_ancestors_for_post
+	 * @covers ::add_ancestors_for_term
+	 * @covers ::find_primary_term_id_for_post
+	 * @covers ::find_deepest_term_id
+	 * @covers ::get_term_parents
+	 * @covers ::is_invalid_ancestor
+	 * @covers ::get_indexable_id
+	 * @covers ::get_primary_term_id
 	 */
 	public function test_primary_term_parents_with_no_primary_term_set() {
 		$indexable = $this->get_indexable( 1, 'post' );
+
+		$parent_indexable                = new Indexable_Mock();
+		$parent_indexable->id            = 3;
+		$parent_indexable->object_type   = 'term';
+		$parent_indexable->object_id     = 3;
+		$parent_indexable->has_ancestors = true;
 
 		$this->indexable_hierarchy_repository
 			->expects( 'clear_ancestors' )
@@ -824,11 +1287,12 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_by_id_and_type' )
 			->with( 3, 'term' )
-			->andReturn( $this->get_indexable( 3, 'term' ) );
+			->andReturn( $parent_indexable );
 
 		$this->indexable_hierarchy_repository->expects( 'add_ancestor' )->with( 1, 3, 1 );
 
-		$this->instance->build( $indexable );
+		$actual = $this->instance->build( $indexable );
+		$this->assertEquals( [ $parent_indexable ], $actual->ancestors );
 	}
 
 	/**
@@ -837,13 +1301,14 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @param string $id          The id to use.
 	 * @param string $object_type The object type.
 	 *
-	 * @return Indexable
+	 * @return Indexable_Mock
 	 */
 	private function get_indexable( $id, $object_type = 'post' ) {
-		$indexable              = new Indexable();
-		$indexable->id          = $id;
-		$indexable->object_type = $object_type;
-		$indexable->object_id   = $id;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = $id;
+		$indexable->object_type   = $object_type;
+		$indexable->object_id     = $id;
+		$indexable->has_ancestors = true;
 
 		return $indexable;
 	}

@@ -24,8 +24,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_System_Page_Watcher
  * @covers ::<!public>
- *
- * @package Yoast\Tests\Watchers
  */
 class Indexable_System_Page_Watcher_Test extends TestCase {
 
@@ -93,7 +91,6 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_update_wpseo_titles_value() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_system_page' )
@@ -141,7 +138,6 @@ class Indexable_System_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_build_indexable_without_indexable() {
 		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_system_page' )

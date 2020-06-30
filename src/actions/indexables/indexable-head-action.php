@@ -44,7 +44,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -61,7 +64,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -78,7 +84,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -95,7 +104,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -112,7 +124,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -127,7 +142,10 @@ class Indexable_Head_Action {
 			return $this->for_404();
 		}
 
-		return (object) [ 'head' => $meta->get_head(), 'status' => 200 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 200,
+		];
 	}
 
 	/**
@@ -137,6 +155,9 @@ class Indexable_Head_Action {
 	 */
 	public function for_404() {
 		$meta = $this->meta_surface->for_404();
-		return (object) [ 'head' => $meta->get_head(), 'status' => 404 ];
+		return (object) [
+			'head'   => $meta->get_head(),
+			'status' => 404,
+		];
 	}
 }

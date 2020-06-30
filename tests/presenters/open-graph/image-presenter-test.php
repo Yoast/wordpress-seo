@@ -71,7 +71,7 @@ class Image_Presenter_Test extends TestCase {
 		$this->presentation->open_graph_images = [ $image ];
 
 		$this->assertEquals(
-			'<meta property="og:image" content="https://example.com/image.jpg" />' . PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
+			'<meta property="og:image" content="https://example.com/image.jpg" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
 			$this->instance->present()
 		);
 	}

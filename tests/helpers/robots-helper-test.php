@@ -31,7 +31,6 @@ class Robots_Helper_Test extends TestCase {
 		$this->instance = new Robots_Helper();
 	}
 
-
 	/**
 	 * Tests setting 'index' to 'noindex' when 'index' is set to 'index'.
 	 *

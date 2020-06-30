@@ -43,7 +43,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * Indexable_Post_Indexing_Action constructor
 	 *
 	 * @param Post_Type_Helper     $post_type_helper The post type helper.
-	 * @param Indexable_Repository $repository          The indexable repository.
+	 * @param Indexable_Repository $repository       The indexable repository.
 	 * @param wpdb                 $wpdb             The WordPress database instance.
 	 */
 	public function __construct( Post_Type_Helper $post_type_helper, Indexable_Repository $repository, wpdb $wpdb ) {
@@ -127,11 +127,13 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			$replacements[] = $limit;
 		}
 
-		return $this->wpdb->prepare( "
+		return $this->wpdb->prepare(
+			"
 			SELECT $select
 			FROM {$this->wpdb->posts}
 			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND post_type IN ($placeholders)
-			$limit_query
-		", $replacements );
+			$limit_query",
+			$replacements
+		);
 	}
 }

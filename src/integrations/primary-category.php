@@ -7,6 +7,10 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use stdClass;
+use WP_Error;
+use WP_Post;
+use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Conditionals\Primary_Category_Conditional;
 
 /**
@@ -27,17 +31,17 @@ class Primary_Category implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'post_link_category', [ $this, 'post_link_category' ], 10, 3 );
+		\add_filter( 'post_link_category', [ $this, 'post_link_category' ], 10, 3 );
 	}
 
 	/**
 	 * Filters post_link_category to change the category to the chosen category by the user.
 	 *
-	 * @param \stdClass $category   The category that is now used for the post link.
-	 * @param array     $categories This parameter is not used.
-	 * @param \WP_Post  $post       The post in question.
+	 * @param stdClass $category   The category that is now used for the post link.
+	 * @param array    $categories This parameter is not used.
+	 * @param WP_Post  $post       The post in question.
 	 *
-	 * @return array|null|object|\WP_Error The category we want to use for the post link.
+	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
 	public function post_link_category( $category, $categories = null, $post = null ) {
 		$post = \get_post( $post );
@@ -58,12 +62,12 @@ class Primary_Category implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It justs wraps a dependency.
 	 *
-	 * @param \WP_Post $post The post in question.
+	 * @param WP_Post $post The post in question.
 	 *
 	 * @return int Primary category id.
 	 */
 	protected function get_primary_category( $post ) {
-		$primary_term = new \WPSEO_Primary_Term( 'category', $post->ID );
+		$primary_term = new WPSEO_Primary_Term( 'category', $post->ID );
 
 		return $primary_term->get_primary_term();
 	}

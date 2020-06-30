@@ -111,11 +111,14 @@ class Indexation_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$conditionals = Indexation_Integration::get_conditionals();
-		$this->assertEquals( [
-			Admin_Conditional::class,
-			Yoast_Admin_And_Dashboard_Conditional::class,
-			Migrations_Conditional::class,
-		], $conditionals );
+		$this->assertEquals(
+			[
+				Admin_Conditional::class,
+				Yoast_Admin_And_Dashboard_Conditional::class,
+				Migrations_Conditional::class,
+			],
+			$conditionals
+		);
 	}
 
 	/**
@@ -137,6 +140,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 *
 	 * @dataProvider ignore_warning_provider
+	 *
+	 * @param bool $ignore_warning Whether to test while ignoring warnings or not.
 	 */
 	public function test_enqueue_scripts( $ignore_warning ) {
 		// Mock that 40 indexables should be indexed.
@@ -202,15 +207,14 @@ class Indexation_Integration_Test extends TestCase {
 			],
 			'restApi' => [
 				'root'      => 'https://example.org/wp-ajax/',
-				'endpoints' =>
-					[
-						'prepare'  => 'yoast/v1/indexation/prepare',
-						'posts'    => 'yoast/v1/indexation/posts',
-						'terms'    => 'yoast/v1/indexation/terms',
-						'archives' => 'yoast/v1/indexation/post-type-archives',
-						'general'  => 'yoast/v1/indexation/general',
-						'complete' => 'yoast/v1/indexation/complete',
-					],
+				'endpoints' => [
+					'prepare'  => 'yoast/v1/indexation/prepare',
+					'posts'    => 'yoast/v1/indexation/posts',
+					'terms'    => 'yoast/v1/indexation/terms',
+					'archives' => 'yoast/v1/indexation/post-type-archives',
+					'general'  => 'yoast/v1/indexation/general',
+					'complete' => 'yoast/v1/indexation/complete',
+				],
 				'nonce'     => 'nonce',
 			],
 			'message' => [
@@ -286,6 +290,10 @@ class Indexation_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 'nonce' );
 
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
 		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
@@ -308,11 +316,30 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the indexation warning is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_warning
+	 */
+	public function test_no_render_indexation_warning_non_admin() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( false );
+
+		$this->expectOutputString( '' );
+
+		$this->instance->render_indexation_warning();
+	}
+
+	/**
 	 * Tests that the indexation modal is shown when its respective method is called.
 	 *
 	 * @covers ::render_indexation_modal
 	 */
 	public function test_render_indexation_modal() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		// Expect a thickbox to be added for the modal.
 		Monkey\Functions\expect( 'add_thickbox' )
 			->once();
@@ -337,6 +364,10 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_list_item
 	 */
 	public function test_render_indexation_list_item() {
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
 		$this->set_total_unindexed_expectations(
 			[
 				'post_type_archive' => 5,
@@ -348,7 +379,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected = '<li><strong>SEO Data</strong>';
+		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site">';

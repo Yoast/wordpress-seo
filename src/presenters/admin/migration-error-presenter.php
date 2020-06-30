@@ -42,19 +42,19 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 	 * @return string The error HTML.
 	 */
 	public function present() {
-		$message    = \sprintf(
+		$message = \sprintf(
 			/* translators: %s: Yoast SEO. */
 			\esc_html__( '%s had problems creating the database tables needed to speed up your site.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
-		$support    = \sprintf(
+		$support = \sprintf(
 			/* translators: %1$s: link to help article about solving table issue. %2$s: is anchor closing. */
-			esc_html__( 'Please read %1$sthis help article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
+			\esc_html__( 'Please read %1$sthis help article%2$s to find out how to resolve this problem.', 'wordpress-seo' ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/3-6' ) . '">',
 			'</a>'
 		);
-		$reassurance    = \sprintf(
-		/* translators: %s: Yoast SEO. */
+		$reassurance = \sprintf(
+			/* translators: %s: Yoast SEO. */
 			\esc_html__( 'Your site will continue to work normally, but won\'t take full advantage of %s.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);

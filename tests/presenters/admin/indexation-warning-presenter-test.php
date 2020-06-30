@@ -51,6 +51,4 @@ class Indexation_Warning_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $expected, $presenter->present() );
 	}
-
-
 }

@@ -6,7 +6,6 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Googlebot_Presenter;
-use Yoast\WP\SEO\Tests\Mocks\Indexable;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -15,8 +14,6 @@ use Yoast\WP\SEO\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\SEO\Presenters\Googlebot_Presenter
  *
  * @group   presenters
- *
- * @package Yoast\WP\SEO\Tests\Presenters
  */
 class Googlebot_Presenter_Test extends TestCase {
 
@@ -46,8 +43,8 @@ class Googlebot_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Googlebot_Presenter::class )
-								 ->makePartial()
-								 ->shouldAllowMockingProtectedMethods();
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 		$this->presentation           = Mockery::mock();
 		$this->instance->presentation = $this->presentation;

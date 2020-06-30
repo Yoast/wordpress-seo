@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
+use WP_User;
 use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
@@ -164,8 +165,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Returns an ImageObject for the persons avatar.
 	 *
-	 * @param array    $data      The Person schema.
-	 * @param \WP_User $user_data User data.
+	 * @param array   $data      The Person schema.
+	 * @param WP_User $user_data User data.
 	 *
 	 * @return array $data The Person schema.
 	 */
@@ -208,9 +209,9 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Generate the person logo from gravatar.
 	 *
-	 * @param array    $data      The Person schema.
-	 * @param \WP_User $user_data User data.
-	 * @param string   $schema_id The string used in the `@id` for the schema.
+	 * @param array   $data      The Person schema.
+	 * @param WP_User $user_data User data.
+	 * @param string  $schema_id The string used in the `@id` for the schema.
 	 *
 	 * @return array The Person schema.
 	 */
@@ -262,8 +263,8 @@ class Person extends Abstract_Schema_Piece {
 
 		// Article post from the same user as the site represents.
 		if (
-			$this->context->indexable->object_type === 'post' &&
-			$this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
+			$this->context->indexable->object_type === 'post'
+			&& $this->helpers->schema->article->is_article_post_type( $this->context->indexable->object_sub_type )
 		) {
 			return $this->context->site_user_id === $this->context->indexable->author_id;
 		}
