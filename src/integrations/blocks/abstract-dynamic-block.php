@@ -4,6 +4,7 @@
  *
  * @package Yoast\WP\SEO\Integrations\Blocks
  */
+
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -41,10 +42,10 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 * Registers the block.
 	 */
 	public function register_block() {
-		register_block_type( 'yoast-seo/' . $this->block_name, array(
+		register_block_type( 'yoast-seo/' . $this->block_name, [
 			'editor_script' => $this->script,
 			'render_callback' => [ $this, 'present' ],
-		) );
+		] );
 	}
 
 	/**

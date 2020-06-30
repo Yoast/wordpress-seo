@@ -4,6 +4,7 @@
  *
  * @package WPSEO\Admin
  */
+
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
