@@ -31,6 +31,8 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 	/* translators: %s is the plural version of the post type's name. */
 	echo '<h3>' . esc_html( sprintf( __( 'Settings for %s archive', 'wordpress-seo' ), $plural_label ) ) . '</h3>';
 
+	echo '<div class="yoast-space-after">';
+
 	$yform->index_switch(
 		'noindex-ptarchive-' . $wpseo_post_type->name,
 		sprintf(
@@ -40,6 +42,8 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 		),
 		$view_utils->search_results_setting_help()
 	);
+
+	echo '</div>';
 
 	$page_type = $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name );
 

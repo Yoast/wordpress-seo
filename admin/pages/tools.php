@@ -69,7 +69,9 @@ if ( $tool_page === '' ) {
 	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
 }
 else {
+	echo '<div class="yoast-space-after">';
 	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
+	echo '</div>';
 
 	$tool_pages = [ 'bulk-editor', 'import-export' ];
 

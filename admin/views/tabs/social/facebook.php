@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-echo '<div class="tab-block yoast-feature">';
+echo '<div class="tab-block yoast-paper">';
 echo '<h2>' . esc_html__( 'Facebook settings', 'wordpress-seo' ) . '</h2>';
 
 $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) );
@@ -63,6 +63,7 @@ echo '<h2>' . esc_html__( 'Default settings', 'wordpress-seo' ) . '</h2>';
 $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) );
 
 ?>
+	<br>
 	<p class="desc label">
 		<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
 	</p>
