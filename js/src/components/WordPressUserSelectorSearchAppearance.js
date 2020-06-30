@@ -3,6 +3,7 @@
 /* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Alert } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 
 /* Internal dependencies */
@@ -64,11 +65,9 @@ class WordPressUserSelectorSearchAppearance extends Component {
 			return null;
 		}
 
-		return (
-			<p className="error-message">
-				{ __( "Error: Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
-			</p>
-		);
+		return <Alert type={"warning"}>
+			{ __( "Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
+			</Alert>;
 	}
 
 	/**
@@ -111,11 +110,13 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		return (
 			<Fragment>
 				{ this.renderError() }
+				<div class={"yoast-field-group__title"}>
 				<label
 					htmlFor="wpseo-person-selector-name"
 				>
-					{ __( "Name:", "wordpress-seo" ) }
+					{ __( "Name", "wordpress-seo" ) }
 				</label>
+				</div>
 				<WordPressUserSelector
 					hasLabel={ false }
 					name={ "wpseo-person-selector-name" }
