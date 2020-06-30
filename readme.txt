@@ -214,30 +214,8 @@ Release Date: July 7th, 2020
 
 Enhancements:
 
-* Makes the plugin icon in the editor reflect the SEO and Readability score.
-* The Social tab has been re-written using React. Other than a dab of fresh paint, this should result in a snappier editing experience.
-* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
-* Fixes the fact that we sometimes did multiple calls to `my.yoast.com` if you had multiple Yoast products running, when we could do it in one call.
-* Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
-* Implements the redesign of the admin settings pages.
-* Changes the help links to external pages instead of on page help text.
-* Improves accessibility.
-* Shows which features will be added by Wordpress SEO Premium.
-* Introduces the `--skip-confirmation` argument to run our wp-cli reindex command without confirmation prompt.
-* Improves transition words analysis for Russian.
-* Improves keyphrase recognition in Indonesian by filtering the function words such as `atau`, `dan`, `demikian`, `tersebut`.
-* Updates the progress-bar in the indexing process to the new styling.
-
-Bugfixes:
-
-* Fixes a bug where “array_merge(): Argument #1 is not an array” issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
-* Fixes a bug where an indexable’s permalink remained unchanged when the categories prefix option was changed.
-* Fixes a bug where an indexable’s permalink remained unchanged when the category base or tag base was changed.
-* Fixes a bug where the link for Local SEO was missing in the Configuration Wizard “Continue learning” step.
-
-Other:
-
-* Moves the running of the SEO data indexing process to the Yoast Tools page.
+* Disables the WP Core sitemaps as introduced in WordPress 5.5.
+* Adds the option for users to opt-in to allow Yoast to track some data about their site.
 
 = 14.4.1 =
 Release Date: June 23rd, 2020
