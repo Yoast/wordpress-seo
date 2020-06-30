@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Commands;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -56,6 +57,13 @@ class Index_Command_Test extends TestCase {
 	 */
 	private $general_indexation_action;
 
+	/**
+	 * The complete indexation action.
+	 *
+	 * @var Indexable_Complete_Indexation_Action
+	 */
+	private $complete_indexation_action;
+
 
 	/**
 	 * The prepare indexation action.
@@ -79,6 +87,7 @@ class Index_Command_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation_action          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
 		$this->prepare_indexation_action           = Mockery::mock( Indexable_Prepare_Indexation_Action::class );
 
 		$this->instance = new Index_Command(
@@ -86,6 +95,7 @@ class Index_Command_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
+			$this->complete_indexation_action,
 			$this->prepare_indexation_action
 		);
 	}
@@ -126,6 +136,8 @@ class Index_Command_Test extends TestCase {
 
 		$this->prepare_indexation_action->expects( 'prepare' )->once();
 
+		$this->complete_indexation_action->expects( 'complete' )->once();
+
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
 		Monkey\Functions\expect( '\WP_CLI\Utils\make_progress_bar' )
 			->times( 4 )
@@ -160,6 +172,8 @@ class Index_Command_Test extends TestCase {
 				->times( 2 )
 				->andReturn( \array_fill( 0, 25, true ), \array_fill( 0, 5, true ) );
 		}
+
+		$this->complete_indexation_action->expects( 'complete' )->once();
 
 		$this->prepare_indexation_action->expects( 'prepare' )->once();
 
@@ -251,7 +265,8 @@ class Index_Command_Test extends TestCase {
 				);
 		}
 
-		// Twice, once for each site in the multisite.
+		// Expect the complete and prepare actions twice: once for each site in the multisite.
+		$this->complete_indexation_action->expects( 'complete' )->twice();
 		$this->prepare_indexation_action->expects( 'prepare' )->twice();
 
 		$progress_bar_mock = Mockery::mock( 'cli\progress\Bar' );
