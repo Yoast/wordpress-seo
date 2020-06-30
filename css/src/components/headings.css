@@ -23,12 +23,17 @@ body.yoast {
 .yoast #wpcontent .h1,
 .yoast #wpcontent .h2,
 .yoast #wpcontent .h3 {
-	font-weight: 400;
+	font-weight: 300;
 	color: var(--yoast-color-primary);
 	padding: 0;
 	margin-top: 0;
 	margin-bottom: 1em;
 	line-height: 1.2;
+}
+
+.yoast #wpcontent h3,
+.yoast #wpcontent .h3 {
+	font-weight: 400;
 }
 
 .yoast #wpcontent h1, .yoast #wpcontent .h1 {

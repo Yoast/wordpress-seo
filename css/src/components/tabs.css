@@ -21,7 +21,7 @@
 	margin-top: 0;
 	padding-top: 3px;
 	padding-left: 16px;
-	border-bottom: 1px solid var(--yoast-color-border);
+	border-bottom: 1px solid #cccccc;
 	min-height: 60px;
 }
 
@@ -32,7 +32,6 @@
 	border-top: var(--yoast-border-default);
 	border-right: var(--yoast-border-default);
 	border-left: var(--yoast-border-default);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 	margin-left: -1px;
 }
 
@@ -90,6 +89,7 @@
 .yoast-tabs__list-item.yoast-tabs__list-item--active {
 	top: 1px;
 	background-color: var(--yoast-color-white);
+	box-shadow: var(--yoast-shadow-default);
 	z-index: 11;
 }
 

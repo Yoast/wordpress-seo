@@ -18,6 +18,14 @@
 .yoast-sidebar {
 	max-width: 300px;
 	margin-left: 24px;
+	padding-top: 32px;
+}
+
+.yoast #wpcontent .yoast-sidebar h2 {
+	padding-top: 5px;
+	padding-bottom: 8px;
+	font-size: 1.1em;
+	font-weight: 400;
 }
 
 .yoast-main {
@@ -52,6 +60,14 @@
 .yoast-sidebar__plugins {
 	display: flex;
 	margin-bottom: 24px;
+}
+
+.yoast-sidebar__plugins:last-of-type {
+	margin-bottom: 0;
+}
+
+.yoast #wpcontent .yoast-sidebar__plugins p {
+	margin: 0;
 }
 
 .yoast-sidebar__plugins-content-left {

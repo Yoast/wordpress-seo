@@ -1,6 +1,6 @@
 .yoast-paper {
 	background-color: white;
-	padding: 24px;
+	padding: 16px 16px 0;
 	margin-bottom: 32px;
 	box-shadow: var(--yoast-shadow-default);
 	border: var(--yoast-border-default);
@@ -9,9 +9,29 @@
 	box-sizing: border-box;
 }
 
+.yoast #wpcontent p.submit {
+	padding-top: 8px;
+}
+
+.yoast-paper:last-of-type {
+	margin-bottom: 24px;
+}
+
+.yoast-feature:last-of-type {
+	margin-bottom: 24px;
+}
+
+.yoast-paper--bottom {
+	padding-bottom: 16px;
+}
+
+.yoast #wpcontent .yoast-paper h2 {
+	margin-bottom: 32px;
+}
+
 .yoast-paper .toggleable-container-trigger {
 	background: none;
-	border: 0px;
+	border: 0;
 	width: 100%;
 	text-align: left;
 	color: var(--yoast-color-primary);

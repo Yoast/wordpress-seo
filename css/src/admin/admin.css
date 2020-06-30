@@ -1,3 +1,35 @@
+.yoast #wpcontent #wpseo-title {
+	margin-bottom: 24px;
+}
+
+.yoast #rss textarea {
+	min-height: 80px;
+}
+
+.yoast-space-after {
+	margin-bottom: 32px;
+}
+
+.yoast-medium-space-after {
+	margin-bottom: 16px;
+}
+
+.yoast-small-spacing-after {
+	margin-bottom: 10px;
+}
+
+.yoast #wpcontent h2.collapsible-header {
+	margin-bottom: 0;
+}
+
+.toggleable-container {
+	padding: 16px 16px 0;
+}
+
+.yoast #wpcontent .toggleable-container h3 {
+	margin-bottom: 24px;
+}
+
 .collapsible-header .toggleable-container-icon {
 	float: right;
 	color: var(--yoast-color-default);
@@ -5,13 +37,12 @@
 }
 
 .collapsible-header code {
-	font-size: 14px;
-	font-weight: 700;
-	border: var(--yoast-border-default);
+	font-size: 16px;
+	font-weight: normal;
 	color: var(--yoast-color-default);
-	padding: 5px;
-	margin: 0 2px;
-	background: var(--yoast-color-secondary);
+	padding: 0;
+	margin: 0 4px;
+	background: none;
 }
 
 .toggleable-container-hidden {
@@ -20,11 +51,11 @@
 
 .yoast-field-group__title code {
 	font-size: 13px;
-	font-weight: 700;
-	border: var(--yoast-border-default);
+	font-weight: normal;
 	color: var(--yoast-color-default);
-	padding: 3px 5px;
-	margin: 0 2px;
+	padding: 0;
+	margin: 0 4px;
+	background: none;
 }
 
 .collapsible-header .toggleable-container-trigger {
@@ -34,7 +65,8 @@
     border: 0;
     background: none;
 	color: var(--yoast-primary-color);
-	padding-bottom: 16px;
+	padding: 16px;
+	cursor: pointer;
 }
 
 #wpseo_progressbar {
