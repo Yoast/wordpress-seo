@@ -1,52 +1,9 @@
-.yoast #wpcontent #wpseo-title {
-	margin-bottom: 24px;
-}
-
-.yoast #rss textarea {
-	min-height: 80px;
+.yoast .update-nag {
+	margin-left: 32px;
 }
 
 .yoast-space-after {
 	margin-bottom: 32px;
-}
-
-.yoast-medium-space-after {
-	margin-bottom: 16px;
-}
-
-.yoast-small-spacing-after {
-	margin-bottom: 10px;
-}
-
-.yoast #wpcontent h2.collapsible-header {
-	margin-bottom: 0;
-}
-
-.toggleable-container {
-	padding: 16px 16px 0;
-}
-
-.yoast #wpcontent .toggleable-container h3 {
-	margin-bottom: 24px;
-}
-
-.collapsible-header .toggleable-container-icon {
-	float: right;
-	color: var(--yoast-color-default);
-	cursor: pointer;
-}
-
-.collapsible-header code {
-	font-size: 16px;
-	font-weight: normal;
-	color: var(--yoast-color-default);
-	padding: 0;
-	margin: 0 4px;
-	background: none;
-}
-
-.toggleable-container-hidden {
-	display: none;
 }
 
 .yoast-field-group__title code {

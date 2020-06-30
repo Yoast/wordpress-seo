@@ -1,0 +1,7 @@
+.yoast #rss textarea {
+	min-height: 80px;
+}
+
+.yoast #wpcontent p.submit {
+	padding-top: 8px;
+}
