@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.5 =
+Release Date: July 7th, 2020
+
+Enhancements:
+
+* Disables the WP Core sitemaps as introduced in WordPress 5.5.
+* Adds the option for users to opt-in to allow Yoast to track some data about their site.
+
 = 14.4.1 =
 Release Date: June 23rd, 2020
 
