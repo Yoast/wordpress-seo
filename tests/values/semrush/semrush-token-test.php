@@ -52,9 +52,6 @@ class SEMrush_Token_Test extends TestCase {
 	/**
 	 * Test creating a new instance with an expired token.
 	 *
-	 * @covers ::get_access_token
-	 * @covers ::get_refresh_token
-	 * @covers ::get_expires
 	 * @covers ::has_expired
 	 */
 	public function test_getters() {
