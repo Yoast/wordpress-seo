@@ -3,15 +3,14 @@ const fs = require( "fs" );
 const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
-const argv = require('yargs').argv
 
 // Travis integration.
 const AUTO_CHECKOUT_TRAVIS_BRANCH = process.env.AUTO_CHECKOUT_MONOREPO_BRANCH;
 const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
 // Custom path without creating a config file.
-const MONOREPO_PATH = process.env.YOAST_MONOREPO_PATH || argv.monorepo_path;
-const MONOREPO_BRANCH = process.env.YOAST_MONOREPO_BRANCH || argv.monorepo_branch;
+const MONOREPO_PATH = process.env.YOAST_MONOREPO_PATH;
+const MONOREPO_BRANCH = process.env.YOAST_MONOREPO_BRANCH;
 
 // Cache monorepo location.
 let monorepoLocation;
