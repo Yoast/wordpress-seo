@@ -265,7 +265,8 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	 * Completes the indexation.
 	 */
 	public function complete() {
-		return $this->respond_with( $this->complete_indexation_action->complete(), false );
+		$this->complete_indexation_action->complete();
+		return $this->respond_with( [], false );
 	}
 
 	/**

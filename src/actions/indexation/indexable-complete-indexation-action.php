@@ -33,13 +33,11 @@ class Indexable_Complete_Indexation_Action {
 	/**
 	 * Wraps up the indexation process.
 	 *
-	 * @return array An empty array.
+	 * @return void
 	 */
 	public function complete() {
 		$this->options->set( 'indexation_started', 0 );
 		$this->options->set( 'indexables_indexation_reason', '' );
 		$this->options->set( 'indexables_indexation_completed', true );
-
-		return [];
 	}
 }

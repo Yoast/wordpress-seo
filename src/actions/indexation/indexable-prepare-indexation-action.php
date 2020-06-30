@@ -45,6 +45,8 @@ class Indexable_Prepare_Indexation_Action {
 
 	/**
 	 * Prepare the indexable indexation routine.
+	 *
+	 * @return void
 	 */
 	public function prepare() {
 		$this->options->set( 'indexation_started', $this->date->current_time() );
