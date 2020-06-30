@@ -16,6 +16,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 		printf( esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
 		?>
 	</h2>
+
 	<div class="yoast-paper yoast-paper--small">
 		<h3 class="yoast-sidebar__title">
 			<?php
@@ -49,92 +50,92 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			?>
 		</a><br>
 	</div>
-	<div class="yoast-sidebar__product-list">
-		<div class="yoast-paper yoast-paper--small">
-			<h3 class="yoast-sidebar__title">
+
+	<div class="yoast-paper yoast-paper--small yoast-sidebar__product-list">
+		<h3 class="yoast-sidebar__title">
+			<?php
+			/* translators: %s expands to Yoast SEO */
+			printf( esc_html__( 'Extend %s', 'wordpress-seo' ), 'Yoast SEO' );
+			?>
+		</h3>
+		<div class="yoast-sidebar__plugins">
+			<div class="yoast-sidebar__plugins-content-left">
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank">
+					Be found on Google Maps!
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
+					echo $new_tab_message;
+					?>
+				</a>
+				<p><?php esc_html_e( 'Our Local SEO plugin will help you rank in Google Maps and local results.', 'wordpress-seo' ); ?></p>
+			</div>
+			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
+				<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/local_plugin_assistant_small.svg' ); ?>" alt="">
 				<?php
-				/* translators: %s expands to Yoast SEO */
-				printf( esc_html__( 'Extend %s', 'wordpress-seo' ), 'Yoast SEO' );
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
+				echo $new_tab_message;
 				?>
-			</h3>
-			<div class="yoast-sidebar__plugins">
-				<div class="yoast-sidebar__plugins-content-left">
-					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank">
-						Be found on Google Maps!
-						<?php
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-					<p><?php esc_html_e( 'Our Local SEO plugin will help you rank in Google Maps and local results.', 'wordpress-seo' ); ?></p>
-				</div>
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
-					<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/local_plugin_assistant_small.svg' ); ?>" alt="">
+			</a>
+		</div>
+		<div class="yoast-sidebar__plugins">
+			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
+				<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/video_plugin_assistant_small.svg' ); ?>" alt="">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
+				echo $new_tab_message;
+				?>
+			</a>
+			<div class="yoast-sidebar__plugins-content-right">
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>" target="_blank">
+					Rank in Google Video
 					<?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
 				</a>
+				<p><?php esc_html_e( 'Make sure your videos rank and are easy to share with our Video SEO plugin.', 'wordpress-seo' ); ?></p>
 			</div>
-			<div class="yoast-sidebar__plugins">
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
-					<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/video_plugin_assistant_small.svg' ); ?>" alt="">
+		</div>
+		<div class="yoast-sidebar__plugins">
+			<div class="yoast-sidebar__plugins-content-left">
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>" target="_blank">
+					WooCommerce SEO
 					<?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
 				</a>
-				<div class="yoast-sidebar__plugins-content-right">
-					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>" target="_blank">
-						Rank in Google Video
-						<?php
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-					<p><?php esc_html_e( 'Make sure your videos rank and are easy to share with our Video SEO plugin.', 'wordpress-seo' ); ?></p>
-				</div>
+				<p><?php esc_html_e( 'Optimize your shop\'s SEO and sell more products!', 'wordpress-seo' ); ?></p>
 			</div>
-			<div class="yoast-sidebar__plugins">
-				<div class="yoast-sidebar__plugins-content-left">
-					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>" target="_blank">
-						WooCommerce SEO
-						<?php
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-					<p><?php esc_html_e( 'Optimize your shop\'s SEO and sell more products!', 'wordpress-seo' ); ?></p>
-				</div>
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
-					<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/woo_plugin_assistant_small.svg' ); ?>" alt="">
+			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
+				<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/woo_plugin_assistant_small.svg' ); ?>" alt="">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
+				echo $new_tab_message;
+				?>
+			</a>
+		</div>
+		<div class="yoast-sidebar__plugins">
+			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
+				<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/news_plugin_assistant_small.svg' ); ?>" alt="">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
+				echo $new_tab_message;
+				?>
+			</a>
+			<div class="yoast-sidebar__plugins-content-right">
+				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>" target="_blank">
+					Rank in Google News
 					<?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
 				</a>
-			</div>
-			<div class="yoast-sidebar__plugins">
-				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>" target="_blank" class="yoast-sidebar__plugins-image">
-					<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/news_plugin_assistant_small.svg' ); ?>" alt="">
-					<?php
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-					echo $new_tab_message;
-					?>
-				</a>
-				<div class="yoast-sidebar__plugins-content-right">
-					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>" target="_blank">
-						Rank in Google News
-						<?php
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-						echo $new_tab_message;
-						?>
-					</a>
-					<p><?php esc_html_e( 'Start to optimize your site for Google News traffic today!', 'wordpress-seo' ); ?></p>
-				</div>
+				<p><?php esc_html_e( 'Start to optimize your site for Google News traffic today!', 'wordpress-seo' ); ?></p>
 			</div>
 		</div>
 	</div>
+
 	<div class="yoast-paper yoast-paper--small">
 		<h3 class="yoast-sidebar__title">
 			<?php
@@ -151,28 +152,22 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			esc_html_e( 'We have both free and premium online courses to learn everything you need to know about SEO.', 'wordpress-seo' );
 			?>
 		</p>
-		<p>
-			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3t6' ); ?>" target="_blank">
-				<?php
+
+		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3t6' ); ?>" target="_blank"><?php
 				/* translators: %1$s expands to Yoast SEO academy */
-				printf( esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );
-				?>
-			</a>
-		</p>
+				printf( esc_html__( 'Check out %1$s', 'wordpress-seo' ), 'Yoast SEO academy' );  ?></a>
 	</div>
+
 	<div class="yoast-paper yoast-paper--small">
 		<h3 class="yoast-sidebar__title">
 			<?php esc_html_e( 'Remove these ads?', 'wordpress-seo' ); ?>
 		</h3>
-		<p>
-			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank">
-				<?php
+
+		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank"><?php
 				/* translators: %s expands to Yoast SEO Premium */
 				printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 				echo $new_tab_message;
-				?>
-			</a>
-		</p>
+				?></a>
 	</div>
 </aside>
