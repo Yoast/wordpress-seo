@@ -44,6 +44,14 @@
 	margin-bottom: 24px;
 }
 
+.yoast-sidebar__plugins:last-of-type {
+	margin-bottom: 0;
+}
+
+.yoast #wpcontent .yoast-sidebar__plugins p {
+	margin: 0;
+}
+
 .yoast-sidebar__plugins-content-left {
 	margin-right: 16px;
 }
