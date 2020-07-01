@@ -17,7 +17,7 @@ $webmaster_tools_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yn',
 	esc_html__( 'Learn more about the Webmaster Tools verification', 'wordpress-seo' )
 );
-echo '<div class="tab-block yoast-feature">';
+echo '<div class="tab-block yoast-paper">';
 echo '<h2 class="help-button-inline">' . esc_html__( 'Webmaster Tools verification', 'wordpress-seo' ) . $webmaster_tools_help . '</h2>';
 
 $msverify_link = 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .

@@ -15,8 +15,6 @@ $yform          = Yoast_Form::get_instance();
 $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 
-echo '<div class="yoast-feature">';
-
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
@@ -100,6 +98,7 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 	echo '<div id="message" class="notice notice-success"><p>', esc_html( $msg ), '</p></div>';
 }
 // N.B.: "robots.txt" is a fixed file name and should not be translatable.
+echo '<div class="yoast-paper">';
 echo '<div class="yoast-field-group">';
 echo '<h2>robots.txt</h2>';
 
@@ -116,7 +115,7 @@ if ( ! file_exists( $robots_file ) ) {
 		echo '</p>';
 
 		printf(
-			'<input type="submit" class="yoast-button yoast-button--primary" name="create_robots" value="%s">',
+			'<p clas="submit"><input type="submit" class="yoast-button yoast-button--primary" name="create_robots" value="%s"></p>',
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Create %s file', 'wordpress-seo' ),
@@ -167,7 +166,7 @@ else {
 		echo '</div>';
 		echo '<textarea class="yoast-field-group__textarea code" rows="15" name="robotsnew" id="robotsnew">', esc_textarea( $content ), '</textarea><br/>';
 		printf(
-			'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submitrobots" value="%s" /></p>',
+			'<br><p><input class="yoast-button yoast-button--primary" type="submit" name="submitrobots" value="%s" /></p>',
 			sprintf(
 				/* translators: %s expands to robots.txt. */
 				esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
@@ -178,9 +177,11 @@ else {
 	}
 }
 echo '</div>'; // yoast-field-group
+echo '</div>'; // yoast-paper
 
 if ( ! WPSEO_Utils::is_nginx() ) {
 
+	echo '<div class="yoast-paper">';
 	echo '<div class="yoast-field-group">';
 	echo '<h2>';
 	printf(
@@ -222,7 +223,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			echo '</div>';
 			echo '<textarea class="yoast-field-group__textarea code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
 			printf(
-				'<p class="submit"><input class="yoast-button yoast-button--primary" type="submit" name="submithtaccess" value="%s" /></p>',
+				'<br><p><input class="yoast-button yoast-button--primary" type="submit" name="submithtaccess" value="%s" /></p>',
 				sprintf(
 					/* translators: %s expands to ".htaccess". */
 					esc_attr__( 'Save changes to %s', 'wordpress-seo' ),
@@ -242,9 +243,8 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		echo '</p>';
 	}
 	echo '</div>'; // yoast-field-group
+	echo '</div>'; // yoast-paper
 }
-
-echo '</div>'; // yoast-feature
 
 if ( is_multisite() ) {
 	$yform->admin_footer( false );
