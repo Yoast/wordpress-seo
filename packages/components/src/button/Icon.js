@@ -1,5 +1,6 @@
 import React from "react";
-import Button, { sharedButtonPropTypes, sharedButtonDefaultProps } from "./Button";
+import PropTypes from "prop-types";
+import "./buttons.css";
 import { __ } from "@wordpress/i18n";
 
 const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true" focusable="false">
@@ -15,19 +16,15 @@ const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" 
  * @returns {ReactElement} An Close button component.
  */
 export const CloseButton = ( props ) => {
-	return <Button
+	return <button
 		className="yoast-close"
 		aria-label={ __( "Close", "yoast-components" ) }
 		{ ...props }
 	>
 		{ closeIcon }
-	</Button>;
+	</button>;
 };
 
 CloseButton.propTypes = {
-	...sharedButtonPropTypes,
-};
-
-CloseButton.defaultProps = {
-	...sharedButtonDefaultProps,
+	onClick: PropTypes.func.isRequired,
 };
