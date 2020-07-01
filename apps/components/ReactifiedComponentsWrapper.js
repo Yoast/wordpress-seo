@@ -23,12 +23,12 @@ function clickerDiClick() {
 
 const buttonGrouping = <Fragment>
 	<h3>Buttons</h3>
-	<Button type="button" onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
-	<Button type="button" variant="primary" onClick={ clickerDiClick }>Primary button</Button>
-	<Button type="button" variant="secondary" onClick={ clickerDiClick }>Secondary button</Button>
-	<Button type="button" variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
-	<Button type="button" variant="hide" onClick={ clickerDiClick }>Hide button</Button>
-	<Button type="button" variant="remove" onClick={ clickerDiClick }>Remove button</Button>
+	<Button onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
+	<Button variant="primary" onClick={ clickerDiClick }>Primary button</Button>
+	<Button variant="secondary" onClick={ clickerDiClick }>Secondary button</Button>
+	<Button variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
+	<Button variant="hide" onClick={ clickerDiClick }>Hide button</Button>
+	<Button variant="remove" onClick={ clickerDiClick }>Remove button</Button>
 	<h3>Links</h3>
 	<ButtonStyledLink variant="primary" href={ "#" }>Primary link</ButtonStyledLink>
 	<ButtonStyledLink variant="secondary" href={ "#" }>Secondary link</ButtonStyledLink>
