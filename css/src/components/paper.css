@@ -36,8 +36,7 @@
 }
 
 .yoast-paper .yoast-notifications-dismissed {
-	width: calc(600px - 48px);
-	margin-bottom: 0;
+	margin-bottom: 16px;
 }
 
 .yoast-paper__item {
