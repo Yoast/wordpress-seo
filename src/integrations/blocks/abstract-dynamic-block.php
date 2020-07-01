@@ -35,7 +35,6 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'init', [ $this, 'register_block' ] );
-		\add_action( 'rest_api_init', [ $this, 'register_block' ] );
 	}
 
 	/**
