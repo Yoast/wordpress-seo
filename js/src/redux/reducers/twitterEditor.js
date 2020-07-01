@@ -44,7 +44,7 @@ const twitterReducer = ( state = initialState, action ) => {
 					url: "",
 					id: "",
 				},
-				warnings: []
+				warnings: [],
 			};
 	  default:
 			return state;

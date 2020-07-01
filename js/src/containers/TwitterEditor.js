@@ -47,7 +47,7 @@ if ( window.wpseoScriptData.metabox.showSocial.twitter ) {
 		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 		media.on( "select", () => {
 			const selected = media.state().get( "selection" ).first();
-			const image = { 
+			const image = {
 				type: selected.attributes.subtype,
 				width: selected.attributes.width,
 				height: selected.attributes.height,
