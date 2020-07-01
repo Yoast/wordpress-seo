@@ -16,7 +16,8 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 	return;
 }
 ?>
-<div class="yoast-feature">
+
+<div class="yoast-paper">
 	<p id="settings-import-desc">
 		<?php
 		printf(
@@ -47,6 +48,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) || ! WPSEO_NAMESPACES ) {
 			</div>
 			<textarea id="settings-import" rows="10" cols="140" name="settings_import" class="yoast-field-group__textarea" aria-describedby="settings-import-desc"></textarea>
 		</div>
+		<br>
 		<p>
 			<input type="submit" class="yoast-button yoast-button--primary" value="<?php esc_attr_e( 'Import settings', 'wordpress-seo' ); ?>"/>
 		</p>

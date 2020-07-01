@@ -17,8 +17,8 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 $yoast_features = new WPSEO_Features();
 
 ?>
-<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
-<div class="yoast-feature">
+<div class="yoast-paper">
+	<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
 	<p>
 		<?php
 		printf(

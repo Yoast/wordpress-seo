@@ -25,11 +25,10 @@ $wpseo_contributors_phrase = sprintf(
 
 ?>
 
-	<div class="tab-block">
-
-		<div class="yoast-paper">
-			<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
-		</div>
+<div class="tab-block">
+	<div class="yoast-paper">
+		<?php require WPSEO_PATH . 'admin/views/partial-notifications-errors.php'; ?>
+	</div>
 
 	<div class="yoast-paper">
 		<?php require WPSEO_PATH . 'admin/views/partial-notifications-warnings.php'; ?>
@@ -37,8 +36,10 @@ $wpseo_contributors_phrase = sprintf(
 </div>
 
 <div class="tab-block">
-	<h2><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h2>
-	<p>
-		<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
-	</p>
+	<div class="yoast-paper">
+		<h2><?php esc_html_e( 'Credits', 'wordpress-seo' ); ?></h2>
+		<p>
+			<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/yoast-seo-credits' ); ?>"><?php echo esc_html( $wpseo_contributors_phrase ); ?></a>
+		</p>
+	</div>
 </div>

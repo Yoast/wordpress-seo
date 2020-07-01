@@ -14,8 +14,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /* translators: %1$s expands to Yoast SEO */
 $submit_button_value = sprintf( __( 'Export your %1$s settings', 'wordpress-seo' ), 'Yoast SEO' );
 
-echo '<div class="yoast-feature">';
-
 if ( filter_input( INPUT_POST, 'do_export' ) ) {
 	$export = new WPSEO_Export();
 	$export->export();
@@ -29,6 +27,7 @@ $wpseo_export_phrase = sprintf(
 );
 ?>
 
+<div class="yoast-paper">
 	<p><?php echo esc_html( $wpseo_export_phrase ); ?></p>
 	<form
 		action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-export' ) ); ?>"

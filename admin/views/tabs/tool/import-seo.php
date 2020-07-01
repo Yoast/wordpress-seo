@@ -15,6 +15,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $import_check = new WPSEO_Import_Plugins_Detector();
 $import_check->detect();
 if ( count( $import_check->needs_import ) === 0 ) {
+	echo '<div class="yoast-paper">';
 	echo '<h2>', esc_html__( 'Import from other SEO plugins', 'wordpress-seo' ), '</h2>';
 	echo '<p>';
 	printf(
@@ -23,6 +24,7 @@ if ( count( $import_check->needs_import ) === 0 ) {
 		'Yoast SEO'
 	);
 	echo '</p>';
+	echo '</div>'; // yoast-paper
 
 	return;
 }
@@ -48,8 +50,9 @@ function wpseo_import_external_select( $name, $plugins ) {
 }
 
 ?>
-<h2><?php esc_html_e( 'Import from other SEO plugins', 'wordpress-seo' ); ?></h2>
-<div class="yoast-feature">
+<div class="yoast-paper">
+
+	<h2><?php esc_html_e( 'Import from other SEO plugins', 'wordpress-seo' ); ?></h2>
 	<p>
 		<?php esc_html_e( 'We\'ve detected data from one or more SEO plugins on your site. Please follow the following steps to import that data:', 'wordpress-seo' ); ?>
 	</p>

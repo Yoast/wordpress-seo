@@ -37,6 +37,8 @@ if ( $tool_page === '' ) {
 		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
 	];
 
+	echo '<div class="yoast-paper">';
+
 	echo '<p>';
 	printf(
 		/* translators: %1$s expands to Yoast SEO */
@@ -67,6 +69,8 @@ if ( $tool_page === '' ) {
 	echo '</ul>';
 
 	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
+
+	echo '</div>'; // yoast-paper
 }
 else {
 	echo '<div class="yoast-space-after">';
