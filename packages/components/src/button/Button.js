@@ -89,7 +89,7 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	className: PropTypes.string,
-	variant: PropTypes.string,
+	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	children: PropTypes.oneOfType(
 		[
 			PropTypes.node,
@@ -142,7 +142,7 @@ export const ButtonStyledLink = ( props ) => {
 
 ButtonStyledLink.propTypes = {
 	href: PropTypes.string.isRequired,
-	variant: PropTypes.string,
+	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	className: PropTypes.string,
 	children: PropTypes.oneOfType(
 		[
