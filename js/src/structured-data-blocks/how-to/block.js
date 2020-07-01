@@ -1,11 +1,10 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
+import { registerBlockType } from "@wordpress/blocks";
 
 /* Internal dependencies */
 import HowTo from "./components/HowTo";
 import legacy from "./legacy";
-
-const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
 	hasDuration: {

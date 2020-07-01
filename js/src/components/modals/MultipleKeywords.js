@@ -1,4 +1,3 @@
-import React from "react";
 import interpolateComponents from "interpolate-components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
@@ -12,7 +11,7 @@ const PremiumLandingPageLink = makeOutboundLink();
  *
  * @param {Object} props The props for the component.
  *
- * @returns {ReactElement} The Multiple Keywords upsell component.
+ * @returns {wp.Element} The Multiple Keywords upsell component.
  */
 const MultipleKeywords = ( props ) => {
 	const intro = sprintf(

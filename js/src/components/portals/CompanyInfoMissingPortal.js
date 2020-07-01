@@ -10,7 +10,7 @@ import Portal from "./Portal";
  * @param {string} message The message to show in the notice.
  * @param {string} url The url to link to in the notice.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function CompanyInfoMissingPortal( { target, message, link } ) {
 	return (

@@ -11,7 +11,7 @@ import Portal from "./Portal";
  * @param {string} url The url to link to in the notice.
  * @param {string} backgroundUrl The Url for the background image.
  *
- * @returns {null|ReactElement} The element.
+ * @returns {null|wp.Element} The element.
  */
 export default function LocalSEOUpsellPortal( { target, url, backgroundUrl } ) {
 	return (

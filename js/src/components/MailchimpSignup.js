@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
@@ -9,7 +9,7 @@ import { sendRequest } from "@yoast/helpers";
 /**
  * @summary Mailchimp signup component.
  */
-class MailchimpSignup extends React.Component {
+class MailchimpSignup extends Component {
 	/**
 	 * @summary Constructs the Mailchimp signup component.
 	 *
@@ -193,7 +193,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * @summary Renders the Mailchimp component.
 	 *
-	 * @returns {JSX.Element} Rendered Mailchimp Component.
+	 * @returns {wp.Element} Rendered Mailchimp Component.
 	 */
 	render() {
 		if ( this.skipRendering() ) {

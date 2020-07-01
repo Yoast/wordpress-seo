@@ -41,7 +41,7 @@ class AddCollationToTables extends Migration {
 		];
 
 		foreach ( $tables as $table ) {
-			$this->query( 'ALTER TABLE ' . $table . ' CONVERT TO ' . str_replace( 'DEFAULT ', '', $charset_collate ) );
+			$this->query( 'ALTER TABLE ' . $table . ' CONVERT TO ' . \str_replace( 'DEFAULT ', '', $charset_collate ) );
 		}
 	}
 

@@ -15,7 +15,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Whether or not the social tab is enabled for this metabox.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $social_is_enabled;
 
@@ -722,7 +722,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$meta_boxes = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_boxes = array_merge(
-			$meta_boxes, WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			$meta_boxes,
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
 			$social_fields
 		);
@@ -846,7 +847,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
 		$script_data = [
-			'analysis' => [
+			'analysis'         => [
 				'plugins' => [
 					'replaceVars' => [
 						'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
@@ -860,7 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						'wpseo_shortcode_tags'          => $this->get_valid_shortcode_tags(),
 					],
 				],
-				'worker' => [
+				'worker'  => [
 					'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 					'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
@@ -868,13 +869,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 				],
 			],
-			'media' => [
+			'media'            => [
 				// @todo replace this translation with JavaScript translations.
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			],
-			'metabox' => $this->get_metabox_script_data(),
+			'metabox'          => $this->get_metabox_script_data(),
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
-			'isPost' => true,
+			'isPost'           => true,
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
@@ -1086,30 +1087,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs the page analysis score in the Publish Box.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function publish_box() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
-
-	/**
-	 * Sets up all the functionality related to the prominence of the page analysis functionality.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function setup_page_analysis() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
 
 	/**
 	 * Outputs a tab in the Yoast SEO Metabox.

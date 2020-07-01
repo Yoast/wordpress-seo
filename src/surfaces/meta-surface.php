@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\SEO\Surfaces;
 
-use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -19,7 +19,7 @@ const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 /**
  * Modified Text Control to provide a better layout experience.
  *
- * @returns {ReactElement} The TextControl with additional spacing below.
+ * @returns {wp.Element} The TextControl with additional spacing below.
  */
 const SpacedTextControl = styled( TextControl )`
 	&&& {

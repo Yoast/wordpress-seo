@@ -41,7 +41,7 @@ var getPresenter = function() {
  * @param {number} score The score from 0 to 100.
  * @returns {Object} The indicator for the given score.
  */
-function getIndicatorForScore( score ) {
+export default function getIndicatorForScore( score ) {
 	var indicator = {
 		className: "",
 		screenReaderText: "",
@@ -66,5 +66,3 @@ function getIndicatorForScore( score ) {
 
 	return presenter.getIndicator( scoreToRating( score ) );
 }
-
-module.exports = getIndicatorForScore;

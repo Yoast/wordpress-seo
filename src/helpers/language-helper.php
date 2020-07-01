@@ -22,6 +22,6 @@ class Language_Helper {
 	public function is_word_form_recognition_active( $language ) {
 		$supported_languages = [ 'de', 'en', 'es', 'fr', 'it', 'nl', 'ru' ];
 
-		return in_array( $language, $supported_languages, true );
+		return \in_array( $language, $supported_languages, true );
 	}
 }

@@ -5,16 +5,16 @@ namespace Yoast\WP\SEO\Tests\Generators\Schema;
 use Brain\Monkey;
 use Mockery;
 use stdClass;
+use Yoast\WP\SEO\Generators\Schema\Article;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
-use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Generators\Schema\Article;
+use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Article_Double;
 use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -197,7 +197,12 @@ class Article_Test extends TestCase {
 		Monkey\Functions\expect( 'get_comment_count' )
 			->once()
 			->with( 5 )
-			->andReturn( [ 'approved' => 7 ] );
+			->andReturn( [ 'approved' => $values_to_test['approved_comments' ]] );
+
+		Monkey\Functions\expect( 'comments_open' )
+			->once()
+			->with( 5 )
+			->andReturn( $values_to_test['post_comment_status' ] === 'open' );
 
 		$this->context_mock->canonical                 = 'https://permalink';
 		$this->context_mock->has_image                 = true;
@@ -353,6 +358,7 @@ class Article_Test extends TestCase {
 					'site_represents_reference'     => false, // Whether the site represents a company/person.
 					'mock_value_post_type_supports' => true, // Whether the post type supports a certain feature.
 					'post_comment_status'           => 'open',
+					'approved_comments'             => 7,
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
 						'@id'              => 'https://permalink#article',
@@ -410,6 +416,7 @@ class Article_Test extends TestCase {
 					'site_represents_reference'     => true,
 					'mock_value_post_type_supports' => true,
 					'post_comment_status'           => 'open',
+					'approved_comments'             => 7,
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
 						'@id'              => 'https://permalink#article',
@@ -470,6 +477,7 @@ class Article_Test extends TestCase {
 					'site_represents_reference'     => false,
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'open',
+					'approved_comments'             => 7,
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
 						'@id'              => 'https://permalink#article',
@@ -518,6 +526,7 @@ class Article_Test extends TestCase {
 					'site_represents_reference'     => false,
 					'mock_value_post_type_supports' => false,
 					'post_comment_status'           => 'closed',
+					'approved_comments'             => 7,
 					'data_for_add_keywords'         => [
 						'@type'            => 'Article',
 						'@id'              => 'https://permalink#article',
@@ -554,6 +563,52 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
+					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'keywords'         => 'Tag1,Tag2',
+					'articleSection'   => 'Category1',
+					'inLanguage'       => 'language',
+				],
+				'message'        => 'The comment status for the post is set to closed.',
+			],
+			[
+				'values_to_test' => [
+					'site_represents_reference'     => false,
+					'mock_value_post_type_supports' => false,
+					'post_comment_status'           => 'closed',
+					'approved_comments'             => 0,
+					'data_for_add_keywords'         => [
+						'@type'            => 'Article',
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+						'headline'         => 'the-title',
+						'datePublished'    => '2345-12-12 12:12:12',
+						'dateModified'     => '2345-12-12 23:23:23',
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					],
+					'data_for_add_sections'         => [
+						'@type'            => 'Article',
+						'@id'              => 'https://permalink#article',
+						'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+						'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+						'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+						'headline'         => 'the-title',
+						'datePublished'    => '2345-12-12 12:12:12',
+						'dateModified'     => '2345-12-12 23:23:23',
+						'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+						'keywords'         => 'Tag1,Tag2',
+					],
+				],
+				'expected_value' => [
+					'@type'            => 'Article',
+					'@id'              => 'https://permalink#article',
+					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
+					'headline'         => 'the-title',
+					'datePublished'    => '2345-12-12 12:12:12',
+					'dateModified'     => '2345-12-12 23:23:23',
 					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
 					'keywords'         => 'Tag1,Tag2',
 					'articleSection'   => 'Category1',

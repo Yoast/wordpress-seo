@@ -1,4 +1,3 @@
-import React from "react";
 import ModalIntl from "./modals/Modal";
 import IntlProvider from "./IntlProvider";
 import PropTypes from "prop-types";

@@ -3,10 +3,10 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Content analysis, Readability
+Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
-Stable tag: 14.3
+Stable tag: 14.4.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,15 +209,35 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 14.4 =
+= 14.5 =
+Release Date: July 7th, 2020
+
+Enhancements:
+
+* Disables the WP Core sitemaps as introduced in WordPress 5.5.
+* Adds the option for users to opt-in to allow Yoast to track some data about their site.
+
+= 14.4.1 =
 Release Date: June 23rd, 2020
 
 Bugfixes:
 
+* Fixes a bug where existing links were no longer editable with Yoast SEO active.
+* Fixes a bug where the editor wouldn't remember `rel` values set on a link after refresh.
+
+= 14.4 =
+Release Date: June 23rd, 2020
+
+Sometimes, you have releases that start out small and end up with a substantial improvement. Yoast SEO 14.4 is one such release. Initially planned as a bug fix release, this turned into something that markedly improves the publishing workflow in WordPress. Plus, you can now mark your external links as nofollow or sponsored. You see, Yoast SEO 14.4 is a chockfull release! Read more about those changes in [our release post](https://yoa.st/release-14-4)!
+
+Bugfixes:
+
 * Fixes a bug where replacement variable values would break the Google Preview and output a PHP notice on the front end if they were a serialized array string.
-* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` led to a BC break.
-* Fixes a bug where the site logo was not output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
+* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` would lead to a backward compatibility break.
+* Fixes a bug where the site logo would not be output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
 * Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
+* Fixes a bug where a lot of delete queries would be performed after clearing all indexables from the database.
+* Fixes a bug where the indexables indexing warning would be visible to users with non-admin roles.
 
 Enhancements:
 
@@ -225,22 +245,11 @@ Enhancements:
    * Adds the readability and SEO score to the document sidebar with the possibility to quickly open the Yoast sidebar.
    * Adds the readability and SEO score to the publish checks. Gives reassurance or a call to action to further optimize the content.
    * Adds social sharing buttons to the post publish actions to enable easy sharing on Facebook and Twitter.
-* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor.
+* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor for WordPress versions 5.4 and above.
 
 Other:
 
-* Adds headers to the main plugin file for minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
-
-= 14.3 =
-Release Date: June 9th, 2020
-
-In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code style and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
-
-Bugfixes:
-
-* Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
-* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
-* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
+* Adds headers to the main plugin file for the minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

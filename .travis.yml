@@ -26,7 +26,7 @@ jobs:
     - php: 7.2
       env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
     - php: 7.3
-      env: WP_VERSION=latest PHPLINT=1 WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=5.3 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
@@ -34,7 +34,7 @@ jobs:
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: 7.4
-      env: WP_VERSION=latest PHPUNIT=1
+      env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
     - php: "nightly"
       env: PHPLINT=1
     - stage: 🚀 deployment
@@ -65,7 +65,7 @@ jobs:
       install:
         - yarn global add grunt-cli
         - |
-          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
+          if [[ ( $TRAVIS_BRANCH =~ ^feature\/* || $TRAVIS_BRANCH =~ ^release\/* || $TRAVIS_BRANCH = "trunk" ) && "$TRAVIS_EVENT_TYPE" = "push" ]]; then
             git clone https://github.com/yoast/javascript /tmp/javascript
             echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
             AUTO_CHECKOUT_MONOREPO_BRANCH=1 yarn link-monorepo
@@ -109,6 +109,7 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
+    - .cache
     - node_modules
 
 before_install:
@@ -141,7 +142,9 @@ install:
       composer require phpunit/phpcov ^3.1
     fi
   - |
-    if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
+    if [[ $TRAVIS_PHP_VERSION == "nightly" && "$PHPLINT" == "1" ]]; then
+      composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
+    elif [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       composer update
       composer install --no-interaction
@@ -239,7 +242,11 @@ script:
   - |
     if [[ "$PHPLINT" == "1" ]]; then
       travis_fold start "PHP.check" && travis_time_start
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+      if [[ -d "premium" ]]; then
+        composer premium-lint
+      else
+        composer lint
+      fi
       travis_time_finish && travis_fold end "PHP.check"
     fi
   # PHP CS

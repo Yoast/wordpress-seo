@@ -207,21 +207,3 @@ export default function initFeaturedImageIntegration( $ ) {
 		} );
 	} );
 }
-
-/* eslint-disable */
-/* jshint ignore:start */
-
-/**
- * Remove error message.
- *
- * @deprecated 10.1
- */
-function yst_removeOpengraphWarning() {
-	console.error( "yst_removeOpengraphWarning is deprecated since Yoast SEO 10.1." );
-
-	return;
-}
-
-window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
-/* jshint ignore:end */
-/* eslint-enable */

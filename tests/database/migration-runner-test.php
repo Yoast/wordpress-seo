@@ -64,9 +64,9 @@ class Migration_Runner_Test extends TestCase {
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_success() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
+		$status_mock  = Mockery::mock( Migration_Status::class );
+		$loader_mock  = Mockery::mock( Loader::class );
+		$adapter_mock = Mockery::mock( Adapter::class );
 
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
@@ -93,9 +93,9 @@ class Migration_Runner_Test extends TestCase {
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_should_not_run() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
+		$status_mock  = Mockery::mock( Migration_Status::class );
+		$loader_mock  = Mockery::mock( Loader::class );
+		$adapter_mock = Mockery::mock( Adapter::class );
 
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( false );
 
@@ -110,9 +110,9 @@ class Migration_Runner_Test extends TestCase {
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_locked() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
+		$status_mock  = Mockery::mock( Migration_Status::class );
+		$loader_mock  = Mockery::mock( Loader::class );
+		$adapter_mock = Mockery::mock( Adapter::class );
 
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( false );
@@ -128,9 +128,9 @@ class Migration_Runner_Test extends TestCase {
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_with_no_migrations() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
+		$status_mock  = Mockery::mock( Migration_Status::class );
+		$loader_mock  = Mockery::mock( Loader::class );
+		$adapter_mock = Mockery::mock( Adapter::class );
 
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
@@ -151,9 +151,9 @@ class Migration_Runner_Test extends TestCase {
 	 * @expectedExceptionMessage Migration error
 	 */
 	public function test_migration_error() {
-		$status_mock    = Mockery::mock( Migration_Status::class );
-		$loader_mock    = Mockery::mock( Loader::class );
-		$adapter_mock   = Mockery::mock( Adapter::class );
+		$status_mock  = Mockery::mock( Migration_Status::class );
+		$loader_mock  = Mockery::mock( Loader::class );
+		$adapter_mock = Mockery::mock( Adapter::class );
 
 		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
 		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
