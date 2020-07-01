@@ -14,12 +14,9 @@ import CountrySelector from "./modals/CountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
-<<<<<<< HEAD
 import SemRushLoading from "./modals/SemRushLoading";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
-=======
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
->>>>>>> cd75f88f8... Add request-failed content to modal for testing
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
