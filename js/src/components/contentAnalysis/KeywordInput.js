@@ -15,7 +15,7 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import HelpLink from "./HelpLink";
 import { LocationConsumer } from "../contexts/location";
-import RelatedKeyPhrasesModal from "../../containers/RelatedKeyPhrasesModal";
+import RelatedKeyPhrasesModal from "../RelatedKeyphrasesModal";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;
@@ -75,6 +75,7 @@ class KeywordInput extends Component {
 						}
 						<RelatedKeyPhrasesModal
 							location={ location }
+							keyphrase={ this.props.keyword }
 						/>
 					</KeywordInputContainer>
 				) }

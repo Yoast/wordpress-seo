@@ -1,6 +1,6 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
-import { Modal } from "@wordpress/components";
+import { Modal, Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -108,11 +108,9 @@ class RelatedKeyPhrasesModal extends Component {
 							{ maxRelatedKeyphrasesEntered && (
 								<SemRushMaxRelatedKeyphrases />
 							) }
-							<SemRushUpsellAlert />
-							<SemRushLimitReached />
-							<SemRushRequestFailed />
-							<CountrySelector />
-							<KeyphrasesTable />
+
+							<Slot name="YoastRelatedKeyphrases" />
+
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />
