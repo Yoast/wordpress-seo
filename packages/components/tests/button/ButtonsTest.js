@@ -44,7 +44,7 @@ describe( "Button", () => {
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `variant` of type `object` supplied to `Button`, expected `string`." );
+			.toContain( "Warning: Failed prop type: Invalid prop `variant` of value `[object Object]` supplied to `Button`" );
 	} );
 } );
 
