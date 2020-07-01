@@ -65,6 +65,10 @@
 	margin-bottom: 24px;
 }
 
+.yoast #wpcontent .paper-container h3:first-child {
+	padding-top: 0;
+}
+
 .yoast-paper__item .yoast-notification {
 	position: relative;
 	margin-left: 22px;
