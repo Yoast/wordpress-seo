@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -68,6 +69,13 @@ class Indexation_Integration_Test extends TestCase {
 	private $general_indexation;
 
 	/**
+	 * Holds the general indexation action mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Complete_Indexation_Action
+	 */
+	private $complete_indexation;
+
+	/**
 	 * Holds the options helper mock.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -96,6 +104,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
 		$this->options                      = Mockery::mock( Options_Helper::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->yoast_tools_page_conditional = Mockery::mock( Yoast_Tools_Page_Conditional::class );
@@ -105,6 +114,7 @@ class Indexation_Integration_Test extends TestCase {
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
+			$this->complete_indexation,
 			$this->options,
 			$this->asset_manager,
 			$this->yoast_tools_page_conditional
@@ -166,13 +176,13 @@ class Indexation_Integration_Test extends TestCase {
 
 		$this->options
 			->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturnFalse();
+			->with( 'indexation_started', false )
+			->andReturn( 0 );
 
 		$this->options
 			->expects( 'get' )
-			->with( 'indexation_started', 0 )
-			->andReturn( 0 );
+			->with( 'ignore_indexation_warning', false )
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
@@ -388,10 +398,9 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->options
-			->expects( 'set' )
-			->once()
-			->with( 'indexables_indexation_reason', '' );
+		$this->complete_indexation
+			->expects( 'complete' )
+			->once();
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();

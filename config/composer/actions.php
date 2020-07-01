@@ -50,6 +50,46 @@ class Actions {
 	}
 
 	/**
+	 * Provides a coding standards option choice.
+	 *
+	 * @param Event $event Composer event.
+	 */
+	public static function check_coding_standards( Event $event ) {
+		$io = $event->getIO();
+
+		$choices = [
+			'1' => [ 'label' => 'Check staged files for coding standard warnings & errors.', 'command' => 'check-staged-cs' ],
+			'2' => [ 'label' => 'Check current branch\'s changed files for coding standard warnings & errors.', 'command' => 'check-branch-cs' ],
+			'3' => [ 'label' => 'Check for all coding standard errors.', 'command' => 'check-cs' ],
+			'4' => [ 'label' => 'Check for all coding standard warnings & errors.', 'command' => 'check-cs-warnings' ],
+			'5' => [ 'label' => 'Fix auto-fixable coding standards.', 'command' => 'fix-cs' ],
+			'6' => [ 'label' => '[Premium] Check for coding standard warnings and errors.', 'command' => 'premium-check-cs' ],
+			'7' => [ 'label' => '[Premium] Fix auto-fixable coding standards.', 'command' => 'premium-fix-cs' ],
+			'8' => [ 'label' => 'Load coding standards configuration.', 'command' => 'config-yoastcs' ],
+		];
+
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			foreach ( $choices as $choice => $data ) {
+				$io->write( sprintf( '%d. %s', $choice, $data['label'] ) );
+			}
+
+			$choice = $io->ask( 'What do you want to do? ' );
+		}
+		else {
+			$choice = $args[0];
+		}
+
+		if ( isset( $choices[ $choice ] ) ) {
+			$event_dispatcher = $event->getComposer()->getEventDispatcher();
+			$event_dispatcher->dispatchScript( $choices[ $choice ]['command'] );
+		}
+		else {
+			$io->write( 'Unknown choice.' );
+		}
+	}
+
+	/**
 	 * Compiles the dependency injection container.
 	 *
 	 * Used the composer compile-dependency-injection-container command.
@@ -105,6 +145,7 @@ class Actions {
 		$args = $event->getArguments();
 		if ( empty( $args ) ) {
 			self::check_cs_for_changed_files( 'trunk' );
+
 			return;
 		}
 		self::check_cs_for_changed_files( $args[0] );
@@ -123,13 +164,14 @@ class Actions {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
 		$files = \array_filter(
 			$files,
-			function ( $file ) {
+			function( $file ) {
 				return \substr( $file, -4 ) === '.php';
 			}
 		);
 
 		if ( empty( $files ) ) {
-			echo 'No files to compare! Exiting.';
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
 			return;
 		}
 

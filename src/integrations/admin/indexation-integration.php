@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -65,7 +66,14 @@ class Indexation_Integration implements Integration_Interface {
 	protected $general_indexation;
 
 	/**
-	 * Represents the admin asset manager.
+	 * Represented the indexation completed action.
+	 *
+	 * @var Indexable_Complete_Indexation_Action
+	 */
+	protected $complete_indexation_action;
+
+	/**
+	 * Represents tha admin asset manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -117,10 +125,9 @@ class Indexation_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation              The post indexation action.
 	 * @param Indexable_Term_Indexation_Action              $term_indexation              The term indexation action.
-	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation
-	 *                                                                                    action.
-	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation
-	 *                                                                                    action.
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation The archive indexation action.
+	 * @param Indexable_General_Indexation_Action           $general_indexation           The general indexation action.
+	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action   The complete indexation action.
 	 * @param Options_Helper                                $options_helper               The options helper.
 	 * @param WPSEO_Admin_Asset_Manager                     $asset_manager                The admin asset manager.
 	 * @param Yoast_Tools_Page_Conditional                  $yoast_tools_page_conditional The yoast tools page
@@ -131,6 +138,7 @@ class Indexation_Integration implements Integration_Interface {
 		Indexable_Term_Indexation_Action $term_indexation,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation,
 		Indexable_General_Indexation_Action $general_indexation,
+		Indexable_Complete_Indexation_Action $complete_indexation_action,
 		Options_Helper $options_helper,
 		WPSEO_Admin_Asset_Manager $asset_manager,
 		Yoast_Tools_Page_Conditional $yoast_tools_page_conditional
@@ -139,6 +147,7 @@ class Indexation_Integration implements Integration_Interface {
 		$this->term_indexation              = $term_indexation;
 		$this->post_type_archive_indexation = $post_type_archive_indexation;
 		$this->general_indexation           = $general_indexation;
+		$this->complete_indexation_action   = $complete_indexation_action;
 		$this->options_helper               = $options_helper;
 		$this->asset_manager                = $asset_manager;
 		$this->yoast_tools_page_conditional = $yoast_tools_page_conditional;
@@ -163,7 +172,8 @@ class Indexation_Integration implements Integration_Interface {
 		 * as post types aren't registered yet. So we do most of our add_action calls here.
 		 */
 		if ( $this->get_total_unindexed() === 0 ) {
-			$this->set_complete();
+			$this->complete_indexation_action->complete();
+
 			return;
 		}
 
@@ -182,7 +192,6 @@ class Indexation_Integration implements Integration_Interface {
 
 		$this->is_on_yoast_tools_page = $this->yoast_tools_page_conditional->is_met();
 		$this->indexation_action_type = ( $this->is_on_yoast_tools_page ) ? Indexation_Warning_Presenter::ACTION_TYPE_RUN_HERE : Indexation_Warning_Presenter::ACTION_TYPE_LINK_TO;
-
 
 		if ( $this->is_indexation_warning_hidden() === false ) {
 			$this->add_admin_notice();
@@ -255,7 +264,7 @@ class Indexation_Integration implements Integration_Interface {
 	 *
 	 * @return int
 	 */
-	protected function get_total_unindexed() {
+	public function get_total_unindexed() {
 		if ( \is_null( $this->total_unindexed ) ) {
 			$this->total_unindexed = $this->post_indexation->get_total_unindexed();
 			$this->total_unindexed += $this->term_indexation->get_total_unindexed();

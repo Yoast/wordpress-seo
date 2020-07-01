@@ -1089,30 +1089,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Outputs the page analysis score in the Publish Box.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function publish_box() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
-
-	/**
-	 * Sets up all the functionality related to the prominence of the page analysis functionality.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function setup_page_analysis() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-	}
-
-	/**
 	 * Outputs a tab in the Yoast SEO Metabox.
 	 *
 	 * @deprecated         12.2

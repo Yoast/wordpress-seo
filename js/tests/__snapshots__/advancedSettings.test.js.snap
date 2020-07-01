@@ -37,6 +37,10 @@ Array [
   line-height: 1.2em;
 }
 
+.c0 h2 > button:focus {
+  outline: none;
+}
+
 .c0 div[class^="Collapsible__Content"] {
   padding: 24px 0;
   margin: 0 24px;
@@ -51,7 +55,7 @@ Array [
     >
       <button
         aria-expanded={false}
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq Collapsible__StyledIconsButton-sc-1ahsa22-3 ixEIcM"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 cBBhpN Collapsible__StyledIconsButton-sc-1ahsa22-3 ixEIcM"
         id="collapsible-advanced-settings"
         onClick={[Function]}
         type="button"

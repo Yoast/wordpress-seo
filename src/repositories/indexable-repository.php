@@ -391,6 +391,25 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Returns all subpages with a given post_parent.
+	 *
+	 * @param int   $post_parent the post parent.
+	 * @param array $exclude_ids the ids to exclude.
+	 *
+	 * @return Indexable[] array of indexables.
+	 */
+	public function get_subpages_by_post_parent( $post_parent, $exclude_ids = [] ) {
+		$query = $this->query()
+			->where( 'post_parent', $post_parent )
+			->where( 'object_type', 'post' );
+
+		if ( ! empty( $exclude_ids ) ) {
+			$query->where_not_in( 'object_id', $exclude_ids );
+		}
+		return $query->find_many();
+	}
+
+	/**
 	 * Ensures that the given indexable has a permalink.
 	 *
 	 * @param Indexable $indexable The indexable.

@@ -1,5 +1,4 @@
 /* globals wpseoAdminL10n */
-import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
@@ -14,7 +13,7 @@ const LearnMoreLink = makeOutboundLink();
 /**
  * Renders the collapsible cornerstone toggle.
  *
- * @returns {ReactElement} The collapsible cornerstone toggle component.
+ * @returns {wp.Element} The collapsible cornerstone toggle component.
  * @constructor
  */
 export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {

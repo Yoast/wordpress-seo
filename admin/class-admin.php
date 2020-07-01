@@ -439,42 +439,4 @@ class WPSEO_Admin {
 			$helpscout_settings['ask_consent']
 		);
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function remove_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-	}
-
-	/**
-	 * Filter the stopwords from the slug.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function filter_stopwords_from_slug() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-	}
-
-	/**
-	 * Initializes WHIP to show a notice for outdated PHP versions.
-	 *
-	 * @deprecated 8.1
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function check_php_version() {
-		// Intentionally left empty.
-	}
 }

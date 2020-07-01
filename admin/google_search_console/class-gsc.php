@@ -125,17 +125,4 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	public function set_help() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
-
-	/**
-	 * Run init logic.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @deprecated 9.5
-	 *
-	 * @return void
-	 */
-	public function init() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.5' );
-	}
 }
