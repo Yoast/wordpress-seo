@@ -15,7 +15,7 @@ import { firstToUpperCase } from "./stringHelpers";
 import analysis from "yoastseo";
 const { stripHTMLTags: stripFullTags } = analysis.string;
 
-export const nonReplaceVars = [ "slug", "content" ];
+export const nonReplaceVars = [ "slug", "content", "contentImage", "snippetPreviewImageUrl" ];
 
 /**
  * Fills the redux store with the newly acquired data.
