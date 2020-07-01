@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Blocks;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -29,10 +30,19 @@ class Structured_Data_Blocks implements Integration_Interface {
 	}
 
 	/**
+	 * Structured_Data_Blocks constructor.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 */
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
+		$this->asset_manager = $asset_manager;
+	}
+
+	/**
 	 * Registers hooks for Structured Data Blocks with WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		\add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
 	}
 
 	/**
@@ -44,12 +54,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 		 *
 		 * @api bool If false, our structured data blocks won't show.
 		 */
-		if ( ! apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
+		if ( ! \apply_filters( 'wpseo_enable_structured_data_blocks', true ) ) {
 			return;
-		}
-
-		if ( ! $this->asset_manager ) {
-			$this->asset_manager = new \WPSEO_Admin_Asset_Manager();
 		}
 
 		$this->asset_manager->enqueue_script( 'structured-data-blocks' );

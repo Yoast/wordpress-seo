@@ -34,15 +34,15 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'init', [ $this, 'register_block' ] );
-		add_action( 'rest_api_init', [ $this, 'register_block' ] );
+		\add_action( 'init', [ $this, 'register_block' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_block' ] );
 	}
 
 	/**
 	 * Registers the block.
 	 */
 	public function register_block() {
-		register_block_type( 'yoast-seo/' . $this->block_name, [
+		\register_block_type( 'yoast-seo/' . $this->block_name, [
 			'editor_script' => $this->script,
 			'render_callback' => [ $this, 'present' ],
 		] );

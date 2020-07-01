@@ -24,7 +24,7 @@ class Internal_Linking_Category implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_filter( 'block_categories', [ $this, 'add_block_categories' ] );
+		\add_filter( 'block_categories', [ $this, 'add_block_categories' ] );
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Internal_Linking_Category implements Integration_Interface {
 	public function add_block_categories( $categories ) {
 		$categories[] = [
 			'slug'  => 'yoast-structured-data-blocks',
-			'title' => sprintf(
+			'title' => \sprintf(
 			/* translators: %1$s expands to Yoast. */
 				__( '%1$s Structured Data Blocks', 'wordpress-seo' ),
 				'Yoast'
@@ -44,7 +44,7 @@ class Internal_Linking_Category implements Integration_Interface {
 		];
 		$categories[] = [
 			'slug'  => 'yoast-internal-linking-blocks',
-			'title' => sprintf(
+			'title' => \sprintf(
 			/* translators: %1$s expands to Yoast. */
 				__( '%1$s Internal Linking Blocks', 'wordpress-seo' ),
 				'Yoast'
