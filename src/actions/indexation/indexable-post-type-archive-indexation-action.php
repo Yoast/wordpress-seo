@@ -151,6 +151,6 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		$callback = function( $result ) {
 			return $result['object_sub_type'];
 		};
-		return \array_map( $callback, $results );
+		return \array_map( $callback, ( ($results) ?: [] ) );
 	}
 }
