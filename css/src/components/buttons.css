@@ -13,7 +13,7 @@
 
 .yoast .yoast-button:active { /* 'Pressed' button state */
 	box-shadow: none;
-	padding-bottom: 12px;
+	padding-bottom: 10px;
 	top: 2px;
 }
 
