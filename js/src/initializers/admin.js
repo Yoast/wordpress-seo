@@ -227,6 +227,14 @@ export default function initAdmin( jQuery ) {
 		 */
 		wpseoSetTabHash();
 
+		jQuery( '.yoast-toggle--inactive' ).click( function() {
+			jQuery( this ).parent().find( 'input' ).prop( 'checked', false ).change();
+		} );
+
+		jQuery( '.yoast-toggle--active' ).click( function() {
+			jQuery( this ).parent().find( 'input' ).prop( 'checked', true ).change();
+		} );
+
 		// Toggle the Author archives section.
 		jQuery( "#disable-author" ).change( function() {
 			jQuery( "#author-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
