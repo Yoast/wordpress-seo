@@ -186,7 +186,7 @@ $new_tab_message         = sprintf(
 			<?php else : ?>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
-				   class="yoast-button yoast-button--buy">
+				   class="yoast-button yoast-button--buy yoast-button--buy-large">
 					<?php
 					printf(
 					/* translators: $s expands to Yoast SEO Premium */
