@@ -37,6 +37,7 @@ const externals = {
 const wordpressExternals = {
 	"@wordpress/api-fetch": "window.wp.apiFetch",
 	"@wordpress/block-editor": "window.wp.blockEditor",
+	"@wordpress/blocks": "window.wp.blocks",
 	"@wordpress/components": "window.wp.components",
 	"@wordpress/compose": "window.wp.compose",
 	"@wordpress/data": "window.wp.data",
@@ -48,6 +49,7 @@ const wordpressExternals = {
 	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/keycodes": "window.wp.keycodes",
 	"@wordpress/rich-text": "window.wp.richText",
+	"@wordpress/server-side-render": "window.wp.serverSideRender",
 	"@wordpress/url": "window.wp.url",
 	"@wordpress/dom-ready": "window.wp.domReady",
 	"@wordpress/a11y": "window.wp.a11y",
