@@ -30,7 +30,6 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 		$notifications = '';
 
 		foreach ( $list as $notification ) {
-
 			switch ( $status ) {
 				case 'active':
 					$button = sprintf(
@@ -76,12 +75,11 @@ if ( ! $active ) {
 
 <div>
 	<?php if ( $total ) : ?>
-		<div class="yoast-paper__content">
-			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
-			echo _yoast_display_notifications( $active, 'active' );
-			?>
-		</div>
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications is considered a safe function.
+		echo _yoast_display_notifications( $active, 'active' );
+		?>
+
 
 		<?php
 		if ( $dismissed ) {
