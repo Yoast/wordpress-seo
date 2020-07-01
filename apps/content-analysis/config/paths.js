@@ -86,8 +86,6 @@ module.exports = {
 	yoastSpec: resolveApp( "../../packages/yoastseo/spec" ),
 	yoastPackages: resolveApp( "../../packages" ),
 	wpI18n: resolveApp( "node_modules/@wordpress/i18n" ),
-	react: resolveApp( "node_modules/react" ),
-	reactDom: resolveApp( "node_modules/react-dom" ),
 };
 
 

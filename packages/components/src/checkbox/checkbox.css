@@ -32,3 +32,7 @@
     border: 1px solid var(--yoast-color-primary);
     box-shadow: none;
 }
+
+.yoast-field-group__checkbox input[type='checkbox']:checked::before {
+	content: "";
+}

@@ -79,6 +79,8 @@ exports[`The ImageSelect component displays warnings 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -97,7 +99,6 @@ exports[`The ImageSelect component displays warnings 1`] = `
 .c8:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -116,7 +117,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
 .c8:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c8 svg {
@@ -156,6 +157,8 @@ exports[`The ImageSelect component displays warnings 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -182,7 +185,6 @@ exports[`The ImageSelect component displays warnings 1`] = `
 .c9:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -201,7 +203,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
 .c9:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c9 svg {
@@ -336,6 +338,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
     <input
       className="c6"
       disabled="disabled"
+      id="twitter-url-input"
       value=""
     />
     <div
@@ -343,6 +346,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
     >
       <button
         className="c8"
+        id="twitter-replace-button"
         onClick={[Function]}
         type="button"
       >
@@ -350,6 +354,7 @@ exports[`The ImageSelect component displays warnings 1`] = `
       </button>
       <button
         className="c9"
+        id="twitter-remove-button"
         onClick={[Function]}
         type="button"
       >
@@ -405,6 +410,8 @@ exports[`The ImageSelect component renders 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
   color: #303030;
   box-sizing: border-box;
   border-radius: 4px;
@@ -423,7 +430,6 @@ exports[`The ImageSelect component renders 1`] = `
 .c2:active {
   color: #000;
   background-color: #f7f7f7;
-  border-color: #888;
   box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
 }
 
@@ -442,7 +448,7 @@ exports[`The ImageSelect component renders 1`] = `
 .c2:hover {
   color: #000;
   background-color: #fff;
-  border-color: #888;
+  border-color: var(--yoast-color-border--default);
 }
 
 .c2 svg {
@@ -475,6 +481,7 @@ exports[`The ImageSelect component renders 1`] = `
   </div>
   <button
     className="c2"
+    id="facebook-select-button"
     onClick={[Function]}
     type="button"
   >
