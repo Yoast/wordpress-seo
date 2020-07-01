@@ -14,6 +14,7 @@ const Container = styled.div`
 	margin: 16px 0;
 	padding: 20px 28px;
 	position: relative;
+	z-index: 1;
 	&:before {
 		content: "";
 		background-image: url(${ props => props.backgroundUrl });
@@ -40,10 +41,12 @@ const TextContainer = styled.div`
 `;
 
 const Header = styled.h3`
+	.yoast #wpcontent h3&,
 	&& {
 		font-size: 1.15em;
 		font-weight: bold;
 		margin: 4px 0;
+		color: #333;
 	}
 `;
 
