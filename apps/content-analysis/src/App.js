@@ -25,6 +25,8 @@ import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
 import runKeyphraseAnalysis from "./utils/polishPerformanceTest";
 
+const { Benchmark } = require( "benchmark" );
+
 class App extends React.Component {
 	/**
 	 * Initializes the App component.
@@ -116,17 +118,35 @@ class App extends React.Component {
 			} );
 		}
 	}
-
+	/**
+	 * Runs keyphrase-related analysis on full-text test papers for Polish and Spanish and compares the performance.
+	 *
+	 * @returns {void}
+	 */
 	polishSpanishKeyphraseAnalysisComparison() {
 		const testTextsPL = [ testPapers.polishPaper1, testPapers.polishPaper2, testPapers.polishPaper3 ];
 		const testTextsES = [ testPapers.spanishPaper1, testPapers.spanishPaper2, testPapers.spanishPaper3 ];
 		const morphologyDataPL = getMorphologyData( "pl" ).pl;
 		const morphologyDataES = getMorphologyData( "es" ).es;
 
-		runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
-		runKeyphraseAnalysis( testTextsES, morphologyDataES );
-	}
+		const suite = new Benchmark.Suite();
 
+		suite.add( "Test Polish keyphrase analysis()", function() {
+			runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
+		} );
+
+		suite.add( "Test Spanish keyphrase analysis()", function() {
+			runKeyphraseAnalysis( testTextsES, morphologyDataES );
+		} );
+
+		suite.on( "cycle", function( event ) {
+			console.log( String( event.target ) );
+		} );
+		suite.on( "complete", function() {
+			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
+		} );
+		suite.run();
+	}
 
 	/**
 	 * Renders the app.

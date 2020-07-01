@@ -1,17 +1,4 @@
-import contentConfiguration from "yoastsrc/config/content/combinedConfig";
-import getLanguage from "yoastsrc/helpers/getLanguage";
-import getMorphologyData from "./getMorphologyData";
 import Researcher from "yoastsrc/researcher";
-
-// Import keyphrase-related assessments
-import IntroductionKeywordAssessment from "yoastsrc/assessments/seo/IntroductionKeywordAssessment";
-import KeywordDensityAssessment from  "yoastsrc/assessments/seo/KeywordDensityAssessment";
-import MetaDescriptionKeywordAssessment from "yoastsrc/assessments/seo/MetaDescriptionKeywordAssessment";
-import SubheadingsKeywordAssessment from "yoastsrc/assessments/seo/SubHeadingsKeywordAssessment";
-import TextImagesAssessment from "yoastsrc/assessments/seo/TextImagesAssessment";
-import TitleKeywordAssessment from "yoastsrc/assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "yoastsrc/assessments/seo/UrlKeywordAssessment";
-import KeyphraseDistributionAssessment from "yoastsrc/assessments/seo/KeyphraseDistributionAssessment";
 
 // Import researches
 import findKeywordInFirstParagraph from "../../../../packages/yoastseo/src/researches/findKeywordInFirstParagraph.js";
@@ -24,11 +11,13 @@ import altTagCount from "../../../../packages/yoastseo/src/researches/imageAltTa
 import findKeywordInPageTitle from "../../../../packages/yoastseo/src/researches/findKeywordInPageTitle.js";
 import keywordCountInUrl from "yoastsrc/researches/keywordCountInUrl";
 import { keyphraseDistributionResearcher } from "yoastsrc/researches/keyphraseDistribution";
-import keyphraseLength from "yoastseo/src/researches/keyphraseLength";
 const keyphraseDistribution = keyphraseDistributionResearcher;
 
 /**
  * Runs analysis on full-text test papers.
+ *
+ * @param {array} testPapers 		The papers to analyse.
+ * @param {array} morphologyData 	The morphology data for the language of the test papers.
  *
  * @returns {void}
  */
@@ -45,14 +34,11 @@ export function runKeyphraseAnalysis( testPapers, morphologyData ) {
 			keywordCount( paper, researcher );
 			metaDescriptionKeyword( paper, researcher );
 			matchKeywordInSubheadings( paper, researcher );
-			imageCount
-			altTagCount
-			findKeywordInPageTitle
-			keywordCountInUrl
-			keyphraseDistributionResearcher
-			keyphraseLength
-			keyphraseDistribution
-
+			imageCount( paper );
+			altTagCount( paper, researcher );
+			findKeywordInPageTitle( paper, researcher );
+			keywordCountInUrl( paper, researcher );
+			keyphraseDistribution( paper, researcher );
 		} );
 	}
 }
