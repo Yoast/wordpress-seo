@@ -63,7 +63,7 @@ const OutboundLink = styled( utils.makeOutboundLink() )`
  * @param {string} props.url           The url the outbound link goes to.
  * @param {string} props.backgroundUrl The url for the background image of the container.
  *
- * @returns {ReactElement} The rendered LocalSEOUpsell component.
+ * @returns {wp.Element} The rendered LocalSEOUpsell component.
  */
 const LocalSEOUpsell = props => {
 	const { url, backgroundUrl } = props;

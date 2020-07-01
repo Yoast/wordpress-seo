@@ -1,17 +1,17 @@
-import React, { Fragment } from "react";
+import { Component, Fragment } from "@wordpress/element";
 
 /**
  * A higher order component that appends a space to the given component.
  *
- * @param {ReactComponent} WrappedComponent The component to append a space to.
- * @returns {ReactComponent} The component with an appended space.
+ * @param {wp.Component} WrappedComponent The component to append a space to.
+ * @returns {wp.Component} The component with an appended space.
  */
 const appendSpace = function( WrappedComponent ) {
-	return class ComponentWithAppendedSpace extends React.Component {
+	return class ComponentWithAppendedSpace extends Component {
 		/**
 		 * Renders the React component.
 		 *
-		 * @returns {ReactElement} The rendered component.
+		 * @returns {wp.Element} The rendered component.
 		 */
 		render() {
 			return (

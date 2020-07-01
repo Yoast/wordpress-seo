@@ -6,8 +6,8 @@ const fs = require( "fs" );
  *
  * @param {string}  uploadUrl The path to call. The Upload URL is returned by the GitHub API when you create a release.
  *                            The URL returned has a placeholder {?name,label}, which needs to be replaced.
- * @param {string} fileName   The name of the zip file. Default: artifact.zip.
- * @param {string} label      The request method, "POST", "GET", "PATCH".
+ * @param {string} fileName   The name of the source zip file. Default: artifact.zip.
+ * @param {string} label      The name that Github will show for this file.
  *
  * @returns {Promise<Object>} Response object.
  */

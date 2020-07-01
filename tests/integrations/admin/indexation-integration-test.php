@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -67,6 +68,13 @@ class Indexation_Integration_Test extends TestCase {
 	private $general_indexation;
 
 	/**
+	 * Holds the general indexation action mock.
+	 *
+	 * @var Mockery\MockInterface|Indexable_Complete_Indexation_Action
+	 */
+	private $complete_indexation;
+
+	/**
 	 * Holds the options helper mock.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -88,6 +96,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
 		$this->options                      = Mockery::mock( Options_Helper::class );
 		$this->asset_manager                = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 
@@ -96,6 +105,7 @@ class Indexation_Integration_Test extends TestCase {
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
 			$this->general_indexation,
+			$this->complete_indexation,
 			$this->options,
 			$this->asset_manager
 		);
@@ -158,6 +168,10 @@ class Indexation_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->with( 'ignore_indexation_warning', false )
 			->andReturn( $ignore_warning );
+
+		$this->options
+			->expects( 'set' )
+			->with( 'indexables_indexation_completed', false );
 
 		if ( ! $ignore_warning ) {
 			$this->options
@@ -268,6 +282,10 @@ class Indexation_Integration_Test extends TestCase {
 				'term'              => 0,
 			]
 		);
+
+		$this->complete_indexation
+			->expects( 'complete' )
+			->once();
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();

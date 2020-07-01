@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import RaisedDefaultButton from "./RaisedDefaultButton";
 import InfoIcon from "material-ui/svg-icons/action/info";
@@ -7,7 +6,7 @@ import InfoIcon from "material-ui/svg-icons/action/info";
  * Raised Button with a default info icon and a required URL
  *
  * @param {Object} props The list of props for this element.
- * @returns {JSX.Element} A RaisedDefaultButton element with supplied URL and Icon.
+ * @returns {wp.Element} A RaisedDefaultButton element with supplied URL and Icon.
  * @constructor
  */
 const RaisedURLButton = ( props ) => {

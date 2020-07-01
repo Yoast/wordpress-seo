@@ -159,6 +159,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wikipedia_url',
 		'fbadminapp',
 		'started_configuration_wizard',
+		'indexables_indexation_completed',
 	];
 
 	/**
@@ -187,6 +188,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	 * Anonimizes the WPSEO_Options array by replacing all $anonymous_settings values to 'used'.
 	 *
 	 * @param array $settings The settings.
+	 *
 	 * @return array The anonymized settings.
 	 */
 	private function anonymize_settings( $settings ) {
@@ -195,6 +197,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 				$settings[ $setting ] = 'used';
 			}
 		}
+
 		return $settings;
 	}
 }
