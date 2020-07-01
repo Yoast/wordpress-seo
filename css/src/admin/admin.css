@@ -6,6 +6,11 @@
 	margin-bottom: 32px;
 }
 
+.wpseotab > * {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .yoast-paper.yoast-space-bottom {
 	padding-bottom: 16px;
 }

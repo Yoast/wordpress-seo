@@ -56,5 +56,10 @@ body.yoast {
 }
 
 .yoast #wpcontent #wpseo-title {
+	text-align: center;
 	margin-bottom: 16px;
+}
+
+.yoast #wpcontent .yoast-premium #wpseo-title {
+	text-align: left;
 }
