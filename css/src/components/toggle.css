@@ -1,0 +1,11 @@
+.yoast-toggle--active, .yoast-toggle--inactive {
+	cursor: pointer;
+	user-select: none;
+}
+
+.yoast-toggle--inverse .yoast-toggle__checkbox ~ .yoast-toggle--active:hover,
+.yoast-toggle--inverse .yoast-toggle__checkbox ~ .yoast-toggle--inactive:hover,
+.yoast-toggle .yoast-toggle__checkbox ~ .yoast-toggle--active:hover,
+.yoast-toggle .yoast-toggle__checkbox ~ .yoast-toggle--inactive:hover {
+	color: var(--yoast-color-default-darker);
+}
