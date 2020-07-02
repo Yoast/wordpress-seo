@@ -24,7 +24,7 @@ if ( count( $import_check->needs_import ) === 0 ) {
 		'Yoast SEO'
 	);
 	echo '</p>';
-	echo '</div>'; // yoast-paper
+	echo '</div>'; // yoast-paper.
 
 	return;
 }

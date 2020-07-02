@@ -176,8 +176,9 @@ else {
 		echo '</form>';
 	}
 }
-echo '</div>'; // yoast-field-group
-echo '</div>'; // yoast-paper
+
+echo '</div>'; // yoast-field-group.
+echo '</div>'; // yoast-paper.
 
 if ( ! WPSEO_Utils::is_nginx() ) {
 
@@ -242,8 +243,8 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 		);
 		echo '</p>';
 	}
-	echo '</div>'; // yoast-field-group
-	echo '</div>'; // yoast-paper
+	echo '</div>'; // yoast-field-group.
+	echo '</div>'; // yoast-paper.
 }
 
 if ( is_multisite() ) {

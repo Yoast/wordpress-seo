@@ -28,7 +28,7 @@ $rss_variables_help = new WPSEO_Admin_Help_Button(
 	__( 'Learn more about the available variables', 'wordpress-seo' )
 );
 
-echo '</div>'; // yoast-paper
+echo '</div>'; // yoast-paper.
 
 echo '<div class="yoast-paper yoast-space-bottom">';
 

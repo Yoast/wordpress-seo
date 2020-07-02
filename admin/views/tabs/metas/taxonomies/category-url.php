@@ -7,7 +7,6 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-
 $stripcategorybase_help = new WPSEO_Admin_Help_Button(
 	'https://yoa.st/3yk',
 	esc_html__( 'Help on the category prefix setting', 'wordpress-seo' )

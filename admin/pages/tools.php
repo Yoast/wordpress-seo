@@ -70,7 +70,7 @@ if ( $tool_page === '' ) {
 
 	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
 
-	echo '</div>'; // yoast-paper
+	echo '</div>'; // yoast-paper.
 }
 else {
 	echo '<div class="yoast-space-after">';
