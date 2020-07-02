@@ -34,11 +34,13 @@ $yform->light_switch(
 	],
 );
 
+echo '<div id="wpseo-twitter-settings">';
 $yform->radio(
 	'twitter_card_type',
 	WPSEO_Option_Social::$twitter_card_types,
 	__( 'The default card type to use', 'wordpress-seo' )
 );
+echo '</div>'; // twitter-settings.
 
 echo '</div>';
 
