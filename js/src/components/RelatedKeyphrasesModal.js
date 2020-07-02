@@ -9,13 +9,7 @@ import { BaseButton } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
-import CountrySelector from "./modals/CountrySelector";
-import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
-import SemRushLimitReached from "./modals/SemRushLimitReached";
-import SemRushLoading from "./modals/SemRushLoading";
-import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
-import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 
 /**
@@ -34,7 +28,6 @@ class RelatedKeyPhrasesModal extends Component {
 
 		this.state = {
 			isModalOpen: false,
-			isLoading: false,
 		};
 
 		this.handleOnClick = this.handleOnClick.bind( this );
@@ -64,7 +57,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	openModal() {
-		this.setState( { isModalOpen: true, isLoading: true } );
+		this.setState( { isModalOpen: true } );
 	}
 
 	/**
@@ -73,7 +66,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	closeModal() {
-		this.setState( { isModalOpen: false, isLoading: false } );
+		this.setState( { isModalOpen: false } );
 	}
 
 	/**
@@ -104,7 +97,6 @@ class RelatedKeyPhrasesModal extends Component {
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
-							{ this.state.isLoading && <SemRushLoading /> }
 							{ maxRelatedKeyphrasesEntered && (
 								<SemRushMaxRelatedKeyphrases />
 							) }

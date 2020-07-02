@@ -221,7 +221,6 @@ class Edit {
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
 				<Fill name="YoastRelatedKeyphrases">
-					// TODO: Add check for premium.
 					<SEMrushRelatedKeyphrases />
 				</Fill>
 			</Fragment>
