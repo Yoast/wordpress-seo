@@ -292,20 +292,8 @@ export default function initAdmin( jQuery ) {
 			jQuery( window ).trigger( "yoast-seo-tab-change" );
 		} );
 
-		// Handle the Company or Person select.
-		jQuery( "#company_or_person" ).change( function() {
-			var companyOrPerson = jQuery( this ).val();
-			if ( "company" === companyOrPerson ) {
-				jQuery( "#knowledge-graph-company" ).show();
-				jQuery( "#knowledge-graph-person" ).hide();
-			} else if ( "person" === companyOrPerson ) {
-				jQuery( "#knowledge-graph-company" ).hide();
-				jQuery( "#knowledge-graph-person" ).show();
-			} else {
-				jQuery( "#knowledge-graph-company" ).hide();
-				jQuery( "#knowledge-graph-person" ).hide();
-			}
-		} ).change();
+		jQuery( "#company_or_person-company" ).change( togglePersonCompany );
+		jQuery( "#company_or_person-person" ).change( togglePersonCompany ).change();
 
 		// Check correct variables usage in title and description templates.
 		jQuery( ".template" ).on( "input", function() {
@@ -344,4 +332,26 @@ export default function initAdmin( jQuery ) {
 		setInitialActiveTab();
 		initSelect2();
 	} );
+
+	/**
+	 * Toggles the company and person detailled controls on/off.
+	 *
+	 * @returns {void}
+	 */
+	function togglePersonCompany() {
+		if ( jQuery( "#company_or_person-company" ).is( ":checked" ) ) {
+			jQuery("#knowledge-graph-company").show();
+			jQuery("#knowledge-graph-person").hide();
+			return;
+		}
+
+		if ( jQuery( "#company_or_person-person" ).is( ":checked" ) ) {
+			jQuery("#knowledge-graph-person").show();
+			jQuery("#knowledge-graph-company").hide();
+			return;
+		}
+
+		jQuery("#knowledge-graph-person").hide();
+		jQuery("#knowledge-graph-company").hide();
+	}
 }
