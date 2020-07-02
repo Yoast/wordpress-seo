@@ -272,4 +272,66 @@ describe( "Test findTopicFormsInString: checks for the keyword or synonyms forms
 			keyphraseOrSynonym: "keyphrase",
 		} );
 	} );
+
+	describe( "Test to correctly count Indonesian reduplications", function() {
+		it( "matches the singular form buku in the string", function() {
+			expect( findTopicFormsInString(
+				{
+					keyphraseForms: [ [ "buku" ] ],
+				},
+				"buku-buku & buku-buku & buku.",
+				true,
+				"id_ID",
+			) ).toEqual( {
+				countWordMatches: 1,
+				percentWordMatches: 100,
+				keyphraseOrSynonym: "keyphrase",
+			} );
+		} );
+
+		it( "doesn't match the singular form buku when only the plural form buku-buku occurs in the string", function() {
+			expect( findTopicFormsInString(
+				{
+					keyphraseForms: [ [ "buku" ] ],
+				},
+				"buku-buku & buku-buku",
+				true,
+				"id_ID",
+			) ).toEqual( {
+				countWordMatches: 0,
+				percentWordMatches: 0,
+				keyphraseOrSynonym: "keyphrase",
+			} );
+		} );
+
+		it( "matches the plural form buku-buku in the string", function() {
+			expect( findTopicFormsInString(
+				{
+					keyphraseForms: [ [ "buku-buku" ] ],
+				},
+				"buku-buku & buku-buku & buku",
+				true,
+				"id_ID",
+			) ).toEqual( {
+				countWordMatches: 1,
+				percentWordMatches: 100,
+				keyphraseOrSynonym: "keyphrase",
+			} );
+		} );
+
+		it( "doesn't match the plural form buku-buku when only the singular form buku occurs in the string", function() {
+			expect( findTopicFormsInString(
+				{
+					keyphraseForms: [ [ "buku-buku" ] ],
+				},
+				"buku",
+				true,
+				"id_ID",
+			) ).toEqual( {
+				countWordMatches: 0,
+				percentWordMatches: 0,
+				keyphraseOrSynonym: "keyphrase",
+			} );
+		} );
+	} );
 } );
