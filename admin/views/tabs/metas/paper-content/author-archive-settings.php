@@ -44,7 +44,7 @@ $yform->index_switch(
 	$author_archives_no_posts_help
 );
 
-echo '</div>'; // noindex-container
+echo '</div>'; // noindex-container.
 
 $recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 $editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
@@ -61,4 +61,4 @@ $editor                       = new WPSEO_Replacevar_Editor(
 
 $editor->render();
 
-echo '</div>'; // author-archives
+echo '</div>'; // author-archives.
