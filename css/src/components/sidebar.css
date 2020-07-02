@@ -51,7 +51,7 @@
 .yoast-sidebar li {
 	position: relative;
 	margin-left: 18px;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 .yoast-sidebar li::before {
