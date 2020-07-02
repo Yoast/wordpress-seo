@@ -31,10 +31,14 @@ $yform->index_switch(
 );
 
 if ( $wpseo_taxonomy->name !== 'post_format' ) {
-	$yform->show_hide_switch(
+	$yform->light_switch(
 		'display-metabox-tax-' . $wpseo_taxonomy->name,
 		/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $title )
+		sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $title ),
+		[
+			__( 'No', 'wordpress-seo' ),
+			__( 'Yes', 'wordpress-seo' ),
+		]
 	);
 }
 
