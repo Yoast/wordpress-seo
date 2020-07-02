@@ -5,7 +5,7 @@ import { Fragment, Component } from "@wordpress/element";
 /**
  * The Country selector component.
  */
-class CountrySelector extends Component {
+class SemRushCountrySelector extends Component {
 	/**
 	 * Constructs the country selector.
 	 *
@@ -33,12 +33,12 @@ class CountrySelector extends Component {
 	}
 }
 
-CountrySelector.propTypes = {
+SemRushCountrySelector.propTypes = {
 	fakeProp: PropTypes.string,
 };
 
-CountrySelector.defaultProps = {
+SemRushCountrySelector.defaultProps = {
 	fakeProp: null,
 };
 
-export default CountrySelector;
+export default SemRushCountrySelector;

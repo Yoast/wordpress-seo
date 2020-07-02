@@ -10,7 +10,7 @@ import { BaseButton } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
-import CountrySelector from "./modals/CountrySelector";
+import SemRushCountrySelector from "./modals/SemRushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushLimitReached from "./modals/SemRushLimitReached";
@@ -112,7 +112,7 @@ class RelatedKeyPhrasesModal extends Component {
 							<SemRushUpsellAlert />
 							<SemRushLimitReached />
 							<SemRushRequestFailed />
-							<CountrySelector />
+							<SemRushCountrySelector />
 							<KeyphrasesTable />
 							<h2>Debug info</h2>
 							<p>
