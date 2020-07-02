@@ -30,15 +30,9 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-	it( "returns passive voice", function() {
-		// Passive: dipikirkan.
-		const paper = new Paper( "Apa saja yang patut untuk dipikirkan?", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
+	it( "does not return passive voice if the passive verb is preceded by 'untuk", function() {
 		// Passive: digunakan.
-		const paper = new Paper( "Kalimat yang lebih baik untuk digunakan", { locale: "id_ID" } );
+		const paper = new Paper( "Kalimat yang dipikirkan lebih baik untuk digunakan", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );
