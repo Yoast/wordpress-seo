@@ -3,7 +3,12 @@ import Paper from "../../src/values/Paper.js";
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice", function() {
-		const paper = new Paper( "(Seseorang) melempar pemumpang itu ke luar.", { locale: "id_ID" } );
+		const paper = new Paper( "Seseorang melempar pemumpang itu ke luar.", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "returns active voice", function() {
+		const paper = new Paper( "Anwar sudah mendengar berita itu kemarin", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
@@ -13,26 +18,9 @@ describe( "detecting passive voice in sentences", function() {
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-	it( "returns active voice", function() {
-		const paper = new Paper( "Anwar sudah mendengar berita itu kemarin", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
-	} );
-
 	it( "returns passive voice", function() {
 		// Passive: didengar.
 		const paper = new Paper( "Berita itu sudah didengar oleh Anwar kemarin.", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
-		// Passive: terinjak.
-		const paper = new Paper( "Kaki orang itu terinjak oleh Ahmad.", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
-		// Passive: terbakar.
-		const paper = new Paper( "Rumahnya terbakar tadi malam.", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
