@@ -393,7 +393,7 @@ class Indexable_Repository {
 		$query = $this->query()
 			->where( 'post_parent', $post_parent )
 			->where( 'object_type', 'post' )
-			->where( 'post_status' ,'publish' )
+			->where( 'post_status' ,'publish' );
 
 		if ( ! empty( $exclude_ids ) ) {
 			$query->where_not_in( 'object_id', $exclude_ids );
