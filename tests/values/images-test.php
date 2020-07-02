@@ -38,8 +38,8 @@ class Images_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image    = Mockery::mock( Image_Helper::class )->makePartial();
-		$this->url      = Mockery::mock( Url_Helper::class )->makePartial();
+		$this->image    = Mockery::mock( Image_Helper::class );
+		$this->url      = Mockery::mock( Url_Helper::class );
 		$this->instance = Mockery::mock( Images::class, [ $this->image, $this->url ] );
 	}
 
