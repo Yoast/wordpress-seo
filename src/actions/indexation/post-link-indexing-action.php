@@ -19,6 +19,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 
+	public const TRANSIENT = 'wpseo-unindexed-post-link-count';
+
 	/**
 	 * The link builder.
 	 *
@@ -71,7 +73,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	 * @inheritDoc
 	 */
 	public function get_total_unindexed() {
-		$transient = \get_transient( 'wpseo-unindexed-post-link-count' );
+		$transient = \get_transient( self::TRANSIENT );
 
 		if ( $transient ) {
 			return (int) $transient;
@@ -85,7 +87,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 			return false;
 		}
 
-		\set_transient( 'wpseo-unindexed-post-link-count', $result, \DAY_IN_SECONDS );
+		\set_transient( self::TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
 	}
@@ -98,20 +100,21 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	public function index() {
 		$query = $this->get_query( false, $this->get_limit() );
 
-		$post_ids = $this->wpdb->get_col( $query );
+		$posts = $this->wpdb->get_results( $query );
 
 		$indexables = [];
-		foreach ( $post_ids as $post_id ) {
-			$indexable = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
+		foreach ( $posts as $post ) {
+			$indexable = $this->repository->find_by_id_and_type( (int) $post->ID, 'post' );
 
 			// It's possible the indexable was created without having it's links indexed.
 			if ( $indexable->link_count === null ) {
-				$post = \get_post( $indexable->object_id );
 				$this->link_builder->build( $indexable, $post->post_content );
 			}
 
 			$indexables[] = $indexable;
 		}
+
+		\delete_transient( self::TRANSIENT );
 
 		return $indexables;
 	}
@@ -157,6 +160,6 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 			FROM {$this->wpdb->posts}
 			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL) AND post_status = 'publish' AND post_type IN ($placeholders)
 			$limit_query
-        ", $replacements );
+		", $replacements );
 	}
 }
