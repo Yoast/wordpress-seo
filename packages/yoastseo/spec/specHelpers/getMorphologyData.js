@@ -6,6 +6,7 @@ import fr from "../../premium-configuration/data/morphologyData-fr-v8.json";
 import ru from "../../premium-configuration/data/morphologyData-ru-v8.json";
 import it from "../../premium-configuration/data/morphologyData-it-v8.json";
 import pt from "../../premium-configuration/data/morphologyData-pt-v8.json";
+import id from "../../premium-configuration/data/morphologyData-id-v8.json";
 
 
 const morphologyData = {
@@ -17,6 +18,7 @@ const morphologyData = {
 	ru,
 	it,
 	pt,
+	id,
 };
 
 /**

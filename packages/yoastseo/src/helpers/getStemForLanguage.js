@@ -6,6 +6,7 @@ import frenchDetermineStem from "../morphology/french/stem";
 import russianDetermineStem from "../morphology/russian/stem";
 import italianDetermineStem from "../morphology/italian/stem";
 import portugueseDetermineStem from "../morphology/portuguese/stem";
+import indonesianDetermineStem from "../morphology/indonesian/stem";
 
 /**
  * Collects all functions for determining a stem per language and returns this collection to a Researcher
@@ -22,5 +23,6 @@ export default function() {
 		ru: russianDetermineStem,
 		it: italianDetermineStem,
 		pt: portugueseDetermineStem,
+		id: indonesianDetermineStem,
 	};
 }
