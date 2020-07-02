@@ -73,11 +73,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	public static $twitter_card_types = [
 		'summary'             => '',
 		'summary_large_image' => '',
-		// 'photo'               => '',
-		// 'gallery'             => '',
-		// 'app'                 => '',
-		// 'player'              => '',
-		// 'product'             => '',
 	];
 
 	/**
