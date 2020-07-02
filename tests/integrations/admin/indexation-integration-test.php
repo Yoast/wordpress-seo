@@ -589,7 +589,43 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the indexation warning is shown when its respective method is called.
+	 * Tests that the indexation permalink warning is shown when its respective method is called.
+	 *
+	 * @covers ::render_indexation_permalink_warning
+	 */
+	public function _test_render_indexation_permalink_warning() {
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		Monkey\Functions\expect( 'current_user_can' )
+			->once()
+			->andReturn( true );
+
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
+
+		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+
+		$expected = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
+		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected .= '<p>We estimate this will take less than a minute.</p>';
+		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
+		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
+
+		$this->expectOutputString( $expected );
+
+		$this->instance->render_indexation_permalink_warning();
+	}
+
+	/**
+	 * Tests that the indexation warning is not shown when the user is not an admin.
 	 *
 	 * @covers ::render_indexation_warning
 	 */
