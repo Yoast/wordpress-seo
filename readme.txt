@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.5 =
 Release Date: July 7th, 2020
 
+Read more about those changes in [our release post](https://yoa.st/release-14-5)!
+
 Enhancements:
 
 * Disables the WP Core sitemaps as introduced in WordPress 5.5.
