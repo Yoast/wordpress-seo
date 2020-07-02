@@ -42,8 +42,14 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 */
 	public function register_block() {
 		\register_block_type( 'yoast-seo/' . $this->block_name, [
-			'editor_script' => $this->script,
+			'editor_script'   => $this->script,
 			'render_callback' => [ $this, 'present' ],
+			'attributes' => [
+				'className' => [
+					'default' => '',
+					'type'    => 'string',
+				],
+			],
 		] );
 	}
 
