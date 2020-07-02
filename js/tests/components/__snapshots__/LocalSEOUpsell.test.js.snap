@@ -84,7 +84,7 @@ exports[`LocalSEOUpsell matches the snapshot 1`] = `
     >
       Get the Local SEO plugin now
       <span
-        className="A11yNotice-u1v0gg-0 dWDZbM"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
@@ -180,7 +180,7 @@ exports[`LocalSEOUpsell matches the snapshot in right to left mode 1`] = `
     >
       Get the Local SEO plugin now
       <span
-        className="A11yNotice-u1v0gg-0 dWDZbM"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
