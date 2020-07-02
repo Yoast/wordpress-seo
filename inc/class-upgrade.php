@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
 
 /**
  * This code handles the option upgrades.
@@ -58,6 +59,7 @@ class WPSEO_Upgrade {
 			'14.0.3-RC0' => 'upgrade_1403',
 			'14.1-RC0'   => 'upgrade_141',
 			'14.2-RC0'   => 'upgrade_142',
+			'14.5-RC0'   => 'upgrade_145',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -768,6 +770,27 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_142() {
 		add_action( 'init', [ $this, 'remove_acf_notification_for_142' ] );
+	}
+
+	/**
+	 * Performs the 14.5 upgrade.
+	 */
+	private function upgrade_145() {
+		add_action( 'init', [ $this, 'set_indexation_completed_option_for_145' ] );
+	}
+
+	/**
+	 * Checks if the indexable indexation is completed.
+	 * If so, sets the `indexables_indexation_completed` option to `true`,
+	 * else to `false`.
+	 */
+	public function set_indexation_completed_option_for_145() {
+		/**
+		 * @var Indexation_Integration
+		 */
+		$indexation_integration = YoastSEO()->classes->get( Indexation_Integration::class );
+
+		WPSEO_Options::set( 'indexables_indexation_completed', $indexation_integration->get_total_unindexed() === 0 );
 	}
 
 	/**
