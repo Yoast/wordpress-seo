@@ -11,6 +11,13 @@
 	margin-right: auto;
 }
 
+#wpseo-submit-container p.wpseo-message {
+	margin: 0 auto;
+	padding: 16px 0;
+	max-width: 600px;
+	color: #008a00;
+}
+
 .yoast-paper.yoast-space-bottom {
 	padding-bottom: 16px;
 }
