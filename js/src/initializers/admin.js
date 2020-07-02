@@ -254,6 +254,11 @@ export default function initAdmin( jQuery ) {
 			}
 		} );
 
+		// Toggle the Twitter card settings.
+		jQuery( "#twitter" ).change( function() {
+			jQuery( "#wpseo-twitter-settings" ).toggle( jQuery( this ).is( ":checked" ) );
+		} ).change();
+
 		// Toggle the Date archives section.
 		jQuery( "#disable-date" ).change( function() {
 			jQuery( "#date-archives-titles-metas-content" ).toggle( jQuery( this ).is( ":not(:checked)" ) );
