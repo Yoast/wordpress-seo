@@ -51,6 +51,12 @@
 	font-weight: 600;
 }
 
+.yoast-sidebar li {
+	position: relative;
+	margin-left: 18px;
+	font-weight: 500;
+}
+
 .yoast-sidebar__plugins {
 	display: flex;
 	margin-bottom: 24px;
