@@ -19,15 +19,23 @@ $yform->index_switch(
 	$view_utils->search_results_setting_help()
 );
 
-$yform->show_hide_switch(
+$yform->light_switch(
 	'showdate-' . $wpseo_post_type->name,
-	__( 'Date in Google Preview', 'wordpress-seo' )
+	__( 'Show date in Google Preview', 'wordpress-seo' ),
+	[
+		__( 'No', 'wordpress-seo' ),
+		__( 'Yes', 'wordpress-seo' ),
+	]
 );
 
-$yform->show_hide_switch(
+$yform->light_switch(
 	'display-metabox-pt-' . $wpseo_post_type->name,
 	/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
-	sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $wpseo_post_type->labels->name )
+	sprintf( __( 'Show SEO settings for %1$s', 'wordpress-seo' ), $wpseo_post_type->labels->name ),
+	[
+		__( 'No', 'wordpress-seo' ),
+		__( 'Yes', 'wordpress-seo' ),
+	]
 );
 
 $editor = new WPSEO_Replacevar_Editor(

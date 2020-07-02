@@ -856,12 +856,14 @@ class Yoast_Form {
 	 * @param bool   $inverse_keys Whether or not the option keys need to be inverted to support older functions.
 	 * @param string $help         Inline Help that will be printed out before the visible toggles text.
 	 *
+	 * @deprecated 15.0
+	 *
 	 * @return void
 	 */
 	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
 		$show_hide_switch = [
-			__( 'Hide', 'wordpress-seo' ),
-			__( 'Show', 'wordpress-seo' ),
+			__( 'No', 'wordpress-seo' ),
+			__( 'Yes', 'wordpress-seo' ),
 		];
 
 		$this->light_switch( $var, $label, $show_hide_switch, $help, $inverse_keys );
