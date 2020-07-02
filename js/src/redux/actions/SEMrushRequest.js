@@ -1,32 +1,72 @@
 export const SET_REQUEST_STARTED = "SET_REQUEST_STARTED";
+export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
+export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
+export const SET_REQUEST_COUNTRY = "SET_REQUEST_COUNTRY";
 
 /**
- * Sets the started request.
- *
- * @param {SEMrush request} the started request.
+ * An action creator for setting the started request.
  *
  * @returns {Object} Action object.
  */
-export function setRequestStarted( request ) {
+export function SEMrushSetRequestStarted() {
 	return {
 		type: SET_REQUEST_STARTED,
-		request,
 	};
 }
 
 /**
- * Sets the request to succeeded (true) or failed (false).
+ * An action creator for when the request has succeeded.
  *
- * @param {SEMrush request} the request.
- * @param {boolean} the status of the completed request.
+ * @param {Object} the response of the request.
  *
  * @returns {Object} Action object.
  */
-export function setRequestStatus( request, status ) {
+export function SEMrushSetRequestSucceeded( response ) {
+	return {
+		type: SET_REQUEST_SUCCEEDED,
+		response,
+	};
+}
+
+/**
+ * An action creator for when the request has failed.
+ *
+ * @param {Object} the response of the request.
+ *
+ * @returns {Object} Action object.
+ */
+export function SEMrushSetRequestFailed( response ) {
 	return {
 		type: SET_REQUEST_FAILED,
-		request,
-		status,
+		response,
+	};
+}
+
+/**
+ * An action creator for when the request limit has been reached.
+ *
+ * @param {Object} The counted amount of requests sent today.
+ *
+ * @returns {Object} Action object.
+ */
+export function SEMrushSetRequestLimitReached( countedRequests ) {
+	return {
+		type: SET_REQUEST_LIMIT_REACHED,
+		countedRequests,
+	};
+}
+
+/**
+ * An action creator for when the country has been changed.
+ *
+ * @param {Object} The newly set country for the SEMrush request.
+ *
+ * @returns {Object} Action object.
+ */
+export function SEMrushSetCountry( country ) {
+	return {
+		type: SET_REQUEST_COUNTRY,
+		country,
 	};
 }
