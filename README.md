@@ -94,6 +94,26 @@ To query for the Yoast Data simply add the seo object to your query:
             text
           }
         }
+
+        author {
+          seo {
+            metaDesc
+            metaRobotsNofollow
+            metaRobotsNoindex
+            title
+            social {
+              youTube
+              wikipedia
+              twitter
+              soundCloud
+              pinterest
+              mySpace
+              linkedIn
+              instagram
+              facebook
+            }
+          }
+        }
       }
     }
   }
@@ -132,6 +152,29 @@ To query for the Yoast Data simply add the seo object to your query:
           }
         }
         name
+      }
+    }
+  }
+
+
+  users {
+    nodes {
+      seo {
+        metaDesc
+        metaRobotsNofollow
+        metaRobotsNoindex
+        title
+        social {
+          youTube
+          wikipedia
+          twitter
+          soundCloud
+          pinterest
+          mySpace
+          linkedIn
+          instagram
+          facebook
+        }
       }
     }
   }
