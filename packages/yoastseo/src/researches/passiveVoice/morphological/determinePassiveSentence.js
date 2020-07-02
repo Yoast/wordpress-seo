@@ -8,37 +8,35 @@ const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
 const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 
-// The language-specific participle regexes.
-const languageVariables = {
-	id: {
-		indonesianPassiveWithPrefix: /^(di|ter)\S+($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-		indonesianPassiveWithAffixes: /^(ke)\S+(an)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig,
-	},
-};
+const indonesianPassiveRegexes = [ /^(di|ter)\S+($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ];
 
 /**
- * Returns words that have been determined to be a passive.
+ * Returns words that have been determined to be a passive through a regex.
  *
  * @param {string} sentence  The sentence to check.
- * @param {string} language  The language in which to match.
+ * @param {array} regexes   The regexes to match.
  *
  * @returns {Array}          A list with the matches.
  */
-const matchPassiveVerbsWithRegexes = function( sentence, language ) {
+const matchPassiveVerbsWithRegexes = function( sentence, regexes ) {
 	// Matches words in a sentence with language-specific passive regexes.
-	let matches = [];
 
-	Object.keys( languageVariables[ language ] ).forEach( function( regex ) {
-		const match = sentence.match( languageVariables[ language ][ regex ] );
-		if ( match !== null ) {
-			matches.push( match );
-		}
+	return filter( getWords( sentence ), function( word ) {
+		regexes.forEach( function( regex )  {
+			console.log ( word.match );
+			return word.match( regex );
+		} );
 	} );
 
-	matches = flattenDeep( matches );
+	// regexes.forEach( function( regex ) {
+	// 	const match = sentence.match( regex );
+	// 	if ( match !== null ) {
+	// 		matches.push( match );
+	// 	}
+	// } );
 
-	return matches;
 };
+
 
 /**
  * Matches the sentence against passive verbs.
@@ -63,17 +61,26 @@ const matchPassiveVerbsWithLists = function( sentence, passiveVerbs ) {
  * @returns {Array}          The list of encountered passive verbs.
  */
 const determineSentenceIsPassive = function( sentence, language ) {
-	let passiveVerbs = [];
+	let passiveData = [];
+	let typeOfData = "";
 
 	switch ( language ) {
 		case "ru":
-			passiveVerbs = getPassiveVerbsRussian;
+			passiveData = getPassiveVerbsRussian;
+			typeOfData = "list";
 			break;
 		case "sv":
-			passiveVerbs = getPassiveVerbsSwedish;
+			passiveData = getPassiveVerbsSwedish;
+			typeOfData = "list";
+			break;
+		case "id":
+			passiveData = indonesianPassiveRegexes;
+			typeOfData = "regex";
 			break;
 	}
-	return matchPassiveVerbsWithLists( sentence, passiveVerbs ).length !== 0;
+	if ( typeOfData === "list" ) {
+		return matchPassiveVerbsWithLists( sentence, passiveData ).length !== 0;
+	} return matchPassiveVerbsWithRegexes( sentence, passiveData ).length !== 0;
 };
 
 /**
