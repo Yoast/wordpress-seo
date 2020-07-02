@@ -29,7 +29,12 @@ echo '</p>';
 
 echo '<br />';
 
-$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
+$yform->radio(
+	'twitter_card_type',
+	WPSEO_Option_Social::$twitter_card_types,
+	__( 'The default card type to use', 'wordpress-seo' )
+);
+
 echo '</div>';
 
 do_action( 'wpseo_admin_twitter_section' );

@@ -150,13 +150,6 @@ export default function initAdmin( jQuery ) {
 	function initSelect2() {
 		var select2Width = "300px";
 
-		// Select2 for Twitter card meta data in Settings
-		jQuery( "#twitter_card_type" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-			dropdownCssClass: "yoast-select__dropdown",
-		} );
-
 		// Select2 for taxonomy breadcrumbs in Advanced
 		jQuery( "#breadcrumbs select" ).select2( {
 			width: select2Width,
