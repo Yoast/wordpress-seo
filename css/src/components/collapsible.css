@@ -8,6 +8,10 @@
 	border: var(--yoast-border-default);
 }
 
+.yoast-collapsible.yoast-full-width {
+	max-width: 100%;
+}
+
 .yoast #wpcontent .yoast-collapsible h3 {
 	font-size: 1.4em;
 	font-weight: 300;

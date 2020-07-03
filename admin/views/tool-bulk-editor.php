@@ -90,7 +90,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 <?php
 
 $tabs = [
-	'title' => [
+	'title'       => [
 		'label' => __( 'Title', 'wordpress-seo' ),
 	],
 	'description' => [
@@ -102,10 +102,11 @@ $title_collapsible = new WPSEO_Collapsible_Presenter(
 	__( 'Title', 'wordpress-seo' ),
 	WPSEO_PATH . 'admin/views/tabs/tool/bulk-editor-table.php',
 	[
-		'paper_id' => 'bulk_editor_title',
-		'expanded' => false,
+		'paper_id'  => 'bulk_editor_title',
+		'expanded'  => false,
+		'class'     => 'yoast-full-width',
 		'view_data' => [
-			'table' => $wpseo_bulk_titles_table,
+			'table'          => $wpseo_bulk_titles_table,
 			'collapsible_id' => 'bulk_editor_title',
 		],
 	]
@@ -116,10 +117,11 @@ $description_collapsible = new WPSEO_Collapsible_Presenter(
 	__( 'Description', 'wordpress-seo' ),
 	WPSEO_PATH . 'admin/views/tabs/tool/bulk-editor-table.php',
 	[
-		'paper_id' => 'bulk_editor_description',
-		'expanded' => false,
+		'paper_id'  => 'bulk_editor_description',
+		'expanded'  => false,
+		'class'     => 'yoast-full-width',
 		'view_data' => [
-			'table' => $wpseo_bulk_description_table,
+			'table'          => $wpseo_bulk_description_table,
 			'collapsible_id' => 'bulk_editor_description',
 		],
 	]
