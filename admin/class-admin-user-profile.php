@@ -19,8 +19,16 @@ class WPSEO_Admin_User_Profile {
 		add_action( 'edit_user_profile', [ $this, 'user_profile' ] );
 		add_action( 'personal_options_update', [ $this, 'process_user_option_update' ] );
 		add_action( 'edit_user_profile_update', [ $this, 'process_user_option_update' ] );
-
 		add_action( 'update_user_meta', [ $this, 'clear_author_sitemap_cache' ], 10, 3 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_style' ] );
+	}
+
+	/**
+	 * Enqueues the stylesheet for the Yoast SEO settings form elements.
+	 */
+	public function enqueue_style() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'user-profile' );
 	}
 
 	/**
