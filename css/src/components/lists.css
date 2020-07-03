@@ -52,3 +52,15 @@
 	left: -20px;
 	top: 5px;
 }
+
+.yoast-list--upsell li {
+	position: relative;
+	margin-left: 18px;
+}
+
+.yoast-list--upsell li::before {
+	content: '\002b';
+	position: absolute;
+	top: 0;
+	left: -18px;
+}

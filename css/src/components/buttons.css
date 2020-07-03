@@ -89,6 +89,10 @@
 	height: 8px;
 }
 
+.yoast .yoast-button--buy-large {
+	font-size: 16px;
+}
+
 .yoast-remove, .yoast-hide, .yoast-restore {
 	color: #dc3232;
 	background-color: transparent;
