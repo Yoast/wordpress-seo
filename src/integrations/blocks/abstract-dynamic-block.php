@@ -42,8 +42,14 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 */
 	public function register_block() {
 		\register_block_type( 'yoast-seo/' . $this->block_name, [
-			'editor_script' => $this->script,
+			'editor_script'   => $this->script,
 			'render_callback' => [ $this, 'present' ],
+			'attributes' => [
+				'className' => [
+					'default' => '',
+					'type'    => 'string',
+				],
+			],
 		] );
 	}
 
@@ -51,7 +57,9 @@ abstract class Dynamic_Block implements Integration_Interface {
 	 * Presents the block output. This is abstract because in the loop we need to be able to build the data for the
 	 * presenter in the last moment.
 	 *
+	 * @param array $attributes The block attributes.
+	 *
 	 * @return string The block output.
 	 */
-	abstract public function present();
+	abstract public function present( $attributes );
 }

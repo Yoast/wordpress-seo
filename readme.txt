@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.5 =
 Release Date: July 7th, 2020
 
+Read more about those changes in [our release post](https://yoa.st/release-14-5)!
+
 Enhancements:
 
 * Disables the WP Core sitemaps as introduced in WordPress 5.5.
@@ -221,6 +223,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the SEO title and meta description for posts that have a custom title and/or description would not be displayed in the posts overview.
+* Fixes a bug where the WordPress dashboard was slower for very large sites, by caching the number of unindexed posts, terms and post type archives.
 
 = 14.4.1 =
 Release Date: June 23rd, 2020
