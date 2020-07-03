@@ -19,6 +19,11 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
+	 * The transient cache key.
+	 */
+	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_terms';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Taxonomy_Helper
@@ -58,6 +63,11 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The amount of unindexed terms. False if the query fails.
 	 */
 	public function get_total_unindexed() {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
 		$query = $this->get_query( true );
 
 		$result = $this->wpdb->get_var( $query );
@@ -65,6 +75,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		if ( \is_null( $result ) ) {
 			return false;
 		}
+
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
 	}
@@ -82,6 +94,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 		foreach ( $term_ids as $term_id ) {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
+
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
 
 		return $indexables;
 	}
