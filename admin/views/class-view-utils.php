@@ -56,22 +56,14 @@ class Yoast_View_Utils {
 			$this->search_results_setting_help()
 		);
 
-		$this->form->light_switch(
+		$this->form->show_hide_switch(
 			'showdate-' . $post_type->name,
-			__( 'Show date in Google Preview', 'wordpress-seo' ),
-			[
-				__( 'No', 'wordpress-seo' ),
-				__( 'Yes', 'wordpress-seo' ),
-			]
+			__( 'Show date in Google Preview', 'wordpress-seo' )
 		);
 
-		$this->form->light_switch(
+		$this->form->show_hide_switch(
 			'display-metabox-pt-' . $post_type->name,
-			__( 'Show SEO settings for content type', 'wordpress-seo' ),
-			[
-				__( 'No', 'wordpress-seo' ),
-				__( 'Yes', 'wordpress-seo' ),
-			]
+			__( 'Show SEO settings for content type', 'wordpress-seo' )
 		);
 
 		$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();

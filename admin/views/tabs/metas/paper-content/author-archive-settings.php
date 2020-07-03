@@ -10,10 +10,7 @@
 $yform->light_switch(
 	'disable-author',
 	__( 'Author archives', 'wordpress-seo' ),
-	[
-		__( 'Enabled', 'wordpress-seo' ),
-		__( 'Disabled', 'wordpress-seo' ),
-	],
+	[],
 	false,
 	true
 );

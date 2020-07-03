@@ -28,16 +28,13 @@ $media_attachment_help = new WPSEO_Admin_Help_Button(
 		); ?></p>
 	<?php
 
-	$yoast_free_disable_attachments_texts = [
-		__( 'Yes', 'wordpress-seo' ),
-		__( 'No', 'wordpress-seo' ),
-	];
 	$yform->light_switch(
 		'disable-attachment',
 		__( 'Redirect attachment URLs to the attachment itself?', 'wordpress-seo' ),
-		$yoast_free_disable_attachments_texts,
-		false,
-		true
+		[
+			__( 'No', 'wordpress-seo' ),
+			__( 'Yes', 'wordpress-seo' ),
+		]
 	);
 
 	?>
