@@ -312,9 +312,12 @@ class Yoast_Form {
 			$class .= '--inverse';
 		}
 
-
 		if ( empty( $buttons ) ) {
 			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
+
+			if ( $inverse ) {
+				$buttons = array_reverse( $buttons );
+			}
 		}
 
 		list( $off_button, $on_button ) = $buttons;
@@ -830,21 +833,15 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function index_switch( $var, $label, $help = '' ) {
-		$index_switch_values = [
-			__( 'Yes', 'wordpress-seo' ),
-			__( 'No', 'wordpress-seo' ),
-		];
-
-		$this->light_switch(
+		$this->show_hide_switch(
 			$var,
 			sprintf(
 			/* translators: %s expands to an indexable object's name, like a post type or taxonomy */
 				esc_html__( 'Show %s in search results?', 'wordpress-seo' ),
 				esc_html( $label )
 			),
-			$index_switch_values,
-			$help,
-			true
+			true,
+			$help
 		);
 	}
 
@@ -856,17 +853,19 @@ class Yoast_Form {
 	 * @param bool   $inverse_keys Whether or not the option keys need to be inverted to support older functions.
 	 * @param string $help         Inline Help that will be printed out before the visible toggles text.
 	 *
-	 * @deprecated 15.0
-	 *
 	 * @return void
 	 */
 	public function show_hide_switch( $var, $label, $inverse_keys = false, $help = '' ) {
-		$show_hide_switch = [
-			__( 'No', 'wordpress-seo' ),
-			__( 'Yes', 'wordpress-seo' ),
+		$labels = [
+			__( 'Hide', 'wordpress-seo' ),
+			__( 'Show', 'wordpress-seo' ),
 		];
 
-		$this->light_switch( $var, $label, $show_hide_switch, $help, $inverse_keys );
+		if ( $inverse_keys ) {
+			$labels = array_reverse( $labels );
+		}
+
+		$this->light_switch( $var, $label, $labels, $help, $inverse_keys );
 	}
 
 	/**

@@ -23,13 +23,9 @@ $yform->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordp
 echo '<br/>';
 
 if ( get_option( 'show_on_front' ) === 'page' && get_option( 'page_for_posts' ) > 0 ) {
-	$yform->light_switch(
+	$yform->show_hide_switch(
 		'breadcrumbs-display-blog-page',
-		__( 'Show Blog page', 'wordpress-seo' ),
-		[
-			__( 'No', 'wordpress-seo' ),
-			__( 'Yes', 'wordpress-seo' ),
-		]
+		__( 'Show Blog page', 'wordpress-seo' )
 	);
 }
 
