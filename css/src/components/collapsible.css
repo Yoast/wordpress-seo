@@ -1,8 +1,9 @@
 .yoast-collapsible {
 	margin-bottom: 16px;
+	margin-left: auto;
+	margin-right: auto;
 	max-width: var(--yoast-container-width);
 	position: relative;
-
 	box-shadow: var(--yoast-shadow-default);
 	border: var(--yoast-border-default);
 }

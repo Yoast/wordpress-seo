@@ -92,30 +92,12 @@ $tabs = [
 	],
 ];
 
-?>
-
-	<nav class="yoast-tabs" id="wpseo-tabs">
-		<ul class="yoast-tabs__list">
-		<?php foreach ( $tabs as $identifier => $tab ) : ?>
-			<li class="yoast-tabs__list-item">
-			<a class="yoast-tabs__list-item-link" id="<?php echo esc_attr( $identifier . '-tab' ); ?>" href="<?php echo esc_url( '#top#' . $identifier ); ?>"><?php echo esc_html( $tab['label'] ); ?></a>
-			</li>
-		<?php endforeach; ?>
-		<?php
-			/**
-			 * Allow adding a custom import tab header.
-			 */
-			do_action( 'wpseo_import_tab_header' );
-		?>
-		</ul>
-	</nav>
-
-<?php
-
 foreach ( $tabs as $identifier => $tab ) {
-	printf( '<div id="%s" class="wpseotab">', esc_attr( $identifier ) );
-	require_once WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php';
-	echo '</div>';
+	$collapsible = new WPSEO_Collapsible_Presenter(
+		$tab['label'],
+		WPSEO_PATH . 'admin/views/tabs/tool/' . $identifier . '.php'
+	);
+	echo $collapsible->get_output();
 }
 
 /**

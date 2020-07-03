@@ -27,16 +27,14 @@ $wpseo_export_phrase = sprintf(
 );
 ?>
 
-<div class="yoast-paper">
-	<p><?php echo esc_html( $wpseo_export_phrase ); ?></p>
-	<form
-		action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-export' ) ); ?>"
-		method="post"
-		accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
-		<?php wp_nonce_field( WPSEO_Export::NONCE_ACTION ); ?>
-		<input type="hidden" name="do_export" value="1" />
-		<p>
-			<button type="submit" class="yoast-button yoast-button--primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
-		</p>
-	</form>
-</div>
+<p><?php echo esc_html( $wpseo_export_phrase ); ?></p>
+<form
+	action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#wpseo-export' ) ); ?>"
+	method="post"
+	accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
+	<?php wp_nonce_field( WPSEO_Export::NONCE_ACTION ); ?>
+	<input type="hidden" name="do_export" value="1" />
+	<p>
+		<button type="submit" class="yoast-button yoast-button--primary" id="export-button"><?php echo esc_html( $submit_button_value ); ?></button>
+	</p>
+</form>
