@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Conditionals\XMLRPC_Conditional;
 
 /**
- * Disables the WP core sitemaps.
+ * Noindexes the xmlrpc.php file and all ways to request it.
  */
 class XMLRPC implements Integration_Interface {
 
@@ -23,7 +23,7 @@ class XMLRPC implements Integration_Interface {
 	}
 
 	/**
-	 * Disable the WP core XML sitemaps.
+	 * Initializes the integration.
 	 *
 	 * @return void
 	 */
