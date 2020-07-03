@@ -8,6 +8,7 @@
 namespace Yoast\WP\SEO\Config\Migrations;
 
 use Yoast\WP\Lib\Migrations\Migration;
+use Yoast\WP\Lib\Model;
 
 /**
  * CreateIndexableSubpagesIndex class.
