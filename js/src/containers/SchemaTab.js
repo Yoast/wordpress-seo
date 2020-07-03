@@ -1,4 +1,3 @@
-import React from "react";
 import SchemaTab from "../components/SchemaTab";
 import { __ } from "@wordpress/i18n";
 import { LocationConsumer } from "../components/contexts/location";
