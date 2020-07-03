@@ -5,5 +5,5 @@
 .yoast #wpcontent p.submit {
 	padding-top: 8px;
 	margin: 0 auto 16px;
-	max-width: 600px;
+	max-width: var(--yoast-container-width);
 }

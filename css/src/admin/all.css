@@ -1,7 +1,7 @@
 @import "./admin.css";
 @import "./overwrites.css";
 
-@import "../base/colors.css";
+@import "../base/variables.css";
 @import "../base/icons.css";
 
 @import "../components/tabs.css";

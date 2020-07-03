@@ -3,7 +3,7 @@
 	padding: 16px 16px 0;
 	box-shadow: var(--yoast-shadow-default);
 	border: var(--yoast-border-default);
-	max-width: 600px;
+	max-width: var(--yoast-container-width);
 	position: relative;
 	box-sizing: border-box;
 	margin: 0 auto 16px;
