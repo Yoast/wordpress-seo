@@ -4,13 +4,10 @@
 	justify-content: space-between;
 }
 
-<<<<<<< HEAD
 .wpseo_content_cell {
 	flex-grow: 1;
 }
 
-=======
->>>>>>> 702079e30... Add styling for upsell list component
 .yoast-sidebar {
 	max-width: 300px;
 	margin-top: 40px;
