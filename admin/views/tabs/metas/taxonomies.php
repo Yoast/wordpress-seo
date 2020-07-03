@@ -46,7 +46,19 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 
 unset( $wpseo_taxonomies );
 
-echo '<div class="yoast-paper">';
-printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
-require __DIR__ . '/taxonomies/category-url.php';
-echo '</div>';
+
+$wpseo_taxonomy_presenter = new WPSEO_Collapsible_Presenter(
+	__( 'Category URLs', 'wordpress-seo' ),
+	__DIR__ . '/taxonomies/category-url.php',
+	[
+		'collapsible' => true,
+		'expanded'    => false,
+		'paper_id'    => 'taxonomies-category-urls',
+	]
+);
+echo $wpseo_taxonomy_presenter->get_output();
+
+//echo '<div class="yoast-paper">';
+//printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
+//require ;
+//echo '</div>';
