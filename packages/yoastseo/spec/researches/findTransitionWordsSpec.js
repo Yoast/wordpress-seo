@@ -435,6 +435,29 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
+	it( "returns 1 when a transition word is found in a sentence (Indonesian)", function() {
+		// Transition word: dikarenakan.
+		mockPaper = new Paper( "Dikarenakan sakit, ia tidak masuk kerja.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 1 when a two-part transition word is found in a sentence (Indonesian)", function() {
+		// Transition word: sedemikian, sampai.
+		mockPaper = new Paper( "Ia sedemikian marahnya sampai tidak bisa berkata-kata.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
+	it( "returns 0 when no transition words are present in a sentence (Indonesian)", function() {
+		mockPaper = new Paper( "Ibu itu membeli beras.", { locale: "id_ID" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 0 );
+	} );
+
 	it( "defaults to English in case of a bogus locale", function() {
 		// Transition word: because.
 		mockPaper = new Paper( "Because of a bogus locale.", { locale: "xx_YY" } );
