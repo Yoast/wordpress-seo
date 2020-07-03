@@ -223,6 +223,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the SEO title and meta description for posts that have a custom title and/or description would not be displayed in the posts overview.
+* Fixes a bug where the WordPress dashboard was slower for very large sites, by caching the number of unindexed posts, terms and post type archives.
 
 = 14.4.1 =
 Release Date: June 23rd, 2020
