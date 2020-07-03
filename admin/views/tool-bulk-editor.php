@@ -76,22 +76,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 	exit;
 }
 
-/**
- * Renders a bulk editor tab.
- *
- * @param WPSEO_Bulk_List_Table $table The table to render.
- * @param string                $id    The id for the tab.
- */
-function wpseo_get_rendered_tab( $table, $id ) {
-	?>
-	<div id="<?php echo esc_attr( $id ); ?>" class="wpseotab">
-		<?php
-		$table->show_page();
-		?>
-	</div>
-	<?php
-}
-
 ?>
 <script>
 	// phpcs:ignore WordPress.Security.OutputEscaping -- WPSEO_Utils::format_json_encode is safe.
@@ -114,19 +98,30 @@ $tabs = [
 	],
 ];
 
-?>
+$title_collapsible = new WPSEO_Collapsible_Presenter(
+	__( 'Title', 'wordpress-seo' ),
+	WPSEO_PATH . 'admin/views/tabs/tool/bulk-editor-table.php',
+	[
+		'paper_id' => 'bulk_editor_title',
+		'expanded' => false,
+		'view_data' => [
+			'table' => $wpseo_bulk_titles_table,
+			'collapsible_id' => 'bulk_editor_title',
+		],
+	]
+);
+echo $title_collapsible->get_output();
 
-	<nav class="yoast-tabs" id="wpseo-tabs">
-		<ul class="yoast-tabs__list">
-			<li class="yoast-tabs__list-item">
-				<a class="yoast-tabs__list-item-link" id="title-tab" href="#top#title"><?php esc_html_e( 'Title', 'wordpress-seo' ); ?></a>
-			</li>
-			<li class="yoast-tabs__list-item">
-				<a class="yoast-tabs__list-item-link" id="description-tab" href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
-			</li>
-		</ul>
-	</nav>
-
-	<?php wpseo_get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
-	<?php wpseo_get_rendered_tab( $wpseo_bulk_description_table, 'description' ); ?>
-</div>
+$description_collapsible = new WPSEO_Collapsible_Presenter(
+	__( 'Description', 'wordpress-seo' ),
+	WPSEO_PATH . 'admin/views/tabs/tool/bulk-editor-table.php',
+	[
+		'paper_id' => 'bulk_editor_description',
+		'expanded' => false,
+		'view_data' => [
+			'table' => $wpseo_bulk_description_table,
+			'collapsible_id' => 'bulk_editor_description',
+		],
+	]
+);
+echo $description_collapsible->get_output();

@@ -12,73 +12,30 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $tool_page = (string) filter_input( INPUT_GET, 'tool' );
+$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
+
+$tools = [];
+
+$tools['general'] = [
+	'title' => __( 'General', 'wordpress-seo' ),
+	'href' => '',
+];
+
+$tools['import-export'] = [ 'title' => __( 'Import and Export', 'wordpress-seo' ) ];
+
+if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
+	$tools['file-editor'] = [ 'title' => __( 'File editor', 'wordpress-seo' ) ];
+}
+
+$tools['bulk-editor'] = [ 'title' => __( 'Bulk editor', 'wordpress-seo' ) ];
 
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( false, 'tools' );
 
-if ( $tool_page === '' ) {
+require_once WPSEO_PATH . 'admin/views/tools-navigation.php';
 
-	$tools = [];
-
-	$tools['import-export'] = [
-		'title' => __( 'Import and Export', 'wordpress-seo' ),
-		'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
-	];
-
-	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
-		$tools['file-editor'] = [
-			'title' => __( 'File editor', 'wordpress-seo' ),
-			'desc'  => __( 'This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file.', 'wordpress-seo' ),
-		];
-	}
-
-	$tools['bulk-editor'] = [
-		'title' => __( 'Bulk editor', 'wordpress-seo' ),
-		'desc'  => __( 'This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page.', 'wordpress-seo' ),
-	];
-
-	echo '<div class="yoast-paper">';
-
-	echo '<p>';
-	printf(
-		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ),
-		'Yoast SEO'
-	);
-	echo '</p>';
-
-	echo '<ul class="yoast-list">';
-
-	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
-
-	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( [ 'tool' => $slug ], $admin_url );
-		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
-
-		echo '<li>';
-		echo '<a href="', esc_url( $href ), '" ', esc_attr( $attr ) , '>', esc_html( $tool['title'] ), '</a><br/>';
-		echo esc_html( $tool['desc'] );
-		echo '</li>';
-	}
-
-	/**
-	 * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
-	 */
-	do_action( 'wpseo_tools_overview_list_items' );
-
-	echo '</ul>';
-
-	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
-
-	echo '</div>'; // yoast-paper.
-}
-else {
-	echo '<div class="yoast-space-after">';
-	echo '<a href="', esc_url( admin_url( 'admin.php?page=wpseo_tools' ) ), '">', esc_html__( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
-	echo '</div>';
-
+if ( ! empty( $tool_page ) ) {
 	$tool_pages = [ 'bulk-editor', 'import-export' ];
-
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
 		$tool_pages[] = 'file-editor';
 	}
@@ -86,6 +43,27 @@ else {
 	if ( in_array( $tool_page, $tool_pages, true ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 	}
+
+	$yform->admin_footer( false );
+
+	return;
 }
+
+echo '<div class="yoast-paper">';
+
+echo '<ul class="yoast-list">';
+
+$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
+
+/**
+ * Action: 'wpseo_tools_overview_list_items' - Hook to add additional tools to the overview.
+ */
+do_action( 'wpseo_tools_overview_list_items' );
+
+echo '</ul>';
+
+echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . esc_attr( wp_create_nonce( 'wpseo_recalculate' ) ) . '" />';
+
+echo '</div>'; // yoast-paper.
 
 $yform->admin_footer( false );

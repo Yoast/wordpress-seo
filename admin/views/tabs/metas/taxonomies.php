@@ -57,8 +57,3 @@ $wpseo_taxonomy_presenter = new WPSEO_Collapsible_Presenter(
 	]
 );
 echo $wpseo_taxonomy_presenter->get_output();
-
-//echo '<div class="yoast-paper">';
-//printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
-//require ;
-//echo '</div>';

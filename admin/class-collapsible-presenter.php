@@ -22,7 +22,7 @@ class WPSEO_Collapsible_Presenter extends WPSEO_Paper_Presenter {
 		$defaults = [
 			'paper_id'                 => null,
 			'paper_id_prefix'          => 'wpseo-',
-			'collapsible'              => false,
+			'collapsible'              => true,
 			'collapsible_header_class' => '',
 			'expanded'                 => false,
 			'help_button'              => '',
