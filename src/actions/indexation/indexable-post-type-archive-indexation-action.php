@@ -91,6 +91,8 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
 		}
 
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
+
 		return $indexables;
 	}
 

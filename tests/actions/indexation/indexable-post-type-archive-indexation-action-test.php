@@ -163,6 +163,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			->with( 25 )
 			->andReturn( 25 );
 
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
+
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}
 
@@ -203,6 +205,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 			->with( 25 )
 			->andReturn( -1 );
 
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
+
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}
 
@@ -242,6 +246,8 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 'not an integer' );
+
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
 
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}

@@ -152,6 +152,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
 
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
+
 		$this->instance->index();
 	}
 
@@ -171,6 +173,8 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'term' );
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_terms' );
 
 		$this->instance->index();
 	}

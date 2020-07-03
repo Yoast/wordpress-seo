@@ -95,6 +95,8 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
 		}
 
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
+
 		return $indexables;
 	}
 

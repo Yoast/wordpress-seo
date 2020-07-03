@@ -149,6 +149,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+
 		$this->instance->index();
 	}
 
@@ -168,6 +170,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 
 		$this->instance->index();
 	}
