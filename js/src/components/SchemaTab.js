@@ -1,9 +1,7 @@
-import React, { Fragment } from "react";
+import { Fragment, createPortal } from "@wordpress/element";
 import styled from "styled-components";
-import { Select } from "@yoast/components/src/select/Select";
+import { Select, HelpIcon } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { createPortal } from "react-dom";
-import HelpIcon from "@yoast/components/src/help-icon/HelpIcon";
 import SidebarCollapsible from "./SidebarCollapsible";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";

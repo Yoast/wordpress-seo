@@ -527,7 +527,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$description      = '<p id="' . $esc_form_key . '-desc" class="yoast-metabox__description">' . $meta_field_def['description'] . '</p>';
 		}
 
-		// Add a hide-on-pages option that returns nothing when the field is rendered on a page.
+		// Add a hide_on_pages option that returns nothing when the field is rendered on a page.
 		if ( isset( $meta_field_def['hide_on_pages'] ) && $meta_field_def['hide_on_pages'] && get_post_type() === 'page' ) {
 			return '';
 		}
