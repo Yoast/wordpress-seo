@@ -73,6 +73,16 @@
 	border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.yoast .yoast-button:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.yoast .yoast-button--secondary:disabled:hover {
+	color: var(--yoast-color-dark);
+	background-color: var(--yoast-color-secondary);
+}
+
 .yoast .yoast-button--buy {
 	color: var(--yoast-color-dark);
 	background-color: var(--yoast-color-sale);
@@ -104,14 +114,14 @@ html[dir=rtl] .yoast .yoast-button--buy {
 	flex-direction: row-reverse;
 }
 
-.yoast .yoast-button--buy-small {
+.yoast .yoast-button--small {
 	font-size: 13px;
 	padding: 5px 8px 8px;
 }
 
-.yoast .yoast-button--buy-small .yoast-button--buy__caret {
+.yoast .yoast-button--small .yoast-button--buy__caret {
 	width: 4px;
-	height: 8px;
+	height: 10px;
 }
 
 .yoast-remove, .yoast-hide {
