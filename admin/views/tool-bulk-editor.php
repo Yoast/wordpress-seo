@@ -125,3 +125,5 @@ $description_collapsible = new WPSEO_Collapsible_Presenter(
 	]
 );
 echo $description_collapsible->get_output();
+
+echo '</div>';
