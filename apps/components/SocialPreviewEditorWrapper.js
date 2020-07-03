@@ -68,7 +68,8 @@ class SocialPreviewEditorWrapper extends React.Component {
 					socialMediumName={ "Facebook" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
-						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+						// "https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+						"https://www.gofferttoernooi.nl/wp-content/uploads/2020/07/pika100x100.jpg"
 					) }
 					isPremium={ true }
 				/>
@@ -89,7 +90,8 @@ class SocialPreviewEditorWrapper extends React.Component {
 					socialMediumName={ "Twitter" }
 					// eslint-disable-next-line react/jsx-no-bind
 					onSelectImageClick={ () => this.setImage(
-						"https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+						// "https://www.yarrah.com/en/wp-content/uploads/sites/10/2019/01/Puppy-aanschaffen-header-800x600.png"
+						"https://www.gofferttoernooi.nl/wp-content/uploads/2020/07/pika100x100.jpg"
 					) }
 					isPremium={ true }
 				/>

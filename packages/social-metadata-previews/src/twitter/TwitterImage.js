@@ -117,7 +117,7 @@ export default class TwitterImage extends React.Component {
 		if ( this.props.src === null ) {
 			return;
 		}
-		const newState = await handleImage( this.props.src, this.socialMedium );
+		const newState = await handleImage( this.props.src, this.socialMedium, this.props.isLarge );
 		this.setState( newState );
 	}
 
