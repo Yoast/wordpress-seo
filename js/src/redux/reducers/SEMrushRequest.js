@@ -5,7 +5,7 @@ import {
 	SET_REQUEST_SUCCEEDED, SET_REQUEST_COUNTRY
 } from "../actions/SEMrushRequest";
 
-const INITIAL_STATE = 0;
+const INITIAL_STATE = null;
 
 /**
  * A reducer for the SEMrush request.

@@ -12,6 +12,10 @@ import facebookEditor from "./facebookEditor";
 import twitterEditor from "./twitterEditor";
 import snippetEditor from "./snippetEditor";
 import warning from "./warning";
+import SEMrushModal from "./SEMrushModal";
+import SEMrushRequest from "./SEMrushRequest";
+import SEMrushKeyphrases from "./SEMrushKeyphrases";
+
 
 export default {
 	analysis,
@@ -28,4 +32,7 @@ export default {
 	twitterEditor,
 	snippetEditor,
 	warning,
+	SEMrushModal,
+	SEMrushRequest,
+	SEMrushKeyphrases,
 };
