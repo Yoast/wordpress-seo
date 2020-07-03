@@ -27,7 +27,7 @@ echo '</p>';
 
 $yform->light_switch(
 	'twitter',
-	__( 'Twitter card meta data', 'wordpress-seo' ),
+	__( 'Twitter card meta data', 'wordpress-seo' )
 );
 
 echo '<div id="wpseo-twitter-settings">';

@@ -47,5 +47,34 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 		);
 
 		echo $wpseo_post_type_presenter->get_output();
+
+		// We're done if there is no archive.
+		if ( ! WPSEO_Post_Type::has_archive( $post_type ) ) {
+			continue;
+		}
+
+		/* translators: %s is the plural version of the post type's name. */
+		$label = sprintf( __( '%1$s archives', 'wordpress-seo' ), $post_type->labels->name );
+
+		$wpseo_post_type_archive_presenter = new WPSEO_Collapsible_Presenter(
+			$label,
+			__DIR__ . '/paper-content/post-type-archive-content.php',
+			[
+				'collapsible' => true,
+				'expanded'    => false,
+				'paper_id'    => 'archive-settings-' . $post_type->name,
+				'view_data'   => [
+					'wpseo_post_type'              => $post_type,
+					'view_utils'                   => $view_utils,
+					'recommended_replace_vars'     => $recommended_replace_vars,
+					'editor_specific_replace_vars' => $editor_specific_replace_vars,
+				],
+				'title'       => $label,
+				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',
+				'class'       => 'search-appearance',
+			]
+		);
+
+		echo $wpseo_post_type_archive_presenter->get_output();
 	}
 }
