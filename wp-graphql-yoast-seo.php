@@ -22,7 +22,7 @@ use WPGraphQL\Data\DataSource;
 add_action('admin_init', function () {
   $core_dependencies = [
     'WPGraphQL plugin' => class_exists('WPGraphQL'),
-    'Yoast SEO'        => is_plugin_active('wordpress-seo/wp-seo.php') || is_plugin_active('wordpress-seo-premium/wp-seo-premium.php')
+    'Yoast SEO'        => function_exists('YoastSEO')
   ];
 
   $missing_dependencies = array_keys(array_diff($core_dependencies, array_filter($core_dependencies)));
@@ -452,7 +452,7 @@ add_action('graphql_init', function () {
 
             // Get data
             $seo = array(
-              'title' => trim(YoastSEO()->meta->for_term($term->term_id)->title),
+              'title' => trim(html_entity_decode(strip_tags(YoastSEO()->meta->for_term($term->term_id)->title))),
               'metaDesc' => trim(YoastSEO()->meta->for_term($term->term_id)->description),
               'focuskw' => trim($meta['wpseo_focuskw']),
               'metaKeywords' => trim($meta['wpseo_metakeywords']),
