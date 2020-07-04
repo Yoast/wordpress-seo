@@ -70,12 +70,10 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * Testing with a post and needed options being set.
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_date
-	 * @covers WPSEO_Post_Metabox_Formatter::is_show_date_enabled
 	 */
-	public function test_post_with_options_and_showdate_enabled() {
+	public function test_metabox_metadescription_date() {
 		WPSEO_Options::set( 'title-post', 'This is the title' );
 		WPSEO_Options::set( 'metadesc-post', 'This is the metadescription' );
-		WPSEO_Options::set( 'showdate-post', true );
 		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '' );
 		$result   = $instance->get_values();
 
@@ -126,22 +124,5 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['base_url'], WPSEO_Utils::home_url() );
-	}
-
-	/**
-	 * Testing when one of the template_options isn't set.
-	 *
-	 * @covers WPSEO_Post_Metabox_Formatter::get_values
-	 * @covers WPSEO_Post_Metabox_Formatter::get_template
-	 */
-	public function test_with_missing_option() {
-		WPSEO_Options::set( 'title-post', 'This is the title' );
-		WPSEO_Options::set( 'showdate-post', true );
-
-		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], '' );
-		$result   = $instance->get_values();
-
-		$this->assertEquals( $result['title_template'], 'This is the title' );
-		$this->assertEquals( $result['metadesc_template'], '' );
 	}
 }
