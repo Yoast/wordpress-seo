@@ -62,7 +62,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
-		'semrush_integration_active'               => false,
+		'semrush_integration_active'               => true,
 	];
 
 	/**
