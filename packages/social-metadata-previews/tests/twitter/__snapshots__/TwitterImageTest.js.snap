@@ -14,9 +14,10 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   border-radius: 14px 0 0 14px;
 }
 
-.c1 {
+.c1.c1 {
   width: 600px;
   height: 300px;
+  max-width: none;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -54,9 +55,10 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   border-radius: 14px 14px 0 0;
 }
 
-.c1 {
+.c1.c1 {
   width: 600px;
   height: 300px;
+  max-width: none;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -93,9 +95,10 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   border-radius: 14px 0 0 14px;
 }
 
-.c1 {
+.c1.c1 {
   width: 300px;
   height: 300px;
+  max-width: none;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -133,9 +136,10 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   border-radius: 14px 14px 0 0;
 }
 
-.c1 {
+.c1.c1 {
   width: 300px;
   height: 300px;
+  max-width: none;
   position: absolute;
   top: 50%;
   left: 50%;
