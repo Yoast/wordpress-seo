@@ -61,6 +61,8 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @inheritDoc
 	 */
 	public function setUp() {
+		parent::setUp();
+
 		global $wpdb;
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 

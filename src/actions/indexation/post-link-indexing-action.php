@@ -19,7 +19,12 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 
-	public const TRANSIENT = 'wpseo-unindexed-post-link-count';
+	/**
+	 * The transient name.
+	 *
+	 * @var string
+	 */
+	const TRANSIENT = 'wpseo-unindexed-post-link-count';
 
 	/**
 	 * The link builder.
@@ -124,7 +129,7 @@ class Post_Link_Indexing_Action implements Indexation_Action_Interface {
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 * Filter 'wpseo_post_link_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
 		 *
 		 * @api int The maximum number of posts indexed.
 		 */

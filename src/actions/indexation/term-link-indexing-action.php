@@ -20,6 +20,13 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 
 	/**
+	 * The transient name.
+	 *
+	 * @var string
+	 */
+	const TRANSIENT = 'wpseo-unindexed-term-link-count';
+
+	/**
 	 * The link builder.
 	 *
 	 * @var Indexable_Link_Builder
@@ -71,7 +78,7 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 	 * @inheritDoc
 	 */
 	public function get_total_unindexed() {
-		$transient = \get_transient( 'wpseo-unindexed-term-link-count' );
+		$transient = \get_transient( self::TRANSIENT );
 
 		if ( $transient ) {
 			return (int) $transient;
@@ -85,7 +92,7 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 			return false;
 		}
 
-		\set_transient( 'wpseo-unindexed-term-link-count', $result, \DAY_IN_SECONDS );
+		\set_transient( self::TRANSIENT, $result, \DAY_IN_SECONDS );
 
 		return (int) $result;
 	}
@@ -98,23 +105,21 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 	public function index() {
 		$query = $this->get_query( false, $this->get_limit() );
 
-		$term_ids = $this->wpdb->get_col( $query );
+		$terms = $this->wpdb->get_results( $query );
 
 		$indexables = [];
-		foreach ( $term_ids as $term_id ) {
-			$indexable = $this->repository->find_by_id_and_type( (int) $term_id, 'term' );
+		foreach ( $terms as $term ) {
+			$indexable = $this->repository->find_by_id_and_type( (int) $term->term_id, 'term' );
 
 			// It's possible the indexable was created without having it's links indexed.
 			if ( $indexable->link_count === null ) {
-				$term = \get_term( $term_id );
-				if ( $term === null || \is_wp_error( $term ) ) {
-					continue;
-				}
 				$this->link_builder->build( $indexable, $term->description );
 			}
 
 			$indexables[] = $indexable;
 		}
+
+		\delete_transient( self::TRANSIENT );
 
 		return $indexables;
 	}
@@ -124,11 +129,11 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 	 */
 	public function get_limit() {
 		/**
-		 * Filter 'wpseo_link_indexing_limit' - Allow filtering the amount of posts indexed during each indexing pass.
+		 * Filter 'wpseo_term_link_indexing_limit' - Allow filtering the amount of terms indexed during each indexing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @api int The maximum number of terms indexed.
 		 */
-		return \apply_filters( 'wpseo_post_link_indexing_limit', 5 );
+		return \apply_filters( 'wpseo_term_link_indexing_limit', 5 );
 	}
 
 	/**
@@ -145,7 +150,7 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
-		$select = 'term_id';
+		$select = 'term_id, description';
 		if ( $count ) {
 			$select = 'COUNT(term_id)';
 		}
@@ -160,6 +165,6 @@ class Term_Link_Indexing_Action implements Indexation_Action_Interface {
 			FROM {$this->wpdb->term_taxonomy}
 			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE link_count IS NOT NULL) AND taxonomy IN ($placeholders)
 			$limit_query
-        ", $replacements );
+		", $replacements );
 	}
 }
