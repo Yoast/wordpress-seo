@@ -14,9 +14,6 @@ class WPSEO_Config_Field_Tracking extends WPSEO_Config_Field_Choice {
 	 * WPSEO_Config_Field_Tracking constructor.
 	 */
 	public function __construct() {
-		if ( apply_filters( 'wpseo_enable_tracking', false ) !== false ) {
-			return;
-		}
 		parent::__construct( 'tracking' );
 
 		$this->set_property( 'description', __( 'To better understand how our users use our plugins, you can allow us to collect some data about which plugins other plugins and themes you have installed and which features you use. We won\'t collect any personal data about you or your visitors and we\'ll never resell your data.', 'wordpress-seo' ) );

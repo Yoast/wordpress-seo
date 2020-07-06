@@ -85,10 +85,7 @@ class WPSEO_Configuration_Structure {
 		);
 
 		$this->add_step( 'title-template', __( 'Title settings', 'wordpress-seo' ), $this->fields['titleTemplate'] );
-		// Don't output our tracking question if we're going to track regardless because premium or an add-on is active.
-		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
-			$this->add_step( 'tracking', sprintf( __( 'Help us improve %s', 'wordpress-seo' ), 'Yoast SEO' ), $this->fields['tracking'] );
-		}
+		$this->add_step( 'tracking', sprintf( __( 'Help us improve %s', 'wordpress-seo' ), 'Yoast SEO' ), $this->fields['tracking'] );
 		$this->add_step( 'newsletter', __( 'Continue learning', 'wordpress-seo' ), $this->fields['newsletter'], true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), $this->fields['success'], true, true );
 	}
