@@ -222,7 +222,7 @@ export default function initAdmin( jQuery ) {
 	function togglePersonCompany() {
 		if ( jQuery( "#company_or_person-company" ).is( ":checked" ) ) {
 			jQuery( "#knowledge-graph-company" ).show();
-			jQuery ("#knowledge-graph-person" ).hide();
+			jQuery( "#knowledge-graph-person" ).hide();
 			return;
 		}
 
@@ -359,5 +359,4 @@ export default function initAdmin( jQuery ) {
 		setInitialActiveTab();
 		initSelect2();
 	} );
-
 }
