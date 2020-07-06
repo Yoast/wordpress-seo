@@ -43,10 +43,12 @@ exports[`LocalSEOUpsell matches the snapshot 1`] = `
   font-size: 1em;
 }
 
+.yoast #wpcontent h3.c3,
 .c3.c3 {
   font-size: 1.15em;
   font-weight: bold;
   margin: 4px 0;
+  color: #333;
 }
 
 .c4 {
@@ -139,10 +141,12 @@ exports[`LocalSEOUpsell matches the snapshot in right to left mode 1`] = `
   font-size: 1em;
 }
 
+.yoast #wpcontent h3.c3,
 .c3.c3 {
   font-size: 1.15em;
   font-weight: bold;
   margin: 4px 0;
+  color: #333;
 }
 
 .c4 {

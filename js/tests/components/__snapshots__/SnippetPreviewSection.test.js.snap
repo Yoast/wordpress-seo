@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] = `
-.c0 {
-  max-width: 640px;
-}
-
 .c0.StyledSection__StyledSectionBase-enyt8a-2 {
   padding: 0;
 }
@@ -41,7 +37,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
             "isStatic": false,
             "lastClassName": "c0",
             "rules": Array [
-              "max-width:640px;&",
+              "&",
               ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding:0;& ",
               ".StyledSection__StyledHeading-enyt8a-0",
@@ -88,10 +84,6 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
 `;
 
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
-.c0 {
-  max-width: 640px;
-}
-
 .c0.StyledSection__StyledSectionBase-enyt8a-2 {
   padding: 0;
 }
@@ -128,7 +120,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
             "isStatic": false,
             "lastClassName": "c0",
             "rules": Array [
-              "max-width:640px;&",
+              "&",
               ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding:0;& ",
               ".StyledSection__StyledHeading-enyt8a-0",
