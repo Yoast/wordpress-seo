@@ -24,10 +24,6 @@
 	border-bottom: var(--yoast-border-default);
 }
 
-.yoast-table .yoast-td--right {
-	text-align: right;
-}
-
 .yoast-table th:first-child,
 .yoast-table td:first-child {
 	padding-left: 16px;
