@@ -300,23 +300,23 @@ class Indexable_Link_Builder {
 	 */
 	protected function get_permalink( $link, $home_url ) {
 		// Get rid of the #anchor.
-		$url_split = explode( '#', $link );
-		$link       = $url_split[0];
+		$url_split = \explode( '#', $link );
+		$link      = $url_split[0];
 
 		// Get rid of URL ?query=string.
-		$url_split = explode( '?', $link );
+		$url_split = \explode( '?', $link );
 		$link       = $url_split[0];
 
 		// Set the correct URL scheme.
-		$link = set_url_scheme( $link, $home_url['scheme'] );
+		$link = \set_url_scheme( $link, $home_url['scheme'] );
 
 		// Add 'www.' if it is absent and should be there.
-		if ( false !== strpos( home_url(), '://www.' ) && false === strpos( $link, '://www.' ) ) {
-			$link = str_replace( '://', '://www.', $link );
+		if ( \strpos( $home_url['host'], 'www.' ) === 0 && \strpos( $link, '://www.' ) === false ) {
+			$link = \str_replace( '://', '://www.', $link );
 		}
 
 		// Strip 'www.' if it is present and shouldn't be.
-		if ( false === strpos( home_url(), '://www.' ) ) {
+		if ( \strpos( $home_url['host'], 'www.' ) !== 0 ) {
 			$link = str_replace( '://www.', '://', $link );
 		}
 
