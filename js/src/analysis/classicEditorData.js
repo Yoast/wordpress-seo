@@ -7,13 +7,14 @@ import { isUndefined, debounce } from "lodash-es";
 
 /* Internal dependencies */
 import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";
+import { setContentImage } from "../redux/actions/settings";
 import {
 	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-import * as tmceHelper from "../wp-seo-tinymce";
+import * as tmceHelper from "../lib/tinymce";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
@@ -89,8 +90,11 @@ export default class ClassicEditorData {
 		} );
 
 		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
-			const url = this.getFeaturedImage() || this.getContentImage() || null;
+			const contentImage = this.getContentImage();
+			const url = this.getFeaturedImage() || contentImage || null;
 
+			// Set contentImage in settings.socialPreviews.
+			this._store.dispatch( setContentImage( contentImage ) );
 			this.setImageInSnippetPreview( url );
 		} );
 
@@ -99,7 +103,12 @@ export default class ClassicEditorData {
 				return;
 			}
 
-			this.setImageInSnippetPreview( this.getContentImage() );
+			const contentImage = this.getContentImage();
+
+			// Set contentImage in settings.socialPreviews.
+			this._store.dispatch( setContentImage( contentImage ) );
+
+			this.setImageInSnippetPreview( contentImage );
 		}, 1000 ) );
 	}
 

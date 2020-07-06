@@ -31,19 +31,19 @@ abstract class Migration {
 	 *
 	 * @return void
 	 */
-	public abstract function up();
+	abstract public function up();
 
 	/**
 	 * Reverts the migration.
 	 *
 	 * @return void
 	 */
-	public abstract function down();
+	abstract public function down();
 
 	/**
 	 * Creates a new migration.
 	 *
-	 * @param Adapter $adapter the current adapter.
+	 * @param Adapter $adapter The current adapter.
 	 *
 	 * @return \Migration
 	 */
@@ -259,6 +259,7 @@ abstract class Migration {
 	public function select_all( $sql ) {
 		return $this->adapter->select_all( $sql );
 	}
+
 	/**
 	 * Execute a query.
 	 *
@@ -269,6 +270,7 @@ abstract class Migration {
 	public function query( $sql ) {
 		return $this->adapter->query( $sql );
 	}
+
 	/**
 	 * Returns a quoted string.
 	 *

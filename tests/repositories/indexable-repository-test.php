@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -194,6 +194,31 @@ class Indexable_Repository_Test extends TestCase {
 
 		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
 		$this->assertEquals( $permalink, $indexable->permalink );
+	}
+
+	/**
+	 * Tests that ensure permalink does not save when the permalink is still null.
+	 */
+	public function test_get_ancestors_ensures_permalink_no_save() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable->expects( 'save' )->never();
+		$indexable->object_type = 'post';
+
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1, 2 ] );
+
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturnNull();
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertNull( $indexable->permalink );
 	}
 
 	/**

@@ -9,11 +9,11 @@ namespace Yoast\WP\SEO\Dependency_Injection;
 
 use ReflectionException;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\GlobResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Config\Resource\GlobResource;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * This class is mostly a direct copy-paste of the symfony PhpFileLoader class.
@@ -75,6 +75,7 @@ class Custom_Loader extends PhpFileLoader {
 
 		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
 		$interfaces           = [];
 		$singly_implemented   = [];
@@ -84,6 +85,7 @@ class Custom_Loader extends PhpFileLoader {
 				$interfaces[] = $class;
 			}
 			else {
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
 				if ( $error_message !== null ) {
 					$definition->addError( $error_message );

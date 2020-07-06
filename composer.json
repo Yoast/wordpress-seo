@@ -39,7 +39,9 @@
 		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
-		"symfony/config": "^3.4"
+		"symfony/config": "^3.4",
+		"php-parallel-lint/php-parallel-lint": "^1.2.0",
+		"php-parallel-lint/php-console-highlighter": "^0.5"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -69,20 +71,33 @@
 		"integration-test": [
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
+        "lint": [
+            "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+        ],
+        "premium-lint": [
+            "@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/load/wp-seo-premium.php ./premium/ ./integration-tests/premium/ ./tests/premium/ -e php"
+        ],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
 		],
+		"cs": [
+			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
+		],
 		"check-cs": [
+			"@check-cs-warnings -n"
+		],
+		"check-cs-errors": [
+			"echo You can now just use check-cs, running that command now.",
+			"composer check-cs"
+		],
+		"check-cs-warnings": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
 		"premium-check-cs": [
 			"@before-premium-cs",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
-		],
-		"check-cs-errors": [
-			"@check-cs -n"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_staged_cs"

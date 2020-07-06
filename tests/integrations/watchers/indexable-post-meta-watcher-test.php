@@ -10,8 +10,8 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Mockery;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

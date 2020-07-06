@@ -237,9 +237,9 @@ class WPSEO_Meta {
 	 * @var array
 	 */
 	private static $social_fields = [
-		'title'       => 'text',
-		'description' => 'textarea',
-		'image'       => 'upload',
+		'title'       => 'hidden',
+		'description' => 'hidden',
+		'image'       => 'hidden',
 		'image-id'    => 'hidden',
 	];
 
@@ -998,27 +998,5 @@ class WPSEO_Meta {
 		}
 
 		return $post_ids;
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Get a value from $_POST for a given key.
-	 *
-	 * Returns the $_POST value if exists, returns an empty string if key does not exist.
-	 *
-	 * @deprecated 9.6
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $key Key of the value to get from $_POST.
-	 *
-	 * @return string Returns $_POST value, which will be a string the majority of the time.
-	 *                Will return empty string if key does not exists in $_POST.
-	 */
-	public static function get_post_value( $key ) {
-		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
-
-		// @codingStandardsIgnoreLine
-		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 }

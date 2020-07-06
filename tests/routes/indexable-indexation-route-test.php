@@ -122,6 +122,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Complete_Indexation_Action::class, 'complete_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Prepare_Indexation_Action::class, 'prepare_indexation_action', $this->instance );
 	}
 
 	/**

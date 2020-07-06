@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Image_Presenter_Test

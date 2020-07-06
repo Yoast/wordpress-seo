@@ -60,11 +60,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( $this->post instanceof WP_Post ) {
 			$values_to_set = [
-				'keyword_usage'            => $this->get_focus_keyword_usage(),
-				'title_template'           => $this->get_title_template(),
-				'metadesc_template'        => $this->get_metadesc_template(),
-				'metaDescriptionDate'      => $this->get_metadesc_date(),
-				'social_preview_image_url' => $this->get_image_url(),
+				'keyword_usage'       => $this->get_focus_keyword_usage(),
+				'title_template'      => $this->get_title_template(),
+				'metadesc_template'   => $this->get_metadesc_template(),
+				'metaDescriptionDate' => $this->get_metadesc_date(),
+				'first_content_image' => $this->get_image_url(),
 			];
 
 			$values = ( $values_to_set + $values );
@@ -83,7 +83,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		if ( has_post_thumbnail( $post_id ) ) {
 			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' );
-			return $featured_image_info[0];
+			return isset( $featured_image_info[0] ) ? $featured_image_info[0] : null;
 		}
 
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );

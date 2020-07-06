@@ -7,9 +7,9 @@ import { flatten } from "lodash-es";
  * a collection are also included. This is to allow sorting multiple fills of
  * which at least one includes an array of components.
  *
- * @param {ReactElement|array} components The component(s) to be sorted.
+ * @param {wp.Element|array} components The component(s) to be sorted.
  *
- * @returns {ReactElement|array} The sorted component(s).
+ * @returns {wp.Element|array} The sorted component(s).
  */
 export default function sortComponentsByRenderPriority( components ) {
 	if ( typeof components.length === "undefined" ) {

@@ -18,19 +18,21 @@ class Migration_Double extends Migration {
 	/**
 	 * Whether or not this migration was run.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public static $was_run = false;
 
 	/**
 	 * Whether or not this migration should give an error.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public static $should_error = false;
 
 	/**
 	 * Migration up.
+	 *
+	 * @throws Exception
 	 */
 	public function up() {
 		if ( self::$should_error ) {

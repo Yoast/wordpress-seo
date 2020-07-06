@@ -1,12 +1,12 @@
-import { render, Component, createRef } from "@wordpress/element";
+import { render, Component as wpComponent, createRef } from "@wordpress/element";
 import { SlotFillProvider } from "@wordpress/components";
-import MetaboxPortal from "../components/MetaboxPortal";
+import MetaboxPortal from "../components/portals/MetaboxPortal";
 import getL10nObject from "../analysis/getL10nObject";
 
 const registeredComponents = [];
 let containerRef = null;
 
-class RegisteredComponentsContainer extends Component {
+class RegisteredComponentsContainer extends wpComponent {
 	/**
 	 * Constructs a container for registered components.
 	 *
@@ -26,7 +26,7 @@ class RegisteredComponentsContainer extends Component {
 	 *
 	 * @param {string}          key       Unique key to give to React to render
 	 *                                    within a list of components.
-	 * @param {React.Component} Component A valid React component to render.
+	 * @param {wp.Component} Component A valid React component to render.
 	 *
 	 * @returns {void}
 	 */
@@ -45,7 +45,7 @@ class RegisteredComponentsContainer extends Component {
 	/**
 	 * Renders all the registered components.
 	 *
-	 * @returns {React.Element[]} The rendered components in an array.
+	 * @returns {wp.Element[]} The rendered components in an array.
 	 */
 	render() {
 		return this.state.registeredComponents.map( ( { Component, key } ) => {
@@ -94,7 +94,7 @@ export function renderClassicEditorMetabox( store ) {
  *
  * @param {string}          key       Unique key to give to React to render
  *                                    within a list of components.
- * @param {React.Component} Component A valid React component to render.
+ * @param {wp.Component} Component A valid React component to render.
  *
  * @returns {void}
  */

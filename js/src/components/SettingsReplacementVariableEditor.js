@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { SettingsSnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
@@ -12,11 +12,15 @@ import {
 import SnippetPreviewSection from "./SnippetPreviewSection";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
-class SettingsReplacementVariableEditor extends React.Component {
-	constructor( props ) {
-		super( props );
-	}
-
+/**
+ * Component class for the Settings replacement variable editor.
+ */
+class SettingsReplacementVariableEditor extends Component {
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {wp.Element} The component.
+	 */
 	render() {
 		const {
 			title,

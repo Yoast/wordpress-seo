@@ -61,35 +61,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Outputs the site owner.
-	 *
-	 * @link https://ogp.me/#type_article
-	 *
-	 * @return void
-	 *
-	 * @deprecated 7.1
-	 * @codeCoverageIgnore
-	 */
-	public function site_owner() {
-		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
-		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( __METHOD__, '7.1', null );
-		}
-	}
-
-	/**
-	 * Fallback method for plugins using image_output.
-	 *
-	 * @param string|bool $image Image URL.
-	 *
-	 * @deprecated 7.4
-	 * @codeCoverageIgnore
-	 */
-	public function image_output( $image = false ) {
-		_deprecated_function( __METHOD__, '7.4', 'WPSEO_OpenGraph::image' );
-	}
-
-	/**
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
 	 * @deprecated 14.0

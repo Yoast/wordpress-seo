@@ -340,44 +340,6 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
 /* ********************* DEPRECATED FUNCTIONS ********************* */
 
 /**
- * Removes stopword from the sample permalink that is generated in an AJAX request.
- *
- * @deprecated 6.3
- * @codeCoverageIgnore
- */
-function wpseo_remove_stopwords_sample_permalink() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 6.3', 'This method is deprecated.' );
-
-	wpseo_ajax_json_echo_die( '' );
-}
-
-/**
- * Function used to delete blocking files, dies on exit.
- *
- * @deprecated 7.0
- * @codeCoverageIgnore
- */
-function wpseo_kill_blocking_files() {
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
-
-	wpseo_ajax_json_echo_die( '' );
-}
-
-/**
- * Handles the posting of a new FB admin.
- *
- * @deprecated 7.1
- * @codeCoverageIgnore
- */
-function wpseo_add_fb_admin() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
-	wpseo_ajax_json_echo_die( '' );
-}
-
-/**
  * Used in the editor to replace vars for the snippet preview.
  *
  * @deprecated 11.9

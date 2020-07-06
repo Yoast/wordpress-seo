@@ -17,10 +17,22 @@ rules:
   react/no-unused-prop-types: 1
   react/prop-types: 1
   react/require-default-props: 1
+  no-restricted-imports:
+    - error
+    - name: react
+      message: Please use @wordpress/element instead. No need to import just for JSX.
+    - name: react-dom
+      message: Please use @wordpress/element instead.
 
   # Disabled rules
   # In the editor, we're using the pragma `wp.element.createElement`
   react/react-in-jsx-scope: 0
+
+overrides:
+  - files:
+    - "js/tests/**/*.js"
+    rules:
+      no-restricted-imports: "off"
 
 settings:
   react:

@@ -1,7 +1,6 @@
 /* External dependencies */
 import { isEmpty } from "lodash-es";
 import PropTypes from "prop-types";
-import React from "react";
 
 /* Yoast dependencies */
 import CompanyInfoMissing from "./CompanyInfoMissing";
@@ -13,7 +12,7 @@ import CompanyInfoMissing from "./CompanyInfoMissing";
  *
  * @param {Object} props The properties to use.
  *
- * @returns {React.Component} The Alert component.
+ * @returns {wp.Element} The Alert component.
  */
 const CompanyInfoMissingOnboardingWizard = ( { properties, stepState } ) => {
 	const isCompanyInfoMissing = isEmpty( stepState.fieldValues[ "publishing-entity" ].publishingEntityCompanyName ) ||

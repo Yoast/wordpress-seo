@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;

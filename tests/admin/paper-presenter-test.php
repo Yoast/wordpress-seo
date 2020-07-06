@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Admin;
 
-use Yoast\WP\SEO\Tests\TestCase;
-use WPSEO_Paper_Presenter;
 use Brain\Monkey;
+use WPSEO_Paper_Presenter;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Class Paper_Presenter_Test

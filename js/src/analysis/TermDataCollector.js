@@ -1,12 +1,12 @@
-/* global jQuery, wpseoTermScraperL10n */
+/* global jQuery, wpseoScriptData */
 
 /* External dependencies */
 import { get } from "lodash-es";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
-import * as tmceHelper from "../wp-seo-tinymce";
-import { termsTmceId as tmceId } from "../wp-seo-tinymce";
+import * as tmceHelper from "../lib/tinymce";
+import { termsTmceId as tmceId } from "../lib/tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
@@ -185,7 +185,7 @@ TermDataCollector.prototype.getName = function() {
  * @returns {string} The base url.
  */
 TermDataCollector.prototype.getBaseUrl = function() {
-	return wpseoTermScraperL10n.base_url;
+	return wpseoScriptData.metabox.base_url;
 };
 
 /**
