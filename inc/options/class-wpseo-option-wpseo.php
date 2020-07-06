@@ -364,6 +364,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_xml_sitemap'             => false,
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
+			'semrush_integration_active'     => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
