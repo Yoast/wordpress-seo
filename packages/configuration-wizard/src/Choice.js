@@ -64,7 +64,7 @@ const Choice = ( props ) => {
 					const checked = ( props.value === choiceName );
 
 					return (
-						<Fragment key="fragment">
+						<Fragment key={ `${ id }-key` }>
 							<Input
 								name={ fieldName } type="radio" label={ choice.label } onChange={ props.onChange }
 								value={ choiceName } optionalAttributes={ { id, checked } } className={ "visually-hidden" }
