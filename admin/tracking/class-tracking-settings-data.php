@@ -46,7 +46,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'fbadminapp',
-		'semrush_enable',
+		'semrush_integration_active',
 	];
 
 	/**
@@ -160,7 +160,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wikipedia_url',
 		'fbadminapp',
 		'indexables_indexation_completed',
-		'semrush_enable',
+		'semrush_integration_active',
 	];
 
 	/**
