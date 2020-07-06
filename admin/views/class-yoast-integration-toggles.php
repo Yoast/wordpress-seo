@@ -64,7 +64,7 @@ class Yoast_Integration_Toggles {
 		$integration_toggles = [
 			(object) [
 				'name'            => __( 'SEMrush integration', 'wordpress-seo' ),
-				'setting'         => 'enable_semrush',
+				'setting'         => 'semrush_enable',
 				'label'           => __( 'The SEMrush integrations offers suggestions for related keywords.', 'wordpress-seo' ),
 				'order'           => 10,
 			],
