@@ -15,7 +15,7 @@ import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
  */
-class RelatedKeyPhrasesModal extends Component {
+class RelatedKeyphrasesModal extends Component {
 	/**
 	 * Constructs the RelatedKeyPhrasesModal component.
 	 *
@@ -26,13 +26,8 @@ class RelatedKeyPhrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = {
-			isModalOpen: false,
-		};
-
 		this.handleOnClick = this.handleOnClick.bind( this );
-		this.openModal     = this.openModal.bind( this );
-		this.closeModal    = this.closeModal.bind( this );
+		this.onModalClose = this.onModalClose.bind( this );
 	}
 
 	/**
@@ -47,27 +42,19 @@ class RelatedKeyPhrasesModal extends Component {
 			// Add logic to display the empty keyphrase message here.
 			return;
 		}
-
-		this.openModal();
+		this.props.onOpen();
 	}
 
 	/**
-	 * Opens the "Get related keyphrases" modal.
+	 * Handles the close event for the modal.
 	 *
 	 * @returns {void}
 	 */
-	openModal() {
-		this.setState( { isModalOpen: true } );
-	}
-
-	/**
-	 * Closes the "Get related keyphrases" modal.
-	 *
-	 * @returns {void}
-	 */
-	closeModal() {
+	onModalClose() {
 		this.setState( { isModalOpen: false } );
 	}
+
+
 
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
@@ -81,16 +68,16 @@ class RelatedKeyPhrasesModal extends Component {
 			<Fragment>
 				<BaseButton
 					id="yoast-get-related-keyphrases"
-					onClick={ this.handleOnClick }
 					className="yoast-related-keyphrases-modal__button"
 					{ ...this.props }
+					onClick={ this.handleOnClick }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
 				</BaseButton>
-				{ keyphrase && this.state.isModalOpen &&
+				{ keyphrase && this.props.isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ this.closeModal }
+						onRequestClose={this.onModalClose}
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 					>
@@ -116,16 +103,16 @@ class RelatedKeyPhrasesModal extends Component {
 	}
 }
 
-RelatedKeyPhrasesModal.propTypes = {
+RelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
 };
 
-RelatedKeyPhrasesModal.defaultProps = {
+RelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
 };
 
-export default RelatedKeyPhrasesModal;
+export default RelatedKeyphrasesModal;

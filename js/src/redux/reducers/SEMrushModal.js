@@ -1,6 +1,9 @@
-import { MODAL_CHANGE_DATABASE, MODAL_DISMISS } from "../actions/SEMrushModal";
+import { MODAL_DISMISS } from "../actions/SEMrushModal";
+import {MODAL_OPEN} from "../actions";
 
-const INITIAL_STATE = "OPEN";
+const INITIAL_STATE = {
+	isModalOpen: false,
+};
 
 /**
  * A reducer for the SEMrush modal.
@@ -8,26 +11,21 @@ const INITIAL_STATE = "OPEN";
  * @param {Object} state The current state of the object.
  * @param {Object} action The received action.
  *
- * @returns {Object} The state.
+ * @return {boolean}
  */
 function SEMrushModalReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case MODAL_DISMISS:
-			state = "DISMISSED";
-			let modal = action.modal;
 			return {
-				state,
-				modal,
-		};
-		case MODAL_CHANGE_DATABASE:
-			state = "COUNTRY_CHANGED";
-			let country = action.country;
-		default:
+				isModalOpen: false,
+			};
+		case MODAL_OPEN:
 			return {
-				state,
-				country,
-		};
+				isModalOpen: true,
+			};
+
 	}
+	return state;
 }
 
 export default SEMrushModalReducer;

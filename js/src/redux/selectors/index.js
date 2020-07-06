@@ -10,5 +10,5 @@ export * from "./activeMarker";
 export * from "./markerPauseStatus";
 export * from "./preferences";
 export * from "./SEMrushKeyphrases";
-export * from "./SEMrushRequest";
+//export * from "./SEMrushRequest";
 export * from "./SEMrushModal";

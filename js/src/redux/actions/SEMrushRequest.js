@@ -9,7 +9,7 @@ export const SET_REQUEST_COUNTRY = "SET_REQUEST_COUNTRY";
  *
  * @returns {Object} Action object.
  */
-export function SEMrushSetRequestStarted() {
+export function SEMrushRequestStarted() {
 	return {
 		type: SET_REQUEST_STARTED,
 	};
@@ -22,7 +22,7 @@ export function SEMrushSetRequestStarted() {
  *
  * @returns {Object} Action object.
  */
-export function SEMrushSetRequestSucceeded( response ) {
+export function SEMrushRequestSucceeded(response ) {
 	return {
 		type: SET_REQUEST_SUCCEEDED,
 		response,
@@ -36,7 +36,7 @@ export function SEMrushSetRequestSucceeded( response ) {
  *
  * @returns {Object} Action object.
  */
-export function SEMrushSetRequestFailed( response ) {
+export function SEMrushRequestFailed(response ) {
 	return {
 		type: SET_REQUEST_FAILED,
 		response,
