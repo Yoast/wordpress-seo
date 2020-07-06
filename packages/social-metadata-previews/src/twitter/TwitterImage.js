@@ -48,12 +48,15 @@ const TwitterImageContainer = styled.div`
 `;
 
 const StyledImage = styled.img`
-	width: ${ props => props.imageProperties.width }px;
-	height: ${ props => props.imageProperties.height }px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	&& {
+		width: ${ props => props.imageProperties.width }px;
+		height: ${ props => props.imageProperties.height }px;
+		max-width: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 `;
 
 const BaseImage = styled.div`
