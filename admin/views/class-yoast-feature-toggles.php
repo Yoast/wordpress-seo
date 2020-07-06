@@ -160,20 +160,6 @@ class Yoast_Feature_Toggles {
 		$language = WPSEO_Language_Utils::get_language( \get_locale() );
 		$language_helper = new Language_Helper();
 
-		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
-			$feature_toggles[] = (object) [
-				'name'    => __( 'Usage tracking', 'wordpress-seo' ),
-				'setting' => 'tracking',
-				'read_more_label' => sprintf(
-				/* translators: 1: Yoast SEO */
-					__( 'Allow us to track some data about your site to improve our plugin.', 'wordpress-seo' ),
-					'Yoast SEO'
-				),
-				'read_more_url'   => 'https://yoa.st/40s',
-				'order'   => 95,
-			];
-		}
-
 		if ( $language_helper->is_prominent_words_supported( $language ) ) {
 			$feature_toggles[] = (object) [
 				'name'            => __( 'Insights', 'wordpress-seo' ),
