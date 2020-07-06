@@ -1,5 +1,6 @@
-import {filter, flattenDeep, get, includes} from "lodash-es";
+import { filter, flattenDeep, get, includes } from "lodash-es";
 import getWords from "../../../stringProcessing/getWords.js";
+import EnglishParticiple from "../../english/passiveVoice/EnglishParticiple";
 
 // Verb-form lists per language
 import getPassiveVerbsRussianFactory from "../../russian/passiveVoice/participlesShortenedList.js";
@@ -12,10 +13,12 @@ const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 const indonesianPassiveRegex = [ /^(di)\S+($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ];
 
 // Exceptions data
+import getPassiveVerbsExceptionsIndonesianFactory from "../../indonesian/passiveVoice/nonpassiveVerbsStartingDi";
+const getPassiveVerbsExceptionsIndonesian = getPassiveVerbsExceptionsIndonesianFactory();
 const indonesianDirectPrecedenceExceptions = [ "untuk" ];
 
 /**
- * Checks whether the matched word(s) constitutes an exception and is therefore not a passive.
+ * Checks whether the matched word(s) constitute(s) an exception and is therefore not a passive.
  *
  * @param {string} sentence  	   The sentence to check.
  * @param {array} foundPassives    An array with the found passive verbs.
@@ -23,18 +26,34 @@ const indonesianDirectPrecedenceExceptions = [ "untuk" ];
  *
  * @returns {boolean}          	   Whether the matched word is an exception to a passive or not.
  */
-const checkPassiveExceptions = function( sentence, foundPassives, language ) {
-	// let nonPassivesExceptionList = [];
+const checkPassiveExceptions = function( sentence, foundPassives, word, language ) {
+	let nonPassivesExceptionList = [];
 	let directPrecedenceExceptions = [];
 
 	switch ( language ) {
 		case "id":
-			// nonPassivesExceptionList =  (still need to be created)
+			nonPassivesExceptionList =  getPassiveVerbsExceptionsIndonesian;
 			directPrecedenceExceptions = indonesianDirectPrecedenceExceptions;
 			break;
 	}
+	return nonPassivesExceptionList.includes( word.toLocaleLowerCase() );
 
 };
+
+// const matchPassiveVerbsWithLists = function( sentence, passiveVerbs ) {
+// 	return filter( getWords( sentence ), function( word ) {
+// 		return passiveVerbs.includes( word.toLocaleLowerCase() );
+// 	} );
+// };
+
+// return filter( getWords( sentence ), function( word ) {
+// EnglishParticiple.prototype.isNonVerbEndingEd = function() {
+// 	If ( this.getType() === "irregular" ) {
+// 		Return false;
+// 	}
+// 	Return includes( nonVerbsEndingEd, this.getParticiple() );
+// };
+
 
 /**
  * Returns words that have been determined to be a passive through a regex.
@@ -62,7 +81,7 @@ const matchPassiveVerbsWithRegexes = function( sentence, regexes, language ) {
 
 	// Check exceptions.
 	if ( matches.length !== 0 ) {
-		if( checkPassiveExceptions( sentence, regexes, language ) ) {
+		if ( checkPassiveExceptions( sentence, regexes, language ) ) {
 			matches = [];
 		}
 	}
@@ -110,6 +129,9 @@ const determineSentenceIsPassive = function( sentence, language ) {
 			passiveData = indonesianPassiveRegex;
 			typeOfData = "regex";
 			break;
+	}
+	if ( typeOfData === "list" ) {
+		return checkPassiveExceptions( sentence, passiveData, language, typeOfData ).length !== 0;
 	}
 	if ( typeOfData === "list" ) {
 		return matchPassiveVerbsWithLists( sentence, passiveData ).length !== 0;

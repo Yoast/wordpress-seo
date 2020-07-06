@@ -1,7 +1,7 @@
 /**
- * Returns a list of verbs starting in `di`.
+ * Returns a list of words that look like passive verbs starting in `di`.
  *
- * @returns {string[]} Indonesian verbs starting in `di`.
+ * @returns {string[]} Indonesian words that look like passive verbs starting in `di`.
  */
 export default function() {
 	return [
