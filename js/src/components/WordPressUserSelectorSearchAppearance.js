@@ -65,9 +65,9 @@ class WordPressUserSelectorSearchAppearance extends Component {
 			return null;
 		}
 
-		return <Alert type={"warning"}>
+		return <Alert type={ "warning" }>
 			{ __( "Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
-			</Alert>;
+		</Alert>;
 	}
 
 	/**
@@ -110,12 +110,12 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		return (
 			<Fragment>
 				{ this.renderError() }
-				<div className={"yoast-field-group__title"}>
-				<label
-					htmlFor="wpseo-person-selector-name"
-				>
-					{ __( "Name", "wordpress-seo" ) }
-				</label>
+				<div className={ "yoast-field-group__title" }>
+					<label
+						htmlFor="wpseo-person-selector-name"
+					>
+						{ __( "Name", "wordpress-seo" ) }
+					</label>
 				</div>
 				<WordPressUserSelector
 					hasLabel={ false }

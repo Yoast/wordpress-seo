@@ -214,18 +214,40 @@ export default function initAdmin( jQuery ) {
 	// eslint-disable-next-line
 	window.wpseoSetTabHash = wpseoSetTabHash;
 
+	/**
+	 * Toggles the company and person detailled controls on/off.
+	 *
+	 * @returns {void}
+	 */
+	function togglePersonCompany() {
+		if ( jQuery( "#company_or_person-company" ).is( ":checked" ) ) {
+			jQuery( "#knowledge-graph-company" ).show();
+			jQuery ("#knowledge-graph-person" ).hide();
+			return;
+		}
+
+		if ( jQuery( "#company_or_person-person" ).is( ":checked" ) ) {
+			jQuery( "#knowledge-graph-person" ).show();
+			jQuery( "#knowledge-graph-company" ).hide();
+			return;
+		}
+
+		jQuery( "#knowledge-graph-person" ).hide();
+		jQuery( "#knowledge-graph-company" ).hide();
+	}
+
 	jQuery( document ).ready( function() {
 		/**
 		 * When the hash changes, get the base url from the action and then add the current hash.
 		 */
 		wpseoSetTabHash();
 
-		jQuery( '.yoast-toggle--inactive' ).click( function() {
-			jQuery( this ).parent().find( 'input' ).prop( 'checked', false ).change();
+		jQuery( ".yoast-toggle--inactive" ).click( function() {
+			jQuery( this ).parent().find( "input" ).prop( "checked", false ).change();
 		} );
 
-		jQuery( '.yoast-toggle--active' ).click( function() {
-			jQuery( this ).parent().find( 'input' ).prop( 'checked', true ).change();
+		jQuery( ".yoast-toggle--active" ).click( function() {
+			jQuery( this ).parent().find( "input" ).prop( "checked", true ).change();
 		} );
 
 		// Toggle the Author archives section.
@@ -338,25 +360,4 @@ export default function initAdmin( jQuery ) {
 		initSelect2();
 	} );
 
-	/**
-	 * Toggles the company and person detailled controls on/off.
-	 *
-	 * @returns {void}
-	 */
-	function togglePersonCompany() {
-		if ( jQuery( "#company_or_person-company" ).is( ":checked" ) ) {
-			jQuery("#knowledge-graph-company").show();
-			jQuery("#knowledge-graph-person").hide();
-			return;
-		}
-
-		if ( jQuery( "#company_or_person-person" ).is( ":checked" ) ) {
-			jQuery("#knowledge-graph-person").show();
-			jQuery("#knowledge-graph-company").hide();
-			return;
-		}
-
-		jQuery("#knowledge-graph-person").hide();
-		jQuery("#knowledge-graph-company").hide();
-	}
 }
