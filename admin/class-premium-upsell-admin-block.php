@@ -75,7 +75,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			$button_text
 		);
 
-		echo '<div class="yoast-paper ' . esc_attr( $class ) . '">';
+		echo '<div class="yoast-paper yoast-paper--bottom ' . esc_attr( $class ) . '">';
 
 		echo '<div>';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
