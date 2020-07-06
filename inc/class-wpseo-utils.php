@@ -1195,6 +1195,7 @@ SVG;
 			'noIndex'              => ! ! $no_index,
 			'isPremium'            => self::is_yoast_seo_premium(),
 			'isPostType'           => ! ! get_post_type(),
+			'postType'             => get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
 			'breadcrumbsDisabled'  => WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ),
