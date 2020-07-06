@@ -5,8 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Helpers\Language_Helper;
-
 /**
  * Class for managing feature toggles.
  */

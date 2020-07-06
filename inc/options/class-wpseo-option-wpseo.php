@@ -26,7 +26,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
-		'tracking'                                 => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
@@ -134,6 +133,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected function __construct() {
 		parent::__construct();
+
+		/**
+		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
+		 *
+		 * @api string $is_enabled The enabled state. Default is false.
+		 */
+		$this->defaults['tracking'] = apply_filters( 'wpseo_enable_tracking', false );
 
 		/* Clear the cache on update/add. */
 		add_action( 'add_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_cache' ] );
@@ -254,7 +260,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * Boolean dismiss warnings - not fields - may not be in form
 				 * (and don't need to be either as long as the default is false).
 				 */
-				case 'tracking':
 				case 'ignore_search_engines_discouraged_notice':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
@@ -324,6 +329,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 */
+				case 'tracking':
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
