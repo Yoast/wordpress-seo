@@ -106,14 +106,28 @@ const schemaArticleOptions = [
 	},
 ];
 
-/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
+/**
+ * Function that uses a postTypeName to create a string which will be used to create a link to the Search Appearance settings.
+ *
+ * @param {string} postTypeName The name of the current post type.
+ *
+ * @returns {string} A string that contains tags that will be interpolated.
+ */
 const footerText = ( postTypeName ) => sprintf(
+	/* translators: %1$s expands to the plural name of the current post type, %2$s and %3$s expand to a link to the Search Appearance Settings page */
 	__( "You can change the default type for %1$s in your %2$sSearch Appearance Settings%3$s.", "wordpress-seo" ),
 	postTypeName,
 	"{{link}}",
 	"{{/link}}",
 );
 
+/**
+ * Interpolates the footerText string with an actual link component.
+ *
+ * @param {string} postTypeName  The name of the current post type.
+ *
+ * @returns {string} A link to the Search Appearance settings.
+ */
 const footerWithLink = ( postTypeName ) => interpolateComponents(
 	{
 		mixedString: footerText( postTypeName ),
