@@ -1,4 +1,4 @@
-import { filter, flattenDeep } from "lodash-es";
+import {filter, flattenDeep, get, includes} from "lodash-es";
 import getWords from "../../../stringProcessing/getWords.js";
 
 // Verb-form lists per language
@@ -8,38 +8,71 @@ const getPassiveVerbsRussian = getPassiveVerbsRussianFactory().all;
 import getPassiveVerbsSwedishFactory from "../../swedish/passiveVoice/participles.js";
 const getPassiveVerbsSwedish = getPassiveVerbsSwedishFactory().all;
 
-const indonesianPassiveRegexes = [ /^(di|ter)\S+($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ];
+// Passive verb form regexes per language
+const indonesianPassiveRegex = [ /^(di)\S+($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig ];
+
+// Exceptions data
+const indonesianDirectPrecedenceExceptions = [ "untuk" ];
+
+/**
+ * Checks whether the matched word(s) constitutes an exception and is therefore not a passive.
+ *
+ * @param {string} sentence  	   The sentence to check.
+ * @param {array} foundPassives    An array with the found passive verbs.
+ * @param {string} language    	   The language for which the passive analysis is being performed.
+ *
+ * @returns {boolean}          	   Whether the matched word is an exception to a passive or not.
+ */
+const checkPassiveExceptions = function( sentence, foundPassives, language ) {
+	// let nonPassivesExceptionList = [];
+	let directPrecedenceExceptions = [];
+
+	switch ( language ) {
+		case "id":
+			// nonPassivesExceptionList =  (still need to be created)
+			directPrecedenceExceptions = indonesianDirectPrecedenceExceptions;
+			break;
+	}
+
+};
 
 /**
  * Returns words that have been determined to be a passive through a regex.
  *
  * @param {string} sentence  The sentence to check.
- * @param {array} regexes   The regexes to match.
+ * @param {array} regexes    The regexes to match.
+ * @param {string} language  The language of the sentence.
  *
  * @returns {Array}          A list with the matches.
  */
-const matchPassiveVerbsWithRegexes = function( sentence, regexes ) {
-	// Matches words in a sentence with language-specific passive regexes.
+const matchPassiveVerbsWithRegexes = function( sentence, regexes, language ) {
+	const words = getWords( sentence );
+	let matches = [];
 
-	return filter( getWords( sentence ), function( word ) {
+	for ( const word of words ) {
 		regexes.forEach( function( regex )  {
-			console.log ( word.match );
-			return word.match( regex );
+			const match = word.match( regex );
+			if ( match !== null ) {
+				matches.push( match );
+			}
 		} );
-	} );
+	}
 
-	// regexes.forEach( function( regex ) {
-	// 	const match = sentence.match( regex );
-	// 	if ( match !== null ) {
-	// 		matches.push( match );
-	// 	}
-	// } );
+	matches = flattenDeep( matches );
 
+	// Check exceptions.
+	if ( matches.length !== 0 ) {
+		if( checkPassiveExceptions( sentence, regexes, language ) ) {
+			matches = [];
+		}
+	}
+
+	return matches;
 };
 
 
 /**
- * Matches the sentence against passive verbs.
+ * Matches the sentence against a list of passive verbs.
  *
  * @param {string} sentence     The sentence to match against.
  * @param {Array} passiveVerbs  The array containing passive verb-forms.
@@ -74,13 +107,13 @@ const determineSentenceIsPassive = function( sentence, language ) {
 			typeOfData = "list";
 			break;
 		case "id":
-			passiveData = indonesianPassiveRegexes;
+			passiveData = indonesianPassiveRegex;
 			typeOfData = "regex";
 			break;
 	}
 	if ( typeOfData === "list" ) {
 		return matchPassiveVerbsWithLists( sentence, passiveData ).length !== 0;
-	} return matchPassiveVerbsWithRegexes( sentence, passiveData ).length !== 0;
+	} return matchPassiveVerbsWithRegexes( sentence, passiveData, language ).length !== 0;
 };
 
 /**

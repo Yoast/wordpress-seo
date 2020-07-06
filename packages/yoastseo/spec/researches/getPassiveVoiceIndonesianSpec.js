@@ -3,7 +3,12 @@ import Paper from "../../src/values/Paper.js";
 
 describe( "detecting passive voice in sentences", function() {
 	it( "returns active voice", function() {
-		const paper = new Paper( "(Seseorang) melempar pemumpang itu ke luar.", { locale: "id_ID" } );
+		const paper = new Paper( "Seseorang melempar pemumpang itu ke luar.", { locale: "id_ID" } );
+		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
+	} );
+
+	it( "returns active voice", function() {
+		const paper = new Paper( "Anwar sudah mendengar berita itu kemarin", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
@@ -11,11 +16,6 @@ describe( "detecting passive voice in sentences", function() {
 		// Passive: dilempar.
 		const paper = new Paper( "Penumpang itu dilempar ke luar.", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns active voice", function() {
-		const paper = new Paper( "Anwar sudah mendengar berita itu kemarin", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
 	it( "returns passive voice", function() {
@@ -25,32 +25,14 @@ describe( "detecting passive voice in sentences", function() {
 	} );
 
 	it( "returns passive voice", function() {
-		// Passive: terinjak.
-		const paper = new Paper( "Kaki orang itu terinjak oleh Ahmad.", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
-		// Passive: terbakar.
-		const paper = new Paper( "Rumahnya terbakar tadi malam.", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
 		// Passive: dilempar.
 		const paper = new Paper( "Penumpang itu dilempar ke luar.", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
-	it( "returns passive voice", function() {
-		// Passive: dipikirkan.
-		const paper = new Paper( "Apa saja yang patut untuk dipikirkan?", { locale: "id_ID" } );
-		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
-	} );
-
-	it( "returns passive voice", function() {
+	it( "does not return passive voice if the passive verb is preceded by 'untuk", function() {
 		// Passive: digunakan.
-		const paper = new Paper( "Kalimat yang lebih baik untuk digunakan", { locale: "id_ID" } );
+		const paper = new Paper( "Kalimat yang dipikirkan lebih baik untuk digunakan", { locale: "id_ID" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 } );
