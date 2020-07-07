@@ -13,9 +13,9 @@
 }
 
 body {
-	background: var(--color-white);
+	background: var(--yoast-color-white);
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	font-size: var(--font-size-default);
+	font-size: var(--yoast-font-size-default);
 	line-height: 1.375;
 	margin: 0;
 	padding: 0;
