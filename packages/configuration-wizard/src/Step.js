@@ -239,7 +239,7 @@ class Step extends React.Component {
 			const inputFieldProperties = {
 				label: currentField.properties.label,
 				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"field-className": `${this.props.classPrefix}-text-input-field yoast-field-group__inputfield`,
+				"field-className": `${this.props.classPrefix}-text-input-field`,
 				autoComplete: currentField.properties.autoComplete,
 				optionalAttributes: {
 					"class": `${this.props.classPrefix}-text-input`,
