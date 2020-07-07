@@ -63,9 +63,17 @@ class Yoast_Integration_Toggles {
 	protected function load_toggles() {
 		$integration_toggles = [
 			(object) [
-				'name'            => __( 'SEMrush integration', 'wordpress-seo' ),
+				/* translators: %s: 'SEMrush' */
+				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'SEMrush' ),
 				'setting'         => 'semrush_integration_active',
-				'label'           => __( 'The SEMrush integrations offers suggestions for related keywords.', 'wordpress-seo' ),
+				'label'           => sprintf(
+					__(
+						/* translators: %s: 'SEMrush' */
+						'The %s integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
+						'wordpress-seo'
+					),
+				'SEMrush'
+				),
 				'order'           => 10,
 			],
 		];
