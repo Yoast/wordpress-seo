@@ -147,9 +147,9 @@ class Web_Stories_Test extends TestCase {
 		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
 
 		Monkey\Functions\expect( '\wp_dequeue_script' )
-			->once();
+			->times(3);
 		Monkey\Functions\expect( '\wp_dequeue_style' )
-			->times(7);
+			->times(8);
 
 		$this->instance->dequeue_admin_assets();
 	}

@@ -79,6 +79,8 @@ class Web_Stories implements Integration_Interface {
 			&& 'edit' !== $screen->base
 		) {
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
+			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'edit-page-script' );
+			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'quick-edit-handler' );
 
 			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox-css' );
 			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'scoring' );
@@ -87,6 +89,7 @@ class Web_Stories implements Integration_Interface {
 			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-css' );
 			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'featured-image' );
 			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'dismissible' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'edit-page' );
 		}
 	}
 
