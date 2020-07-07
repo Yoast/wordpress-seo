@@ -224,7 +224,7 @@ class Edit {
 				>
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
-				{ !isPremium && <Fill name="YoastRelatedKeyphrases">
+				{ ! isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
 				</Fill> }
 			</Fragment>
