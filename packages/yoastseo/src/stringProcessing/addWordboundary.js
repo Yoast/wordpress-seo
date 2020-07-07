@@ -16,9 +16,9 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
 
 	if ( locale === "id_ID" ) {
-		wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
 	} else {
-		wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"+\\-;!¡?¿:\/»«‹›" + extraWordBoundary + "<>";
 	}
 
 	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
