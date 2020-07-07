@@ -60,8 +60,7 @@
   },
   "jest": {
     "testRegex": ".*Test.js$",
-    "testEnvironment": "jsdom",
-    "testURL": "http://localhost",
+    "testEnvironment": "node",
     "transform": {
       "\\.jsx?$": "babel-jest"
     },
