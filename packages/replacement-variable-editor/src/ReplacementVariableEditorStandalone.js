@@ -126,10 +126,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		this.onChange = this.onChange.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
-		this.setMentionSuggestionsRef = this.setMentionSuggestionsRef.bind( this );
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
 		this.debouncedA11ySpeak = debounce( a11ySpeak.bind( this ), 500 );
-		this.debouncedUpdateMentionSuggestions = debounce( this.updateMentionSuggestions.bind( this ), 100 );
 	}
 
 	/**
@@ -321,15 +319,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	}
 
 	/**
-	 * Update the mention suggestions to trigger the repositioning of the popover.
-	 *
-	 * @returns {void}
-	 */
-	updateMentionSuggestions() {
-		this.mentionSuggestions.forceUpdate();
-	}
-
-	/**
 	 * Focuses the editor.
 	 *
 	 * @returns {void}
@@ -358,17 +347,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		const editorField = get( this.editor, "editor.editor" );
 
 		editorField.id = this.props.fieldId;
-	}
-
-	/**
-	 * Sets the mention reference on this component instance.
-	 *
-	 * @param {Object} mentionSuggestions The mentionSuggestions React reference.
-	 *
-	 * @returns {void}
-	 */
-	setMentionSuggestionsRef( mentionSuggestions ) {
-		this.mentionSuggestions = mentionSuggestions;
 	}
 
 	/**
@@ -483,7 +461,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		window.addEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 		document.addEventListener( "copy", this.handleCopyCutEvent );
 		document.addEventListener( "cut", this.handleCopyCutEvent );
 		this.setEditorFieldId();
@@ -496,7 +473,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	componentWillUnmount() {
 		this.debouncedA11ySpeak.cancel();
-		window.removeEventListener( "scroll", this.debouncedUpdateMentionSuggestions );
 		document.removeEventListener( "copy", this.handleCopyCutEvent );
 		document.removeEventListener( "cut", this.handleCopyCutEvent );
 	}
@@ -529,7 +505,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
-						ref={ this.setMentionSuggestionsRef }
 					/>
 				</ZIndexOverride>
 			</React.Fragment>

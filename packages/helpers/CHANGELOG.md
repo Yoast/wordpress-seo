@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 0.13.0 July 6th, 2020
+## 0.13.0 July 20th, 2020
 ### Enhancements
 * Adds functions to validate Facebook/Twitter images.
 

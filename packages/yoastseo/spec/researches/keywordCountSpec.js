@@ -166,4 +166,9 @@ describe( "Test for counting the keyword in a text", function() {
 				original: "A string with three keys (key and another key) and one word." } ) ]
 		);
 	} );
+
+	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
+		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.", { locale: "id_ID" } );
+		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 1 );
+	} );
 } );
