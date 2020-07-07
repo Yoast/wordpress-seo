@@ -77,6 +77,7 @@ class Web_Stories_Test extends TestCase {
 		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->instance, 'remove_web_stories_meta_output' ] ), 'The remove Web Stories meta output function is registered.' );
 		$this->assertTrue( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 		$this->assertTrue( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
+		$this->assertTrue( \has_action( 'admin_enqueue_scripts', [ $this->instance, 'dequeue_admin_assets' ] ), 'The admin_enqueue_scripts action is registered.' );
 	}
 
 	/**
@@ -103,6 +104,54 @@ class Web_Stories_Test extends TestCase {
 		$this->assertFalse( \has_action( 'web_stories_story_head', [ $instance, 'print_open_graph_metadata' ] ), 'The Web Stories print open graph metadata action is not registered' );
 		$this->assertFalse( \has_action( 'web_stories_story_head', [ $instance, 'print_twitter_metadata' ] ), 'The Web Stories print twitter metadata action is not registered' );
 		$this->assertFalse( \has_action( 'web_stories_story_head', 'rel_canonical' ), 'The rel canonical action is not registered' );
+	}
+
+	/**
+	 * Tests dequeue admin assets
+	 *
+	 * @covers ::dequeue_admin_assets
+	 */
+	public function test_dequeue_admin_assets() {
+		$current_screen = Mockery::mock( '\WP_Screen' );
+		$current_screen->base = 'foo';
+		$current_screen->post_type = 'bar';
+
+		Monkey\Functions\expect( '\get_current_screen' )
+			->once()
+			->andReturn( $current_screen );
+
+		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+
+		Monkey\Functions\expect( '\wp_dequeue_script' )
+			->never();
+		Monkey\Functions\expect( '\wp_dequeue_style' )
+			->never();
+
+		$this->instance->dequeue_admin_assets();
+	}
+
+	/**
+	 * Tests dequeue admin assets
+	 *
+	 * @covers ::dequeue_admin_assets
+	 */
+	public function test_dequeue_admin_assets_with_screen() {
+		$current_screen = Mockery::mock( '\WP_Screen' );
+		$current_screen->base = 'post';
+		$current_screen->post_type = 'web-story';
+
+		Monkey\Functions\expect( '\get_current_screen' )
+			->once()
+			->andReturn( $current_screen );
+
+		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+
+		Monkey\Functions\expect( '\wp_dequeue_script' )
+			->once();
+		Monkey\Functions\expect( '\wp_dequeue_style' )
+			->times(7);
+
+		$this->instance->dequeue_admin_assets();
 	}
 
 	/**

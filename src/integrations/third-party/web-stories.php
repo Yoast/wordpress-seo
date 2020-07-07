@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
@@ -28,7 +29,7 @@ class Web_Stories implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Web_Stories_Conditional::class ];
+		return [ Web_Stories_Conditional::class ];
 	}
 
 	/**
@@ -47,6 +48,7 @@ class Web_Stories implements Integration_Interface {
 		\add_action( 'web_stories_story_head', [ $this, 'remove_web_stories_meta_output' ], 0 );
 		\add_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ], 9 );
 		\add_filter( 'wpseo_schema_article_post_types', [ $this, 'filter_schema_article_post_types' ] );
+		\add_action( 'admin_enqueue_scripts', [ $this, 'dequeue_admin_assets' ] );
 	}
 
 	/**
@@ -61,6 +63,31 @@ class Web_Stories implements Integration_Interface {
 		\remove_action( 'web_stories_story_head', [ $instance, 'print_open_graph_metadata' ] );
 		\remove_action( 'web_stories_story_head', [ $instance, 'print_twitter_metadata' ] );
 		\remove_action( 'web_stories_story_head', 'rel_canonical' );
+	}
+
+	/**
+	 * Removes assets for the stories editor & dashboard as they are completely custom.
+	 *
+	 * @return void
+	 */
+	public function dequeue_admin_assets() {
+		$screen = \get_current_screen();
+
+		if (
+			$screen instanceof \WP_Screen &&
+			\Google\Web_Stories\Story_Post_Type::POST_TYPE_SLUG === $screen->post_type
+			&& 'edit' !== $screen->base
+		) {
+			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
+
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox-css' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'scoring' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'select2' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'monorepo' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-css' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'featured-image' );
+			\wp_dequeue_style( WPSEO_Admin_Asset_Manager::PREFIX . 'dismissible' );
+		}
 	}
 
 	/**
