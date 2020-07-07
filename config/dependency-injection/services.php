@@ -49,7 +49,6 @@ $excluded_directories = [
 	'backwards-compatibility',
 	'surfaces/values',
 	'presenters',
-	'config/migrations',
 	'exceptions/oauth',
 	'exceptions/semrush',
 	'values/semrush',
