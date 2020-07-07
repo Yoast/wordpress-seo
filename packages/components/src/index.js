@@ -1,5 +1,4 @@
 import "./base";
-import "./configuration-wizard/configuration-wizard.css"
 
 import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
 import { LinkButton } from "./buttons/LinkButton";
