@@ -86,8 +86,7 @@ const Choice = ( props ) => {
 				const checked = ( props.value === choiceName );
 
 				return (
-					<div className={ "yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical "
-					+ props.optionClassName + " " + choiceName } key={ index }>
+					<div className={ "yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical " + props.optionClassName + " " + choiceName } key={ index }>
 						<Input
 							name={ fieldName } type="radio" label={ choice.label } onChange={ props.onChange }
 							   value={ choiceName } optionalAttributes={ { id, checked } }
