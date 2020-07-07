@@ -46,13 +46,29 @@ const determineSentenceIsPassiveListBased = function( sentence, language ) {
 	return matchPassiveVerbs( sentence, passiveVerbs ).length !== 0;
 };
 
-const determineSentenceIsPassiveIndonesian = function( sentence, language ) {
-	let words = getWords( sentence );
-	const matchedPassives = words.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
+const determineSentenceIsPassiveIndonesian = function( sentence ) {
+	const words = getWords( sentence );
+	let matchedPassives = words.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
 
-// check exception list
+	// Check exception list.
+	if ( matchedPassives.length === 0 ) {
+		return false;
+	}
+	matchedPassives = matchedPassives.filter( matchedPassive => ( ! nonPassivesIndonesian.includes( matchedPassive ) ) );
 
-// check direct precedence exceptions
+	// Check direct precedence exceptions.
+	if ( matchedPassives.length === 0 ) {
+		return false;
+	}
+	matchedPassives = matchedPassives.filter( function( matchedPassive ) {
+		let matchedPassivesShouldStay = true;
+		const passiveIndex = words.indexOf( matchedPassive );
+		const wordPrecedingPassive = words[ passiveIndex - 1 ];
+		if ( wordPrecedingPassive === "untuk" ) {
+			matchedPassivesShouldStay = false;
+		}
+		return matchedPassivesShouldStay;
+	} );
 
 	return matchedPassives.length !== 0;
 };
@@ -66,12 +82,11 @@ const determineSentenceIsPassiveIndonesian = function( sentence, language ) {
  * @returns {boolean} Returns true if passive, otherwise returns false.
  */
 export default function( sentenceText, language ) {
-
-	if( [ "ru", "sv" ].includes( language ) ) {
+	if ( [ "ru", "sv" ].includes( language ) ) {
 		return determineSentenceIsPassiveListBased( sentenceText, language );
 	}
 
-	if( [ "id" ].includes( language ) ) {
+	if ( [ "id" ].includes( language ) ) {
 		return determineSentenceIsPassiveIndonesian( sentenceText, language );
 	}
 }
