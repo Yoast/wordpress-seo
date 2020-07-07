@@ -1,5 +1,5 @@
 /* External dependencies */
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
@@ -77,6 +77,7 @@ const Choice = ( props ) => {
 					);
 				} ) }
 			</fieldset>
+			;
 		}
 		return <fieldset className={ "yoast-wizard-input-radio-" + fieldName }>
 			{ fieldKeys.map( ( choiceName, index ) => {
