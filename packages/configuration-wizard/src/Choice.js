@@ -55,7 +55,7 @@ const Choice = ( props ) => {
 			</fieldset>
 			;
 			/* eslint-enable jsx-a11y/no-onchange */
-		} else if ( fieldName === "separator" ) {
+		} else if ( fieldName === "separator") {
 			return <fieldset className={ "yoast-field-group__title-separator" }>
 				{ fieldKeys.map( ( choiceName, index ) => {
 					const choice = choices[ choiceName ];
@@ -77,7 +77,6 @@ const Choice = ( props ) => {
 					);
 				} ) }
 			</fieldset>
-			;
 		}
 		return <fieldset className={ "yoast-field-group yoast-wizard-input-radio-" + fieldName }>
 			{ fieldKeys.map( ( choiceName, index ) => {
@@ -87,10 +86,8 @@ const Choice = ( props ) => {
 				const checked = ( props.value === choiceName );
 
 				return (
-					<div
-						className={ "yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical " +
-						props.optionClassName + " " + choiceName } key={ index }
-					>
+					<div className={ "yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical "
+					+ props.optionClassName + " " + choiceName } key={ index }>
 						<Input
 							name={ fieldName } type="radio" label={ choice.label } onChange={ props.onChange }
 							   value={ choiceName } optionalAttributes={ { id, checked } }
