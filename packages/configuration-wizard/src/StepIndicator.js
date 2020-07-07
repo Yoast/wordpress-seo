@@ -60,7 +60,6 @@ class StepIndicator extends React.Component {
 					"aria-current": "step",
 					style: {
 						verticalAlign: "middle",
-						fontFamily: "var(--font-family)",
 					},
 				}, currentField.title );
 			} else {
