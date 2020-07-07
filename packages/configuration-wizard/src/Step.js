@@ -239,7 +239,7 @@ class Step extends React.Component {
 			const inputFieldProperties = {
 				label: currentField.properties.label,
 				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"field-className": `${this.props.classPrefix}-text-input-field yoast-field-group__inputfield`,
+				"field-className": `${this.props.classPrefix}-text-input-field`,
 				autoComplete: currentField.properties.autoComplete,
 				optionalAttributes: {
 					"class": `${this.props.classPrefix}-text-input`,
@@ -278,7 +278,7 @@ class Step extends React.Component {
 				tabIndex="-1"
 				aria-labelledby="step-title"
 			>
-				<h2 className="yoast-h2 yoast-wizard__step-title">{ this.props.title }</h2>
+				<h1 className="step-title">{ this.props.title }</h1>
 				<div className={ `${ this.props.classPrefix }-content-container${ fullWidthClass }` }>
 					{ this.getFieldComponents( this.props.fields ) }
 				</div>
