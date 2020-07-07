@@ -16,7 +16,7 @@
     "url": "https://github.com/Yoast/wordpress-seo"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest -u",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "webpack-analyze-bundle": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
