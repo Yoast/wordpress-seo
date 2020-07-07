@@ -9,6 +9,7 @@ import {
 	get,
 	pickBy,
 } from "lodash-es";
+import { Fill } from "@wordpress/components";
 
 /* Internal dependencies */
 import Data from "../analysis/data.js";
@@ -29,6 +30,7 @@ import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
+import SEMrushRelatedKeyphrases from "../containers/SEMrushRelatedKeyphrases";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -218,6 +220,9 @@ class Edit {
 				>
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
+				<Fill name="YoastRelatedKeyphrases">
+					<SEMrushRelatedKeyphrases />
+				</Fill>
 			</Fragment>
 		);
 
