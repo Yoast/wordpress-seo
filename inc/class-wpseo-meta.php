@@ -646,7 +646,7 @@ class WPSEO_Meta {
 		// Check if we need to fetch data from the indexables table.
 		if ( isset( $field_def['indexable'] ) && $field_def['indexable'] === true ) {
 			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
-			$indexable  = $repository->find_by_id_and_type( $postid, $post->post_type );
+			$indexable  = $repository->find_by_id_and_type( $postid, WPSEO_Utils::get_page_type() );
 			if ( ! is_null( $indexable->$key ) ) {
 				return $indexable->$key;
 			}
