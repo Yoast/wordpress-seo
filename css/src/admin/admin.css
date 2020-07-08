@@ -22,7 +22,8 @@
 	color: #008a00;
 }
 
-.yoast-paper.yoast-space-bottom {
+.yoast-paper.yoast-space-bottom,
+.yoast-paper--bottom .paper-container {
 	padding-bottom: 16px;
 }
 
