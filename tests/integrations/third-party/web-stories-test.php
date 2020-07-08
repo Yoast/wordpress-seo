@@ -61,7 +61,7 @@ class Web_Stories_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class, Web_Stories_Conditional::class ],
+			[ Web_Stories_Conditional::class ],
 			Web_Stories::get_conditionals()
 		);
 	}
