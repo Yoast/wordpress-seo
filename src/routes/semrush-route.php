@@ -61,7 +61,7 @@ class SEMrush_Route implements Route_Interface {
 			'callback' => [ $this, 'authenticate' ],
 			'args'     => [
 				'code' => [
-					'validate_callback' => [ $this, 'has_code' ],
+					'validate_callback' => [ $this, 'has_valid_code' ],
 					'required'          => true,
 				],
 			],
