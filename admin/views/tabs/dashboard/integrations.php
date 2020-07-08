@@ -27,9 +27,11 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 		foreach ( $integration_toggles as $integration ) {
 			$help_text = esc_html( $integration->label );
+
 			if ( ! empty( $integration->extra ) ) {
 				$help_text .= ' ' . $integration->extra;
 			}
+
 			if ( ! empty( $integration->read_more_label ) ) {
 				$help_text .= ' ';
 				$help_text .= sprintf(

@@ -82,7 +82,7 @@ class Yoast_Integration_Toggles {
 		 * Filter to add integration toggles from add-ons.
 		 *
 		 * @param array $integration_toggles Array with integration toggle objects where each object
-		 *                               should have a `name`, `setting` and `label` property.
+		 *                                   should have a `name`, `setting` and `label` property.
 		 */
 		$integration_toggles = apply_filters( 'wpseo_integration_toggles', $integration_toggles );
 
