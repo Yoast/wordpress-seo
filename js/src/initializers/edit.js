@@ -65,8 +65,8 @@ class Edit {
 	 */
 	getLocalizedData() {
 		return (
-			window.wpseoScriptData.metabox ||
-			{ intl: {}, isRtl: false }
+			{ ...window.wpseoScriptData.metabox, isPremium: window.wpseoAdminL10n.isPremium } ||
+			{ intl: {}, isRtl: false, isPremium: false }
 		);
 	}
 
@@ -162,15 +162,19 @@ class Edit {
 			PluginSidebar,
 			PluginSidebarMoreMenuItem,
 		} = wp.editPost;
+
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
-		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
+		const isPremium = this._localizedData.isPremium;
+
+		const pluginTitle = isPremium ? "Yoast SEO Premium" : "Yoast SEO";
 
 		const theme = {
 			isRtl: this._localizedData.isRtl,
 		};
 		const preferences = store.getState().preferences;
 		const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
+
 		this.initiallyOpenDocumentSettings();
 
 		/**
@@ -220,9 +224,9 @@ class Edit {
 				>
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
-				<Fill name="YoastRelatedKeyphrases">
+				{ ! isPremium && <Fill name="YoastRelatedKeyphrases">
 					<SEMrushRelatedKeyphrases />
-				</Fill>
+				</Fill> }
 			</Fragment>
 		);
 
