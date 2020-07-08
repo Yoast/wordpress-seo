@@ -197,6 +197,31 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that ensure permalink does not save when the permalink is still null.
+	 */
+	public function test_get_ancestors_ensures_permalink_no_save() {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+		$indexable->expects( 'save' )->never();
+		$indexable->object_type = 'post';
+
+		$this->hierarchy_repository
+			->expects( 'find_ancestors' )
+			->once()
+			->with( $indexable )
+			->andReturn( [ 1, 2 ] );
+
+		$orm_object = $this->mock_orm( [ 1, 2 ], [ $indexable ] );
+
+		Monkey\Functions\expect( 'get_permalink' )
+			->andReturnNull();
+
+		$this->instance->expects( 'query' )->andReturn( $orm_object );
+
+		$this->assertSame( [ $indexable ], $this->instance->get_ancestors( $indexable ) );
+		$this->assertNull( $indexable->permalink );
+	}
+
+	/**
 	 * Tests that retrieving the ancestors of an indexable ensures
 	 * that the permalink of each ancestor is available when there is only one ancestor.
 	 */

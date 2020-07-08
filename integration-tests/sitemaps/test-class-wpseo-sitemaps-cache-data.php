@@ -133,7 +133,9 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
 		$this->subject->set_sitemap( $sitemap );
 
-		$tmp  = serialize( $this->subject );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
+		$tmp = serialize( $this->subject );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$test = unserialize( $tmp );
 
 		$this->assertEquals( $this->subject, $test );
