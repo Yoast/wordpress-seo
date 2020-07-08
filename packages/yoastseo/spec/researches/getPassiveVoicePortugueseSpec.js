@@ -20,7 +20,7 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "returns passive voice (futuro)", function() {
 		// Passive: será comida.
-		var paper = new Paper( "A decisão será comida.", { locale: "pt_PT" } );
+		var paper = new Paper( "A decisão será aprovado.", { locale: "pt_PT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 1 );
 	} );
 
