@@ -23,7 +23,8 @@ import { decodeEntities } from "@wordpress/html-entities";
  */
 import InlineLinkUI from "./inline";
 
-const name = "yoast-seo/link";
+// Other blocks might restrict their richtext to core/link. That's why we need to replace core/link instead of registering our yoast-seo/link.
+const name = "core/link";
 const title = __( "Link", "wordpress-seo" );
 
 export const link = {

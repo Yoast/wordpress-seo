@@ -28,14 +28,14 @@ Array [
     value="https://www.google.com"
   />,
   <div
-    className="Collapsible__StyledContainer-sc-1ahsa22-1 Collapsible__StyledContainerTopLevel-sc-1ahsa22-2 jZWaqb"
+    className="Collapsible__StyledContainer-sc-1ahsa22-1 Collapsible__StyledContainerTopLevel-sc-1ahsa22-2 dvNeGK"
   >
     <h2
       className="Collapsible__StyledHeadingLevel-sc-1ahsa22-4 fytkxp"
     >
       <button
         aria-expanded={false}
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq Collapsible__StyledIconsButton-sc-1ahsa22-3 ixEIcM"
+        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Collapsible__StyledIconsButton-sc-1ahsa22-3 ixEIcM Button-sc-32rbq-0 glyHEG"
         id="collapsible-advanced-settings"
         onClick={[Function]}
         type="button"

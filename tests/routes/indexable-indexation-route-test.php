@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Routes;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
@@ -57,6 +58,13 @@ class Indexable_Indexation_Route_Test extends TestCase {
 	protected $general_indexation_action;
 
 	/**
+	 * Represents the indexation complete action.
+	 * 
+	 * @var Mockery\MockInterface|Indexable_Complete_Indexation_Action
+	 */
+	protected $complete_indexation_action;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexable_Indexation_Route
@@ -80,6 +88,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->term_indexation_action              = Mockery::mock( Indexable_Term_Indexation_Action::class );
 		$this->post_type_archive_indexation_action = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation_action           = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation_action          = Mockery::mock( Indexable_Complete_Indexation_Action::class );
 		$this->options_helper                      = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Indexation_Route(
@@ -87,6 +96,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 			$this->term_indexation_action,
 			$this->post_type_archive_indexation_action,
 			$this->general_indexation_action,
+			$this->complete_indexation_action,
 			$this->options_helper
 		);
 	}
@@ -101,6 +111,7 @@ class Indexable_Indexation_Route_Test extends TestCase {
 		$this->assertAttributeInstanceOf( Indexable_Term_Indexation_Action::class, 'term_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_Post_Type_Archive_Indexation_Action::class, 'post_type_archive_indexation_action', $this->instance );
 		$this->assertAttributeInstanceOf( Indexable_General_Indexation_Action::class, 'general_indexation_action', $this->instance );
+		$this->assertAttributeInstanceOf( Indexable_Complete_Indexation_Action::class, 'complete_indexation_action', $this->instance );
 	}
 
 	/**

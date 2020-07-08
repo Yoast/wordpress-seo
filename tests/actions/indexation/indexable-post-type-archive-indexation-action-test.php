@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
-use Brain\Monkey\Filters;
+use Brain\Monkey;
 use Mockery;
 use Mockery\MockInterface;
 use Yoast\WP\Lib\ORM;
@@ -106,10 +106,24 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$indexed_post_types = [ 'books' ];
 
+		Monkey\Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives' )->andReturnFalse();
+		Monkey\Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives', 1, \DAY_IN_SECONDS )->andReturnTrue();
+
 		$this->set_expectations_for_post_type_helper( $public_post_types );
 		$this->set_expectations_for_repository( $indexed_post_types );
 
 		$this->assertEquals( 1, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get total unindexed method with cache.
+	 *
+	 * @covers ::get_total_unindexed
+	 */
+	public function test_get_total_unindexed_cached() {
+		Monkey\Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_post_type_archives' )->andReturn( '10' );
+
+		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
 	}
 
 	/**
@@ -145,9 +159,11 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
 
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}
@@ -185,9 +201,11 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( -1 );
+
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
 
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}
@@ -225,9 +243,11 @@ class Indexable_Post_Type_Archive_Indexation_Action_Test extends TestCase {
 
 		$expected_indexable_mocks = $this->set_expectations_for_builder( $unindexed_post_types );
 
-		Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
+		Monkey\Filters\expectApplied( 'wpseo_post_type_archive_indexation_limit' )
 			->with( 25 )
 			->andReturn( 'not an integer' );
+
+		Monkey\Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_post_type_archives' );
 
 		$this->assertEquals( $expected_indexable_mocks, $this->instance->index() );
 	}

@@ -209,6 +209,22 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.5 =
+Release Date: July 8th, 2020
+
+Yoast SEO 14.5 is out today! In this release, we made some changes regarding our use of XML sitemaps. We decided to disable the new WordPress core XML sitemaps in favour of our own. Also, we fixed a number of bugs. Read more about those changes in [our release post](https://yoa.st/release-14-5)!
+
+Enhancements:
+
+* Disables the WP Core sitemaps as introduced in WordPress 5.5.
+* Adds an abstract class to easily add dynamic blocks in Yoast SEO / add-ons.
+
+Bugfixes:
+
+* Fixes a bug where the SEO title and meta description for posts that have a custom title and/or description would not be displayed in the posts overview.
+* Fixes a bug where the WordPress dashboard was slower for very large sites, by caching the number of unindexed posts, terms and post type archives.
+* Fixes a bug where inline link functionality in custom blocks could be missing.
+
 = 14.4.1 =
 Release Date: June 23rd, 2020
 
@@ -242,17 +258,6 @@ Enhancements:
 Other:
 
 * Adds headers to the main plugin file for the minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
-
-= 14.3 =
-Release Date: June 9th, 2020
-
-In every release of Yoast SEO, we fix bugs and find other ways to enhance our code. For instance, we’re always working on quality assurance, code style and other behind the scenes work. In Yoast SEO 14.3, you’ll find many of these improvements plus some bugfixes. Read more about those changes in [our release post](https://yoa.st/release-14-3)!
-
-Bugfixes:
-
-* Fixes a bug where the FAQ schema list item's position would start at 0 instead of 1.
-* Fixes a bug where the filters `wpseo_metadesc` and `wpseo_title` weren't called with the right argument, which could lead to errors.
-* Fixes a bug where our global CSS variables could conflict with global CSS variables of themes.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
