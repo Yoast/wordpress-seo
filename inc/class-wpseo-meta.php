@@ -262,6 +262,7 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function init() {
+		global $post;
 
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
@@ -276,6 +277,14 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $option, $network, $box, $type );
+
+		/**
+		 * Fetch default options for the schema_page_type and schema_article_type.
+		 * 
+		 * These options can be changed using the Search Appearance settings.
+		 */
+		self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
+		self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
