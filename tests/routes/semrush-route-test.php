@@ -80,7 +80,7 @@ class SEMrush_Route_Test extends TestCase {
 					'callback' => [ $this->instance, 'authenticate' ],
 					'args'     => [
 						'code' => [
-							'validate_callback' => [ $this->instance, 'has_code' ],
+							'validate_callback' => [ $this->instance, 'has_valid_code' ],
 							'required'          => true,
 						],
 					],

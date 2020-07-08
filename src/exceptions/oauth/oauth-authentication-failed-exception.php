@@ -30,7 +30,7 @@ class OAuth_Authentication_Failed_Exception extends \Exception {
 		return (object) [
 			'tokens' => [],
 			'error'  => $this->getMessage() . ': ' . $this->getPrevious()->getMessage(),
-			'code'   => $this->getCode(),
+			'status'   => $this->getCode(),
 		];
 	}
 }
