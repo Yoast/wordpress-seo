@@ -26,7 +26,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
-		'tracking'                                 => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
@@ -62,6 +61,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'semrush_integration_active'               => true,
+		'semrush_tokens' => [],
 	];
 
 	/**
@@ -320,6 +321,22 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 					break;
 
+				case 'semrush_tokens':
+					$clean[ $key ] = $old[ $key ];
+
+					if ( isset( $dirty[ $key ] ) ) {
+						$semrush_tokens = $dirty[ $key ];
+						if ( ! is_array( $semrush_tokens ) ) {
+							$semrush_tokens = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $semrush_tokens ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+
+					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
@@ -363,6 +380,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_xml_sitemap'             => false,
 			'enable_text_link_counter'       => false,
 			'enable_headless_rest_endpoints' => false,
+			'semrush_integration_active'     => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

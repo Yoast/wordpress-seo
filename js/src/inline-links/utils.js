@@ -88,7 +88,7 @@ export function isValidHref( href ) {
  */
 export function createLinkFormat( { url, opensInNewWindow, noFollow, sponsored, text } ) {
 	const format = {
-		type: "yoast-seo/link",
+		type: "core/link",
 		attributes: {
 			url,
 		},
