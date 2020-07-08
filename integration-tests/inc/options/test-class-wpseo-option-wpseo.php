@@ -24,6 +24,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 		'enable_cornerstone_content',
 		'enable_xml_sitemap',
 		'enable_text_link_counter',
+		'semrush_integration_active',
 	];
 
 	/**
