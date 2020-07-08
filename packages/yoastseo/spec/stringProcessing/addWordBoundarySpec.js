@@ -21,4 +21,9 @@ describe( "a test adding wordboundaries to a string", function() {
 			"(^|[ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›#<>'‘’‛`])keyword($|((?=[ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›#<>]))|((['‘’‛`])([ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+\\-;!¡?¿:/»«‹›#<>])))"
 		);
 	} );
+	it( "uses a word boundary excluding - when the locale is Indonesian", function() {
+		expect( addWordBoundary( "keyword", false, "", "id_ID" ) ).toEqual(
+			"(^|[ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›<>'‘’‛`])keyword($|([ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›<>])|((['‘’‛`])([ \\u00a0 \\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›<>])))"
+		);
+	} );
 } );

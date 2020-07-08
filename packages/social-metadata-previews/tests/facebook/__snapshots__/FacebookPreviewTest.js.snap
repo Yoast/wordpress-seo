@@ -131,6 +131,7 @@ exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 
 <div
   className="c0"
+  id="facebookPreview"
   mode={null}
 >
   <div
@@ -312,6 +313,7 @@ exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 
 <div
   className="c0"
+  id="facebookPreview"
   mode={null}
 >
   <div
@@ -493,6 +495,7 @@ exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 
 <div
   className="c0"
+  id="facebookPreview"
   mode={null}
 >
   <div
@@ -674,6 +677,7 @@ exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 
 <div
   className="c0"
+  id="facebookPreview"
   mode={null}
 >
   <div
@@ -855,6 +859,7 @@ exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
 
 <div
   className="c0"
+  id="facebookPreview"
   mode={null}
 >
   <div
