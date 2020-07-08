@@ -392,7 +392,8 @@ class Indexable_Repository {
 	public function get_subpages_by_post_parent( $post_parent, $exclude_ids = [] ) {
 		$query = $this->query()
 			->where( 'post_parent', $post_parent )
-			->where( 'object_type', 'post' );
+			->where( 'object_type', 'post' )
+			->where( 'post_status' ,'publish' );
 
 		if ( ! empty( $exclude_ids ) ) {
 			$query->where_not_in( 'object_id', $exclude_ids );
@@ -410,7 +411,11 @@ class Indexable_Repository {
 	protected function ensure_permalink( $indexable ) {
 		if ( $indexable && $indexable->permalink === null ) {
 			$indexable->permalink = $this->get_permalink_for_indexable( $indexable );
-			$indexable->save();
+
+			// Only save if changed.
+			if ( $indexable->permalink !== null ) {
+				$indexable->save();
+			}
 		}
 		return $indexable;
 	}

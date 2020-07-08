@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
-Stable tag: 14.4.1
+Stable tag: 14.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,47 +209,46 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.6 =
+Release Date: July 21st, 2020
+
+Enhancements:
+
+* Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
+* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results. [#15597](https://github.com/Yoast/wordpress-seo/pull/15597)
+* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings. [#15622](https://github.com/Yoast/wordpress-seo/pull/15622)
+* Improves keyphrase counting in Indonesian by not counting - as a word boundary. [#696](https://github.com/Yoast/javascript/pull/696)
+* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary. [#744](https://github.com/Yoast/javascript/pull/744)
+* Improves recognition of keywords that contain a hyphen in slug (for example: re-duplicated, on-the-go). [#740](https://github.com/Yoast/javascript/pull/740)
+* Improves transition words analysis for Russian. [#714](https://github.com/Yoast/javascript/pull/714)
+
+Bugfixes:
+
+* Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections. [#15624](https://github.com/Yoast/wordpress-seo/pull/15624)
+* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam). [#15540](https://github.com/Yoast/wordpress-seo/pull/15540)
+* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback. [#15399](https://github.com/Yoast/wordpress-seo/pull/15399)
+* Fixes a bug where slashes in titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher). [#14498](https://github.com/Yoast/wordpress-seo/pull/14498)
+* Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant) [#14239](https://github.com/Yoast/wordpress-seo/pull/14239)
+
+Other:
+
+* Removes functions, class variables and classes that were deprecated prior to version 11.5. [#15509](https://github.com/Yoast/wordpress-seo/pull/15509)
+
 = 14.5 =
-Release Date: July 7th, 2020
+Release Date: July 8th, 2020
+
+Yoast SEO 14.5 is out today! In this release, we made some changes regarding our use of XML sitemaps. We decided to disable the new WordPress core XML sitemaps in favour of our own. Also, we fixed a number of bugs. Read more about those changes in [our release post](https://yoa.st/release-14-5)!
 
 Enhancements:
 
 * Disables the WP Core sitemaps as introduced in WordPress 5.5.
-* Adds the option for users to opt-in to allow Yoast to track some data about their site.
-
-= 14.4.1 =
-Release Date: June 23rd, 2020
+* Adds an abstract class to easily add dynamic blocks in Yoast SEO / add-ons.
 
 Bugfixes:
 
-* Fixes a bug where existing links were no longer editable with Yoast SEO active.
-* Fixes a bug where the editor wouldn't remember `rel` values set on a link after refresh.
-
-= 14.4 =
-Release Date: June 23rd, 2020
-
-Sometimes, you have releases that start out small and end up with a substantial improvement. Yoast SEO 14.4 is one such release. Initially planned as a bug fix release, this turned into something that markedly improves the publishing workflow in WordPress. Plus, you can now mark your external links as nofollow or sponsored. You see, Yoast SEO 14.4 is a chockfull release! Read more about those changes in [our release post](https://yoa.st/release-14-4)!
-
-Bugfixes:
-
-* Fixes a bug where replacement variable values would break the Google Preview and output a PHP notice on the front end if they were a serialized array string.
-* Fixes a bug where a property that was changed from private to public on `WPSEO_Schema_Article` would lead to a backward compatibility break.
-* Fixes a bug where the site logo would not be output in the schema when a CDN was used for images. Props to [gr8shivam](https://github.com/gr8shivam)
-* Fixes a bug where the Facebook Debugger link was outdated. Props to [eliorivero](https://github.com/eliorivero)
-* Fixes a bug where a lot of delete queries would be performed after clearing all indexables from the database.
-* Fixes a bug where the indexables indexing warning would be visible to users with non-admin roles.
-
-Enhancements:
-
-* Adds SEO insights to every step of the publishing flow:
-   * Adds the readability and SEO score to the document sidebar with the possibility to quickly open the Yoast sidebar.
-   * Adds the readability and SEO score to the publish checks. Gives reassurance or a call to action to further optimize the content.
-   * Adds social sharing buttons to the post publish actions to enable easy sharing on Facebook and Twitter.
-* Adds the possibility to add `rel` keywords `nofollow` and `sponsored` to individual links in the block editor for WordPress versions 5.4 and above.
-
-Other:
-
-* Adds headers to the main plugin file for the minimum supported WordPress version and minimum supported PHP version. WordPress will not activate the plugin anymore if incompatibilities are found. Props to [spacedmonkey](https://github.com/spacedmonkey)
+* Fixes a bug where the SEO title and meta description for posts that have a custom title and/or description would not be displayed in the posts overview.
+* Fixes a bug where the WordPress dashboard was slower for very large sites, by caching the number of unindexed posts, terms and post type archives.
+* Fixes a bug where inline link functionality in custom blocks could be missing.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
