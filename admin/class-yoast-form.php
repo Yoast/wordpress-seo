@@ -77,7 +77,7 @@ class Yoast_Form {
 		?>
 		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<div class="wpseo_content_wrapper yoast-layout">
-			<div class="wpseo_content_cell" id="wpseo_content_top">
+			<div class="wpseo_content_cell yoast-main" id="wpseo_content_top">
 		<?php
 		if ( $form === true ) {
 			$enctype = ( $contains_files ) ? ' enctype="multipart/form-data"' : '';

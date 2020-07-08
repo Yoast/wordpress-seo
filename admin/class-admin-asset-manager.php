@@ -557,6 +557,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'post-overview-global-' . $flat_version,
 			],
 			[
+				'name' => 'user-profile',
+				'src'  => 'user-profile-' . $flat_version,
+			],
+			[
 				'name' => 'configuration-wizard',
 				'src'  => 'configuration-wizard-' . $flat_version,
 			],

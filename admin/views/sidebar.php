@@ -23,7 +23,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 			?>
 		</h3>
-		<ul>
+		<ul class="yoast-list--upsell">
 			<li>
 				<?php esc_html_e( 'Rank better with synonyms & related keyphrases', 'wordpress-seo' ); ?>
 			</li>
@@ -38,7 +38,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			<li><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></li>
 		</ul>
 
-		<a id="wpseo-premium-button" class="yoast-button yoast-button--buy"
+		<a id="wpseo-premium-button" class="yoast-button yoast-button--buy yoast-button--buy-large"
 			href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 			<?php
 			/* translators: %s expands to Yoast SEO Premium */

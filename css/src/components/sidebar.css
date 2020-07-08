@@ -10,12 +10,18 @@
 
 .yoast-sidebar {
 	max-width: 300px;
-	margin-left: 24px;
+	margin-top: 40px;
 }
 
 .yoast-main {
 	margin-right: 24px;
 	flex-grow: 1;
+}
+
+@media screen and ( min-width: 1200px) {
+	.yoast-main {
+		max-width: calc( 100% - 324px );
+	}
 }
 
 .yoast .yoast-sidebar__heading {
@@ -29,17 +35,8 @@
 	font-size: 16px;
 }
 
-.yoast-sidebar li {
-	position: relative;
-	margin-left: 18px;
+.yoast-sidebar .yoast-list--upsell li {
 	font-weight: 600;
-}
-
-.yoast-sidebar li::before {
-	content: '\002b';
-	position: absolute;
-	top: 0;
-	left: -18px;
 }
 
 .yoast-sidebar__plugins {

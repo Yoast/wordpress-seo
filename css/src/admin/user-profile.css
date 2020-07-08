@@ -1,0 +1,89 @@
+.yoast-settings {
+	margin-bottom: 2em;
+	padding-left: 220px;
+}
+
+.yoast-settings h2 {
+	margin-bottom: 0;
+	margin-left: -220px;
+}
+
+.yoast-settings label {
+	display: inline-block;
+	width: 200px;
+	padding-top: 4px;
+	padding-right: 10px;
+	margin-right: 6px;
+	margin-left: -220px;
+	font-size: 14px;
+	line-height: 1.28571429;
+	font-weight: 600;
+	color: #23282d;
+	vertical-align: top;
+}
+
+.yoast-settings input[type=text],
+.yoast-settings label,
+.yoast-settings textarea,
+.yoast .yoast-settings__checkbox {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+.yoast-settings__textarea--medium {
+	width: 100%;
+	max-width: 600px;
+}
+
+.yoast .yoast-settings__checkbox {
+	vertical-align: top;
+	position: relative;
+	top: 1px;
+}
+
+.yoast-settings__checkbox + label {
+	width: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0;
+	max-width: calc(100% - 25px);
+}
+
+.yoast-settings .description {
+	margin-top: 0;
+	font-size: 14px;
+}
+
+@media screen and (max-width: 782px) {
+	.yoast-settings {
+		padding-left: 0;
+	}
+
+	.yoast-settings h2 {
+		margin-left: 0;
+	}
+
+	.yoast-settings label {
+		width: auto;
+		padding: 0;
+		margin-right: 0;
+		margin-left: 0;
+	}
+
+	.yoast-settings__checkbox + label {
+		max-width: calc(100% - 35px);
+		padding-top: 8px;
+	}
+
+	.yoast-settings input[type=text],
+	.yoast-settings textarea {
+		display: block;
+		width: 100%;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 7px 10px;
+		max-width: none;
+		line-height: 1.5;
+		box-sizing: border-box;
+	}
+}

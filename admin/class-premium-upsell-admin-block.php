@@ -69,7 +69,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<span aria-hidden="true" class="yoast-button--buy__caret"></span>';
 
 		$upgrade_button = sprintf(
-			'<a id="%1$s" class="yoast-button yoast-button--buy" href="%2$s" target="_blank">%3$s</a>',
+			'<a id="%1$s" class="yoast-button yoast-button--buy yoast-button--buy-large" href="%2$s" target="_blank">%3$s</a>',
 			esc_attr( 'wpseo-' . $this->identifier . '-popup-button' ),
 			esc_url( $url ),
 			$button_text
@@ -85,10 +85,10 @@ class WPSEO_Premium_Upsell_Admin_Block {
 				'Yoast SEO Premium'
 			) .
 		'</h2>';
-		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
+		echo '<ul class="yoast-list--upsell">' . $arguments_html . '</ul>';
 
 		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
-		echo '<p>' . $upgrade_button . '</p>';
+		echo $upgrade_button;
 		echo '</div>';
 
 		echo '</div>';
@@ -117,6 +117,6 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return string The HTML base class.
 	 */
 	protected function get_html_class() {
-		return 'yoast_' . $this->identifier;
+		return 'yoast-' . $this->identifier;
 	}
 }

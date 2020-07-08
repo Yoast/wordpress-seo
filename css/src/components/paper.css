@@ -81,3 +81,12 @@
 	border-top: 1px solid var(--yoast-color-border);
 	padding-top: 24px;
 }
+
+.yoast-premium_upsell .yoast-list--upsell {
+	column-count: 2;
+	margin-bottom: 24px;
+}
+
+.yoast-premium_upsell .yoast-list--upsell li {
+	break-inside: avoid;
+}
