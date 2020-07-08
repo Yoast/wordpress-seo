@@ -27,7 +27,136 @@ Array [
     type="hidden"
     value="https://www.google.com"
   />,
-  .c0 h2 > button {
+  .c4 {
+  color: #555;
+  border-color: #ccc;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,1 );
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-align: left;
+  overflow: visible;
+  min-height: 32px;
+  -webkit-transition: var(--yoast-transition-default);
+  transition: var(--yoast-transition-default);
+}
+
+.c4:active {
+  color: #000;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c4:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: var(--yoast-color-border--default);
+}
+
+.c4 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c5 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c6 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c1 {
+  background-color: #fff;
+  border-top: 1px solid rgba( 0,0,0,0.2 );
+  border-bottom: 1px solid rgba( 0,0,0,0.2 );
+  margin-top: -1px;
+}
+
+.c3 {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: normal;
+}
+
+.c3:focus {
+  outline: 1px solid #0066cd;
+  outline-offset: -1px;
+}
+
+.c3:active {
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.c3 svg:first-child {
+  margin-right: 8px;
+}
+
+.c3 svg:last-child {
+  margin-left: 8px;
+}
+
+.c2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+  font-weight: normal !important;
+}
+
+.c0 h2 > button {
   padding-left: 24px;
   padding-top: 24px;
 }
@@ -47,31 +176,39 @@ Array [
   border-top: 1px solid rgba(0,0,0,0.2);
 }
 
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
+  .c4::after {
+    display: inline-block;
+    content: "";
+    min-height: 22px;
+  }
+}
+
 <div
-    className="Collapsible__StyledContainer-sc-1ahsa22-1 Collapsible__StyledContainerTopLevel-sc-1ahsa22-2 jZWaqb c0"
+    className="c0 c1"
   >
     <h2
-      className="Collapsible__StyledHeadingLevel-sc-1ahsa22-4 fytkxp"
+      className="c2"
     >
       <button
         aria-expanded={false}
-        className="Button__BaseButton-sc-32rbq-4 Button-sc-32rbq-3 Button-sc-32rbq-1 Button-sc-32rbq-2 Button-sc-32rbq-0 nHkJq Collapsible__StyledIconsButton-sc-1ahsa22-3 ixEIcM"
+        className="c3 c4"
         id="collapsible-advanced-settings"
         onClick={[Function]}
         type="button"
       >
         <span
-          className="SectionTitle__StyledTitleContainer-sc-1ijh58f-0 fOIIAL"
+          className="c5"
         >
           <span
-            className="SectionTitle__StyledTitle-sc-1ijh58f-1 fPOBHq"
+            className="c6"
           >
             Advanced
           </span>
         </span>
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
+          className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-f1towz-0 kuVaAG"
           fill="currentColor"
           focusable="false"
           role="img"

@@ -49,6 +49,9 @@ $excluded_directories = [
 	'backwards-compatibility',
 	'surfaces/values',
 	'presenters',
+	'exceptions/oauth',
+	'exceptions/semrush',
+	'values/semrush',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );
