@@ -197,11 +197,13 @@ class WPSEO_Meta {
 			'schema_page_type' => [
 				'type'         => 'hidden',
 				'title'        => '',
+				'indexable'    => true,
 			],
 			'schema_article_type' => [
 				'type'            => 'hidden',
 				'title'           => '',
 				'hide_on_pages'   => true,
+				'indexable'       => true,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
@@ -621,20 +623,32 @@ class WPSEO_Meta {
 			}
 		}
 
-		$custom = get_post_custom( $postid ); // Array of strings or empty array.
+		$custom    = get_post_custom( $postid ); // Array of strings or empty array.
+		$table_key = self::$meta_prefix . $key;
+		
+		// Populate the field_def using the field_index lookup array.
+		$field_def = [];
+		if ( isset( self::$fields_index[ $table_key ] ) ){
+			$field_def = self::$meta_fields[ self::$fields_index[ $table_key ]['subset'] ][ self::$fields_index[ $table_key ]['key'] ];
+		}
 
-		if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
-			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
-			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
-				return $custom[ self::$meta_prefix . $key ][0];
+		// Check if we have a custom post meta entry.
+		if ( isset( $custom[ $table_key ][0] ) ) {
+			// If we have a custom post meta entry, check whether we need to unserialize it.
+			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
+				// Ok, serialize value expected/allowed.
+				return maybe_unserialize( $custom[ $table_key ][0] );
 			}
 
-			if ( isset( self::$fields_index[ self::$meta_prefix . $key ] ) ) {
-				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
-				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed.
-					return $unserialized;
-				}
+			return $custom[ $table_key ][0];
+		}
+
+		// Check if we need to fetch data from the indexables table.
+		if ( isset( $field_def['indexable'] ) && $field_def['indexable'] === true ) {
+			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+			$indexable  = $repository->find_by_id_and_type( $postid, $post->post_type );
+			if ( ! is_null( $indexable->$key ) ) {
+				return $indexable->$key;
 			}
 		}
 
