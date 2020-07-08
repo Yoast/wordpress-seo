@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Requires at least: 5.3
 Tested up to: 5.4.1
-Stable tag: 14.4.1
+Stable tag: 14.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -210,7 +210,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 14.5 =
-Release Date: July 7th, 2020
+Release Date: July 8th, 2020
 
 Yoast SEO 14.5 is out today! In this release, we made some changes regarding our use of XML sitemaps. We decided to disable the new WordPress core XML sitemaps in favour of our own. Also, we fixed a number of bugs. Read more about those changes in [our release post](https://yoa.st/release-14-5)!
 
