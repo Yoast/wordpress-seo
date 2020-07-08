@@ -21,8 +21,8 @@ import italianParticiplesFactory from "../../italian/passiveVoice/participles";
 const italianParticiples = italianParticiplesFactory();
 import irregularsDutchFactory from "../../dutch/passiveVoice/irregulars";
 const irregularsDutch = irregularsDutchFactory();
-const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
-const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
+const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 import polishParticiplesFactory from "../../polish/passiveVoice/participles";
 const polishParticiples = polishParticiplesFactory();
 
