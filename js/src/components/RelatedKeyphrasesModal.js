@@ -9,7 +9,6 @@ import { BaseButton } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
-import SemRushCountrySelector from "./modals/SemRushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
@@ -103,7 +102,6 @@ class RelatedKeyPhrasesModal extends Component {
 								<SemRushMaxRelatedKeyphrases />
 							) }
 
-							<SemRushCountrySelector />
 							<Slot name="YoastRelatedKeyphrases" />
 
 							<h2>Debug info</h2>
