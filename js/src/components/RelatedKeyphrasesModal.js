@@ -1,9 +1,8 @@
 /* External dependencies */
 import { Fragment, Component } from "@wordpress/element";
-import { Modal } from "@wordpress/components";
+import { Modal, Slot } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 /* Yoast dependencies */
 import { BaseButton } from "@yoast/components";
@@ -13,10 +12,6 @@ import { ModalContainer } from "./modals/Container";
 import SemRushCountrySelector from "./modals/SemRushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
-import SemRushLimitReached from "./modals/SemRushLimitReached";
-import SemRushLoading from "./modals/SemRushLoading";
-import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
-import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 
 /**
@@ -35,7 +30,6 @@ class RelatedKeyPhrasesModal extends Component {
 
 		this.state = {
 			isModalOpen: false,
-			isLoading: false,
 		};
 
 		this.handleOnClick = this.handleOnClick.bind( this );
@@ -65,7 +59,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	openModal() {
-		this.setState( { isModalOpen: true, isLoading: true } );
+		this.setState( { isModalOpen: true } );
 	}
 
 	/**
@@ -74,7 +68,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {void}
 	 */
 	closeModal() {
-		this.setState( { isModalOpen: false, isLoading: false } );
+		this.setState( { isModalOpen: false } );
 	}
 
 	/**
@@ -105,15 +99,13 @@ class RelatedKeyPhrasesModal extends Component {
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
 						>
-							{ this.state.isLoading && <SemRushLoading /> }
 							{ maxRelatedKeyphrasesEntered && (
 								<SemRushMaxRelatedKeyphrases />
 							) }
-							<SemRushUpsellAlert />
-							<SemRushLimitReached />
-							<SemRushRequestFailed />
+
 							<SemRushCountrySelector />
-							<KeyphrasesTable />
+							<Slot name="YoastRelatedKeyphrases" />
+
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />
@@ -139,19 +131,4 @@ RelatedKeyPhrasesModal.defaultProps = {
 	maxRelatedKeyphrasesEntered: false,
 };
 
-/**
- * Maps redux state to the RelatedKeyPhrasesModal props.
- *
- * @param {Object} state The redux state.
- *
- * @returns {Object} Props that should be passed to RelatedKeyPhrasesModal.
- */
-function mapStateToProps( state ) {
-	const keyphrase = state.focusKeyword;
-
-	return {
-		keyphrase,
-	};
-}
-
-export default connect( mapStateToProps )( RelatedKeyPhrasesModal );
+export default RelatedKeyPhrasesModal;

@@ -9,6 +9,7 @@ import {
 	get,
 	pickBy,
 } from "lodash-es";
+import { Fill } from "@wordpress/components";
 
 /* Internal dependencies */
 import Data from "../analysis/data.js";
@@ -29,6 +30,7 @@ import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
+import SEMrushRelatedKeyphrases from "../containers/SEMrushRelatedKeyphrases";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -63,8 +65,8 @@ class Edit {
 	 */
 	getLocalizedData() {
 		return (
-			window.wpseoScriptData.metabox ||
-			{ intl: {}, isRtl: false }
+			{ ...window.wpseoScriptData.metabox, isPremium: window.wpseoAdminL10n.isPremium } ||
+			{ intl: {}, isRtl: false, isPremium: false }
 		);
 	}
 
@@ -160,15 +162,19 @@ class Edit {
 			PluginSidebar,
 			PluginSidebarMoreMenuItem,
 		} = wp.editPost;
+
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
-		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
+		const isPremium = this._localizedData.isPremium;
+
+		const pluginTitle = isPremium ? "Yoast SEO Premium" : "Yoast SEO";
 
 		const theme = {
 			isRtl: this._localizedData.isRtl,
 		};
 		const preferences = store.getState().preferences;
 		const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
+
 		this.initiallyOpenDocumentSettings();
 
 		/**
@@ -218,6 +224,9 @@ class Edit {
 				>
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
+				{ ! isPremium && <Fill name="YoastRelatedKeyphrases">
+					<SEMrushRelatedKeyphrases />
+				</Fill> }
 			</Fragment>
 		);
 
