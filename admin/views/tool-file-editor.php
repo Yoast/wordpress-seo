@@ -52,8 +52,11 @@ if ( isset( $_POST['create_robots'] ) ) {
 	do_robots();
 	$robots_content = ob_get_clean();
 
-	$f = fopen( $robots_file, 'x' );
-	fwrite( $f, $robots_content );
+	$wp_filesystem->put_contents(
+		$robots_file,
+		$robots_content,
+		FS_CHMOD_FILE
+	);
 }
 
 if ( isset( $_POST['submitrobots'] ) ) {
@@ -68,12 +71,14 @@ if ( isset( $_POST['submitrobots'] ) ) {
 
 	check_admin_referer( 'wpseo-robotstxt' );
 
-	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
+	if ( isset( $_POST['robotsnew'] ) && $wp_filesystem->is_file( $robots_file ) ) {
 		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
-		if ( is_writable( $robots_file ) ) {
-			$f = fopen( $robots_file, 'w+' );
-			fwrite( $f, $robotsnew );
-			fclose( $f );
+		if ( $wp_filesystem->is_writable( $robots_file ) ) {
+			$wp_filesystem->put_contents(
+				$robots_file,
+				$robotsnew,
+				FS_CHMOD_FILE
+			);
 			$msg = sprintf(
 				/* translators: %s expands to robots.txt. */
 				__( 'Updated %s', 'wordpress-seo' ),
@@ -121,8 +126,8 @@ if ( isset( $msg ) && ! empty( $msg ) ) {
 // N.B.: "robots.txt" is a fixed file name and should not be translatable.
 echo '<h2>robots.txt</h2>';
 
-if ( ! file_exists( $robots_file ) ) {
-	if ( is_writable( get_home_path() ) ) {
+if ( ! $wp_filesystem->is_file( $robots_file ) ) {
+	if ( $wp_filesystem->is_writable( get_home_path() ) ) {
 		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtcreateform">';
 		wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, true );
 		echo '<p>';
@@ -154,14 +159,12 @@ if ( ! file_exists( $robots_file ) ) {
 	}
 }
 else {
-	$f = fopen( $robots_file, 'r' );
-
-	$content = '';
-	if ( filesize( $robots_file ) > 0 ) {
-		$content = fread( $f, filesize( $robots_file ) );
+	$content = $wp_filesystem->get_contents( $robots_file );
+	if ( $content === false ) {
+		$content = '';
 	}
 
-	if ( ! is_writable( $robots_file ) ) {
+	if ( ! $wp_filesystem->is_writable( $robots_file ) ) {
 		echo '<p><em>';
 		printf(
 			/* translators: %s expands to robots.txt. */
