@@ -100,13 +100,15 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 	check_admin_referer( 'wpseo-htaccess' );
 
-	if ( isset( $_POST['htaccessnew'] ) && file_exists( $ht_access_file ) ) {
+	if ( isset( $_POST['htaccessnew'] ) && $wp_filesystem->is_file( $ht_access_file ) ) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Writing to .htaccess file and escaping for HTML will break functionality.
 		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
-		if ( is_writable( $ht_access_file ) ) {
-			$f = fopen( $ht_access_file, 'w+' );
-			fwrite( $f, $ht_access_new );
-			fclose( $f );
+		if ( $wp_filesystem->is_writable( $ht_access_file ) ) {
+			$wp_filesystem->put_contents(
+				$ht_access_file,
+				$ht_access_new,
+				FS_CHMOD_FILE
+			);
 		}
 	}
 }
@@ -206,15 +208,13 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 	);
 	echo '</h2>';
 
-	if ( file_exists( $ht_access_file ) ) {
-		$f = fopen( $ht_access_file, 'r' );
-
-		$contentht = '';
-		if ( filesize( $ht_access_file ) > 0 ) {
-			$contentht = fread( $f, filesize( $ht_access_file ) );
+	if ( $wp_filesystem->is_file( $ht_access_file ) ) {
+		$contentht = $wp_filesystem->get_contents( $ht_access_file );
+		if ( $contentht === false ) {
+			$contentht = '';
 		}
 
-		if ( ! is_writable( $ht_access_file ) ) {
+		if ( ! $wp_filesystem->is_writable( $ht_access_file ) ) {
 			echo '<p><em>';
 			printf(
 				/* translators: %s expands to ".htaccess". */
