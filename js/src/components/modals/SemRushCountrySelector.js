@@ -115,7 +115,7 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
-				<p>
+				<p className="yoast">
 					<FieldGroup
 						htmlFor="country-selector"
 						label="Show results for:"
