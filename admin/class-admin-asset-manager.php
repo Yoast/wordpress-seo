@@ -597,6 +597,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'structured-data-blocks-' . $flat_version,
 				'deps' => [ 'wp-edit-blocks' ],
 			],
+			[
+				'name' => 'table',
+				'src'  => 'table-' . $flat_version,
+			],
 		];
 	}
 
