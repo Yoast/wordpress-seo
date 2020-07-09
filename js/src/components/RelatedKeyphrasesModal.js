@@ -97,6 +97,7 @@ class RelatedKeyPhrasesModal extends Component {
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
+							id="semrush-rel-keyph"
 						>
 							{ maxRelatedKeyphrasesEntered && (
 								<SemRushMaxRelatedKeyphrases />

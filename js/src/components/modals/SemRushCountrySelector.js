@@ -89,7 +89,11 @@ class SemRushCountrySelector extends Component {
 	 */
 	componentDidMount() {
 		this.select2 = jQuery( `#${ id }` );
-		this.select2.select2( { theme: "default yoast-select2--inline", dropdownCssClass: "yoast-select__dropdown" } );
+		this.select2.select2( {
+			theme: "default yoast-select2--inline",
+			dropdownCssClass: "yoast-select__dropdown",
+			dropdownParent: "#semrush-rel-keyph",
+		} );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
