@@ -1,6 +1,8 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
+import { isEmpty } from "lodash-es";
 
 /**
  * The Related Keyphrases table component.
@@ -23,22 +25,45 @@ class KeyphrasesTable extends Component {
 	 * @returns {React.Element} The Related Keyphrases table.
 	 */
 	render() {
-		// This `fakeProp` within the h2 is temporary in this component first basic implementation and should be removed.
+		const { data } = this.props;
+
 		return (
 			<Fragment>
-				<h2 id={ this.props.fakeProp }>Keyphrase table</h2>
-				<p>The Keyphrase table will come here!</p>
+				{
+					data && ! isEmpty( data ) && <table className="yoast-table">
+						<thead>
+							<tr>
+								<th>{ __( "Related keyphrase", "wordpress-seo" ) }</th>
+								<th>{ __( "Volume", "wordpress-seo" ) }</th>
+								<th>{ __( "Trend", "wordpress-seo" ) }</th>
+								<td />
+							</tr>
+						</thead>
+						<tbody>
+							{
+								data.data.rows.map( ( row, index ) => {
+									return <tr key={ index }>
+										<td>{ row[ 0 ] }</td>
+										<td>{ row[ 1 ] }</td>
+										<td>{ row[ 2 ] }</td>
+										<td>action button</td>
+									</tr>;
+								} )
+							}
+						</tbody>
+					</table>
+				}
 			</Fragment>
 		);
 	}
 }
 
 KeyphrasesTable.propTypes = {
-	fakeProp: PropTypes.string,
+	data: PropTypes.object,
 };
 
 KeyphrasesTable.defaultProps = {
-	fakeProp: null,
+	data: {},
 };
 
 export default KeyphrasesTable;
