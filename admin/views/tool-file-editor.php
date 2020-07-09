@@ -48,6 +48,7 @@ if ( isset( $_POST['create_robots'] ) ) {
 	check_admin_referer( 'wpseo_create_robots' );
 
 	ob_start();
+	// phpcs:ignore WordPress.PHP.DevelopmentFunctions.prevent_path_disclosure_error_reporting,WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_error_reporting -- Reason: This turns error reporting off, so no disclosure is possible. The error reporting is turned off to not have errors in the middle of our robots output.
 	error_reporting( 0 );
 	do_robots();
 	$robots_content = ob_get_clean();
