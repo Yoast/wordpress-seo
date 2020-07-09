@@ -42,7 +42,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 				],
 				'title'       => $post_type->labels->name,
 				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',
-				'class'       => 'search-appearance yoast-paper--bottom',
+				'class'       => 'search-appearance search-appearance--bottom',
 			]
 		);
 
