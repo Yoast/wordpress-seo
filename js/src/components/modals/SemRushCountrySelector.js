@@ -88,7 +88,7 @@ class SemRushCountrySelector extends Component {
 	 */
 	componentDidMount() {
 		this.select2 = jQuery( `#${ id }` );
-		this.select2.select2( { width: "50%", dropdownCssClass: "yoast-select__dropdown" } );
+		this.select2.select2( { width: "50%", theme: "default yoast-select2--inline", dropdownCssClass: "yoast-select__dropdown" } );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
@@ -121,7 +121,7 @@ class SemRushCountrySelector extends Component {
 					>
 						<select
 							id={ id }
-							name="country-selector"
+							name="database"
 							defaultValue={ this.state.database }
 						>
 							{ countries.map( Option ) }
@@ -157,4 +157,3 @@ export { CountrySelectorWithErrorBoundary as SemRushCountrySelector };
 
 
 export default SemRushCountrySelector;
-
