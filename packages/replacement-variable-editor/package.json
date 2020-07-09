@@ -1,6 +1,6 @@
 {
   "name": "@yoast/replacement-variable-editor",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -35,9 +35,9 @@
   "dependencies": {
     "@wordpress/a11y": "^1.1.3",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/components": "^2.5.0-rc.5",
-    "@yoast/helpers": "^0.13.0-rc.4",
-    "@yoast/style-guide": "^0.12.0-rc.4",
+    "@yoast/components": "^2.5.0-rc.6",
+    "@yoast/helpers": "^0.13.0-rc.5",
+    "@yoast/style-guide": "^0.12.0-rc.5",
     "draft-js": "^0.11.4",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
@@ -45,6 +45,6 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "styled-components": "^4.4.1",
-    "yoastseo": "^1.78.0-rc.5"
+    "yoastseo": "^1.78.0-rc.6"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@yoast/style-guide",
-  "version": "0.12.0-rc.4",
+  "version": "0.12.0-rc.5",
   "description": "Yoast style guide.",
   "main": "src/index.js",
   "repository": "https://github.com/Yoast/javascript",
