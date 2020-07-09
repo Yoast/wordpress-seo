@@ -4,12 +4,13 @@ import { Fragment, Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { Button } from "@yoast/components";
 import ErrorWithUrl from "@yoast/components/src/internal/ErrorWithUrl";
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
+
 // Import required CSS.
 import "@yoast/components/src/select/select.css";
+import "@yoast/components/src/button/buttons.css";
 
 
 const id = "country-selector";
@@ -88,7 +89,7 @@ class SemRushCountrySelector extends Component {
 	 */
 	componentDidMount() {
 		this.select2 = jQuery( `#${ id }` );
-		this.select2.select2( { width: "50%", theme: "default yoast-select2--inline", dropdownCssClass: "yoast-select__dropdown" } );
+		this.select2.select2( { theme: "default yoast-select2--inline", dropdownCssClass: "yoast-select__dropdown" } );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
 
@@ -118,6 +119,7 @@ class SemRushCountrySelector extends Component {
 					<FieldGroup
 						htmlFor="country-selector"
 						label="Show results for:"
+						wrapperClassName="yoast-field-group"
 					>
 						<select
 							id={ id }
@@ -126,7 +128,7 @@ class SemRushCountrySelector extends Component {
 						>
 							{ countries.map( Option ) }
 						</select>
-						<Button>{ __( "Change Country", "wordpress-seo" ) }</Button>
+						<button className="yoast-button yoast-button--secondary">Change Country</button>
 					</FieldGroup>
 				</p>
 			</Fragment>
