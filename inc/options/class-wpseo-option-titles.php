@@ -11,6 +11,44 @@
 class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
+	 * Holds the possible schema page types.
+	 *
+	 * @var string[]
+	 */
+	const SCHEMA_PAGE_TYPES = [
+		'web-page',
+		'item-page',
+		'about-page',
+		'faq-page',
+		'qa-page',
+		'profile-page',
+		'contact-page',
+		'medical-web-page',
+		'collection-page',
+		'checkout-page',
+		'real-estate-listing',
+		'search-results-page',
+		'none',
+	];
+
+	/**
+	 * Holds the possible schema article types.
+	 *
+	 * @var string[]
+	 */
+	const SCHEMA_ARTICLE_TYPES = [
+		'article',
+		'social-media-posting',
+		'news-article',
+		'advertiser-content-article',
+		'satirical-article',
+		'scholarly-article',
+		'tech-article',
+		'report',
+		'none',
+	];
+
+	/**
 	 * Option name.
 	 *
 	 * @var string
@@ -92,6 +130,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'metadesc-tax-' . $tax->name        => ''; // Text field.
 		 * - 'noindex-tax-' . $tax->name         => false;
 		 * - 'display-metabox-tax-' . $tax->name => false;
+		 *
+		 * - 'schema-page-type-' . $pt->name     => 'web-page';
+		 * - 'schema-article-type-' . $pt->name  => 'article';
 		 */
 	];
 
@@ -116,6 +157,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'bctitle-ptarchive-',
 		'post_types-',
 		'taxonomy-',
+		'schema-page-type-',
+		'schema-article-type-',
 	];
 
 	/**
@@ -265,6 +308,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'showdate-' . $pt->name ]                = false;
 				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
+				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'web-page';
+				$enriched_defaults[ 'schema-article-type-' . $pt->name ]     = $pt->name === 'post' ? 'article' : 'none';
 
 				if ( ! $pt->_builtin && WPSEO_Post_Type::has_archive( $pt ) ) {
 					$enriched_defaults[ 'title-ptarchive-' . $pt->name ]    = $archive . ' %%page%% %%sep%% %%sitename%%'; // Text field.
@@ -509,6 +554,29 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						// Check if the given separator exists.
 						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
+
+				case 'schema-page-type-':
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( in_array( $dirty[ $key ], static::SCHEMA_PAGE_TYPES, true ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						else {
+							$defaults      = $this->get_defaults();
+							$clean[ $key ] = $defaults['schema-page-type-'];
+						}
+					}
+					break;
+				case 'schema-article-type-':
+					if ( isset( $dirty[ $key ] ) ) {
+						if ( in_array( $dirty[ $key ], static::SCHEMA_ARTICLE_TYPES, true ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+						else {
+							$defaults      = $this->get_defaults();
+							$clean[ $key ] = $defaults['schema-article-type-'];
 						}
 					}
 					break;
