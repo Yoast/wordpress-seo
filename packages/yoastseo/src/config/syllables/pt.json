@@ -1,0 +1,32 @@
+{
+  "vowels": "aeiouáéíóúàâêôãõü",
+  "deviations": {
+    "vowels": [
+      {
+        "fragments": [ "(gu|qu)[aeoáéíóúêã]", "cia$" ],
+        "countModifier": -1
+      },
+      {
+        "fragments": [ "[aeiouáéíóúàâêôü][aeo]", "[aeiou][íúáéóãê]" ],
+        "countModifier": 1
+      },
+      {
+        "fragments": [ "aí[ae]" ],
+        "countModifier": 1
+      }
+    ],
+    "words": {
+      "full": [
+        { "word": "delegacia", "syllables": 5 },
+        { "word": "democracia", "syllables": 5 }
+      ],
+      "fragments": []
+    }
+  }
+}
+
+
+
+
+
+
