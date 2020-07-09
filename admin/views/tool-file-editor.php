@@ -15,6 +15,26 @@ $yform          = Yoast_Form::get_instance();
 $robots_file    = get_home_path() . 'robots.txt';
 $ht_access_file = get_home_path() . '.htaccess';
 
+$url         = network_admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
+$credentials = request_filesystem_credentials( $url, '', false, false, null );
+if ( $credentials === false ) {
+	// WordPress should show a form to the user.
+	return;
+}
+if ( ! WP_Filesystem( $credentials ) ) {
+	// Error is true to notify the user.
+	request_filesystem_credentials( $url, '', true, false, null );
+
+	return;
+}
+
+/**
+ * Holds the global WordPress filesystem instance.
+ *
+ * @var \WP_Filesystem_Base
+ */
+global $wp_filesystem;
+
 if ( isset( $_POST['create_robots'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
