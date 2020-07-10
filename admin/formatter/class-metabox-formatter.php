@@ -234,6 +234,7 @@ class WPSEO_Metabox_Formatter {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
 			if ( is_string( $file ) && $file !== '' ) {
 				return json_decode( $file, true );

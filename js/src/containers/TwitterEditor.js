@@ -3,6 +3,7 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import domReady from "@wordpress/dom-ready";
+import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
@@ -46,9 +47,15 @@ if ( window.wpseoScriptData.metabox.showSocial.twitter ) {
 		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
 		media.on( "select", () => {
 			const selected = media.state().get( "selection" ).first();
+			const image = {
+				type: selected.attributes.subtype,
+				width: selected.attributes.width,
+				height: selected.attributes.height,
+			};
 			wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
 				url: selected.attributes.url,
 				id: selected.attributes.id,
+				warnings: validateTwitterImage( image ),
 			} );
 		} );
 		wpDataDispatch( "yoast-seo/editor" ).loadTwitterPreviewData();
