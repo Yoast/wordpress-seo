@@ -179,9 +179,9 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
+	 * @return array The scripts that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array The scripts that need to be registered.
 	 */
 	protected function scripts_to_be_registered() {
 		$select2_language = 'en';
@@ -212,8 +212,12 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => [
+					'lodash',
 					'wp-api',
-					self::PREFIX . 'components',
+					'wp-element',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'replacement-variable-editor',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -224,7 +228,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
-					self::PREFIX . 'components',
+					self::PREFIX . 'components-modern',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -237,10 +241,13 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
 					'wp-api',
-					self::PREFIX . 'commons',
-					self::PREFIX . 'components',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'replacement-variable-editor',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'commons',
 				],
 			],
 			[
@@ -289,10 +296,12 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'commons',
 				],
 				'in_footer' => false,
 			],
@@ -311,10 +320,12 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-is-shallow-equal',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'social-metadata-forms',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
+					self::PREFIX . 'commons',
 				],
 			],
 			[
@@ -355,7 +366,23 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 					'wp-i18n',
 					'wp-api',
-					self::PREFIX . 'components',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'components-legacy',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'configuration-wizard-package',
+				'src'  => 'yoast-configuration-wizard-' . $flat_version,
+				'deps' => [
+					'jquery',
+					'lodash',
+					'wp-element',
+					'wp-i18n',
+					'wp-api',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'components-modern',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -414,7 +441,10 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
-					self::PREFIX . 'components',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'analysis-report',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -431,21 +461,67 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'analysis-' . $flat_version,
 				'deps' => [
 					'lodash',
+					'wp-autop',
+					self::PREFIX . 'feature-flag',
+					self::PREFIX . 'jed',
 					self::PREFIX . 'commons',
 				],
 			],
 			[
+				/*
+				 * Asset for backwards-compatibility, to make sure
+				 * the addons don't break when we change dependencies.
+				 */
 				'name' => 'components',
-				'src'  => 'components-' . $flat_version,
+				'src'  => false,
 				'deps' => [
-					self::PREFIX . 'jed',
-					self::PREFIX . 'redux',
-					self::PREFIX . 'analysis',
+					self::PREFIX . 'feature-flag',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'configuration-wizard',
+					self::PREFIX . 'analysis-report',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'replacement-variable-editor',
+					self::PREFIX . 'search-metadata-previews',
+					self::PREFIX . 'social-metadata-forms',
+					self::PREFIX . 'components-legacy',
+				],
+			],
+			[
+				// The `@yoast/components` package.
+				'name' => 'components-modern',
+				'src'  => 'yoast-components-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'wp-a11y',
+					'wp-i18n',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'style-guide',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
-					self::PREFIX . 'draft-js',
+				],
+			],
+			[
+				// The `yoast-components` package.
+				'name' => 'components-legacy',
+				'src'  => 'yoast-components-legacy-' . $flat_version,
+				'deps' => [
+					'lodash',
 					'wp-a11y',
+					'wp-i18n',
 					'wp-dom-ready',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'analysis-report',
+					self::PREFIX . 'configuration-wizard-package',
+					self::PREFIX . 'search-metadata-previews',
+					self::PREFIX . 'replacement-variable-editor',
+					self::PREFIX . 'jed',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'draft-js',
+					self::PREFIX . 'commons',
 				],
 			],
 			[
@@ -456,6 +532,90 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-element',
 					'wp-is-shallow-equal',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'helpers',
+				'src'  => 'yoast-helpers-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'feature-flag',
+				'src'  => 'yoast-feature-flag-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'analysis-report',
+				'src'  => 'yoast-analysis-report-' . $flat_version,
+				'deps' => [
+					'wp-i18n',
+					'react',
+					'react-dom',
+					'lodash',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'style-guide',
+				'src'  => 'yoast-style-guide-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'replacement-variable-editor',
+				'src'  => 'yoast-replacement-variable-editor-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'wp-a11y',
+					'wp-i18n',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'draft-js',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'search-metadata-previews',
+				'src'  => 'yoast-search-metadata-previews-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'wp-a11y',
+					'wp-i18n',
+					self::PREFIX . 'helpers',
+					self::PREFIX . 'style-guide',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'replacement-variable-editor',
+					self::PREFIX . 'draft-js',
+					self::PREFIX . 'commons',
+				],
+			],
+			[
+				'name' => 'social-metadata-forms',
+				'src'  => 'yoast-social-metadata-forms-' . $flat_version,
+				'deps' => [
+					'lodash',
+					'wp-i18n',
+					self::PREFIX . 'redux',
+					self::PREFIX . 'components-modern',
+					self::PREFIX . 'replacement-variable-editor',
+					self::PREFIX . 'style-guide',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
 				],
@@ -495,9 +655,9 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the styles that need to be registered.
 	 *
+	 * @return array Styles that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array Styles that need to be registered.
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
@@ -620,10 +780,10 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * This function is needed for backwards compatibility with Local SEO 12.5.
 	 *
+	 * @return void
 	 * @deprecated 12.8
 	 * @codeCoverageIgnore
 	 *
-	 * @return void
 	 */
 	public function register_wp_assets() {
 	}
