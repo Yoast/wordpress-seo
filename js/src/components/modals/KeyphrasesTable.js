@@ -4,6 +4,8 @@ import { Fragment, Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
 
+import AreaChart from "../AreaChart";
+
 /**
  * The Related Keyphrases table component.
  */
@@ -27,6 +29,16 @@ class KeyphrasesTable extends Component {
 	render() {
 		const { data } = this.props;
 
+		const chartData = [
+			{ x: 0, y: 80 },
+			{ x: 1, y: 400 },
+			{ x: 2, y: 300 },
+			{ x: 3, y: 100 },
+			{ x: 4, y: 400 },
+			{ x: 5, y: 500 },
+			{ x: 6, y: 400 },
+		];
+
 		return (
 			<Fragment>
 				{
@@ -45,7 +57,16 @@ class KeyphrasesTable extends Component {
 									return <tr key={ index }>
 										<td>{ row[ 0 ] }</td>
 										<td>{ row[ 1 ] }</td>
-										<td>{ row[ 2 ] }</td>
+										<td>
+											<AreaChart
+												width={ 70 }
+												height={ 30 }
+												data={ chartData }
+												strokeWidth={ 2 }
+												strokeColor="#498afc"
+												fillColor="#ade3fc"
+											/>
+										</td>
 										<td>Fill for button</td>
 									</tr>;
 								} )
