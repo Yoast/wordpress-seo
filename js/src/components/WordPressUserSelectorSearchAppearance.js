@@ -65,9 +65,9 @@ class WordPressUserSelectorSearchAppearance extends Component {
 			return null;
 		}
 
-		return <Alert type={"warning"}>
+		return <Alert type={ "warning" }>
 			{ __( "Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
-			</Alert>;
+		</Alert>;
 	}
 
 	/**
