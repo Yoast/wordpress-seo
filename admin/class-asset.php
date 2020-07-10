@@ -209,7 +209,11 @@ class WPSEO_Admin_Asset {
 	 * @return string
 	 */
 	public function get_version() {
-		return $this->version;
+		if ( ! empty( $this->version ) ) {
+			return $this->version;
+		}
+
+		return null;
 	}
 
 	/**
