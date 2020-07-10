@@ -462,15 +462,4 @@ class Indexable_Repository {
 
 		return null;
 	}
-
-	/**
-	 * Retrieves indexables by their IDs.
-	 *
-	 * @param array $indexable_ids The indexable IDs.
-	 *
-	 * @return array|\IdiormResultSet Instances of indexables.
-	 */
-	public function find_by_indexable_ids( array $indexable_ids ) {
-		return $this->query()->where_id_in( $indexable_ids )->find_many();
-	}
 }
