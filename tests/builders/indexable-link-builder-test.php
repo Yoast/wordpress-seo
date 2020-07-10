@@ -8,9 +8,12 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
+use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Double;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Doubles\Models\SEO_Links_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -82,16 +85,54 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		$indexable              = new Indexable_Double;
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->id          = 1;
+		$indexable->object_id   = 2;
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
-		$content                = '<a href="https://example.com">link</a>';
+		$content                = '<a href="https://link.com">link</a>';
 
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
 
-		Functions\expect( 'home_url' )->once()->andReturn( 'home_url' );
-		Functions\expect( 'wp_parse_url' )->with( 'home_url' )->andReturn( [ 'scheme' => 'https', 'host' => 'site.com' ] );
+		$parsed_home_url = [ 'scheme' => 'https', 'host' => 'site.com' ];
+		$parsed_page_url = [ 'scheme' => 'https', 'host' => 'site.com', 'path' => 'page' ];
+		$parsed_link_url = [ 'scheme' => 'https', 'host' => 'link.com' ];
 
-		$this->instance->build( $indexable, $content );
+		Functions\expect( 'home_url' )->once()->andReturn( 'https://site.com' );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com' )->andReturn( $parsed_home_url );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
+		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com' )->andReturn( $parsed_link_url );
+
+		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( SEO_Links::TYPE_EXTERNAL );
+
+		$query_mock             = Mockery::mock();
+		$seo_link               = Mockery::mock( SEO_Links_Mock::class );
+		$seo_link->type         = SEO_Links::TYPE_EXTERNAL;
+		$seo_link->url          = 'https://link.com';
+		$seo_link->indexable_id = $indexable->id;
+		$seo_link->post_id      = $indexable->object_id;
+
+		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
+		$query_mock->expects( 'create' )->once()->with( [
+			'url'          => 'https://link.com',
+			'type'         => SEO_Links::TYPE_EXTERNAL,
+			'indexable_id' => $indexable->id,
+			'post_id'      => $indexable->object_id,
+		] )->andReturn( $seo_link );
+
+		$old_seo_link                      = new SEO_Links_Mock();
+		$old_seo_link->target_indexable_id = 3;
+		$this->seo_links_repository->expects( 'find_all_by_indexable_id' )->once()->with( $indexable->id )->andReturn( [ $old_seo_link ] );
+		$this->seo_links_repository->expects( 'delete_all_by_indexable_id' )->once()->with( $indexable->id );
+		$this->seo_links_repository->expects( 'get_incoming_link_counts_for_indexable_ids' )->once()->with( [ $old_seo_link->target_indexable_id ] )->andReturn( [ [ 'indexable_id' => 3, 'incoming' => 0 ] ] );
+		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
+
+		$seo_link->expects( 'save' )->once();
+		$indexable->expects( 'save' )->once();
+
+		$links = $this->instance->build( $indexable, $content );
+
+		$this->assertEquals( 1, \count( $links ) );
+		$this->assertEquals( $seo_link, $links[0] );
 	}
 }

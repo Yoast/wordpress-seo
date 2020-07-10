@@ -132,7 +132,9 @@ class Indexable_Link_Builder {
 		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
 		foreach ( $links as $link ) {
 			$link->save();
-			$updated_indexable_ids[] = $link->target_indexable_id;
+			if ( $link->target_indexable_id ) {
+				$updated_indexable_ids[] = $link->target_indexable_id;
+			}
 			if ( $link->type === SEO_Links::TYPE_INTERNAL ) {
 				$internal_link_count += 1;
 			}
