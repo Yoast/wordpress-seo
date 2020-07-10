@@ -68,6 +68,19 @@ const yoastExternals = {
 	"@yoast/style-guide": "window.yoast.styleGuide",
 };
 
+const yoastExternalsMapping = {
+	"analysis-report": "@yoast/analysis-report",
+	"components": "@yoast/components",
+	"configuration-wizard": "@yoast/configuration-wizard",
+	"feature-flag": "@yoast/feature-flag",
+	"helpers": "@yoast/helpers",
+	"replacement-variable-editor": "@yoast/replacement-variable-editor",
+	"search-metadata-previews": "@yoast/search-metadata-previews",
+	"social-metadata-forms": "@yoast/social-metadata-forms",
+	"style-guide": "@yoast/style-guide",
+	"components-legacy": "yoast-components",
+}
+
 const defaultAllowedHosts = [
 	"local.wordpress.test",
 	"one.wordpress.test",
@@ -115,6 +128,38 @@ function createBundleAnalyzer() {
 			},
 		},
 	} );
+}
+
+function addYoastExternals( config, base, plugins, pluginVersionSlug ) {
+	for (const [key, value] of Object.entries(yoastExternalsMapping)) {
+		const myExternals = Object.assign( {}, yoastExternals );
+		delete myExternals[value];
+
+		config.push( {
+			...base,
+			entry: {
+				['yoast-' + key]: "./js/src/externals/yoast-" + key + ".js",
+			},
+			output: {
+				path: path.resolve(),
+				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
+				jsonpFunction: "yoastWebpackJsonp",
+			},
+			externals: {
+				...externals,
+				...myExternals,
+				...wordpressExternals,
+			},
+			plugins: addBundleAnalyzer( [
+				...plugins,
+			] ),
+			optimization: {
+				runtimeChunk: false,
+			},
+		} );
+	}
+
+	return config;
 }
 
 /**
@@ -242,28 +287,6 @@ module.exports = function( env ) {
 			] ),
 		},
 
-		// Config for components, which doesn't need all '@yoast' externals.
-		{
-			...base,
-			entry: {
-				components: "./js/src/externals/components.js",
-			},
-			output: {
-				path: path.resolve(),
-				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
-				jsonpFunction: "yoastWebpackJsonp",
-			},
-			externals: {
-				...externals,
-				...wordpressExternals,
-			},
-			plugins: addBundleAnalyzer( [
-				...plugins,
-			] ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
@@ -312,12 +335,14 @@ module.exports = function( env ) {
 		},
 	];
 
+	const enhancedConfig = addYoastExternals( config, base, plugins, pluginVersionSlug );
+
 	if ( env.environment === "development" ) {
-		config[ 0 ].devServer = {
+		enhancedConfig[ 0 ].devServer = {
 			publicPath: "/",
 			allowedHosts,
 		};
 	}
 
-	return config;
+	return enhancedConfig;
 };
