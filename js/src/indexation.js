@@ -3,8 +3,6 @@ import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
 
-const settings = yoastIndexationData;
-
 ( ( $ ) => {
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
@@ -19,11 +17,12 @@ const settings = yoastIndexationData;
 	/**
 	 * Does an indexation request.
 	 *
-	 * @param {string} url The url of the indexation that should be done.
+	 * @param {string} url      The url of the indexation that should be done.
+	 * @param {Object} settings The settings.
 	 *
 	 * @returns {Promise} The request promise.
 	 */
-	async function doIndexationRequest( url ) {
+	async function doIndexationRequest( url, settings ) {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
@@ -38,14 +37,15 @@ const settings = yoastIndexationData;
 	 *
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
+	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function doIndexation( endpoint, progressBar ) {
+	async function doIndexation( endpoint, progressBar, settings ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
 		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
-			const response = await doIndexationRequest( url );
+			const response = await doIndexationRequest( url, settings );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
 				await indexationActions[ endpoint ]( response.objects );
 			}
@@ -59,13 +59,14 @@ const settings = yoastIndexationData;
 	 * Starts the indexation.
 	 *
 	 * @param {ProgressBar} progressBar The progress bar.
+	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function startIndexation( progressBar ) {
+	async function startIndexation( progressBar, settings ) {
 		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
-			await doIndexation( endpoint, progressBar );
+			await doIndexation( endpoint, progressBar, settings );
 		}
 	}
 
@@ -74,7 +75,6 @@ const settings = yoastIndexationData;
 			const settings = window[ $( this ).data( "settings" ) ];
 			let modalId    = settings.ids.modal || "yoast-indexation-wrapper";
 			modalId = modalId.replace( /^#/, "" );
-			console.log( modalId );
 
 			/*
 			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
@@ -103,7 +103,7 @@ const settings = yoastIndexationData;
 				const notificationId = settings.ids.notification || "#yoast-indexation-warning";
 				const toolId         = settings.ids.tool || "#yoast-indexation";
 
-				startIndexation( progressBar ).then( () => {
+				startIndexation( progressBar, settings ).then( () => {
 					if ( stoppedIndexation ) {
 						return;
 					}
