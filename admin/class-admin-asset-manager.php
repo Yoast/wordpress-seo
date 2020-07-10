@@ -181,7 +181,6 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array The scripts that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
-	 *
 	 */
 	protected function scripts_to_be_registered() {
 		$select2_language = 'en';
@@ -468,7 +467,7 @@ class WPSEO_Admin_Asset_Manager {
 				],
 			],
 			[
-				/*
+				/**
 				 * Asset for backwards-compatibility, to make sure
 				 * the addons don't break when we change dependencies.
 				 */
@@ -657,7 +656,6 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array Styles that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
-	 *
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
@@ -783,7 +781,6 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return void
 	 * @deprecated 12.8
 	 * @codeCoverageIgnore
-	 *
 	 */
 	public function register_wp_assets() {
 	}
