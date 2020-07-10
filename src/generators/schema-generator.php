@@ -104,6 +104,20 @@ class Schema_Generator implements Generator_Interface {
 				 * @param Meta_Tags_Context $context     A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
+
+				$type = strtolower( $this->get_type_from_piece( $graph_piece ) );
+				// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
+				if ( $type && $type !== $identifier ) {
+					/**
+					 * Filter: 'wpseo_schema_<type>' - Allows changing graph piece output by @type.
+					 *
+					 * @api array $graph_piece The graph piece to filter.
+					 *
+					 * @param Meta_Tags_Context $context A value object with context variables.
+					 */
+					$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context );
+				}
+
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
 				}
@@ -129,6 +143,23 @@ class Schema_Generator implements Generator_Interface {
 			'@context' => 'https://schema.org',
 			'@graph'   => $graph,
 		];
+	}
+
+	/**
+	 * Retrieves the type from a graph piece.
+	 *
+	 * @param array $piece The graph piece.
+	 *
+	 * @return false|string False on failure, the piece's type on success.
+	 */
+	private function get_type_from_piece( $piece ) {
+		if ( isset( $piece['@type'] ) ) {
+			if ( is_array( $piece['@type'] ) ) {
+				return $piece['@type'][0];
+			}
+			return $piece['@type'];
+		}
+		return false;
 	}
 
 	/**
