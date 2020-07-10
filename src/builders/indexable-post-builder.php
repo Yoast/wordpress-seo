@@ -7,15 +7,11 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Exception;
 use WPSEO_Meta;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
-use YoastSEO_Vendor\Psr\Log\LogLevel;
 
 /**
  * Formats the post meta to indexable format.
@@ -43,14 +39,6 @@ class Indexable_Post_Builder {
 	 * @var Post_Helper
 	 */
 	protected $post;
-
-	/**
-	 * Holds the logger.
-	 *
-	 * @var Logger
-	 */
-	protected $logger;
-
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
@@ -58,16 +46,13 @@ class Indexable_Post_Builder {
 	 *
 	 * @param Indexable_Link_Builder $link_builder The link builder.
 	 * @param Post_Helper            $post         The post helper.
-	 * @param Logger                 $logger       The logger.
 	 */
 	public function __construct(
 		Indexable_Link_Builder $link_builder,
-		Post_Helper $post,
-		Logger $logger
+		Post_Helper $post
 	) {
 		$this->link_builder = $link_builder;
 		$this->post         = $post;
-		$this->logger       = $logger;
 	}
 
 	/**
