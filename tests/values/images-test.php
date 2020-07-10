@@ -183,12 +183,36 @@ class Images_Test extends TestCase {
 	public function test_add_image_by_url_with_no_attachment_found() {
 		$this->assertEquals( null, $this->instance->add_image_by_url( '' ) );
 	}
+
+	/** Tests adding an image by url when the url is given but the image id is not.
+	 *
+	 * @covers ::add_image_by_url
+	 * @covers ::add_image
+	 */
+	public function test_add_image_by_url_with_no_image_id() {
 		$this->image
 			->expects( 'get_attachment_by_url' )
 			->once()
 			->with( 'image.jpg' )
+			->andReturn( 0 );
+
+		$this->url
+			->expects( 'is_relative' )
+			->once()
 			->andReturnFalse();
 
+		$image = [
+			'url' => 'image.jpg',
+		];
+
+		$this->instance->add_image( $image );
+
+		$this->assertEquals(
+			[
+				'image.jpg' => $image,
+			],
+			$this->instance->get_images()
+		);
 	}
 
 	/**
