@@ -50,7 +50,8 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	/**
 	 * Link_Count_Notification_Integration constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center The Yoast notification center.
+	 * @param Yoast_Notification_Center $notification_center       The Yoast notification center.
+	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,

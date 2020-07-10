@@ -51,6 +51,7 @@ class Indexable_Link_Builder {
 	 * Post_Link_Builder constructor.
 	 *
 	 * @param SEO_Links_Repository $seo_links_repository The SEO links repository.
+	 * @param Url_Helper           $url_helper           The URL helper.
 	 */
 	public function __construct(
 		SEO_Links_Repository $seo_links_repository,
