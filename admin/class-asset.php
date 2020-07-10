@@ -168,7 +168,7 @@ class WPSEO_Admin_Asset {
 		$this->name      = $args['name'];
 		$this->src       = $args['src'];
 		$this->deps      = $args['deps'];
-		$this->version   = $args['version'];
+		$this->version   = isset( $args['version'] ) ? $args['version'] : '';
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
