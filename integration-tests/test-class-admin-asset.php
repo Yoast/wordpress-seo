@@ -44,7 +44,6 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset::get_version
 	 * @covers WPSEO_Admin_Asset::get_media
 	 * @covers WPSEO_Admin_Asset::is_in_footer
-	 * @covers WPSEO_Admin_Asset::get_suffix
 	 * @covers WPSEO_Admin_Asset::has_rtl
 	 */
 	public function test_constructor_default_values() {
