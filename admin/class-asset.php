@@ -145,6 +145,8 @@ class WPSEO_Admin_Asset {
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
+		'version'   => '',
+		'suffix'    => '',
 	];
 
 	/**
@@ -168,11 +170,11 @@ class WPSEO_Admin_Asset {
 		$this->name      = $args['name'];
 		$this->src       = $args['src'];
 		$this->deps      = $args['deps'];
-		$this->version   = isset( $args['version'] ) ? $args['version'] : '';
+		$this->version   = $args['version'];
 		$this->media     = $args['media'];
 		$this->in_footer = $args['in_footer'];
 		$this->rtl       = $args['rtl'];
-		$this->suffix    = isset( $args['suffix'] ) ? $args['suffix'] : '';
+		$this->suffix    = $args['suffix'];
 	}
 
 	/**
