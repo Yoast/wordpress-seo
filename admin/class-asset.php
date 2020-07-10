@@ -142,7 +142,6 @@ class WPSEO_Admin_Asset {
 	 */
 	private $defaults = [
 		'deps'      => [],
-		'version'   => WPSEO_VERSION,
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
