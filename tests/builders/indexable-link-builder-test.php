@@ -83,14 +83,19 @@ class Indexable_Link_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::set_dependencies
 	 * @covers ::build
+	 *
+	 * @dataProvider build_provider
+	 *
+	 * @param string $content   The content.
+	 * @param string $link_type The link type.
+	 * @param bool   $is_image  Whether or not the link is an image.
 	 */
-	public function test_build() {
+	public function test_build( $content, $link_type, $is_image ) {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->id          = 1;
 		$indexable->object_id   = 2;
 		$indexable->object_type = 'post';
 		$indexable->permalink   = 'https://site.com/page';
-		$content                = '<a href="https://link.com">link</a>';
 
 		Filters\expectApplied( 'the_content' )->with( $content )->andReturnFirstArg();
 
@@ -103,11 +108,11 @@ class Indexable_Link_Builder_Test extends TestCase {
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://site.com/page' )->andReturn( $parsed_page_url );
 		Functions\expect( 'wp_parse_url' )->once()->with( 'https://link.com' )->andReturn( $parsed_link_url );
 
-		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, false )->andReturn( SEO_Links::TYPE_EXTERNAL );
+		$this->url_helper->expects( 'get_link_type' )->with( $parsed_link_url, $parsed_home_url, $is_image )->andReturn( $link_type );
 
 		$query_mock             = Mockery::mock();
 		$seo_link               = Mockery::mock( SEO_Links_Mock::class );
-		$seo_link->type         = SEO_Links::TYPE_EXTERNAL;
+		$seo_link->type         = $link_type;
 		$seo_link->url          = 'https://link.com';
 		$seo_link->indexable_id = $indexable->id;
 		$seo_link->post_id      = $indexable->object_id;
@@ -115,7 +120,7 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->seo_links_repository->expects( 'query' )->once()->andReturn( $query_mock );
 		$query_mock->expects( 'create' )->once()->with( [
 			'url'          => 'https://link.com',
-			'type'         => SEO_Links::TYPE_EXTERNAL,
+			'type'         => $link_type,
 			'indexable_id' => $indexable->id,
 			'post_id'      => $indexable->object_id,
 		] )->andReturn( $seo_link );
@@ -134,5 +139,17 @@ class Indexable_Link_Builder_Test extends TestCase {
 
 		$this->assertEquals( 1, \count( $links ) );
 		$this->assertEquals( $seo_link, $links[0] );
+	}
+
+	/**
+	 * Data provider to test the build.
+	 *
+	 * @return array The test data.
+	 */
+	public function build_provider() {
+		return [
+			[ '<a href="https://link.com">link</a>', SEO_Links::TYPE_EXTERNAL, false ],
+			[ '<img src="https://link.com" />', SEO_Links::TYPE_EXTERNAL_IMAGE, true ],
+		];
 	}
 }
