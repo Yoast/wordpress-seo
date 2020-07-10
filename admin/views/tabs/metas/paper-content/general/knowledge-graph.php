@@ -44,6 +44,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	$yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-seo' ), $yoast_free_kg_select_options, 'styled', false );
 	?>
 	<div id="knowledge-graph-company">
+		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
 		<?php
 
 		/*
@@ -54,11 +55,9 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		$yoast_seo_company_logo = WPSEO_Options::get( 'company_logo', '' );
 		if ( empty( $yoast_seo_company_name ) || empty( $yoast_seo_company_logo ) ) :
 			?>
-		<div id="knowledge-graph-company-warning"></div>
-		<?php endif; ?>
+			<div id="knowledge-graph-company-warning"></div>
+		<?php endif;
 
-		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
-		<?php
 		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
 		$yform->media_input( 'company_logo', __( 'Organization logo', 'wordpress-seo' ) );
 		?>
