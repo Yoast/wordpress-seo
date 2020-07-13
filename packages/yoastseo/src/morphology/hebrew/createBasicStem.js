@@ -3,7 +3,7 @@
  *
  * @param {string} word The word for which to create a basic stem.
  *
- * @return {string} The basic stem.
+ * @returns {string} The basic stem.
  */
 export function createBasicStem( word ) {
 	const prefixes = [ "ב", "ה", "ו", "כ", "ל", "מ", "ש" ];

@@ -3,7 +3,6 @@ import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
 import getBasicStemFactory from "../helpers/getBasicStem";
 import getLanguage from "../helpers/getLanguage";
-import getStemForLanguage from "../helpers/getStemForLanguage";
 import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getAlttagContent from "../stringProcessing/getAlttagContent";
