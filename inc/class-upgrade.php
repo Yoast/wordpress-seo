@@ -35,7 +35,6 @@ class WPSEO_Upgrade {
 			'4.7'        => 'upgrade_47',
 			'4.9'        => 'upgrade_49',
 			'5.0'        => 'upgrade_50',
-			'5.1'        => 'upgrade_50_51',
 			'5.5'        => 'upgrade_55',
 			'5.6'        => 'upgrade_56',
 			'6.3'        => 'upgrade_63',
@@ -371,20 +370,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Updates the internal_link_count column to support improved functionality.
-	 *
-	 * @param string $version The current version to compare with.
-	 */
-	private function upgrade_50_51( $version ) {
-		global $wpdb;
-
-		if ( version_compare( $version, '5.0', '>=' ) ) {
-			$count_storage = new WPSEO_Meta_Storage();
-			$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
-		}
-	}
-
-	/**
 	 * Register new capabilities and roles.
 	 */
 	private function upgrade_55() {
@@ -405,10 +390,6 @@ class WPSEO_Upgrade {
 
 		// Make sure License Server checks are on the latest server version by default.
 		update_option( 'wpseo_license_server_version', WPSEO_License_Page_Manager::VERSION_BACKWARDS_COMPATIBILITY );
-
-		// Make sure incoming link count entries are at least 0, not NULL.
-		$count_storage = new WPSEO_Meta_Storage();
-		$wpdb->query( 'UPDATE ' . $count_storage->get_table_name() . ' SET incoming_link_count = 0 WHERE incoming_link_count IS NULL' );
 	}
 
 	/**
