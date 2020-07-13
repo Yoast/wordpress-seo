@@ -21,9 +21,9 @@ const keyphraseDistribution = keyphraseDistributionResearcher;
  *
  * @returns {void}
  */
-export function runKeyphraseAnalysis( testPapers, morphologyData ) {
+export default function runKeyphraseAnalysis( testPapers, morphologyData ) {
 	for ( let i = 0; i < 10; i++ ) {
-		testPapers.forEach( ( { testPaper } ) => {
+		testPapers.forEach( ( testPaper ) => {
 			const paper = testPaper.paper;
 
 			const researcher = new Researcher( paper );

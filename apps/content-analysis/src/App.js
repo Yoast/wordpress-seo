@@ -2,6 +2,7 @@
 import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { Benchmark } from "benchmark";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
@@ -24,8 +25,6 @@ import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
 import runKeyphraseAnalysis from "./utils/polishPerformanceTest";
-
-const { Benchmark } = require( "benchmark" );
 
 class App extends React.Component {
 	/**
@@ -125,10 +124,13 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	polishSpanishKeyphraseAnalysisComparison() {
-		const testTextsPL = [ testPapers.polishPaper1, testPapers.polishPaper2, testPapers.polishPaper3 ];
-		const testTextsES = [ testPapers.spanishPaper1, testPapers.spanishPaper2, testPapers.spanishPaper3 ];
+		const testTextsPL = [ testPapers[ 18 ].paper, testPapers[ 19 ].paper, testPapers[ 20 ].paper ];
+		const testTextsES = [ testPapers[ 15 ].paper, testPapers[ 16 ].paper, testPapers[ 17 ].paper ];
 		const morphologyDataPL = getMorphologyData( "pl" ).pl;
 		const morphologyDataES = getMorphologyData( "es" ).es;
+
+		runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
+		runKeyphraseAnalysis( testTextsES, morphologyDataES );
 
 		const suite = new Benchmark.Suite();
 
