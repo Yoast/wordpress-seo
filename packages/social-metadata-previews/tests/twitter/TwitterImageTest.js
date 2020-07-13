@@ -28,7 +28,7 @@ describe( "TwitterImage Component", () => {
 			<TwitterImage src={ imageUrl } isLarge={ true } />
 		);
 
-		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Twitter" );
+		expect( determineImageProperties.handleImage ).toBeCalledWith( imageUrl, "Twitter", true );
 	} );
 
 	it( "matches the snapshot in the loading state", () => {

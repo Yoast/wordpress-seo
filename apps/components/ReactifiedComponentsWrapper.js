@@ -8,11 +8,7 @@ import Toggle from "@yoast/components/src/toggle/Toggle";
 import DataModel from "@yoast/components/src/data-model/DataModel";
 import {
 	Button,
-	PrimaryButton,
-	SecondaryButton,
-	UpsellButton,
-	HideButton,
-	RemoveButton,
+	ButtonStyledLink,
 	CloseButton,
 } from "@yoast/components/src/button";
 
@@ -26,21 +22,21 @@ function clickerDiClick() {
 }
 
 const buttonGrouping = <Fragment>
-	<Button title="Testing whether other props">Naked button</Button>
-	<PrimaryButton onClick={ clickerDiClick } title="Other props work!">Primary button</PrimaryButton>
-	<PrimaryButton href="#" isLink={ true } title="Other props work!">Primary link</PrimaryButton>
-	<SecondaryButton onClick={ clickerDiClick } title="Other props work!">Secondary button</SecondaryButton>
-	<SecondaryButton href="#" isLink={ true } title="Other props work!">Secondary link</SecondaryButton>
-	<UpsellButton onClick={ clickerDiClick } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellButton href="#" isLink={ true } title="Other props work!">Upsell link</UpsellButton>
-	<UpsellButton onClick={ clickerDiClick } caret={ true } title="Other props work!">Upsell button</UpsellButton>
-	<UpsellButton href="#" isLink={ true } caret={ true } title="Other props work!">Upsell link</UpsellButton>
-	<HideButton onClick={ clickerDiClick } title="Other props work!">Hide button</HideButton>
-	<HideButton href="#" isLink={ true } title="Other props work!">Hide link</HideButton>
-	<RemoveButton onClick={ clickerDiClick } title="Other props work!">Remove button</RemoveButton>
-	<RemoveButton href="#" isLink={ true } title="Other props work!">Remove link</RemoveButton>
-	<CloseButton onClick={ clickerDiClick } title="Other props work!" />
-	<CloseButton href="#" isLink={ true } title="Other props work!" />
+	<h3>Buttons</h3>
+	<Button onClick={ clickerDiClick } title="Testing whether other props are also passed, like this tooltip">Default button</Button>
+	<Button variant="primary" onClick={ clickerDiClick }>Primary button</Button>
+	<Button variant="secondary" onClick={ clickerDiClick }>Secondary button</Button>
+	<Button variant="upsell" onClick={ clickerDiClick }>Buy button</Button>
+	<Button variant="hide" onClick={ clickerDiClick }>Hide button</Button>
+	<Button variant="remove" onClick={ clickerDiClick }>Remove button</Button>
+	<h3>Links</h3>
+	<ButtonStyledLink variant="primary" href={ "#" }>Primary link</ButtonStyledLink>
+	<ButtonStyledLink variant="secondary" href={ "#" }>Secondary link</ButtonStyledLink>
+	<ButtonStyledLink variant="upsell" href="#">Buy Link</ButtonStyledLink>
+	<ButtonStyledLink variant="hide" href="#">Hide Link</ButtonStyledLink>
+	<ButtonStyledLink variant="remove" href="#">Remove Link</ButtonStyledLink>
+	<h3>Icons</h3>
+	<CloseButton onClick={ clickerDiClick } />
 </Fragment>;
 
 /**
