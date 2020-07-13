@@ -4,20 +4,16 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 2.5.0 July 6th, 2020
+## 2.5.0 July 20th, 2020
 ### Enhancements
-* Adds a box shadow and border to the toggle switch.
-* Adds a disabled state for the toggle items.
 * Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.
 * Adds focus styling to button, input, textarea, select and toggle switch components for accessibility.
 * Adds the correct border colors for active, hover and focus to the IconLabeledButton.
-* Adds `VariableEditorInputContainer` to add caret styles since Draft.js (un)mounts on every focus change.
+* Adds `VariableEditorInputCotainer` to add caret styles since Draft.js (un)mounts on every focus change.
 * Changes all the css variables of the button component to use the Yoast namespacing correctly.
-* Updates the input fields, text areas, dropdowns,  buttons, title separator and toggle switches in the settings pages to the new styling.
-* Updates the configuration wizard to match the new design.
+* Removes border-bottom and margin-top hack from the collapsible.
 
 ### Bugfixes
-* Fixes a bug where the insights would cause a horizontal scrollbar in the Yoast sidebar.
 * Fixes the right-to-left styling for the .yoast-button--buy button.
 
 ### Other

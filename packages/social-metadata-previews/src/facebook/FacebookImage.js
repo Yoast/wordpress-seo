@@ -21,13 +21,17 @@ const FacebookImageContainer = styled.div`
 	background-color: ${ colors.$color_white };
 `;
 
+// Adding && for specificity, competing styles coming from blockeditor
 const StyledImage = styled.img`
-	width: ${ props => props.imageProperties.width }px;
-	height: ${ props => props.imageProperties.height }px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	&& {
+		width: ${ props => props.imageProperties.width }px;
+		height: ${ props => props.imageProperties.height }px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-width: none;
+	}
 `;
 
 const PlaceholderImage = styled.div`

@@ -23,7 +23,7 @@
 	position: relative;
 	max-width: 300px;
 	display: block;
-	min-height: 2.8em;
+	min-height: 2.85em;
 }
 
 .yoast-field-group select:focus,
@@ -41,6 +41,11 @@
 
 .yoast-field-group select.yoast-select--inline {
 	display: inline-block;
+}
+
+.yoast-field-group .select2-container.select2-container--default.yoast-select2--inline {
+	display: inline-block;
+	margin-right: 8px;
 }
 
 .yoast-field-group  .select2-container.select2-container--default {
