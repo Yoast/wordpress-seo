@@ -146,6 +146,11 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
+		// Don't send tracking if the user has opted out.
+		if ( WPSEO_Options::get( 'tracking' ) === false ) {
+			return false;
+		}
+
 		// Only send tracking on the main site of a multi-site instance. This returns true on non-multisite installs.
 		if ( ! is_main_site() ) {
 			return false;
