@@ -329,6 +329,8 @@ class Indexation_Integration implements Integration_Interface {
 			'ids'     => [
 				'count'    => '#yoast-indexation-current-count',
 				'progress' => '#yoast-indexation-progress-bar',
+				'modal'    => 'yoast-indexation-wrapper',
+				'message'  => '#yoast-indexation',
 			],
 			'restApi' => [
 				'root'      => \esc_url_raw( \rest_url() ),
