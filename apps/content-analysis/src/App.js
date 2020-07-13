@@ -1,7 +1,6 @@
 // External dependencies.
 import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
-import { Benchmark } from "benchmark";
 import { connect } from "react-redux";
 import { Benchmark } from "benchmark";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
