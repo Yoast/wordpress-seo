@@ -145,3 +145,8 @@ td.column-wpseo-links,
 td.column-wpseo-linked {
 	word-wrap: normal;
 }
+
+#posts-filter .wpseo-filter-explanation {
+	margin: 10px 1px 5px;
+	clear: both;
+}
