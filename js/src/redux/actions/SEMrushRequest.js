@@ -2,16 +2,22 @@ export const SET_REQUEST_STARTED = "SET_REQUEST_STARTED";
 export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
 export const SET_REQUEST_LIMIT_REACHED = "SET_LIMIT_REACHED";
-export const SET_REQUEST_COUNTRY = "SET_REQUEST_COUNTRY";
+export const NEW_REQUEST = "NEW_REQUEST";
 
 /**
- * An action creator for setting the started request.
+ * An action creator for starting a new request.
+ *
+ * @param {Object} The country for the SEMrush request.
+ * @param {string} The keyphrase for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
-export function SEMrushRequestStarted() {
+export function setSEMrushNewRequest( country, keyphrase, OAuthToken ) {
 	return {
-		type: SET_REQUEST_STARTED,
+		type: NEW_REQUEST,
+		country,
+		keyphrase,
+		OAuthToken,
 	};
 }
 
@@ -22,7 +28,7 @@ export function SEMrushRequestStarted() {
  *
  * @returns {Object} Action object.
  */
-export function SEMrushRequestSucceeded(response ) {
+export function setSEMrushRequestSucceeded( response ) {
 	return {
 		type: SET_REQUEST_SUCCEEDED,
 		response,
@@ -36,7 +42,7 @@ export function SEMrushRequestSucceeded(response ) {
  *
  * @returns {Object} Action object.
  */
-export function SEMrushRequestFailed(response ) {
+export function setSEMrushRequestFailed( response ) {
 	return {
 		type: SET_REQUEST_FAILED,
 		response,
@@ -46,27 +52,11 @@ export function SEMrushRequestFailed(response ) {
 /**
  * An action creator for when the request limit has been reached.
  *
- * @param {Object} The counted amount of requests sent today.
- *
  * @returns {Object} Action object.
  */
-export function SEMrushSetRequestLimitReached( countedRequests ) {
+export function setSEMrushSetRequestLimitReached() {
 	return {
 		type: SET_REQUEST_LIMIT_REACHED,
-		countedRequests,
 	};
 }
 
-/**
- * An action creator for when the country has been changed.
- *
- * @param {Object} The newly set country for the SEMrush request.
- *
- * @returns {Object} Action object.
- */
-export function SEMrushSetCountry( country ) {
-	return {
-		type: SET_REQUEST_COUNTRY,
-		country,
-	};
-}

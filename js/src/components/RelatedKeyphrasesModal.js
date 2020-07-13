@@ -42,7 +42,6 @@ class RelatedKeyphrasesModal extends Component {
 			// Add logic to display the empty keyphrase message here.
 			return;
 		}
-
 		this.props.onOpen();
 	}
 

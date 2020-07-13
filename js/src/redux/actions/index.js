@@ -8,5 +8,5 @@ export * from "./markerPauseStatus";
 export * from "./twitterEditor";
 export * from "./facebookEditor";
 export * from "./SEMrushKeyphrases";
-//export * from "./SEMrushRequest";
+export * from "./SEMrushRequest";
 export * from "./SEMrushModal";

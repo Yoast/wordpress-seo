@@ -1,11 +1,19 @@
 import {
 	SET_REQUEST_LIMIT_REACHED,
 	SET_REQUEST_FAILED,
-	SET_REQUEST_STARTED,
-	SET_REQUEST_SUCCEEDED, SET_REQUEST_COUNTRY
+	SET_REQUEST_SUCCEEDED,
+	NEW_REQUEST,
 } from "../actions/SEMrushRequest";
 
-const INITIAL_STATE = null;
+const INITIAL_STATE = {
+	isRequestPending: false,
+	OAuthToken: null,
+	keyphrase: "",
+	country: "us",
+	isSuccess: false,
+	response: null,
+	limitReached: false,
+};
 
 /**
  * A reducer for the SEMrush request.
@@ -17,37 +25,48 @@ const INITIAL_STATE = null;
  */
 function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case SET_REQUEST_STARTED:
-			// We set the state to 0 here because the request has not been completed yet.
-			state = 0;
+		case NEW_REQUEST:
 			return {
-				state,
-		};
+				isRequestPending: true,
+				OAuthToken: action.OAuthToken,
+				keyphrase: action.keyphrase,
+				country: action.country,
+				isSuccess: false,
+				response: null,
+				limitReached: state.limitReached,
+			};
 		case SET_REQUEST_SUCCEEDED:
 			// The status code should be 200 OK here.
-			state = action.response.status;
 			return {
-				state,
-		};
+				isRequestPending: false,
+				OAuthToken: null,
+				keyphrase: state.keyphrase,
+				country: state.country,
+				isSuccess: true,
+				response: action.response,
+				limitReached: state.limitReached,
+			};
 		case SET_REQUEST_FAILED:
 			// The status code should be an error code here.
-			state = action.response.status;
 			return {
-				state,
-		};
+				isRequestPending: false,
+				OAuthToken: null,
+				keyphrase: state.keyphrase,
+				country: state.country,
+				isSuccess: false,
+				response: action.response,
+				limitReached: state.limitReached,
+			};
 		case SET_REQUEST_LIMIT_REACHED:
-			// The status is a negative number which represents the amount of requests made today.
-			state = (action.countedRequests * -1);
 			return {
-				state,
-		};
-		case SET_REQUEST_COUNTRY:
-			// Here the state and the set country is returned.
-			let country = action.country;
-			return {
-				state,
-				country,
-		};
+				isRequestPending: false,
+				OAuthToken: null,
+				keyphrase: state.keyphrase,
+				country: action.country,
+				isSuccess: false,
+				response: null,
+				limitReached: true,
+			};
 		default:
 			return {
 				state,

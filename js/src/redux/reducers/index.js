@@ -33,6 +33,6 @@ export default {
 	snippetEditor,
 	warning,
 	SEMrushModal,
-	//SEMrushRequest,
+	SEMrushRequest,
 	SEMrushKeyphrases,
 };
