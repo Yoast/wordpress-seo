@@ -151,7 +151,7 @@ class Url_Helper {
 		}
 
 		// When there is a path and it matches the start of the url.
-		if ( isset( $url['path'] ) && strpos( $url['path'], $home_url['path'] ) !== 0 ) {
+		if ( isset( $url['path'] ) && strpos( $url['path'], $home_url['path'] ) === 0 ) {
 			return ( $is_image ) ? SEO_Links::TYPE_INTERNAL_IMAGE : SEO_Links::TYPE_INTERNAL;
 		}
 
