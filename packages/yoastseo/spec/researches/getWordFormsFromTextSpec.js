@@ -302,4 +302,20 @@ describe( "A test from getting word forms from the text, based on the stems of a
 			}
 		);
 	} );
+
+	it( "returns basic stemmed forms for Hebrew keyphrases", () => {
+		const attributes = {
+			keyword: "בראשית לארץ",
+			locale: "he_IL",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordFormsFromText( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [ [ "בראשית", "ראשית" ], [ "לארץ", "ארץ" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
 } );

@@ -1,7 +1,9 @@
 import { escapeRegExp, get, uniq } from "lodash-es";
 import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
+import getBasicStemFactory from "../helpers/getBasicStem";
 import getLanguage from "../helpers/getLanguage";
+import getStemForLanguage from "../helpers/getStemForLanguage";
 import retrieveStemmer from "../helpers/retrieveStemmer";
 
 import getAlttagContent from "../stringProcessing/getAlttagContent";
@@ -62,7 +64,7 @@ function getAllWordsFromPaper( paper, language ) {
 
 /**
  * Takes a stem-original pair and returns the accompanying forms for the stem that were found in the paper. Additionally
- * adds a sanitized version of the original word.
+ * adds a sanitized version of the original word and (for specific languages) a basic stem.
  *
  * @param {StemOriginalPair}    stemOriginalPair            The stem-original pair for which to get forms.
  * @param {StemWithForms[]}     paperWordsGroupedByStems    All word forms in the paper grouped by stem.
@@ -74,10 +76,18 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, langu
 	const matchingStemFormPair = paperWordsGroupedByStems.find( element => element.stem === stemOriginalPair.stem );
 	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original.toLocaleLowerCase( language ) ) );
 
-	// Return original and found forms or only original if no matching forms were found in the text.
-	return matchingStemFormPair
+	const forms = matchingStemFormPair
 		? uniq( [ originalSanitized, ...matchingStemFormPair.forms ] )
 		: [ originalSanitized ];
+
+	// Add extra forms for languages that have a basic stemmer.
+	if ( Object.keys( getBasicStemFactory() ).includes( language ) ) {
+		const createBasicStem = getBasicStemFactory()[ language ];
+		forms.push( createBasicStem( stemOriginalPair.original ) );
+	}
+
+	// Return original and found forms or only original if no matching forms were found in the text.
+	return forms;
 }
 
 /**
