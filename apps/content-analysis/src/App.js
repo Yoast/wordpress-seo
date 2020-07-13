@@ -45,6 +45,7 @@ class App extends React.Component {
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 		this.analyzeSpam = this.analyzeSpam.bind( this );
+		this.polishSpanishKeyphraseAnalysisComparison = this.polishSpanishKeyphraseAnalysisComparison.bind( this );
 
 		this.initialize();
 
@@ -187,6 +188,7 @@ class App extends React.Component {
 						onInitialize={ this.initialize }
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
+						onPolishSpanishComparison={ this.polishSpanishKeyphraseAnalysisComparison }
 					/>
 				</Collapsible>
 			</Container>
