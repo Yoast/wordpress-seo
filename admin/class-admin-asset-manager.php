@@ -565,10 +565,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'configuration-wizard-' . $flat_version,
 			],
 			[
-				'name' => 'filter-explanation',
-				'src'  => 'filter-explanation-' . $flat_version,
-			],
-			[
 				'name' => 'monorepo',
 				'src'  => 'monorepo-' . $flat_version,
 			],
