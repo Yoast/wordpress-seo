@@ -1,4 +1,4 @@
-/* global yoastIndexationData, jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
+/* global jQuery, tb_show, tb_remove, TB_WIDTH, TB_HEIGHT, wpseoSetIgnore, ajaxurl */
 import a11ySpeak from "a11y-speak";
 
 import ProgressBar from "./ui/progressBar";
@@ -72,7 +72,8 @@ import ProgressBar from "./ui/progressBar";
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
-			const settings = window[ $( this ).data( "settings" ) ];
+			const key      = $( this ).data( "settings" ) || "yoastIndexationData";
+			const settings = window[ key ];
 			let modalId    = settings.ids.modal || "yoast-indexation-wrapper";
 			modalId = modalId.replace( /^#/, "" );
 
