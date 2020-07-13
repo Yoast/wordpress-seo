@@ -304,6 +304,8 @@ class Indexation_Integration_Test extends TestCase {
 			'ids'     => [
 				'count'    => '#yoast-indexation-current-count',
 				'progress' => '#yoast-indexation-progress-bar',
+				'modal'    => 'yoast-indexation-wrapper',
+				'message'  => '#yoast-indexation',
 			],
 			'restApi' => [
 				'root'      => 'https://example.org/wp-ajax/',
@@ -486,7 +488,7 @@ class Indexation_Integration_Test extends TestCase {
 			]
 		);
 
-		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button id="yoast-indexation-stop" type="button" class="button">Stop indexing</button></div>' );
+		$this->expectOutputString( '<div id="yoast-indexation-wrapper" class="hidden"><div><p>We\'re processing all of your content to speed it up! This may take a few minutes.</p><div id="yoast-indexation-progress-bar" class="wpseo-progressbar"></div><p>Object <span id="yoast-indexation-current-count">0</span> of <strong id="yoast-indexation-total-count">40</strong> processed.</p></div><button class="button yoast-indexation-stop" type="button">Stop indexing</button></div>' );
 
 		$this->instance->render_indexation_modal();
 	}

@@ -80,6 +80,8 @@ import ProgressBar from "./ui/progressBar";
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
+			const settings = window[ $( this ).data( "settings" ) ];
+
 			/*
 			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
 			 * So we temporarily revert that change as we do want to have custom height and width.
@@ -94,13 +96,11 @@ import ProgressBar from "./ui/progressBar";
 					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
 				} );
 			};
-			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=179&inlineId=yoast-indexation-wrapper", false );
+			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=179&inlineId=" + settings.ids.modal, false );
 			window.tb_position = old_tb_position;
 			/* eslint-enable camelcase */
 
 			if ( indexationInProgress === false ) {
-				const settings = window[ $( this ).data( "settings" ) ];
-
 				stoppedIndexation = false;
 				indexationInProgress = true;
 
@@ -118,7 +118,7 @@ import ProgressBar from "./ui/progressBar";
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingCompleted );
+					$( settings.ids.message ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
@@ -132,14 +132,14 @@ import ProgressBar from "./ui/progressBar";
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
-					$( "#yoast-indexation" ).html( settings.message.indexingFailed );
+					$( settings.ids.message ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );
 			}
 		} );
 
-		$( "#yoast-indexation-stop" ).on( "click", () => {
+		$( ".yoast-indexation-stop" ).on( "click", () => {
 			stoppedIndexation = true;
 			tb_remove();
 			// Reset the hash for if we linked from another page. Preventing an immediate re-run.
