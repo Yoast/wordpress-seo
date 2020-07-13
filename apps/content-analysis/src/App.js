@@ -1,6 +1,7 @@
 // External dependencies.
 import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
+import { Benchmark } from "benchmark";
 import { connect } from "react-redux";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
@@ -24,8 +25,6 @@ import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
 import runKeyphraseAnalysis from "./utils/polishPerformanceTest";
-
-const { Benchmark } = require( "benchmark" );
 
 class App extends React.Component {
 	/**
@@ -125,8 +124,8 @@ class App extends React.Component {
 	 * @returns {void}
 	 */
 	polishSpanishKeyphraseAnalysisComparison() {
-		const testTextsPL = [ testPapers.polishPaper1, testPapers.polishPaper2, testPapers.polishPaper3 ];
-		const testTextsES = [ testPapers.spanishPaper1, testPapers.spanishPaper2, testPapers.spanishPaper3 ];
+		const testTextsPL = [ testPapers[ 18 ], testPapers[ 19 ], testPapers[ 20 ] ];
+		const testTextsES = [ testPapers[ 15 ], testPapers[ 16 ], testPapers[ 17 ] ];
 		const morphologyDataPL = getMorphologyData( "pl" ).pl;
 		const morphologyDataES = getMorphologyData( "es" ).es;
 

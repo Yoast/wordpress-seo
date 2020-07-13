@@ -21,9 +21,9 @@ const keyphraseDistribution = keyphraseDistributionResearcher;
  *
  * @returns {void}
  */
-export function runKeyphraseAnalysis( testPapers, morphologyData ) {
+export default function( testPapers, morphologyData ) {
 	for ( let i = 0; i < 10; i++ ) {
-		testPapers.forEach( ( { testPaper } ) => {
+		testPapers.forEach( ( testPaper ) => {
 			const paper = testPaper.paper;
 
 			const researcher = new Researcher( paper );
@@ -39,6 +39,7 @@ export function runKeyphraseAnalysis( testPapers, morphologyData ) {
 			findKeywordInPageTitle( paper, researcher );
 			keywordCountInUrl( paper, researcher );
 			keyphraseDistribution( paper, researcher );
+			console.log( "Finished one round of analysis!" );
 		} );
 	}
 }
