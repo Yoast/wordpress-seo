@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "2.5.0-rc.5",
+  "version": "2.5.0-rc.6",
   "description": "Yoast Components",
   "main": "src/index.js",
   "private": false,
@@ -27,8 +27,8 @@
   "dependencies": {
     "@wordpress/a11y": "^1.1.3",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/helpers": "^0.13.0-rc.4",
-    "@yoast/style-guide": "^0.12.0-rc.4",
+    "@yoast/helpers": "^0.13.0-rc.5",
+    "@yoast/style-guide": "^0.12.0-rc.5",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
