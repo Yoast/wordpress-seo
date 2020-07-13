@@ -9,9 +9,9 @@ import { colors } from "@yoast/style-guide";
 const StyledMention = styled.span`
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_pink_dark };
-	padding: 4px 10px;
-	margin: 7px 2px;
-	border-radius: 12px;
+	padding: 0px 8px;
+	margin: 2px 2px;
+	border-radius: 17px;
 	cursor: default;
 
 	&:hover {

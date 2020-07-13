@@ -83,5 +83,5 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	return result;
 }
 
-
 export default getProminentWordsForInternalLinking;
+

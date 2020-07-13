@@ -7,11 +7,14 @@ import { replaceTurkishIsMemoized } from "./specialCharacterMappings";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.
- * @param {string} keyword The keyword to create a regex from.
- * @returns {RegExp} Regular expression of the keyword with wordboundaries.
+ *
+ * @param {string} keyword  The keyword to create a regex from.
+ * @param {string} locale   The locale.
+ *
+ * @returns {RegExp} Regular expression of the keyword with word boundaries.
  */
-var toRegex = function( keyword ) {
-	keyword = addWordBoundary( keyword );
+var toRegex = function( keyword, locale ) {
+	keyword = addWordBoundary( keyword, false, "", locale );
 	return new RegExp( keyword, "ig" );
 };
 
@@ -23,7 +26,7 @@ var toRegex = function( keyword ) {
  * @returns {Array} All matches from the original as the transliterated text and keyword.
  */
 export default function( text, keyword, locale ) {
-	var keywordRegex = toRegex( keyword );
+	var keywordRegex = toRegex( keyword, locale );
 
 	if ( locale === "tr_TR" ) {
 		const turkishMappings = replaceTurkishIsMemoized( keyword );
@@ -34,14 +37,14 @@ export default function( text, keyword, locale ) {
 	text = text.replace( keywordRegex, "" );
 
 	var transliterateKeyword = transliterate( keyword, locale );
-	var transliterateKeywordRegex = toRegex( transliterateKeyword );
+	var transliterateKeywordRegex = toRegex( transliterateKeyword, locale );
 	var transliterateMatches = text.match( transliterateKeywordRegex ) || [];
 	var combinedArray = matches.concat( transliterateMatches );
 
 	var transliterateWPKeyword = transliterateWP( keyword, locale );
 
 	if ( ! ( transliterateWPKeyword === transliterateKeyword ) ) {
-		var transliterateWPKeywordRegex = toRegex( transliterateWPKeyword );
+		var transliterateWPKeywordRegex = toRegex( transliterateWPKeyword, locale );
 		var transliterateWPMatches = text.match( transliterateWPKeywordRegex ) || [];
 
 		combinedArray = combinedArray.concat( transliterateWPMatches );
@@ -51,5 +54,3 @@ export default function( text, keyword, locale ) {
 		return stripSpaces( match );
 	} );
 }
-
-

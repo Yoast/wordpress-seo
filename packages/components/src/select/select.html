@@ -29,6 +29,7 @@
 
 	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
 	<link rel='stylesheet' href='select.css' type='text/css' media='all'/>
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 </head>
@@ -76,6 +77,21 @@
 		</select>
 	</div>
 
+	<p>Multiselect select2 component with a button beside it</p>
+
+	<div class="yoast-field-group">
+		<select class="js-example-basic-multiple-inline" name="states[]" multiple="multiple">
+			<option value="dog">Dog</option>
+			<option value="cat">Cat</option>
+			<option value="hamster">Hamster</option>
+			<option value="parrot">Parrot</option>
+			<option value="spider">Spider</option>
+			<option value="goldfish">Goldfish</option>
+		</select>
+
+		<button class="yoast-button yoast-button--secondary">Secondary button</button>
+	</div>
+
 	<p>Select without additional styling</p>
 
 	<label for="selectid2">Label name</label>
@@ -95,6 +111,15 @@
 	$(document).ready(function() {
 		$('.js-example-basic-multiple').select2({
 			containerCssClass: 'yoast-multiselect',
+			dropdownCssClass: "yoast-select__dropdown",
+		});
+	});
+
+	$(document).ready(function() {
+		$('.js-example-basic-multiple-inline').select2({
+			containerCssClass: 'yoast-multiselect',
+			theme: 'default yoast-select2--inline',
+			dropdownCssClass: "yoast-select__dropdown",
 		});
 	});
 </script>

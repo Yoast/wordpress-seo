@@ -1,11 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Buy variant matches the Button snapshot 1`] = `
+<button
+  className="yoast-button yoast-button--buy"
+  onClick={[Function]}
+  type="button"
+>
+  test
+  <span
+    className="yoast-button--buy__caret"
+  />
+</button>
+`;
+
+exports[`Buy variant matches the Link snapshot 1`] = `
+<a
+  className="yoast-button yoast-button--buy"
+  href="#"
+>
+  test
+  <span
+    className="yoast-button--buy__caret"
+  />
+</a>
+`;
+
 exports[`Icon CloseButton matches the Button snapshot 1`] = `
-<Button
+<button
   aria-label="Close"
   className="yoast-close"
-  href={null}
-  isLink={false}
   onClick={[Function]}
 >
   <svg
@@ -19,165 +42,81 @@ exports[`Icon CloseButton matches the Button snapshot 1`] = `
       d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
     />
   </svg>
-</Button>
+</button>
 `;
 
-exports[`Icon CloseLink matches the Link snapshot 1`] = `
-<Button
-  aria-label="Close"
-  className="yoast-close"
-  href="#"
-  isLink={true}
-  onClick={null}
->
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    role="img"
-    viewBox="0 0 352 512"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
-    />
-  </svg>
-</Button>
-`;
-
-exports[`Primary matches the Button snapshot 1`] = `
-<Button
+exports[`Primary variant matches the Button snapshot 1`] = `
+<button
   className="yoast-button yoast-button--primary"
-  href={null}
-  isLink={false}
   onClick={[Function]}
+  type="button"
 >
   test
-</Button>
+</button>
 `;
 
-exports[`Primary matches the Link snapshot 1`] = `
-<Button
+exports[`Primary variant matches the Link snapshot 1`] = `
+<a
   className="yoast-button yoast-button--primary"
   href="#"
-  isLink={true}
-  onClick={null}
 >
   test
-</Button>
+</a>
 `;
 
-exports[`Secondary matches the Button snapshot 1`] = `
-<Button
+exports[`Secondary variant matches the Button snapshot 1`] = `
+<button
   className="yoast-button yoast-button--secondary"
-  href={null}
-  isLink={false}
   onClick={[Function]}
+  type="button"
 >
   test
-</Button>
+</button>
 `;
 
-exports[`Secondary matches the Link snapshot 1`] = `
-<Button
+exports[`Secondary variant matches the Link snapshot 1`] = `
+<a
   className="yoast-button yoast-button--secondary"
   href="#"
-  isLink={true}
-  onClick={null}
 >
   test
-</Button>
+</a>
 `;
 
-exports[`Text HideButton matches the Button snapshot 1`] = `
-<Button
-  className="yoast-hide"
-  href={null}
-  isLink={false}
-  onClick={[Function]}
->
-  test
-</Button>
-`;
-
-exports[`Text HideLink matches the Link snapshot 1`] = `
-<Button
-  className="yoast-hide"
-  href="#"
-  isLink={true}
-  onClick={null}
->
-  test
-</Button>
-`;
-
-exports[`Text RemoveButton matches the Button snapshot 1`] = `
-<Button
+exports[`Text variant matches the Button snapshot 1`] = `
+<button
   className="yoast-remove"
-  href={null}
-  isLink={false}
   onClick={[Function]}
+  type="button"
 >
   test
-</Button>
+</button>
 `;
 
-exports[`Text RemoveLink matches the Link snapshot 1`] = `
-<Button
+exports[`Text variant matches the Button snapshot 2`] = `
+<button
+  className="yoast-hide"
+  onClick={[Function]}
+  type="button"
+>
+  test
+</button>
+`;
+
+exports[`Text variant matches the Link snapshot 1`] = `
+<a
   className="yoast-remove"
   href="#"
-  isLink={true}
-  onClick={null}
 >
   test
-</Button>
+</a>
 `;
 
-exports[`Upsell has a caret in the Button snapshot when caret is true 1`] = `
-<Button
-  className="yoast-button yoast-button--buy"
-  href={null}
-  isLink={false}
-  onClick={[Function]}
->
-  test
-  <span
-    className="yoast-button--buy__caret"
-  />
-</Button>
-`;
-
-exports[`Upsell has a caret in the Link snapshot when caret is true 1`] = `
-<Button
-  className="yoast-button yoast-button--buy"
+exports[`Text variant matches the Link snapshot 2`] = `
+<a
+  className="yoast-hide"
   href="#"
-  isLink={true}
-  onClick={null}
 >
   test
-  <span
-    className="yoast-button--buy__caret"
-  />
-</Button>
-`;
-
-exports[`Upsell matches the Button snapshot without caret 1`] = `
-<Button
-  className="yoast-button yoast-button--buy"
-  href={null}
-  isLink={false}
-  onClick={[Function]}
->
-  test
-</Button>
-`;
-
-exports[`Upsell matches the Link snapshot without caret 1`] = `
-<Button
-  className="yoast-button yoast-button--buy"
-  href="#"
-  isLink={true}
-  onClick={null}
->
-  test
-</Button>
+</a>
 `;

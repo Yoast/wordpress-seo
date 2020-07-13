@@ -38,7 +38,7 @@ export const validateSize = ( image ) => {
  */
 export const validateType = ( image ) => {
 	const { type } = image;
-	const validTypes = [ "jpg", "png", "gif" ];
+	const validTypes = [ "jpg", "png", "gif", "jpeg" ];
 
 	const warningMessage = sprintf(
 		/* Translators: %s expands to the jpg format, %s expands to the png format, %s expands to the gif format. */
