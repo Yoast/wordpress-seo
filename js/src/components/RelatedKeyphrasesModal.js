@@ -115,6 +115,7 @@ RelatedKeyphrasesModal.propTypes = {
 	location: PropTypes.string,
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
 	isModalOpen: PropTypes.bool,
+	currentDatabase: PropTypes.string,
 };
 
 RelatedKeyphrasesModal.defaultProps = {
@@ -122,6 +123,7 @@ RelatedKeyphrasesModal.defaultProps = {
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
 	isModalOpen: false,
+	currentDatabase: "us",
 };
 
 export default RelatedKeyphrasesModal;

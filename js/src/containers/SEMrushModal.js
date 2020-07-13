@@ -8,11 +8,12 @@ export default compose( [
 		return {
 			keyphrase: select( "yoast-seo/editor" ).getFocusKeyphrase(),
 			isModalOpen: select( "yoast-seo/editor" ).getSEMrushModalIsOpen(),
+			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
 			OAuthToken: "",
 		}
 	}),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal } = dispatch(
+		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase } = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
@@ -21,7 +22,10 @@ export default compose( [
 			},
 			onClose: () => {
 				setSEMrushDismissModal()
-			}
+			},
+			setDatabase: ( country ) => {
+				setSEMrushChangeDatabase( country )
+			},
 		}
 	}),
 ] )( RelatedKeyphrasesModal );
