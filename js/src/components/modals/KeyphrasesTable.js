@@ -42,7 +42,7 @@ class KeyphrasesTable extends Component {
 	 * @returns {React.Element} The Related Keyphrases table.
 	 */
 	render() {
-		const { data } = this.props;
+		const { data, renderAction, relatedKeyphrases } = this.props;
 
 		return (
 			<Fragment>
@@ -53,16 +53,17 @@ class KeyphrasesTable extends Component {
 								<th>{ __( "Related keyphrase", "wordpress-seo" ) }</th>
 								<th>{ __( "Volume", "wordpress-seo" ) }</th>
 								<th>{ __( "Trend", "wordpress-seo" ) }</th>
-								<td />
+								{ renderAction && <td /> }
 							</tr>
 						</thead>
 						<tbody>
 							{
 								data.data.rows.map( ( row, index ) => {
+									const relatedKeyphrase = row[ 0 ];
 									const chartPoints = this.transformTrendDataToChartPoints( row[ 2 ] );
 
 									return <tr key={ index }>
-										<td>{ row[ 0 ] }</td>
+										<td>{ relatedKeyphrase }</td>
 										<td>{ row[ 1 ] }</td>
 										<td>
 											<AreaChart
@@ -74,7 +75,11 @@ class KeyphrasesTable extends Component {
 												fillColor="#ade3fc"
 											/>
 										</td>
-										<td>Fill for button</td>
+										{
+											renderAction && <td>
+												{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
+											</td>
+										}
 									</tr>;
 								} )
 							}
@@ -88,10 +93,14 @@ class KeyphrasesTable extends Component {
 
 KeyphrasesTable.propTypes = {
 	data: PropTypes.object,
+	relatedKeyphrases: PropTypes.array,
+	renderAction: PropTypes.func,
 };
 
 KeyphrasesTable.defaultProps = {
 	data: {},
+	relatedKeyphrases: [],
+	renderAction: null,
 };
 
 export default KeyphrasesTable;
