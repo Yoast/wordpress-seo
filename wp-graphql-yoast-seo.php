@@ -239,6 +239,23 @@ add_action('graphql_init', function () {
       ]
     ]);
 
+    register_graphql_object_type('SEOOpenGraphFrontPage', [
+      'description' => __('The Open Graph Front page data', 'wp-graphql-yoast-seo'),
+      'fields' => [
+        'title' => ['type' => 'String'],
+        'description' => ['type' => 'String'],
+        'image' => ['type' => 'MediaItem'],
+      ]
+    ]);
+
+    register_graphql_object_type('SEOOpenGraph', [
+      'description' => __('The Open Graph data', 'wp-graphql-yoast-seo'),
+      'fields' => [
+        'defaultImage' => ['type' => 'MediaItem'],
+        'frontPage' => ['type' => 'SEOOpenGraphFrontPage'],
+      ]
+    ]);
+
     register_graphql_object_type('SEOConfig', [
       'description' => __('The Yoast SEO site level configuration data', 'wp-graphql-yoast-seo'),
       'fields' => [
@@ -248,7 +265,8 @@ add_action('graphql_init', function () {
         'breadcrumbs' => ['type' => 'SEOBreadcrumbs'],
         'redirects' => ['type' => [
           'list_of' => 'SEORedirect',
-        ]]
+        ]],
+        'openGraph' => ['type' => 'SEOOpenGraph'],
       ]
     ]);
 
@@ -347,10 +365,17 @@ add_action('graphql_init', function () {
             'siteUrl' => trim(get_site_url()),
           ),
           'redirects' => array_map($mappedRedirects, $redirects),
+          'openGraph' => array(
+            'defaultImage' =>  DataSource::resolve_post_object($all['og_default_image_id'], $context),
+            'frontPage' => array(
+              'title' => trim($all['og_frontpage_title']),
+              'description' => trim($all['og_frontpage_desc']),
+              'image' => DataSource::resolve_post_object($all['og_frontpage_image_id'], $context),
+            )
+          )
         );
       },
     ]);
-
 
     if (!empty($post_types) && is_array($post_types)) {
       foreach ($post_types as $post_type) {
