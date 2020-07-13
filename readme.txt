@@ -4,7 +4,7 @@ Tags: SEO, Yoast, WpGraphQL, GraphQL, Headless WordPress, Decoupled WordPress, J
 Requires at least: 5.4
 Tested up to: 5.4
 Requires PHP: 7.1
-Stable tag: 4.4.1
+Stable tag: 4.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -226,6 +226,22 @@ To query for the site configuration data you can query from the root.
       }
       youTube {
         url
+      }
+    }
+    openGraph {
+      frontPage {
+        title
+        description
+        image {
+          altText
+          sourceUrl
+          mediaItemUrl
+        }
+      }
+      defaultImage {
+        altText
+        sourceUrl
+        mediaItemUrl
       }
     }
     # Redirects only work in the premium version of Yoast

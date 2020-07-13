@@ -256,6 +256,22 @@ To query for the site configuration data you can query from the root.
         url
       }
     }
+    openGraph {
+      frontPage {
+        title
+        description
+        image {
+          altText
+          sourceUrl
+          mediaItemUrl
+        }
+      }
+      defaultImage {
+        altText
+        sourceUrl
+        mediaItemUrl
+      }
+    }
     # Redirects only work in the premium version of Yoast
     redirects {
       origin
