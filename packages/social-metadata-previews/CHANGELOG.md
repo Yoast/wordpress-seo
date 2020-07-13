@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.0.0 July 6th, 2020
+## 1.0.0 July 20th, 2020
 ### Enhancements
 * Adds a new Facebook and Twitter preview written in React.
 * Adds a form for editing the Social Previews.

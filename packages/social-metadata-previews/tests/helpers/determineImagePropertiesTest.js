@@ -2,10 +2,9 @@
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
 import { createSuccessfulImage } from "../testHelpers/mockImage";
 
-describe( "determineImageMode", () => {
+describe( "determineFacebookImageMode", () => {
 	it( "Facebook preview returns square when the width and height are the same", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Facebook",
+		const actual = determineImageProperties.determineFacebookImageMode(
 			{ width: 300, height: 300 } );
 		const expected = "square";
 
@@ -13,46 +12,17 @@ describe( "determineImageMode", () => {
 	} );
 
 	it( "Facebook preview returns portrait when the height is greater than the width", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Facebook",
+		const actual = determineImageProperties.determineFacebookImageMode(
 			{ width: 300, height: 600 } );
 		const expected = "portrait";
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "Facebook preview returns portrait when the width is greater than the height", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Facebook",
+	it( "Facebook preview returns landscape when the width is greater than the height", () => {
+		const actual = determineImageProperties.determineFacebookImageMode(
 			{ width: 600, height: 300 } );
 		const expected = "landscape";
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "Twitter preview returns landscape when width > 280 and height > 150", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Twitter",
-			{ width: 300, height: 300 } );
-		const expected = "landscape";
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "Twitter preview returns square when both width < 280 and height < 150", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Twitter",
-			{ width: 200, height: 100 } );
-		const expected = "square";
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "Twitter preview returns square when either width < 280 or height < 150", () => {
-		const actual = determineImageProperties.determineImageMode(
-			"Twitter",
-			{ width: 300, height: 100 } );
-		const expected = "square";
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -156,16 +126,6 @@ describe( "calculateLargestDimensions", () => {
 } );
 
 describe( "calculateImageDimensions", () => {
-	it( "returns the original dimensions when the original Twitter image is too small", () => {
-		const actual = determineImageProperties.calculateImageDimensions(
-			{ squareWidth: 125, squareHeight: 125 },
-			{ width: 100, height: 100 },
-			"square" );
-		const expected = { width: 100, height: 100 };
-
-		expect( actual ).toEqual( expected );
-	} );
-
 	it( "returns the Facebook image dimensions for an image that was originally square", () => {
 		const actual = determineImageProperties.calculateImageDimensions(
 			{ squareWidth: 158, squareHeight: 158 },
@@ -233,7 +193,8 @@ describe( "determineImageProperties", () => {
 		 */
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg",
-			"Twitter"
+			"Twitter",
+			true,
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 265 };
@@ -245,7 +206,8 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-250x131.png",
-			"Twitter"
+			"Twitter",
+			false
 		);
 
 		const expected = { mode: "square", width: 239, height: 125 };
@@ -257,7 +219,8 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1",
-			"Twitter"
+			"Twitter",
+			true
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 760 };
@@ -269,7 +232,8 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png",
-			"Twitter"
+			"Twitter",
+			false
 		);
 
 		const expected = { mode: "square", width: 125, height: 140 };
@@ -281,7 +245,8 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png",
-			"Twitter"
+			"Twitter",
+			true,
 		);
 
 		const expected = { mode: "landscape", width: 506, height: 506 };
@@ -293,7 +258,8 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png",
-			"Twitter"
+			"Twitter",
+			false
 		);
 
 		const expected = { mode: "square", width: 125, height: 125 };
@@ -305,10 +271,11 @@ describe( "determineImageProperties", () => {
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
 			"https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png",
-			"Twitter"
+			"Twitter",
+			false
 		);
 
-		const expected = { mode: "square", width: 205, height: 105 };
+		const expected = { mode: "square", width: 244, height: 125 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 

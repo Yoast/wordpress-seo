@@ -47,7 +47,7 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   background-color: #fff;
 }
 
-.c1 {
+.c1.c1 {
   width: 600px;
   height: 300px;
   position: absolute;
@@ -56,6 +56,7 @@ exports[`FacebookImage Component matches the snapshot for a landscape image 1`] 
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+  max-width: none;
 }
 
 <div
@@ -81,7 +82,7 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   background-color: #fff;
 }
 
-.c1 {
+.c1.c1 {
   width: 300px;
   height: 600px;
   position: absolute;
@@ -90,6 +91,7 @@ exports[`FacebookImage Component matches the snapshot for a portrait image 1`] =
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+  max-width: none;
 }
 
 <div
@@ -115,7 +117,7 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   background-color: #fff;
 }
 
-.c1 {
+.c1.c1 {
   width: 300px;
   height: 300px;
   position: absolute;
@@ -124,6 +126,7 @@ exports[`FacebookImage Component matches the snapshot for a square image 1`] = `
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+  max-width: none;
 }
 
 <div
@@ -149,7 +152,7 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
   background-color: #fff;
 }
 
-.c1 {
+.c1.c1 {
   width: 100px;
   height: 100px;
   position: absolute;
@@ -158,6 +161,7 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+  max-width: none;
 }
 
 <div

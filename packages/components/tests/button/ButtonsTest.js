@@ -3,11 +3,7 @@ import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import {
 	Button,
-	PrimaryButton,
-	SecondaryButton,
-	UpsellButton,
-	RemoveButton,
-	HideButton,
+	ButtonStyledLink,
 	CloseButton,
 } from "../../src/button";
 
@@ -33,7 +29,7 @@ describe( "Button", () => {
 
 		expect( result ).toBeDefined();
 		expect( result.props.id ).toBe( "very-nice-id" );
-		expect( result.props.className ).toBe( "yoast-button" );
+		expect( result.props.className ).toBe( "yoast-button yoast-button--primary" );
 		expect( result.type ).toBe( "button" );
 	} );
 
@@ -42,33 +38,20 @@ describe( "Button", () => {
 
 		shallowRenderer.render(
 			<Button
-				isLink="indeed"
+				variant={ { afterIcon: "blerf" } }
 			/>
 		);
 
 		expect( console.error ).toBeCalled();
 		expect( console.error.mock.calls[ 0 ][ 0 ] )
-			.toContain( "Warning: Failed prop type: Invalid prop `isLink` of type `string` supplied to `Button`, expected `boolean`." );
-	} );
-
-	it( "renders a link instead of a button if isLink is true", () => {
-		shallowRenderer.render(
-			<Button
-				isLink={ true }
-			/>
-		);
-
-		const result = shallowRenderer.getRenderOutput();
-
-		expect( result ).toBeDefined();
-		expect( result.type ).toBe( "a" );
+			.toContain( "Warning: Failed prop type: Invalid prop `variant` of value `[object Object]` supplied to `Button`" );
 	} );
 } );
 
-describe( "Primary", () => {
+describe( "Primary variant", () => {
 	const expectedClassName = "yoast-button yoast-button--primary";
 	it( "matches the Button snapshot", () => {
-		shallowRenderer.render( <PrimaryButton onClick={ () => {} }>test</PrimaryButton> );
+		shallowRenderer.render( <Button variant="primary" onClick={ () => {} }>test</Button> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -76,7 +59,7 @@ describe( "Primary", () => {
 	} );
 
 	it( "matches the Link snapshot", () => {
-		shallowRenderer.render( <PrimaryButton isLink={ true } href="#">test</PrimaryButton> );
+		shallowRenderer.render( <ButtonStyledLink variant="primary" href="#">test</ButtonStyledLink> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -84,10 +67,10 @@ describe( "Primary", () => {
 	} );
 } );
 
-describe( "Secondary", () => {
+describe( "Secondary variant", () => {
 	const expectedClassName = "yoast-button yoast-button--secondary";
 	it( "matches the Button snapshot", () => {
-		shallowRenderer.render( <SecondaryButton onClick={ () => {} }>test</SecondaryButton> );
+		shallowRenderer.render( <Button variant="secondary" onClick={ () => {} }>test</Button> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -95,7 +78,7 @@ describe( "Secondary", () => {
 	} );
 
 	it( "matches the Link snapshot", () => {
-		shallowRenderer.render( <SecondaryButton isLink={ true } href="#">test</SecondaryButton> );
+		shallowRenderer.render( <ButtonStyledLink variant="secondary" href="#">test</ButtonStyledLink> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -103,91 +86,37 @@ describe( "Secondary", () => {
 	} );
 } );
 
-describe( "Upsell", () => {
+describe( "Buy variant", () => {
 	const expectedClassName = "yoast-button yoast-button--buy";
-	it( "matches the Button snapshot without caret", () => {
-		shallowRenderer.render( <UpsellButton onClick={ () => {} }>test</UpsellButton> );
+	it( "matches the Button snapshot", () => {
+		shallowRenderer.render( <Button variant="buy" onClick={ () => {} }>test</Button> );
 
 		const result = shallowRenderer.getRenderOutput();
-
-		// Filter carets from children.
-		const children = result.props.children;
-		const carets = children.filter( element => element.props && element.props.className === "yoast-button--buy__caret" );
-
-		// Carets not present in children.
-		expect( carets.length ).toEqual( 0 );
-
-		// General Upsell test
 		expect( result ).toMatchSnapshot();
 		expect( result.props.className ).toBe( expectedClassName );
 	} );
 
-	it( "matches the Link snapshot without caret", () => {
-		shallowRenderer.render( <UpsellButton isLink={ true } href="#">test</UpsellButton> );
+	it( "matches the Link snapshot", () => {
+		shallowRenderer.render( <ButtonStyledLink variant="buy" href="#">test</ButtonStyledLink> );
 
 		const result = shallowRenderer.getRenderOutput();
-
-		// Filter carets from children.
-		const children = result.props.children;
-		const carets = children.filter( element => element.props && element.props.className === "yoast-button--buy__caret" );
-
-		// Carets not present in children.
-		expect( carets.length ).toEqual( 0 );
-
-		// General Upsell test
-		expect( result ).toMatchSnapshot();
-		expect( result.props.className ).toBe( expectedClassName );
-	} );
-
-	it( "has a caret in the Button snapshot when caret is true", () => {
-		shallowRenderer.render( <UpsellButton onClick={ () => {} } caret={ true }>test</UpsellButton> );
-
-		const result = shallowRenderer.getRenderOutput();
-
-		// Filter carets from children.
-		const children = result.props.children;
-		const carets = children.filter( element => element.props && element.props.className === "yoast-button--buy__caret" );
-
-		// Carets present in children, with correct className.
-		expect( carets.length ).toBeGreaterThan( 0 );
-		expect( carets[ 0 ].props.className ).toBe( "yoast-button--buy__caret" );
-
-		// General Upsell test.
-		expect( result ).toMatchSnapshot();
-		expect( result.props.className ).toBe( expectedClassName );
-	} );
-
-	it( "has a caret in the Link snapshot when caret is true", () => {
-		shallowRenderer.render( <UpsellButton isLink={ true } href="#" caret={ true }>test</UpsellButton> );
-
-		const result = shallowRenderer.getRenderOutput();
-
-		// Filter carets from children.
-		const children = result.props.children;
-		const carets = children.filter( element => element.props && element.props.className === "yoast-button--buy__caret" );
-
-		// Carets present in children, with correct className.
-		expect( carets.length ).toBeGreaterThan( 0 );
-		expect( carets[ 0 ].props.className ).toBe( "yoast-button--buy__caret" );
-
-		// General Upsell test.
 		expect( result ).toMatchSnapshot();
 		expect( result.props.className ).toBe( expectedClassName );
 	} );
 } );
 
-describe( "Text", () => {
+describe( "Text variant", () => {
 	const removeClassName = "yoast-remove";
-	it( "RemoveButton matches the Button snapshot", () => {
-		shallowRenderer.render( <RemoveButton onClick={ () => {} }>test</RemoveButton> );
+	it( "matches the Button snapshot", () => {
+		shallowRenderer.render( <Button variant="remove" onClick={ () => {} }>test</Button> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
 		expect( result.props.className ).toBe( removeClassName );
 	} );
 
-	it( "RemoveLink matches the Link snapshot", () => {
-		shallowRenderer.render( <RemoveButton isLink={ true } href="#">test</RemoveButton> );
+	it( "matches the Link snapshot", () => {
+		shallowRenderer.render( <ButtonStyledLink variant="remove" href="#">test</ButtonStyledLink> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -195,16 +124,16 @@ describe( "Text", () => {
 	} );
 
 	const hideClassName = "yoast-hide";
-	it( "HideButton matches the Button snapshot", () => {
-		shallowRenderer.render( <HideButton onClick={ () => {} }>test</HideButton> );
+	it( "matches the Button snapshot", () => {
+		shallowRenderer.render( <Button variant="hide" onClick={ () => {} }>test</Button> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
 		expect( result.props.className ).toBe( hideClassName );
 	} );
 
-	it( "HideLink matches the Link snapshot", () => {
-		shallowRenderer.render( <HideButton isLink={ true } href="#">test</HideButton> );
+	it( "matches the Link snapshot", () => {
+		shallowRenderer.render( <ButtonStyledLink variant="hide" href="#">test</ButtonStyledLink> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
@@ -216,14 +145,6 @@ describe( "Icon", () => {
 	const closeClassname = "yoast-close";
 	it( "CloseButton matches the Button snapshot", () => {
 		shallowRenderer.render( <CloseButton onClick={ () => {} }>test</CloseButton> );
-
-		const result = shallowRenderer.getRenderOutput();
-		expect( result ).toMatchSnapshot();
-		expect( result.props.className ).toBe( closeClassname );
-	} );
-
-	it( "CloseLink matches the Link snapshot", () => {
-		shallowRenderer.render( <CloseButton isLink={ true } href="#">test</CloseButton> );
 
 		const result = shallowRenderer.getRenderOutput();
 		expect( result ).toMatchSnapshot();
