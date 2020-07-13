@@ -16,6 +16,7 @@
 		"babel-plugin-named-asset-import": "^0.3.5",
 		"babel-polyfill": "^6.26.0",
 		"babel-preset-react-app": "^9.1.0",
+		"benchmark": "^2.1.4",
 		"bfj": "7.0.1",
 		"case-sensitive-paths-webpack-plugin": "2.2.0",
 		"chalk": "3.0.0",
