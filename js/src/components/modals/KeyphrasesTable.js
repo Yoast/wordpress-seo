@@ -19,6 +19,21 @@ class KeyphrasesTable extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
+		this.transformTrendDataToChartPoints = this.transformTrendDataToChartPoints.bind( this );
+	}
+
+	/**
+	 * Transform the SEMrush Trend data to x/y points for the SVG area chart.
+	 *
+	 * @param {Object} trend Comma separated list of Trend values.
+	 *
+	 * @returns {Array} An array of x/y coordinates objects.
+	 */
+	transformTrendDataToChartPoints( trend ) {
+		const trendArray = trend.split( "," );
+
+		return trendArray.map( ( value, index ) => ( { x: index, y: value } ) );
 	}
 
 	/**
@@ -28,16 +43,6 @@ class KeyphrasesTable extends Component {
 	 */
 	render() {
 		const { data } = this.props;
-
-		const chartData = [
-			{ x: 0, y: 80 },
-			{ x: 1, y: 400 },
-			{ x: 2, y: 300 },
-			{ x: 3, y: 100 },
-			{ x: 4, y: 400 },
-			{ x: 5, y: 500 },
-			{ x: 6, y: 400 },
-		];
 
 		return (
 			<Fragment>
@@ -54,6 +59,8 @@ class KeyphrasesTable extends Component {
 						<tbody>
 							{
 								data.data.rows.map( ( row, index ) => {
+									const chartPoints = this.transformTrendDataToChartPoints( row[ 2 ] );
+
 									return <tr key={ index }>
 										<td>{ row[ 0 ] }</td>
 										<td>{ row[ 1 ] }</td>
@@ -61,7 +68,7 @@ class KeyphrasesTable extends Component {
 											<AreaChart
 												width={ 70 }
 												height={ 30 }
-												data={ chartData }
+												data={ chartPoints }
 												strokeWidth={ 2 }
 												strokeColor="#498afc"
 												fillColor="#ade3fc"

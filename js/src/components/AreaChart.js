@@ -24,12 +24,13 @@ const AreaChart = ( {
 	const maximumXFromData = Math.max( ...data.map( point => point.x ) );
 	const maximumYFromData = Math.max( ...data.map( point => point.y ) );
 
+	// Reserve some vertical spacing to prevent the SVG stroke from being cut-off.
 	const chartHeight = height - strokeWidth;
 
 	const polylinePoints = data
 		.map( point => {
 			const x = ( point.x / maximumXFromData ) * width;
-			// Add some vertical paddign to make sure the line stroke is always drawn within the SVG.
+			// Add some vertical padding to make sure the line stroke is always drawn within the SVG.
 			const y = chartHeight - ( point.y / maximumYFromData ) * chartHeight + strokeWidth;
 
 			return `${ x },${ y }`;
