@@ -42,6 +42,7 @@ class RelatedKeyphrasesModal extends Component {
 			// Add logic to display the empty keyphrase message here.
 			return;
 		}
+
 		this.props.onOpen();
 	}
 
@@ -51,7 +52,7 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onModalClose() {
-		this.setState( { isModalOpen: false } );
+		this.props.onClose();
 	}
 
 
@@ -62,22 +63,22 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, maxRelatedKeyphrasesEntered } = this.props;
+		const { keyphrase, location, maxRelatedKeyphrasesEntered, isModalOpen } = this.props;
 
 		return (
 			<Fragment>
 				<BaseButton
 					id="yoast-get-related-keyphrases"
 					className="yoast-related-keyphrases-modal__button"
-					{ ...this.props }
 					onClick={ this.handleOnClick }
+
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
 				</BaseButton>
-				{ keyphrase && this.props.isModalOpen &&
+				{ keyphrase && isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={this.onModalClose}
+						//onRequestClose={() => this.onModalClose()}
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 					>
@@ -95,6 +96,12 @@ class RelatedKeyphrasesModal extends Component {
 								The keyphrase is: { keyphrase }<br />
 								The location is: { location }
 							</p>
+
+							<button
+								onClick={() => this.onModalClose()}
+							>
+								close modal
+							</button>
 						</ModalContainer>
 					</Modal>
 				}
@@ -107,12 +114,14 @@ RelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
+	isModalOpen: PropTypes.bool,
 };
 
 RelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
+	isModalOpen: false,
 };
 
 export default RelatedKeyphrasesModal;
