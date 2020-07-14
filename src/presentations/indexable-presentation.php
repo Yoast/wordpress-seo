@@ -371,6 +371,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->open_graph_title;
 		}
 
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
 		return $this->title;
 	}
 

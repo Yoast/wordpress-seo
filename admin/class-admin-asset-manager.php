@@ -248,6 +248,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'network-admin-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -344,7 +346,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',
