@@ -13,6 +13,13 @@ import { schemaArticleOptions, schemaPageOptions } from "./SchemaOptions";
  * @returns {wp.Element} The schema settings content.
  */
 class SchemaSettings extends Component {
+	/**
+	 * Constructs the component.
+	 *
+	 * @param {Object} props The component's props.
+	 *
+	 * @constructor
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -37,20 +44,29 @@ class SchemaSettings extends Component {
 		return false;
 	}
 
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {wp.Element} The rendered component.
+	 */
 	render() {
 		return (
 			<Fragment>
 				<div className="yoast-field-group__title">
 					<b>{ __( "Schema settings", "wordpress-seo" ) }</b>
 					<HelpIcon
-						linkTo={ this.props.helpTextLink }
+						linkTo="https://yoa.st/404"
 						linkText={ __( "Learn more about the schema settings", "wordpress-seo" ) }
 					/>
 				</div>
 				<p>
 					{ sprintf(
 						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
-						__( "Choose how your %1$s should be described by default in your site\'s schema.org markup. You can change these settings for individual %1$s.", "wordpress-seo" ),
+						__(
+							"Choose how your %1$s should be described by default in your site's schema.org markup. " +
+							"You can change these settings for individual %1$s.",
+							"wordpress-seo"
+						),
 						this.props.postTypeName,
 					) }
 				</p>
@@ -92,6 +108,13 @@ SchemaSettings.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	pageType: linkFieldsShape.isRequired,
 	articleType: linkFieldsShape,
+};
+
+SchemaSettings.defaultProps = {
+	articleType: {
+		value: "none",
+		onChange: () => {},
+	},
 };
 
 export default linkHiddenFields( props => {
