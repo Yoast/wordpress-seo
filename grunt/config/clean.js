@@ -16,6 +16,7 @@ module.exports = {
 	],
 	"build-assets-js": [
 		"js/dist/*.js",
+		"js/dist/yoast/*.js",
 		"<%= paths.css %>monorepo*.css",
 		"<%= paths.js %>/select2",
 	],

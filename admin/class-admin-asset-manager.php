@@ -386,7 +386,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'configuration-wizard-package',
-				'src'  => 'yoast-configuration-wizard-' . $flat_version,
+				'src'  => 'yoast/configuration-wizard-' . $flat_version,
 				'deps' => [
 					'jquery',
 					'lodash',
@@ -503,7 +503,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				// The `@yoast/components` package.
 				'name' => 'components-modern',
-				'src'  => 'yoast-components-' . $flat_version,
+				'src'  => 'yoast/components-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-a11y',
@@ -517,7 +517,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				// The `yoast-components` package.
 				'name' => 'components-legacy',
-				'src'  => 'yoast-components-legacy-' . $flat_version,
+				'src'  => 'yoast/components-legacy-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-a11y',
@@ -551,7 +551,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'helpers',
-				'src'  => 'yoast-helpers-' . $flat_version,
+				'src'  => 'yoast/helpers-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
@@ -559,14 +559,14 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'feature-flag',
-				'src'  => 'yoast-feature-flag-' . $flat_version,
+				'src'  => 'yoast/feature-flag-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'commons',
 				],
 			],
 			[
 				'name' => 'analysis-report',
-				'src'  => 'yoast-analysis-report-' . $flat_version,
+				'src'  => 'yoast/analysis-report-' . $flat_version,
 				'deps' => [
 					'wp-i18n',
 					'react',
@@ -581,7 +581,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'style-guide',
-				'src'  => 'yoast-style-guide-' . $flat_version,
+				'src'  => 'yoast/style-guide-' . $flat_version,
 				'deps' => [
 					self::PREFIX . 'helpers',
 					self::PREFIX . 'styled-components',
@@ -590,7 +590,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'replacement-variable-editor',
-				'src'  => 'yoast-replacement-variable-editor-' . $flat_version,
+				'src'  => 'yoast/replacement-variable-editor-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-a11y',
@@ -605,7 +605,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'search-metadata-previews',
-				'src'  => 'yoast-search-metadata-previews-' . $flat_version,
+				'src'  => 'yoast/search-metadata-previews-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-a11y',
@@ -621,7 +621,7 @@ class WPSEO_Admin_Asset_Manager {
 			],
 			[
 				'name' => 'social-metadata-forms',
-				'src'  => 'yoast-social-metadata-forms-' . $flat_version,
+				'src'  => 'yoast/social-metadata-forms-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-i18n',

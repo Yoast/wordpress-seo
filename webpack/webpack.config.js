@@ -138,11 +138,11 @@ function addYoastExternals( config, base, plugins, pluginVersionSlug ) {
 		config.push( {
 			...base,
 			entry: {
-				['yoast-' + key]: "./js/src/externals/yoast-" + key + ".js",
+				[key]: "./js/src/externals/yoast/" + key + ".js",
 			},
 			output: {
 				path: path.resolve(),
-				filename: "js/dist/[name]-" + pluginVersionSlug + ".js",
+				filename: "js/dist/yoast/[name]-" + pluginVersionSlug + ".js",
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			externals: {
