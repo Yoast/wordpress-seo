@@ -1,10 +1,16 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { isEmpty } from "lodash-es";
 
+/* Yoast dependencies */
+import { makeOutboundLink } from "@yoast/helpers";
+
+/* Internal dependencies */
 import AreaChart from "../AreaChart";
+
+const GetMoreInsightsLink = makeOutboundLink();
 
 /**
  * The Related Keyphrases table component.
@@ -42,50 +48,58 @@ class KeyphrasesTable extends Component {
 	 * @returns {React.Element} The Related Keyphrases table.
 	 */
 	render() {
-		const { data, renderAction, relatedKeyphrases } = this.props;
+		const { keyphrase, relatedKeyphrases, data, renderAction } = this.props;
+		const url = "https://www.semrush.com/analytics/keywordoverview/?q=" + encodeURIComponent( keyphrase );
 
 		return (
-			<Fragment>
-				{
-					data && ! isEmpty( data ) && <table className="yoast-table">
-						<thead>
-							<tr>
-								<th>{ __( "Related keyphrase", "wordpress-seo" ) }</th>
-								<th>{ __( "Volume", "wordpress-seo" ) }</th>
-								<th>{ __( "Trend", "wordpress-seo" ) }</th>
-								{ renderAction && <td /> }
-							</tr>
-						</thead>
-						<tbody>
-							{
-								data.data.rows.map( ( row, index ) => {
-									const relatedKeyphrase = row[ 0 ];
-									const chartPoints = this.transformTrendDataToChartPoints( row[ 2 ] );
+			data && ! isEmpty( data ) && <Fragment>
+				<table className="yoast-table">
+					<thead>
+						<tr>
+							<th>{ __( "Related keyphrase", "wordpress-seo" ) }</th>
+							<th>{ __( "Volume", "wordpress-seo" ) }</th>
+							<th>{ __( "Trend", "wordpress-seo" ) }</th>
+							{ renderAction && <td /> }
+						</tr>
+					</thead>
+					<tbody>
+						{
+							data.data.rows.map( ( row, index ) => {
+								const relatedKeyphrase = row[ 0 ];
+								const chartPoints = this.transformTrendDataToChartPoints( row[ 2 ] );
 
-									return <tr key={ index }>
-										<td>{ relatedKeyphrase }</td>
-										<td>{ row[ 1 ] }</td>
-										<td>
-											<AreaChart
-												width={ 70 }
-												height={ 30 }
-												data={ chartPoints }
-												strokeWidth={ 2 }
-												strokeColor="#498afc"
-												fillColor="#ade3fc"
-											/>
+								return <tr key={ index }>
+									<td>{ relatedKeyphrase }</td>
+									<td>{ row[ 1 ] }</td>
+									<td>
+										<AreaChart
+											width={ 70 }
+											height={ 30 }
+											data={ chartPoints }
+											strokeWidth={ 2 }
+											strokeColor="#498afc"
+											fillColor="#ade3fc"
+										/>
+									</td>
+									{
+										renderAction && <td>
+											{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
 										</td>
-										{
-											renderAction && <td>
-												{ renderAction( relatedKeyphrase, relatedKeyphrases ) }
-											</td>
-										}
-									</tr>;
-								} )
-							}
-						</tbody>
-					</table>
-				}
+									}
+								</tr>;
+							} )
+						}
+					</tbody>
+				</table>
+				<p>
+					<GetMoreInsightsLink href={ url }>
+						{ sprintf(
+							/* translators: %s expands to SEMrush */
+							__( "Get more insights at %s", "wordpress-seo" ),
+							"SEMrush"
+						) }
+					</GetMoreInsightsLink>
+				</p>
 			</Fragment>
 		);
 	}
@@ -93,12 +107,14 @@ class KeyphrasesTable extends Component {
 
 KeyphrasesTable.propTypes = {
 	data: PropTypes.object,
+	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
 };
 
 KeyphrasesTable.defaultProps = {
 	data: {},
+	keyphrase: "",
 	relatedKeyphrases: [],
 	renderAction: null,
 };
