@@ -56,9 +56,9 @@ class KeyphrasesTable extends Component {
 				<table className="yoast-table">
 					<thead>
 						<tr>
-							<th>{ __( "Related keyphrase", "wordpress-seo" ) }</th>
-							<th>{ __( "Volume", "wordpress-seo" ) }</th>
-							<th>{ __( "Trend", "wordpress-seo" ) }</th>
+							<th scope="col">{ __( "Related keyphrase", "wordpress-seo" ) }</th>
+							<th scope="col">{ __( "Volume", "wordpress-seo" ) }</th>
+							<th scope="col">{ __( "Trend", "wordpress-seo" ) }</th>
 							{ renderAction && <td /> }
 						</tr>
 					</thead>
