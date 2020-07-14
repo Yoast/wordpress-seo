@@ -14,7 +14,6 @@ const INITIAL_STATE = {
 	response: null,
 	limitReached: false,
 };
-
 /**
  * A reducer for the SEMrush request.
  *
@@ -34,7 +33,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: false,
 				response: null,
 				limitReached: state.limitReached,
-		};
+			};
 		case SET_REQUEST_SUCCEEDED:
 			// The status code should be 200 OK here.
 			return {
@@ -45,7 +44,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: true,
 				response: action.response,
 				limitReached: state.limitReached,
-		};
+			};
 		case SET_REQUEST_FAILED:
 			// The status code should be an error code here.
 			return {
@@ -56,7 +55,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: false,
 				response: action.response,
 				limitReached: state.limitReached,
-		};
+			};
 		case SET_REQUEST_LIMIT_REACHED:
 			return {
 				isRequestPending: false,
@@ -66,11 +65,11 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				isSuccess: false,
 				response: null,
 				limitReached: true,
-		};
+			};
 		default:
 			return {
 				state,
-		};
+			};
 	}
 }
 

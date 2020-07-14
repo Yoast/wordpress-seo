@@ -75,11 +75,11 @@ class RelatedKeyphrasesModal extends Component {
 				{ keyphrase && isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={() => this.onModalClose()}
+						onRequestClose={ () => this.onModalClose() }
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
-						//this is set temporarily to false because of a focus bug
-						focusOnMount={false}
+						// This is set temporarily to false because of a focus bug
+						focusOnMount={ false }
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"

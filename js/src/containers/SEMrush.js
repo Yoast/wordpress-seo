@@ -16,43 +16,46 @@ export default compose( [
 			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
 			relatedKeyphrases: select( "yoast-seo/editor" ).getSEMrushKeyphrases(),
 			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
-		}
-	}),
+		};
+	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, SEMrushAddKeyphrase, SEMrushRemoveKeyphrase, setSEMrushKeyphraseLimitReached } = dispatch(
+		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase,
+			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
+			setSEMrushSetRequestLimitReached, SEMrushAddKeyphrase: addSEMrushKeyphrase, SEMrushRemoveKeyphrase: removeSEMrushKeyphrase,
+			setSEMrushKeyphraseLimitReached } = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
 			onOpen: () => {
-				setSEMrushOpenModal()
+				setSEMrushOpenModal();
 			},
 			onClose: () => {
-				setSEMrushDismissModal()
+				setSEMrushDismissModal();
 			},
 			setDatabase: ( country ) => {
-				setSEMrushChangeDatabase( country )
+				setSEMrushChangeDatabase( country );
 			},
 			newRequest: ( country, keyphrase, OAuthToken ) => {
-				setSEMrushNewRequest( country, keyphrase, OAuthToken )
+				setSEMrushNewRequest( country, keyphrase, OAuthToken );
 			},
 			setRequestSucceeded: ( response ) => {
-				setSEMrushRequestSucceeded( response )
+				setSEMrushRequestSucceeded( response );
 			},
 			setRequestFailed: ( response ) => {
-				setSEMrushRequestFailed( response )
+				setSEMrushRequestFailed( response );
 			},
 			setRequestLimitReached: () => {
-				setSEMrushSetRequestLimitReached()
+				setSEMrushSetRequestLimitReached();
 			},
 			addRelatedKeyphrase: ( keyphrase ) => {
-				SEMrushAddKeyphrase( keyphrase )
+				addSEMrushKeyphrase( keyphrase );
 			},
 			removeRelatedKeyphrase: ( keyphrase ) => {
-				SEMrushRemoveKeyphrase( keyphrase )
+				removeSEMrushKeyphrase( keyphrase );
 			},
 			setKeyphraseLimitReached: () => {
-				setSEMrushKeyphraseLimitReached()
+				setSEMrushKeyphraseLimitReached();
 			},
-		}
-	}),
+		};
+	} ),
 ] )( RelatedKeyphrasesModal );

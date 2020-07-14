@@ -5,11 +5,11 @@ export const SET_KEYPHRASE_LIMIT_REACHED = "SET_LIMIT_REACHED";
 /**
  * An action creator for adding a new keyphrase.
  *
- * @param {string} The keyphrase to add.
+ * @param {string} keyphrase to add.
  *
  * @returns {Object} Action object.
  */
-export function SEMrushAddKeyphrase( keyphrase ) {
+export function addSEMrushKeyphrase( keyphrase ) {
 	return {
 		type: ADD_KEYPHRASE,
 		keyphrase,
@@ -19,11 +19,11 @@ export function SEMrushAddKeyphrase( keyphrase ) {
 /**
  * An action creator for removing a keyphrase.
  *
- * @param {string} The keyphrase to remove.
+ * @param {string} keyphrase to remove.
  *
  * @returns {Object} Action object.
  */
-export function SEMrushRemoveKeyphrase( keyphrase ) {
+export function removeSEMrushKeyphrase( keyphrase ) {
 	return {
 		type: REMOVE_KEYPHRASE,
 		keyphrase,

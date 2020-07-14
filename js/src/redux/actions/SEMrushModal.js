@@ -27,7 +27,7 @@ export function setSEMrushOpenModal() {
 /**
  * Sets the country of the database in the dropdown menu.
  *
- * @param {string} the country of the database to be set.
+ * @param {string} country of the database to be set.
  *
  * @returns {Object} Action object.
  */

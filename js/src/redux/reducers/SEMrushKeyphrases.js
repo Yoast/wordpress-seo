@@ -17,18 +17,19 @@ function SEMrushKeyphraseReducer( state = INITIAL_STATE, action ) {
 		case ADD_KEYPHRASE:
 			state.keyphrases.push( action.keyphrase );
 			return state;
-		case REMOVE_KEYPHRASE:
+		case REMOVE_KEYPHRASE: {
 			// First retrieve the index of the item, then remove the item at that index
 			const index = state.keyphrases.indexOf( action.keyphrase );
 			if ( index > -1 ) {
 				state.keyphrases.splice( index, 1 );
 			}
 			return state;
+		}
 		case SET_KEYPHRASE_LIMIT_REACHED:
 			return {
 				keyphrases: state.keyphrases,
 				isLimitReached: true,
-		};
+			};
 		default:
 			return state;
 	}

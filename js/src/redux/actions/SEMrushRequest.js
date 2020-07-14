@@ -7,9 +7,9 @@ export const NEW_REQUEST = "NEW_REQUEST";
 /**
  * An action creator for starting a new request.
  *
- * @param {Object} The country for the SEMrush request.
- * @param {string} The keyphrase for the SEMrush request.
- * @param {string} The OAuth token for the SEMrush request.
+ * @param {Object} country for the SEMrush request.
+ * @param {string} keyphrase for the SEMrush request.
+ * @param {string} OAuthToken for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
@@ -25,7 +25,7 @@ export function setSEMrushNewRequest( country, keyphrase, OAuthToken ) {
 /**
  * An action creator for when the request has succeeded.
  *
- * @param {Object} the response of the request.
+ * @param {Object} response of the request.
  *
  * @returns {Object} Action object.
  */
@@ -39,7 +39,7 @@ export function setSEMrushRequestSucceeded( response ) {
 /**
  * An action creator for when the request has failed.
  *
- * @param {Object} the response of the request.
+ * @param {Object} response of the request.
  *
  * @returns {Object} Action object.
  */
