@@ -81,8 +81,9 @@ class Indexable_Term_Builder {
 
 		$this->handle_social_images( $indexable );
 
+		$indexable->is_cornerstone = $this->get_meta_value( 'wpseo_is_cornerstone', $term_meta );
+
 		// Not implemented yet.
-		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;

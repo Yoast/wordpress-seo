@@ -43,6 +43,7 @@ import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
 import { setMarkerStatus } from "../redux/actions/markerButtons";
+import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
@@ -377,6 +378,10 @@ export default function initTermScraper( $ ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
+		let isCornerstone = document.getElementById( "hidden_wpseo_is_cornerstone" ).value === "1";
+		store.dispatch( setCornerstoneContent( isCornerstone ) );
+
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
@@ -402,6 +407,12 @@ export default function initTermScraper( $ ) {
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();
+			}
+
+			if ( store.getState().isCornerstone !== isCornerstone ) {
+				isCornerstone = store.getState().isCornerstone;
+
+				document.getElementById( "hidden_wpseo_is_cornerstone" ).value = isCornerstone ? "1" : "0";
 			}
 
 			const data = snippetEditorHelpers.getDataFromStore( store );
