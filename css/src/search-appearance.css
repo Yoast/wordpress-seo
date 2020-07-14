@@ -9,9 +9,6 @@
 .yoast-schema-settings-container:first-child {
 	margin-top: 0px;
 }
-.yoast-schema-settings-container__has-help .yoast_help.yoast-help-button {
-	margin-top: -5px;
-}
 
 .draftJsMentionPlugin__mention__29BEd, .draftJsMentionPlugin__mention__29BEd:visited {
   color: #575f67;
