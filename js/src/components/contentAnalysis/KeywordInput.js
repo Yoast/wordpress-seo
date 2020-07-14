@@ -15,7 +15,7 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import HelpLink from "./HelpLink";
 import { LocationConsumer } from "../contexts/location";
-import SEMrushModal from "../../containers/SEMrushModal";
+import SEMrushModal from "../../containers/SEMrush";
 
 const KeywordInputContainer = styled.div`
 	padding: 16px;

@@ -6,7 +6,8 @@ import RelatedKeyphrasesModal from "../components/RelatedKeyphrasesModal";
 export default compose( [
 	withSelect( ( select ) => {
 		return {
-			keyphrase: select( "yoast-seo/editor" ).getRequestKeyphrase(),
+			isModalOpen: select( "yoast-seo/editor" ).getSEMrushModalIsOpen(),
+			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
 			currentCountry: select( "yoast-seo/editor" ).getRequestCountry(),
 			OAuthToken: select( "yoast-seo/editor" ).getRequestOAuthToken(),
 			limitReached: select( "yoast-seo/editor" ).getRequestLimitReached(),
@@ -14,17 +15,25 @@ export default compose( [
 			isSuccess: select( "yoast-seo/editor" ).getRequestIsSuccess(),
 			isPending: select( "yoast-seo/editor" ).getIsRequestPending(),
 		}
-}),
+	}),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached } = dispatch(
+		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached } = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
+			onOpen: () => {
+				setSEMrushOpenModal()
+			},
+			onClose: () => {
+				setSEMrushDismissModal()
+			},
+			setDatabase: ( country ) => {
+				setSEMrushChangeDatabase( country )
+			},
 			newRequest: ( country, keyphrase, OAuthToken ) => {
 				setSEMrushNewRequest( country, keyphrase, OAuthToken )
 			},
 			requestSucceeded: () => {
-				console.log("jooo")
 				setSEMrushRequestSucceeded( response )
 			},
 			requestFailed: () => {
@@ -34,6 +43,7 @@ export default compose( [
 				setSEMrushSetRequestLimitReached()
 			},
 		}
-}),
+	}),
 ] )( RelatedKeyphrasesModal );
-//The corresponding component
+
+
