@@ -10,6 +10,8 @@ import Portal from "./Portal";
  * @param {string} postTypeName The post type name.
  * @param {string} pageTypeFieldId The ID of the page type field.
  * @param {string} articleTypeFieldId The ID of the article type field.
+ * @param {string} pageTypeDefault The default page type.
+ * @param {string} articleTypeDefault The default article type.
  *
  * @returns {null|wp.Element} The schema settings.
  */
@@ -19,6 +21,8 @@ export default function SchemaSettingsPortal( {
 	postTypeName,
 	pageTypeFieldId,
 	articleTypeFieldId,
+	pageTypeDefault,
+	articleTypeDefault,
 } ) {
 	return (
 		<Portal target={ target }>
@@ -27,6 +31,8 @@ export default function SchemaSettingsPortal( {
 				postTypeName={ postTypeName }
 				pageTypeFieldId={ pageTypeFieldId }
 				articleTypeFieldId={ articleTypeFieldId }
+				pageTypeDefault={ pageTypeDefault }
+				articleTypeDefault={ articleTypeDefault }
 			/>
 		</Portal>
 	);
@@ -38,8 +44,12 @@ SchemaSettingsPortal.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	pageTypeFieldId: PropTypes.string.isRequired,
 	articleTypeFieldId: PropTypes.string,
+	pageTypeDefault: PropTypes.string,
+	articleTypeDefault: PropTypes.string,
 };
 
 SchemaSettingsPortal.defaultProps = {
 	articleTypeFieldId: "",
+	pageTypeDefault: "web-page",
+	articleTypeDefault: "none",
 };

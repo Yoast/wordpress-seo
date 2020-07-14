@@ -1,9 +1,35 @@
-import { Fragment, Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, HelpIcon, Select } from "@yoast/components";
 import PropTypes from "prop-types";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
-import { schemaArticleOptions, schemaPageOptions } from "./SchemaOptions";
+import { schemaArticleTypeOptions, schemaPageTypeOptions } from "./SchemaOptions";
+
+/**
+ * Appends ' (default)' to the name of the default option.
+ *
+ * @param {Object[]} schemaTypeOptions The schema type options.
+ * @param {string} defaultType The default value to change the name for.
+ *
+ * @returns {Object[]} A copy of the schema type options.
+ */
+const addDefaultToOptionName = ( schemaTypeOptions, defaultType ) => {
+	const options = [];
+
+	// Clone the schema type options, but with the new name for the default.
+	schemaTypeOptions.forEach( ( option, index ) => {
+		options.push( {
+			value: option.value,
+			name: option.name,
+		} );
+
+		if ( option.value === defaultType ) {
+			options[ index ].name += ` (${ __( "default", "wordpress-seo" ) })`;
+		}
+	} );
+
+	return options;
+};
 
 /**
  * Returns the content of the schema settings.
@@ -23,8 +49,13 @@ class SchemaSettings extends Component {
 	constructor( props ) {
 		super( props );
 
+		// Save the initial value for the alert check.
 		this.initialPageType = props.pageType.value;
 		this.initialArticleType = props.articleType ? props.articleType.value : "none";
+
+		// Adjust the default names. Only need to do this once, not supporting the prop change for simplicity.
+		this.pageTypeOptions = addDefaultToOptionName( schemaPageTypeOptions, this.props.pageTypeDefault );
+		this.articleTypeOptions = addDefaultToOptionName( schemaArticleTypeOptions, this.props.articleTypeDefault );
 	}
 
 	/**
@@ -85,7 +116,7 @@ class SchemaSettings extends Component {
 				<Select
 					id={ `schema-page-type-${ this.props.postType }` }
 					name="schema_page_type"
-					options={ schemaPageOptions }
+					options={ this.pageTypeOptions }
 					label={ __( "Default Page type", "wordpress-seo" ) }
 					onChange={ this.props.pageType.onChange }
 					selected={ this.props.pageType.value }
@@ -93,7 +124,7 @@ class SchemaSettings extends Component {
 				{ this.props.articleType && <Select
 					id={ `schema-article-type-${ this.props.postType }` }
 					name="schema_article_type"
-					options={ schemaArticleOptions }
+					options={ this.articleTypeOptions }
 					label={ __( "Default Article type", "wordpress-seo" ) }
 					onChange={ this.props.articleType.onChange }
 					selected={ this.props.articleType.value }
@@ -108,6 +139,8 @@ SchemaSettings.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	pageType: linkFieldsShape.isRequired,
 	articleType: linkFieldsShape,
+	pageTypeDefault: PropTypes.string,
+	articleTypeDefault: PropTypes.string,
 };
 
 SchemaSettings.defaultProps = {
@@ -115,6 +148,8 @@ SchemaSettings.defaultProps = {
 		value: "none",
 		onChange: () => {},
 	},
+	pageTypeDefault: "web-page",
+	articleTypeDefault: "none",
 };
 
 export default linkHiddenFields( props => {

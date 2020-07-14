@@ -21,6 +21,8 @@ const SchemaSettings = ( props ) => {
 				postTypeName={ targetElement.getAttribute( "data-schema-settings-post-type-name" ) }
 				pageTypeFieldId={ targetElement.getAttribute( "data-schema-settings-page-type-field-id" ) }
 				articleTypeFieldId={ targetElement.getAttribute( "data-schema-settings-article-type-field-id" ) }
+				pageTypeDefault={ targetElement.getAttribute( "data-schema-settings-page-type-default" ) }
+				articleTypeDefault={ targetElement.getAttribute( "data-schema-settings-article-type-default" ) }
 			/>
 		);
 	} );

@@ -45,16 +45,18 @@ $editor = new WPSEO_Replacevar_Editor(
 $editor->render();
 
 // Schema settings.
-$schema_page_type_field_id    = 'schema-page-type-' . $wpseo_post_type->name;
-$schema_article_type_field_id = 'schema-article-type-' . $wpseo_post_type->name;
-$yform->hidden( $schema_page_type_field_id );
+$schema_page_type_option    = 'schema-page-type-' . $wpseo_post_type->name;
+$schema_article_type_option = 'schema-article-type-' . $wpseo_post_type->name;
+$yform->hidden( $schema_page_type_option );
 if ( $wpseo_post_type->name !== 'page' ) {
-	$yform->hidden( $schema_article_type_field_id );
+	$yform->hidden( $schema_article_type_option );
 }
 printf(
-	'<div class="yoast-schema-settings-container" data-schema-settings data-schema-settings-post-type="%1$s" data-schema-settings-post-type-name="%2$s" data-schema-settings-page-type-field-id="%3$s" data-schema-settings-article-type-field-id="%4$s"></div>',
+	'<div class="yoast-schema-settings-container" data-schema-settings data-schema-settings-post-type="%1$s" data-schema-settings-post-type-name="%2$s" data-schema-settings-page-type-field-id="%3$s" data-schema-settings-article-type-field-id="%4$s" data-schema-settings-page-type-default="%5$s" data-schema-settings-article-type-default="%6$s"></div>',
 	$wpseo_post_type->name,
 	$wpseo_post_type->labels->name,
-	'hidden_' . $schema_page_type_field_id,
-	'hidden_' . $schema_article_type_field_id
+	'hidden_' . $schema_page_type_option,
+	'hidden_' . $schema_article_type_option,
+	WPSEO_Options::get_default( 'wpseo_titles', $schema_page_type_option ),
+	WPSEO_Options::get_default( 'wpseo_titles', $schema_article_type_option )
 );

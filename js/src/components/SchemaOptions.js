@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 
-export const schemaPageOptions = [
+export const schemaPageTypeOptions = [
 	{
 		name: __( "Web Page", "wordpress-seo" ),
 		value: "web-page",
@@ -55,7 +55,7 @@ export const schemaPageOptions = [
 	},
 ];
 
-export const schemaArticleOptions = [
+export const schemaArticleTypeOptions = [
 	{
 		name: __( "Article", "wordpress-seo" ),
 		value: "article",
