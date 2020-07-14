@@ -13,7 +13,7 @@ import precedenceException from "../../../stringProcessing/precedenceExceptionWi
  *
  * @constructor
  */
-var PortugueseParticiple = function( participle, sentencePart, attributes ) {
+const PortugueseParticiple = function( participle, sentencePart, attributes ) {
 	Participle.call( this, participle, sentencePart, attributes );
 	checkException.call( this );
 };

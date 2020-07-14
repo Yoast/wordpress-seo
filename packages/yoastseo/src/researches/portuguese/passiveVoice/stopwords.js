@@ -1,5 +1,5 @@
 /**
- * Returns a list with stopwords for the Spanish passive voice assessment.
+ * Returns a list with stopwords for the Portuguese passive voice assessment.
  * @returns {Array} The list with stopwords.
  */
 export default function() {
@@ -12,7 +12,6 @@ export default function() {
 		"caso",
 		"conforme",
 		"consoante",
-		"como",
 		"porque",
 		"pois",
 		"segundo ",

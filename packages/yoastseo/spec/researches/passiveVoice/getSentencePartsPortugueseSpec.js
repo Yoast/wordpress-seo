@@ -21,15 +21,21 @@ describe( "splits Portuguese sentences into parts", function() {
 		expect( getSentenceParts( sentence, "pt" ).length ).toBe( 1 );
 	} );
 
-	it( "returns sentence parts when there is a stop characters followed by a space/punctuation mark", function() {
+	it( "returns sentence parts when there is a stop character followed by a space/punctuation mark", function() {
 		var sentence = "Isso é especialmente uma questão de dinheiro, resumiu o primeiro-ministro holandês, Mark Rutte.";
 		expect( getSentenceParts( sentence, "pt" )[ 0 ].getSentencePartText() ).toBe( "é especialmente uma questão de dinheiro" );
 		expect( getSentenceParts( sentence, "pt" ).length ).toBe( 1 );
 	} );
 
-	it( "doesn't return sentence parts when there is a stop characters that is not followed by a space/punctuation mark", function() {
+	it( "doesn't return sentence parts when there is a stop character that is not followed by a space/punctuation mark", function() {
 		var sentence = "Felizmente será Natal em 2,5 semanas.";
 		expect( getSentenceParts( sentence, "pt" )[ 0 ].getSentencePartText() ).toBe( "será Natal em 2,5 semanas." );
 		expect( getSentenceParts( sentence, "pt" ).length ).toBe( 1 );
+	} );
+
+	it( "doesn't return sentence parts when an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
+		// Exception word after auxiliary: o.
+		var sentence = "É o capítulo preferido de vários membros da equipe de produção.";
+		expect( getSentenceParts( sentence, "pt" ).length ).toBe( 0 );
 	} );
 } );

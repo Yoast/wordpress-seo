@@ -70,10 +70,9 @@ const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsIta
 
 /*
  * Variables applying to multiple languages
- * This regex applies to Spanish and Italian
+ * This regex applies to Spanish, Italian and Portuguese.
  */
 const stopCharacterRegexOthers = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
-
 
 // The language-specific variables used to split sentences into sentence parts.
 const languageVariables = {
