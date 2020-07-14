@@ -199,6 +199,23 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph title.
+	 *
+	 * @return string The open graph title.
+	 */
+	public function generate_open_graph_title() {
+		if ( $this->model->open_graph_title ) {
+			return $this->model->open_graph_title;
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		return $this->title;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_open_graph_type() {
