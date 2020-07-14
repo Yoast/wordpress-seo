@@ -371,7 +371,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->open_graph_title;
 		}
 
-		if ( $this->model->breadcrumb_title ) {
+		if ( $this->model->breadcrumb_title && $this->options->get( 'breadcrumbs-enable' ) ) {
 			return $this->model->breadcrumb_title;
 		}
 
