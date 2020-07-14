@@ -1,6 +1,6 @@
 import countSyllableFunction from "../../../src/stringProcessing/syllables/count.js";
 
-describe( "a syllable counter for Spanish text strings", function() {
+describe( "a syllable counter for Portuguese text strings", function() {
 	it( "returns the number of syllables of words containing the substract syllable (gu|qu)[aeoáéíóúêã]", function() {
 		expect( countSyllableFunction( "aquário", "pt_PT" ) ).toBe( 3 );
 		expect( countSyllableFunction( "guarda", "pt_PT" ) ).toBe( 2 );
