@@ -25,7 +25,6 @@ const LinkSuggestionIcon = styled.button`
 	border: 1px solid ${ colors.$color_button_border };
 
 	&:focus {
-		border-radius: 100%;
 		box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 	}
 `;
