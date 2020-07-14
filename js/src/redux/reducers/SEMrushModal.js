@@ -20,17 +20,17 @@ function SEMrushModalReducer( state = INITIAL_STATE, action ) {
 			return {
 				isModalOpen: false,
 				currentDatabase: state.currentDatabase,
-			};
+		};
 		case MODAL_OPEN:
 			return {
 				isModalOpen: true,
 				currentDatabase: state.currentDatabase,
-			};
+		};
 		case MODAL_CHANGE_DATABASE:
 			return {
 				isModalOpen: state.isModalOpen,
 				currentDatabase: action.country,
-			};
+		};
 	}
 	return state;
 }

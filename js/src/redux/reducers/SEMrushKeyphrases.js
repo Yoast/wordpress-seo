@@ -28,7 +28,7 @@ function SEMrushKeyphraseReducer( state = INITIAL_STATE, action ) {
 			return {
 				keyphrases: state.keyphrases,
 				isLimitReached: true,
-			};
+		};
 		default:
 			return state;
 	}

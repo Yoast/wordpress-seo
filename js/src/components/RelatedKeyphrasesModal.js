@@ -26,7 +26,7 @@ class RelatedKeyphrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.handleOnClick = this.handleOnClick.bind( this );
+		this.onModalOpen = this.onModalOpen.bind( this );
 		this.onModalClose = this.onModalClose.bind( this );
 	}
 
@@ -35,15 +35,13 @@ class RelatedKeyphrasesModal extends Component {
 	 *
 	 * @returns {void}
 	 */
-	handleOnClick() {
+	onModalOpen() {
 		// Add not-logged in logic here.
 
 		if ( ! this.props.keyphrase ) {
 			// Add logic to display the empty keyphrase message here.
 			return;
 		}
-
-		this.props.setKeyphraseLimitReached();
 
 		this.props.onOpen();
 	}
@@ -56,8 +54,6 @@ class RelatedKeyphrasesModal extends Component {
 	onModalClose() {
 		this.props.onClose();
 	}
-
-
 
 	/**
 	 * Renders the RelatedKeyPhrasesModal modal component.
@@ -72,7 +68,7 @@ class RelatedKeyphrasesModal extends Component {
 				<BaseButton
 					id="yoast-get-related-keyphrases"
 					className="yoast-related-keyphrases-modal__button"
-					onClick={ this.handleOnClick }
+					onClick={ this.onModalOpen }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
 				</BaseButton>

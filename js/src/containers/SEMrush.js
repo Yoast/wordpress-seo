@@ -1,26 +1,25 @@
 import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import RelatedKeyphrasesModal from "../components/RelatedKeyphrasesModal";
-import {ADD_KEYPHRASE, REMOVE_KEYPHRASE, SET_KEYPHRASE_LIMIT_REACHED} from "../redux/actions";
-
 
 export default compose( [
 	withSelect( ( select ) => {
 		return {
+			requestKeyphrase: select( "yoast-seo/editor" ).getSEMrushRequestKeyphrase(),
 			isModalOpen: select( "yoast-seo/editor" ).getSEMrushModalIsOpen(),
 			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
-			currentCountry: select( "yoast-seo/editor" ).getRequestCountry(),
-			OAuthToken: select( "yoast-seo/editor" ).getRequestOAuthToken(),
-			limitReached: select( "yoast-seo/editor" ).getRequestLimitReached(),
-			response: select( "yoast-seo/editor" ).getRequestResponse(),
-			isSuccess: select( "yoast-seo/editor" ).getRequestIsSuccess(),
-			isPending: select( "yoast-seo/editor" ).getIsRequestPending(),
-			relatedKeyphrases: select( "yoast-seo/editor" ).getKeyphrases(),
-			keyphraseLimitReached: select( "yoast-seo/editor" ).getLimitReached(),
+			currentCountry: select( "yoast-seo/editor" ).getSEMrushRequestCountry(),
+			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
+			requestLimitReached: select( "yoast-seo/editor" ).getSEMrushRequestLimitReached(),
+			response: select( "yoast-seo/editor" ).getSEMrushRequestResponse(),
+			isSuccess: select( "yoast-seo/editor" ).getSEMrushRequestIsSuccess(),
+			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
+			relatedKeyphrases: select( "yoast-seo/editor" ).getSEMrushKeyphrases(),
+			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
 		}
 	}),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, SEMrushAddKeyphrase, SEMrushRemoveKeyphrase, SEMrushSetKeyphraseLimitReached } = dispatch(
+		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase, setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed, setSEMrushSetRequestLimitReached, SEMrushAddKeyphrase, SEMrushRemoveKeyphrase, setSEMrushKeyphraseLimitReached } = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
@@ -36,10 +35,10 @@ export default compose( [
 			newRequest: ( country, keyphrase, OAuthToken ) => {
 				setSEMrushNewRequest( country, keyphrase, OAuthToken )
 			},
-			requestSucceeded: ( response ) => {
+			setRequestSucceeded: ( response ) => {
 				setSEMrushRequestSucceeded( response )
 			},
-			requestFailed: ( response ) => {
+			setRequestFailed: ( response ) => {
 				setSEMrushRequestFailed( response )
 			},
 			setRequestLimitReached: () => {
@@ -52,7 +51,7 @@ export default compose( [
 				SEMrushRemoveKeyphrase( keyphrase )
 			},
 			setKeyphraseLimitReached: () => {
-				SEMrushSetKeyphraseLimitReached()
+				setSEMrushKeyphraseLimitReached()
 			},
 		}
 	}),

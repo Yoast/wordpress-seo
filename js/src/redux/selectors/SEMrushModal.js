@@ -1,5 +1,5 @@
 /**
- * Gets the current modal status.
+ * Gets the current modal status - open or closed.
  *
  * @param {Object} state    The state.
  *
@@ -10,11 +10,11 @@ export function getSEMrushModalIsOpen( state ) {
 }
 
 /**
- * Gets the current country status.
+ * Gets the currently selected country.
  *
  * @param {Object} state    The state.
  *
- * @returns {string} Current country status.
+ * @returns {string} Current country.
  */
 export function getSEMrushSelectedCountry( state ) {
 	return state.SEMrushModal.currentDatabase;

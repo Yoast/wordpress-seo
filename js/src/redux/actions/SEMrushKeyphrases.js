@@ -31,11 +31,11 @@ export function SEMrushRemoveKeyphrase( keyphrase ) {
 }
 
 /**
- * An action creator for setting the limit reached.
+ * An action creator for setting the keyphrase limit reached.
  *
  * @returns {Object} Action object.
  */
-export function SEMrushSetKeyphraseLimitReached() {
+export function setSEMrushKeyphraseLimitReached() {
 	return {
 		type: SET_KEYPHRASE_LIMIT_REACHED,
 	};

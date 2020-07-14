@@ -5,7 +5,7 @@
  *
  * @returns {Object} Current keyphrases.
  */
-export function getKeyphrases( state ) {
+export function getSEMrushKeyphrases( state ) {
 	return state.SEMrushKeyphrases.keyphrases;
 }
 
@@ -16,6 +16,6 @@ export function getKeyphrases( state ) {
  *
  * @returns {boolean} The boolean that represents if the limit is reached.
  */
-export function getLimitReached( state ) {
-	return state.SEMrushKeyphrases.keyphrases;
+export function getSEMrushLimitReached( state ) {
+	return state.SEMrushKeyphrases.isLimitReached;
 }

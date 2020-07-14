@@ -7,7 +7,7 @@ export const MODAL_CHANGE_DATABASE = "MODAL_CHANGE_DATABASE";
  *
  * @returns {Object} Action object.
  */
-export const setSEMrushDismissModal = function() {
+export function setSEMrushDismissModal() {
 	return {
 		type: MODAL_DISMISS,
 	};
@@ -18,7 +18,7 @@ export const setSEMrushDismissModal = function() {
  *
  * @returns {Object} Action object.
  */
-export const setSEMrushOpenModal = function() {
+export function setSEMrushOpenModal() {
 	return {
 		type: MODAL_OPEN,
 	};
@@ -31,7 +31,7 @@ export const setSEMrushOpenModal = function() {
  *
  * @returns {Object} Action object.
  */
-export const setSEMrushChangeDatabase = function( country ) {
+export function setSEMrushChangeDatabase( country ) {
 	return {
 		type: MODAL_CHANGE_DATABASE,
 		country,

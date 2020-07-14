@@ -5,7 +5,7 @@
  *
  * @returns {boolean} Current request status.
  */
-export function getIsRequestPending( state ) {
+export function getSEMrushIsRequestPending( state ) {
 	return state.SEMrushRequest.isRequestPending;
 }
 
@@ -16,7 +16,7 @@ export function getIsRequestPending( state ) {
  *
  * @returns {string} Current request country.
  */
-export function getRequestCountry( state ) {
+export function getSEMrushRequestCountry( state ) {
 	return state.SEMrushRequest.country;
 }
 
@@ -25,9 +25,9 @@ export function getRequestCountry( state ) {
  *
  * @param {Object} state    The state.
  *
- * @returns {boolean} Current request state.
+ * @returns {boolean} Current request return state.
  */
-export function getRequestIsSuccess( state ) {
+export function getSEMrushRequestIsSuccess( state ) {
 	return state.SEMrushRequest.isSuccess;
 }
 
@@ -38,7 +38,7 @@ export function getRequestIsSuccess( state ) {
  *
  * @returns {Object} Current request response.
  */
-export function getRequestResponse( state ) {
+export function getSEMrushRequestResponse( state ) {
 	return state.SEMrushRequest.response;
 }
 
@@ -49,7 +49,7 @@ export function getRequestResponse( state ) {
  *
  * @returns {boolean} Current request limit reached boolean.
  */
-export function getRequestLimitReached( state ) {
+export function getSEMrushRequestLimitReached( state ) {
 	return state.SEMrushRequest.limitReached;
 }
 
@@ -60,7 +60,7 @@ export function getRequestLimitReached( state ) {
  *
  * @returns {string} Current request keyphrase.
  */
-export function getRequestKeyphrase( state ) {
+export function getSEMrushRequestKeyphrase( state ) {
 	return state.SEMrushRequest.keyphrase;
 }
 
@@ -71,6 +71,6 @@ export function getRequestKeyphrase( state ) {
  *
  * @returns {string} Current request OAuth token.
  */
-export function getRequestOAuthToken( state ) {
+export function getSEMrushRequestOAuthToken( state ) {
 	return state.SEMrushRequest.OAuthToken;
 }

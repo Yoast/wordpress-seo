@@ -9,6 +9,7 @@ export const NEW_REQUEST = "NEW_REQUEST";
  *
  * @param {Object} The country for the SEMrush request.
  * @param {string} The keyphrase for the SEMrush request.
+ * @param {string} The OAuth token for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
@@ -59,4 +60,3 @@ export function setSEMrushSetRequestLimitReached() {
 		type: SET_REQUEST_LIMIT_REACHED,
 	};
 }
-
