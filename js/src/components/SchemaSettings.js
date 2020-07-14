@@ -144,10 +144,7 @@ SchemaSettings.propTypes = {
 };
 
 SchemaSettings.defaultProps = {
-	articleType: {
-		value: "none",
-		onChange: () => {},
-	},
+	articleType: null,
 	pageTypeDefault: "web-page",
 	articleTypeDefault: "none",
 };
