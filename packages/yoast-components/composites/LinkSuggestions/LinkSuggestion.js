@@ -100,7 +100,7 @@ const LinkSuggestion = ( { value, url, isActive, type } ) => {
 				<ScreenReaderText>{ label }</ScreenReaderText>
 			</LinkSuggestionIcon>
 			<Link href={ url }>{ value }</Link>
-			<Badge>{ type }</Badge>
+			<Badge title={ type }>{ type }</Badge>
 		</LinkSuggestionWrapper>
 	);
 };
