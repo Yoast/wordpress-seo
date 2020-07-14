@@ -35,6 +35,13 @@ const Link = makeOutboundLink( styled.a`
 ` );
 
 const Badge = styled.span`
+	min-width: 32px;
+	max-width: 64px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+
 	display: block;
 	padding: 3px 8px;
 	margin-left: auto;
@@ -75,9 +82,6 @@ const LinkSuggestion = ( { value, url, isActive, type } ) => {
 		evt.nativeEvent.target.setAttribute( "data-label", label );
 	};
 
-	// Shorten long types with ellipses.
-	const shortenedType = type.length > 6 ? type.substring( 0, 3 ) + "..." : type;
-
 	let icon = "clipboard";
 	if ( isActive ) {
 		icon = "check";
@@ -96,7 +100,7 @@ const LinkSuggestion = ( { value, url, isActive, type } ) => {
 				<ScreenReaderText>{ label }</ScreenReaderText>
 			</LinkSuggestionIcon>
 			<Link href={ url }>{ value }</Link>
-			<Badge>{ shortenedType }</Badge>
+			<Badge>{ type }</Badge>
 		</LinkSuggestionWrapper>
 	);
 };
