@@ -38,7 +38,7 @@ const AreaChart = ( {
 		.join( " " );
 
 	// Add points to close the polygon used for the area background.
-	const polygonPoints = `0,${ chartHeight } ` + polylinePoints + ` ${ width },${ chartHeight }`;
+	const polygonPoints = `0,${ chartHeight + strokeWidth } ` + polylinePoints + ` ${ width },${ chartHeight + strokeWidth }`;
 
 	return (
 		<svg
