@@ -220,6 +220,7 @@ export default function stem( word, morphologyData ) {
 	if ( morphologyData.doNotStemSuffix.includes( word ) ) {
 		return word;
 	}
+
 	// Check if the word is on the list of exceptions for which we listed all forms and the stem.
 	const fullFormException = checkWordInFullFormExceptions( word, morphologyData.exceptionStemsWithFullForms );
 	if ( fullFormException ) {

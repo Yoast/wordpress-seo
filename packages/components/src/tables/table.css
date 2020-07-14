@@ -1,0 +1,35 @@
+.yoast-table {
+	font-size: var(--yoast-font-size-default);
+	color: var(--yoast-color-default);
+	line-height: 1.2;
+	border-spacing: 0;
+	border: var(--yoast-border-default);
+	border-bottom: 0;
+	width: 100%;
+}
+
+.yoast-table tbody tr:nth-child(odd) {
+	background-color: #f9f9f9;
+}
+
+.yoast-table th {
+	color: var(--yoast-color-dark);
+	text-align: left;
+	padding: 18px 12px;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast-table td {
+	padding: 18px 12px;
+	border-bottom: var(--yoast-border-default);
+}
+
+.yoast-table th:first-child,
+.yoast-table td:first-child {
+	padding-left: 16px;
+}
+
+.yoast-table th:last-child,
+.yoast-table td:last-child {
+	padding-right: 16px;
+}

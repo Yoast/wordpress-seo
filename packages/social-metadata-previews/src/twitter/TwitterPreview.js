@@ -94,7 +94,9 @@ class TwitterPreview extends Component {
 		const Wrapper = isLarge ? LargeTwitterPreviewWrapper : SmallTwitterPreviewWrapper;
 
 		return (
-			<Wrapper>
+			<Wrapper
+				id="twitterPreview"
+			>
 				<TwitterImage
 					src={ imageUrl || imageFallbackUrl }
 					alt={ alt }

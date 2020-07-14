@@ -35,4 +35,18 @@ describe( "a test matching strings in an array", function() {
 			{ count: 0, matches: [] }
 		);
 	} );
+
+	it( "returns the correct number of matches for Indonesian", function() {
+		expect( arrayMatch( "This text contains buku-buku, buku-buku, and buku.", [ "buku" ], "id_ID" ) ).toEqual(
+			{ count: 1, matches: [ "buku" ] }
+		);
+
+		expect( arrayMatch( "This text contains buku-buku, buku-buku, and buku.", [ "buku-buku" ], "id_ID" ) ).toEqual(
+			{ count: 2, matches: [ "buku-buku", "buku-buku" ] }
+		);
+
+		expect( arrayMatch( "This text contains buku-buku, buku-buku, and buku.", [ "buku", "buku-buku" ], "id_ID" ) ).toEqual(
+			{ count: 3, matches: [ "buku", "buku-buku", "buku-buku" ] }
+		);
+	} );
 } );
