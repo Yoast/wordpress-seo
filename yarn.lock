@@ -12270,7 +12270,7 @@ jest-styled-components@^5.0.1:
   dependencies:
     css "^2.2.1"
 
-jest-styled-components@^6.3.1:
+jest-styled-components@^6.3.1, jest-styled-components@^6.3.4:
   version "6.3.4"
   resolved "https://registry.yarnpkg.com/jest-styled-components/-/jest-styled-components-6.3.4.tgz#64de9c0ceae14f311248734c79dcc66b447f90f1"
   integrity sha512-dc32l0/6n3FtsILODpvKNz6SLg50OmbJ/3r3oRh9jc2VIPPGZT5jWv7BKIcNCYH7E38ZK7uejNl3zJsCOIenng==
