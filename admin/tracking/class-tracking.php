@@ -45,6 +45,26 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * @param int    $threshold The limit for the option.
 	 */
 	public function __construct( $endpoint, $threshold ) {
+		// Check if we're allowing tracking.
+		$tracking = WPSEO_Options::get( 'tracking' );
+
+		if ( $tracking === false ) {
+			return;
+		}
+
+		// Check if tracking is enabled because we're in premium or running an add-on.
+		$filter = apply_filters( 'wpseo_enable_tracking', false );
+
+		// Save this state.
+		if ( $tracking === null ) {
+			$tracking = $filter;
+			WPSEO_Options::set( 'tracking', $filter );
+		}
+
+		if ( $tracking === false ) {
+			return;
+		}
+
 		$this->endpoint     = $endpoint;
 		$this->threshold    = $threshold;
 		$this->current_time = time();
@@ -137,17 +157,17 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	protected function should_send_tracking( $ignore_time_treshhold = false ) {
 		global $pagenow;
 
+		// Don't send tracking if the user has opted out.
+		if ( WPSEO_Options::get( 'tracking' ) === false ) {
+			return false;
+		}
+
 		/**
 		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
 		 *
 		 * @api string $is_enabled The enabled state. Default is false.
 		 */
 		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
-			return false;
-		}
-
-		// Don't send tracking if the user has opted out.
-		if ( WPSEO_Options::get( 'tracking' ) === false ) {
 			return false;
 		}
 
