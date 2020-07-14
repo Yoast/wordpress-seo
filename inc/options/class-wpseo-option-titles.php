@@ -565,7 +565,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						}
 						else {
 							$defaults      = $this->get_defaults();
-							$clean[ $key ] = $defaults['schema-page-type-'];
+							$post_type     = str_replace( $switch_key, '', $key );
+							$clean[ $key ] = $defaults[ $switch_key . $post_type ];
 						}
 					}
 					break;
@@ -576,7 +577,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						}
 						else {
 							$defaults      = $this->get_defaults();
-							$clean[ $key ] = $defaults['schema-article-type-'];
+							$post_type     = str_replace( $switch_key, '', $key );
+							$clean[ $key ] = $defaults[ $switch_key . $post_type ];
 						}
 					}
 					break;
