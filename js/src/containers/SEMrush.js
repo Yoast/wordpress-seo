@@ -33,13 +33,13 @@ export default compose( [
 			newRequest: ( country, keyphrase, OAuthToken ) => {
 				setSEMrushNewRequest( country, keyphrase, OAuthToken )
 			},
-			requestSucceeded: () => {
+			requestSucceeded: ( response ) => {
 				setSEMrushRequestSucceeded( response )
 			},
-			requestFailed: () => {
+			requestFailed: ( response ) => {
 				setSEMrushRequestFailed( response )
 			},
-			setLimitReached: ( country ) => {
+			setLimitReached: () => {
 				setSEMrushSetRequestLimitReached()
 			},
 		}
