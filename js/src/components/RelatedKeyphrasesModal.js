@@ -42,6 +42,9 @@ class RelatedKeyphrasesModal extends Component {
 			// Add logic to display the empty keyphrase message here.
 			return;
 		}
+
+		this.props.setKeyphraseLimitReached();
+
 		this.props.onOpen();
 	}
 
@@ -79,7 +82,7 @@ class RelatedKeyphrasesModal extends Component {
 						onRequestClose={() => this.onModalClose()}
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
-						//this is set to false because of a focus bug
+						//this is set temporarily to false because of a focus bug
 						focusOnMount={false}
 					>
 						<ModalContainer

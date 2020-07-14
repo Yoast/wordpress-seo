@@ -1,7 +1,9 @@
 import { ADD_KEYPHRASE, REMOVE_KEYPHRASE, SET_KEYPHRASE_LIMIT_REACHED } from "../actions/SEMrushKeyphrases";
 
-const INITIAL_STATE = [];
-
+const INITIAL_STATE = {
+	keyphrases: [],
+	isLimitReached: false,
+};
 /**
  * A reducer for the SEMrush keyphrases.
  *
@@ -13,29 +15,22 @@ const INITIAL_STATE = [];
 function SEMrushKeyphraseReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case ADD_KEYPHRASE:
-			state.push( action.keyphrase );
-			return {
-				...state,
-		};
+			state.keyphrases.push( action.keyphrase );
+			return state;
 		case REMOVE_KEYPHRASE:
 			// First retrieve the index of the item, then remove the item at that index
-			const index = state.indexOf( action.keyphrase );
+			const index = state.keyphrases.indexOf( action.keyphrase );
 			if ( index > -1 ) {
-				state.splice( index, 1 );
+				state.keyphrases.splice( index, 1 );
 			}
-			return {
-				...state,
-		};
+			return state;
 		case SET_KEYPHRASE_LIMIT_REACHED:
-			let limit = action.limit;
 			return {
-				...state,
-				limit,
-		};
+				keyphrases: state.keyphrases,
+				isLimitReached: true,
+			};
 		default:
-			return {
-				...state,
-		};
+			return state;
 	}
 }
 
