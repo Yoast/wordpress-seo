@@ -26,11 +26,11 @@ const matchPassiveVerbs = function( sentence, passiveVerbs ) {
 };
 
 /**
- * Checks the passed sentences to see if they contain passive verb-forms.
+ * Checks the passed sentence to see if it contains passive verb-forms.
  *
  * @param {string} sentence The sentence to match against.
  * @param {string} language The language of the text.
- * @returns {Array} The list of encountered passive verbs.
+ * @returns {Boolean} Whether the sentence contains passive voice.
  */
 const determineSentenceIsPassiveListBased = function( sentence, language ) {
 	let passiveVerbs = [];
@@ -46,20 +46,28 @@ const determineSentenceIsPassiveListBased = function( sentence, language ) {
 	return matchPassiveVerbs( sentence, passiveVerbs ).length !== 0;
 };
 
+/**
+ * Checks the passed sentence to see if it contains Indonesian passive verb-forms.
+ *
+ * @param {string} sentence The sentence to match against.
+ * @returns {Boolean} Whether the sentence contains Indonesian passive voice.
+ */
 const determineSentenceIsPassiveIndonesian = function( sentence ) {
 	const words = getWords( sentence );
 	let matchedPassives = words.filter( word => ( word.startsWith( passivePrefixIndonesian ) ) );
 
-	// Check exception list.
 	if ( matchedPassives.length === 0 ) {
 		return false;
 	}
+
+	// Check exception list.
 	matchedPassives = matchedPassives.filter( matchedPassive => ( ! nonPassivesIndonesian.includes( matchedPassive ) ) );
 
-	// Check direct precedence exceptions.
 	if ( matchedPassives.length === 0 ) {
 		return false;
 	}
+
+	// Check direct precedence exceptions.
 	matchedPassives = matchedPassives.filter( function( matchedPassive ) {
 		let matchedPassivesShouldStay = true;
 		const passiveIndex = words.indexOf( matchedPassive );
@@ -86,7 +94,7 @@ export default function( sentenceText, language ) {
 		return determineSentenceIsPassiveListBased( sentenceText, language );
 	}
 
-	if ( [ "id" ].includes( language ) ) {
+	if ( language === "id" ) {
 		return determineSentenceIsPassiveIndonesian( sentenceText, language );
 	}
 }
