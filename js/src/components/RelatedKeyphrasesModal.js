@@ -70,16 +70,17 @@ class RelatedKeyphrasesModal extends Component {
 					id="yoast-get-related-keyphrases"
 					className="yoast-related-keyphrases-modal__button"
 					onClick={ this.handleOnClick }
-
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
 				</BaseButton>
 				{ keyphrase && isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						//onRequestClose={() => this.onModalClose()}
+						onRequestClose={() => this.onModalClose()}
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
+						//this is set to false because of a focus bug
+						focusOnMount={false}
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
@@ -96,11 +97,6 @@ class RelatedKeyphrasesModal extends Component {
 								The location is: { location }
 							</p>
 
-							<button
-								onClick={() => this.onModalClose()}
-							>
-								close modal
-							</button>
 						</ModalContainer>
 					</Modal>
 				}
