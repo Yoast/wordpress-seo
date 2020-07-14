@@ -92,7 +92,7 @@ class SemRushCountrySelector extends Component {
 		this.select2.select2( {
 			theme: "default yoast-select2--inline",
 			dropdownCssClass: "yoast-select__dropdown",
-			dropdownParent: "#semrush-rel-keyph",
+			dropdownParent: jQuery( ".yoast-related-keyphrases-modal" ),
 		} );
 		this.select2.on( "change.select2", this.onChangeHandler );
 	}
@@ -119,7 +119,7 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
-				<p className="yoast">
+				<div className="yoast">
 					<FieldGroup
 						htmlFor="country-selector"
 						label="Show results for:"
@@ -134,7 +134,7 @@ class SemRushCountrySelector extends Component {
 						</select>
 						<button className="yoast-button yoast-button--secondary">Change Country</button>
 					</FieldGroup>
-				</p>
+				</div>
 			</Fragment>
 		);
 	}
