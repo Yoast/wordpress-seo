@@ -14,6 +14,7 @@ const LinkSuggestionWrapper = styled.div`
 `;
 
 const LinkSuggestionIcon = styled.button`
+	box-sizing: border-box;
 	height: 30px;
 	width: 30px;
 	background-color: ${ colors.$color_button };
@@ -76,7 +77,7 @@ const LinkSuggestion = ( { value, url, isActive, type } ) => {
 	};
 
 	// Shorten long types with ellipses.
-	const shortenedType = type.length > 7 ? type.substring( 0, 4 ) + "..." : type;
+	const shortenedType = type.length > 6 ? type.substring( 0, 3 ) + "..." : type;
 
 	let icon = "clipboard";
 	if ( isActive ) {
