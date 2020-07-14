@@ -194,30 +194,33 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * See if we should run tracking at all.
+	 *
+	 * @return bool True when we can track, false when we can't.
 	 */
 	private function tracking_enabled() {
 		// Check if we're allowing tracking.
 		$tracking = WPSEO_Options::get( 'tracking' );
 
 		if ( $tracking === false ) {
-			return;
+			return false;
 		}
-
-		/**
-		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
-		 *
-		 * @api string $is_enabled The enabled state. Default is false.
-		 */
-		$filter = apply_filters( 'wpseo_enable_tracking', false );
 
 		// Save this state.
 		if ( $tracking === null ) {
-			$tracking = $filter;
-			WPSEO_Options::set( 'tracking', $filter );
+			/**
+			 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium and add-ons.
+			 *
+			 * @api string $is_enabled The enabled state. Default is false.
+			 */
+			$tracking = apply_filters( 'wpseo_enable_tracking', false );
+
+			WPSEO_Options::set( 'tracking', $tracking );
 		}
 
 		if ( $tracking === false ) {
-			return;
+			return false;
 		}
+
+		return true;
 	}
 }
