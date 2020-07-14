@@ -17,7 +17,7 @@ import { ThemeProvider } from "styled-components";
 import UserSelectPortal from "../components/portals/UserSelectPortal";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import LocalSEOUpsellPortal from "../components/portals/LocalSEOUpsellPortal";
-import SchemaSettingsSearchAppearance from "../components/SchemaSettingsSearchAppearance";
+import SchemaSettings from "../containers/SchemaSettings";
 
 /**
  * @summary Initializes the search appearance settings script.
@@ -99,7 +99,7 @@ export default function initSearchAppearance() {
 							backgroundUrl={ brushstrokeBackgroundURL }
 						/>
 					) }
-					<SchemaSettingsSearchAppearance targets={ schemaSettingsElements } />
+					<SchemaSettings targets={ schemaSettingsElements } />
 				</Fragment>
 			</ThemeProvider>
 		</Provider>,

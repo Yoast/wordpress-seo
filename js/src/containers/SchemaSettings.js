@@ -1,6 +1,6 @@
 import map from "lodash/map";
 import PropTypes from "prop-types";
-import SchemaSettingsPortal from "./portals/SchemaSettingsPortal";
+import SchemaSettingsPortal from "../components/portals/SchemaSettingsPortal";
 
 /**
  * Renders the schema settings.
@@ -9,7 +9,7 @@ import SchemaSettingsPortal from "./portals/SchemaSettingsPortal";
  *
  * @returns {wp.Element[]} Array of portals to instances of the schema settings.
  */
-const SchemaSettingsSearchAppearance = ( props ) => {
+const SchemaSettings = ( props ) => {
 	return map( props.targets, ( targetElement ) => {
 		const postType = targetElement.getAttribute( "data-schema-settings-post-type" );
 
@@ -26,8 +26,8 @@ const SchemaSettingsSearchAppearance = ( props ) => {
 	} );
 };
 
-SchemaSettingsSearchAppearance.propTypes = {
+SchemaSettings.propTypes = {
 	targets: PropTypes.object.isRequired,
 };
 
-export default SchemaSettingsSearchAppearance;
+export default SchemaSettings;
