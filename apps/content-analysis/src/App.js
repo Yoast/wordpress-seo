@@ -129,8 +129,23 @@ class App extends React.Component {
 		const morphologyDataPL = getMorphologyData( "pl" ).pl;
 		const morphologyDataES = getMorphologyData( "es" ).es;
 
-		runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
-		runKeyphraseAnalysis( testTextsES, morphologyDataES );
+		const suite = new Benchmark.Suite( "Polish performance test" );
+
+		suite.add( "Test Polish keyphrase analysis()", function() {
+			runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
+		} );
+
+		suite.add( "Test Spanish keyphrase analysis()", function() {
+			runKeyphraseAnalysis( testTextsES, morphologyDataES );
+		} );
+
+		suite.on( "cycle", function( event ) {
+			console.log( String( event.target ) );
+		} );
+		suite.on( "complete", function() {
+			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
+		} );
+		suite.run();
 	}
 
 	/**

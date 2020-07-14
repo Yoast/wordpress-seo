@@ -39,7 +39,7 @@ export default function( testPapers, morphologyData ) {
 			findKeywordInPageTitle( paper, researcher );
 			keywordCountInUrl( paper, researcher );
 			keyphraseDistribution( paper, researcher );
-			// Console.log( "Finished one round of analysis!" );
+			console.log( "Finished one round of analysis!" );
 		} );
 	}
 }
