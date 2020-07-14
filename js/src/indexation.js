@@ -107,6 +107,9 @@ import ProgressBar from "./ui/progressBar";
 				a11ySpeak( settings.l10n.calculationInProgress, "polite" );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 
+				// Insert the warning, so that a success/error alert can be shown.
+				jQuery( '<div id="yoast-indexation-warning" class="notice"</div>' ).insertAfter( "#wpseo-title" );
+				
 				startIndexation( settings, progressBar ).then( () => {
 					if ( stoppedIndexation ) {
 						return;
