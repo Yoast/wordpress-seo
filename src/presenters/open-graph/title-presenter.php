@@ -37,6 +37,6 @@ class Title_Presenter extends Abstract_Indexable_Tag_Presenter {
 		 * @api string $title The title.
 		 */
 		$title = (string) \trim( \apply_filters( 'wpseo_opengraph_title', $title, $this->presentation ) );
-		return $this->helpers->string->strip_all_tags( \stripslashes( $title ) );
+		return $this->helpers->string->strip_all_tags( $title );
 	}
 }
