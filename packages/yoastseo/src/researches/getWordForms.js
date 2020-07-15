@@ -1,7 +1,7 @@
 import { escapeRegExp, get, uniq } from "lodash-es";
 import flattenDeep from "lodash-es/flattenDeep";
 import filterFunctionWordsFromArray from "../helpers/filterFunctionWordsFromArray";
-import getBasicStemFactory from "../helpers/getBasicStem";
+import getWordFormsFactory from "../helpers/getBasicWordForms";
 import getLanguage from "../helpers/getLanguage";
 import retrieveStemmer from "../helpers/retrieveStemmer";
 
@@ -63,7 +63,7 @@ function getAllWordsFromPaper( paper, language ) {
 
 /**
  * Takes a stem-original pair and returns the accompanying forms for the stem that were found in the paper. Additionally
- * adds a sanitized version of the original word and (for specific languages) a basic stem.
+ * adds a sanitized version of the original word and (for specific languages) creates basic word forms.
  *
  * @param {StemOriginalPair}    stemOriginalPair            The stem-original pair for which to get forms.
  * @param {StemWithForms[]}     paperWordsGroupedByStems    All word forms in the paper grouped by stem.
@@ -76,17 +76,20 @@ function replaceStemWithForms( stemOriginalPair, paperWordsGroupedByStems, langu
 	const originalSanitized = normalizeSingle( escapeRegExp( stemOriginalPair.original.toLocaleLowerCase( language ) ) );
 
 	const forms = matchingStemFormPair
-		? uniq( [ originalSanitized, ...matchingStemFormPair.forms ] )
+		? [ originalSanitized, ...matchingStemFormPair.forms ]
 		: [ originalSanitized ];
 
-	// Add extra forms for languages that have a basic stemmer.
-	if ( Object.keys( getBasicStemFactory() ).includes( language ) ) {
-		const createBasicStem = getBasicStemFactory()[ language ];
-		forms.push( createBasicStem( stemOriginalPair.original ) );
+	// Add extra forms for languages for which we have basic word form support.
+	if ( Object.keys( getWordFormsFactory() ).includes( language ) ) {
+		const createBasicWordForms = getWordFormsFactory()[ language ];
+		forms.push( ...createBasicWordForms( stemOriginalPair.original ) );
 	}
 
-	// Return original and found forms or only original if no matching forms were found in the text.
-	return forms;
+	/*
+	 * Return original and found or created forms.
+	 * Only return original if no matching forms were found in the text and no forms could be created.
+	 */
+	return uniq( forms );
 }
 
 /**
@@ -134,15 +137,16 @@ function constructTopicPhraseResult( topicPhrase, paperWordsGroupedByStems, lang
 }
 
 /**
- * Gets all word forms from a paper for the stems of the keyphrase and synonyms.
+ * Gets all matching word forms for the stems of the keyphrase and synonyms. Stems are either colleced from
+ * the paper or, for specific languages, directly created.
  *
  * @param {Paper}       paper       The paper to build keyphrase and synonym forms for.
  * @param {Researcher}  researcher  The researcher.
  *
  * @returns {Object} Object with an array of keyphrase forms and an array of arrays of synonyms forms, based on the forms
- * found in the text.
+ * found in the text or created forms.
  */
-function getWordFormsFromText( paper, researcher ) {
+function getWordForms( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 	const determineStem = retrieveStemmer( language, morphologyData );
@@ -200,4 +204,4 @@ function getWordFormsFromText( paper, researcher ) {
 	);
 }
 
-export default getWordFormsFromText;
+export default getWordForms;
