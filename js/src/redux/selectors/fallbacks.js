@@ -19,7 +19,7 @@ export const getTitleFallback = state => {
 	}
 
 	return "";
-}
+};
 
 /**
  * Gets the fallback description from: state.analysisData.snippet.description.
