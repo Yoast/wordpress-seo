@@ -56,9 +56,15 @@ class KeyphrasesTable extends Component {
 				<table className="yoast-table">
 					<thead>
 						<tr>
-							<th scope="col">{ __( "Related keyphrase", "wordpress-seo" ) }</th>
-							<th scope="col">{ __( "Volume", "wordpress-seo" ) }</th>
-							<th scope="col">{ __( "Trend", "wordpress-seo" ) }</th>
+							<th scope="col" className="yoast-table--primary">
+								{ __( "Related keyphrase", "wordpress-seo" ) }
+							</th>
+							<th scope="col">
+								{ __( "Volume", "wordpress-seo" ) }
+							</th>
+							<th scope="col">
+								{ __( "Trend", "wordpress-seo" ) }
+							</th>
 							{ renderAction && <td /> }
 						</tr>
 					</thead>
@@ -71,7 +77,7 @@ class KeyphrasesTable extends Component {
 								return <tr key={ index }>
 									<td>{ relatedKeyphrase }</td>
 									<td>{ row[ 1 ] }</td>
-									<td>
+									<td className="yoast-table--nopadding">
 										<AreaChart
 											width={ 70 }
 											height={ 30 }
@@ -79,6 +85,7 @@ class KeyphrasesTable extends Component {
 											strokeWidth={ 2 }
 											strokeColor="#498afc"
 											fillColor="#ade3fc"
+											className="yoast-related-keyphrases-modal__chart"
 										/>
 									</td>
 									{

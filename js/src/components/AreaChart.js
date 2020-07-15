@@ -20,6 +20,7 @@ const AreaChart = ( {
 	fillColor,
 	strokeColor,
 	strokeWidth,
+	className,
 } ) => {
 	const maximumXFromData = Math.max( ...data.map( point => point.x ) );
 	const maximumYFromData = Math.max( ...data.map( point => point.y ) );
@@ -45,6 +46,7 @@ const AreaChart = ( {
 			width={ width }
 			height={ height }
 			viewBox={ `0 0 ${ width } ${ height }` }
+			className={ className }
 		>
 			<g>
 				<polygon
@@ -74,12 +76,14 @@ AreaChart.propTypes = {
 	fillColor: PropTypes.string,
 	strokeColor: PropTypes.string,
 	strokeWidth: PropTypes.number,
+	className: PropTypes.string,
 };
 
 AreaChart.defaultProps = {
 	fillColor: null,
 	strokeColor: "#000000",
 	strokeWidth: 1,
+	className: "",
 };
 
 export default AreaChart;
