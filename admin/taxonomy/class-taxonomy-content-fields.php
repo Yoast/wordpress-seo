@@ -52,7 +52,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				'',
 				'hidden',
 				''
-			)
+			),
 		];
 		/**
 		 * Filter: 'wpseo_taxonomy_content_fields' - Adds the possibility to register additional content fields.
