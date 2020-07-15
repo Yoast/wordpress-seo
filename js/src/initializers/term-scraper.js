@@ -224,6 +224,38 @@ export default function initTermScraper( $ ) {
 	}
 
 	/**
+	 * Initializes cornerstone content analysis.
+	 *
+	 * @param {Object} store The redux store.
+	 * @param {Object} yoastSeoApp YoastSEO.js app.
+	 *
+	 * @returns {void}
+	 */
+	function initializeCornerstoneContentAnalysis( store, yoastSeoApp ) {
+		const cornerstoneField = document.getElementById( "hidden_wpseo_is_cornerstone" );
+
+		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
+		let isCornerstone = cornerstoneField.value === "1";
+		store.dispatch( setCornerstoneContent( isCornerstone ) );
+		yoastSeoApp.changeAssessorOptions( {
+			useCornerstone: isCornerstone,
+		} );
+
+		store.subscribe( () => {
+			const state = store.getState();
+
+			if ( state.isCornerstone !== isCornerstone ) {
+				isCornerstone = state.isCornerstone;
+				cornerstoneField.value = isCornerstone ? "1" : "0";
+
+				yoastSeoApp.changeAssessorOptions( {
+					useCornerstone: isCornerstone,
+				} );
+			}
+		} );
+	}
+
+	/**
 	 * Initializes analysis for the term edit screen.
 	 *
 	 * @returns {void}
@@ -378,9 +410,8 @@ export default function initTermScraper( $ ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-		// This used to be a checkbox, then became a hidden input. For consistency, we set the value to '1'.
-		let isCornerstone = document.getElementById( "hidden_wpseo_is_cornerstone" ).value === "1";
-		store.dispatch( setCornerstoneContent( isCornerstone ) );
+
+		initializeCornerstoneContentAnalysis( store, app );
 
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
@@ -407,12 +438,6 @@ export default function initTermScraper( $ ) {
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();
-			}
-
-			if ( store.getState().isCornerstone !== isCornerstone ) {
-				isCornerstone = store.getState().isCornerstone;
-
-				document.getElementById( "hidden_wpseo_is_cornerstone" ).value = isCornerstone ? "1" : "0";
 			}
 
 			const data = snippetEditorHelpers.getDataFromStore( store );
