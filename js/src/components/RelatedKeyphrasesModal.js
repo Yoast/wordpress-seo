@@ -26,7 +26,7 @@ class RelatedKeyphrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.onModalOpen = this.onModalOpen.bind( this );
+		this.onModalOpen  = this.onModalOpen.bind( this );
 		this.onModalClose = this.onModalClose.bind( this );
 	}
 
@@ -61,7 +61,7 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, maxRelatedKeyphrasesEntered, isModalOpen } = this.props;
+		const { keyphrase, location, maxRelatedKeyphrasesEntered, isModalOpen, currentDatabase } = this.props;
 
 		return (
 			<Fragment>
@@ -75,7 +75,7 @@ class RelatedKeyphrasesModal extends Component {
 				{ keyphrase && isModalOpen &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ () => this.onModalClose() }
+						onRequestClose={ this.onModalClose }
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 						// This is set temporarily to false because of a focus bug
@@ -93,7 +93,8 @@ class RelatedKeyphrasesModal extends Component {
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />
-								The location is: { location }
+								The location is: { location }<br />
+								The current database is: { currentDatabase }
 							</p>
 
 						</ModalContainer>
@@ -110,6 +111,8 @@ RelatedKeyphrasesModal.propTypes = {
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
 	isModalOpen: PropTypes.bool,
 	currentDatabase: PropTypes.string,
+	onOpen: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired,
 };
 
 RelatedKeyphrasesModal.defaultProps = {
