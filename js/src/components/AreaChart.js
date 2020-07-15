@@ -48,20 +48,18 @@ const AreaChart = ( {
 			viewBox={ `0 0 ${ width } ${ height }` }
 			className={ className }
 		>
-			<g>
-				<polygon
-					fill={ fillColor }
-					points={ polygonPoints }
-				/>
-				<polyline
-					fill="none"
-					stroke={ strokeColor }
-					strokeWidth={ strokeWidth }
-					strokeLinejoin="round"
-					strokeLinecap="round"
-					points={ polylinePoints }
-				/>
-			</g>
+			<polygon
+				fill={ fillColor }
+				points={ polygonPoints }
+			/>
+			<polyline
+				fill="none"
+				stroke={ strokeColor }
+				strokeWidth={ strokeWidth }
+				strokeLinejoin="round"
+				strokeLinecap="round"
+				points={ polylinePoints }
+			/>
 		</svg>
 	);
 };
