@@ -7,21 +7,26 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\Sitemaps_Enabled_Conditional;
 
 /**
  * Disables the WP core sitemaps.
  */
 class Disable_Core_Sitemaps implements Initializer_Interface {
 
-	use No_Conditionals;
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Sitemaps_Enabled_Conditional::class ];
+	}
 
 	/**
 	 * Disable the WP core XML sitemaps.
 	 */
 	public function initialize() {
 		\add_filter( 'wp_sitemaps_enabled', '__return_false' );
-		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
+		\add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
 	}
 
 	/**
@@ -41,7 +46,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 			return;
 		}
 
-		\wp_safe_redirect( home_url( $this->get_redirect_url( $path ) ), 301, 'Yoast SEO' );
+		\wp_safe_redirect( \home_url( $this->get_redirect_url( $path ) ), 301, 'Yoast SEO' );
 	}
 
 	/**
@@ -67,7 +72,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 			return '/author-sitemap' . $index . '.xml';
 		}
 
-		// Default to the sitemap index if no patters were matches.
+		// Default to the sitemap index if no patterns were matched.
 		return '/sitemap_index.xml';
 	}
 }
