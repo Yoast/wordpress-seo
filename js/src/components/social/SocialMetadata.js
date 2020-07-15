@@ -19,8 +19,8 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 	return (
 		<Fragment>
 			{ isFacebookEnabled && <MetaboxCollapsible
-				/* Translators: %s expands to Facebook. */
 				hasSeparator={ false }
+				/* Translators: %s expands to Facebook. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
 			>
