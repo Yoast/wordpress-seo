@@ -148,9 +148,9 @@ class SocialPreviewEditor extends Component {
 
 		return (
 			<React.Fragment>
-				<SimulatedLabel>
+				{ socialPreviewLabel && <SimulatedLabel>
 					{ socialPreviewLabel }
-				</SimulatedLabel>
+				</SimulatedLabel> }
 				<this.SocialPreview
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
