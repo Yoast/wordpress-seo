@@ -7,7 +7,7 @@ const morphologyDataDE = getMorphologyData( "de" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
 
-describe( "A test from getting word forms from the text, based on the stems of a keyphrase", () => {
+describe( "A test for getting word forms from the text, based on the stems of a keyphrase", () => {
 	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
 		"English stemmer", () => {
 		const text = "A cat's dog and a dog's cat. The feline purrs. The <a href='http://example.com/doggies'>canine</a> is friendly. " +
@@ -302,7 +302,9 @@ describe( "A test from getting word forms from the text, based on the stems of a
 			}
 		);
 	} );
+} );
 
+describe( "A test for creating basic morphology forms in supported languages", () => {
 	it( "returns all possible prefixed forms for Hebrew keyphrases", () => {
 		const attributes = {
 			keyword: "בראשית לארץ",
