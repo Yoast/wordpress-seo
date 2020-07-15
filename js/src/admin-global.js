@@ -5,27 +5,6 @@
 
 ( function( $ ) {
 	/**
-	 * Displays console notifications.
-	 *
-	 * Looks at a global variable to display all notifications in there.
-	 *
-	 * @returns {void}
-	 */
-	function displayConsoleNotifications() {
-		if ( typeof window.wpseoConsoleNotifications === "undefined" || typeof console === "undefined" ) {
-			return;
-		}
-
-		/* jshint ignore:start */
-		for ( var index = 0; index < wpseoConsoleNotifications.length; index++ ) {
-			console.warn( wpseoConsoleNotifications[ index ] );
-		}
-		/* jshint ignore:end */
-	}
-
-	jQuery( document ).ready( displayConsoleNotifications );
-
-	/**
 	 * Used to remove the admin notices for several purposes, dies on exit.
 	 *
 	 * @param {string} option The option to ignore.
