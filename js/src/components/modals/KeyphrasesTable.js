@@ -79,10 +79,10 @@ class KeyphrasesTable extends Component {
 									<td>{ row[ 1 ] }</td>
 									<td className="yoast-table--nopadding">
 										<AreaChart
-											width={ 70 }
-											height={ 30 }
+											width={ 66 }
+											height={ 24 }
 											data={ chartPoints }
-											strokeWidth={ 2 }
+											strokeWidth={ 1.8 }
 											strokeColor="#498afc"
 											fillColor="#ade3fc"
 											className="yoast-related-keyphrases-modal__chart"

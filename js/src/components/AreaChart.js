@@ -57,6 +57,8 @@ const AreaChart = ( {
 					fill="none"
 					stroke={ strokeColor }
 					strokeWidth={ strokeWidth }
+					strokeLinejoin="round"
+					strokeLinecap="round"
 					points={ polylinePoints }
 				/>
 			</g>
