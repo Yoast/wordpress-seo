@@ -137,14 +137,14 @@ class Schema_Generator implements Generator_Interface {
 	 * Allow filtering the graph piece by its schema type.
 	 *
 	 * @param array             $graph_piece The graph piece we're filtering.
-	 * @param string            $identifier
+	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
 	 * @param Meta_Tags_Context $context     The meta tags context.
 	 *
 	 * @return array The filtered graph piece.
 	 */
 	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context ) {
 		$types = $this->get_type_from_piece( $graph_piece );
-		foreach( $types as $type ) {
+		foreach ( $types as $type ) {
 			$type = strtolower( $type );
 
 			// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
@@ -168,7 +168,7 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @param array $piece The graph piece.
 	 *
-	 * @return false|array False on failure, an array of the piece's types on success.
+	 * @return array An array of the piece's types.
 	 */
 	private function get_type_from_piece( $piece ) {
 		if ( isset( $piece['@type'] ) ) {
@@ -177,7 +177,7 @@ class Schema_Generator implements Generator_Interface {
 			}
 			return [ $piece['@type'] ];
 		}
-		return false;
+		return [];
 	}
 
 	/**
