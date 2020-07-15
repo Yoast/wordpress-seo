@@ -103,7 +103,7 @@ describe( "detecting passive voice in sentences", function() {
 
 	it( "doesn't return passive voice if an auxiliary is followed by a word from the followingAuxiliaryExceptionWords list", function() {
 		// Exception word: "o" after "é".
-		var paper = new Paper( "É o capítulo preferido de vários membros da equipe de produção", { locale: "pt_PT" } );
+		var paper = new Paper( "É o capítulo preferido de vários membros da equipe de produção.", { locale: "pt_PT" } );
 		expect( passiveVoice( paper ).passives.length ).toBe( 0 );
 	} );
 
