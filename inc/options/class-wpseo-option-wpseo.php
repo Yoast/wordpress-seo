@@ -26,6 +26,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
+		'tracking'                                 => null,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
 		'ignore_indexation_warning'                => false,
@@ -319,6 +320,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 					break;
 
+				case 'tracking':
+					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
+					break;
+
 				/*
 				 * Boolean (checkbox) fields.
 				 */
@@ -329,7 +334,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'enable_headless_rest_endpoints'
 				 *  'yoast_tracking'
 				 */
-				case 'tracking':
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
