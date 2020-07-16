@@ -21,7 +21,6 @@ module.exports = {
 		],
 		tasks: [
 			"check:php",
-			"check:i18n",
 		],
 	},
 	js: {
