@@ -197,11 +197,13 @@ class WPSEO_Meta {
 			'schema_page_type' => [
 				'type'         => 'hidden',
 				'title'        => '',
+				'indexable'    => true,
 			],
 			'schema_article_type' => [
 				'type'            => 'hidden',
 				'title'           => '',
 				'hide_on_pages'   => true,
+				'indexable'       => true,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
@@ -260,6 +262,7 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function init() {
+		global $post;
 
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
@@ -274,6 +277,16 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $option, $network, $box, $type );
+
+		/**
+		 * Fetch default options for the schema_page_type and schema_article_type.
+		 *
+		 * These options can be changed using the Search Appearance settings.
+		 */
+		if ( isset( $post->post_type ) ) {
+			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
+			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
+		}
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
@@ -621,20 +634,37 @@ class WPSEO_Meta {
 			}
 		}
 
-		$custom = get_post_custom( $postid ); // Array of strings or empty array.
+		$custom    = get_post_custom( $postid ); // Array of strings or empty array.
+		$table_key = self::$meta_prefix . $key;
 
-		if ( isset( $custom[ self::$meta_prefix . $key ][0] ) ) {
-			$unserialized = maybe_unserialize( $custom[ self::$meta_prefix . $key ][0] );
-			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
-				return $custom[ self::$meta_prefix . $key ][0];
+		// Populate the field_def using the field_index lookup array.
+		$field_def = [];
+		if ( isset( self::$fields_index[ $table_key ] ) ) {
+			$field_def = self::$meta_fields[ self::$fields_index[ $table_key ]['subset'] ][ self::$fields_index[ $table_key ]['key'] ];
+		}
+
+		// Check if we have a custom post meta entry.
+		if ( isset( $custom[ $table_key ][0] ) ) {
+			$unserialized = maybe_unserialize( $custom[ $table_key ][0] );
+
+			// Check if it is already unserialized.
+			if ( $custom[ $table_key ][0] === $unserialized ) {
+				return $custom[ $table_key ][0];
 			}
 
-			if ( isset( self::$fields_index[ self::$meta_prefix . $key ] ) ) {
-				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
-				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-					// Ok, serialize value expected/allowed.
-					return $unserialized;
-				}
+			// Check whether we need to unserialize it.
+			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
+				// Ok, serialize value expected/allowed.
+				return $unserialized;
+			}
+		}
+
+		// Check if we need to fetch data from the indexables table.
+		if ( isset( $field_def['indexable'] ) && $field_def['indexable'] === true ) {
+			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+			$indexable  = $repository->find_by_id_and_type( $postid, WPSEO_Utils::get_page_type() );
+			if ( ! is_null( $indexable->$key ) ) {
+				return $indexable->$key;
 			}
 		}
 

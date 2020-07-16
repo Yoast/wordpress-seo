@@ -101,7 +101,7 @@ const getLocationBasedProps = ( location ) => {
  * @returns {React.Component} The SchemaTab.
  */
 const SchemaTabContainer = () => {
-	const isPost = window.wpseoAdminL10n.postType === "post";
+	const isPost = window.wpseoAdminL10n.postType !== "page";
 
 	const baseProps = {
 		articleTypeLabel: __( "Article type", "wordpress-seo" ),
