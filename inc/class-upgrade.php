@@ -810,10 +810,13 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		$placeholders    = \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 		$query           = $wpdb->prepare(
-			"DELETE FROM $indexable_table WHERE object_type = 'term' AND object_sub_type IN ($placeholders)",
+			"DELETE FROM $indexable_table
+			WHERE object_type = 'term'
+			AND object_sub_type IN ("
+				. \implode( ', ', \array_fill( 0, \count( $private_taxonomies ), '%s' ) )
+				. ')',
 			$private_taxonomies
 		);
 		$wpdb->query( $query );

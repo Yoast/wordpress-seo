@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
+use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
 use Mockery;
 use wpdb;
@@ -79,9 +80,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query    = "
 			SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = 'post'
+			)
+			AND post_type IN (%s)
 			$limit_placeholder";
 
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -93,12 +101,27 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the get total unindexed method with cache.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_total_unindexed
+	 * @covers ::get_query
+	 */
+	public function test_get_total_unindexed_cached() {
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturn( '10' );
+
+		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
 	 * Tests the get total unindexed method when the query fails.
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
@@ -118,7 +141,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = '
 			SELECT ID
 			FROM wp_posts
-			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = \'post\'
+			)
+			AND post_type IN (%s)
 			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -130,6 +158,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 
 		$this->instance->index();
 	}
@@ -150,6 +180,8 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
+
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
 
 		$this->instance->index();
 	}
