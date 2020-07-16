@@ -228,7 +228,7 @@ Bugfixes:
 * Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections.
 * Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
 * Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
-* Fixes a bug where slashes in titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher).
+* Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher).
 * Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant).
 
 Other:
