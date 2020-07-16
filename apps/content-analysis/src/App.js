@@ -24,8 +24,7 @@ import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
-import polishPerformanceTest from "./utils/polishPerformanceTest";
-import polishPerformanceTestOnePaper from "./utils/polishPerformanceTestOnePaper";
+import runKeyphraseAnalysis from "./utils/runKeyphraseAnalysis";
 
 class App extends React.Component {
 	/**
@@ -45,7 +44,7 @@ class App extends React.Component {
 		this.initialize = this.initialize.bind( this );
 		this.analyze = this.analyze.bind( this );
 		this.analyzeSpam = this.analyzeSpam.bind( this );
-		this.polishSpanishKeyphraseAnalysisComparison = this.polishSpanishKeyphraseAnalysisComparison.bind( this );
+		this.polishStemmerPerformanceAnalysis = this.polishStemmerPerformanceAnalysis.bind( this );
 
 		this.initialize();
 
@@ -119,66 +118,43 @@ class App extends React.Component {
 			} );
 		}
 	}
+
 	/**
-	 * Runs keyphrase-related analysis on full-text test papers for Polish and Spanish and compares the performance.
+	 * Runs keyphrase analyses in three languages: English, Spanish, and Polish.
 	 *
 	 * @returns {void}
 	 */
-	polishSpanishKeyphraseAnalysisComparison() {
-		const testTextsPL = [ testPapers[ 18 ], testPapers[ 19 ], testPapers[ 20 ] ];
-		const testTextsES = [ testPapers[ 15 ], testPapers[ 16 ], testPapers[ 17 ] ];
-		const morphologyDataPL = getMorphologyData( "pl" ).pl;
-		const morphologyDataES = getMorphologyData( "es" ).es;
+	polishStemmerPerformanceAnalysis() {
+		/*
+		 * The test text to run the tests on is actually a Russian paper, although the English, Spanish or Polish stemmers
+		 * will be used. This is done so that we can a) do the comparison on the exact same paper in each language, and
+		 * b) keep the amount of stemming/word forms constant across the three languages (for all languages, we expect the
+		 *  stem to be the same as the word, as they will not succeed in stemming Russian words in any other way.)
+		* */
+
+		const englishTestPaper = testPapers[ 24 ];
+		const spanishTestPaper = testPapers[ 25 ];
+		const polishTestPaper = testPapers[ 26 ];
+
+		const morphologyDataPL = getMorphologyData( "pl" );
+		console.log( "morphologyDataPL", morphologyDataPL );
+		const morphologyDataES = getMorphologyData( "es" );
+		const morphologyDataEN = getMorphologyData( "en" );
 
 		const suite = new Suite( "Polish performance test" );
 
 		suite.add( "Polish keyphrase analysis()", function() {
-			polishPerformanceTest( testTextsPL, morphologyDataPL );
-		} );
-
-		suite.add( "Spanish keyphrase analysis()", function() {
-			polishPerformanceTest( testTextsES, morphologyDataES );
-		} );
-
-		suite.on( "cycle", function( event ) {
-			console.log( String( event.target ) );
-			console.log( event.target.stats.mean );
-			console.log( event.target.stats.deviation );
-			// More statistics:
-			// Marging of error: console.log( event.target.stats.moe );
-			// Relative marging of error (percentage of the mean): console.log( event.target.stats.rme );
-			// The array of sampled periods: console.log( event.target.stats.sample );
-			// The standard error of the mean: console.log( event.target.stats.sem );
-			// Variance: console.log( event.target.stats.variance );
-			console.log( event.target.times );
-		} );
-		suite.on( "complete", function() {
-			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
-		} );
-
-		suite.run();
-	}
-	/**
-	 * Runs keyphrase-related analysis on a full-text test paper for Polish and Spanish and compares the performance.
-	 *
-	 * @returns {void}
-	 */
-	polishSpanishKeyphraseAnalysisComparisonOnePaper() {
-		const testTextPL = testPapers[ 19 ];
-		const testTextES = testPapers[ 16 ];
-		const morphologyDataPL = getMorphologyData( "pl" ).pl;
-		const morphologyDataES = getMorphologyData( "es" ).es;
-
-		const suite = new Suite( "Polish performance test (one paper)" );
-
-		suite.add( "Polish keyphrase analysis on one paper()", function() {
-			polishPerformanceTestOnePaper( testTextPL, morphologyDataPL );
+			runKeyphraseAnalysis( polishTestPaper, morphologyDataPL );
 		} );
 
 		// To add to suite: { minSamples: 50, maxTime: 30 }
 
-		suite.add( "Spanish keyphrase analysis on one paper()", function() {
-			polishPerformanceTestOnePaper( testTextES, morphologyDataES );
+		suite.add( "Spanish keyphrase analysis()", function() {
+			runKeyphraseAnalysis( spanishTestPaper, morphologyDataES );
+		} );
+
+		suite.add( "English keyphrase analysis()", function() {
+			runKeyphraseAnalysis( englishTestPaper, morphologyDataEN );
 		} );
 
 		suite.on( "cycle", function( event ) {
@@ -247,8 +223,7 @@ class App extends React.Component {
 						onInitialize={ this.initialize }
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
-						onPolishSpanishComparison={ this.polishSpanishKeyphraseAnalysisComparison }
-						onPolishSpanishOnePaperComparison={ this.polishSpanishKeyphraseAnalysisComparisonOnePaper }
+						onPolishPerformanceAnalysis={ this.polishStemmerPerformanceAnalysis }
 					/>
 				</Collapsible>
 			</Container>

@@ -25,8 +25,7 @@ function Controls( {
 	onAnalyzeSpam,
 	setConfigAttribute,
 	setOptionAttribute,
-	onPolishSpanishComparison,
-	onPolishSpanishOnePaperComparison,
+	onPolishPerformanceAnalysis,
 } ) {
 	return <Fragment>
 		<Container marginTop="0">
@@ -38,8 +37,7 @@ function Controls( {
 			<IconButton icon="search" onClick={ () => onAnalyze() }>Analyze</IconButton>
 			<IconButton icon="search" onClick={ onAnalyzeSpam }>Spam analyze</IconButton>
 			<IconButton icon="times" onClick={ clearStorageAction }>Clear inputs</IconButton>
-			<IconButton icon="gear" onClick={ onPolishSpanishComparison }>Compare performance Polish/Spanish</IconButton>
-			<IconButton icon="gear" onClick={ onPolishSpanishOnePaperComparison }>Compare performance Polish/Spanish one paper</IconButton>
+			<IconButton icon="gear" onClick={ onPolishPerformanceAnalysis }>Compare performance Polish/Spanish/English</IconButton>
 		</ButtonContainer>
 
 		<HeadingContainer heading="H3" title="Configuration">
