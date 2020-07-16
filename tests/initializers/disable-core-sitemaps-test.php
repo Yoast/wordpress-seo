@@ -12,7 +12,9 @@ use Brain\Monkey\Expectation\Exception\MissedPatchworkReplace;
 use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Expectation\Exception\NotAllowedMethod;
 use Brain\Monkey\Functions;
+use Mockery;
 use UnexpectedValueException;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -32,12 +34,21 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options;
+
+
+	/**
 	 * @inheritDoc
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Disable_Core_Sitemaps();
+		$this->options  = Mockery::mock( Options_Helper::class );
+		$this->instance = new Disable_Core_Sitemaps( $this->options );
 	}
 
 	/**
@@ -47,10 +58,27 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_initialize() {
+		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( true );
+
 		$this->instance->initialize();
 
 		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
 		$this->assertTrue( \has_action( 'template_redirect', [ $this->instance, 'template_redirect' ] ), 'Does not have expected template_redirect action' );
+	}
+
+	/**
+	 * Tests the situation when primary term id isn't to the category id, the id should get updated.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_hooks
+	 */
+	public function test_initialize_without_sitemaps() {
+		$this->options->expects( 'get' )->with( 'enable_xml_sitemap' )->andReturn( false );
+
+		$this->instance->initialize();
+
+		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_enabled filter' );
+		$this->assertFalse( \has_action( 'template_redirect', [ $this->instance, 'template_redirect' ] ), 'Has unexpected template_redirect action' );
 	}
 
 	/**

@@ -7,18 +7,32 @@
 
 namespace Yoast\WP\SEO\Initializers;
 
-use Yoast\WP\SEO\Conditionals\Sitemaps_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Disables the WP core sitemaps.
  */
 class Disable_Core_Sitemaps implements Initializer_Interface {
 
+	use No_Conditionals;
+
 	/**
-	 * @inheritDoc
+	 * The options helper.
+	 *
+	 * @var Options_Helper
 	 */
-	public static function get_conditionals() {
-		return [ Sitemaps_Enabled_Conditional::class ];
+	private $options;
+
+	/**
+	 * Sitemaps_Enabled_Conditional constructor.
+	 *
+	 * @param Options_Helper $options The options helper.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
 	}
 
 	/**
@@ -26,7 +40,10 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	 */
 	public function initialize() {
 		\add_filter( 'wp_sitemaps_enabled', '__return_false' );
-		\add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
+
+		if ( $this->options->get( 'enable_xml_sitemap' ) ) {
+			\add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
+		}
 	}
 
 	/**
