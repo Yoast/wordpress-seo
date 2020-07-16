@@ -28,13 +28,17 @@ const testState = {
 
 let windowSpy;
 
-beforeEach(() => {
-  windowSpy = jest.spyOn(global, 'window', 'get');
-});
+beforeEach(
+	() => {
+		windowSpy = jest.spyOn( global, "window", "get" );
+	}
+);
 
-afterEach(() => {
-  windowSpy.mockRestore();
-});
+afterEach(
+	() => {
+	  windowSpy.mockRestore();
+	}
+);
 
 describe( getTitleFallback, () => {
 	it( "returns the indexable title as a fallback", () => {
@@ -66,15 +70,19 @@ describe( getImageFallback, () => {
 	} );
 
 	it( "returns the siteWide image as a fallback when og is active", () => {
-		windowSpy.mockImplementation(() => ({
-			wpseoScriptData: {
-				metabox: {
-					showSocial: {
-						facebook: true,
+		windowSpy.mockImplementation(
+			() => (
+				{
+					wpseoScriptData: {
+						metabox: {
+							showSocial: {
+								facebook: true,
+							},
+						},
 					},
-				},
-			},
-		}));
+				}
+			)
+		);
 
 		const state = {
 			 ...testState,
@@ -92,15 +100,19 @@ describe( getImageFallback, () => {
 	} );
 
 	it( "does not return the siteWide image as a fallback when og is disabled", () => {
-		windowSpy.mockImplementation(() => ({
-			wpseoScriptData: {
-				metabox: {
-					showSocial: {
-						facebook: false,
+		windowSpy.mockImplementation(
+			() => (
+				{
+					wpseoScriptData: {
+						metabox: {
+							showSocial: {
+								facebook: false,
+							},
+						},
 					},
-				},
-			},
-		}));
+				}
+			)
+		);
 
 		const state = {
 			 ...testState,
