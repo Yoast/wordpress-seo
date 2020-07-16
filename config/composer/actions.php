@@ -131,6 +131,40 @@ class Actions {
 	}
 
 	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public static function lint_staged() {
+		self::lint_changed_files( '--staged' );
+	}
+
+	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 */
+	public static function lint_branch( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			self::lint_changed_files( 'trunk' );
+
+			return;
+		}
+		self::lint_changed_files( $args[0] );
+	}
+
+	/**
 	 * Runs PHPCS on the staged files.
 	 *
 	 * Used the composer check-staged-cs command.
@@ -176,6 +210,32 @@ class Actions {
 		}
 
 		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+	}
+	/**
+	 * Runs lint on changed files compared to some git reference.
+	 *
+	 * @param string $compare The git reference.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	private static function lint_changed_files( $compare ) {
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+		$files = \array_filter(
+			$files,
+			function( $file ) {
+				return \substr( $file, -4 ) === '.php';
+			}
+		);
+
+		if ( empty( $files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
+			return;
+		}
+
+		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
 	}
 
 	/**

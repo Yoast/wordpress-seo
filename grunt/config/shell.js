@@ -187,11 +187,11 @@ module.exports = function( grunt ) {
 		},
 
 		"php-lint": {
-			command: "composer lint",
+			command: "composer lint-branch",
 		},
 
 		phpcs: {
-			command: "composer cs 2",
+			command: "composer check-branch-cs",
 		},
 
 		"unlink-monorepo": {
