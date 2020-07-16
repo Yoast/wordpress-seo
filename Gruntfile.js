@@ -42,7 +42,7 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			css: [
-				"css/dist/*.css",
+				"css/src/*.css",
 			],
 			cssMap: [
 				"css/dist/*.css.map",
