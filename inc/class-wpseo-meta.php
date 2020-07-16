@@ -280,7 +280,7 @@ class WPSEO_Meta {
 
 		/**
 		 * Fetch default options for the schema_page_type and schema_article_type.
-		 * 
+		 *
 		 * These options can be changed using the Search Appearance settings.
 		 */
 		self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
@@ -634,10 +634,10 @@ class WPSEO_Meta {
 
 		$custom    = get_post_custom( $postid ); // Array of strings or empty array.
 		$table_key = self::$meta_prefix . $key;
-		
+
 		// Populate the field_def using the field_index lookup array.
 		$field_def = [];
-		if ( isset( self::$fields_index[ $table_key ] ) ){
+		if ( isset( self::$fields_index[ $table_key ] ) ) {
 			$field_def = self::$meta_fields[ self::$fields_index[ $table_key ]['subset'] ][ self::$fields_index[ $table_key ]['key'] ];
 		}
 
