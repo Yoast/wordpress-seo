@@ -137,7 +137,6 @@ class App extends React.Component {
 		const polishTestPaper = testPapers[ 26 ];
 
 		const morphologyDataPL = getMorphologyData( "pl" );
-		console.log( "morphologyDataPL", morphologyDataPL );
 		const morphologyDataES = getMorphologyData( "es" );
 		const morphologyDataEN = getMorphologyData( "en" );
 

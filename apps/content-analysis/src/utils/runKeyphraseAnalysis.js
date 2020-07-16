@@ -23,12 +23,8 @@ const keyphraseDistribution = keyphraseDistributionResearcher;
  */
 export default function( testPaper, morphologyData ) {
 	const paper = testPaper.paper;
-	console.log( "paper", paper );
-
-	console.log( "morphology data", morphologyData );
 	const researcher = new Researcher( paper );
-	researcher.addResearchData( morphologyData );
-	console.log( "researcher", researcher );
+	researcher.addResearchData( "morphology", morphologyData );
 
 	findKeywordInFirstParagraph( paper, researcher );
 	getKeywordDensity( paper, researcher );
