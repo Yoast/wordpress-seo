@@ -210,6 +210,11 @@ export default function() {
 			interrogativeProAdverbs, locativeAdverbs, otherAuxiliaries, copula, subordinatingConjunctions, interviewVerbs, additionalTransitionWords,
 			delexicalizedVerbs, interjections, recipeWords, timeWords, vagueNouns, miscellaneous, titles ),
 
+		// These word categories cannot directly precede a passive participle.
+		cannotDirectlyPrecedePassiveParticiple: [].concat( articles, prepositions, personalPronounsAccusative, possessivePronouns,
+			indefinitePronouns, interrogativeProAdverbs, cardinalNumerals, ordinalNumerals, delexicalizedVerbs, delexicalizedVerbsInfinitive,
+			interviewVerbs ),
+
 		// This export contains all of the above words.
 		all: [].concat( articles, cardinalNumerals, ordinalNumerals, personalPronounsNominative, personalPronounsAccusative,
 			personalPronounsPrepositional, personalPronounsComitative, reflexivePronouns, demonstrativePronouns, possessivePronouns, quantifiers,
