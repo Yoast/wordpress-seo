@@ -194,6 +194,7 @@ Researcher.prototype.addResearchData = function( research, data ) {
  */
 Researcher.prototype.getData = function( research ) {
 	if ( this._data.hasOwnProperty( research ) ) {
+		console.log( "getData", this._data[ research ] );
 		return this._data[ research ];
 	}
 
