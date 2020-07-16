@@ -283,8 +283,10 @@ class WPSEO_Meta {
 		 *
 		 * These options can be changed using the Search Appearance settings.
 		 */
-		self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
-		self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
+		if ( isset( $post->post_type ) ) {
+			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
+			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
+		}
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
