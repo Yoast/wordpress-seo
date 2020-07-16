@@ -16,29 +16,28 @@ const keyphraseDistribution = keyphraseDistributionResearcher;
 /**
  * Runs analysis on full-text test papers.
  *
- * @param {array} testPapers 		The papers to analyse.
+ * @param {array} testPaper 		The papers to analyse.
  * @param {array} morphologyData 	The morphology data for the language of the test papers.
  *
  * @returns {void}
  */
-export default function( testPapers, morphologyData ) {
-	testPapers.forEach( ( testPaper ) => {
-		const paper = testPaper.paper;
+export default function( testPaper, morphologyData ) {
+	const paper = testPaper.paper;
 
-		const researcher = new Researcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		console.log( "researcher", researcher );
+	const researcher = new Researcher( paper );
+	researcher.addResearchData( morphologyData );
 
-		findKeywordInFirstParagraph( paper, researcher );
-		getKeywordDensity( paper, researcher );
-		keywordCount( paper, researcher );
-		metaDescriptionKeyword( paper, researcher );
-		matchKeywordInSubheadings( paper, researcher );
-		imageCount( paper );
-		altTagCount( paper, researcher );
-		findKeywordInPageTitle( paper, researcher );
-		keywordCountInUrl( paper, researcher );
-		keyphraseDistribution( paper, researcher );
-		console.log( "Finished one round of analysis!" );
-	} );
+	findKeywordInFirstParagraph( paper, researcher );
+	getKeywordDensity( paper, researcher );
+	keywordCount( paper, researcher );
+	metaDescriptionKeyword( paper, researcher );
+	matchKeywordInSubheadings( paper, researcher );
+	imageCount( paper );
+	altTagCount( paper, researcher );
+	findKeywordInPageTitle( paper, researcher );
+	keywordCountInUrl( paper, researcher );
+	keyphraseDistribution( paper, researcher );
+	console.log( "Finished one round of analysis!" );
 }
+
+

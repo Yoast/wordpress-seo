@@ -2,7 +2,7 @@
 import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { Benchmark } from "benchmark";
+import Benchmark, { Suite } from "benchmark";
 import testPapers from "yoastseo/spec/fullTextTests/testTexts";
 import { Paper } from "yoastseo";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
@@ -24,7 +24,8 @@ import WorkerStatus from "./components/WorkerStatus";
 import { setResults } from "./redux/actions/results";
 import { setStatus } from "./redux/actions/worker";
 import formatAnalyzeResult from "./utils/formatAnalyzeResult";
-import runKeyphraseAnalysis from "./utils/polishPerformanceTest";
+import polishPerformanceTest from "./utils/polishPerformanceTest";
+import polishPerformanceTestOnePaper from "./utils/polishPerformanceTestOnePaper";
 
 class App extends React.Component {
 	/**
@@ -129,22 +130,81 @@ class App extends React.Component {
 		const morphologyDataPL = getMorphologyData( "pl" ).pl;
 		const morphologyDataES = getMorphologyData( "es" ).es;
 
-		const suite = new Benchmark.Suite( "Polish performance test" );
+		const suite = new Suite( "Polish performance test" );
 
-		suite.add( "Test Polish keyphrase analysis()", function() {
-			runKeyphraseAnalysis( testTextsPL, morphologyDataPL );
+		suite.add( "Polish keyphrase analysis()", function() {
+			polishPerformanceTest( testTextsPL, morphologyDataPL );
 		} );
 
-		suite.add( "Test Spanish keyphrase analysis()", function() {
-			runKeyphraseAnalysis( testTextsES, morphologyDataES );
+		suite.add( "Spanish keyphrase analysis()", function() {
+			polishPerformanceTest( testTextsES, morphologyDataES );
 		} );
 
 		suite.on( "cycle", function( event ) {
 			console.log( String( event.target ) );
+			console.log( event.target.stats.mean );
+			console.log( event.target.stats.deviation );
+			// More statistics:
+			// Marging of error: console.log( event.target.stats.moe );
+			// Relative marging of error (percentage of the mean): console.log( event.target.stats.rme );
+			// The array of sampled periods: console.log( event.target.stats.sample );
+			// The standard error of the mean: console.log( event.target.stats.sem );
+			// Variance: console.log( event.target.stats.variance );
+			console.log( event.target.times );
 		} );
 		suite.on( "complete", function() {
 			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
 		} );
+
+		suite.run();
+	}
+	/**
+	 * Runs keyphrase-related analysis on a full-text test paper for Polish and Spanish and compares the performance.
+	 *
+	 * @returns {void}
+	 */
+	polishSpanishKeyphraseAnalysisComparisonOnePaper() {
+		const testTextPL = testPapers[ 19 ];
+		const testTextES = testPapers[ 16 ];
+		const morphologyDataPL = getMorphologyData( "pl" ).pl;
+		const morphologyDataES = getMorphologyData( "es" ).es;
+
+		const suite = new Suite( "Polish performance test (one paper)" );
+
+		suite.add( "Polish keyphrase analysis on one paper()", function() {
+			polishPerformanceTestOnePaper( testTextPL, morphologyDataPL );
+		} );
+
+		// To add to suite: { minSamples: 50, maxTime: 30 }
+
+		suite.add( "Spanish keyphrase analysis on one paper()", function() {
+			polishPerformanceTestOnePaper( testTextES, morphologyDataES );
+		} );
+
+		suite.on( "cycle", function( event ) {
+			console.log( String( event.target ) );
+			console.log( event.target.stats.mean );
+			console.log( event.target.stats.deviation );
+			// More statistics:
+			// Marging of error: console.log( event.target.stats.moe );
+			// Relative marging of error (percentage of the mean): console.log( event.target.stats.rme );
+			// The array of sampled periods
+			console.log( event.target.stats.sample );
+			// The standard error of the mean: console.log( event.target.stats.sem );
+			// Variance: console.log( event.target.stats.variance );
+			// The time taken to complete last cycle
+			console.log( event.target.times.cycle );
+			// The time taken to complete the benchmark
+			console.log( event.target.times.elapsed );
+			// The time taken to execute the test once
+			console.log( event.target.times.period );
+			// Number of iterations per cycle
+			console.log( event.target.count );
+		} );
+		suite.on( "complete", function() {
+			console.log( "Fastest is " + this.filter( "fastest" ).map( "name" ) );
+		} );
+
 		suite.run();
 	}
 
@@ -188,6 +248,7 @@ class App extends React.Component {
 						onAnalyze={ this.analyze }
 						onAnalyzeSpam={ this.analyzeSpam }
 						onPolishSpanishComparison={ this.polishSpanishKeyphraseAnalysisComparison }
+						onPolishSpanishOnePaperComparison={ this.polishSpanishKeyphraseAnalysisComparisonOnePaper }
 					/>
 				</Collapsible>
 			</Container>
