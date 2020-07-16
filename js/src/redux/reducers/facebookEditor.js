@@ -12,7 +12,7 @@ import {
 const initialState = {
 	title: "",
 	description: "",
-	errors: [],
+	warnings: [],
 	image: {
 		url: "",
 		id: "",
@@ -36,12 +36,22 @@ const facebookReducer = ( state = initialState, action ) => {
 		case SET_FACEBOOK_DESCRIPTION :
 			return { ...state, description: action.description };
 		case SET_FACEBOOK_IMAGE :
-			return { ...state, image: { ...action.image } };
+			return {
+				...state,
+				warnings: action.image.warnings,
+				image: {
+					id: action.image.id,
+					url: action.image.url,
+				},
+			};
 		case CLEAR_FACEBOOK_IMAGE :
-			return { ...state, image: {
-				url: "",
-				id: "",
-			} };
+			return { ...state,
+				image: {
+					url: "",
+					id: "",
+				},
+				warnings: [],
+			};
 	  default:
 			return state;
 	}

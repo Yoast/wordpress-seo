@@ -12,7 +12,7 @@ import {
 const initialState = {
 	title: "",
 	description: "",
-	errors: [],
+	warnings: [],
 	image: {
 		url: "",
 		id: "",
@@ -36,12 +36,16 @@ const twitterReducer = ( state = initialState, action ) => {
 		case SET_TWITTER_DESCRIPTION :
 			return { ...state, description: action.description };
 		case SET_TWITTER_IMAGE :
-			return { ...state, image: { ...action.image } };
+			return { ...state, image: { id: action.image.id, url: action.image.url }, warnings: action.image.warnings };
 		case CLEAR_TWITTER_IMAGE :
-			return { ...state, image: {
-				url: "",
-				id: "",
-			} };
+			return {
+				...state,
+				image: {
+					url: "",
+					id: "",
+				},
+				warnings: [],
+			};
 	  default:
 			return state;
 	}

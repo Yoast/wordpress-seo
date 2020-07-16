@@ -101,9 +101,11 @@ class Schema_Generator implements Generator_Interface {
 				 *
 				 * @api array $graph_piece The graph piece to filter.
 				 *
-				 * @param Meta_Tags_Context $context     A value object with context variables.
+				 * @param Meta_Tags_Context $context A value object with context variables.
 				 */
 				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
+				$graph_piece = $this->type_filter( $graph_piece, $identifier, $context );
+
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
 				}
@@ -129,6 +131,53 @@ class Schema_Generator implements Generator_Interface {
 			'@context' => 'https://schema.org',
 			'@graph'   => $graph,
 		];
+	}
+
+	/**
+	 * Allow filtering the graph piece by its schema type.
+	 *
+	 * @param array             $graph_piece The graph piece we're filtering.
+	 * @param string            $identifier  The identifier of the graph piece that is being filtered.
+	 * @param Meta_Tags_Context $context     The meta tags context.
+	 *
+	 * @return array The filtered graph piece.
+	 */
+	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context ) {
+		$types = $this->get_type_from_piece( $graph_piece );
+		foreach ( $types as $type ) {
+			$type = strtolower( $type );
+
+			// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
+			if ( $type && $type !== $identifier ) {
+				/**
+				 * Filter: 'wpseo_schema_<type>' - Allows changing graph piece output by @type.
+				 *
+				 * @api array $graph_piece The graph piece to filter.
+				 *
+				 * @param Meta_Tags_Context $context A value object with context variables.
+				 */
+				$graph_piece = \apply_filters( 'wpseo_schema_' . $type, $graph_piece, $context );
+			}
+		}
+
+		return $graph_piece;
+	}
+
+	/**
+	 * Retrieves the type from a graph piece.
+	 *
+	 * @param array $piece The graph piece.
+	 *
+	 * @return array An array of the piece's types.
+	 */
+	private function get_type_from_piece( $piece ) {
+		if ( isset( $piece['@type'] ) ) {
+			if ( is_array( $piece['@type'] ) ) {
+				return $piece['@type'];
+			}
+			return [ $piece['@type'] ];
+		}
+		return [];
 	}
 
 	/**
