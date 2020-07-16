@@ -26,7 +26,6 @@ export default function() {
 		"ora",
 		"seja",
 		"quer",
-		"nem",
 		"já",
 		"logo",
 		"portanto",
