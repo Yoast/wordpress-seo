@@ -3,6 +3,7 @@ import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import domReady from "@wordpress/dom-ready";
+import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
@@ -46,9 +47,15 @@ if ( window.wpseoScriptData.metabox.showSocial.facebook ) {
 		const media = MediaWrapper.get();
 		media.on( "select", () => {
 			const selected = media.state().get( "selection" ).first();
+			const image = {
+				type: selected.attributes.subtype,
+				width: selected.attributes.width,
+				height: selected.attributes.height,
+			};
 			wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
 				url: selected.attributes.url,
 				id: selected.attributes.id,
+				warnings: validateFacebookImage( image ),
 			} );
 		} );
 		wpDataDispatch( "yoast-seo/editor" ).loadFacebookPreviewData();

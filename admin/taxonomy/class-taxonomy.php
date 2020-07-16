@@ -124,7 +124,6 @@ class WPSEO_Taxonomy {
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
@@ -135,7 +134,6 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'metabox-css' );
-			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'term-edit' );
 
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();

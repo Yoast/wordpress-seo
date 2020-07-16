@@ -248,6 +248,8 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'network-admin-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-element',
+					'wp-i18n',
 					self::PREFIX . 'commons',
 				],
 			],
@@ -344,7 +346,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',
@@ -531,10 +532,6 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'dashboard-' . $flat_version,
 			],
 			[
-				'name' => 'scoring',
-				'src'  => 'yst_seo_score-' . $flat_version,
-			],
-			[
 				'name' => 'adminbar',
 				'src'  => 'adminbar-' . $flat_version,
 				'deps' => [
@@ -563,10 +560,6 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'configuration-wizard',
 				'src'  => 'configuration-wizard-' . $flat_version,
-			],
-			[
-				'name' => 'filter-explanation',
-				'src'  => 'filter-explanation-' . $flat_version,
 			],
 			[
 				'name' => 'monorepo',

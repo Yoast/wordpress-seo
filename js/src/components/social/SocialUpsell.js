@@ -7,7 +7,6 @@ import { Alert } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 const PremiumInfoText = styled( Alert )`
-	margin-top: 16px;
 	p {
 		margin: 0;
 	}

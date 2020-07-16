@@ -83,7 +83,6 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	public function enqueue_explanation_assets() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'filter-explanation' );
-		$asset_manager->enqueue_style( 'filter-explanation' );
 		wp_localize_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'filter-explanation',
 			'yoastFilterExplanation',

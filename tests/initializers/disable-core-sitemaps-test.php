@@ -5,15 +5,15 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations;
+namespace Yoast\WP\SEO\Tests\Initializers;
 
-use Yoast\WP\SEO\Integrations\Disable_Core_Sitemaps;
+use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Disable_Core_Sitemaps
+ * @coversDefaultClass \Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps
  *
  * @group integrations
  */
@@ -39,8 +39,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks() {
-		$this->instance->register_hooks();
+	public function test_initialize() {
+		$this->instance->initialize();
 
 		$this->assertTrue( \has_filter( 'wp_sitemaps_enabled', '__return_false' ), 'Does not have expected wp_sitemaps_is_enabled filter' );
 	}
