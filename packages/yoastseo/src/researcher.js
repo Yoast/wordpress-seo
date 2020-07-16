@@ -46,7 +46,7 @@ import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import h1s from "./researches/h1s";
 import getProminentWordsForInsights from "./researches/getProminentWordsForInsights";
 import getProminentWordsForInternalLinking from "./researches/getProminentWordsForInternalLinking";
-import getWordFormsFromText from "./researches/getWordFormsFromText";
+import getWordForms from "./researches/getWordForms";
 
 /**
  * This contains all possible, default researches.
@@ -92,7 +92,7 @@ var Researcher = function( paper ) {
 		topicCount: topicCount,
 		sentences,
 		keyphraseDistribution: keyphraseDistribution,
-		morphology: getWordFormsFromText,
+		morphology: getWordForms,
 		functionWordsInKeyphrase: functionWordsInKeyphrase,
 		h1s: h1s,
 		prominentWordsForInsights: getProminentWordsForInsights,
