@@ -71,7 +71,7 @@ if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 				],
 				'title'       => $label,
 				'title_after' => ' (<code>' . esc_html( $post_type->name ) . '</code>)',
-				'class'       => 'search-appearance',
+				'class'       => 'search-appearance search-appearance--bottom',
 			]
 		);
 
