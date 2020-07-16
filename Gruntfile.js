@@ -58,6 +58,7 @@ module.exports = function( grunt ) {
 				"admin/**/*.php",
 				"frontend/**/*.php",
 				"inc/**/*.php",
+				"src/**/*.php",
 			],
 			versionFiles: [
 				"package.json",
