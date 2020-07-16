@@ -17,6 +17,12 @@ const testState = {
 		data: {
 			snippetPreviewImageURL: "featured.png",
 		},
+		replacementVariables: [
+			{
+				name: "title",
+				value: "Not Hello World!",
+			},
+		],
 	},
 };
 
@@ -31,10 +37,10 @@ afterEach(() => {
 });
 
 describe( getTitleFallback, () => {
-	it( "returns the snippit title as a fallback", () => {
+	it( "returns the indexable title as a fallback", () => {
 		const actual = getTitleFallback( testState );
 
-		const expected = "Hello World!";
+		const expected = "Not Hello World!";
 
 		expect( actual ).toEqual( expected );
 	} );

@@ -1,13 +1,25 @@
-import { get } from "lodash";
+import { get, find } from "lodash";
 
 /**
- * Gets the fallback title from: state.analysisData.snippet.title.
+ * Gets the fallback title that is equal to the site title.
+ *
+ * This is stored in:
+ * state.snippetEditor.replacementVariables's value where the name is title.
  *
  * @param {Object} state The state object.
  *
  * @returns {string} The fallback title.
  */
-export const getTitleFallback = state => get( state, "analysisData.snippet.title", "" );
+export const getTitleFallback = state => {
+	const replacementVariables = get( state, "snippetEditor.replacementVariables", {} );
+	const titleReplacementVariable = find( replacementVariables, [ "name", "title" ] );
+
+	if ( titleReplacementVariable ) {
+		return titleReplacementVariable.value;
+	}
+
+	return "";
+};
 
 /**
  * Gets the fallback description from: state.analysisData.snippet.description.
