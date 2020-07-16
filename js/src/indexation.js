@@ -136,6 +136,7 @@ import ProgressBar from "./ui/progressBar";
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
+						.show()
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
 					$( settings.ids.message ).html( settings.message.indexingFailed );
