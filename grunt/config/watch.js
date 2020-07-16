@@ -33,6 +33,14 @@ module.exports = {
 			"eslint:plugin",
 		],
 	},
+	jsTests: {
+		files: [
+			"<%= files.jsTests %>",
+		],
+		tasks: [
+			"eslint:tests",
+		],
+	},
 	css: {
 		files: [
 			"<%= files.css %>",
