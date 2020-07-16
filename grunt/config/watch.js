@@ -20,9 +20,8 @@ module.exports = {
 			"<%= files.php %>",
 		],
 		tasks: [
-			"phplint",
-			"phpcs",
-			"checktextdomain",
+			"check:php",
+			"check:i18n",
 		],
 	},
 	js: {
