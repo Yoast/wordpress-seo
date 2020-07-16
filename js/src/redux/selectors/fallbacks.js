@@ -54,9 +54,9 @@ export const getContentImage = state => {
 export const getImageFallback = state => {
 	const featuredImage = get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
 	const contentImage = get( state, "settings.socialPreviews.contentImage", "" );
-	const siteWideImage = get( state, "settings.socialPreviews.sitewideImage", "" );
+	const siteWideImage = get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" );
 
-	return featuredImage || contentImage || siteWideImage;
+	return featuredImage || contentImage || siteWideImage || "";
 };
 
 /**
