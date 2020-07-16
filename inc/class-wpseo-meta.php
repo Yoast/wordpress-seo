@@ -643,13 +643,18 @@ class WPSEO_Meta {
 
 		// Check if we have a custom post meta entry.
 		if ( isset( $custom[ $table_key ][0] ) ) {
-			// If we have a custom post meta entry, check whether we need to unserialize it.
-			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
-				// Ok, serialize value expected/allowed.
-				return maybe_unserialize( $custom[ $table_key ][0] );
+			$unserialized = maybe_unserialize( $custom[ $table_key ][0] );
+
+			// Check if it is already unserialized.
+			if ( $custom[ $table_key ][0] === $unserialized ) {
+				return $custom[ $table_key ][0];
 			}
 
-			return $custom[ $table_key ][0];
+			// Check whether we need to unserialize it.
+			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
+				// Ok, serialize value expected/allowed.
+				return $unserialized;
+			}
 		}
 
 		// Check if we need to fetch data from the indexables table.
