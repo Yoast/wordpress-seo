@@ -3,6 +3,7 @@
 // The orginal stemmer is available at https://github.com/dmarman/lorca/blob/master/src/stemmer.js.
 import { buildOneFormFromRegex } from "../morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../morphoHelpers/createRulesFromMorphologyData";
+import { findMatchingEndingInArray } from "../morphoHelpers/findMatchingEndingInArray";
 
 /**
  * Copyright (C) 2018 Domingo Martín Mancera
@@ -49,32 +50,6 @@ const nextConsonantPosition = function( word, start = 0 ) {
 	return length;
 };
 
-const endsIn = function( word, suffix ) {
-	if ( word.length < suffix.length ) {
-		return false;
-	}
-
-	return ( word.slice( -suffix.length ) === suffix );
-};
-
-const endsInArr = function( word, suffixes ) {
-	const matches = [];
-	for ( const i in suffixes ) {
-		if ( endsIn( word, suffixes[ i ] ) ) {
-			matches.push( suffixes[ i ] );
-		}
-	}
-
-	const longest = matches.sort( function( a, b ) {
-		return b.length - a.length;
-	} )[ 0 ];
-
-	if ( longest ) {
-		return longest;
-	}
-	return "";
-};
-
 const removeAccent = function( word ) {
 	const accentedVowels = [ "á", "é", "í", "ó", "ú" ];
 	const vowels = [ "a", "e", "i", "o", "u" ];
@@ -84,6 +59,14 @@ const removeAccent = function( word ) {
 	}
 
 	return word;
+};
+
+const endsIn = function( word, suffix ) {
+	if ( word.length < suffix.length ) {
+		return false;
+	}
+
+	return ( word.slice( -suffix.length ) === suffix );
 };
 
 /**
@@ -134,7 +117,7 @@ const tryStemAsMente = function( word, r1Text, menteStemming ) {
  * @returns {string}   A stemmed superlative or the input word, if it is not a superlative.
  */
 const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
-	const superlativeSuffix = endsInArr( r1Text, superlativesStemming.superlativeSuffixes );
+	const superlativeSuffix = findMatchingEndingInArray( r1Text, superlativesStemming.superlativeSuffixes );
 
 	// Immediately return the input word if no superlative suffix is found or the word is in the stopList.
 	if ( superlativeSuffix === "" || superlativesStemming.notSuperlatives.includes( word ) ) {
@@ -155,7 +138,7 @@ const tryStemAsSuperlative = function( word, r1Text, superlativesStemming ) {
  * @returns {string}   A stemmed diminutive or the input word, if it is not a diminutive.
  */
 const tryStemAsDiminutive = function( word, diminutivesStemming ) {
-	const diminutiveSuffix = endsInArr( word, [ "ito", "ita", "itos", "itas", "íto", "íta", "ítos", "ítas" ] );
+	const diminutiveSuffix = findMatchingEndingInArray( word, [ "ito", "ita", "itos", "itas", "íto", "íta", "ítos", "ítas" ] );
 
 	// Immediately return the input word if no diminutive suffix is found or the word is in the stopList.
 	if ( diminutiveSuffix === "" ||  diminutivesStemming.notDiminutives.includes( word ) ) {
@@ -222,7 +205,7 @@ const canonicalizeStem = function( stemmedWord, stemsThatBelongToOneWord ) {
  */
 const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 	// Do step 2a if no ending was removed by step 1.
-	const suf = endsInArr( rvText, [ "ya", "ye", "yan", "yen", "yeron", "yendo", "yo", "yó", "yas", "yes", "yais", "yamos" ] );
+	const suf = findMatchingEndingInArray( rvText, [ "ya", "ye", "yan", "yen", "yeron", "yendo", "yo", "yó", "yas", "yes", "yais", "yamos" ] );
 
 	if ( suf !== "" && ( word.slice( -suf.length - 1, -suf.length ) === "u" ) ) {
 		word = word.slice( 0, -suf.length );
@@ -234,7 +217,7 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 
 	// Do Step 2b if step 2a was done, but failed to remove a suffix.
 	if ( word === wordAfter1 ) {
-		const suf11 = endsInArr( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
+		const suf11 = findMatchingEndingInArray( rvText, [ "arían", "arías", "arán", "arás", "aríais", "aría", "aréis",
 			"aríamos", "aremos", "ará", "aré", "erían", "erías", "erán",
 			"erás", "eríais", "ería", "eréis", "eríamos", "eremos", "erá",
 			"eré", "irían", "irías", "irán", "irás", "iríais", "iría", "iréis",
@@ -246,7 +229,7 @@ const stemVerbSuffixes = function( word, wordAfter1, rvText, rv ) {
 			"abais", "íais", "arais", "ierais", "  aseis", "ieseis", "asteis",
 			"isteis", "ados", "idos", "amos", "ábamos", "íamos", "imos", "áramos",
 			"iéramos", "iésemos", "ásemos" ] );
-		const suf12 = endsInArr( rvText, [ "en", "es", "éis", "emos" ] );
+		const suf12 = findMatchingEndingInArray( rvText, [ "en", "es", "éis", "emos" ] );
 		if ( suf11 !== "" ) {
 			word = word.slice( 0, -suf11.length );
 		} else if ( suf12 !== "" ) {
@@ -330,13 +313,13 @@ export default function stem( word, morphologyData ) {
 	const pronounSuffixPre1 = [ "iéndo", "ándo", "ár", "ér", "ír" ];
 	const pronounSuffixPre2 = [ "iendo", "ando", "ar", "er", "ir" ];
 
-	const suffix = endsInArr( word, pronounSuffix );
+	const suffix = findMatchingEndingInArray( word, pronounSuffix );
 
 	if ( suffix !== "" && ! morphologyData.wordsThatLookLikeButAreNot.notVerbsEndingInPersonalPronouns.includes( word ) ) {
-		let preSuffix = endsInArr( rvText.slice( 0, -suffix.length ), pronounSuffixPre1 );
+		let preSuffix = findMatchingEndingInArray( rvText.slice( 0, -suffix.length ), pronounSuffixPre1 );
 
 		if ( preSuffix === "" ) {
-			preSuffix = endsInArr( rvText.slice( 0, -suffix.length ), pronounSuffixPre2 );
+			preSuffix = findMatchingEndingInArray( rvText.slice( 0, -suffix.length ), pronounSuffixPre2 );
 
 			if ( preSuffix !== "" || ( endsIn( word.slice( 0, -suffix.length ), "uyendo" ) ) ) {
 				word = word.slice( 0, -suffix.length );
@@ -354,17 +337,17 @@ export default function stem( word, morphologyData ) {
 
 	const wordAfter0 = word;
 
-	const suf1 = endsInArr( r2Text, [ "anza", "anzas", "ico", "ica", "icos", "icas", "ismo", "ismos",
+	const suf1 = findMatchingEndingInArray( r2Text, [ "anza", "anzas", "ico", "ica", "icos", "icas", "ismo", "ismos",
 		"able", "ables", "ible", "ibles", "ista", "istas", "oso", "osa",
 		"osos", "osas", "amiento", "amientos", "imiento", "imientos" ] );
-	const suf2 = endsInArr( r2Text, [ "icadora", "icador", "icación", "icadoras", "icadores", "icaciones",
+	const suf2 = findMatchingEndingInArray( r2Text, [ "icadora", "icador", "icación", "icadoras", "icadores", "icaciones",
 		"icante", "icantes", "icancia", "icancias", "adora", "ador", "ación",
 		"adoras", "adores", "aciones", "ante", "antes", "ancia", "ancias" ] );
-	const suf3 = endsInArr( r2Text, [ "logía", "logías" ] );
-	const suf4 = endsInArr( r2Text, [ "ución", "uciones" ] );
-	const suf5 = endsInArr( r2Text, [ "encia", "encias" ] );
-	const suf9 = endsInArr( r2Text, [ "abilidad", "abilidades", "icidad", "icidades", "ividad", "ividades", "idad", "idades" ] );
-	const suf10 = endsInArr( r2Text, [ "ativa", "ativo", "ativas", "ativos", "iva", "ivo", "ivas", "ivos" ] );
+	const suf3 = findMatchingEndingInArray( r2Text, [ "logía", "logías" ] );
+	const suf4 = findMatchingEndingInArray( r2Text, [ "ución", "uciones" ] );
+	const suf5 = findMatchingEndingInArray( r2Text, [ "encia", "encias" ] );
+	const suf9 = findMatchingEndingInArray( r2Text, [ "abilidad", "abilidades", "icidad", "icidades", "ividad", "ividades", "idad", "idades" ] );
+	const suf10 = findMatchingEndingInArray( r2Text, [ "ativa", "ativo", "ativas", "ativos", "iva", "ivo", "ivas", "ivos" ] );
 
 	if ( suf1 !== "" ) {
 		word = word.slice( 0, -suf1.length );
@@ -431,10 +414,10 @@ export default function stem( word, morphologyData ) {
 
 	rvText = word.slice( rv );
 
-	const suf13 = endsInArr( rvText, [ "os", "a", "o", "á", "í", "ó" ] );
+	const suf13 = findMatchingEndingInArray( rvText, [ "os", "a", "o", "á", "í", "ó" ] );
 	if ( suf13 !== "" ) {
 		word = word.slice( 0, -suf13.length );
-	} else if ( ( endsInArr( rvText, [ "e", "é" ] ) ) !== "" ) {
+	} else if ( ( findMatchingEndingInArray( rvText, [ "e", "é" ] ) ) !== "" ) {
 		word = word.slice( 0, -1 );
 		rvText = word.slice( rv );
 		if ( endsIn( rvText, "u" ) && endsIn( word, "gu" ) ) {

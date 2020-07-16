@@ -15,32 +15,22 @@ export const FACEBOOK_IMAGE_SIZES = {
 };
 
 /**
- * Determines the image display mode.
+ * Determines the image display mode for Facebook images, given its dimensions.
  *
- * @param {string} socialMedium Facebook or Twitter.
  * @param {Object} originalDimensions The dimensions of the original image.
  *
  * @returns {string} The display mode of the image.
  */
-export function determineImageMode( socialMedium, originalDimensions ) {
-	if ( socialMedium === "Facebook" ) {
-		if ( originalDimensions.height > originalDimensions.width ) {
-			return "portrait";
-		}
-
-		if ( originalDimensions.height === originalDimensions.width ) {
-			return "square";
-		}
-
-		return "landscape";
+export function determineFacebookImageMode( originalDimensions ) {
+	if ( originalDimensions.height > originalDimensions.width ) {
+		return "portrait";
 	}
 
-	// By default, social medium is Twitter.
-	if ( originalDimensions.height > 150 && originalDimensions.width > 280 ) {
-		return "landscape";
+	if ( originalDimensions.height === originalDimensions.width ) {
+		return "square";
 	}
 
-	return "square";
+	return "landscape";
 }
 
 /**
@@ -163,15 +153,6 @@ export function calculateLargestDimensions( originalDimensions, imageRatios ) {
  * @returns {object} The image dimensions.
  */
 export function calculateImageDimensions( expectedDimensions, originalDimensions, imageMode ) {
-	// Images that are too small should not be scaled.
-	if ( originalDimensions.width < expectedDimensions.squareWidth ||
-		 originalDimensions.height < expectedDimensions.squareHeight ) {
-		return {
-			width: originalDimensions.width,
-			height: originalDimensions.height,
-		};
-	}
-
 	/*
 	 * If the image should be rendered as a square, and its original dimensions were also square,
 	 * just use the squareWidth and squareHeight required by the social medium.
@@ -206,16 +187,25 @@ export function calculateImageDimensions( expectedDimensions, originalDimensions
 /**
  * Determines the properties of the image.
  *
- * @param {string} src The source of the image.
- * @param {string} socialMedium Facebook or Twitter.
+ * @param {string}  src            The source of the image.
+ * @param {string}  socialMedium   Facebook or Twitter.
+ * @param {Boolean} twitterIsLarge Whether twitter is the summary_card_large or not.
+ *                                 False by default, because we don't want to pass this for Facebook.
  *
  * @returns {Promise} The promise of the imageProperties.
  */
-export async function determineImageProperties( src, socialMedium ) {
+export async function determineImageProperties( src, socialMedium, twitterIsLarge = false ) {
 	const originalDimensions = await retrieveOriginalImageDimensions( src );
 
 	// Determine what image mode should be used.
-	const imageMode = determineImageMode( socialMedium, originalDimensions );
+
+	// First, set it correctly for Twitter
+	let imageMode = twitterIsLarge ? "landscape" : "square";
+
+	// Override if we need the Facebook image mode.
+	if ( socialMedium === "Facebook" ) {
+		imageMode = determineFacebookImageMode( originalDimensions );
+	}
 
 	// Retrieve the image sizes, depending on the social medium.
 	const expectedDimensions = retrieveExpectedDimensions( socialMedium );
@@ -233,14 +223,16 @@ export async function determineImageProperties( src, socialMedium ) {
 /**
  * Wraps the determined image properties in a neat object.
  *
- * @param {String} src          The image URL.
- * @param {String} socialMedium Twitter or Facebook.
+ * @param {String}  src          The image URL.
+ * @param {String}  socialMedium Twitter or Facebook.
+ * @param {Boolean} twitterIsLarge Whether twitter is the summary_card_large or not.
+ *                                 False by default, because we don't want to pass this for Facebook.
  *
  * @returns {Object} An object the Image components can handle.
  */
-export async function handleImage( src, socialMedium ) {
+export async function handleImage( src, socialMedium, twitterIsLarge = false ) {
 	try {
-		const imageProperties = await determineImageProperties( src, socialMedium );
+		const imageProperties = await determineImageProperties( src, socialMedium, twitterIsLarge );
 		return {
 			imageProperties: imageProperties,
 			status: "loaded",

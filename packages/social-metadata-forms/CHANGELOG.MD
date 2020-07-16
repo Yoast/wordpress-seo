@@ -4,6 +4,6 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.0.0 July 6th, 2020
+## 1.0.0 July 20th, 2020
 ### Enhancements
 * Creates a new package for the form that is used in the Social Previews.
