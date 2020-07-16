@@ -120,7 +120,13 @@ class App extends React.Component {
 	}
 
 	/**
-	 * Runs keyphrase analyses in three languages: English, Spanish, and Polish.
+	 * Runs keyphrase analyses using the stemmers of three languages - English, Spanish, and Polish - and measures the
+	 * performance (in operations per second, among other statistics) for each language.
+	 *
+	 * The goal is to check whether the keyphrase analysis that uses Polish morphology data, which, unlike the morphology data
+	 * for other languages, contains a large object with word-stem pairs, results in a much worse performance compared to the
+	 * other languages.
+
 	 *
 	 * @returns {void}
 	 */
@@ -144,17 +150,15 @@ class App extends React.Component {
 
 		suite.add( "Polish keyphrase analysis()", function() {
 			runKeyphraseAnalysis( polishTestPaper, morphologyDataPL );
-		} );
-
-		// To add to suite: { minSamples: 50, maxTime: 30 }
+		}, { minSamples: 50, maxTime: 30 } );
 
 		suite.add( "Spanish keyphrase analysis()", function() {
 			runKeyphraseAnalysis( spanishTestPaper, morphologyDataES );
-		} );
+		}, { minSamples: 50, maxTime: 30 } );
 
 		suite.add( "English keyphrase analysis()", function() {
 			runKeyphraseAnalysis( englishTestPaper, morphologyDataEN );
-		} );
+		}, { minSamples: 50, maxTime: 30 } );
 
 		suite.on( "cycle", function( event ) {
 			console.log( String( event.target ) );
