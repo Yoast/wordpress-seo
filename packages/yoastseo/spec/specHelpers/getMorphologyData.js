@@ -1,4 +1,4 @@
-import en from "../../premium-configuration/data/morphologyData-v3.json";
+import en from "../../premium-configuration/data/morphologyData-en-v4.json";
 import de from "../../premium-configuration/data/morphologyData-de-v9.json";
 import nl from "../../premium-configuration/data/morphologyData-nl-v9.json";
 import es from "../../premium-configuration/data/morphologyData-es-v9.json";
