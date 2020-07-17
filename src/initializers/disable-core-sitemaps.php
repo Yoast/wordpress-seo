@@ -53,7 +53,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	 */
 	public function template_redirect() {
 		// If there is no path, nothing to do.
-		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 			return;
 		}
 		$path = \sanitize_text_field( \wp_unslash( $_SERVER['REQUEST_URI'] ) );
@@ -85,13 +85,17 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 			return '/sitemap_index.xml';
 		}
 
-		if ( \preg_match( '/^\/wp-sitemap-(posts|taxonomies)-(\w+)-(\d+).xml$/', $path, $matches ) ) {
-			$index = ( $matches[3] === '1' ) ? '' : \strval( \intval( $matches[3] ) - 1 );
+		if ( \preg_match( '/^\/wp-sitemap-(posts|taxonomies)-(\w+)-(\d+)\.xml$/', $path, $matches ) ) {
+			$index = ( (int) $matches[3] - 1 );
+			$index = ( $index === 0 ) ? '' : (string) $index;
+
 			return '/' . $matches[2] . '-sitemap' . $index . '.xml';
 		}
 
-		if ( \preg_match( '/^\/wp-sitemap-users-(\d+).xml/', $path, $matches ) ) {
-			$index = ( $matches[1] === '1' ) ? '' : \strval( \intval( $matches[1] ) - 1 );
+		if ( \preg_match( '/^\/wp-sitemap-users-(\d+)\.xml$/', $path, $matches ) ) {
+			$index = ( (int) $matches[1] - 1 );
+			$index = ( $index === 0 ) ? '' : (string) $index;
+
 			return '/author-sitemap' . $index . '.xml';
 		}
 
