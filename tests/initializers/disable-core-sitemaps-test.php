@@ -95,6 +95,10 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 			Functions\expect( 'home_url' )->once()->with( $redirect )->andReturnFirstArg();
 			Functions\expect( 'wp_safe_redirect' )->once()->with( $redirect, 301, 'Yoast SEO' );
 		}
+		else {
+			Functions\expect( 'home_url' )->never();
+			Functions\expect( 'wp_safe_redirect' )->never();
+		}
 
 		$this->instance->template_redirect();
 
@@ -111,11 +115,17 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 			[ null, null ],
 			[ '/', null ],
 			[ '/this-is-not-a-wp-sitemap-request', null ],
+			[ '/wp-sitemap-post-explaining-what-it-is', null ],
+			[ '/wp-sitemap-posts-post-1-xml', null ],
+			[ '/wp-sitemap-posts-post-1-more.xml', null ],
 			[ '/wp-sitemap.xml', '/sitemap_index.xml' ],
 			[ '/wp-sitemap-posts-post-1.xml', '/post-sitemap.xml' ],
 			[ '/wp-sitemap-posts-books-2.xml', '/books-sitemap1.xml' ],
 			[ '/wp-sitemap-users-1.xml', '/author-sitemap.xml' ],
+			[ '/wp-sitemap-users-2.xml', '/author-sitemap1.xml' ],
+			[ '/wp-sitemap-users-100.xml', '/author-sitemap99.xml' ],
 			[ '/wp-sitemap-taxonomies-category-1.xml', '/category-sitemap.xml' ],
+			[ '/wp-sitemap-taxonomies-category-2.xml', '/category-sitemap1.xml' ],
 		];
 	}
 }
