@@ -7,44 +7,22 @@ const externals = {
 	tinymce: "window.tinymce",
 
 	yoastseo: "window.yoast.analysis",
+
+	// General dependencies that we have.
+	jed: "window.yoast.jed",
+	lodash: "window.lodash",
+	"lodash-es": "window.lodash",
 	react: "React",
 	"react-dom": "ReactDOM",
 	redux: "window.yoast.redux",
 	"react-redux": "window.yoast.reactRedux",
-	jed: "window.yoast.jed",
-	lodash: "window.lodash",
-	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
 	"draft-js": "window.yoast.draftJs",
 };
 
 /**
- * Internal dependencies
+ * WordPress dependencies.
  */
-const { dependencies } = require( '../package' );
-const legacyYoastPackages = [ 'yoast-components' ];
-
-const YOAST_NAMESPACE = '@yoast/';
-
-const yoastPackages = Object.keys( dependencies )
-	.filter(
-		( packageName ) =>
-			packageName.startsWith( YOAST_NAMESPACE ) ||
-			legacyYoastPackages.includes( packageName )
-	)
-	.map( ( packageName ) => packageName.replace( YOAST_NAMESPACE, '' ) );
-
-const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
-	let useablePackageName = ( packageName === 'components' ) ? 'components-new' : packageName;
-
-	useablePackageName = ( useablePackageName === 'yoast-components' ) ? 'components' : useablePackageName;
-
-	useablePackageName = ( useablePackageName === 'yoastseo' ) ? 'analysis' : useablePackageName;
-
-	memo[ packageName ] = `window.yoast.${ camelCaseDash( useablePackageName ) }`;
-	return memo;
-}, {} );
-
 const wordpressPackages = [
 	"@wordpress/api-fetch",
 	"@wordpress/block-editor",
@@ -66,14 +44,52 @@ const wordpressPackages = [
 	"@wordpress/a11y",
 ];
 
+/**
+ * Yoast dependencies, declared as such in the package.json.
+ */
+const { dependencies } = require( '../package' );
+const legacyYoastPackages = [ 'yoast-components' ];
+
+const YOAST_NAMESPACE = '@yoast/';
+
+// Fetch all packages from the dependencies list.
+const yoastPackages = Object.keys( dependencies )
+	.filter(
+		( packageName ) =>
+			packageName.startsWith( YOAST_NAMESPACE ) ||
+			legacyYoastPackages.includes( packageName )
+	)
+	.map( ( packageName ) => packageName.replace( YOAST_NAMESPACE, '' ) );
+
+/**
+ * Convert packages to externals configuration.
+ */
+// Yoast Packages.
+const yoastExternals = yoastPackages.reduce( ( memo, packageName ) => {
+	let useablePackageName = packageName;
+
+	// Handle the difference between yoast-components and @yoast/components.
+	useablePackageName = ( useablePackageName === 'components' ) ? 'components-new' : useablePackageName;
+	useablePackageName = ( useablePackageName === 'yoast-components' ) ? 'components' : useablePackageName;
+
+	// Handle yoastseo as analysis reference.
+	useablePackageName = ( useablePackageName === 'yoastseo' ) ? 'analysis' : useablePackageName;
+
+	memo[ packageName ] = `window.yoast.${ camelCaseDash( useablePackageName ) }`;
+	return memo;
+}, {} );
+
+// WordPress packages.
 const wordpressExternals = wordpressPackages.reduce( ( memo, packageName ) => {
 	const name = camelCaseDash( packageName.replace( '@wordpress/', '' ) );
+
 	memo[ packageName ] = `window.wp.${ name }`;
 	return memo;
 }, externals );
 
-
-
+/**
+ * Export the data.
+ */
 module.exports = {
 	externals,
 	yoastExternals,
