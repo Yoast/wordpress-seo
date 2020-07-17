@@ -249,13 +249,10 @@ class Yoast_Form {
 			$class = '';
 		}
 
+		echo '<div class="yoast-field-group__checkbox">';
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $val, 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>';
-
-		if ( ! empty( $label ) ) {
-			$this->label( $label, [ 'for' => $var ] );
-		}
-
-		echo '<br class="clear" />';
+		echo '<label for="' . $var . '" class="yoast-field-group__checkbox">' . $label . '</label>';
+		echo '</div>';
 	}
 
 	/**

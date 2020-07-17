@@ -132,8 +132,8 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'    => __( 'Usage tracking', 'wordpress-seo' ),
 				'setting' => 'tracking',
-				'read_more_label' => sprintf(
-				/* translators: 1: Yoast SEO */
+				'read_more_label'   => sprintf(
+				    /* translators: 1: Yoast SEO */
 					__( 'Allow us to track some data about your site to improve our plugin.', 'wordpress-seo' ),
 					'Yoast SEO'
 				),
