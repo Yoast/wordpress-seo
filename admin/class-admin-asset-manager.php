@@ -517,7 +517,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				// The `yoast-components` package.
 				'name' => 'components-legacy',
-				'src'  => 'yoast/components-legacy-' . $flat_version,
+				'src'  => 'yoast/yoast-components-' . $flat_version,
 				'deps' => [
 					'lodash',
 					'wp-a11y',
