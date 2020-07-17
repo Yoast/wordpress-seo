@@ -43,7 +43,9 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					theme={ theme }
 					location={ "metabox" }
 				>
-					<KeywordInput />
+					<KeywordInput
+						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+					/>
 				</TopLevelProviders>
 			</SidebarItem> }
 			<SidebarItem renderPriority={ 9 }>
