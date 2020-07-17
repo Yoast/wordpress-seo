@@ -171,8 +171,8 @@ const wordsToStem = [
 	},
 	/*
 	 * Prefix ו "and"
-	 * And he והוא
-	 * He הוא
+	 * And he "והוא"
+	 * He "הוא"
 	 */
 	{
 		original: "והוא",
