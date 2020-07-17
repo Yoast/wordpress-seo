@@ -356,3 +356,52 @@ describe( "A test for creating basic morphology forms in supported languages", (
 		);
 	} );
 } );
+
+describe( "A test for creating basic morphology forms in supported languages", () => {
+	it( "returns all possible prefixed forms for Arabic keyphrases", () => {
+		const attributes = {
+			keyword: "لتجاهل الرسالة",
+			locale: "ar",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new Researcher( testPaper );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [
+					[
+						"لتجاهل",
+						"للتجاهل",
+						"بلتجاهل",
+						" اللتجاهل",
+						" كلتجاهل",
+						" ولتجاهل",
+						"فلتجاهل",
+						"تجاهل",
+						"بتجاهل",
+						" التجاهل",
+						" كتجاهل",
+						" وتجاهل",
+						"فتجاهل",
+					],
+					[
+						"الرسالة",
+						"لالرسالة",
+						"بالرسالة",
+						"الالرسالة",
+						"كالرسالة",
+						"والرسالة",
+						"فالرسالة",
+						"رسالة",
+						"لرسالة",
+						"برسالة",
+						"كرسالة",
+						"ورسالة",
+						"فرسالة",
+					],
+				],
+				synonymsForms: [],
+			}
+		);
+	} );
+} );
