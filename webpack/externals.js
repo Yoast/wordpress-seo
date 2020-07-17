@@ -85,7 +85,7 @@ const wordpressExternals = wordpressPackages.reduce( ( memo, packageName ) => {
 
 	memo[ packageName ] = `window.wp.${ name }`;
 	return memo;
-}, externals );
+}, {} );
 
 /**
  * Export the data.
