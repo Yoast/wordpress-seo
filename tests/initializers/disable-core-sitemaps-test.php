@@ -7,13 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Initializers;
 
-use Brain\Monkey\Expectation\Exception\Exception;
-use Brain\Monkey\Expectation\Exception\MissedPatchworkReplace;
-use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
-use Brain\Monkey\Expectation\Exception\NotAllowedMethod;
 use Brain\Monkey\Functions;
 use Mockery;
-use UnexpectedValueException;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\TestCase;
