@@ -22,6 +22,10 @@ const testState = {
 				name: "title",
 				value: "Not Hello World!",
 			},
+			{
+				name: "term_title",
+				value: "A term title",
+			},
 		],
 	},
 };
@@ -41,10 +45,27 @@ afterEach(
 );
 
 describe( getTitleFallback, () => {
-	it( "returns the indexable title as a fallback", () => {
+	it( "returns the indexable title as a fallback for posts", () => {
 		const actual = getTitleFallback( testState );
 
 		const expected = "Not Hello World!";
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "returns the indexable title as a fallback for terms", () => {
+		windowSpy.mockImplementation(
+			() => (
+				{
+					wpseoScriptData: {
+						isTerm: "1",
+					},
+				}
+			)
+		);
+		const actual = getTitleFallback( testState );
+
+		const expected = "A term title";
 
 		expect( actual ).toEqual( expected );
 	} );
