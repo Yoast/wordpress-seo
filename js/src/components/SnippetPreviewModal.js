@@ -2,7 +2,7 @@
 import { Fragment, Component } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 /* Yoast dependencies */
 import { ButtonSection } from "yoast-components";
@@ -14,6 +14,12 @@ import SnippetEditorWrapper from "../containers/SnippetEditor";
 const OverrideOverlayColor = createGlobalStyle`
 	.yoast-modal__screen-overlay {
 		background-color: ${ rgba( colors.$color_pink_dark, 0.6 ) };
+	}
+`;
+
+const ModalContentSpacer = styled.div`
+	@media screen and (min-width: 782px) {
+		width: 640px;
 	}
 `;
 
@@ -54,7 +60,9 @@ class SnippetPreviewModal extends Component {
 						onRequestClose={ this.closeModal }
 						overlayClassName="yoast-modal__screen-overlay"
 					>
-						<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+						<ModalContentSpacer>
+							<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+						</ModalContentSpacer>
 						<Button isDefault={ true } onClick={ this.closeModal }>
 							{ __( "Close", "wordpress-seo" ) }
 						</Button>

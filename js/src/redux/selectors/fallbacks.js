@@ -12,7 +12,12 @@ import { get, find } from "lodash";
  */
 export const getTitleFallback = state => {
 	const replacementVariables = get( state, "snippetEditor.replacementVariables", {} );
-	const titleReplacementVariable = find( replacementVariables, [ "name", "title" ] );
+
+	// The replacement variable for the term title is called term_title, rather than title.
+	const isTerm = get( window, "wpseoScriptData.isTerm", false );
+	const searchTitle = isTerm ? "term_title" : "title";
+
+	const titleReplacementVariable = find( replacementVariables, [ "name", searchTitle ] );
 
 	if ( titleReplacementVariable ) {
 		return titleReplacementVariable.value;
