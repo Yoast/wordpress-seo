@@ -224,7 +224,9 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		echo '<div class="yoast-field-group__title">';
 		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
+		echo '</div>';
 	}
 
 	/**
@@ -652,7 +654,7 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
-		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
+		echo '<fieldset class="yoast-field-group" id="' . $var_esc . '">';
 
 		if ( is_string( $legend ) && $legend !== '' ) {
 
@@ -676,15 +678,10 @@ class Yoast_Form {
 			}
 
 			$key_esc = esc_attr( $key );
+			echo '<div class="yoast-field-group__radiobutton yoast-field-group__radiobutton--vertical">';
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
-			$this->label(
-				$label,
-				[
-					'for'        => $var_esc . '-' . $key_esc,
-					'class'      => 'radio',
-					'aria_label' => $aria_label,
-				]
-			);
+			echo '<label for="' . $var_esc . '-' . $key_esc . '">' . $label . '</label>';
+			echo '</div>';
 		}
 		echo '</fieldset>';
 	}
