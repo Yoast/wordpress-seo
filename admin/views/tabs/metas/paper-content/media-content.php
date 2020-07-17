@@ -39,7 +39,7 @@ $media_attachment_help = new WPSEO_Admin_Help_Button(
 
 	?>
 
-	<div id="media_settings">
+	<div id="media_settings" class="yoast-space--bottom">
 		<?php
 		$noindex_option_name = 'noindex-' . $wpseo_post_type->name;
 
