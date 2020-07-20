@@ -37,11 +37,20 @@ class SEMrush_Options_Action {
 	 */
 	public function set_country_code( $country_code ) {
 		// Code has already been validated at this point. No need to do that again.
-		$this->options_helper->set( 'semrush_country_code', $country_code );
+		$success = $this->options_helper->set( 'semrush_country_code', $country_code );
 
-		return (object) [
-			'status' => 200,
-		];
+		if ( $success ) {
+			return (object) [
+				'success' => true,
+				'status'  => 200,
+			];
+		}
+		else {
+			return (object) [
+				'success' => false,
+				'status'  => 500,
+			];
+		}
 	}
 
 }
