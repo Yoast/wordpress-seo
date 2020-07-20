@@ -159,14 +159,13 @@ const interviewVerbs = [ "dice", "dicono", "diceva", "dicevano", "disse", "disse
 	"annuncia", "annunciato", "assicura", "assicurato", "chiede", "chiesto", "commentato", "conclude", "concluso", "continua", "continuato",
 	"denuncia", "denunciato", "dichiara", "dichiarato", "esordisce", "esordito", "inizia", "iniziato", "precisato", "prosegue",
 	"proseguito", "racconta", "raccontato", "recita", "recitato", "replica", "replicato", "risponde", "risposto", "rimarca",
-	"rimarcato", "rivela", "rivelato", "scandisce", "scandito", "scrive", "scritto", "segnala", "segnalato", "sottolinea", "sottolineato",
+	"rimarcato", "rivela", "rivelato", "scandisce", "scandito", "segnala", "segnalato", "sottolinea", "sottolineato",
 	"spiega", "spiegato" ];
 
 const interviewVerbsInfinitive = [ "affermare", "aggiungere", "ammettere", "annunciare", "assicurare", "chiedere",
 	"commentare", "concludere", "continuare", "denunciare", "dichiarare", "esordire", "iniziare", "precisare", "proseguire",
-	"raccontare", "recitare", "replicare", "rispondere", "rimarcare", "rivelare", "scandire", "scrivere", "segnalare",
+	"raccontare", "recitare", "replicare", "rispondere", "rimarcare", "rivelare", "scandire", "segnalare",
 	"sottolineare", "spiegare" ];
-
 
 /*
 These transition words were not included in the list for the transition word assessment for various reasons.
@@ -200,7 +199,7 @@ const generalAdjectivesAdverbs = [ "anteriore",  "anteriori", "precedente", "pre
 	"recentemente", "sinceramente", "solamente", "avanti", "indietro" ];
 
 const generalAdjectivesAdverbsPreceding = [ "nuovo", "nuova", "nuovi", "nuove", "vecchio", "vecchia", "vecchi", "vecchie",
-	"bello", "bella", "belli", "belle", "bellissimo", "bellissima", "bellissimi", "bellissime",
+	"bello", "bella", "belli", "belle", "bei", "begli", "bellissimo", "bellissima", "bellissimi", "bellissime",
 	"buono", "buona", "buoni", "buone", "buonissimo", "buonissima", "buonissimi", "buonissime", "grande", "grandi",
 	"grandissimo", "grandissima", "grandissimi", "grandissime", "lunga", "lunghi", "lunghe", "piccolo", "piccola", "piccoli",
 	"piccole", "piccolissimo", "piccolissima", "piccolissimi", "piccolissime", "proprio", "propria", "propri", "proprie",

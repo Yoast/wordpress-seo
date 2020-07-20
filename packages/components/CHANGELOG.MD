@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## 2.5.0 July 20th, 2020
+### Enhancements
+* Adds `type="button"` to all buttons to make sure the default submit behavior is prevented.
+* Adds focus styling to button, input, textarea, select and toggle switch components for accessibility.
+* Adds the correct border colors for active, hover and focus to the IconLabeledButton.
+* Adds `VariableEditorInputCotainer` to add caret styles since Draft.js (un)mounts on every focus change.
+* Changes all the css variables of the button component to use the Yoast namespacing correctly.
+* Removes border-bottom and margin-top hack from the collapsible.
+
+### Bugfixes
+* Fixes the right-to-left styling for the .yoast-button--buy button.
+
+### Other
+* Refactors the code to use another term than 'prominent words', 'keyword suggestions' or 'relevant words'.
+* Deprecates the WordList component. A console warning has been added to the component.
+
 ## 2.4.0 June 22nd, 2020
 ### Enhancements
 * Adds a new standardized Button class, which can render as a button or as an anchor tag.

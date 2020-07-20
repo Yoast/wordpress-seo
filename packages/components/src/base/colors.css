@@ -28,4 +28,6 @@
 	--yoast-color-link: #006dac;
 
 	--yoast-color-border--default: rgba(0, 0, 0, 0.2);
+
+	--yoast-color-focus: 0 0 0 2px #007fff, 0 0 0 5px #bfdfff;
 }

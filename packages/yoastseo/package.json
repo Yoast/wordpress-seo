@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.77.0",
+  "version": "1.78.0-rc.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -112,9 +112,15 @@
       "/spec/morphology/russian/stemmerCoverage/generateStems.js",
       "/spec/morphology/russian/stemmerCoverage/goldStandardStems.json",
       "/spec/morphology/russian/stemmerCoverage/sampleVocabulary.json",
-      "/spec/morphology/italian/stemmerCoverage/generateStems.js",
       "/spec/morphology/italian/stemmerCoverage/goldStandardStems.json",
-      "/spec/morphology/italian/stemmerCoverage/sampleVocabulary.json"
+      "/spec/morphology/italian/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/italian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/portuguese/stemmerCoverage/generateStems.js",
+      "/spec/morphology/portuguese/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/portuguese/stemmerCoverage/sampleVocabulary.json",
+      "/spec/morphology/indonesian/stemmerCoverage/generateStems.js",
+      "/spec/morphology/indonesian/stemmerCoverage/goldStandardStems.json",
+      "/spec/morphology/indonesian/stemmerCoverage/sampleVocabulary.json"
     ],
     "coveragePathIgnorePatterns": [
       "js/templates.js"

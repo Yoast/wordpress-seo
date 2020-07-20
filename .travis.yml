@@ -42,12 +42,18 @@ cache:
   - node_modules
   - apps/content-analysis/node_modules
   - apps/components/node_modules
+  - packages/analysis-report/node_modules
+  - packages/browserlist-config/node_modules
   - packages/components/node_modules
   - packages/configuration-wizard/node_modules
   - packages/eslint/node_modules
+  - packages/feature-flag/node_modules
   - packages/helpers/node_modules
+  - packages/replacement-variable-editor/node_modules
   - packages/search-metadata-previews/node_modules
+  - packages/social-metadata-forms/node_modules
   - packages/social-metadata-previews/node_modules
+  - packages/style-guide/node_modules
   - packages/yoast-components/node_modules
   - packages/yoast-social-previews/node_modules
   - packages/yoastseo/node_modules

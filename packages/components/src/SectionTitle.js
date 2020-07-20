@@ -17,7 +17,7 @@ export const StyledTitle = styled.span`
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	overflow-x: hidden;
+	overflow: hidden;
 	color: ${ colors.$color_headings };
 `;
 
@@ -25,7 +25,7 @@ export const StyledSubTitle = styled.span`
 	display: block;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	overflow-x: hidden;
+	overflow: hidden;
 	font-size: 0.8125rem;
 	margin-top: 2px;
 `;

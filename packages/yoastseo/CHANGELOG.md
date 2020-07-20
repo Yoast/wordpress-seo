@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.78.0 July 20th, 2020
+### Enhancements
+* Adds word form support for Portuguese.
+* Adds word form support for Indonesian.
+* Adds a check for keywords containing a dash as part of the word (e.g., buku-buku) so that they can be found in the slug.
+* Adds "кроме того" to Russian transition words.
+* Adds a check for whether the word belongs to stemming exceptions to the Russian stemmer.
+* Adds an exception check for irregular Italian diminutives to the Italian stemmer and removes _scrivere_, _scrive_, and _scritto_ from function words.
+* Adds a check for exception lists of full forms and words with multiple stems to the Russian stemmer.
+* Adds some irregular plural forms of Italian words to function words and morphologyData file, including specs and a function to call the exception list.
+* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary.
+
 ## 1.77.0 June 22nd, 2020
 ### Enhancements
 * Adds check for stemming -ons suffix in French, and for the exception list of words where only -s should be stemmed in French.

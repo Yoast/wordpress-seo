@@ -45,7 +45,6 @@ const wordsToStem = [
 	[ "восторженностью", "восторжен" ],
 ];
 
-
 describe( "Test for stemming Russian words", () => {
 	for ( let i = 0; i < wordsToStem.length; i++ ) {
 		const wordPairToCheck = wordsToStem[ i ];

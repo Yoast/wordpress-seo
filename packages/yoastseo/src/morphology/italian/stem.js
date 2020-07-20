@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
 /*
 Copyright (c) 2012, Leonardo Fenu, Chris Umbel
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -382,9 +383,8 @@ export default function stem( word, morphologyData ) {
 	// Normalize digraphs ch/gh.
 	word = normalizeDigraphs( word, morphologyData, rvText );
 
-	/*
-	 * Returns a canonical stem for verbs with multiple stems (e.g., chiudere–chiuso).
-	 */
+
+	// Returns a canonical stem for verbs with multiple stems (e.g., chiudere–chiuso).
 	word = canonicalizeVerbStems( word, morphologyData.verbsWithMultipleStems );
 
 	return word.toLowerCase();
