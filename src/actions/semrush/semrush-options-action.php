@@ -22,7 +22,7 @@ class SEMrush_Options_Action {
 	/**
 	 * SEMrush_Options_Action constructor.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The WPSEO options helper
+	 * @param \Yoast\WP\SEO\Helpers\Options_Helper $options_helper The WPSEO options helper.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
