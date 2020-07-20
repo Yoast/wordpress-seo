@@ -653,7 +653,7 @@ class Indexation_Integration_Test extends TestCase {
 		 * which would occur because the registered shutdown function is executed
 		 * after the unit test has already completed.
 		 */
-		register_shutdown_function( [$this, 'shutdown_indexation_expectations' ] );
+		register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();
@@ -742,7 +742,9 @@ class Indexation_Integration_Test extends TestCase {
 		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
 		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
 
-		$this->options->expects( 'get' )->with( 'indexables_indexation_reason' )->andReturn( 'permalink_settings_changed' );
+		$this->options->expects( 'get' )
+			->with( 'indexables_indexation_reason' )
+			->andReturn( 'permalink_settings_changed' );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
