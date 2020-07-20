@@ -31,7 +31,6 @@ export function createBasicWordForms( word ) {
 	if ( stemmedWord.length > 0 ) {
 		forms.push( stemmedWord );
 		forms.push( ...prefixes.map( prefix => prefix + stemmedWord ) );
-		console.log( "stemmedWord2", stemmedWord );
 	}
 
 	return forms;
