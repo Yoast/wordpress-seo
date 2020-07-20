@@ -236,8 +236,7 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that scripts and styles are enqueued and the modal
-	 * is rendered when there is something to index.
+	 * Tests adding the indexation permalink warning.
 	 *
 	 * @covers ::enqueue_scripts
 	 * @covers ::is_indexation_warning_hidden
@@ -245,7 +244,7 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::render_indexation_permalink_warning
 	 * @covers ::enqueue_indexation_assets
 	 */
-	public function test_add_admin_notice_about_permalink() {
+	public function test_adding_the_indexation_permalink_warning() {
 		// Mock that 40 indexables should be indexed.
 		$this->set_total_unindexed_expectations(
 			[
@@ -262,12 +261,12 @@ class Indexation_Integration_Test extends TestCase {
 
 		$this->options
 			->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
+			->with( 'indexation_started', false )
 			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
-			->with( 'indexation_started', 0 )
+			->with( 'ignore_indexation_warning', false )
 			->andReturnFalse();
 
 		$this->options
@@ -279,7 +278,7 @@ class Indexation_Integration_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->with( 'indexables_indexation_reason', '' )
-			->andReturn( 'The indexation reason' );
+			->andReturn( 'The reason' );
 
 		Monkey\Actions\expectAdded( 'admin_notices' );
 
