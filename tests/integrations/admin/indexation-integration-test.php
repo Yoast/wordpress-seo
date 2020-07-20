@@ -319,6 +319,135 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the scenario where the indexation warning is ignored.
+	 *
+	 * @covers ::enqueue_scripts
+	 * @covers ::is_indexation_warning_hidden
+	 * @covers ::enqueue_indexation_assets
+	 */
+	public function test_ignore_indexation_warning() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturnTrue();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnTrue();
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		// We should hook into the admin footer and admin notices hook.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+
+		// Mock retrieval of the REST URL.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
+	 * Tests the scenario where the indexation has been started, but was not completed.
+	 *
+	 * @covers ::enqueue_scripts
+	 * @covers ::is_indexation_warning_hidden
+	 * @covers ::enqueue_indexation_assets
+	 */
+	public function test_indexation_started() {
+		// Mock that 40 indexables should be indexed.
+		$this->set_total_unindexed_expectations(
+			[
+				'post_type_archive' => 5,
+				'general'           => 10,
+				'post'              => 15,
+				'term'              => 10,
+			]
+		);
+
+		$this->yoast_tools_page_conditional->expects( 'is_met' )
+			->once()
+			->andReturnTrue();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'ignore_indexation_warning', false )
+			->andReturnFalse();
+
+		$this->options
+			->expects( 'get' )
+			->with( 'indexation_started', false )
+			->andReturn( 1595233983 );
+
+		// Expect that the script and style for the modal is enqueued.
+		$this->asset_manager
+			->expects( 'enqueue_script' )
+			->once()
+			->with( 'indexation' );
+
+		$this->asset_manager
+			->expects( 'enqueue_style' )
+			->once()
+			->with( 'admin-css' );
+
+		// We should hook into the admin footer and admin notices hook.
+		Monkey\Actions\expectAdded( 'admin_footer' );
+
+		// Mock retrieval of the REST URL.
+		Monkey\Functions\expect( 'rest_url' )
+			->once()
+			->andReturn( 'https://example.org/wp-ajax/' );
+
+		// Mock WP nonce.
+		Monkey\Functions\expect( 'wp_create_nonce' )
+			->once()
+			->andReturn( 'nonce' );
+
+		// The script should be localized with the right data.
+		Monkey\Functions\expect( 'wp_localize_script' )
+			->with(
+				WPSEO_Admin_Asset_Manager::PREFIX . 'indexation',
+				'yoastIndexationData',
+				$this->get_localized_data()
+			);
+
+		$this->instance->enqueue_scripts();
+	}
+
+	/**
 	 * Tests that scripts and styles are enqueued and the modal
 	 * is rendered when there is something to index.
 	 *
