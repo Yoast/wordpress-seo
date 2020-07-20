@@ -591,9 +591,10 @@ class Indexation_Integration_Test extends TestCase {
 	/**
 	 * Tests that the indexation permalink warning is shown when its respective method is called.
 	 *
+	 * @covers ::get_total_unindexed
 	 * @covers ::render_indexation_permalink_warning
 	 */
-	public function _test_render_indexation_permalink_warning() {
+	public function test_render_indexation_permalink_warning() {
 		// Mock WP nonce.
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->once()
@@ -608,13 +609,12 @@ class Indexation_Integration_Test extends TestCase {
 		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
 		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
 
-		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+		$this->options->expects( 'get' )->with( 'indexables_indexation_reason' )->andReturn( 'permalink_settings_changed' );
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
-		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
-		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
+		$expected = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$expected .= '<p>Because of a change in your permalink structure, some of your SEO data need to be reprocessed.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
 		$expected .= '<hr /><p><button type="button" id="yoast-indexation-dismiss-button" class="button-link hide-if-no-js" data-nonce="nonce">Hide this notice</button> (everything will continue to function normally)</p></div>';
