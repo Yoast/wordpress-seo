@@ -7,6 +7,9 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Enhancements
 * Removes the replacement variable editor from the code but keep the export for backwards compatibility.
 
+### Bugfixes
+* Fixes a bug where the Google and social previews would not strip the HTTPS protocol.
+
 ## 2.2.0 April 23rd, 2020
 ### Added
 * Adds a CSS test stub.
@@ -33,16 +36,12 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 1.8.0 September 17th, 2019
 ### Enhancements
-
 * Changes desktop snippet preview to match Google's new font sizes. [#345](https://github.com/Yoast/javascript/pull/345)
 
 ## 1.4.0 June 24th, 2019
 ### Changed
-
 * Updates the Google Mobile Snippet Preview.
 
 ## 1.0.0 April 29th, 2019
-
 ### Added
-
 * Splits out `@yoast/search-metadata-previews` from `yoast-components`. The search metadata previews package contains previews for search platforms such as Google.

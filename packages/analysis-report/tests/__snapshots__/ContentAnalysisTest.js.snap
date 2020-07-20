@@ -79,7 +79,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -717,7 +717,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -1283,7 +1283,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -1921,7 +1921,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -2559,7 +2559,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -3033,7 +3033,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -3507,7 +3507,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
@@ -4051,7 +4051,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow-x: hidden;
+  overflow: hidden;
   color: #555;
 }
 
