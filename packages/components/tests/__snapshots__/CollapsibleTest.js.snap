@@ -18,7 +18,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -68,7 +68,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -130,7 +130,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -180,7 +180,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -242,7 +242,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -292,7 +292,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -354,7 +354,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -416,7 +416,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -466,7 +466,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -506,7 +506,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -546,7 +546,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -600,7 +600,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
         className="fOIIAL"
       >
         <span
-          className="fPOBHq"
+          className="gQZIbX"
         >
           Lorem ipsum dolor sit amet
           <span
