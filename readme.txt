@@ -215,24 +215,25 @@ Release Date: July 21st, 2020
 Enhancements:
 
 * Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
-* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results. [#15597](https://github.com/Yoast/wordpress-seo/pull/15597)
-* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings. [#15622](https://github.com/Yoast/wordpress-seo/pull/15622)
-* Improves keyphrase counting in Indonesian by not counting - as a word boundary. [#696](https://github.com/Yoast/javascript/pull/696)
-* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary. [#744](https://github.com/Yoast/javascript/pull/744)
-* Improves recognition of keywords that contain a hyphen in slug (for example: re-duplicated, on-the-go). [#740](https://github.com/Yoast/javascript/pull/740)
-* Improves transition words analysis for Russian. [#714](https://github.com/Yoast/javascript/pull/714)
+* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
+* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
+* Improves keyphrase counting in Indonesian by not counting - as a word boundary.
+* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary.
+* Improves recognition of keywords that contain a hyphen in slug (for example: re-duplicated, on-the-go).
+* Improves transition words analysis for Russian.
+* Makes the plugin icon in the editor reflect the SEO and Readability score.
 
 Bugfixes:
 
-* Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections. [#15624](https://github.com/Yoast/wordpress-seo/pull/15624)
-* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam). [#15540](https://github.com/Yoast/wordpress-seo/pull/15540)
-* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback. [#15399](https://github.com/Yoast/wordpress-seo/pull/15399)
-* Fixes a bug where slashes in titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher). [#14498](https://github.com/Yoast/wordpress-seo/pull/14498)
-* Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant) [#14239](https://github.com/Yoast/wordpress-seo/pull/14239)
+* Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections.
+* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
+* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
+* Fixes a bug where slashes in titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher).
+* Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant).
 
 Other:
 
-* Removes functions, class variables and classes that were deprecated prior to version 11.5. [#15509](https://github.com/Yoast/wordpress-seo/pull/15509)
+* Removes functions, class variables and classes that were deprecated prior to version 11.5.
 
 = 14.5 =
 Release Date: July 8th, 2020
