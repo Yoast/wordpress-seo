@@ -107,6 +107,11 @@ import ProgressBar from "./ui/progressBar";
 				a11ySpeak( settings.l10n.calculationInProgress, "polite" );
 				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 
+				// If the div with the warning was removed, insert it again, so that a success/error alert can be shown.
+				if ( ! $( "#yoast-indexation-warning" ).length ) {
+					jQuery( '<div id="yoast-indexation-warning" class="notice"</div>' ).insertAfter( "#wpseo-title" ).hide();
+				}
+
 				startIndexation( settings, progressBar ).then( () => {
 					if ( stoppedIndexation ) {
 						return;
@@ -116,6 +121,7 @@ import ProgressBar from "./ui/progressBar";
 					a11ySpeak( settings.l10n.calculationCompleted );
 					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
+						.show()
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
 					$( settings.ids.message ).html( settings.message.indexingCompleted );
@@ -130,6 +136,7 @@ import ProgressBar from "./ui/progressBar";
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
+						.show()
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
 					$( settings.ids.message ).html( settings.message.indexingFailed );
