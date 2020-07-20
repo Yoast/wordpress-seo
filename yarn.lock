@@ -560,15 +560,15 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yoast/analysis-report@^1.7.0-rc.7":
-  version "1.7.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-1.7.0-rc.7.tgz#f792b8c21ee964e830fc4e38485998f873e261a6"
-  integrity sha512-rw+/l8LEw1+VKwlDrrCOkRVw4wUjMmB9j5llrLgMWEk4+yHqWwMt14b5eCz2qbG5ReQZob3iY+TdVy4520Sdvw==
+"@yoast/analysis-report@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-1.7.0.tgz#d24212efd02d511acf79499436aa73de424e9da2"
+  integrity sha512-Yr+A+4ujiVrES5KA4fwR8NSDuVHrqRDQVp6V7f14uc71NBFFPQYComM3rO1WxKeojWlNPHSO8FNaYLIanwPK8g==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.5.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.12.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
     react "16.6.3"
@@ -580,15 +580,15 @@
   resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.2.1.tgz#b5fb689537a60eec9d7a41b0e57409a160da343f"
   integrity sha512-vUYN9QyV1ylnZv23xc7qWTDIZ1UHLIiiV3xLRDW4DlFe/RM7Z77f/N6gg0PKxxIuoQnsgqE7TYT9g4Sw2gtZ1g==
 
-"@yoast/components@^2.5.0-rc.7":
-  version "2.5.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-2.5.0-rc.7.tgz#e5fbef12009fc6802ad67cc45e95d93ce1e5ce2a"
-  integrity sha512-bPp4I5X74Eq0/KTvu5kO6P0Nsf0o82A6g4jbG+dvLPoZ72kh7gb9iQSi8aptzpc/L1nz52cUZb8uAudVJFH9Gw==
+"@yoast/components@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-2.5.0.tgz#af048189b74a3a62218e6cb8cd3b9bad86716303"
+  integrity sha512-6RsawkJGIsDgpsIdcoCqIvzy06vJt6iLfqQmirvf1JUVPfMCQfllheSSdNO9Yb6lWG4HTQfUG99FzqU6/hb9Hw==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.12.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
@@ -596,15 +596,15 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
-"@yoast/configuration-wizard@^2.7.0-rc.7":
-  version "2.7.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-2.7.0-rc.7.tgz#8d6415a9bcc757393b6258132d5296e82656d18a"
-  integrity sha512-KgeOWPM3Y4FCzzdOW5FiyywtefKmddlXJYxfQaNv8fPVroE7Khyqdw7YOnIdUjCoWUKJjuO5/dRt5ZIOEQUNsw==
+"@yoast/configuration-wizard@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-2.7.0.tgz#cb1d5caf1adc0ba9fb3dbff723d315bcd7f46f00"
+  integrity sha512-uib2S2HDfLra26RVYcuEgWs7/BWDBO7+DMkywwbdLpT3J3RftbwrEEFPE/erBKixfa0awOQRGDUwfK/5tiBLzw==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.5.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.12.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
@@ -646,26 +646,26 @@
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
 
-"@yoast/helpers@^0.13.0-rc.5":
-  version "0.13.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.13.0-rc.5.tgz#35c1f3519c006db0dee0431b4b2fb5d7feac6ecc"
-  integrity sha512-XyBsld8HbYVMnN+tsImaw8LiJ2NwmmYm2FR90+/1KFuDN8djR6uW7jheOG8LmriLrH5BiEIkyAB7UkjoCnubyg==
+"@yoast/helpers@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.13.0.tgz#8cd10170add04a29034a7bae98957efa088a8a56"
+  integrity sha512-HcecZZsnPXqjk76oqoSDyH9dxQpEQtbUj5MpCXgLaxvgtgCNoxlwdZ7pfkogdY63NTNh16Y/c4bhD3ufuAxMuQ==
   dependencies:
     "@wordpress/i18n" "^1.2.3"
     prop-types "^15.7.2"
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/replacement-variable-editor@^1.0.0-rc.7":
-  version "1.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.0.0-rc.7.tgz#915d2a5709a8d1ec870514ca5f05c374a0782ac6"
-  integrity sha512-vvYP37jVJNM+GrKFRazcNGIY5na9gM0qKjtjISyXgZYzHTw83SO7MSDqt/Gcc70wMw8oC1Nj/5aY2NuBNARAYg==
+"@yoast/replacement-variable-editor@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.0.0.tgz#db58e53cd1ee3049e68b7a1ada4610da0312d00d"
+  integrity sha512-MEJGDbRdHWH/nsKBTNo7lHCkjE56Sa6fFYQ3uuzzI7lK2oV0tvLsvvFJ4bj1ERU/GZ3s+T3+kW8kK7TZuuidLA==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.5.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/style-guide" "^0.12.0"
     draft-js "^0.11.4"
     draft-js-mention-plugin "^3.0.4"
     draft-js-plugins-editor "^2.0.4"
@@ -673,19 +673,19 @@
     lodash "^4.17.11"
     prop-types "^15.7.2"
     styled-components "^4.4.1"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.78.0"
 
-"@yoast/search-metadata-previews@^2.7.0-rc.8":
-  version "2.7.0-rc.8"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.7.0-rc.8.tgz#dbbd46a10f579b2ad0f319e796a17da432436e6e"
-  integrity sha512-rbZQTccqhaFdNa4XhiCPilRk3Jf/1ruH/te+BpKdhQKv8V95FIrWMgVg+Gd7UAvzsQyh9lHARS6VtogHRXsIaw==
+"@yoast/search-metadata-previews@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.7.0.tgz#2625570abbea3512c28b4fc089dcc5c29a16b7c7"
+  integrity sha512-uhdDu5E0KNNEpIKjtuMfbUEXFyii6NyHVYHVO0xHYFCTtSjQGQQOfaBbG3ZfU8In6vmL6A4W8xqP9XNPB7tA5Q==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/replacement-variable-editor" "^1.0.0-rc.7"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.5.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/replacement-variable-editor" "^1.0.0"
+    "@yoast/style-guide" "^0.12.0"
     draft-js "^0.10.5"
     draft-js-mention-plugin "^3.0.4"
     draft-js-plugins-editor "^2.0.4"
@@ -695,26 +695,26 @@
     prop-types "^15.6.0"
     react-transition-group "^2.7.1"
     styled-components "^4.2.0"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.78.0"
 
-"@yoast/social-metadata-forms@^1.0.0-rc.11":
-  version "1.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.0.0-rc.11.tgz#14ba218c061ec8031884b50804a38c2bba92adbb"
-  integrity sha512-569lyQcGJG6hzgzYyFLH7Jl80EPIYiFhdqX2mYuvIC4WvigVqHEy8P99rshttUlRiPrtZVKRYXQ79L7yJKAJvQ==
+"@yoast/social-metadata-forms@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.0.0.tgz#c052758f84168844b35e7230154bf83ccc61e0d9"
+  integrity sha512-ez6Q6C7SJ78N76vIxzhCpRBEB2uGI6uMtfTxMYJYXkCcJndWMsq5+cFrsOxR8abQwfUTBJ/k93mufPvzkFnRtg==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/replacement-variable-editor" "^1.0.0-rc.7"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/components" "^2.5.0"
+    "@yoast/replacement-variable-editor" "^1.0.0"
+    "@yoast/style-guide" "^0.12.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
     redux "^3.7.2"
     styled-components "^4.2.0"
 
-"@yoast/style-guide@^0.12.0-rc.5":
-  version "0.12.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.12.0-rc.5.tgz#3ee90d36ae6a67229c546e579d64888eed711ba6"
-  integrity sha512-1cYM9f/paqeVf5oMkhwA8XKBnuY/6aXtYdM75lQaZ1chFyF8Icrr33vHu/Dt+7wWgbukUnMnWvY4rZEvBcA8CA==
+"@yoast/style-guide@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.12.0.tgz#9c2b4e3b91ec1cc701dfeed612f438f498705cec"
+  integrity sha512-5ngr0BKAbFNRmHPDxRQu+O873ifJLv2LzDSMrHtENV422i6dUyMghzDTrlIfZJ+pbryMHZwJCAt9Nwxk71SaKw==
 
 "a11y-speak@git+https://github.com/Yoast/a11y-speak.git#master":
   version "0.0.1"
@@ -13024,19 +13024,19 @@ yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^5.7.0-rc.10:
-  version "5.7.0-rc.10"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.7.0-rc.10.tgz#29cc6d88338a6c0cec54fb79a840480f74a1c99f"
-  integrity sha512-vOxVPRtWL0TZL9fZ/ZdGWHgDAA330DUG9OBQFmiA2naBAcrsEpmv1JjjwDA6JWjRY7/rWtUX+5vl0uPHsOV6UQ==
+yoast-components@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.7.0.tgz#8ff49a1b8366012e94aecf7f27f23ad55fe31bfd"
+  integrity sha512-iFIosUBeAgtWBZm7E2xJF9p1R3gA6Hvfx5XTowSdWyMC+bJQlx4BVVXmQscy+PddUqhk/0MIiKwGMn4fn9ty4Q==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/analysis-report" "^1.7.0-rc.7"
-    "@yoast/components" "^2.5.0-rc.7"
-    "@yoast/configuration-wizard" "^2.7.0-rc.7"
-    "@yoast/helpers" "^0.13.0-rc.5"
-    "@yoast/search-metadata-previews" "^2.7.0-rc.8"
-    "@yoast/style-guide" "^0.12.0-rc.5"
+    "@yoast/analysis-report" "^1.7.0"
+    "@yoast/components" "^2.5.0"
+    "@yoast/configuration-wizard" "^2.7.0"
+    "@yoast/helpers" "^0.13.0"
+    "@yoast/search-metadata-previews" "^2.7.0"
+    "@yoast/style-guide" "^0.12.0"
     clipboard "^1.5.15"
     draft-js "^0.11.4"
     draft-js-mention-plugin "^3.0.4"
@@ -13054,12 +13054,12 @@ yoast-components@^5.7.0-rc.10:
     styled-components "^4.2.0"
     whatwg-fetch "^1.0.0"
     wicked-good-xpath "^1.3.0"
-    yoastseo "^1.78.0-rc.6"
+    yoastseo "^1.78.0"
 
-yoastseo@^1.78.0-rc.6:
-  version "1.78.0-rc.6"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.78.0-rc.6.tgz#0d513b823110daaa0c8e1754551b48b90e3589ea"
-  integrity sha512-Bm9Dyj+5gqnvUIlSxRVcZ2DKY0HzXN4h2gTgGhM5k3VpDVDIUu1IWW+kbAuWMBtACpCUfBTpX9D23b7Poa0AWA==
+yoastseo@^1.78.0:
+  version "1.78.0"
+  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.78.0.tgz#b67ec7f1defffbc4858d81abb46edaebe2329f8b"
+  integrity sha512-2UV+NoE8VOH17snJlc4jiKjwSWT4+VE56GphU5ZtgJwNw1MqJd0w/9Dv3pZjLngvS+GhgOibA6Zcsu3wKiWu1g==
   dependencies:
     "@wordpress/autop" "^2.0.2"
     "@yoast/feature-flag" "^0.5.2"
