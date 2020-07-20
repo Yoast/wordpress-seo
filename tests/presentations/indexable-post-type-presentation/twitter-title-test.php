@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Twitter_Title_Test
+ * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation
+ * @coversDefaultClass \Yoast\WP\SEO\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group twitter-title
@@ -93,7 +93,7 @@ class Twitter_Title_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_with_term_title() {
+	public function test_with_post_title() {
 		$this->indexable->twitter_title    = '';
 		$this->indexable->breadcrumb_title = '';
 		$this->context->open_graph_enabled = false;
@@ -105,7 +105,7 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the twitter title, breadcrumb title, and term title aren't set, and open_graph is disabled.
+	 * Tests the situation where the twitter title, breadcrumb title, and post title aren't set, and open_graph is disabled.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
