@@ -255,6 +255,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
 	/**
 	 * Prepares the indexation.
+	 * @return WP_REST_Response The response.
 	 */
 	public function prepare() {
 		$this->prepare_indexation_action->prepare();
@@ -263,6 +264,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 
 	/**
 	 * Completes the indexation.
+	 * @return WP_REST_Response The response.
 	 */
 	public function complete() {
 		$this->complete_indexation_action->complete();
