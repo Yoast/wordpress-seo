@@ -1,5 +1,6 @@
 <?php
 
+namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
