@@ -139,6 +139,29 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_twitter_title() {
+		if ( $this->model->twitter_title ) {
+			return $this->model->twitter_title;
+		}
+
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		if ( $this->title ) {
+			return $this->title;
+		}
+
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_robots() {
 		$robots = $this->get_base_robots();
 
