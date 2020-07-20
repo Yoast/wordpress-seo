@@ -7,56 +7,74 @@ import { SvgIcon, ScreenReaderText } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 
 const LinkSuggestionWrapper = styled.div`
-	width: 100%;
-	display: block;
+	display: flex;
+	align-items: center;
 	min-height: 40px;
 	margin-bottom: 5px;
 `;
 
 const LinkSuggestionIcon = styled.button`
+	box-sizing: border-box;
 	height: 30px;
 	width: 30px;
 	background-color: ${ colors.$color_button };
 	border-radius: 5px;
 	cursor: pointer;
 	outline:none;
-	float: left;
 	margin-right: 5px;
-	display: table-cell;
 	border: 1px solid ${ colors.$color_button_border };
 
 	&:focus {
-		border-radius: 100%;
 		box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 	}
 `;
 
 const Link = makeOutboundLink( styled.a`
 	padding: 6px 0;
-	display: table-cell;
+	margin-right: 5px;
 ` );
 
+const Badge = styled.span`
+	min-width: 32px;
+	max-width: 64px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: center;
+
+	display: block;
+	padding: 3px 8px;
+	margin-left: auto;
+	font-size: 0.9em;
+	background-color: #f3f4f5;
+	border-radius: 2px;
+`;
+
 /**
- * @summary Represents a suggestion component with a copy url to clipboard icon and a text value.
+ * Represents a suggestion component with a copy url to clipboard icon and a text value.
  *
- * @param {string}   value     The text value.
- * @param {string}   url       The URL.
- * @param {boolean}   isActive whether the URL is active.
+ * @param {string}  value    The text value.
+ * @param {string}  url      The URL.
+ * @param {boolean} isActive Whether the URL is already in use in the text.
+ * @param {string}  type     The type of suggested object (e.g. post, movie, category, etc.).
+ *
  * @returns {JSX} The rendered suggestion.
+ *
  * @constructor
  */
-const LinkSuggestion = ( { value, url, isActive } ) => {
+const LinkSuggestion = ( { value, url, isActive, type } ) => {
 	const label = __( "Copy link", "yoast-components" );
 	const ariaLabel = sprintf(
 		/* translators: %s expands to the link value */
 		__( "Copy link to suggested article: %s", "yoast-components" ),
-		value
+		value,
 	);
 
 	/**
-	 * @summary Resets the button aria-label and data-label to their default values.
+	 * Resets the button aria-label and data-label to their default values.
 	 *
 	 * @param {Object} evt The blur SyntheticEvent on the button.
+	 *
 	 * @returns {void}
 	 */
 	const resetLabels = ( evt ) => {
@@ -82,14 +100,20 @@ const LinkSuggestion = ( { value, url, isActive } ) => {
 				<ScreenReaderText>{ label }</ScreenReaderText>
 			</LinkSuggestionIcon>
 			<Link href={ url }>{ value }</Link>
+			<Badge title={ type }>{ type }</Badge>
 		</LinkSuggestionWrapper>
 	);
 };
 
 LinkSuggestion.propTypes = {
-	value: PropTypes.string,
-	url: PropTypes.string,
+	value: PropTypes.string.isRequired,
+	url: PropTypes.string.isRequired,
 	isActive: PropTypes.bool,
+	type: PropTypes.string.isRequired,
+};
+
+LinkSuggestion.defaultProps = {
+	isActive: false,
 };
 
 export default LinkSuggestion;
