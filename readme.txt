@@ -217,21 +217,21 @@ We have a new release for you: Yoast SEO 14.6. This release has some pretty cool
 Enhancements:
 
 * Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
-* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
 * In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
-* Improves keyphrase counting in Indonesian by not counting - as a word boundary.
-* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary.
-* Improves recognition of keywords that contain a hyphen in slug (for example: re-duplicated, on-the-go).
-* Improves transition words analysis for Russian.
 * Makes the plugin icon in the editor reflect the SEO and Readability score.
+* Improves keyphrase counting in Indonesian by not counting '-' as a word boundary.
+* Improves the feedback text for the keyphrase in title assessment to make clear that an exact keyphrase match is necessary.
+* Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
+* Improves the transition words analysis for Russian.
+* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
 
 Bugfixes:
 
-* Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections.
 * Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
 * Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
 * Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher).
-* Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant).
+* Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant).
+* Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
 
 Other:
 
