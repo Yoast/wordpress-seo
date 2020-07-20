@@ -174,12 +174,12 @@ class Indexation_Integration_Test extends TestCase {
 
 		$this->yoast_tools_page_conditional->expects( 'is_met' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
 		$this->options
 			->expects( 'get' )
 			->with( 'indexation_started', false )
-			->andReturn( 0 );
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
@@ -189,7 +189,7 @@ class Indexation_Integration_Test extends TestCase {
 		$this->options
 			->expects( 'get' )
 			->with( 'indexation_warning_hide_until' )
-			->andReturn( 0 );
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
@@ -255,7 +255,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		$this->yoast_tools_page_conditional->expects( 'is_met' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
 		$this->options
 			->expects( 'get' )
@@ -265,12 +265,12 @@ class Indexation_Integration_Test extends TestCase {
 		$this->options
 			->expects( 'get' )
 			->with( 'indexation_started', 0 )
-			->andReturn( 0 );
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
 			->with( 'indexation_warning_hide_until' )
-			->andReturn( 0 );
+			->andReturnFalse();
 
 		$this->options
 			->expects( 'get' )
@@ -565,14 +565,14 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
-		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->general_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
-		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturn( 0 );
+		$this->post_indexation->expects( 'get_total_unindexed' )->andReturnFalse();
+		$this->term_indexation->expects( 'get_total_unindexed' )->andReturnFalse();
+		$this->general_indexation->expects( 'get_total_unindexed' )->andReturnFalse();
+		$this->post_type_archive_indexation->expects( 'get_total_unindexed' )->andReturnFalse();
 
-		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturn( 0 );
+		$this->options->expects( 'get' )->with( 'indexation_started', 0 )->andReturnFalse();
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
@@ -602,7 +602,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
 		$this->post_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
 		$this->term_indexation->expects( 'get_total_unindexed' )->andReturn( 10 );
@@ -662,7 +662,7 @@ class Indexation_Integration_Test extends TestCase {
 	public function test_render_indexation_modal() {
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
 		// Expect a thickbox to be added for the modal.
 		Monkey\Functions\expect( 'add_thickbox' )
@@ -690,7 +690,7 @@ class Indexation_Integration_Test extends TestCase {
 	public function test_render_indexation_list_item() {
 		Monkey\Functions\expect( 'current_user_can' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
 
 		$this->set_total_unindexed_expectations(
 			[
