@@ -57,12 +57,8 @@ class Indexable_Prepare_Indexation_Action_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Prepare_Indexation_Action(
-			$this->options,
-			$this->date
-		);
-		$this->assertAttributeEquals( $this->options, 'options', $instance );
-		$this->assertAttributeEquals( $this->date, 'date', $instance );
+		$this->assertAttributeEquals( $this->options, 'options', $this->instance );
+		$this->assertAttributeEquals( $this->date, 'date', $this->instance );
 	}
 
 	/**
