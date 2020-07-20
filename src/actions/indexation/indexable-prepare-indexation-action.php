@@ -52,5 +52,3 @@ class Indexable_Prepare_Indexation_Action {
 		$this->options->set( 'indexation_started', $this->date->current_time() );
 	}
 }
-
-
