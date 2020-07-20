@@ -352,6 +352,31 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the twitter title.
+	 *
+	 * @return string The twitter title.
+	 */
+	public function generate_twitter_title() {
+		if ( $this->model->twitter_title ) {
+			return $this->model->twitter_title;
+		}
+
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		if ( $this->title ) {
+			return $this->title;
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_twitter_creator() {
