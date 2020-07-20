@@ -160,6 +160,7 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 * @covers ::is_indexation_warning_hidden
 	 * @covers ::add_admin_notice
+	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_enqueue_scripts_not_having_warning_ignored() {
 		// Mock that 40 indexables should be indexed.
@@ -241,6 +242,8 @@ class Indexation_Integration_Test extends TestCase {
 	 * @covers ::enqueue_scripts
 	 * @covers ::is_indexation_warning_hidden
 	 * @covers ::add_admin_notice
+	 * @covers ::render_indexation_permalink_warning
+	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_add_admin_notice_about_permalink() {
 		// Mock that 40 indexables should be indexed.
@@ -320,6 +323,7 @@ class Indexation_Integration_Test extends TestCase {
 	 * is rendered when there is something to index.
 	 *
 	 * @covers ::enqueue_scripts
+	 * @covers ::enqueue_indexation_assets
 	 */
 	public function test_enqueue_scripts_having_the_warning_ignored() {
 		// Mock that 40 indexables should be indexed.
