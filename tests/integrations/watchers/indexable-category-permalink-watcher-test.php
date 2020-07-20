@@ -59,18 +59,6 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected conditionals are in place.
-	 *
-	 * @covers ::get_conditionals
-	 */
-	public function test_get_conditionals() {
-		$this->assertEquals(
-			[ Migrations_Conditional::class ],
-			Indexable_Category_Permalink_Watcher::get_conditionals()
-		);
-	}
-
-	/**
 	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
