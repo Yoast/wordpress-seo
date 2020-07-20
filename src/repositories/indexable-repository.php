@@ -49,24 +49,33 @@ class Indexable_Repository {
 	protected $logger;
 
 	/**
+	 * The WordPress database.
+	 *
+	 * @var \wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Builder              $builder              The indexable builder.
 	 * @param Current_Page_Helper            $current_page         The current post helper.
 	 * @param Logger                         $logger               The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
+	 * @param \wpdb                          $wpdb                 The WordPress database instance.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
 		Current_Page_Helper $current_page,
 		Logger $logger,
-		Indexable_Hierarchy_Repository $hierarchy_repository
-
+		Indexable_Hierarchy_Repository $hierarchy_repository,
+		\wpdb $wpdb
 	) {
 		$this->builder              = $builder;
 		$this->current_page         = $current_page;
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
+		$this->wpdb                 = $wpdb;
 	}
 
 	/**

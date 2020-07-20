@@ -45,6 +45,10 @@
       "\\.(css|less)$": "<rootDir>/js/tests/__mocks__/styleMock.js",
       "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js"
     },
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "node_modules"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],

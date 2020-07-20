@@ -32,6 +32,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ignore_indexation_warning'                => false,
 		'indexation_warning_hide_until'            => false,
 		'indexation_started'                       => false,
+		'indexables_indexation_reason'             => '',
 		'indexables_indexation_completed'          => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
@@ -246,6 +247,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'previous_version':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
+					}
+					break;
+				case 'indexables_indexation_reason':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
 					}
 					break;
 
