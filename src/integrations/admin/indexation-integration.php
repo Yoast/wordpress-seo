@@ -311,13 +311,6 @@ class Indexation_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Sets the indexation to complete.
-	 */
-	protected function set_complete() {
-		$this->options_helper->set( 'indexables_indexation_reason', '' );
-	}
-
-	/**
 	 * Enqueues the indexation script and style and renders the indexation modal.
 	 */
 	protected function enqueue_indexation_assets() {
