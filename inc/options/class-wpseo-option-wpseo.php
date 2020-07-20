@@ -62,7 +62,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'access_tokens' => [],
 		],
 		'semrush_integration_active'               => true,
-		'semrush_tokens' => [],
+		'semrush_tokens' 						   => [],
+		'semrush_country_code' 					   => 'us',
 	];
 
 	/**
@@ -335,6 +336,12 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 						}
 					}
 
+					break;
+
+				case 'semrush_country_code':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = $dirty[ $key ];
+					}
 					break;
 
 				/*
