@@ -96,7 +96,7 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Portuguese 	| ✅                	|                     	|               	| ✅                   	| ✅                           	| ✅                          	|
+| Portuguese 	| ✅                	| ✅                    	| ✅              	| ✅                   	| ✅                           	| ✅                          	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
 | Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
