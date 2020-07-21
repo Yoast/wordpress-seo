@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { unescape } from "lodash-es";
@@ -13,7 +12,7 @@ const SelectContainer = styled.div`
  *
  * @param {Object} props The component's props.
  *
- * @returns {ReactElement} The rendered TaxonomyPicker component.
+ * @returns {wp.Element} The rendered TaxonomyPicker component.
  */
 const TaxonomyPicker = ( props ) => {
 	const {

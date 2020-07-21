@@ -26,7 +26,7 @@ class WPSEO_File_Size_Service {
 					'type'          => 'success',
 					'size_in_bytes' => $this->get_file_size( $file_url ),
 				],
-				404
+				200
 			);
 		}
 		catch ( WPSEO_File_Size_Exception $exception ) {

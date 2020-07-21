@@ -1,5 +1,5 @@
 /* global wp */
-import React, { createRef } from "react";
+import { Component, createRef } from "@wordpress/element";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import { localize } from "yoast-components";
@@ -7,7 +7,7 @@ import { localize } from "yoast-components";
 /**
  * @summary Media upload component.
  */
-class MediaUpload extends React.Component {
+class MediaUpload extends Component {
 	constructor( props ) {
 		super( props );
 
@@ -88,7 +88,7 @@ class MediaUpload extends React.Component {
 	/**
 	 * Renders a remove button when an image is set.
 	 *
-	 * @returns {ReactElement} The button element.
+	 * @returns {wp.Element} The button element.
 	 */
 	renderRemoveButton() {
 		if ( ! this.state.currentUpload ) {
@@ -108,7 +108,7 @@ class MediaUpload extends React.Component {
 	/**
 	 * Renders the image when available.
 	 *
-	 * @returns {ReactElement} The image element.
+	 * @returns {wp.Element} The image element.
 	 */
 	renderImage() {
 		if ( ! this.state.currentUpload ) {
@@ -127,7 +127,7 @@ class MediaUpload extends React.Component {
 	/**
 	 * Renders the output.
 	 *
-	 * @returns {JSX.Element} The rendered HTML.
+	 * @returns {wp.Element} The rendered HTML.
 	 */
 	render() {
 		return (

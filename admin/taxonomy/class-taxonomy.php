@@ -136,33 +136,13 @@ class WPSEO_Taxonomy {
 
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
-			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'term-scraper' );
-			$asset_manager->enqueue_script( 'admin-script' );
+			$asset_manager->enqueue_script( 'term-edit' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' );
+			$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit' );
 
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
-
-			$localization_data = [
-				'url'                     => $analysis_worker_location->get_url(
-					$analysis_worker_location->get_asset(),
-					WPSEO_Admin_Asset::TYPE_JS
-				),
-				'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
-					$used_keywords_assessment_location->get_asset(),
-					WPSEO_Admin_Asset::TYPE_JS
-				),
-				'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-			];
-			wp_localize_script(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper',
-				'wpseoAnalysisWorkerL10n',
-				$localization_data
-			);
 
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
@@ -170,18 +150,40 @@ class WPSEO_Taxonomy {
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
-			$asset_manager->enqueue_script( 'admin-media' );
-
-			wp_localize_script(
-				WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media',
-				'wpseoMediaL10n',
-				[ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ]
-			);
+			$script_data = [
+				'analysis'         => [
+					'plugins' => [
+						'replaceVars' => [
+							'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+							'replace_vars'             => $this->get_replace_vars(),
+							'recommended_replace_vars' => $this->get_recommended_replace_vars(),
+							'scope'                    => $this->determine_scope(),
+						],
+					],
+					'worker'  => [
+						'url'                     => $analysis_worker_location->get_url(
+							$analysis_worker_location->get_asset(),
+							WPSEO_Admin_Asset::TYPE_JS
+						),
+						'keywords_assessment_url' => $used_keywords_assessment_location->get_url(
+							$used_keywords_assessment_location->get_asset(),
+							WPSEO_Admin_Asset::TYPE_JS
+						),
+						'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+					],
+				],
+				'media'            => [
+					// @todo replace this translation with JavaScript translations.
+					'choose_image' => __( 'Use Image', 'wordpress-seo' ),
+				],
+				'metabox'          => $this->localize_term_scraper_script(),
+				'userLanguageCode' => WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ),
+				'isTerm'           => true,
+			];
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-edit', 'wpseoScriptData', $script_data );
 		}
 
 		if ( self::is_term_overview( $pagenow ) ) {
@@ -433,23 +435,5 @@ class WPSEO_Taxonomy {
 		}
 
 		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @deprecated 7.9.0
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string Content with shortcodes filtered out.
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
-
-		return '';
 	}
 }

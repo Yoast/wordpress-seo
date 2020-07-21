@@ -4,7 +4,7 @@ import {
 	defaults,
 } from "lodash-es";
 
-var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };
+var defaultOptions = { source: "wpseoScriptData.analysis.plugins.replaceVars", scope: [], aliases: [] };
 
 /**
  * Constructs the replace var.

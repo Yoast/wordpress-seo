@@ -1,9 +1,8 @@
-/* global wpseoReplaceVarsL10n */
+/* global wpseoScriptData */
 
 /* External dependencies */
-import React from "react";
+import { Fragment, Component } from "@wordpress/element";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
 import {
 	includes,
 	map,
@@ -12,9 +11,9 @@ import { connect } from "react-redux";
 import { replacementVariablesShape } from "@yoast/search-metadata-previews";
 
 /* Internal dependencies */
-import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
-import SettingsReplacementVariableField from "./SettingsReplacementVariableField";
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import SettingsEditorPortal from "./portals/SettingsEditorPortal";
+import SettingsFieldPortal from "./portals/SettingsFieldPortal";
 
 /**
  * Renders a Portal for each element passed to it as a prop.
@@ -22,7 +21,7 @@ import { updateReplacementVariable } from "../redux/actions/snippetEditor";
  * Also listens for changes in the separator radio buttons and
  * updates the store with the new separator on change.
  */
-class SettingsReplacementVariableEditors extends React.Component {
+class SettingsReplacementVariableEditors extends Component {
 	constructor( props ) {
 		super( props );
 	}
@@ -31,7 +30,7 @@ class SettingsReplacementVariableEditors extends React.Component {
 		const {
 			editor_specific_replace_vars: editorSpecificReplaceVars = {},
 			shared_replace_vars: sharedReplaceVars,
-		} = wpseoReplaceVarsL10n;
+		} = wpseoScriptData.analysis.plugins.replaceVars;
 
 		const pageTypeSpecificReplaceVars = editorSpecificReplaceVars[ pageType ] || [];
 		const replaceVarNames = [ ...sharedReplaceVars, ...pageTypeSpecificReplaceVars ];
@@ -52,8 +51,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 * The *-field-id attributes should point to existing (hidden) inputs in the
 	 * DOM.
 	 *
-	 * @returns {Array<ReactElement>} An array of portals to instances of the
-	 *                                settings replacement variable editor.
+	 * @returns {Array<wp.Element>} An array of portals to instances of the
+	 *                              settings replacement variable editor.
 	 */
 	renderEditors() {
 		return map( this.props.editorElements, ( targetElement ) => {
@@ -69,15 +68,16 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarPageTypeSpecific,
 			);
 
-			return ReactDOM.createPortal(
-				<SettingsReplacementVariableEditor
+			return (
+				<SettingsEditorPortal
+					key={ reactReplacevarTitleFieldId }
+					target={ targetElement }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
 					titleTarget={ reactReplacevarTitleFieldId }
 					descriptionTarget={ reactReplacevarMetadescFieldId }
 					hasPaperStyle={ reactReplacevarPaperStyle === "1" }
-				/>,
-				targetElement
+				/>
 			);
 		} );
 	}
@@ -92,8 +92,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 	 * properly. The data-react-replacevar-field-id attribute should point to an
 	 * existing (hidden) input in the DOM.
 	 *
-	 * @returns {Array<ReactElement>} An array of portals to instances of the
-	 *                                settings replacement variable field.
+	 * @returns {Array<wp.Element>} An array of portals to instances of the
+	 *                              settings replacement variable field.
 	 */
 	renderSingleFields() {
 		return map( this.props.singleFieldElements, ( targetElement ) => {
@@ -108,14 +108,15 @@ class SettingsReplacementVariableEditors extends React.Component {
 				reactReplacevarPageTypeSpecific,
 			);
 
-			return ReactDOM.createPortal(
-				<SettingsReplacementVariableField
+			return (
+				<SettingsFieldPortal
+					key={ reactReplacevarFieldId }
+					target={ targetElement }
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
 					fieldId={ reactReplacevarFieldId }
-				/>,
-				targetElement
+				/>
 			);
 		} );
 	}
@@ -123,14 +124,14 @@ class SettingsReplacementVariableEditors extends React.Component {
 	/**
 	 * Renders the SettingsReplacementVariableEditors element.
 	 *
-	 * @returns {ReactElement} A fragment containing all editor instances.
+	 * @returns {wp.Element} A fragment containing all editor instances.
 	 */
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				{ this.renderEditors() }
 				{ this.renderSingleFields() }
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }

@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\SEO\Presentations;
 
+use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Helpers\Date_Helper;
 
 /**
  * Class Indexable_Post_Type_Presentation
@@ -199,6 +199,23 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph title.
+	 *
+	 * @return string The open graph title.
+	 */
+	public function generate_open_graph_title() {
+		if ( $this->model->open_graph_title ) {
+			return $this->model->open_graph_title;
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		return $this->title;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_open_graph_type() {
@@ -332,6 +349,31 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return parent::generate_twitter_image();
+	}
+
+	/**
+	 * Generates the twitter title.
+	 *
+	 * @return string The twitter title.
+	 */
+	public function generate_twitter_title() {
+		if ( $this->model->twitter_title ) {
+			return $this->model->twitter_title;
+		}
+
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		if ( $this->title ) {
+			return $this->title;
+		}
+
+		return '';
 	}
 
 	/**

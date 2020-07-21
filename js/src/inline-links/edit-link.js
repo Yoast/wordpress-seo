@@ -12,10 +12,6 @@ import {
 	isCollapsed,
 } from "@wordpress/rich-text";
 import { isURL, isEmail } from "@wordpress/url";
-import {
-	RichTextToolbarButton,
-	RichTextShortcut,
-} from "@wordpress/block-editor";
 import { decodeEntities } from "@wordpress/html-entities";
 
 /**
@@ -117,6 +113,19 @@ export const link = {
 					value,
 					onChange,
 				} = this.props;
+
+				/*
+				 * We need to import this right here, since we can only know for sure
+				 * that we are in the block editor when rendering this component.
+				 *
+				 * We can't tell WordPress that "wp-block-editor" script is a dependency
+				 * when loading this JavaScript, since we cannot tell if the edit
+				 * page is using the classic or block editor.
+				 */
+				const {
+					RichTextToolbarButton,
+					RichTextShortcut,
+				} = window.wp.blockEditor;
 
 				return (
 					<Fragment>

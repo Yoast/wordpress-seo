@@ -1193,6 +1193,7 @@ SVG;
 		$wpseo_admin_l10n = [
 			'displayAdvancedTab'   => WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || ! WPSEO_Options::get( 'disableadvanced_meta' ),
 			'noIndex'              => ! ! $no_index,
+			'isPremium'            => self::is_yoast_seo_premium(),
 			'isPostType'           => ! ! get_post_type(),
 			'postTypeNamePlural'   => ( $page_type === 'post' ) ? $label_object->label : $label_object->name,
 			'postTypeNameSingular' => ( $page_type === 'post' ) ? $label_object->labels->singular_name : $label_object->singular_name,
@@ -1497,46 +1498,5 @@ SVG;
 		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
 
 		return $enabled_features;
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
-	 *
-	 * @see WPSEO_Language_Utils::get_language()
-	 *
-	 * @deprecated 9.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $locale The locale to get the language of.
-	 *
-	 * @return string The language part of the locale.
-	 */
-	public static function get_language( $locale ) {
-		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_language' );
-		return WPSEO_Language_Utils::get_language( $locale );
-	}
-
-	/**
-	 * Returns the user locale for the language to be used in the admin.
-	 *
-	 * WordPress 4.7 introduced the ability for users to specify an Admin language
-	 * different from the language used on the front end. This checks if the feature
-	 * is available and returns the user's language, with a fallback to the site's language.
-	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
-	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
-	 *
-	 * @see WPSEO_Language_Utils::get_user_locale()
-	 *
-	 * @deprecated 9.5
-	 * @codeCoverageIgnore
-	 *
-	 * @return string The locale.
-	 */
-	public static function get_user_locale() {
-		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_user_locale' );
-
-		return WPSEO_Language_Utils::get_user_locale();
 	}
 }

@@ -6,6 +6,9 @@ import {
 	updateData,
 } from "../redux/actions/snippetEditor";
 import {
+	setContentImage,
+} from "../redux/actions/settings";
+import {
 	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
@@ -182,6 +185,7 @@ export default class Data {
 			// eslint-disable-next-line camelcase
 			excerpt_only: this.getExcerpt( false ),
 			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
+			contentImage: this.getContentImage(),
 		};
 	}
 
@@ -256,6 +260,11 @@ export default class Data {
 		// Handle snippet preview image change.
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
+		}
+
+		// Handle content image change.
+		if ( this._data.contentImage !== newData.contentImage ) {
+			this._store.dispatch( setContentImage( newData.contentImage ) );
 		}
 	}
 

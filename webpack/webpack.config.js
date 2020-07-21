@@ -31,6 +31,7 @@ const externals = {
 	lodash: "window.lodash",
 	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
+	"draft-js": "window.yoast.draftJs",
 };
 
 const wordpressExternals = {
@@ -50,16 +51,21 @@ const wordpressExternals = {
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/server-side-render": "window.wp.serverSideRender",
 	"@wordpress/url": "window.wp.url",
+	"@wordpress/dom-ready": "window.wp.domReady",
+	"@wordpress/a11y": "window.wp.a11y",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
 const yoastExternals = {
+	"@yoast/analysis-report": "window.yoast.analysisReport",
 	"@yoast/components": "window.yoast.componentsNew",
 	"@yoast/configuration-wizard": "window.yoast.configurationWizard",
+	"@yoast/feature-flag": "window.yoast.featureFlag",
 	"@yoast/helpers": "window.yoast.helpers",
+	"@yoast/replacement-variable-editor": "window.yoast.replacementVariableEditor",
 	"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
+	"@yoast/social-metadata-forms": "window.yoast.socialMetadataForms",
 	"@yoast/style-guide": "window.yoast.styleGuide",
-	"@yoast/analysis-report": "window.yoast.analysisReport",
 };
 
 const defaultAllowedHosts = [
@@ -126,8 +132,12 @@ function addBundleAnalyzer( plugins ) {
 }
 
 module.exports = function( env ) {
-	const mode = env.environment || process.env.NODE_ENV || "production";
-
+	if ( ! env ) {
+		env = {};
+	}
+	if ( ! env.environment ) {
+		env.environment = process.env.NODE_ENV || "production";
+	}
 	if ( ! env.pluginVersion ) {
 		// eslint-disable-next-line global-require
 		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
@@ -154,8 +164,8 @@ module.exports = function( env ) {
 	];
 
 	const base = {
-		mode: mode,
-		devtool: mode === "development" ? "cheap-module-eval-source-map" : false,
+		mode: env.environment,
+		devtool: env.environment === "development" ? "cheap-module-eval-source-map" : false,
 		context: root,
 		output: {
 			path: paths.jsDist,
@@ -199,7 +209,7 @@ module.exports = function( env ) {
 					test: /\.css$/,
 					use: [
 						MiniCssExtractPlugin.loader,
-						'css-loader',
+						"css-loader",
 					],
 				},
 			],
@@ -220,6 +230,7 @@ module.exports = function( env ) {
 				"styled-components": "./js/src/externals/styled-components.js",
 				redux: "./js/src/externals/redux.js",
 				jed: "./js/src/externals/jed.js",
+				"draft-js": "./js/src/externals/draft-js.js",
 			},
 			externals: {
 				...externals,
@@ -235,7 +246,7 @@ module.exports = function( env ) {
 		{
 			...base,
 			entry: {
-				components: "./js/src/components.js",
+				components: "./js/src/externals/components.js",
 			},
 			output: {
 				path: path.resolve(),
@@ -279,8 +290,8 @@ module.exports = function( env ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
-				analysis: "./js/src/analysis.js",
+				"analysis-worker": "./js/src/analysis-worker.js",
+				analysis: "./js/src/externals/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -292,7 +303,7 @@ module.exports = function( env ) {
 			...base,
 			externals: { yoastseo: "yoast.analysis" },
 			entry: {
-				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
+				"used-keywords-assessment": "./js/src/used-keywords-assessment.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -301,7 +312,7 @@ module.exports = function( env ) {
 		},
 	];
 
-	if ( mode === "development" ) {
+	if ( env.environment === "development" ) {
 		config[ 0 ].devServer = {
 			publicPath: "/",
 			allowedHosts,

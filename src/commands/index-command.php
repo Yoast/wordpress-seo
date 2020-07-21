@@ -103,6 +103,9 @@ class Index_Command implements Command_Interface {
 	 * [--reindex]
 	 * : Removes all existing indexables and then reindexes them.
 	 *
+	 * [--skip-confirmation]
+	 * : Skips the confirmations (for automated systems).
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp yoast index
@@ -116,7 +119,7 @@ class Index_Command implements Command_Interface {
 	 */
 	public function index( $args = null, $assoc_args = null ) {
 		if ( ! isset( $assoc_args['network'] ) ) {
-			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
+			$this->run_indexation_actions( $assoc_args );
 
 			return;
 		}
@@ -132,7 +135,7 @@ class Index_Command implements Command_Interface {
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
 			\do_action( '_yoast_run_migrations' );
-			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
+			$this->run_indexation_actions( $assoc_args );
 			\restore_current_blog();
 		}
 	}
@@ -140,13 +143,15 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Runs all indexation actions.
 	 *
-	 * @param bool $reindex True when all indexables should be indexed again.
+	 * @param array $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
-	protected function run_indexation_actions( $reindex ) {
-		if ( $reindex ) {
-			WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+	protected function run_indexation_actions( $assoc_args ) {
+		if ( isset( $assoc_args['reindex'] ) ) {
+			if ( ! isset( $assoc_args['skip-confirmation'] ) ) {
+				WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+			}
 			$this->clear();
 		}
 

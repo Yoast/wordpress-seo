@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\SEO\Tests\Repositories;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;

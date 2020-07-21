@@ -8,9 +8,9 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -128,7 +128,6 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	protected function get_query( $count, $limit = 1 ) {
 		$public_taxonomies = $this->taxonomy->get_public_taxonomies();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_taxonomies;
 
@@ -146,7 +145,12 @@ class Indexable_Term_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->term_taxonomy}
-			WHERE term_id NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'term') AND taxonomy IN ($placeholders)
+			WHERE term_id NOT IN (
+				SELECT object_id
+				FROM $indexable_table
+				WHERE object_type = 'term'
+			)
+			AND taxonomy IN (" . \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);

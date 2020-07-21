@@ -72,10 +72,10 @@ abstract class WPSEO_Deprecated_Graph_Piece implements WPSEO_Graph_Piece {
 
 		// We cannot extend the stable graph piece because a property was made public on it that was previously private.
 		// So instead, we instantiate a stable graph piece and delegate to it.
-		$this->context 			= $memoizer->for_current_page();
-		$this->stable->context 	= $this->context;
-		$this->helpers 			= YoastSEO()->helpers;
-		$this->stable->helpers 	= $this->helpers;
+		$this->context         = $memoizer->for_current_page();
+		$this->stable->context = $this->context;
+		$this->helpers         = YoastSEO()->helpers;
+		$this->stable->helpers = $this->helpers;
 	}
 
 	/**

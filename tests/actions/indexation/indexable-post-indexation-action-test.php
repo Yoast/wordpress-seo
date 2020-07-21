@@ -80,7 +80,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query    = "
 			SELECT COUNT(ID)
 			FROM wp_posts
-			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'post') AND post_type IN (%s)
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = 'post'
+			)
+			AND post_type IN (%s)
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
@@ -136,7 +141,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = '
 			SELECT ID
 			FROM wp_posts
-			WHERE ID NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'post\') AND post_type IN (%s)
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = \'post\'
+			)
+			AND post_type IN (%s)
 			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );

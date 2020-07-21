@@ -10,9 +10,9 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

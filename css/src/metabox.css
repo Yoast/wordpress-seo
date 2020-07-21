@@ -71,12 +71,12 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section,
 .wpseo-meta-section-react {
   display: none;
+  max-width: 600px;
   width: 100%;
   min-height: 100%;
   height: auto;
   vertical-align: top;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  border-top: 1px solid #e8e8e8;
+  border: 1px solid rgba( 0,0,0,0.2 );
 }
 
 .wpseo-meta-section.active,
@@ -94,6 +94,10 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-meta-section-react.active {
   display: block;
   margin-bottom: 10px;
+}
+
+.wpseo-meta-section-content {
+  padding: 16px;
 }
 
 .wpseo-metabox-content {
@@ -151,10 +155,15 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-menu ul li a {
-  color: #0073aa;
+  color:  #0073aa;
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid rgba( 0,0,0,0.2 );
+  border-bottom: 2px transparent;
+}
+
+.wpseo-metabox-menu ul li a:focus {
+  box-shadow: inherit;
 }
 
 .wpseo-metabox-menu ul li .yst-traffic-light {
@@ -181,8 +190,11 @@ ul.wpseo-metabox-tabs li.active {
   height: 36px;
   /* 4 px is the difference in height with the inactive tabs. */
   margin-top: -4px;
-  z-index: 11;
+  z-index: 13;
   background-color: #ffffff;
+  border-bottom: 2px transparent;
+  clip-path: inset(-5px -5px 0px -5px);
+  box-shadow: none;
 }
 
 .wpseo-metabox-menu ul li.active a {
@@ -700,5 +712,20 @@ ul.yoast-seo-social-share-buttons a {
 	width: 32px;
 	height: 32px;
 	display: inline-block;
+}
+
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO"] > svg,
+div.interface-pinned-items button.components-button[aria-label="Yoast SEO Premium"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO"] > svg,
+.edit-post-pinned-plugins button.components-button[aria-label="Yoast SEO Premium"] > svg {
+	max-width: 28px;
+	max-height: 28px;
+	width: 28px;
+	height: 28px;
+}
+
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO"] > svg path,
+div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast SEO Premium"] > svg path {
+	fill: #ffffff;
 }
 /*# sourceMappingURL=metabox.css.map */

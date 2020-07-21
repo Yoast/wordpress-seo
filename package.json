@@ -26,7 +26,7 @@
     "i18n-yoast-js-configuration-wizard": "cross-env NODE_ENV=production babel node_modules/@yoast/configuration-wizard --ignore node_modules/@yoast/configuration-wizard/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-helpers": "cross-env NODE_ENV=production babel node_modules/@yoast/helpers --ignore node_modules/@yoast/helpers/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-yoast-js-search-metadata-previews": "cross-env NODE_ENV=production babel node_modules/@yoast/search-metadata-previews --ignore node_modules/@yoast/search-metadata-previews/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "prestart": "grunt build:css && grunt webpack:buildDev",
+    "prestart": "grunt build:css && grunt copy:js-dependencies",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
     "link-monorepo": "node scripts/link_monorepo_to_plugin.js",
     "unlink-monorepo": "node scripts/unlink_monorepo.js",
@@ -56,7 +56,7 @@
     "@wordpress/babel-preset-default": "^1.1.3",
     "@wordpress/data": "^4.10.0",
     "@wordpress/element": "^2.9.0",
-    "@yoast/grunt-plugin-tasks": "^1.6.2",
+    "@yoast/grunt-plugin-tasks": "^1.7",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^18.0.0",
@@ -104,12 +104,15 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@yoast/analysis-report": "^1.6.0",
-    "@yoast/components": "^2.4.0",
-    "@yoast/configuration-wizard": "^2.6.0",
-    "@yoast/helpers": "^0.12.1",
-    "@yoast/search-metadata-previews": "^2.6.0",
-    "@yoast/style-guide": "^0.11.2",
+    "@yoast/analysis-report": "^1.7.0",
+    "@yoast/components": "^2.5.0",
+    "@yoast/configuration-wizard": "^2.7.0",
+    "@yoast/feature-flag": "^0.5.2",
+    "@yoast/helpers": "^0.13.0",
+    "@yoast/replacement-variable-editor": "^1.0.0",
+    "@yoast/search-metadata-previews": "^2.7.0",
+    "@yoast/social-metadata-forms": "^1.0.0",
+    "@yoast/style-guide": "^0.12.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
@@ -133,13 +136,13 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^5.6.0",
-    "yoastseo": "^1.77.0"
+    "yoast-components": "^5.7.0",
+    "yoastseo": "^1.78.0"
   },
   "browserslist": [
     "extends @yoast/browserslist-config"
   ],
   "yoast": {
-    "pluginVersion": "14.5"
+    "pluginVersion": "14.6"
   }
 }

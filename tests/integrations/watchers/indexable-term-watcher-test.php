@@ -12,9 +12,9 @@ use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Site_Helper;
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Integrations\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

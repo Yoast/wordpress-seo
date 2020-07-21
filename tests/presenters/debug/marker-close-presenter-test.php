@@ -9,8 +9,8 @@ namespace Yoast\WP\SEO\Tests\Presenters\Debug;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**

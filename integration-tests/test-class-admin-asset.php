@@ -93,26 +93,4 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '.suffix', $asset->get_suffix() );
 		$this->assertEquals( false, $asset->has_rtl() );
 	}
-
-	/**
-	 * The get_url method is deprecated so make sure it is. It should relay to the default location.
-	 *
-	 * @covers WPSEO_Admin_Asset::get_url
-	 *
-	 * @expectedDeprecated WPSEO_Admin_Asset::get_url
-	 */
-	public function test_deprecated_get_url() {
-		$asset_args = [
-			'name' => 'name',
-			'src'  => 'src',
-		];
-		$asset      = new WPSEO_Admin_Asset( $asset_args );
-
-		$default_location = new WPSEO_Admin_Asset_SEO_Location( WPSEO_FILE );
-
-		$this->expectDeprecated();
-		$this->assertEquals( $default_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_JS ), $asset->get_url( WPSEO_Admin_Asset::TYPE_JS, WPSEO_FILE ) );
-		$this->assertEquals( $default_location->get_url( $asset, WPSEO_Admin_Asset::TYPE_CSS ), $asset->get_url( WPSEO_Admin_Asset::TYPE_CSS, WPSEO_FILE ) );
-		$this->assertEquals( '', $asset->get_url( '', WPSEO_FILE ) );
-	}
 }

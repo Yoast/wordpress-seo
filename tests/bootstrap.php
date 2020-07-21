@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package Wordpress_Seo
+ * @package Yoast\WP\SEO
  */
 
 define( 'ABSPATH', true );

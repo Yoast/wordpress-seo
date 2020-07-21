@@ -6,6 +6,11 @@
   - 'build:images'
   - 'build:i18n'
 
+# Grunt command to only build CSS and JS
+'build:dev':
+  - 'build:js'
+  - 'build:css'
+
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
@@ -106,36 +111,18 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-the-rc-version'
+  - 'bump-rc-version-and-commit'
+  - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
   - 'notify-slack:rc'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
   - 'verify-zip-size'
-  - 'shell:git-checkout-trunk'
   - 'celebrate'
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
-
-'ensure-rc-dependencies':
-  - 'shell:unlink-monorepo'
-  - 'shell:install-monorepo'
-  - 'shell:get-monorepo-versions'
-  - 'prompt:monorepoVersions'
-  - 'shell:composer-install'
-  - 'shell:composer-update-yoast-dependencies'
-
-'bump-the-rc-version':
-  - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
-  - 'shell:git-commit-version-bump-files'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-trunk'
-  - 'shell:git-merge-into-trunk'
-  - 'shell:git-push-origin-head'
-  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:

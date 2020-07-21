@@ -80,7 +80,12 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$expected_query    = "
 			SELECT COUNT(term_id)
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = 'term') AND taxonomy IN (%s)
+			WHERE term_id NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = 'term'
+			)
+			AND taxonomy IN (%s)
 			$limit_placeholder";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_terms' )->andReturnFalse();
@@ -136,7 +141,12 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 		$expected_query = '
 			SELECT term_id
 			FROM wp_term_taxonomy
-			WHERE term_id NOT IN (SELECT object_id FROM wp_yoast_indexable WHERE object_type = \'term\') AND taxonomy IN (%s)
+			WHERE term_id NOT IN (
+				SELECT object_id
+				FROM wp_yoast_indexable
+				WHERE object_type = \'term\'
+			)
+			AND taxonomy IN (%s)
 			LIMIT %d';
 
 		Filters\expectApplied( 'wpseo_term_indexation_limit' )->andReturn( 25 );

@@ -8,10 +8,10 @@
 namespace Yoast\WP\SEO\Tests\Oauth;
 
 use Yoast\WP\SEO\Oauth\Client;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 use Yoast\WP\SEO\Tests\Doubles\Oauth\Client_Double;
 use Yoast\WP\SEO\Tests\TestCase;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
 /**
  * Class Client_Test.

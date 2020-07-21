@@ -2,7 +2,7 @@
 
 import { noop } from "lodash-es";
 
-import * as tinyMCEHelper from "../wp-seo-tinymce";
+import * as tinyMCEHelper from "../lib/tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
 import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
 
