@@ -4,9 +4,6 @@ import { Fragment, Component } from "@wordpress/element";
 /* Internal dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
-// Import required CSS.
-import "@yoast/components/src/select/select.css";
-import "@yoast/components/src/button/buttons.css";
 
 /**
  * The ID of the SEMrush Country Selection component.
