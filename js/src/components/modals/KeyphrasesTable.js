@@ -69,7 +69,7 @@ class KeyphrasesTable extends Component {
 							>
 								{ __( "Volume", "wordpress-seo" ) }
 								<HelpLink
-									href="https://yoa.st/3-v"
+									href={ window.wpseoAdminL10n[ "shortlinks.semrush.volume_help" ] }
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
@@ -83,7 +83,7 @@ class KeyphrasesTable extends Component {
 							>
 								{ __( "Trend", "wordpress-seo" ) }
 								<HelpLink
-									href="https://yoa.st/3-v"
+									href={ window.wpseoAdminL10n[ "shortlinks.semrush.trend_help" ] }
 									className="dashicons"
 								>
 									<span className="screen-reader-text">
