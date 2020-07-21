@@ -50,9 +50,16 @@ import stopwordsSpanishFactory from "../../spanish/passiveVoice/stopwords.js";
 const stopwordsSpanish = stopwordsSpanishFactory();
 const followingAuxiliaryExceptionWordsSpanish = [ "el", "la", "los", "las", "una" ];
 
+// Portuguese-specific variables and imports.
+import SentencePartPortuguese from "../../portuguese/passiveVoice/SentencePart";
+import auxiliariesPortugueseFactory from "../../portuguese/passiveVoice/auxiliaries.js";
+const auxiliariesPortuguese = auxiliariesPortugueseFactory();
+import stopwordsPortugueseFactory from "../../portuguese/passiveVoice/stopwords.js";
+const stopwordsPortuguese = stopwordsPortugueseFactory();
+const followingAuxiliaryExceptionWordsPortuguese = [ "o", "a", "os", "as", "um", "ums", "uma", "umas" ];
+
 // Italian-specific variables and imports.
 import SentencePartItalian from "../../italian/passiveVoice/SentencePart";
-
 import auxiliariesItalianFactory from "../../italian/passiveVoice/auxiliaries.js";
 const auxiliariesItalian = auxiliariesItalianFactory();
 import stopwordsItalianFactory from "../../italian/passiveVoice/stopwords.js";
@@ -63,10 +70,9 @@ const directPrecedenceExceptionRegexItalian = arrayToRegex( reflexivePronounsIta
 
 /*
  * Variables applying to multiple languages
- * This regex applies to Spanish and Italian
+ * This regex applies to Spanish, Italian and Portuguese.
  */
 const stopCharacterRegexOthers = /([:,])(?=[ \n\r\t'"+\-»«‹›<>])/ig;
-
 
 // The language-specific variables used to split sentences into sentence parts.
 const languageVariables = {
@@ -93,6 +99,14 @@ const languageVariables = {
 		auxiliaries: auxiliariesSpanish,
 		stopCharacterRegex: stopCharacterRegexOthers,
 		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsSpanish ),
+	},
+	pt: {
+		stopwords: stopwordsPortuguese,
+		auxiliaryRegex: arrayToRegex( auxiliariesPortuguese ),
+		SentencePart: SentencePartPortuguese,
+		auxiliaries: auxiliariesPortuguese,
+		stopCharacterRegex: stopCharacterRegexOthers,
+		followingAuxiliaryExceptionRegex: arrayToRegex( followingAuxiliaryExceptionWordsPortuguese ),
 	},
 	it: {
 		stopwords: stopwordsItalian,
@@ -244,6 +258,9 @@ const getSentenceBreakers = function( sentence, language ) {
 		case "es":
 			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
 			break;
+		case "pt":
+			indices = [].concat( auxiliaryIndices, stopwordIndices, stopCharacterIndices );
+			break;
 		case "it":
 			// Filters auxiliaries matched in the sentence based on a precedence exception filter.
 			auxiliaryIndices = auxiliaryPrecedenceExceptionFilter( sentence, auxiliaryIndices, "it" );
@@ -274,6 +291,7 @@ const getAuxiliaryMatches = function( sentencePart, language ) {
 	switch ( language ) {
 		case "fr":
 		case "es":
+		case "pt":
 		case "it":
 			// An array with the matched auxiliaries and their indices.
 			var auxiliaryMatchIndices = getIndicesOfList( auxiliaryMatches, sentencePart );
