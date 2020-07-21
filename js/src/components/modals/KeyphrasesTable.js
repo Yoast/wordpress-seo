@@ -9,6 +9,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 
 /* Internal dependencies */
 import AreaChart from "../AreaChart";
+import HelpLink from "../HelpLink";
 
 const GetMoreInsightsLink = makeOutboundLink();
 
@@ -56,14 +57,39 @@ class KeyphrasesTable extends Component {
 				<table className="yoast-table">
 					<thead>
 						<tr>
-							<th scope="col" className="yoast-table--primary">
+							<th
+								scope="col"
+								className="yoast-table--primary"
+							>
 								{ __( "Related keyphrase", "wordpress-seo" ) }
 							</th>
-							<th scope="col">
+							<th
+								scope="col"
+								abbr={ __( "Volume", "wordpress-seo" ) }
+							>
 								{ __( "Volume", "wordpress-seo" ) }
+								<HelpLink
+									href="https://yoa.st/3-v"
+									className="dashicons"
+								>
+									<span className="screen-reader-text">
+										{ __( "Learn more about the related keyphrases volume", "wordpress-seo" ) }
+									</span>
+								</HelpLink>
 							</th>
-							<th scope="col">
+							<th
+								scope="col"
+								abbr={ __( "Trend", "wordpress-seo" ) }
+							>
 								{ __( "Trend", "wordpress-seo" ) }
+								<HelpLink
+									href="https://yoa.st/3-v"
+									className="dashicons"
+								>
+									<span className="screen-reader-text">
+										{ __( "Learn more about the related keyphrases trend", "wordpress-seo" ) }
+									</span>
+								</HelpLink>
 							</th>
 							{ renderAction && <td /> }
 						</tr>
