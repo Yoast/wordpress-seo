@@ -18,6 +18,11 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action_Interface {
 
 	/**
+	 * The transient cache key.
+	 */
+	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_post_type_archives';
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -61,7 +66,16 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 	 * @return int The total number of unindexed post type archives.
 	 */
 	public function get_total_unindexed() {
-		return \count( $this->get_unindexed_post_type_archives( false ) );
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
+		$result = \count( $this->get_unindexed_post_type_archives( false ) );
+
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+
+		return $result;
 	}
 
 	/**
@@ -76,6 +90,8 @@ class Indexable_Post_Type_Archive_Indexation_Action implements Indexation_Action
 		foreach ( $unindexed_post_type_archives as $post_type_archive ) {
 			$indexables[] = $this->builder->build_for_post_type_archive( $post_type_archive );
 		}
+
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
 
 		return $indexables;
 	}

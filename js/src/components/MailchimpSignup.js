@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
@@ -9,7 +9,7 @@ import { sendRequest } from "@yoast/helpers";
 /**
  * @summary Mailchimp signup component.
  */
-class MailchimpSignup extends React.Component {
+class MailchimpSignup extends Component {
 	/**
 	 * @summary Constructs the Mailchimp signup component.
 	 *
@@ -91,6 +91,16 @@ class MailchimpSignup extends React.Component {
 		result
 			.then(
 				( response ) => {
+					// For privacy reasons, don't show it when an email address is already on the mailing list.
+					if ( response.msg.indexOf( "is already subscribed" ) !== -1  ) {
+						this.setState( {
+							isLoading: false,
+							successfulSignup: true,
+							message: "Almost finished... We need to confirm your email address." +
+							"To complete the subscription process, please click the link in the email we just sent you.",
+						} );
+						return;
+					}
 					if ( response.result === "error" ) {
 						this.setState( {
 							isLoading: false,
@@ -183,7 +193,7 @@ class MailchimpSignup extends React.Component {
 	/**
 	 * @summary Renders the Mailchimp component.
 	 *
-	 * @returns {JSX.Element} Rendered Mailchimp Component.
+	 * @returns {wp.Element} Rendered Mailchimp Component.
 	 */
 	render() {
 		if ( this.skipRendering() ) {

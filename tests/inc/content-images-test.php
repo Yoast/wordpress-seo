@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Inc;
 
+use Brain\Monkey;
 use WPSEO_Content_Images;
 use Yoast\WP\SEO\Tests\TestCase;
-use Brain\Monkey;
 
 /**
  * Unit Test Class.

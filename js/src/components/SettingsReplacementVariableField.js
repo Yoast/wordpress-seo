@@ -1,5 +1,5 @@
 /* External dpendencies */
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 import {
 	ReplacementVariableEditor,
@@ -19,7 +19,15 @@ const SnippetEditorWidthContainer = styled.div`
 	max-width: 640px;
 `;
 
-class SettingsReplacementVariableField extends React.Component {
+/**
+ * Component class for the Settings replacement variable field.
+ */
+class SettingsReplacementVariableField extends Component {
+	/**
+	 * Constructor.
+	 *
+	 * @param {object} props The props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -31,10 +39,20 @@ class SettingsReplacementVariableField extends React.Component {
 		this.focus = this.focus.bind( this );
 	}
 
+	/**
+	 * Focus the input ref.
+	 *
+	 * @returns {void}
+	 */
 	focus() {
 		this.inputRef.focus();
 	}
 
+	/**
+	 * Renders the field.
+	 *
+	 * @returns {wp.Element} The field.
+	 */
 	render() {
 		const {
 			label,
@@ -47,6 +65,7 @@ class SettingsReplacementVariableField extends React.Component {
 		return (
 			<SnippetEditorWidthContainer>
 				<ReplacementVariableEditor
+					type="title"
 					label={ label }
 					fieldId={ fieldId + "-snippet-editor" }
 					isActive={ this.state.isActive }

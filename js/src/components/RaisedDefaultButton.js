@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 
@@ -23,6 +22,7 @@ const RaisedDefaultButton = ( props ) => {
 
 RaisedDefaultButton.propTypes = {
 	type: PropTypes.string,
+	label: PropTypes.string,
 	disableFocusRipple: PropTypes.bool,
 	disableTouchRipple: PropTypes.bool,
 	disableKeyboardFocus: PropTypes.bool,
@@ -30,6 +30,7 @@ RaisedDefaultButton.propTypes = {
 
 RaisedDefaultButton.defaultProps = {
 	type: "",
+	label: "",
 	disableFocusRipple: false,
 	disableTouchRipple: true,
 	disableKeyboardFocus: false,

@@ -3,6 +3,7 @@
 # Set default behaviour, in case users don't have core.autocrlf set.
 * text=auto
 
+.cache export-ignore
 .github export-ignore
 deploy_keys export-ignore
 grunt export-ignore

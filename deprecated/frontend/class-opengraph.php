@@ -61,41 +61,12 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Outputs the site owner.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return void
-	 *
-	 * @deprecated 7.1
-	 * @codeCoverageIgnore
-	 */
-	public function site_owner() {
-		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
-		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( __METHOD__, '7.1', null );
-		}
-	}
-
-	/**
-	 * Fallback method for plugins using image_output.
-	 *
-	 * @param string|bool $image Image URL.
-	 *
-	 * @deprecated 7.4
-	 * @codeCoverageIgnore
-	 */
-	public function image_output( $image = false ) {
-		_deprecated_function( __METHOD__, '7.4', 'WPSEO_OpenGraph::image' );
-	}
-
-	/**
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -111,7 +82,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @param bool $echo Whether or not to echo the output.
 	 *
@@ -146,7 +117,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -163,7 +134,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -197,8 +168,8 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://developers.facebook.com/docs/internationalization/#locales for the list of supported locales.
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @param bool $echo Whether to echo or return the locale.
 	 *
@@ -244,7 +215,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean;
 	 */
@@ -286,7 +257,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean
 	 */
@@ -302,7 +273,7 @@ class WPSEO_OpenGraph {
 	 * @deprecated 14.0
 	 * @codeCoverageIgnore
 	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 * @link https://ogp.me/#type_article
 	 *
 	 * @return boolean;
 	 */

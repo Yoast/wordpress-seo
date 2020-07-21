@@ -3,11 +3,11 @@
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
 use Mockery;
-use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
-use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Generators\Schema\HowTo;
+use Yoast\WP\SEO\Helpers\Post_Helper;
+use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 

@@ -2,13 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Generators\Schema;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Generators\Schema\Website;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Generators\Schema\Website;
+use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 

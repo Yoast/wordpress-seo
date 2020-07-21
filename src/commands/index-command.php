@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexation_Action_Interface;
 use Yoast\WP\SEO\Main;
 
@@ -50,6 +51,13 @@ class Index_Command implements Command_Interface {
 	private $general_indexation_action;
 
 	/**
+	 * The complete indexation action.
+	 *
+	 * @var Indexable_Complete_Indexation_Action
+	 */
+	private $complete_indexation_action;
+
+	/**
 	 * Generate_Indexables_Command constructor.
 	 *
 	 * @param Indexable_Post_Indexation_Action              $post_indexation_action              The post indexation
@@ -60,17 +68,21 @@ class Index_Command implements Command_Interface {
 	 *                                                                                           indexation action.
 	 * @param Indexable_General_Indexation_Action           $general_indexation_action           The general indexation
 	 *                                                                                           action.
+	 * @param Indexable_Complete_Indexation_Action          $complete_indexation_action          The complete indexation
+	 *                                                                                           action.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation_action,
 		Indexable_Term_Indexation_Action $term_indexation_action,
 		Indexable_Post_Type_Archive_Indexation_Action $post_type_archive_indexation_action,
-		Indexable_General_Indexation_Action $general_indexation_action
+		Indexable_General_Indexation_Action $general_indexation_action,
+		Indexable_Complete_Indexation_Action $complete_indexation_action
 	) {
 		$this->post_indexation_action              = $post_indexation_action;
 		$this->term_indexation_action              = $term_indexation_action;
 		$this->post_type_archive_indexation_action = $post_type_archive_indexation_action;
 		$this->general_indexation_action           = $general_indexation_action;
+		$this->complete_indexation_action          = $complete_indexation_action;
 	}
 
 	/**
@@ -91,6 +103,9 @@ class Index_Command implements Command_Interface {
 	 * [--reindex]
 	 * : Removes all existing indexables and then reindexes them.
 	 *
+	 * [--skip-confirmation]
+	 * : Skips the confirmations (for automated systems).
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     wp yoast index
@@ -104,7 +119,7 @@ class Index_Command implements Command_Interface {
 	 */
 	public function index( $args = null, $assoc_args = null ) {
 		if ( ! isset( $assoc_args['network'] ) ) {
-			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
+			$this->run_indexation_actions( $assoc_args );
 
 			return;
 		}
@@ -120,7 +135,7 @@ class Index_Command implements Command_Interface {
 		foreach ( $blog_ids as $blog_id ) {
 			\switch_to_blog( $blog_id );
 			\do_action( '_yoast_run_migrations' );
-			$this->run_indexation_actions( isset( $assoc_args['reindex'] ) );
+			$this->run_indexation_actions( $assoc_args );
 			\restore_current_blog();
 		}
 	}
@@ -128,13 +143,15 @@ class Index_Command implements Command_Interface {
 	/**
 	 * Runs all indexation actions.
 	 *
-	 * @param bool $reindex True when all indexables should be indexed again.
+	 * @param array $assoc_args The associative arguments.
 	 *
 	 * @return void
 	 */
-	protected function run_indexation_actions( $reindex ) {
-		if ( $reindex ) {
-			WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+	protected function run_indexation_actions( $assoc_args ) {
+		if ( isset( $assoc_args['reindex'] ) ) {
+			if ( ! isset( $assoc_args['skip-confirmation'] ) ) {
+				WP_CLI::confirm( 'This will clear all previously indexed objects. Are you certain you wish to proceed?' );
+			}
 			$this->clear();
 		}
 
@@ -148,6 +165,8 @@ class Index_Command implements Command_Interface {
 		foreach ( $indexation_actions as $name => $indexation_action ) {
 			$this->run_indexation_action( $name, $indexation_action );
 		}
+
+		$this->complete_indexation_action->complete();
 	}
 
 	/**

@@ -56,6 +56,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		$result = $cache->get_sitemap( $type, $page );
 
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
 		$this->assertEquals( $test, unserialize( $result ) );
 		$this->assertEquals( $test, $cache->get_sitemap_data( $type, $page ) );
 	}

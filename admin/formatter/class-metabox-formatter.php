@@ -48,6 +48,9 @@ class WPSEO_Metabox_Formatter {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		return [
+			'author_name'               => get_the_author_meta( 'display_name' ),
+			'site_name'                 => get_bloginfo( 'name' ),
+			'sitewide_social_image'     => WPSEO_Options::get( 'og_default_image' ),
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
@@ -69,8 +72,12 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
-			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
+			'wordFormRecognitionActive' => YoastSEO()->helpers->language->is_word_form_recognition_active( WPSEO_Language_Utils::get_language( get_locale() ) ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'showSocial'                => [
+				'facebook' => WPSEO_Options::get( 'opengraph', false ),
+				'twitter'  => WPSEO_Options::get( 'twitter', false ),
+			],
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -228,6 +235,7 @@ class WPSEO_Metabox_Formatter {
 
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . $locale . '.json';
 		if ( file_exists( $file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Retrieving a local file.
 			$file = file_get_contents( $file );
 			if ( is_string( $file ) && $file !== '' ) {
 				return json_decode( $file, true );

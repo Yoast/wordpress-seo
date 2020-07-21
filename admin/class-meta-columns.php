@@ -5,10 +5,19 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+
 /**
  * Class WPSEO_Meta_Columns.
  */
 class WPSEO_Meta_Columns {
+
+	/**
+	 * Holds the context objects for each indexable.
+	 *
+	 * @var Meta_Tags_Context[]
+	 */
+	protected $context = [];
 
 	/**
 	 * Holds the SEO analysis.
@@ -51,6 +60,35 @@ class WPSEO_Meta_Columns {
 		}
 
 		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
+
+		// Hook into tablenav to get the indexable context, at this point we can get the post ids.
+		add_action( 'manage_posts_extra_tablenav', [ $this, 'get_post_ids_and_set_context' ] );
+	}
+
+	/**
+	 * Retrieves the post ids and sets the context objects for all the indexables belonging
+	 * to the post ids.
+	 *
+	 * @param string $target Extra table navigation location which is triggered.
+	 */
+	public function get_post_ids_and_set_context( $target ) {
+		if ( $target !== 'top' ) {
+			return;
+		}
+
+		global $wp_query;
+
+		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+		$post_ids = [];
+
+		// Post lists return a list of objects.
+		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {
+			$post_ids = wp_list_pluck( $posts, 'ID' );
+		}
+		elseif ( ! empty( $posts ) ) {
+			// Page list returns an array of post IDs.
+			$post_ids = array_keys( $posts );
+		}
 	}
 
 	/**
@@ -108,17 +146,11 @@ class WPSEO_Meta_Columns {
 				return;
 
 			case 'wpseo-title':
-				$post  = get_post( $post_id, ARRAY_A );
-				$title = wpseo_replace_vars( $this->page_title( $post_id ), $post );
-				$title = apply_filters( 'wpseo_title', $title );
-
-				echo esc_html( $title );
+				echo esc_html( YoastSEO()->meta->for_post( $post_id )->title );
 				return;
 
 			case 'wpseo-metadesc':
-				$post         = get_post( $post_id, ARRAY_A );
-				$metadesc_val = wpseo_replace_vars( WPSEO_Meta::get_value( 'metadesc', $post_id ), $post );
-				$metadesc_val = apply_filters( 'wpseo_metadesc', $metadesc_val );
+				$metadesc_val = YoastSEO()->meta->for_post( $post_id )->meta_description;
 
 				if ( $metadesc_val === '' ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
@@ -695,31 +727,6 @@ class WPSEO_Meta_Columns {
 		}
 
 		return WPSEO_Utils::is_metabox_active( $post_type, 'post_type' );
-	}
-
-	/**
-	 * Retrieve the page title.
-	 *
-	 * @param int $post_id Post to retrieve the title for.
-	 *
-	 * @return string
-	 */
-	private function page_title( $post_id ) {
-		$fixed_title = WPSEO_Meta::get_value( 'title', $post_id );
-		if ( $fixed_title !== '' ) {
-			return $fixed_title;
-		}
-
-		$post = get_post( $post_id );
-
-		if ( is_object( $post ) && WPSEO_Options::get( 'title-' . $post->post_type, '' ) !== '' ) {
-			$title_template = WPSEO_Options::get( 'title-' . $post->post_type );
-			$title_template = str_replace( ' %%page%% ', ' ', $title_template );
-
-			return wpseo_replace_vars( $title_template, $post );
-		}
-
-		return wpseo_replace_vars( '%%title%%', $post );
 	}
 
 	/**

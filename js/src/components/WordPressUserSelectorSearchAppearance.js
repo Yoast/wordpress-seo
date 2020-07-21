@@ -1,8 +1,9 @@
-/* global wpseoSearchAppearance */
+/* global wpseoScriptData */
 
 /* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Alert } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 
 /* Internal dependencies */
@@ -35,14 +36,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	 * @returns {number} The user id.
 	 */
 	getInitialValue() {
-		const value = this.element.value;
-
-		let userId = null;
-		if ( value !== "false" ) {
-			userId = parseInt( value, 10 );
-		}
-
-		return userId;
+		return parseInt( this.element.value, 10 );
 	}
 
 	/**
@@ -64,24 +58,22 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	/**
 	 * Renders an error message when no user has been selected.
 	 *
-	 * @returns {React.Element} The rendered error message.
+	 * @returns {wp.Element} The rendered error message.
 	 */
 	renderError() {
 		if ( this.state.value ) {
 			return null;
 		}
 
-		return (
-			<p className="error-message">
-				{ __( "Error: Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
-			</p>
-		);
+		return <Alert type={ "warning" }>
+			{ __( "Please select a user below to make your site's meta data complete.", "wordpress-seo" ) }
+		</Alert>;
 	}
 
 	/**
 	 * Renders a message about the selected user when a user has been selected.
 	 *
-	 * @returns {React.Element} The rendered message.
+	 * @returns {wp.Element} The rendered message.
 	 */
 	renderAuthorInfo() {
 		if ( ! this.state.value || ! this.state.name ) {
@@ -104,7 +96,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				user: this.state.name,
 				strong: <strong />,
 				/* eslint-disable-next-line jsx-a11y/anchor-has-content */
-				authorEditLink: <a href={ wpseoSearchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
+				authorEditLink: <a href={ wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
 			},
 		} );
 	}
@@ -112,7 +104,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	/**
 	 * Renders the WordPressUserSelectorSearchAppearance component.
 	 *
-	 * @returns {React.Element} The rendered component.
+	 * @returns {wp.Element} The rendered component.
 	 */
 	render() {
 		return (
@@ -121,7 +113,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				<label
 					htmlFor="wpseo-person-selector-name"
 				>
-					{ __( "Name:", "wordpress-seo" ) }
+					{ __( "Name", "wordpress-seo" ) }
 				</label>
 				<WordPressUserSelector
 					hasLabel={ false }

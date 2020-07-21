@@ -1,13 +1,16 @@
-import React from "react";
+import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 import Suggestion from "./Suggestion";
 
-class Suggestions extends React.Component {
+/**
+ * @summary Suggestions component for config wizard.
+ */
+class Suggestions extends Component {
 	/**
 	 * @summary Renders the Suggestions component.
 	 *
-	 * @returns {JSX.Element} Rendered Choices Component.
+	 * @returns {wp.Element} Rendered Choices Component.
 	 */
 	render() {
 		return (

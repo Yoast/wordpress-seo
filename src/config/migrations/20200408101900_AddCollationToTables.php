@@ -5,13 +5,22 @@
  * @package WPSEO\Migrations
  */
 
+namespace Yoast\WP\SEO\Config\Migrations;
+
+use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
-use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
  * Class AddCollationToTables
  */
-class AddCollationToTables extends Ruckusing_Migration_Base {
+class AddCollationToTables extends Migration {
+
+	/**
+	 * The plugin this migration belongs to.
+	 *
+	 * @var string
+	 */
+	public static $plugin = 'free';
 
 	/**
 	 * Migration up.
@@ -32,7 +41,7 @@ class AddCollationToTables extends Ruckusing_Migration_Base {
 		];
 
 		foreach ( $tables as $table ) {
-			$this->query( 'ALTER TABLE ' . $table . ' CONVERT TO ' . str_replace( 'DEFAULT ', '', $charset_collate ) );
+			$this->query( 'ALTER TABLE ' . $table . ' CONVERT TO ' . \str_replace( 'DEFAULT ', '', $charset_collate ) );
 		}
 	}
 

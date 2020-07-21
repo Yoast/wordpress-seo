@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Admin\Metabox;
 
-use Yoast\WP\SEO\Tests\TestCase;
 use WPSEO_Metabox_Section_Additional;
+use Yoast\WP\SEO\Tests\TestCase;
 
 /**
  * Unit Test Class.

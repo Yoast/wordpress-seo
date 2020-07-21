@@ -8,15 +8,20 @@
 namespace Yoast\WP\SEO\Actions\Indexation;
 
 use wpdb;
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Indexable_Post_Indexation_Action class.
  */
 class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
+
+	/**
+	 * The transient cache key.
+	 */
+	const TRANSIENT_CACHE_KEY = 'wpseo_total_unindexed_posts';
 
 	/**
 	 * The post type helper.
@@ -58,6 +63,11 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 * @return int|false The amount of unindexed posts. False if the query fails.
 	 */
 	public function get_total_unindexed() {
+		$transient = \get_transient( static::TRANSIENT_CACHE_KEY );
+		if ( $transient !== false ) {
+			return (int) $transient;
+		}
+
 		$query = $this->get_query( true );
 
 		$result = $this->wpdb->get_var( $query );
@@ -65,6 +75,9 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		if ( \is_null( $result ) ) {
 			return false;
 		}
+
+		\set_transient( static::TRANSIENT_CACHE_KEY, $result, \DAY_IN_SECONDS );
+
 		return (int) $result;
 	}
 
@@ -81,6 +94,8 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 		foreach ( $post_ids as $post_id ) {
 			$indexables[] = $this->repository->find_by_id_and_type( (int) $post_id, 'post' );
 		}
+
+		\delete_transient( static::TRANSIENT_CACHE_KEY );
 
 		return $indexables;
 	}
@@ -113,7 +128,6 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 	 */
 	protected function get_query( $count, $limit = 1 ) {
 		$public_post_types = $this->post_type_helper->get_public_post_types();
-		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) );
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$replacements      = $public_post_types;
 
@@ -131,7 +145,13 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 			"
 			SELECT $select
 			FROM {$this->wpdb->posts}
-			WHERE ID NOT IN (SELECT object_id FROM $indexable_table WHERE object_type = 'post') AND post_type IN ($placeholders)
+			WHERE ID NOT IN (
+				SELECT object_id
+				FROM $indexable_table
+				WHERE object_type = 'post'
+				AND permalink_hash IS NOT NULL
+			)
+			AND post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",
 			$replacements
 		);

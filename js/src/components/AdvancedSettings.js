@@ -1,17 +1,18 @@
-import Collapsible from "./SidebarCollapsible";
+import MetaboxCollapsible from "./MetaboxCollapsible";
 import { __, sprintf } from "@wordpress/i18n";
 import { MultiSelect, Select } from "@yoast/components";
 import { RadioButtonGroup } from "@yoast/components";
 import { TextInput } from "@yoast/components";
 import { curryUpdateToHiddenInput, getValueFromHiddenInput } from "@yoast/helpers";
-import { Component } from "@wordpress/element";
-import { Fragment } from "react";
+import { Component, Fragment } from "@wordpress/element";
 import { Alert } from "@yoast/components";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
+ *
+ * @returns {Boolean} Whether this is a post or not.
  */
-const isPost = !! window.wpseoPostScraperL10n;
+const isPost = () => !! window.wpseoScriptData.isPost;
 
 /**
  * The values that are used for the noIndex field differ for posts and taxonomies. This function returns an array of
@@ -24,7 +25,7 @@ const getNoIndexOptions = () => {
 	const translatedYes = __( "Yes", "wordpress-seo" );
 	const noIndex = window.wpseoAdminL10n.noIndex ? translatedNo : translatedYes;
 
-	if ( isPost ) {
+	if ( isPost() ) {
 		return [
 			{
 				name: sprintf(
@@ -61,7 +62,7 @@ const getNoIndexOptions = () => {
  * @returns {Component} The Meta Robots No-Index component.
  */
 const MetaRobotsNoIndex = () => {
-	const hiddenInputId = isPost ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_meta-robots-noindex" : "#hidden_wpseo_noindex";
 	const metaRobotsNoIndexOptions = getNoIndexOptions();
 	const value = getValueFromHiddenInput( hiddenInputId );
 	return <Fragment>
@@ -148,7 +149,7 @@ const MetaRobotsAdvanced = () => {
  * @returns {Component} The Breadcrumbs title component.
  */
 const BreadCrumbsTitle = () => {
-	const hiddenInputId = isPost ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_bctitle" : "#hidden_wpseo_bctitle";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
@@ -168,7 +169,7 @@ const BreadCrumbsTitle = () => {
  * @returns {Component} The canonical URL component.
  */
 const CanonicalURL = () => {
-	const hiddenInputId = isPost ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
+	const hiddenInputId = isPost() ? "#yoast_wpseo_canonical" : "#hidden_wpseo_canonical";
 	const value = getValueFromHiddenInput( hiddenInputId );
 
 	return <TextInput
@@ -194,15 +195,15 @@ class AdvancedSettings extends Component {
 	 */
 	render() {
 		return (
-			<Collapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+			<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
 				<MetaRobotsNoIndex />
-				{ isPost && <MetaRobotsNoFollow /> }
-				{ isPost && <MetaRobotsAdvanced /> }
+				{ isPost() && <MetaRobotsNoFollow /> }
+				{ isPost() && <MetaRobotsAdvanced /> }
 				{
 					! window.wpseoAdminL10n.breadcrumbsDisabled && <BreadCrumbsTitle />
 				}
 				<CanonicalURL />
-			</Collapsible>
+			</MetaboxCollapsible>
 		);
 	}
 }
