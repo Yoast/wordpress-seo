@@ -9,7 +9,6 @@ import { BaseButton } from "@yoast/components";
 
 /* Internal dependencies */
 import { ModalContainer } from "./modals/Container";
-import KeyphrasesTable from "./modals/KeyphrasesTable";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 
