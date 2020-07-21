@@ -1,30 +1,14 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { Fragment, Component } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-
 /* Internal dependencies */
-import ErrorWithUrl from "@yoast/components/src/internal/ErrorWithUrl";
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
-
 // Import required CSS.
 import "@yoast/components/src/select/select.css";
 import "@yoast/components/src/button/buttons.css";
 
-
 const id = "country-selector";
-
-/**
- * Defines how a select option should look.
- */
-
-const selectProps = {
-	onChange: PropTypes.func,
-};
-const selectDefaultProps = {
-	onChange: () => {},
-};
 
 /**
  * Renders a HTML option based on a name and value.
@@ -166,7 +150,6 @@ const countries = [
 	{ value: "ly", name: "Libya - LY" },
 ];
 
-
 /**
  * The SEMrush Country Selector component.
  */
@@ -180,14 +163,12 @@ class SemRushCountrySelector extends Component {
 	 */
 	constructor( props ) {
 		// Make sure that both jQuery and select2 are defined on the global window.
-		if ( typeof window.jQuery === "undefined" || typeof window.jQuery().select2 === "undefined" ) {
-			throw new ErrorWithUrl(
-				"Make sure to read our docs about the requirements for the MultiSelect -- COUNTRYSELECTOR.",
-				"https://github.com/Yoast/javascript/blob/develop/packages/components/README.md#using-the-multiselect"
-			);
+		if ( typeof window.jQuery().select2 === "undefined" ) {
+			throw new Error( "No Select2 found." );
 		}
 		super( props );
 
+		// To Do: get default database country from wp-options wpseo
 		this.state = {
 			database: "us",
 		};
@@ -220,7 +201,6 @@ class SemRushCountrySelector extends Component {
 	onChangeHandler() {
 		// It is easier to query the select for the selected options than keep track of them in this component as well.
 		const selection = this.select2.select2( "data" ).map( option => option.id );
-		// X this.props.onChange( selection );
 		this.setState( { database: selection[ 0 ] } );
 	}
 
@@ -253,9 +233,6 @@ class SemRushCountrySelector extends Component {
 	}
 }
 
-SemRushCountrySelector.propTypes = selectProps;
-SemRushCountrySelector.defaultProps = selectDefaultProps;
-
 /**
  * Renders the CountrySelector inside its own ErrorBoundary to prevent errors from bubbling up.
  *
@@ -268,9 +245,6 @@ const CountrySelectorWithErrorBoundary = ( props ) => (
 		<SemRushCountrySelector { ...props } />
 	</ErrorBoundary>
 );
-
-CountrySelectorWithErrorBoundary.propTypes = selectProps;
-CountrySelectorWithErrorBoundary.defaultProps = selectDefaultProps;
 
 export { CountrySelectorWithErrorBoundary as SemRushCountrySelector };
 
