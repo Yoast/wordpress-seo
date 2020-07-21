@@ -8,7 +8,12 @@ import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
 import "@yoast/components/src/select/select.css";
 import "@yoast/components/src/button/buttons.css";
 
-const id = "country-selector";
+/**
+ * The ID of the SEMrush Country Selection component.
+ *
+ * @type {string} id The ID of the component.
+ */
+const id = "semrush-country-selector";
 
 /**
  * Renders a HTML option based on a name and value.
@@ -214,7 +219,7 @@ class SemRushCountrySelector extends Component {
 			<Fragment>
 				<div className="yoast">
 					<FieldGroup
-						htmlFor="country-selector"
+						htmlFor={ id }
 						label="Show results for:"
 						wrapperClassName="yoast-field-group"
 					>
@@ -247,6 +252,4 @@ const CountrySelectorWithErrorBoundary = ( props ) => (
 );
 
 export { CountrySelectorWithErrorBoundary as SemRushCountrySelector };
-
-
 export default SemRushCountrySelector;
