@@ -72,7 +72,6 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Tests with the old value being false. This is the case when the option is saved the first time.
 	 *
-	 * @covers ::__construct
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_old_value_being_false() {
@@ -82,7 +81,6 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Tests the method with one argument not being an array.
 	 *
-	 * @covers ::__construct
 	 * @covers ::check_option
 	 */
 	public function test_check_option_with_one_value_not_being_an_array() {
@@ -92,7 +90,6 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	/**
 	 * Tests the method when the value for stripcategory base has changed.
 	 *
-	 * @covers ::__construct
 	 * @covers ::check_option
 	 */
 	public function test_check_option_stripcategorybase_changed() {
