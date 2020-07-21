@@ -5,8 +5,8 @@
  *
  * @returns {string} Current modal status.
  */
-export function getSEMrushModalIsOpen( state ) {
-	return state.SEMrushModal.isModalOpen;
+export function getSEMrushModalOpen( state ) {
+	return state.SEMrushModal.whichModalOpen;
 }
 
 /**

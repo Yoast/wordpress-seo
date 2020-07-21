@@ -1,8 +1,7 @@
-import { MODAL_CHANGE_DATABASE, MODAL_DISMISS } from "../actions/SEMrushModal";
-import { MODAL_OPEN } from "../actions";
+import { MODAL_CHANGE_DATABASE, MODAL_DISMISS, MODAL_OPEN } from "../actions";
 
 const INITIAL_STATE = {
-	isModalOpen: false,
+	whichModalOpen: false,
 	currentDatabase: "us",
 };
 /**
@@ -17,17 +16,17 @@ function SEMrushModalReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case MODAL_DISMISS:
 			return {
-				isModalOpen: false,
+				whichModalOpen: false,
 				currentDatabase: state.currentDatabase,
 			};
 		case MODAL_OPEN:
 			return {
-				isModalOpen: true,
+				whichModalOpen: action.location,
 				currentDatabase: state.currentDatabase,
 			};
 		case MODAL_CHANGE_DATABASE:
 			return {
-				isModalOpen: state.isModalOpen,
+				whichModalOpen: state.whichModalOpen,
 				currentDatabase: action.country,
 			};
 	}

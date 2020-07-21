@@ -16,11 +16,14 @@ export function setSEMrushDismissModal() {
 /**
  * Opens the SEMrush modal.
  *
+ * @param {string} location of the modal to open
+ *
  * @returns {Object} Action object.
  */
-export function setSEMrushOpenModal() {
+export function setSEMrushOpenModal( location ) {
 	return {
 		type: MODAL_OPEN,
+		location,
 	};
 }
 

@@ -6,7 +6,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		return {
 			requestKeyphrase: select( "yoast-seo/editor" ).getSEMrushRequestKeyphrase(),
-			isModalOpen: select( "yoast-seo/editor" ).getSEMrushModalIsOpen(),
+			whichModalOpen: select( "yoast-seo/editor" ).getSEMrushModalOpen(),
 			currentDatabase: select( "yoast-seo/editor" ).getSEMrushSelectedCountry(),
 			currentCountry: select( "yoast-seo/editor" ).getSEMrushRequestCountry(),
 			OAuthToken: select( "yoast-seo/editor" ).getSEMrushRequestOAuthToken(),
@@ -26,8 +26,8 @@ export default compose( [
 			"yoast-seo/editor"
 		);
 		return {
-			onOpen: () => {
-				setSEMrushOpenModal();
+			onOpen: ( location ) => {
+				setSEMrushOpenModal( location );
 			},
 			onClose: () => {
 				setSEMrushDismissModal();
