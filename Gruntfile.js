@@ -42,7 +42,7 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			css: [
-				"css/dist/*.css",
+				"css/src/*.css",
 			],
 			cssMap: [
 				"css/dist/*.css.map",
@@ -58,6 +58,8 @@ module.exports = function( grunt ) {
 				"admin/**/*.php",
 				"frontend/**/*.php",
 				"inc/**/*.php",
+				"src/**/*.php",
+				"config/**/*.php",
 			],
 			versionFiles: [
 				"package.json",

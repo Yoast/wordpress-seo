@@ -187,16 +187,11 @@ module.exports = function( grunt ) {
 		},
 
 		"php-lint": {
-			command: "find -L . " +
-				"-path ./vendor -prune -o " +
-				"-path ./vendor_prefixed -prune -o " +
-				"-path ./node_modules -prune -o " +
-				"-path ./artifact -prune -o " +
-				"-name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+			command: "composer lint-branch",
 		},
 
 		phpcs: {
-			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
+			command: "composer check-branch-cs",
 		},
 
 		"unlink-monorepo": {
