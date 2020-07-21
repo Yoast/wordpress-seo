@@ -104,6 +104,23 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph title.
+	 *
+	 * @return string The open graph title.
+	 */
+	public function generate_open_graph_title() {
+		if ( $this->model->open_graph_title ) {
+			return $this->model->open_graph_title;
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		return $this->title;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_twitter_description() {
@@ -117,6 +134,29 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->taxonomy->get_term_description( $this->model->object_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_title() {
+		if ( $this->model->twitter_title ) {
+			return $this->model->twitter_title;
+		}
+
+		if ( $this->open_graph_title && $this->context->open_graph_enabled === true ) {
+			return '';
+		}
+
+		if ( $this->model->breadcrumb_title ) {
+			return $this->model->breadcrumb_title;
+		}
+
+		if ( $this->title ) {
+			return $this->title;
+		}
+
+		return '';
 	}
 
 	/**

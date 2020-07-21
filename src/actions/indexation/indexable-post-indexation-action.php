@@ -149,6 +149,7 @@ class Indexable_Post_Indexation_Action implements Indexation_Action_Interface {
 				SELECT object_id
 				FROM $indexable_table
 				WHERE object_type = 'post'
+				AND permalink_hash IS NOT NULL
 			)
 			AND post_type IN (" . \implode( ', ', \array_fill( 0, \count( $public_post_types ), '%s' ) ) . ")
 			$limit_query",

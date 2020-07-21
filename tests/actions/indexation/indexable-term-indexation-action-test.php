@@ -84,6 +84,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				SELECT object_id
 				FROM wp_yoast_indexable
 				WHERE object_type = 'term'
+				AND permalink_hash IS NOT NULL
 			)
 			AND taxonomy IN (%s)
 			$limit_placeholder";
@@ -145,6 +146,7 @@ class Indexable_Term_Indexation_Action_Test extends TestCase {
 				SELECT object_id
 				FROM wp_yoast_indexable
 				WHERE object_type = \'term\'
+				AND permalink_hash IS NOT NULL
 			)
 			AND taxonomy IN (%s)
 			LIMIT %d';

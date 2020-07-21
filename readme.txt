@@ -212,27 +212,30 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 14.6 =
 Release Date: July 21st, 2020
 
+We have a new release for you: Yoast SEO 14.6. This release has some pretty cool enhancements. For example, we’ve added another helpful indicator in the editor that shows you your scores for a particular post quickly. Read more about those changes in [our release post](https://yoa.st/release-14-6)!
+
 Enhancements:
 
 * Improves the editing experience in the Social tab, and gives it a dab of fresh paint.
-* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results. [#15597](https://github.com/Yoast/wordpress-seo/pull/15597)
-* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings. [#15622](https://github.com/Yoast/wordpress-seo/pull/15622)
-* Improves keyphrase counting in Indonesian by not counting - as a word boundary. [#696](https://github.com/Yoast/javascript/pull/696)
-* Improves the feedback text for the _keyphrase in title_ assessment to make clear that an exact keyphrase match is necessary. [#744](https://github.com/Yoast/javascript/pull/744)
-* Improves recognition of keywords that contain a hyphen in slug (for example: re-duplicated, on-the-go). [#740](https://github.com/Yoast/javascript/pull/740)
-* Improves transition words analysis for Russian. [#714](https://github.com/Yoast/javascript/pull/714)
+* In the sharing metadata used for Facebook, Twitter, Pinterest, LinkedIn and many other sites, we now output the post title instead of the SEO title. This prevents the brand name from being added in most cases, which is better on those platforms. You can still set a specific sharing title on the Social tab of the Yoast SEO post settings.
+* Makes the plugin icon in the editor reflect the SEO and Readability score.
+* Improves keyphrase counting in Indonesian by not counting '-' as a word boundary.
+* Improves the feedback text for the keyphrase in title assessment to make clear that an exact keyphrase match is necessary.
+* Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
+* Improves the transition words analysis for Russian.
+* `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
 
 Bugfixes:
 
-* Fixes a bug where there is no border on the bottom of metabox tabs without any collapsible sections. [#15624](https://github.com/Yoast/wordpress-seo/pull/15624)
-* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam). [#15540](https://github.com/Yoast/wordpress-seo/pull/15540)
-* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback. [#15399](https://github.com/Yoast/wordpress-seo/pull/15399)
-* Fixes a bug where slashes in titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher). [#14498](https://github.com/Yoast/wordpress-seo/pull/14498)
-* Fixes `get_plugins()` undefined error if there is already `plugin.php` loaded via `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant) [#14239](https://github.com/Yoast/wordpress-seo/pull/14239)
+* Fixes a bug where the comment count would be output for Articles that did not accept comments. Props to [gr8shivam](https://github.com/gr8shivam).
+* Fixes a bug where the social previews did not reflect the `og:image` tag correctly in situations where the first image in the content was used as a fallback.
+* Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props [Jon Christopher](https://github.com/jchristopher).
+* Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props [Krishna Kant](https://github.com/lushkant).
+* Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
 
 Other:
 
-* Removes functions, class variables and classes that were deprecated prior to version 11.5. [#15509](https://github.com/Yoast/wordpress-seo/pull/15509)
+* Removes functions, class variables and classes that were deprecated prior to version 11.5.
 
 = 14.5 =
 Release Date: July 8th, 2020
