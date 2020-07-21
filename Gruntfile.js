@@ -2,7 +2,7 @@
 var timeGrunt = require( "time-grunt" );
 var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
-const { flattenVersionForFile } = require( "./webpack/paths" );
+const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();
 
 module.exports = function( grunt ) {
