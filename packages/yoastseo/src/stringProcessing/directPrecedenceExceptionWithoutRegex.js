@@ -5,6 +5,7 @@ import functionWordsFrenchFactory from "../researches/french/functionWords";
 import functionWordsItalianFactory from "../researches/italian/functionWords";
 import functionWordsPolishFactory from "../researches/polish/functionWords";
 import functionWordsSpanishFactory from "../researches/spanish/functionWords";
+import functionWordsPortugueseFactory from "../researches/portuguese/functionWords";
 import getWords from "../stringProcessing/getWords";
 
 const cannotDirectlyPrecedePassiveParticiples = {
@@ -14,6 +15,7 @@ const cannotDirectlyPrecedePassiveParticiples = {
 	it: functionWordsItalianFactory().cannotDirectlyPrecedePassiveParticiple,
 	pl: functionWordsPolishFactory().cannotDirectlyPrecedePassiveParticiple,
 	es: functionWordsSpanishFactory().cannotDirectlyPrecedePassiveParticiple,
+	pt: functionWordsPortugueseFactory().cannotDirectlyPrecedePassiveParticiple,
 };
 
 /**
