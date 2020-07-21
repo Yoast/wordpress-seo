@@ -20,7 +20,7 @@ const morphologyData = {
 	it,
 	pt,
 	id,
-	pl
+	pl,
 };
 
 /**
