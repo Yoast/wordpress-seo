@@ -12,6 +12,7 @@ import SpanishParticiple from "../../spanish/passiveVoice/SpanishParticiple.js";
 import ItalianParticiple from "../../italian/passiveVoice/ItalianParticiple.js";
 import DutchParticiple from "../../dutch/passiveVoice/DutchParticiple.js";
 import PolishParticiple from "../../polish/passiveVoice/PolishParticiple.js";
+import PortugueseParticiple from "../../portuguese/passiveVoice/PortugueseParticiple.js";
 
 /**
  * Creates participle objects for the participles found in a sentence part.
@@ -53,6 +54,10 @@ export default function( sentencePartText, auxiliaries, language ) {
 					break;
 				case "pl":
 					foundParticiples.push( new PolishParticiple( word, sentencePartText,
+						{ auxiliaries: auxiliaries, type: type, language: language } ) );
+					break;
+				case "pt":
+					foundParticiples.push( new PortugueseParticiple( word, sentencePartText,
 						{ auxiliaries: auxiliaries, type: type, language: language } ) );
 					break;
 				case "en":
