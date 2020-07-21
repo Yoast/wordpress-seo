@@ -28,7 +28,7 @@ class XMLRPC implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'xmlrpc_methods', [ $this, 'robots_header' ] );
+		\add_filter( 'xmlrpc_methods', [ $this, 'robots_header' ] );
 	}
 
 	/**
@@ -36,12 +36,15 @@ class XMLRPC implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore Basically impossible to test from the command line.
 	 *
-	 * @return void
+	 * @param array $methods The methods.
+	 *
+	 * @return array The methods.
 	 */
-	public function robots_header() {
+	public function robots_header( $methods ) {
 		if ( \headers_sent() === false ) {
 			\header( 'X-Robots-Tag: noindex, follow', true );
 		}
+
+		return $methods;
 	}
 }
-
