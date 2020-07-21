@@ -88,10 +88,29 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the method with both arguments not being an array.
+	 *
+	 * @covers ::check_option
+	 */
+	public function test_check_option_with_values_not_being_an_array() {
+		$this->instance->check_option( 'string', 'string' );
+	}
+
+	/**
+	 * Tests the method when both values aren't set.
+	 *
+	 * @covers ::check_option
+	 */
+	public function test_check_option_with_values_not_being_set() {
+		$this->instance->check_option( [ 'stripcategorybase' ], [ 'stripcategorybase' ] );
+	}
+
+	/**
 	 * Tests the method when the value for stripcategory base has changed.
 	 *
 	 * @covers ::check_option
 	 */
 	public function test_check_option_stripcategorybase_changed() {
+		$this->instance->check_option( [ 'stripcategorybase' => 0 ], [ 'stripcategorybase' => 1 ] );
 	}
 }
