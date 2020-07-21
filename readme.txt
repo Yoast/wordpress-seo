@@ -209,6 +209,17 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 14.6.1 =
+Release Date: July 21st, 2020
+
+Other:
+
+* Reverts the change for social media titles to pick the post/page/term title, as this could inadvertently lead to low quality titles for some archives and other page types.
+
+Bugfixes:
+
+* Fixes a bug where the where all methods were removed from `xmlrpc.php` due to incorrect usage of `add_action` as opposed to `add_filter`.
+
 = 14.6 =
 Release Date: July 21st, 2020
 
