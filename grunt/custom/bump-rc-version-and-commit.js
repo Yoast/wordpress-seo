@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 			grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( 'files.versionFiles' ) } );
 			grunt.task.run( "gitadd:versionBump" );
 
-			grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
+			grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version" );
 			grunt.task.run( "gitcommit:versionBump" );
 
 			grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true } );

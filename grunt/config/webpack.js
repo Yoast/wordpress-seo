@@ -1,5 +1,5 @@
 /* global require */
-const webpackConfig = require( "../../webpack/webpack.config" );
+const webpackConfig = require( "../../config/webpack/webpack.config" );
 const get = require( "lodash" ).get;
 
 module.exports = ( grunt ) => {
