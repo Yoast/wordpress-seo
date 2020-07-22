@@ -164,7 +164,7 @@ const Content = ( props ) => (
 		</div>
 		<Select
 			id="yoast_wpseo_schema_page_type_react"
-			name="schema_page_type"
+			name={ null }
 			options={ schemaPageOptions }
 			label={ __( "Page type", "wordpress-seo" ) }
 			onChange={ props.schemaPageTypeChange }
@@ -172,7 +172,7 @@ const Content = ( props ) => (
 		/>
 		{ props.showArticleTypeInput && <Select
 			id="yoast_wpseo_schema_article_type_react"
-			name="schema_article_type"
+			name={ null }
 			options={ schemaArticleOptions }
 			label={ __( "Article type", "wordpress-seo" ) }
 			onChange={ props.schemaArticleTypeChange }
