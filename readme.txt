@@ -219,7 +219,9 @@ Enhancements:
  * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
  * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
  * Improves the styling of the warning when no person is selected in the Person/Company schema selector. 
- * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed. 
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed.
+ * Adds the Yoast logo to the Yoast block categories.
+ * Compatibility with WordPress 5.5: makes sure Yoast structured data blocks are found on more keywords and have examples in the block inserter.
 
 Bugfixes:
 
