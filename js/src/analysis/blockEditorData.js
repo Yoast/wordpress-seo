@@ -23,7 +23,7 @@ const $ = global.jQuery;
 /**
  * Represents the data.
  */
-export default class Data {
+export default class BlockEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *

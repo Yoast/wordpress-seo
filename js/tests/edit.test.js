@@ -1,6 +1,6 @@
 import { initializeData } from "../src/initializers/edit.js";
 import ClassicEditorData from "../src/analysis/classicEditorData.js";
-import Data from "../src/analysis/data.js";
+import BlockEditorData from "../src/analysis/blockEditorData.js";
 import isBlockEditor from "../src/helpers/isBlockEditor";
 
 jest.mock( "react-dom" );
@@ -35,7 +35,7 @@ describe( "initializeData", () => {
 			return true;
 		} );
 		initializeData( {}, {}, {} );
-		expect( Data ).toHaveBeenCalledTimes( 1 );
+		expect( BlockEditorData ).toHaveBeenCalledTimes( 1 );
 	} );
 } );
 
