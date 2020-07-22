@@ -197,7 +197,6 @@ class WPSEO_Meta {
 			'schema_page_type' => [
 				'type'         => 'hidden',
 				'title'        => '',
-				'indexable'    => true,
 				// Replace with WPSEO_Option_Titles::SCHEMA_PAGE_TYPES
 				'options' => [
 					'option-1'  => '',
@@ -219,7 +218,6 @@ class WPSEO_Meta {
 				'type'            => 'hidden',
 				'title'           => '',
 				'hide_on_pages'   => true,
-				'indexable'       => true,
 				// Replace with WPSEO_Option_Titles::SCHEMA_ARTICLE_TYPES
 				'options' => [
 					'option-1'  => '',
@@ -684,21 +682,6 @@ class WPSEO_Meta {
 			if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 				// Ok, serialize value expected/allowed.
 				return $unserialized;
-			}
-		}
-
-		// Check if we need to fetch data from the indexables table.
-		if ( isset( $field_def['indexable'] ) && $field_def['indexable'] === true ) {
-			/**
-			 * Holds the indexable repository.
-			 *
-			 * @var Indexable_Repository
-			 */
-			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
-			// Auto create should be false here to prevent the watcher from picking this get value up.
-			$indexable  = $repository->find_by_id_and_type( $postid, WPSEO_Utils::get_page_type(), false );
-			if ( $indexable && ! is_null( $indexable->$key ) ) {
-				return $indexable->$key;
 			}
 		}
 
