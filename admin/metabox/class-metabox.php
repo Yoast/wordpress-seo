@@ -746,7 +746,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$meta_boxes,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
 			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
-			$social_fields
+			$social_fields,
+			WPSEO_Meta::get_meta_field_defs( 'schema' )
 		);
 
 		foreach ( $meta_boxes as $key => $meta_box ) {
