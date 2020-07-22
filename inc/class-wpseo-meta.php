@@ -290,8 +290,6 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function init() {
-		global $post;
-
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
@@ -311,9 +309,10 @@ class WPSEO_Meta {
 		 *
 		 * These options can be changed using the Search Appearance settings.
 		 */
-		if ( isset( $post->post_type ) ) {
-			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
-			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
+		$post_type = filter_input( INPUT_POST, 'post_type' );
+		if ( ! is_null( $post_type ) && $post_type !== false ) {
+			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
 		}
 
 		/**
