@@ -19,6 +19,11 @@ use Yoast\WP\Lib\Model;
  * @property string $type
  * @property int    $indexable_id
  * @property int    $target_indexable_id
+ * @property int    $height
+ * @property int    $width
+ * @property int    $size
+ * @property string $language
+ * @property string $region
  */
 class SEO_Links extends Model {
 
@@ -66,5 +71,10 @@ class SEO_Links extends Model {
 		'id',
 		'post_id',
 		'target_post_id',
+		'indexable_id',
+		'target_indexable_id',
+		'height',
+		'width',
+		'size',
 	];
 }
