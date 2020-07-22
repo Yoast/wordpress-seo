@@ -21,7 +21,7 @@ export default compose( [
 	withDispatch( ( dispatch ) => {
 		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase,
 			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached, SEMrushAddKeyphrase: addSEMrushKeyphrase, SEMrushRemoveKeyphrase: removeSEMrushKeyphrase,
+			setSEMrushSetRequestLimitReached, addSEMrushKeyphrase, removeSEMrushKeyphrase,
 			setSEMrushKeyphraseLimitReached } = dispatch(
 			"yoast-seo/editor"
 		);

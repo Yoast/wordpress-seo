@@ -67,9 +67,7 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 				limitReached: true,
 			};
 		default:
-			return {
-				state,
-			};
+			return state;
 	}
 }
 
