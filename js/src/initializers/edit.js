@@ -1,6 +1,5 @@
 /* global window wp */
 /* External dependencies */
-import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { updateCategory } from "@wordpress/blocks";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
