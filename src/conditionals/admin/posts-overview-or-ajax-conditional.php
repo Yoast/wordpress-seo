@@ -10,7 +10,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Conditional that is only met when in the admin.
  */
-class Posts_Overview_And_Ajax_Conditional implements Conditional {
+class Posts_Overview_Or_Ajax_Conditional implements Conditional {
 
 	/**
 	 * Returns whether or not this conditional is met.

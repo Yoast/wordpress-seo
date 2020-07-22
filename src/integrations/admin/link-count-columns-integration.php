@@ -11,7 +11,7 @@ use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Actions\Indexation\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Posts_Overview_And_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -43,7 +43,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Admin_Conditional::class,
-			Posts_Overview_And_Ajax_Conditional::class,
+			Posts_Overview_Or_Ajax_Conditional::class,
 			Should_Index_Links_Conditional::class,
 		];
 	}

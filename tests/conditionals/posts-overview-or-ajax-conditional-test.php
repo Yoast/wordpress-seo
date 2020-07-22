@@ -3,23 +3,22 @@
 namespace Yoast\WP\SEO\Tests\Conditionals;
 
 use Brain\Monkey\Functions;
-use Mockery;
-use Yoast\WP\SEO\Conditionals\Posts_Overview_And_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
- * Class Posts_Overview_And_Ajax_Conditional_Test.
+ * Class Posts_Overview_Or_Ajax_Conditional_Test.
  *
  * @group conditionals
  *
- * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Posts_Overview_And_Ajax_Conditional
+ * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional
  */
-class Posts_Overview_And_Ajax_Conditional_Test extends TestCase {
+class Posts_Overview_Or_Ajax_Conditional_Test extends TestCase {
 
 	/**
 	 * The breadcrumbs enabled conditional.
 	 *
-	 * @var Posts_Overview_And_Ajax_Conditional
+	 * @var Posts_Overview_Or_Ajax_Conditional
 	 */
 	private $instance;
 
@@ -29,7 +28,7 @@ class Posts_Overview_And_Ajax_Conditional_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Posts_Overview_And_Ajax_Conditional();
+		$this->instance = new Posts_Overview_Or_Ajax_Conditional();
 	}
 
 	/**
