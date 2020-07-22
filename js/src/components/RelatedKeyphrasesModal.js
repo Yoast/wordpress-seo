@@ -15,7 +15,7 @@ import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
  */
-class RelatedKeyPhrasesModal extends Component {
+class RelatedKeyphrasesModal extends Component {
 	/**
 	 * Constructs the RelatedKeyPhrasesModal component.
 	 *
@@ -26,13 +26,8 @@ class RelatedKeyPhrasesModal extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.state = {
-			isModalOpen: false,
-		};
-
-		this.handleOnClick = this.handleOnClick.bind( this );
-		this.openModal     = this.openModal.bind( this );
-		this.closeModal    = this.closeModal.bind( this );
+		this.onModalOpen  = this.onModalOpen.bind( this );
+		this.onModalClose = this.onModalClose.bind( this );
 	}
 
 	/**
@@ -40,7 +35,7 @@ class RelatedKeyPhrasesModal extends Component {
 	 *
 	 * @returns {void}
 	 */
-	handleOnClick() {
+	onModalOpen() {
 		// Add not-logged in logic here.
 
 		if ( ! this.props.keyphrase ) {
@@ -48,25 +43,16 @@ class RelatedKeyPhrasesModal extends Component {
 			return;
 		}
 
-		this.openModal();
+		this.props.onOpen( this.props.location );
 	}
 
 	/**
-	 * Opens the "Get related keyphrases" modal.
+	 * Handles the close event for the modal.
 	 *
 	 * @returns {void}
 	 */
-	openModal() {
-		this.setState( { isModalOpen: true } );
-	}
-
-	/**
-	 * Closes the "Get related keyphrases" modal.
-	 *
-	 * @returns {void}
-	 */
-	closeModal() {
-		this.setState( { isModalOpen: false } );
+	onModalClose() {
+		this.props.onClose();
 	}
 
 	/**
@@ -75,22 +61,21 @@ class RelatedKeyPhrasesModal extends Component {
 	 * @returns {React.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, maxRelatedKeyphrasesEntered } = this.props;
+		const { keyphrase, location, maxRelatedKeyphrasesEntered, whichModalOpen, currentDatabase } = this.props;
 
 		return (
 			<Fragment>
 				<BaseButton
 					id="yoast-get-related-keyphrases"
-					onClick={ this.handleOnClick }
 					className="yoast-related-keyphrases-modal__button"
-					{ ...this.props }
+					onClick={ this.onModalOpen }
 				>
 					{ __( "Get related keyphrases", "wordpress-seo" ) }
 				</BaseButton>
-				{ keyphrase && this.state.isModalOpen &&
+				{ keyphrase && whichModalOpen === location &&
 					<Modal
 						title={ __( "Related keyphrases", "wordpress-seo" ) }
-						onRequestClose={ this.closeModal }
+						onRequestClose={ this.onModalClose }
 						className="yoast-gutenberg-modal yoast-related-keyphrases-modal"
 						icon={ <YoastIcon /> }
 					>
@@ -106,8 +91,10 @@ class RelatedKeyPhrasesModal extends Component {
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />
-								The location is: { location }
+								The location is: { location }<br />
+								The current database is: { currentDatabase }
 							</p>
+
 						</ModalContainer>
 					</Modal>
 				}
@@ -116,16 +103,26 @@ class RelatedKeyPhrasesModal extends Component {
 	}
 }
 
-RelatedKeyPhrasesModal.propTypes = {
+RelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
+	whichModalOpen: PropTypes.oneOf( [
+		"none",
+		"metabox",
+		"sidebar",
+	] ),
+	currentDatabase: PropTypes.string,
+	onOpen: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired,
 };
 
-RelatedKeyPhrasesModal.defaultProps = {
+RelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
+	whichModalOpen: "none",
+	currentDatabase: "us",
 };
 
-export default RelatedKeyPhrasesModal;
+export default RelatedKeyphrasesModal;
