@@ -102,7 +102,7 @@ class SEO_Links_Repository {
 	public function get_incoming_link_counts_for_indexable_ids( $indexable_ids ) {
 		return $this->query()
 			->select_expr( 'COUNT( id )', 'incoming' )
-			->select( 'target_indexable_id', 'indexable_id' )
+			->select( 'target_indexable_id' )
 			->where_in( 'target_indexable_id', $indexable_ids )
 			->group_by( 'target_indexable_id' )
 			->find_array();

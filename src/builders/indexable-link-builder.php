@@ -368,7 +368,7 @@ class Indexable_Link_Builder {
 	protected function update_incoming_links_for_related_indexables( $related_indexable_ids ) {
 		$counts = $this->seo_links_repository->get_incoming_link_counts_for_indexable_ids( $related_indexable_ids );
 		foreach ( $counts as $count ) {
-			$this->indexable_repository->update_incoming_link_count( $count['indexable_id'], $count['incoming'] );
+			$this->indexable_repository->update_incoming_link_count( $count['target_indexable_id'], $count['incoming'] );
 		}
 	}
 }
