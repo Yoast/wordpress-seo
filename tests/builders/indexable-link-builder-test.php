@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Double;
 use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Models\SEO_Links_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -133,7 +132,6 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->indexable_repository->expects( 'update_incoming_link_count' )->once()->with( 3, 0 );
 
 		$seo_link->expects( 'save' )->once();
-		$indexable->expects( 'save' )->once();
 
 		$links = $this->instance->build( $indexable, $content );
 

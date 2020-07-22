@@ -100,6 +100,7 @@ abstract class Abstract_Link_Indexing_Action implements Indexation_Action_Interf
 			// It's possible the indexable was created without having it's links indexed.
 			if ( $indexable->link_count === null ) {
 				$this->link_builder->build( $indexable, $object->content );
+				$indexable->save();
 			}
 
 			$indexables[] = $indexable;
