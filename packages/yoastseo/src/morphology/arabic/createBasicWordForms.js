@@ -1,12 +1,12 @@
 /**
- * Creates basic word forms for a given Hebrew word.
+ * Creates basic word forms for a given Arabic word.
  *
  * @param {string} word     The word for which to create basic word forms.
  *
- * @returns {string}        Prefixed and de-prefixed variations of a word.
+ * @returns {Array}        Prefixed and de-prefixed variations of a word.
  */
 export function createBasicWordForms( word ) {
-	const prefixes = [ "ב", "ה", "ו", "כ", "ל", "מ", "ש" ];
+	const prefixes = [ "ل", "ب", "ال", "ك", "و", "ف" ];
 	const forms = [];
 
 	/*
@@ -22,8 +22,10 @@ export function createBasicWordForms( word ) {
 	 * If a word starts with one of the prefixes, we strip it and create all possible
 	 * prefixed forms based on this stem.
 	 */
-	if ( prefixes.some( prefix => word.startsWith( prefix ) ) ) {
-		stemmedWord = word.slice( 1 );
+	for ( const prefix of prefixes ) {
+		if ( word.startsWith( prefix ) ) {
+			stemmedWord = word.slice( prefix.length );
+		}
 	}
 
 	if ( stemmedWord.length > 0 ) {
