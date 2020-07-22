@@ -98,7 +98,6 @@ class Indexable_Link_Builder {
 
 		if ( empty( $links ) && empty( $images ) ) {
 			$indexable->link_count = 0;
-			$indexable->save();
 			return [];
 		}
 
