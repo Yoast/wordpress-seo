@@ -15,8 +15,8 @@ use Yoast\WP\SEO\Conditionals\Posts_Overview_Or_Ajax_Conditional;
 use Yoast\WP\SEO\Conditionals\Should_Index_Links_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Models\SEO_Meta;
-use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Link_Count_Columns_Integration class
@@ -70,16 +70,16 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	protected $post_link_indexing_action;
 
 	/**
-	 * Yoast extension of the Model class.
+	 * The indexable repository.
 	 *
-	 * @var SEO_Meta_Repository
+	 * @var Indexable_Repository
 	 */
-	protected $seo_meta_repository;
+	protected $indexable_repository;
 
 	/**
 	 * Cache of link counts.
 	 *
-	 * @var SEO_Meta[]
+	 * @var Indexable[]
 	 */
 	protected $link_counts_cache = [];
 
@@ -89,18 +89,18 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @param Post_Type_Helper          $post_type_helper          The post type helper.
 	 * @param wpdb                      $wpdb                      The wpdb object.
 	 * @param Post_Link_Indexing_Action $post_link_indexing_action The post link indexing action.
-	 * @param SEO_Meta_Repository       $seo_meta_repository       The SEO meta repository.
+	 * @param Indexable_Repository      $indexable_repository       The SEO meta repository.
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type_helper,
 		wpdb $wpdb,
 		Post_Link_Indexing_Action $post_link_indexing_action,
-		SEO_Meta_Repository $seo_meta_repository
+		Indexable_Repository $indexable_repository
 	) {
 		$this->post_type_helper          = $post_type_helper;
 		$this->wpdb                      = $wpdb;
 		$this->post_link_indexing_action = $post_link_indexing_action;
-		$this->seo_meta_repository       = $seo_meta_repository;
+		$this->indexable_repository      = $indexable_repository;
 	}
 
 	/**
@@ -261,10 +261,10 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 			$post_ids = array_keys( $posts );
 		}
 
-		$results = $this->seo_meta_repository->find_by_post_ids( $post_ids );
+		$indexables = $this->indexable_repository->find_by_multiple_ids_and_type( $post_ids, 'post' );
 
-		foreach ( $results as $seo_meta ) {
-			$this->link_counts_cache[ $seo_meta->object_id ] = $seo_meta;
+		foreach ( $indexables as $indexable ) {
+			$this->link_counts_cache[ $indexable->object_id ] = $indexable;
 		}
 	}
 
@@ -282,7 +282,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 
 		switch ( $column_name ) {
 			case 'wpseo-' . self::COLUMN_LINKS:
-				echo (int) $this->link_counts_cache[ $post_id ]->internal_link_count;
+				echo (int) $this->link_counts_cache[ $post_id ]->link_count;
 				return;
 			case 'wpseo-' . self::COLUMN_LINKED:
 				if ( get_post_status( $post_id ) === 'publish' ) {

@@ -36,7 +36,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	private $indexable;
 
 	/**
-	 * Holds the SEO_Meta_Repository instance.
+	 * Holds the Indexable_Repository instance.
 	 *
 	 * @var Indexable_Repository|Mockery\MockInterface
 	 */
