@@ -214,16 +214,25 @@ Release Date: August 4th, 2020
 
 Enhancements:
 
+ * Adds support for adding metadata to Web Stories (the `web-story` post type) from the [Web Stories](https://github.com/google/web-stories-wp) plugin. Props to [swissspidy](https://github.com/swissspidy)
  * Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
+ * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
+ * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
+ * Improves the styling of the warning when no person is selected in the Person/Company schema selector. 
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed. 
 
 Bugfixes:
 
  * Ensures the indexation spots the indexables without a permalink.
  * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
-
+ * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
+ 
 Other:
 
  * Enables the cornerstone content toggle for taxonomies.
+ * Adds the option to filter our Schema by `@type`.
+ * Removes the setting to show the date in the Google Preview, the date will now always be shown in post-type previews.
+ * Moves the running of the SEO data indexing process to the Yoast Tools page.
 
 = 14.6.1 =
 Release Date: July 21st, 2020
