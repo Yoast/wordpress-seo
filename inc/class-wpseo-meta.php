@@ -637,8 +637,9 @@ class WPSEO_Meta {
 	 *            the results for get_post_meta(), get_post_custom() and the likes. That
 	 *            would have been the preferred solution.}}
 	 *
-	 * @param string $key    Internal key of the value to get (without prefix).
-	 * @param int    $postid Post ID of the post to get the value for.
+	 * @param string $key                 Internal key of the value to get (without prefix).
+	 * @param int    $postid              Post ID of the post to get the value for.
+	 * @param bool   $fallback_to_default Whether we should return the default value if no value was found.
 	 *
 	 * @return string All 'normal' values returned from get_post_meta() are strings.
 	 *                Objects and arrays are possible, but not used by this plugin
@@ -648,7 +649,7 @@ class WPSEO_Meta {
 	 *                Will return empty string if no default was found (not one of our keys) or
 	 *                if the post does not exist.
 	 */
-	public static function get_value( $key, $postid = 0 ) {
+	public static function get_value( $key, $postid = 0, $fallback_to_default = true ) {
 		global $post;
 
 		$postid = absint( $postid );
@@ -702,7 +703,7 @@ class WPSEO_Meta {
 		}
 
 		// Meta was either not found or found, but object/array while not allowed to be.
-		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+		if ( $fallback_to_default === true && isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 
