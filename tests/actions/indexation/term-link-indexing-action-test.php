@@ -11,6 +11,7 @@ use Yoast\WP\SEO\Builders\Indexable_Link_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
 
 /**
@@ -264,7 +265,9 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 				(object) [ 'term_id' => 8, 'description' => 'foo' ],
 			 ] );
 
-		$indexable = (object) [ 'link_count' => null ];
+		$indexable             = Mockery::mock( Indexable_Mock::class );
+		$indexable->link_count = null;
+		$indexable->expects( 'save' )->times( 3 );
 
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 1, 'term' )->andReturn( $indexable );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'term' )->andReturn( $indexable );

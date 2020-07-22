@@ -52,7 +52,7 @@ class Should_Index_Links_Conditional_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_construct() {
-		$this->assertAttributeInstanceOf( Options_Helper::class, 'options', $this->instance );
+		$this->assertAttributeInstanceOf( Options_Helper::class, 'options_helper', $this->instance );
 	}
 
 	/**

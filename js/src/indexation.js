@@ -43,7 +43,6 @@ import ProgressBar from "./ui/progressBar";
 	 * @param {Object}      settings    The indexation settings.
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
-	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
@@ -69,7 +68,6 @@ import ProgressBar from "./ui/progressBar";
 	 *
 	 * @param {Object}      settings    The indexation settings.
 	 * @param {ProgressBar} progressBar The progress bar.
-	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
@@ -111,7 +109,7 @@ import ProgressBar from "./ui/progressBar";
 
 				// If the div with the warning was removed, insert it again, so that a success/error alert can be shown.
 				if ( ! $( "#yoast-indexation-warning" ).length ) {
-					jQuery( '<div id="yoast-indexation-warning" class="notice"</div>' ).insertAfter( "#wpseo-title" ).hide();
+					jQuery( '<div id="yoast-indexation-warning" class="notice"></div>' ).insertAfter( "#wpseo-title" ).hide();
 				}
 
 				startIndexation( settings, progressBar ).then( () => {
@@ -121,7 +119,7 @@ import ProgressBar from "./ui/progressBar";
 
 					progressBar.complete();
 					a11ySpeak( settings.l10n.calculationCompleted );
-					$( notificationId )
+					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.show()
 						.addClass( "notice-success" )
@@ -136,7 +134,7 @@ import ProgressBar from "./ui/progressBar";
 					}
 					console.error( error );
 					a11ySpeak( settings.l10n.calculationFailed );
-					$( notificationId )
+					$( "#yoast-indexation-warning" )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
 						.show()
 						.addClass( "notice-error" )
