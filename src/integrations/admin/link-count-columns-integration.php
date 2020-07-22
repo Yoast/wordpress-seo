@@ -124,7 +124,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Register hooks that need to be registered after `init`.
+	 * Register hooks that need to be registered after `init` due to all post types not yet being registered.
 	 */
 	public function register_init_hooks() {
 		$public_post_types = apply_filters( 'wpseo_link_count_post_types', $this->post_type_helper->get_accessible_post_types() );
