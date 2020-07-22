@@ -5,6 +5,7 @@
 
 .cache export-ignore
 .github export-ignore
+config export-ignore
 deploy_keys export-ignore
 grunt export-ignore
 scripts export-ignore
