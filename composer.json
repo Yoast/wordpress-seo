@@ -136,8 +136,7 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt"
+			"composer prefix-symfony"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
