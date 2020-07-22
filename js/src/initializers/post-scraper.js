@@ -56,7 +56,7 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "../helpers/classicEditor";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -134,7 +134,7 @@ export default function initPostScraper( $ ) {
 	 * @returns {boolean} True when markers should be shown.
 	 */
 	function displayMarkers() {
-		return ! isGutenbergDataAvailable() && wpseoScriptData.metabox.show_markers === "1";
+		return ! isBlockEditor() && wpseoScriptData.metabox.show_markers === "1";
 	}
 
 	/**
@@ -611,7 +611,7 @@ export default function initPostScraper( $ ) {
 			snippetEditorData.description = data.description;
 		} );
 
-		if ( isGutenbergDataAvailable() ) {
+		if ( isBlockEditor() ) {
 			let editorMode = getEditorMode();
 
 			toggleMarkers( editorMode, editStore );
@@ -628,7 +628,7 @@ export default function initPostScraper( $ ) {
 			} );
 		}
 
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( ! isBlockEditor() ) {
 			renderClassicEditorMetabox( editStore );
 		}
 

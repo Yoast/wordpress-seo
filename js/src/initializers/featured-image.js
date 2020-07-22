@@ -4,7 +4,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isGutenbergDataAvailable } from "../helpers/isGutenbergAvailable";
+import { isBlockEditor } from "../helpers/isBlockEditor";
 
 /**
  * @summary Initializes the featured image integration.
@@ -180,7 +180,7 @@ export default function initFeaturedImageIntegration( $ ) {
 		}
 
 		// Fallback for Gutenberg, as the featured image id does not exist there.
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( ! isBlockEditor() ) {
 			return;
 		}
 

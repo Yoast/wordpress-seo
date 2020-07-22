@@ -9,7 +9,7 @@ import {
 
 /* Internal dependencies */
 import PrimaryTaxonomyFilter from "../components/PrimaryTaxonomyFilter";
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -252,7 +252,7 @@ export default function initPrimaryCategory( $ ) {
 	 * @returns {void}
 	 */
 	function registerCategorySelectorFilter() {
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( ! isBlockEditor() ) {
 			return;
 		}
 

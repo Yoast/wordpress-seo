@@ -46,7 +46,7 @@ import { setMarkerStatus } from "../redux/actions/markerButtons";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 
 // Helper dependencies.
-import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
+import isBlockEditor from "../helpers/isBlockEditor";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
@@ -460,7 +460,7 @@ export default function initTermScraper( $ ) {
 			snippetEditorData.description = data.description;
 		} );
 
-		if ( ! isGutenbergDataAvailable() ) {
+		if ( ! isBlockEditor() ) {
 			renderClassicEditorMetabox( store );
 		}
 
