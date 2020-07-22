@@ -197,7 +197,7 @@ class WPSEO_Meta {
 			'schema_page_type' => [
 				'type'         => 'hidden',
 				'title'        => '',
-				// Replace with WPSEO_Option_Titles::SCHEMA_PAGE_TYPES
+				// Replace with WPSEO_Option_Titles::SCHEMA_PAGE_TYPES.
 				'options' => [
 					'option-1'  => '',
 					'option-2'  => '',
@@ -218,7 +218,7 @@ class WPSEO_Meta {
 				'type'            => 'hidden',
 				'title'           => '',
 				'hide_on_pages'   => true,
-				// Replace with WPSEO_Option_Titles::SCHEMA_ARTICLE_TYPES
+				// Replace with WPSEO_Option_Titles::SCHEMA_ARTICLE_TYPES.
 				'options' => [
 					'option-1'  => '',
 					'option-2'  => '',
