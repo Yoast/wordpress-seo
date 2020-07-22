@@ -33,7 +33,7 @@ class KeyphrasesTable extends Component {
 	/**
 	 * Transform the SEMrush Trend data to x/y points for the SVG area chart.
 	 *
-	 * @param {Object} trend Comma separated list of Trend values.
+	 * @param {Object} trend Comma separated list of Trend values for a single keyphrase..
 	 *
 	 * @returns {Array} An array of x/y coordinates objects.
 	 */
