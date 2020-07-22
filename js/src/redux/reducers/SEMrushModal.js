@@ -1,7 +1,7 @@
 import { MODAL_CHANGE_DATABASE, MODAL_DISMISS, MODAL_OPEN } from "../actions";
 
 const INITIAL_STATE = {
-	whichModalOpen: false,
+	whichModalOpen: "none",
 	currentDatabase: "us",
 };
 /**
@@ -16,7 +16,7 @@ function SEMrushModalReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case MODAL_DISMISS:
 			return {
-				whichModalOpen: false,
+				whichModalOpen: "none",
 				currentDatabase: state.currentDatabase,
 			};
 		case MODAL_OPEN:

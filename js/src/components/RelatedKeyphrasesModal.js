@@ -107,9 +107,10 @@ RelatedKeyphrasesModal.propTypes = {
 	keyphrase: PropTypes.string,
 	location: PropTypes.string,
 	maxRelatedKeyphrasesEntered: PropTypes.bool,
-	whichModalOpen: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.bool,
+	whichModalOpen: PropTypes.oneOf( [
+		"none",
+		"metabox",
+		"sidebar",
 	] ),
 	currentDatabase: PropTypes.string,
 	onOpen: PropTypes.func.isRequired,
@@ -120,7 +121,7 @@ RelatedKeyphrasesModal.defaultProps = {
 	keyphrase: "",
 	location: "",
 	maxRelatedKeyphrasesEntered: false,
-	whichModalOpen: false,
+	whichModalOpen: "none",
 	currentDatabase: "us",
 };
 
