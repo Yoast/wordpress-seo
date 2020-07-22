@@ -260,6 +260,7 @@ Enhancements:
 * Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
 * Improves the transition words analysis for Russian.
 * `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
+* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
 
 Bugfixes:
 
@@ -268,10 +269,13 @@ Bugfixes:
 * Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props to [Jon Christopher](https://github.com/jchristopher).
 * Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props to [Krishna Kant](https://github.com/lushkant).
 * Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
+* Fixes a bug where "array_merge(): Argument #1 is not an array" issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
 
 Other:
 
 * Removes functions, class variables and classes that were deprecated prior to version 11.5.
+* Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
+* Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
