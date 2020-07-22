@@ -116,7 +116,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$meta_fields = array_merge(
 			$meta_fields,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
-			WPSEO_Meta::get_meta_field_defs( 'advanced' )
+			WPSEO_Meta::get_meta_field_defs( 'advanced' ),
+			WPSEO_Meta::get_meta_field_defs( 'schema' )
 		);
 
 		// Set $_POST data to be saved.
@@ -125,6 +126,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {
 				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
+			}
+			elseif ( $field['type'] === 'hidden' ) {
+				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'hidden';
 			}
 			elseif ( $field['type'] === 'checkbox' ) {
 				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'on';
@@ -146,10 +150,13 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {
-				$this->assertNotEmpty( $value );
+				$this->assertSame( $value, 'text' );
+			}
+			elseif ( $field['type'] === 'hidden' ) {
+				$this->assertSame( $value, 'hidden' );
 			}
 			elseif ( $field['type'] === 'checkbox' ) {
-				$this->assertEquals( $value, 'on' );
+				$this->assertSame( $value, 'on' );
 			}
 		}
 	}
@@ -175,6 +182,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		$_POST = [
 			'ID'                       => $post_id,
+			'post_type'                => 'post',
 			$prefixed_field_name       => $field_value,
 			'yoast_free_metabox_nonce' => wp_create_nonce( 'yoast_free_metabox' ),
 		];
@@ -254,6 +262,30 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 				'field_value'    => [ '<strong>noimageindex</strong>', 'dingdong' ],
 				'expected_value' => 'noimageindex',
 				'message'        => 'Test multiselect field with invalid values given.',
+			],
+			[
+				'field_name'     => 'schema_page_type',
+				'field_value'    => 'option-3',
+				'expected_value' => 'option-3',
+				'message'        => 'Test schema page type with valid value.',
+			],
+			[
+				'field_name'     => 'schema_article_type',
+				'field_value'    => 'option-5',
+				'expected_value' => 'option-5',
+				'message'        => 'Test schema article type with valid value.',
+			],
+			[
+				'field_name'     => 'schema_page_type',
+				'field_value'    => 'invalid-page-type',
+				'expected_value' => WPSEO_Options::get( 'schema-page-type-post' ),
+				'message'        => 'Test schema page type with invalid value.',
+			],
+			[
+				'field_name'     => 'schema_article_type',
+				'field_value'    => 'invalid-article-type',
+				'expected_value' => WPSEO_Options::get( 'schema-article-type-post' ),
+				'message'        => 'Test schema article type with invalid value.',
 			],
 		];
 	}
