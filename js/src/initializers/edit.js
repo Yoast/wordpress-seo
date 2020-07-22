@@ -2,6 +2,7 @@
 /* External dependencies */
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
+import { updateCategory } from "@wordpress/blocks";
 import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
@@ -14,6 +15,7 @@ import {
 import Data from "../analysis/data.js";
 import reducers from "../redux/reducers";
 import PluginIcon from "../containers/PluginIcon";
+import YoastIcon from "../components/PluginIcon";
 import ClassicEditorData from "../analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
 import SidebarFill from "../containers/SidebarFill";
@@ -31,11 +33,6 @@ import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
-
-const PinnedPluginIcon = styled( PluginIcon )`
-	width: 20px;
-	height: 20px;
-`;
 
 /**
  * Contains the Yoast SEO block editor integration.
@@ -152,6 +149,9 @@ class Edit {
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
+		const icon = <YoastIcon color="#a4286a" />;
+		updateCategory( "yoast-structured-data-blocks", { icon } );
+		updateCategory( "yoast-internal-linking-blocks", { icon } );
 
 		const {
 			PluginPrePublishPanel,
@@ -174,8 +174,8 @@ class Edit {
 		/**
 		 * Renders the yoast sidebar
 		 *
-	 	 * @returns {Component} The yoast sidebar component.
-	 	 */
+		 * @returns {Component} The yoast sidebar component.
+		 */
 		const YoastSidebar = () => (
 			<Fragment>
 				<PluginSidebarMoreMenuItem
@@ -223,7 +223,7 @@ class Edit {
 
 		registerPlugin( PLUGIN_NAMESPACE, {
 			render: YoastSidebar,
-			icon: <PinnedPluginIcon />,
+			icon: <PluginIcon />,
 		} );
 	}
 
