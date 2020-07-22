@@ -117,7 +117,6 @@ module.exports = {
 					"lib/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
-					"vendor_prefixed/dependencies-prefixed.txt",
 					"src/config/migrations/*.php",
 					"index.php",
 					"license.txt",
