@@ -74,10 +74,10 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		$this->instance = new Post_Link_Indexing_Action(
 			$this->link_builder,
-			$this->post_type_helper,
 			$this->repository,
 			$this->wpdb
 		);
+		$this->instance->set_helper( $this->post_type_helper );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_get_total_unindexed() {
 		Functions\expect( 'get_transient' )
 			->once()
-			->with( Post_Link_Indexing_Action::TRANSIENT )
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
 		$this->post_type_helper
@@ -119,7 +119,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 
 		Functions\expect( 'set_transient' )
 			->once()
-			->with( Post_Link_Indexing_Action::TRANSIENT, '10', \DAY_IN_SECONDS )
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, '10', \DAY_IN_SECONDS )
 			->andReturn( true );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
@@ -134,7 +134,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_get_total_unindexed_cached() {
 		Functions\expect( 'get_transient' )
 			->once()
-			->with( Post_Link_Indexing_Action::TRANSIENT )
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( '25' );
 
 		$this->assertEquals( 25, $this->instance->get_total_unindexed() );
@@ -149,7 +149,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )
 			->once()
-			->with( Post_Link_Indexing_Action::TRANSIENT )
+			->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
 		$this->post_type_helper
@@ -187,7 +187,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::index
 	 */
 	public function test_index() {
-		Filters\expectApplied( 'wpseo_post_link_indexing_limit' );
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )
@@ -221,7 +221,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 3, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( (object) [ 'link_count' => 10 ] );
 
-		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::TRANSIENT );
+		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
 		$this->instance->index();
 	}
@@ -233,7 +233,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 	 * @covers ::index
 	 */
 	public function test_index_without_link_count() {
-		Filters\expectApplied( 'wpseo_post_link_indexing_limit' );
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
 
 		$this->post_type_helper
 			->expects( 'get_accessible_post_types' )
@@ -270,7 +270,7 @@ class Post_Link_Indexing_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' )->andReturn( $indexable );
 		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
 
-		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::TRANSIENT );
+		Functions\expect( 'delete_transient' )->once()->with( Post_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
 
 		$this->instance->index();
 	}
