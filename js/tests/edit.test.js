@@ -11,6 +11,7 @@ jest.mock( "../src/analysis/classicEditorData.js", () => {
 		};
 	} );
 } );
+
 jest.mock( "../src/analysis/data.js", () => {
 	return jest.fn().mockImplementation( () => {
 		return {
@@ -18,6 +19,7 @@ jest.mock( "../src/analysis/data.js", () => {
 		};
 	} );
 } );
+
 jest.mock( "../src/helpers/isGutenbergDataAvailable", () => {
 	return jest.fn();
 } );

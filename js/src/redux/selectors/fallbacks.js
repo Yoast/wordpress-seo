@@ -1,7 +1,10 @@
 import { get } from "lodash";
 
 /**
- * Gets the fallback title from: state.analysisData.snippet.title.
+ * Gets the fallback title that is equal to the site title.
+ *
+ * This is stored in:
+ * state.snippetEditor.replacementVariables's value where the name is title.
  *
  * @param {Object} state The state object.
  *
@@ -42,9 +45,9 @@ export const getContentImage = state => {
 export const getImageFallback = state => {
 	const featuredImage = get( state, "snippetEditor.data.snippetPreviewImageURL", "" );
 	const contentImage = get( state, "settings.socialPreviews.contentImage", "" );
-	const siteWideImage = get( state, "settings.socialPreviews.sitewideImage", "" );
+	const siteWideImage = get( window.wpseoScriptData, "metabox.showSocial.facebook" ) && get( state, "settings.socialPreviews.sitewideImage", "" );
 
-	return featuredImage || contentImage || siteWideImage;
+	return featuredImage || contentImage || siteWideImage || "";
 };
 
 /**

@@ -131,6 +131,40 @@ class Actions {
 	}
 
 	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public static function lint_staged() {
+		self::lint_changed_files( '--staged' );
+	}
+
+	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 */
+	public static function lint_branch( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			self::lint_changed_files( 'trunk' );
+
+			return;
+		}
+		self::lint_changed_files( $args[0] );
+	}
+
+	/**
 	 * Runs PHPCS on the staged files.
 	 *
 	 * Used the composer check-staged-cs command.
@@ -151,6 +185,7 @@ class Actions {
 		self::check_cs_for_changed_files( $args[0] );
 	}
 
+
 	/**
 	 * Runs PHPCS on changed files compared to some git reference.
 	 *
@@ -162,20 +197,53 @@ class Actions {
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
-		$files = \array_filter(
-			$files,
-			function( $file ) {
-				return \substr( $file, -4 ) === '.php';
-			}
-		);
 
-		if ( empty( $files ) ) {
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
 			echo 'No files to compare! Exiting.' . PHP_EOL;
 
 			return;
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+	/**
+	 * Runs lint on changed files compared to some git reference.
+	 *
+	 * @param string $compare The git reference.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	private static function lint_changed_files( $compare ) {
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
+			return;
+		}
+
+		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+
+	/**
+	 * Filter files on extension.
+	 *
+	 * @param array  $files		List of files.
+	 * @param string $extension Extension to filter on.
+	 *
+	 * @return array Filtered list of files.
+	 */
+	private static function filter_files( $files, $extension ) {
+		return \array_filter(
+			$files,
+			function( $file ) use ( $extension ) {
+				return \substr( $file, ( 0 - strlen( $extension ) ) ) === $extension;
+			}
+		);
 	}
 
 	/**

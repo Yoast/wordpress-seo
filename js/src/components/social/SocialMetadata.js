@@ -19,8 +19,7 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 	return (
 		<Fragment>
 			{ isFacebookEnabled && <MetaboxCollapsible
-				hasPadding={ true }
-				hasSeparator={ true }
+				hasSeparator={ false }
 				/* Translators: %s expands to Facebook. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
@@ -28,10 +27,10 @@ const SocialMetadata = ( { isFacebookEnabled, isTwitterEnabled } ) => {
 				<FacebookContainer />
 			</MetaboxCollapsible> }
 			{ isTwitterEnabled && <MetaboxCollapsible
-				hasPadding={ true }
-				hasSeparator={ true }
 				/* Translators: %s expands to Twitter. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
+				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
+				hasSeparator={ isFacebookEnabled }
 				initialIsOpen={ true }
 			>
 				<TwitterContainer />

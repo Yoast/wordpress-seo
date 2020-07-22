@@ -84,6 +84,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				SELECT object_id
 				FROM wp_yoast_indexable
 				WHERE object_type = 'post'
+				AND permalink_hash IS NOT NULL
 			)
 			AND post_type IN (%s)
 			$limit_placeholder";
@@ -145,6 +146,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 				SELECT object_id
 				FROM wp_yoast_indexable
 				WHERE object_type = \'post\'
+				AND permalink_hash IS NOT NULL
 			)
 			AND post_type IN (%s)
 			LIMIT %d';

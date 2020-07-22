@@ -7,26 +7,31 @@ import ProgressBar from "./ui/progressBar";
 	let indexationInProgress = false;
 	let stoppedIndexation = false;
 	let processed = 0;
+	const preIndexationActions = {};
 	const indexationActions = {};
 
 	window.yoast = window.yoast || {};
-	window.yoast.registerIndexationAction = ( endpoint, action ) => {
+	window.yoast.indexation = window.yoast.indexation || {};
+	window.yoast.indexation.registerPreIndexationAction = ( endpoint, action ) => {
+		preIndexationActions[ endpoint ] = action;
+	};
+	window.yoast.indexation.registerIndexationAction = ( endpoint, action ) => {
 		indexationActions[ endpoint ] = action;
 	};
 
 	/**
 	 * Does an indexation request.
 	 *
-	 * @param {string} url      The url of the indexation that should be done.
-	 * @param {Object} settings The settings.
+	 * @param {string} url   The url of the indexation that should be done.
+	 * @param {string} nonce The WordPress nonce value for in the header.
 	 *
 	 * @returns {Promise} The request promise.
 	 */
-	async function doIndexationRequest( url, settings ) {
+	async function doIndexationRequest( url, nonce ) {
 		const response = await fetch( url, {
 			method: "POST",
 			headers: {
-				"X-WP-Nonce": settings.restApi.nonce,
+				"X-WP-Nonce": nonce,
 			},
 		} );
 		return response.json();
@@ -35,19 +40,23 @@ import ProgressBar from "./ui/progressBar";
 	/**
 	 * Does the indexation of a given endpoint.
 	 *
+	 * @param {Object}      settings    The indexation settings.
 	 * @param {string}      endpoint    The endpoint.
 	 * @param {ProgressBar} progressBar The progress bar.
 	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function doIndexation( endpoint, progressBar, settings ) {
+	async function doIndexation( settings, endpoint, progressBar ) {
 		let url = settings.restApi.root + settings.restApi.endpoints[ endpoint ];
 
 		while ( ! stoppedIndexation && url !== false && processed <= settings.amount ) {
-			const response = await doIndexationRequest( url, settings );
+			if ( typeof preIndexationActions[ endpoint ] === "function" ) {
+				await preIndexationActions[ endpoint ]( settings );
+			}
+			const response = await doIndexationRequest( url, settings.restApi.nonce );
 			if ( typeof indexationActions[ endpoint ] === "function" ) {
-				await indexationActions[ endpoint ]( response.objects );
+				await indexationActions[ endpoint ]( response.objects, settings );
 			}
 			progressBar.update( response.objects.length );
 			processed += response.objects.length;
@@ -58,24 +67,22 @@ import ProgressBar from "./ui/progressBar";
 	/**
 	 * Starts the indexation.
 	 *
+	 * @param {Object}      settings    The indexation settings.
 	 * @param {ProgressBar} progressBar The progress bar.
 	 * @param {Object}      settings    The settings.
 	 *
 	 * @returns {Promise} The indexation promise.
 	 */
-	async function startIndexation( progressBar, settings ) {
+	async function startIndexation( settings, progressBar ) {
 		processed = 0;
 		for ( const endpoint of Object.keys( settings.restApi.endpoints ) ) {
-			await doIndexation( endpoint, progressBar, settings );
+			await doIndexation( settings, endpoint, progressBar );
 		}
 	}
 
 	$( () => {
 		$( ".yoast-open-indexation" ).on( "click", function() {
-			const key      = $( this ).data( "settings" ) || "yoastIndexationData";
-			const settings = window[ key ];
-			let modalId    = settings.ids.modal || "yoast-indexation-wrapper";
-			modalId = modalId.replace( /^#/, "" );
+			const settings = window[ $( this ).data( "settings" ) ];
 
 			/*
 			 * WordPress overwrites the tb_position function if the media library is loaded to ignore custom height and width arguments.
@@ -91,7 +98,7 @@ import ProgressBar from "./ui/progressBar";
 					marginTop: "-" + parseInt( ( TB_HEIGHT / 2 ), 10 ) + "px",
 				} );
 			};
-			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=175&inlineId=" + modalId, false );
+			tb_show( $( this ).data( "title" ), "#TB_inline?width=600&height=179&inlineId=" + settings.ids.modal, false );
 			window.tb_position = old_tb_position;
 			/* eslint-enable camelcase */
 
@@ -99,12 +106,15 @@ import ProgressBar from "./ui/progressBar";
 				stoppedIndexation = false;
 				indexationInProgress = true;
 
-				a11ySpeak( settings.l10n.calculationInProgress );
-				const progressBar    = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
-				const notificationId = settings.ids.notification || "#yoast-indexation-warning";
-				const toolId         = settings.ids.tool || "#yoast-indexation";
+				a11ySpeak( settings.l10n.calculationInProgress, "polite" );
+				const progressBar = new ProgressBar( settings.amount, settings.ids.count, settings.ids.progress );
 
-				startIndexation( progressBar, settings ).then( () => {
+				// If the div with the warning was removed, insert it again, so that a success/error alert can be shown.
+				if ( ! $( "#yoast-indexation-warning" ).length ) {
+					jQuery( '<div id="yoast-indexation-warning" class="notice"</div>' ).insertAfter( "#wpseo-title" ).hide();
+				}
+
+				startIndexation( settings, progressBar ).then( () => {
 					if ( stoppedIndexation ) {
 						return;
 					}
@@ -113,9 +123,10 @@ import ProgressBar from "./ui/progressBar";
 					a11ySpeak( settings.l10n.calculationCompleted );
 					$( notificationId )
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
+						.show()
 						.addClass( "notice-success" )
 						.removeClass( "notice-warning" );
-					$( toolId ).html( settings.message.indexingCompleted );
+					$( settings.ids.message ).html( settings.message.indexingCompleted );
 
 					tb_remove();
 					indexationInProgress = false;
@@ -127,18 +138,21 @@ import ProgressBar from "./ui/progressBar";
 					a11ySpeak( settings.l10n.calculationFailed );
 					$( notificationId )
 						.html( "<p>" + settings.message.indexingFailed + "</p>" )
+						.show()
 						.addClass( "notice-error" )
 						.removeClass( "notice-warning" );
-					$( toolId ).html( settings.message.indexingFailed );
+					$( settings.ids.message ).html( settings.message.indexingFailed );
 
 					tb_remove();
 				} );
 			}
 		} );
 
-		$( "#yoast-indexation-stop" ).on( "click", () => {
+		$( ".yoast-indexation-stop" ).on( "click", () => {
 			stoppedIndexation = true;
 			tb_remove();
+			// Reset the hash for if we linked from another page. Preventing an immediate re-run.
+			window.location.hash = "";
 			window.location.reload();
 		} );
 
@@ -162,5 +176,14 @@ import ProgressBar from "./ui/progressBar";
 				}
 			);
 		} );
+
+		// Start the indexation if the hash matches a settings value.
+		if ( window.location.hash && window.location.hash.startsWith( "#start-indexation-" ) ) {
+			$( ".yoast-open-indexation" ).each( function() {
+				if ( window.location.hash.endsWith( $( this ).data( "settings" ) ) ) {
+					$( this ).click();
+				}
+			} );
+		}
 	} );
 } )( jQuery );

@@ -43,6 +43,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'post-type-visibility',
 			'multiple-authors',
 			'title-template',
+			'tracking',
 			'newsletter',
 			'success',
 		];
