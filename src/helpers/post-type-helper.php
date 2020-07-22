@@ -7,12 +7,26 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Post_Type;
-
 /**
  * Class Post_Type_Helper
  */
 class Post_Type_Helper {
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
+	 * Post_Type_Helper constructor.
+	 *
+	 * @param Options_Helper $options_helper The options helper.
+	 */
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
+	}
 
 	/**
 	 * Checks if the request post type is public and indexable.
@@ -24,7 +38,11 @@ class Post_Type_Helper {
 	 * @return bool True when post type is set to index.
 	 */
 	public function is_indexable( $post_type_name ) {
-		return WPSEO_Post_Type::is_post_type_indexable( $post_type_name );
+		if ( $this->options_helper->get( 'disable-' . $post_type_name, false ) ) {
+			return false;
+		}
+
+		return ( $this->options_helper->get( 'noindex-' . $post_type_name, false ) === false );
 	}
 
 	/**
@@ -48,7 +66,22 @@ class Post_Type_Helper {
 	 * @return array Array with all the accessible post_types.
 	 */
 	public function get_accessible_post_types() {
-		return WPSEO_Post_Type::get_accessible_post_types();
+		$post_types = get_post_types( [ 'public' => true ] );
+		$post_types = array_filter( $post_types, 'is_post_type_viewable' );
+
+		/**
+		 * Filter: 'wpseo_accessible_post_types' - Allow changing the accessible post types.
+		 *
+		 * @api array $post_types The public post types.
+		 */
+		$post_types = apply_filters( 'wpseo_accessible_post_types', $post_types );
+
+		// When the array gets messed up somewhere.
+		if ( ! is_array( $post_types ) ) {
+			return [];
+		}
+
+		return $post_types;
 	}
 
 	/**
@@ -63,6 +96,6 @@ class Post_Type_Helper {
 			$post_type = \get_post_type_object( $post_type );
 		}
 
-		return WPSEO_Post_Type::has_archive( $post_type );
+		return ( ! empty( $post_type->has_archive ) );
 	}
 }
