@@ -2,17 +2,13 @@
 /* External dependencies */
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
-import { combineReducers, registerStore, select, dispatch } from "@wordpress/data";
+import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
-import {
-	get,
-	pickBy,
-} from "lodash-es";
+import { get } from "lodash-es";
 
 /* Internal dependencies */
 import Data from "../analysis/data.js";
-import reducers from "../redux/reducers";
 import PluginIcon from "../containers/PluginIcon";
 import ClassicEditorData from "../analysis/classicEditorData.js";
 import isGutenbergDataAvailable from "../helpers/isGutenbergDataAvailable";
@@ -74,8 +70,6 @@ class Edit {
 	 * @returns {void} .
 	 */
 	_init() {
-		this._store = this._registerStoreInGutenberg();
-
 		this._registerPlugin();
 
 		if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
@@ -92,21 +86,6 @@ class Edit {
 		}
 
 		this._data = this._initializeData();
-
-		this._store.dispatch( setSettings( {
-			socialPreviews: {
-				sitewideImage: this._localizedData.sitewide_social_image,
-				authorName: this._localizedData.author_name,
-				siteName: this._localizedData.site_name,
-				contentImage: this._localizedData.first_content_image,
-			},
-			snippetEditor: {
-				baseUrl: this._args.snippetEditorBaseUrl,
-				date: this._args.snippetEditorDate,
-				recommendedReplacementVariables: this._args.recommendedReplaceVars,
-				siteIconUrl: this._localizedData.siteIconUrl,
-			},
-		} ) );
 	}
 
 	/**
@@ -126,19 +105,6 @@ class Edit {
 			if ( name ) {
 				registerFormatType( name, settings );
 			}
-		} );
-	}
-
-	/**
-	 * Registers a redux store in Gutenberg.
-	 *
-	 * @returns {Object} The store.
-	 */
-	_registerStoreInGutenberg() {
-		return registerStore( "yoast-seo/editor", {
-			reducer: combineReducers( reducers ),
-			selectors,
-			actions: pickBy( actions, x => typeof x === "function" ),
 		} );
 	}
 
