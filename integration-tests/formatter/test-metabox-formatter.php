@@ -48,6 +48,8 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 		// Make sure the folder exists.
 		wp_mkdir_p( plugin_dir_path( WPSEO_FILE ) . 'languages' );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents We think WP_Filesystem is not always predictable.
 		file_put_contents(
 			$file_name,
 			WPSEO_Utils::format_json_encode( [ 'key' => 'value' ] )

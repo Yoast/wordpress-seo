@@ -32,7 +32,9 @@ if ( isset( $_POST['create_robots'] ) ) {
 	do_robots();
 	$robots_content = ob_get_clean();
 
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen We think WP_Filesystem is not always predictable.
 	$f = fopen( $robots_file, 'x' );
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite We think WP_Filesystem is not always predictable.
 	fwrite( $f, $robots_content );
 }
 
@@ -51,8 +53,11 @@ if ( isset( $_POST['submitrobots'] ) ) {
 	if ( isset( $_POST['robotsnew'] ) && file_exists( $robots_file ) ) {
 		$robotsnew = sanitize_textarea_field( wp_unslash( $_POST['robotsnew'] ) );
 		if ( is_writable( $robots_file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen We think WP_Filesystem is not always predictable.
 			$f = fopen( $robots_file, 'w+' );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite We think WP_Filesystem is not always predictable.
 			fwrite( $f, $robotsnew );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose We think WP_Filesystem is not always predictable.
 			fclose( $f );
 			$msg = sprintf(
 				/* translators: %s expands to robots.txt. */
@@ -79,8 +84,11 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Writing to .htaccess file and escaping for HTML will break functionality.
 		$ht_access_new = wp_unslash( $_POST['htaccessnew'] );
 		if ( is_writable( $ht_access_file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen We think WP_Filesystem is not always predictable.
 			$f = fopen( $ht_access_file, 'w+' );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fwrite We think WP_Filesystem is not always predictable.
 			fwrite( $f, $ht_access_new );
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fcose We think WP_Filesystem is not always predictable.
 			fclose( $f );
 		}
 	}
@@ -134,10 +142,12 @@ if ( ! file_exists( $robots_file ) ) {
 	}
 }
 else {
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen We think WP_Filesystem is not always predictable.
 	$f = fopen( $robots_file, 'r' );
 
 	$content = '';
 	if ( filesize( $robots_file ) > 0 ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fread We think WP_Filesystem is not always predictable.
 		$content = fread( $f, filesize( $robots_file ) );
 	}
 
@@ -184,10 +194,12 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 	echo '</h2>';
 
 	if ( file_exists( $ht_access_file ) ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen We think WP_Filesystem is not always predictable.
 		$f = fopen( $ht_access_file, 'r' );
 
 		$contentht = '';
 		if ( filesize( $ht_access_file ) > 0 ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fread We think WP_Filesystem is not always predictable.
 			$contentht = fread( $f, filesize( $ht_access_file ) );
 		}
 
