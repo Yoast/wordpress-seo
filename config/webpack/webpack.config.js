@@ -7,7 +7,7 @@ const paths = require( "./paths" );
 const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
 
-const root = path.join( __dirname, "../" );
+const root = path.join( __dirname, "../../" );
 const mainEntry = mapValues( paths.entry, entry => {
 	if ( ! isString( entry ) ) {
 		return entry;
@@ -140,7 +140,7 @@ module.exports = function( env ) {
 	}
 	if ( ! env.pluginVersion ) {
 		// eslint-disable-next-line global-require
-		env.pluginVersion = require( "../package.json" ).yoast.pluginVersion;
+		env.pluginVersion = require( root + "package.json" ).yoast.pluginVersion;
 	}
 
 	const pluginVersionSlug = paths.flattenVersionForFile( env.pluginVersion );

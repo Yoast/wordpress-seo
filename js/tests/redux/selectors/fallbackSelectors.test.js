@@ -22,6 +22,10 @@ const testState = {
 				name: "title",
 				value: "Not Hello World!",
 			},
+			{
+				name: "term_title",
+				value: "A term title",
+			},
 		],
 	},
 };
@@ -41,10 +45,10 @@ afterEach(
 );
 
 describe( getTitleFallback, () => {
-	it( "returns the indexable title as a fallback", () => {
+	it( "returns the snippit title as a fallback", () => {
 		const actual = getTitleFallback( testState );
 
-		const expected = "Not Hello World!";
+		const expected = "Hello World!";
 
 		expect( actual ).toEqual( expected );
 	} );
