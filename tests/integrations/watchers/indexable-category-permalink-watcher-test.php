@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
