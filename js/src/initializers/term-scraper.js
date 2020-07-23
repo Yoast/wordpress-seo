@@ -220,7 +220,6 @@ export default function initTermScraper( $, store, editorData ) {
 	/**
 	 * Initializes cornerstone content analysis.
 	 *
-	 * @param {Object} store The redux store.
 	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
@@ -389,6 +388,7 @@ export default function initTermScraper( $, store, editorData ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
+		initializeCornerstoneContentAnalysis( store, app );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 

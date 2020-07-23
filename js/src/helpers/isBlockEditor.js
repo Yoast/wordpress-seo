@@ -17,5 +17,5 @@ export default function isBlockEditor() {
 		! isNil( wp.data.select( "core/editor" ) ) &&
 		isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
 	);
-};
+}
 
