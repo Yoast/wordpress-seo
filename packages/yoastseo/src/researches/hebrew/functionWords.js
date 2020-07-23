@@ -560,9 +560,9 @@ const miscellaneous = [
 ];
 
 /**
- * Returns function words for Indonesian.
+ * Returns function words for Hebrew.
  *
- * @returns {Object} Indonesian function words.
+ * @returns {Object} Hebrew function words.
  */
 export default function() {
 	return {
