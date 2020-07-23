@@ -126,7 +126,7 @@ const stemAdjectivesAndAdverbs = function( word, ruleBasedStemmerData ) {
  */
 export default function stem( word, morphologyData ) {
 	const ruleBasedStemmerData = morphologyData.externalStemmer;
-	const dictionaryStemmer = morphologyData.dictionary;
+	const dictionaryStemmer = morphologyData.dictionary.stems;
 
 	// Check if the word exists in the dictionary stemmer. If yes, replace the word with the base form of the word specified in the dictionary.
 	let stemmedWord = dictionaryStemmer[ word ];
