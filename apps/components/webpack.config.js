@@ -11,8 +11,7 @@ module.exports = {
 		"babel-polyfill",
 
 		// Compile the @yoast/configuration-wizard scss
-		// Needs to be fixed
-		// "@yoast/components/src/configuration-wizard/configuration-wizard.css",
+		"@yoast/components/src/configuration-wizard/configuration-wizard.css",
 
 		// Compile the yoast-components standalone .scss
 		"yoast-components/css/standalone.scss",

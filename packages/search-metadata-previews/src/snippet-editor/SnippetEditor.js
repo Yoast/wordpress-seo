@@ -417,7 +417,7 @@ class SnippetEditor extends React.Component {
 		// Strip multiple spaces and spaces at the beginning and end.
 		description = string.stripSpaces( description );
 
-		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
+		const shortenedBaseUrl = baseUrl.replace( /^https?:\/\//i, "" );
 
 		const mappedData = {
 			title: this.processReplacementVariables( originalData.title, replacementVariables ),

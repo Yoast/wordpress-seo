@@ -6,11 +6,11 @@ let morphologyData = null;
  * @returns {Object} The morphology data, or an empty object if not available.
  */
 function loadLocalMorphologyData() {
-	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT = {};
+	let data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID = {};
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
-		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-v3.json" );
+		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-en-v4.json" );
 		// eslint-disable-next-line global-require
 		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v9.json" );
 		// eslint-disable-next-line global-require
@@ -23,11 +23,14 @@ function loadLocalMorphologyData() {
 		dataRU = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-ru-v9.json" );
 		// eslint-disable-next-line global-require
 		dataIT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-it-v9.json" );
+		// eslint-disable-next-line global-require
+		dataPT = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-pt-v9.json" );
+		// eslint-disable-next-line global-require
+		dataID = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-id-v9.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
-
-	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT );
+	return merge( data, dataDe, dataNL, dataES, dataFR, dataRU, dataIT, dataPT, dataID );
 }
 
 /**

@@ -155,5 +155,20 @@ describe( "Counts the occurences of a word in a string", function() {
 
 		expect( wordMatch( "(keyword)", "keyword" ).count ).toBe( 1 );
 		expect( wordMatch( "(keyword)", "keyword" ).matches ).toEqual( [ "keyword" ] );
+
+		expect( wordMatch( "-keyword", "keyword" ).count ).toBe( 1 );
+		expect( wordMatch( "keyword-", "keyword" ).count ).toBe( 1 );
+		expect( wordMatch( "-keyword-", "keyword" ).count ).toBe( 1 );
+	} );
+
+	it( "should not match words preceded/followed by a - in Indonesian", function() {
+		expect( wordMatch( "buku-", "buku", "id_ID" ).count ).toBe( 0 );
+		expect( wordMatch( "-buku", "buku", "id_ID" ).count ).toBe( 0 );
+		expect( wordMatch( "-buku-", "buku", "id_ID" ).count ).toBe( 0 );
+		expect( wordMatch( "buku-buku", "buku", "id_ID" ).count ).toBe( 0 );
+	} );
+
+	it( "matches forms containing a - in Indonesian", function() {
+		expect( wordMatch( "buku-buku", "buku-buku", "id_ID" ).count ).toBe( 1 );
 	} );
 } );

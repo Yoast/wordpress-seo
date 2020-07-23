@@ -17,12 +17,14 @@ const irregularsEndingInSFrench = irregularsFrench.irregularsEndingInS;
 
 import spanishParticiplesFactory from "../../spanish/passiveVoice/participles";
 const spanishParticiples = spanishParticiplesFactory();
+import portugueseParticiplesFactory from "../../portuguese/passiveVoice/participles";
+const portugueseParticiples = portugueseParticiplesFactory();
 import italianParticiplesFactory from "../../italian/passiveVoice/participles";
 const italianParticiples = italianParticiplesFactory();
 import irregularsDutchFactory from "../../dutch/passiveVoice/irregulars";
 const irregularsDutch = irregularsDutchFactory();
-const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)$/ig;
-const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)$/ig;
+const nlRegex1 = /^(ge|be|ont|ver|her|er)\S+(d|t)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
+const nlRegex2 = /^(aan|af|bij|binnen|los|mee|na|neer|om|onder|samen|terug|tegen|toe|uit|vast)(ge)\S+(d|t|n)($|[ \n\r\t.,'()"+\-;!?:/»«‹›<>])/ig;
 import polishParticiplesFactory from "../../polish/passiveVoice/participles";
 const polishParticiples = polishParticiplesFactory();
 
@@ -40,6 +42,7 @@ const languageVariables = {
 		regularParticipleRegexPattern2: nlRegex2,
 	},
 };
+const languagesWithoutRegularParticiples = [ "es", "it", "pl", "pt" ];
 
 /**
  * Returns words that have been determined to be a regular participle.
@@ -50,8 +53,8 @@ const languageVariables = {
  * @returns {Array} A list with the matches.
  */
 const regularParticiples = function( word, language ) {
-	// In Spanish, Italian and Polish we don't match participles with a regular regex pattern.
-	if ( ( language === "es" ) || ( language === "it" ) || ( language === "pl" )  ) {
+	// In certain languages we don't match participles with a regular regex pattern.
+	if ( languagesWithoutRegularParticiples.includes( language ) ) {
 		return [];
 	}
 
@@ -135,6 +138,12 @@ const irregularParticiples = function( word, language ) {
 		case "pl":
 			// In Polish, we only match passives from a word list.
 			if ( includes( polishParticiples, word ) ) {
+				matches.push( word );
+			}
+			break;
+		case "pt":
+			// In Portuguese, we only match passives from a word list.
+			if ( includes( portugueseParticiples, word ) ) {
 				matches.push( word );
 			}
 			break;

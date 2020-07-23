@@ -26,10 +26,10 @@ describe( "a step component", () => {
 		expect( stepComponent.props.className ).toEqual( "yoast-wizard--step--container" );
 	} );
 
-	it( "has a h2 header title", () => {
+	it( "has a h1 header title", () => {
 		const header = stepComponent.props.children[ 0 ];
 
-		expect( header.type ).toEqual( "h2" );
+		expect( header.type ).toEqual( "h1" );
 		expect( header.props.children ).toEqual( inputProps.title );
 	} );
 

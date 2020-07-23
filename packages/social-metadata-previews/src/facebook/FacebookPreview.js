@@ -134,7 +134,10 @@ class FacebookPreview extends Component {
 	render() {
 		const { imageMode } = this.state;
 		return (
-			<FacebookPreviewWrapper mode={ imageMode }>
+			<FacebookPreviewWrapper
+				id="facebookPreview"
+				mode={ imageMode }
+			>
 				<FacebookImage
 					src={ this.props.imageUrl || this.props.imageFallbackUrl }
 					alt={ this.props.alt }

@@ -139,6 +139,7 @@ exports[`TwitterPreview matches the snapshot 1`] = `
 
 <div
   className="c0"
+  id="twitterPreview"
 >
   <div
     className="c1"
