@@ -67,7 +67,6 @@ const interrogatives = [
 	"אלמלא",
 ];
 
-
 const quantifiers = [
 	// All
 	"כולם", "כול",
@@ -90,10 +89,9 @@ const quantifiers = [
 const reflexivePronouns = [
 	"עצמי", "לעצמי", "בעצמי",
 	"עצמך", "לעצמך", "בעצמך",
-	"עצמךָ",  "לעצמךָ", "בעצמךָ",
+	"עצמך",  "לעצמך", "בעצמך",
 	"עצמו",	"עצמה", "עצמנו", "עצמכם", "עצמכן", "עצמם", "עצמן",
 ];
-
 
 const indefinitePronouns = [
 	// Something
@@ -103,7 +101,6 @@ const indefinitePronouns = [
 	// Nothing
 	"כלום",
 ];
-
 
 const prepositions = [
 	// Each paradigm is one preposition with different pronominal affixes and possibly prefixes
@@ -241,8 +238,6 @@ const conjunctions = [
 	"פן",
 ];
 
-// These verbs are frequently used in interviews to indicate questions and answers.
-// 'Claim','claims', 'state' and 'states' are not included, because these words are also nouns.
 const interviewVerbs = [
 	// Say
 	"אומר", "אומרת", "אומרים", "אומרות", "אמרתי", "אמרנו", "אמרת", "אמרתם", "אמרתן", "אמר", "אמרה", "אמרו", "נאמר",
