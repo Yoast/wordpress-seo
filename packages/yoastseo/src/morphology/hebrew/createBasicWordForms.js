@@ -1,9 +1,9 @@
 /**
  * Creates basic word forms for a given Hebrew word.
  *
- * @param {string} word The word for which to create basic word forms.
+ * @param {string} word     The word for which to create basic word forms.
  *
- * @returns {string} Prefixed and de-prefixed variations of a word..
+ * @returns {string}        Prefixed and de-prefixed variations of a word.
  */
 export function createBasicWordForms( word ) {
 	const prefixes = [ "ב", "ה", "ו", "כ", "ל", "מ", "ש" ];
@@ -11,7 +11,7 @@ export function createBasicWordForms( word ) {
 
 	/*
 	 * Add prefixes to the input word. We always do this, since some words
-	 * beginning with a prefix-like letter migh be exceptions where this is the
+	 * beginning with a prefix-like letter might be exceptions where this is the
 	 * actual first letter of the word.
 	 */
 	forms.push( ...prefixes.map( prefix => prefix + word ) );

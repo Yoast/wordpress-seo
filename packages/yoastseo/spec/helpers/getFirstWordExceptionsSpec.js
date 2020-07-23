@@ -37,6 +37,10 @@ describe( "a test for getting the correct first word exception array", function(
 		expect( firstWordExceptions( "sv_SE" )() ).toEqual( [ "ett", "det", "den", "de", "en", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio", "denne", "denna", "detta", "dessa" ] );
 	} );
 
+	it( "returns the Indonesian first word exception array in case of id_ID locale", function() {
+		expect( firstWordExceptions( "id_ID" )() ).toEqual( [  "sebuah", "seorang", "sang", "si", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas", "seratus", "seribu", "sejuta", "semiliar", "setriliun", "ini", "itu", "hal", "ia" ] );
+	} );
+
 	it( "returns the English first word exception array in case of empty locale", function() {
 		expect( firstWordExceptions( "" )() ).toEqual( [ "the", "a", "an", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "this", "that", "these", "those" ] );
 	} );
