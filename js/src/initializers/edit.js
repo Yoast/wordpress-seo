@@ -148,7 +148,7 @@ class Edit {
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
-		const icon = <YoastIcon color="#a4286a" />;
+		const icon = <YoastIcon />;
 		updateCategory( "yoast-structured-data-blocks", { icon } );
 		updateCategory( "yoast-internal-linking-blocks", { icon } );
 
