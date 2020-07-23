@@ -1,5 +1,6 @@
 import { debounce } from "lodash-es";
 import { string } from "yoastseo";
+import { select, subscribe } from "@wordpress/data";
 
 import {
 	updateReplacementVariable,
@@ -27,13 +28,11 @@ export default class BlockEditorData {
 	/**
 	 * Sets the wp data, Yoast SEO refresh function and data object.
 	 *
-	 * @param {Object} wpData    The Gutenberg data API.
 	 * @param {Function} refresh The YoastSEO refresh function.
 	 * @param {Object} store     The YoastSEO Redux store.
 	 * @returns {void}
 	 */
-	constructor( wpData, refresh, store ) {
-		this._wpData = wpData;
+	constructor( refresh, store ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._data = {};
@@ -118,7 +117,7 @@ export default class BlockEditorData {
 	 */
 	getMediaById( mediaId ) {
 		if ( ! this._coreDataSelect ) {
-			this._coreDataSelect = this._wpData.select( "core" );
+			this._coreDataSelect = select( "core" );
 		}
 
 		return this._coreDataSelect.getMedia( mediaId );
@@ -133,7 +132,7 @@ export default class BlockEditorData {
 	 */
 	getPostAttribute( attribute ) {
 		if ( ! this._coreEditorSelect ) {
-			this._coreEditorSelect = this._wpData.select( "core/editor" );
+			this._coreEditorSelect = select( "core/editor" );
 		}
 
 		return this._coreEditorSelect.getEditedPostAttribute( attribute );
@@ -293,7 +292,7 @@ export default class BlockEditorData {
 		const {
 			getActiveMarker,
 			getMarkerPauseStatus,
-		} = this._wpData.select( "yoast-seo/editor" );
+		} = select( "yoast-seo/editor" );
 
 		const activeMarker = getActiveMarker();
 		const isMarkerPaused = getMarkerPauseStatus();
@@ -329,7 +328,7 @@ export default class BlockEditorData {
 	 * @returns {boolean} Whether new analysis results are available.
 	 */
 	areNewAnalysisResultsAvailable() {
-		const yoastSeoEditorSelectors = this._wpData.select( "yoast-seo/editor" );
+		const yoastSeoEditorSelectors = select( "yoast-seo/editor" );
 		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
 		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
 
@@ -361,7 +360,7 @@ export default class BlockEditorData {
 	 */
 	subscribeToGutenberg() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
-		this._wpData.subscribe(
+		subscribe(
 			this.subscriber
 		);
 	}
@@ -379,7 +378,7 @@ export default class BlockEditorData {
 				this.onNewAnalysisResultsAvailable();
 			}
 		};
-		this._wpData.subscribe( this.yoastSubscriber );
+		subscribe( this.yoastSubscriber );
 	}
 
 	/**
