@@ -24,7 +24,7 @@ function getDefaultState() {
 /**
  * A reducer for the preferences.
  *
- * @param {Object} state  The current state of the object.
+ * @param {Object} state The current state of the object.
  *
  * @returns {Object} The state.
  */

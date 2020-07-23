@@ -1,9 +1,11 @@
-import getL10nObject from "./getL10nObject";
-
+/* External dependencies */
 import { get } from "lodash-es";
 
+/* Internal dependencies */
+import getL10nObject from "./getL10nObject";
+
 /**
- * Returns whether or not the SEMrush integration is active
+ * Returns whether or not the SEMrush integration is active.
  *
  * @returns {boolean} Whether or not the SEMrush integration is active.
  */
