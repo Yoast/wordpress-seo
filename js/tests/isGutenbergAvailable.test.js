@@ -1,4 +1,4 @@
-import { isBlockEditor } from "../src/helpers/isBlockEditor.js";
+import isBlockEditor from "../src/helpers/isBlockEditor.js";
 
 describe( "isGutenbergDataAvailable", () => {
 	it( "returns true if both wp and wp.data are defined", () => {

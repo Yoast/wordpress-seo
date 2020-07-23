@@ -12,8 +12,7 @@ import {
 	refreshSnippetEditor,
 } from "../../redux/actions/snippetEditor";
 
-import { isBlockEditor } from "../../helpers/isBlockEditor";
-
+import isBlockEditor from "../../helpers/isBlockEditor";
 
 var modifiableFields = [
 	"content",

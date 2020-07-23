@@ -4,7 +4,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 import a11ySpeak from "a11y-speak";
-import { isBlockEditor } from "../helpers/isBlockEditor";
+import isBlockEditor from "../helpers/isBlockEditor";
 
 /**
  * @summary Initializes the featured image integration.
