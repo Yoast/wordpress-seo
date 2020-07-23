@@ -827,7 +827,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'scoring' );
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
-		$asset_manager->enqueue_style( 'table' );
 
 		$asset_manager->enqueue_script( 'post-edit' );
 		$asset_manager->enqueue_style( 'admin-css' );
