@@ -82,9 +82,10 @@ class Indexables_Head_Route_Test extends TestCase {
 				'yoast/v1',
 				'get_head',
 				[
-					'methods'  => 'GET',
-					'callback' => [ $this->instance, 'get_head' ],
-					'args'     => [
+					'methods'             => 'GET',
+					'callback'            => [ $this->instance, 'get_head' ],
+					'permission_callback' => '__return_true',
+					'args'                => [
 						'url' => [
 							'validate_callback' => [ $this->instance, 'is_valid_url' ],
 							'required'          => true,
