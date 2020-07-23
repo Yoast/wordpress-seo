@@ -286,6 +286,26 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for two sentences in Indonesian starting with different words.", function() {
+		changePaper( { text: "Halo dunia!. Apa kabarmu? ", locale: "id_ID" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "halo" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "apa" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Indonesian starting with the same word.", function() {
+		changePaper( { text: "Bukunya murah. Bukunya mahal.", locale: "id_ID" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "bukunya" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Indonesian all starting with one of the exception words.", function() {
+		changePaper( { text: "Seorang pemimpin seharusnya bijaksana. Seorang pemimpin seharusnya memberi contoh yang baik. Seorang pemimpin seharusnya memikirkan rakyatnya", locale: "id_ID" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "seorang pemimpin" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with English sentence beginnings in lists", function() {
 		changePaper( { text: "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "item", { locale: "en_US" } );
