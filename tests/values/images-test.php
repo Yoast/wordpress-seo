@@ -190,12 +190,6 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image
 	 */
 	public function test_add_image_by_url_with_no_image_id() {
-		$this->image
-			->expects( 'get_attachment_by_url' )
-			->once()
-			->with( 'image.jpg' )
-			->andReturn( 0 );
-
 		$this->url
 			->expects( 'is_relative' )
 			->once()
