@@ -51,9 +51,9 @@ class SEMrush_Route_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->login_action = Mockery::mock( SEMrush_Login_Action::class );
+		$this->login_action   = Mockery::mock( SEMrush_Login_Action::class );
 		$this->options_action = Mockery::mock( SEMrush_Options_Action::class );
-		$this->instance     = new SEMrush_Route( $this->login_action, $this->options_action );
+		$this->instance       = new SEMrush_Route( $this->login_action, $this->options_action );
 	}
 
 	/**

@@ -68,14 +68,14 @@ class SEMrush_Route implements Route_Interface {
 	/**
 	 * Semrush_Route constructor.
 	 *
-	 * @param Semrush_Login_Action   $login_action The login action.
+	 * @param Semrush_Login_Action   $login_action   The login action.
 	 * @param Semrush_Options_Action $options_action The options action.
 	 */
 	public function __construct(
 		Semrush_Login_Action $login_action,
 		Semrush_Options_Action $options_action
 	) {
-		$this->login_action = $login_action;
+		$this->login_action   = $login_action;
 		$this->options_action = $options_action;
 	}
 
@@ -126,7 +126,7 @@ class SEMrush_Route implements Route_Interface {
 		return new WP_REST_Response( $data, $data->status );
 	}
 	/**
-	 * Sets SEMrush country code option.
+	 * Sets the SEMrush country code option.
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a country code param set.
 	 *

@@ -29,14 +29,14 @@ class SEMrush_Options_Action {
 	}
 
 	/**
-	 * Stores SEMrush country code in the WPSEO options
+	 * Stores SEMrush country code in the WPSEO options.
 	 *
 	 * @param string $country_code The country code to store.
 	 *
 	 * @return object The response object.
 	 */
 	public function set_country_code( $country_code ) {
-		// Code has already been validated at this point. No need to do that again.
+		// The country code has already been validated at this point. No need to do that again.
 		$success = $this->options_helper->set( 'semrush_country_code', $country_code );
 
 		if ( $success ) {
@@ -54,4 +54,3 @@ class SEMrush_Options_Action {
 	}
 
 }
-
