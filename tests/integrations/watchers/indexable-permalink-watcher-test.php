@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -41,13 +42,21 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	protected $post_type;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\MockInterface|Options_Helper
+	 */
+	protected $options;
+
+	/**
 	 * Does the setup.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->post_type = Mockery::mock( Post_Type_Helper::class );
-		$this->instance  = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type ] )
+		$this->options   = Mockery::mock( Options_Helper::class );
+		$this->instance  = Mockery::mock( Indexable_Permalink_Watcher::class, [ $this->post_type, $this->options ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
