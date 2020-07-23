@@ -30,6 +30,7 @@ const LinkSuggestionIcon = styled.button`
 `;
 
 const Link = makeOutboundLink( styled.a`
+	max-width: 128px;
 	padding: 6px 0;
 	margin-right: 8px;
 ` );
