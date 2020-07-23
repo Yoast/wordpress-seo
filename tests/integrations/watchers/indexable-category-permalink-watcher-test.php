@@ -77,7 +77,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_check_option_with_old_value_being_false() {
 		global $wpdb;
 
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -95,7 +95,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_check_option_with_one_value_not_being_an_array() {
 		global $wpdb;
 
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -113,7 +113,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_check_option_with_values_not_being_an_array() {
 		global $wpdb;
 
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -131,7 +131,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_check_option_with_values_not_being_set() {
 		global $wpdb;
 
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
@@ -149,7 +149,7 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 	public function test_check_option_stripcategorybase_changed() {
 		global $wpdb;
 
-		$wpdb = Mockery::mock();
+		$wpdb         = Mockery::mock();
 		$wpdb->prefix = 'wp_';
 
 		$wpdb
