@@ -35,6 +35,10 @@ const Link = makeOutboundLink( styled.a`
 ` );
 
 const Badge = styled.span`
+	max-width: 75px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	text-align: center;
 	display: block;
 	padding: 3px 8px;
