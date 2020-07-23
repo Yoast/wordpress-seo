@@ -156,7 +156,7 @@ class SEMrush_Route implements Route_Interface {
 	 *
 	 * @param string $country_code The country code to check.
 	 *
-	 * @return boolean Whether or not the country code is valid.
+	 * @return bool Whether or not the country code is valid.
 	 */
 	public function has_valid_country_code( $country_code ) {
 		return ( $country_code !== '' && preg_match( '/^[a-z]{2}$/', $country_code ) === 1 );
@@ -165,7 +165,7 @@ class SEMrush_Route implements Route_Interface {
 	/**
 	 * Whether or not the current user is allowed to edit post and thus access the SEMrush modal.
 	 *
-	 * @return boolean Whether or not the current user is allowed to edit posts.
+	 * @return bool Whether or not the current user is allowed to edit posts.
 	 */
 	public function can_edit() {
 		return \current_user_can( 'edit_posts' );
