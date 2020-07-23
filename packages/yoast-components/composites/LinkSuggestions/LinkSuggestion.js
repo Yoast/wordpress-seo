@@ -21,7 +21,7 @@ const LinkSuggestionIcon = styled.button`
 	border-radius: 5px;
 	cursor: pointer;
 	outline:none;
-	margin-right: 5px;
+	margin-right: 8px;
 	border: 1px solid ${ colors.$color_button_border };
 
 	&:focus {
@@ -30,22 +30,21 @@ const LinkSuggestionIcon = styled.button`
 `;
 
 const Link = makeOutboundLink( styled.a`
+	max-width: 128px;
 	padding: 6px 0;
-	margin-right: 5px;
+	margin-right: 8px;
 ` );
 
 const Badge = styled.span`
-	min-width: 32px;
-	max-width: 64px;
+	max-width: 75px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-align: center;
-
 	display: block;
 	padding: 3px 8px;
 	margin-left: auto;
-	font-size: 0.9em;
+	font-size: 0.85em;
 	background-color: #f3f4f5;
 	border-radius: 2px;
 `;
