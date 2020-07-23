@@ -1,4 +1,5 @@
 /* External dependencies */
+import { SimulatedLabel } from "@yoast/components";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
@@ -136,6 +137,7 @@ class SocialPreviewEditor extends Component {
 			applyReplacementVariables,
 			isPremium,
 			isLarge,
+			socialPreviewLabel,
 		} = this.props;
 
 		// Set fallbacks if title and/or description are empty.
@@ -146,6 +148,9 @@ class SocialPreviewEditor extends Component {
 
 		return (
 			<React.Fragment>
+				{ socialPreviewLabel && <SimulatedLabel>
+					{ socialPreviewLabel }
+				</SimulatedLabel> }
 				<this.SocialPreview
 					onMouseHover={ this.setHoveredField }
 					onSelect={ this.setActiveField }
@@ -209,6 +214,7 @@ SocialPreviewEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	applyReplacementVariables: PropTypes.func,
+	socialPreviewLabel: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -225,6 +231,7 @@ SocialPreviewEditor.defaultProps = {
 	alt: "",
 	authorName: "",
 	applyReplacementVariables: data => data,
+	socialPreviewLabel: "",
 };
 
 export default SocialPreviewEditor;
