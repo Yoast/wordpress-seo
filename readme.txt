@@ -214,16 +214,27 @@ Release Date: August 4th, 2020
 
 Enhancements:
 
+ * Adds support for adding metadata to Web Stories (the `web-story` post type) from the [Web Stories](https://github.com/google/web-stories-wp) plugin. Props to [swissspidy](https://github.com/swissspidy)
  * Shows a more specific notification when the permalinks are reset or when the category base setting is changed.
+ * Redirects requests to the WordPress sitemaps to the appropriate Yoast sitemap, if the Yoast sitemaps are enabled.
+ * Adds the option for users to opt-in to allow Yoast to track some data about their site. 
+ * Improves the styling of the warning when no person is selected in the Person/Company schema selector. 
+ * Optimizes script loading by removing `ver` parameters from scripts and styles when they're not needed.
+ * Adds the Yoast logo to the Yoast block categories.
+ * Compatibility with WordPress 5.5: makes sure Yoast structured data blocks are found on more keywords and have examples in the block inserter.
 
 Bugfixes:
 
  * Ensures the indexation spots the indexables without a permalink.
  * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
-
+ * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
+ 
 Other:
 
  * Enables the cornerstone content toggle for taxonomies.
+ * Adds the option to filter our Schema by `@type`.
+ * Removes the setting to show the date in the Google Preview, the date will now always be shown in post-type previews.
+ * Moves the running of the SEO data indexing process to the Yoast Tools page.
 
 = 14.6.1 =
 Release Date: July 21st, 2020
@@ -251,6 +262,7 @@ Enhancements:
 * Improves the recognition of keywords in the slug if they contain a hyphen (for example: re-duplicated, on-the-go).
 * Improves the transition words analysis for Russian.
 * `Noindex`es the `xmlrpc.php` file and all possible ways to request it, removing them from Google’s search results.
+* For privacy reasons, no longer shows whether an email address is already subscribed to the newsletter.
 
 Bugfixes:
 
@@ -259,10 +271,13 @@ Bugfixes:
 * Fixes a bug where slashes in titles and open graph titles were removed before they were used as a replacement variable. Props to [Jon Christopher](https://github.com/jchristopher).
 * Fixes a bug where a `get_plugins()` undefined error would be thrown if there was already a `plugin.php` loaded via the `init` hook by another plugin. Props to [Krishna Kant](https://github.com/lushkant).
 * Fixes a bug where there was no border on the bottom of metabox tabs without any collapsible sections.
+* Fixes a bug where "array_merge(): Argument #1 is not an array" issues could appear under specific circumstances. Props to [chteuchteu](https://github.com/chteuchteu).
 
 Other:
 
 * Removes functions, class variables and classes that were deprecated prior to version 11.5.
+* Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
+* Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
