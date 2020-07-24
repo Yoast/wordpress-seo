@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Actions\Indexation;
 
+use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Complete_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\TestCase;
@@ -26,14 +27,14 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 	/**
 	 * The mocked options helper.
 	 *
-	 * @var \Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	private $options;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->options = \Mockery::mock( Options_Helper::class );
+		$this->options = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Indexable_Complete_Indexation_Action(
 			$this->options
@@ -63,7 +64,7 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 		$this->options->expects( 'set' )->with( 'indexables_indexation_reason', '' );
 		$this->options->expects( 'set' )->with( 'indexables_indexation_completed', true );
 
-		$this->assertEmpty( $this->instance->complete() );
+		$this->instance->complete();
 	}
 
 }
