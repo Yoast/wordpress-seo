@@ -73,10 +73,13 @@ class KeywordInput extends Component {
 								) }
 							</Alert>
 						}
-						<SEMrushModal
-							location={ location }
-							keyphrase={ this.props.keyword }
-						/>
+						{
+							this.props.isSEMrushIntegrationActive &&
+							<SEMrushModal
+								location={ location }
+								keyphrase={ this.props.keyword }
+							/>
+						}
 					</KeywordInputContainer>
 				) }
 			</LocationConsumer>
@@ -90,10 +93,12 @@ KeywordInput.propTypes = {
 	onFocusKeywordChange: PropTypes.func.isRequired,
 	onFocusKeyword: PropTypes.func.isRequired,
 	onBlurKeyword: PropTypes.func.isRequired,
+	isSEMrushIntegrationActive: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
 	keyword: "",
+	isSEMrushIntegrationActive: false,
 };
 
 /**

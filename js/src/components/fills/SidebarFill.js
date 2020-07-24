@@ -43,7 +43,9 @@ export default function SidebarFill( { settings, store, theme } ) {
 						theme={ theme }
 						location={ "sidebar" }
 					>
-						<KeywordInput />
+						<KeywordInput
+							isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+						/>
 					</TopLevelProviders>
 				</SidebarItem> }
 				{ <SidebarItem renderPriority={ 9 }>
