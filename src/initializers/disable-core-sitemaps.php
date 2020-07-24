@@ -69,7 +69,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 			return;
 		}
 
-		if ( \wp_safe_redirect( \home_url( $redirect ), 301, 'Yoast SEO' ) ) {;
+		if ( \wp_safe_redirect( \home_url( $redirect ), 301, 'Yoast SEO' ) ) {
 			// If we can safely redirect, we should exit here.
 			exit;
 		}
