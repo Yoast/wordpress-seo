@@ -1,6 +1,5 @@
 import MetaboxFill from "../components/fills/MetaboxFill";
 import { connect } from "react-redux";
-import { get } from "lodash-es";
 
 /**
  * Maps the state to props.
@@ -14,7 +13,7 @@ function mapStateToProps( state, ownProps ) {
 	const settings = {
 		...state.preferences,
 		// Because cornerstone is only applicable to posts, not terms. Despite the general setting.
-		isCornerstoneActive: get( window, "wpseoScriptData.isPost", false ) && state.preferences.isCornerstoneActive,
+		isCornerstoneActive: state.preferences.isCornerstoneActive,
 		// Because this value is initiated as an empty string.
 		displayAdvancedTab: !! window.wpseoAdminL10n.displayAdvancedTab,
 	};

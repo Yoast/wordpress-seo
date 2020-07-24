@@ -32,8 +32,6 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Success_Message(),
 			new WPSEO_Config_Field_Mailchimp_Signup(),
 			new WPSEO_Config_Field_Environment(),
-			new WPSEO_Config_Field_Tracking_Intro(),
-			new WPSEO_Config_Field_Tracking(),
 			new WPSEO_Config_Field_Site_Type(),
 			new WPSEO_Config_Field_Multiple_Authors(),
 			new WPSEO_Config_Field_Title_Intro(),
@@ -53,6 +51,8 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Company_Logo(),
 			new WPSEO_Config_Field_Person(),
 			new WPSEO_Config_Field_Post_Type_Visibility(),
+			new WPSEO_Config_Field_Tracking_Intro(),
+			new WPSEO_Config_Field_Tracking(),
 		];
 
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();

@@ -48,7 +48,7 @@ class Indexable_Indexation_Route extends Abstract_Indexation_Route {
 	const PREPARE_ROUTE = 'indexation/prepare';
 
 	/**
-	 * The full indexation complete route constant.
+	 * The full indexation prepare route constant.
 	 *
 	 * @var string
 	 */
