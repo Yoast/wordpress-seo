@@ -16,16 +16,29 @@ export default compose( [
 			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
 			relatedKeyphrases: select( "yoast-seo/editor" ).getSEMrushKeyphrases(),
 			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
+			displayNoKeyphraseMessage: select( "yoast-seo/editor" ).getSEMrushNoKeyphraseMessage(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase,
-			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached, addSEMrushKeyphrase, removeSEMrushKeyphrase,
-			setSEMrushKeyphraseLimitReached } = dispatch(
+		const {
+			setSEMrushNoKeyphraseMessage,
+			setSEMrushOpenModal,
+			setSEMrushDismissModal,
+			setSEMrushChangeDatabase,
+			setSEMrushNewRequest,
+			setSEMrushRequestSucceeded,
+			setSEMrushRequestFailed,
+			setSEMrushSetRequestLimitReached,
+			addSEMrushKeyphrase,
+			removeSEMrushKeyphrase,
+			setSEMrushKeyphraseLimitReached,
+		} = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
+			onOpenWitnNoKeyphrase: () => {
+				setSEMrushNoKeyphraseMessage();
+			},
 			onOpen: ( location ) => {
 				setSEMrushOpenModal( location );
 			},

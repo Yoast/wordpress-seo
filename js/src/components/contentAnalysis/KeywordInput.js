@@ -111,6 +111,7 @@ KeywordInput.defaultProps = {
 function mapStateToProps( state ) {
 	return {
 		keyword: state.focusKeyword,
+		isLoggedInToSEMrush: state.SEMrushRequest.OAuthToken,
 	};
 }
 
