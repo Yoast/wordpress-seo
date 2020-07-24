@@ -123,6 +123,7 @@ import ProgressBar from "./ui/progressBar";
 						.html( "<p>" + settings.message.indexingCompleted + "</p>" )
 						.show()
 						.addClass( "notice-success" )
+						.removeClass( "notice-error" )
 						.removeClass( "notice-warning" );
 					$( settings.ids.message ).html( settings.message.indexingCompleted );
 
