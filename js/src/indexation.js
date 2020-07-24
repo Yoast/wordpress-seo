@@ -142,6 +142,7 @@ import ProgressBar from "./ui/progressBar";
 					$( settings.ids.message ).html( settings.message.indexingFailed );
 
 					tb_remove();
+					indexationInProgress = false;
 				} );
 			}
 		} );
