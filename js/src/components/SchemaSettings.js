@@ -3,7 +3,7 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { Alert, HelpIcon, Select } from "@yoast/components";
 import PropTypes from "prop-types";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
-import { schemaArticleTypeOptions, schemaPageTypeOptions } from "./SchemaOptions";
+import { schemaArticleTypeOptions, schemaPageTypeOptions } from "../values/SchemaOptions";
 
 /**
  * Appends ' (default)' to the name of the default option.
