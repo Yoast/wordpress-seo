@@ -278,6 +278,7 @@ Other:
 * Removes functions, class variables and classes that were deprecated prior to version 11.5.
 * Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
 * Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
+* Yoast SEO had many scripts that relied on many localized objects. In an effort to improve maintainability we have combined all those objects into one: wpseoScriptData. wpseoPostScraperL10n and wpseoTermScraperL10n remain available for backward compatibility. Plugins that tap into our objects will need to update their code.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
