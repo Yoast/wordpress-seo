@@ -182,6 +182,11 @@ function _wpseo_activate() {
 		$wpseo_rewrite->schedule_flush();
 	}
 
+	// Reset tracking to be disabled by default.
+	if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+		WPSEO_Options::set( 'tracking', false );
+	}
+
 	do_action( 'wpseo_register_roles' );
 	WPSEO_Role_Manager_Factory::get()->add();
 

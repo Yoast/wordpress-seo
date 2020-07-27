@@ -7,6 +7,7 @@ import initAdmin from "./initializers/admin";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
+window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortcodes;
 
 initTabs( jQuery );
 
