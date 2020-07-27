@@ -10,6 +10,7 @@ import domReady from "@wordpress/dom-ready";
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
 window.wpseoShortcodePluginL10n = window.wpseoScriptData.analysis.plugins.shortcodes;
+
 window.YoastSEO = window.YoastSEO || {};
 
 domReady( () => {
