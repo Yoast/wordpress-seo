@@ -20,6 +20,8 @@ import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/Help
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
 const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName } ) => {
+	console.log( htmlFor );
+	console.log( ! ! htmlFor );
 	const titleComponent = htmlFor
 		? <label htmlFor={ htmlFor }>{ label }</label>
 		: <b>{ label }</b>;
