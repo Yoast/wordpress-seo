@@ -106,7 +106,7 @@ class Indexable_Permalink_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Test resettings the permalinks for a post type.
+	 * Test resetting the permalinks for a post type.
 	 *
 	 * @covers ::reset_permalinks_post_type
 	 */

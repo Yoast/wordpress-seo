@@ -59,7 +59,6 @@ class Indexation_Permalink_Warning_Presenter extends Indexation_Warning_Presente
 	 * @return string The text to show as reason.
 	 */
 	protected function get_text_for_reason( $reason ) {
-		$text = '';
 		switch ( $reason ) {
 			case static::REASON_CATEGORY_BASE_PREFIX :
 				$text = \esc_html__( 'Because of a change in your category URL setting, some of your SEO data need to be reprocessed.', 'wordpress-seo' );
