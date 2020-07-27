@@ -385,7 +385,7 @@ export default function initTermScraper( $, store, editorData ) {
 
 		// Initialize the snippet editor data.
 		let snippetEditorData = snippetEditorHelpers.getDataFromCollector( termScraper );
-		initializeCornerstoneContentAnalysis( store, app );
+		initializeCornerstoneContentAnalysis( app );
 		const snippetEditorTemplates = snippetEditorHelpers.getTemplatesFromL10n( wpseoScriptData.metabox );
 		snippetEditorData = snippetEditorHelpers.getDataWithTemplates( snippetEditorData, snippetEditorTemplates );
 
