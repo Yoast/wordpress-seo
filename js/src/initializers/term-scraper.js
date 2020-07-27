@@ -41,7 +41,6 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import { refreshSnippetEditor, updateData } from "../redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
 import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
@@ -259,8 +258,6 @@ export default function initTermScraper( $, store, editorData ) {
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
-
-		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
