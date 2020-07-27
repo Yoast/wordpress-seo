@@ -8,6 +8,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 1.1.0 August 3rd, 2020
 ### Bugfixes
 * Fixes a bug where the styling for the variables in the snippet editors was incorrect.
+* Fixes a bug where the placeholder text in the title input field was a different color than the one in the description input field.
 
 ## 1.0.0 July 20th, 2020
 ### Enhancements
