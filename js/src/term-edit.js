@@ -4,8 +4,6 @@ import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
 import { termsTmceId } from "./lib/tinymce";
-import initClassicEditorIntegration from "./initializers/classic-editor-integration";
-import ClassicEditorData from "./analysis/classicEditorData";
 
 // Backwards compatibility globals.
 window.wpseoTermScraperL10n = window.wpseoScriptData.metabox;

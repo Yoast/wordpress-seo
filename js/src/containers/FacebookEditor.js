@@ -2,7 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { validateFacebookImage, validateTwitterImage } from "@yoast/helpers";
+import { validateFacebookImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
