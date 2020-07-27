@@ -182,17 +182,17 @@ export default function initTermScraper( $, store, editorData ) {
 	/**
 	 * Overwrites YoastSEO.js' app renderers.
 	 *
-	 * @param {Object} app YoastSEO.js app.
+	 * @param {Object} yoastSeoApp YoastSEO.js app.
 	 *
 	 * @returns {void}
 	 */
-	function disableYoastSEORenderers( app ) {
-		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
-			app.seoAssessorPresenter.render = function() {};
+	function disableYoastSEORenderers( yoastSeoApp ) {
+		if ( ! isUndefined( yoastSeoApp.seoAssessorPresenter ) ) {
+			yoastSeoApp.seoAssessorPresenter.render = function() {};
 		}
-		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
-			app.contentAssessorPresenter.render = function() {};
-			app.contentAssessorPresenter.renderIndividualRatings = function() {};
+		if ( ! isUndefined( yoastSeoApp.contentAssessorPresenter ) ) {
+			yoastSeoApp.contentAssessorPresenter.render = function() {};
+			yoastSeoApp.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
 	}
 
