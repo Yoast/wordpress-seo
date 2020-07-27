@@ -31,7 +31,7 @@ export default class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, tinyMceId ) {
+	constructor( refresh, store, tinyMceId = "content" ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
