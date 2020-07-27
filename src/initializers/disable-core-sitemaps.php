@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Initializers;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 
 /**
  * Disables the WP core sitemaps.
@@ -25,14 +26,23 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	private $options;
 
 	/**
+	 * The redirect helper.
+	 *
+	 * @var Redirect_Helper
+	 */
+	private $redirect;
+
+	/**
 	 * Sitemaps_Enabled_Conditional constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Options_Helper  $options  The options helper.
+	 * @param Redirect_Helper $redirect The redirect helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
+	public function __construct( Options_Helper $options, Redirect_Helper $redirect ) {
+		$this->options  = $options;
+		$this->redirect = $redirect;
 	}
 
 	/**
@@ -69,10 +79,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 			return;
 		}
 
-		if ( \wp_safe_redirect( \home_url( $redirect ), 301, 'Yoast SEO' ) ) {
-			// If we can safely redirect, we should exit here.
-			exit;
-		}
+		$this->redirect->do_safe_redirect( \home_url( $redirect ), 301 );
 	}
 
 	/**

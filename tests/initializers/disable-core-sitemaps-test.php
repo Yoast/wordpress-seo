@@ -10,6 +10,7 @@ namespace Yoast\WP\SEO\Tests\Initializers;
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -35,6 +36,13 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 */
 	private $options;
 
+	/**
+	 * The redirect helper.
+	 *
+	 * @var Redirect_Helper
+	 */
+	private $redirect;
+
 
 	/**
 	 * @inheritDoc
@@ -43,7 +51,8 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 		parent::setUp();
 
 		$this->options  = Mockery::mock( Options_Helper::class );
-		$this->instance = new Disable_Core_Sitemaps( $this->options );
+		$this->redirect = Mockery::mock( Redirect_Helper::class );
+		$this->instance = new Disable_Core_Sitemaps( $this->options, $this->redirect );
 	}
 
 	/**
@@ -93,11 +102,11 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 		if ( $redirect ) {
 			Functions\expect( 'home_url' )->once()->with( $redirect )->andReturnFirstArg();
-			Functions\expect( 'wp_safe_redirect' )->once()->with( $redirect, 301, 'Yoast SEO' );
+			$this->redirect->expects( 'do_safe_redirect' )->once()->with( $redirect, 301 );
 		}
 		else {
 			Functions\expect( 'home_url' )->never();
-			Functions\expect( 'wp_safe_redirect' )->never();
+			$this->redirect->expects( 'do_safe_redirect' )->never();
 		}
 
 		$this->instance->template_redirect();
