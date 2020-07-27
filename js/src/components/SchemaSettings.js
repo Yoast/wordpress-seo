@@ -17,15 +17,16 @@ const addDefaultToOptionName = ( schemaTypeOptions, defaultType ) => {
 	const options = [];
 
 	// Clone the schema type options, but with the new name for the default.
-	schemaTypeOptions.forEach( ( option, index ) => {
-		options.push( {
-			value: option.value,
-			name: option.name,
-		} );
-
-		if ( option.value === defaultType ) {
-			options[ index ].name += ` (${ __( "default", "wordpress-seo" ) })`;
+	const options = schemaTypeOptions.map( option => {
+		if ( option.value !== defaultType ) {
+			return option;
 		}
+
+		const defaultName = `${ option.name } (${ __( "default", "wordpress-seo" ) })`;
+		return {
+			value: option.value,
+			name: defaultName,
+		};
 	} );
 
 	return options;
