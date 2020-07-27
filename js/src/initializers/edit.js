@@ -30,7 +30,6 @@ import { link } from "../inline-links/edit-link";
 import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
-import SEMrushRelatedKeyphrases from "../containers/RelatedKeyphrases";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -224,9 +223,7 @@ class Edit {
 				>
 					<DocumentSidebar />
 				</PluginDocumentSettingPanel> }
-				{ ! isPremium && <Fill name="YoastRelatedKeyphrases">
-					<SEMrushRelatedKeyphrases />
-				</Fill> }
+
 			</Fragment>
 		);
 
