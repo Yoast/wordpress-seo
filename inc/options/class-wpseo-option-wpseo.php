@@ -62,8 +62,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'access_tokens' => [],
 		],
 		'semrush_integration_active'               => true,
-		'semrush_tokens' 						   => [],
-		'semrush_country_code' 					   => 'us',
+		'semrush_tokens'                           => [],
+		'semrush_country_code'                     => 'us',
 	];
 
 	/**
