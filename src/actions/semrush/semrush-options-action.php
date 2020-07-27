@@ -45,12 +45,12 @@ class SEMrush_Options_Action {
 				'status'  => 200,
 			];
 		}
-		else {
-			return (object) [
-				'success' => false,
-				'status'  => 500,
-			];
-		}
+		return (object) [
+			'success' => false,
+			'status'  => 500,
+			'error'   => 'Could not save option in the database',
+		];
+
 	}
 
 }
