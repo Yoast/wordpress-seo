@@ -119,6 +119,7 @@ RelatedKeyphrasesModal.propTypes = {
 	onOpen: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	setDatabase: PropTypes.func.isRequired,
+	newRequest: PropTypes.func.isRequired,
 };
 
 RelatedKeyphrasesModal.defaultProps = {

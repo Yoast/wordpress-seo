@@ -172,6 +172,7 @@ class SemRushCountrySelector extends Component {
 		super( props );
 
 		this.onChangeHandler = this.onChangeHandler.bind( this );
+		this.newRequest = this.newRequest.bind( this );
 	}
 
 	/**
@@ -203,6 +204,16 @@ class SemRushCountrySelector extends Component {
 	}
 
 	/**
+	 * Makes a new request to SEMrush.
+	 *
+	 * @returns {void}
+	 */
+	newRequest()
+	{
+		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
+	}
+
+	/**
 	 * Renders the SEMrush Country Selector.
 	 *
 	 * @returns {React.Element} The SEMrush Country Selector.
@@ -210,7 +221,7 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
-				<p>current database selected is: {this.props.currentDatabase}</p>
+				<p>current database selected is: { this.props.currentDatabase }</p>
 				<div className="yoast">
 					<FieldGroup
 						htmlFor={ id }
@@ -224,7 +235,10 @@ class SemRushCountrySelector extends Component {
 						>
 							{ countries.map( Option ) }
 						</select>
-						<button className="yoast-button yoast-button--secondary">Change Country</button>
+						<button
+							className="yoast-button yoast-button--secondary"
+							onClick={ this.newRequest }
+						>Change Country</button>
 					</FieldGroup>
 				</div>
 			</Fragment>
@@ -233,12 +247,15 @@ class SemRushCountrySelector extends Component {
 }
 
 SemRushCountrySelector.propTypes = {
+	keyphrase: PropTypes.string,
 	currentDatabase: PropTypes.string,
 	setDatabase: PropTypes.func,
+	newRequest: PropTypes.func,
 };
 
 SemRushCountrySelector.defaultProps = {
 	currentDatabase: "us",
+	keyphrase: "",
 };
 
 /**
