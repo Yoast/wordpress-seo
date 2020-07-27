@@ -35,7 +35,7 @@ export default compose( [
 			"yoast-seo/editor"
 		);
 		return {
-			onOpenWitnNoKeyphrase: () => {
+			onOpenWithNoKeyphrase: () => {
 				setSEMrushNoKeyphraseMessage();
 			},
 			onOpen: ( location ) => {

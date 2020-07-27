@@ -41,7 +41,7 @@ class RelatedKeyphrasesModal extends Component {
 		}
 
 		if ( ! this.props.keyphrase ) {
-			this.props.onOpenWitnNoKeyphrase();
+			this.props.onOpenWithNoKeyphrase();
 			return;
 		}
 
@@ -116,7 +116,7 @@ RelatedKeyphrasesModal.propTypes = {
 	] ),
 	currentDatabase: PropTypes.string,
 	onOpen: PropTypes.func.isRequired,
-	onOpenWitnNoKeyphrase: PropTypes.func.isRequired,
+	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	isLoggedInToSEMrush: PropTypes.string,
 };
