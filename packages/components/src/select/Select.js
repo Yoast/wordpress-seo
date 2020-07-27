@@ -191,7 +191,6 @@ export class Select extends React.Component {
 		// Make sure to pass a single option when it is a normal select.
 		const selection = Array.isArray( selected ) ? selected[ 0 ] : selected;
 
-		console.log( id );
 		return (
 			<FieldGroup
 				{ ...fieldGroupProps }
