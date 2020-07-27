@@ -13,7 +13,7 @@ import { Alert } from "@yoast/components";
 /* Internal dependencies */
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
-import HelpLink from "./HelpLink";
+import HelpLink from "../HelpLink";
 import { LocationConsumer } from "../contexts/location";
 import SEMrushModal from "../../containers/SEMrush";
 

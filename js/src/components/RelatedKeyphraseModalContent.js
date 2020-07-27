@@ -13,14 +13,15 @@ import SemRushRequestFailed from "./modals/SemRushRequestFailed";
 /**
  * Renders the SEMrush related keyphrases modal content.
  *
- * @param {bool}   isLoading    Whether the data from SEMrush are loading.
- * @param {string} keyphrase    The main keyphrase set bu the user.
- * @param {string} keyphrases   The related keyphrases set by the user.
- * @param {string} renderAction The url to link to in the notice.
+ * @param {bool}   isLoading         Whether the data from SEMrush are loading.
+ * @param {string} keyphrase         The main keyphrase set bu the user.
+ * @param {string} relatedKeyphrases The related keyphrases set by the user.
+ * @param {string} renderAction      The url to link to in the notice.
+ * @param {object} data              The data returned by the SEMrush response.
  *
  * @returns {wp.Element} The SEMrush related keyphrases modal content.
  */
-export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases, renderAction } ) {
+export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases, renderAction, data } ) {
 	// Return table etc. All content based on props etc.
 	return (
 		<Fragment>
@@ -33,6 +34,7 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 				keyphrase={ keyphrase }
 				relatedKeyphrases={ relatedKeyphrases }
 				renderAction={ renderAction }
+				data={ data }
 			/>
 		</Fragment>
 	);
@@ -43,6 +45,7 @@ RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
+	data: PropTypes.object,
 };
 
 RelatedKeyphraseModalContent.defaultProps = {
@@ -50,4 +53,66 @@ RelatedKeyphraseModalContent.defaultProps = {
 	keyphrase: "",
 	relatedKeyphrases: [],
 	renderAction: null,
+	data: {
+		data: {
+			columnNames: [
+				"Keyword",
+				"Search Volume",
+				"Trends",
+			],
+			rows: [
+				[
+					"and you and you and you and you",
+					"50",
+					"0.14,0.14,0.71,0.14,0.43,0.14,0.14,0.14,0.14,0.29,1.00,0.29",
+				],
+				[
+					"more information",
+					"1300",
+					"0.63,0.63,0.81,0.63,0.81,0.81,0.81,1.00,1.00,0.81,1.00,1.00",
+				],
+				[
+					"my we",
+					"320",
+					"0.19,0.24,0.36,0.19,0.24,0.24,0.30,0.24,0.30,0.44,1.00,0.55",
+				],
+				[
+					"please see our website",
+					"70",
+					"0.11,0.22,0.11,0.00,0.11,0.22,0.78,0.11,0.44,1.00,0.00,0.11",
+				],
+				[
+					"search what you see",
+					"90",
+					"0.20,0.20,0.20,0.80,0.20,0.60,0.20,0.40,1.00,0.20,0.20,0.20",
+				],
+				[
+					"to your information",
+					"30",
+					"0.20,0.20,0.40,0.20,0.60,0.60,0.20,0.20,0.40,1.00,1.00,0.20",
+				],
+				[
+					"you and you",
+					"210",
+					"0.24,0.24,0.24,0.19,0.19,0.24,0.19,0.29,0.44,0.54,0.81,1.00",
+				],
+				[
+					"about this",
+					"260",
+					"0.81,0.81,0.81,0.81,0.81,0.81,0.66,0.81,0.81,1.00,0.81,0.81",
+				],
+				[
+					"for your information 3",
+					"30",
+					"0.00,0.29,0.14,0.00,0.00,0.14,0.14,1.00,1.00,0.14,0.14,0.29",
+				],
+				[
+					"you can you can",
+					"40",
+					"0.11,1.00,0.11,0.11,0.78,1.00,0.11,0.11,0.11,0.11,0.11,0.11",
+				],
+			],
+		},
+		status: 200,
+	},
 };
