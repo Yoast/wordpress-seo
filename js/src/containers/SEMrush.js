@@ -16,7 +16,6 @@ export default compose( [
 			isPending: select( "yoast-seo/editor" ).getSEMrushIsRequestPending(),
 			relatedKeyphrases: select( "yoast-seo/editor" ).getSEMrushKeyphrases(),
 			keyphraseLimitReached: select( "yoast-seo/editor" ).getSEMrushLimitReached(),
-			displayNoKeyphraseMessage: select( "yoast-seo/editor" ).getSEMrushNoKeyphraseMessage(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {

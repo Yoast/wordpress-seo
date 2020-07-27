@@ -55,6 +55,12 @@ class KeywordInput extends Component {
 			<LocationConsumer>
 				{ location => (
 					<KeywordInputContainer>
+						{
+							this.props.displayNoKeyphraseMessage &&
+							<p role="alert">
+								{ __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) }
+							</p>
+						}
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ location }` }
 							onChange={ this.props.onFocusKeywordChange }
@@ -94,11 +100,13 @@ KeywordInput.propTypes = {
 	onFocusKeyword: PropTypes.func.isRequired,
 	onBlurKeyword: PropTypes.func.isRequired,
 	isSEMrushIntegrationActive: PropTypes.bool,
+	displayNoKeyphraseMessage: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
 	keyword: "",
 	isSEMrushIntegrationActive: false,
+	displayNoKeyphraseMessage: false,
 };
 
 /**
@@ -111,7 +119,7 @@ KeywordInput.defaultProps = {
 function mapStateToProps( state ) {
 	return {
 		keyword: state.focusKeyword,
-		isLoggedInToSEMrush: state.SEMrushRequest.OAuthToken,
+		displayNoKeyphraseMessage: state.SEMrushModal.displayNoKeyphraseMessage,
 	};
 }
 
