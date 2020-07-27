@@ -1,6 +1,6 @@
-import { Component, Fragment } from "@wordpress/element";
+import { Component } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { Alert, HelpIcon, Select } from "@yoast/components";
+import { Alert, Select, FieldGroup } from "@yoast/components";
 import PropTypes from "prop-types";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 import { schemaArticleTypeOptions, schemaPageTypeOptions } from "../values/SchemaOptions";
@@ -82,31 +82,27 @@ class SchemaSettings extends Component {
 	 */
 	render() {
 		return (
-			<Fragment>
-				<div className="yoast-field-group__title">
-					<b>{ __( "Schema settings", "wordpress-seo" ) }</b>
-					<HelpIcon
-						linkTo="https://yoa.st/404"
-						linkText={ __( "Learn more about the schema settings", "wordpress-seo" ) }
-					/>
-				</div>
-				<p>
-					{ sprintf(
-						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
-						__(
-							"Choose how your %1$s should be described by default in your site's schema.org markup. " +
-							"You can change these settings for individual %1$s.",
-							"wordpress-seo"
-						),
-						this.props.postTypeName,
-					) }
-				</p>
+			<FieldGroup
+				label={ __( "Schema settings", "wordpress-seo" ) }
+				linkTo="https://yoa.st/404"
+				linkText={ __( "Learn more about the schema settings", "wordpress-seo" ) }
+				description={ sprintf(
+					/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
+					__(
+						"Choose how your %1$s should be described by default in your site's schema.org markup. " +
+						"You can change these settings for individual %1$s.",
+						"wordpress-seo"
+					),
+					this.props.postTypeName,
+				) }
+			>
 				{ this.shouldShowAlert() && <Alert type="warning">
 					{ sprintf(
 						/* translators: %1$s expands to an indexable object's name, e.g. Posts or Pages. */
 						_n(
 							"Upon saving, this setting will apply to all of your %1$s. %1$s that are manually configured will be left untouched.",
-							"Upon saving, these settings will apply to all of your %1$s. %1$s that are manually configured will be left untouched.",
+							"Upon saving, these settings will apply to all of your %1$s." +
+							" %1$s that are manually configured will be left untouched.",
 							this.props.articleType ? 2 : 1,
 							"wordpress-seo",
 						),
@@ -129,7 +125,7 @@ class SchemaSettings extends Component {
 					onChange={ this.props.articleType.onChange }
 					selected={ this.props.articleType.value }
 				/> }
-			</Fragment>
+			</FieldGroup>
 		);
 	}
 }
