@@ -301,6 +301,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-api',
 					'wp-api-fetch',
+					'wp-blocks',
 					'wp-data',
 					'wp-i18n',
 					'wp-is-shallow-equal',

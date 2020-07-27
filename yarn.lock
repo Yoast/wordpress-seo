@@ -680,10 +680,10 @@
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/replacement-variable-editor@^1.1.0-rc.0":
-  version "1.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.1.0-rc.0.tgz#18f4f2448fa1ea133d97c7e1a7ee41ef6e72450f"
-  integrity sha512-1f84JXM6nrK4aT0dDCatcjCnTNLqgGsi8qQJzYBh/PYndhtrTvp0nXasLMrX/JlUKtzBy//gxuhPqEGztnXqAg==
+"@yoast/replacement-variable-editor@^1.1.0-rc.1":
+  version "1.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/replacement-variable-editor/-/replacement-variable-editor-1.1.0-rc.1.tgz#809bafc560a63f7d9b3345446bc5ac8a9e412226"
+  integrity sha512-0p/yeMEPi0EduADkWZmZaEoiznPpv8VO2945qdwqMJo9ds0xfRIkN1BppCggOnTf+2QEVJeLNP/A/4LIHX0cfw==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
@@ -699,16 +699,16 @@
     styled-components "^4.4.1"
     yoastseo "^1.79.0-rc.0"
 
-"@yoast/search-metadata-previews@^2.8.0-rc.0":
-  version "2.8.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.8.0-rc.0.tgz#d885f06f03a68342e34233adcab3323dc40bc4a9"
-  integrity sha512-IO7splbTT4MXXlt6laCMffpJOn8zFQWXQPRFQqbWutqIjpWhoUQn4Y5A6g2V4AH0uSXcEfuS+PaFZ/ZerM2ABw==
+"@yoast/search-metadata-previews@^2.8.0-rc.1":
+  version "2.8.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-2.8.0-rc.1.tgz#b7820098c2db009acdb11602d63563c5702dde1d"
+  integrity sha512-paOTjSO3TLxSGRL4lgpfdhPJFwf0DWCXR7ARJSAmRgkJ1/Xuadiff3oJ63QdjnI30Ew9zhE2wQynELLGF6t/7g==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
     "@yoast/components" "^2.6.0-rc.0"
     "@yoast/helpers" "^0.13.0"
-    "@yoast/replacement-variable-editor" "^1.1.0-rc.0"
+    "@yoast/replacement-variable-editor" "^1.1.0-rc.1"
     "@yoast/style-guide" "^0.13.0-rc.0"
     draft-js "^0.10.5"
     draft-js-mention-plugin "^3.0.4"
@@ -721,14 +721,14 @@
     styled-components "^4.2.0"
     yoastseo "^1.79.0-rc.0"
 
-"@yoast/social-metadata-forms@^1.1.0-rc.0":
-  version "1.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.1.0-rc.0.tgz#d1665b548fbef3fe279f72bfe7d31f8dfda600e6"
-  integrity sha512-iIN8lnmyijZVtRFYsTH/RhF3Xn/in4xf+vu5tmwp+NtC5w/GEkXwzxew41EWObvAVfwZ9/KNiM8JLwn1luti1Q==
+"@yoast/social-metadata-forms@^1.1.0-rc.1":
+  version "1.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/social-metadata-forms/-/social-metadata-forms-1.1.0-rc.1.tgz#9107316a146d6e9cbe2aae7951e63d3f97d8853b"
+  integrity sha512-6ILolzovnwu1psZJz/iXxi9kJxHhae7UVNBEXpLgIDkT9eh5y/lESHsAI2L1OM0X2zUSw7qlEKKKueuujAsDCQ==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
     "@yoast/components" "^2.6.0-rc.0"
-    "@yoast/replacement-variable-editor" "^1.1.0-rc.0"
+    "@yoast/replacement-variable-editor" "^1.1.0-rc.1"
     "@yoast/style-guide" "^0.13.0-rc.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
@@ -13053,10 +13053,10 @@ yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^5.8.0-rc.0:
-  version "5.8.0-rc.0"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.8.0-rc.0.tgz#495b3264752acbe3238c72a1fc34ae045a2d1578"
-  integrity sha512-T2R6oDx4W5spW6zdw71BfZ2teyjEDzuTwvKaJMeQ4m/hidyH9rSbr0qxYN9rW013dlGEEpmOAckNg1ANdr4GRw==
+yoast-components@^5.8.0-rc.1:
+  version "5.8.0-rc.1"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-5.8.0-rc.1.tgz#4e00a273f854b836995dcfd74f0ef45a432764c4"
+  integrity sha512-+FDMn4UjnqND2QtUwgAgCjcPDmuhq58PKdytZWjGfuMuX7765G3dW6tQEsbzs/pXnJbp0s7pRDJUmfRR/1lbvA==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
@@ -13064,8 +13064,8 @@ yoast-components@^5.8.0-rc.0:
     "@yoast/components" "^2.6.0-rc.0"
     "@yoast/configuration-wizard" "^2.8.0-rc.0"
     "@yoast/helpers" "^0.13.0"
-    "@yoast/replacement-variable-editor" "^1.1.0-rc.0"
-    "@yoast/search-metadata-previews" "^2.8.0-rc.0"
+    "@yoast/replacement-variable-editor" "^1.1.0-rc.1"
+    "@yoast/search-metadata-previews" "^2.8.0-rc.1"
     "@yoast/style-guide" "^0.13.0-rc.0"
     clipboard "^1.5.15"
     draft-js "^0.11.4"

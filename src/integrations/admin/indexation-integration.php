@@ -209,7 +209,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_warning() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
 		}
 	}
@@ -220,7 +220,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_modal() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			\add_thickbox();
 
 			echo new Indexation_Modal_Presenter( $this->get_total_unindexed() );
@@ -233,7 +233,7 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_list_item() {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( \current_user_can( 'manage_options' ) ) {
 			echo new Indexation_List_Item_Presenter( $this->get_total_unindexed() );
 		}
 	}
@@ -244,7 +244,9 @@ class Indexation_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function render_indexation_permalink_warning() {
-		echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		if ( \current_user_can( 'manage_options' ) ) {
+			echo new Indexation_Permalink_Warning_Presenter( $this->get_total_unindexed(), $this->options_helper, $this->indexation_action_type );
+		}
 	}
 
 	/**
@@ -306,13 +308,6 @@ class Indexation_Integration implements Integration_Interface {
 		$hide_until = (int) $this->options_helper->get( 'indexation_warning_hide_until' );
 
 		return ( $hide_until !== 0 && $hide_until >= \time() );
-	}
-
-	/**
-	 * Sets the indexation to complete.
-	 */
-	protected function set_complete() {
-		$this->options_helper->set( 'indexables_indexation_reason', '' );
 	}
 
 	/**

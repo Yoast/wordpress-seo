@@ -1,5 +1,6 @@
-language: php
+os: linux
 dist: xenial
+language: php
 
 services:
   - mysql

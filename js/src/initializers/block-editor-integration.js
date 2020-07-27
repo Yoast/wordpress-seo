@@ -1,5 +1,4 @@
 /* External dependencies */
-import styled from "styled-components";
 import {
 	PluginPrePublishPanel,
 	PluginPostPublishPanel,
@@ -9,6 +8,7 @@ import {
 } from "@wordpress/edit-post";
 import { registerPlugin } from "@wordpress/plugins";
 import { Fragment } from "@wordpress/element";
+import { updateCategory } from "@wordpress/blocks";
 import { select, dispatch } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
@@ -26,11 +26,7 @@ import PrePublish from "../containers/PrePublish";
 import DocumentSidebar from "../containers/DocumentSidebar";
 import PostPublish from "../containers/PostPublish";
 import getL10nObject from "../analysis/getL10nObject";
-
-const PinnedPluginIcon = styled( PluginIcon )`
-	width: 20px;
-	height: 20px;
-`;
+import YoastIcon from "../components/PluginIcon";
 
 /**
  * Registers the Yoast inline link format.
@@ -86,6 +82,10 @@ function initiallyOpenDocumentSettings() {
 function registerFills( store ) {
 	const localizedData = getL10nObject();
 	const pluginTitle = localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
+
+	const icon = <YoastIcon />;
+	updateCategory( "yoast-structured-data-blocks", { icon } );
+	updateCategory( "yoast-internal-linking-blocks", { icon } );
 
 	const theme = {
 		isRtl: localizedData.isRtl,
@@ -146,7 +146,7 @@ function registerFills( store ) {
 
 	registerPlugin( "yoast-seo", {
 		render: EditorFills,
-		icon: <PinnedPluginIcon />,
+		icon: <PluginIcon />,
 	} );
 }
 
