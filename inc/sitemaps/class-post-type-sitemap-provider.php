@@ -20,11 +20,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	protected static $image_parser;
 
 	/**
-	 * Holds instance of classifier for a link.
+	 * Holds the parsed home url.
 	 *
-	 * @var object
+	 * @var array
 	 */
-	protected static $classifier;
+	protected static $parsed_home_url;
 
 	/**
 	 * Determines whether images should be included in the XML sitemap.
@@ -58,6 +58,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return self::$image_parser;
+	}
+
+	/**
+	 * Gets the parsed home url.
+	 *
+	 * @return array The home url, as parsed by wp_parse_url.
+	 */
+	protected function get_parsed_home_url() {
+		if ( ! isset( self::$parsed_home_url ) ) {
+			self::$parsed_home_url = wp_parse_url( home_url() );
+		}
+
+		return self::$parsed_home_url;
 	}
 
 	/**
@@ -600,13 +613,17 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param object $post Post object for the URL.
 		 */
 		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
+		$link_type  = YoastSEO()->helpers->url->get_link_type(
+			wp_parse_url( $url['loc'] ),
+			$this->get_parsed_home_url()
+		);
 
 		/*
 		 * Do not include external URLs.
 		 *
 		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
 		 */
-		if ( YoastSEO()->helpers->url->get_link_type( wp_parse_url( $url['loc'] ) ) === SEO_Links::TYPE_EXTERNAL ) {
+		if ( $link_type === SEO_Links::TYPE_EXTERNAL ) {
 			return false;
 		}
 
