@@ -14,18 +14,17 @@ import { schemaArticleTypeOptions, schemaPageTypeOptions } from "../values/Schem
  * @returns {Object[]} A copy of the schema type options.
  */
 const addDefaultToOptionName = ( schemaTypeOptions, defaultType ) => {
-	const options = [];
+	const defaultString = __( "default", "wordpress-seo" );
 
 	// Clone the schema type options, but with the new name for the default.
 	const options = schemaTypeOptions.map( option => {
 		if ( option.value !== defaultType ) {
-			return option;
+			return { ...option };
 		}
 
-		const defaultName = `${ option.name } (${ __( "default", "wordpress-seo" ) })`;
 		return {
 			value: option.value,
-			name: defaultName,
+			name: `${ option.name } (${ defaultString })`,
 		};
 	} );
 
