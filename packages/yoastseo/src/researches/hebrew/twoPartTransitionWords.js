@@ -5,5 +5,5 @@
  * @returns {Array}              The array filled with two-part transition words.
  */
 export default function() {
-	return [ [],  ];
+	return [ [ "או", "או" ] ];
 }
