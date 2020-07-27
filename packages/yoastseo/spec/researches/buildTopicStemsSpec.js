@@ -355,6 +355,16 @@ describe( "A test for building keyword and synonyms stems for a paper", function
 	} );
 } );
 
+describe( "A test for filtering function words in supported languages", function() {
+	// Function word: שני
+	const forms = buildStems( "שני תפוחים", "he", false );
+	expect( forms ).toEqual(
+		new TopicPhrase(
+			[ new StemOriginalPair( "תפוחים", "תפוחים" ) ],
+			false )
+	);
+} );
+
 describe( "A test for topic phrase objects", function() {
 	const testTopicPhrase = new TopicPhrase(
 		[
