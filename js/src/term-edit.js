@@ -19,11 +19,9 @@ initTabs( jQuery );
 // Initialize the editor store.
 const store = initEditorStore();
 
-// Initialize the ClassicEditor Integration.
-initClassicEditorIntegration( store );
-
-// Initialize classic editor data.
-const editorData = new ClassicEditorData( () => {}, store, termsTmceId );
+// Initialize the editor integration
+window.yoast.initEditorIntegration( store );
+const editorData = new window.yoast.EditorData( () => {}, store, termsTmceId );
 editorData.initialize( window.wpseoScriptData.analysis.plugins.replaceVars.replace_vars );
 
 // Initialize the post scraper.

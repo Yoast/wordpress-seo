@@ -828,6 +828,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
+		$is_block_editor = WP_Screen::get()->is_block_editor();
+		if ( $is_block_editor ) {
+			$asset_manager->enqueue_script( 'block-editor' );
+		} else {
+			$asset_manager->enqueue_script( 'classic-editor' );
+		}
 		$asset_manager->enqueue_script( 'post-edit' );
 		$asset_manager->enqueue_style( 'admin-css' );
 
