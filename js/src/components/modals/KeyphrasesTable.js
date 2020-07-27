@@ -40,7 +40,7 @@ class KeyphrasesTable extends Component {
 	transformTrendDataToChartPoints( trend ) {
 		const trendArray = trend.split( "," );
 
-		return trendArray.map( ( value, index ) => ( { x: index, y: value } ) );
+		return trendArray.map( ( value, index ) => ( { x: index, y: parseFloat( value ) } ) );
 	}
 
 	/**
