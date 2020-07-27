@@ -138,8 +138,6 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 			'primary_focus_keyword_score' => 10,
 			'readability_score'           => 35,
 			'is_cornerstone'              => true,
-			'link_count'                  => 0,
-			'incoming_link_count'         => 0,
 			'created_at'                  => null,
 			'updated_at'                  => null,
 		];

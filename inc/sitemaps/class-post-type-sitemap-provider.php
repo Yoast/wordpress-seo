@@ -606,7 +606,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
 		 */
-		if ( YoastSEO()->helpers->url->get_link_type( $url['loc'] ) === SEO_Links::TYPE_EXTERNAL ) {
+		if ( YoastSEO()->helpers->url->get_link_type( wp_parse_url( $url['loc'] ) ) === SEO_Links::TYPE_EXTERNAL ) {
 			return false;
 		}
 
