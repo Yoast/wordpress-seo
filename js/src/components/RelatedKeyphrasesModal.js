@@ -89,7 +89,7 @@ class RelatedKeyphrasesModal extends Component {
 
 							<Slot name="YoastRelatedKeyphrases" />
 
-							<SEMrushRelatedKeyphrases/>
+							<SEMrushRelatedKeyphrases {...this.props} />
 
 							<h2>Debug info</h2>
 							<p>
@@ -118,6 +118,7 @@ RelatedKeyphrasesModal.propTypes = {
 	currentDatabase: PropTypes.string,
 	onOpen: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
+	setDatabase: PropTypes.func.isRequired,
 };
 
 RelatedKeyphrasesModal.defaultProps = {
