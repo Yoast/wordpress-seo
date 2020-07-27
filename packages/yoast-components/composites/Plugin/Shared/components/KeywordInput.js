@@ -188,7 +188,7 @@ class KeywordInput extends React.Component {
 	 * @returns {ReactElement} The KeywordField react component including its label and eventual error message.
 	 */
 	render() {
-		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword } = this.props;
+		const { id, showLabel, keyword, onRemoveKeyword, onBlurKeyword, onFocusKeyword, hasError } = this.props;
 		const showErrorMessage = this.checkKeywordInput( keyword );
 
 		// The aria label should not be shown if there is a visible label.
@@ -206,7 +206,7 @@ class KeywordInput extends React.Component {
 						aria-label={ showAriaLabel ? this.props.label : null }
 						type="text"
 						id={ id }
-						className={ showErrorMessage ? "has-error" : null }
+						className={ ( showErrorMessage || hasError ) ? "has-error" : null }
 						onChange={ this.handleChange }
 						onFocus={ onFocusKeyword }
 						onBlur={ onBlurKeyword }
@@ -239,6 +239,7 @@ KeywordInput.propTypes = {
 	onFocusKeyword: PropTypes.func,
 	label: PropTypes.string.isRequired,
 	helpLink: PropTypes.node,
+	hasError: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
@@ -248,6 +249,7 @@ KeywordInput.defaultProps = {
 	onBlurKeyword: noop,
 	onFocusKeyword: noop,
 	helpLink: null,
+	hasError: false,
 };
 
 export default KeywordInput;
