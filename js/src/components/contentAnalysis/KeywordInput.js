@@ -69,6 +69,7 @@ class KeywordInput extends Component {
 							helpLink={ KeywordInput.renderHelpLink() }
 							onBlurKeyword={ this.props.onBlurKeyword }
 							onFocusKeyword={ this.props.onFocusKeyword }
+							hasError={ this.props.displayNoKeyphraseMessage }
 						/>
 						{
 							this.props.keyword.length > 191 &&
