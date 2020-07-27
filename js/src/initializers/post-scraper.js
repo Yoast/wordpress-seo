@@ -593,5 +593,5 @@ export default function initPostScraper( $, store, editorData ) {
 		window.YoastSEO.app.refresh();
 	}
 
-	jQuery( document ).ready( initializePostAnalysis );
+	initializePostAnalysis();
 }

@@ -296,13 +296,11 @@ export default function initPrimaryCategory( $ ) {
 		} );
 	};
 
-	$( function() {
-		// Initialize our templates
-		primaryTermUITemplate = wp.template( "primary-term-ui" );
-		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
+	// Initialize our templates
+	primaryTermUITemplate = wp.template( "primary-term-ui" );
+	primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 
-		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
+	$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
 
-		registerCategorySelectorFilter();
-	} );
+	registerCategorySelectorFilter();
 }
