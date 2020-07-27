@@ -71,6 +71,10 @@ export default function( paper ) {
 			score = 207 - ( 1.015 * numberOfWords / numberOfSentences ) - ( 73.6 * numberOfSyllables / numberOfWords );
 			break;
 
+		case "pt":
+			score = 248.835 - ( 1.015 * averageWordsPerSentence ) - ( 84.6 * numberOfSyllables / numberOfWords );
+			break;
+
 		case "en":
 		default:
 			score = 206.835 - ( 1.015 * ( averageWordsPerSentence ) ) - ( 84.6 * ( numberOfSyllables / numberOfWords ) );
