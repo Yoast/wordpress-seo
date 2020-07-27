@@ -1,21 +1,9 @@
-/* global wp */
-
-import {
-	isNil,
-	isFunction,
-} from "lodash-es";
-
 /**
- * Checks if the data API from Gutenberg is available.
+ * Checks if the block editor is loaded on the screen.
  *
- * @returns {boolean} True if the data API is available.
+ * @returns {boolean} True if the block editor is loaded.
  */
 export default function isBlockEditor() {
-	return (
-		! isNil( window.wp ) &&
-		! isNil( wp.data ) &&
-		! isNil( wp.data.select( "core/editor" ) ) &&
-		isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
-	);
+	return window.wpseoScriptData && window.wpseoScriptData.isBlockEditor === "1";
 }
 
