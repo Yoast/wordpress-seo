@@ -43,7 +43,7 @@ class Content_Images_Test extends TestCase {
 
 		$external_image1      = 'https://example.com/media/first_image.jpg';
 		$external_image2      = 'https://example.com/media/second_image.jpg';
-		$non_attachment_image = \get_home_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/yoast.png';
+		$non_attachment_image = \get_home_url() . '/wp-content/plugins/wordpress-seo/tests/integration/assets/yoast.png';
 
 		$post_content = '<p>This is a post. It has several images:</p>
 			<img src="' . $external_image1 . '"/>

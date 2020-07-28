@@ -22,7 +22,7 @@ require_once rtrim( $_tests_dir, '/' ) . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	require dirname( __DIR__ ) . '/wp-seo.php';
+	require dirname( dirname( __DIR__ ) ) . '/wp-seo.php';
 }
 
 /**
@@ -37,7 +37,7 @@ function _manually_load_plugin() {
  * @return string
  */
 function _plugins_url( $url, $path, $plugin ) {
-	$plugin_dir = dirname( __DIR__ );
+	$plugin_dir = dirname( dirname( __DIR__ ) );
 	if ( $plugin === $plugin_dir . '/wp-seo.php' ) {
 		$url = str_replace( dirname( $plugin_dir ), '', $url );
 	}

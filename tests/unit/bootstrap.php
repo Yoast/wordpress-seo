@@ -21,9 +21,9 @@ if ( function_exists( 'opcache_reset' ) ) {
 	opcache_reset();
 }
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-if ( file_exists( __DIR__ . '/../wp-seo-premium.php' ) ) {
+if ( file_exists( __DIR__ . '/../../wp-seo-premium.php' ) ) {
 	require_once __DIR__ . '/load/wp-seo-premium.php';
 }
 else {

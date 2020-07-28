@@ -60,7 +60,6 @@
 	"autoload-dev": {
 		"classmap": [
 			"tests/",
-			"integration-tests/",
 			"config/"
 		]
 	},
@@ -84,7 +83,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_staged"
 		],
 		"premium-lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/load/wp-seo-premium.php ./premium/ ./integration-tests/premium/ ./tests/premium/ -e php"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint ./wp-seo-premium.php ./tests/unit/load/wp-seo-premium.php ./premium/ ./tests/integration/premium/ ./tests/unit/premium/ -e php"
 		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",

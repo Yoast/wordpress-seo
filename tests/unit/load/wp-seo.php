@@ -7,7 +7,7 @@
 
 use Brain\Monkey\Functions;
 
-$wpseo_file = realpath( __DIR__ . '/../../wp-seo.php' );
+$wpseo_file = realpath( __DIR__ . '/../../../wp-seo.php' );
 
 Brain\Monkey\setUp();
 
@@ -43,6 +43,6 @@ Functions\expect( 'register_deactivation_hook' )
 	->with( $wpseo_file, 'wpseo_deactivate' )
 	->andReturn( true );
 
-require_once __DIR__ . '/../../wp-seo.php';
+require_once __DIR__ . '/../../../wp-seo.php';
 
 Brain\Monkey\tearDown();
