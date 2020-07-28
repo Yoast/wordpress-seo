@@ -45,27 +45,10 @@ afterEach(
 );
 
 describe( getTitleFallback, () => {
-	it( "returns the indexable title as a fallback for posts", () => {
+	it( "returns the snippit title as a fallback", () => {
 		const actual = getTitleFallback( testState );
 
-		const expected = "Not Hello World!";
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "returns the indexable title as a fallback for terms", () => {
-		windowSpy.mockImplementation(
-			() => (
-				{
-					wpseoScriptData: {
-						isTerm: "1",
-					},
-				}
-			)
-		);
-		const actual = getTitleFallback( testState );
-
-		const expected = "A term title";
+		const expected = "Hello World!";
 
 		expect( actual ).toEqual( expected );
 	} );

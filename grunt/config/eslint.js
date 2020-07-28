@@ -9,7 +9,7 @@ module.exports = {
 	tests: {
 		src: [ "<%= files.jsTests %>" ],
 		options: {
-			maxWarnings: 3,
+			maxWarnings: 0,
 		},
 	},
 	grunt: {

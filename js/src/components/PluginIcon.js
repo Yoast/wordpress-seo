@@ -2,6 +2,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const PluginIconSVG = styled.svg`
+	width: ${ props => props.size }px;
+	height: ${ props => props.size }px;
+	&&& path {
+		fill: ${ props => props.color };
+	}
 	&&& circle.yoast-icon-readability-score {
 		fill: ${ props => props.readabilityScoreColor };
 		display: ${ props => props.isContentAnalysisActive ? "inline" : "none" };
@@ -54,10 +59,21 @@ const PluginIcon = function( props ) {
 };
 
 PluginIcon.propTypes = {
-	readabilityScoreColor: PropTypes.string.isRequired,
-	isContentAnalysisActive: PropTypes.bool.isRequired,
-	seoScoreColor: PropTypes.string.isRequired,
-	isKeywordAnalysisActive: PropTypes.bool.isRequired,
+	readabilityScoreColor: PropTypes.string,
+	isContentAnalysisActive: PropTypes.bool,
+	seoScoreColor: PropTypes.string,
+	isKeywordAnalysisActive: PropTypes.bool,
+	size: PropTypes.number,
+	color: PropTypes.string,
+};
+
+PluginIcon.defaultProps = {
+	readabilityScoreColor: "#000000",
+	isContentAnalysisActive: false,
+	seoScoreColor: "#000000",
+	isKeywordAnalysisActive: false,
+	size: 20,
+	color: "#000001",
 };
 
 export default PluginIcon;

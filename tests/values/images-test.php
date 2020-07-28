@@ -38,9 +38,9 @@ class Images_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->image    = Mockery::mock( Image_Helper::class )->makePartial();
-		$this->url      = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance = Mockery::mock( Images::class, [ $this->image, $this->url ] );
+		$this->image    = Mockery::mock( Image_Helper::class );
+		$this->url      = Mockery::mock( Url_Helper::class );
+		$this->instance = new Images( $this->image, $this->url );
 	}
 
 	/**
@@ -49,6 +49,11 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image
 	 */
 	public function test_add_image() {
+		$this->url
+			->expects( 'is_relative' )
+			->once()
+			->andReturnFalse();
+
 		$image = [
 			'url' => 'image.jpg',
 		];
@@ -69,6 +74,11 @@ class Images_Test extends TestCase {
 	 * @covers ::add_image
 	 */
 	public function test_add_image_with_string_given() {
+		$this->url
+			->expects( 'is_relative' )
+			->once()
+			->andReturnFalse();
+
 		$image = 'image.jpg';
 
 		$this->instance->add_image( $image );
@@ -105,6 +115,11 @@ class Images_Test extends TestCase {
 	 * @covers ::get_images
 	 */
 	public function test_add_image_that_is_added_before() {
+		$this->url
+			->expects( 'is_relative' )
+			->twice()
+			->andReturnFalse();
+
 		$image1 = [
 			'url' => 'image.jpg',
 		];
@@ -147,28 +162,51 @@ class Images_Test extends TestCase {
 			->with( 'image.jpg' )
 			->andReturn( 1337 );
 
-		$this->instance
-			->expects( 'get_image_by_id' )
+		$this->image
+			->expects( 'get_attachment_image_source' )
 			->once()
-			->with( 1337 )
 			->andReturn( 'image.jpg' );
+
+		$this->url
+			->expects( 'is_relative' )
+			->once()
+			->andReturnFalse();
 
 		$this->assertEquals( 1337, $this->instance->add_image_by_url( 'image.jpg' ) );
 	}
 
 	/**
-	 * Tests adding an image by url with empty url givne as value.
+	 * Tests adding an image by url with empty url given as value.
 	 *
 	 * @covers ::add_image_by_url
 	 */
 	public function test_add_image_by_url_with_no_attachment_found() {
-		$this->image
-			->expects( 'get_attachment_by_url' )
+		$this->assertEquals( null, $this->instance->add_image_by_url( '' ) );
+	}
+
+	/** Tests adding an image by url when the url is given but the image id is not.
+	 *
+	 * @covers ::add_image_by_url
+	 * @covers ::add_image
+	 */
+	public function test_add_image_by_url_with_no_image_id() {
+		$this->url
+			->expects( 'is_relative' )
 			->once()
-			->with( 'image.jpg' )
 			->andReturnFalse();
 
-		$this->assertEquals( -1, $this->instance->add_image_by_url( 'image.jpg' ) );
+		$image = [
+			'url' => 'image.jpg',
+		];
+
+		$this->instance->add_image( $image );
+
+		$this->assertEquals(
+			[
+				'image.jpg' => $image,
+			],
+			$this->instance->get_images()
+		);
 	}
 
 	/**
@@ -178,10 +216,15 @@ class Images_Test extends TestCase {
 	 */
 	public function test_add_image_by_id() {
 		$this->image
-			->expects( 'get_attachment_image_src' )
+			->expects( 'get_attachment_image_source' )
 			->once()
 			->with( 1337, 'full' )
 			->andReturn( 'image.jpg' );
+
+		$this->url
+			->expects( 'is_relative' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance->add_image_by_id( 1337 );
 
@@ -202,7 +245,7 @@ class Images_Test extends TestCase {
 	 */
 	public function test_add_image_by_id_no_image_found() {
 		$this->image
-			->expects( 'get_attachment_image_src' )
+			->expects( 'get_attachment_image_source' )
 			->once()
 			->with( 1337, 'full' )
 			->andReturnFalse();

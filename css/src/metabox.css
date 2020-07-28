@@ -193,7 +193,6 @@ ul.wpseo-metabox-tabs li.active {
   z-index: 13;
   background-color: #ffffff;
   border-bottom: 2px transparent;
-  clip-path: inset(-5px -5px 0px -5px);
   box-shadow: none;
 }
 
