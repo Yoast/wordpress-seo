@@ -10,7 +10,7 @@ const { flattenVersionForFile } = require( "../../webpack/paths" );
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"bump-rc-version",
-		"Bumps the versions to the next RC",
+		"Bumps the versions to the next RC and commits the changes to the current branch.",
 		function() {
 			// Parse the command line options.
 			const pluginVersionArgument = grunt.option( "plugin-version" );
@@ -68,22 +68,32 @@ module.exports = function( grunt ) {
 			}
 
 			if ( pluginVersionPackageJson !== newPluginVersion ) {
-				console.log( "Bump the plugin version." );
+				console.log( "Bumped the plugin version to " + newPluginVersion + "." );
 				console.log( " To prevent a version bump when resolving a merge conflict, use the '--no-version-bump' flag in your command." );
+
+				// Set the plugin version to the bumped version in package.json.
+				grunt.option( "new-version", newPluginVersion );
+				grunt.task.run( "set-version" );
+
+				// The below command is needed to make the below 'update-version-trunk' work.
+				// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js.
+				// Which is taken from package.json BEFORE package.json is updated by our above code.
+				grunt.config.data.pluginVersion = newPluginVersion;
+				grunt.config.data.pluginVersionSlug = flattenVersionForFile( newPluginVersion );
+
+				// Set the plugin version to the bumped version in the plugin files.
+				grunt.task.run( "update-version-trunk" );
+
+				// Stage the version files.
+				grunt.config( "gitadd.versionBump.files", { src: grunt.config.get( 'files.versionFiles' ) } );
+				grunt.task.run( "gitadd:versionBump" );
+
+				grunt.config( "gitcommit.versionBump.options.message", "Update the plugin version to " + grunt.config.data.pluginVersion );
+				grunt.task.run( "gitcommit:versionBump" );
+
+				grunt.config( "gitpush.versionBump.options", { remote: "origin", upstream: true } );
+				grunt.task.run( "gitpush:versionBump" );
 			}
-
-			// Set the plugin version to the bumped version in package.json.
-			grunt.option( "new-version", newPluginVersion );
-			grunt.task.run( "set-version" );
-
-			// The below command is needed to make the below 'update-version-trunk' work.
-			// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js.
-			// Which is taken from package.json BEFORE package.json is updated by our above code.
-			grunt.config.data.pluginVersion = newPluginVersion;
-			grunt.config.data.pluginVersionSlug = flattenVersionForFile( newPluginVersion );
-
-			// Set the plugin version to the bumped version in the plugin files.
-			grunt.task.run( "update-version-trunk" );
 		}
 	);
 };
