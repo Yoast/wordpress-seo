@@ -50,6 +50,9 @@ module.exports = function( grunt ) {
 			// Setup the bumped version, which is only bumped without the flag being present.
 			let bumpedRCVersion = parseInt( parsedVersion[ 1 ] || "0", 10 );
 
+			// Set the previousPluginVersion, we need this variable for the GitHub release entry.
+			grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
+
 			/*
 			If the package.json had a version that contained "-RC", the number following that will be incremented by 1.
 			Otherwise, this is the first RC, so we set the RC version to 0, in order to add 1 and end up at "-RC1".
@@ -58,7 +61,7 @@ module.exports = function( grunt ) {
 				if ( noBump ) {
 					console.log( "Skipping version bumping, flag --no-version-bump detected." );
 
-					// Set the previousPluginVersion, we need this variable for the GitHub release entry.
+					// Adapt the previousPluginVersion because there was no version bump.
 					let previousRCVersion = bumpedRCVersion - 1;
 					grunt.config.data.previousPluginVersion = strippedVersion + "-RC" + previousRCVersion;
 				} else {
@@ -78,9 +81,6 @@ module.exports = function( grunt ) {
 				// Set the plugin version to the bumped version in package.json.
 				grunt.option( "new-version", newPluginVersion );
 				grunt.task.run( "set-version" );
-
-				// Set the previousPluginVersion, we need this variable for the GitHub release entry.
-				grunt.config.data.previousPluginVersion = grunt.config.get( 'pluginVersion' );
 
 				// The below command is needed to make the below 'update-version-trunk' work.
 				// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js.
