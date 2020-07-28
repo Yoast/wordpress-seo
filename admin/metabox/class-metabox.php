@@ -831,7 +831,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$is_block_editor = WP_Screen::get()->is_block_editor();
 		if ( $is_block_editor ) {
 			$asset_manager->enqueue_script( 'block-editor' );
-		} else {
+		}
+		else {
 			$asset_manager->enqueue_script( 'classic-editor' );
 		}
 		$asset_manager->enqueue_script( 'post-edit' );
