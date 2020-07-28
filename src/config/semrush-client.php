@@ -89,8 +89,8 @@ class SEMrush_Client {
 	/**
 	 * Performs an authenticated GET request to the desired URL.
 	 *
-	 * @param string $url  The URL to send the request to.
-	 * @param mixed  $body The data to send along in the request's body. Optional.
+	 * @param string $url     The URL to send the request to.
+	 * @param array  $options The options to pass along to the request.
 	 *
 	 * @return mixed The parsed API response.
 	 *
@@ -98,15 +98,16 @@ class SEMrush_Client {
 	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
-	public function get( $url, $body = null ) {
-		return $this->do_request( $url, $body );
+	public function get( $url, $options = [] ) {
+		return $this->do_request( 'GET', $url, $options );
 	}
 
 	/**
 	 * Performs an authenticated POST request to the desired URL.
 	 *
-	 * @param string $url  The URL to send the request to.
-	 * @param mixed  $body The data to send along in the request's body.
+	 * @param string $url     The URL to send the request to.
+	 * @param mixed  $body    The data to send along in the request's body.
+	 * @param array  $options The options to pass along to the request.
 	 *
 	 * @return mixed The parsed API response.
 	 *
@@ -114,8 +115,10 @@ class SEMrush_Client {
 	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
-	public function post( $url, $body ) {
-		return $this->do_request( $url, $body, 'POST' );
+	public function post( $url, $body, $options = [] ) {
+		$options['body'] = $body;
+
+		return $this->do_request( 'POST', $url, $options );
 	}
 
 	/**
@@ -124,7 +127,7 @@ class SEMrush_Client {
 	 * @return bool Whether or not there are valid tokens.
 	 */
 	public function has_valid_tokens() {
-		return ! empty( $this->tokens ) && $this->tokens->has_expired() === false;
+		return ! empty( $this->token ) && $this->token->has_expired() === false;
 	}
 
 	/**
@@ -136,15 +139,15 @@ class SEMrush_Client {
 	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get_tokens() {
-		if ( empty( $this->tokens ) ) {
+		if ( empty( $this->token ) ) {
 			throw new SEMrush_Empty_Token_Exception();
 		}
 
-		if ( $this->tokens->has_expired() ) {
-			$this->tokens = $this->refresh_tokens( $this->tokens );
+		if ( $this->token->has_expired() ) {
+			$this->token = $this->refresh_tokens( $this->token );
 		}
 
-		return $this->tokens;
+		return $this->token;
 	}
 
 	/**
@@ -192,9 +195,9 @@ class SEMrush_Client {
 	/**
 	 * Performs the specified request.
 	 *
-	 * @param string     $url  The URL to send the request to.
-	 * @param mixed|null $body The data to send along in the request's body.
-	 * @param string     $type The type of request.
+	 * @param string $method  The HTTP method to use.
+	 * @param string $url     The URL to send the request to.
+	 * @param array  $options The options to pass along to the request.
 	 *
 	 * @return mixed The parsed API response.
 	 *
@@ -202,13 +205,23 @@ class SEMrush_Client {
 	 * @throws OAuth_Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws SEMrush_Empty_Token_Exception Exception thrown if the token is empty.
 	 */
-	protected function do_request( $url, $body, $type = 'GET' ) {
-		$request = $this->provider->getAuthenticatedRequest(
-			$type,
-			$url,
-			$this->get_tokens()->access_token,
-			[ 'body' => $body ]
-		);
+	protected function do_request( $method, $url, array $options ) {
+		$defaults = [
+			'headers' => $this->provider->getHeaders(),
+			'params'  => [
+				'access_token' => $this->get_tokens()->access_token,
+			],
+		];
+
+		$options = array_merge_recursive( $defaults, $options );
+
+		if ( array_key_exists( 'params', $options ) ) {
+			$url .= '?' . http_build_query( $options['params'] );
+			unset( $options['params'] );
+		}
+
+		$request = $this->provider
+			->getAuthenticatedRequest( $method, $url, null, $options );
 
 		return $this->provider->getParsedResponse( $request );
 	}
