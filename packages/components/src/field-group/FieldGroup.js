@@ -20,16 +20,19 @@ import HelpIcon, { helpIconDefaultProps, helpIconProps } from "../help-icon/Help
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
 const FieldGroup = ( { htmlFor, label, linkTo, linkText, description, children, wrapperClassName, titleClassName } ) => {
+	const titleComponent = htmlFor
+		? <label htmlFor={ htmlFor }>{ label }</label>
+		: <b>{ label }</b>;
 	return (
 		<div className={ wrapperClassName }>
 			<div className={ titleClassName }>
-				<label htmlFor={ htmlFor }>{ label }</label>
+				{ titleComponent }
 				{ linkTo !== "" && <HelpIcon
 					linkTo={ linkTo }
 					linkText={ linkText }
 				/> }
 			</div>
-			{ description !== ""  && <p className="description" id="yoast_unique_description_id">{ description }</p> }
+			{ description !== ""  && <p className="field-group-description" id="yoast_unique_description_id">{ description }</p> }
 			{ children }
 		</div>
 	);
@@ -44,6 +47,7 @@ export const FieldGroupProps = {
 	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	wrapperClassName: PropTypes.string,
 	titleClassName: PropTypes.string,
+	htmlFor: PropTypes.string,
 	...helpIconProps,
 };
 
@@ -55,13 +59,11 @@ export const FieldGroupDefaultProps = {
 	children: [],
 	wrapperClassName: "yoast-field-group",
 	titleClassName: "yoast-field-group__title",
+	htmlFor: "",
 	...helpIconDefaultProps,
 };
 
-FieldGroup.propTypes = {
-	htmlFor: PropTypes.string.isRequired,
-	...FieldGroupProps,
-};
+FieldGroup.propTypes = FieldGroupProps;
 
 FieldGroup.defaultProps = FieldGroupDefaultProps;
 
