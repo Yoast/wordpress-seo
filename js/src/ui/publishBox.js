@@ -112,11 +112,11 @@ function scrollToCollapsible( id ) {
 export function initialize() {
 	var notAvailableStatus = "na";
 
-	if ( wpseoScriptData.metabox.contentAnalysisActive === "1" ) {
+	if ( wpseoScriptData.metabox.contentAnalysisActive ) {
 		createScoresInPublishBox( "content", notAvailableStatus );
 	}
 
-	if ( wpseoScriptData.metabox.keywordAnalysisActive === "1" ) {
+	if ( wpseoScriptData.metabox.keywordAnalysisActive ) {
 		createScoresInPublishBox( "keyword", notAvailableStatus );
 	}
 
