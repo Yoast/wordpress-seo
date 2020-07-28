@@ -19,13 +19,25 @@ export default compose( [
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
-		const { setSEMrushOpenModal, setSEMrushDismissModal, setSEMrushChangeDatabase,
-			setSEMrushNewRequest, setSEMrushRequestSucceeded, setSEMrushRequestFailed,
-			setSEMrushSetRequestLimitReached, addSEMrushKeyphrase, removeSEMrushKeyphrase,
-			setSEMrushKeyphraseLimitReached } = dispatch(
+		const {
+			setSEMrushNoKeyphraseMessage,
+			setSEMrushOpenModal,
+			setSEMrushDismissModal,
+			setSEMrushChangeDatabase,
+			setSEMrushNewRequest,
+			setSEMrushRequestSucceeded,
+			setSEMrushRequestFailed,
+			setSEMrushSetRequestLimitReached,
+			addSEMrushKeyphrase,
+			removeSEMrushKeyphrase,
+			setSEMrushKeyphraseLimitReached,
+		} = dispatch(
 			"yoast-seo/editor"
 		);
 		return {
+			onOpenWithNoKeyphrase: () => {
+				setSEMrushNoKeyphraseMessage();
+			},
 			onOpen: ( location ) => {
 				setSEMrushOpenModal( location );
 			},

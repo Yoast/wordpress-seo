@@ -6,3 +6,7 @@
 .yoast-gutenberg-modal .yoast-related-keyphrases-modal__content {
 	min-height: 66vh;
 }
+
+.yoast-related-keyphrases-modal__chart {
+	display: block;
+}

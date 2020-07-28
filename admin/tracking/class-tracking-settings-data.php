@@ -48,6 +48,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'fbadminapp',
 		'semrush_integration_active',
 		'semrush_tokens',
+		'semrush_country_code',
 	];
 
 	/**

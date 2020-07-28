@@ -25,7 +25,7 @@ const SemRushLimitReached = () => {
 				}
 			</p>
 			<UpdateSemRushPlanLink
-				href="https://yoa.st/semrush-prices"
+				href={ window.wpseoAdminL10n[ "shortlinks.semrush.prices" ] }
 				className="yoast-button-upsell"
 			>
 				{
