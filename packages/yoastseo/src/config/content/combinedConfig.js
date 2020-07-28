@@ -7,6 +7,7 @@ import pl from "./pl";
 import es from "./es";
 import ca from "./ca";
 import pt from "./pt";
+import he from "./he";
 
 const configurations = {
 	it: it,
@@ -15,6 +16,7 @@ const configurations = {
 	es: es,
 	ca: ca,
 	pt: pt,
+	he: he,
 };
 
 /**
