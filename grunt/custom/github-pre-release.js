@@ -40,10 +40,10 @@ module.exports = function( grunt ) {
 
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
 
-			// Open a text editor to get the changelog.
-			if ( pluginVersion.substr( pluginVersion.length - 3 ) === "RC1" ) { // If it's RC1:
+			// Open a text editor to get the changelog. For the first RC use the full changelog, for follow-up RCs only use the changes.
+			if ( pluginVersion.substr( pluginVersion.length - 3 ) === "RC1" ) {
 				const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
-			} else { // If it's RC2 or higher:
+			} else {
 				const changelog = await getUserInput( { initialContent: "Changes to " + grunt.config.get( 'previousPluginVersion' ) + ":\n" } );
 			}
 
