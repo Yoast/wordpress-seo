@@ -459,7 +459,7 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 1 when a transition word is found in a sentence (Hebrew)", function() {
-		// Transition word: dikarenakan.
+		// Transition word: בגלל.
 		mockPaper = new Paper( "ביטלנו את הטיול בגלל הגשם.", { locale: "he_IL" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
@@ -467,7 +467,7 @@ describe( "a test for finding transition words from a string", function() {
 	} );
 
 	it( "returns 1 when a two-part transition word is found in a sentence (Hebrew)", function() {
-		// Transition word: sedemikian, sampai.
+		// Transition word: או, או.
 		mockPaper = new Paper( " או חברותא או מיתותא.", { locale: "he_IL" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );

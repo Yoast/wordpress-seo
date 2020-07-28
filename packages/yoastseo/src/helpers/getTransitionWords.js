@@ -47,10 +47,11 @@ import twoPartTransitionWordsHungarian from "../researches/hungarian/twoPartTran
 
 import transitionWordsIndonesianFactory from "../researches/indonesian/transitionWords.js";
 const transitionWordsIndonesian = transitionWordsIndonesianFactory().allWords;
+import twoPartTransitionWordsIndonesian from "../researches/indonesian/twoPartTransitionWords.js";
 
 import transitionWordsHebrewFactory from "../researches/hebrew/transitionWords.js";
 const transitionWordsHebrew = transitionWordsHebrewFactory().allWords;
-import twoPartTransitionWordsIndonesian from "../researches/hebrew/twoPartTransitionWords.js";
+import twoPartTransitionWordsHebrew from "../researches/hebrew/twoPartTransitionWords.js";
 
 import getLanguage from "./getLanguage.js";
 
