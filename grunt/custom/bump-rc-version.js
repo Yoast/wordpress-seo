@@ -68,8 +68,8 @@ module.exports = function( grunt ) {
 			}
 
 			if ( pluginVersionPackageJson !== newPluginVersion ) {
-				console.log( "Bumped the plugin version to " + newPluginVersion + "." );
-				console.log( "  To prevent a version bump when resolving a merge conflict, use the '--no-version-bump' flag in your command." );
+				console.log( "Bump the plugin version." );
+				console.log( " To prevent a version bump when resolving a merge conflict, use the '--no-version-bump' flag in your command." );
 			}
 
 			// Set the plugin version to the bumped version in package.json.
