@@ -585,6 +585,9 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
 			],
 			[
 				'name' => 'monorepo',
