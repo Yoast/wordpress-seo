@@ -60,9 +60,10 @@ class Indexables_Head_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$route_args = [
-			'methods'  => 'GET',
-			'callback' => [ $this, 'get_head' ],
-			'args'     => [
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_head' ],
+			'permission_callback' => '__return_true',
+			'args'                => [
 				'url' => [
 					'validate_callback' => [ $this, 'is_valid_url' ],
 					'required'          => true,

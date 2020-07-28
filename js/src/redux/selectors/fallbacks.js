@@ -1,4 +1,4 @@
-import { get, find } from "lodash";
+import { get } from "lodash";
 
 /**
  * Gets the fallback title that is equal to the site title.
@@ -10,21 +10,7 @@ import { get, find } from "lodash";
  *
  * @returns {string} The fallback title.
  */
-export const getTitleFallback = state => {
-	const replacementVariables = get( state, "snippetEditor.replacementVariables", {} );
-
-	// The replacement variable for the term title is called term_title, rather than title.
-	const isTerm = get( window, "wpseoScriptData.isTerm", false );
-	const searchTitle = isTerm ? "term_title" : "title";
-
-	const titleReplacementVariable = find( replacementVariables, [ "name", searchTitle ] );
-
-	if ( titleReplacementVariable ) {
-		return titleReplacementVariable.value;
-	}
-
-	return "";
-};
+export const getTitleFallback = state => get( state, "analysisData.snippet.title", "" );
 
 /**
  * Gets the fallback description from: state.analysisData.snippet.description.

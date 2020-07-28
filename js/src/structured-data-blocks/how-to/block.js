@@ -54,7 +54,17 @@ export default () => {
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
 			__( "Schema", "wordpress-seo" ),
+			__( "SEO", "wordpress-seo" ),
+			__( "Structured Data", "wordpress-seo-premium" ),
 		],
+		example: {
+			attributes: {
+				steps: [
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+					{ id: HowTo.generateId( "how-to-step" ), name: [], text: [] },
+				],
+			},
+		},
 		// Allow only one How-To block per post.
 		supports: {
 			multiple: false,
