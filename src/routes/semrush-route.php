@@ -109,7 +109,7 @@ class SEMrush_Route implements Route_Interface {
 		$authentication_route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'authenticate' ],
-			'permission_callback' => [ $this, 'can_perform_request' ],
+			'permission_callback' => [ $this, 'can_authenticate' ],
 			'args'                => [
 				'code' => [
 					'validate_callback' => [ $this, 'has_valid_code' ],
@@ -137,7 +137,7 @@ class SEMrush_Route implements Route_Interface {
 		$related_keyphrases_route_args = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'get_related_keyphrases' ],
-			'permission_callback' => [ $this, 'can_perform_request' ],
+			'permission_callback' => [ $this, 'can_edit' ],
 			'args'                => [
 				'keyphrase' => [
 					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
@@ -243,11 +243,11 @@ class SEMrush_Route implements Route_Interface {
 	}
 
 	/**
-	 * Determines whether the current user can perform an API request.
+	 * Determines whether the current user can authenticate with SEMrush.
 	 *
-	 * @return bool Whether or not the current user can perform an API request.
+	 * @return bool Whether or not the current user can authenticate with SEMrush.
 	 */
-	public function can_perform_request() {
+	public function can_authenticate() {
 		return \current_user_can( 'manage_options' );
 	}
 }

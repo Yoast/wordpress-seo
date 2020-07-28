@@ -98,7 +98,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'  => 'POST',
 					'callback' => [ $this->instance, 'authenticate' ],
-					'permission_callback' => [ $this->instance, 'can_perform_request' ],
+					'permission_callback' => [ $this->instance, 'can_authenticate' ],
 					'args'     => [
 						'code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_code' ],
@@ -132,7 +132,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'  => 'GET',
 					'callback' => [ $this->instance, 'get_related_keyphrases' ],
-					'permission_callback' => [ $this->instance, 'can_perform_request' ],
+					'permission_callback' => [ $this->instance, 'can_edit' ],
 					'args'     => [
 						'keyphrase' => [
 							'validate_callback' => [ $this->instance, 'has_valid_keyphrase' ],
