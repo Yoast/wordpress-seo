@@ -5,5 +5,6 @@
  * @returns {Array}              The array filled with two-part transition words.
  */
 export default function() {
-	return [ [ "או", "או" ] ];
+	return [ [ "או", "או" ], [ "אין", "אלא" ], [ "לא", "אלא" ], [ "מצד אחד", "מצד אחר" ], [ "מחד גיסא", "מאידך גיסא" ],
+		[ "ראשית", "שנית" ], [ "תחילה", "לבסוף" ] ];
 }
