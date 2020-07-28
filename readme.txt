@@ -228,6 +228,9 @@ Bugfixes:
  * Ensures the indexation spots the indexables without a permalink.
  * Fixes a bug where an indexable's permalink remained unchanged when the categories prefix option was changed.
  * Fixes a bug where an inline link that opens in a new window would render `undefined` in the aria-label.
+ * Fixes a bug where the indexable indexation process could not be started again without a page reload on the tools page if it failed.
+ * Fixes a bug where `wpseoShortcodePluginL10n` was not defined.
+ * Fixes a bug where a fatal error would occur in sitemaps on sites where the home URL and site URL were different. Because the cause of this was a missing style sheet, the content of the sitemaps was still there, which means Google and other search engines could still reach the sitemaps and no SEO harm was done.
  
 Other:
 
@@ -278,6 +281,7 @@ Other:
 * Removes functions, class variables and classes that were deprecated prior to version 11.5.
 * Adds a quick cache, which caches the result for 1 minute, so we don't do the same call the my.yoast.com twice on a pageload.
 * Introduces the --skip-confirmation argument to run our wp-cli reindex command without confirmation prompt.
+* Yoast SEO had many scripts that relied on many localized objects. In an effort to improve maintainability we have combined all those objects into one: wpseoScriptData. wpseoPostScraperL10n and wpseoTermScraperL10n remain available for backward compatibility. Plugins that tap into our objects will need to update their code.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
