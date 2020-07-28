@@ -145,6 +145,7 @@ add_action('graphql_init', function () {
         'siteName' => ['type' => 'String'],
         'wordpressSiteName' => ['type' => 'String'],
         'siteUrl' => ['type' => 'String'],
+        'inLanguage' => ['type' => 'String'],
       ]
     ]);
 
@@ -370,6 +371,7 @@ add_action('graphql_init', function () {
             'siteName' => wp_gql_seo_format_string(YoastSEO()->helpers->site->get_site_name()),
             'wordpressSiteName' => wp_gql_seo_format_string(get_bloginfo('name')),
             'siteUrl' => wp_gql_seo_format_string(get_site_url()),
+            'inLanguage' => wp_gql_seo_format_string(get_bloginfo('language')),
           ),
           'redirects' => array_map($mappedRedirects, $redirects),
           'openGraph' => array(

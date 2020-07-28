@@ -202,6 +202,7 @@ To query for the site configuration data you can query from the root.
       siteName
       wordpressSiteName
       siteUrl
+      inLanguage
       companyName
       companyOrPerson
       companyLogo {
