@@ -79,9 +79,10 @@ class SEMrush_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$route_args = [
-			'methods'  => 'POST',
-			'callback' => [ $this, 'authenticate' ],
-			'args'     => [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'authenticate' ],
+			'permission_callback' => [ $this, 'can_perform_request' ],
+			'args'                => [
 				'code' => [
 					'validate_callback' => [ $this, 'has_valid_code' ],
 					'required'          => true,
@@ -92,9 +93,10 @@ class SEMrush_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::AUTHENTICATION_ROUTE, $route_args );
 
 		$route_args = [
-			'methods'  => 'GET',
-			'callback' => [ $this, 'get_related_keyphrases' ],
-			'args'     => [
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_related_keyphrases' ],
+			'permission_callback' => [ $this, 'can_perform_request' ],
+			'args'                => [
 				'keyphrase' => [
 					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
 					'required'          => true,
@@ -161,5 +163,14 @@ class SEMrush_Route implements Route_Interface {
 			);
 
 		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Determines whether the current user can perform an API request.
+	 *
+	 * @return bool Whether or not the current user can perform an API request.
+	 */
+	public function can_perform_request() {
+		return current_user_can( 'manage_options' );
 	}
 }
