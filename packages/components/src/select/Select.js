@@ -107,8 +107,8 @@ class MultiSelect extends React.Component {
 
 		return (
 			<FieldGroup
-				htmlFor={ id }
 				{ ...fieldGroupProps }
+				htmlFor={ id }
 			>
 				<select
 					multiple="multiple"
@@ -193,8 +193,8 @@ export class Select extends React.Component {
 
 		return (
 			<FieldGroup
-				htmlFor={ id }
 				{ ...fieldGroupProps }
+				htmlFor={ id }
 			>
 				<select
 					id={ id }
