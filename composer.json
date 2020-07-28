@@ -1,14 +1,16 @@
 {
-    "name": "ashhitch/wp-graphql-yoast-seo",
-    "description": "Query Yoast SEO data with wp-graphql",
-    "type": "wordpress-plugin",
-    "license": "GPL-3.0-or-later",
-    "authors": [{
-        "name": "Ash Hitchcock",
-        "email": "hello@ashleyhitchcock.co.uk"
-    }],
-    "suggest": {
-        "wp-graphql/wp-graphql": ">=0.3.8",
-        "yoast/wordpress-seo": ">=14.0"
+  "name": "ashhitch/wp-graphql-yoast-seo",
+  "description": "Query Yoast SEO data with wp-graphql",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Ash Hitchcock",
+      "email": "hello@ashleyhitchcock.co.uk"
     }
+  ],
+  "suggest": {
+    "wp-graphql/wp-graphql": "Required to return data via GraphQl",
+    "yoast/wordpress-seo": "Required to provide SEO data to this plugin"
+  }
 }

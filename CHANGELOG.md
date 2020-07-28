@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.5.1] - 2020-07-13
+## [4.5.1] - 2020-07-28
+
+- Added inLanguage to Schema
+- Added function to tidy strings before returning
+
+### Changed
+
+- Changed Composer to note require dependency plugins but suggest them, to fix issues with MU Plugins
+
+## [4.5.0] - 2020-07-13
 
 ### Added
 
