@@ -36,9 +36,7 @@ class RelatedKeyphrasesModal extends Component {
 	 * @returns {void}
 	 */
 	onModalOpen() {
-		if ( ! this.props.isLoggedInToSEMrush ) {
-			// Add not-logged in logic here.
-		}
+		// Add not-logged in logic here.
 
 		if ( ! this.props.keyphrase ) {
 			this.props.onOpenWithNoKeyphrase();
@@ -118,7 +116,6 @@ RelatedKeyphrasesModal.propTypes = {
 	onOpen: PropTypes.func.isRequired,
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
-	isLoggedInToSEMrush: PropTypes.string,
 };
 
 RelatedKeyphrasesModal.defaultProps = {
@@ -127,7 +124,6 @@ RelatedKeyphrasesModal.defaultProps = {
 	maxRelatedKeyphrasesEntered: false,
 	whichModalOpen: "none",
 	currentDatabase: "us",
-	isLoggedInToSEMrush: "",
 };
 
 export default RelatedKeyphrasesModal;
