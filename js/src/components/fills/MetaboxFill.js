@@ -100,7 +100,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 					<AdvancedSettings />
 				</TopLevelProviders>
 			</SidebarItem> }
-			<SidebarItem renderPriority={ 50 }>
+			{ !! window.wpseoScriptData.isPost && <SidebarItem renderPriority={ 50 }>
 				<TopLevelProviders
 					store={ store }
 					theme={ theme }
@@ -108,7 +108,7 @@ export default function MetaboxFill( { settings, store, theme } ) {
 				>
 					<SchemaTabContainer />
 				</TopLevelProviders>
-			</SidebarItem>
+			</SidebarItem> }
 			<TopLevelProviders
 				renderPriority={ -1 }
 				store={ store }
@@ -126,3 +126,4 @@ MetaboxFill.propTypes = {
 	store: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
 };
+
