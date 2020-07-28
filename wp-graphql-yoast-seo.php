@@ -48,8 +48,15 @@ add_action('admin_init', function () {
 });
 
 add_action('graphql_init', function () {
-  if (!function_exists('get_og_image')) {
-    function get_og_image($images)
+  if (!function_exists('wp_gql_seo_format_string')) {
+    function wp_gql_seo_format_string($string)
+    {
+
+      return isset($string) ? trim($string) : null;
+    }
+  }
+  if (!function_exists('wp_gql_seo_get_og_image')) {
+    function wp_gql_seo_get_og_image($images)
     {
 
       if (empty($images)) {
@@ -319,57 +326,57 @@ add_action('graphql_init', function () {
 
         return  array(
           'webmaster' => array(
-            'baiduVerify' => trim($all['baiduverify']),
-            'googleVerify' => trim($all['googleverify']),
-            'msVerify' => trim($all['msverify']),
-            'yandexVerify' => trim($all['yandexverify']),
+            'baiduVerify' => wp_gql_seo_format_string($all['baiduverify']),
+            'googleVerify' => wp_gql_seo_format_string($all['googleverify']),
+            'msVerify' => wp_gql_seo_format_string($all['msverify']),
+            'yandexVerify' => wp_gql_seo_format_string($all['yandexverify']),
           ),
           'social' => array(
             'facebook' => array(
-              'url' =>  trim($all['facebook_site']),
+              'url' =>  wp_gql_seo_format_string($all['facebook_site']),
               'defaultImage' => DataSource::resolve_post_object($all['og_default_image_id'], $context)
             ),
             'twitter' => array(
-              'username' => trim($all['twitter_site']),
-              'cardType' => trim($all['twitter_card_type']),
+              'username' => wp_gql_seo_format_string($all['twitter_site']),
+              'cardType' => wp_gql_seo_format_string($all['twitter_card_type']),
             ),
-            'instagram' => array('url' => trim($all['instagram_url'])),
-            'linkedIn' => array('url' => trim($all['linkedin_url'])),
-            'mySpace' => array('url' => trim($all['myspace_url'])),
+            'instagram' => array('url' => wp_gql_seo_format_string($all['instagram_url'])),
+            'linkedIn' => array('url' => wp_gql_seo_format_string($all['linkedin_url'])),
+            'mySpace' => array('url' => wp_gql_seo_format_string($all['myspace_url'])),
             'pinterest' => array(
-              'url' => trim($all['pinterest_url']),
-              'metaTag' => trim($all['pinterestverify']),
+              'url' => wp_gql_seo_format_string($all['pinterest_url']),
+              'metaTag' => wp_gql_seo_format_string($all['pinterestverify']),
             ),
-            'youTube' => array('url' => trim($all['youtube_url'])),
-            'wikipedia' => array('url' => trim($all['wikipedia_url'])),
+            'youTube' => array('url' => wp_gql_seo_format_string($all['youtube_url'])),
+            'wikipedia' => array('url' => wp_gql_seo_format_string($all['wikipedia_url'])),
           ),
           'breadcrumbs' => array(
-            'enabled' =>  trim($all['breadcrumbs-enable']),
-            'boldLast' =>  trim($all['breadcrumbs-boldlast']),
-            'showBlogPage' =>  trim($all['breadcrumbs-display-blog-page']),
-            'archivePrefix' =>  trim($all['breadcrumbs-archiveprefix']),
-            'prefix' =>  trim($all['breadcrumbs-prefix']),
-            'notFoundText' =>  trim($all['breadcrumbs-404crumb']),
-            'homeText' =>  trim($all['breadcrumbs-home']),
-            'searchPrefix' =>  trim($all['breadcrumbs-searchprefix']),
-            'separator' =>  trim($all['breadcrumbs-sep']),
+            'enabled' =>  wp_gql_seo_format_string($all['breadcrumbs-enable']),
+            'boldLast' =>  wp_gql_seo_format_string($all['breadcrumbs-boldlast']),
+            'showBlogPage' =>  wp_gql_seo_format_string($all['breadcrumbs-display-blog-page']),
+            'archivePrefix' =>  wp_gql_seo_format_string($all['breadcrumbs-archiveprefix']),
+            'prefix' =>  wp_gql_seo_format_string($all['breadcrumbs-prefix']),
+            'notFoundText' =>  wp_gql_seo_format_string($all['breadcrumbs-404crumb']),
+            'homeText' =>  wp_gql_seo_format_string($all['breadcrumbs-home']),
+            'searchPrefix' =>  wp_gql_seo_format_string($all['breadcrumbs-searchprefix']),
+            'separator' =>  wp_gql_seo_format_string($all['breadcrumbs-sep']),
           ),
           'schema' => array(
-            'companyName' => trim($all['company_name']),
+            'companyName' => wp_gql_seo_format_string($all['company_name']),
             'companyLogo' => DataSource::resolve_post_object($all['company_logo_id'], $context),
             'personLogo' => DataSource::resolve_post_object($all['person_logo_id'], $context),
             'logo' => DataSource::resolve_post_object($all['company_or_person'] === 'company' ? $all['company_logo_id'] : $all['person_logo_id'], $context),
-            'companyOrPerson' => trim($all['company_or_person']),
-            'siteName' => trim(YoastSEO()->helpers->site->get_site_name()),
-            'wordpressSiteName' => trim(get_bloginfo('name')),
-            'siteUrl' => trim(get_site_url()),
+            'companyOrPerson' => wp_gql_seo_format_string($all['company_or_person']),
+            'siteName' => wp_gql_seo_format_string(YoastSEO()->helpers->site->get_site_name()),
+            'wordpressSiteName' => wp_gql_seo_format_string(get_bloginfo('name')),
+            'siteUrl' => wp_gql_seo_format_string(get_site_url()),
           ),
           'redirects' => array_map($mappedRedirects, $redirects),
           'openGraph' => array(
             'defaultImage' =>  DataSource::resolve_post_object($all['og_default_image_id'], $context),
             'frontPage' => array(
-              'title' => trim($all['og_frontpage_title']),
-              'description' => trim($all['og_frontpage_desc']),
+              'title' => wp_gql_seo_format_string($all['og_frontpage_title']),
+              'description' => wp_gql_seo_format_string($all['og_frontpage_desc']),
               'image' => DataSource::resolve_post_object($all['og_frontpage_image_id'], $context),
             )
           )
@@ -394,27 +401,27 @@ add_action('graphql_init', function () {
               $robots = YoastSEO()->meta->for_post($post->ID)->robots;
               // Get data
               $seo = array(
-                'title' => trim(YoastSEO()->meta->for_post($post->ID)->title),
-                'metaDesc' => trim(YoastSEO()->meta->for_post($post->ID)->description),
-                'focuskw' => trim(get_post_meta($post->ID, '_yoast_wpseo_focuskw', true)),
-                'metaKeywords' => trim(get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true)),
+                'title' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->title),
+                'metaDesc' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->description),
+                'focuskw' => wp_gql_seo_format_string(get_post_meta($post->ID, '_yoast_wpseo_focuskw', true)),
+                'metaKeywords' => wp_gql_seo_format_string(get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true)),
                 'metaRobotsNoindex' => $robots['index'],
                 'metaRobotsNofollow' => $robots['follow'],
-                'opengraphTitle' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_title),
-                'opengraphUrl' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_url),
-                'opengraphSiteName' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_site_name),
-                'opengraphType' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_type),
-                'opengraphAuthor' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_article_author),
-                'opengraphPublisher' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_article_publisher),
-                'opengraphPublishedTime' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_article_published_time),
-                'opengraphModifiedTime' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_article_modified_time),
-                'opengraphDescription' => trim(YoastSEO()->meta->for_post($post->ID)->open_graph_description),
-                'opengraphImage' => DataSource::resolve_post_object(get_og_image(YoastSEO()->meta->for_post($post->ID)->open_graph_images), $context),
-                'twitterCardType' => trim(YoastSEO()->meta->for_post($post->ID)->twitter_card),
-                'twitterTitle' => trim(YoastSEO()->meta->for_post($post->ID)->twitter_title),
-                'twitterDescription' => trim(YoastSEO()->meta->for_post($post->ID)->twitter_description),
+                'opengraphTitle' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_title),
+                'opengraphUrl' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_url),
+                'opengraphSiteName' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_site_name),
+                'opengraphType' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_type),
+                'opengraphAuthor' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_article_author),
+                'opengraphPublisher' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_article_publisher),
+                'opengraphPublishedTime' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_article_published_time),
+                'opengraphModifiedTime' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_article_modified_time),
+                'opengraphDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->open_graph_description),
+                'opengraphImage' => DataSource::resolve_post_object(wp_gql_seo_get_og_image(YoastSEO()->meta->for_post($post->ID)->open_graph_images), $context),
+                'twitterCardType' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->twitter_card),
+                'twitterTitle' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->twitter_title),
+                'twitterDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->twitter_description),
                 'twitterImage' => DataSource::resolve_post_object(attachment_url_to_postid(YoastSEO()->meta->for_post($post->ID)->twitter_image), $context),
-                'canonical' => trim(YoastSEO()->meta->for_post($post->ID)->canonical),
+                'canonical' => wp_gql_seo_format_string(YoastSEO()->meta->for_post($post->ID)->canonical),
                 'breadcrumbs' => YoastSEO()->meta->for_post($post->ID)->breadcrumbs
               );
 
@@ -433,21 +440,21 @@ add_action('graphql_init', function () {
         $robots =  YoastSEO()->meta->for_author($user->userId)->robots;
 
         $userSeo = array(
-          'title' => trim(YoastSEO()->meta->for_author($user->userId)->title),
-          'metaDesc' => trim(YoastSEO()->meta->for_author($user->userId)->description),
+          'title' => wp_gql_seo_format_string(YoastSEO()->meta->for_author($user->userId)->title),
+          'metaDesc' => wp_gql_seo_format_string(YoastSEO()->meta->for_author($user->userId)->description),
           'metaRobotsNoindex' => $robots['index'],
           'metaRobotsNofollow' => $robots['follow'],
 
           'social' => array(
-            'facebook' => trim(get_the_author_meta('facebook', $user->userId)),
-            'twitter' => trim(get_the_author_meta('twitter', $user->userId)),
-            'instagram' => trim(get_the_author_meta('instagram', $user->userId)),
-            'linkedIn' => trim(get_the_author_meta('linkedin', $user->userId)),
-            'mySpace' => trim(get_the_author_meta('myspace', $user->userId)),
-            'pinterest' => trim(get_the_author_meta('pinterest', $user->userId)),
-            'youTube' => trim(get_the_author_meta('youtube', $user->userId)),
-            'soundCloud' => trim(get_the_author_meta('soundcloud', $user->userId)),
-            'wikipedia' => trim(get_the_author_meta('wikipedia', $user->userId)),
+            'facebook' => wp_gql_seo_format_string(get_the_author_meta('facebook', $user->userId)),
+            'twitter' => wp_gql_seo_format_string(get_the_author_meta('twitter', $user->userId)),
+            'instagram' => wp_gql_seo_format_string(get_the_author_meta('instagram', $user->userId)),
+            'linkedIn' => wp_gql_seo_format_string(get_the_author_meta('linkedin', $user->userId)),
+            'mySpace' => wp_gql_seo_format_string(get_the_author_meta('myspace', $user->userId)),
+            'pinterest' => wp_gql_seo_format_string(get_the_author_meta('pinterest', $user->userId)),
+            'youTube' => wp_gql_seo_format_string(get_the_author_meta('youtube', $user->userId)),
+            'soundCloud' => wp_gql_seo_format_string(get_the_author_meta('soundcloud', $user->userId)),
+            'wikipedia' => wp_gql_seo_format_string(get_the_author_meta('wikipedia', $user->userId)),
           ),
         );
 
@@ -477,27 +484,27 @@ add_action('graphql_init', function () {
 
             // Get data
             $seo = array(
-              'title' => trim(html_entity_decode(strip_tags(YoastSEO()->meta->for_term($term->term_id)->title))),
-              'metaDesc' => trim(YoastSEO()->meta->for_term($term->term_id)->description),
-              'focuskw' => trim($meta['wpseo_focuskw']),
-              'metaKeywords' => trim($meta['wpseo_metakeywords']),
+              'title' => wp_gql_seo_format_string(html_entity_decode(strip_tags(YoastSEO()->meta->for_term($term->term_id)->title))),
+              'metaDesc' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->description),
+              'focuskw' => wp_gql_seo_format_string($meta['wpseo_focuskw']),
+              'metaKeywords' => wp_gql_seo_format_string($meta['wpseo_metakeywords']),
               'metaRobotsNoindex' => $robots['index'],
               'metaRobotsNofollow' => $robots['follow'],
-              'opengraphTitle' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_title),
-              'opengraphUrl' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_url),
-              'opengraphSiteName' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_site_name),
-              'opengraphType' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_type),
-              'opengraphAuthor' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_author),
-              'opengraphPublisher' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_publisher),
-              'opengraphPublishedTime' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_published_time),
-              'opengraphModifiedTime' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_modified_time),
-              'opengraphDescription' => trim(YoastSEO()->meta->for_term($term->term_id)->open_graph_description),
+              'opengraphTitle' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_title),
+              'opengraphUrl' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_url),
+              'opengraphSiteName' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_site_name),
+              'opengraphType' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_type),
+              'opengraphAuthor' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_author),
+              'opengraphPublisher' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_publisher),
+              'opengraphPublishedTime' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_published_time),
+              'opengraphModifiedTime' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_article_modified_time),
+              'opengraphDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->open_graph_description),
               'opengraphImage' => DataSource::resolve_post_object($meta['wpseo_opengraph-image-id'], $context),
-              'twitterCardType' => trim(YoastSEO()->meta->for_term($term->term_id)->twitter_card),
-              'twitterTitle' => trim(YoastSEO()->meta->for_term($term->term_id)->twitter_title),
-              'twitterDescription' => trim(YoastSEO()->meta->for_term($term->term_id)->twitter_description),
+              'twitterCardType' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->twitter_card),
+              'twitterTitle' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->twitter_title),
+              'twitterDescription' => wp_gql_seo_format_string(YoastSEO()->meta->for_term($term->term_id)->twitter_description),
               'twitterImage' => DataSource::resolve_post_object($meta['wpseo_twitter-image-id'], $context),
-              'canonical' => trim($meta['canonical']),
+              'canonical' => wp_gql_seo_format_string($meta['canonical']),
               'breadcrumbs' => YoastSEO()->meta->for_term($term->term_id)->breadcrumbs
             );
             wp_reset_query();
