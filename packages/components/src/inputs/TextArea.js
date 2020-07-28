@@ -16,8 +16,8 @@ import { getId } from "../GenerateId";
 const TextArea = ( props ) => {
 	const id = getId( props.id );
 	const fieldGroupProps = {
-		htmlFor: id,
 		...props,
+		htmlFor: id,
 	};
 	return (
 		<FieldGroup { ...fieldGroupProps }>
