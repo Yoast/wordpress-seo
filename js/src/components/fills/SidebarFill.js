@@ -85,9 +85,8 @@ export default function SidebarFill( { settings, store, theme } ) {
 					>
 						<CollapsibleCornerstone />
 					</TopLevelProviders>
-				</SidebarItem>
-				}
-				<SidebarItem renderPriority={ 40 }>
+				</SidebarItem> }
+				{ !! window.wpseoScriptData.isPost && <SidebarItem renderPriority={ 40 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
@@ -95,7 +94,7 @@ export default function SidebarFill( { settings, store, theme } ) {
 					>
 						<SchemaTabContainer />
 					</TopLevelProviders>
-				</SidebarItem>
+				</SidebarItem> }
 			</Fill>
 		</Fragment>
 	);
