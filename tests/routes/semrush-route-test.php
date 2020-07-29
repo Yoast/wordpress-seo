@@ -11,6 +11,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
+use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Routes\SEMrush_Route;
 use Yoast\WP\SEO\Tests\TestCase;
 
@@ -39,6 +40,13 @@ class SEMrush_Route_Test extends TestCase {
 	protected $options_action;
 
 	/**
+	 * Represents the phrases action.
+	 *
+	 * @var Mockery\MockInterface|SEMrush_Phrases_Action
+	 */
+	protected $phrases_action;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var SEMrush_Route
@@ -53,7 +61,8 @@ class SEMrush_Route_Test extends TestCase {
 
 		$this->login_action   = Mockery::mock( SEMrush_Login_Action::class );
 		$this->options_action = Mockery::mock( SEMrush_Options_Action::class );
-		$this->instance       = new SEMrush_Route( $this->login_action, $this->options_action );
+		$this->phrases_action = Mockery::mock( SEMrush_Phrases_Action::class );
+		$this->instance       = new SEMrush_Route( $this->login_action, $this->options_action, $this->phrases_action );
 	}
 
 	/**
@@ -64,6 +73,7 @@ class SEMrush_Route_Test extends TestCase {
 	public function test_construct() {
 		$this->assertAttributeInstanceOf( SEMrush_Login_Action::class, 'login_action', $this->instance );
 		$this->assertAttributeInstanceOf( SEMrush_Options_Action::class, 'options_action', $this->instance );
+		$this->assertAttributeInstanceOf( SEMrush_Phrases_Action::class, 'phrases_action', $this->instance );
 	}
 
 	/**
@@ -88,6 +98,7 @@ class SEMrush_Route_Test extends TestCase {
 				[
 					'methods'  => 'POST',
 					'callback' => [ $this->instance, 'authenticate' ],
+					'permission_callback' => [ $this->instance, 'can_authenticate' ],
 					'args'     => [
 						'code' => [
 							'validate_callback' => [ $this->instance, 'has_valid_code' ],
@@ -114,11 +125,31 @@ class SEMrush_Route_Test extends TestCase {
 				]
 			);
 
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'semrush/related_keyphrases',
+				[
+					'methods'  => 'GET',
+					'callback' => [ $this->instance, 'get_related_keyphrases' ],
+					'permission_callback' => [ $this->instance, 'can_edit' ],
+					'args'     => [
+						'keyphrase' => [
+							'validate_callback' => [ $this->instance, 'has_valid_keyphrase' ],
+							'required'          => true,
+						],
+						'database'  => [
+							'required' => true,
+						],
+					],
+				]
+			);
+
 		$this->instance->register_routes();
 	}
 
 	/**
-	 * Tests the code is a valid code, with invalid code given as input.
+	 * Tests that the code is a valid code, with invalid code given as input.
 	 *
 	 * @covers ::has_valid_code
 	 */
@@ -127,7 +158,7 @@ class SEMrush_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the code is a valid code, with valid code given as input.
+	 * Tests that the code is a valid code, with valid code given as input.
 	 *
 	 * @covers ::has_valid_code
 	 */
@@ -149,10 +180,29 @@ class SEMrush_Route_Test extends TestCase {
 	/**
 	 * Tests the country code is valid, with valid country code given as input.
 	 *
-	 * @covers ::has_valid_code
+	 * @covers ::has_valid_country_code
 	 */
 	public function test_is_valid_country_code_with_valid_code_given() {
 		$this->assertTrue( $this->instance->has_valid_country_code( 'nl' ) );
+	}
+
+	/**
+	 * Tests that the keyphrase isn't valid, when an empty string or only a space is passed.
+	 *
+	 * @covers ::has_valid_keyphrase
+	 */
+	public function test_is_invalid_keyphrase_with_invalid_keyphrase_given() {
+		$this->assertFalse( $this->instance->has_valid_keyphrase( '' ) );
+		$this->assertFalse( $this->instance->has_valid_keyphrase( ' ' ) );
+	}
+
+	/**
+	 * Tests that the keyphrase isn't valid, when an empty string or only a space is passed.
+	 *
+	 * @covers ::has_valid_keyphrase
+	 */
+	public function test_is_valid_keyphrase_with_valid_keyphrase_given() {
+		$this->assertTrue( $this->instance->has_valid_keyphrase( 'seo' ) );
 	}
 
 	/**
@@ -178,9 +228,9 @@ class SEMrush_Route_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the authentication route.
+	 * Tests the country code route.
 	 *
-	 * @covers ::authenticate
+	 * @covers ::set_country_code
 	 */
 	public function test_country_code() {
 		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
@@ -197,5 +247,32 @@ class SEMrush_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->set_country_code_option( $request ) );
+	}
+
+	/**
+	 * Tests the get_related_keyphrases route.
+	 *
+	 * @covers ::get_related_keyphrases
+	 */
+	public function test_get_related_keyphrases() {
+		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
+		$request
+			->expects( 'offsetGet' )
+			->with( 'keyphrase' )
+			->andReturn( 'seo' );
+
+		$request
+			->expects( 'offsetGet' )
+			->with( 'database' )
+			->andReturn( 'us' );
+
+		$this->phrases_action
+			->expects( 'get_related_keyphrases' )
+			->with( 'seo', 'us' )
+			->andReturn( (object) [ 'status' => '200' ] );
+
+		Mockery::mock( 'overload:WP_REST_Response' );
+
+		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_related_keyphrases( $request ) );
 	}
 }

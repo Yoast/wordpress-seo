@@ -11,6 +11,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Semrush\Semrush_Login_Action;
 use Yoast\WP\SEO\Actions\Semrush\SEMrush_Options_Action;
+use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
@@ -21,6 +22,11 @@ class SEMrush_Route implements Route_Interface {
 
 	use No_Conditionals;
 
+	/**
+	 * The SEMrush route prefix.
+	 *
+	 * @var string
+	 */
 	const ROUTE_PREFIX = 'semrush';
 
 	/**
@@ -36,6 +42,13 @@ class SEMrush_Route implements Route_Interface {
 	 * @var string
 	 */
 	const COUNTRY_CODE_OPTION_ROUTE = self::ROUTE_PREFIX . '/country_code';
+
+	/**
+	 * The request related keyphrases route constant.
+	 *
+	 * @var string
+	 */
+	const RELATED_KEYPHRASES_ROUTE = self::ROUTE_PREFIX . '/related_keyphrases';
 
 	/**
 	 * The full login route constant.
@@ -66,17 +79,27 @@ class SEMrush_Route implements Route_Interface {
 	private $options_action;
 
 	/**
+	 * The phrases action.
+	 *
+	 * @var SEMrush_Phrases_Action
+	 */
+	private $phrases_action;
+
+	/**
 	 * Semrush_Route constructor.
 	 *
 	 * @param Semrush_Login_Action   $login_action   The login action.
 	 * @param Semrush_Options_Action $options_action The options action.
+	 * @param SEMrush_Phrases_Action $phrases_action The phrases action.
 	 */
 	public function __construct(
 		Semrush_Login_Action $login_action,
-		Semrush_Options_Action $options_action
+		Semrush_Options_Action $options_action,
+		SEMrush_Phrases_Action $phrases_action
 	) {
 		$this->login_action   = $login_action;
 		$this->options_action = $options_action;
+		$this->phrases_action = $phrases_action;
 	}
 
 	/**
@@ -84,9 +107,10 @@ class SEMrush_Route implements Route_Interface {
 	 */
 	public function register_routes() {
 		$authentication_route_args = [
-			'methods'  => 'POST',
-			'callback' => [ $this, 'authenticate' ],
-			'args'     => [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'authenticate' ],
+			'permission_callback' => [ $this, 'can_authenticate' ],
+			'args'                => [
 				'code' => [
 					'validate_callback' => [ $this, 'has_valid_code' ],
 					'required'          => true,
@@ -97,10 +121,10 @@ class SEMrush_Route implements Route_Interface {
 		\register_rest_route( Main::API_V1_NAMESPACE, self::AUTHENTICATION_ROUTE, $authentication_route_args );
 
 		$set_country_code_option_route_args = [
-			'methods'  => 'POST',
-			'callback' => [ $this, 'set_country_code_option' ],
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'set_country_code_option' ],
 			'permission_callback' => [ $this, 'can_edit' ],
-			'args'     => [
+			'args'                => [
 				'country_code' => [
 					'validate_callback' => [ $this, 'has_valid_country_code' ],
 					'required'          => true,
@@ -109,6 +133,23 @@ class SEMrush_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::COUNTRY_CODE_OPTION_ROUTE, $set_country_code_option_route_args );
+
+		$related_keyphrases_route_args = [
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_related_keyphrases' ],
+			'permission_callback' => [ $this, 'can_edit' ],
+			'args'                => [
+				'keyphrase' => [
+					'validate_callback' => [ $this, 'has_valid_keyphrase' ],
+					'required'          => true,
+				],
+				'database'  => [
+					'required' => true,
+				],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::RELATED_KEYPHRASES_ROUTE, $related_keyphrases_route_args );
 	}
 
 	/**
@@ -125,6 +166,7 @@ class SEMrush_Route implements Route_Interface {
 
 		return new WP_REST_Response( $data, $data->status );
 	}
+
 	/**
 	 * Sets the SEMrush country code option.
 	 *
@@ -152,6 +194,35 @@ class SEMrush_Route implements Route_Interface {
 	}
 
 	/**
+	 * Checks if a valid keyphrase is provided.
+	 *
+	 * @param string $keyphrase The keyphrase to check.
+	 *
+	 * @return boolean Whether or not the keyphrase is valid.
+	 */
+	public function has_valid_keyphrase( $keyphrase ) {
+		return trim( $keyphrase ) !== '';
+	}
+
+	/**
+	 * Gets the related keyphrases based on the passed keyphrase and database code.
+	 *
+	 * @param WP_REST_Request $request The request. This request should have a keyphrase and database param set.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function get_related_keyphrases( WP_REST_Request $request ) {
+		$data = $this
+			->phrases_action
+			->get_related_keyphrases(
+				$request['keyphrase'],
+				$request['database']
+			);
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
 	 * Checks if a valid country code was submitted.
 	 *
 	 * @param string $country_code The country code to check.
@@ -169,5 +240,14 @@ class SEMrush_Route implements Route_Interface {
 	 */
 	public function can_edit() {
 		return \current_user_can( 'edit_posts' );
+	}
+
+	/**
+	 * Determines whether the current user can authenticate with SEMrush.
+	 *
+	 * @return bool Whether or not the current user can authenticate with SEMrush.
+	 */
+	public function can_authenticate() {
+		return \current_user_can( 'manage_options' );
 	}
 }
