@@ -6,6 +6,7 @@
  * @since   1.5.0
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -194,42 +195,16 @@ class WPSEO_Meta {
 		],
 		'social'   => [],
 		'schema'   => [
-			'schema_page_type' => [
-				'type'         => 'hidden',
-				'title'        => '',
-				// Replace with WPSEO_Option_Titles::SCHEMA_PAGE_TYPES.
-				'options' => [
-					'option-1'  => '',
-					'option-2'  => '',
-					'option-3'  => '',
-					'option-4'  => '',
-					'option-5'  => '',
-					'option-6'  => '',
-					'option-7'  => '',
-					'option-8'  => '',
-					'option-9'  => '',
-					'option-10' => '',
-					'option-11' => '',
-					'option-12' => '',
-					'option-13' => '',
-				],
+			'schema_page_type'    => [
+				'type'    => 'hidden',
+				'title'   => '',
+				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
-				'type'            => 'hidden',
-				'title'           => '',
-				'hide_on_pages'   => true,
-				// Replace with WPSEO_Option_Titles::SCHEMA_ARTICLE_TYPES.
-				'options' => [
-					'option-1'  => '',
-					'option-2'  => '',
-					'option-3'  => '',
-					'option-4'  => '',
-					'option-5'  => '',
-					'option-6'  => '',
-					'option-7'  => '',
-					'option-8'  => '',
-					'option-9'  => '',
-				],
+				'type'          => 'hidden',
+				'title'         => '',
+				'hide_on_pages' => true,
+				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */

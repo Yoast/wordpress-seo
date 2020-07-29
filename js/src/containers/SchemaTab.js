@@ -1,9 +1,40 @@
-import SchemaTab from "../components/SchemaTab";
 import { __ } from "@wordpress/i18n";
 import { LocationConsumer } from "../components/contexts/location";
+import SchemaTab from "../components/SchemaTab";
 
 const articleTypeInputId = "yoast_wpseo_schema_article_type";
 const pageTypeInputId = "yoast_wpseo_schema_page_type";
+
+/**
+ * Returns the schema type options with a default.
+ *
+ * @param {Object[]} schemaTypeOptions The schema type options.
+ * @param {string} defaultType The default value to change the name for.
+ * @param {string} postTypeName The plural name of the post type.
+ *
+ * @returns {Object[]} A copy of the schema type options.
+ */
+const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
+	return [
+		{
+			name: sprintf(
+				/* translators: %1$s expands to the plural name of the current post type, %2$s expands to the current site wide default. */
+				__( "Default for %1$s (%2$s)", "wordpress-seo" ),
+				postTypeName,
+				schemaTypeOptions.find( option => option.value === defaultType ).name,
+			),
+			value: "",
+		},
+		...schemaTypeOptions,
+	];
+};
+
+/**
+ * Gets the default ArticleType from the hidden input.
+ *
+ * @returns {string} The default ArticleType.
+ */
+const getDefaultArticleType = () => document.getElementById( articleTypeInputId ).getAttribute( 'data-default' );
 
 /**
  * Gets the ArticleType from the hidden input.
@@ -22,6 +53,13 @@ const getArticleType = () => document.getElementById( articleTypeInputId ).value
 const setArticleType = ( articleType ) => {
 	document.getElementById( articleTypeInputId ).value = articleType;
 };
+
+/**
+ * Gets the default PageType from the hidden input.
+ *
+ * @returns {string} The default PageType.
+ */
+const getDefaultPageType = () => document.getElementById( pageTypeInputId ).getAttribute( 'data-default' );
 
 /**
  * Gets the PageType from the hidden input.
@@ -102,12 +140,15 @@ const getLocationBasedProps = ( location ) => {
  */
 const SchemaTabContainer = () => {
 	const isPost = window.wpseoAdminL10n.postType !== "page";
+	const { pageTypeOptions, articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	const baseProps = {
 		articleTypeLabel: __( "Article type", "wordpress-seo" ),
 		pageTypeLabel: __( "Page type", "wordpress-seo" ),
 		schemaPageTypeChange: setPageType,
 		schemaPageTypeSelected: getPageType(),
+		schemaPageTypeOptions: getSchemaTypeOptions( pageTypeOptions, getDefaultPageType(), window.wpseoAdminL10n.postTypeNamePlural ),
+		schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
 		postTypeName: window.wpseoAdminL10n.postTypeNamePlural,
 	};
 

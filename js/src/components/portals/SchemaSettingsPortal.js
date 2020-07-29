@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import SchemaSettings from "../SchemaSettings";
+import SchemaSettings, { schemaTypeOptionsPropType } from "../SchemaSettings";
 import Portal from "./Portal";
 
 /**
@@ -10,8 +10,8 @@ import Portal from "./Portal";
  * @param {string} postTypeName The post type name.
  * @param {string} pageTypeFieldId The ID of the page type field.
  * @param {string} articleTypeFieldId The ID of the article type field.
- * @param {string} pageTypeDefault The default page type.
- * @param {string} articleTypeDefault The default article type.
+ * @param {string} pageTypeOptions The page type options.
+ * @param {string} articleTypeOptions The article type options.
  *
  * @returns {null|wp.Element} The schema settings.
  */
@@ -21,8 +21,8 @@ export default function SchemaSettingsPortal( {
 	postTypeName,
 	pageTypeFieldId,
 	articleTypeFieldId,
-	pageTypeDefault,
-	articleTypeDefault,
+	pageTypeOptions,
+	articleTypeOptions,
 } ) {
 	return (
 		<Portal target={ target }>
@@ -31,8 +31,8 @@ export default function SchemaSettingsPortal( {
 				postTypeName={ postTypeName }
 				pageTypeFieldId={ pageTypeFieldId }
 				articleTypeFieldId={ articleTypeFieldId }
-				pageTypeDefault={ pageTypeDefault }
-				articleTypeDefault={ articleTypeDefault }
+				pageTypeOptions={ pageTypeOptions }
+				articleTypeOptions={ articleTypeOptions }
 			/>
 		</Portal>
 	);
@@ -44,12 +44,10 @@ SchemaSettingsPortal.propTypes = {
 	postTypeName: PropTypes.string.isRequired,
 	pageTypeFieldId: PropTypes.string.isRequired,
 	articleTypeFieldId: PropTypes.string,
-	pageTypeDefault: PropTypes.string,
-	articleTypeDefault: PropTypes.string,
+	pageTypeOptions: schemaTypeOptionsPropType.isRequired,
+	articleTypeOptions: schemaTypeOptionsPropType.isRequired,
 };
 
 SchemaSettingsPortal.defaultProps = {
 	articleTypeFieldId: "",
-	pageTypeDefault: "web-page",
-	articleTypeDefault: "none",
 };

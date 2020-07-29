@@ -5,48 +5,12 @@
  * @package WPSEO\Internals\Options
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
+
 /**
  * Option: wpseo_titles.
  */
 class WPSEO_Option_Titles extends WPSEO_Option {
-
-	/**
-	 * Holds the possible schema page types.
-	 *
-	 * @var string[]
-	 */
-	const SCHEMA_PAGE_TYPES = [
-		'web-page',
-		'item-page',
-		'about-page',
-		'faq-page',
-		'qa-page',
-		'profile-page',
-		'contact-page',
-		'medical-web-page',
-		'collection-page',
-		'checkout-page',
-		'real-estate-listing',
-		'search-results-page',
-		'none',
-	];
-
-	/**
-	 * Holds the possible schema article types.
-	 *
-	 * @var string[]
-	 */
-	const SCHEMA_ARTICLE_TYPES = [
-		'article',
-		'social-media-posting',
-		'news-article',
-		'advertiser-content-article',
-		'satirical-article',
-		'scholarly-article',
-		'tech-article',
-		'report',
-		'none',
-	];
 
 	/**
 	 * Option name.
@@ -557,7 +521,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				case 'schema-page-type-':
 					if ( isset( $dirty[ $key ] ) ) {
-						if ( in_array( $dirty[ $key ], static::SCHEMA_PAGE_TYPES, true ) ) {
+						if ( array_key_exists( $dirty[ $key ], Schema_Types::PAGE_TYPES ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
@@ -569,7 +533,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 				case 'schema-article-type-':
 					if ( isset( $dirty[ $key ] ) ) {
-						if ( in_array( $dirty[ $key ], static::SCHEMA_ARTICLE_TYPES, true ) ) {
+						if ( array_key_exists( $dirty[ $key ], Schema_Types::ARTICLE_TYPES ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
