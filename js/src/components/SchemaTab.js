@@ -4,6 +4,7 @@ import { FieldGroup, Select } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import SidebarCollapsible from "./SidebarCollapsible";
 
 const SchemaContainer = styled.div`
@@ -81,8 +82,10 @@ const Content = ( props ) => (
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,
 	schemaPageTypeSelected: PropTypes.string,
+	schemaPageTypeOptions: schemaTypeOptionsPropType.isRequired,
 	schemaArticleTypeChange: PropTypes.func,
 	schemaArticleTypeSelected: PropTypes.string,
+	schemaArticleTypeOptions: schemaTypeOptionsPropType.isRequired,
 	showArticleTypeInput: PropTypes.bool.isRequired,
 	additionalHelpTextLink: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
