@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { LocationConsumer } from "../components/contexts/location";
 import SchemaTab from "../components/SchemaTab";
 
@@ -34,7 +34,7 @@ const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) =>
  *
  * @returns {string} The default ArticleType.
  */
-const getDefaultArticleType = () => document.getElementById( articleTypeInputId ).getAttribute( 'data-default' );
+const getDefaultArticleType = () => document.getElementById( articleTypeInputId ).getAttribute( "data-default" );
 
 /**
  * Gets the ArticleType from the hidden input.
@@ -59,7 +59,7 @@ const setArticleType = ( articleType ) => {
  *
  * @returns {string} The default PageType.
  */
-const getDefaultPageType = () => document.getElementById( pageTypeInputId ).getAttribute( 'data-default' );
+const getDefaultPageType = () => document.getElementById( pageTypeInputId ).getAttribute( "data-default" );
 
 /**
  * Gets the PageType from the hidden input.

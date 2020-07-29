@@ -657,7 +657,7 @@ class WPSEO_Meta {
 		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			// Update the default value to the current post type.
-			switch( $key ) {
+			switch ( $key ) {
 				case 'schema_page_type':
 				case 'schema_article_type':
 					return '';
