@@ -147,8 +147,8 @@ class Indexable_Post_Builder {
 		$indexable->has_public_posts = $this->has_public_posts( $indexable );
 		$indexable->blog_id          = \get_current_blog_id();
 
-		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type', false );
-		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type', false );
+		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
+		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
 
 		return $indexable;
 	}
@@ -342,14 +342,13 @@ class Indexable_Post_Builder {
 	/**
 	 * Retrieves the current value for the meta field.
 	 *
-	 * @param int    $post_id             The post ID to use.
-	 * @param string $meta_key            Meta key to fetch.
-	 * @param bool   $fallback_to_default Whether to fallback to the default value.
+	 * @param int    $post_id  The post ID to use.
+	 * @param string $meta_key Meta key to fetch.
 	 *
 	 * @return mixed The value of the indexable entry to use.
 	 */
-	protected function get_meta_value( $post_id, $meta_key, $fallback_to_default = true ) {
-		$value = WPSEO_Meta::get_value( $meta_key, $post_id, $fallback_to_default );
+	protected function get_meta_value( $post_id, $meta_key ) {
+		$value = WPSEO_Meta::get_value( $meta_key, $post_id );
 		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
