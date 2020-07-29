@@ -26,6 +26,10 @@
         <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
     </rule>
 
+    <rule ref="Yoast.NamingConventions.NamespaceName.MaxExceeded">
+		  <exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
     <!-- Demand short arrays. -->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
