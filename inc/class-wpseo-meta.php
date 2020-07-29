@@ -6,6 +6,7 @@
  * @since   1.5.0
  */
 
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -103,18 +104,18 @@ class WPSEO_Meta {
 	 */
 	public static $meta_fields = [
 		'general'  => [
-			'focuskw' => [
+			'focuskw'        => [
 				'type'  => 'hidden',
 				'title' => '',
 			],
-			'title' => [
+			'title'          => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'metadesc' => [
+			'metadesc'       => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -123,13 +124,13 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'linkdex' => [
+			'linkdex'        => [
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
 				'default_value' => '0',
 				'description'   => '',
 			],
-			'content_score' => [
+			'content_score'  => [
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
@@ -194,16 +195,16 @@ class WPSEO_Meta {
 		],
 		'social'   => [],
 		'schema'   => [
-			'schema_page_type' => [
-				'type'         => 'hidden',
-				'title'        => '',
-				'indexable'    => true,
+			'schema_page_type'    => [
+				'type'    => 'hidden',
+				'title'   => '',
+				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
-				'type'            => 'hidden',
-				'title'           => '',
-				'hide_on_pages'   => true,
-				'indexable'       => true,
+				'type'          => 'hidden',
+				'title'         => '',
+				'hide_on_pages' => true,
+				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
 		],
 		/* Fields we should validate & save, but not show on any form. */
@@ -262,8 +263,6 @@ class WPSEO_Meta {
 	 * @return void
 	 */
 	public static function init() {
-		global $post;
-
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( WPSEO_Options::get( $option, false ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
@@ -277,16 +276,6 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $option, $network, $box, $type );
-
-		/**
-		 * Fetch default options for the schema_page_type and schema_article_type.
-		 *
-		 * These options can be changed using the Search Appearance settings.
-		 */
-		if ( isset( $post->post_type ) ) {
-			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post->post_type );
-			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post->post_type );
-		}
 
 		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
@@ -386,6 +375,12 @@ class WPSEO_Meta {
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
 				}
+				break;
+
+			case 'schema':
+				$field_defs['schema_page_type']['default']    = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+				$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
 				break;
 		}
 
@@ -659,17 +654,15 @@ class WPSEO_Meta {
 			}
 		}
 
-		// Check if we need to fetch data from the indexables table.
-		if ( isset( $field_def['indexable'] ) && $field_def['indexable'] === true ) {
-			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
-			$indexable  = $repository->find_by_id_and_type( $postid, WPSEO_Utils::get_page_type() );
-			if ( ! is_null( $indexable->$key ) ) {
-				return $indexable->$key;
-			}
-		}
-
 		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+			// Update the default value to the current post type.
+			switch ( $key ) {
+				case 'schema_page_type':
+				case 'schema_article_type':
+					return '';
+			}
+
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 

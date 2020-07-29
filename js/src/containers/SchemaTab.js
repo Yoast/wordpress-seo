@@ -1,9 +1,40 @@
-import SchemaTab from "../components/SchemaTab";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { LocationConsumer } from "../components/contexts/location";
+import SchemaTab from "../components/SchemaTab";
 
 const articleTypeInputId = "yoast_wpseo_schema_article_type";
 const pageTypeInputId = "yoast_wpseo_schema_page_type";
+
+/**
+ * Returns the schema type options with a default.
+ *
+ * @param {Object[]} schemaTypeOptions The schema type options.
+ * @param {string} defaultType The default value to change the name for.
+ * @param {string} postTypeName The plural name of the post type.
+ *
+ * @returns {Object[]} A copy of the schema type options.
+ */
+const getSchemaTypeOptions = ( schemaTypeOptions, defaultType, postTypeName ) => {
+	return [
+		{
+			name: sprintf(
+				/* translators: %1$s expands to the plural name of the current post type, %2$s expands to the current site wide default. */
+				__( "Default for %1$s (%2$s)", "wordpress-seo" ),
+				postTypeName,
+				schemaTypeOptions.find( option => option.value === defaultType ).name,
+			),
+			value: "",
+		},
+		...schemaTypeOptions,
+	];
+};
+
+/**
+ * Gets the default ArticleType from the hidden input.
+ *
+ * @returns {string} The default ArticleType.
+ */
+const getDefaultArticleType = () => document.getElementById( articleTypeInputId ).getAttribute( "data-default" );
 
 /**
  * Gets the ArticleType from the hidden input.
@@ -22,6 +53,13 @@ const getArticleType = () => document.getElementById( articleTypeInputId ).value
 const setArticleType = ( articleType ) => {
 	document.getElementById( articleTypeInputId ).value = articleType;
 };
+
+/**
+ * Gets the default PageType from the hidden input.
+ *
+ * @returns {string} The default PageType.
+ */
+const getDefaultPageType = () => document.getElementById( pageTypeInputId ).getAttribute( "data-default" );
 
 /**
  * Gets the PageType from the hidden input.
@@ -50,6 +88,7 @@ const setPageType = ( pageType ) => {
  */
 const getPostBasedProps = ( isPost ) => {
 	if ( isPost ) {
+		const { articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 		return {
 			showArticleTypeInput: true,
 			helpTextTitle: __( "Yoast SEO automatically describes your posts using schema.org", "wordpress-seo" ),
@@ -59,6 +98,7 @@ const getPostBasedProps = ( isPost ) => {
 			),
 			schemaArticleTypeChange: setArticleType,
 			schemaArticleTypeSelected: getArticleType(),
+			schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
 		};
 	}
 
@@ -102,6 +142,7 @@ const getLocationBasedProps = ( location ) => {
  */
 const SchemaTabContainer = () => {
 	const isPost = window.wpseoAdminL10n.postType !== "page";
+	const { pageTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	const baseProps = {
 		articleTypeLabel: __( "Article type", "wordpress-seo" ),
@@ -109,6 +150,7 @@ const SchemaTabContainer = () => {
 		schemaPageTypeChange: setPageType,
 		schemaPageTypeSelected: getPageType(),
 		postTypeName: window.wpseoAdminL10n.postTypeNamePlural,
+		schemaPageTypeOptions: getSchemaTypeOptions( pageTypeOptions, getDefaultPageType(), window.wpseoAdminL10n.postTypeNamePlural ),
 	};
 
 	return (

@@ -1,110 +1,15 @@
-import { Fragment, createPortal } from "@wordpress/element";
-import styled from "styled-components";
-import { Select, HelpIcon } from "@yoast/components";
+import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import SidebarCollapsible from "./SidebarCollapsible";
-import PropTypes from "prop-types";
+import { FieldGroup, Select } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import { schemaTypeOptionsPropType } from "./SchemaSettings";
+import SidebarCollapsible from "./SidebarCollapsible";
 
 const SchemaContainer = styled.div`
 	padding: 16px;
 `;
-
-const schemaPageOptions = [
-	{
-		name: __( "Web Page", "wordpress-seo" ),
-		value: "option-1",
-	},
-	{
-		name: __( "Item Page", "wordpress-seo" ),
-		value: "option-2",
-	},
-	{
-		name: __( "About Page", "wordpress-seo" ),
-		value: "option-3",
-	},
-	{
-		name: __( "FAQ Page", "wordpress-seo" ),
-		value: "option-4",
-	},
-	{
-		name: __( "QA Page", "wordpress-seo" ),
-		value: "option-5",
-	},
-	{
-		name: __( "Profile Page", "wordpress-seo" ),
-		value: "option-6",
-	},
-	{
-		name: __( "Contact Page", "wordpress-seo" ),
-		value: "option-7",
-	},
-	{
-		name: __( "Medical Web Page", "wordpress-seo" ),
-		value: "option-8",
-	},
-	{
-		name: __( "Collection Page", "wordpress-seo" ),
-		value: "option-9",
-	},
-	{
-		name: __( "Checkout Page", "wordpress-seo" ),
-		value: "option-10",
-	},
-	{
-		name: __( "Real Estate Listing", "wordpress-seo" ),
-		value: "option-11",
-	},
-	{
-		name: __( "Search Results Page", "wordpress-seo" ),
-		value: "option-12",
-	},
-	{
-		/* translators: %1$s expands to "- " (a hyphen and a space), %2$s expands to " -" (a space and a hyphen) */
-		name: sprintf( __( "%1$sNone%2$s", "wordpress-seo" ), "- ", " -" ),
-		value: "option-13",
-	},
-];
-
-const schemaArticleOptions = [
-	{
-		name: __( "Article", "wordpress-seo" ),
-		value: "option-1",
-	},
-	{
-		name: __( "Social Media Posting", "wordpress-seo" ),
-		value: "option-2",
-	},
-	{
-		name: __( "News Article", "wordpress-seo" ),
-		value: "option-3",
-	},
-	{
-		name: __( "Advertiser Content Article", "wordpress-seo" ),
-		value: "option-4",
-	},
-	{
-		name: __( "Satirical Article", "wordpress-seo" ),
-		value: "option-5",
-	},
-	{
-		name: __( "Scholary Article", "wordpress-seo" ),
-		value: "option-6",
-	},
-	{
-		name: __( "Tech Article", "wordpress-seo" ),
-		value: "option-7",
-	},
-	{
-		name: __( "Report", "wordpress-seo" ),
-		value: "option-8",
-	},
-	{
-		/* translators: %1$s expands to "- " (a hyphen and a space), %2$s expands to " -" (a space and a hyphen) */
-		name: sprintf( __( "%1$sNone%2$s", "wordpress-seo" ), "- ", " -" ),
-		value: "option-9",
-	},
-];
 
 /**
  * Function that uses a postTypeName to create a string which will be used to create a link to the Search Appearance settings.
@@ -145,35 +50,27 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
  */
 const Content = ( props ) => (
 	<Fragment>
-		<div className="yoast-field-group__title">
-			<b>{ props.helpTextTitle }</b>
-			<HelpIcon
-				linkTo={ props.helpTextLink }
-				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-			/>
-		</div>
-		<p>
-			{ props.helpTextDescription }
-		</p>
-		<div className="yoast-field-group__title" style={ { paddingTop: 16, paddingBottom: 16 } }>
-			<b>{ __( "What type of page or content is this?", "wordpress-seo" ) }</b>
-			<HelpIcon
-				linkTo={ props.additionalHelpTextLink }
-				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
-			/>
-		</div>
+		<FieldGroup
+			label={ props.helpTextTitle }
+			linkTo={ props.helpTextLink }
+			linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
+			description={ props.helpTextDescription }
+		/>
+		<FieldGroup
+			label={ __( "What type of page or content is this?", "wordpress-seo" ) }
+			linkTo={ props.additionalHelpTextLink }
+			linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
+		/>
 		<Select
 			id="yoast_wpseo_schema_page_type_react"
-			name="schema_page_type"
-			options={ schemaPageOptions }
+			options={ props.schemaPageTypeOptions }
 			label={ __( "Page type", "wordpress-seo" ) }
 			onChange={ props.schemaPageTypeChange }
 			selected={ props.schemaPageTypeSelected }
 		/>
 		{ props.showArticleTypeInput && <Select
 			id="yoast_wpseo_schema_article_type_react"
-			name="schema_article_type"
-			options={ schemaArticleOptions }
+			options={ props.schemaArticleTypeOptions }
 			label={ __( "Article type", "wordpress-seo" ) }
 			onChange={ props.schemaArticleTypeChange }
 			selected={ props.schemaArticleTypeSelected }
@@ -185,8 +82,10 @@ const Content = ( props ) => (
 Content.propTypes = {
 	schemaPageTypeChange: PropTypes.func,
 	schemaPageTypeSelected: PropTypes.string,
+	schemaPageTypeOptions: schemaTypeOptionsPropType.isRequired,
 	schemaArticleTypeChange: PropTypes.func,
 	schemaArticleTypeSelected: PropTypes.string,
+	schemaArticleTypeOptions: schemaTypeOptionsPropType.isRequired,
 	showArticleTypeInput: PropTypes.bool.isRequired,
 	additionalHelpTextLink: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
@@ -215,7 +114,7 @@ const SchemaTab = ( props ) => {
 			<SchemaContainer>
 				<Content { ...props } />
 			</SchemaContainer>,
-			document.getElementById( "wpseo-meta-section-schema" )
+			document.getElementById( "wpseo-meta-section-schema" ),
 		);
 	}
 
