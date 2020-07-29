@@ -88,6 +88,7 @@ const setPageType = ( pageType ) => {
  */
 const getPostBasedProps = ( isPost ) => {
 	if ( isPost ) {
+		const { articleTypeOptions } = window.wpseoScriptData.metabox.schema;
 		return {
 			showArticleTypeInput: true,
 			helpTextTitle: __( "Yoast SEO automatically describes your posts using schema.org", "wordpress-seo" ),
@@ -97,6 +98,7 @@ const getPostBasedProps = ( isPost ) => {
 			),
 			schemaArticleTypeChange: setArticleType,
 			schemaArticleTypeSelected: getArticleType(),
+			schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
 		};
 	}
 
@@ -140,16 +142,15 @@ const getLocationBasedProps = ( location ) => {
  */
 const SchemaTabContainer = () => {
 	const isPost = window.wpseoAdminL10n.postType !== "page";
-	const { pageTypeOptions, articleTypeOptions } = window.wpseoScriptData.metabox.schema;
+	const { pageTypeOptions } = window.wpseoScriptData.metabox.schema;
 
 	const baseProps = {
 		articleTypeLabel: __( "Article type", "wordpress-seo" ),
 		pageTypeLabel: __( "Page type", "wordpress-seo" ),
 		schemaPageTypeChange: setPageType,
 		schemaPageTypeSelected: getPageType(),
-		schemaPageTypeOptions: getSchemaTypeOptions( pageTypeOptions, getDefaultPageType(), window.wpseoAdminL10n.postTypeNamePlural ),
-		schemaArticleTypeOptions: getSchemaTypeOptions( articleTypeOptions, getDefaultArticleType(), window.wpseoAdminL10n.postTypeNamePlural ),
 		postTypeName: window.wpseoAdminL10n.postTypeNamePlural,
+		schemaPageTypeOptions: getSchemaTypeOptions( pageTypeOptions, getDefaultPageType(), window.wpseoAdminL10n.postTypeNamePlural ),
 	};
 
 	return (
