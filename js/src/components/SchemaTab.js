@@ -1,6 +1,6 @@
-import { Select, HelpIcon } from "@yoast/components";
 import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { FieldGroup, HelpIcon, Select } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -49,26 +49,19 @@ const footerWithLink = ( postTypeName ) => interpolateComponents(
  */
 const Content = ( props ) => (
 	<Fragment>
-		<div className="yoast-field-group__title">
-			<b>{ props.helpTextTitle }</b>
-			<HelpIcon
-				linkTo={ props.helpTextLink }
-				linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
-			/>
-		</div>
-		<p>
-			{ props.helpTextDescription }
-		</p>
-		<div className="yoast-field-group__title" style={ { paddingTop: 16, paddingBottom: 16 } }>
-			<b>{ __( "What type of page or content is this?", "wordpress-seo" ) }</b>
-			<HelpIcon
-				linkTo={ props.additionalHelpTextLink }
-				linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
-			/>
-		</div>
+		<FieldGroup
+			label={ props.helpTextTitle }
+			linkTo={ props.helpTextLink }
+			linkText={ __( "Learn more about structured data with Schema.org", "wordpress-seo" ) }
+			description={ props.helpTextDescription }
+		/>
+		<FieldGroup
+			label={ __( "What type of page or content is this?", "wordpress-seo" ) }
+			linkTo={ props.additionalHelpTextLink }
+			linkText={ __( "Learn more about page or content types", "wordpress-seo" ) }
+		/>
 		<Select
 			id="yoast_wpseo_schema_page_type_react"
-			name={ null }
 			options={ props.schemaPageTypeOptions }
 			label={ __( "Page type", "wordpress-seo" ) }
 			onChange={ props.schemaPageTypeChange }
@@ -76,7 +69,6 @@ const Content = ( props ) => (
 		/>
 		{ props.showArticleTypeInput && <Select
 			id="yoast_wpseo_schema_article_type_react"
-			name={ null }
 			options={ props.schemaArticleTypeOptions }
 			label={ __( "Article type", "wordpress-seo" ) }
 			onChange={ props.schemaArticleTypeChange }
@@ -119,7 +111,7 @@ const SchemaTab = ( props ) => {
 			<SchemaContainer>
 				<Content { ...props } />
 			</SchemaContainer>,
-			document.getElementById( "wpseo-meta-section-schema" )
+			document.getElementById( "wpseo-meta-section-schema" ),
 		);
 	}
 
