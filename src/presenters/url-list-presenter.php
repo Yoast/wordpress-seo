@@ -24,7 +24,7 @@ class Url_List_Presenter extends Abstract_Presenter {
 	/**
 	 * Url_List_Presenter constructor.
 	 *
-	 * @param array  $links A list of arrays containing titles and urls.
+	 * @param array  $links      A list of arrays containing titles and urls.
 	 * @param string $class_name Classname for the url list.
 	 */
 	public function __construct( $links, $class_name = 'yoast-url-list' ) {

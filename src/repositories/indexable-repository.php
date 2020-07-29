@@ -393,8 +393,8 @@ class Indexable_Repository {
 	/**
 	 * Returns all subpages with a given post_parent.
 	 *
-	 * @param int   $post_parent the post parent.
-	 * @param array $exclude_ids the ids to exclude.
+	 * @param int   $post_parent The post parent.
+	 * @param array $exclude_ids The ids to exclude.
 	 *
 	 * @return Indexable[] array of indexables.
 	 */
