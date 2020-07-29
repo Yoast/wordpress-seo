@@ -10,7 +10,8 @@ import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
-const errorColor = colors.$color_red;
+const errorColor = colors.$color_bad;
+const backgroundErrorColor = colors.$palette_error_background;
 const greyColor = colors.$color_grey_text_light;
 
 const KeywordInputContainer = styled.div`
@@ -41,7 +42,7 @@ const KeywordField = styled( InputField )`
 
 	&.has-error {
 		border-color: ${ errorColor } !important;
-		box-shadow: 0 0 2px ${ errorColor } !important;
+		background-color: ${ backgroundErrorColor } !important;
 	}
 `;
 
