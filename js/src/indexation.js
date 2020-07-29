@@ -181,9 +181,9 @@ import ProgressBar from "./ui/progressBar";
 		if ( window.location.hash && window.location.hash.startsWith( "#start-indexation-" ) ) {
 			$( ".yoast-open-indexation" ).each( function() {
 				if ( window.location.hash.endsWith( $( this ).data( "settings" ) ) ) {
-					setTimeout( function() {
+					$( () => {
 						$( this ).click();
-					}.bind( this ), 500 );
+					} );
 				}
 			} );
 		}
