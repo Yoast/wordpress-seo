@@ -14,40 +14,44 @@ class Schema_Types {
 
 	/**
 	 * Holds the possible schema page types.
+	 * 
+	 * Capitalized in this way so the value can be directly used in the schema output.
 	 *
 	 * @var string[]
 	 */
 	const PAGE_TYPES = [
-		'web-page'            => '',
-		'item-page'           => '',
-		'about-page'          => '',
-		'faq-page'            => '',
-		'qa-page'             => '',
-		'profile-page'        => '',
-		'contact-page'        => '',
-		'medical-web-page'    => '',
-		'collection-page'     => '',
-		'checkout-page'       => '',
-		'real-estate-listing' => '',
-		'search-results-page' => '',
-		'none'                => '',
+		'WebPage'           => '',
+		'ItemPage'          => '',
+		'AboutPage'         => '',
+		'FAQPage'           => '',
+		'QAPage'            => '',
+		'ProfilePage'       => '',
+		'ContactPage'       => '',
+		'MedicalWebPage'    => '',
+		'CollectionPage'    => '',
+		'CheckoutPage'      => '',
+		'RealEstateListing' => '',
+		'SearchResultsPage' => '',
+		'None'              => '',
 	];
 
 	/**
 	 * Holds the possible schema article types.
+	 * 
+	 * Capitalized in this way so the value can be directly used in the schema output.
 	 *
 	 * @var string[]
 	 */
 	const ARTICLE_TYPES = [
-		'article'                    => '',
-		'social-media-posting'       => '',
-		'news-article'               => '',
-		'advertiser-content-article' => '',
-		'satirical-article'          => '',
-		'scholarly-article'          => '',
-		'tech-article'               => '',
-		'report'                     => '',
-		'none'                       => '',
+		'Article'                  => '',
+		'SocialMediaPosting'       => '',
+		'NewsArticle'              => '',
+		'AdvertiserContentArticle' => '',
+		'SatiricalArticle'         => '',
+		'ScholarlyArticle'         => '',
+		'TechArticle'              => '',
+		'Report'                   => '',
+		'None'                     => '',
 	];
 
 	/**
@@ -59,55 +63,55 @@ class Schema_Types {
 		return [
 			[
 				'name'  => __( 'Web Page', 'wordpress-seo' ),
-				'value' => 'web-page',
+				'value' => 'WebPage',
 			],
 			[
 				'name'  => __( 'Item Page', 'wordpress-seo' ),
-				'value' => 'item-page',
+				'value' => 'ItemPage',
 			],
 			[
 				'name'  => __( 'About Page', 'wordpress-seo' ),
-				'value' => 'about-page',
+				'value' => 'AboutPage',
 			],
 			[
 				'name'  => __( 'FAQ Page', 'wordpress-seo' ),
-				'value' => 'faq-page',
+				'value' => 'FAQPage',
 			],
 			[
 				'name'  => __( 'QA Page', 'wordpress-seo' ),
-				'value' => 'qa-page',
+				'value' => 'QAPage',
 			],
 			[
 				'name'  => __( 'Profile Page', 'wordpress-seo' ),
-				'value' => 'profile-page',
+				'value' => 'ProfilePage',
 			],
 			[
 				'name'  => __( 'Contact Page', 'wordpress-seo' ),
-				'value' => 'contact-page',
+				'value' => 'ContactPage',
 			],
 			[
 				'name'  => __( 'Medical Web Page', 'wordpress-seo' ),
-				'value' => 'medical-web-page',
+				'value' => 'MedicalWebPage',
 			],
 			[
 				'name'  => __( 'Collection Page', 'wordpress-seo' ),
-				'value' => 'collection-page',
+				'value' => 'CollectionPage',
 			],
 			[
 				'name'  => __( 'Checkout Page', 'wordpress-seo' ),
-				'value' => 'checkout-page',
+				'value' => 'CheckoutPage',
 			],
 			[
 				'name'  => __( 'Real Estate Listing', 'wordpress-seo' ),
-				'value' => 'real-estate-listing',
+				'value' => 'RealEstateListing',
 			],
 			[
 				'name'  => __( 'Search Results Page', 'wordpress-seo' ),
-				'value' => 'search-results-page',
+				'value' => 'SearchResultsPage',
 			],
 			[
 				'name'  => __( 'None', 'wordpress-seo' ),
-				'value' => 'none',
+				'value' => 'None',
 			],
 		];
 	}
@@ -121,39 +125,39 @@ class Schema_Types {
 		return [
 			[
 				'name'  => __( 'Article', 'wordpress-seo' ),
-				'value' => 'article',
+				'value' => 'Article',
 			],
 			[
 				'name'  => __( 'Social Media Posting', 'wordpress-seo' ),
-				'value' => 'social-media-posting',
+				'value' => 'SocialMediaPosting',
 			],
 			[
 				'name'  => __( 'News Article', 'wordpress-seo' ),
-				'value' => 'news-article',
+				'value' => 'NewsArticle',
 			],
 			[
 				'name'  => __( 'Advertiser Content Article', 'wordpress-seo' ),
-				'value' => 'advertiser-content-article',
+				'value' => 'AdvertiserContentArticle',
 			],
 			[
 				'name'  => __( 'Satirical Article', 'wordpress-seo' ),
-				'value' => 'satirical-article',
+				'value' => 'SatiricalArticle',
 			],
 			[
 				'name'  => __( 'Scholary Article', 'wordpress-seo' ),
-				'value' => 'scholarly-article',
+				'value' => 'ScholarlyArticle',
 			],
 			[
 				'name'  => __( 'Tech Article', 'wordpress-seo' ),
-				'value' => 'tech-article',
+				'value' => 'TechArticle',
 			],
 			[
 				'name'  => __( 'Report', 'wordpress-seo' ),
-				'value' => 'report',
+				'value' => 'Report',
 			],
 			[
 				'name'  => __( 'None', 'wordpress-seo' ),
-				'value' => 'none',
+				'value' => 'None',
 			],
 		];
 	}

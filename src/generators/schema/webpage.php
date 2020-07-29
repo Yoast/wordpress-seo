@@ -21,6 +21,10 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
+		if ( $this->context->schema_page_type === 'None' ) {
+			return false;
+		}
+
 		return ! ( $this->context->indexable->object_type === 'system-page' && $this->context->indexable->object_sub_type === '404' );
 	}
 

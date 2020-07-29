@@ -390,20 +390,65 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				$type = 'CollectionPage';
 				break;
 			default:
+				$additional_type = $this->indexable->schema_page_type;
+				if ( is_null( $additional_type ) ) {
+					$additional_type = $this->options->get( "schema-page-type-" . $this->indexable->object_sub_type );
+				}
+
 				$type = 'WebPage';
+
+				// Is this indexable set as a page for posts, e.g. in the wordpress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
 					$type = 'CollectionPage';
+				}
+				if ( $additional_type === 'None' ) {
+					/*
+					 * If `None` is set (either on the indexable or as a default), only return 'None'.
+					 * This simplifies is_needed checks downstream.
+					 */
+					$type = 'None';
+				} elseif ( $additional_type !== $type ) {
+					$type = [ $type, $additional_type ];
 				}
 		}
 
 		/**
 		 * Filter: 'wpseo_schema_webpage_type' - Allow changing the WebPage type.
 		 *
-		 * @api string $type The WebPage type.
+		 * @api string|array $type The WebPage type.
 		 */
 		return \apply_filters( 'wpseo_schema_webpage_type', $type );
 	}
+	
+	/**
+	 * Returns the schema article type.
+	 *
+	 * @return string|array The schema article type.
+	 */
+	public function generate_schema_article_type() {
+		$additional_type = $this->indexable->schema_article_type;
+		if ( is_null( $additional_type ) ) {
+			$additional_type = $this->options->get( "schema-article-type-" . $this->indexable->object_sub_type );
+		}
 
+		$type = 'Article';
+		if ( $additional_type === 'None' ) {
+			/*
+			 * If `None` is set (either on the indexable or as a default), only return 'None'.
+			 * This simplifies is_needed checks downstream.
+			 */
+			$type = 'None';
+		} elseif ( $additional_type !== $type ) {
+			$type = [ $type, $additional_type ];
+		}
+
+		/**
+		 * Filter: 'wpseo_schema_webpage_type' - Allow changing the WebPage type.
+		 *
+		 * @api string|array $type The Article type.
+		 */
+		return \apply_filters( 'wpseo_schema_article_type', $type );
+	}
 	/**
 	 * Returns the main schema id.
 	 *
