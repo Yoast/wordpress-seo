@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use WPSEO_MyYoast_Proxy;
-use Yoast\WP\SEO\Tests\Doubles\Admin\MyYoast_Proxy_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\MyYoast_Proxy_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit test class.

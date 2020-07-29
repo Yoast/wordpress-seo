@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Input_Validation;
 
 /**

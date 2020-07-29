@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

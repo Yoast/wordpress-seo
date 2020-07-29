@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Article_Author_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Article_Author_Presenter_Test

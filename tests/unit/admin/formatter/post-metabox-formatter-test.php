@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin\Formatter;
+namespace Yoast\WP\SEO\Tests\Unit\Admin\Formatter;
 
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
-use Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

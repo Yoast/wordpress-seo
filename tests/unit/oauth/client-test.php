@@ -5,11 +5,11 @@
  * @package Yoast\Tests\Oauth
  */
 
-namespace Yoast\WP\SEO\Tests\Oauth;
+namespace Yoast\WP\SEO\Tests\Unit\Oauth;
 
 use Yoast\WP\SEO\Oauth\Client;
-use Yoast\WP\SEO\Tests\Doubles\Oauth\Client_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Oauth\Client_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 

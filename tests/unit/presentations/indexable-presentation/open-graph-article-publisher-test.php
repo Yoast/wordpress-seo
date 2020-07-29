@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Open_Graph_Article_Publisher_Test

@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Primary_Term_Watcher;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Primary_Term_Watcher_Test.

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Health_Check_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

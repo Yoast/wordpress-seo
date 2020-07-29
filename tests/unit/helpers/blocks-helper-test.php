@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Blocks_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Post_Helper_Test

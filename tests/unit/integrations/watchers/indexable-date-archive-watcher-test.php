@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Date_Archive_Watcher;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Date_Archive_Watcher_Test.

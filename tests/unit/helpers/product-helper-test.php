@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Product_Helper_Test

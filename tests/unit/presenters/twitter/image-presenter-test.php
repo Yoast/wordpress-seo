@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Image_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Image_Presenter_Test

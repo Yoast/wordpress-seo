@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Builders
+ * @package Yoast\WP\SEO\Tests\Unit\Builders
  */
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
@@ -20,8 +20,8 @@ use Yoast\WP\SEO\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Builder_Test.

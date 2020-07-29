@@ -2,17 +2,17 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Mockery;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Meta_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Post_Meta_Watcher_Test.

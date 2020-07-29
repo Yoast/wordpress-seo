@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use Mockery;
 use WP_User;
 use WPSEO_Admin;
 use WPSEO_Primary_Term_Admin;
-use Yoast\WP\SEO\Tests\Doubles\Shortlinker_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Shortlinker_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Dashboard_Widget;
 
 /**

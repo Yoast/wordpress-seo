@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

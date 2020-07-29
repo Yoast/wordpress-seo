@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Doubles\Presentations\Abstract_Presentation_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Presentations\Abstract_Presentation_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Abstract_Presentation_Test

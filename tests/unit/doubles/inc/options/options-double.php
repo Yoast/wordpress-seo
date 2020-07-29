@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options;
 
 use WPSEO_Options;
 

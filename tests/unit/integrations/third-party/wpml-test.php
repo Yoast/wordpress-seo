@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Third_Party
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\WPML_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\WPML;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

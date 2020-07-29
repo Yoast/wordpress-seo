@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Conditionals
+ * @package Yoast\WP\SEO\Tests\Unit\Conditionals
  */
 
-namespace Yoast\WP\SEO\Tests\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Web_Stories_Conditional_Test.

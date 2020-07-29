@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Date_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Prepare_Indexation_Action_Test

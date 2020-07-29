@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Routes
+ * @package Yoast\WP\SEO\Tests\Unit\Routes
  */
 
-namespace Yoast\WP\SEO\Tests\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Doubles\Routes\Abstract_Indexation_Route_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Routes\Abstract_Indexation_Route_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Abstract_Indexation_Route_Test

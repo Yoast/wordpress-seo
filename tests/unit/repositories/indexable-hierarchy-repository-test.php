@@ -2,18 +2,18 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Repositories
+ * @package Yoast\WP\SEO\Tests\Unit\Repositories
  */
 
-namespace Yoast\WP\SEO\Tests\Repositories;
+namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Hierarchy_Repository_Test.

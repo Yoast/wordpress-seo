@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Modal_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexation_Modal_Presenter_Test.

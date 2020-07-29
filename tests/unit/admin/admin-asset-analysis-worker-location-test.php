@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use WPSEO_Admin_Asset;
 use WPSEO_Admin_Asset_Analysis_Worker_Location;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Tests WPSEO_Admin_Asset.

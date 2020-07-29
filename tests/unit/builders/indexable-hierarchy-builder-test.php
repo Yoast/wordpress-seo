@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
@@ -11,9 +11,9 @@ use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Models\Primary_Term_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Primary_Term_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Author_Test.

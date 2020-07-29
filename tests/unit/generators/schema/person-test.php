@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Generators\Schema
+ * @package Yoast\WP\SEO\Tests\Unit\Generators\Schema
  */
 
-namespace Yoast\WP\SEO\Tests\Generators\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
@@ -17,9 +17,9 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper as Schema_Image_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Person_Test

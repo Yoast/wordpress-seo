@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Robots_Helper_Test

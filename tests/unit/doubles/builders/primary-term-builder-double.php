@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Builders;
 
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
 

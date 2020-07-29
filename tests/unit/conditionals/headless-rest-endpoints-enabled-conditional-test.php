@@ -2,15 +2,15 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Conditionals
+ * @package Yoast\WP\SEO\Tests\Unit\Conditionals
  */
 
-namespace Yoast\WP\SEO\Tests\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Headless_Rest_Endpoints_Enabled_Conditional_Test.

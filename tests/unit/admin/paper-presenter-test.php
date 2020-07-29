@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
 use Brain\Monkey;
 use WPSEO_Paper_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Paper_Presenter_Test

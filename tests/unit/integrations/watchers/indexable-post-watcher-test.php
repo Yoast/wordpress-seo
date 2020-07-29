@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Exception;
@@ -18,9 +18,9 @@ use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers\Indexable_Post_Watcher_Double;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Watchers\Indexable_Post_Watcher_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Post_Test.

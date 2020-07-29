@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles;
 
 use WPSEO_Shortlinker;
 

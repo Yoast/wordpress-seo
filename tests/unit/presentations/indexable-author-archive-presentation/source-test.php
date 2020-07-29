@@ -2,12 +2,12 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presentations\Indexable_Author_Archive_Presentation
+ * @package Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation
  */
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Author_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation;
 
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Source_Test

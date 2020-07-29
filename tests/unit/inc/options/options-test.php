@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Unit\Inc\Options;
 
-use Yoast\WP\SEO\Tests\Doubles\Inc\Options\Options_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options\Options_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

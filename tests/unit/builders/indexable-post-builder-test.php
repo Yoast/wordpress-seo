@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Exception;
@@ -15,8 +15,8 @@ use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\SEO_Meta_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Builders\Indexable_Post_Builder_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Post_Test.

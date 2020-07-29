@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Mocks
+ * @package Yoast\WP\SEO\Tests\Unit\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Doubles\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Routes;
 
 use Yoast\WP\SEO\Routes\Abstract_Indexation_Route;
 

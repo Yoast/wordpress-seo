@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Admin
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
@@ -13,7 +13,7 @@ use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Integrations\Admin\Migration_Error_Integration;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Migration_Error_Integration_Test

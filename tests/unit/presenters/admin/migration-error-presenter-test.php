@@ -2,15 +2,15 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presenters\Admin
+ * @package Yoast\WP\SEO\Tests\Unit\Presenters\Admin
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Presenters\Admin\Migration_Error_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Migration_Error_Presenter_Test

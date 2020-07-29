@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

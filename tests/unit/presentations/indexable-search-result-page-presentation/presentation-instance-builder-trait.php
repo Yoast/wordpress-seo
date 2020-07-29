@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Search_Result_Page_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Search_Result_Page_Presentation;
 
 use Yoast\WP\SEO\Presentations\Indexable_Search_Result_Page_Presentation;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
 
 /**
  * Trait Presentation_Instance_Builder

@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Webmaster;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Webmaster;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Google_Presenter_Test.

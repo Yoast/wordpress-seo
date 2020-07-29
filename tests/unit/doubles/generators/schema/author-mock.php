@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Generators\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema;
 
 use Yoast\WP\SEO\Generators\Schema\Author;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Brain\Monkey;
 use Mockery;
@@ -8,7 +8,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Meta_Description_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Meta_Description_Presenter_Test

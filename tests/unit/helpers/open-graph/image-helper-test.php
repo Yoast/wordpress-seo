@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper as Base_Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Image_Helper_Test

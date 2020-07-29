@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Brain\Monkey;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
@@ -8,7 +8,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Type_Archive_Builder;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Author_Test.

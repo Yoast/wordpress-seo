@@ -1,14 +1,14 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Term_Archive_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Term_Archive_Presentation;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Term_Archive_Presentation;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\Presentations\Presentation_Instance_Dependencies;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**

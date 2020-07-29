@@ -2,16 +2,16 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Watchers
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Watchers
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Option_Titles_Watcher;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Option_Titles_Watcher_Test.

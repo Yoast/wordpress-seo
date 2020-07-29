@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Twitter;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
 use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Description_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Description_Presenter_Test.

@@ -2,15 +2,15 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Front_End
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Theme_Titles;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

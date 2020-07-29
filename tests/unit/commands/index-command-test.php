@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Commands
+ * @package Yoast\WP\SEO\Tests\Unit\Commands
  */
 
-namespace Yoast\WP\SEO\Tests\Commands;
+namespace Yoast\WP\SEO\Tests\Unit\Commands;
 
 use Brain\Monkey;
 use Mockery;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Prepare_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Commands\Index_Command;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Index_Command_Test.

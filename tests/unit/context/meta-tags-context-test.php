@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Context;
+namespace Yoast\WP\SEO\Tests\Unit\Context;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Meta_Tags_Context_Test

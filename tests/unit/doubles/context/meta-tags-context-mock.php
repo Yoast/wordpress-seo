@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Mocks
+ * @package Yoast\WP\SEO\Tests\Unit\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Doubles\Context;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Context;
 
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 

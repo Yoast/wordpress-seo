@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin\Roles;
+namespace Yoast\WP\SEO\Tests\Unit\Admin\Roles;
 
 use Brain\Monkey;
 use stdClass;
 use WPSEO_Role_Manager_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

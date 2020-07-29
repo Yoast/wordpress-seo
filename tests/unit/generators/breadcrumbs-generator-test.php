@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Generators
+ * @package Yoast\WP\SEO\Tests\Unit\Generators
  */
 
-namespace Yoast\WP\SEO\Tests\Generators;
+namespace Yoast\WP\SEO\Tests\Unit\Generators;
 
 use Brain\Monkey;
 use Mockery;
@@ -14,9 +14,9 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Open_Graph_Image_Generator_Test

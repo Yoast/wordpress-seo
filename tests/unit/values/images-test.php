@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Values;
+namespace Yoast\WP\SEO\Tests\Unit\Values;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Images;
 
 /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Values\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Unit\Values\Open_Graph;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\Open_Graph\Images;
 
 /**

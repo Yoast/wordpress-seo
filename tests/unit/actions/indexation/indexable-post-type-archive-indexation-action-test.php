@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Brain\Monkey;
 use Mockery;
@@ -10,8 +10,8 @@ use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Type_Archive_Indexation_Actio
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Indexable_Post_Type_Archive_Indexation_Action_Test class

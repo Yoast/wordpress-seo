@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin\Capabilities;
+namespace Yoast\WP\SEO\Tests\Unit\Admin\Capabilities;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Capability_Utils;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Tests WPSEO_Admin_Asset.

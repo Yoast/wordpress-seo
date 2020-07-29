@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Third_Party
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
@@ -17,8 +17,8 @@ use Yoast\WP\SEO\Integrations\Third_Party\WooCommerce;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

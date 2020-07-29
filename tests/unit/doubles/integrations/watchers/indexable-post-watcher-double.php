@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Integrations\Watchers;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Integrations\Watchers;
 
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\SEO\Models\Indexable;

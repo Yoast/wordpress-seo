@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin\Formatter;
+namespace Yoast\WP\SEO\Tests\Unit\Admin\Formatter;
 
 use Brain\Monkey;
 use Mockery;
 use stdClass;
 use WP_Term;
-use Yoast\WP\SEO\Tests\Doubles\Admin\Formatter\Term_Metabox_Formatter_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Formatter\Term_Metabox_Formatter_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
 use WPSEO_Health_Check_Postname_Permalink;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

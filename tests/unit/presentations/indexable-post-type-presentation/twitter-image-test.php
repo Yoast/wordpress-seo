@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Presentation;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Twitter_Image_Test

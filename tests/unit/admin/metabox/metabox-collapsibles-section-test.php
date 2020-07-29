@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Admin\Metabox;
+namespace Yoast\WP\SEO\Tests\Unit\Admin\Metabox;
 
 use Brain\Monkey;
 use WPSEO_Metabox_Collapsible;
 use WPSEO_Metabox_Collapsibles_Sections;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

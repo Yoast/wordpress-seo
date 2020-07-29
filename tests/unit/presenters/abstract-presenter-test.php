@@ -2,14 +2,14 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presenters
+ * @package Yoast\WP\SEO\Tests\Unit\Presenters
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Mockery;
 use Yoast\WP\SEO\Presenters\Abstract_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Abstract_Presenter_Test

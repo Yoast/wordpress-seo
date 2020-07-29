@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Admin\Formatter;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Formatter;
 
 use WPSEO_Post_Metabox_Formatter;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Inc\Options;
+namespace Yoast\WP\SEO\Tests\Unit\Inc\Options;
 
 use Brain\Monkey;
 use WPSEO_Utils;
-use Yoast\WP\SEO\Tests\Doubles\Inc\Options\Option_Social_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options\Option_Social_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Input_Validation;
 
 /**

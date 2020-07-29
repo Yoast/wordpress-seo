@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Presentations;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Presentations;
 
 use Yoast\WP\SEO\Presentations\Abstract_Presentation;
 

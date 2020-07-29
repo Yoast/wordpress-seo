@@ -2,15 +2,15 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Actions\Indexables
+ * @package Yoast\WP\SEO\Tests\Unit\Actions\Indexables
  */
 
-namespace Yoast\WP\SEO\Tests\Actions\Indexables;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexables;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Indexable_Post_Indexation_Action_Test class

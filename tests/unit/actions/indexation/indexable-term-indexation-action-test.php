@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
@@ -9,7 +9,7 @@ use wpdb;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Indexable_Term_Indexation_Action_Test class

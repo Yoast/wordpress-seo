@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Admin
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Admin
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
@@ -21,7 +21,7 @@ use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexation_Integration;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexation_Integration_Test

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Exception;
 use Mockery;
@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Builders\Indexable_Rebuilder;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Author_Test.

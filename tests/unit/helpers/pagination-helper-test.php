@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
 

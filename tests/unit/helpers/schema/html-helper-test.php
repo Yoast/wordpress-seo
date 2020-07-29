@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

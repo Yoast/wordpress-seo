@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Bingbot_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Bingbot_Presenter_Test

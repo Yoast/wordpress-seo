@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Title_Test

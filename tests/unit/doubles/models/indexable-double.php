@@ -5,7 +5,7 @@
  * @package Yoast\Tests\Doubles\Models
  */
 
-namespace Yoast\WP\SEO\Tests\Doubles\Models;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Models;
 
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Models\Indexable as Indexable_Model;

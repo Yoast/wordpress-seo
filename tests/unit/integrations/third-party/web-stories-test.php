@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Third_Party
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Third_Party;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 class Story_Post_Type_Stub {
 	const POST_TYPE_SLUG = 'web-story';

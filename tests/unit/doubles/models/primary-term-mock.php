@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Models;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Models;
 
 use Yoast\WP\SEO\Models\Primary_Term;
 

@@ -2,17 +2,17 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Routes
+ * @package Yoast\WP\SEO\Tests\Unit\Routes
  */
 
-namespace Yoast\WP\SEO\Tests\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
 use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Routes\Indexables_Head_Route;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexables_Head_Route_Test.

@@ -2,16 +2,16 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presenters\Admin
+ * @package Yoast\WP\SEO\Tests\Unit\Presenters\Admin
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters\Admin;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexation_Warning_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexation_Warning_Presenter_Test

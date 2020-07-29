@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Helpers\Twitter;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers\Twitter;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Image_Helper_Test

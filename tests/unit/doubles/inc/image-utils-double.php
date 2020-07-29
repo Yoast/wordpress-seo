@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Doubles\Inc;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Inc;
 
 use WPSEO_Image_Utils;
 

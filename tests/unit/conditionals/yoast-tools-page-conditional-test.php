@@ -1,9 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Yoast_Admin_Tools_Page_Conditional_Test.

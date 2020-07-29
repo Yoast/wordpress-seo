@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Database;
+namespace Yoast\WP\SEO\Tests\Unit\Database;
 
 use Mockery;
 use wpdb;
@@ -8,8 +8,8 @@ use Yoast\WP\Lib\Migrations\Adapter;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Initializers\Migration_Runner;
 use Yoast\WP\SEO\Loader;
-use Yoast\WP\SEO\Tests\Doubles\Database\Migration_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Database\Migration_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Migration_Runner_Test.

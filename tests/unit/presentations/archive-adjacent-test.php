@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
-use Yoast\WP\SEO\Tests\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Canonical_Test

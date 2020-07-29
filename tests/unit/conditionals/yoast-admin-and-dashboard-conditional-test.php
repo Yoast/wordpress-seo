@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Yoast_Admin_And_Dashboard_Conditional_Test

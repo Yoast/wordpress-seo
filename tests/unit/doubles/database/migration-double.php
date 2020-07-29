@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Mocks
+ * @package Yoast\WP\SEO\Tests\Unit\Mocks
  */
 
-namespace Yoast\WP\SEO\Tests\Doubles\Database;
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Database;
 
 use Exception;
 use Yoast\WP\Lib\Migrations\Migration;

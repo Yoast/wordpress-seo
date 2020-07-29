@@ -1,15 +1,15 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Builders;
+namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
-use Yoast\WP\SEO\Tests\Doubles\Builders\Primary_Term_Builder_Double;
-use Yoast\WP\SEO\Tests\Doubles\Models\Primary_Term_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Primary_Term_Builder_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Primary_Term_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Primary_Term_Builder_Test

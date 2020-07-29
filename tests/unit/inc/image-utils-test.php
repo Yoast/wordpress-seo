@@ -1,10 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Inc;
+namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Doubles\Inc\Image_Utils_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Image_Utils_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

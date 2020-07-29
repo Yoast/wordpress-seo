@@ -5,14 +5,14 @@
  * @package Yoast\YoastSEO\Integrations
  */
 
-namespace Yoast\WP\SEO\Tests\Initializers;
+namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

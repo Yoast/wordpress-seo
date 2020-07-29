@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presenters\Open_Graph;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class \Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter_Test

@@ -3,13 +3,13 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Rel_Prev_Presenter_Test

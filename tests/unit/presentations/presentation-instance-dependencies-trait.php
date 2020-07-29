@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Presentations;
+namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
 use Mockery;
 use Yoast\WP\SEO\Generators\Breadcrumbs_Generator;

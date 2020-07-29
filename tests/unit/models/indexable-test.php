@@ -2,16 +2,16 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Models
+ * @package Yoast\WP\SEO\Tests\Unit\Models
  */
 
-namespace Yoast\WP\SEO\Tests\Models;
+namespace Yoast\WP\SEO\Tests\Unit\Models;
 
 use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Double;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Indexable_Test

@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Routes
+ * @package Yoast\WP\SEO\Tests\Unit\Routes
  */
 
-namespace Yoast\WP\SEO\Tests\Routes;
+namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Routes\Yoast_Head_REST_Field;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Yoast_Head_REST_Field_Test class

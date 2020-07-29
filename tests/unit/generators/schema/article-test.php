@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Generators\Schema;
+namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema;
 
 use Brain\Monkey;
 use Mockery;
@@ -12,10 +12,10 @@ use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Language_Helper;
-use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
-use Yoast\WP\SEO\Tests\Doubles\Generators\Schema\Article_Double;
-use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Article_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Article_Test

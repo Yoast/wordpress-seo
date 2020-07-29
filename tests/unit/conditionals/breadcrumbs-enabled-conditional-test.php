@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Conditionals;
+namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Breadcrumbs_Enabled_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Breadcrumbs_Enabled_Conditional_Test.

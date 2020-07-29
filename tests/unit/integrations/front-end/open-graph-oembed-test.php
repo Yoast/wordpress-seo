@@ -2,10 +2,10 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Integrations\Front_End
+ * @package Yoast\WP\SEO\Tests\Unit\Integrations\Front_End
  */
 
-namespace Yoast\WP\SEO\Tests\Integrations\Front_End;
+namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Unit Test Class.

@@ -2,16 +2,16 @@
 /**
  * WPSEO plugin test file.
  *
- * @package Yoast\WP\SEO\Tests\Presenters
+ * @package Yoast\WP\SEO\Tests\Unit\Presenters
  */
 
-namespace Yoast\WP\SEO\Tests\Presenters\Debug;
+namespace Yoast\WP\SEO\Tests\Unit\Presenters\Debug;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Marker_Open_Presenter_Test.

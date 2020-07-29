@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Actions\Indexation;
+namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Indexable_Post_Indexation_Action_Test class
