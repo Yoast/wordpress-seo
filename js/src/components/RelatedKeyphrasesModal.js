@@ -11,7 +11,6 @@ import { BaseButton } from "@yoast/components";
 import { ModalContainer } from "./modals/Container";
 import YoastIcon from "../../../images/Yoast_icon_kader.svg";
 import SemRushMaxRelatedKeyphrases from "./modals/SemRushMaxRelatedKeyphrases";
-import SEMrushRelatedKeyphrases from "../containers/RelatedKeyphrases";
 
 /**
  * Redux container for the RelatedKeyPhrasesModal modal.
@@ -88,9 +87,7 @@ class RelatedKeyphrasesModal extends Component {
 							) }
 
 							<Slot name="YoastRelatedKeyphrases" />
-
-							<SEMrushRelatedKeyphrases {...this.props} />
-
+							
 							<h2>Debug info</h2>
 							<p>
 								The keyphrase is: { keyphrase }<br />

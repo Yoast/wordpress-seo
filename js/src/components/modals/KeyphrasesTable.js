@@ -27,18 +27,18 @@ class KeyphrasesTable extends Component {
 		return (
 			<Fragment>
 				<h2 id={ this.props.fakeProp }>Keyphrase table</h2>
-				<p>The Keyphrase current keyphrase is: "{ this.props.keyphrase }"</p>
+				<p>The Keyphrase table will come here!</p>
 			</Fragment>
 		);
 	}
 }
 
 KeyphrasesTable.propTypes = {
-	keyphrase: PropTypes.string,
+	fakeProp: PropTypes.string,
 };
 
 KeyphrasesTable.defaultProps = {
-	keyphrase: "",
+	fakeProp: null,
 };
 
 export default KeyphrasesTable;
