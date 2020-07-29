@@ -75,6 +75,7 @@ export const Button = ( props ) => {
 		variant,
 		small,
 		type,
+		buttonRef,
 		...restProps
 	} = props;
 
@@ -83,6 +84,7 @@ export const Button = ( props ) => {
 	const iconAfter = variantIcons && variantIcons.iconAfter;
 
 	return <button
+		ref={ buttonRef }
 		className={ className || getClassName( variant, small ) }
 		type={ type }
 		{ ...restProps }
@@ -97,6 +99,7 @@ Button.propTypes = {
 	onClick: PropTypes.func,
 	type: PropTypes.string,
 	className: PropTypes.string,
+	buttonRef: PropTypes.object,
 	small: PropTypes.bool,
 	variant: PropTypes.oneOf( Object.keys( variantToClassName ) ),
 	children: PropTypes.oneOfType(
@@ -114,6 +117,7 @@ Button.defaultProps = {
 	small: false,
 	children: null,
 	onClick: null,
+	buttonRef: null,
 };
 
 /**
