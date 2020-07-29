@@ -278,17 +278,6 @@ class WPSEO_Meta {
 		unset( $option, $network, $box, $type );
 
 		/**
-		 * Fetch default options for the schema_page_type and schema_article_type.
-		 *
-		 * These options can be changed using the Search Appearance settings.
-		 */
-		$post_type = filter_input( INPUT_POST, 'post_type' );
-		if ( ! is_null( $post_type ) && $post_type !== false ) {
-			self::$meta_fields['schema']['schema_page_type']['default_value']    = WPSEO_Options::get( 'schema-page-type-' . $post_type );
-			self::$meta_fields['schema']['schema_article_type']['default_value'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
-		}
-
-		/**
 		 * Allow add-on plugins to register their meta fields for management by this class.
 		 * Calls to add_filter() must be made before plugins_loaded prio 14.
 		 */
@@ -386,6 +375,12 @@ class WPSEO_Meta {
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
 				}
+				break;
+
+			case 'schema':
+				$field_defs['schema_page_type']['default']    = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+				$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+
 				break;
 		}
 
@@ -662,6 +657,13 @@ class WPSEO_Meta {
 
 		// Meta was either not found or found, but object/array while not allowed to be.
 		if ( $fallback_to_default === true && isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
+			// Update the default value to the current post type.
+			switch( $key ) {
+				case 'schema_page_type':
+				case 'schema_article_type':
+					return '';
+			}
+
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
 
