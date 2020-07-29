@@ -150,7 +150,7 @@ class TitleKeywordAssessment extends Assessment {
 					i18n.dgettext(
 						"js-text-analysis",
 						"%1$sKeyphrase in title%3$s: Does not contain the exact match. %2$sTry to write the exact match of " +
-						"your keyphrase in the SEO title and put the keyphrase at the beginning of the title%3$s."
+						"your keyphrase in the SEO title and put it at the beginning of the title%3$s."
 					),
 					this._config.urlTitle,
 					this._config.urlCallToAction,
