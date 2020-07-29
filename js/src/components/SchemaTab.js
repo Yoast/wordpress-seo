@@ -1,6 +1,6 @@
 import { createPortal, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { FieldGroup, HelpIcon, Select } from "@yoast/components";
+import { FieldGroup, Select } from "@yoast/components";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
