@@ -295,9 +295,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Outputs the meta box.
+	 *
+	 * @param WP_Post $post The post.
 	 */
-	public function meta_box() {
-		$content_sections = $this->get_content_sections();
+	public function meta_box( $post ) {
+
+		$content_sections = $this->get_content_sections( $post->post_type );
 
 		echo '<div class="wpseo-metabox-content">';
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
@@ -323,9 +326,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
-	private function get_content_sections() {
+	private function get_content_sections( $post_type ) {
 		$content_sections = [];
 
 		$content_sections[] = $this->get_seo_meta_section();
@@ -334,7 +339,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_readability_meta_section();
 		}
 
-		$content_sections[] = $this->get_schema_meta_section();
+		$content_sections[] = $this->get_schema_meta_section( $post_type );
 
 		// Whether social is enabled.
 		if ( $this->social_is_enabled ) {
@@ -409,10 +414,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the schema tab.
 	 *
+	 * @param string $post_type The post type.
+	 *
 	 * @return WPSEO_Metabox_Section_React
 	 */
-	private function get_schema_meta_section() {
-		$content = $this->get_tab_content( 'schema' );
+	private function get_schema_meta_section( $post_type ) {
+		$content = $this->get_tab_content( 'schema', $post_type );
 		return new WPSEO_Metabox_Section_React(
 			'schema',
 			'<span class="wpseo-schema-icon"></span>' . __( 'Schema', 'wordpress-seo' ),
@@ -482,13 +489,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the contents for the metabox tab.
 	 *
-	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 * @param string $tab_name  Tab for which to retrieve the field definitions.
+	 * @param string $post_type The post type. Defaults to post.
 	 *
 	 * @return string
 	 */
-	private function get_tab_content( $tab_name ) {
+	private function get_tab_content( $tab_name, $post_type = 'post' ) {
 		$content = '';
-		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+		foreach ( WPSEO_Meta::get_meta_field_defs( $tab_name, $post_type ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 
