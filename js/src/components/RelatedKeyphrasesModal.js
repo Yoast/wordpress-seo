@@ -39,7 +39,7 @@ class RelatedKeyphrasesModal extends Component {
 		// Add not-logged in logic here.
 
 		if ( ! this.props.keyphrase ) {
-			// Add logic to display the empty keyphrase message here.
+			this.props.onOpenWithNoKeyphrase();
 			return;
 		}
 
@@ -112,6 +112,7 @@ RelatedKeyphrasesModal.propTypes = {
 	] ),
 	currentDatabase: PropTypes.string,
 	onOpen: PropTypes.func.isRequired,
+	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	setDatabase: PropTypes.func.isRequired,
 	newRequest: PropTypes.func.isRequired,

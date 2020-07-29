@@ -13,7 +13,7 @@ import { Alert } from "@yoast/components";
 /* Internal dependencies */
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
-import HelpLink from "./HelpLink";
+import HelpLink from "../HelpLink";
 import { LocationConsumer } from "../contexts/location";
 import SEMrushModal from "../../containers/RelatedKeyphrasesModal";
 
@@ -55,6 +55,12 @@ class KeywordInput extends Component {
 			<LocationConsumer>
 				{ location => (
 					<KeywordInputContainer>
+						{
+							this.props.displayNoKeyphraseMessage &&
+							<p role="alert">
+								{ __( "Please enter a focus keyphrase first to get related keyphrases", "wordpress-seo" ) }
+							</p>
+						}
 						<KeywordInputComponent
 							id={ `focus-keyword-input-${ location }` }
 							onChange={ this.props.onFocusKeywordChange }
@@ -63,6 +69,7 @@ class KeywordInput extends Component {
 							helpLink={ KeywordInput.renderHelpLink() }
 							onBlurKeyword={ this.props.onBlurKeyword }
 							onFocusKeyword={ this.props.onFocusKeyword }
+							hasError={ this.props.displayNoKeyphraseMessage }
 						/>
 						{
 							this.props.keyword.length > 191 &&
@@ -94,11 +101,13 @@ KeywordInput.propTypes = {
 	onFocusKeyword: PropTypes.func.isRequired,
 	onBlurKeyword: PropTypes.func.isRequired,
 	isSEMrushIntegrationActive: PropTypes.bool,
+	displayNoKeyphraseMessage: PropTypes.bool,
 };
 
 KeywordInput.defaultProps = {
 	keyword: "",
 	isSEMrushIntegrationActive: false,
+	displayNoKeyphraseMessage: false,
 };
 
 /**
@@ -111,6 +120,7 @@ KeywordInput.defaultProps = {
 function mapStateToProps( state ) {
 	return {
 		keyword: state.focusKeyword,
+		displayNoKeyphraseMessage: state.SEMrushModal.displayNoKeyphraseMessage,
 	};
 }
 

@@ -1,7 +1,7 @@
 /**
  * Gets the current request status - pending or done.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {boolean} Current request status.
  */
@@ -12,7 +12,7 @@ export function getSEMrushIsRequestPending( state ) {
 /**
  * Gets the request return state (success or failed).
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {boolean} Current request return state.
  */
@@ -23,7 +23,7 @@ export function getSEMrushRequestIsSuccess( state ) {
 /**
  * Gets the request response.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {Object} Current request response.
  */
@@ -34,7 +34,7 @@ export function getSEMrushRequestResponse( state ) {
 /**
  * Gets the request limit reached boolean.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {boolean} Current request limit reached boolean.
  */
@@ -45,7 +45,7 @@ export function getSEMrushRequestLimitReached( state ) {
 /**
  * Gets the current keyphrase of the request.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {string} Current request keyphrase.
  */
@@ -56,7 +56,7 @@ export function getSEMrushRequestKeyphrase( state ) {
 /**
  * Gets the current OAuth token of the request.
  *
- * @param {Object} state    The state.
+ * @param {Object} state The state.
  *
  * @returns {string} Current request OAuth token.
  */

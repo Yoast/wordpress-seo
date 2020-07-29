@@ -8,7 +8,7 @@ import {
 
 const INITIAL_STATE = {
 	isRequestPending: false,
-	OAuthToken: null,
+	OAuthToken: "",
 	keyphrase: "",
 	database: "us",
 	isSuccess: false,

@@ -26,7 +26,7 @@ const SemRushUpsellAlert = () => {
 				) + " "
 			}
 			<PremiumLandingPageLink
-				href="https://yoa.st/413"
+				href={ window.wpseoAdminL10n[ "shortlinks.semrush.premium_landing_page" ] }
 			>
 				{
 					sprintf(
