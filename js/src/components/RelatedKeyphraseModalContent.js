@@ -9,6 +9,7 @@ import SemRushCountrySelector from "./modals/SemRushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
+import {ModalContainer} from "./modals/Container";
 
 /**
  * Renders the SEMrush related keyphrases modal content.
@@ -39,6 +40,11 @@ export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, re
 				relatedKeyphrases={ relatedKeyphrases }
 				renderAction={ renderAction }
 			/>
+			<h2>Content debug info</h2>
+			<p>
+				The keyphrase is: { keyphrase }<br />
+				The current database is: { currentDatabase }
+			</p>
 		</Fragment>
 	);
 }

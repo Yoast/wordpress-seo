@@ -3,13 +3,14 @@ import {
 	SET_REQUEST_FAILED,
 	SET_REQUEST_SUCCEEDED,
 	NEW_REQUEST,
+	CHANGE_DATABASE,
 } from "../actions/SEMrushRequest";
 
 const INITIAL_STATE = {
 	isRequestPending: false,
 	OAuthToken: null,
 	keyphrase: "",
-	country: "us",
+	database: "us",
 	isSuccess: false,
 	response: null,
 	limitReached: false,
@@ -26,45 +27,39 @@ function SEMrushRequestReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
 		case NEW_REQUEST:
 			return {
+				...state,
 				isRequestPending: true,
 				OAuthToken: action.OAuthToken,
 				keyphrase: action.keyphrase,
-				country: action.country,
+				database: action.database,
 				isSuccess: false,
 				response: null,
-				limitReached: state.limitReached,
 			};
 		case SET_REQUEST_SUCCEEDED:
 			// The status code should be 200 OK here.
 			return {
+				...state,
 				isRequestPending: false,
-				OAuthToken: null,
-				keyphrase: state.keyphrase,
-				country: state.country,
 				isSuccess: true,
 				response: action.response,
-				limitReached: state.limitReached,
 			};
 		case SET_REQUEST_FAILED:
 			// The status code should be an error code here.
 			return {
+				...state,
 				isRequestPending: false,
-				OAuthToken: null,
-				keyphrase: state.keyphrase,
-				country: state.country,
 				isSuccess: false,
 				response: action.response,
-				limitReached: state.limitReached,
 			};
 		case SET_REQUEST_LIMIT_REACHED:
 			return {
-				isRequestPending: false,
-				OAuthToken: null,
-				keyphrase: state.keyphrase,
-				country: action.country,
-				isSuccess: false,
-				response: null,
+				...state,
 				limitReached: true,
+			};
+		case CHANGE_DATABASE:
+			return {
+				...state,
+				database: action.database,
 			};
 		default:
 			return state;

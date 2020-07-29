@@ -1,3 +1,4 @@
+export const CHANGE_DATABASE = "CHANGE_DATABASE";
 export const SET_REQUEST_STARTED = "SET_REQUEST_STARTED";
 export const SET_REQUEST_SUCCEEDED = "SET_REQUEST_SUCCEEDED";
 export const SET_REQUEST_FAILED = "SET_REQUEST_FAILED";
@@ -7,16 +8,16 @@ export const NEW_REQUEST = "NEW_REQUEST";
 /**
  * An action creator for starting a new request.
  *
- * @param {Object} country for the SEMrush request.
- * @param {string} keyphrase for the SEMrush request.
- * @param {string} OAuthToken for the SEMrush request.
+ * @param {Object} database The database for the SEMrush request.
+ * @param {string} keyphrase The keyphrase for the SEMrush request.
+ * @param {string} OAuthToken The token for the SEMrush request.
  *
  * @returns {Object} Action object.
  */
-export function setSEMrushNewRequest( country, keyphrase, OAuthToken ) {
+export function setSEMrushNewRequest( database, keyphrase, OAuthToken ) {
 	return {
 		type: NEW_REQUEST,
-		country,
+		database,
 		keyphrase,
 		OAuthToken,
 	};
@@ -25,7 +26,7 @@ export function setSEMrushNewRequest( country, keyphrase, OAuthToken ) {
 /**
  * An action creator for when the request has succeeded.
  *
- * @param {Object} response of the request.
+ * @param {Object} response The response of the request.
  *
  * @returns {Object} Action object.
  */
@@ -58,5 +59,19 @@ export function setSEMrushRequestFailed( response ) {
 export function setSEMrushSetRequestLimitReached() {
 	return {
 		type: SET_REQUEST_LIMIT_REACHED,
+	};
+}
+
+/**
+ * Sets the country of the database in the dropdown menu.
+ *
+ * @param {string} database The database to be set.
+ *
+ * @returns {Object} Action object.
+ */
+export function setSEMrushChangeDatabase( database ) {
+	return {
+		type: CHANGE_DATABASE,
+		database,
 	};
 }

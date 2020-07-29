@@ -10,17 +10,6 @@ export function getSEMrushIsRequestPending( state ) {
 }
 
 /**
- * Gets the country of the current request.
- *
- * @param {Object} state    The state.
- *
- * @returns {string} Current request country.
- */
-export function getSEMrushRequestCountry( state ) {
-	return state.SEMrushRequest.country;
-}
-
-/**
  * Gets the request return state (success or failed).
  *
  * @param {Object} state    The state.
@@ -73,4 +62,15 @@ export function getSEMrushRequestKeyphrase( state ) {
  */
 export function getSEMrushRequestOAuthToken( state ) {
 	return state.SEMrushRequest.OAuthToken;
+}
+
+/**
+ * Gets the currently selected database.
+ *
+ * @param {Object} state    The state.
+ *
+ * @returns {string} Current database.
+ */
+export function getSEMrushSelectedDatabase( state ) {
+	return state.SEMrushRequest.database;
 }
