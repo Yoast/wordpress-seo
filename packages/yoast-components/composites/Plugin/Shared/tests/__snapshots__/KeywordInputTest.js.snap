@@ -75,7 +75,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 
 .c5.has-error {
   border-color: #dc3232 !important;
-  box-shadow: 0 0 2px #dc3232 !important;
+  background-color: #f9dcdc !important;
 }
 
 .c8 {
