@@ -11,6 +11,8 @@
  * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+
 $show_post_type_help = $view_utils->search_results_setting_help( $wpseo_post_type );
 $noindex_option_name = 'noindex-' . $wpseo_post_type->name;
 
@@ -40,10 +42,11 @@ $editor = new WPSEO_Replacevar_Editor(
 $editor->render();
 
 // Schema settings.
+$article_helper 			= new Article_Helper();
 $schema_page_type_option    = 'schema-page-type-' . $wpseo_post_type->name;
 $schema_article_type_option = 'schema-article-type-' . $wpseo_post_type->name;
 $yform->hidden( $schema_page_type_option );
-if ( $wpseo_post_type->name !== 'page' ) {
+if ( $wpseo_post_type->name !== 'page' && $article_helper->is_author_supported( $wpseo_post_type->name ) ) {
 	$yform->hidden( $schema_article_type_option );
 }
 printf(

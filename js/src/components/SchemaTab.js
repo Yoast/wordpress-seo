@@ -85,7 +85,7 @@ Content.propTypes = {
 	schemaPageTypeOptions: schemaTypeOptionsPropType.isRequired,
 	schemaArticleTypeChange: PropTypes.func,
 	schemaArticleTypeSelected: PropTypes.string,
-	schemaArticleTypeOptions: schemaTypeOptionsPropType.isRequired,
+	schemaArticleTypeOptions: schemaTypeOptionsPropType,
 	showArticleTypeInput: PropTypes.bool.isRequired,
 	additionalHelpTextLink: PropTypes.string.isRequired,
 	helpTextLink: PropTypes.string.isRequired,
@@ -99,6 +99,7 @@ Content.defaultProps = {
 	schemaPageTypeSelected: null,
 	schemaArticleTypeChange: () => {},
 	schemaArticleTypeSelected: null,
+	schemaArticleTypeOptions: null,
 };
 
 /**

@@ -7,6 +7,7 @@
  */
 
 use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -378,8 +379,15 @@ class WPSEO_Meta {
 				break;
 
 			case 'schema':
-				$field_defs['schema_page_type']['default']    = WPSEO_Options::get( 'schema-page-type-' . $post_type );
-				$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
+
+				$article_helper = new Article_Helper();
+				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
+					$field_defs['schema_article_type']['default'] = WPSEO_Options::get( 'schema-article-type-' . $post_type );
+				}
+				else {
+					unset( $field_defs['schema_article_type'] );
+				}
 
 				break;
 		}
