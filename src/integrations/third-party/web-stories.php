@@ -76,7 +76,7 @@ class Web_Stories implements Integration_Interface {
 		if (
 			$screen instanceof \WP_Screen &&
 			\Google\Web_Stories\Story_Post_Type::POST_TYPE_SLUG === $screen->post_type
-			&& 'edit' !== $screen->base
+			&& $screen->base !== 'edit'
 		) {
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-edit' );
 			\wp_dequeue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'edit-page-script' );
