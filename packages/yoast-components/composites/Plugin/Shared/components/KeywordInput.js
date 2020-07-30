@@ -43,6 +43,10 @@ const KeywordField = styled( InputField )`
 	&.has-error {
 		border-color: ${ errorColor } !important;
 		background-color: ${ backgroundErrorColor } !important;
+
+		&:focus {
+			box-shadow: 0 0 2px ${ errorColor } !important;
+		}
 	}
 `;
 
