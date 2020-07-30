@@ -4,7 +4,6 @@ import { Fragment, Component } from "@wordpress/element";
 /* Internal dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
-import KeyphrasesTable from "./KeyphrasesTable";
 
 /**
  * The ID of the SEMrush Country Selection component.
@@ -199,11 +198,8 @@ class SemRushCountrySelector extends Component {
 	 */
 	onChangeHandler() {
 		// It is easier to query the select for the selected options than keep track of them in this component as well.
-		const selection = this.select2.select2( "data" ).map( option => option.id )[0];
-		console.log("before" , selection)
+		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
 		this.props.setDatabase( selection );
-		console.log("after")
-		console.log(this.props.currentDatabase)
 	}
 
 	/**
@@ -211,9 +207,7 @@ class SemRushCountrySelector extends Component {
 	 *
 	 * @returns {void}
 	 */
-	newRequest()
-	{
-		console.log(this.props.currentDatabase)
+	newRequest() {
 		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
 	}
 

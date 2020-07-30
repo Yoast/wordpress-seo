@@ -1,5 +1,5 @@
 /* External dependencies */
-import {withDispatch, withSelect} from "@wordpress/data";
+import { withDispatch, withSelect } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 
 /* Internal dependencies */

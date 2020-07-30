@@ -9,7 +9,6 @@ import SemRushCountrySelector from "./modals/SemRushCountrySelector";
 import KeyphrasesTable from "./modals/KeyphrasesTable";
 import SemRushUpsellAlert from "./modals/SemRushUpsellAlert";
 import SemRushRequestFailed from "./modals/SemRushRequestFailed";
-import {ModalContainer} from "./modals/Container";
 
 /**
  * Renders the SEMrush related keyphrases modal content.
@@ -22,7 +21,8 @@ import {ModalContainer} from "./modals/Container";
  *
  * @returns {wp.Element} The SEMrush related keyphrases modal content.
  */
-export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases, renderAction, currentDatabase, setDatabase, newRequest, data } ) {
+export default function RelatedKeyphraseModalContent( { isLoading, keyphrase, relatedKeyphrases,
+	renderAction, currentDatabase, setDatabase, newRequest, data } ) {
 	// Return table etc. All content based on props etc.
 	return (
 		<Fragment>
