@@ -181,11 +181,6 @@ class WebPage_Test extends TestCase {
 				}
 			);
 
-		$this->meta_tags_context
-			->expects( 'generate_schema_page_type' )
-			->once()
-			->andReturn( $schema_page_type );
-
 		Monkey\Filters\expectApplied( 'wpseo_schema_webpage_potential_action_target' )
 			->with( [ $this->meta_tags_context->canonical ] )
 			->times( $calls_to_filter )
