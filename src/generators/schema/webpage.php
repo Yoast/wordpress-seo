@@ -125,7 +125,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return array $data The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
-		if ( $this->context->generate_schema_page_type() !== 'WebPage' ) {
+		if ( $this->context->generate_schema_page_type() !== [ 'WebPage' ] ) {
 			return $data;
 		}
 

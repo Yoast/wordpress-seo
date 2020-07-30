@@ -108,7 +108,7 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context         = Mockery::mock( Meta_Tags_Context::class, [
+		$this->context         = Mockery::mock( Meta_Tags_Context_Mock::class, [
 			$helpers->options,
 			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
 			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
@@ -139,6 +139,7 @@ class Schema_Generator_Test extends TestCase {
 		];
 
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
+		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturnFalse();
 
 		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
@@ -173,10 +174,10 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 
-		$this->context->options->expects( 'get' )
-			->zeroOrMoreTimes()
-			->with( 'schema-page-type-super-custom-post-type' )
-			->andReturn( 'WebPage' );
+		// $this->context->options->expects( 'get' )
+		// 	->zeroOrMoreTimes()
+		// 	->with( 'schema-page-type-super-custom-post-type' )
+		// 	->andReturn( 'WebPage' );
 
 		$this->current_page
 			->expects( 'is_home_static_page' )
@@ -325,14 +326,6 @@ class Schema_Generator_Test extends TestCase {
 							'@id' => '#website',
 						],
 						'inLanguage'      => 'English',
-						'potentialAction' => [
-							[
-								'@type'  => 'ReadAction',
-								'target' => [
-									null,
-								],
-							],
-						],
 					],
 					[
 						'@type'            => 'ItemList',
@@ -388,19 +381,11 @@ class Schema_Generator_Test extends TestCase {
 					'@type'           => [ null, 'FAQPage' ],
 					'@id'             => '#webpage',
 					'url'             => null,
-					'name'            => '',
+					'name'            => null,
 					'isPartOf'        => [
 						'@id' => '#website',
 					],
 					'inLanguage'      => 'English',
-					'potentialAction' => [
-						[
-							'@type'  => 'ReadAction',
-							'target' => [
-								null,
-							],
-						],
-					],
 				],
 				[
 					'@type'            => 'ItemList',
