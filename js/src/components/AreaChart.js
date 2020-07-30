@@ -1,5 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
+import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 
 /**
  * Renders a SVG area chart.
@@ -41,26 +43,64 @@ const AreaChart = ( {
 	// Add points to close the polygon used for the area background.
 	const polygonPoints = `0,${ chartHeight + strokeWidth } ` + polylinePoints + ` ${ width },${ chartHeight + strokeWidth }`;
 
+	const tableHeadersLabels = [
+		__( "Twelve months ago", "wordpress-seo" ),
+		__( "Eleven months ago", "wordpress-seo" ),
+		__( "Ten months ago", "wordpress-seo" ),
+		__( "Nine months ago", "wordpress-seo" ),
+		__( "Eight months ago", "wordpress-seo" ),
+		__( "Seven months ago", "wordpress-seo" ),
+		__( "Six months ago", "wordpress-seo" ),
+		__( "Five months ago", "wordpress-seo" ),
+		__( "Four months ago", "wordpress-seo" ),
+		__( "Three months ago", "wordpress-seo" ),
+		__( "Two months ago", "wordpress-seo" ),
+		__( "Last month", "wordpress-seo" ),
+	];
+
 	return (
-		<svg
-			width={ width }
-			height={ height }
-			viewBox={ `0 0 ${ width } ${ height }` }
-			className={ className }
-		>
-			<polygon
-				fill={ fillColor }
-				points={ polygonPoints }
-			/>
-			<polyline
-				fill="none"
-				stroke={ strokeColor }
-				strokeWidth={ strokeWidth }
-				strokeLinejoin="round"
-				strokeLinecap="round"
-				points={ polylinePoints }
-			/>
-		</svg>
+		<Fragment>
+			<svg
+				width={ width }
+				height={ height }
+				viewBox={ `0 0 ${ width } ${ height }` }
+				className={ className }
+			>
+				<polygon
+					fill={ fillColor }
+					points={ polygonPoints }
+				/>
+				<polyline
+					fill="none"
+					stroke={ strokeColor }
+					strokeWidth={ strokeWidth }
+					strokeLinejoin="round"
+					strokeLinecap="round"
+					points={ polylinePoints }
+				/>
+			</svg>
+			<table>
+				<caption>Title</caption>
+				<thead>
+					<tr>
+						{
+							tableHeadersLabels.map( ( label, index ) => {
+								return <th key={ index }>{ label }</th>;
+							} )
+						}
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						{
+							data.map( ( point, index ) => {
+								return <td key={ index }>{ point.y }</td>;
+							} )
+						}
+					</tr>
+				</tbody>
+			</table>
+		</Fragment>
 	);
 };
 
