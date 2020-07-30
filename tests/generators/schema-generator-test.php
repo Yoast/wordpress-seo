@@ -138,7 +138,7 @@ class Schema_Generator_Test extends TestCase {
 			],
 		];
 
-		$this->context->expects( 'is_prototype' )->zeroOrMoreTimes()->andReturnFalse();
+		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 
 		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
