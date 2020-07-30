@@ -293,6 +293,12 @@ class Indexable_Link_Builder {
 		$updated_indexable_ids = [];
 		$old_links             = $this->seo_links_repository->find_all_by_indexable_id( $indexable->id );
 		$this->seo_links_repository->delete_all_by_indexable_id( $indexable->id );
+
+		// Old links were only stored by post id, so remove this as well. This can be removed if we ever fully clear all seo links.
+		if ( $indexable->object_type === 'post' ) {
+			$this->seo_links_repository->delete_all_by_post_id( $indexable->object_id );
+		}
+
 		foreach ( $links as $link ) {
 			$link->save();
 			if ( $link->target_indexable_id ) {
