@@ -220,7 +220,7 @@ class SemRushCountrySelector extends Component {
 		return (
 			<Fragment>
 				<p>current database selected is: { this.props.currentDatabase }</p>
-				<div className="yoast">
+				<div>
 					<FieldGroup
 						htmlFor={ id }
 						label="Show results for:"
