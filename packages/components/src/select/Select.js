@@ -13,13 +13,14 @@ import "./select.css";
 const selectOption = PropTypes.shape( { name: PropTypes.string, value: PropTypes.string } );
 const selectProps = {
 	id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
+	name: PropTypes.string,
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
+	name: "",
 	selected: [],
 	onChange: () => {},
 	...FieldGroupDefaultProps,
