@@ -64,7 +64,7 @@ class Indexation_Permalink_Warning_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_indexables_indexation_alert' );
 
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success">';
 		$expected .= '<p>Because of a change in your permalink structure, some of your SEO data need to be reprocessed.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
@@ -91,7 +91,7 @@ class Indexation_Permalink_Warning_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_indexables_indexation_alert' );
 
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success">';
 		$expected .= '<p>Because of a change in your category URL setting, some of your SEO data need to be reprocessed.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
@@ -100,5 +100,4 @@ class Indexation_Permalink_Warning_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $expected, $presenter->present() );
 	}
-
 }
