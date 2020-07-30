@@ -28,6 +28,8 @@ import indonesianFunctionWordsFactory from "../researches/indonesian/functionWor
 const indonesianFunctionWords = indonesianFunctionWordsFactory();
 import hebrewFunctionWordsFactory from "../researches/hebrew/functionWords.js";
 const hebrewFunctionWords = hebrewFunctionWordsFactory();
+import arabicFunctionWordsFactory from "../researches/arabic/functionWords.js";
+const arabicFunctionWords = arabicFunctionWordsFactory();
 
 /**
  * Returns the function words for all languages.
@@ -48,5 +50,6 @@ export default function() {
 		sv: swedishFunctionWords,
 		id: indonesianFunctionWords,
 		he: hebrewFunctionWords,
+		ar: arabicFunctionWords,
 	};
 }
