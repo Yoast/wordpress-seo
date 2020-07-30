@@ -265,7 +265,7 @@ class Author_Test extends TestCase {
 			->andReturnArg( 0 );
 
 		$this->article
-			->expects( 'is_article_post_type' )
+			->expects( 'is_author_supported' )
 			->with( $object_sub_type )
 			->twice()
 			->andReturn( true );
@@ -486,7 +486,7 @@ class Author_Test extends TestCase {
 		$object_sub_type = 'post';
 
 		$this->article
-			->expects( 'is_article_post_type' )
+			->expects( 'is_author_supported' )
 			->with( $object_sub_type )
 			->andReturn( true );
 

@@ -128,7 +128,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents            = 'person';
 		$this->context_mock->canonical                  = 'https://permalink';
 
-		$this->article->expects( 'is_article_post_type' )->with( 'article' )->andReturn( true );
+		$this->article->expects( 'is_author_supported' )->with( 'article' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article' );
@@ -158,7 +158,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->site_represents            = 'person';
 		$this->context_mock->main_schema_id             = 'https://permalink#should-not-change';
 
-		$this->article->expects( 'is_article_post_type' )->with( 'not-article' )->andReturn( false );
+		$this->article->expects( 'is_author_supported' )->with( 'not-article' )->andReturn( false );
 
 		$this->assertFalse( $this->instance->is_needed() );
 		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
@@ -212,6 +212,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->post->post_type           = 'my_awesome_post_type';
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
+		$this->context_mock->schema_article_type       = $values_to_test['data_for_add_sections']['@type'];
 
 		$this->id->expects( 'get_user_schema_id' )
 			->once()

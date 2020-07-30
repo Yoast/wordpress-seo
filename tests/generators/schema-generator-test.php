@@ -21,6 +21,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\TestCase;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * Class Schema_Generator_Test
@@ -107,8 +108,16 @@ class Schema_Generator_Test extends TestCase {
 			[ $helpers ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->context            = Mockery::mock( Meta_Tags_Context_Mock::class )->makePartial();
-		$this->context->blocks    = [
+		$this->context         = Mockery::mock( Meta_Tags_Context::class, [
+			$helpers->options,
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Url_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Image_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Schema\ID_Helper::class ),
+			Mockery::mock( \WPSEO_Replace_Vars::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\Site_Helper::class ),
+			Mockery::mock( \Yoast\WP\SEO\Helpers\User_Helper::class ),
+		] )->shouldAllowMockingProtectedMethods();
+		$this->context->blocks = [
 			'yoast/faq-block' => [
 				[
 					'blockName' => 'FAQ Block',
@@ -128,6 +137,9 @@ class Schema_Generator_Test extends TestCase {
 				],
 			],
 		];
+
+		$this->context->expects( 'is_prototype' )->zeroOrMoreTimes()->andReturnFalse();
+
 		$this->context->indexable = Mockery::mock( Indexable_Mock::class );
 	}
 
@@ -159,6 +171,13 @@ class Schema_Generator_Test extends TestCase {
 	 * @covers ::get_graph_pieces
 	 */
 	public function test_generate_with_no_blocks() {
+		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+
+		$this->context->options->expects( 'get' )
+			->zeroOrMoreTimes()
+			->with( 'schema-page-type-super-custom-post-type' )
+			->andReturn( 'WebPage' );
+
 		$this->current_page
 			->expects( 'is_home_static_page' )
 			->twice()
@@ -191,14 +210,6 @@ class Schema_Generator_Test extends TestCase {
 					],
 					[
 						'@id'   => '#website',
-					],
-					[
-						[
-							'@type'  => 'ReadAction',
-							'target' => [
-								null,
-							],
-						],
 					],
 				],
 			],
