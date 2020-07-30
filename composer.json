@@ -130,7 +130,7 @@
 		],
 		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
-			"@php ./scripts/maybe-restore-composer-lock.php",
+			"@php ./config/composer/scripts/maybe-restore-composer-lock.php",
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [

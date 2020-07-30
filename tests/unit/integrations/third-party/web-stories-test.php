@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Web_Stories_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Integrations\Third_Party\Web_Stories;
@@ -89,7 +88,7 @@ class Web_Stories_Test extends TestCase {
 		$instance = Mockery::mock( '\Google\Web_Stories\Discovery' );
 		Monkey\Functions\expect( '\Google\Web_Stories\get_plugin_instance' )
 			->once()
-			->andReturn( (object) [ 'discovery' => $instance] );
+			->andReturn( (object) [ 'discovery' => $instance ] );
 
 		\add_action( 'web_stories_story_head', [ $instance, 'print_metadata' ] );
 		\add_action( 'web_stories_story_head', [ $instance, 'print_schemaorg_metadata' ] );
@@ -112,15 +111,15 @@ class Web_Stories_Test extends TestCase {
 	 * @covers ::dequeue_admin_assets
 	 */
 	public function test_dequeue_admin_assets() {
-		$current_screen = Mockery::mock( '\WP_Screen' );
-		$current_screen->base = 'foo';
+		$current_screen            = Mockery::mock( '\WP_Screen' );
+		$current_screen->base      = 'foo';
 		$current_screen->post_type = 'bar';
 
 		Monkey\Functions\expect( '\get_current_screen' )
 			->once()
 			->andReturn( $current_screen );
 
-		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
 
 		Monkey\Functions\expect( '\wp_dequeue_script' )
 			->never();
@@ -136,20 +135,20 @@ class Web_Stories_Test extends TestCase {
 	 * @covers ::dequeue_admin_assets
 	 */
 	public function test_dequeue_admin_assets_with_screen() {
-		$current_screen = Mockery::mock( '\WP_Screen' );
-		$current_screen->base = 'post';
+		$current_screen            = Mockery::mock( '\WP_Screen' );
+		$current_screen->base      = 'post';
 		$current_screen->post_type = 'web-story';
 
 		Monkey\Functions\expect( '\get_current_screen' )
 			->once()
 			->andReturn( $current_screen );
 
-		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
 
 		Monkey\Functions\expect( '\wp_dequeue_script' )
-			->times(3);
+			->times( 3 );
 		Monkey\Functions\expect( '\wp_dequeue_style' )
-			->times(8);
+			->times( 8 );
 
 		$this->instance->dequeue_admin_assets();
 	}
@@ -160,7 +159,7 @@ class Web_Stories_Test extends TestCase {
 	 * @covers ::filter_schema_article_post_types
 	 */
 	public function test_filter_schema_article_post_types() {
-		\Mockery::namedMock('\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
 
 		$actual = $this->instance->filter_schema_article_post_types( [ 'post' ] );
 		$this->assertEquals( [ 'post', 'web-story' ], $actual );

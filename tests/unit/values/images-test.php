@@ -184,7 +184,8 @@ class Images_Test extends TestCase {
 		$this->assertEquals( null, $this->instance->add_image_by_url( '' ) );
 	}
 
-	/** Tests adding an image by url when the url is given but the image id is not.
+	/**
+	 * Tests adding an image by url when the url is given but the image id is not.
 	 *
 	 * @covers ::add_image_by_url
 	 * @covers ::add_image

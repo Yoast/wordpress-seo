@@ -161,7 +161,10 @@ class Indexable_Category_Permalink_Watcher_Test extends TestCase {
 					'permalink'      => null,
 					'permalink_hash' => null,
 				],
-				[ 'object_type' => 'term', 'object_sub_type' => 'category' ]
+				[
+					'object_type'     => 'term',
+					'object_sub_type' => 'category',
+				]
 			)
 			->andReturn( 1 );
 

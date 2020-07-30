@@ -2,9 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
+use Brain\Monkey;
+use Mockery;
+use WP_Roles;
+use WP_User;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Capability_Helper_Test
@@ -18,7 +21,7 @@ class Capability_Helper_Test extends TestCase {
 	/**
 	 * The instance under test.
 	 *
-	 * @var \Mockery\Mock|Capability_Helper
+	 * @var Mockery\Mock|Capability_Helper
 	 */
 	private $instance;
 
@@ -52,15 +55,15 @@ class Capability_Helper_Test extends TestCase {
 			'author'        => [
 				'wpseo_manage' => false,
 				'edit_users'   => false,
-				'edit_posts'   => true
-			]
+				'edit_posts'   => true,
+			],
 		];
 
 		Monkey\Functions\expect( 'wp_roles' )
 			->andReturn( $this->mock_wp_roles( $roles, $capabilities ) );
 
 		$applicable_users = [
-			\Mockery::mock( \WP_User::class )
+			Mockery::mock( WP_User::class ),
 		];
 
 		Monkey\Functions\expect( 'get_users' )
@@ -94,8 +97,8 @@ class Capability_Helper_Test extends TestCase {
 			'author'        => [
 				'wpseo_manage' => false,
 				'edit_users'   => false,
-				'edit_posts'   => true
-			]
+				'edit_posts'   => true,
+			],
 		];
 
 		Monkey\Functions\expect( 'wp_roles' )
@@ -124,8 +127,8 @@ class Capability_Helper_Test extends TestCase {
 			'author'        => [
 				'wpseo_manage' => false,
 				'edit_users'   => false,
-				'edit_posts'   => true
-			]
+				'edit_posts'   => true,
+			],
 		];
 
 		Monkey\Functions\expect( 'wp_roles' )
@@ -157,24 +160,26 @@ class Capability_Helper_Test extends TestCase {
 			'author'        => [
 				'wpseo_manage' => false,
 				'edit_users'   => false,
-				'edit_posts'   => true
-			]
+				'edit_posts'   => true,
+			],
 		];
 
-		$wp_roles = \Mockery::mock( \WP_Roles::class );
+		$wp_roles = Mockery::mock( WP_Roles::class );
 		$wp_roles->expects( 'get_names' )
-		         ->andReturn( $roles );
+			->andReturn( $roles );
 
 		$wp_roles->expects( 'get_role' )
 			->with( 'administrator' )
-			->andReturn( (object) [
-				'name'         => 'administrator',
-				'capabilities' => $capabilities['administrator']
-			] );
+			->andReturn(
+				(object) [
+					'name'         => 'administrator',
+					'capabilities' => $capabilities['administrator'],
+				]
+			);
 
 		$wp_roles->expects( 'get_role' )
-		         ->with( 'author' )
-		         ->andReturn( null );
+			->with( 'author' )
+			->andReturn( null );
 
 		Monkey\Functions\expect( 'wp_roles' )
 			->andReturn( $wp_roles );
@@ -242,26 +247,26 @@ class Capability_Helper_Test extends TestCase {
 	 * Mocks a WP_Roles object.
 	 *
 	 * @param array $roles        An array mapping roles to their names.
-	 * @param array $capabilities An array mapping roles to their capabilities
+	 * @param array $capabilities An array mapping roles to their capabilities.
 	 *
-	 * @return \Mockery\MockInterface|\WP_Roles The mocked WP_Roles object.
+	 * @return Mockery\MockInterface|WP_Roles The mocked WP_Roles object.
 	 */
 	private function mock_wp_roles( $roles, $capabilities ) {
-		$wp_roles = \Mockery::mock( \WP_Roles::class );
+		$wp_roles = Mockery::mock( WP_Roles::class );
 		$wp_roles->expects( 'get_names' )
-		         ->andReturn( $roles );
+			->andReturn( $roles );
 
 		foreach ( $roles as $id => $name ) {
 			$wp_roles->expects( 'get_role' )
-			         ->with( $id )
-			         ->andReturn( (object) [
-				         'name'         => $id,
-				         'capabilities' => $capabilities[ $id ]
-			         ] );
+				->with( $id )
+				->andReturn(
+					(object) [
+						'name'         => $id,
+						'capabilities' => $capabilities[ $id ],
+					]
+				);
 		}
 
 		return $wp_roles;
 	}
 }
-
-

@@ -197,12 +197,12 @@ class Article_Test extends TestCase {
 		Monkey\Functions\expect( 'get_comment_count' )
 			->once()
 			->with( 5 )
-			->andReturn( [ 'approved' => $values_to_test['approved_comments' ]] );
+			->andReturn( [ 'approved' => $values_to_test['approved_comments'] ] );
 
 		Monkey\Functions\expect( 'comments_open' )
 			->once()
 			->with( 5 )
-			->andReturn( $values_to_test['post_comment_status' ] === 'open' );
+			->andReturn( $values_to_test['post_comment_status'] === 'open' );
 
 		$this->context_mock->canonical                 = 'https://permalink';
 		$this->context_mock->has_image                 = true;

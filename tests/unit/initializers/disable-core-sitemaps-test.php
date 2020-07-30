@@ -22,6 +22,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group integrations
  */
 class Disable_Core_Sitemaps_Test extends TestCase {
+
 	/**
 	 * Represents the instance we are testing.
 	 *
@@ -42,7 +43,6 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	 * @var Redirect_Helper
 	 */
 	private $redirect;
-
 
 	/**
 	 * @inheritDoc

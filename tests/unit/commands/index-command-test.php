@@ -64,7 +64,6 @@ class Index_Command_Test extends TestCase {
 	 */
 	private $complete_indexation_action;
 
-
 	/**
 	 * The prepare indexation action.
 	 *

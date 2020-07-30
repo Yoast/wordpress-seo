@@ -9,6 +9,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Repositories;
 
 use Brain\Monkey;
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -66,7 +67,7 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Represents the WordPress database.
 	 *
-	 * @var \wpdb
+	 * @var wpdb
 	 */
 	protected $wpdb;
 
@@ -80,7 +81,7 @@ class Indexable_Repository_Test extends TestCase {
 		$this->current_page         = Mockery::mock( Current_Page_Helper::class );
 		$this->logger               = Mockery::mock( Logger::class );
 		$this->hierarchy_repository = Mockery::mock( Indexable_Hierarchy_Repository::class );
-		$this->wpdb                 = Mockery::mock( \wpdb::class );
+		$this->wpdb                 = Mockery::mock( wpdb::class );
 		$this->instance             = Mockery::mock(
 			Indexable_Repository::class,
 			[
@@ -88,7 +89,7 @@ class Indexable_Repository_Test extends TestCase {
 				$this->current_page,
 				$this->logger,
 				$this->hierarchy_repository,
-				$this->wpdb
+				$this->wpdb,
 			]
 		)->makePartial();
 	}

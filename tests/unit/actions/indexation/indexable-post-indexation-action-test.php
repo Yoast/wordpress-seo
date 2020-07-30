@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexation;
 
-use Brain\Monkey\Functions;
 use Brain\Monkey\Filters;
+use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexation\Indexable_Post_Indexation_Action;

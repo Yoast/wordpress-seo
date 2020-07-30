@@ -9,7 +9,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Yoast\WP\SEO\Integrations\XMLRPC;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 
 /**
@@ -20,6 +19,7 @@ use Brain\Monkey;
  * @group integrations
  */
 class XMLRPC_Test extends TestCase {
+
 	/**
 	 * Represents the instance we are testing.
 	 *
@@ -46,5 +46,4 @@ class XMLRPC_Test extends TestCase {
 
 		$this->assertTrue( \has_filter( 'xmlrpc_methods', [ $this->instance, 'robots_header' ] ), 'Has expected noindex action' );
 	}
-
 }

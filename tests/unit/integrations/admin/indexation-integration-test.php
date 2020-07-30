@@ -652,7 +652,7 @@ class Indexation_Integration_Test extends TestCase {
 		 * which would occur because the registered shutdown function is executed
 		 * after the unit test has already completed.
 		 */
-		register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
+		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
 
 		// The warning and modal should not be rendered.
 		Monkey\Actions\expectAdded( 'admin_footer' )->never();
@@ -708,7 +708,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success"><p>';
 		$expected .= '<a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site.</a></p>';
 		$expected .= '<p>To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
@@ -747,7 +747,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected = '<div id="yoast-indexation-warning" class="notice notice-success">';
+		$expected  = '<div id="yoast-indexation-warning" class="notice notice-success">';
 		$expected .= '<p>Because of a change in your permalink structure, some of your SEO data need to be reprocessed.</p>';
 		$expected .= '<p>We estimate this will take less than a minute.</p>';
 		$expected .= '<button type="button" class="button yoast-open-indexation" data-title="<strong>Yoast indexing status</strong>" data-settings="yoastIndexationData">Start processing and speed up your site now</button>';
@@ -837,7 +837,7 @@ class Indexation_Integration_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
 
-		$expected = '<li><strong>SEO Data</strong>';
+		$expected  = '<li><strong>SEO Data</strong>';
 		$expected .= '<p><a href="" target="_blank">Yoast SEO creates and maintains an index of all of your site\'s SEO data in order to speed up your site</a>.';
 		$expected .= ' To build your index, Yoast SEO needs to process all of your content.</p>';
 		$expected .= '<span id="yoast-indexation"><button type="button" class="button yoast-open-indexation" data-title="Speeding up your site" data-settings="yoastIndexationData">';
