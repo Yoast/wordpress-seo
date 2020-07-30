@@ -170,12 +170,8 @@ class SemRushCountrySelector extends Component {
 		}
 		super( props );
 
-		// To Do: get default database country from wp-options wpseo
-		this.state = {
-			database: "us",
-		};
-
 		this.onChangeHandler = this.onChangeHandler.bind( this );
+		this.newRequest = this.newRequest.bind( this );
 	}
 
 	/**
@@ -202,8 +198,17 @@ class SemRushCountrySelector extends Component {
 	 */
 	onChangeHandler() {
 		// It is easier to query the select for the selected options than keep track of them in this component as well.
-		const selection = this.select2.select2( "data" ).map( option => option.id );
-		this.setState( { database: selection[ 0 ] } );
+		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
+		this.props.setDatabase( selection );
+	}
+
+	/**
+	 * Makes a new request to SEMrush.
+	 *
+	 * @returns {void}
+	 */
+	newRequest() {
+		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
 	}
 
 	/**
@@ -214,6 +219,7 @@ class SemRushCountrySelector extends Component {
 	render() {
 		return (
 			<Fragment>
+				<p>current database selected is: { this.props.currentDatabase }</p>
 				<div className="yoast">
 					<FieldGroup
 						htmlFor={ id }
@@ -223,17 +229,32 @@ class SemRushCountrySelector extends Component {
 						<select
 							id={ id }
 							name="database"
-							defaultValue={ this.state.database }
+							defaultValue={ this.props.currentDatabase }
 						>
 							{ countries.map( Option ) }
 						</select>
-						<button className="yoast-button yoast-button--secondary">Change Country</button>
+						<button
+							className="yoast-button yoast-button--secondary"
+							onClick={ this.newRequest }
+						>Change Country</button>
 					</FieldGroup>
 				</div>
 			</Fragment>
 		);
 	}
 }
+
+SemRushCountrySelector.propTypes = {
+	keyphrase: PropTypes.string,
+	currentDatabase: PropTypes.string,
+	setDatabase: PropTypes.func.isRequired,
+	newRequest: PropTypes.func.isRequired,
+};
+
+SemRushCountrySelector.defaultProps = {
+	currentDatabase: "us",
+	keyphrase: "",
+};
 
 /**
  * Renders the CountrySelector inside its own ErrorBoundary to prevent errors from bubbling up.

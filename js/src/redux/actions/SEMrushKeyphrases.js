@@ -5,7 +5,7 @@ export const SET_KEYPHRASE_LIMIT_REACHED = "SET_LIMIT_REACHED";
 /**
  * An action creator for adding a new keyphrase.
  *
- * @param {string} keyphrase to add.
+ * @param {string} keyphrase The keyphrase to add.
  *
  * @returns {Object} Action object.
  */
@@ -19,7 +19,7 @@ export function addSEMrushKeyphrase( keyphrase ) {
 /**
  * An action creator for removing a keyphrase.
  *
- * @param {string} keyphrase to remove.
+ * @param {string} keyphrase The keyphrase to remove.
  *
  * @returns {Object} Action object.
  */

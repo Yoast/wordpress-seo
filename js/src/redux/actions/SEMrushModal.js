@@ -1,6 +1,5 @@
 export const MODAL_DISMISS = "MODAL_DISMISS";
 export const MODAL_OPEN = "MODAL_OPEN";
-export const MODAL_CHANGE_DATABASE = "MODAL_CHANGE_DATABASE";
 export const MODAL_OPEN_NO_KEYPHRASE = "MODAL_OPEN_NO_KEYPHRASE";
 
 /**
@@ -17,7 +16,7 @@ export function setSEMrushDismissModal() {
 /**
  * Opens the SEMrush modal.
  *
- * @param {string} location of the modal to open
+ * @param {string} location The location of the modal to open
  *
  * @returns {Object} Action object.
  */
@@ -39,16 +38,3 @@ export function setSEMrushNoKeyphraseMessage() {
 	};
 }
 
-/**
- * Sets the country of the database in the dropdown menu.
- *
- * @param {string} country of the database to be set.
- *
- * @returns {Object} Action object.
- */
-export function setSEMrushChangeDatabase( country ) {
-	return {
-		type: MODAL_CHANGE_DATABASE,
-		country,
-	};
-}

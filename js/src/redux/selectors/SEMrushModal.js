@@ -10,17 +10,6 @@ export function getSEMrushModalOpen( state ) {
 }
 
 /**
- * Gets the currently selected country.
- *
- * @param {Object} state The state.
- *
- * @returns {string} Current country.
- */
-export function getSEMrushSelectedCountry( state ) {
-	return state.SEMrushModal.currentDatabase;
-}
-
-/**
  * Gets the current display status of empty keyphrase message.
  *
  * @param {Object} state The state.
