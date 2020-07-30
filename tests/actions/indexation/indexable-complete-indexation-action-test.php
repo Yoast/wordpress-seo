@@ -66,5 +66,4 @@ class Indexable_Complete_Indexation_Action_Test extends TestCase {
 
 		$this->instance->complete();
 	}
-
 }

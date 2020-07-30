@@ -275,9 +275,12 @@ class ORM implements \ArrayAccess {
 			$wpdb->show_errors = false;
 		}
 
-		$parameters = \array_filter( $parameters, function( $parameter ) {
-			return $parameter !== null;
-		} );
+		$parameters = \array_filter(
+			$parameters,
+			function( $parameter ) {
+				return $parameter !== null;
+			}
+		);
 		if ( ! empty( $parameters ) ) {
 			$query = $wpdb->prepare( $query, $parameters );
 		}

@@ -145,7 +145,7 @@ class Schema_Generator implements Generator_Interface {
 	private function type_filter( $graph_piece, $identifier, Meta_Tags_Context $context ) {
 		$types = $this->get_type_from_piece( $graph_piece );
 		foreach ( $types as $type ) {
-			$type = strtolower( $type );
+			$type = \strtolower( $type );
 
 			// Prevent running the same filter twice. This makes sure we run f/i. for 'author' and for 'person'.
 			if ( $type && $type !== $identifier ) {
@@ -172,7 +172,7 @@ class Schema_Generator implements Generator_Interface {
 	 */
 	private function get_type_from_piece( $piece ) {
 		if ( isset( $piece['@type'] ) ) {
-			if ( is_array( $piece['@type'] ) ) {
+			if ( \is_array( $piece['@type'] ) ) {
 				return $piece['@type'];
 			}
 			return [ $piece['@type'] ];

@@ -126,8 +126,6 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$this->assertEmpty( $actual->ancestors );
 	}
 
-
-
 	/**
 	 * Tests building the hierarchy of a post where the post parent is set to 0.
 	 *
@@ -881,10 +879,10 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * @covers ::get_primary_term_id
 	 */
 	public function test_deepest_term_parent() {
-		$indexable               = new Indexable_Mock();
-		$indexable->id           = 1;
-		$indexable->object_type  = 'post';
-		$indexable->object_id    = 1;
+		$indexable                = new Indexable_Mock();
+		$indexable->id            = 1;
+		$indexable->object_type   = 'post';
+		$indexable->object_id     = 1;
 		$indexable->has_ancestors = true;
 
 		$parent_indexable                = new Indexable_Mock();
