@@ -14,7 +14,7 @@ class Schema_Types {
 
 	/**
 	 * Holds the possible schema page types.
-	 * 
+	 *
 	 * Capitalized in this way so the value can be directly used in the schema output.
 	 *
 	 * @var string[]
@@ -32,12 +32,11 @@ class Schema_Types {
 		'CheckoutPage'      => '',
 		'RealEstateListing' => '',
 		'SearchResultsPage' => '',
-		'None'              => '',
 	];
 
 	/**
 	 * Holds the possible schema article types.
-	 * 
+	 *
 	 * Capitalized in this way so the value can be directly used in the schema output.
 	 *
 	 * @var string[]
@@ -108,10 +107,6 @@ class Schema_Types {
 			[
 				'name'  => __( 'Search Results Page', 'wordpress-seo' ),
 				'value' => 'SearchResultsPage',
-			],
-			[
-				'name'  => __( 'None', 'wordpress-seo' ),
-				'value' => 'None',
 			],
 		];
 	}
