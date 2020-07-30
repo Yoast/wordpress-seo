@@ -11,8 +11,7 @@ use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**
- *
- * Based on Idiorm
+ * Based on Idiorm.
  *
  * URL: http://github.com/j4mie/idiorm/
  *

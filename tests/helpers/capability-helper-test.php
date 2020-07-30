@@ -242,7 +242,7 @@ class Capability_Helper_Test extends TestCase {
 	 * Mocks a WP_Roles object.
 	 *
 	 * @param array $roles        An array mapping roles to their names.
-	 * @param array $capabilities An array mapping roles to their capabilities
+	 * @param array $capabilities An array mapping roles to their capabilities.
 	 *
 	 * @return \Mockery\MockInterface|\WP_Roles The mocked WP_Roles object.
 	 */
