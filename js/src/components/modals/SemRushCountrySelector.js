@@ -247,8 +247,8 @@ class SemRushCountrySelector extends Component {
 SemRushCountrySelector.propTypes = {
 	keyphrase: PropTypes.string,
 	currentDatabase: PropTypes.string,
-	setDatabase: PropTypes.func,
-	newRequest: PropTypes.func,
+	setDatabase: PropTypes.func.isRequired,
+	newRequest: PropTypes.func.isRequired,
 };
 
 SemRushCountrySelector.defaultProps = {

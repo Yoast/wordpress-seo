@@ -56,6 +56,9 @@ RelatedKeyphraseModalContent.propTypes = {
 	keyphrase: PropTypes.string,
 	relatedKeyphrases: PropTypes.array,
 	renderAction: PropTypes.func,
+	currentDatabase: PropTypes.string.isRequired,
+	setDatabase: PropTypes.func.isRequired,
+	newRequest: PropTypes.func.isRequired,
 	data: PropTypes.object,
 };
 
