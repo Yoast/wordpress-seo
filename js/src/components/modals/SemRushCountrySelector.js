@@ -1,6 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import { Fragment, Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import apiFetch from '@wordpress/api-fetch';
 /* Internal dependencies */
 import ErrorBoundary from "@yoast/components/src/internal/ErrorBoundary";
 import FieldGroup from "@yoast/components/src/field-group/FieldGroup";
@@ -197,18 +198,23 @@ class SemRushCountrySelector extends Component {
 	 * @returns {void}
 	 */
 	onChangeHandler() {
-		// It is easier to query the select for the selected options than keep track of them in this component as well.
 		const selection = this.select2.select2( "data" ).map( option => option.id )[ 0 ];
 		this.props.setDatabase( selection );
 	}
 
 	/**
-	 * Makes a new request to SEMrush.
+	 * Makes a new request to SEMrush and updates the country_code value in the database.
 	 *
 	 * @returns {void}
 	 */
 	newRequest() {
 		this.props.newRequest( this.props.currentDatabase, this.props.keyphrase, "OAuthToken1" );
+
+		apiFetch( {
+			path: "yoast/v1/semrush/country_code",
+			method: "POST",
+			data: { country_code: this.props.currentDatabase },
+		} );
 	}
 
 	/**
@@ -252,8 +258,8 @@ SemRushCountrySelector.propTypes = {
 };
 
 SemRushCountrySelector.defaultProps = {
-	currentDatabase: "us",
 	keyphrase: "",
+	currentDatabase: "us",
 };
 
 /**
