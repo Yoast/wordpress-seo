@@ -20,7 +20,7 @@ class AddIndexesForProminentWordsOnIndexables extends Migration {
 	 *
 	 * @var string
 	 */
-	public static $plugin = 'premium';
+	public static $plugin = 'free';
 
 	/**
 	 * The columns on which an index should be added.
