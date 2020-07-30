@@ -443,6 +443,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		 */
 		return \apply_filters( 'wpseo_schema_article_type', $type );
 	}
+
 	/**
 	 * Returns the main schema id.
 	 *
