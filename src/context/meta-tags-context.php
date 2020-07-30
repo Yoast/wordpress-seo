@@ -391,20 +391,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				break;
 			default:
 				$additional_type = $this->indexable->schema_page_type;
-				if ( is_null( $additional_type ) ) {
+				if ( \is_null( $additional_type ) ) {
 					$additional_type = $this->options->get( "schema-page-type-" . $this->indexable->object_sub_type );
 				}
 
-				$type = 'WebPage';
+				$type = [ 'WebPage', $additional_type ];
 
 				// Is this indexable set as a page for posts, e.g. in the wordpress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
-					$type = 'CollectionPage';
+					$type[] = 'CollectionPage';
 				}
 
-				if ( $additional_type !== $type ) {
-					$type = [ $type, $additional_type ];
-				}
+				// Ensure we get only unique values, and remove the index.
+				$type = \array_values( \array_unique( $type ) );
 		}
 
 		/**
@@ -422,7 +421,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_schema_article_type() {
 		$additional_type = $this->indexable->schema_article_type;
-		if ( is_null( $additional_type ) ) {
+		if ( \is_null( $additional_type ) ) {
 			$additional_type = $this->options->get( "schema-article-type-" . $this->indexable->object_sub_type );
 		}
 
