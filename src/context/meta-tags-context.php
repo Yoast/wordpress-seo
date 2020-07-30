@@ -401,13 +401,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
 					$type = 'CollectionPage';
 				}
-				if ( $additional_type === 'None' ) {
-					/*
-					 * If `None` is set (either on the indexable or as a default), only return 'None'.
-					 * This simplifies is_needed checks downstream.
-					 */
-					$type = 'None';
-				} elseif ( $additional_type !== $type ) {
+
+				if ( $additional_type !== $type ) {
 					$type = [ $type, $additional_type ];
 				}
 		}
@@ -419,7 +414,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		 */
 		return \apply_filters( 'wpseo_schema_webpage_type', $type );
 	}
-	
+
 	/**
 	 * Returns the schema article type.
 	 *
