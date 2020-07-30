@@ -79,7 +79,7 @@ BorderlessButton.propTypes = {
 BorderlessButton.defaultProps = {
 	type: "button",
 	focusColor: colors.$color_button_text_hover,
-	focusBackgroundColor: colors.$color_white,
+	focusBackgroundColor: "transparent",
 	focusBorderColor: colors.$color_blue,
 };
 
