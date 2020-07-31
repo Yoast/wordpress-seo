@@ -278,6 +278,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-annotations',
 					'wp-api',
 					'wp-api-fetch',
+					'wp-blocks',
 					'wp-components',
 					'wp-compose',
 					'wp-data',
@@ -346,7 +347,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 				],
 				'version' => '4.0.3',
-				'suffix'  => '',
 			],
 			[
 				'name' => 'configuration-wizard',

@@ -4,6 +4,7 @@ global.jQuery = {};
 import Data from "../src/analysis/data.js";
 
 const wpData = {};
+// eslint-disable-next-line require-jsdoc
 const refresh = () => {
 	return true;
 };
@@ -32,6 +33,7 @@ data._wpData.select = mockSelect;
 
 describe( "setRefresh", () => {
 	it( "sets the refresh function", () => {
+		// eslint-disable-next-line require-jsdoc
 		const expected = () => {
 			return "refresh";
 		};

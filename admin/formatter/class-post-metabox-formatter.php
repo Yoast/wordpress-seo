@@ -227,23 +227,6 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function get_metadesc_date() {
-		$date = '';
-
-		if ( $this->is_show_date_enabled() ) {
-			$date = $this->date->format_translated( $this->post->post_date, 'M j, Y' );
-		}
-
-		return $date;
-	}
-
-	/**
-	 * Returns whether or not showing the date in the snippet preview is enabled.
-	 *
-	 * @return bool
-	 */
-	private function is_show_date_enabled() {
-		$key = sprintf( 'showdate-%s', $this->post->post_type );
-
-		return WPSEO_Options::get( $key, true );
+		return $this->date->format_translated( $this->post->post_date, 'M j, Y' );
 	}
 }

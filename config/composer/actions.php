@@ -58,20 +58,44 @@ class Actions {
 		$io = $event->getIO();
 
 		$choices = [
-			'1' => [ 'label' => 'Check staged files for coding standard warnings & errors.', 'command' => 'check-staged-cs' ],
-			'2' => [ 'label' => 'Check current branch\'s changed files for coding standard warnings & errors.', 'command' => 'check-branch-cs' ],
-			'3' => [ 'label' => 'Check for all coding standard errors.', 'command' => 'check-cs' ],
-			'4' => [ 'label' => 'Check for all coding standard warnings & errors.', 'command' => 'check-cs-warnings' ],
-			'5' => [ 'label' => 'Fix auto-fixable coding standards.', 'command' => 'fix-cs' ],
-			'6' => [ 'label' => '[Premium] Check for coding standard warnings and errors.', 'command' => 'premium-check-cs' ],
-			'7' => [ 'label' => '[Premium] Fix auto-fixable coding standards.', 'command' => 'premium-fix-cs' ],
-			'8' => [ 'label' => 'Load coding standards configuration.', 'command' => 'config-yoastcs' ],
+			'1' => [
+				'label'   => 'Check staged files for coding standard warnings & errors.',
+				'command' => 'check-staged-cs',
+			],
+			'2' => [
+				'label'   => 'Check current branch\'s changed files for coding standard warnings & errors.',
+				'command' => 'check-branch-cs',
+			],
+			'3' => [
+				'label'   => 'Check for all coding standard errors.',
+				'command' => 'check-cs',
+			],
+			'4' => [
+				'label'   => 'Check for all coding standard warnings & errors.',
+				'command' => 'check-cs-warnings',
+			],
+			'5' => [
+				'label'   => 'Fix auto-fixable coding standards.',
+				'command' => 'fix-cs',
+			],
+			'6' => [
+				'label'   => '[Premium] Check for coding standard warnings and errors.',
+				'command' => 'premium-check-cs',
+			],
+			'7' => [
+				'label'   => '[Premium] Fix auto-fixable coding standards.',
+				'command' => 'premium-fix-cs',
+			],
+			'8' => [
+				'label'   => 'Load coding standards configuration.',
+				'command' => 'config-yoastcs',
+			],
 		];
 
 		$args = $event->getArguments();
 		if ( empty( $args ) ) {
 			foreach ( $choices as $choice => $data ) {
-				$io->write( sprintf( '%d. %s', $choice, $data['label'] ) );
+				$io->write( \sprintf( '%d. %s', $choice, $data['label'] ) );
 			}
 
 			$choice = $io->ask( 'What do you want to do? ' );
@@ -131,6 +155,40 @@ class Actions {
 	}
 
 	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public static function lint_staged() {
+		self::lint_changed_files( '--staged' );
+	}
+
+	/**
+	 * Runs lint on the staged files.
+	 *
+	 * Used the composer lint-files command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param Event $event Composer event that triggered this script.
+	 *
+	 * @return void
+	 */
+	public static function lint_branch( Event $event ) {
+		$args = $event->getArguments();
+		if ( empty( $args ) ) {
+			self::lint_changed_files( 'trunk' );
+
+			return;
+		}
+		self::lint_changed_files( $args[0] );
+	}
+
+	/**
 	 * Runs PHPCS on the staged files.
 	 *
 	 * Used the composer check-staged-cs command.
@@ -162,20 +220,53 @@ class Actions {
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
-		$files = \array_filter(
-			$files,
-			function( $file ) {
-				return \substr( $file, -4 ) === '.php';
-			}
-		);
 
-		if ( empty( $files ) ) {
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
 			echo 'No files to compare! Exiting.' . PHP_EOL;
 
 			return;
 		}
 
-		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
+		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+	/**
+	 * Runs lint on changed files compared to some git reference.
+	 *
+	 * @param string $compare The git reference.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	private static function lint_changed_files( $compare ) {
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+
+		$php_files = self::filter_files( $files, '.php' );
+		if ( empty( $php_files ) ) {
+			echo 'No files to compare! Exiting.' . PHP_EOL;
+
+			return;
+		}
+
+		\system( 'composer lint-files -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ) );
+	}
+
+	/**
+	 * Filter files on extension.
+	 *
+	 * @param array  $files     List of files.
+	 * @param string $extension Extension to filter on.
+	 *
+	 * @return array Filtered list of files.
+	 */
+	private static function filter_files( $files, $extension ) {
+		return \array_filter(
+			$files,
+			function( $file ) use ( $extension ) {
+				return \substr( $file, ( 0 - \strlen( $extension ) ) ) === $extension;
+			}
+		);
 	}
 
 	/**
