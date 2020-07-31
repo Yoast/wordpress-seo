@@ -40,7 +40,7 @@ describe( KeywordInput, () => {
 				value: "Keyword",
 			},
 		} );
-		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 0 );
+		expect( wrapper.find( "li[role=\"alert\"]" ).length ).toBe( 0 );
 	} );
 
 	it( "does not display the error message for two words separated by whitespace", () => {
@@ -60,7 +60,7 @@ describe( KeywordInput, () => {
 				value: "Keyword1 Keyword2",
 			},
 		} );
-		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 0 );
+		expect( wrapper.find( "li[role=\"alert\"]" ).length ).toBe( 0 );
 	} );
 
 	it( "displays the error message for comma-separated words", () => {
@@ -80,6 +80,6 @@ describe( KeywordInput, () => {
 				value: "Keyword1, Keyword2",
 			},
 		} );
-		expect( wrapper.find( "p[role=\"alert\"]" ).length ).toBe( 1 );
+		expect( wrapper.find( "li[role=\"alert\"]" ).length ).toBe( 1 );
 	} );
 } );
