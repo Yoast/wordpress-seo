@@ -117,7 +117,7 @@ clean:build-assets:
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-rc-version-and-commit'
+  - 'bump-rc-version'
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
