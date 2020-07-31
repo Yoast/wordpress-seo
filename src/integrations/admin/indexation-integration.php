@@ -197,10 +197,7 @@ class Indexation_Integration implements Integration_Interface {
 			$this->add_admin_notice();
 		}
 
-		// Only enqueue indexation assets when the action is a button.
-		if ( $this->is_on_yoast_tools_page ) {
-			$this->enqueue_indexation_assets();
-		}
+		$this->enqueue_indexation_assets();
 	}
 
 	/**
