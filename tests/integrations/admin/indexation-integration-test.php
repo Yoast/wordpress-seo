@@ -332,45 +332,6 @@ class Indexation_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the modal and indexation assets are not enqueued when not on the Yoast tools page.
-	 *
-	 * @covers ::enqueue_scripts
-	 */
-	public function test_enqueue_scripts_without_indexable_assets() {
-		// Mock that 40 indexables should be indexed.
-		$this->set_total_unindexed_expectations(
-			[
-				'post_type_archive' => 5,
-				'general'           => 10,
-				'post'              => 15,
-				'term'              => 10,
-			]
-		);
-
-		$this->yoast_tools_page_conditional->expects( 'is_met' )
-			->once()
-			->andReturnFalse();
-
-		$this->options
-			->expects( 'get' )
-			->with( 'ignore_indexation_warning', false )
-			->andReturnTrue();
-
-		// Expect that the script and style for the modal is not enqueued.
-		$this->asset_manager
-			->expects( 'enqueue_script' )
-			->never()
-			->with( 'indexation' );
-
-		$this->asset_manager
-			->expects( 'enqueue_style' )
-			->never()
-			->with( 'admin-css' );
-
-		$this->instance->enqueue_scripts();
-	}
-
-	/**
 	 * Returns whether or not the warning is ignored.
 	 *
 	 * @return array The possible values.
