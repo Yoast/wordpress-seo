@@ -36,11 +36,13 @@ class AddHasAncestorsColumn extends Migration {
 			]
 		);
 
-		Wrapper::get_wpdb()->query( '
+		Wrapper::get_wpdb()->query(
+			'
 			UPDATE ' . Model::get_table_name( 'Indexable' ) . '
 			SET has_ancestors = 1
-			WHERE id IN ( SELECT indexable_id FROM ' . Model::get_table_name( 'Indexable_Hierarchy' ) . ' )	
-		');
+			WHERE id IN ( SELECT indexable_id FROM ' . Model::get_table_name( 'Indexable_Hierarchy' ) . ' )
+			'
+		);
 	}
 
 	/**
